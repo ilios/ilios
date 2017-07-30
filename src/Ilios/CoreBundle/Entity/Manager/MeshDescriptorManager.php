@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
 /**
  * Class MeshDescriptorManager
  */
-class MeshDescriptorManager extends DTOManager
+class MeshDescriptorManager extends BaseManager
 {
     /**
      * @param string $q

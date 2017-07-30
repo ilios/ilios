@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\ProgramYearStewardDTO;
 /**
  * Class ProgramYearStewardRepository
  */
-class ProgramYearStewardRepository extends EntityRepository
+class ProgramYearStewardRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

@@ -6,8 +6,13 @@ use Doctrine\ORM\EntityRepository;
 /**
  * Class AuditLogRepository
  */
-class AuditLogRepository extends EntityRepository
+class AuditLogRepository extends EntityRepository implements DTORepositoryInterface
 {
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        throw new \Exception('DTOs for AuditLogs are not implemented yet');
+    }
+
     /**
      * Returns all audit log entries in a given date/time range.
      *

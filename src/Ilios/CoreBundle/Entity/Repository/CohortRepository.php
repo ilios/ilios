@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\CohortDTO;
 /**
  * Class CohortRepository
  */
-class CohortRepository extends EntityRepository
+class CohortRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

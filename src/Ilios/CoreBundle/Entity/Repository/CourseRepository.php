@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\DTO\CourseDTO;
 
-class CourseRepository extends EntityRepository
+class CourseRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities

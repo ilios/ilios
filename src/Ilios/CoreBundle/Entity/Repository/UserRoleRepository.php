@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\UserRoleDTO;
 /**
  * Class UserRoleRepository
  */
-class UserRoleRepository extends EntityRepository
+class UserRoleRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

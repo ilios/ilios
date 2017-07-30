@@ -219,10 +219,10 @@ class SessionTest extends AbstractEndpointTest
 
     public function testSendingNullForSessionDescription()
     {
-      $dataLoader = $this->getDataLoader();
-      $data = $dataLoader->create();
-      $postData = $data;
-      $postData['sessionDescription'] = null;
-      $this->postTest($data, $postData);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $postData['sessionDescription'] = null;
+        $this->postTest($data, $postData);
     }
 }

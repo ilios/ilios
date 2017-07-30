@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Entity\Repository\LearningMaterialRepository;
 /**
  * Class LearningMaterialManager
  */
-class LearningMaterialManager extends DTOManager
+class LearningMaterialManager extends BaseManager
 {
     /**
      * Use a query term to find learning materials

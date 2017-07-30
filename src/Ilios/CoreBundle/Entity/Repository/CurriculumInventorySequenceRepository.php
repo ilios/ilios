@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\CurriculumInventorySequenceDTO;
 /**
  * Class CurriculumInventorySequenceRepository
  */
-class CurriculumInventorySequenceRepository extends EntityRepository
+class CurriculumInventorySequenceRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

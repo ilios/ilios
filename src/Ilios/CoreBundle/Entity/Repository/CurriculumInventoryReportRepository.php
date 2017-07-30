@@ -11,7 +11,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 /**
  * Class CurriculumInventoryReportRepository
  */
-class CurriculumInventoryReportRepository extends EntityRepository
+class CurriculumInventoryReportRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

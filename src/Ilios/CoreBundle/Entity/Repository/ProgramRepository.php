@@ -6,7 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 
-class ProgramRepository extends EntityRepository
+class ProgramRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities

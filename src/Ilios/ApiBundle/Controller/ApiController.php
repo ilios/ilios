@@ -3,7 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\ApiBundle\Service\EndpointResponseNamer;
-use Ilios\CoreBundle\Entity\Manager\DTOManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
@@ -207,7 +207,7 @@ class ApiController extends Controller implements ApiControllerInterface
      *
      * @param string $pluralObjectName
      *
-     * @return DTOManagerInterface
+     * @return ManagerInterface
      *
      * @throws \Exception if the manager doesn't exist or
      * if the manager does not support operations that this default
@@ -225,9 +225,9 @@ class ApiController extends Controller implements ApiControllerInterface
 
         $manager = $this->container->get($name);
 
-        if (!$manager instanceof DTOManagerInterface) {
+        if (!$manager instanceof ManagerInterface) {
             $class = $manager->getClass();
-            throw new \Exception("{$class} is not DTO enabled.");
+            throw new \Exception("{$class} is not an Ilios Manager.");
         }
 
         return $manager;

@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Entity\Repository\AuthenticationRepository;
 /**
  * Class AuthenticationManager
  */
-class AuthenticationManager extends DTOManager
+class AuthenticationManager extends BaseManager
 {
     /**
      * @param string $username

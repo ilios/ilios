@@ -1,3 +1,5 @@
+# Definitions for managers without a spcific implementation
+
 services:
     _defaults:
         autowire: true
@@ -5,122 +7,122 @@ services:
         public: true
 
     Ilios\CoreBundle\Entity\Manager\AamcMethodManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\AamcMethod'
     Ilios\CoreBundle\Entity\Manager\AamcPcrsManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\AamcPcrs'
     Ilios\CoreBundle\Entity\Manager\AamcResourceTypeManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\AamcResourceType'
     Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\AlertChangeType'
     Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\ApplicationConfig'
     Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\AssessmentOption'
     Ilios\CoreBundle\Entity\Manager\CohortManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Cohort'
     Ilios\CoreBundle\Entity\Manager\CompetencyManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Competency'
     Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\CourseClerkshipType'
     Ilios\CoreBundle\Entity\Manager\DepartmentManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Department'
     Ilios\CoreBundle\Entity\Manager\IngestionExceptionManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\IngestionException'
     Ilios\CoreBundle\Entity\Manager\InstructorGroupManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\InstructorGroup'
     Ilios\CoreBundle\Entity\Manager\LearnerGroupManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\LearnerGroup'
     Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager:
-            class: Ilios\CoreBundle\Entity\Manager\DTOManager
+            class: Ilios\CoreBundle\Entity\Manager\BaseManager
             arguments:
                 $class: 'Ilios\CoreBundle\Entity\LearningMaterialStatus'
     Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager:
-            class: Ilios\CoreBundle\Entity\Manager\DTOManager
+            class: Ilios\CoreBundle\Entity\Manager\BaseManager
             arguments:
                 $class: 'Ilios\CoreBundle\Entity\LearningMaterialUserRole'
     Ilios\CoreBundle\Entity\Manager\MeshConceptManager:
-            class: Ilios\CoreBundle\Entity\Manager\DTOManager
+            class: Ilios\CoreBundle\Entity\Manager\BaseManager
             arguments:
                 $class: 'Ilios\CoreBundle\Entity\MeshConcept'
     Ilios\CoreBundle\Entity\Manager\MeshPreviousIndexingManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshPreviousIndexing'
     Ilios\CoreBundle\Entity\Manager\MeshQualifierManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshQualifier'
     Ilios\CoreBundle\Entity\Manager\MeshSemanticTypeManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshSemanticType'
     Ilios\CoreBundle\Entity\Manager\MeshTermManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshTerm'
     Ilios\CoreBundle\Entity\Manager\MeshTreeManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshTree'
     Ilios\CoreBundle\Entity\Manager\PermissionManager:
-            class: Ilios\CoreBundle\Entity\Manager\DTOManager
+            class: Ilios\CoreBundle\Entity\Manager\BaseManager
             arguments:
                 $class: 'Ilios\CoreBundle\Entity\Permission'
     Ilios\CoreBundle\Entity\Manager\ProgramManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Program'
     Ilios\CoreBundle\Entity\Manager\ProgramYearManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\ProgramYear'
     Ilios\CoreBundle\Entity\Manager\ReportManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Report'
     Ilios\CoreBundle\Entity\Manager\SchoolConfigManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\SchoolConfig'
     Ilios\CoreBundle\Entity\Manager\SessionTypeManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\SessionType'
     Ilios\CoreBundle\Entity\Manager\TermManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Term'
     Ilios\CoreBundle\Entity\Manager\UserMadeReminderManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\UserMadeReminder'
     Ilios\CoreBundle\Entity\Manager\VocabularyManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Vocabulary'

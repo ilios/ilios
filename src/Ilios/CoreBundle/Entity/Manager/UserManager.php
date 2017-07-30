@@ -14,7 +14,7 @@ use Ilios\CoreBundle\Service\UserMaterialFactory;
 /**
  * Class UserManager
  */
-class UserManager extends DTOManager
+class UserManager extends BaseManager
 {
     /**
      * @var UserMaterialFactory

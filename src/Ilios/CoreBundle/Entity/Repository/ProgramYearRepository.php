@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\ProgramYearDTO;
 /**
  * Class ProgramYearRepository
  */
-class ProgramYearRepository extends EntityRepository
+class ProgramYearRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\OfferingDTO;
 /**
  * Class OfferingRepository
  */
-class OfferingRepository extends EntityRepository
+class OfferingRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

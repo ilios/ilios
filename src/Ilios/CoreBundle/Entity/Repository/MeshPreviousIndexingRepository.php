@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
 /**
  * Class MeshPreviousIndexingRepository
  */
-class MeshPreviousIndexingRepository extends EntityRepository
+class MeshPreviousIndexingRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

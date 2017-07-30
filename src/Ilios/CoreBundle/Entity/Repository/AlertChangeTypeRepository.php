@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\AlertChangeTypeDTO;
 /**
  * Class AlertChangeTypeRepository
  */
-class AlertChangeTypeRepository extends EntityRepository
+class AlertChangeTypeRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

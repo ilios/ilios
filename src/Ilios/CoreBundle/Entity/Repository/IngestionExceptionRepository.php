@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\IngestionExceptionDTO;
 /**
  * Class IngestionExceptionRepository
  */
-class IngestionExceptionRepository extends EntityRepository
+class IngestionExceptionRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

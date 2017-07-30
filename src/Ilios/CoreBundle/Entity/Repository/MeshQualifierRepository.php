@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\MeshQualifierDTO;
 /**
  * Class MeshQualifierRepository
  */
-class MeshQualifierRepository extends EntityRepository
+class MeshQualifierRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

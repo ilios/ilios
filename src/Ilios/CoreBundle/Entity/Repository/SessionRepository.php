@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ilios\CoreBundle\Entity\DTO\SessionDTO;
 
-class SessionRepository extends EntityRepository
+class SessionRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities

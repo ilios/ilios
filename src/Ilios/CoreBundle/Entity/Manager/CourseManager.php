@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
 /**
  * Class CourseManager
  */
-class CourseManager extends DTOManager
+class CourseManager extends BaseManager
 {
     /**
      * Retrieves all courses associated with the given user.

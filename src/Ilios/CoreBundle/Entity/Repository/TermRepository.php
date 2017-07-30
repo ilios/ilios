@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Entity\TermInterface;
 /**
  * Class TermRepository
  */
-class TermRepository extends EntityRepository
+class TermRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities

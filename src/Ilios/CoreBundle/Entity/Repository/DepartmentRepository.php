@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\DepartmentDTO;
 /**
  * Class DepartmentRepository
  */
-class DepartmentRepository extends EntityRepository
+class DepartmentRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

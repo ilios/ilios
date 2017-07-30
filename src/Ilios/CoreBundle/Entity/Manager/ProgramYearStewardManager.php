@@ -11,7 +11,7 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 /**
  * Class ProgramYearStewardManager
  */
-class ProgramYearStewardManager extends DTOManager
+class ProgramYearStewardManager extends BaseManager
 {
     /**
      * Checks if a given entity's school (co-)stewards a given program year.

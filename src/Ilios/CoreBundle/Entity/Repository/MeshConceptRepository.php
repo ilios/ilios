@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
 /**
  * Class MeshConceptRepository
  */
-class MeshConceptRepository extends EntityRepository
+class MeshConceptRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

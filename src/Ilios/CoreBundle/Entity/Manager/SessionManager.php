@@ -5,6 +5,6 @@ namespace Ilios\CoreBundle\Entity\Manager;
 /**
  * Class SessionManager
  */
-class SessionManager extends DTOManager
+class SessionManager extends BaseManager
 {
 }

@@ -5,6 +5,6 @@ namespace Ilios\CoreBundle\Entity\Manager;
 /**
  * Class CurriculumInventorySequenceBlockManager
  */
-class CurriculumInventorySequenceBlockManager extends DTOManager
+class CurriculumInventorySequenceBlockManager extends BaseManager
 {
 }

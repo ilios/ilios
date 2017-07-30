@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\SessionLearningMaterialDTO;
 /**
  * Class SessionLearningMaterialRepository
  */
-class SessionLearningMaterialRepository extends EntityRepository
+class SessionLearningMaterialRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc
