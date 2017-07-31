@@ -37,7 +37,7 @@ As mentioned above, Ilios 3 uses a Symfony (PHP/SQL) backend to serve its API, s
 
 * CentOS 7 - Any modern Linux should work, but we recommend Redhat (RHEL, CentOS, or Fedora) or Ubuntu
 * MySQL using the InnoDB database engine (v5.5 or later required, 5.6+ recommended)
-* PHP v5.6 or later required, 7.0+ recommended (available for CentOS and RHEL from https://ius.io/). While [PHP v5.6 will still receive security updates until December 2018, it is now technically EOL (End Of Life)](http://php.net/supported-versions.php) and Ilios will no longer run on PHP versions earlier than 7.0 after July 1st, 2017.
+* PHP v7.0+ (available for CentOS and RHEL from https://ius.io). As of Ilios version v3.35.0, Ilios will no longer work on any version of PHP earlier than 7.0, as the code now utilizes several features only available in PHP version 7.0 and newer.  While [PHP v5.6 will still receive security updates until December 2018, it is now technically EOL (End Of Life)](http://php.net/supported-versions.php).
 
 PHP should configured with a 'memory_limit' setting of at least 386MB and have the following required packages/modules/extensions enabled:
 
