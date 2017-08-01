@@ -3,6 +3,10 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
+use Tests\CoreBundle\DataLoader\IlmSessionData;
+use Tests\CoreBundle\DataLoader\OfferingData;
+use Tests\CoreBundle\DataLoader\SessionData;
+use Tests\CoreBundle\DataLoader\SessionDescriptionData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -246,14 +250,14 @@ class CourseTest extends AbstractEndpointTest
 
         $newSessions = $newCourse['sessions'];
         $this->assertEquals(count($newSessions), 2);
-        $sessions = $this->container->get('Tests\CoreBundle\DataLoader\SessionData')->getAll();
+        $sessions = $this->container->get(SessionData::class)->getAll();
         $lastSessionId = array_pop($sessions)['id'];
 
         $this->assertEquals($lastSessionId + 1, $newSessions[0], 'incremented session id 1');
         $this->assertEquals($lastSessionId + 2, $newSessions[1], 'incremented session id 2');
 
         $newSessionsData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions]);
-        $offerings = $this->container->get('Tests\CoreBundle\DataLoader\OfferingData')->getAll();
+        $offerings = $this->container->get(OfferingData::class)->getAll();
         $lastOfferingId = array_pop($offerings)['id'];
 
         $firstSessionOfferings = array_map('strval', [$lastOfferingId + 1, $lastOfferingId + 2]);
@@ -266,7 +270,7 @@ class CourseTest extends AbstractEndpointTest
             return $session['sessionDescription'];
         }, $newSessionsData);
         $this->assertEquals(count($newDescriptionIds), 2);
-        $descriptions = $this->container->get('Tests\CoreBundle\DataLoader\SessionDescriptionData')->getAll();
+        $descriptions = $this->container->get(SessionDescriptionData::class)->getAll();
         $lastDescriptionId = $descriptions[1]['id'];
 
         $this->assertEquals($lastDescriptionId + 1, $newDescriptionIds[0], 'incremented description id 1');
@@ -322,7 +326,7 @@ class CourseTest extends AbstractEndpointTest
         $this->assertSame(2030, $newCourse['year']);
         $newSessions = $newCourse['sessions'];
         $this->assertEquals(count($newSessions), 2);
-        $sessions = $this->container->get('Tests\CoreBundle\DataLoader\SessionData')->getAll();
+        $sessions = $this->container->get(SessionData::class)->getAll();
         $lastSessionId = array_pop($sessions)['id'];
 
         $this->assertEquals($lastSessionId + 1, $newSessions[0], 'incremented session id 1');
@@ -377,7 +381,7 @@ class CourseTest extends AbstractEndpointTest
         }, $newSessionsWithILMs);
         $newIlmIds = array_values($newIlmIds);
 
-        $ilms = $this->container->get('Tests\CoreBundle\DataLoader\IlmSessionData')->getAll();
+        $ilms = $this->container->get(IlmSessionData::class)->getAll();
         $lastIlmId = $ilms[key(array_slice($ilms, -1, 1, true))]['id'];
 
         $this->assertEquals($lastIlmId + 1, $newIlmIds[0], 'incremented ilm id 1');

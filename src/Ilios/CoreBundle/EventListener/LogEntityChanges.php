@@ -83,7 +83,7 @@ class LogEntityChanges
                 $updates[$entityClass]['changes'][] = 'Ref:' . $ref->getShortName();
             }
         }
-        $loggerQueue = $this->container->get('Ilios\CoreBundle\Service\LoggerQueue');
+        $loggerQueue = $this->container->get(LoggerQueue::class);
         foreach ($updates as $arr) {
             $valuesChanged = implode($arr['changes'], ',');
             $loggerQueue->add($arr['action'], $arr['entity'], $valuesChanged);

@@ -3,6 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
+use Tests\CoreBundle\DataLoader\UserData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -72,7 +73,7 @@ class AuthenticationTest extends AbstractEndpointTest
 
     protected function createMany($count)
     {
-        $userDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\UserData');
+        $userDataLoader = $this->container->get(UserData::class);
         $users = $userDataLoader->createMany($count);
         $savedUsers = $this->postMany('users', 'users', $users);
 

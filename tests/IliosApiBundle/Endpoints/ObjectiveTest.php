@@ -3,6 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
+use Tests\CoreBundle\DataLoader\ObjectiveData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -124,7 +125,7 @@ class ObjectiveTest extends AbstractEndpointTest
      */
     public function testInputSanitation($input, $output)
     {
-        $postData = $this->container->get('Tests\CoreBundle\DataLoader\ObjectiveData')
+        $postData = $this->container->get(ObjectiveData::class)
             ->create();
         $postData['title'] = $input;
         unset($postData['id']);
@@ -172,7 +173,7 @@ class ObjectiveTest extends AbstractEndpointTest
      */
     public function testInputSanitationFailure()
     {
-        $postData = $this->container->get('Tests\CoreBundle\DataLoader\ObjectiveData')
+        $postData = $this->container->get(ObjectiveData::class)
             ->create();
         // this markup will get stripped out, leaving a blank string as input.
         // which in turn will cause the form validation to fail.

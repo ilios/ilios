@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\CoreBundle\DataLoader\MeshDescriptorData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -71,7 +72,7 @@ class MeshPreviousIndexingTest extends AbstractEndpointTest
     public function testPostMany()
     {
         $count = 51;
-        $descriptorDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\MeshDescriptorData');
+        $descriptorDataLoader = $this->container->get(MeshDescriptorData::class);
         $descriptors = $descriptorDataLoader->createMany($count);
         $savedDescriptors = $this->postMany('meshdescriptors', 'meshDescriptors', $descriptors);
 

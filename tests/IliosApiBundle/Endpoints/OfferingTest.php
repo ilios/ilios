@@ -3,6 +3,8 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
+use Tests\CoreBundle\DataLoader\InstructorGroupData;
+use Tests\CoreBundle\DataLoader\LearnerGroupData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -208,7 +210,7 @@ class OfferingTest extends AbstractEndpointTest
 
     public function testUpdatingLearnerGroupUpdatesOfferingStamp()
     {
-        $dataLoader = $this->container->get('Tests\CoreBundle\DataLoader\LearnerGroupData');
+        $dataLoader = $this->container->get(LearnerGroupData::class);
         $data = $dataLoader->getOne();
         $data['title'] = $this->getFaker()->text(20);
         $this->relatedTimeStampUpdateTest($data['offerings'][0], 'learnergroups', 'learnerGroup', $data);
@@ -216,7 +218,7 @@ class OfferingTest extends AbstractEndpointTest
 
     public function testUpdatingInstructorGroupUpdatesOfferingStamp()
     {
-        $dataLoader = $this->container->get('Tests\CoreBundle\DataLoader\InstructorGroupData');
+        $dataLoader = $this->container->get(InstructorGroupData::class);
         $data = $dataLoader->getOne();
         $data['title'] = $this->getFaker()->text(20);
         $this->relatedTimeStampUpdateTest($data['offerings'][0], 'instructorgroups', 'instructorGroup', $data);

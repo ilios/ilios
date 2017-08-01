@@ -3,6 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
+use Tests\CoreBundle\DataLoader\PermissionData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -477,7 +478,7 @@ class UserTest extends AbstractEndpointTest
 
         $newUserSchool = 2;
 
-        $permissionDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\PermissionData');
+        $permissionDataLoader = $this->container->get(PermissionData::class);
         $permission = $permissionDataLoader->create();
         $permission['user'] = $user['id'];
         $permission['canRead'] = true;
@@ -518,7 +519,7 @@ class UserTest extends AbstractEndpointTest
             $user['roles'],
             'User #1 should be a developer or this test is garbage'
         );
-        $permissionDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\PermissionData');
+        $permissionDataLoader = $this->container->get(PermissionData::class);
         $permission = $permissionDataLoader->create();
         $permission['user'] = $user['id'];
         $permission['canRead'] = true;

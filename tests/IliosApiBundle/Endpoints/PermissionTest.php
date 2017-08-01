@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\CoreBundle\DataLoader\UserData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -74,7 +75,7 @@ class PermissionTest extends AbstractEndpointTest
 
     public function testPostMany()
     {
-        $userDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\UserData');
+        $userDataLoader = $this->container->get(UserData::class);
         $users = $userDataLoader->createMany(51);
         $savedUsers = $this->postMany('users', 'users', $users);
 

@@ -3,6 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
+use Tests\CoreBundle\DataLoader\CourseData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 
 /**
@@ -141,7 +142,7 @@ class AcademicYearTest extends AbstractEndpointTest
 
     protected function getYears()
     {
-        $loader = $this->container->get('Tests\CoreBundle\DataLoader\CourseData');
+        $loader = $this->container->get(CourseData::class);
         $data = $loader->getAll();
         $academicYears = array_map(function ($arr) {
             return $arr['year'];
