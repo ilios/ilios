@@ -6,7 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use Ilios\CoreBundle\Entity\DTO\SessionTypeDTO;
 
-class SessionTypeRepository extends EntityRepository
+class SessionTypeRepository extends EntityRepository implements DTORepositoryInterface
 {
 
     /**

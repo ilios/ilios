@@ -4,8 +4,8 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Id\AssignedGenerator;
+use Ilios\CoreBundle\Entity\Repository\DTORepositoryInterface;
 
 /**
  * Class BaseManager
@@ -18,7 +18,7 @@ class BaseManager implements ManagerInterface
     protected $em;
 
     /**
-     * @var EntityRepository
+     * @var DTORepositoryInterface
      */
     protected $repository;
 
@@ -48,12 +48,17 @@ class BaseManager implements ManagerInterface
      * We have to do this here because the call to registry::getRepository
      * requires the database to be setup which is a problem for using managers in console commands
      *
-     * @return EntityRepository
+     * @throws \Exception
+     * @return DTORepositoryInterface
      */
-    protected function getRepository()
+    protected function getRepository() : DTORepositoryInterface
     {
         if (!$this->repository) {
             $this->repository = $this->registry->getRepository($this->class);
+
+            if (!$this->repository instanceof DTORepositoryInterface) {
+                throw new \Exception(get_class($this->repository) . ' is not a DTORepository');
+            }
         }
 
         return $this->repository;
@@ -88,10 +93,18 @@ class BaseManager implements ManagerInterface
      * {@inheritdoc}
      */
     public function findOneBy(
-        array $criteria,
-        array $orderBy = null
+        array $criteria
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->getRepository()->findOneBy($criteria);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findDTOBy(array $criteria)
+    {
+        $results = $this->getRepository()->findDTOsBy($criteria, null, 1);
+        return empty($results)?false:$results[0];
     }
 
     /**
@@ -104,6 +117,14 @@ class BaseManager implements ManagerInterface
         $offset = null
     ) {
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

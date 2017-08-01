@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\PermissionDTO;
 /**
  * Class PermissionRepository
  */
-class PermissionRepository extends EntityRepository
+class PermissionRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

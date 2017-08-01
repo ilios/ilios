@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\AamcPcrsDTO;
 /**
  * Class AamcPcrsRepository
  */
-class AamcPcrsRepository extends EntityRepository
+class AamcPcrsRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

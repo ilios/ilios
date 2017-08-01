@@ -6,7 +6,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
  * Class ObjectiveManager
  */
 
-class ObjectiveManager extends DTOManager
+class ObjectiveManager extends BaseManager
 {
     /**
      * @return int

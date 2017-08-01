@@ -1,10 +1,13 @@
 <?php
 namespace Tests\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\Offering;
+use Ilios\CoreBundle\Entity\Repository\DTORepositoryInterface;
 use Ilios\CoreBundle\Entity\Session;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;
@@ -19,19 +22,18 @@ class OfferingManagerTest extends TestCase
      */
     public function testDeleteOffering()
     {
-        $class = 'Ilios\CoreBundle\Entity\Offering';
-        $em = m::mock('Doctrine\ORM\EntityManager')
+        $em = m::mock(EntityManager::class)
             ->shouldReceive('remove')->shouldReceive('flush')->mock();
-        $repository = m::mock('Doctrine\ORM\Repository');
-        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+        $repository = m::mock(DTORepositoryInterface::class);
+        $registry = m::mock(Registry::class)
             ->shouldReceive('getManagerForClass')
             ->andReturn($em)
             ->shouldReceive('getRepository')
             ->andReturn($repository)
             ->mock();
         
-        $entity = m::mock($class);
-        $manager = new OfferingManager($registry, $class);
+        $entity = m::mock(Offering::class);
+        $manager = new OfferingManager($registry, Offering::class);
         $manager->delete($entity);
     }
 
@@ -46,21 +48,20 @@ class OfferingManagerTest extends TestCase
         $course = new Course();
         $session->setCourse($course);
 
-        $class = 'Ilios\CoreBundle\Entity\Offering';
-        $em = m::mock('Doctrine\ORM\EntityManager');
-        $repository = m::mock('Doctrine\ORM\Repository')
+        $em = m::mock(EntityManager::class);
+        $repository = m::mock(DTORepositoryInterface::class)
             ->shouldReceive('matching')
             ->andReturn(new ArrayCollection([$offering]))
             ->mock();
 
-        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+        $registry = m::mock(Registry::class)
             ->shouldReceive('getManagerForClass')
             ->andReturn($em)
             ->shouldReceive('getRepository')
             ->andReturn($repository)
             ->mock();
 
-        $manager = new OfferingManager($registry, $class);
+        $manager = new OfferingManager($registry, Offering::class);
 
         $session->setPublished(true);
         $course->setPublished(true);

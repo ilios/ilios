@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\ApplicationConfigDTO;
 /**
  * Class ApplicationConfigRepository
  */
-class ApplicationConfigRepository extends EntityRepository
+class ApplicationConfigRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

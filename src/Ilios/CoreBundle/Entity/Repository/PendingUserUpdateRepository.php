@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\PendingUserUpdateDTO;
 /**
  * Class PendingUserUpdateRepository
  */
-class PendingUserUpdateRepository extends EntityRepository
+class PendingUserUpdateRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *     @ORM\Index(name="fkey_curriculum_inventory_export_user_id", columns={"created_by"})
  *   }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CurriculumInventoryExportRepository")
  * @IS\Entity
  */
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface

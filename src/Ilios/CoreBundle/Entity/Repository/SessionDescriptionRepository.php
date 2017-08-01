@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\SessionDescriptionDTO;
 /**
  * Class SessionDescriptionRepository
  */
-class SessionDescriptionRepository extends EntityRepository
+class SessionDescriptionRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

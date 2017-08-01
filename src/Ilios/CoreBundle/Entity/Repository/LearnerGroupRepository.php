@@ -6,7 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use Ilios\CoreBundle\Entity\DTO\LearnerGroupDTO;
 
-class LearnerGroupRepository extends EntityRepository
+class LearnerGroupRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

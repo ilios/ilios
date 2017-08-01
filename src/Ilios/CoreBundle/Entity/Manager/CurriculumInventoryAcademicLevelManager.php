@@ -5,6 +5,6 @@ namespace Ilios\CoreBundle\Entity\Manager;
 /**
  * Class CurriculumInventoryAcademicLevelManager
  */
-class CurriculumInventoryAcademicLevelManager extends DTOManager
+class CurriculumInventoryAcademicLevelManager extends BaseManager
 {
 }

@@ -7,7 +7,7 @@ use Ilios\CoreBundle\Classes\SchoolEvent;
 /**
  * Class SchoolManager
  */
-class SchoolManager extends DTOManager
+class SchoolManager extends BaseManager
 {
     /**
      * @param int $schoolId

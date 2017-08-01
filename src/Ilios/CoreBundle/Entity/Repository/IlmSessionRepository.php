@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\IlmSessionDTO;
 /**
  * Class IlmSessionRepository
  */
-class IlmSessionRepository extends EntityRepository
+class IlmSessionRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

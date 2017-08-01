@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\AssessmentOptionDTO;
 /**
  * Class AssessmentOptionRepository
  */
-class AssessmentOptionRepository extends EntityRepository
+class AssessmentOptionRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

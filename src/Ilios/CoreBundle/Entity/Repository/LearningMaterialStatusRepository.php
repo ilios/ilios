@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\LearningMaterialStatusDTO;
 /**
  * Class LearningMaterialStatusRepository
  */
-class LearningMaterialStatusRepository extends EntityRepository
+class LearningMaterialStatusRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

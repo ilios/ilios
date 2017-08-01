@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\MeshTreeDTO;
 /**
  * Class MeshTreeRepository
  */
-class MeshTreeRepository extends EntityRepository
+class MeshTreeRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

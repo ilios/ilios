@@ -7,7 +7,7 @@ use Ilios\CoreBundle\Entity\Repository\PendingUserUpdateRepository;
 /**
  * Class PendingUserUpdateManager
  */
-class PendingUserUpdateManager extends DTOManager
+class PendingUserUpdateManager extends BaseManager
 {
     /**
      * Clear all the pending updates.

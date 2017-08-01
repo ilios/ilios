@@ -10,7 +10,7 @@ use Doctrine\ORM\AbstractQuery;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\DTO\AuthenticationDTO;
 
-class AuthenticationRepository extends EntityRepository
+class AuthenticationRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * Get an authentication entity by case insensitive user name.

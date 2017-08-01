@@ -1,5 +1,5 @@
 imports:
-    - { resource: dto-managers.yml }
+    - { resource: virtual-managers.yml }
 
 services:
     # default configuration for services in *this* file

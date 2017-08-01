@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Class CurriculumInventoryExport
  * CurriculumInventoryExports can only be POSTed nothing else
  */
-class CurriculumInventoryExportController extends NonDtoApiController
+class CurriculumInventoryExportController extends ApiController
 {
     /**
      * @var Exporter

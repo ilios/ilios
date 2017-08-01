@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
 /**
  * Class OfferingManager
  */
-class OfferingManager extends DTOManager
+class OfferingManager extends BaseManager
 {
     /**
      * Retrieves offerings starting X days from now.

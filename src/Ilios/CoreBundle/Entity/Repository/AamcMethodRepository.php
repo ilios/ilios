@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\AamcMethodDTO;
 /**
  * Class AamcMethodRepository
  */
-class AamcMethodRepository extends EntityRepository
+class AamcMethodRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\MeshSemanticTypeDTO;
 /**
  * Class MeshSemanticTypeRepository
  */
-class MeshSemanticTypeRepository extends EntityRepository
+class MeshSemanticTypeRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\InstructorGroupDTO;
 /**
  * Class InstructorGroupRepository
  */
-class InstructorGroupRepository extends EntityRepository
+class InstructorGroupRepository extends EntityRepository implements DTORepositoryInterface
 {
 
     /**

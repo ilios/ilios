@@ -7,7 +7,7 @@ use Doctrine\ORM\QueryBuilder;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialDTO;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 
-class LearningMaterialRepository extends EntityRepository
+class LearningMaterialRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

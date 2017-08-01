@@ -5,6 +5,6 @@ namespace Ilios\CoreBundle\Entity\Manager;
 /**
  * Class AlertManager
  */
-class AlertManager extends DTOManager
+class AlertManager extends BaseManager
 {
 }

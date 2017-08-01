@@ -15,7 +15,7 @@ use Ilios\CoreBundle\Service\UserMaterialFactory;
 /**
  * Class UserRepository
  */
-class UserRepository extends EntityRepository
+class UserRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\UserMadeReminderDTO;
 /**
  * Class UserMadeReminderRepository
  */
-class UserMadeReminderRepository extends EntityRepository
+class UserMadeReminderRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

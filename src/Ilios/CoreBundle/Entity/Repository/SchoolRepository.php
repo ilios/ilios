@@ -12,7 +12,7 @@ use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 /**
  * Class SchoolRepository
  */
-class SchoolRepository extends EntityRepository
+class SchoolRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\CourseLearningMaterialDTO;
 /**
  * Class CourseLearningMaterialRepository
  */
-class CourseLearningMaterialRepository extends EntityRepository
+class CourseLearningMaterialRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc

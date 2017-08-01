@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
 /**
  * Class VocabularyRepository
  */
-class VocabularyRepository extends EntityRepository
+class VocabularyRepository extends EntityRepository implements DTORepositoryInterface
 {
     /**
      * @inheritdoc
