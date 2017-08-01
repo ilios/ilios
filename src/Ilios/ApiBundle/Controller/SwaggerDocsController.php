@@ -4,6 +4,7 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\ApiBundle\Service\SwaggerDocBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -70,7 +71,15 @@ class SwaggerDocsController extends AbstractController
             throw new NotFoundHttpException("${fileName} can't be found");
         }
 
-        return new Response(file_get_contents($filePath));
+        $response = new BinaryFileResponse($filePath);
+        $info = pathinfo($filePath);
+        if ($info['extension'] === 'css') {
+            $response->headers->set('Content-Type', 'text/css');
+        }
+        if ($info['extension'] === 'js') {
+            $response->headers->set('Content-Type', 'text/javascript');
+        }
+        return $response;
     }
 
     /**
