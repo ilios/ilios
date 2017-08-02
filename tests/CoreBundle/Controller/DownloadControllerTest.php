@@ -1,6 +1,7 @@
 <?php
 namespace Tests\CoreBundle\Controller;
 
+use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -14,16 +15,32 @@ class DownloadControllerTest extends WebTestCase
 {
     use JsonControllerTest;
 
+    /**
+     * @var ProxyReferenceRepository
+     */
+    protected $fixtures;
+
+    /**
+     * @inheritdoc
+     */
     public function setUp()
     {
-        $this->loadFixtures([
-            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData'
-        ]);
+        $this->fixtures = $this->loadFixtures([
+            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
+            'Tests\CoreBundle\Fixture\LoadPermissionData',
+            'Tests\CoreBundle\Fixture\LoadOfferingData',
+            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadSessionDescriptionData',
+        ])->getReferenceRepository();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function tearDown()
     {
+        unset($this->fixtures);
     }
 
     public function testDownloadLearningMaterial()
@@ -65,6 +82,39 @@ class DownloadControllerTest extends WebTestCase
         $this->assertEquals(RESPONSE::HTTP_OK, $response->getStatusCode(), $response->getContent());
         $learningMaterialLoaderPath = realpath(__DIR__ . '/../Fixture/LoadLearningMaterialData.php');
         $this->assertEquals(file_get_contents($learningMaterialLoaderPath), $response->getContent());
+    }
+
+    public function testPdfInlineDownload()
+    {
+        $client = $this->createClient();
+        $learningMaterial = $this->fixtures->getReference('learningMaterials4');
+
+        $this->makeJsonRequest(
+            $client,
+            'GET',
+            $this->getUrl(
+                'ilios_api_learningmaterial_get',
+                ['version' => 'v1', 'object' => 'learningmaterials', 'id' => $learningMaterial->getId()]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $client->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['learningMaterials'][0];
+
+        $client->request(
+            'GET',
+            $data['absoluteFileUri'] . '?inline=true'
+        );
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(
+            $response->headers->get('Content-Disposition'),
+            'inline'
+        );
     }
 
     public function testBadLearningMaterialToken()
