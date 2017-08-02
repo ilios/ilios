@@ -20,3 +20,7 @@ services:
             $releaseVersion: '%ilios_web.frontend_release_version%'
             $keepFrontendUpdated: '%ilios_web.keep_frontend_updated%'
             $environment: '%kernel.environment%'
+    Ilios\CliBundle\Command\UpdateServiceWorkerCommand:
+        arguments:
+            $kernelCacheDir: '%kernel.cache_dir%'
+            $environment: '%kernel.environment%'
