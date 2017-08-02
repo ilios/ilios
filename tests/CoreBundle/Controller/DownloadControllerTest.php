@@ -55,9 +55,13 @@ class DownloadControllerTest extends WebTestCase
             'GET',
             $data['absoluteFileUri']
         );
-        
+
         $response = $client->getResponse();
-        
+
+        $this->assertEquals(
+            $response->headers->get('Content-Disposition'),
+            'attachment; filename="' . $data['filename'] .'"'
+        );
         $this->assertEquals(RESPONSE::HTTP_OK, $response->getStatusCode(), $response->getContent());
         $learningMaterialLoaderPath = realpath(__DIR__ . '/../Fixture/LoadLearningMaterialData.php');
         $this->assertEquals(file_get_contents($learningMaterialLoaderPath), $response->getContent());
@@ -71,7 +75,7 @@ class DownloadControllerTest extends WebTestCase
             'GET',
             '/lm/a7a8e202e9655ab81155c4c3e52b95098fcaa1c975f63f0327b467a981f6428f'
         );
-        
+
         $response = $client->getResponse();
         $this->assertEquals(
             RESPONSE::HTTP_NOT_FOUND,
