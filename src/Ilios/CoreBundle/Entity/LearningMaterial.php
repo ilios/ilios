@@ -354,7 +354,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->token;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -432,7 +432,9 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function setCitation($citation)
     {
-        $this->mimetype = 'citation';
+        if (!is_null($citation)) {
+            $this->mimetype = 'citation';
+        }
         $this->citation = $citation;
     }
 
@@ -545,7 +547,9 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function setLink($link)
     {
-        $this->mimetype = 'link';
+        if (!is_null($link)) {
+            $this->mimetype = 'link';
+        }
         $this->link = $link;
     }
 
