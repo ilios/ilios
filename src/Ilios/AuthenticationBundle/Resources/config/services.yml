@@ -53,6 +53,7 @@ services:
         factory: ['@Ilios\AuthenticationBundle\Service\AuthenticationFactory', createAuthenticationService]
 
     Ilios\AuthenticationBundle\Service\CasManager:
+        public: true
         arguments:
           $casServer: '%ilios_authentication.cas.server%'
           $casVersion: '%ilios_authentication.cas.version%'
