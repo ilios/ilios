@@ -1,6 +1,7 @@
 <?php
 
 namespace Ilios\CoreBundle\Service;
+
 use Http\Client\HttpClient;
 use Http\Message\RequestFactory;
 
