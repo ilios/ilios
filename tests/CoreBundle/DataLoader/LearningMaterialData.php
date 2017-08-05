@@ -111,7 +111,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createCitation()
     {
         return array(
-            'id' => 4,
+            'id' => 5,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -131,7 +131,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createLink()
     {
         return array(
-            'id' => 4,
+            'id' => 5,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -151,7 +151,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createFile()
     {
         return array(
-            'id' => 4,
+            'id' => 5,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
