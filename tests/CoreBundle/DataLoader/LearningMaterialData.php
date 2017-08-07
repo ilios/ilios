@@ -63,6 +63,23 @@ class LearningMaterialData extends AbstractDataLoader
             'filesize' => 1000
         );
 
+        $arr[] = array(
+            'id' => 4,
+            'title' => 'fourthlm',
+            'description' => 'desc3' . $this->faker->text,
+            'originalAuthor' => $this->faker->name,
+            'userRole' => "2",
+            'status' => LearningMaterialStatusInterface::REVISED,
+            'owningUser' => "1",
+            'copyrightRationale' => 'i own it',
+            'copyrightPermission' => true,
+            'sessionLearningMaterials' => [],
+            'courseLearningMaterials' => [],
+            'filename' => 'testfile.pdf',
+            'mimetype' => 'application/pdf',
+            'filesize' => 1000
+        );
+
         return $arr;
     }
 
@@ -72,7 +89,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 4,
+            'id' => 5,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -94,7 +111,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createCitation()
     {
         return array(
-            'id' => 4,
+            'id' => 5,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -114,7 +131,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createLink()
     {
         return array(
-            'id' => 4,
+            'id' => 5,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -134,7 +151,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createFile()
     {
         return array(
-            'id' => 4,
+            'id' => 5,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
