@@ -7,7 +7,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Copy configuration from parameters.yml into the DB
+ * Copy configuration from parameters.yml into the DB and update file with new keys
  */
 class Version20170716000000 extends AbstractMigration
 {
@@ -29,42 +29,34 @@ class Version20170716000000 extends AbstractMigration
         }
         unset($rows);
 
-        $parametersPath = realpath(__DIR__ . '/../../config/parameters.yml');
-        if (is_readable($parametersPath) && is_writable($parametersPath)) {
-            $parameters = Yaml::parse(file_get_contents($parametersPath));
-            if (array_key_exists('parameters', $parameters)) {
-                $symfonyConfigKeys = [
-                    'database_driver',
-                    'database_host',
-                    'database_port',
-                    'database_name',
-                    'database_user',
-                    'database_password',
-                    'database_mysql_version',
-                    'mailer_transport',
-                    'mailer_host',
-                    'mailer_user',
-                    'mailer_password',
-                    'locale',
-                    'secret'
-                ];
+        $parameters = $this->readParameters();
+        $symfonyConfigKeys = [
+            'env(ILIOS_DATABASE_DRIVER)',
+            'env(ILIOS_DATABASE_HOST)',
+            'env(ILIOS_DATABASE_PORT)',
+            'env(ILIOS_DATABASE_NAME)',
+            'env(ILIOS_DATABASE_USER)',
+            'env(ILIOS_DATABASE_PASSWORD)',
+            'env(ILIOS_DATABASE_MYSQL_VERSION)',
+            'env(ILIOS_MAILER_TRANSPORT)',
+            'env(ILIOS_MAILER_HOST)',
+            'env(ILIOS_MAILER_USER)',
+            'env(ILIOS_MAILER_PASSWORD)',
+            'env(ILIOS_LOCALE)',
+            'env(ILIOS_SECRET)'
+        ];
 
-                $itemsToCopy = array_diff_key( $parameters['parameters'], array_flip($symfonyConfigKeys) );
-                $copiedKeys = array_keys($itemsToCopy);
-                $cleanParameters = $this->cleanup($itemsToCopy);
+        $itemsToCopy = array_diff_key($parameters, array_flip($symfonyConfigKeys));
+        $copiedKeys = array_keys($itemsToCopy);
+        $cleanParameters = $this->cleanup($itemsToCopy);
 
-                foreach ($cleanParameters as $item) {
-                    $this->addSql('INSERT INTO application_config (name, value) VALUES (:name, :value)', $item);
-                }
-                $itemsToKeep = array_diff_key( $parameters['parameters'], array_flip($copiedKeys) );
+        foreach ($cleanParameters as $item) {
+            $this->addSql('INSERT INTO application_config (name, value) VALUES (:name, :value)', $item);
+        }
+        $itemsToKeep = array_diff_key($parameters, array_flip($copiedKeys));
 
-                $newConfig = [];
-                $newConfig['parameters'] = $itemsToKeep;
-                $string = Yaml::dump($newConfig);
-                file_put_contents($parametersPath, $string);
-            }
-        } else {
-            throw new \Exception("Unable to read and write parameters file at ${parametersPath}");
+        if (!empty($itemsToKeep)) {
+            $this->writeParameters($itemsToKeep);
         }
     }
 
@@ -89,6 +81,17 @@ class Version20170716000000 extends AbstractMigration
                 $parameters[$key] = null;
             }
         }
+        if (array_key_exists('authentication_type', $parameters)) {
+            //clean out defaults for unused authentication types
+            if ($parameters['authentication_type'] != 'shibboleth') {
+                $parameters['shibboleth_authentication_login_path'] = null;
+                $parameters['shibboleth_authentication_logout_path'] = null;
+                $parameters['shibboleth_authentication_user_id_attribute'] = null;
+            }
+            if ($parameters['authentication_type'] != 'cas') {
+                $parameters['cas_authentication_version'] = null;
+            }
+        }
         if (array_key_exists('forceProtocol', $parameters) and $parameters['forceProtocol'] === 'http') {
             $parameters['requireSecureConnection'] = 0;
         } else {
@@ -111,6 +114,39 @@ class Version20170716000000 extends AbstractMigration
         });
 
         return $clean;
+    }
+
+    /**
+     * Read existing parameters
+     * @return array
+     * @throws \Exception
+     */
+    protected function readParameters()
+    {
+        $parametersPath = realpath(__DIR__ . '/../../config/parameters.yml');
+        if (is_readable($parametersPath)) {
+            $parameters = Yaml::parse(file_get_contents($parametersPath));
+            if (array_key_exists('parameters', $parameters)) {
+                return $parameters['parameters'];
+            }
+        }
+        throw new \Exception("Unable to read parameters file at ${parametersPath}");
+    }
+
+    /**
+     * Write parameters to the file
+     * @param $parameters
+     * @throws \Exception
+     */
+    protected function writeParameters($parameters)
+    {
+        $parametersPath = realpath(__DIR__ . '/../../config/parameters.yml');
+        if (!is_writable($parametersPath)) {
+            throw new \Exception("Unable to write parameters file at ${parametersPath}");
+        }
+
+        $string = Yaml::dump(['parameters' => $parameters]);
+        file_put_contents($parametersPath, $string);
     }
 
     /**
