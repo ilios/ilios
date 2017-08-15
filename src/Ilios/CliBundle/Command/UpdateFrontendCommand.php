@@ -141,7 +141,8 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         } catch (\Exception $e) {
             if ($this->environment === 'prod') {
                 throw new \Exception(
-                    'Unable to load the frontend.  Please try again or let the Ilios Team know about this issue.'
+                    'Unable to load the frontend.  Please try again or let the Ilios Team know about this issue:' .
+                    $e->getMessage()
                 );
             }
 
