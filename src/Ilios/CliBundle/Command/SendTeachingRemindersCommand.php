@@ -47,9 +47,9 @@ class SendTeachingRemindersCommand extends Command
     protected $mailer;
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $timezone;
+    protected $config;
 
     /**
      * @param \Ilios\CoreBundle\Entity\Manager\OfferingManager $offeringManager
@@ -67,7 +67,7 @@ class SendTeachingRemindersCommand extends Command
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
         $this->mailer = $mailer;
-        $this->timezone = $config->get('timezone');
+        $this->config = $config;
     }
 
     /**
@@ -172,6 +172,8 @@ class SendTeachingRemindersCommand extends Command
             $template = $templateCache[$school->getId()];
 
             $instructors = $offering->getAllInstructors()->toArray();
+            $timezone = $this->config->get('timezone');
+
 
             /** @var UserInterface $instructor */
             foreach ($instructors as $instructor) {
@@ -180,7 +182,7 @@ class SendTeachingRemindersCommand extends Command
                     'base_url' => $baseUrl,
                     'instructor' => $instructor,
                     'offering' => $offering,
-                    'timezone' => $this->timezone
+                    'timezone' => $timezone
                 ]);
                 $message = \Swift_Message::newInstance()
                     ->setSubject($subject)

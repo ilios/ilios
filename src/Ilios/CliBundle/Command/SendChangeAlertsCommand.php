@@ -53,9 +53,9 @@ class SendChangeAlertsCommand extends Command
     protected $mailer;
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $timezone;
+    protected $config;
 
     /**
      * @param AlertManager $alertManager
@@ -79,7 +79,7 @@ class SendChangeAlertsCommand extends Command
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
         $this->mailer = $mailer;
-        $this->timezone = $config->get('timezone');
+        $this->config = $config;
     }
 
     /**
@@ -176,11 +176,13 @@ class SendChangeAlertsCommand extends Command
                 $templateCache[$school->getId()] = $template;
             }
             $template = $templateCache[$school->getId()];
+            $timezone = $this->config->get('timezone');
+
             $messageBody = $this->templatingEngine->render($template, [
                 'alert' => $alert,
                 'history' => $history,
                 'offering' => $offering,
-                'timezone' => $this->timezone,
+                'timezone' => $timezone,
             ]);
 
             $message = \Swift_Message::newInstance()

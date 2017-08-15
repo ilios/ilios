@@ -11,16 +11,16 @@ use Symfony\Component\Security\Core\Encoder\BasePasswordEncoder;
 class Encoder extends BasePasswordEncoder
 {
     /**
-     * @var string
+     * @var Config
      */
-    protected $salt;
+    protected $config;
 
     /**
      * @param string $salt
      */
     public function __construct(Config $config)
     {
-        $this->salt = $config->get('legacy_password_salt');
+        $this->config = $config;
     }
 
     public function encodePassword($raw, $salt)
@@ -36,8 +36,9 @@ class Encoder extends BasePasswordEncoder
             return false;
         }
         $password = $raw;
-        if ($this->salt) {
-            $password .= $this->salt;
+        $legacySalt = $this->config->get('legacy_password_salt');
+        if ($legacySalt) {
+            $password .= $legacySalt;
         }
 
         $hash = hash('sha256', $password);

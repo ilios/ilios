@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
@@ -29,9 +28,9 @@ class IliosFileSystem
     const LOCK_FILE_DIRECTORY = 'locks';
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $iliosFileStorePath;
+    protected $config;
     
     /**
      * A filesystem object to work with
@@ -41,13 +40,8 @@ class IliosFileSystem
     
     public function __construct(SymfonyFileSystem $fs, Config $config)
     {
-        $this->iliosFileStorePath = $config->get('file_system_storage_path');
         $this->fileSystem = $fs;
-        if (!$this->fileSystem->exists($this->iliosFileStorePath) &&
-            is_writable($this->iliosFileStorePath)
-        ) {
-            $this->fileSystem->mkdir($this->iliosFileStorePath);
-        }
+        $this->config = $config;
     }
     
     /**
@@ -143,7 +137,8 @@ class IliosFileSystem
      */
     protected function getPath($relativePath)
     {
-        return $this->iliosFileStorePath . '/' . $relativePath;
+        $iliosFileStorePath = $this->config->get('file_system_storage_path');
+        return $iliosFileStorePath . '/' . $relativePath;
     }
 
     /**

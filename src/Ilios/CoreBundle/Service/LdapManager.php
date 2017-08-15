@@ -14,29 +14,9 @@ class LdapManager
     const RESET_TIMEOUT = 120;
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $ldapUrl;
-    
-    /**
-     * @var string
-     */
-    protected $ldapBindUser;
-    
-    /**
-     * @var string
-     */
-    protected $ldapBindPassword;
-    
-    /**
-     * @var string
-     */
-    protected $ldapCampusIdProperty;
-    
-    /**
-     * @var string
-     */
-    protected $ldapUsernameProperty;
+    protected $config;
     
     /**
      * @var LDAP
@@ -55,12 +35,7 @@ class LdapManager
      */
     public function __construct(Config $config)
     {
-        $this->ldapUrl = $config->get('ldap_directory_url');
-        $this->ldapBindUser = $config->get('ldap_directory_user');
-        $this->ldapBindPassword = $config->get('ldap_directory_password');
-        $this->ldapSearchBase = $config->get('ldap_directory_search_base');
-        $this->ldapCampusIdProperty = $config->get('ldap_directory_campus_id_property');
-        $this->ldapUsernameProperty = $config->get('ldap_directory_username_property');
+        $this->config = $config;
 
         $this->ldap = null;
         $this->connectionCreatedAt = null;
@@ -95,10 +70,14 @@ class LdapManager
         if (!empty($this->ldap)) {
             return $this->ldap;
         }
+
+        $ldapUrl = $this->config->get('ldap_directory_url');
+        $ldapBindUser = $this->config->get('ldap_directory_user');
+        $ldapBindPassword = $this->config->get('ldap_directory_password');
         
-        $this->ldap = new Ldap($this->ldapUrl);
+        $this->ldap = new Ldap($ldapUrl);
         $this->ldap->setOption(Ldap::OPT_NETWORK_TIMEOUT, 10);
-        $this->ldap->bind($this->ldapBindUser, $this->ldapBindPassword);
+        $this->ldap->bind($ldapBindUser, $ldapBindPassword);
 
         return $this->ldap;
     }
@@ -112,14 +91,19 @@ class LdapManager
      */
     public function search($filter)
     {
+
+        $ldapSearchBase = $this->config->get('ldap_directory_search_base');
+        $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
+        $ldapUsernameProperty = $this->config->get('ldap_directory_username_property');
+
         $rhett = [];
         $attributes = [
             'mail',
             'sn',
             'givenName',
             'telephoneNumber',
-            $this->ldapCampusIdProperty,
-            $this->ldapUsernameProperty
+            $ldapCampusIdProperty,
+            $ldapUsernameProperty
         ];
         try {
             $ldap = $this->getLdap();
@@ -127,7 +111,7 @@ class LdapManager
             $cookie = '';
             do {
                 $ldap->pagedResult(1000, false, $cookie);
-                $response = $ldap->search($this->ldapSearchBase, $filter, $attributes);
+                $response = $ldap->search($ldapSearchBase, $filter, $attributes);
                 $arr = $response->getEntries();
                 unset($arr['count']);
                 $results = array_merge($results, $arr);
@@ -136,8 +120,8 @@ class LdapManager
             } while ($cookie);
 
             if (count($results)) {
-                $campusIdKey = strtolower($this->ldapCampusIdProperty);
-                $usernameKey = strtolower($this->ldapUsernameProperty);
+                $campusIdKey = strtolower($ldapCampusIdProperty);
+                $usernameKey = strtolower($ldapUsernameProperty);
                 $rhett = array_map(function ($userData) use ($campusIdKey, $usernameKey) {
                     $keys = [
                         'givenname',

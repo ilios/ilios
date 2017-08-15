@@ -40,14 +40,9 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     protected $cacheDir;
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $releaseVersion;
-
-    /**
-     * @var boolean
-     */
-    protected $keepFrontendUpdated;
+    protected $config;
 
     /**
      * @var string
@@ -64,8 +59,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->builder = $builder;
         $this->fs = $fs;
         $this->cacheDir = $kernelCacheDir;
-        $this->releaseVersion = $config->get('frontend_release_version');
-        $this->keepFrontendUpdated = $config->get('keep_frontend_updated');
+        $this->config = $config;
         $this->environment = $environment;
 
         parent::__construct();
@@ -167,8 +161,10 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
      */
     protected function writeIndexFile($cacheDir, $environment, $version)
     {
-        if (!$this->keepFrontendUpdated) {
-            $version = $this->releaseVersion;
+        $releaseVersion = $this->config->get('frontend_release_version');
+        $keepFrontendUpdated = $this->config->get('keep_frontend_updated');
+        if (!$keepFrontendUpdated) {
+            $version = $releaseVersion;
         }
 
         $contents = $this->builder->getIndex($environment, $version);
