@@ -40,6 +40,30 @@ sudo -u apache bin/console cache:clear --env=prod
 
 ## Version-specific steps
 
+### Upgrading to Ilios 3.37.0
+
+This version changes the way configuration is stored in Ilios. Most parameters have
+been moved into the database and this will be handled automatically for you. However, the format
+of some core parameters has changed.
+
+To make this change open `app/config/parameters.yml` and change:
+
+* `database_driver: pdo_mysql` *becomes* `env(ILIOS_DATABASE_DRIVER): pdo_mysql`
+* `database_host: 127.0.0.1` *becomes* `env(ILIOS_DATABASE_HOST): 127.0.0.1`
+* `database_port: null` *becomes* `env(ILIOS_DATABASE_PORT): NULL`
+* `database_name: ilios` *becomes* `env(ILIOS_DATABASE_NAME): ilios`
+* `database_user: ilios` *becomes* `env(ILIOS_DATABASE_USER): ilios`
+* `database_password: ilios` *becomes* `env(ILIOS_DATABASE_PASSWORD): ilios`
+* `database_mysql_version: 5.5` *becomes* `env(ILIOS_DATABASE_MYSQL_VERSION): 5.5`
+* `mailer_transport: smtp` *becomes* `env(ILIOS_MAILER_TRANSPORT): smtp`
+* `mailer_host: 127.0.0.1` *becomes* `env(ILIOS_MAILER_HOST): 127.0.0.1`
+* `mailer_user: null` *becomes* `env(ILIOS_MAILER_USER): null`
+* `mailer_password: null` *becomes* `env(ILIOS_MAILER_PASSWORD): null`
+* `locale: en` *becomes* `env(ILIOS_LOCALE): en`
+* `secret: OurKey`  *becomes* `env(ILIOS_SECRET): OurKey`
+
+You can leave everything else the same.
+
 ### Upgrading to Ilios 3.36.1
 
 A command was added in this version to fix an issue with Learning
