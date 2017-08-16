@@ -1,6 +1,7 @@
 <?php
 
 namespace Ilios\CoreBundle\DataFixtures\ORM;
+
 use Ilios\CoreBundle\Entity\ApplicationConfig;
 use Ilios\CoreBundle\Entity\ApplicationConfigInterface;
 
