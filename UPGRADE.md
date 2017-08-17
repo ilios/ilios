@@ -13,21 +13,25 @@ _NOTE:_ The steps below assume that file ownership of the deployed codebase belo
 
 1. Back up your database. _Always._
 
-2. Upgrade you codebase via composer.
+2. Update your code to the latest desired version.  See https://github.com/ilios/ilios/releases for the most up-to-date list of releases.  There are zipped and tarball downloads included in the release notes for each version.  After making sure you've moved or backed-up your learning materials directory and have a copy of all the settings in you parameters.yml file, you can replace your current code entirely with the code from one of the release distributions and run the steps below.
+
+If you use git to manage your Ilios you can update the code by checking it out using the respective tag name eg, `git checkout tags/v3.36.0`
+
+3. Rebuild the application code via composer.
 
  ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
 sudo -u apache SYMFONY_ENV=prod composer install --no-dev --optimize-autoloader
 ```
 
-3. Execute any pending database migrations.
+4. Execute any pending database migrations.
 
  ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
 sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interaction
 ```
 
-4. Clear your application cache.
+5. Clear your application cache.
 
  ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
