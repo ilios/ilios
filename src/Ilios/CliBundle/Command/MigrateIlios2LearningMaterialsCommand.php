@@ -14,9 +14,9 @@ use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
 use Ilios\CoreBundle\Service\IliosFileSystem;
 
 /**
- * Sync a user with their directory information
+ * Migrate Learning materials from Ilios2 location to Ilios3 location
  *
- * Class SyncUserCommand
+ * Class MigrateIlios2LearningMaterialsCommand
  */
 class MigrateIlios2LearningMaterialsCommand extends Command
 {
