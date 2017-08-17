@@ -40,6 +40,17 @@ sudo -u apache bin/console cache:clear --env=prod
 
 ## Version-specific steps
 
+### Upgrading to Ilios 3.36.1
+
+A command was added in this version to fix an issue with Learning
+Material metadata. After upgrading to this version you need
+to run the command to scan and fix your learning materials.
+
+```bash
+cd YOUR_ILIOS_APPLICATION_ROOT
+sudo -u apache bin/console ilios:maintenance:fix-mime-types --env=prod
+```
+
 ### Upgrading to Ilios 3.12.0
 
 This version adds the "AAMC Resource Type" as a new entity to the application.
