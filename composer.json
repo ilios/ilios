@@ -61,6 +61,7 @@
     },
     "scripts": {
       "symfony-scripts": [
+        "Ilios\\CliBundle\\Composer\\MigrateParameters::migrate",
         "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
@@ -90,6 +91,7 @@
         "symfony-cache-warmup": true,
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
+            "keep-outdated": true,
             "file": "app/config/parameters.yml"
         }
     }
