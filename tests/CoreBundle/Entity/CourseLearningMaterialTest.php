@@ -108,4 +108,22 @@ class CourseLearningMaterialTest extends EntityBase
     {
         $this->basicSetTest('position', 'integer');
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::setStartDate
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::getStartDate
+     */
+    public function testSetStartDate()
+    {
+        $this->basicSetTest('startDate', 'datetime');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::setEndDate
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::getEndDate
+     */
+    public function testSetEndDate()
+    {
+        $this->basicSetTest('endDate', 'datetime');
+    }
 }
