@@ -67,4 +67,24 @@ interface CourseLearningMaterialInterface extends
      * @return LearningMaterialInterface
      */
     public function getLearningMaterial();
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getStartDate();
+
+    /**
+     * @param \DateTime|null $startDate
+     */
+    public function setStartDate(\DateTime $startDate = null);
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getEndDate();
+
+    /**
+     * @param \DateTime|null $endDate
+     */
+    public function setEndDate(\DateTime $endDate = null);
 }

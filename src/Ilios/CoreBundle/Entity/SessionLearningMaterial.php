@@ -156,6 +156,26 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     protected $position;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="start_date", type="datetime", nullable=true)
+     *
+     * @IS\Expose
+     * @IS\Type("dateTime")
+     */
+    protected $startDate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="end_date", type="datetime", nullable=true)
+     *
+     * @IS\Expose
+     * @IS\Type("dateTime")
+     */
+    protected $endDate;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -243,5 +263,37 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     public function getLearningMaterial()
     {
         return $this->learningMaterial;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setStartDate(\DateTime $startDate = null)
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setEndDate(\DateTime $endDate = null)
+    {
+        $this->endDate = $endDate;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
     }
 }
