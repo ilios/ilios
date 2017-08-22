@@ -47,7 +47,9 @@ class CourseLearningMaterialRepository extends EntityRepository implements DTORe
                 $arr['notes'],
                 $arr['required'],
                 $arr['publicNotes'],
-                $arr['position']
+                $arr['position'],
+                $arr['startDate'],
+                $arr['endDate']
             );
         }
         $courseLearningMaterialIds = array_keys($courseLearningMaterialDTOs);

@@ -47,7 +47,9 @@ class SessionLearningMaterialRepository extends EntityRepository implements DTOR
                 $arr['notes'],
                 $arr['required'],
                 $arr['publicNotes'],
-                $arr['position']
+                $arr['position'],
+                $arr['startDate'],
+                $arr['endDate']
             );
         }
         $sessionLearningMaterialIds = array_keys($sessionLearningMaterialDTOs);
