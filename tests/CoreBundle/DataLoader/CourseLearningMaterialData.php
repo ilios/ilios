@@ -17,6 +17,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => "1",
             'meshDescriptors' => ['abc1'],
             'position' => 0,
+            'startDate' => null,
+            'endDate' => null,
         );
 
         $arr[] = array(
@@ -28,6 +30,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => "2",
             'meshDescriptors' => [],
             'position' => 1,
+            'startDate' => null,
+            'endDate' => null,
         );
 
         $arr[] = array(
@@ -39,7 +43,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => "1",
             'meshDescriptors' => ['abc1'],
             'position' => 0,
-
+            'startDate' => null,
+            'endDate' => null,
         );
 
         $arr[] = array(
@@ -51,6 +56,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => "3",
             'meshDescriptors' => [],
             'position' => 2,
+            'startDate' => null,
+            'endDate' => null,
         );
 
 
@@ -68,6 +75,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => "2",
             'meshDescriptors' => [],
             'position' => 0,
+            'startDate' => null,
+            'endDate' => null,
         ];
     }
 

@@ -17,6 +17,8 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => '1',
             'meshDescriptors' => ['abc1'],
             'position' => 1,
+            'startDate' => null,
+            'endDate' => null,
         );
 
         $arr[] = array(
@@ -28,8 +30,9 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => '3',
             'meshDescriptors' => ['abc2'],
             'position' => 0,
+            'startDate' => null,
+            'endDate' => null,
         );
-
 
         return $arr;
     }
@@ -45,6 +48,8 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => '2',
             'meshDescriptors' => [],
             'position' => 0,
+            'startDate' => null,
+            'endDate' => null,
         ];
     }
 
