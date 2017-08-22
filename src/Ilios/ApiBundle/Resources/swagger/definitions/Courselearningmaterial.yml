@@ -28,3 +28,11 @@ Courselearningmaterial:
   position:
    description: Position
    type: integer
+  startDate:
+   description: Timed-release start date-time.
+   type: string
+   format: date-time
+  endDate:
+   description: Timed-release end date-time.
+   type: string
+   format: date-time
