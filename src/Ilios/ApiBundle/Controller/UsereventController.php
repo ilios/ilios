@@ -76,6 +76,7 @@ class UsereventController extends AbstractController
         if (!$sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])) {
             /* @var UserEvent $event */
             foreach ($events as $event) {
+                $event->clearTimedMaterials();
                 $event->clearDataForScheduledEvent();
             }
         }

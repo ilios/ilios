@@ -77,4 +77,15 @@ class UserEvent extends CalendarEvent
             $this->learningMaterials = [];
         }
     }
+
+    /**
+     * @param int $timestamp
+     */
+    public function clearTimedMaterials($timestamp) {
+        foreach ($this->learningMaterials as $lm) {
+            $startDate = $lm['startDate'];
+            $endDate = $lm['endDate'];
+            // @todo implement [ST 2017/08/23]
+        }
+    }
 }
