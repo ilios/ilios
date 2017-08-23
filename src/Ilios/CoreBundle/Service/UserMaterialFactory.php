@@ -64,6 +64,8 @@ class UserMaterialFactory
         $obj->link = $material['link'];
         $obj->filename = $material['filename'];
         $obj->mimetype = $material['mimetype'];
+        $obj->startDate = $material['startDate'];
+        $obj->endDate = $material['endDate'];
 
         return $obj;
     }

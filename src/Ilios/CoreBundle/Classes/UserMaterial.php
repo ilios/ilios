@@ -129,4 +129,20 @@ class UserMaterial
      * @IS\Type("entityCollection")
      */
     public $instructors = [];
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("dateTime")
+     */
+    public $startDate;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("dateTime")
+     */
+    public $endDate;
+
+
 }
