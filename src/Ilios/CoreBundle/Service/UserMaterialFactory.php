@@ -66,6 +66,7 @@ class UserMaterialFactory
         $obj->mimetype = $material['mimetype'];
         $obj->startDate = $material['startDate'];
         $obj->endDate = $material['endDate'];
+        $obj->isBlanked = false;
 
         return $obj;
     }
