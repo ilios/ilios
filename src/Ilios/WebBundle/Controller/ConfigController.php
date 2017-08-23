@@ -4,7 +4,6 @@ namespace Ilios\WebBundle\Controller;
 
 use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
 use Ilios\CoreBundle\Service\Config;
-use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

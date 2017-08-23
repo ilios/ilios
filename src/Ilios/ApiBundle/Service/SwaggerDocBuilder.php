@@ -2,7 +2,6 @@
 
 namespace Ilios\ApiBundle\Service;
 
-use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpKernel\KernelInterface;

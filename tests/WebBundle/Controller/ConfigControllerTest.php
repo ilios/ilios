@@ -1,7 +1,6 @@
 <?php
 namespace Tests\WebBundle\Controller;
 
-use Ilios\WebBundle\Service\WebIndexFromJson;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Fixture\LoadApplicationConfigData;

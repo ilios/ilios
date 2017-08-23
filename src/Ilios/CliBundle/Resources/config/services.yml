@@ -12,9 +12,5 @@ services:
         arguments:
             $kernelCacheDir: '%kernel.cache_dir%'
             $kernelProjectDir: '%kernel.project_dir%'
-            $environment: '%kernel.environment%'
-    Ilios\CliBundle\Command\UpdateServiceWorkerCommand:
-        arguments:
-            $kernelCacheDir: '%kernel.cache_dir%'
             $apiVersion: '%ilios_api_version%'
             $environment: '%kernel.environment%'
