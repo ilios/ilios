@@ -27,9 +27,9 @@
     <meta name='iliosconfig-api-host'content=''>
 
     {% for l in links %}
-        <link rel="{{ l.rel }}" href="{{ l.href }}">
+        <link rel="{{ l.rel }}" href="{{ preload(asset(l.href), { as: 'style' }) }}" />
     {% endfor %}
-    <link rel="stylesheet" href="{{ asset('theme-overrides/custom.css') }}" />
+    <link rel="stylesheet" href="{{ preload(asset('theme-overrides/custom.css'), { as: 'style'}) }}" />
 </head>
 <body>
 <noscript><p>For full functionality of this site it is necessary to enable JavaScript.Here are the <a href='http://www.enable-javascript.com/' target='_blank'>instructions how to enable JavaScript in your web browser</a>.</p></noscript>
@@ -37,7 +37,7 @@
 
 {% for s in scripts %}
     {% if s.src %}
-        <script src="{{ s.src }}"></script>
+        <script src="{{ preload(asset(s.src), { as: 'script' }) }}"></script>
     {% else %}
         <script>
             {% autoescape false %}

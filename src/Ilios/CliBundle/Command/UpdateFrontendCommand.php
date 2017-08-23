@@ -2,32 +2,44 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Alchemy\Zippy\Zippy;
 use Ilios\CoreBundle\Service\Config;
+use Ilios\CoreBundle\Service\Fetch;
+use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
-use Ilios\WebBundle\Service\WebIndexFromJson;
 use Ilios\CoreBundle\Service\Filesystem;
 
 /**
- * Build the index file from a published frontend release
+ * Pull down asset archive from AWS and extract it so
+ * assets can be served from the API host.
  *
  * Class UpdateFrontendCommand
+ * @package Ilios\CliBUndle\Command
  */
 class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 {
     /**
      * @var string
      */
-    const CACHE_FILE_NAME = 'ilios/index.html';
+    const FRONTEND_DIRECTORY = '/ilios/frontend/';
+    const ARCHIVE_FILE_NAME = 'frontend.tar.gz';
+    const UNPACKED_DIRECTORY = '/deploy-dist/';
+
+    const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
+    const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
+
+    const STAGING = 'stage';
+    const PRODUCTION = 'prod';
 
     /**
-     * @var WebIndexFromJson
+     * @var Fetch
      */
-    protected $builder;
+    protected $fetch;
 
     /**
      * @var Filesystem
@@ -35,36 +47,54 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     protected $fs;
 
     /**
-     * @var string
-     */
-    protected $cacheDir;
-
-    /**
      * @var Config
      */
     protected $config;
 
     /**
+     * @var Zippy
+     */
+    protected $zippy;
+
+    /**
+     * @var string
+     */
+    protected $cacheDir;
+
+    /**
+     * @var string
+     */
+    protected $temporaryFileStorePath;
+
+    /**
      * @var string
      */
     protected $environment;
-    
+
     public function __construct(
-        WebIndexFromJson $builder,
+        Fetch $fetch,
         Filesystem $fs,
         Config $config,
+        Zippy $zippy,
         $kernelCacheDir,
+        $kernelProjectDir,
         $environment
     ) {
-        $this->builder = $builder;
+        $this->fetch = $fetch;
         $this->fs = $fs;
-        $this->cacheDir = $kernelCacheDir;
         $this->config = $config;
+        $this->zippy = $zippy;
+        $this->cacheDir = $kernelCacheDir;
         $this->environment = $environment;
+
+        $this->temporaryFileStorePath = $kernelProjectDir . '/var/tmp/frontend-update-files';
+        if (!$this->fs->exists($this->temporaryFileStorePath)) {
+            $this->fs->mkdir($this->temporaryFileStorePath);
+        }
 
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -80,12 +110,6 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 'Pull a staging build of the frontend'
             )
             ->addOption(
-                'dev-build',
-                null,
-                InputOption::VALUE_NONE,
-                'Pull a dev build of the frontend'
-            )
-            ->addOption(
                 'at-version',
                 null,
                 InputOption::VALUE_REQUIRED,
@@ -99,25 +123,14 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $stagingBuild = $input->getOption('staging-build');
-        $devBuild = $input->getOption('dev-build');
         $versionOverride = $input->getOption('at-version');
+        $environment = $stagingBuild?self::STAGING:self::PRODUCTION;
 
-        $environment = WebIndexFromJson::PRODUCTION;
-        if ($stagingBuild) {
-            $environment = WebIndexFromJson::STAGING;
-        }
-        if ($devBuild) {
-            $environment = WebIndexFromJson::DEVELOPMENT;
-        }
-        $version = $versionOverride?$versionOverride:null;
-        $this->writeIndexFile($this->cacheDir, $environment, $version);
+        $this->downloadAndExtractArchive($environment, $versionOverride);
 
         $message = 'Frontend updated successfully';
         if ($stagingBuild) {
             $message .= ' from staging build';
-        }
-        if ($devBuild) {
-            $message .= ' from dev build';
         }
         if ($versionOverride) {
             $message .= ' to version ' . $versionOverride;
@@ -131,7 +144,13 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     public function warmUp($cacheDir)
     {
         try {
-            $this->writeIndexFile($cacheDir, WebIndexFromJson::PRODUCTION, null);
+            $version = false;
+            $releaseVersion = $this->config->get('frontend_release_version');
+            $keepFrontendUpdated = $this->config->get('keep_frontend_updated');
+            if (!$keepFrontendUpdated) {
+                $version = $releaseVersion;
+            }
+            $this->downloadAndExtractArchive(self::PRODUCTION, $version);
         } catch (\Exception $e) {
             if ($this->environment === 'prod') {
                 throw new \Exception(
@@ -139,8 +158,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                     $e->getMessage()
                 );
             }
-
-            print "Unable to load frontend.  Please run ilios:maintenance:update-frontend. \n";
+            print "Unable to load frontend.  Please run ilios:maintenance:update-frontend again. \n";
         }
     }
 
@@ -153,25 +171,30 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     }
 
     /**
-     * @param string $cacheDir
      * @param string $environment
-     * @param string $version
+     * @param string|bool $versionOverride
      *
      * @throws \Exception
      */
-    protected function writeIndexFile($cacheDir, $environment, $version)
+    protected function downloadAndExtractArchive($environment = 'prod', $versionOverride = false)
     {
-        $releaseVersion = $this->config->get('frontend_release_version');
-        $keepFrontendUpdated = $this->config->get('keep_frontend_updated');
-        if (!$keepFrontendUpdated) {
-            $version = $releaseVersion;
+        $fileName = WebIndexFromJson::API_VERSION . '/' . self::ARCHIVE_FILE_NAME;
+        if ($versionOverride) {
+            $fileName .= ':' . $versionOverride;
         }
-
-        $contents = $this->builder->getIndex($environment, $version);
-        if (!$contents) {
-            throw new \Exception('Unable to build the index file');
+        $url = self::PRODUCTION_CDN_ASSET_DOMAIN;
+        if ($environment === self::STAGING) {
+            $url = self::STAGING_CDN_ASSET_DOMAIN;
         }
+        $string = $this->fetch->get($url . $fileName);
+        $archiveDir = $this->temporaryFileStorePath;
+        $archivePath = $archiveDir . '/' . self::ARCHIVE_FILE_NAME;
+        $this->fs->dumpFile($archivePath, $string);
 
-        $this->fs->dumpFile($cacheDir . '/' . self::CACHE_FILE_NAME, $contents);
+        $archive = $this->zippy->open($archivePath);
+        $archive->extract($archiveDir);
+        $frontendPath = $this->cacheDir . self::FRONTEND_DIRECTORY;
+        $this->fs->remove($frontendPath);
+        $this->fs->rename($archiveDir . self::UNPACKED_DIRECTORY, $frontendPath);
     }
 }

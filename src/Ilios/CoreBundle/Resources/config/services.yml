@@ -88,6 +88,9 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 256 }
 
+    Alchemy\Zippy\Zippy:
+        factory: ['Alchemy\Zippy\Zippy', 'load']
+
     Ilios\CoreBundle\Entity\Manager\AlertManager:
         public: true
         arguments:

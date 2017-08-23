@@ -11,6 +11,7 @@ services:
     Ilios\CliBundle\Command\UpdateFrontendCommand:
         arguments:
             $kernelCacheDir: '%kernel.cache_dir%'
+            $kernelProjectDir: '%kernel.project_dir%'
             $environment: '%kernel.environment%'
     Ilios\CliBundle\Command\UpdateServiceWorkerCommand:
         arguments:

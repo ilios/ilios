@@ -29,6 +29,8 @@ framework:
     assets: ~
     php_errors:
       log: true
+    web_link:
+      enabled: true
 
 # Twig Configuration
 twig:
