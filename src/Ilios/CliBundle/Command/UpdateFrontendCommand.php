@@ -5,7 +5,6 @@ namespace Ilios\CliBundle\Command;
 use Alchemy\Zippy\Zippy;
 use Ilios\CoreBundle\Service\Config;
 use Ilios\CoreBundle\Service\Fetch;
-use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -69,6 +68,11 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     /**
      * @var string
      */
+    protected $apiVersion;
+
+    /**
+     * @var string
+     */
     protected $environment;
 
     public function __construct(
@@ -78,6 +82,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         Zippy $zippy,
         $kernelCacheDir,
         $kernelProjectDir,
+        $apiVersion,
         $environment
     ) {
         $this->fetch = $fetch;
@@ -85,6 +90,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->config = $config;
         $this->zippy = $zippy;
         $this->cacheDir = $kernelCacheDir;
+        $this->apiVersion = $apiVersion;
         $this->environment = $environment;
 
         $this->temporaryFileStorePath = $kernelProjectDir . '/var/tmp/frontend-update-files';
@@ -178,7 +184,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
      */
     protected function downloadAndExtractArchive($environment = 'prod', $versionOverride = false)
     {
-        $fileName = WebIndexFromJson::API_VERSION . '/' . self::ARCHIVE_FILE_NAME;
+        $fileName = $this->apiVersion . '/' . self::ARCHIVE_FILE_NAME;
         if ($versionOverride) {
             $fileName .= ':' . $versionOverride;
         }

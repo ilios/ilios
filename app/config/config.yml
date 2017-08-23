@@ -2,6 +2,9 @@ imports:
     - { resource: parameters.yml }
     - { resource: services.yml }
 
+parameters:
+    ilios_api_version: v1.23
+
 framework:
     #esi:             ~
     #translator:      { fallbacks: ['%locale%'] }

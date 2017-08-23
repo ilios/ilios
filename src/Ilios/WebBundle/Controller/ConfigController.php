@@ -30,7 +30,7 @@ class ConfigController extends Controller
             $configuration['userSearchType'] = 'local';
         }
         $configuration['maxUploadSize'] = UploadedFile::getMaxFilesize();
-        $configuration['apiVersion'] = WebIndexFromJson::API_VERSION;
+        $configuration['apiVersion'] = $this->container->getParameter('ilios_api_version');
 
         $configuration['trackingEnabled'] = $config->get('enable_tracking');
         if ($configuration['trackingEnabled']) {

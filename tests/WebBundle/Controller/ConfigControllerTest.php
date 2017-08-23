@@ -36,13 +36,14 @@ class ConfigControllerTest extends WebTestCase
         $this->assertArrayHasKey('maxUploadSize', $data);
         $this->assertGreaterThan(0, $data['maxUploadSize']);
         unset($data['maxUploadSize']);
+        $container = $client->getContainer();
 
         $this->assertEquals(
             array(
                 'type' => 'form',
                 'locale' => 'en',
                 'userSearchType' => 'local',
-                'apiVersion' => WebIndexFromJson::API_VERSION,
+                'apiVersion' => $container->getParameter('ilios_api_version'),
                 'trackingEnabled' => false,
             ),
             $data
@@ -66,13 +67,14 @@ class ConfigControllerTest extends WebTestCase
         $this->assertArrayHasKey('maxUploadSize', $data);
         $this->assertGreaterThan(0, $data['maxUploadSize']);
         unset($data['maxUploadSize']);
+        $container = $client->getContainer();
 
         $this->assertEquals(
             array(
                 'type' => 'form',
                 'locale' => 'en',
                 'userSearchType' => 'local',
-                'apiVersion' => WebIndexFromJson::API_VERSION,
+                'apiVersion' => $container->getParameter('ilios_api_version'),
                 'trackingEnabled' => true,
                 'trackingCode' => '123-code!',
             ),

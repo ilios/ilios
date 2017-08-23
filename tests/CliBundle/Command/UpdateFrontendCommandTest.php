@@ -7,7 +7,6 @@ use Ilios\CliBundle\Command\UpdateFrontendCommand;
 use Ilios\CoreBundle\Service\Config;
 use Ilios\CoreBundle\Service\Fetch;
 use Ilios\CoreBundle\Service\Filesystem;
-use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
@@ -18,6 +17,7 @@ class UpdateFrontendCommandTest extends TestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:update-frontend';
+    const TEST_API_VERSION = '33.14-test';
     
     protected $commandTester;
     protected $fetch;
@@ -54,6 +54,7 @@ class UpdateFrontendCommandTest extends TestCase
             $this->zippy,
             $this->fakeCacheFileDir,
             $this->fakeProjectFileDir,
+            self::TEST_API_VERSION,
             'prod'
         );
         $application = new Application();
@@ -79,7 +80,7 @@ class UpdateFrontendCommandTest extends TestCase
     
     public function testExecute()
     {
-        $fileName = WebIndexFromJson::API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+        $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
         $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::PRODUCTION_CDN_ASSET_DOMAIN . $fileName)
             ->once()->andReturn('ARCHIVE_FILE');
 
@@ -109,7 +110,7 @@ class UpdateFrontendCommandTest extends TestCase
 
     public function testExecuteStagingBuild()
     {
-        $fileName = WebIndexFromJson::API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+        $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
         $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::STAGING_CDN_ASSET_DOMAIN . $fileName)
             ->once()->andReturn('ARCHIVE_FILE');
 
@@ -141,7 +142,7 @@ class UpdateFrontendCommandTest extends TestCase
 
     public function testExecuteVersionBuild()
     {
-        $fileName = WebIndexFromJson::API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME . ':foo.bar';
+        $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME . ':foo.bar';
         $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::PRODUCTION_CDN_ASSET_DOMAIN . $fileName)
             ->once()->andReturn('ARCHIVE_FILE');
 

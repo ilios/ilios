@@ -16,4 +16,5 @@ services:
     Ilios\CliBundle\Command\UpdateServiceWorkerCommand:
         arguments:
             $kernelCacheDir: '%kernel.cache_dir%'
+            $apiVersion: '%ilios_api_version%'
             $environment: '%kernel.environment%'

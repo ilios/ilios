@@ -16,7 +16,6 @@ use Symfony\Component\Templating\EngineInterface;
 class SwaggerDocBuilder
 {
     const CACHE_NAME = 'swagger-doc-builder.yaml';
-
     /**
      * @var string
      */
@@ -33,6 +32,11 @@ class SwaggerDocBuilder
     protected $templatingEngine;
 
     /**
+     * @var string
+     */
+    protected $apiVersion;
+
+    /**
      * @var Router
      */
     protected $router;
@@ -40,12 +44,14 @@ class SwaggerDocBuilder
     public function __construct(
         KernelInterface $kernel,
         EngineInterface $templatingEngine,
-        Router $router
+        Router $router,
+        $apiVersion
     ) {
         $this->swaggerDir = $kernel->locateResource("@IliosApiBundle/Resources/swagger");
         $this->environment = $kernel->getEnvironment();
         $this->templatingEngine = $templatingEngine;
         $this->router = $router;
+        $this->apiVersion = $apiVersion;
     }
 
     public function getDocs(Request $request)
@@ -116,7 +122,7 @@ class SwaggerDocBuilder
         $arr['info'] = [
             'title' => 'Ilios API Documentation',
             'description' => $this->getDescription(),
-            'version' => WebIndexFromJson::API_VERSION,
+            'version' => $this->apiVersion,
         ];
 
         $arr['host'] = $request->getHttpHost();
