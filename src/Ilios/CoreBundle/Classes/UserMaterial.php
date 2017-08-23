@@ -144,5 +144,11 @@ class UserMaterial
      */
     public $endDate;
 
+    /**
+     * @var bool
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public $isBlanked;
 
 }
