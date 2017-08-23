@@ -148,7 +148,7 @@ httplug:
             plugins: ['httplug.plugin.logger']
             config:
                 verify: true
-                timeout: 2
+                timeout: 10
 
 happyr_google_analytics:
     tracking_id: '%ilios_core.tracking_code%'
