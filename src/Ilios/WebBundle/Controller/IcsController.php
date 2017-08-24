@@ -213,7 +213,9 @@ class IcsController extends Controller
 
         $text = $this->purify($learningMaterial->getTitle()) . ' ';
 
-        if (! $blankThis) {
+        if ($blankThis) {
+            $text .= '(Timed Release)';
+        } else {
             if ($citation = $learningMaterial->getCitation()) {
                 $text .= $this->purify($citation);
             } elseif ($link = $learningMaterial->getLink()) {
