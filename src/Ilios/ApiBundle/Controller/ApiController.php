@@ -411,7 +411,7 @@ class ApiController extends Controller implements ApiControllerInterface
     {
         $parameters = [
             'offset' => $request->query->get('offset'),
-            'limit' => !is_null($request->query->get('limit')) ? $request->query->get('limit') : 20,
+            'limit' => $request->query->get('limit'),
             'orderBy' => $request->query->get('order_by'),
             'criteria' => []
         ];

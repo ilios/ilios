@@ -18,7 +18,6 @@
         description: Limit Results
         required: false
         type: integer
-        default: 20
       - name: order_by
         in: query
         description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
