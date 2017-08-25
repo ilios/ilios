@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\CoreBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +59,13 @@ class UsermaterialController extends AbstractController
 
         $materials = $manager->findMaterialsForUser($user->getId(), $criteria);
 
+        //Un-privileged users get less data
+        if (!$user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+            $now = new \DateTime();
+            $this->clearTimedMaterials($materials, $now);
+        }
+
+
         //If there are no matches return an empty array
         $response['userMaterials'] = $materials ? array_values($materials) : [];
         return new Response(
@@ -65,5 +73,15 @@ class UsermaterialController extends AbstractController
             Response::HTTP_OK,
             ['Content-type' => 'application/json']
         );
+    }
+
+    /**
+     * @param UserMaterial[] $materials
+     * @param \DateTime $dateTime
+     */
+    protected function clearTimedMaterials(array $materials, \DateTime $dateTime) {
+        foreach ($materials as $material) {
+            $material->clearTimedMaterial($dateTime);
+        }
     }
 }
