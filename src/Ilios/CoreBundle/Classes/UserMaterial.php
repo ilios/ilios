@@ -12,6 +12,22 @@ use Ilios\ApiBundle\Annotation as IS;
 class UserMaterial
 {
     /**
+     * A list of 'do not scrub' properties.
+     * @var array
+     */
+    protected static $doNotScrubProps = array(
+        'id',
+        'title',
+        'course',
+        'courseTitle',
+        'session',
+        'sessionTitle',
+        'startDate',
+        'endDate',
+        'isBlanked'
+    );
+
+    /**
      * @var int
      * @IS\Expose
      * @IS\Type("string")
@@ -151,4 +167,34 @@ class UserMaterial
      */
     public $isBlanked;
 
+
+    /**
+     * Blanks out properties of timed learning materials that are outside their given
+     * timed-release window (relative to the given date-time).
+     * And sets the isBlanked flag to TRUE, as applicable.
+     *
+     * @param \DateTime $dateTime
+     */
+    public function clearTimedMaterial(\DateTime $dateTime) {
+        $startDate = $this->startDate;
+        $endDate = $this->endDate;
+        $blankThis = false;
+        if (isset($startDate) && isset($endDate)) {
+            $blankThis = ($startDate > $dateTime || $dateTime > $endDate);
+        } elseif (isset($startDate)) {
+            $blankThis = ($startDate > $dateTime);
+        } elseif (isset($enDate)) {
+            $blankThis = ($dateTime > $endDate);
+        }
+
+        if ($blankThis) {
+            $this->isBlanked = true;
+            $props = array_keys(get_object_vars($this));
+            foreach($props as $prop) {
+                if (! in_array($prop, self::$doNotScrubProps)) {
+                    $this->$prop = null;
+                }
+            }
+        }
+    }
 }
