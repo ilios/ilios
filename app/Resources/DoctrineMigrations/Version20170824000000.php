@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Copy configuration from parameters.yml into the DB and update file with new keys
  */
-class Version20170716000000 extends AbstractMigration
+class Version20170824000000 extends AbstractMigration
 {
     /**
      * @param Schema $schema
