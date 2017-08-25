@@ -73,4 +73,19 @@ class SessionLearningMaterialTest extends AbstractEndpointTest
             'position' => [[1], ['position' => 0]],
         ];
     }
+
+    protected function compareData(array $expected, array $result)
+    {
+        if (is_null($expected['startDate'])) {
+            $this->assertFalse(array_key_exists('startDate', $result));
+            unset($expected['startDate']);
+        }
+
+        if (is_null($expected['endDate'])) {
+            $this->assertFalse(array_key_exists('endDate', $result));
+            unset($expected['endDate']);
+        }
+
+        parent::compareData($expected, $result);
+    }
 }
