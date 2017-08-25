@@ -5,6 +5,7 @@ namespace Ilios\WebBundle\Controller;
 use Ilios\CoreBundle\Service\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Ilios\CliBundle\Command\UpdateFrontendCommand;
 use Symfony\Component\Templating\EngineInterface;
@@ -39,7 +40,7 @@ class IndexController extends Controller
      *
      * @return Response
      */
-    public function getAction($fileName)
+    public function getAction(Request $request, $fileName)
     {
         if ('index.html' === $fileName || empty($fileName)) {
             return $this->getIndex();
@@ -53,17 +54,22 @@ class IndexController extends Controller
         }
 
         $response = new BinaryFileResponse($path);
-        $info = pathinfo($path);
-        if ($info['extension'] === 'css') {
-            $response->headers->set('Content-Type', 'text/css');
+        $response->setAutoLastModified();
+        $response->setAutoEtag();
+        // checks if the file has been modified and if not blanks out the response and sends a 304
+        $response->isNotModified($request);
+
+        $file = $response->getFile();
+        $extension = $file->getExtension();
+        //assets which are gzipped by the ember build process
+        if (in_array($extension, ['css', 'js'])) {
             $response->headers->set('Content-Encoding', 'gzip');
-        }
-        if ($info['extension'] === 'js') {
-            $response->headers->set('Content-Type', 'text/javascript');
-            $response->headers->set('Content-Encoding', 'gzip');
-        }
-        if ($info['extension'] === 'html') {
-            $response->headers->set('Content-Type', 'text/html');
+            if ($extension === 'css') {
+                $response->headers->set('Content-Type', 'text/css');
+            }
+            if ($extension === 'js') {
+                $response->headers->set('Content-Type', 'text/javascript');
+            }
         }
 
         return $response;
@@ -118,7 +124,7 @@ class IndexController extends Controller
      */
     public function extractOptions($path)
     {
-        $contents = file_get_contents($path);
+        $contents = $this->fs->readFile($path);
         $json = json_decode($contents);
 
         $metas = array_map(function ($obj) {
