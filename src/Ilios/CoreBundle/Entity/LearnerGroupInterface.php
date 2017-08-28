@@ -51,7 +51,7 @@ interface LearnerGroupInterface extends
     /**
      * @param LearnerGroupInterface $parent
      */
-    public function setParent(LearnerGroupInterface $parent);
+    public function setParent(LearnerGroupInterface $parent = null);
 
     /**
      * @return LearnerGroupInterface

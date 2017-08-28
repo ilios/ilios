@@ -42,6 +42,7 @@ class LearnerGroupTest extends AbstractEndpointTest
             'location' => ['location', $this->getFaker()->text(100)],
             'cohort' => ['cohort', 3],
             'parent' => ['parent', 2],
+            'removeParent' => ['parent', null],
             'children' => ['children', [1], $skipped = true],
             'ilmSessions' => ['ilmSessions', [2]],
             'offerings' => ['offerings', [2]],
