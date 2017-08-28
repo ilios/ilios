@@ -28,10 +28,4 @@ doctrine:
                 profiling: false
 
 liip_functional_test:
-    cache_sqlite_db: true
-
-ilios_core:
-    ldap_directory_url: null
-
-ilios_authentication:
-    type: "form"
+  cache_sqlite_db: true

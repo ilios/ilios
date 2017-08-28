@@ -23,6 +23,7 @@ use Ilios\CoreBundle\Entity\Session;
 use Ilios\CoreBundle\Entity\SessionType;
 use Ilios\CoreBundle\Entity\User;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -68,12 +69,13 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->offeringManager = m::mock(OfferingManager::class);
         $this->alertManager = m::mock(AlertManager::class);
         $this->auditLogManager = m::mock(AuditLogManager::class);
+        $this->timezone = 'UTC';
+        $config = m::mock(Config::class);
+        $config->shouldReceive('get')->with('timezone')->andReturn($this->timezone);
 
         $kernel = $this->createKernel();
         $kernel->boot();
         $application = new Application($kernel);
-
-        $this->timezone = $kernel->getContainer()->getParameter('ilios_core.timezone');
 
         $command = new SendChangeAlertsCommand(
             $this->alertManager,
@@ -81,7 +83,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
             $this->offeringManager,
             $kernel->getContainer()->get('templating'),
             $kernel->getContainer()->get('mailer'),
-            $this->timezone
+            $config
         );
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);

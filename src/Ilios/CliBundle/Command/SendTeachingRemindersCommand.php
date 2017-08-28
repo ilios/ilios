@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,27 +47,27 @@ class SendTeachingRemindersCommand extends Command
     protected $mailer;
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $timezone;
+    protected $config;
 
     /**
      * @param \Ilios\CoreBundle\Entity\Manager\OfferingManager $offeringManager
      * @param \Symfony\Component\Templating\EngineInterface
      * @param \Swift_Mailer $mailer
-     * @param string $timezone
+     * @param Config $config
      */
     public function __construct(
         OfferingManager $offeringManager,
         EngineInterface $templatingEngine,
         \Swift_Mailer $mailer,
-        $timezone
+        Config $config
     ) {
         parent::__construct();
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
         $this->mailer = $mailer;
-        $this->timezone = $timezone;
+        $this->config = $config;
     }
 
     /**
@@ -171,6 +172,8 @@ class SendTeachingRemindersCommand extends Command
             $template = $templateCache[$school->getId()];
 
             $instructors = $offering->getAllInstructors()->toArray();
+            $timezone = $this->config->get('timezone');
+
 
             /** @var UserInterface $instructor */
             foreach ($instructors as $instructor) {
@@ -179,7 +182,7 @@ class SendTeachingRemindersCommand extends Command
                     'base_url' => $baseUrl,
                     'instructor' => $instructor,
                     'offering' => $offering,
-                    'timezone' => $this->timezone
+                    'timezone' => $timezone
                 ]);
                 $message = \Swift_Message::newInstance()
                     ->setSubject($subject)

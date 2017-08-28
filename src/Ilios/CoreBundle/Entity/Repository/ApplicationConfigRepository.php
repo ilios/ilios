@@ -2,8 +2,10 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use Ilios\CoreBundle\Entity\ApplicationConfig;
 use Ilios\CoreBundle\Entity\DTO\ApplicationConfigDTO;
 
 /**
@@ -50,6 +52,27 @@ class ApplicationConfigRepository extends EntityRepository implements DTOReposit
         return $applicationConfigDTOs;
     }
 
+    /**
+     * Get a value from the application_config table by name
+     *
+     * @param $name
+     * @return mixed|null
+     */
+    public function getValue($name)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('x.value')->from('IliosCoreBundle:ApplicationConfig', 'x')
+            ->where($qb->expr()->eq('x.name', ':name'))
+            ->setParameter('name', $name);
+
+        try {
+            $result = $qb->getQuery()->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            $result = null;
+        }
+
+        return $result;
+    }
 
     /**
      * @param QueryBuilder $qb

@@ -1,41 +1,14 @@
 # Parameters for use on travis CI
 parameters:
-    database_driver: pdo_mysql
-    database_host: 127.0.0.1
-    database_port: null
-    database_name: ilios
-    database_user: travis
-    database_password: ~
-    database_mysql_version: 5.5
-    mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: null
-    mailer_password: null
-    locale: en
-    secret: ThisTokenIsNotSoSecretChangeIt
-    authentication_type: form
-    legacy_password_salt: null
-    file_system_storage_path: /tmp
-
-    institution_domain: "loremipsum.edu"
-    supporting_link: null
-
-    ldap_authentication_host: null
-    ldap_authentication_port: null
-    ldap_authentication_bind_template: null
-    ldap_directory_url: null
-    ldap_directory_user: null
-    ldap_directory_password: null
-    ldap_directory_search_base: null
-    ldap_directory_campus_id_property: null
-    ldap_directory_username_property: null
-    shibboleth_authentication_login_path: null
-    shibboleth_authentication_logout_path: null
-    shibboleth_authentication_user_id_attribute: null
-    forceProtocol: http
-    keep_frontend_updated: true
-    cas_authentication_server: null
-    cas_authentication_version: null
-    cas_authentication_certificate_path: null
-    enable_tracking: false
-    tracking_code: UA-XXXXXXXX-1
+    env(ILIOS_DATABASE_HOST): 127.0.0.1
+    env(ILIOS_DATABASE_PORT): null
+    env(ILIOS_DATABASE_NAME): ilios
+    env(ILIOS_DATABASE_USER): travis
+    env(ILIOS_DATABASE_PASSWORD): ~
+    env(ILIOS_DATABASE_MYSQL_VERSION): 5.5
+    env(ILIOS_MAILER_TRANSPORT): smtp
+    env(ILIOS_MAILER_HOST): 127.0.0.1
+    env(ILIOS_MAILER_USER): null
+    env(ILIOS_MAILER_PASSWORD): null
+    env(ILIOS_LOCALE): en
+    env(ILIOS_SECRET): ThisTokenIsNotSoSecretChangeIt

@@ -1,6 +1,7 @@
 <?php
 namespace Tests\CoreBundle\Service;
 
+use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use \Symfony\Component\HttpFoundation\File\File;
@@ -10,6 +11,7 @@ use Tests\CoreBundle\TestCase;
 
 class IliosFileSystemTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     /**
      *
      * @var IliosFileSystem
@@ -21,6 +23,11 @@ class IliosFileSystemTest extends TestCase
      * @var SymfonyFileSystem
      */
     private $mockFileSystem;
+
+    /**
+     * @var Config
+     */
+    private $config;
     
     /**
      * @var string
@@ -37,8 +44,10 @@ class IliosFileSystemTest extends TestCase
 
         $this->mockFileSystem = m::mock(SymfonyFileSystem::class);
         $this->mockFileSystem->shouldReceive('exists')->with($this->fakeTestFileDir)->andReturn(true);
-        
-        $this->iliosFileSystem = new IliosFileSystem($this->mockFileSystem, $this->fakeTestFileDir);
+
+        $this->config = m::mock(Config::class);
+        $this->config->shouldReceive('get')->with('file_system_storage_path')->andReturn($this->fakeTestFileDir);
+        $this->iliosFileSystem = new IliosFileSystem($this->mockFileSystem, $this->config);
     }
 
     public function tearDown()

@@ -1,0 +1,8 @@
+`id`, `name`,`value`
+1,authentication_type,form
+2,legacy_password_salt,null
+3,file_system_storage_path,/CHANGE-ME
+4,timezone,America/Los_Angeles
+5,keep_frontend_updated,true
+6,enable_tracking,false
+7,requireSecureConnection,true

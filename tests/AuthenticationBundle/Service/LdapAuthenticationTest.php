@@ -1,50 +1,67 @@
 <?php
 namespace Tests\AuthenticationBundle\Service;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use Ilios\CoreBundle\Entity\AuthenticationInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 
 use Ilios\AuthenticationBundle\Service\LdapAuthentication;
+use Symfony\Component\HttpFoundation\Request;
 
 class LdapAuthenticationTest extends TestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    
+
+    protected $authManager;
+    protected $jwtManager;
+    protected $config;
+    protected $obj;
+
+    public function setup()
+    {
+        $this->authManager = m::mock(AuthenticationManager::class);
+        $this->jwtManager = m::mock(JsonWebTokenManager::class);
+        $this->config = m::mock(Config::class);
+        $this->config->shouldReceive('get')->with('ldap_authentication_host')->andReturn('host');
+        $this->config->shouldReceive('get')->with('ldap_authentication_port')->andReturn('port');
+        $this->config->shouldReceive('get')->with('ldap_authentication_bind_template')->andReturn('bindTemplate');
+        $this->obj = new LdapAuthentication(
+            $this->authManager,
+            $this->jwtManager,
+            $this->config
+        );
+    }
+
+    public function tearDown()
+    {
+        unset($this->obj);
+        unset($this->authManager);
+        unset($this->jwtManager);
+        unset($this->config);
+    }
+
+
     public function testConstructor()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new LdapAuthentication(
-            $authManager,
-            $jwtManager,
-            'host',
-            'port',
-            'bindTemplate'
-        );
-        $this->assertTrue($obj instanceof LdapAuthentication);
+        $this->assertTrue($this->obj instanceof LdapAuthentication);
     }
     
     public function testMissingValues()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new LdapAuthentication(
-            $authManager,
-            $jwtManager,
-            'host',
-            'port',
-            'bindTemplate'
-        );
         $arr = [
             'username' => null,
             'password' => null
         ];
 
-        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
-        $result = $obj->login($request);
+        $result = $this->obj->login($request);
         
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
@@ -56,26 +73,17 @@ class LdapAuthenticationTest extends TestCase
     
     public function testBadUserName()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new LdapAuthentication(
-            $authManager,
-            $jwtManager,
-            'host',
-            'port',
-            'bindTemplate'
-        );
         $arr = [
             'username' => 'abc',
             'password' => '123'
         ];
-
-        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
-        $authManager->shouldReceive('findAuthenticationByUsername')
+
+        $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn(null);
-        $result = $obj->login($request);
-        
+        $result = $this->obj->login($request);
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
@@ -85,18 +93,12 @@ class LdapAuthenticationTest extends TestCase
     
     public function testBadPassword()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        //partially mock so we can override checkLdapPassword
-        //and not deal with php global ldap functions
         $obj = m::mock(
-            'Ilios\AuthenticationBundle\Service\LdapAuthentication[checkLdapPassword]',
+            LdapAuthentication::class . '[checkLdapPassword]',
             array(
-                $authManager,
-                $jwtManager,
-                'host',
-                'port',
-                'bindTemplate'
+                $this->authManager,
+                $this->jwtManager,
+                $this->config
             )
         );
         $obj->shouldReceive('checkLdapPassword')->once()->andReturn(false);
@@ -105,13 +107,12 @@ class LdapAuthenticationTest extends TestCase
             'password' => '123'
         ];
 
-        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
-        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
-            ->shouldReceive('isEnabled')->andReturn(true)->mock();
-        $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $sessionUser = m::mock(SessionUserInterface::class)->shouldReceive('isEnabled')->andReturn(true)->mock();
+        $authenticationEntity = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
-        $authManager->shouldReceive('findAuthenticationByUsername')
+        $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         
         $result = $obj->login($request);
@@ -125,35 +126,20 @@ class LdapAuthenticationTest extends TestCase
 
     public function testDisabledUser()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        //partially mock so we can override checkLdapPassword
-        //and not deal with php global ldap functions
-        $obj = m::mock(
-            'Ilios\AuthenticationBundle\Service\LdapAuthentication[checkLdapPassword]',
-            array(
-                $authManager,
-                $jwtManager,
-                'host',
-                'port',
-                'bindTemplate'
-            )
-        );
         $arr = [
             'username' => 'abc',
             'password' => '123'
         ];
 
-        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
-        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
-            ->shouldReceive('isEnabled')->andReturn(false)->mock();
-        $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $sessionUser = m::mock(SessionUserInterface::class)->shouldReceive('isEnabled')->andReturn(false)->mock();
+        $authenticationEntity = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
-        $authManager->shouldReceive('findAuthenticationByUsername')
+        $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
 
-        $result = $obj->login($request);
+        $result = $this->obj->login($request);
 
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
@@ -164,18 +150,14 @@ class LdapAuthenticationTest extends TestCase
     
     public function testSuccess()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         //partially mock so we can override checkLdapPassword
         //and not deal with php global ldap functions
         $obj = m::mock(
-            'Ilios\AuthenticationBundle\Service\LdapAuthentication[checkLdapPassword]',
+            LdapAuthentication::class . '[checkLdapPassword]',
             array(
-                $authManager,
-                $jwtManager,
-                'host',
-                'port',
-                'bindTemplate'
+                $this->authManager,
+                $this->jwtManager,
+                $this->config
             )
         );
         $obj->shouldReceive('checkLdapPassword')->once()->andReturn(true);
@@ -184,18 +166,16 @@ class LdapAuthenticationTest extends TestCase
             'password' => '123'
         ];
 
-        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
-        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
-        $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authenticationEntity = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
-        $authManager->shouldReceive('findAuthenticationByUsername')
+        $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
-        $newToken = m::mock('Ilios\AuthenticationBundle\Jwt\Token')
-            ->shouldReceive('getJwt')->andReturn('jwt123Test')->mock();
-        $jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
+        $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
 
         $result = $obj->login($request);
         

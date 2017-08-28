@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
 use Ilios\CoreBundle\Entity\Manager\AlertManager;
 use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -52,9 +53,9 @@ class SendChangeAlertsCommand extends Command
     protected $mailer;
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $timezone;
+    protected $config;
 
     /**
      * @param AlertManager $alertManager
@@ -62,7 +63,7 @@ class SendChangeAlertsCommand extends Command
      * @param OfferingManager $offeringManager
      * @param EngineInterface $templatingEngine
      * @param \Swift_Mailer $mailer
-     * @param string $timezone
+     * @param Config $config
      */
     public function __construct(
         AlertManager $alertManager,
@@ -70,7 +71,7 @@ class SendChangeAlertsCommand extends Command
         OfferingManager $offeringManager,
         EngineInterface $templatingEngine,
         \Swift_Mailer $mailer,
-        $timezone
+        Config $config
     ) {
         parent::__construct();
         $this->alertManager = $alertManager;
@@ -78,7 +79,7 @@ class SendChangeAlertsCommand extends Command
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
         $this->mailer = $mailer;
-        $this->timezone = $timezone;
+        $this->config = $config;
     }
 
     /**
@@ -175,11 +176,13 @@ class SendChangeAlertsCommand extends Command
                 $templateCache[$school->getId()] = $template;
             }
             $template = $templateCache[$school->getId()];
+            $timezone = $this->config->get('timezone');
+
             $messageBody = $this->templatingEngine->render($template, [
                 'alert' => $alert,
                 'history' => $history,
                 'offering' => $offering,
-                'timezone' => $this->timezone,
+                'timezone' => $timezone,
             ]);
 
             $message = \Swift_Message::newInstance()

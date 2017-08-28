@@ -1,22 +1,18 @@
 IliosAuthenticationBundle:
     resource: '@IliosAuthenticationBundle/Resources/config/routing.yml'
     prefix:   /auth
-    schemes:  ['%forceProtocol%']
 
 IliosApiBundle:
     resource: '@IliosApiBundle/Resources/config/routing.yml'
     prefix:   /api
-    schemes:  ['%forceProtocol%']
 
 IliosCoreBundle:
     resource: '@IliosCoreBundle/Resources/config/routing.yml'
     prefix:   /api
-    schemes:  ['%forceProtocol%']
     
 ilios_core_uploadfile:
     path: /upload
     defaults:  { _controller: IliosCoreBundle:Upload:upload }
-    schemes:  ['%forceProtocol%']
 
 ilios_core_downloadlearningmaterial:
     path:     /lm/{token}
@@ -24,7 +20,6 @@ ilios_core_downloadlearningmaterial:
         _controller: IliosCoreBundle:Download:learningMaterial
     requirements:
         token: '^[a-zA-Z0-9]{64}$'
-    schemes:  ['%forceProtocol%']
 
 ilios_core_downloadcurriculuminventoryreport:
     path:     /ci-report-dl/{token}
@@ -32,9 +27,7 @@ ilios_core_downloadcurriculuminventoryreport:
         _controller: IliosCoreBundle:CurriculumInventoryDownload:get
     requirements:
         token: '^[a-zA-Z0-9]{64}$'
-    schemes:  ['%forceProtocol%']
 
 ilios_web:
     resource: '@IliosWebBundle/Resources/config/routing.yml'
     prefix:   /
-    schemes:  ['%forceProtocol%']

@@ -148,4 +148,15 @@ class FormAuthentication implements AuthenticationInterface
             $this->authManager->update($authEntity);
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPublicConfigurationInformation(Request $request)
+    {
+        $configuration = [];
+        $configuration['type'] = 'form';
+
+        return $configuration;
+    }
 }

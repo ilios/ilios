@@ -14,3 +14,4 @@ phpunit.xml.dist
 docker-composer.yml
 Dockerfile
 app/config/parameters.yml
+.env

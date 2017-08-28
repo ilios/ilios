@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
+use Ilios\CoreBundle\Service\Config;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,6 +40,11 @@ class ShibbolethAuthentication implements AuthenticationInterface
     /**
      * @var String
      */
+    protected $loginPath;
+
+    /**
+     * @var String
+     */
     protected $userIdAttribute;
 
     /**
@@ -46,23 +52,22 @@ class ShibbolethAuthentication implements AuthenticationInterface
      * @param AuthenticationManager $authManager
      * @param JsonWebTokenManager $jwtManager
      * @param LoggerInterface $logger
-     * @param String $logoutPath
-     * @param String $userIdAttribute
+     * @param Config $config
      */
     public function __construct(
         AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger,
-        $logoutPath,
-        $userIdAttribute
+        Config $config
     ) {
         $this->authManager = $authManager;
         $this->jwtManager = $jwtManager;
         $this->logger = $logger;
-        $this->logoutPath = $logoutPath;
-        $this->userIdAttribute = $userIdAttribute;
+        $this->logoutPath = $config->get('shibboleth_authentication_logout_path');
+        $this->loginPath = $config->get('shibboleth_authentication_login_path');
+        $this->userIdAttribute = $config->get('shibboleth_authentication_user_id_attribute');
     }
-    
+
     /**
      * Authenticate a user from shibboleth
      *
@@ -142,5 +147,18 @@ class ShibbolethAuthentication implements AuthenticationInterface
             'logoutUrl' => $logoutUrl
 
         ], JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPublicConfigurationInformation(Request $request)
+    {
+        $configuration = [];
+        $configuration['type'] = 'shibboleth';
+        $url = $request->getSchemeAndHttpHost();
+        $configuration['loginUrl'] = $url . $this->loginPath;
+
+        return $configuration;
     }
 }

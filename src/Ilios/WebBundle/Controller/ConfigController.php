@@ -2,7 +2,8 @@
 
 namespace Ilios\WebBundle\Controller;
 
-use Ilios\AuthenticationBundle\Service\CasManager;
+use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
+use Ilios\CoreBundle\Service\Config;
 use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,25 +15,15 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class ConfigController extends Controller
 {
-    public function indexAction(Request $request)
-    {
-        $configuration = [];
-        $authenticationType = $this->container->getParameter('ilios_authentication.type');
+    public function indexAction(
+        Request $request,
+        Config $config,
+        AuthenticationInterface $authenticationSystem
+    ) {
+        $configuration = $authenticationSystem->getPublicConfigurationInformation($request);
+        $configuration['locale'] = $this->container->getParameter('kernel.default_locale');
 
-        $configuration['type'] = $authenticationType;
-        if ($authenticationType == 'shibboleth') {
-            $loginPath = $this->container->getParameter('ilios_authentication.shibboleth.login_path');
-            $url = $request->getSchemeAndHttpHost();
-            $configuration['loginUrl'] = $url . $loginPath;
-        }
-        if ($authenticationType === 'cas') {
-            $cas = $this->container->get(CasManager::class);
-
-            $configuration['casLoginUrl'] = $cas->getLoginUrl();
-        }
-        $configuration['locale'] = $this->container->getParameter('locale');
-
-        $ldapUrl = $this->container->getParameter('ilios_core.ldap.url');
+        $ldapUrl = $config->get('ldap_directory_url');
         if (!empty($ldapUrl)) {
             $configuration['userSearchType'] = 'ldap';
         } else {
@@ -41,9 +32,9 @@ class ConfigController extends Controller
         $configuration['maxUploadSize'] = UploadedFile::getMaxFilesize();
         $configuration['apiVersion'] = WebIndexFromJson::API_VERSION;
 
-        $configuration['trackingEnabled'] = $this->container->getParameter('ilios_core.enable_tracking');
+        $configuration['trackingEnabled'] = $config->get('enable_tracking');
         if ($configuration['trackingEnabled']) {
-            $configuration['trackingCode'] = $this->container->getParameter('ilios_core.tracking_code');
+            $configuration['trackingCode'] = $config->get('tracking_code');
         }
 
         return new JsonResponse(array('config' => $configuration));

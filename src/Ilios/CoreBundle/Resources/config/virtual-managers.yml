@@ -22,10 +22,6 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\AlertChangeType'
-    Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\ApplicationConfig'
     Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:

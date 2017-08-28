@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
 use Ilios\CoreBundle\Entity\ProgramInterface;
+use Ilios\CoreBundle\Service\Config;
 
 /**
  * Curriculum Inventory Exporter.
@@ -42,21 +43,18 @@ class Exporter
     /**
      * @param CurriculumInventoryReportManager $reportManager
      * @param CurriculumInventoryInstitutionManager $institutionManager
-     * @param string $institutionDomain
-     * @param string $supportingLink
+     * @param Config $config
      */
     public function __construct(
         CurriculumInventoryReportManager $reportManager,
         CurriculumInventoryInstitutionManager $institutionManager,
-        $institutionDomain,
-        $supportingLink = ''
+        Config $config
     ) {
         $this->reportManager = $reportManager;
         $this->institutionManager = $institutionManager;
-        $this->institutionDomain = $institutionDomain;
-        $this->supportingLink = $supportingLink;
+        $this->institutionDomain = $config->get('institution_domain');
+        $this->supportingLink = $config->get('supporting_link');
     }
-
 
     /**
      * Retrieves a curriculum inventory in a data structure that lends itself for an easy transformation into

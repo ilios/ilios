@@ -28,9 +28,9 @@ class IliosFileSystem
     const LOCK_FILE_DIRECTORY = 'locks';
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $iliosFileStorePath;
+    protected $config;
     
     /**
      * A filesystem object to work with
@@ -38,13 +38,10 @@ class IliosFileSystem
      */
     protected $fileSystem;
     
-    public function __construct(SymfonyFileSystem $fs, $iliosFileStorePath)
+    public function __construct(SymfonyFileSystem $fs, Config $config)
     {
-        $this->iliosFileStorePath = $iliosFileStorePath;
         $this->fileSystem = $fs;
-        if (!$this->fileSystem->exists($this->iliosFileStorePath)) {
-            $this->fileSystem->mkdir($this->iliosFileStorePath);
-        }
+        $this->config = $config;
     }
     
     /**
@@ -140,7 +137,8 @@ class IliosFileSystem
      */
     protected function getPath($relativePath)
     {
-        return $this->iliosFileStorePath . '/' . $relativePath;
+        $iliosFileStorePath = $this->config->get('file_system_storage_path');
+        return $iliosFileStorePath . '/' . $relativePath;
     }
 
     /**

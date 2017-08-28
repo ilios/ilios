@@ -16,15 +16,11 @@ use Symfony\Component\Templating\EngineInterface;
 class SwaggerDocBuilder
 {
     const CACHE_NAME = 'swagger-doc-builder.yaml';
-    /**
-     * @var string
-     */
-    protected $swaggerPaths;
 
     /**
      * @var string
      */
-    protected $forceProtocol;
+    protected $swaggerPaths;
 
     /**
      * @var string
@@ -44,12 +40,10 @@ class SwaggerDocBuilder
     public function __construct(
         KernelInterface $kernel,
         EngineInterface $templatingEngine,
-        Router $router,
-        $forceProtocol
+        Router $router
     ) {
         $this->swaggerDir = $kernel->locateResource("@IliosApiBundle/Resources/swagger");
         $this->environment = $kernel->getEnvironment();
-        $this->forceProtocol = $forceProtocol;
         $this->templatingEngine = $templatingEngine;
         $this->router = $router;
     }
@@ -126,7 +120,7 @@ class SwaggerDocBuilder
         ];
 
         $arr['host'] = $request->getHttpHost();
-        $arr['schemes'] = [$this->forceProtocol];
+        $arr['schemes'] = ['https'];
         $arr['basePath'] = '/api/v1';
         $arr['produces'] = ['application/json'];
 

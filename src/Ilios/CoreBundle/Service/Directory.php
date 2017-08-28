@@ -10,19 +10,19 @@ class Directory
     protected $ldapManager;
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $ldapCampusIdProperty;
+    protected $config;
 
     /**
      * Constructor
-     * @param LdapManager   $ldapManager
-     * @param string        $ldapCampusIdProperty  injected from configuration
+     * @param LdapManager $ldapManager
+     * @param Config $config
      */
-    public function __construct(LdapManager $ldapManager, $ldapCampusIdProperty)
+    public function __construct(LdapManager $ldapManager, Config $config)
     {
         $this->ldapManager = $ldapManager;
-        $this->ldapCampusIdProperty = $ldapCampusIdProperty;
+        $this->config = $config;
     }
 
     /**
@@ -33,7 +33,9 @@ class Directory
      */
     public function findByCampusId($campusId)
     {
-        $filter = "({$this->ldapCampusIdProperty}={$campusId})";
+        $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
+
+        $filter = "({$ldapCampusIdProperty}={$campusId})";
         $users = $this->ldapManager->search($filter);
         if (count($users)) {
             return $users[0];
@@ -50,9 +52,10 @@ class Directory
      */
     public function findByCampusIds(array $campusIds)
     {
+        $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
         $campusIds = array_unique($campusIds);
-        $filterTerms = array_map(function ($campusId) {
-            return "({$this->ldapCampusIdProperty}={$campusId})";
+        $filterTerms = array_map(function ($campusId) use ($ldapCampusIdProperty) {
+            return "({$ldapCampusIdProperty}={$campusId})";
         }, $campusIds);
         $filterTermsString = implode($filterTerms, '');
         $filter = "(|{$filterTermsString})";
@@ -73,9 +76,10 @@ class Directory
      */
     public function find(array $searchTerms)
     {
-        $filterTerms = array_map(function ($term) {
+        $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
+        $filterTerms = array_map(function ($term) use ($ldapCampusIdProperty) {
             $term = ldap_escape($term, null, LDAP_ESCAPE_FILTER);
-            return "(|(sn={$term}*)(givenname={$term}*)(mail={$term}*)({$this->ldapCampusIdProperty}={$term}*))";
+            return "(|(sn={$term}*)(givenname={$term}*)(mail={$term}*)({$ldapCampusIdProperty}={$term}*))";
         }, $searchTerms);
         $filterTermsString = implode($filterTerms, '');
         $filter = "(&{$filterTermsString})";

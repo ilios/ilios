@@ -53,9 +53,7 @@ class Version20160105002207 extends AbstractMigration
      */
     private function getTimezone()
     {
-        $yaml = new Parser();
-        $config = $yaml->parse(file_get_contents(__DIR__ . '/../../config/parameters.yml'));
-        return new \DateTimeZone($config['parameters']['timezone']);
+        return date_default_timezone_get();
     }
 
     /**

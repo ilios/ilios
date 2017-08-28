@@ -3,35 +3,34 @@ namespace Tests\CoreBundle\Service\CurriculumInventory;
 
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
 use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 use Ilios\CoreBundle\Service\CurriculumInventory\Exporter;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
+
+use Mockery as m;
+
 
 /**
  * Class ExporterTest
  */
 class ExporterTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     /**
      * @covers \Ilios\CoreBundle\Service\CurriculumInventory\Exporter::__construct
      */
     public function testConstructor()
     {
-        /** @var CurriculumInventoryReportManager $reportManager */
-        $reportManager = $this
-            ->getMockBuilder(CurriculumInventoryReportManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $reportManager = m::mock(CurriculumInventoryReportManager::class);
+        $institutionManager = m::mock(CurriculumInventoryInstitutionManager::class);
+        $config = m::mock(Config::class);
+        $config->shouldReceive('get')->once()->with('institution_domain')->andReturn('');
+        $config->shouldReceive('get')->once()->with('supporting_link')->andReturn('');
 
-        /** @var ManagerInterface $institutionManager */
-        $institutionManager = $this
-            ->getMockBuilder(CurriculumInventoryInstitutionManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $exporter = new Exporter($reportManager, $institutionManager, '', '');
+        $exporter = new Exporter($reportManager, $institutionManager, $config);
 
         $this->assertTrue($exporter instanceof Exporter);
     }

@@ -2,7 +2,9 @@
 namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\UpdateFrontendCommand;
+use Ilios\CoreBundle\Service\Config;
 use Ilios\CoreBundle\Service\Filesystem;
+use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
@@ -17,6 +19,7 @@ class UpdateFrontendCommandTest extends TestCase
     protected $commandTester;
     protected $builder;
     protected $fs;
+    protected $config;
     protected $fakeTestFileDir;
 
     public function setUp()
@@ -27,9 +30,16 @@ class UpdateFrontendCommandTest extends TestCase
             $fs->mkdir($this->fakeTestFileDir);
         }
 
-        $this->builder = m::mock('Ilios\WebBundle\Service\WebIndexFromJson');
+        $this->builder = m::mock(WebIndexFromJson::class);
         $this->fs = m::mock(Filesystem::class);
-        $command = new UpdateFrontendCommand($this->builder, $this->fs, $this->fakeTestFileDir, 'blank', true, 'prod');
+        $this->config = m::mock(Config::class);
+        $command = new UpdateFrontendCommand(
+            $this->builder,
+            $this->fs,
+            $this->config,
+            $this->fakeTestFileDir,
+            'prod'
+        );
         $application = new Application();
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
@@ -45,7 +55,7 @@ class UpdateFrontendCommandTest extends TestCase
         $fs->remove($this->fakeTestFileDir);
 
         unset($this->builder);
-        unset($this->builder);
+        unset($this->config);
         unset($this->fs);
     }
     
@@ -54,7 +64,8 @@ class UpdateFrontendCommandTest extends TestCase
         $this->builder->shouldReceive('getIndex')->once()->with('prod', null)->andReturn('index-string-thing');
         $this->fs->shouldReceive('dumpFile')->once()
             ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
-        
+        $this->config->shouldReceive('get')->with('frontend_release_version')->andReturn(null);
+        $this->config->shouldReceive('get')->with('keep_frontend_updated')->andReturn(true);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
         ));
@@ -71,6 +82,8 @@ class UpdateFrontendCommandTest extends TestCase
         $this->builder->shouldReceive('getIndex')->once()->with('stage', null)->andReturn('index-string-thing');
         $this->fs->shouldReceive('dumpFile')->once()
             ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
+        $this->config->shouldReceive('get')->with('frontend_release_version')->andReturn(null);
+        $this->config->shouldReceive('get')->with('keep_frontend_updated')->andReturn(true);
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -90,6 +103,8 @@ class UpdateFrontendCommandTest extends TestCase
         $this->builder->shouldReceive('getIndex')->once()->with('dev', null)->andReturn('index-string-thing');
         $this->fs->shouldReceive('dumpFile')->once()
             ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
+        $this->config->shouldReceive('get')->with('frontend_release_version')->andReturn(null);
+        $this->config->shouldReceive('get')->with('keep_frontend_updated')->andReturn(true);
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -109,6 +124,8 @@ class UpdateFrontendCommandTest extends TestCase
         $this->builder->shouldReceive('getIndex')->once()->with('prod', 'foo.bar')->andReturn('index-string-thing');
         $this->fs->shouldReceive('dumpFile')->once()
             ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
+        $this->config->shouldReceive('get')->with('frontend_release_version')->andReturn(null);
+        $this->config->shouldReceive('get')->with('keep_frontend_updated')->andReturn(true);
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
