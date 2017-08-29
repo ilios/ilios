@@ -61,15 +61,11 @@ class IndexController extends Controller
 
         $file = $response->getFile();
         $extension = $file->getExtension();
-        //assets which are gzipped by the ember build process
-        if (in_array($extension, ['css', 'js'])) {
-            $response->headers->set('Content-Encoding', 'gzip');
-            if ($extension === 'css') {
-                $response->headers->set('Content-Type', 'text/css');
-            }
-            if ($extension === 'js') {
-                $response->headers->set('Content-Type', 'text/javascript');
-            }
+        if ($extension === 'css') {
+            $response->headers->set('Content-Type', 'text/css');
+        }
+        if ($extension === 'js') {
+            $response->headers->set('Content-Type', 'text/javascript');
         }
 
         return $response;
