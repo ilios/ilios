@@ -26,18 +26,10 @@ ilios_web_directory_find:
     methods: [GET]
     requirements:
         key: '\d+'
-ilios_web_serviceworker-registration:
-    path:     /sw-registration.js
+ilios_web_assets:
+    path:     /{fileName}
     defaults:
-        _controller: IliosWebBundle:ServiceWorker:swRegistrationJs
-ilios_web_serviceworker:
-    path:     /sw.js
-    defaults:
-        _controller: IliosWebBundle:ServiceWorker:swJs
-ilios_web_homepage:
-    path:     /{url}
-    defaults:
-        url: null
-        _controller: IliosWebBundle:Index:index
+        fileName: null
+        _controller: IliosWebBundle:Index:get
     requirements:
-        url: ".+"
+        fileName: ".+"

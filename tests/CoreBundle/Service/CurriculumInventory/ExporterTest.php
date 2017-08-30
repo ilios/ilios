@@ -2,15 +2,12 @@
 namespace Tests\CoreBundle\Service\CurriculumInventory;
 
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Ilios\CoreBundle\Service\Config;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
-
 use Ilios\CoreBundle\Service\CurriculumInventory\Exporter;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
+use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 use Mockery as m;
-
 
 /**
  * Class ExporterTest

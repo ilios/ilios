@@ -23,6 +23,7 @@
     "require": {
         "php": ">= 7.0",
         "ext-apcu": "*",
+        "alchemy/zippy": "^0.4.8",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-fixtures-bundle": "^2.3",
         "doctrine/doctrine-migrations-bundle": "^1.0",

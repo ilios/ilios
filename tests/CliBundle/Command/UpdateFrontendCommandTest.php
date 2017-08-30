@@ -1,10 +1,12 @@
 <?php
 namespace Tests\CliBundle\Command;
 
+use Alchemy\Zippy\Archive\ArchiveInterface;
+use Alchemy\Zippy\Zippy;
 use Ilios\CliBundle\Command\UpdateFrontendCommand;
 use Ilios\CoreBundle\Service\Config;
+use Ilios\CoreBundle\Service\Fetch;
 use Ilios\CoreBundle\Service\Filesystem;
-use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
@@ -15,29 +17,44 @@ class UpdateFrontendCommandTest extends TestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:update-frontend';
+    const TEST_API_VERSION = '33.14-test';
     
     protected $commandTester;
-    protected $builder;
+    protected $fetch;
     protected $fs;
     protected $config;
-    protected $fakeTestFileDir;
+    protected $zippy;
+    protected $fakeCacheFileDir;
+    protected $fakeProjectFileDir;
 
     public function setUp()
     {
         $fs = new SymfonyFileSystem();
-        $this->fakeTestFileDir = __DIR__ . '/FakeTestFiles';
-        if (!$fs->exists($this->fakeTestFileDir)) {
-            $fs->mkdir($this->fakeTestFileDir);
+        $testFiles = __DIR__ . '/FakeTestFiles';
+
+        $this->fakeCacheFileDir = $testFiles . '/cache';
+        if (!$fs->exists($this->fakeCacheFileDir)) {
+            $fs->mkdir($this->fakeCacheFileDir);
+        }
+        $this->fakeProjectFileDir = $testFiles . '/app';
+        $tmpDir = $this->fakeProjectFileDir . '/var/tmp';
+        if (!$fs->exists($tmpDir)) {
+            $fs->mkdir($tmpDir);
         }
 
-        $this->builder = m::mock(WebIndexFromJson::class);
+        $this->fetch = m::mock(Fetch::class);
         $this->fs = m::mock(Filesystem::class);
         $this->config = m::mock(Config::class);
+        $this->fs->shouldReceive('exists')->once()->andReturn(true);
+        $this->zippy = m::mock(Zippy::class);
         $command = new UpdateFrontendCommand(
-            $this->builder,
+            $this->fetch,
             $this->fs,
             $this->config,
-            $this->fakeTestFileDir,
+            $this->zippy,
+            $this->fakeCacheFileDir,
+            $this->fakeProjectFileDir,
+            self::TEST_API_VERSION,
             'prod'
         );
         $application = new Application();
@@ -52,20 +69,34 @@ class UpdateFrontendCommandTest extends TestCase
     public function tearDown()
     {
         $fs = new SymfonyFileSystem();
-        $fs->remove($this->fakeTestFileDir);
+        $fs->remove($this->fakeCacheFileDir);
+        $fs->remove($this->fakeProjectFileDir);
 
-        unset($this->builder);
-        unset($this->config);
+        unset($this->fetch);
         unset($this->fs);
+        unset($this->config);
+        unset($this->zippy);
     }
     
     public function testExecute()
     {
-        $this->builder->shouldReceive('getIndex')->once()->with('prod', null)->andReturn('index-string-thing');
-        $this->fs->shouldReceive('dumpFile')->once()
-            ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
-        $this->config->shouldReceive('get')->with('frontend_release_version')->andReturn(null);
-        $this->config->shouldReceive('get')->with('keep_frontend_updated')->andReturn(true);
+        $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+        $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::PRODUCTION_CDN_ASSET_DOMAIN . $fileName)
+            ->once()->andReturn('ARCHIVE_FILE');
+
+        $archiveDir = $this->fakeProjectFileDir  . '/var/tmp/frontend-update-files';
+        $archivePath = $archiveDir . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+
+        $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
+        $archive = m::mock(ArchiveInterface::class);
+        $archive->shouldReceive('extract')->once()->with($archiveDir);
+        $this->zippy->shouldReceive('open')->once()->with($archivePath)->andReturn($archive);
+
+        $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $this->fs->shouldReceive('remove')->once()->with($frontendPath);
+        $this->fs->shouldReceive('rename')->once()
+            ->with($archiveDir . UpdateFrontendCommand::UNPACKED_DIRECTORY, $frontendPath);
+
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
         ));
@@ -79,11 +110,22 @@ class UpdateFrontendCommandTest extends TestCase
 
     public function testExecuteStagingBuild()
     {
-        $this->builder->shouldReceive('getIndex')->once()->with('stage', null)->andReturn('index-string-thing');
-        $this->fs->shouldReceive('dumpFile')->once()
-            ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
-        $this->config->shouldReceive('get')->with('frontend_release_version')->andReturn(null);
-        $this->config->shouldReceive('get')->with('keep_frontend_updated')->andReturn(true);
+        $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+        $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::STAGING_CDN_ASSET_DOMAIN . $fileName)
+            ->once()->andReturn('ARCHIVE_FILE');
+
+        $archiveDir = $this->fakeProjectFileDir  . '/var/tmp/frontend-update-files';
+        $archivePath = $archiveDir . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+
+        $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
+        $archive = m::mock(ArchiveInterface::class);
+        $archive->shouldReceive('extract')->once()->with($archiveDir);
+        $this->zippy->shouldReceive('open')->once()->with($archivePath)->andReturn($archive);
+
+        $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $this->fs->shouldReceive('remove')->once()->with($frontendPath);
+        $this->fs->shouldReceive('rename')->once()
+            ->with($archiveDir . UpdateFrontendCommand::UNPACKED_DIRECTORY, $frontendPath);
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -98,34 +140,24 @@ class UpdateFrontendCommandTest extends TestCase
         );
     }
 
-    public function testExecuteDevBuild()
-    {
-        $this->builder->shouldReceive('getIndex')->once()->with('dev', null)->andReturn('index-string-thing');
-        $this->fs->shouldReceive('dumpFile')->once()
-            ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
-        $this->config->shouldReceive('get')->with('frontend_release_version')->andReturn(null);
-        $this->config->shouldReceive('get')->with('keep_frontend_updated')->andReturn(true);
-
-        $this->commandTester->execute(array(
-            'command'      => self::COMMAND_NAME,
-            '--dev-build'         => true
-        ));
-
-
-        $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
-            '/Frontend updated successfully from dev build!/',
-            $output
-        );
-    }
-
     public function testExecuteVersionBuild()
     {
-        $this->builder->shouldReceive('getIndex')->once()->with('prod', 'foo.bar')->andReturn('index-string-thing');
-        $this->fs->shouldReceive('dumpFile')->once()
-            ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
-        $this->config->shouldReceive('get')->with('frontend_release_version')->andReturn(null);
-        $this->config->shouldReceive('get')->with('keep_frontend_updated')->andReturn(true);
+        $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME . ':foo.bar';
+        $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::PRODUCTION_CDN_ASSET_DOMAIN . $fileName)
+            ->once()->andReturn('ARCHIVE_FILE');
+
+        $archiveDir = $this->fakeProjectFileDir  . '/var/tmp/frontend-update-files';
+        $archivePath = $archiveDir . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+
+        $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
+        $archive = m::mock(ArchiveInterface::class);
+        $archive->shouldReceive('extract')->once()->with($archiveDir);
+        $this->zippy->shouldReceive('open')->once()->with($archivePath)->andReturn($archive);
+
+        $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $this->fs->shouldReceive('remove')->once()->with($frontendPath);
+        $this->fs->shouldReceive('rename')->once()
+            ->with($archiveDir . UpdateFrontendCommand::UNPACKED_DIRECTORY, $frontendPath);
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
