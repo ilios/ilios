@@ -71,7 +71,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         unset($this->schoolManager);
         unset($this->userRoleManager);
         unset($this->commandTester);
-        unset($this->formHelper);
+        unset($this->questionHelper);
     }
 
     public function testExecute()
