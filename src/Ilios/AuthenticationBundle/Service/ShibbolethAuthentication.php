@@ -107,8 +107,13 @@ class ShibbolethAuthentication implements AuthenticationInterface
             $logVars['HTTP_REFERER'] = $request->server->get('HTTP_REFERER');
             $logVars['REMOTE_ADDR'] = $request->server->get('REMOTE_ADDR');
 
-            $this->logger->error($msg, ['server variables' => var_export($logVars, true)]);
-            throw new \Exception($msg);
+            $this->logger->info($msg, ['server variables' => var_export($logVars, true)]);
+
+            return new JsonResponse([
+                'status' => 'redirect',
+                'errors' => [],
+                'jwt' => null,
+            ], JsonResponse::HTTP_OK);
         }
         /* @var \Ilios\CoreBundle\Entity\AuthenticationInterface $authEntity */
         $authEntity = $this->authManager->findOneBy(['username' => $userId]);
