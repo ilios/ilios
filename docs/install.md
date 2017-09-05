@@ -1,43 +1,22 @@
 # Ilios 3 Installation Instructions
 
-This documentation covers new Ilios installations for users that have never had any current or prior version of Ilios running on their server. If you are looking to upgrade a previous installation of Ilios, please see [Upgrading Ilios 2.x to Ilios 3](UPGRADE.md).
+This documentation covers new Ilios installations for users that have never had any current or prior version of Ilios running on their server.
 
-## Ilios 3 - Frontend vs. Backend
+If you are looking to update your installation of Ilios, please see [Updating Ilios 3.x](update.md).
 
-Ilios 3 uses a [Symfony](https://symfony.com/) ([PHP](https://php.net))/SQL backend that provides an API to the Ilios 3 Frontend that is built in javascript using [EmberJs](https://emberjs.com).  The Ilios 3 Frontend is managed by the [Ilios development team](https://iliosproject.org) and the latest frontend javascript is served to users via the [Amazon Cloudfront](http://aws.amazon.com/cloudfront/) CDN (Content Delivery Network).
+If you are looking to upgrade a previous v2.x installation of Ilios, please see [Upgrading From Ilios 2.x](upgrade_ilios_2_to_3.md).
 
-## Frontend 
-The Ilios Frontend is always up-to-date on our content-delivery servers at Amazon S3, but you will need to regularly run a console command on your backend instance in order ensure that your users are seeing the latest version and that they are getting all the latest features and bugfixes. To make sure you users are receiving the latest frontend code at all times, just follow these steps:
-
-```bash
-# Log in to your Ilios API (backend) server and go to the root folder of your Ilios application ('/web/ilios3' for this example)
-$ cd /web/ilios3
-
-# Then run the 'ilios:maintenance:update-frontend' console command, in the context of your the user that runs your webservices (eg. 'apache')
-$ sudo -u apache bin/console ilios:maintenance:update-frontend --env=prod
-Frontend updated successfully!
-
-# and that's it!
-```
-It is a good idea to run this command often (in a cron job, perhaps!) and after any backend update as well, of course!
-
-Though you will probably never need to deploy the Ilios 3 Frontend on your own servers, the source for the frontend code can always be found at https://github.com/ilios/frontend.
-
-Currently, there is no Frontend deployment documentation available so, if you feel that you must manage the frontend files yourself, please contact the [Ilios Project Support Team](https://iliosproject.org) at support@iliosproject.org or refer back to the Ilios Frontend [README.md](https://github.com/ilios/frontend/blob/master/README.md) file at a later time for instructions on how to do so.
-
-## Frontend Theming
-
-For information about customizing the look and feel of the Ilios frontend for your respective institution, please visit https://github.com/ilios/ilios/blob/master/ILIOS_CUSTOM_THEMING.md for more information.
-
-## Backend
+### Summary
 To build/deploy the Ilios 3 backend, you will need to install the default Ilios database schema and then follow the steps for deploying code to your webserver(s) and configuring them to connect to the database and serve the API.
 
 ## Pre-requisites/requirements
-As mentioned above, Ilios 3 uses a Symfony (PHP/SQL) backend to serve its API, so these tools and their required dependencies need to be installed before you can install the application itself. Here at the Ilios Project, we currently run and recommend running Ilios 3 using a "LAMP" (Linux Apache MySQL PHP) technology stack with the following software packages and versions:
+Ilios 3 uses a Symfony (PHP/SQL) backend to serve its API, so these tools and their required dependencies need to be installed before you can install the application itself. Here at the Ilios Project, we currently run and recommend running Ilios 3 using a "LAMP" (Linux Apache MySQL PHP) technology stack with the following software packages and versions:
 
 * CentOS 7 - Any modern Linux should work, but we recommend Redhat (RHEL, CentOS, or Fedora) or Ubuntu
 * MySQL using the InnoDB database engine (v5.5 or later required, 5.6+ recommended)
 * PHP v7.0+ (available for CentOS and RHEL from https://ius.io). As of Ilios version v3.35.0, Ilios will no longer work on any version of PHP earlier than 7.0, as the code now utilizes several features only available in PHP version 7.0 and newer.  While [PHP v5.6 will still receive security updates until December 2018, it is now technically EOL (End Of Life)](http://php.net/supported-versions.php).
+
+NOTE: Several institutions have successfully deployed Ilios using Microsoft IIS on Windows as their webserver, but we do not recommend it as we do not have alot of experience with it ourselves and we've only ever support Ilios on Linux systems.  That being said, if you MUST use IIS for Windows and are having trouble getting Ilios running properly, please contact the [Ilios Project Support Team](https://iliosproject.org) at support@iliosproject.org if you have any problems and we might be able to help you out!
 
 PHP should configured with a 'memory_limit' setting of at least 386MB and have the following required packages/modules/extensions enabled:
 
@@ -56,15 +35,14 @@ PHP should configured with a 'memory_limit' setting of at least 386MB and have t
 CentOS, RedHat, and Fedora Linux distributions come with SELinux installed and enabled by default.  SELinux, aka "Security-Enhanced Linux", greatly limits many actions typically allowed out-of-the-box on most Linux distros so, if you seem to be having issues with your Ilios installation not working correctly and you have SELinux installed and enabled, we recommend you review your SELinux settings and/or check out our [Troubleshooting](#troubleshooting) section below.
 
 ### URL Rewriting
-Users should enable URL-rewriting on their webserver if at all possible. For those using Apache, this can be done by installing and enabling the 'mod_rewrite' module. In IIS, this is handled via the [Microsoft IIS URL Rewrite extension](https://www.iis.net/downloads/microsoft/url-rewrite)
+You must enable URL-rewriting on your webserver. For those using Apache, this can be done by installing and enabling the 'mod_rewrite' module. In IIS, this is handled via the [Microsoft IIS URL Rewrite extension](https://www.iis.net/downloads/microsoft/url-rewrite)
 
-You are also need the Composer PHP package management tool.  If you do not have it, you can learn about it and download it at https://getcomposer.org
-
-NOTE: Several institutions have successfully deployed Ilios using Microsoft IIS on Windows as their webserver, but we do not recommend it as we do not have alot of experience with it ourselves and we've only ever support Ilios on Linux systems.  That being said, if you MUST use IIS for Windows and are having trouble getting Ilios running properly, please contact the [Ilios Project Support Team](https://iliosproject.org) at support@iliosproject.org if you have any problems and we might be able to help you out!
+### Composer
+You will need the Composer PHP package management tool.  If you do not have it, you can learn about it and download it at https://getcomposer.org
 
 ### Code Deployment
 
-These steps assume that you are deploying the Ilios 3 backend via a Git clone from the Ilios repository at [https://github.com/ilios/ilios.git](https://github.com/ilios/ilios.git) and building the install using PHP's 'composer' package manager. For installation from the Ilios 3 source distribution files, please refer to Installing the Ilios 3 backend from distribution file.
+These steps assume that you are deploying the Ilios 3 backend via a Git clone from the Ilios repository at [https://github.com/ilios/ilios.git](https://github.com/ilios/ilios.git) and building the install using PHP's 'composer' package manager.
 
 All the steps below should be performed in the context of the user that runs your webserver process (typically, 'apache')
 
@@ -84,15 +62,12 @@ You should now be in the '/web/ilios3/ilios' directory
 ```bash
 sudo -u apache git checkout tags/v3.0.0
 ```   
-5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 5.6+ and Composer installed on your system:
+5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 7.0+ and Composer installed on your system:
 ```bash
 sudo -u apache SYMFONY_ENV=prod composer install --no-dev --optimize-autoloader
 ```  
 This will install the required PHP Symfony packages and their dependencies.  When the process nears completion, you will be prompted with the following configuration setting options.  You should set them as noted:
 ```bash
-#default value, set to your value if different
-database_driver: pdo_mysql
- 
 #Set this to your database host's IP address or hostname
 database_host: 127.0.0.1
  
@@ -144,7 +119,7 @@ Congratulations! Once you've the completed the above steps, the latest codebase 
 
 ### Upgrading from previous versions of Ilios
 
-If you are already running a 2.x version of Ilios, you can upgrade your current database by following the intructions at [Upgrading Ilios 2.x to Ilios 3](UPGRADE.md).
+If you are already running a 2.x version of Ilios, you can upgrade your current database by following the intructions at [Upgrading From Ilios 2.x](docs/upgrade_ilios_2_to_3.md).
 
 ### Creating a new database for Ilios
 If you are NOT upgrading from a previous version of Ilios, you can create a new, empty database schema by using the following Symfony console command:
@@ -160,16 +135,16 @@ This will create your database schema, with all tables and constraints, and will
 
 * Finally, you should clear all cached items from the system, including the Symfony Cache (and its store on the filesystem) and the APC cache:
 ```bash
-# clear the cache items residing on the filesystem...
-sudo -u apache rm -Rf var/cache/*
-# then clear the Symfony cache...
+# clear the Symfony cache...
 sudo -u apache bin/console cache:clear --env=prod
 # and finally, the APC cache (by restarting the httpd server)
 sudo service httpd restart
 ```
-## And that's it!  You should now have a working Ilios 3 backend!
+**And that's it!  You should now have a working Ilios 3 backend!**
 
-To get started with your new version of Ilios, you are going to have to create the 'first user' in order to get into the application. The username for this user will always be 'first_user', the password will be 'Ch4nge_m3', and the user's role will be set as 'Course Director', which will allow you to perform all necessary tasks to start administering the application.
+## Setup a First User
+
+To get started with your new version of Ilios, you are going to have to create the 'first user' in order to get into the application. The username for this user will be 'first_user', the password will be 'Ch4nge_m3', and the user's role will be set as 'Course Director', which will allow you to perform all necessary tasks to start administering the application.
 
 To add the first user, we need to return to the the Ilios application root folder ('/web/ilios3/ilios') and get ready to run the following console command.  Before running the command, however, you'll want to gather this information about the user you intend to add:
 
@@ -185,6 +160,9 @@ sudo -u apache bin/console ilios:setup:first-user --env=prod
 After that, visit the url of your new Ilios 3 site and you should see a login form.  Enter 'first_user' in the login field and 'Ch4nge_m3' (without the quotes!) in the password field and submit!
 
 If everything went correctly, you're ready to go!  Congratulations on installing Ilios! If not, please see some of our troubleshooting suggestions below.
+
+Make sure to take a look at [update](update.md) for information on staying up to date and
+[authentication](authentication.md) for help setting up ilios to use your campus single sign on system.
 
 ## <a name="troubleshooting"></a>Troubleshooting
 
