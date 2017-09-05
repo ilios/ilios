@@ -26,8 +26,8 @@ In order to get your changes accepted you will need do:
  * Write tests which cover your changes
 
 ### Running Tests
-1. bin/phpunit
-2. bin/phpcs --standard=app/phpcs.xml src
+1. vendor/bin/phpunit
+2. vendor/bin/phpcs --standard=app/phpcs.xml src
 
 ### Commit Message
 

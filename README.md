@@ -1,10 +1,4 @@
-#Ilios: Curriculum Management from UCSF
-
-More Information at [iliosproject.org](http://iliosproject.org)
-
-[Instructions for a new Install] (INSTALL.md)
-
-[Updating From Ilios 2.x](UPGRADE.md)
+# Ilios: Curriculum Management from UCSF
 
 # About
 
@@ -16,6 +10,22 @@ Ilios manages learners and instructors and their relationships to curricular mat
 
 Ilios leverages the power of your existing online learning. With its comprehensive API, Ilios allows you to integrate with external data sources and systems. For schools using online learning systems such as Moodle or Canvas, Ilios provides a backbone of curricular information to make that deployment more robust and to complement the rich online tools, activities and materials already in use.
 
+More Information and user documentation is available at [iliosproject.org](http://iliosproject.org)
+
+# Install and Update Instructions
+[Instructions for a new Install](docs/install.md)
+
+[Update Ilios](docs/update.md)
+
+[Upgrading From Ilios 2.x](docs/upgrade_ilios_2_to_3.md)
+
+## Frontend Theming
+
+For information about customizing the look and feel of the Ilios frontend for your respective institution, please visit [docs/custom_theming.md](docs/custom_theming.md) for more information.
+
+## API Information
+
+If you want to connect to the Ilios API a good place to start is [docs/ilios_api.md](docs/ilios_api.md).
 
 # Get Ilios
 
