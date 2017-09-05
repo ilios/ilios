@@ -193,3 +193,5 @@ services:
         public: true
         arguments:
             $class: 'Ilios\CoreBundle\Entity\UserRole'
+    Ilios\MeSH\Parser:
+        public: true
