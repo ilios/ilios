@@ -234,7 +234,7 @@ class Exporter
         $rootNode->setAttributeNS(
             'http://www.w3.org/2001/XMLSchema-instance',
             'schemaLocation',
-            'http://ns.medbiq.org/curriculuminventory/v1/ curriculuminventory.xsd'
+            'http://ns.medbiq.org/curriculuminventory/v1/curriculuminventory.xsd'
         );
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:lom', 'http://ltsc.ieee.org/xsd/LOM');
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:a', 'http://ns.medbiq.org/address/v1/');
