@@ -110,11 +110,10 @@ class MeshDescriptorDTO
      */
     public $previousIndexing;
 
-
     /**
      * @var boolean
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $deleted;
 
