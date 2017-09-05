@@ -26,4 +26,12 @@ class MeshDescriptorManager extends BaseManager
     ) {
         return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset);
     }
+
+    /**
+     * @see MeshDescriptorRepository::clearExistingData()
+     */
+    public function clearExistingData()
+    {
+        $this->getRepository()->clearExistingData();
+    }
 }

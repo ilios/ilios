@@ -65,9 +65,9 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
         }
         $query = $qb->getQuery();
         $query->useResultCache(true);
-        
+
         $results = $query->getResult();
-        
+
         // Unfortunately, we can't let Doctrine limit the fetch here because of all the joins
         // it returns many less than the desired number.
         if ($limit) {
@@ -332,5 +332,42 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
         }
 
         return $qb;
+    }
+
+    /**
+     * Gut the MeSH tables, leaving only descriptor records in place that are somehow wired up to the rest of Ilios.
+     */
+    public function clearExistingData() {
+        $conn = $this->_em->getConnection();
+        $conn->query('DELETE FROM mesh_concept_x_semantic_type');
+        $conn->query('DELETE FROM mesh_concept_x_term');
+        $conn->query('DELETE FROM mesh_descriptor_x_qualifier');
+        $conn->query('DELETE FROM mesh_descriptor_x_concept');
+        $conn->query('DELETE FROM mesh_previous_indexing');
+        $conn->query('DELETE FROM mesh_tree');
+        $conn->query('DELETE FROM mesh_term');
+        $conn->query('DELETE FROM mesh_semantic_type');
+        $conn->query('DELETE FROM mesh_concept');
+        $conn->query('DELETE FROM mesh_qualifier');
+
+        $sql=<<<EOL
+DELETE FROM mesh_descriptor
+WHERE mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_learning_material_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_learning_material_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM objective_x_mesh)
+EOL;
+        $conn->query($sql);
+    }
+
+    public function upsertMeshUniverse(array $data, array $existingDescriptorIds)
+    {
+        // @todo implement [ST 2017/09/05]
+    }
+
+    public function flagDescriptorsAsDeleted(array $ids)
+    {
+        // @todo implement [ST 2017/09/05]
     }
 }
