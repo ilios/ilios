@@ -89,9 +89,14 @@ class ShibbolethAuthenticationTest extends TestCase
             ->mock();
         $request = m::mock(Request::class);
         $request->server = $serverBag;
-        $this->logger->shouldReceive('error')->once();
-        $this->expectException(\Exception::class);
-        $this->obj->login($request);
+        $this->logger->shouldReceive('info')->once();
+
+        $result = $this->obj->login($request);
+
+        $this->assertTrue($result instanceof JsonResponse);
+        $content = $result->getContent();
+        $data = json_decode($content);
+        $this->assertSame($data->status, 'redirect');
     }
     
     public function testNoUserWithEppn()
