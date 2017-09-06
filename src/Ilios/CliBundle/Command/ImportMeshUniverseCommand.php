@@ -7,14 +7,15 @@ use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Parser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Imports the MeSH descriptors and co. from a given file location or URL, or for a given year.
  *
- * Class ImportMeSHUniverseCommand
+ * Class ImportMeshUniverseCommand
  */
-class ImportMeSHUniverseCommand extends Command {
+class ImportMeshUniverseCommand extends Command {
 
     /**
      * @var string
@@ -24,7 +25,7 @@ class ImportMeSHUniverseCommand extends Command {
     /**
      * @var array
      */
-    protected $years = [ 2016, 2017 ];
+    const YEARS = [ 2016, 2017 ];
 
     /**
      * @var MeshDescriptorManager
@@ -57,15 +58,21 @@ class ImportMeSHUniverseCommand extends Command {
             ->setDescription('Imports the MeSH universe into Ilios.')
             ->addOption(
                 'url',
+                'u',
+                InputOption::VALUE_REQUIRED,
                 'The MeSH descriptors URL.'
             )
             ->addOption(
-            'path',
-            'The MeSH descriptors file path.'
+                'path',
+                'p',
+                InputOption::VALUE_REQUIRED,
+                'The MeSH descriptors file path.'
             )
             ->addOption(
-            'year',
-            'The MeSH descriptors publication year. Acceptable values are ' . implode(', ', $this->years)
+                'year',
+                'y',
+                InputOption::VALUE_REQUIRED,
+                'The MeSH descriptors publication year. Acceptable values are ' . implode(', ', self::YEARS)
             );
     }
 
@@ -74,7 +81,7 @@ class ImportMeSHUniverseCommand extends Command {
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $uri = $this->getUri();
+        $uri = $this->getUri($input);
         $descriptorSet = $this->parser->parse($uri);
         $descriptorIds = $descriptorSet->getDescriptorUis();
         $this->manager->clearExistingData();
@@ -87,12 +94,35 @@ class ImportMeSHUniverseCommand extends Command {
         $this->manager->flagDescriptorsAsDeleted($deletedDescriptorIds);
     }
 
+
     /**
+     * @param InputInterface $input
      * @return string
      */
-    private function getUri() {
-        rsort($this->years);
-        return strtr(self::URL_TEMPLATE, [ '{{year}}' => $this->years[0] ]);
+    private function getUri(InputInterface $input) {
+        $path = trim($input->getOption('path'));
+        $url = trim($input->getOption('url'));
+        $year = trim($input->getOption('year'));
+
+        if ('' !== $path) {
+            return $path;
+        }
+
+        if ('' !== $url) {
+            return $url;
+        }
+
+        if ('' !== $year) {
+            $year = (int) $year;
+            if (!in_array($year, self::YEARS)) {
+                throw new \RuntimeException('Given year must be one of: ' . implode(', ', self::YEARS));
+            }
+            return strtr(self::URL_TEMPLATE, [ '{{year}}' => $year ]);
+        }
+
+        $years = array_merge(self::YEARS);
+        rsort($years);
+        return strtr(self::URL_TEMPLATE, [ '{{year}}' => $years[0] ]);
     }
 
     /**
