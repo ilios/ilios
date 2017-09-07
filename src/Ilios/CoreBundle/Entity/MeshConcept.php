@@ -32,7 +32,7 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="mesh_concept_uid", type="string", length=9)
+     * @ORM\Column(name="mesh_concept_uid", type="string", length=12)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      *
@@ -109,12 +109,12 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="casn_1_name", type="string", length=127, nullable=true)
+     * @ORM\Column(name="casn_1_name", type="string", length=255, nullable=true)
      *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 127
+     *      max = 255
      * )
      *
      * @IS\Expose

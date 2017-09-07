@@ -31,7 +31,7 @@ class MeshQualifier implements MeshQualifierInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="mesh_qualifier_uid", type="string", length=9)
+     * @ORM\Column(name="mesh_qualifier_uid", type="string", length=12)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      *

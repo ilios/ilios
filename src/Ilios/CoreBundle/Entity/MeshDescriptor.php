@@ -40,14 +40,14 @@ class MeshDescriptor implements MeshDescriptorInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="mesh_descriptor_uid", type="string", length=9)
+     * @ORM\Column(name="mesh_descriptor_uid", type="string", length=12)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 9
+     *      max = 12
      * )
      *
      * @IS\Expose
