@@ -74,6 +74,7 @@ class MeshConcept implements MeshConceptInterface
      *
      * @IS\Expose
      * @IS\Type("string")
+     * @deprecated
      */
     protected $umlsUid;
 
@@ -217,6 +218,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @param string $umlsUid
+     * @deprecated
      */
     public function setUmlsUid($umlsUid)
     {
@@ -225,6 +227,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @return string
+     * @deprecated
      */
     public function getUmlsUid()
     {
