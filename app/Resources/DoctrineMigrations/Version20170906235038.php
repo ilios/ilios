@@ -16,7 +16,7 @@ class Version20170906235038 extends AbstractMigration
     public function up(Schema $schema)
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        $this->addSql('ALTER TABLE mesh_concept CHANGE casn_1_name casn_1_name VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE mesh_concept CHANGE casn_1_name casn_1_name VARCHAR(512) DEFAULT NULL');
     }
 
     /**
