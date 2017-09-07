@@ -34,4 +34,23 @@ class MeshDescriptorManager extends BaseManager
     {
         $this->getRepository()->clearExistingData();
     }
+
+    /**
+     * @param array $data
+     * @param array $existingDescriptorIds
+     * @see MeshDescriptorRepository::upsertMeshUniverse()
+     */
+    public function upsertMeshUniverse(array $data, array $existingDescriptorIds)
+    {
+        $this->getRepository()->upsertMeshUniverse($data, $existingDescriptorIds);
+    }
+
+    /**
+     * @param array $meshDescriptors
+     * @see MeshDescriptorRepository::flagDescriptorsAsDeleted()
+     */
+    public function flagDescriptorsAsDeleted(array $meshDescriptors)
+    {
+        $this->getRepository()->flagDescriptorsAsDeleted($meshDescriptors);
+    }
 }

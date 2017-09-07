@@ -132,20 +132,38 @@ class ImportMeshUniverseCommand extends Command {
     private function transmogrifyMeSHDataForImport (DescriptorSet $descriptors)
     {
         $rhett = [
-            'term' => [],
-            'previous_indexing' => [],
-            'descriptor' => [],
-            'tree' => [],
             'concept' => [],
-            'qualifier' => [],
-            'semantic_type' => [],
-            'concept_x_semantic_type' => [],
             'concept_x_term' => [],
+            'descriptor' => [],
             'descriptor_x_concept' => [],
-            'descriptor_x_semantic_type' => [],
+            'descriptor_x_qualifier' => [],
+            'qualifier' => [],
+            'previous_indexing' => [],
+            'term' => [],
+            'tree' => [],
         ];
 
-        // @todo implement [ST 2017/09/05]
+        foreach($descriptors->getDescriptors() as $descriptor) {
+            $rhett['descriptor'][$descriptor->getUi()] = $descriptor;
+            foreach($descriptor->getConcepts() as $concept) {
+                $rhett['concept'][$concept->getUi()] = $concept;
+                $rhett['descriptor_x_concept'][] = [ $descriptor->getUi(), $concept->getUi() ];
+                foreach($concept->getTerms() as $term) {
+                    $rhett['term'][$term->getUi()] = $term;
+                    $rhett['concept_x_term'][] = [ $concept->getUi(), $term->getUi() ];
+                }
+            }
+            $rhett['tree'][$descriptor->getUi()] = $descriptor->getTreeNumbers();
+            $rhett['previous_indexing'][$descriptor->getUi()] = $descriptor->getPreviousIndexing();
+            foreach($descriptor->getAllowableQualifiers() as $qualifier) {
+                $rhett['qualifier'][$qualifier->getQualifierReference()->getUi()] = $qualifier;
+                $rhett['descriptor_x_qualifier'][] = [
+                    $descriptor->getUi(),
+                    $qualifier->getQualifierReference()->getUi()
+                ];
+            }
+
+        }
 
         return $rhett;
     }
