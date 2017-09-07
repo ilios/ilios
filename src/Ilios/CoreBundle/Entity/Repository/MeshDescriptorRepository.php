@@ -373,6 +373,7 @@ EOL;
     {
         $now = new \DateTime();
         $conn = $this->_em->getConnection();
+        $termMap = []; // maps term hashes to record ids.
         /* @var Descriptor $descriptor */
         foreach($data['descriptor'] as $descriptor) {
             if (! in_array($descriptor->getUi(), $existingDescriptorIds)) {
@@ -444,7 +445,7 @@ EOL;
             ]);
         }
         /* @var Term $term */
-        foreach($data['term'] as $term) {
+        foreach($data['term'] as $hash => $term) {
             $conn->insert('mesh_term', [
                 'mesh_term_uid' => $term->getUi(),
                 'name' => $term->getName(),
@@ -466,6 +467,7 @@ EOL;
                 'datetime',
                 'datetime',
             ]);
+            $termMap[$hash] = $conn->lastInsertId();
         }
         foreach($data['descriptor_x_concept'] as $ref) {
             $conn->insert('mesh_descriptor_x_concept', [
@@ -482,7 +484,7 @@ EOL;
         foreach($data['concept_x_term'] as $ref) {
             $conn->insert('mesh_concept_x_term', [
                 'mesh_concept_uid' => $ref[0],
-                'mesh_term_uid' => $ref[1],
+                'mesh_term_id' => $termMap[$ref[1]],
             ]);
         }
         foreach($data['previous_indexing'] as $descriptorUi => $previousIndexings) {

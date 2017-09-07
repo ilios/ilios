@@ -149,8 +149,22 @@ class ImportMeshUniverseCommand extends Command {
                 $rhett['concept'][$concept->getUi()] = $concept;
                 $rhett['descriptor_x_concept'][] = [ $descriptor->getUi(), $concept->getUi() ];
                 foreach($concept->getTerms() as $term) {
-                    $rhett['term'][$term->getUi()] = $term;
-                    $rhett['concept_x_term'][] = [ $concept->getUi(), $term->getUi() ];
+                    // ACHTUNG MINEN!
+                    // Unlike all other MeSH data points, terms do *not* possess unique UID.
+                    // Generate a unique pseudo-key by hashing all relevant term properties,
+                    // Use this hash instead of UID to keep track of term relationships
+                    // and all relevant term permutations.
+                    // [ST 2017/09/07]
+                    $hash = md5(implode(',', [
+                        $term->getUi(),
+                        $term->getName(),
+                        $term->getLexicalTag(),
+                        $term->isConceptPreferred(),
+                        $term->isRecordPreferred(),
+                        $term->isPermuted(),
+                    ]));
+                    $rhett['term'][$hash] = $term;
+                    $rhett['concept_x_term'][] = [ $concept->getUi(), $hash ];
                 }
             }
             $rhett['tree'][$descriptor->getUi()] = $descriptor->getTreeNumbers();
@@ -159,7 +173,7 @@ class ImportMeshUniverseCommand extends Command {
                 $rhett['qualifier'][$qualifier->getQualifierReference()->getUi()] = $qualifier;
                 $rhett['descriptor_x_qualifier'][] = [
                     $descriptor->getUi(),
-                    $qualifier->getQualifierReference()->getUi()
+                    $qualifier->getQualifierReference()->getUi(),
                 ];
             }
 
