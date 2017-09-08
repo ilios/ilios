@@ -368,147 +368,156 @@ EOL;
     /**
      * @param array $data
      * @param array $existingDescriptorIds
+     * @throws \Exception
      */
     public function upsertMeshUniverse(array $data, array $existingDescriptorIds)
     {
         $now = new \DateTime();
         $conn = $this->_em->getConnection();
+
         $termMap = []; // maps term hashes to record ids.
-        /* @var Descriptor $descriptor */
-        foreach($data['descriptor'] as $descriptor) {
-            if (! in_array($descriptor->getUi(), $existingDescriptorIds)) {
-                $conn->insert('mesh_descriptor', [
-                    'mesh_descriptor_uid' => $descriptor->getUi(),
-                    'name' => $descriptor->getName(),
-                    'annotation' => $descriptor->getAnnotation(),
-                    'deleted' => false,
+        $conn->beginTransaction();
+        try {
+            /* @var Descriptor $descriptor */
+            foreach($data['descriptor'] as $descriptor) {
+                if (! in_array($descriptor->getUi(), $existingDescriptorIds)) {
+                    $conn->insert('mesh_descriptor', [
+                        'mesh_descriptor_uid' => $descriptor->getUi(),
+                        'name' => $descriptor->getName(),
+                        'annotation' => $descriptor->getAnnotation(),
+                        'deleted' => false,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ], [
+                        \PDO::PARAM_STR,
+                        \PDO::PARAM_STR,
+                        \PDO::PARAM_STR,
+                        \PDO::PARAM_BOOL,
+                        'datetime',
+                        'datetime',
+                    ]);
+                } else {
+                    $conn->update('mesh_descriptor', [
+                        'name' => $descriptor->getName(),
+                        'annotation' => $descriptor->getAnnotation(),
+                        'updated_at' => $now,
+                    ], [
+                        'mesh_descriptor_uid' => $descriptor->getUi()
+                    ], [
+                        \PDO::PARAM_STR,
+                        \PDO::PARAM_STR,
+                        'datetime',
+                    ]);
+                }
+            }
+            /* @var AllowableQualifier $qualifier */
+            foreach($data['qualifier'] as $qualifier) {
+                $conn->insert('mesh_qualifier', [
+                    'mesh_qualifier_uid' => $qualifier->getQualifierReference()->getUi(),
+                    'name' => $qualifier->getQualifierReference()->getName(),
                     'created_at' => $now,
                     'updated_at' => $now,
                 ], [
                     \PDO::PARAM_STR,
                     \PDO::PARAM_STR,
+                    'datetime',
+                    'datetime'
+                ]);
+            }
+            /* @var Concept $concept */
+            foreach($data['concept'] as $concept) {
+                $conn->insert('mesh_concept', [
+                    'mesh_concept_uid' => $concept->getUi(),
+                    'name' => $concept->getName(),
+                    'preferred' => $concept->isPreferred(),
+                    'scope_note' => $concept->getScopeNote(),
+                    'casn_1_name' => $concept->getCasn1Name(),
+                    'registry_number' => $concept->getRegistryNumber(),
+                    'umls_uid' => 'n/a', // @todo remove [ST 2017/09/06],
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ], [
                     \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_BOOL,
+                    \PDO::PARAM_BOOL,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    'datetime',
+                    'datetime'
+                ]);
+            }
+            /* @var Term $term */
+            $i = 1;
+            foreach($data['term'] as $hash => $term) {
+                $conn->insert('mesh_term', [
+                    'mesh_term_id' => $i,
+                    'mesh_term_uid' => $term->getUi(),
+                    'name' => $term->getName(),
+                    'lexical_tag' => $term->getLexicalTag(),
+                    'concept_preferred' => $term->isConceptPreferred(),
+                    'record_preferred' => $term->isRecordPreferred(),
+                    'permuted' => $term->isPermuted(),
+                    'print' => false, // @todo remove [ST 2017/09/06]
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ], [
+                    \PDO::PARAM_INT,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_BOOL,
+                    \PDO::PARAM_BOOL,
+                    \PDO::PARAM_BOOL,
                     \PDO::PARAM_BOOL,
                     'datetime',
                     'datetime',
                 ]);
-            } else {
-                $conn->update('mesh_descriptor', [
-                    'name' => $descriptor->getName(),
-                    'annotation' => $descriptor->getAnnotation(),
-                    'updated_at' => $now,
-                ], [
-                    'mesh_descriptor_uid' => $descriptor->getUi()
-                ], [
-                    \PDO::PARAM_STR,
-                    \PDO::PARAM_STR,
-                    'datetime',
+                $termMap[$hash] = $i;
+                $i++;
+            }
+
+            foreach($data['descriptor_x_concept'] as $ref) {
+                $conn->insert('mesh_descriptor_x_concept', [
+                    'mesh_descriptor_uid' => $ref[0],
+                    'mesh_concept_uid' => $ref[1],
                 ]);
             }
-        }
-        /* @var AllowableQualifier $qualifier */
-        foreach($data['qualifier'] as $qualifier) {
-            $conn->insert('mesh_qualifier', [
-                'mesh_qualifier_uid' => $qualifier->getQualifierReference()->getUi(),
-                'name' => $qualifier->getQualifierReference()->getName(),
-                'created_at' => $now,
-                'updated_at' => $now,
-            ], [
-                \PDO::PARAM_STR,
-                \PDO::PARAM_STR,
-                'datetime',
-                'datetime'
-            ]);
-        }
-        /* @var Concept $concept */
-        foreach($data['concept'] as $concept) {
-            $conn->insert('mesh_concept', [
-                'mesh_concept_uid' => $concept->getUi(),
-                'name' => $concept->getName(),
-                'preferred' => $concept->isPreferred(),
-                'scope_note' => $concept->getScopeNote(),
-                'casn_1_name' => $concept->getCasn1Name(),
-                'registry_number' => $concept->getRegistryNumber(),
-                'umls_uid' => 'n/a', // @todo remove [ST 2017/09/06],
-                'created_at' => $now,
-                'updated_at' => $now,
-            ], [
-                \PDO::PARAM_STR,
-                \PDO::PARAM_STR,
-                \PDO::PARAM_BOOL,
-                \PDO::PARAM_BOOL,
-                \PDO::PARAM_STR,
-                \PDO::PARAM_STR,
-                \PDO::PARAM_STR,
-                'datetime',
-                'datetime'
-            ]);
-        }
-        /* @var Term $term */
-        $i = 1;
-        foreach($data['term'] as $hash => $term) {
-            $conn->insert('mesh_term', [
-                'mesh_term_id' => $i,
-                'mesh_term_uid' => $term->getUi(),
-                'name' => $term->getName(),
-                'lexical_tag' => $term->getLexicalTag(),
-                'concept_preferred' => $term->isConceptPreferred(),
-                'record_preferred' => $term->isRecordPreferred(),
-                'permuted' => $term->isPermuted(),
-                'print' => false, // @todo remove [ST 2017/09/06]
-                'created_at' => $now,
-                'updated_at' => $now,
-            ], [
-                \PDO::PARAM_INT,
-                \PDO::PARAM_STR,
-                \PDO::PARAM_STR,
-                \PDO::PARAM_STR,
-                \PDO::PARAM_BOOL,
-                \PDO::PARAM_BOOL,
-                \PDO::PARAM_BOOL,
-                \PDO::PARAM_BOOL,
-                'datetime',
-                'datetime',
-            ]);
-            $termMap[$hash] = $i;
-            $i++;
-        }
-        /*
-        foreach($data['descriptor_x_concept'] as $ref) {
-            $conn->insert('mesh_descriptor_x_concept', [
-                'mesh_descriptor_uid' => $ref[0],
-                'mesh_concept_uid' => $ref[1],
-            ]);
-        }
-        foreach($data['descriptor_x_qualifier'] as $ref) {
-            $conn->insert('mesh_descriptor_x_qualifier', [
-                'mesh_descriptor_uid' => $ref[0],
-                'mesh_qualifier_uid' => $ref[1],
-            ]);
-        }
-        foreach($data['concept_x_term'] as $ref) {
-            $conn->insert('mesh_concept_x_term', [
-                'mesh_concept_uid' => $ref[0],
-                'mesh_term_id' => $termMap[$ref[1]],
-            ]);
-        }
-        foreach($data['previous_indexing'] as $descriptorUi => $previousIndexings) {
-            foreach($previousIndexings as $previousIndexing) {
-                $conn->insert('mesh_previous_indexing', [
-                    'mesh_descriptor_uid' => $descriptorUi,
-                    'previous_indexing' => $previousIndexing,
+            foreach($data['descriptor_x_qualifier'] as $ref) {
+                $conn->insert('mesh_descriptor_x_qualifier', [
+                    'mesh_descriptor_uid' => $ref[0],
+                    'mesh_qualifier_uid' => $ref[1],
                 ]);
             }
-        }
-        foreach($data['tree'] as $descriptorUi => $trees) {
-            foreach($trees as $tree) {
-                $conn->insert('mesh_tree', [
-                    'mesh_descriptor_uid' => $descriptorUi,
-                    'tree_number' => $tree,
+            foreach($data['concept_x_term'] as $ref) {
+                $conn->insert('mesh_concept_x_term', [
+                    'mesh_concept_uid' => $ref[0],
+                    'mesh_term_id' => $termMap[$ref[1]],
                 ]);
             }
+            foreach($data['previous_indexing'] as $descriptorUi => $previousIndexings) {
+                foreach($previousIndexings as $previousIndexing) {
+                    $conn->insert('mesh_previous_indexing', [
+                        'mesh_descriptor_uid' => $descriptorUi,
+                        'previous_indexing' => $previousIndexing,
+                    ]);
+                }
+            }
+            foreach($data['tree'] as $descriptorUi => $trees) {
+                foreach($trees as $tree) {
+                    $conn->insert('mesh_tree', [
+                        'mesh_descriptor_uid' => $descriptorUi,
+                        'tree_number' => $tree,
+                    ]);
+                }
+            }
+            $conn->commit();
+
+        } catch (\Exception $e) {
+            $conn->rollBack();
+            throw $e;
         }
-        */
     }
 
     public function flagDescriptorsAsDeleted(array $ids)
