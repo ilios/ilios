@@ -169,6 +169,165 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
     }
 
     /**
+     * @param array $data
+     */
+    public function importMeshConcept(array $data)
+    {
+        $connection = $this->_em->getConnection();
+        $sql =<<<EOL
+INSERT INTO mesh_concept (
+    mesh_concept_uid, name, umls_uid, preferred, scope_note,
+    casn_1_name, registry_number, created_at, updated_at
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+EOL;
+        $connection->executeUpdate($sql, $data);
+    }
+
+    /**
+     * @param array $data
+     */
+    public function importMeshConceptSemanticType(array $data)
+    {
+        $sql =<<<EOL
+INSERT INTO mesh_concept_x_semantic_type (
+    mesh_concept_uid, mesh_semantic_type_uid
+) VALUES (?, ?)
+EOL;
+        $connection = $this->_em->getConnection();
+        $connection->executeUpdate($sql, $data);
+    }
+
+    /**
+     * @param array $data
+     */
+    public function importMeshConceptTerm(array $data)
+    {
+        $sql =<<<EOL
+INSERT INTO mesh_concept_x_term (
+    mesh_concept_uid, mesh_term_id
+) VALUES (?, ?)
+EOL;
+        $connection = $this->_em->getConnection();
+        $connection->executeUpdate($sql, $data);
+    }
+
+    /**
+     * @param array $data
+     */
+    public function importMeshDescriptor(array $data)
+    {
+        $sql =<<<EOL
+INSERT INTO mesh_descriptor (
+    mesh_descriptor_uid, name, annotation, created_at, updated_at, deleted
+) VALUES (?, ?, ?, ?, ?, ?)
+EOL;
+        $connection = $this->_em->getConnection();
+        $connection->executeUpdate($sql, $data);
+    }
+
+    /**
+     * @param array $data
+     */
+    public function importMeshDescriptorConcept(array $data)
+    {
+        {
+            $sql =<<<EOL
+INSERT INTO mesh_descriptor_x_concept (
+    mesh_concept_uid, mesh_descriptor_uid
+) VALUES (?, ?)
+EOL;
+            $connection = $this->_em->getConnection();
+            $connection->executeUpdate($sql, $data);
+        }
+    }
+
+    /**
+     * @param array $data
+     */
+    public function importMeshDescriptorQualifier(array $data)
+    {
+        $sql =<<<EOL
+INSERT INTO mesh_descriptor_x_qualifier (
+    mesh_descriptor_uid, mesh_qualifier_uid
+) VALUES (?, ?)
+EOL;
+        $connection = $this->_em->getConnection();
+        $connection->executeUpdate($sql, $data);
+    }
+
+    /**
+     * @param array $data
+     */
+    public function importMeshPreviousIndexing(array $data)
+    {
+        $sql =<<<EOL
+INSERT INTO mesh_previous_indexing (
+    mesh_descriptor_uid, previous_indexing, mesh_previous_indexing_id
+) VALUES (?, ?, ?)
+EOL;
+        $connection = $this->_em->getConnection();
+        $connection->executeUpdate($sql, $data);
+    }
+
+    /**
+     * @param array $data
+     */
+    public function importMeshQualifier(array $data)
+    {
+
+        $sql =<<<EOL
+INSERT INTO mesh_qualifier (
+    mesh_qualifier_uid, name, created_at, updated_at
+) VALUES (?, ?, ?, ?)
+EOL;
+        $connection = $this->_em->getConnection();
+        $connection->executeUpdate($sql, $data);
+    }
+
+    /**
+     * @param array $data
+     */
+    public function importMeshSemanticType(array $data)
+    {
+        $sql =<<<EOL
+INSERT INTO mesh_semantic_type (
+    mesh_semantic_type_uid, name, created_at, updated_at
+) VALUES (?, ?, ?, ?)
+EOL;
+        $connection = $this->_em->getConnection();
+        $connection->executeUpdate($sql, $data);
+    }
+
+    /**
+     * @param array $data
+     */
+    public function importMeshTerm(array $data)
+    {
+        $sql =<<<EOL
+INSERT INTO mesh_term (
+    mesh_term_uid, name, lexical_tag, concept_preferred, record_preferred, permuted,
+    print, created_at, updated_at, mesh_term_id
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+EOL;
+        $connection = $this->_em->getConnection();
+        $connection->executeUpdate($sql, $data);
+    }
+
+    /**
+     * @param array $data
+     */
+    public function importMeshTree(array $data)
+    {
+        $sql =<<<EOL
+INSERT INTO mesh_tree (
+    tree_number, mesh_descriptor_uid, mesh_tree_id
+) VALUES (?, ?, ?)
+EOL;
+        $connection = $this->_em->getConnection();
+        $connection->executeUpdate($sql, $data);
+    }
+
+    /**
      * @param QueryBuilder $qb
      * @param array $criteria
      * @param array $orderBy
