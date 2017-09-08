@@ -496,13 +496,11 @@ EOL;
                     'mesh_term_id' => $termMap[$ref[1]],
                 ]);
             }
-            foreach($data['previous_indexing'] as $descriptorUi => $previousIndexings) {
-                foreach($previousIndexings as $previousIndexing) {
-                    $conn->insert('mesh_previous_indexing', [
-                        'mesh_descriptor_uid' => $descriptorUi,
-                        'previous_indexing' => $previousIndexing,
-                    ]);
-                }
+            foreach($data['previous_indexing'] as $descriptorUi => $previousIndexing) {
+                $conn->insert('mesh_previous_indexing', [
+                    'mesh_descriptor_uid' => $descriptorUi,
+                    'previous_indexing' => $previousIndexing,
+                ]);
             }
             foreach($data['tree'] as $descriptorUi => $trees) {
                 foreach($trees as $tree) {
@@ -512,6 +510,7 @@ EOL;
                     ]);
                 }
             }
+
             $conn->commit();
 
         } catch (\Exception $e) {
