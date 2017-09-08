@@ -445,8 +445,10 @@ EOL;
             ]);
         }
         /* @var Term $term */
+        $i = 1;
         foreach($data['term'] as $hash => $term) {
             $conn->insert('mesh_term', [
+                'mesh_term_id' => $i,
                 'mesh_term_uid' => $term->getUi(),
                 'name' => $term->getName(),
                 'lexical_tag' => $term->getLexicalTag(),
@@ -457,6 +459,7 @@ EOL;
                 'created_at' => $now,
                 'updated_at' => $now,
             ], [
+                \PDO::PARAM_INT,
                 \PDO::PARAM_STR,
                 \PDO::PARAM_STR,
                 \PDO::PARAM_STR,
@@ -467,8 +470,10 @@ EOL;
                 'datetime',
                 'datetime',
             ]);
-            $termMap[$hash] = $conn->lastInsertId();
+            $termMap[$hash] = $i;
+            $i++;
         }
+        /*
         foreach($data['descriptor_x_concept'] as $ref) {
             $conn->insert('mesh_descriptor_x_concept', [
                 'mesh_descriptor_uid' => $ref[0],
@@ -503,6 +508,7 @@ EOL;
                 ]);
             }
         }
+        */
     }
 
     public function flagDescriptorsAsDeleted(array $ids)
