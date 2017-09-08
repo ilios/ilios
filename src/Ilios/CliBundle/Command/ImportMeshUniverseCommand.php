@@ -168,7 +168,15 @@ class ImportMeshUniverseCommand extends Command {
                 }
             }
             $rhett['tree'][$descriptor->getUi()] = $descriptor->getTreeNumbers();
-            $rhett['previous_indexing'][$descriptor->getUi()] = $descriptor->getPreviousIndexing();
+            $prevIndexing = $descriptor->getPreviousIndexing();
+            if (! empty($prevIndexing)) {
+                // KNOWN ISSUE
+                // despite the one-to-many relationship of descriptors to their previous indexing records,
+                // we currently treat this relationship as a one-to-one, only taking
+                // the last previous indexing record into account.
+                // @todo revisit and fix. [ST 2017/09/08]
+                $rhett['previous_indexing'][$descriptor->getUi()] = array_reverse($prevIndexing)[0];
+            }
             foreach($descriptor->getAllowableQualifiers() as $qualifier) {
                 $rhett['qualifier'][$qualifier->getQualifierReference()->getUi()] = $qualifier;
                 $rhett['descriptor_x_qualifier'][] = [
