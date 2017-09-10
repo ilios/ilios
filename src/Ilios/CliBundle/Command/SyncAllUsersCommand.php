@@ -2,6 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -188,14 +189,30 @@ class SyncAllUsersCommand extends Command
                     $user->setPhone($recordArray['telephoneNumber']);
                 }
                 $authentication = $user->getAuthentication();
+                $duplicateAuthenticationExists = false;
                 if (!$authentication) {
                     $output->writeln(
                         '  <comment>[I] User had no authentication data, creating it now.</comment>'
                     );
-                    $authentication = $this->authenticationManager->create();
-                    $authentication->setUser($user);
+                    /** @var AuthenticationInterface $duplicate */
+                    $duplicate = $this->authenticationManager->findOneBy(['username' => $recordArray['username']]);
+                    if ($duplicate) {
+                        $duplicateAuthenticationExists = true;
+                        $output->writeln(
+                            '    <error>[E] There is already an account for username ' .
+                            $recordArray['username'] . ' belonging to user #' . $duplicate->getUser()->getId() . ' ' .
+                            'with Campus ID ' . $duplicate->getUser()->getCampusId() . ' ' .
+                            'one of these users may be a duplicate or there may be an issue with the directory ' .
+                            'no updates will be made to the authentication table at this time.</error>'
+                        );
+                    } else {
+                        $authentication = $this->authenticationManager->create();
+                        $authentication->setUser($user);
+                    }
                 }
-                if ($fixSmallThings && $authentication->getUsername() != $recordArray['username']) {
+                if ($fixSmallThings &&
+                    !$duplicateAuthenticationExists &&
+                    $authentication->getUsername() != $recordArray['username']) {
                     $update = true;
                     $output->writeln(
                         '  <comment>[I] Updating username from "' . $authentication->getUsername() .
@@ -223,9 +240,11 @@ class SyncAllUsersCommand extends Command
         $output->writeln('<info>Found ' . count($unsyncedUsers) . ' unexamined users.</info>');
         
         foreach ($unsyncedUsers as $user) {
+            $campusId = $user->getCampusId()?$user->getCampusId():'(no campusId)';
             $output->writeln(
                 '<comment>[I] User #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' ' .
-                $user->getEmail() . ' not found in the directory.  Logged for further study.</comment>'
+                $user->getEmail() . ' ' . $campusId . ' ' .
+                'not found in the directory.  Logged for further study.</comment>'
             );
             $update = $this->pendingUserUpdateManager->create();
             $update->setUser($user);
@@ -248,7 +267,7 @@ class SyncAllUsersCommand extends Command
             if (empty($record[$key])) {
                 $valid = false;
                 $output->writeln(
-                    "  <error>[E]  {$key} is required and it is missing from record with " .
+                    "  <error>[E] {$key} is required and it is missing from record with " .
                     'campus ID (' . $record['campusId'] . ').  ' .
                     'User will not be updated.</error>'
                 );
