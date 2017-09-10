@@ -315,4 +315,13 @@ class MeshDescriptorTest extends EntityBase
         $diff = $now->diff($updatedAt);
         $this->assertTrue($diff->s < 2);
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::setDeleted
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::isDeleted()
+     */
+    public function testSetPermuted()
+    {
+        $this->booleanSetTest('deleted');
+    }
 }
