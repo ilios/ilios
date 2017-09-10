@@ -501,7 +501,8 @@ EOL;
      * Gut the MeSH tables, leaving only descriptor records in place that are somehow wired up to the rest of Ilios.
      * @throws \Exception
      */
-    public function clearExistingData() {
+    public function clearExistingData()
+    {
         $conn = $this->_em->getConnection();
         $conn->beginTransaction();
         try {
@@ -526,7 +527,7 @@ AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM objective_x_mesh
 EOL;
             $conn->query($sql);
             $conn->commit();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $conn->rollBack();
             throw $e;
         }
@@ -537,7 +538,7 @@ EOL;
      * @param array $existingDescriptorIds
      * @throws \Exception
      */
-    public function upsertMeshUniverse(array $data, array $existingDescriptorIds)
+    public function upsertMeshUniverse(array $data)
     {
         $now = new \DateTime();
         $conn = $this->_em->getConnection();
@@ -546,8 +547,7 @@ EOL;
         $conn->beginTransaction();
         try {
             /* @var Descriptor $descriptor */
-            foreach($data['descriptor'] as $descriptor) {
-                if (! in_array($descriptor->getUi(), $existingDescriptorIds)) {
+            foreach ($data['insert']['mesh_descriptor'] as $descriptor) {
                     $conn->insert('mesh_descriptor', [
                         'mesh_descriptor_uid' => $descriptor->getUi(),
                         'name' => $descriptor->getName(),
@@ -563,22 +563,23 @@ EOL;
                         'datetime',
                         'datetime',
                     ]);
-                } else {
-                    $conn->update('mesh_descriptor', [
-                        'name' => $descriptor->getName(),
-                        'annotation' => $descriptor->getAnnotation(),
-                        'updated_at' => $now,
-                    ], [
-                        'mesh_descriptor_uid' => $descriptor->getUi()
-                    ], [
-                        \PDO::PARAM_STR,
-                        \PDO::PARAM_STR,
-                        'datetime',
-                    ]);
-                }
+            }
+            /* @var Descriptor $descriptor */
+            foreach ($data['update']['mesh_descriptor'] as $descriptor) {
+                $conn->update('mesh_descriptor', [
+                    'name' => $descriptor->getName(),
+                    'annotation' => $descriptor->getAnnotation(),
+                    'updated_at' => $now,
+                ], [
+                    'mesh_descriptor_uid' => $descriptor->getUi()
+                ], [
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    'datetime',
+                ]);
             }
             /* @var AllowableQualifier $qualifier */
-            foreach($data['qualifier'] as $qualifier) {
+            foreach ($data['insert']['mesh_qualifier'] as $qualifier) {
                 $conn->insert('mesh_qualifier', [
                     'mesh_qualifier_uid' => $qualifier->getQualifierReference()->getUi(),
                     'name' => $qualifier->getQualifierReference()->getName(),
@@ -592,7 +593,7 @@ EOL;
                 ]);
             }
             /* @var Concept $concept */
-            foreach($data['concept'] as $concept) {
+            foreach ($data['insert']['mesh_concept'] as $concept) {
                 $conn->insert('mesh_concept', [
                     'mesh_concept_uid' => $concept->getUi(),
                     'name' => $concept->getName(),
@@ -617,7 +618,7 @@ EOL;
             }
             /* @var Term $term */
             $i = 1;
-            foreach($data['term'] as $hash => $term) {
+            foreach ($data['insert']['mesh_term'] as $hash => $term) {
                 $conn->insert('mesh_term', [
                     'mesh_term_id' => $i,
                     'mesh_term_uid' => $term->getUi(),
@@ -645,32 +646,32 @@ EOL;
                 $i++;
             }
 
-            foreach($data['descriptor_x_concept'] as $ref) {
+            foreach ($data['insert']['mesh_descriptor_x_concept'] as $ref) {
                 $conn->insert('mesh_descriptor_x_concept', [
                     'mesh_descriptor_uid' => $ref[0],
                     'mesh_concept_uid' => $ref[1],
                 ]);
             }
-            foreach($data['descriptor_x_qualifier'] as $ref) {
+            foreach ($data['insert']['mesh_descriptor_x_qualifier'] as $ref) {
                 $conn->insert('mesh_descriptor_x_qualifier', [
                     'mesh_descriptor_uid' => $ref[0],
                     'mesh_qualifier_uid' => $ref[1],
                 ]);
             }
-            foreach($data['concept_x_term'] as $ref) {
+            foreach ($data['insert']['mesh_concept_x_term'] as $ref) {
                 $conn->insert('mesh_concept_x_term', [
                     'mesh_concept_uid' => $ref[0],
                     'mesh_term_id' => $termMap[$ref[1]],
                 ]);
             }
-            foreach($data['previous_indexing'] as $descriptorUi => $previousIndexing) {
+            foreach ($data['insert']['mesh_previous_indexing'] as $descriptorUi => $previousIndexing) {
                 $conn->insert('mesh_previous_indexing', [
                     'mesh_descriptor_uid' => $descriptorUi,
                     'previous_indexing' => $previousIndexing,
                 ]);
             }
-            foreach($data['tree'] as $descriptorUi => $trees) {
-                foreach($trees as $tree) {
+            foreach ($data['insert']['mesh_tree'] as $descriptorUi => $trees) {
+                foreach ($trees as $tree) {
                     $conn->insert('mesh_tree', [
                         'mesh_descriptor_uid' => $descriptorUi,
                         'tree_number' => $tree,
@@ -679,7 +680,6 @@ EOL;
             }
 
             $conn->commit();
-
         } catch (\Exception $e) {
             $conn->rollBack();
             throw $e;
@@ -701,5 +701,4 @@ EOL;
         $query = $qb->getQuery();
         $query->execute();
     }
-
 }
