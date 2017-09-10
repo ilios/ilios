@@ -3,7 +3,6 @@
 namespace Ilios\CliBundle\Command;
 
 use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager;
-use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Parser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,7 +16,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ImportMeshUniverseCommand extends Command
 {
-
     /**
      * @var string
      */
@@ -82,18 +80,23 @@ class ImportMeshUniverseCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln('Started MeSH universe import at ' . strftime('%r') . '.');
         $uri = $this->getUri($input);
+        $output->writeln("1/4: Parsing MeSH XML retrieved from ${uri}.");
         $descriptorSet = $this->parser->parse($uri);
         $descriptorIds = $descriptorSet->getDescriptorUis();
+        $output->writeln("2/4: Clearing database of existing MeSH data.");
         $this->manager->clearExistingData();
         $existingDescriptors = $this->manager->findDTOsBy(array());
         $existingDescriptorIds = array_column($existingDescriptors, 'id');
         $updateDescriptorIds = array_intersect($existingDescriptorIds, $descriptorIds);
         $deletedDescriptorIds = array_diff($existingDescriptorIds, $descriptorIds);
+        $output->writeln("3/4: Importing MeSH data into database. This will take a while.");
         $this->manager->upsertMeshUniverse($descriptorSet, $updateDescriptorIds);
+        $output->writeln("4/4: Flagging orphaned MeSH descriptors as deleted.");
         $this->manager->flagDescriptorsAsDeleted($deletedDescriptorIds);
+        $output->writeln('Finished MeSH universe import at ' . strftime('%r') .'.');
     }
-
 
     /**
      * @param InputInterface $input
