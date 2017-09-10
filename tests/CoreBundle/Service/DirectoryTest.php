@@ -79,6 +79,36 @@ class DirectoryTest extends TestCase
     }
 
     /**
+     * @covers \Ilios\CoreBundle\Service\Directory::findByCampusId
+     */
+    public function testFindByCampusIdsInChunks()
+    {
+        $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
+        $ids = [];
+        $firstFilters = '(|';
+        for ($i = 0; $i < 50; $i++) {
+            $ids[] = $i;
+            $firstFilters .= "(campusId=${i})";
+        }
+        $firstFilters .= ')';
+
+        $secondFilters = '(|';
+        for ($i = 50; $i < 100; $i++) {
+            $ids[] = $i;
+            $secondFilters .= "(campusId=${i})";
+        }
+        $secondFilters .= ')';
+
+        $this->ldapManager->shouldReceive('search')
+            ->with($firstFilters)->andReturn([1])->once();
+        $this->ldapManager->shouldReceive('search')
+            ->with($secondFilters)->andReturn([2])->once();
+
+        $result = $this->obj->findByCampusIds($ids);
+        $this->assertSame($result, [1, 2]);
+    }
+
+    /**
      * @covers \Ilios\CoreBundle\Service\Directory::find
      */
     public function testFind()

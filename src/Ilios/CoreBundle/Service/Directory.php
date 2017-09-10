@@ -57,10 +57,17 @@ class Directory
         $filterTerms = array_map(function ($campusId) use ($ldapCampusIdProperty) {
             return "({$ldapCampusIdProperty}={$campusId})";
         }, $campusIds);
-        $filterTermsString = implode($filterTerms, '');
-        $filter = "(|{$filterTermsString})";
 
-        $users = $this->ldapManager->search($filter);
+        $users = [];
+
+        //Split into groups of 50 to avoid LDAP query length limits
+        foreach (array_chunk($filterTerms, 50) as $terms) {
+            $filterTermsString = implode($terms, '');
+            $filter = "(|{$filterTermsString})";
+
+            $users = array_merge($users, $this->ldapManager->search($filter));
+        }
+
         if (count($users)) {
             return $users;
         }
