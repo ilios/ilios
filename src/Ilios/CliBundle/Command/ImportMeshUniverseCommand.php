@@ -92,7 +92,7 @@ class ImportMeshUniverseCommand extends Command
         $existingDescriptorIds = array_column($existingDescriptors, 'id');
         $updateDescriptorIds = array_intersect($existingDescriptorIds, $descriptorIds);
         $deletedDescriptorIds = array_diff($existingDescriptorIds, $descriptorIds);
-        $output->writeln("3/4: Importing MeSH data into database. This will take a while.");
+        $output->writeln("3/4: Importing MeSH data into database.");
         $this->manager->upsertMeshUniverse($descriptorSet, $updateDescriptorIds);
         $output->writeln("4/4: Flagging orphaned MeSH descriptors as deleted.");
         $this->manager->flagDescriptorsAsDeleted($deletedDescriptorIds);
