@@ -80,7 +80,8 @@ class ImportMeshUniverseCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Started MeSH universe import at ' . strftime('%r') . '.');
+        $startTime = time();
+        $output->writeln('Started MeSH universe import, this will take a while...');
         $uri = $this->getUri($input);
         $output->writeln("1/4: Parsing MeSH XML retrieved from ${uri}.");
         $descriptorSet = $this->parser->parse($uri);
@@ -95,7 +96,9 @@ class ImportMeshUniverseCommand extends Command
         $this->manager->upsertMeshUniverse($descriptorSet, $updateDescriptorIds);
         $output->writeln("4/4: Flagging orphaned MeSH descriptors as deleted.");
         $this->manager->flagDescriptorsAsDeleted($deletedDescriptorIds);
-        $output->writeln('Finished MeSH universe import at ' . strftime('%r') .'.');
+        $endTime = time();
+        $duration = $endTime - $startTime;
+        $output->writeln("Finished MeSH universe import in ${duration} seconds.");
     }
 
     /**
