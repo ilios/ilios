@@ -8,6 +8,7 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class MeshSemanticTypeDTO
  *
  * @IS\DTO
+ * @deprecated
  */
 class MeshSemanticTypeDTO
 {

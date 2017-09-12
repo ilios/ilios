@@ -32,6 +32,7 @@ class MeshConceptDTO
      *
      * @IS\Expose
      * @IS\Type("string")
+     * @deprecated
      */
     public $umlsUid;
 
