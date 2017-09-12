@@ -59,7 +59,10 @@ class MeshDescriptorSetTransmogrifier
                     $rhett['insert']['mesh_concept_x_term'][] = [$concept->getUi(), $hash];
                 }
             }
-            $rhett['insert']['mesh_tree'][$descriptor->getUi()] = $descriptor->getTreeNumbers();
+            $treeNumbers = $descriptor->getTreeNumbers();
+            if (!empty($treeNumbers)) {
+                $rhett['insert']['mesh_tree'][$descriptor->getUi()] = $treeNumbers;
+            }
             $prevIndexing = $descriptor->getPreviousIndexing();
             if (!empty($prevIndexing)) {
                 // KNOWN ISSUE
