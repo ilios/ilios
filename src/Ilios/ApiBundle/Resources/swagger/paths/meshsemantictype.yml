@@ -1,5 +1,6 @@
 /meshsemantictypes:
   get:
+    deprecated: true
     summary: Fetch all Meshsemantictypes
     parameters:
       - name: X-JWT-Authorization
@@ -45,6 +46,7 @@
               items:
                 $ref: '#/definitions/Meshsemantictype'
   post:
+    deprecated: true
     summary: Create Meshsemantictypes
     parameters:
     - name: X-JWT-Authorization
@@ -81,6 +83,7 @@
         description: Access Denied
 /meshsemantictypes/{id}:
   get:
+    deprecated: true
     summary: Fetch a single Meshsemantictype
     parameters:
     - name: X-JWT-Authorization
@@ -109,6 +112,7 @@
       '404':
         description: Not found
   put:
+    deprecated: true
     summary: Edit a Meshsemantictype
     parameters:
     - name: X-JWT-Authorization
@@ -147,6 +151,7 @@
       '404':
         description: Not Found
   delete:
+    deprecated: true
     summary: Delete a Meshsemantictype
     parameters:
     - name: X-JWT-Authorization
