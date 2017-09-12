@@ -5,6 +5,7 @@ namespace Ilios\CliBundle\Command;
 use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager;
 use Ilios\MeSH\Parser;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,6 +17,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ImportMeshUniverseCommand extends Command
 {
+    use LockableTrait;
+
     /**
      * @var string
      */
@@ -80,6 +83,10 @@ class ImportMeshUniverseCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (!$this->lock()) {
+            $output->writeln('The command is already running in another process.');
+            return 0;
+        }
         $startTime = time();
         $output->writeln('Started MeSH universe import, this will take a while...');
         $uri = $this->getUri($input);
@@ -99,6 +106,8 @@ class ImportMeshUniverseCommand extends Command
         $endTime = time();
         $duration = $endTime - $startTime;
         $output->writeln("Finished MeSH universe import in ${duration} seconds.");
+        $this->release();
+        return 0;
     }
 
     /**
