@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Ilios\CoreBundle\Classes\MeshDescriptorSetTransmogrifier;
+use Ilios\CoreBundle\Service\MeshDescriptorSetTransmogrifier;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
 use Ilios\MeSH\Model\DescriptorSet;

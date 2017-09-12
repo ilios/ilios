@@ -1,7 +1,7 @@
 <?php
 namespace Tests\CoreBundle\Classes;
 
-use Ilios\CoreBundle\Classes\MeshDescriptorSetTransmogrifier;
+use Ilios\CoreBundle\Service\MeshDescriptorSetTransmogrifier;
 use Ilios\MeSH\Model\AllowableQualifier;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;

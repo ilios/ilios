@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Classes;
+namespace Ilios\CoreBundle\Service;
 
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
