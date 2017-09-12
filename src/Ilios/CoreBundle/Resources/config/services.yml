@@ -195,3 +195,5 @@ services:
             $class: 'Ilios\CoreBundle\Entity\UserRole'
     Ilios\MeSH\Parser:
         public: true
+    Ilios\CoreBundle\Classes\MeshDescriptorSetTransmogrifier:
+        public: true
