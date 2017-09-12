@@ -107,7 +107,6 @@ class ImportMeshUniverseCommand extends Command
         $duration = $endTime - $startTime;
         $output->writeln("Finished MeSH universe import in ${duration} seconds.");
         $this->release();
-        return 0;
     }
 
     /**
