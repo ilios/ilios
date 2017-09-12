@@ -692,7 +692,7 @@ EOL;
      */
     public function flagDescriptorsAsDeleted(array $ids)
     {
-        $qb = $conn = $this->_em->createQueryBuilder();
+        $qb = $this->_em->createQueryBuilder();
         $qb->update('IliosCoreBundle:MeshDescriptor', 'm');
         $qb->set('m.deleted', ':deleted');
         $qb->where($qb->expr()->in('m.id', ':ids'));
