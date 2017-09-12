@@ -154,6 +154,7 @@ class MeshConcept implements MeshConceptInterface
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
+     * @deprecated
      */
     protected $semanticTypes;
 
@@ -300,6 +301,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @param Collection $semanticTypes
+     * @deprecated
      */
     public function setSemanticTypes(Collection $semanticTypes)
     {
@@ -312,6 +314,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @param MeshSemanticTypeInterface $semanticType
+     * @deprecated
      */
     public function addSemanticType(MeshSemanticTypeInterface $semanticType)
     {
@@ -322,6 +325,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @param MeshSemanticTypeInterface $semanticType
+     * @deprecated
      */
     public function removeSemanticType(MeshSemanticTypeInterface $semanticType)
     {
@@ -330,6 +334,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @return ArrayCollection|MeshSemanticTypeInterface[]
+     * @deprecated
      */
     public function getSemanticTypes()
     {

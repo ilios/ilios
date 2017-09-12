@@ -72,6 +72,7 @@ class MeshConceptDTO
      *
      * @IS\Expose
      * @IS\Type("array<string>")
+     * @deprecated
      */
     public $semanticTypes;
 
