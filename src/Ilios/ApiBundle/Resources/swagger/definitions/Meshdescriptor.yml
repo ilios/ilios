@@ -20,6 +20,9 @@ Meshdescriptor:
    type: string
    format: date-time
    readOnly: true
+  deleted:
+    description: Deleted
+    type: boolean
   courses:
    description: Courses
    type: array
