@@ -32,6 +32,7 @@ class MeshConceptDTO
      *
      * @IS\Expose
      * @IS\Type("string")
+     * @deprecated
      */
     public $umlsUid;
 
@@ -72,6 +73,7 @@ class MeshConceptDTO
      *
      * @IS\Expose
      * @IS\Type("array<string>")
+     * @deprecated
      */
     public $semanticTypes;
 

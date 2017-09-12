@@ -72,6 +72,7 @@ class MeshTermDTO
      *
      * @IS\Expose
      * @IS\Type("boolean")
+     * @deprecated
      */
     public $printable;
 

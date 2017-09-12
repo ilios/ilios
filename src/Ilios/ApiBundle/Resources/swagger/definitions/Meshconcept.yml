@@ -10,6 +10,7 @@ Meshconcept:
   umlsUid:
    description: Umlsuid
    type: string
+   deprecated: true
   preferred:
    description: Preferred
    type: boolean
@@ -24,6 +25,7 @@ Meshconcept:
    type: string
   semanticTypes:
    description: Semantictypes
+   deprecated: true
    type: array
    items:
     type: string

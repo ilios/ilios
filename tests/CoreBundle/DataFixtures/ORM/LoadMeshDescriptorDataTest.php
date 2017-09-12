@@ -48,5 +48,6 @@ class LoadMeshDescriptorDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[2], $entity->getAnnotation());
         $this->assertEquals(new \DateTime($data[3], new \DateTimeZone('UTC')), $entity->getCreatedAt());
         $this->assertEquals(new \DateTime($data[4], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
+        $this->assertEquals((boolean) $data[5], $entity->isDeleted());
     }
 }

@@ -6,6 +6,10 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
+use Ilios\MeSH\Model\AllowableQualifier;
+use Ilios\MeSH\Model\Concept;
+use Ilios\MeSH\Model\Descriptor;
+use Ilios\MeSH\Model\Term;
 
 /**
  * Class MeshDescriptorRepository
@@ -65,9 +69,9 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
         }
         $query = $qb->getQuery();
         $query->useResultCache(true);
-        
+
         $results = $query->getResult();
-        
+
         // Unfortunately, we can't let Doctrine limit the fetch here because of all the joins
         // it returns many less than the desired number.
         if ($limit) {
@@ -120,7 +124,8 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
                 $arr['name'],
                 $arr['annotation'],
                 $arr['createdAt'],
-                $arr['updatedAt']
+                $arr['updatedAt'],
+                $arr['deleted']
             );
         }
         $descriptorIds = array_keys($descriptorDTOs);
@@ -213,8 +218,8 @@ EOL;
     {
         $sql =<<<EOL
 INSERT INTO mesh_descriptor (
-    mesh_descriptor_uid, name, annotation, created_at, updated_at
-) VALUES (?, ?, ?, ?, ?)
+    mesh_descriptor_uid, name, annotation, created_at, updated_at, deleted
+) VALUES (?, ?, ?, ?, ?, ?)
 EOL;
         $connection = $this->_em->getConnection();
         $connection->executeUpdate($sql, $data);
@@ -490,5 +495,211 @@ EOL;
         }
 
         return $qb;
+    }
+
+    /**
+     * Gut the MeSH tables, leaving only descriptor records in place that are somehow wired up to the rest of Ilios.
+     * @throws \Exception
+     */
+    public function clearExistingData()
+    {
+        $conn = $this->_em->getConnection();
+        $conn->beginTransaction();
+        try {
+            $conn->query('DELETE FROM mesh_concept_x_semantic_type');
+            $conn->query('DELETE FROM mesh_concept_x_term');
+            $conn->query('DELETE FROM mesh_descriptor_x_qualifier');
+            $conn->query('DELETE FROM mesh_descriptor_x_concept');
+            $conn->query('DELETE FROM mesh_previous_indexing');
+            $conn->query('DELETE FROM mesh_tree');
+            $conn->query('DELETE FROM mesh_term');
+            $conn->query('DELETE FROM mesh_semantic_type');
+            $conn->query('DELETE FROM mesh_concept');
+            $conn->query('DELETE FROM mesh_qualifier');
+
+            $sql=<<<EOL
+DELETE FROM mesh_descriptor
+WHERE mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_learning_material_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_learning_material_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM objective_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT prepositional_object_table_row_id FROM report where prepositional_object = 'mesh term')
+EOL;
+            $conn->query($sql);
+            $conn->commit();
+        } catch (\Exception $e) {
+            $conn->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * @param array $data
+     * @param array $existingDescriptorIds
+     * @throws \Exception
+     */
+    public function upsertMeshUniverse(array $data)
+    {
+        $now = new \DateTime();
+        $conn = $this->_em->getConnection();
+
+        $termMap = []; // maps term hashes to record ids.
+        $conn->beginTransaction();
+        try {
+            /* @var Descriptor $descriptor */
+            foreach ($data['insert']['mesh_descriptor'] as $descriptor) {
+                    $conn->insert('mesh_descriptor', [
+                        'mesh_descriptor_uid' => $descriptor->getUi(),
+                        'name' => $descriptor->getName(),
+                        'annotation' => $descriptor->getAnnotation(),
+                        'deleted' => false,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ], [
+                        \PDO::PARAM_STR,
+                        \PDO::PARAM_STR,
+                        \PDO::PARAM_STR,
+                        \PDO::PARAM_BOOL,
+                        'datetime',
+                        'datetime',
+                    ]);
+            }
+            /* @var Descriptor $descriptor */
+            foreach ($data['update']['mesh_descriptor'] as $descriptor) {
+                $conn->update('mesh_descriptor', [
+                    'name' => $descriptor->getName(),
+                    'annotation' => $descriptor->getAnnotation(),
+                    'updated_at' => $now,
+                ], [
+                    'mesh_descriptor_uid' => $descriptor->getUi()
+                ], [
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    'datetime',
+                ]);
+            }
+            /* @var AllowableQualifier $qualifier */
+            foreach ($data['insert']['mesh_qualifier'] as $qualifier) {
+                $conn->insert('mesh_qualifier', [
+                    'mesh_qualifier_uid' => $qualifier->getQualifierReference()->getUi(),
+                    'name' => $qualifier->getQualifierReference()->getName(),
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ], [
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    'datetime',
+                    'datetime'
+                ]);
+            }
+            /* @var Concept $concept */
+            foreach ($data['insert']['mesh_concept'] as $concept) {
+                $conn->insert('mesh_concept', [
+                    'mesh_concept_uid' => $concept->getUi(),
+                    'name' => $concept->getName(),
+                    'preferred' => $concept->isPreferred(),
+                    'scope_note' => $concept->getScopeNote(),
+                    'casn_1_name' => $concept->getCasn1Name(),
+                    'registry_number' => $concept->getRegistryNumber(),
+                    'umls_uid' => 'n/a', // @todo remove [ST 2017/09/06],
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ], [
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_BOOL,
+                    \PDO::PARAM_BOOL,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    'datetime',
+                    'datetime'
+                ]);
+            }
+            /* @var Term $term */
+            $i = 1;
+            foreach ($data['insert']['mesh_term'] as $hash => $term) {
+                $conn->insert('mesh_term', [
+                    'mesh_term_id' => $i,
+                    'mesh_term_uid' => $term->getUi(),
+                    'name' => $term->getName(),
+                    'lexical_tag' => $term->getLexicalTag(),
+                    'concept_preferred' => $term->isConceptPreferred(),
+                    'record_preferred' => $term->isRecordPreferred(),
+                    'permuted' => $term->isPermuted(),
+                    'print' => false, // @todo remove [ST 2017/09/06]
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ], [
+                    \PDO::PARAM_INT,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_STR,
+                    \PDO::PARAM_BOOL,
+                    \PDO::PARAM_BOOL,
+                    \PDO::PARAM_BOOL,
+                    \PDO::PARAM_BOOL,
+                    'datetime',
+                    'datetime',
+                ]);
+                $termMap[$hash] = $i;
+                $i++;
+            }
+
+            foreach ($data['insert']['mesh_descriptor_x_concept'] as $ref) {
+                $conn->insert('mesh_descriptor_x_concept', [
+                    'mesh_descriptor_uid' => $ref[0],
+                    'mesh_concept_uid' => $ref[1],
+                ]);
+            }
+            foreach ($data['insert']['mesh_descriptor_x_qualifier'] as $ref) {
+                $conn->insert('mesh_descriptor_x_qualifier', [
+                    'mesh_descriptor_uid' => $ref[0],
+                    'mesh_qualifier_uid' => $ref[1],
+                ]);
+            }
+            foreach ($data['insert']['mesh_concept_x_term'] as $ref) {
+                $conn->insert('mesh_concept_x_term', [
+                    'mesh_concept_uid' => $ref[0],
+                    'mesh_term_id' => $termMap[$ref[1]],
+                ]);
+            }
+            foreach ($data['insert']['mesh_previous_indexing'] as $descriptorUi => $previousIndexing) {
+                $conn->insert('mesh_previous_indexing', [
+                    'mesh_descriptor_uid' => $descriptorUi,
+                    'previous_indexing' => $previousIndexing,
+                ]);
+            }
+            foreach ($data['insert']['mesh_tree'] as $descriptorUi => $trees) {
+                foreach ($trees as $tree) {
+                    $conn->insert('mesh_tree', [
+                        'mesh_descriptor_uid' => $descriptorUi,
+                        'tree_number' => $tree,
+                    ]);
+                }
+            }
+
+            $conn->commit();
+        } catch (\Exception $e) {
+            $conn->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * Flag all given MeSH descriptors as "deleted".
+     * @param array $ids The mesh descriptor IDs.
+     */
+    public function flagDescriptorsAsDeleted(array $ids)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->update('IliosCoreBundle:MeshDescriptor', 'm');
+        $qb->set('m.deleted', ':deleted');
+        $qb->where($qb->expr()->in('m.id', ':ids'));
+        $qb->setParameter(':deleted', true);
+        $qb->setParameter(':ids', $ids);
+        $query = $qb->getQuery();
+        $query->execute();
     }
 }

@@ -111,25 +111,35 @@ class MeshDescriptorDTO
     public $previousIndexing;
 
     /**
+     * @var boolean
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public $deleted;
+
+    /**
      * MeshDescriptorDTO constructor.
      * @param string $id
      * @param string $name
      * @param string $annotation
      * @param \DateTime $createdAt
      * @param \DateTime $updatedAt
+     * @param bool $deleted
      */
     public function __construct(
         $id,
         $name,
         $annotation,
         $createdAt,
-        $updatedAt
+        $updatedAt,
+        $deleted
     ) {
         $this->id = $id;
         $this->name = $name;
         $this->annotation = $annotation;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->deleted = $deleted;
 
         $this->courses= [];
         $this->objectives = [];

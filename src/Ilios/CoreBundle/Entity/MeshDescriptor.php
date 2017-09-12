@@ -40,14 +40,14 @@ class MeshDescriptor implements MeshDescriptorInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="mesh_descriptor_uid", type="string", length=9)
+     * @ORM\Column(name="mesh_descriptor_uid", type="string", length=12)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 9
+     *      max = 12
      * )
      *
      * @IS\Expose
@@ -105,6 +105,15 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @IS\Type("dateTime")
      */
     protected $updatedAt;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="deleted", type="boolean")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    protected $deleted;
 
     /**
      * @var ArrayCollection|CourseInterface[]
@@ -211,6 +220,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->qualifiers = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->deleted = false;
     }
 
     /**
@@ -497,5 +507,21 @@ class MeshDescriptor implements MeshDescriptorInterface
             $this->concepts->removeElement($concept);
             $concept->removeDescriptor($this);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
     }
 }

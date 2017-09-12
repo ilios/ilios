@@ -31,6 +31,7 @@ class LoadMeshDescriptorData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setName($arr['name']);
             $entity->setAnnotation($arr['annotation']);
+            $entity->setDeleted($arr['deleted']);
             $this->addReference('meshDescriptors' . $arr['id'], $entity);
             $manager->persist($entity);
         }

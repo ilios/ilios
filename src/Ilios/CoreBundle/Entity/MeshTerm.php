@@ -53,13 +53,13 @@ class MeshTerm implements MeshTermInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="mesh_term_uid", type="string", length=9)
+     * @ORM\Column(name="mesh_term_uid", type="string", length=12)
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 9
+     *      max = 12
      * )
      *
      * @IS\Expose
@@ -145,6 +145,8 @@ class MeshTerm implements MeshTermInterface
      *
      * @IS\Expose
      * @IS\Type("string")
+     *
+     * @deprecated
      */
     protected $printable;
 
@@ -276,6 +278,7 @@ class MeshTerm implements MeshTermInterface
 
     /**
      * @param boolean $printable
+     * @deprecated
      */
     public function setPrintable($printable)
     {
@@ -284,6 +287,7 @@ class MeshTerm implements MeshTermInterface
 
     /**
      * @return boolean
+     * @deprecated
      */
     public function isPrintable()
     {

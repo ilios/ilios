@@ -26,6 +26,7 @@ Meshterm:
   printable:
    description: Printable
    type: string
+   deprecated: true
   createdAt:
    description: Createdat
    type: string

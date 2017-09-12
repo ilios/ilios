@@ -32,7 +32,7 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="mesh_concept_uid", type="string", length=9)
+     * @ORM\Column(name="mesh_concept_uid", type="string", length=12)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      *
@@ -74,6 +74,7 @@ class MeshConcept implements MeshConceptInterface
      *
      * @IS\Expose
      * @IS\Type("string")
+     * @deprecated
      */
     protected $umlsUid;
 
@@ -109,12 +110,12 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="casn_1_name", type="string", length=127, nullable=true)
+     * @ORM\Column(name="casn_1_name", type="string", length=512, nullable=true)
      *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 127
+     *      max = 512
      * )
      *
      * @IS\Expose
@@ -153,6 +154,7 @@ class MeshConcept implements MeshConceptInterface
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
+     * @deprecated
      */
     protected $semanticTypes;
 
@@ -217,6 +219,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @param string $umlsUid
+     * @deprecated
      */
     public function setUmlsUid($umlsUid)
     {
@@ -225,6 +228,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @return string
+     * @deprecated
      */
     public function getUmlsUid()
     {
@@ -297,6 +301,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @param Collection $semanticTypes
+     * @deprecated
      */
     public function setSemanticTypes(Collection $semanticTypes)
     {
@@ -309,6 +314,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @param MeshSemanticTypeInterface $semanticType
+     * @deprecated
      */
     public function addSemanticType(MeshSemanticTypeInterface $semanticType)
     {
@@ -319,6 +325,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @param MeshSemanticTypeInterface $semanticType
+     * @deprecated
      */
     public function removeSemanticType(MeshSemanticTypeInterface $semanticType)
     {
@@ -327,6 +334,7 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @return ArrayCollection|MeshSemanticTypeInterface[]
+     * @deprecated
      */
     public function getSemanticTypes()
     {

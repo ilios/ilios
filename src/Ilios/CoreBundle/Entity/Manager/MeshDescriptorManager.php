@@ -2,14 +2,32 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Ilios\CoreBundle\Service\MeshDescriptorSetTransmogrifier;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
+use Ilios\MeSH\Model\DescriptorSet;
 
 /**
  * Class MeshDescriptorManager
  */
 class MeshDescriptorManager extends BaseManager
 {
+    /**
+     * @var MeshDescriptorSetTransmogrifier $transmogrifier
+     */
+    protected $transmogrifier;
+
+    /**
+     * @param Registry $registry
+     * @param string $class
+     * @param MeshDescriptorSetTransmogrifier $transmogrifier
+     */
+    public function __construct(Registry $registry, $class, MeshDescriptorSetTransmogrifier $transmogrifier)
+    {
+        $this->transmogrifier = $transmogrifier;
+        parent::__construct($registry, $class);
+    }
     /**
      * @param string $q
      * @param array $orderBy
@@ -83,5 +101,33 @@ class MeshDescriptorManager extends BaseManager
             default:
                 throw new \Exception("Unsupported type ${type}.");
         }
+    }
+
+    /**
+     * @see MeshDescriptorRepository::clearExistingData()
+     */
+    public function clearExistingData()
+    {
+        $this->getRepository()->clearExistingData();
+    }
+
+    /**
+     * @param DescriptorSet $descriptorSet
+     * @param array $existingDescriptorIds
+     * @see MeshDescriptorRepository::upsertMeshUniverse()
+     */
+    public function upsertMeshUniverse(DescriptorSet $descriptorSet, array $existingDescriptorIds)
+    {
+        $data = $this->transmogrifier->transmogrify($descriptorSet, $existingDescriptorIds);
+        $this->getRepository()->upsertMeshUniverse($data);
+    }
+
+    /**
+     * @param array $meshDescriptors
+     * @see MeshDescriptorRepository::flagDescriptorsAsDeleted()
+     */
+    public function flagDescriptorsAsDeleted(array $meshDescriptors)
+    {
+        $this->getRepository()->flagDescriptorsAsDeleted($meshDescriptors);
     }
 }
