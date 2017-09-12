@@ -3,7 +3,9 @@
 namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\ImportMeshUniverseCommand;
+use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager;
 use Ilios\MeSH\Model\DescriptorSet;
+use Ilios\MeSH\Parser;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -43,8 +45,8 @@ class ImportMeshUniverseCommandTest extends TestCase
      */
     public function setUp()
     {
-        $this->meshParser = m::mock('Ilios\MeSH\Parser');
-        $this->descriptorManager = m::mock('Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager');
+        $this->meshParser = m::mock(Parser::class);
+        $this->descriptorManager = m::mock(MeshDescriptorManager::class);
 
         $command = new ImportMeshUniverseCommand($this->meshParser, $this->descriptorManager);
         $application = new Application();
