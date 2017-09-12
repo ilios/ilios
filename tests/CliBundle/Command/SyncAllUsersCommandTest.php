@@ -2,6 +2,8 @@
 namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\SyncAllUsersCommand;
+use Ilios\CoreBundle\Entity\AuthenticationInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -78,10 +80,10 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUsername')->andReturn('username')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('first last')
             ->shouldReceive('getFirstName')->andReturn('first')
@@ -137,10 +139,10 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUsername')->andReturn('abc123')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('first last')
             ->shouldReceive('getFirstName')->andReturn('first')
@@ -198,10 +200,10 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUsername')->andReturn('abc123')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('first last')
             ->shouldReceive('getFirstName')->andReturn('first')
@@ -259,10 +261,10 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUsername')->andReturn('abc123')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('first last')
             ->shouldReceive('getFirstName')->andReturn('first')
@@ -320,10 +322,10 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUsername')->andReturn('abc123')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('first last')
             ->shouldReceive('getFirstName')->andReturn('first')
@@ -388,10 +390,10 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUsername')->andReturn('abc123')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('first last')
             ->shouldReceive('getFirstName')->andReturn('first')
@@ -449,11 +451,11 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUsername')->andReturn('abc123')
             ->shouldReceive('setUsername')->with('new-abc123')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('first last')
             ->shouldReceive('getFirstName')->andReturn('first')
@@ -512,7 +514,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('first last')
             ->shouldReceive('getFirstName')->andReturn('first')
@@ -523,7 +525,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('getAuthentication')->andReturn(null)
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('setUser')->with($user)
             ->shouldReceive('setUsername')->with('abc123')
             ->shouldReceive('getUsername')->andReturn('')
@@ -539,7 +541,9 @@ class SyncAllUsersCommandTest extends TestCase
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('update')->with($user, false)->once();
-                
+
+        $this->authenticationManager->shouldReceive('findOneBy')
+            ->with(['username' => 'abc123'])->once()->andReturn(false);
         $this->authenticationManager->shouldReceive('create')->andReturn($authentication)->once();
         $this->authenticationManager->shouldReceive('update')->with($authentication, false)->once();
         $this->em->shouldReceive('flush')->twice();
@@ -580,7 +584,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user1 = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user1 = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('first last')
             ->shouldReceive('getFirstName')->andReturn('first')
@@ -591,7 +595,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('getAuthentication')->andReturn(null)
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $user2 = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user2 = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(11)
             ->shouldReceive('getFirstAndLastName')->andReturn('other guy')
             ->shouldReceive('getFirstName')->andReturn('other')
@@ -649,7 +653,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
             ->shouldReceive('getEmail')->andReturn('email')
@@ -702,7 +706,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
             ->shouldReceive('getEmail')->andReturn('email')
@@ -755,7 +759,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
             ->shouldReceive('getEmail')->andReturn('email')
@@ -808,7 +812,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
             ->shouldReceive('getEmail')->andReturn('email')
@@ -861,7 +865,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([]);
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
             ->shouldReceive('getEmail')->andReturn('email')
@@ -888,7 +892,7 @@ class SyncAllUsersCommandTest extends TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/User #42 missing person email not found in the directory.  Logged for further study/',
+            '/User #42 missing person email abc not found in the directory.  Logged for further study/',
             $output
         );
         $this->assertRegExp(
@@ -913,10 +917,10 @@ class SyncAllUsersCommandTest extends TestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUsername')->andReturn('abc123')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('first last')
             ->shouldReceive('getFirstName')->andReturn('first')
@@ -954,6 +958,79 @@ class SyncAllUsersCommandTest extends TestCase
         ));
         
         $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/Completed sync process 1 users found in the directory; 0 users updated./',
+            $output
+        );
+    }
+
+    public function testExecuteWithIgnoredAuthenticationWithSameUserName()
+    {
+        $this->userManager->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(['abc']);
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $user1 = m::mock(UserInterface::class)
+            ->shouldReceive('getId')->andReturn(42)
+            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
+            ->shouldReceive('getFirstName')->andReturn('first')
+            ->shouldReceive('getLastName')->andReturn('last')
+            ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getPhone')->andReturn('phone')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('getAuthentication')->andReturn(null)
+            ->shouldReceive('setExamined')->with(true)
+            ->mock();
+        $user2 = m::mock(UserInterface::class)
+            ->shouldReceive('getId')->andReturn(11)
+            ->shouldReceive('getFirstAndLastName')->andReturn('other guy')
+            ->shouldReceive('getFirstName')->andReturn('other')
+            ->shouldReceive('getLastName')->andReturn('guy')
+            ->shouldReceive('getEmail')->andReturn('other-guy')
+            ->shouldReceive('getPhone')->andReturn('')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('getAuthentication')->andReturn(null)
+            ->shouldReceive('setExamined')->with(true)
+            ->mock();
+        $duplicateAuthentication = m::mock(AuthenticationInterface::class)
+            ->shouldReceive('getUser')->andReturn($user2)
+            ->mock();
+        $this->userManager
+            ->shouldReceive('findBy')
+            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->andReturn([$user1])
+            ->once();
+        $this->userManager->shouldReceive('update')->with($user1, false)->once();
+        $this->userManager
+            ->shouldReceive('findBy')
+            ->with(m::hasKey('examined'), m::any())
+            ->andReturn([])
+            ->once();
+        $this->authenticationManager->shouldReceive('findOneBy')
+            ->with(['username' => 'abc123'])->once()->andReturn($duplicateAuthentication);
+
+        $this->em->shouldReceive('flush')->twice();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME
+        ));
+
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/\[E\] There is already an account for username abc123 belonging to user #11 with Campus ID abc/',
+            $output
+        );
         $this->assertRegExp(
             '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
