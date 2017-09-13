@@ -41,7 +41,7 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
             ->leftJoin('d.concepts', 'c')
             ->leftJoin('c.semanticTypes', 'st')
             ->leftJoin('c.terms', 't')
-            ->where('d.deleted = false');
+            ->andWhere('d.deleted = false');
 
         foreach ($terms as $key => $term) {
             $qb->andWhere($qb->expr()->orX(
