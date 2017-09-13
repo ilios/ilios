@@ -34,7 +34,8 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
             ->leftJoin('d.previousIndexing', 'pi')
             ->leftJoin('d.concepts', 'c')
             ->leftJoin('c.semanticTypes', 'st')
-            ->leftJoin('c.terms', 't');
+            ->leftJoin('c.terms', 't')
+            ->where('d.deleted = false');
 
         $terms = explode(' ', $q);
         $terms = array_filter($terms, 'strlen');
