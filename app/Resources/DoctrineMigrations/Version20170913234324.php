@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Adds start/end-date columns to course/session learning materials tables.
  */
-class Version20170822234324 extends AbstractMigration
+class Version20170913234324 extends AbstractMigration
 {
     /**
      * @inheritdoc
