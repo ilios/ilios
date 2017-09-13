@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 /**
  * Interface SessionLearningMaterialInterface
  */
-interface SessionLearningMaterialInterface extends LearningMaterialRelationshipInterface
+interface SessionLearningMaterialInterface extends LearningMaterialRelationshipInterface, SessionStampableInterface
 {
     /**
      * @param SessionInterface $session
