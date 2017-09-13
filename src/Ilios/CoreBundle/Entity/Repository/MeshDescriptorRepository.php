@@ -28,6 +28,12 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
      */
     public function findByQ($q, $orderBy, $limit, $offset)
     {
+        $terms = explode(' ', $q);
+        $terms = array_filter($terms, 'strlen');
+        if (empty($terms)) {
+            return [];
+        }
+
         $qb = $this->_em->createQueryBuilder()
             ->select('DISTINCT d')
             ->from('IliosCoreBundle:MeshDescriptor', 'd')
@@ -36,12 +42,6 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
             ->leftJoin('c.semanticTypes', 'st')
             ->leftJoin('c.terms', 't')
             ->where('d.deleted = false');
-
-        $terms = explode(' ', $q);
-        $terms = array_filter($terms, 'strlen');
-        if (empty($terms)) {
-            return [];
-        }
 
         foreach ($terms as $key => $term) {
             $qb->andWhere($qb->expr()->orX(
