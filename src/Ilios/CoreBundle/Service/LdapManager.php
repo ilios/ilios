@@ -77,6 +77,7 @@ class LdapManager
         
         $this->ldap = new Ldap($ldapUrl);
         $this->ldap->setOption(Ldap::OPT_NETWORK_TIMEOUT, 10);
+        $this->ldap->setOption(Ldap::OPT_TIMELIMIT, 600);
         $this->ldap->bind($ldapBindUser, $ldapBindPassword);
 
         return $this->ldap;
