@@ -183,7 +183,7 @@ class UserMaterial
             $blankThis = ($startDate > $dateTime || $dateTime > $endDate);
         } elseif (isset($startDate)) {
             $blankThis = ($startDate > $dateTime);
-        } elseif (isset($enDate)) {
+        } elseif (isset($endDate)) {
             $blankThis = ($dateTime > $endDate);
         }
 
@@ -191,10 +191,11 @@ class UserMaterial
             $this->isBlanked = true;
             $props = array_keys(get_object_vars($this));
             foreach($props as $prop) {
-                if (! in_array($prop, self::$doNotScrubProps)) {
+                if (! in_array($prop, self::$doNotScrubProps) && $prop !== 'instructors') {
                     $this->$prop = null;
                 }
             }
+            $this->instructors = [];
         }
     }
 }
