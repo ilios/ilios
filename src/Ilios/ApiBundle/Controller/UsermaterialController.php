@@ -2,8 +2,10 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\Classes\SessionUser;
 use Ilios\CoreBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,6 +39,7 @@ class UsermaterialController extends AbstractController
         UserManager $manager,
         SerializerInterface $serializer
     ) {
+        /** @var UserInterface $user */
         $user = $manager->findOneBy(['id' => $id]);
 
         if (!$user) {
@@ -59,8 +62,10 @@ class UsermaterialController extends AbstractController
 
         $materials = $manager->findMaterialsForUser($user->getId(), $criteria);
 
+        $sessionUser = new SessionUser($user);
+
         //Un-privileged users get less data
-        if (!$user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+        if (!$sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])) {
             $now = new \DateTime();
             $this->clearTimedMaterials($materials, $now);
         }
