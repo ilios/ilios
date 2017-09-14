@@ -175,7 +175,8 @@ class UserMaterial
      *
      * @param \DateTime $dateTime
      */
-    public function clearTimedMaterial(\DateTime $dateTime) {
+    public function clearTimedMaterial(\DateTime $dateTime)
+    {
         $startDate = $this->startDate;
         $endDate = $this->endDate;
         $blankThis = false;
@@ -190,7 +191,7 @@ class UserMaterial
         if ($blankThis) {
             $this->isBlanked = true;
             $props = array_keys(get_object_vars($this));
-            foreach($props as $prop) {
+            foreach ($props as $prop) {
                 if (! in_array($prop, self::$doNotScrubProps) && $prop !== 'instructors') {
                     $this->$prop = null;
                 }

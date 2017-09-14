@@ -35,8 +35,12 @@ class LoadCourseLearningMaterialData extends AbstractFixture implements
             $entity->setPublicNotes($arr['publicNotes']);
             $entity->setNotes($arr['notes']);
             $entity->setPosition($arr['position']);
-            $entity->setStartDate($arr['startDate']);
-            $entity->setEndDate($arr['endDate']);
+            if (!is_null($arr['startDate'])) {
+                $entity->setStartDate(new \DateTime($arr['startDate']));
+            }
+            if (!is_null($arr['endDate'])) {
+                $entity->setEndDate(new \DateTime($arr['endDate']));
+            }
             $entity->setCourse($this->getReference('courses' . $arr['course']));
             $entity->setLearningMaterial($this->getReference('learningMaterials' . $arr['learningMaterial']));
             foreach ($arr['meshDescriptors'] as $id) {

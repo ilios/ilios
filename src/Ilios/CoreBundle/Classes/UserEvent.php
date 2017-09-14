@@ -81,7 +81,8 @@ class UserEvent extends CalendarEvent
     /**
      * @param \DateTime $dateTime
      */
-    public function clearTimedMaterials(\DateTime $dateTime) {
+    public function clearTimedMaterials(\DateTime $dateTime)
+    {
         /** @var UserMaterial $lm */
         foreach ($this->learningMaterials as $lm) {
             $lm->clearTimedMaterial($dateTime);

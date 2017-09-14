@@ -59,7 +59,7 @@ class SessionData extends AbstractDataLoader
             'terms' => ['3', '6'],
             'objectives' => [],
             'meshDescriptors' => ["abc2"],
-            'learningMaterials' => ['2'],
+            'learningMaterials' => ['2', '3', '4', '5', '6', '7', '8'],
             'offerings' => ['6', '7', '8'],
             'administrators' => [],
         );
@@ -81,7 +81,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => [],
             'administrators' => [],
         );
-        
+
         for ($i = 5; $i <= 8; $i++) {
             $ilmSession = $i - 4;
             $arr[] = array(

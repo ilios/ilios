@@ -83,7 +83,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             count($events[0]['learningMaterials']),
-            3,
+            9,
             'Event 0 has the correct number of learning materials'
         );
         $this->assertTrue(
@@ -128,7 +128,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             count($events[1]['learningMaterials']),
-            3,
+            9,
             'Event 1 has the correct number of learning materials'
         );
         $this->assertTrue(
@@ -173,7 +173,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             count($events[2]['learningMaterials']),
-            3,
+            9,
             'Event 2 has the correct number of learning materials'
         );
         $this->assertTrue(
@@ -409,7 +409,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             count($events[9]['learningMaterials']),
-            4,
+            10,
             'Event 6 has the correct number of learning materials'
         );
         $this->assertFalse(

@@ -66,7 +66,7 @@ class IcsControllerTest extends WebTestCase
         $firstDescription = preg_replace('/\s+/', '', $matches[1]);
 
         $this->assertRegExp(
-            '#thirdlmhttp://localhost/lm/[a-z0-9]{64}$#',
+            '#thirdlmhttp://localhost/lm/[a-z0-9]{64}#',
             $firstDescription,
             'LM Links are absolute paths'
         );

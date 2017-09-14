@@ -62,9 +62,9 @@ class CourseLearningMaterialTest extends AbstractEndpointTest
             'ids' => [[1, 2], ['id' => [2, 3]]],
             'notes' => [[2], ['notes' => 'third note']],
             'notRequired' => [[1], ['required' => false]],
-            'required' => [[0, 2, 3], ['required' => true]],
+            'required' => [[0, 2, 3, 4, 5, 6, 7, 8, 9], ['required' => true]],
             'notPublicNotes' => [[2], ['publicNotes' => false]],
-            'publicNotes' => [[0, 1, 3], ['publicNotes' => true]],
+            'publicNotes' => [[0, 1, 3, 4, 5, 6, 7, 8, 9], ['publicNotes' => true]],
             'course' => [[2], ['course' => 4]],
             'learningMaterial' => [[1], ['learningMaterial' => 2]],
             'meshDescriptors' => [[0, 2], ['meshDescriptors' => ['abc1']], $skipped = true],
@@ -74,6 +74,19 @@ class CourseLearningMaterialTest extends AbstractEndpointTest
 
     protected function compareData(array $expected, array $result)
     {
+        // TOTAL GROSSNESS!
+        // get the expected fixture from the repo, then correct
+        // the expected start- and end-dates by overriding them.
+        // @todo load fixtures upstream without regenerating them [ST 2017/09/14].
+        $ref = 'courseLearningMaterials'.$expected['id'];
+        if ($this->fixtures->hasReference($ref)) {
+            $fixture = $this->fixtures->getReference($ref);
+            $startDate = $fixture->getStartDate();
+            $endDate = $fixture->getEndDate();
+            $expected['startDate'] = is_null($startDate) ? null : date_format($startDate, 'c');
+            $expected['endDate'] = is_null($endDate) ? null : date_format($endDate, 'c');
+        }
+
         if (is_null($expected['startDate'])) {
             $this->assertFalse(array_key_exists('startDate', $result));
             unset($expected['startDate']);

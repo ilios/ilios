@@ -66,7 +66,7 @@ class LearningMaterialData extends AbstractDataLoader
         $arr[] = array(
             'id' => 4,
             'title' => 'fourthlm',
-            'description' => 'desc3' . $this->faker->text,
+            'description' => 'desc4' . $this->faker->text,
             'originalAuthor' => $this->faker->name,
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::REVISED,
@@ -75,6 +75,106 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightPermission' => true,
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
+            'filename' => 'testfile.pdf',
+            'mimetype' => 'application/pdf',
+            'filesize' => 1000
+        );
+
+        $arr[] = array(
+            'id' => 5,
+            'title' => 'fifthlm',
+            'description' => 'desc5' . $this->faker->text,
+            'originalAuthor' => $this->faker->name,
+            'userRole' => "2",
+            'status' => LearningMaterialStatusInterface::REVISED,
+            'owningUser' => "1",
+            'copyrightRationale' => 'i own it',
+            'copyrightPermission' => true,
+            'sessionLearningMaterials' => ['3'],
+            'courseLearningMaterials' => ['5'],
+            'filename' => 'testfile.pdf',
+            'mimetype' => 'application/pdf',
+            'filesize' => 1000
+        );
+
+        $arr[] = array(
+            'id' => 6,
+            'title' => 'sixthlm',
+            'description' => 'desc6' . $this->faker->text,
+            'originalAuthor' => $this->faker->name,
+            'userRole' => "2",
+            'status' => LearningMaterialStatusInterface::REVISED,
+            'owningUser' => "1",
+            'copyrightRationale' => 'i own it',
+            'copyrightPermission' => true,
+            'sessionLearningMaterials' => ['4'],
+            'courseLearningMaterials' => ['6'],
+            'filename' => 'testfile.pdf',
+            'mimetype' => 'application/pdf',
+            'filesize' => 1000
+        );
+
+        $arr[] = array(
+            'id' => 7,
+            'title' => 'seventhlm',
+            'description' => 'desc7' . $this->faker->text,
+            'originalAuthor' => $this->faker->name,
+            'userRole' => "2",
+            'status' => LearningMaterialStatusInterface::REVISED,
+            'owningUser' => "1",
+            'copyrightRationale' => 'i own it',
+            'copyrightPermission' => true,
+            'sessionLearningMaterials' => ['5'],
+            'courseLearningMaterials' => ['7'],
+            'filename' => 'testfile.pdf',
+            'mimetype' => 'application/pdf',
+            'filesize' => 1000
+        );
+
+        $arr[] = array(
+            'id' => 8,
+            'title' => 'eighthlm',
+            'description' => 'desc8' . $this->faker->text,
+            'originalAuthor' => $this->faker->name,
+            'userRole' => "2",
+            'status' => LearningMaterialStatusInterface::REVISED,
+            'owningUser' => "1",
+            'copyrightRationale' => 'i own it',
+            'copyrightPermission' => true,
+            'sessionLearningMaterials' => ['6'],
+            'courseLearningMaterials' => ['8'],
+            'filename' => 'testfile.pdf',
+            'mimetype' => 'application/pdf',
+            'filesize' => 1000
+        );
+        $arr[] = array(
+            'id' => 9,
+            'title' => 'ninthlm',
+            'description' => 'desc9' . $this->faker->text,
+            'originalAuthor' => $this->faker->name,
+            'userRole' => "2",
+            'status' => LearningMaterialStatusInterface::REVISED,
+            'owningUser' => "1",
+            'copyrightRationale' => 'i own it',
+            'copyrightPermission' => true,
+            'sessionLearningMaterials' => ['7'],
+            'courseLearningMaterials' => ['9'],
+            'filename' => 'testfile.pdf',
+            'mimetype' => 'application/pdf',
+            'filesize' => 1000
+        );
+        $arr[] = array(
+            'id' => 10,
+            'title' => 'tenthlm',
+            'description' => 'desc10' . $this->faker->text,
+            'originalAuthor' => $this->faker->name,
+            'userRole' => "2",
+            'status' => LearningMaterialStatusInterface::REVISED,
+            'owningUser' => "1",
+            'copyrightRationale' => 'i own it',
+            'copyrightPermission' => true,
+            'sessionLearningMaterials' => ['8'],
+            'courseLearningMaterials' => ['10'],
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
             'filesize' => 1000
@@ -89,7 +189,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 5,
+            'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -111,7 +211,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createCitation()
     {
         return array(
-            'id' => 5,
+            'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -131,7 +231,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createLink()
     {
         return array(
-            'id' => 5,
+            'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -151,7 +251,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createFile()
     {
         return array(
-            'id' => 5,
+            'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -171,7 +271,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createInvalid()
     {
         return [
-            'id' => 4
+            'id' => 12
         ];
     }
 
@@ -181,7 +281,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createInvalidCitation()
     {
         return [
-            'id' => 4,
+            'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -200,7 +300,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createInvalidLink()
     {
         return array(
-            'id' => 4,
+            'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,

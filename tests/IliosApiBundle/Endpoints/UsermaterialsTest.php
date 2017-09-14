@@ -29,7 +29,7 @@ class UsermaterialsTest extends AbstractEndpointTest
     {
         $userId = 5;
         $materials = $this->getMaterials($userId);
-        $this->assertCount(4, $materials, 'All expected materials returned');
+        $this->assertCount(10, $materials, 'All expected materials returned');
         $this->assertEquals('1', $materials[0]['id']);
         $this->assertEquals('1', $materials[0]['session']);
         $this->assertTrue($materials[0]['required']);
@@ -69,7 +69,7 @@ class UsermaterialsTest extends AbstractEndpointTest
     {
         $userId = 5;
         $materials = $this->getMaterials($userId, $before = null, $after = 0);
-        $this->assertCount(4, $materials, 'All materials returned');
+        $this->assertCount(10, $materials, 'All materials returned');
     }
 
     public function testGetMaterialsAfterTheEndOfTime()
@@ -83,7 +83,7 @@ class UsermaterialsTest extends AbstractEndpointTest
     {
         $userId = 5;
         $materials = $this->getMaterials($userId, $before = 2051233745);
-        $this->assertCount(4, $materials, 'All materials returned');
+        $this->assertCount(10, $materials, 'All materials returned');
     }
 
     protected function getMaterials($userId, $before = null, $after = null)

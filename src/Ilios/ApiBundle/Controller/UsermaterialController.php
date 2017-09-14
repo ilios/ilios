@@ -84,7 +84,8 @@ class UsermaterialController extends AbstractController
      * @param UserMaterial[] $materials
      * @param \DateTime $dateTime
      */
-    protected function clearTimedMaterials(array $materials, \DateTime $dateTime) {
+    protected function clearTimedMaterials(array $materials, \DateTime $dateTime)
+    {
         foreach ($materials as $material) {
             $material->clearTimedMaterial($dateTime);
         }
