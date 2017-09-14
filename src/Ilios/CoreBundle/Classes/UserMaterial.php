@@ -119,14 +119,14 @@ class UserMaterial
     public $mimetype;
 
     /**
-     * @var int
+     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
     public $sessionTitle;
 
     /**
-     * @var int
+     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
