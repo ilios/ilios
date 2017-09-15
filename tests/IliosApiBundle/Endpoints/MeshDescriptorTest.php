@@ -104,7 +104,6 @@ class MeshDescriptorTest extends AbstractEndpointTest
             ['desc', [0, 1, 2]],
             ['annotation2', [1]],
             ['second previous indexing', [1]],
-            ['type', [0]],
             ['second term', [0]],
             ['second concept', [0]],
             ['first scopeNote', [0]],
