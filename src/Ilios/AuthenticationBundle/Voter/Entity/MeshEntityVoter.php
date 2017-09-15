@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\MeshConceptInterface;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
 use Ilios\CoreBundle\Entity\MeshQualifierInterface;
-use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 use Ilios\CoreBundle\Entity\MeshTermInterface;
 use Ilios\CoreBundle\Entity\MeshTreeInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
@@ -28,7 +27,6 @@ class MeshEntityVoter extends AbstractVoter
             $subject instanceof MeshDescriptorInterface ||
             $subject instanceof MeshPreviousIndexingInterface ||
             $subject instanceof MeshQualifierInterface ||
-            $subject instanceof MeshSemanticTypeInterface ||
             $subject instanceof MeshTermInterface ||
             $subject instanceof MeshTreeInterface
         ) && in_array($attribute, array(self::CREATE, self::VIEW, self::EDIT, self::DELETE));

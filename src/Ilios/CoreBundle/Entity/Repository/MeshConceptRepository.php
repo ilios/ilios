@@ -58,7 +58,6 @@ class MeshConceptRepository extends EntityRepository implements DTORepositoryInt
         $meshConceptIds = array_keys($meshConceptDTOs);
 
         $related = [
-            'semanticTypes',
             'terms',
             'descriptors',
         ];
@@ -90,7 +89,6 @@ class MeshConceptRepository extends EntityRepository implements DTORepositoryInt
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
     {
         $related = [
-            'semanticTypes',
             'terms',
             'descriptors',
         ];

@@ -29,7 +29,6 @@ class MeshDescriptorTest extends AbstractEndpointTest
             'Tests\CoreBundle\Fixture\LoadMeshTreeData',
             'Tests\CoreBundle\Fixture\LoadMeshPreviousIndexingData',
             'Tests\CoreBundle\Fixture\LoadMeshQualifierData',
-            'Tests\CoreBundle\Fixture\LoadMeshSemanticTypeData',
             'Tests\CoreBundle\Fixture\LoadMeshTermData',
             'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',

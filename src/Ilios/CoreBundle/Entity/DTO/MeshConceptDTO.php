@@ -73,15 +73,6 @@ class MeshConceptDTO
      *
      * @IS\Expose
      * @IS\Type("array<string>")
-     * @deprecated
-     */
-    public $semanticTypes;
-
-    /**
-     * @var array
-     *
-     * @IS\Expose
-     * @IS\Type("array<string>")
      */
     public $terms;
 
@@ -142,7 +133,6 @@ class MeshConceptDTO
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
 
-        $this->semanticTypes = [];
         $this->terms = [];
         $this->descriptors = [];
     }

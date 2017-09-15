@@ -74,9 +74,6 @@ class MeshDescriptorManager extends BaseManager
             case 'MeshConcept':
                 $repository->importMeshConcept($data);
                 break;
-            case 'MeshSemanticType':
-                $repository->importMeshSemanticType($data);
-                break;
             case 'MeshTerm':
                 $repository->importMeshTerm($data);
                 break;
@@ -85,9 +82,6 @@ class MeshDescriptorManager extends BaseManager
                 break;
             case 'MeshPreviousIndexing':
                 $repository->importMeshPreviousIndexing($data);
-                break;
-            case 'MeshConceptSemanticType':
-                $repository->importMeshConceptSemanticType($data);
                 break;
             case 'MeshConceptTerm':
                 $repository->importMeshConceptTerm($data);

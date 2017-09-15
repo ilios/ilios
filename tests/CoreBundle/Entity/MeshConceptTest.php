@@ -101,31 +101,6 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\Entity\MeshConcept::addSemanticType
-     */
-    public function testAddSemanticType()
-    {
-        $this->entityCollectionAddTest('semanticType', 'MeshSemanticType');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\MeshConcept::removeSemanticType
-     */
-    public function testRemoveSemanticType()
-    {
-        $this->entityCollectionRemoveTest('semanticType', 'MeshSemanticType');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setSemanticTypes
-     * @covers \Ilios\CoreBundle\Entity\MeshConcept::getSemanticTypes
-     */
-    public function testGetSemanticTypes()
-    {
-        $this->entityCollectionSetTest('semanticType', 'MeshSemanticType');
-    }
-
-    /**
      * @covers \Ilios\CoreBundle\Entity\MeshConcept::addTerm
      */
     public function testAddTerm()
