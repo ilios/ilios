@@ -37,7 +37,7 @@ class Version20170906230101 extends AbstractMigration
         $this->addSql('ALTER TABLE mesh_descriptor_x_qualifier CHANGE mesh_descriptor_uid mesh_descriptor_uid VARCHAR(12) NOT NULL');
         $this->addSql('ALTER TABLE mesh_tree CHANGE mesh_descriptor_uid mesh_descriptor_uid VARCHAR(12) DEFAULT NULL');
         $this->addSql('ALTER TABLE session_x_mesh CHANGE mesh_descriptor_uid mesh_descriptor_uid VARCHAR(12) NOT NULL');
-        $this->addSql('ALTER TABLE course_learning_material_x_mesh ADD CONSTRAINT FK_476BB36FCDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid)');
+        $this->addSql('ALTER TABLE course_learning_material_x_mesh ADD CONSTRAINT FK_476BB36FCDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE course_x_mesh ADD CONSTRAINT FK_82E35212CDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE session_learning_material_x_mesh ADD CONSTRAINT FK_EC36AECFCDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE session_x_mesh ADD CONSTRAINT FK_43B09906CDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid) ON DELETE CASCADE');
@@ -129,7 +129,7 @@ class Version20170906230101 extends AbstractMigration
         $this->addSql('ALTER TABLE objective_x_mesh CHANGE mesh_descriptor_uid mesh_descriptor_uid VARCHAR(9) NOT NULL COLLATE utf8_unicode_ci');
         $this->addSql('ALTER TABLE session_learning_material_x_mesh CHANGE mesh_descriptor_uid mesh_descriptor_uid VARCHAR(9) NOT NULL COLLATE utf8_unicode_ci');
         $this->addSql('ALTER TABLE session_x_mesh CHANGE mesh_descriptor_uid mesh_descriptor_uid VARCHAR(9) NOT NULL COLLATE utf8_unicode_ci');
-        $this->addSql('ALTER TABLE course_learning_material_x_mesh ADD CONSTRAINT FK_476BB36FCDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid)');
+        $this->addSql('ALTER TABLE course_learning_material_x_mesh ADD CONSTRAINT FK_476BB36FCDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE course_x_mesh ADD CONSTRAINT FK_82E35212CDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE session_learning_material_x_mesh ADD CONSTRAINT FK_EC36AECFCDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE session_x_mesh ADD CONSTRAINT FK_43B09906CDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid) ON DELETE CASCADE');
