@@ -96,7 +96,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => [],
             'position' => 5,
             'startDate' => null,
-            'endDate' => date_format(new \DateTime('2 days ago'), 'c'),
+            'endDate' => date_format(new \DateTime('+2 days'), 'c'),
         );
 
         $arr[] = array(
@@ -109,7 +109,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => [],
             'position' => 6,
             'startDate' => null,
-            'endDate' => date_format(new \DateTime('+2 days'), 'c'),
+            'endDate' => date_format(new \DateTime('2 days ago'), 'c'),
         );
 
         $arr[] = array(

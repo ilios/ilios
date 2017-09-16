@@ -72,6 +72,23 @@ class IcsControllerTest extends WebTestCase
         );
     }
 
+    public function testForTimedReleaseLms()
+    {
+        $client = static::createClient();
+        $url = '/ics/' . hash('sha256', '1');
+        $client->request('GET', $url);
+        $response = $client->getResponse();
+
+        $content = preg_replace('/\s+/', '', $response->getContent());
+        foreach(['sixthlm', 'eighthlm', 'tenthlm'] as $lm) {
+            $this->assertContains(
+                "${lm}(TimedRelease)",
+                $content,
+                'Timed materials outside of their timing window are labeled as such.'
+            );
+        }
+    }
+
     public function testDraftLmsNotInFeedForStudents()
     {
         $client = static::createClient();
