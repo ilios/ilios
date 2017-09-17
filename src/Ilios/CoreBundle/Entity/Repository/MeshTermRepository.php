@@ -51,7 +51,6 @@ class MeshTermRepository extends EntityRepository implements DTORepositoryInterf
                 $arr['conceptPreferred'],
                 $arr['recordPreferred'],
                 $arr['permuted'],
-                $arr['printable'],
                 $arr['createdAt'],
                 $arr['updatedAt']
             );

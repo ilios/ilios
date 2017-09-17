@@ -68,15 +68,6 @@ class MeshTermDTO
     public $permuted;
 
     /**
-     * @var boolean
-     *
-     * @IS\Expose
-     * @IS\Type("boolean")
-     * @deprecated
-     */
-    public $printable;
-
-    /**
      * @var \DateTime
      *
      * @IS\Expose
@@ -106,10 +97,9 @@ class MeshTermDTO
      * @param $meshTermUid
      * @param $name
      * @param $lexicalTag
-     * @param $conceptPrefered
+     * @param $conceptPreferred
      * @param $recordPreferred
      * @param $permuted
-     * @param $printable
      * @param $createdAt
      * @param $updatedAt
      */
@@ -121,7 +111,6 @@ class MeshTermDTO
         $conceptPreferred,
         $recordPreferred,
         $permuted,
-        $printable,
         $createdAt,
         $updatedAt
     ) {
@@ -132,11 +121,9 @@ class MeshTermDTO
         $this->conceptPreferred = $conceptPreferred;
         $this->recordPreferred = $recordPreferred;
         $this->permuted = $permuted;
-        $this->printable = $printable;
         $this->name = $name;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
-
         $this->concepts = [];
     }
 }

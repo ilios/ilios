@@ -137,20 +137,6 @@ class MeshTerm implements MeshTermInterface
     protected $permuted;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="print", type="boolean", nullable=true)
-     *
-     * @Assert\Type(type="bool")
-     *
-     * @IS\Expose
-     * @IS\Type("string")
-     *
-     * @deprecated
-     */
-    protected $printable;
-
-    /**
      * @ORM\Column(name="created_at", type="datetime")
      *
      * @IS\Expose
@@ -274,23 +260,5 @@ class MeshTerm implements MeshTermInterface
     public function isPermuted()
     {
         return $this->permuted;
-    }
-
-    /**
-     * @param boolean $printable
-     * @deprecated
-     */
-    public function setPrintable($printable)
-    {
-        $this->printable = $printable;
-    }
-
-    /**
-     * @return boolean
-     * @deprecated
-     */
-    public function isPrintable()
-    {
-        return $this->printable;
     }
 }

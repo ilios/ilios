@@ -307,8 +307,8 @@ EOL;
         $sql =<<<EOL
 INSERT INTO mesh_term (
     mesh_term_uid, name, lexical_tag, concept_preferred, record_preferred, permuted,
-    print, created_at, updated_at, mesh_term_id
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    created_at, updated_at, mesh_term_id
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 EOL;
         $connection = $this->_em->getConnection();
         $connection->executeUpdate($sql, $data);
@@ -629,7 +629,6 @@ EOL;
                     'concept_preferred' => $term->isConceptPreferred(),
                     'record_preferred' => $term->isRecordPreferred(),
                     'permuted' => $term->isPermuted(),
-                    'print' => false, // @todo remove [ST 2017/09/06]
                     'created_at' => $now,
                     'updated_at' => $now,
                 ], [
@@ -637,7 +636,6 @@ EOL;
                     \PDO::PARAM_STR,
                     \PDO::PARAM_STR,
                     \PDO::PARAM_STR,
-                    \PDO::PARAM_BOOL,
                     \PDO::PARAM_BOOL,
                     \PDO::PARAM_BOOL,
                     \PDO::PARAM_BOOL,

@@ -38,7 +38,6 @@ class MeshTermTest extends AbstractEndpointTest
             'conceptPreferred' => ['conceptPreferred', false],
             'recordPreferred' => ['recordPreferred', true],
             'permuted' => ['permuted', false],
-            'printable' => ['printable', true],
             'concepts' => ['concepts', [2]],
         ];
     }
@@ -72,8 +71,6 @@ class MeshTermTest extends AbstractEndpointTest
             'recordNotPreferred' => [[0], ['recordPreferred' => false]],
             'permuted' => [[0], ['permuted' => true]],
             'notPermuted' => [[1], ['permuted' => false]],
-            'printable' => [[1], ['printable' => true]],
-            'notPrintable' => [[0], ['printable' => false]],
             'concepts' => [[0, 1], ['concepts' => [1]]],
         ];
     }

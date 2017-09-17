@@ -37,7 +37,6 @@ class LoadMeshTermData extends AbstractFixture implements
             $entity->setConceptPreferred($arr['conceptPreferred']);
             $entity->setRecordPreferred($arr['recordPreferred']);
             $entity->setPermuted($arr['permuted']);
-            $entity->setPrintable($arr['printable']);
             foreach ($arr['concepts'] as $id) {
                 $entity->addConcept($this->getReference('meshConcepts' . $id));
             }

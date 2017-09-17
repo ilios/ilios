@@ -94,15 +94,6 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\Entity\MeshTerm::setPrintable
-     * @covers \Ilios\CoreBundle\Entity\MeshTerm::isPrintable
-     */
-    public function testSetPrintable()
-    {
-        $this->booleanSetTest('printable');
-    }
-
-    /**
      * @covers \Ilios\CoreBundle\Entity\MeshTerm::stampUpdate
      */
     public function testStampUpdate()
