@@ -17,16 +17,6 @@ interface MeshConceptInterface extends
     TimestampableEntityInterface
 {
     /**
-     * @param string $umlsUid
-     */
-    public function setUmlsUid($umlsUid);
-
-    /**
-     * @return string
-     */
-    public function getUmlsUid();
-
-    /**
      * @param boolean $preferred
      */
     public function setPreferred($preferred);

@@ -177,9 +177,9 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
         $connection = $this->_em->getConnection();
         $sql =<<<EOL
 INSERT INTO mesh_concept (
-    mesh_concept_uid, name, umls_uid, preferred, scope_note,
+    mesh_concept_uid, name, preferred, scope_note,
     casn_1_name, registry_number, created_at, updated_at
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 EOL;
         $connection->executeUpdate($sql, $data);
     }
@@ -603,7 +603,6 @@ EOL;
                     'scope_note' => $concept->getScopeNote(),
                     'casn_1_name' => $concept->getCasn1Name(),
                     'registry_number' => $concept->getRegistryNumber(),
-                    'umls_uid' => 'n/a', // @todo remove [ST 2017/09/06],
                     'created_at' => $now,
                     'updated_at' => $now,
                 ], [
@@ -611,7 +610,6 @@ EOL;
                     \PDO::PARAM_STR,
                     \PDO::PARAM_BOOL,
                     \PDO::PARAM_BOOL,
-                    \PDO::PARAM_STR,
                     \PDO::PARAM_STR,
                     \PDO::PARAM_STR,
                     'datetime',

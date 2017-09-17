@@ -26,12 +26,10 @@ class MeshConceptTest extends EntityBase
     {
         $notBlank = array(
             'name',
-            'umlsUid'
         );
         $this->validateNotBlanks($notBlank);
 
         $this->object->setName('test_name');
-        $this->object->setUmlsUid('whatthe_');
         $this->validate(0);
     }
 
@@ -54,15 +52,6 @@ class MeshConceptTest extends EntityBase
     public function testSetName()
     {
         $this->basicSetTest('name', 'string');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setUmlsUid
-     * @covers \Ilios\CoreBundle\Entity\MeshConcept::getUmlsUid
-     */
-    public function testSetUmlsUid()
-    {
-        $this->basicSetTest('umlsUid', 'string');
     }
 
     /**

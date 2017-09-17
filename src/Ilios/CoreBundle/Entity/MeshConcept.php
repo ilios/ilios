@@ -61,24 +61,6 @@ class MeshConcept implements MeshConceptInterface
     protected $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="umls_uid", type="string", length=9)
-     *
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 9
-     * )
-     *
-     * @IS\Expose
-     * @IS\Type("string")
-     * @deprecated
-     */
-    protected $umlsUid;
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="preferred", type="boolean")
@@ -215,24 +197,6 @@ class MeshConcept implements MeshConceptInterface
         $this->semanticTypes = new ArrayCollection();
         $this->terms = new ArrayCollection();
         $this->descriptors = new ArrayCollection();
-    }
-
-    /**
-     * @param string $umlsUid
-     * @deprecated
-     */
-    public function setUmlsUid($umlsUid)
-    {
-        $this->umlsUid = $umlsUid;
-    }
-
-    /**
-     * @return string
-     * @deprecated
-     */
-    public function getUmlsUid()
-    {
-        return $this->umlsUid;
     }
 
     /**

@@ -43,7 +43,7 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
     protected function assertDataEquals(array $data, $entity)
     {
         // `mesh_term_uid`,`name`,`lexical_tag`,`concept_preferred`,`record_preferred`,
-        // `permuted`,`print`,`created_at`,`updated_at`,`mesh_term_id`
+        // `permuted`,`created_at`,`updated_at`,`mesh_term_id`
         $this->assertEquals($data[0], $entity->getMeshTermUid());
         $this->assertEquals($data[1], $entity->getName());
         $this->assertEquals($data[2], $entity->getLexicalTag());
