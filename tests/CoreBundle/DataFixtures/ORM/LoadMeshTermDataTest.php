@@ -50,9 +50,9 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
         $this->assertEquals((boolean) $data[3], $entity->isConceptPreferred());
         $this->assertEquals((boolean) $data[4], $entity->isRecordPreferred());
         $this->assertEquals((boolean) $data[5], $entity->isPermuted());
-        $this->assertEquals(new \DateTime($data[7], new \DateTimeZone('UTC')), $entity->getCreatedAt());
-        $this->assertEquals(new \DateTime($data[8], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
-        $this->assertEquals($data[9], $entity->getId());
+        $this->assertEquals(new \DateTime($data[6], new \DateTimeZone('UTC')), $entity->getCreatedAt());
+        $this->assertEquals(new \DateTime($data[7], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
+        $this->assertEquals($data[8], $entity->getId());
     }
 
     /**
@@ -60,6 +60,6 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
      */
     protected function getEntity(array $data)
     {
-        return $this->em->findOneBy(['id' => $data[9]]);
+        return $this->em->findOneBy(['id' => $data[8]]);
     }
 }

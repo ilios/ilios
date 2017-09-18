@@ -46,11 +46,11 @@ class LoadMeshConceptDataTest extends AbstractDataFixtureTest
         // `registry_number`,`created_at`,`updated_at`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getName());
-        $this->assertEquals((boolean) $data[3], $entity->getPreferred());
-        $this->assertEquals($data[4], $entity->getScopeNote());
-        $this->assertEquals($data[5], $entity->getCasn1Name());
-        $this->assertEquals($data[6], $entity->getRegistryNumber());
-        $this->assertEquals(new \DateTime($data[7], new \DateTimeZone('UTC')), $entity->getCreatedAt());
-        $this->assertEquals(new \DateTime($data[8], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
+        $this->assertEquals((boolean) $data[2], $entity->getPreferred());
+        $this->assertEquals($data[3], $entity->getScopeNote());
+        $this->assertEquals($data[4], $entity->getCasn1Name());
+        $this->assertEquals($data[5], $entity->getRegistryNumber());
+        $this->assertEquals(new \DateTime($data[6], new \DateTimeZone('UTC')), $entity->getCreatedAt());
+        $this->assertEquals(new \DateTime($data[7], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
     }
 }
