@@ -80,7 +80,7 @@ class IcsControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         $content = preg_replace('/\s+/', '', $response->getContent());
-        foreach(['sixthlm', 'eighthlm', 'tenthlm'] as $lm) {
+        foreach (['sixthlm', 'eighthlm', 'tenthlm'] as $lm) {
             $this->assertContains(
                 "${lm}(TimedRelease)",
                 $content,
