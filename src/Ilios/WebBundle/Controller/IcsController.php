@@ -159,8 +159,7 @@ class IcsController extends Controller
         usort($sessionMaterials, $callback);
         usort($courseMaterials, $callback);
 
-        $courseMaterials = array_map(function (CourseLearningMaterialInterface $learningMaterial) use ($now) {
-
+        $courseMaterials = array_map(function (LearningMaterialRelationshipInterface $learningMaterial) use ($now) {
             return $this->getTextForLearningMaterial($learningMaterial, $now);
         }, $courseMaterials);
 
