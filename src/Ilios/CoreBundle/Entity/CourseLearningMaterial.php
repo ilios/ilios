@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\LearningMaterialRelationshipEntity;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\SortableEntity;
 use Ilios\ApiBundle\Annotation as IS;
@@ -26,6 +27,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     use StringableIdEntity;
     use MeshDescriptorsEntity;
     use SortableEntity;
+    use LearningMaterialRelationshipEntity;
 
     /**
      * @var int
@@ -181,54 +183,6 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     }
 
     /**
-     * @param string $notes
-     */
-    public function setNotes($notes)
-    {
-        $this->notes = $notes;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNotes()
-    {
-        return $this->notes;
-    }
-
-    /**
-     * @param boolean $required
-     */
-    public function setRequired($required)
-    {
-        $this->required = $required;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isRequired()
-    {
-        return $this->required;
-    }
-
-    /**
-     * @param boolean $publicNotes
-     */
-    public function setPublicNotes($publicNotes)
-    {
-        $this->publicNotes = $publicNotes;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function hasPublicNotes()
-    {
-        return $this->publicNotes;
-    }
-
-    /**
      * @param CourseInterface $course
      */
     public function setCourse(CourseInterface $course)
@@ -242,53 +196,5 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     public function getCourse()
     {
         return $this->course;
-    }
-
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
-    public function setLearningMaterial(LearningMaterialInterface $learningMaterial)
-    {
-        $this->learningMaterial = $learningMaterial;
-    }
-
-    /**
-     * @return LearningMaterialInterface
-     */
-    public function getLearningMaterial()
-    {
-        return $this->learningMaterial;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setStartDate(\DateTime $startDate = null)
-    {
-        $this->startDate = $startDate;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getStartDate()
-    {
-        return $this->startDate;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setEndDate(\DateTime $endDate = null)
-    {
-        $this->endDate = $endDate;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getEndDate()
-    {
-        return $this->endDate;
     }
 }
