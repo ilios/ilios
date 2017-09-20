@@ -3,7 +3,7 @@ imports:
     - { resource: services.yml }
 
 parameters:
-    ilios_api_version: v1.23
+    ilios_api_version: v1.24
 
 framework:
     #esi:             ~
@@ -98,7 +98,7 @@ security:
             algorithm: bcrypt
         ilios_legacy_encoder:
             id: Ilios\AuthenticationBundle\Form\Encoder
-            
+
 doctrine_migrations:
     dir_name: '%kernel.root_dir%/Resources/DoctrineMigrations'
     name: Ilios Migrations

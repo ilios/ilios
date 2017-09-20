@@ -525,7 +525,9 @@ AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_learning
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM objective_x_mesh)
-AND mesh_descriptor_uid NOT IN (SELECT prepositional_object_table_row_id FROM report where prepositional_object = 'mesh term')
+AND mesh_descriptor_uid NOT IN (
+  SELECT prepositional_object_table_row_id FROM report where prepositional_object = 'mesh term'
+)
 EOL;
             $conn->query($sql);
             $conn->commit();

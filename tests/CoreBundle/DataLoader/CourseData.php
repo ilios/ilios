@@ -28,7 +28,7 @@ class CourseData extends AbstractDataLoader
             'terms' => ['1'],
             'objectives' => ['2'],
             'meshDescriptors' => ["abc1"],
-            'learningMaterials' => ['1', '2', '4'],
+            'learningMaterials' => ['1', '2', '4', '5', '6', '7', '8', '9', '10'],
             'sessions' => ['1', '2'],
             'descendants' => []
         );

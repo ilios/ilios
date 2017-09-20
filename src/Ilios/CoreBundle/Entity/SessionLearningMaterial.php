@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\LearningMaterialRelationshipEntity;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
 use Ilios\CoreBundle\Traits\SortableEntity;
@@ -31,6 +32,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     use SessionConsolidationEntity;
     use MeshDescriptorsEntity;
     use SortableEntity;
+    use LearningMaterialRelationshipEntity;
 
     /**
      * @var integer
@@ -156,6 +158,26 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     protected $position;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="start_date", type="datetime", nullable=true)
+     *
+     * @IS\Expose
+     * @IS\Type("dateTime")
+     */
+    protected $startDate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="end_date", type="datetime", nullable=true)
+     *
+     * @IS\Expose
+     * @IS\Type("dateTime")
+     */
+    protected $endDate;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -163,54 +185,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->publicNotes = false;
         $this->position = 0;
-    }
-
-    /**
-     * @param string $notes
-     */
-    public function setNotes($notes)
-    {
-        $this->notes = $notes;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNotes()
-    {
-        return $this->notes;
-    }
-
-    /**
-     * @param boolean $required
-     */
-    public function setRequired($required)
-    {
-        $this->required = $required;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isRequired()
-    {
-        return $this->required;
-    }
-
-    /**
-     * @param boolean $publicNotes
-     */
-    public function setPublicNotes($publicNotes)
-    {
-        $this->publicNotes = $publicNotes;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function hasPublicNotes()
-    {
-        return $this->publicNotes;
     }
 
     /**
@@ -227,21 +201,5 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     public function getSession()
     {
         return $this->session;
-    }
-
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
-    public function setLearningMaterial(LearningMaterialInterface $learningMaterial)
-    {
-        $this->learningMaterial = $learningMaterial;
-    }
-
-    /**
-     * @return LearningMaterialInterface
-     */
-    public function getLearningMaterial()
-    {
-        return $this->learningMaterial;
     }
 }

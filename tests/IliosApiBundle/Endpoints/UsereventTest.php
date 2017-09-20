@@ -36,11 +36,73 @@ class UsereventTest extends AbstractEndpointTest
         ];
     }
 
+    public function testAttachedUserMaterials()
+    {
+        $userId = 5;
+        $events = $this->getEvents($userId, 0, 100000000000);
+        $lms = $events[0]['learningMaterials'];
+
+        $this->assertEquals(10, count($lms));
+
+        $this->assertEquals(13, count($lms[0]));
+        $this->assertEquals('1', $lms[0]['id']);
+        $this->assertEquals('1', $lms[0]['session']);
+        $this->assertEquals('1', $lms[0]['course']);
+        $this->assertTrue($lms[0]['required']);
+        $this->assertStringStartsWith('firstlm', $lms[0]['title']);
+        $this->assertEquals('desc1', $lms[0]['description']);
+        $this->assertEquals('author1', $lms[0]['originalAuthor']);
+        $this->assertEquals('citation1', $lms[0]['citation']);
+        $this->assertEquals('citation', $lms[0]['mimetype']);
+        $this->assertEquals('session1Title', $lms[0]['sessionTitle']);
+        $this->assertEquals('firstCourse', $lms[0]['courseTitle']);
+        $this->assertEquals(0, count($lms[0]['instructors']));
+        $this->assertFalse($lms[0]['isBlanked']);
+
+        $this->assertEquals(13, count($lms[1]));
+        $this->assertFalse($lms[1]['isBlanked']);
+
+        $this->assertEquals(13, count($lms[2]));
+        $this->assertFalse($lms[2]['isBlanked']);
+
+        $this->assertEquals(14, count($lms[3]));
+        $this->assertFalse($lms[3]['isBlanked']);
+
+        $this->assertEquals(15, count($lms[4]));
+        $this->assertFalse($lms[4]['isBlanked']);
+
+        $this->assertEquals(7, count($lms[5]));
+        $this->assertEquals('6', $lms[5]['id']);
+        $this->assertEquals('1', $lms[5]['course']);
+        $this->assertEquals('sixthlm', $lms[5]['title']);
+        $this->assertEquals('firstCourse', $lms[5]['courseTitle']);
+        $this->assertEmpty($lms[5]['instructors']);
+        $this->assertNotEmpty($lms[5]['startDate']);
+        $this->assertTrue($lms[5]['isBlanked']);
+
+        $this->assertEquals(15, count($lms[6]));
+        $this->assertNotEmpty($lms[6]['endDate']);
+        $this->assertFalse($lms[6]['isBlanked']);
+
+        $this->assertEquals(7, count($lms[7]));
+        $this->assertNotEmpty($lms[7]['endDate']);
+        $this->assertTrue($lms[7]['isBlanked']);
+
+        $this->assertEquals(16, count($lms[8]));
+        $this->assertNotEmpty($lms[8]['startDate']);
+        $this->assertNotEmpty($lms[8]['endDate']);
+        $this->assertFalse($lms[8]['isBlanked']);
+
+        $this->assertEquals(8, count($lms[9]));
+        $this->assertNotEmpty($lms[9]['startDate']);
+        $this->assertNotEmpty($lms[9]['endDate']);
+        $this->assertTrue($lms[9]['isBlanked']);
+    }
+
     public function testGetEvents()
     {
         $offerings = $this->container->get(OfferingData::class)->getAll();
         $sessionTypes = $this->container->get(SessionTypeData::class)->getAll();
-        $learningMaterials = $this->container->get(LearningMaterialData::class)->getAll();
         $sessionDescriptions = $this->container->get(SessionDescriptionData::class)->getAll();
         $ilmSessions = $this->container->get(IlmSessionData::class)->getAll();
         $courses = $this->container->get(CourseData::class)->getAll();
@@ -83,7 +145,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             count($events[0]['learningMaterials']),
-            3,
+            9,
             'Event 0 has the correct number of learning materials'
         );
         $this->assertTrue(
@@ -128,7 +190,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             count($events[1]['learningMaterials']),
-            3,
+            9,
             'Event 1 has the correct number of learning materials'
         );
         $this->assertTrue(
@@ -173,7 +235,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             count($events[2]['learningMaterials']),
-            3,
+            9,
             'Event 2 has the correct number of learning materials'
         );
         $this->assertTrue(
@@ -409,7 +471,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             count($events[9]['learningMaterials']),
-            4,
+            10,
             'Event 6 has the correct number of learning materials'
         );
         $this->assertFalse(

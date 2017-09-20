@@ -5,6 +5,7 @@ namespace Ilios\WebBundle\Controller;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Entity\LearningMaterialRelationshipInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
 use Ilios\CoreBundle\Entity\Manager\OfferingManager;
@@ -35,7 +36,7 @@ class IcsController extends Controller
 
         $calendar = new ICS\Calendar('Ilios Calendar for ' . $user->getFirstAndLastName());
         $calendar->setPublishedTTL('P1H');
-        
+
         $from = new \DateTime(self::LOOK_BACK);
         $to =  new \DateTime(self::LOOK_FORWARD);
 
@@ -87,6 +88,8 @@ class IcsController extends Controller
      */
     protected function getDescriptionForEvent(UserEvent $event)
     {
+        $now = new \DateTime();
+
         if ($event->offering) {
             $offeringManager = $this->container->get(OfferingManager::class);
             $offering = $offeringManager->findOneBy(['id' => $event->offering]);
@@ -156,12 +159,12 @@ class IcsController extends Controller
         usort($sessionMaterials, $callback);
         usort($courseMaterials, $callback);
 
-        $courseMaterials = array_map(function (CourseLearningMaterialInterface $learningMaterial) {
-            return $this->getTextForLearningMaterial($learningMaterial->getLearningMaterial());
+        $courseMaterials = array_map(function (LearningMaterialRelationshipInterface $learningMaterial) use ($now) {
+            return $this->getTextForLearningMaterial($learningMaterial, $now);
         }, $courseMaterials);
 
-        $sessionMaterials = array_map(function (SessionLearningMaterialInterface $learningMaterial) {
-            return $this->getTextForLearningMaterial($learningMaterial->getLearningMaterial());
+        $sessionMaterials = array_map(function (LearningMaterialRelationshipInterface $learningMaterial) use ($now) {
+            return $this->getTextForLearningMaterial($learningMaterial, $now);
         }, $sessionMaterials);
 
         $lines = [
@@ -186,21 +189,42 @@ class IcsController extends Controller
     }
 
     /**
-     * @param LearningMaterialInterface $learningMaterial
+     * @param LearningMaterialRelationshipInterface $learningMaterialRelationship
+     * @param \DateTime $dateTime
      * @return string
      */
-    protected function getTextForLearningMaterial(LearningMaterialInterface $learningMaterial)
-    {
+    protected function getTextForLearningMaterial(
+        LearningMaterialRelationshipInterface $learningMaterialRelationship,
+        \DateTime $dateTime
+    ) {
+        $learningMaterial = $learningMaterialRelationship->getLearningMaterial();
+        $startDate = $learningMaterialRelationship->getStartDate();
+        $endDate = $learningMaterialRelationship->getEndDate();
+
+        $blankThis = false;
+        if (isset($startDate) && isset($endDate)) {
+            $blankThis = ($startDate > $dateTime || $dateTime > $endDate);
+        } elseif (isset($startDate)) {
+            $blankThis = ($startDate > $dateTime);
+        } elseif (isset($endDate)) {
+            $blankThis = ($dateTime > $endDate);
+        }
+
         $text = $this->purify($learningMaterial->getTitle()) . ' ';
-        if ($citation = $learningMaterial->getCitation()) {
-            $text .= $this->purify($citation);
-        } elseif ($link = $learningMaterial->getLink()) {
-            $text .= $this->purify($link);
+
+        if ($blankThis) {
+            $text .= '(Timed Release)';
         } else {
-            $uri = $this->generateUrl('ilios_core_downloadlearningmaterial', array(
-                'token' => $learningMaterial->getToken(),
-            ), UrlGeneratorInterface::ABSOLUTE_URL);
-            $text .= $uri;
+            if ($citation = $learningMaterial->getCitation()) {
+                $text .= $this->purify($citation);
+            } elseif ($link = $learningMaterial->getLink()) {
+                $text .= $this->purify($link);
+            } else {
+                $uri = $this->generateUrl('ilios_core_downloadlearningmaterial', array(
+                    'token' => $learningMaterial->getToken(),
+                ), UrlGeneratorInterface::ABSOLUTE_URL);
+                $text .= $uri;
+            }
         }
 
         return $text;

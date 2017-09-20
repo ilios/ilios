@@ -24,6 +24,7 @@ class UserManager extends BaseManager
     /**
      * @param Registry $registry
      * @param string $class
+     * @param UserMaterialFactory $factory
      */
     public function __construct(Registry $registry, $class, UserMaterialFactory $factory)
     {

@@ -116,15 +116,31 @@ class SessionLearningMaterialDTO
     public $courseIsArchived;
 
     /**
+     * @var \DateTime
+     * @IS\Expose
+     * @IS\Type("dateTime")
+     */
+    public $startDate;
+
+    /**
+     * @var \DateTime
+     * @IS\Expose
+     * @IS\Type("dateTime")
+     */
+    public $endDate;
+
+    /**
      * Constructor
      */
-    public function __construct($id, $notes, $required, $publicNotes, $position)
+    public function __construct($id, $notes, $required, $publicNotes, $position, $startDate, $endDate)
     {
         $this->id = $id;
         $this->notes = $notes;
         $this->required = $required;
         $this->publicNotes = $publicNotes;
         $this->position = $position;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
 
         $this->meshDescriptors = [];
     }

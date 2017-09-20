@@ -74,8 +74,10 @@ class UsereventController extends AbstractController
 
         //Un-privileged users get less data
         if (!$sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+            $now = new \DateTime();
             /* @var UserEvent $event */
             foreach ($events as $event) {
+                $event->clearTimedMaterials($now);
                 $event->clearDataForScheduledEvent();
             }
         }

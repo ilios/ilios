@@ -66,10 +66,27 @@ class IcsControllerTest extends WebTestCase
         $firstDescription = preg_replace('/\s+/', '', $matches[1]);
 
         $this->assertRegExp(
-            '#thirdlmhttp://localhost/lm/[a-z0-9]{64}$#',
+            '#thirdlmhttp://localhost/lm/[a-z0-9]{64}#',
             $firstDescription,
             'LM Links are absolute paths'
         );
+    }
+
+    public function testForTimedReleaseLms()
+    {
+        $client = static::createClient();
+        $url = '/ics/' . hash('sha256', '1');
+        $client->request('GET', $url);
+        $response = $client->getResponse();
+
+        $content = preg_replace('/\s+/', '', $response->getContent());
+        foreach (['sixthlm', 'eighthlm', 'tenthlm'] as $lm) {
+            $this->assertContains(
+                "${lm}(TimedRelease)",
+                $content,
+                'Timed materials outside of their timing window are labeled as such.'
+            );
+        }
     }
 
     public function testDraftLmsNotInFeedForStudents()
