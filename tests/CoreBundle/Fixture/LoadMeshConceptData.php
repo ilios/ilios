@@ -36,7 +36,6 @@ class LoadMeshConceptData extends AbstractFixture implements
             $entity->setScopeNote($arr['scopeNote']);
             $entity->setCasn1Name($arr['casn1Name']);
             $entity->setRegistryNumber($arr['registryNumber']);
-            $entity->setUmlsUid($arr['umlsUid']);
             foreach ($arr['descriptors'] as $id) {
                 $entity->addDescriptor($this->getReference('meshDescriptors' . $id));
             }

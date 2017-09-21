@@ -7,10 +7,6 @@ Meshconcept:
   name:
    description: Name
    type: string
-  umlsUid:
-   description: Umlsuid
-   type: string
-   deprecated: true
   preferred:
    description: Preferred
    type: boolean

@@ -28,15 +28,6 @@ class MeshConceptDTO
     public $name;
 
     /**
-     * @var string
-     *
-     * @IS\Expose
-     * @IS\Type("string")
-     * @deprecated
-     */
-    public $umlsUid;
-
-    /**
      * @var boolean
      *
      * @IS\Expose
@@ -104,10 +95,9 @@ class MeshConceptDTO
      * MeshConceptDTO constructor.
      * @param $id
      * @param $name
-     * @param $umlsUid
      * @param $preferred
      * @param $scopeNote
-     * @param $cash1Name
+     * @param $casn1Name
      * @param $registryNumber
      * @param $createdAt
      * @param $updatedAt
@@ -115,7 +105,6 @@ class MeshConceptDTO
     public function __construct(
         $id,
         $name,
-        $umlsUid,
         $preferred,
         $scopeNote,
         $casn1Name,
@@ -125,7 +114,6 @@ class MeshConceptDTO
     ) {
         $this->id = $id;
         $this->name = $name;
-        $this->umlsUid = $umlsUid;
         $this->preferred = $preferred;
         $this->scopeNote = $scopeNote;
         $this->casn1Name = $casn1Name;

@@ -66,14 +66,4 @@ interface MeshTermInterface extends
      * @return boolean
      */
     public function isPermuted();
-
-    /**
-     * @param boolean $printable
-     */
-    public function setPrintable($printable);
-
-    /**
-     * @return boolean
-     */
-    public function isPrintable();
 }

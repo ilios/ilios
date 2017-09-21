@@ -15,7 +15,6 @@ class MeshTermData extends AbstractDataLoader
             'conceptPreferred' => true,
             'recordPreferred' => false,
             'permuted' => true,
-            'printable' => false,
             'concepts' => ['1']
         );
         $arr[] = array(
@@ -26,7 +25,6 @@ class MeshTermData extends AbstractDataLoader
             'conceptPreferred' => false,
             'recordPreferred' => true,
             'permuted' => false,
-            'printable' => true,
             'concepts' => ['1']
         );
 
@@ -35,7 +33,7 @@ class MeshTermData extends AbstractDataLoader
 
     public function create()
     {
-        
+
         return array(
             'id' => '3',
             'meshTermUid' => 'tuid123',
@@ -44,7 +42,6 @@ class MeshTermData extends AbstractDataLoader
             'conceptPreferred' => true,
             'recordPreferred' => true,
             'permuted' => true,
-            'printable' => true,
             'concepts' => ['1']
         );
     }

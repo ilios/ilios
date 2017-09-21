@@ -23,10 +23,6 @@ Meshterm:
   permuted:
    description: Permuted
    type: string
-  printable:
-   description: Printable
-   type: string
-   deprecated: true
   createdAt:
    description: Createdat
    type: string

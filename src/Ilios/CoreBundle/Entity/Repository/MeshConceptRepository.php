@@ -46,7 +46,6 @@ class MeshConceptRepository extends EntityRepository implements DTORepositoryInt
             $meshConceptDTOs[$arr['id']] = new MeshConceptDTO(
                 $arr['id'],
                 $arr['name'],
-                $arr['umlsUid'],
                 $arr['preferred'],
                 $arr['scopeNote'],
                 $arr['casn1Name'],

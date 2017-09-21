@@ -34,7 +34,6 @@ class MeshConceptTest extends AbstractEndpointTest
         return [
             'name' => ['name', $this->getFaker()->text],
             'id' => ['id', $this->getFaker()->word, $skipped = true],
-            'umlsUid' => ['umlsUid', $this->getFaker()->text(9)],
             'preferred' => ['preferred', false],
             'scopeNote' => ['scopeNote', $this->getFaker()->text],
             'casn1Name' => ['casn1Name', $this->getFaker()->text(120)],
@@ -64,7 +63,6 @@ class MeshConceptTest extends AbstractEndpointTest
             'id' => [[0], ['id' => '1']],
             'ids' => [[0, 1], ['id' => ['1', '2']]],
             'name' => [[1], ['name' => 'second concept']],
-            'umlsUid' => [[0], ['umlsUid' => 'umlsUid1']],
             'preferred' => [[0], ['preferred' => true]],
             'notPreferred' => [[1], ['preferred' => false]],
             'scopeNote' => [[0], ['scopeNote' => 'first scopeNote']],
