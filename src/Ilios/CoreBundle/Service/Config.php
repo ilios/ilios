@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Service;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ServerException;
 use Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager;
+use function Stringy\create as s;
 
 class Config
 {
@@ -59,7 +60,7 @@ class Config
      */
     protected function getValueFromEnv($name)
     {
-        $envName = 'ILIOS_' . strtoupper($name);
+        $envName = 'ILIOS_' .  s($name)->underscored()->toUpperCase();
         if (isset($_SERVER[$envName])) {
             return $_SERVER[$envName];
         }
