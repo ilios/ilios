@@ -39,7 +39,6 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
             ->from('IliosCoreBundle:MeshDescriptor', 'd')
             ->leftJoin('d.previousIndexing', 'pi')
             ->leftJoin('d.concepts', 'c')
-            ->leftJoin('c.semanticTypes', 'st')
             ->leftJoin('c.terms', 't')
             ->andWhere('d.deleted = false');
 
@@ -49,7 +48,6 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
                 $qb->expr()->like('d.name', "?{$key}"),
                 $qb->expr()->like('d.annotation', "?{$key}"),
                 $qb->expr()->like('pi.previousIndexing', "?{$key}"),
-                $qb->expr()->like('st.name', "?{$key}"),
                 $qb->expr()->like('t.name', "?{$key}"),
                 $qb->expr()->like('c.name', "?{$key}"),
                 $qb->expr()->like('c.scopeNote', "?{$key}"),
@@ -187,20 +185,6 @@ EOL;
     /**
      * @param array $data
      */
-    public function importMeshConceptSemanticType(array $data)
-    {
-        $sql =<<<EOL
-INSERT INTO mesh_concept_x_semantic_type (
-    mesh_concept_uid, mesh_semantic_type_uid
-) VALUES (?, ?)
-EOL;
-        $connection = $this->_em->getConnection();
-        $connection->executeUpdate($sql, $data);
-    }
-
-    /**
-     * @param array $data
-     */
     public function importMeshConceptTerm(array $data)
     {
         $sql =<<<EOL
@@ -279,20 +263,6 @@ EOL;
         $sql =<<<EOL
 INSERT INTO mesh_qualifier (
     mesh_qualifier_uid, name, created_at, updated_at
-) VALUES (?, ?, ?, ?)
-EOL;
-        $connection = $this->_em->getConnection();
-        $connection->executeUpdate($sql, $data);
-    }
-
-    /**
-     * @param array $data
-     */
-    public function importMeshSemanticType(array $data)
-    {
-        $sql =<<<EOL
-INSERT INTO mesh_semantic_type (
-    mesh_semantic_type_uid, name, created_at, updated_at
 ) VALUES (?, ?, ?, ?)
 EOL;
         $connection = $this->_em->getConnection();
@@ -507,14 +477,12 @@ EOL;
         $conn = $this->_em->getConnection();
         $conn->beginTransaction();
         try {
-            $conn->query('DELETE FROM mesh_concept_x_semantic_type');
             $conn->query('DELETE FROM mesh_concept_x_term');
             $conn->query('DELETE FROM mesh_descriptor_x_qualifier');
             $conn->query('DELETE FROM mesh_descriptor_x_concept');
             $conn->query('DELETE FROM mesh_previous_indexing');
             $conn->query('DELETE FROM mesh_tree');
             $conn->query('DELETE FROM mesh_term');
-            $conn->query('DELETE FROM mesh_semantic_type');
             $conn->query('DELETE FROM mesh_concept');
             $conn->query('DELETE FROM mesh_qualifier');
 

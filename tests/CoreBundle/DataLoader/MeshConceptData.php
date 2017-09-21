@@ -15,7 +15,6 @@ class MeshConceptData extends AbstractDataLoader
             'scopeNote' => 'first scopeNote',
             'casn1Name' => 'casn' . $this->faker->text(120),
             'registryNumber' => $this->faker->text(20),
-            'semanticTypes' => ['1', '2'],
             'terms' => ['1', '2'],
             'descriptors' => ['abc1']
         );
@@ -27,7 +26,6 @@ class MeshConceptData extends AbstractDataLoader
             'scopeNote' => 'scopeNote' . $this->faker->text,
             'casn1Name' => 'second casn',
             'registryNumber' => 'abcd',
-            'semanticTypes' => [],
             'terms' => [],
             'descriptors' => ['abc1']
         );
@@ -45,7 +43,6 @@ class MeshConceptData extends AbstractDataLoader
             'scopeNote' => 'scopeNote' . $this->faker->text,
             'casn1Name' => 'casn' . $this->faker->text(120),
             'registryNumber' => $this->faker->text(20),
-            'semanticTypes' => [],
             'terms' => ['1'],
             'descriptors' => []
         );

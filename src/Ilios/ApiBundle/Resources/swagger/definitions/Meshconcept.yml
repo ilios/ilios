@@ -23,12 +23,6 @@ Meshconcept:
   registryNumber:
    description: Registrynumber
    type: string
-  semanticTypes:
-   description: Semantictypes
-   deprecated: true
-   type: array
-   items:
-    type: string
   terms:
    description: Terms
    type: array

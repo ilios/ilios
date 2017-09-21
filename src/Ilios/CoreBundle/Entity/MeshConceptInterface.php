@@ -67,26 +67,6 @@ interface MeshConceptInterface extends
     public function getRegistryNumber();
 
     /**
-     * @param Collection $semanticTypes
-     */
-    public function setSemanticTypes(Collection $semanticTypes);
-
-    /**
-     * @param MeshSemanticTypeInterface $semanticType
-     */
-    public function addSemanticType(MeshSemanticTypeInterface $semanticType);
-
-    /**
-     * @param MeshSemanticTypeInterface $semanticType
-     */
-    public function removeSemanticType(MeshSemanticTypeInterface $semanticType);
-
-    /**
-     * @return ArrayCollection|MeshSemanticTypeInterface[]
-     */
-    public function getSemanticTypes();
-
-    /**
      * @param Collection $terms
      */
     public function setTerms(Collection $terms);

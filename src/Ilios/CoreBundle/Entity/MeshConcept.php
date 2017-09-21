@@ -140,25 +140,6 @@ class MeshConcept implements MeshConceptInterface
     protected $registryNumber;
 
     /**
-     * @var ArrayCollection|MeshSemanticTypeInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="MeshSemanticType", inversedBy="concepts")
-     * @ORM\JoinTable(name="mesh_concept_x_semantic_type",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_semantic_type_uid", referencedColumnName="mesh_semantic_type_uid")
-     *   }
-     * )
-     *
-     * @IS\Expose
-     * @IS\Type("entityCollection")
-     * @deprecated
-     */
-    protected $semanticTypes;
-
-    /**
      * @var ArrayCollection|MeshTermInterface[]
      *
      * @ORM\ManyToMany(targetEntity="MeshTerm", mappedBy="concepts")
@@ -212,7 +193,6 @@ class MeshConcept implements MeshConceptInterface
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
         $this->preferred = false;
-        $this->semanticTypes = new ArrayCollection();
         $this->terms = new ArrayCollection();
         $this->descriptors = new ArrayCollection();
     }
@@ -297,48 +277,6 @@ class MeshConcept implements MeshConceptInterface
     public function getRegistryNumber()
     {
         return $this->registryNumber;
-    }
-
-    /**
-     * @param Collection $semanticTypes
-     * @deprecated
-     */
-    public function setSemanticTypes(Collection $semanticTypes)
-    {
-        $this->semanticTypes = $semanticTypes;
-
-        foreach ($semanticTypes as $semanticType) {
-            $this->addSemanticType($semanticType);
-        }
-    }
-
-    /**
-     * @param MeshSemanticTypeInterface $semanticType
-     * @deprecated
-     */
-    public function addSemanticType(MeshSemanticTypeInterface $semanticType)
-    {
-        if (!$this->semanticTypes->contains($semanticType)) {
-            $this->semanticTypes->add($semanticType);
-        }
-    }
-
-    /**
-     * @param MeshSemanticTypeInterface $semanticType
-     * @deprecated
-     */
-    public function removeSemanticType(MeshSemanticTypeInterface $semanticType)
-    {
-        $this->semanticTypes->removeElement($semanticType);
-    }
-
-    /**
-     * @return ArrayCollection|MeshSemanticTypeInterface[]
-     * @deprecated
-     */
-    public function getSemanticTypes()
-    {
-        return $this->semanticTypes;
     }
 
     /**
