@@ -12,7 +12,6 @@ class Config
         'keep_frontend_updated',
         'cas_authentication_verify_ssl',
         'enable_tracking',
-        'keep_frontend_updated',
         'requireSecureConnection',
     ];
 
@@ -99,7 +98,7 @@ class Config
     protected function castResult($name, $result)
     {
         if (null !== $result && in_array($name, self::BOOLEAN_NAMES)) {
-            return (boolean) $result;
+            return (boolean) json_decode($result);
         }
 
         return $result;
