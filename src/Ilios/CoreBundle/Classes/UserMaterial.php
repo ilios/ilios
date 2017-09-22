@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Classes;
 
 use Ilios\ApiBundle\Annotation as IS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class UserMaterial
@@ -17,6 +18,9 @@ class UserMaterial
      */
     protected static $doNotScrubProps = array(
         'id',
+        'clm',
+        'slm',
+        'position',
         'title',
         'course',
         'courseTitle',
@@ -24,7 +28,8 @@ class UserMaterial
         'sessionTitle',
         'startDate',
         'endDate',
-        'isBlanked'
+        'isBlanked',
+        'firstOfferingDate',
     );
 
     /**
@@ -33,6 +38,20 @@ class UserMaterial
      * @IS\Type("string")
      */
     public $id;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $clm;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $slm;
 
     /**
      * @var int
@@ -110,6 +129,20 @@ class UserMaterial
      * @IS\Type("string")
      */
     public $filename;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $filesize;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $position;
 
     /**
      * @var string
