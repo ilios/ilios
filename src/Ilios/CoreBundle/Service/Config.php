@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Service;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ServerException;
 use Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager;
+use function Stringy\create as s;
 
 class Config
 {
@@ -11,7 +12,6 @@ class Config
         'keep_frontend_updated',
         'cas_authentication_verify_ssl',
         'enable_tracking',
-        'keep_frontend_updated',
         'requireSecureConnection',
     ];
 
@@ -59,7 +59,7 @@ class Config
      */
     protected function getValueFromEnv($name)
     {
-        $envName = 'ILIOS_' . strtoupper($name);
+        $envName = 'ILIOS_' .  s($name)->underscored()->toUpperCase();
         if (isset($_SERVER[$envName])) {
             return $_SERVER[$envName];
         }
@@ -98,7 +98,7 @@ class Config
     protected function castResult($name, $result)
     {
         if (null !== $result && in_array($name, self::BOOLEAN_NAMES)) {
-            return (boolean) $result;
+            return (boolean) json_decode($result);
         }
 
         return $result;

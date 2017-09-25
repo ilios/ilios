@@ -5,6 +5,7 @@ use Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager;
 use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;
+use function Stringy\create as s;
 
 /**
  * Class LoggerQueueTest
@@ -20,7 +21,7 @@ class ConfigTest extends TestCase
         $config = new Config($manager);
         $value = '123Test';
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . strtoupper($key);
+        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
         $_SERVER[$envKey] = $value;
         $result = $config->get($key);
         $this->assertEquals($value, $result);
