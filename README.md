@@ -27,6 +27,11 @@ For information about customizing the look and feel of the Ilios frontend for yo
 
 If you want to connect to the Ilios API a good place to start is [docs/ilios_api.md](docs/ilios_api.md).
 
+## Interacting with Ilios from the command line
+
+Ilios provides a command line interface, see [docs/custom_cli_commands.md](docs/custom_cli_commands.md) 
+for a list of available commands and how to use them. 
+
 # Get Ilios
 
 Download the [latest distribution](https://github.com/ilios/ilios/releases) or clone the [codebase](https://github.com/ilios/ilios).
