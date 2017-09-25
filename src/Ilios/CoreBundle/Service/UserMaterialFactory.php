@@ -46,6 +46,9 @@ class UserMaterialFactory
         /* @var UserMaterial $obj */
         $obj = new $this->decoratorClassName();
         $obj->id = $material['id'];
+        $obj->courseLearningMaterial = isset($material['clmId'])?$material['clmId']:null;
+        $obj->sessionLearningMaterial = isset($material['slmId'])?$material['slmId']:null;
+        $obj->position = isset($material['position'])?$material['position']:null;
         $obj->session = isset($material['sessionId'])?$material['sessionId']:null;
         $obj->course = isset($material['courseId'])?$material['courseId']:null;
         $obj->sessionTitle = isset($material['sessionTitle'])?$material['sessionTitle']:null;
@@ -63,6 +66,7 @@ class UserMaterialFactory
         $obj->citation = $material['citation'];
         $obj->link = $material['link'];
         $obj->filename = $material['filename'];
+        $obj->filesize = $material['filesize'];
         $obj->mimetype = $material['mimetype'];
         $obj->startDate = $material['startDate'];
         $obj->endDate = $material['endDate'];

@@ -1106,9 +1106,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb = $this->_em->createQueryBuilder();
         $what = 's.title as sessionTitle, s.id as sessionId, ' .
             'c.id as courseId, c.title as courseTitle, ' .
-            'slm.notes, slm.required, slm.publicNotes, slm.startDate, slm.endDate, ' .
+            'slm.id as slmId, slm.position, slm.notes, slm.required, slm.publicNotes, slm.startDate, slm.endDate, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
-            'lm.citation, lm.link, lm.filename, lm.mimetype';
+            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype';
         $qb->select($what)->from('IliosCoreBundle:Session', 's');
         $qb->join('s.learningMaterials', 'slm');
         $qb->join('slm.learningMaterial', 'lm');
@@ -1138,9 +1138,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
         $qb = $this->_em->createQueryBuilder();
         $what = 'c.title as courseTitle, c.id as courseId, c.startDate as firstOfferingDate, ' .
-            'clm.notes, clm.required, clm.publicNotes, clm.startDate, clm.endDate, ' .
+            'clm.id as clmId, clm.position, clm.notes, clm.required, clm.publicNotes, clm.startDate, clm.endDate, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
-            'lm.citation, lm.link, lm.filename, lm.mimetype';
+            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype';
         $qb->select($what)->from('IliosCoreBundle:Session', 's');
         $qb->join('s.course', 'c');
         $qb->join('c.learningMaterials', 'clm');

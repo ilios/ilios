@@ -17,6 +17,9 @@ class UserMaterial
      */
     protected static $doNotScrubProps = array(
         'id',
+        'courseLearningMaterial',
+        'sessionLearningMaterial',
+        'position',
         'title',
         'course',
         'courseTitle',
@@ -24,7 +27,8 @@ class UserMaterial
         'sessionTitle',
         'startDate',
         'endDate',
-        'isBlanked'
+        'isBlanked',
+        'firstOfferingDate',
     );
 
     /**
@@ -33,6 +37,20 @@ class UserMaterial
      * @IS\Type("string")
      */
     public $id;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $courseLearningMaterial;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $sessionLearningMaterial;
 
     /**
      * @var int
@@ -110,6 +128,20 @@ class UserMaterial
      * @IS\Type("string")
      */
     public $filename;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $filesize;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $position;
 
     /**
      * @var string

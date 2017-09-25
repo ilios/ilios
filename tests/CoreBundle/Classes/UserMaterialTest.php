@@ -23,6 +23,9 @@ class UserMaterialTest extends TestCase
     {
         $this->userMaterial = new UserMaterial();
         $this->userMaterial->id = 1;
+        $this->userMaterial->courseLearningMaterial = 1;
+        $this->userMaterial->sessionLearningMaterial = 1;
+        $this->userMaterial->position = 1;
         $this->userMaterial->session = 1;
         $this->userMaterial->course = 1;
         $this->userMaterial->publicNotes = 'Notes';
@@ -34,6 +37,7 @@ class UserMaterialTest extends TestCase
         $this->userMaterial->citation = 'Citation';
         $this->userMaterial->link = 'http://127.0.0.1';
         $this->userMaterial->filename = 'test.txt';
+        $this->userMaterial->filesize = 1000;
         $this->userMaterial->mimetype = 'plain/text';
         $this->userMaterial->sessionTitle = 'Session 1';
         $this->userMaterial->courseTitle = 'Course 1';
@@ -137,11 +141,15 @@ class UserMaterialTest extends TestCase
     {
         $this->assertTrue($material->isBlanked);
         $this->assertNotNull($material->id);
+        $this->assertNotNull($material->courseLearningMaterial);
+        $this->assertNotNull($material->sessionLearningMaterial);
+        $this->assertNotNull($material->position);
         $this->assertNotNull($material->title);
         $this->assertNotNull($material->session);
         $this->assertNotNull($material->sessionTitle);
         $this->assertNotNull($material->course);
         $this->assertNotNull($material->courseTitle);
+        $this->assertNotNull($material->firstOfferingDate);
         $this->assertNull($material->publicNotes);
         $this->assertNull($material->required);
         $this->assertNull($material->description);
@@ -150,8 +158,8 @@ class UserMaterialTest extends TestCase
         $this->assertNull($material->citation);
         $this->assertNull($material->link);
         $this->assertNull($material->filename);
+        $this->assertNull($material->filesize);
         $this->assertNull($material->mimetype);
-        $this->assertNull($material->firstOfferingDate);
         $this->assertEmpty($material->instructors);
     }
 
@@ -162,11 +170,15 @@ class UserMaterialTest extends TestCase
     {
         $this->assertFalse($material->isBlanked);
         $this->assertNotNull($material->id);
+        $this->assertNotNull($material->courseLearningMaterial);
+        $this->assertNotNull($material->sessionLearningMaterial);
+        $this->assertNotNull($material->position);
         $this->assertNotNull($material->title);
         $this->assertNotNull($material->session);
         $this->assertNotNull($material->sessionTitle);
         $this->assertNotNull($material->course);
         $this->assertNotNull($material->courseTitle);
+        $this->assertNotNull($material->firstOfferingDate);
         $this->assertNotNull($material->publicNotes);
         $this->assertNotNull($material->required);
         $this->assertNotNull($material->description);
@@ -175,8 +187,8 @@ class UserMaterialTest extends TestCase
         $this->assertNotNull($material->citation);
         $this->assertNotNull($material->link);
         $this->assertNotNull($material->filename);
+        $this->assertNotNull($material->filesize);
         $this->assertNotNull($material->mimetype);
-        $this->assertNotNull($material->firstOfferingDate);
         $this->assertNotEmpty($material->instructors);
     }
 }
