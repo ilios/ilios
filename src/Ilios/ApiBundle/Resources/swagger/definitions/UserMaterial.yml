@@ -50,3 +50,16 @@ UserMaterial:
    description: The first appearance of this material
    type: string
    format: date-time
+  courseLearningMaterial:
+   description: ID of the course/learning-material association.
+   type: string
+  sessionLearningMaterial:
+   description: ID of the course/learning-material association.
+   type: string
+  filesize:
+   description: File-size of the material.
+   type: string
+  position:
+   description: Sorting position of this material in the context of a course or session association.
+   type: string
+
