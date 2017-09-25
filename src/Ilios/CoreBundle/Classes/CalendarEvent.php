@@ -141,6 +141,16 @@ abstract class CalendarEvent
     public $attendanceRequired;
 
     /**
+     * @var int
+     */
+    public $sessionId;
+
+    /**
+     * @var int
+     */
+    public $courseId;
+
+    /**
      * Clean out all the data for scheduled events
      *
      * This information is not available to un-privileged users

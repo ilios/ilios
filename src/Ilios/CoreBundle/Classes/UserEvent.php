@@ -47,16 +47,6 @@ class UserEvent extends CalendarEvent
     public $sessionTypeTitle;
 
     /**
-     * @var int
-     */
-    public $sessionId;
-
-    /**
-     * @var int
-     */
-    public $courseId;
-
-    /**
      * @inheritdoc
      */
     public function clearDataForScheduledEvent()
