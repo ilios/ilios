@@ -3,7 +3,6 @@
 namespace Ilios\CoreBundle\Classes;
 
 use Ilios\ApiBundle\Annotation as IS;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class UserMaterial
