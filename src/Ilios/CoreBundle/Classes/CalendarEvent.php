@@ -106,6 +106,13 @@ abstract class CalendarEvent
     public $instructors = array();
 
     /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $learningMaterials = array();
+
+    /**
      * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
@@ -153,6 +160,19 @@ abstract class CalendarEvent
             $this->attendanceRequired = null;
 
             $this->instructors = [];
+            $this->learningMaterials = [];
+        }
+    }
+
+
+    /**
+     * @param \DateTime $dateTime
+     */
+    public function clearTimedMaterials(\DateTime $dateTime)
+    {
+        /** @var UserMaterial $lm */
+        foreach ($this->learningMaterials as $lm) {
+            $lm->clearTimedMaterial($dateTime);
         }
     }
 }

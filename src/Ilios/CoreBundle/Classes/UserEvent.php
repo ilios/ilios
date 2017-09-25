@@ -47,13 +47,6 @@ class UserEvent extends CalendarEvent
     public $sessionTypeTitle;
 
     /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("entityCollection")
-     */
-    public $learningMaterials = array();
-
-    /**
      * @var int
      */
     public $sessionId;
@@ -74,18 +67,7 @@ class UserEvent extends CalendarEvent
             $this->sessionDescription = null;
             $this->sessionTitle = null;
             $this->sessionTypeTitle = null;
-            $this->learningMaterials = [];
         }
     }
 
-    /**
-     * @param \DateTime $dateTime
-     */
-    public function clearTimedMaterials(\DateTime $dateTime)
-    {
-        /** @var UserMaterial $lm */
-        foreach ($this->learningMaterials as $lm) {
-            $lm->clearTimedMaterial($dateTime);
-        }
-    }
 }
