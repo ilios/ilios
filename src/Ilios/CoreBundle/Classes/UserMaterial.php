@@ -18,8 +18,8 @@ class UserMaterial
      */
     protected static $doNotScrubProps = array(
         'id',
-        'clm',
-        'slm',
+        'courseLearningMaterial',
+        'sessionLearningMaterial',
         'position',
         'title',
         'course',
@@ -44,14 +44,14 @@ class UserMaterial
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $clm;
+    public $courseLearningMaterial;
 
     /**
      * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $slm;
+    public $sessionLearningMaterial;
 
     /**
      * @var int

@@ -46,8 +46,8 @@ class UserMaterialFactory
         /* @var UserMaterial $obj */
         $obj = new $this->decoratorClassName();
         $obj->id = $material['id'];
-        $obj->clm = isset($material['clmId'])?$material['clmId']:null;
-        $obj->slm = isset($material['slmId'])?$material['slmId']:null;
+        $obj->courseLearningMaterial = isset($material['clmId'])?$material['clmId']:null;
+        $obj->sessionLearningMaterial = isset($material['slmId'])?$material['slmId']:null;
         $obj->position = isset($material['position'])?$material['position']:null;
         $obj->session = isset($material['sessionId'])?$material['sessionId']:null;
         $obj->course = isset($material['courseId'])?$material['courseId']:null;

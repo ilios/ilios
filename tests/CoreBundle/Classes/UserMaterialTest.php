@@ -23,8 +23,8 @@ class UserMaterialTest extends TestCase
     {
         $this->userMaterial = new UserMaterial();
         $this->userMaterial->id = 1;
-        $this->userMaterial->clm = 1;
-        $this->userMaterial->slm = 1;
+        $this->userMaterial->courseLearningMaterial = 1;
+        $this->userMaterial->sessionLearningMaterial = 1;
         $this->userMaterial->position = 1;
         $this->userMaterial->session = 1;
         $this->userMaterial->course = 1;
@@ -141,8 +141,8 @@ class UserMaterialTest extends TestCase
     {
         $this->assertTrue($material->isBlanked);
         $this->assertNotNull($material->id);
-        $this->assertNotNull($material->clm);
-        $this->assertNotNull($material->slm);
+        $this->assertNotNull($material->courseLearningMaterial);
+        $this->assertNotNull($material->sessionLearningMaterial);
         $this->assertNotNull($material->position);
         $this->assertNotNull($material->title);
         $this->assertNotNull($material->session);
@@ -170,8 +170,8 @@ class UserMaterialTest extends TestCase
     {
         $this->assertFalse($material->isBlanked);
         $this->assertNotNull($material->id);
-        $this->assertNotNull($material->clm);
-        $this->assertNotNull($material->slm);
+        $this->assertNotNull($material->courseLearningMaterial);
+        $this->assertNotNull($material->sessionLearningMaterial);
         $this->assertNotNull($material->position);
         $this->assertNotNull($material->title);
         $this->assertNotNull($material->session);

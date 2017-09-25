@@ -33,7 +33,7 @@ class UsermaterialsTest extends AbstractEndpointTest
 
         $this->assertEquals(16, count($materials[0]));
         $this->assertEquals('1', $materials[0]['id']);
-        $this->assertEquals('1', $materials[0]['slm']);
+        $this->assertEquals('1', $materials[0]['sessionLearningMaterial']);
         $this->assertEquals('1', $materials[0]['session']);
         $this->assertTrue($materials[0]['required']);
         $this->assertEquals('1', $materials[0]['position']);
@@ -75,7 +75,7 @@ class UsermaterialsTest extends AbstractEndpointTest
 
         $this->assertEquals(10, count($materials[5]));
         $this->assertEquals('6', $materials[5]['id']);
-        $this->assertEquals('6', $materials[5]['clm']);
+        $this->assertEquals('6', $materials[5]['courseLearningMaterial']);
         $this->assertEquals('1', $materials[5]['course']);
         $this->assertEquals('4', $materials[5]['position']);
         $this->assertEquals('sixthlm', $materials[5]['title']);

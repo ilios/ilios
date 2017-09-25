@@ -45,7 +45,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals(10, count($lms));
         $this->assertEquals(15, count($lms[0]));
         $this->assertEquals('1', $lms[0]['id']);
-        $this->assertEquals('1', $lms[0]['slm']);
+        $this->assertEquals('1', $lms[0]['sessionLearningMaterial']);
         $this->assertEquals('1', $lms[0]['session']);
         $this->assertEquals('1', $lms[0]['course']);
         $this->assertEquals('1', $lms[0]['position']);
@@ -75,7 +75,7 @@ class UsereventTest extends AbstractEndpointTest
 
         $this->assertEquals(10, count($lms[5]));
         $this->assertEquals('6', $lms[5]['id']);
-        $this->assertEquals('6', $lms[5]['clm']);
+        $this->assertEquals('6', $lms[5]['courseLearningMaterial']);
         $this->assertEquals('1', $lms[5]['course']);
         $this->assertEquals('4', $lms[5]['position']);
         $this->assertEquals('sixthlm', $lms[5]['title']);
