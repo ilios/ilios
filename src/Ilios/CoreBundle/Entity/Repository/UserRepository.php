@@ -1109,10 +1109,11 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             'c.id as courseId, c.title as courseTitle, ' .
             'slm.id as slmId, slm.position, slm.notes, slm.required, slm.publicNotes, slm.startDate, slm.endDate, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
-            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype';
+            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype, lms.id AS status';
         $qb->select($what)->from('IliosCoreBundle:Session', 's');
         $qb->join('s.learningMaterials', 'slm');
         $qb->join('slm.learningMaterial', 'lm');
+        $qb->join('lm.status', 'lms');
         $qb->join('s.course', 'c');
 
         $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
@@ -1141,11 +1142,13 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $what = 'c.title as courseTitle, c.id as courseId, c.startDate as firstOfferingDate, ' .
             'clm.id as clmId, clm.position, clm.notes, clm.required, clm.publicNotes, clm.startDate, clm.endDate, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
-            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype';
+            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype, lms.id AS status';
         $qb->select($what)->from('IliosCoreBundle:Session', 's');
         $qb->join('s.course', 'c');
         $qb->join('c.learningMaterials', 'clm');
         $qb->join('clm.learningMaterial', 'lm');
+        $qb->join('lm.status', 'lms');
+
 
         $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
         $qb->andWhere($qb->expr()->eq('c.published', 1));

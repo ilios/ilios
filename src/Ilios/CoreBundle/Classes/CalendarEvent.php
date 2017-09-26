@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Classes;
 
 use Ilios\ApiBundle\Annotation as IS;
+use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
 /**
  * Class CalendarEvent
@@ -172,6 +174,16 @@ abstract class CalendarEvent
             $this->instructors = [];
             $this->learningMaterials = [];
         }
+    }
+
+    /**
+     * Removes any materials that are in draft mode.
+     */
+    public function removeMaterialsInDraft()
+    {
+        $this->learningMaterials = array_values(array_filter($this->learningMaterials, function(UserMaterial $lm) {
+            return $lm->status !== LearningMaterialStatusInterface::IN_DRAFT;
+        }));
     }
 
 

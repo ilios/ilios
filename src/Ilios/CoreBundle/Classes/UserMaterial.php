@@ -199,6 +199,10 @@ class UserMaterial
      */
     public $isBlanked;
 
+    /**
+     * @var int
+     */
+    public $status;
 
     /**
      * Blanks out properties of timed learning materials that are outside their given

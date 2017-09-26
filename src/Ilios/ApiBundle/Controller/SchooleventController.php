@@ -77,6 +77,7 @@ class SchooleventController extends Controller
             /** @var SchoolEvent $event */
             $now = new \DateTime();
             foreach ($events as $event) {
+                $event->removeMaterialsInDraft();
                 $event->clearTimedMaterials($now);
                 $event->clearDataForScheduledEvent();
             }
