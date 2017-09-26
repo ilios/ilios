@@ -75,3 +75,8 @@ This text is an adoption of the Code of Conduct provided by the
 ## Questions?
 If you have questions, feel free to [contact us](mailto:info@iliosproject.org).
 
+## License
+
+All content on this page is licensed under a [Creative Commons Attribution](https://creativecommons.org/licenses/by/3.0/) license.
+
+![CC-by](https://i.creativecommons.org/l/by/3.0/88x31.png)
