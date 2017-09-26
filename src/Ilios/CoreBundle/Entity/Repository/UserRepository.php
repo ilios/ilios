@@ -6,6 +6,7 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -1024,15 +1025,15 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     }
 
     /**
-     * Finds and adds learning materials to a given list of user events.
+     * Finds and adds learning materials to a given list of calendar events.
      *
-     * @param UserEvent[] $events
+     * @param CalendarEvent[] $events
      * @param UserMaterialFactory $factory
-     * @return UserEvent[]
+     * @return CalendarEvent[]
      */
     public function addMaterialsToEvents(array $events, UserMaterialFactory $factory)
     {
-        $sessionIds = array_map(function (UserEvent $event) {
+        $sessionIds = array_map(function (CalendarEvent $event) {
             return $event->sessionId;
         }, $events);
 
