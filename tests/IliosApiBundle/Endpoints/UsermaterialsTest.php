@@ -109,6 +109,14 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertTrue($materials[9]['isBlanked']);
     }
 
+    public function testGetAllMaterialsAsStudent() {
+        $userId = 5;
+        $materials = $this->getMaterials($userId, null, null, $userId);
+        $this->assertCount(9, $materials, 'All expected materials returned');
+        $materialIds = array_column($materials, 'id');
+        $this->assertFalse(in_array('2', $materialIds, 'Draft material was filtered out.'));
+    }
+
     public function testGetMaterialsBeforeTheBeginningOfTime()
     {
         $userId = 5;
@@ -138,7 +146,7 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertCount(10, $materials, 'All materials returned');
     }
 
-    protected function getMaterials($userId, $before = null, $after = null)
+    protected function getMaterials($userId, $before = null, $after = null, $authUser = null)
     {
         $parameters = [
             'version' => 'v1',
@@ -154,11 +162,13 @@ class UsermaterialsTest extends AbstractEndpointTest
             'ilios_api_usermaterials',
             $parameters
         );
+
+        $token = isset($authUser) ? $this->getTokenForUser($authUser) : $this->getAuthenticatedUserToken();
         $this->createJsonRequest(
             'GET',
             $url,
             null,
-            $this->getAuthenticatedUserToken()
+            $token
         );
 
         $response = $this->client->getResponse();
