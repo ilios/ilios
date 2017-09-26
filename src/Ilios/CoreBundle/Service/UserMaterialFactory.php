@@ -70,6 +70,7 @@ class UserMaterialFactory
         $obj->mimetype = $material['mimetype'];
         $obj->startDate = $material['startDate'];
         $obj->endDate = $material['endDate'];
+        $obj->status = (int) $material['status'];
         $obj->isBlanked = false;
 
         return $obj;

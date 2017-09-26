@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Classes;
 
 use Ilios\ApiBundle\Annotation as IS;
+use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
 /**
  * Class CalendarEvent
@@ -106,6 +108,13 @@ abstract class CalendarEvent
     public $instructors = array();
 
     /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $learningMaterials = array();
+
+    /**
      * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
@@ -134,6 +143,16 @@ abstract class CalendarEvent
     public $attendanceRequired;
 
     /**
+     * @var int
+     */
+    public $sessionId;
+
+    /**
+     * @var int
+     */
+    public $courseId;
+
+    /**
      * Clean out all the data for scheduled events
      *
      * This information is not available to un-privileged users
@@ -153,6 +172,29 @@ abstract class CalendarEvent
             $this->attendanceRequired = null;
 
             $this->instructors = [];
+            $this->learningMaterials = [];
+        }
+    }
+
+    /**
+     * Removes any materials that are in draft mode.
+     */
+    public function removeMaterialsInDraft()
+    {
+        $this->learningMaterials = array_values(array_filter($this->learningMaterials, function(UserMaterial $lm) {
+            return $lm->status !== LearningMaterialStatusInterface::IN_DRAFT;
+        }));
+    }
+
+
+    /**
+     * @param \DateTime $dateTime
+     */
+    public function clearTimedMaterials(\DateTime $dateTime)
+    {
+        /** @var UserMaterial $lm */
+        foreach ($this->learningMaterials as $lm) {
+            $lm->clearTimedMaterial($dateTime);
         }
     }
 }

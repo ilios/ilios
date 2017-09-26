@@ -6,6 +6,7 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -1024,15 +1025,15 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     }
 
     /**
-     * Finds and adds learning materials to a given list of user events.
+     * Finds and adds learning materials to a given list of calendar events.
      *
-     * @param UserEvent[] $events
+     * @param CalendarEvent[] $events
      * @param UserMaterialFactory $factory
-     * @return UserEvent[]
+     * @return CalendarEvent[]
      */
     public function addMaterialsToEvents(array $events, UserMaterialFactory $factory)
     {
-        $sessionIds = array_map(function (UserEvent $event) {
+        $sessionIds = array_map(function (CalendarEvent $event) {
             return $event->sessionId;
         }, $events);
 
@@ -1108,10 +1109,11 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             'c.id as courseId, c.title as courseTitle, ' .
             'slm.id as slmId, slm.position, slm.notes, slm.required, slm.publicNotes, slm.startDate, slm.endDate, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
-            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype';
+            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype, lms.id AS status';
         $qb->select($what)->from('IliosCoreBundle:Session', 's');
         $qb->join('s.learningMaterials', 'slm');
         $qb->join('slm.learningMaterial', 'lm');
+        $qb->join('lm.status', 'lms');
         $qb->join('s.course', 'c');
 
         $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
@@ -1140,11 +1142,13 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $what = 'c.title as courseTitle, c.id as courseId, c.startDate as firstOfferingDate, ' .
             'clm.id as clmId, clm.position, clm.notes, clm.required, clm.publicNotes, clm.startDate, clm.endDate, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
-            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype';
+            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype, lms.id AS status';
         $qb->select($what)->from('IliosCoreBundle:Session', 's');
         $qb->join('s.course', 'c');
         $qb->join('c.learningMaterials', 'clm');
         $qb->join('clm.learningMaterial', 'lm');
+        $qb->join('lm.status', 'lms');
+
 
         $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
         $qb->andWhere($qb->expr()->eq('c.published', 1));

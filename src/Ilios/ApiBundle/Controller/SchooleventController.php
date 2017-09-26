@@ -68,13 +68,17 @@ class SchooleventController extends Controller
         });
 
         $result = $userManager->addInstructorsToEvents($events);
+        $result = $userManager->addMaterialsToEvents($result);
 
         $user = $tokenStorage->getToken()->getUser();
 
         //Un-privileged users get less data
         if (!$user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
             /** @var SchoolEvent $event */
+            $now = new \DateTime();
             foreach ($events as $event) {
+                $event->removeMaterialsInDraft();
+                $event->clearTimedMaterials($now);
                 $event->clearDataForScheduledEvent();
             }
         }

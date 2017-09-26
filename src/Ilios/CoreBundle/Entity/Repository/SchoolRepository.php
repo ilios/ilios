@@ -118,7 +118,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         $groupEvents = $this->getOfferingEventsFor($id, $from, $to);
         $offeringEvents = array_merge($offeringEvents, $groupEvents);
 
-        
+
         $events = [];
         //extract unique offeringEvents by using the offering ID
         foreach ($offeringEvents as $userEvent) {
@@ -151,7 +151,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         return $events;
     }
-    
+
     /**
      * Use the query builder to get a set of offering based school events.
      *
@@ -167,7 +167,8 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         \DateTime $to
     ) {
         $qb = $this->_em->createQueryBuilder();
-        $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
+        $what = 'c.id as courseId, s.id AS sessionId, ' .
+          'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
           's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, ' .
           's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
           's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
@@ -194,7 +195,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         $results = $qb->getQuery()->getArrayResult();
         return $this->createEventObjectsForOfferings($id, $results);
     }
-    
+
     /**
      * Use the query builder to get a set of ILMSession based user events.
      *
@@ -212,7 +213,8 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         $qb = $this->_em->createQueryBuilder();
 
-        $what = 'ilm.id, ilm.dueDate, ' .
+        $what = 'c.id as courseId, s.id AS sessionId, ' .
+            'ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
@@ -237,7 +239,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         return $this->createEventObjectsForIlmSessions($id, $results);
     }
 
-    
+
     /**
      * Convert offerings into UserEvent objects.
      *
@@ -261,6 +263,8 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
             $event->courseTitle = $arr['courseTitle'];
+            $event->sessionId = $arr['sessionId'];
+            $event->courseId = $arr['courseId'];
             $event->attireRequired = $arr['attireRequired'];
             $event->equipmentRequired = $arr['equipmentRequired'];
             $event->supplemental = $arr['supplemental'];
@@ -269,7 +273,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         }, $results);
     }
 
-    
+
     /**
      * Convert IlmSessions into UserEvent objects
      * @param integer $schoolId
@@ -293,6 +297,8 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
             $event->courseTitle = $arr['courseTitle'];
+            $event->sessionId = $arr['sessionId'];
+            $event->courseId = $arr['courseId'];
             $event->attireRequired = $arr['attireRequired'];
             $event->equipmentRequired = $arr['equipmentRequired'];
             $event->supplemental = $arr['supplemental'];

@@ -62,6 +62,10 @@ class UsermaterialController extends AbstractController
 
         $materials = $manager->findMaterialsForUser($user->getId(), $criteria);
 
+        $materials = array_filter($materials, function ($entity) use ($authorizationChecker) {
+            return $authorizationChecker->isGranted('view', $entity);
+        });
+
         $sessionUser = new SessionUser($user);
 
         //Un-privileged users get less data

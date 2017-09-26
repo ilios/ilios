@@ -75,3 +75,9 @@ CalendarEvent:
    description: Is attendance required at this session
    type: boolean
    readOnly: true
+  learningMaterials:
+   description: Attached learning materials.
+   type: array
+   readOnly: true
+   items:
+    $ref: '#/definitions/UserMaterial'
