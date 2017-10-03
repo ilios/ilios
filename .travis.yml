@@ -1,5 +1,5 @@
 language: php
-dist: precise
+dist: trusty
 services: mysql
 sudo: false
 matrix:
