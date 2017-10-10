@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Service\Config;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Pre-controller event listener that will send tracking data.
@@ -35,19 +36,27 @@ class TrackApiUsageListener
     protected $logger;
 
     /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
+
+    /**
      * @param Config $config
      * @param Tracker $tracker
      * @param LoggerInterface $logger
+     * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
         Config $config,
         Tracker $tracker,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->isTrackingEnabled = $config->get('enable_tracking');
         $this->trackingCode = $config->get('tracking_code');
         $this->tracker = $tracker;
         $this->logger = $logger;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -71,6 +80,7 @@ class TrackApiUsageListener
         $controller = $controller[0];
 
         if ($controller instanceof Controller) {
+            $currentUser = $this->tokenStorage->getToken()->getUser();
             $request = $event->getRequest();
             $path = $request->getRequestUri();
             $host = $request->getHost();
@@ -88,8 +98,12 @@ class TrackApiUsageListener
                 $data['uip'] = $clientIp;
             }
 
-            if  ($userAgent) {
+            if ($userAgent) {
                 $data['ua'] = $userAgent;
+            }
+
+            if ($currentUser) {
+                $data['uid'] = $currentUser->getId();
             }
 
             try {
@@ -100,4 +114,3 @@ class TrackApiUsageListener
         }
     }
 }
-

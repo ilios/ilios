@@ -6,6 +6,9 @@ use Mockery as m;
 
 use Ilios\CoreBundle\EventListener\TrackApiUsageListener;
 use Symfony\Component\HttpFoundation\HeaderBag;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Tests\CoreBundle\TestCase;
 
 /**
@@ -43,8 +46,25 @@ class TrackApiUsageListenerTest extends TestCase
      */
     protected $mockLogger;
 
-    /** @var  m\MockInterface */
+    /**
+     * @var m\MockInterface
+     */
     protected $mockHeaders;
+
+    /**
+     * @var m\MockInterface
+     */
+    protected $mockTokenStorage;
+
+    /**
+     * @var m\MockInterface
+     */
+    protected $mockToken;
+
+    /**
+     * @var m\MockInterface
+     */
+    protected $mockUser;
 
     /**
      * @inheritdoc
@@ -62,6 +82,11 @@ class TrackApiUsageListenerTest extends TestCase
         $this->mockLogger->shouldReceive('error');
         $this->mockHeaders = m::mock(HeaderBag::class);
         $this->mockRequest->headers = $this->mockHeaders;
+        $this->mockTokenStorage = m::mock(TokenStorageInterface::class);
+        $this->mockToken = m::mock(TokenInterface::class);
+        $this->mockUser = m::mock(UserInterface::class);
+        $this->mockTokenStorage->shouldReceive('getToken')->andReturn($this->mockToken);
+        $this->mockToken->shouldReceive('getUser')->andReturn($this->mockUser);
     }
 
     /**
@@ -77,6 +102,9 @@ class TrackApiUsageListenerTest extends TestCase
         unset($this->mockRequest);
         unset($this->mockLogger);
         unset($this->mockHeaders);
+        unset($this->mockTokenStorage);
+        unset($this->mockToken);
+        unset($this->mockUser);
     }
 
     /**
@@ -86,7 +114,12 @@ class TrackApiUsageListenerTest extends TestCase
     {
         $this->mockConfig->shouldReceive('get')->with('enable_tracking')->once()->andReturn(false);
         $this->mockConfig->shouldReceive('get')->with('tracking_code')->once()->andReturn(null);
-        $listener = new TrackApiUsageListener($this->mockConfig, $this->mockTracker, $this->mockLogger);
+        $listener = new TrackApiUsageListener(
+            $this->mockConfig,
+            $this->mockTracker,
+            $this->mockLogger,
+            $this->mockTokenStorage
+        );
         $listener->onKernelController($this->mockEvent);
         $this->mockTracker->shouldNotHaveReceived('send');
     }
@@ -101,14 +134,21 @@ class TrackApiUsageListenerTest extends TestCase
         $trackingCode = 'UA-XXXXX';
         $userAgent = 'Geflarknik Browser, Version 0.1';
         $clientIp = '123.123.123.123';
+        $userId = 10;
         $this->mockConfig->shouldReceive('get')->with('enable_tracking')->once()->andReturn(true);
         $this->mockConfig->shouldReceive('get')->with('tracking_code')->once()->andReturn($trackingCode);
         $this->mockRequest->shouldReceive('getRequestUri')->andReturn($uri);
         $this->mockRequest->shouldReceive('getHost')->andReturn($host);
         $this->mockRequest->shouldReceive('getClientIp')->andReturn($clientIp);
         $this->mockHeaders->shouldReceive('get')->with('User-Agent')->once()->andReturn($userAgent);
+        $this->mockUser->shouldReceive('getId')->once()->andReturn($userId);
 
-        $listener = new TrackApiUsageListener($this->mockConfig, $this->mockTracker, $this->mockLogger);
+        $listener = new TrackApiUsageListener(
+            $this->mockConfig,
+            $this->mockTracker,
+            $this->mockLogger,
+            $this->mockTokenStorage
+        );
         $listener->onKernelController($this->mockEvent);
         $this->mockTracker->shouldHaveReceived('send')->withArgs([
             [
@@ -118,6 +158,7 @@ class TrackApiUsageListenerTest extends TestCase
                 'dt' => get_class($this->mockController),
                 'uip' => $clientIp,
                 'ua' => $userAgent,
+                'uid' => $userId,
             ],
             'pageview'
         ]);
@@ -132,6 +173,7 @@ class TrackApiUsageListenerTest extends TestCase
         $host = 'iliosproject.org';
         $userAgent = 'Geflarknik Browser, Version 0.1';
         $clientIp = '123.123.123.123';
+        $userId = null;
         $e = new \Exception();
         $this->mockConfig->shouldReceive('get')->with('enable_tracking')->once()->andReturn(true);
         $this->mockConfig->shouldReceive('get')->with('tracking_code')->once()->andReturn('foo');
@@ -139,10 +181,16 @@ class TrackApiUsageListenerTest extends TestCase
         $this->mockRequest->shouldReceive('getHost')->andReturn($host);
         $this->mockRequest->shouldReceive('getClientIp')->andReturn($clientIp);
         $this->mockHeaders->shouldReceive('get')->with('User-Agent')->once()->andReturn($userAgent);
+        $this->mockUser->shouldReceive('getId')->once()->andReturn($userId);
         $this->mockTracker->shouldReceive('send')->andReturnUsing(function () use ($e) {
             throw $e;
         });
-        $listener = new TrackApiUsageListener($this->mockConfig, $this->mockTracker, $this->mockLogger);
+        $listener = new TrackApiUsageListener(
+            $this->mockConfig,
+            $this->mockTracker,
+            $this->mockLogger,
+            $this->mockTokenStorage
+        );
         $listener->onKernelController($this->mockEvent);
         $this->mockLogger
             ->shouldHaveReceived('error')
