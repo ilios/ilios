@@ -35,7 +35,7 @@ class TrackApiUsageListener
     protected $logger;
 
     /**
-     * @param bool $isTrackingEnabled
+     * @param Config $config
      * @param Tracker $tracker
      * @param LoggerInterface $logger
      */
@@ -74,13 +74,24 @@ class TrackApiUsageListener
             $request = $event->getRequest();
             $path = $request->getRequestUri();
             $host = $request->getHost();
+            $clientIp = $request->getClientIp();
+            $userAgent = $request->headers->get('User-Agent');
             $title = get_class($controller);
             $data = [
                 'tid' => $this->trackingCode,
                 'dh' => $host,
                 'dp' => $path,
-                'dt' => $title
+                'dt' => $title,
             ];
+
+            if ($clientIp) {
+                $data['uip'] = $clientIp;
+            }
+
+            if  ($userAgent) {
+                $data['ua'] = $userAgent;
+            }
+
             try {
                 $this->tracker->send($data, 'pageview');
             } catch (\Exception $e) {
@@ -89,3 +100,4 @@ class TrackApiUsageListener
         }
     }
 }
+

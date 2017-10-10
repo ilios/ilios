@@ -5,6 +5,7 @@ use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 
 use Ilios\CoreBundle\EventListener\TrackApiUsageListener;
+use Symfony\Component\HttpFoundation\HeaderBag;
 use Tests\CoreBundle\TestCase;
 
 /**
@@ -42,6 +43,9 @@ class TrackApiUsageListenerTest extends TestCase
      */
     protected $mockLogger;
 
+    /** @var  m\MockInterface */
+    protected $mockHeaders;
+
     /**
      * @inheritdoc
      */
@@ -56,6 +60,8 @@ class TrackApiUsageListenerTest extends TestCase
         $this->mockTracker = m::mock('Happyr\GoogleAnalyticsBundle\Service\Tracker');
         $this->mockLogger = m::mock('Psr\Log\LoggerInterface');
         $this->mockLogger->shouldReceive('error');
+        $this->mockHeaders = m::mock(HeaderBag::class);
+        $this->mockRequest->headers = $this->mockHeaders;
     }
 
     /**
@@ -70,6 +76,7 @@ class TrackApiUsageListenerTest extends TestCase
         unset($this->mockEvent);
         unset($this->mockRequest);
         unset($this->mockLogger);
+        unset($this->mockHeaders);
     }
 
     /**
@@ -92,15 +99,26 @@ class TrackApiUsageListenerTest extends TestCase
         $uri = '/api/v1/foo/bar/baz';
         $host = 'iliosproject.org';
         $trackingCode = 'UA-XXXXX';
+        $userAgent = 'Geflarknik Browser, Version 0.1';
+        $clientIp = '123.123.123.123';
         $this->mockConfig->shouldReceive('get')->with('enable_tracking')->once()->andReturn(true);
         $this->mockConfig->shouldReceive('get')->with('tracking_code')->once()->andReturn($trackingCode);
-
         $this->mockRequest->shouldReceive('getRequestUri')->andReturn($uri);
         $this->mockRequest->shouldReceive('getHost')->andReturn($host);
+        $this->mockRequest->shouldReceive('getClientIp')->andReturn($clientIp);
+        $this->mockHeaders->shouldReceive('get')->with('User-Agent')->once()->andReturn($userAgent);
+
         $listener = new TrackApiUsageListener($this->mockConfig, $this->mockTracker, $this->mockLogger);
         $listener->onKernelController($this->mockEvent);
         $this->mockTracker->shouldHaveReceived('send')->withArgs([
-            ['tid' => $trackingCode, 'dh' => $host, 'dp' => $uri, 'dt' => get_class($this->mockController)],
+            [
+                'tid' => $trackingCode,
+                'dh' => $host,
+                'dp' => $uri,
+                'dt' => get_class($this->mockController),
+                'uip' => $clientIp,
+                'ua' => $userAgent,
+            ],
             'pageview'
         ]);
     }
@@ -112,11 +130,15 @@ class TrackApiUsageListenerTest extends TestCase
     {
         $uri = '/api/v1/foo/bar/baz';
         $host = 'iliosproject.org';
+        $userAgent = 'Geflarknik Browser, Version 0.1';
+        $clientIp = '123.123.123.123';
         $e = new \Exception();
         $this->mockConfig->shouldReceive('get')->with('enable_tracking')->once()->andReturn(true);
         $this->mockConfig->shouldReceive('get')->with('tracking_code')->once()->andReturn('foo');
         $this->mockRequest->shouldReceive('getRequestUri')->andReturn($uri);
         $this->mockRequest->shouldReceive('getHost')->andReturn($host);
+        $this->mockRequest->shouldReceive('getClientIp')->andReturn($clientIp);
+        $this->mockHeaders->shouldReceive('get')->with('User-Agent')->once()->andReturn($userAgent);
         $this->mockTracker->shouldReceive('send')->andReturnUsing(function () use ($e) {
             throw $e;
         });
