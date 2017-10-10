@@ -450,36 +450,35 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('o.id oId, o2.id AS oId2, u.id AS userId, u.firstName, u.lastName')
+        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName')
             ->from('IliosCoreBundle:User', 'u');
         $qb->leftJoin('u.instructedOfferings', 'o');
-        $qb->leftJoin('u.instructorGroups', 'ig');
-        $qb->leftJoin('ig.offerings', 'o2');
         $qb->where(
-            $qb->expr()->orX(
-                $qb->expr()->in('o.id', ':offerings'),
-                $qb->expr()->in('o2.id', ':offerings')
-            )
+            $qb->expr()->in('o.id', ':offerings')
         );
         $qb->setParameter(':offerings', $ids);
-        $results = $qb->getQuery()->getArrayResult();
+        $instructedOfferings = $qb->getQuery()->getArrayResult();
+
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName')
+            ->from('IliosCoreBundle:User', 'u');
+        $qb->leftJoin('u.instructorGroups', 'ig');
+        $qb->leftJoin('ig.offerings', 'o');
+        $qb->where(
+            $qb->expr()->in('o.id', ':offerings')
+        );
+        $qb->setParameter(':offerings', $ids);
+        $groupOfferings = $qb->getQuery()->getArrayResult();
+
+        $results = array_merge($instructedOfferings, $groupOfferings);
 
         $offeringInstructors = [];
         foreach ($results as $result) {
-            if ($result['oId']) {
-                if (! array_key_exists($result['oId'], $offeringInstructors)) {
-                    $offeringInstructors[$result['oId']] = [];
-                }
-                $offeringInstructors[$result['oId']][$result['userId']]
-                    = $result['firstName'] . ' ' . $result['lastName'];
+            if (! array_key_exists($result['oId'], $offeringInstructors)) {
+                $offeringInstructors[$result['oId']] = [];
             }
-            if ($result['oId2']) {
-                if (! array_key_exists($result['oId2'], $offeringInstructors)) {
-                    $offeringInstructors[$result['oId2']] = [];
-                }
-                $offeringInstructors[$result['oId2']][$result['userId']]
-                    = $result['firstName'] . ' ' . $result['lastName'];
-            }
+            $offeringInstructors[$result['oId']][$result['userId']] = $result['firstName'] . ' ' . $result['lastName'];
         }
         return $offeringInstructors;
     }
@@ -497,35 +496,34 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('ilm.id ilmId, ilm2.id AS ilmId2, u.id AS userId, u.firstName, u.lastName')
+        $qb->select('ilm.id AS ilmId, u.id AS userId, u.firstName, u.lastName')
             ->from('IliosCoreBundle:User', 'u');
         $qb->leftJoin('u.instructorIlmSessions', 'ilm');
-        $qb->leftJoin('u.instructorGroups', 'ig');
-        $qb->leftJoin('ig.ilmSessions', 'ilm2');
         $qb->where(
-            $qb->expr()->orX(
-                $qb->expr()->in('ilm.id', ':ilms'),
-                $qb->expr()->in('ilm2.id', ':ilms')
-            )
+            $qb->expr()->in('ilm.id', ':ilms')
         );
         $qb->setParameter(':ilms', $ids);
-        $results = $qb->getQuery()->getArrayResult();
+        $instructedIlms = $qb->getQuery()->getArrayResult();
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('ilm.id AS ilmId, u.id AS userId, u.firstName, u.lastName')
+            ->from('IliosCoreBundle:User', 'u');
+        $qb->leftJoin('u.instructorGroups', 'ig');
+        $qb->leftJoin('ig.ilmSessions', 'ilm');
+        $qb->where(
+            $qb->expr()->in('ilm.id', ':ilms')
+        );
+        $qb->setParameter(':ilms', $ids);
+        $groupIlms = $qb->getQuery()->getArrayResult();
+
+        $results = array_merge($instructedIlms, $groupIlms);
 
         $ilmInstructors = [];
         foreach ($results as $result) {
-            if ($result['ilmId']) {
-                if (! array_key_exists($result['ilmId'], $ilmInstructors)) {
-                    $ilmInstructors[$result['ilmId']] = [];
-                }
-                $ilmInstructors[$result['ilmId']][$result['userId']] = $result['firstName'] . ' ' . $result['lastName'];
+            if (! array_key_exists($result['ilmId'], $ilmInstructors)) {
+                $ilmInstructors[$result['ilmId']] = [];
             }
-            if ($result['ilmId2']) {
-                if (! array_key_exists($result['ilmId2'], $ilmInstructors)) {
-                    $ilmInstructors[$result['ilmId2']] = [];
-                }
-                $ilmInstructors[$result['ilmId2']][$result['userId']]
-                    = $result['firstName'] . ' ' . $result['lastName'];
-            }
+            $ilmInstructors[$result['ilmId']][$result['userId']] = $result['firstName'] . ' ' . $result['lastName'];
         }
         return $ilmInstructors;
     }
