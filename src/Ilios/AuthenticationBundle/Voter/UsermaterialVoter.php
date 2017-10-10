@@ -40,7 +40,6 @@ class UsermaterialVoter extends AbstractVoter
                 // does not have elevated privileges.
                 return LearningMaterialStatusInterface::IN_DRAFT !== $material->status
                     || $user->hasRole(['Faculty', 'Course Director', 'Developer']);
-
         }
         return false;
     }
