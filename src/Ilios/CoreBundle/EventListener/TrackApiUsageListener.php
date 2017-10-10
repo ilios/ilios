@@ -2,6 +2,7 @@
 namespace Ilios\CoreBundle\EventListener;
 
 use Happyr\GoogleAnalyticsBundle\Service\Tracker;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Service\Config;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -36,9 +37,9 @@ class TrackApiUsageListener
     protected $logger;
 
     /**
-     * @var TokenStorageInterface
+     * @var integer
      */
-    protected $tokenStorage;
+    protected $userId;
 
     /**
      * @param Config $config
@@ -56,7 +57,15 @@ class TrackApiUsageListener
         $this->trackingCode = $config->get('tracking_code');
         $this->tracker = $tracker;
         $this->logger = $logger;
-        $this->tokenStorage = $tokenStorage;
+        if (null !== $tokenStorage &&
+            null !== $tokenStorage->getToken()
+        ) {
+            /** @var SessionUserInterface $sessionUser */
+            $sessionUser = $tokenStorage->getToken()->getUser();
+            if ($sessionUser instanceof SessionUserInterface) {
+                $this->userId = $sessionUser->getId();
+            }
+        }
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -80,12 +89,10 @@ class TrackApiUsageListener
         $controller = $controller[0];
 
         if ($controller instanceof Controller) {
-            $currentUser = $this->tokenStorage->getToken()->getUser();
             $request = $event->getRequest();
             $path = $request->getRequestUri();
             $host = $request->getHost();
             $clientIp = $request->getClientIp();
-            $userAgent = $request->headers->get('User-Agent');
             $title = get_class($controller);
             $data = [
                 'tid' => $this->trackingCode,
@@ -98,12 +105,8 @@ class TrackApiUsageListener
                 $data['uip'] = $clientIp;
             }
 
-            if ($userAgent) {
-                $data['ua'] = $userAgent;
-            }
-
-            if ($currentUser) {
-                $data['uid'] = $currentUser->getId();
+            if ($this->userId) {
+                $data['uid'] = $this->userId;
             }
 
             try {

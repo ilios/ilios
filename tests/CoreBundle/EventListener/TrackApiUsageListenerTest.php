@@ -1,14 +1,13 @@
 <?php
 namespace Tests\CoreBundle\EventListener;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 
 use Ilios\CoreBundle\EventListener\TrackApiUsageListener;
-use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Tests\CoreBundle\TestCase;
 
 /**
@@ -49,11 +48,6 @@ class TrackApiUsageListenerTest extends TestCase
     /**
      * @var m\MockInterface
      */
-    protected $mockHeaders;
-
-    /**
-     * @var m\MockInterface
-     */
     protected $mockTokenStorage;
 
     /**
@@ -80,11 +74,9 @@ class TrackApiUsageListenerTest extends TestCase
         $this->mockTracker = m::mock('Happyr\GoogleAnalyticsBundle\Service\Tracker');
         $this->mockLogger = m::mock('Psr\Log\LoggerInterface');
         $this->mockLogger->shouldReceive('error');
-        $this->mockHeaders = m::mock(HeaderBag::class);
-        $this->mockRequest->headers = $this->mockHeaders;
         $this->mockTokenStorage = m::mock(TokenStorageInterface::class);
         $this->mockToken = m::mock(TokenInterface::class);
-        $this->mockUser = m::mock(UserInterface::class);
+        $this->mockUser = m::mock(SessionUserInterface::class);
         $this->mockTokenStorage->shouldReceive('getToken')->andReturn($this->mockToken);
         $this->mockToken->shouldReceive('getUser')->andReturn($this->mockUser);
     }
@@ -101,7 +93,6 @@ class TrackApiUsageListenerTest extends TestCase
         unset($this->mockEvent);
         unset($this->mockRequest);
         unset($this->mockLogger);
-        unset($this->mockHeaders);
         unset($this->mockTokenStorage);
         unset($this->mockToken);
         unset($this->mockUser);
@@ -114,6 +105,8 @@ class TrackApiUsageListenerTest extends TestCase
     {
         $this->mockConfig->shouldReceive('get')->with('enable_tracking')->once()->andReturn(false);
         $this->mockConfig->shouldReceive('get')->with('tracking_code')->once()->andReturn(null);
+        $this->mockUser->shouldReceive('getId')->once()->andReturn(null);
+
         $listener = new TrackApiUsageListener(
             $this->mockConfig,
             $this->mockTracker,
@@ -132,7 +125,6 @@ class TrackApiUsageListenerTest extends TestCase
         $uri = '/api/v1/foo/bar/baz';
         $host = 'iliosproject.org';
         $trackingCode = 'UA-XXXXX';
-        $userAgent = 'Geflarknik Browser, Version 0.1';
         $clientIp = '123.123.123.123';
         $userId = 10;
         $this->mockConfig->shouldReceive('get')->with('enable_tracking')->once()->andReturn(true);
@@ -140,7 +132,6 @@ class TrackApiUsageListenerTest extends TestCase
         $this->mockRequest->shouldReceive('getRequestUri')->andReturn($uri);
         $this->mockRequest->shouldReceive('getHost')->andReturn($host);
         $this->mockRequest->shouldReceive('getClientIp')->andReturn($clientIp);
-        $this->mockHeaders->shouldReceive('get')->with('User-Agent')->once()->andReturn($userAgent);
         $this->mockUser->shouldReceive('getId')->once()->andReturn($userId);
 
         $listener = new TrackApiUsageListener(
@@ -157,7 +148,6 @@ class TrackApiUsageListenerTest extends TestCase
                 'dp' => $uri,
                 'dt' => get_class($this->mockController),
                 'uip' => $clientIp,
-                'ua' => $userAgent,
                 'uid' => $userId,
             ],
             'pageview'
@@ -171,7 +161,6 @@ class TrackApiUsageListenerTest extends TestCase
     {
         $uri = '/api/v1/foo/bar/baz';
         $host = 'iliosproject.org';
-        $userAgent = 'Geflarknik Browser, Version 0.1';
         $clientIp = '123.123.123.123';
         $userId = null;
         $e = new \Exception();
@@ -180,7 +169,6 @@ class TrackApiUsageListenerTest extends TestCase
         $this->mockRequest->shouldReceive('getRequestUri')->andReturn($uri);
         $this->mockRequest->shouldReceive('getHost')->andReturn($host);
         $this->mockRequest->shouldReceive('getClientIp')->andReturn($clientIp);
-        $this->mockHeaders->shouldReceive('get')->with('User-Agent')->once()->andReturn($userAgent);
         $this->mockUser->shouldReceive('getId')->once()->andReturn($userId);
         $this->mockTracker->shouldReceive('send')->andReturnUsing(function () use ($e) {
             throw $e;
