@@ -59,5 +59,4 @@ class UserEvent extends CalendarEvent
             $this->sessionTypeTitle = null;
         }
     }
-
 }
