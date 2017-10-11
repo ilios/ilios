@@ -181,7 +181,7 @@ abstract class CalendarEvent
      */
     public function removeMaterialsInDraft()
     {
-        $this->learningMaterials = array_values(array_filter($this->learningMaterials, function(UserMaterial $lm) {
+        $this->learningMaterials = array_values(array_filter($this->learningMaterials, function (UserMaterial $lm) {
             return $lm->status !== LearningMaterialStatusInterface::IN_DRAFT;
         }));
     }

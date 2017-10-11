@@ -109,7 +109,8 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertTrue($materials[9]['isBlanked']);
     }
 
-    public function testGetAllMaterialsAsStudent() {
+    public function testGetAllMaterialsAsStudent()
+    {
         $userId = 5;
         $materials = $this->getMaterials($userId, null, null, $userId);
         $this->assertCount(9, $materials, 'All expected materials returned');
