@@ -127,7 +127,7 @@ class DirectoryTest extends TestCase
     public function testFindOutputEscaping()
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
-        $filter= '(|(sn=a\**)(givenname=a\**)(mail=a\**)(campusId=a\**))';
+        $filter= '(&(|(sn=a\2a*)(givenname=a\2a*)(mail=a\2a*)(campusId=a\2a*)))';
         $this->ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
 
         $result = $this->obj->find(array('a*'));
