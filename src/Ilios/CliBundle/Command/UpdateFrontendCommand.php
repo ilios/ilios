@@ -63,7 +63,12 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     /**
      * @var string
      */
-    protected $temporaryFileStorePath;
+    protected $productionTemporaryFileStore;
+
+    /**
+     * @var string
+     */
+    protected $stagingTemporaryFileStore;
 
     /**
      * @var string
@@ -93,9 +98,17 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->apiVersion = $apiVersion;
         $this->environment = $environment;
 
-        $this->temporaryFileStorePath = $kernelProjectDir . '/var/tmp/frontend-update-files';
-        if (!$this->fs->exists($this->temporaryFileStorePath)) {
-            $this->fs->mkdir($this->temporaryFileStorePath);
+        $temporaryFileStorePath = $kernelProjectDir . '/var/tmp/frontend-update-files';
+        if (!$this->fs->exists($temporaryFileStorePath)) {
+            $this->fs->mkdir($temporaryFileStorePath);
+        }
+        $this->productionTemporaryFileStore = $temporaryFileStorePath . '/prod';
+        if (!$this->fs->exists($this->productionTemporaryFileStore)) {
+            $this->fs->mkdir($this->productionTemporaryFileStore);
+        }
+        $this->stagingTemporaryFileStore = $temporaryFileStorePath . '/stage';
+        if (!$this->fs->exists($this->stagingTemporaryFileStore)) {
+            $this->fs->mkdir($this->stagingTemporaryFileStore);
         }
 
         parent::__construct();
@@ -192,9 +205,19 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         if ($environment === self::STAGING) {
             $url = self::STAGING_CDN_ASSET_DOMAIN;
         }
-        $string = $this->fetch->get($url . $fileName);
-        $archiveDir = $this->temporaryFileStorePath;
-        $archivePath = $archiveDir . '/' . self::ARCHIVE_FILE_NAME;
+        $archiveDir = $environment === 'prod'? $this->productionTemporaryFileStore : $this->stagingTemporaryFileStore;
+        $versionPath = $versionOverride ? $versionOverride : 'active';
+        $parts = [
+            $archiveDir,
+            $this->apiVersion,
+            $versionPath,
+            self::ARCHIVE_FILE_NAME
+        ];
+        $archivePath = join(DIRECTORY_SEPARATOR, $parts);
+
+        $file = is_readable($archivePath) ? new \SplFileObject($archivePath, "r"): null;
+        $string = $this->fetch->get($url . $fileName, $file);
+
         $this->fs->dumpFile($archivePath, $string);
 
         $archive = $this->zippy->open($archivePath);

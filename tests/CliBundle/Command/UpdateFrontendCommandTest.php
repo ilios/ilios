@@ -45,7 +45,7 @@ class UpdateFrontendCommandTest extends TestCase
         $this->fetch = m::mock(Fetch::class);
         $this->fs = m::mock(Filesystem::class);
         $this->config = m::mock(Config::class);
-        $this->fs->shouldReceive('exists')->once()->andReturn(true);
+        $this->fs->shouldReceive('exists')->times(3)->andReturn(true);
         $this->zippy = m::mock(Zippy::class);
         $command = new UpdateFrontendCommand(
             $this->fetch,
@@ -81,11 +81,17 @@ class UpdateFrontendCommandTest extends TestCase
     public function testExecute()
     {
         $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
-        $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::PRODUCTION_CDN_ASSET_DOMAIN . $fileName)
+        $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::PRODUCTION_CDN_ASSET_DOMAIN . $fileName, null)
             ->once()->andReturn('ARCHIVE_FILE');
 
-        $archiveDir = $this->fakeProjectFileDir  . '/var/tmp/frontend-update-files';
-        $archivePath = $archiveDir . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+        $archiveDir = $this->fakeProjectFileDir  . '/var/tmp/frontend-update-files/prod';
+        $parts = [
+            $archiveDir,
+            self::TEST_API_VERSION,
+            'active',
+            UpdateFrontendCommand::ARCHIVE_FILE_NAME
+        ];
+        $archivePath = join(DIRECTORY_SEPARATOR, $parts);
 
         $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
         $archive = m::mock(ArchiveInterface::class);
@@ -111,11 +117,17 @@ class UpdateFrontendCommandTest extends TestCase
     public function testExecuteStagingBuild()
     {
         $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
-        $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::STAGING_CDN_ASSET_DOMAIN . $fileName)
+        $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::STAGING_CDN_ASSET_DOMAIN . $fileName, null)
             ->once()->andReturn('ARCHIVE_FILE');
 
-        $archiveDir = $this->fakeProjectFileDir  . '/var/tmp/frontend-update-files';
-        $archivePath = $archiveDir . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+        $archiveDir = $this->fakeProjectFileDir  . '/var/tmp/frontend-update-files/stage';
+        $parts = [
+            $archiveDir,
+            self::TEST_API_VERSION,
+            'active',
+            UpdateFrontendCommand::ARCHIVE_FILE_NAME
+        ];
+        $archivePath = join(DIRECTORY_SEPARATOR, $parts);
 
         $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
         $archive = m::mock(ArchiveInterface::class);
@@ -143,11 +155,17 @@ class UpdateFrontendCommandTest extends TestCase
     public function testExecuteVersionBuild()
     {
         $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME . ':foo.bar';
-        $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::PRODUCTION_CDN_ASSET_DOMAIN . $fileName)
+        $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::PRODUCTION_CDN_ASSET_DOMAIN . $fileName, null)
             ->once()->andReturn('ARCHIVE_FILE');
 
-        $archiveDir = $this->fakeProjectFileDir  . '/var/tmp/frontend-update-files';
-        $archivePath = $archiveDir . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+        $archiveDir = $this->fakeProjectFileDir  . '/var/tmp/frontend-update-files/prod';
+        $parts = [
+            $archiveDir,
+            self::TEST_API_VERSION,
+            'foo.bar',
+            UpdateFrontendCommand::ARCHIVE_FILE_NAME
+        ];
+        $archivePath = join(DIRECTORY_SEPARATOR, $parts);
 
         $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
         $archive = m::mock(ArchiveInterface::class);
