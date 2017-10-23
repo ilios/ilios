@@ -30,7 +30,6 @@ ilios_web_sw_registraton_js:
     path:     /sw-registration.js
     defaults:
         fileName: sw-registration.js
-        versionedStaticFile: false
         _controller: IliosWebBundle:Index:get
     requirements:
         fileName: ".+"
@@ -38,7 +37,6 @@ ilios_web_sw_js:
     path:     /sw.js
     defaults:
         fileName: sw.js
-        versionedStaticFile: false
         _controller: IliosWebBundle:Index:get
     requirements:
         fileName: ".+"

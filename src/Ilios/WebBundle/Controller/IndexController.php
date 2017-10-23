@@ -44,7 +44,7 @@ class IndexController extends Controller
      *
      * @return BinaryFileResponse|Response
      */
-    public function getAction(Request $request, $fileName, $versionedStaticFile)
+    public function getAction(Request $request, $fileName, $versionedStaticFile = false)
     {
         if ('index.html' === $fileName || empty($fileName)) {
             return $this->getIndex($request);
