@@ -45,7 +45,7 @@ class UpdateFrontendCommandTest extends TestCase
         $this->fetch = m::mock(Fetch::class);
         $this->fs = m::mock(Filesystem::class);
         $this->config = m::mock(Config::class);
-        $this->fs->shouldReceive('exists')->times(3)->andReturn(true);
+        $this->fs->shouldReceive('mkdir')->times(3)->andReturn(true);
         $this->zippy = m::mock(Zippy::class);
         $command = new UpdateFrontendCommand(
             $this->fetch,

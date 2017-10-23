@@ -99,17 +99,11 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->environment = $environment;
 
         $temporaryFileStorePath = $kernelProjectDir . '/var/tmp/frontend-update-files';
-        if (!$this->fs->exists($temporaryFileStorePath)) {
-            $this->fs->mkdir($temporaryFileStorePath);
-        }
+        $this->fs->mkdir($temporaryFileStorePath);
         $this->productionTemporaryFileStore = $temporaryFileStorePath . '/prod';
-        if (!$this->fs->exists($this->productionTemporaryFileStore)) {
-            $this->fs->mkdir($this->productionTemporaryFileStore);
-        }
+        $this->fs->mkdir($this->productionTemporaryFileStore);
         $this->stagingTemporaryFileStore = $temporaryFileStorePath . '/stage';
-        if (!$this->fs->exists($this->stagingTemporaryFileStore)) {
-            $this->fs->mkdir($this->stagingTemporaryFileStore);
-        }
+        $this->fs->mkdir($this->stagingTemporaryFileStore);
 
         parent::__construct();
     }
