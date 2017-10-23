@@ -55,7 +55,7 @@ class Fetch
         }
 
         $response = $this->client->sendRequest($request);
-        if ($response->getStatusCode() === Response::HTTP_NOT_MODIFIED) {
+        if ($file && $response->getStatusCode() === Response::HTTP_NOT_MODIFIED) {
             $fileContents = $file->fread($file->getSize());
         } else {
             $fileContents = $response->getBody()->getContents();
