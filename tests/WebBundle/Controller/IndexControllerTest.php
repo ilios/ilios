@@ -62,6 +62,9 @@ class IndexControllerTest extends WebTestCase
             'meta' => [],
             'link' => [],
             'script' => [],
+            'style' => [],
+            'noScript' => [],
+            'div' => [],
         ]));
         $this->client->request('GET', '/');
         $response = $this->client->getResponse();

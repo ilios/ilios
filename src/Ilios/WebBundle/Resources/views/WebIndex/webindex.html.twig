@@ -26,14 +26,37 @@
     <meta name='iliosconfig-api-name-space'content='api/v1'>
     <meta name='iliosconfig-api-host'content=''>
 
+    {% for s in styles %}
+        <style type="{{ s.type }}">
+            {% autoescape false %}
+            {{ s.content }}
+            {% endautoescape %}
+        </style>
+    {% endfor %}
+
     {% for l in links %}
         <link rel="{{ l.rel }}" href="{{ preload(asset(l.href), { as: 'style' }) }}" />
     {% endfor %}
     <link rel="stylesheet" href="{{ preload(asset('theme-overrides/custom.css'), { as: 'style'}) }}" />
 </head>
 <body>
-<noscript><p>For full functionality of this site it is necessary to enable JavaScript.Here are the <a href='http://www.enable-javascript.com/' target='_blank'>instructions how to enable JavaScript in your web browser</a>.</p></noscript>
-<div id='initialpageloader' class='ember-load-indicator'><header class='main'><div class='logo'><span class='image'></span></div></header><div id='site-container'><h1><i class='fa fa-spinner fa-pulse fa-3x'></i></h1><p id='browsererrormessage' class='hidden'>It is possible that your browser is not supported by Ilios.  Please refresh this page or try a different browser.</p></div></div></div>
+
+{% for n in noScripts %}
+    <noscript>
+        {% autoescape false %}
+        {{ n.htmlContent }}
+        {% endautoescape %}
+    </noscript>
+{% endfor %}
+
+{% for d in divs %}
+    <div id="{{ d.id }}" class="{{ d.class }}">
+        {% autoescape false %}
+        {{ d.htmlContent }}
+        {% endautoescape %}
+    </div>
+{% endfor %}
+
 
 {% for s in scripts %}
     {% if s.src %}

@@ -144,10 +144,34 @@ class IndexController extends Controller
             ];
         }, $json->script);
 
+        $styles = array_map(function ($obj) {
+            return [
+                'type' => $obj->type,
+                'content' => $obj->content,
+            ];
+        }, $json->style);
+
+        $noScripts = array_map(function ($obj) {
+            return [
+                'htmlContent' => $obj->htmlContent,
+            ];
+        }, $json->noScript);
+
+        $divs = array_map(function ($obj) {
+            return [
+                'id' => $obj->id,
+                'class' => $obj->class,
+                'htmlContent' => $obj->htmlContent,
+            ];
+        }, $json->div);
+
         $options = [
             'metas' => $metas,
             'links' => $links,
             'scripts' => $scripts,
+            'styles' => $styles,
+            'noScripts' => $noScripts,
+            'divs' => $divs,
         ];
 
         return $options;
