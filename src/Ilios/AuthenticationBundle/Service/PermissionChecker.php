@@ -4,6 +4,7 @@ namespace Ilios\AuthenticationBundle\Service;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Classes\UserRoles;
+
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 
