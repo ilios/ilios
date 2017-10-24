@@ -150,4 +150,15 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return boolean
      */
     public function isDirectingCourse($courseId);
+    public function isAdministeringCourse($courseId): bool;
+
+    public function isDirectingSchool($schoolId) : bool;
+    public function isAdministeringSchool($schoolId) : bool;
+    public function isDirectingCourseInSchool($schoolId) : bool;
+    public function isAdministeringCourseInSchool($schoolId) : bool;
+    public function isAdministeringSessionInSchool($schoolId) : bool;
+    public function isTeachingCourseInSchool($schoolId) : bool;
+    public function isTeachingCourse($courseId) : bool;
+    public function canReadCourse($courseId, $schoolId) : bool;
+    public function isAdministeringSessionInCourse($courseId) : bool;
 }

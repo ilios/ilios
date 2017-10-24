@@ -2,8 +2,10 @@
 
 namespace Ilios\AuthenticationBundle\Classes;
 
+use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\SessionInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Ilios\CoreBundle\Entity\UserInterface as IliosUserInterface;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
@@ -73,8 +75,58 @@ class SessionUser implements SessionUserInterface
      */
     protected $directedCourseIds;
 
+    /**
+     * @var array
+     */
+    protected $administeredCourseIds;
 
-    public function __construct(IliosUserInterface $user)
+    /**
+     * @var array
+     */
+    protected $directedSchoolIds;
+
+    /**
+     * @var array
+     */
+    protected $administeredSchoolIds;
+
+    /**
+     * @var array
+     */
+    protected $directedCourseSchoolIds;
+
+    /**
+     * @var array
+     */
+    protected $administeredCourseSchoolIds;
+
+    /**
+     * @var array
+     */
+    protected $administeredSessionSchoolIds;
+
+    /**
+     * @var array
+     */
+    protected $administeredSessionCourseIds;
+
+    /**
+     * @var array
+     */
+    protected $taughtCourseIds;
+
+    /**
+     * @var array
+     */
+    protected $taughtCourseSchoolIds;
+
+    /**
+     * @var PermissionChecker
+     */
+    private $permissionChecker;
+
+
+    public function __construct(IliosUserInterface $user, PermissionChecker $permissionChecker)
     {
         $this->roleTitles = $user->getRoles()->map(function (UserRoleInterface $role) {
             return $role->getTitle();
@@ -86,6 +138,44 @@ class SessionUser implements SessionUserInterface
 
         $this->directedCourseIds = $user->getDirectedCourses()->map(function (CourseInterface $course) {
             return $course->getId();
+        })->toArray();
+
+        $this->administeredCourseIds = $user->getAdministeredCourses()->map(function (CourseInterface $course) {
+            return $course->getId();
+        })->toArray();
+
+        $this->directedSchoolIds = $user->getDirectedSchools()->map(function (SchoolInterface $school) {
+            return $school->getId();
+        })->toArray();
+
+        $this->administeredSchoolIds = $user->getAdministeredSchools()->map(function (SchoolInterface $school) {
+            return $school->getId();
+        })->toArray();
+
+        $this->directedCourseSchoolIds = $user->getDirectedCourses()->map(function (CourseInterface $course) {
+            return $course->getSchool()->getId();
+        })->toArray();
+
+        $this->administeredCourseSchoolIds = $user->getAdministeredCourses()->map(function (CourseInterface $course) {
+            return $course->getSchool()->getId();
+        })->toArray();
+
+        $this->administeredSessionSchoolIds = $user->getAdministeredSessions()
+            ->map(function (SessionInterface $session) {
+                return $session->getCourse()->getSchool()->getId();
+            })->toArray();
+
+        $this->administeredSessionCourseIds = $user->getAdministeredSessions()
+            ->map(function (SessionInterface $session) {
+                return $session->getCourse()->getId();
+            })->toArray();
+
+        $this->taughtCourseIds = $user->getInstructedCourses()->map(function (CourseInterface $course) {
+            return $course->getId();
+        })->toArray();
+
+        $this->taughtCourseSchoolIds = $user->getInstructedCourses()->map(function (CourseInterface $course) {
+            return $course->getSchool()->getId();
         })->toArray();
 
         $this->userId = $user->getId();
@@ -122,6 +212,7 @@ class SessionUser implements SessionUserInterface
         }
 
         $this->permissions = $permissions;
+        $this->permissionChecker = $permissionChecker;
     }
 
     /**
@@ -395,5 +486,112 @@ class SessionUser implements SessionUserInterface
     public function isDirectingCourse($courseId)
     {
         return in_array($courseId, $this->directedCourseIds);
+    }
+
+    public function isAdministeringCourse($courseId) : bool
+    {
+        return in_array($courseId, $this->administeredCourseIds);
+    }
+
+    public function isDirectingSchool($schoolId) : bool
+    {
+        return in_array($schoolId, $this->directedSchoolIds);
+    }
+
+    public function isAdministeringSchool($schoolId) : bool
+    {
+        return in_array($schoolId, $this->administeredSchoolIds);
+    }
+
+    public function isDirectingCourseInSchool($schoolId) : bool
+    {
+        return in_array($schoolId, $this->directedCourseSchoolIds);
+    }
+
+    public function isAdministeringCourseInSchool($schoolId) : bool
+    {
+        return in_array($schoolId, $this->administeredCourseSchoolIds);
+    }
+
+    public function isAdministeringSessionInSchool($schoolId) : bool
+    {
+        return in_array($schoolId, $this->administeredSessionSchoolIds);
+    }
+
+    public function isAdministeringSessionInCourse($courseId) : bool
+    {
+        return in_array($courseId, $this->administeredSessionCourseIds);
+    }
+
+    public function isTeachingCourseInSchool($schoolId) : bool
+    {
+        return in_array($schoolId, $this->taughtCourseSchoolIds);
+    }
+
+    public function isTeachingCourse($courseId) : bool
+    {
+        return in_array($courseId, $this->taughtCourseIds);
+    }
+
+    public function canReadCourse($courseId, $schoolId) : bool
+    {
+        if ($this->isDirectingSchool($schoolId) and
+            $this->permissionChecker->canSchoolDirectorReadAllCourses($schoolId)
+        ) {
+            return true;
+        }
+        if ($this->isAdministeringSchool($schoolId) and
+            $this->permissionChecker->canSchoolAdministratorReadAllCourses($schoolId)
+        ) {
+            return true;
+        }
+        if ($this->isDirectingCourseInSchool($schoolId) and
+            $this->permissionChecker->canCourseDirectorsReadAllCourses($schoolId)
+        ) {
+            return true;
+        }
+        if ($this->isDirectingCourseInSchool($schoolId) and
+            $this->permissionChecker->canCourseDirectorsReadAllCourses($schoolId)
+        ) {
+            return true;
+        }
+        if ($this->isAdministeringCourseInSchool($schoolId) and
+            $this->permissionChecker->canCourseAdministratorsReadAllCourses($schoolId)
+        ) {
+            return true;
+        }
+        if ($this->isAdministeringSessionInSchool($schoolId) and
+            $this->permissionChecker->canSessionAdministratorsReadAllCourses($schoolId)
+        ) {
+            return true;
+        }
+        if ($this->isDirectingCourse($courseId) and
+            $this->permissionChecker->canCourseDirectorsReadTheirCourse($schoolId)
+        ) {
+            return true;
+        }
+        if ($this->isAdministeringCourse($courseId) and
+            $this->permissionChecker->canCourseAdministratorsReadTheirCourse($schoolId)
+        ) {
+            return true;
+        }
+        if ($this->isAdministeringSessionInCourse($courseId) and
+            $this->permissionChecker->canSessionAdministratorsReadTheirCourse($schoolId)
+        ) {
+            return true;
+        }
+        if ($this->isTeachingCourse($courseId) and
+            $this->permissionChecker->canCourseInstructorsReadTheirCourse($schoolId)
+        ) {
+            return true;
+        }
+        if ($this->isTeachingCourseInSchool($schoolId) and
+            $this->permissionChecker->canCourseInstructorsReadAllCourses($schoolId)
+        ) {
+            return true;
+        }
+
+
+        return false;
     }
 }
