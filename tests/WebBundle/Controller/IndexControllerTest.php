@@ -69,8 +69,8 @@ class IndexControllerTest extends WebTestCase
         $this->client->request('GET', '/');
         $response = $this->client->getResponse();
 
-        //ensure we have a 60 second max age
-        $this->assertEquals(60, $response->getMaxAge(), substr($response->getContent(), 0, 500));
+        //ensure we have correct cache headers
+        $this->assertTrue($response->headers->getCacheControlDirective('no-cache'));
     }
 
     public function testABinaryFile()

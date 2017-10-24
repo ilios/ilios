@@ -38,19 +38,23 @@ class IndexController extends Controller
     /**
      * Respond to GET requests
      *
-     * @return Response
+     * @param Request $request
+     * @param $fileName
+     * @param $versionedStaticFile
+     *
+     * @return BinaryFileResponse|Response
      */
-    public function getAction(Request $request, $fileName)
+    public function getAction(Request $request, $fileName, $versionedStaticFile = false)
     {
         if ('index.html' === $fileName || empty($fileName)) {
-            return $this->getIndex();
+            return $this->getIndex($request);
         }
 
         $path = $this->getFilePath($fileName);
         //when files don't exist they are probably calls to a frontend route like /dashboard or /courses
         //in that case we just return the index.html file and let Ember handle it
         if (!$path) {
-            return $this->getIndex();
+            return $this->getIndex($request);
         }
 
         $response = new BinaryFileResponse($path);
@@ -67,15 +71,24 @@ class IndexController extends Controller
         if ($extension === 'js') {
             $response->headers->set('Content-Type', 'text/javascript');
         }
+        if ($versionedStaticFile) {
+            //cache for one year
+            $response->setMaxAge(60 * 60 * 24 * 365);
+        } else {
+            // doesn't actually mean don't cache - it means that the server must
+            // check the status and if a 304 is returned it can use the cached version
+            $response->headers->addCacheControlDirective('no-cache');
+        }
 
         return $response;
     }
 
     /**
      * Load the index.html file or a nice error message if it doesn't exist
+     * @param Request $request
      * @return Response
      */
-    protected function getIndex()
+    protected function getIndex(Request $request)
     {
         $path = $this->getFilePath('index.json');
         if (!$path) {
@@ -83,15 +96,23 @@ class IndexController extends Controller
                 $this->renderView('IliosWebBundle:Index:error.html.twig')
             );
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            $response->headers->addCacheControlDirective('no-cache');
+            $response->headers->addCacheControlDirective('no-store');
+            $response->setMaxAge(1);
         } else {
             $options = $this->extractOptions($path);
             $templatePath = $this->getTemplatePath();
 
             $response = $this->render($templatePath, $options);
+            $response->setPublic();
+            // doesn't actually mean don't cache - it means that the server must
+            // check the status and if a 304 is returned it can use the cached version
+            $response->headers->addCacheControlDirective('no-cache');
+            $response->setEtag(sha1_file($path));
+            $file = new \SplFileObject($path, 'r');
+            $response->setLastModified(\DateTime::createFromFormat('U', $file->getMTime()));
+            $response->isNotModified($request);
         }
-        
-        $response->setPublic();
-        $response->setMaxAge(60);
 
         return $response;
     }
