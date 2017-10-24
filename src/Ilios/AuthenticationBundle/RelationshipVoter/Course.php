@@ -14,8 +14,8 @@ class Course extends AbstractVoter
         return (
             ($subject instanceof CourseDTO && in_array($attribute, [self::VIEW])) or
             ($subject instanceof CourseInterface && in_array($attribute, [
-                self::CREATE, self::VIEW, self::EDIT, self::DELETE
-            ]))
+                    self::CREATE, self::VIEW, self::EDIT, self::DELETE
+                ]))
         );
     }
 

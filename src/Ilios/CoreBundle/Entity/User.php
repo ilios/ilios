@@ -1708,8 +1708,9 @@ class User implements UserInterface
     {
         $this->administeredCurriculumInventoryReports->removeElement($report);
         $report->removeAdministrator($this);
+    }
 
-    /*
+    /**
      * @return CourseInterface[]
      */
     public function getInstructedCourses() : ArrayCollection
