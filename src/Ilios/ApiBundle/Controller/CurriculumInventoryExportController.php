@@ -32,6 +32,7 @@ class CurriculumInventoryExportController extends ApiController
      *
      * @required
      * @param Exporter $exporter
+     * @param UserManager $userManager
      */
     public function setup(Exporter $exporter, UserManager $userManager)
     {
