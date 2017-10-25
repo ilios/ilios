@@ -11,7 +11,8 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
- * Creates and stores alerts for new or updated offerings.
+ * Creates and updates change alerts for given data points, such as offerings.
+ *
  * Class ChangeAlertHandler
  * @package Ilios\CoreBundle\Service
  */
