@@ -3,9 +3,10 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\CoreBundle\Service\ChangeAlertHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,6 +19,23 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class OfferingController extends ApiController
 {
+
+    /**
+     * @var ChangeAlertHandler
+     */
+    protected $alertHandler;
+
+    /**
+     * Register injections here so we don't have to override the ApiController constructor
+     *
+     * @required
+     * @param ChangeAlertHandler $alertHandler
+     */
+    public function setup(ChangeAlertHandler $alertHandler)
+    {
+        $this->alertHandler = $alertHandler;
+    }
+
     /**
      * Create alerts when adding offerings
      * @inheritdoc
@@ -118,21 +136,13 @@ class OfferingController extends ApiController
      */
     protected function createAlertForNewOffering(OfferingInterface $offering)
     {
-        // create new alert for this offering
-        $alertManager = $this->getManager('alerts');
-        $userManager = $this->getManager('users');
-        $alertChangeTypeManager = $this->getManager('alertchangetypes');
-        $alert = $alertManager->create();
-        $alert->addChangeType($alertChangeTypeManager->findOneBy([
-            'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING]));
         /** @var SessionUserInterface $sessionUser */
+        $userManager = $this->getManager('users');
         $sessionUser = $this->tokenStorage->getToken()->getUser();
+        /** @var UserInterface $user */
         $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
-        $alert->addInstigator($user);
-        $alert->addRecipient($offering->getSession()->getCourse()->getSchool());
-        $alert->setTableName('offering');
-        $alert->setTableRowId($offering->getId());
-        $alertManager->update($alert, false);
+
+        $this->alertHandler->createAlertForNewOffering($offering, $user);
     }
 
     /**
@@ -143,88 +153,11 @@ class OfferingController extends ApiController
         OfferingInterface $offering,
         array $originalProperties
     ) {
-        $updatedProperties = $offering->getAlertProperties();
-
-        $changeTypes = [];
-        if ($updatedProperties['startDate'] !== $originalProperties['startDate']) {
-            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_TIME;
-        }
-        if ($updatedProperties['endDate'] !== $originalProperties['endDate']) {
-            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_TIME;
-        }
-        if ($updatedProperties['room'] !== $originalProperties['room']) {
-            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LOCATION;
-        }
-        if ($updatedProperties['site'] !== $originalProperties['site']) {
-            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LOCATION;
-        }
-        $instructorIdsDiff = array_merge(
-            array_diff($updatedProperties['instructors'], $originalProperties['instructors']),
-            array_diff($originalProperties['instructors'], $updatedProperties['instructors'])
-        );
-        if (! empty($instructorIdsDiff)) {
-            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR;
-        }
-        $instructorGroupIdsDiff = array_merge(
-            array_diff($updatedProperties['instructorGroups'], $originalProperties['instructorGroups']),
-            array_diff($originalProperties['instructorGroups'], $updatedProperties['instructorGroups'])
-        );
-        if (! empty($instructorGroupIdsDiff)) {
-            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR;
-        }
-        $learnerIdsDiff = array_merge(
-            array_diff($updatedProperties['learners'], $originalProperties['learners']),
-            array_diff($originalProperties['learners'], $updatedProperties['learners'])
-        );
-        if (! empty($learnerIdsDiff)) {
-            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP;
-        }
-        $learnerGroupIdsDiff = array_merge(
-            array_diff($updatedProperties['learnerGroups'], $originalProperties['learnerGroups']),
-            array_diff($originalProperties['learnerGroups'], $updatedProperties['learnerGroups'])
-        );
-        if (! empty($learnerGroupIdsDiff)) {
-            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP;
-        }
-
-        if (empty($changeTypes)) {
-            return;
-        }
-        array_unique($changeTypes);
-
-        $alertManager = $this->getManager('alerts');
-        $alertChangeTypeManager = $this->getManager('alertchangetypes');
-
-        $alert = $alertManager->findOneBy([
-            'dispatched' => false,
-            'tableName' => 'offering',
-            'tableRowId' => $offering->getId()
-        ]);
-
-        if (! $alert) {
-            $recipient = $offering->getSchool();
-            if (! $recipient) {
-                return; // SOL.
-            }
-            $alert = $alertManager->create();
-            $alert->addRecipient($recipient);
-            $alert->setTableName('offering');
-            $alert->setTableRowId($offering->getId());
-
-            $userManager = $this->getManager('users');
-            /** @var SessionUserInterface $sessionUser */
-            $sessionUser = $this->tokenStorage->getToken()->getUser();
-            $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
-            $alert->addInstigator($user);
-        }
-
-        foreach ($changeTypes as $type) {
-            $changeType = $alertChangeTypeManager->findOneBy(['id' => $type]);
-            if ($changeType && ! $alert->getChangeTypes()->contains($changeType)) {
-                $alert->addChangeType($changeType);
-            }
-        }
-
-        $alertManager->update($alert, false);
+        $userManager = $this->getManager('users');
+        /** @var SessionUserInterface $sessionUser */
+        $sessionUser = $this->tokenStorage->getToken()->getUser();
+        /** @var UserInterface $instigator */
+        $instigator = $userManager->findOneBy(['id' => $sessionUser->getId()]);
+        $this->alertHandler->createOrUpdateAlertForUpdatedOffering($offering, $instigator, $originalProperties);
     }
 }
