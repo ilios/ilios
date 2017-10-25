@@ -140,9 +140,9 @@ class OfferingController extends ApiController
         $userManager = $this->getManager('users');
         $sessionUser = $this->tokenStorage->getToken()->getUser();
         /** @var UserInterface $user */
-        $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
+        $instigator = $userManager->findOneBy(['id' => $sessionUser->getId()]);
 
-        $this->alertHandler->createAlertForNewOffering($offering, $user);
+        $this->alertHandler->createAlertForNewOffering($offering, $instigator);
     }
 
     /**
