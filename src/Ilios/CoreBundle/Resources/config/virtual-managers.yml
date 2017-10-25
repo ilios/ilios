@@ -1,4 +1,4 @@
-# Definitions for managers without a spcific implementation
+# Definitions for managers without a specific implementation
 
 services:
     _defaults:
@@ -18,10 +18,6 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\AamcResourceType'
-    Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\AlertChangeType'
     Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
