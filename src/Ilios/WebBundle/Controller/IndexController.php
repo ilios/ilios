@@ -57,30 +57,7 @@ class IndexController extends Controller
             return $this->getIndex($request);
         }
 
-        $response = new BinaryFileResponse($path);
-        $response->setAutoLastModified();
-        $response->setAutoEtag();
-        // checks if the file has been modified and if not blanks out the response and sends a 304
-        $response->isNotModified($request);
-
-        $file = $response->getFile();
-        $extension = $file->getExtension();
-        if ($extension === 'css') {
-            $response->headers->set('Content-Type', 'text/css');
-        }
-        if ($extension === 'js') {
-            $response->headers->set('Content-Type', 'text/javascript');
-        }
-        if ($versionedStaticFile) {
-            //cache for one year
-            $response->setMaxAge(60 * 60 * 24 * 365);
-        } else {
-            // doesn't actually mean don't cache - it means that the server must
-            // check the status and if a 304 is returned it can use the cached version
-            $response->headers->addCacheControlDirective('no-cache');
-        }
-
-        return $response;
+        return $this->getAsset($request, $path, $versionedStaticFile);
     }
 
     /**
@@ -103,16 +80,45 @@ class IndexController extends Controller
             $options = $this->extractOptions($path);
             $templatePath = $this->getTemplatePath();
 
-            $response = $this->render($templatePath, $options);
-            $response->setPublic();
+            $content = $this->templatingEngine->render($templatePath, $options);
+            $file = new \SplFileObject($path, 'r');
+            $lastModified = \DateTime::createFromFormat('U', $file->getMTime());
+            $response = $this->responseFromString($content, $request, $lastModified);
+
             // doesn't actually mean don't cache - it means that the server must
             // check the status and if a 304 is returned it can use the cached version
             $response->headers->addCacheControlDirective('no-cache');
-            $response->setEtag(sha1_file($path));
-            $file = new \SplFileObject($path, 'r');
-            $response->setLastModified(\DateTime::createFromFormat('U', $file->getMTime()));
             $response->isNotModified($request);
         }
+
+        return $response;
+    }
+
+    protected function getAsset(Request $request, string $path, bool $versionedStaticFile) : Response
+    {
+        $content = $this->fs->readFile($path);
+        $file = new \SplFileObject($path, 'r');
+        $lastModified = \DateTime::createFromFormat('U', $file->getMTime());
+        $response = $this->responseFromString($content, $request, $lastModified);
+
+        $extension = $file->getExtension();
+        if ($extension === 'css') {
+            $response->headers->set('Content-Type', 'text/css');
+        }
+        if ($extension === 'js') {
+            $response->headers->set('Content-Type', 'text/javascript');
+        }
+        if ($versionedStaticFile) {
+            //cache for one year
+            $response->setMaxAge(60 * 60 * 24 * 365);
+        } else {
+            // doesn't actually mean don't cache - it means that the server must
+            // check the status and if a 304 is returned it can use the cached version
+            $response->headers->addCacheControlDirective('no-cache');
+        }
+
+        // checks if the file has been modified and if not blanks out the response and sends a 304
+        $response->isNotModified($request);
 
         return $response;
     }
@@ -214,5 +220,21 @@ class IndexController extends Controller
             }
         }
         return 'IliosWebBundle:WebIndex:' .self::DEFAULT_TEMPLATE_NAME;
+    }
+
+    protected function responseFromString(string $content, Request $request, \DateTime $lastModified) : Response
+    {
+        $response = new Response();
+        $acceptEncoding = $request->headers->get('Accept-Encoding');
+        $response->setEtag(sha1($content));
+        $response->setLastModified($lastModified);
+        $response->setPublic();
+        if (strpos($acceptEncoding, 'gzip') !== false) {
+            $content = gzencode($content);
+            $response->headers->add(['Content-Encoding' => 'gzip']);
+        }
+        $response->setContent($content);
+
+        return $response;
     }
 }

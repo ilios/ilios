@@ -3,13 +3,11 @@
 namespace Tests\WebBundle\Controller;
 
 use Ilios\CliBundle\Command\UpdateFrontendCommand;
-use Ilios\CoreBundle\Service\Filesystem;
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Mockery as m;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpKernel\Client;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
+use Symfony\Component\Filesystem\Filesystem;
 
 class IndexControllerTest extends WebTestCase
 {
@@ -20,7 +18,6 @@ class IndexControllerTest extends WebTestCase
     /**
      * @var m\Mock
      */
-    protected $mockFileSystem;
     protected $assetsPath;
 
     /**
@@ -33,15 +30,20 @@ class IndexControllerTest extends WebTestCase
      */
     protected $client;
 
+    /**
+     * @var array
+     */
+    protected $testFiles;
+
     public function setUp()
     {
         $this->client = static::createClient();
         /** @var MockerContainer $container */
         $container = $this->client->getContainer();
-        $this->mockFileSystem = $container->mock(Filesystem::class, Filesystem::class);
         $cacheDir = $container->getParameter('kernel.cache_dir');
         $this->assetsPath =  $cacheDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
-        $this->fileSystem = new SymfonyFileSystem();
+        $this->fileSystem = new Filesystem();
+        $this->testFiles = [];
     }
 
     /**
@@ -49,6 +51,9 @@ class IndexControllerTest extends WebTestCase
      */
     public function tearDown()
     {
+        foreach ($this->testFiles as $path) {
+            $this->fileSystem->remove($path);
+        }
         unset($this->fs);
         unset($this->client);
         unset($this->fileSystem);
@@ -57,46 +62,58 @@ class IndexControllerTest extends WebTestCase
     public function testIndex()
     {
         $jsonPath = $this->assetsPath . 'index.json';
-        $this->mockFileSystem->shouldReceive('exists')->with($jsonPath)->once()->andReturn(true);
-        $this->mockFileSystem->shouldReceive('readFile')->with($jsonPath)->once()->andReturn(json_encode([
+        $json = json_encode([
             'meta' => [],
             'link' => [],
             'script' => [],
             'style' => [],
             'noScript' => [],
             'div' => [],
-        ]));
+        ]);
+        $this->setupTestFile($jsonPath, $json);
         $this->client->request('GET', '/');
         $response = $this->client->getResponse();
 
-        //ensure we have correct cache headers
-        $this->assertTrue($response->headers->getCacheControlDirective('no-cache'));
+        $this->assertContains('<title>Ilios</title>', $response->getContent());
+
+        $this->assertTrue(
+            $response->headers->getCacheControlDirective('no-cache'),
+            'cache headers are correct'
+        );
+        $this->assertEquals(
+            null,
+            $response->headers->get('Content-Encoding'),
+            'content encoding headers are correct'
+        );
     }
 
     public function testABinaryFile()
     {
         $path = $this->assetsPath . 'fakeTestFile';
-        $this->fileSystem->copy(__FILE__, $path);
-        $this->mockFileSystem->shouldReceive('exists')->with($path)->once()->andReturn(true);
+        $string = file_get_contents(__FILE__);
+        $this->setupTestFile($path, $string);
+
         $this->client->request('GET', '/fakeTestFile');
-        /** @var BinaryFileResponse $response */
         $response = $this->client->getResponse();
 
-        $this->assertEquals($path, $response->getFile()->getRealPath(), 'Got File');
         $this->assertEquals(200, $response->getStatusCode(), 'Wrong Status Code');
         $lastModified = \DateTime::createFromFormat('U', filemtime($path));
 
         $this->assertEquals($lastModified, $response->getLastModified(), 'Wrong Modified Cache Header');
         $this->assertGreaterThan(0, strlen($response->getEtag()), 'Missing Cache Header');
-
-        $this->fileSystem->remove($path);
+        $this->assertEquals(
+            null,
+            $response->headers->get('Content-Encoding'),
+            'content encoding headers are correct'
+        );
+        $this->assertEquals($string, $response->getContent());
     }
 
     public function testCacheResponse()
     {
         $path = $this->assetsPath . 'fakeTestFile';
-        $this->fileSystem->copy(__FILE__, $path);
-        $this->mockFileSystem->shouldReceive('exists')->with($path)->once()->andReturn(true);
+        $string = file_get_contents(__FILE__);
+        $this->setupTestFile($path, $string);
         $now = new \DateTime();
         $this->client->request('GET', '/fakeTestFile', [], [], [
             'HTTP_If-Modified-Since' => $now->format('r')
@@ -105,7 +122,182 @@ class IndexControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(304, $response->getStatusCode(), 'Wrong Status Code');
+    }
 
-        $this->fileSystem->remove($path);
+    public function testGzippedWhenRequested()
+    {
+        $jsonPath = $this->assetsPath . 'index.json';
+        $json = json_encode([
+            'meta' => [],
+            'link' => [],
+            'script' => [],
+            'style' => [],
+            'noScript' => [],
+            'div' => [],
+        ]);
+        $this->setupTestFile($jsonPath, $json);
+        $this->client->request(
+            'GET',
+            '/',
+            [],
+            [],
+            ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br']
+        );
+        $response = $this->client->getResponse();
+
+
+        $this->assertTrue(
+            $response->headers->getCacheControlDirective('no-cache'),
+            'cache headers are correct'
+        );
+        $this->assertEquals(
+            'gzip',
+            $response->headers->get('Content-Encoding'),
+            'content encoding headers are correct' . var_export($response->getContent(), true)
+        );
+        $content = $response->getContent();
+        $inflatedContent = gzdecode($content);
+        $this->assertContains('<title>Ilios</title>', $inflatedContent);
+    }
+
+    public function testGzippedBinaryFile()
+    {
+        $path = $this->assetsPath . 'fakeTestFile';
+        $string = file_get_contents(__FILE__);
+        $this->setupTestFile($path, $string);
+
+        $this->client->request(
+            'GET',
+            '/fakeTestFile',
+            [],
+            [],
+            ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br']
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode(), 'Wrong Status Code');
+        $lastModified = \DateTime::createFromFormat('U', filemtime($path));
+
+        $this->assertEquals($lastModified, $response->getLastModified(), 'Wrong Modified Cache Header');
+        $this->assertGreaterThan(0, strlen($response->getEtag()), 'Missing Cache Header');
+        $this->assertEquals(
+            'gzip',
+            $response->headers->get('Content-Encoding'),
+            'content encoding headers are correct' . var_export($response->getContent(), true)
+        );
+        $content = $response->getContent();
+        $inflatedContent = gzdecode($content);
+        $this->assertEquals($string, $inflatedContent);
+    }
+
+    public function testIndexFromCacheIsTheSameInGzippedAndUnCompressed()
+    {
+        $jsonPath = $this->assetsPath . 'index.json';
+        $json = json_encode([
+            'meta' => [],
+            'link' => [],
+            'script' => [],
+            'style' => [],
+            'noScript' => [],
+            'div' => [],
+        ]);
+        $this->setupTestFile($jsonPath, $json);
+
+        $this->client->request(
+            'GET',
+            '/',
+            [],
+            [],
+            ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br']
+        );
+        $response = $this->client->getResponse();
+        $gzipEtag = $response->getEtag();
+
+        $this->client->request(
+            'GET',
+            '/'
+        );
+        $response = $this->client->getResponse();
+        $uncompressedEtag = $response->getEtag();
+
+        $this->assertEquals($gzipEtag, $uncompressedEtag);
+
+
+        $this->client->request(
+            'GET',
+            '/',
+            [],
+            [],
+            ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br', 'HTTP_IF_NONE_MATCH' => $uncompressedEtag]
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(304, $response->getStatusCode(), 'Wrong Status Code');
+        $this->assertEmpty($response->getContent());
+
+        $this->client->request(
+            'GET',
+            '/',
+            [],
+            [],
+            ['HTTP_IF_NONE_MATCH' => $gzipEtag]
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(304, $response->getStatusCode(), 'Wrong Status Code');
+        $this->assertEmpty($response->getContent());
+    }
+
+    public function testBinaryFileFromCacheIsTheSameInGzippedAndUnCompressed()
+    {
+        $path = $this->assetsPath . 'fakeTestFile';
+        $string = file_get_contents(__FILE__);
+        $this->setupTestFile($path, $string);
+
+        $this->client->request(
+            'GET',
+            '/fakeTestFile',
+            [],
+            [],
+            ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br']
+        );
+        $response = $this->client->getResponse();
+        $gzipEtag = $response->getEtag();
+
+        $this->client->request(
+            'GET',
+            '/fakeTestFile'
+        );
+        $response = $this->client->getResponse();
+        $uncompressedEtag = $response->getEtag();
+
+        $this->assertEquals($gzipEtag, $uncompressedEtag);
+
+
+        $this->client->request(
+            'GET',
+            '/fakeTestFile',
+            [],
+            [],
+            ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br', 'HTTP_IF_NONE_MATCH' => $uncompressedEtag]
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(304, $response->getStatusCode(), 'Wrong Status Code');
+        $this->assertEmpty($response->getContent());
+
+        $this->client->request(
+            'GET',
+            '/fakeTestFile',
+            [],
+            [],
+            ['HTTP_IF_NONE_MATCH' => $gzipEtag]
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(304, $response->getStatusCode(), 'Wrong Status Code');
+        $this->assertEmpty($response->getContent());
+    }
+
+    protected function setupTestFile($path, $contents)
+    {
+        $this->testFiles[] = $path;
+        $this->fileSystem->dumpFile($path, $contents);
     }
 }
