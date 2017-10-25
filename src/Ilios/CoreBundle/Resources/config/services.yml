@@ -95,6 +95,10 @@ services:
         public: true
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Alert'
+    Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\AlertChangeType'
     Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager:
         public: true
         arguments:
