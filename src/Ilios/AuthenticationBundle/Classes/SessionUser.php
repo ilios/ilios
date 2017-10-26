@@ -403,7 +403,7 @@ class SessionUser implements SessionUserInterface
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -536,57 +536,93 @@ class SessionUser implements SessionUserInterface
     public function canReadCourse($courseId, $schoolId) : bool
     {
         if ($this->isDirectingSchool($schoolId) and
-            $this->permissionChecker->canSchoolDirectorReadAllCourses($schoolId)
+            $this->permissionChecker->hasPermission(
+                $schoolId,
+                PermissionChecker::CAN_READ_ALL_COURSES,
+                [ UserRoles::SCHOOL_DIRECTOR ]
+            )
         ) {
             return true;
         }
         if ($this->isAdministeringSchool($schoolId) and
-            $this->permissionChecker->canSchoolAdministratorReadAllCourses($schoolId)
+            $this->permissionChecker->hasPermission(
+                $schoolId,
+                PermissionChecker::CAN_READ_ALL_COURSES,
+                [ UserRoles::SCHOOL_ADMINISTRATOR ]
+            )
         ) {
             return true;
         }
         if ($this->isDirectingCourseInSchool($schoolId) and
-            $this->permissionChecker->canCourseDirectorsReadAllCourses($schoolId)
+            $this->permissionChecker->hasPermission(
+                $schoolId,
+                PermissionChecker::CAN_READ_ALL_COURSES,
+                [ UserRoles::COURSE_DIRECTOR ]
+            )
         ) {
             return true;
         }
-        if ($this->isDirectingCourseInSchool($schoolId) and
-            $this->permissionChecker->canCourseDirectorsReadAllCourses($schoolId)
-        ) {
-            return true;
-        }
+
         if ($this->isAdministeringCourseInSchool($schoolId) and
-            $this->permissionChecker->canCourseAdministratorsReadAllCourses($schoolId)
+            $this->permissionChecker->hasPermission(
+                $schoolId,
+                PermissionChecker::CAN_READ_ALL_COURSES,
+                [ UserRoles::COURSE_ADMINISTRATOR ]
+            )
         ) {
             return true;
         }
         if ($this->isAdministeringSessionInSchool($schoolId) and
-            $this->permissionChecker->canSessionAdministratorsReadAllCourses($schoolId)
+            $this->permissionChecker->hasPermission(
+                $schoolId,
+                PermissionChecker::CAN_READ_ALL_COURSES,
+                [ UserRoles::SESSION_ADMINISTRATOR ]
+            )
         ) {
             return true;
         }
         if ($this->isDirectingCourse($courseId) and
-            $this->permissionChecker->canCourseDirectorsReadTheirCourse($schoolId)
+            $this->permissionChecker->hasPermission(
+                $schoolId,
+                PermissionChecker::CAN_READ_THEIR_COURSES,
+                [ UserRoles::COURSE_DIRECTOR ]
+            )
         ) {
             return true;
         }
         if ($this->isAdministeringCourse($courseId) and
-            $this->permissionChecker->canCourseAdministratorsReadTheirCourse($schoolId)
+            $this->permissionChecker->hasPermission(
+                $schoolId,
+                PermissionChecker::CAN_READ_THEIR_COURSES,
+                [ UserRoles::COURSE_ADMINISTRATOR ]
+            )
         ) {
             return true;
         }
         if ($this->isAdministeringSessionInCourse($courseId) and
-            $this->permissionChecker->canSessionAdministratorsReadTheirCourse($schoolId)
+            $this->permissionChecker->hasPermission(
+                $schoolId,
+                PermissionChecker::CAN_READ_THEIR_COURSES,
+                [ UserRoles::SESSION_ADMINISTRATOR ]
+            )
         ) {
             return true;
         }
         if ($this->isTeachingCourse($courseId) and
-            $this->permissionChecker->canCourseInstructorsReadTheirCourse($schoolId)
+            $this->permissionChecker->hasPermission(
+                $schoolId,
+                PermissionChecker::CAN_READ_THEIR_COURSES,
+                [ UserRoles::COURSE_INSTRUCTOR ]
+            )
         ) {
             return true;
         }
         if ($this->isTeachingCourseInSchool($schoolId) and
-            $this->permissionChecker->canCourseInstructorsReadAllCourses($schoolId)
+            $this->permissionChecker->hasPermission(
+                $schoolId,
+                PermissionChecker::CAN_READ_ALL_COURSES,
+                [ UserRoles::COURSE_INSTRUCTOR ]
+            )
         ) {
             return true;
         }
