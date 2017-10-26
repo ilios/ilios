@@ -1,5 +1,4 @@
 # Definitions for managers without a specific implementation
-
 services:
     _defaults:
         autowire: true
