@@ -3,11 +3,16 @@
 namespace Ilios\AuthenticationBundle\Service;
 
 
+use Ilios\AuthenticationBundle\Classes\UserRoles;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 
 class PermissionChecker
 {
+    /** @var string */
+    const CAN_READ_ALL_COURSES = 'canReadAllCourses';
+    /** @var string */
+    const CAN_READ_THEIR_COURSES = 'canReadTheirCourses';
     /**
      * @var SchoolManager
      */
@@ -26,69 +31,49 @@ class PermissionChecker
         /** @var SchoolDTO $schoolDto */
         foreach ($schoolDtos as $schoolDto) {
             $arr = [];
-            $arr['canSchoolDirectorReadAllCourses'] = true;
-            $arr['canSchoolAdministratorReadAllCourses'] = true;
-            $arr['canCourseDirectorsReadAllCourses'] = true;
-            $arr['canCourseAdministratorsReadAllCourses'] = true;
-            $arr['canSessionAdministratorsReadAllCourses'] = true;
-            $arr['canCourseInstructorsReadAllCourses'] = true;
-            $arr['canCourseDirectorsReadTheirCourse'] = true;
-            $arr['canCourseAdministratorsReadTheirCourse'] = true;
-            $arr['canSessionAdministratorsReadTheirCourse'] = true;
-            $arr['canCourseInstructorsReadTheirCourse'] = true;
+            $arr[self::CAN_READ_ALL_COURSES] = [
+                UserRoles::SCHOOL_DIRECTOR,
+                UserRoles::SCHOOL_ADMINISTRATOR,
+                UserRoles::COURSE_DIRECTOR,
+                UserRoles::COURSE_ADMINISTRATOR,
+                UserRoles::SESSION_INSTRUCTOR,
+            ];
+
+            $arr[self::CAN_READ_THEIR_COURSES] = [
+                UserRoles::SCHOOL_DIRECTOR,
+                UserRoles::SCHOOL_ADMINISTRATOR,
+                UserRoles::COURSE_DIRECTOR,
+                UserRoles::COURSE_ADMINISTRATOR,
+            ];
 
             $this->matrix[$schoolDto->id] = $arr;
         }
     }
 
-    public function canSchoolDirectorReadAllCourses(int $schoolId) : bool
+    /**
+     * @param int $schoolId
+     * @param string $capability
+     * @param array $roles
+     * @return bool
+     */
+    public function hasPermission(int $schoolId, string $capability, array $roles) : bool
     {
-        return $this->matrix[$schoolId]['canSchoolDirectorReadAllCourses'];
-    }
+        if (!array_key_exists($schoolId, $this->matrix)) {
+            return false;
+        }
+        $schoolPermissions = $this->matrix[$schoolId];
+        if (!array_key_exists($capability, $schoolPermissions)) {
+            return false;
+        };
 
-    public function canSchoolAdministratorReadAllCourses(int $schoolId) : bool
-    {
-        return $this->matrix[$schoolId]['canSchoolAdministratorReadAllCourses'];
-    }
+        $permittedRoles = $schoolPermissions[$capability];
 
-    public function canCourseDirectorsReadAllCourses(int $schoolId) : bool
-    {
-        return $this->matrix[$schoolId]['canCourseDirectorsReadAllCourses'];
-    }
+        $hasPermission = false;
+        while(!$hasPermission && !empty($roles)) {
+            $role = array_pop($roles);
+            $hasPermission = in_array($role, $permittedRoles);
+        }
 
-    public function canCourseAdministratorsReadAllCourses(int $schoolId) : bool
-    {
-        return $this->matrix[$schoolId]['canCourseAdministratorsReadAllCourses'];
+        return $hasPermission;
     }
-
-    public function canSessionAdministratorsReadAllCourses(int $schoolId) : bool
-    {
-        return $this->matrix[$schoolId]['canSessionAdministratorsReadAllCourses'];
-    }
-
-    public function canCourseInstructorsReadAllCourses(int $schoolId) : bool
-    {
-        return $this->matrix[$schoolId]['canCourseInstructorsReadAllCourses'];
-    }
-
-    public function canCourseDirectorsReadTheirCourse(int $schoolId) : bool
-    {
-        return $this->matrix[$schoolId]['canCourseDirectorsReadTheirCourse'];
-    }
-
-    public function canCourseAdministratorsReadTheirCourse(int $schoolId) : bool
-    {
-        return $this->matrix[$schoolId]['canCourseAdministratorsReadTheirCourse'];
-    }
-
-    public function canSessionAdministratorsReadTheirCourse(int $schoolId) : bool
-    {
-        return $this->matrix[$schoolId]['canSessionAdministratorsReadTheirCourse'];
-    }
-
-    public function canCourseInstructorsReadTheirCourse(int $schoolId) : bool
-    {
-        return $this->matrix[$schoolId]['canCourseInstructorsReadTheirCourse'];
-    }
-
 }
