@@ -36,7 +36,7 @@ class PermissionChecker
                 UserRoles::SCHOOL_ADMINISTRATOR,
                 UserRoles::COURSE_DIRECTOR,
                 UserRoles::COURSE_ADMINISTRATOR,
-                UserRoles::SESSION_INSTRUCTOR,
+                UserRoles::SESSION_ADMINISTRATOR,
             ];
 
             $arr[self::CAN_READ_THEIR_COURSES] = [
