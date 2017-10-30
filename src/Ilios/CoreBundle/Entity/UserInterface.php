@@ -518,5 +518,5 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|CourseInterface[]
      */
-    public function getInstructedCourses();
+    public function getInstructedCourses() : ArrayCollection;
 }
