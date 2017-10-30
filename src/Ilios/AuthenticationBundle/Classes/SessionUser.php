@@ -16,7 +16,7 @@ use DateTime;
  *
  * A session user is a static serializable representation
  * of a single user.  It is used in our authentication system
- * to avoid issues with a user beign able to update their own data.
+ * to avoid issues with a user being able to update their own data.
  */
 class SessionUser implements SessionUserInterface
 {
