@@ -6,7 +6,8 @@ services:
         public: false
 
     Ilios\AuthenticationBundle\:
-            resource: '../../*'
+          resource: '../../*'
+          exclude: '../../{RelationshipVoter}'
 
     Ilios\AuthenticationBundle\Controller\:
         resource: '../../Controller'
