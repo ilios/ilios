@@ -1659,10 +1659,7 @@ class User implements UserInterface
         $this->root = $root;
     }
 
-    /**
-     * @return CourseInterface[]
-     */
-    public function getInstructedCourses()
+    public function getInstructedCourses() : ArrayCollection
     {
         $groupCourses = $this->getInstructorGroups()->map(function (InstructorGroupInterface $group) {
             $ilmSessions = $group->getIlmSessions();
@@ -1685,6 +1682,6 @@ class User implements UserInterface
 
         $courses = array_merge($groupCourses, $offeringCourses, $ilmSessionCourses);
 
-        return $courses;
+        return new ArrayCollection($courses);
     }
 }
