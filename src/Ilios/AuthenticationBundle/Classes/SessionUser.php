@@ -533,246 +533,89 @@ class SessionUser implements SessionUserInterface
         return in_array($courseId, $this->taughtCourseIds);
     }
 
+    protected function rolesInSchool(int $schoolId) : array
+    {
+        $roles = [];
+        if ($this->isDirectingSchool($schoolId)) {
+            $roles[] = UserRoles::SCHOOL_DIRECTOR;
+        }
+        if ($this->isAdministeringSchool($schoolId)) {
+            $roles[] = UserRoles::SCHOOL_ADMINISTRATOR;
+        }
+        if ($this->isDirectingCourseInSchool($schoolId)) {
+            $roles[] = UserRoles::COURSE_DIRECTOR;
+        }
+        if ($this->isAdministeringCourseInSchool($schoolId)) {
+            $roles[] = UserRoles::COURSE_ADMINISTRATOR;
+        }
+        if ($this->isAdministeringSessionInSchool($schoolId)) {
+            $roles[] = UserRoles::SESSION_ADMINISTRATOR;
+        }
+        if ($this->isTeachingCourseInSchool($schoolId)) {
+            $roles[] = UserRoles::COURSE_INSTRUCTOR;
+        }
+
+        return $roles;
+    }
+
+    protected function rolesInCourse(int $courseId) : array
+    {
+        $roles = [];
+
+        if ($this->isDirectingCourse($courseId)) {
+            $roles[] = UserRoles::COURSE_DIRECTOR;
+        }
+        if ($this->isAdministeringCourse($courseId)) {
+            $roles[] = UserRoles::COURSE_ADMINISTRATOR;
+        }
+        if ($this->isAdministeringSessionInCourse($courseId)) {
+            $roles[] = UserRoles::SESSION_ADMINISTRATOR;
+        }
+        if ($this->isTeachingCourse($courseId)) {
+            $roles[] = UserRoles::COURSE_INSTRUCTOR;
+        }
+
+        return $roles;
+    }
+
     public function canReadCourse(int $courseId, int $schoolId) : bool
     {
-        if ($this->isDirectingSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_READ_ALL_COURSES,
-                [ UserRoles::SCHOOL_DIRECTOR ]
-            )
-        ) {
+        $rolesInSchool = $this->rolesInSchool($schoolId);
+        if ($this->permissionChecker->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_ALL_COURSES,
+            $rolesInSchool
+        )) {
             return true;
         }
-        if ($this->isAdministeringSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_READ_ALL_COURSES,
-                [ UserRoles::SCHOOL_ADMINISTRATOR ]
-            )
-        ) {
+        $rolesInCourse = $this->rolesInCourse($schoolId);
+        if ($this->permissionChecker->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_THEIR_COURSES,
+            $rolesInCourse
+        )) {
             return true;
         }
-        if ($this->isDirectingCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_READ_ALL_COURSES,
-                [ UserRoles::COURSE_DIRECTOR ]
-            )
-        ) {
-            return true;
-        }
-
-        if ($this->isAdministeringCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_READ_ALL_COURSES,
-                [ UserRoles::COURSE_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringSessionInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_READ_ALL_COURSES,
-                [ UserRoles::SESSION_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isDirectingCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_READ_THEIR_COURSES,
-                [ UserRoles::COURSE_DIRECTOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_READ_THEIR_COURSES,
-                [ UserRoles::COURSE_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringSessionInCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_READ_THEIR_COURSES,
-                [ UserRoles::SESSION_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isTeachingCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_READ_THEIR_COURSES,
-                [ UserRoles::COURSE_INSTRUCTOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isTeachingCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_READ_ALL_COURSES,
-                [ UserRoles::COURSE_INSTRUCTOR ]
-            )
-        ) {
-            return true;
-        }
-
 
         return false;
     }
 
     public function canUpdateCourse(int $courseId, int $schoolId) : bool
     {
-        if ($this->isDirectingSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_UPDATE_ALL_COURSES,
-                [ UserRoles::SCHOOL_DIRECTOR ]
-            )
-        ) {
+        $rolesInSchool = $this->rolesInSchool($schoolId);
+        if ($this->permissionChecker->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_ALL_COURSES,
+            $rolesInSchool
+        )) {
             return true;
         }
-        if ($this->isAdministeringSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_UPDATE_ALL_COURSES,
-                [ UserRoles::SCHOOL_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isDirectingCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_UPDATE_ALL_COURSES,
-                [ UserRoles::COURSE_DIRECTOR ]
-            )
-        ) {
-            return true;
-        }
-
-        if ($this->isAdministeringCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_UPDATE_ALL_COURSES,
-                [ UserRoles::COURSE_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringSessionInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_UPDATE_ALL_COURSES,
-                [ UserRoles::SESSION_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isDirectingCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_UPDATE_THEIR_COURSES,
-                [ UserRoles::COURSE_DIRECTOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_UPDATE_THEIR_COURSES,
-                [ UserRoles::COURSE_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringSessionInCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_UPDATE_THEIR_COURSES,
-                [ UserRoles::SESSION_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isTeachingCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_UPDATE_THEIR_COURSES,
-                [ UserRoles::COURSE_INSTRUCTOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isTeachingCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_UPDATE_ALL_COURSES,
-                [ UserRoles::COURSE_INSTRUCTOR ]
-            )
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-    public function canCreateCourse(int $schoolId) : bool
-    {
-        if ($this->isDirectingSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_CREATE_COURSES,
-                [ UserRoles::SCHOOL_DIRECTOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_CREATE_COURSES,
-                [ UserRoles::SCHOOL_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isDirectingCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_CREATE_COURSES,
-                [ UserRoles::COURSE_DIRECTOR ]
-            )
-        ) {
-            return true;
-        }
-
-        if ($this->isAdministeringCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_CREATE_COURSES,
-                [ UserRoles::COURSE_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringSessionInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_CREATE_COURSES,
-                [ UserRoles::SESSION_ADMINISTRATOR ]
-            )
-        ) {
+        $rolesInCourse = $this->rolesInCourse($schoolId);
+        if ($this->permissionChecker->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_THEIR_COURSES,
+            $rolesInCourse
+        )) {
             return true;
         }
 
@@ -781,95 +624,34 @@ class SessionUser implements SessionUserInterface
 
     public function canDeleteCourse(int $courseId, int $schoolId) : bool
     {
-        if ($this->isDirectingSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_DELETE_ALL_COURSES,
-                [ UserRoles::SCHOOL_DIRECTOR ]
-            )
-        ) {
+        $rolesInSchool = $this->rolesInSchool($schoolId);
+        if ($this->permissionChecker->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_ALL_COURSES,
+            $rolesInSchool
+        )) {
             return true;
         }
-        if ($this->isAdministeringSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_DELETE_ALL_COURSES,
-                [ UserRoles::SCHOOL_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isDirectingCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_DELETE_ALL_COURSES,
-                [ UserRoles::COURSE_DIRECTOR ]
-            )
-        ) {
+        $rolesInCourse = $this->rolesInCourse($schoolId);
+        if ($this->permissionChecker->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_THEIR_COURSES,
+            $rolesInCourse
+        )) {
             return true;
         }
 
-        if ($this->isAdministeringCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_DELETE_ALL_COURSES,
-                [ UserRoles::COURSE_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringSessionInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_DELETE_ALL_COURSES,
-                [ UserRoles::SESSION_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isDirectingCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_DELETE_THEIR_COURSES,
-                [ UserRoles::COURSE_DIRECTOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_DELETE_THEIR_COURSES,
-                [ UserRoles::COURSE_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isAdministeringSessionInCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_DELETE_THEIR_COURSES,
-                [ UserRoles::SESSION_ADMINISTRATOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isTeachingCourse($courseId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_DELETE_THEIR_COURSES,
-                [ UserRoles::COURSE_INSTRUCTOR ]
-            )
-        ) {
-            return true;
-        }
-        if ($this->isTeachingCourseInSchool($schoolId) and
-            $this->permissionChecker->hasPermission(
-                $schoolId,
-                PermissionChecker::CAN_DELETE_ALL_COURSES,
-                [ UserRoles::COURSE_INSTRUCTOR ]
-            )
-        ) {
+        return false;
+    }
+
+    public function canCreateCourse(int $schoolId) : bool
+    {
+        $rolesInSchool = $this->rolesInSchool($schoolId);
+        if ($this->permissionChecker->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_COURSES,
+            $rolesInSchool
+        )) {
             return true;
         }
 
