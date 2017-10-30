@@ -149,16 +149,19 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      *
      * @return boolean
      */
-    public function isDirectingCourse($courseId);
-    public function isAdministeringCourse($courseId): bool;
+    public function isDirectingCourse(int $courseId);
+    public function isAdministeringCourse(int $courseId): bool;
 
-    public function isDirectingSchool($schoolId) : bool;
-    public function isAdministeringSchool($schoolId) : bool;
-    public function isDirectingCourseInSchool($schoolId) : bool;
-    public function isAdministeringCourseInSchool($schoolId) : bool;
-    public function isAdministeringSessionInSchool($schoolId) : bool;
-    public function isTeachingCourseInSchool($schoolId) : bool;
-    public function isTeachingCourse($courseId) : bool;
-    public function canReadCourse($courseId, $schoolId) : bool;
-    public function isAdministeringSessionInCourse($courseId) : bool;
+    public function isDirectingSchool(int $schoolId) : bool;
+    public function isAdministeringSchool(int $schoolId) : bool;
+    public function isDirectingCourseInSchool(int $schoolId) : bool;
+    public function isAdministeringCourseInSchool(int $schoolId) : bool;
+    public function isAdministeringSessionInSchool(int $schoolId) : bool;
+    public function isTeachingCourseInSchool(int $schoolId) : bool;
+    public function isTeachingCourse(int $courseId) : bool;
+    public function canReadCourse(int $courseId, int $schoolId) : bool;
+    public function canCreateCourse(int $schoolId) : bool;
+    public function canUpdateCourse(int $courseId, int $schoolId) : bool;
+    public function canDeleteCourse(int $courseId, int $schoolId) : bool;
+    public function isAdministeringSessionInCourse(int $courseId) : bool;
 }
