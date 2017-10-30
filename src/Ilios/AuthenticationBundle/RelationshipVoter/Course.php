@@ -6,30 +6,9 @@ use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\DTO\CourseDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class Course extends Voter
+class Course extends AbstractVoter
 {
-    /**
-     * @var string
-     */
-    const VIEW = 'view';
-
-    /**
-     * @var string
-     */
-    const EDIT = 'edit';
-
-    /**
-     * @var string
-     */
-    const DELETE = 'delete';
-
-    /**
-     * @var string
-     */
-    const CREATE = 'create';
-
     protected function supports($attribute, $subject)
     {
         return (
@@ -79,7 +58,7 @@ class Course extends Voter
                 return $sessionUser->canUpdateCourse($course->getId(), $course->getSchool()->getId());
                 break;
             case self::DELETE:
-                throw new \Exception($attribute . ' attribute not implemented yet');
+                return $sessionUser->canDeleteCourse($course->getId(), $course->getSchool()->getId());
                 break;
         }
 
