@@ -73,7 +73,11 @@ class Course extends Voter
                 return $sessionUser->canReadCourse($course->getId(), $course->getSchool()->getId());
                 break;
             case self::CREATE:
+                return $sessionUser->canCreateCourse($course->getSchool()->getId());
+                break;
             case self::EDIT:
+                return $sessionUser->canUpdateCourse($course->getId(), $course->getSchool()->getId());
+                break;
             case self::DELETE:
                 throw new \Exception($attribute . ' attribute not implemented yet');
                 break;
