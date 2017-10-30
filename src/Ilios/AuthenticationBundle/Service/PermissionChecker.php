@@ -12,7 +12,17 @@ class PermissionChecker
     /** @var string */
     const CAN_READ_ALL_COURSES = 'canReadAllCourses';
     /** @var string */
+    const CAN_UPDATE_ALL_COURSES = 'canUpdateAllCourses';
+    /** @var string */
+    const CAN_DELETE_ALL_COURSES = 'canDeleteAllCourses';
+    /** @var string */
+    const CAN_CREATE_COURSES = 'canCreateCourses';
+    /** @var string */
     const CAN_READ_THEIR_COURSES = 'canReadTheirCourses';
+    /** @var string */
+    const CAN_UPDATE_THEIR_COURSES = 'canUpdateTheirCourses';
+    /** @var string */
+    const CAN_DELETE_THEIR_COURSES = 'canDeleteTheirCourses';
     /**
      * @var SchoolManager
      */
@@ -38,8 +48,41 @@ class PermissionChecker
                 UserRoles::COURSE_ADMINISTRATOR,
                 UserRoles::SESSION_ADMINISTRATOR,
             ];
+            $arr[self::CAN_UPDATE_ALL_COURSES] = [
+                UserRoles::SCHOOL_DIRECTOR,
+                UserRoles::SCHOOL_ADMINISTRATOR,
+                UserRoles::COURSE_DIRECTOR,
+                UserRoles::COURSE_ADMINISTRATOR,
+                UserRoles::SESSION_ADMINISTRATOR,
+            ];
+            $arr[self::CAN_CREATE_COURSES] = [
+                UserRoles::SCHOOL_DIRECTOR,
+                UserRoles::SCHOOL_ADMINISTRATOR,
+                UserRoles::COURSE_DIRECTOR,
+                UserRoles::COURSE_ADMINISTRATOR,
+                UserRoles::SESSION_ADMINISTRATOR,
+            ];
+            $arr[self::CAN_DELETE_ALL_COURSES] = [
+                UserRoles::SCHOOL_DIRECTOR,
+                UserRoles::SCHOOL_ADMINISTRATOR,
+                UserRoles::COURSE_DIRECTOR,
+                UserRoles::COURSE_ADMINISTRATOR,
+                UserRoles::SESSION_ADMINISTRATOR,
+            ];
 
             $arr[self::CAN_READ_THEIR_COURSES] = [
+                UserRoles::SCHOOL_DIRECTOR,
+                UserRoles::SCHOOL_ADMINISTRATOR,
+                UserRoles::COURSE_DIRECTOR,
+                UserRoles::COURSE_ADMINISTRATOR,
+            ];
+            $arr[self::CAN_UPDATE_THEIR_COURSES] = [
+                UserRoles::SCHOOL_DIRECTOR,
+                UserRoles::SCHOOL_ADMINISTRATOR,
+                UserRoles::COURSE_DIRECTOR,
+                UserRoles::COURSE_ADMINISTRATOR,
+            ];
+            $arr[self::CAN_DELETE_THEIR_COURSES] = [
                 UserRoles::SCHOOL_DIRECTOR,
                 UserRoles::SCHOOL_ADMINISTRATOR,
                 UserRoles::COURSE_DIRECTOR,
@@ -69,7 +112,7 @@ class PermissionChecker
         $permittedRoles = $schoolPermissions[$capability];
 
         $hasPermission = false;
-        while(!$hasPermission && !empty($roles)) {
+        while (!$hasPermission && !empty($roles)) {
             $role = array_pop($roles);
             $hasPermission = in_array($role, $permittedRoles);
         }
