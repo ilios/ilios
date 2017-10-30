@@ -495,8 +495,5 @@ interface UserInterface extends
      */
     public function isRoot();
 
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getInstructedCourses();
+    public function getInstructedCourses() : ArrayCollection;
 }
