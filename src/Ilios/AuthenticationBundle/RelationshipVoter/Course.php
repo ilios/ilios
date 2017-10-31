@@ -12,10 +12,10 @@ class Course extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return (
-            $subject instanceof CourseDTO && in_array($attribute, [self::VIEW]) or
-            $subject instanceof CourseInterface && in_array($attribute, [
+            ($subject instanceof CourseDTO && in_array($attribute, [self::VIEW])) or
+            ($subject instanceof CourseInterface && in_array($attribute, [
                 self::CREATE, self::VIEW, self::EDIT, self::DELETE
-            ])
+            ]))
         );
     }
 
@@ -42,23 +42,35 @@ class Course extends AbstractVoter
 
     protected function voteOnDTO(SessionUserInterface $sessionUser, CourseDTO $course): bool
     {
-        return $sessionUser->canReadCourse($course->id, $course->school);
+        return $this->permissionChecker->canReadCourse($sessionUser, $course->id, $course->school);
     }
 
     protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, CourseInterface $course): bool
     {
         switch ($attribute) {
             case self::VIEW:
-                return $sessionUser->canReadCourse($course->getId(), $course->getSchool()->getId());
+                return $this->permissionChecker->canReadCourse(
+                    $sessionUser,
+                    $course->getId(),
+                    $course->getSchool()->getId()
+                );
                 break;
             case self::CREATE:
-                return $sessionUser->canCreateCourse($course->getSchool()->getId());
+                return $this->permissionChecker->canCreateCourse($sessionUser, $course->getSchool()->getId());
                 break;
             case self::EDIT:
-                return $sessionUser->canUpdateCourse($course->getId(), $course->getSchool()->getId());
+                return $this->permissionChecker->canUpdateCourse(
+                    $sessionUser,
+                    $course->getId(),
+                    $course->getSchool()->getId()
+                );
                 break;
             case self::DELETE:
-                return $sessionUser->canDeleteCourse($course->getId(), $course->getSchool()->getId());
+                return $this->permissionChecker->canDeleteCourse(
+                    $sessionUser,
+                    $course->getId(),
+                    $course->getSchool()->getId()
+                );
                 break;
         }
 
