@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Service;
 
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Classes\UserRoles;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
@@ -118,5 +119,85 @@ class PermissionChecker
         }
 
         return $hasPermission;
+    }
+
+    public function canReadCourse(SessionUserInterface $sessionUser, int $courseId, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_ALL_COURSES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInCourse = $sessionUser->rolesInCourse($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_THEIR_COURSES,
+            $rolesInCourse
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateCourse(SessionUserInterface $sessionUser, int $courseId, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_ALL_COURSES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInCourse = $sessionUser->rolesInCourse($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_THEIR_COURSES,
+            $rolesInCourse
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteCourse(SessionUserInterface $sessionUser, int $courseId, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_ALL_COURSES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInCourse = $sessionUser->rolesInCourse($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_THEIR_COURSES,
+            $rolesInCourse
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateCourse(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_COURSES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
     }
 }
