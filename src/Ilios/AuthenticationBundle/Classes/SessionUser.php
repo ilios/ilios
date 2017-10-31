@@ -119,14 +119,8 @@ class SessionUser implements SessionUserInterface
      * @var array
      */
     protected $taughtCourseSchoolIds;
-
-    /**
-     * @var PermissionChecker
-     */
-    private $permissionChecker;
-
-
-    public function __construct(IliosUserInterface $user, PermissionChecker $permissionChecker)
+    
+    public function __construct(IliosUserInterface $user)
     {
         $this->roleTitles = $user->getRoles()->map(function (UserRoleInterface $role) {
             return $role->getTitle();
@@ -212,7 +206,6 @@ class SessionUser implements SessionUserInterface
         }
 
         $this->permissions = $permissions;
-        $this->permissionChecker = $permissionChecker;
     }
 
     /**
@@ -533,7 +526,7 @@ class SessionUser implements SessionUserInterface
         return in_array($courseId, $this->taughtCourseIds);
     }
 
-    protected function rolesInSchool(int $schoolId) : array
+    public function rolesInSchool(int $schoolId) : array
     {
         $roles = [];
         if ($this->isDirectingSchool($schoolId)) {
@@ -558,7 +551,7 @@ class SessionUser implements SessionUserInterface
         return $roles;
     }
 
-    protected function rolesInCourse(int $courseId) : array
+    public function rolesInCourse(int $courseId) : array
     {
         $roles = [];
 
@@ -576,85 +569,5 @@ class SessionUser implements SessionUserInterface
         }
 
         return $roles;
-    }
-
-    public function canReadCourse(int $courseId, int $schoolId) : bool
-    {
-        $rolesInSchool = $this->rolesInSchool($schoolId);
-        if ($this->permissionChecker->hasPermission(
-            $schoolId,
-            PermissionChecker::CAN_READ_ALL_COURSES,
-            $rolesInSchool
-        )) {
-            return true;
-        }
-        $rolesInCourse = $this->rolesInCourse($schoolId);
-        if ($this->permissionChecker->hasPermission(
-            $schoolId,
-            PermissionChecker::CAN_READ_THEIR_COURSES,
-            $rolesInCourse
-        )) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function canUpdateCourse(int $courseId, int $schoolId) : bool
-    {
-        $rolesInSchool = $this->rolesInSchool($schoolId);
-        if ($this->permissionChecker->hasPermission(
-            $schoolId,
-            PermissionChecker::CAN_UPDATE_ALL_COURSES,
-            $rolesInSchool
-        )) {
-            return true;
-        }
-        $rolesInCourse = $this->rolesInCourse($schoolId);
-        if ($this->permissionChecker->hasPermission(
-            $schoolId,
-            PermissionChecker::CAN_UPDATE_THEIR_COURSES,
-            $rolesInCourse
-        )) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function canDeleteCourse(int $courseId, int $schoolId) : bool
-    {
-        $rolesInSchool = $this->rolesInSchool($schoolId);
-        if ($this->permissionChecker->hasPermission(
-            $schoolId,
-            PermissionChecker::CAN_DELETE_ALL_COURSES,
-            $rolesInSchool
-        )) {
-            return true;
-        }
-        $rolesInCourse = $this->rolesInCourse($schoolId);
-        if ($this->permissionChecker->hasPermission(
-            $schoolId,
-            PermissionChecker::CAN_DELETE_THEIR_COURSES,
-            $rolesInCourse
-        )) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function canCreateCourse(int $schoolId) : bool
-    {
-        $rolesInSchool = $this->rolesInSchool($schoolId);
-        if ($this->permissionChecker->hasPermission(
-            $schoolId,
-            PermissionChecker::CAN_CREATE_COURSES,
-            $rolesInSchool
-        )) {
-            return true;
-        }
-
-        return false;
     }
 }
