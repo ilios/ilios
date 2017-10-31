@@ -159,9 +159,7 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function isAdministeringSessionInSchool(int $schoolId) : bool;
     public function isTeachingCourseInSchool(int $schoolId) : bool;
     public function isTeachingCourse(int $courseId) : bool;
-    public function canReadCourse(int $courseId, int $schoolId) : bool;
-    public function canCreateCourse(int $schoolId) : bool;
-    public function canUpdateCourse(int $courseId, int $schoolId) : bool;
-    public function canDeleteCourse(int $courseId, int $schoolId) : bool;
+    public function rolesInSchool(int $schoolId): array;
+    public function rolesInCourse(int $courseId): array;
     public function isAdministeringSessionInCourse(int $courseId) : bool;
 }
