@@ -17,21 +17,15 @@ class SessionUserProvider implements UserProviderInterface
      * @var UserManager
      */
     protected $userManager;
-    /**
-     * @var PermissionChecker
-     */
-    private $permissionChecker;
 
     /**
      * SessionUserProvider constructor.
      * @param UserManager $userManager
      */
     public function __construct(
-        UserManager $userManager,
-        PermissionChecker $permissionChecker
+        UserManager $userManager
     ) {
         $this->userManager = $userManager;
-        $this->permissionChecker = $permissionChecker;
     }
 
     public function loadUserByUsername($userId)
@@ -40,7 +34,7 @@ class SessionUserProvider implements UserProviderInterface
         $user = $this->userManager->findOneBy(['id' => $userId]);
 
         if ($user) {
-            return new SessionUser($user, $this->permissionChecker);
+            return new SessionUser($user);
         }
 
         throw new UsernameNotFoundException(
