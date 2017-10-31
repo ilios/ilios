@@ -2,7 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\AuthenticationBundle\Classes\SessionUser;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTime;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -29,6 +30,7 @@ class UsereventController extends AbstractController
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param UserManager $manager
      * @param SerializerInterface $serializer
+     * @param TokenStorageInterface $tokenStorage
      *
      * @return Response
      */
@@ -38,7 +40,8 @@ class UsereventController extends AbstractController
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
         UserManager $manager,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        TokenStorageInterface $tokenStorage
     ) {
         /** @var UserInterface $user */
         $user = $manager->findOneBy(['id' => $id]);
@@ -67,19 +70,23 @@ class UsereventController extends AbstractController
         $events = array_filter($events, function ($entity) use ($authorizationChecker) {
             return $authorizationChecker->isGranted('view', $entity);
         });
-        $sessionUser = new SessionUser($user);
+        /** @var SessionUserInterface $sessionUser */
+        $sessionUser = $tokenStorage->getToken()->getUser();
 
         $result = $manager->addInstructorsToEvents($events);
         $result = $manager->addMaterialsToEvents($result);
 
+        //Remove all draft data when not viewing your own events
         //Un-privileged users get less data
-        if (!$sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+        if ($sessionUser->getId() != $user->getId() ||
+            !$sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])
+        ) {
             $now = new \DateTime();
             /* @var UserEvent $event */
             foreach ($events as $event) {
                 $event->removeMaterialsInDraft();
                 $event->clearTimedMaterials($now);
-                $event->clearDataForScheduledEvent();
+                $event->clearDataForDraftOrScheduledEvent();
             }
         }
 

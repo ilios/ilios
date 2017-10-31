@@ -49,10 +49,10 @@ class UserEvent extends CalendarEvent
     /**
      * @inheritdoc
      */
-    public function clearDataForScheduledEvent()
+    public function clearDataForDraftOrScheduledEvent()
     {
-        parent::clearDataForScheduledEvent();
-        if ($this->isScheduled) {
+        parent::clearDataForDraftOrScheduledEvent();
+        if (!$this->isPublished || $this->isScheduled) {
             $this->courseExternalId = null;
             $this->sessionDescription = null;
             $this->sessionTitle = null;

@@ -153,13 +153,13 @@ abstract class CalendarEvent
     public $courseId;
 
     /**
-     * Clean out all the data for scheduled events
+     * Clean out all the data for draft or scheduled events
      *
      * This information is not available to un-privileged users
      */
-    public function clearDataForScheduledEvent()
+    public function clearDataForDraftOrScheduledEvent()
     {
-        if ($this->isScheduled) {
+        if (!$this->isPublished || $this->isScheduled) {
             $this->name = 'Scheduled';
             $this->courseTitle = null;
             $this->offering = null;

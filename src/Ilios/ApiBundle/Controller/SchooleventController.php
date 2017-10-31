@@ -79,7 +79,7 @@ class SchooleventController extends Controller
             foreach ($events as $event) {
                 $event->removeMaterialsInDraft();
                 $event->clearTimedMaterials($now);
-                $event->clearDataForScheduledEvent();
+                $event->clearDataForDraftOrScheduledEvent();
             }
         }
 
