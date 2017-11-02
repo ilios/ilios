@@ -2,13 +2,10 @@
 
 namespace Ilios\AuthenticationBundle\Classes;
 
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
-use Ilios\CoreBundle\Entity\CourseInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\SessionInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Ilios\CoreBundle\Entity\UserInterface as IliosUserInterface;
-use Ilios\CoreBundle\Entity\UserRoleInterface;
 use DateTime;
 
 /**
@@ -120,57 +117,21 @@ class SessionUser implements SessionUserInterface
      */
     protected $taughtCourseSchoolIds;
     
-    public function __construct(IliosUserInterface $user)
+    public function __construct(IliosUserInterface $user, UserManager $userManager)
     {
-        $this->roleTitles = $user->getRoles()->map(function (UserRoleInterface $role) {
-            return $role->getTitle();
-        })->toArray();
-
-        $this->schoolIds = $user->getAllSchools()->map(function (SchoolInterface $school) {
-            return $school->getId();
-        })->toArray();
-
-        $this->directedCourseIds = $user->getDirectedCourses()->map(function (CourseInterface $course) {
-            return $course->getId();
-        })->toArray();
-
-        $this->administeredCourseIds = $user->getAdministeredCourses()->map(function (CourseInterface $course) {
-            return $course->getId();
-        })->toArray();
-
-        $this->directedSchoolIds = $user->getDirectedSchools()->map(function (SchoolInterface $school) {
-            return $school->getId();
-        })->toArray();
-
-        $this->administeredSchoolIds = $user->getAdministeredSchools()->map(function (SchoolInterface $school) {
-            return $school->getId();
-        })->toArray();
-
-        $this->directedCourseSchoolIds = $user->getDirectedCourses()->map(function (CourseInterface $course) {
-            return $course->getSchool()->getId();
-        })->toArray();
-
-        $this->administeredCourseSchoolIds = $user->getAdministeredCourses()->map(function (CourseInterface $course) {
-            return $course->getSchool()->getId();
-        })->toArray();
-
-        $this->administeredSessionSchoolIds = $user->getAdministeredSessions()
-            ->map(function (SessionInterface $session) {
-                return $session->getCourse()->getSchool()->getId();
-            })->toArray();
-
-        $this->administeredSessionCourseIds = $user->getAdministeredSessions()
-            ->map(function (SessionInterface $session) {
-                return $session->getCourse()->getId();
-            })->toArray();
-
-        $this->taughtCourseIds = $user->getInstructedCourses()->map(function (CourseInterface $course) {
-            return $course->getId();
-        })->toArray();
-
-        $this->taughtCourseSchoolIds = $user->getInstructedCourses()->map(function (CourseInterface $course) {
-            return $course->getSchool()->getId();
-        })->toArray();
+        $relationships = $userManager->buildSessionRelationships($user->getId());
+        $this->roleTitles = $relationships['roleTitles'];
+        $this->schoolIds = $relationships['schoolIds'];
+        $this->directedCourseIds = $relationships['directedCourseIds'];
+        $this->administeredCourseIds = $relationships['administeredCourseIds'];
+        $this->directedSchoolIds = $relationships['directedSchoolIds'];
+        $this->administeredSchoolIds = $relationships['administeredSchoolIds'];
+        $this->directedCourseSchoolIds = $relationships['directedCourseSchoolIds'];
+        $this->administeredCourseSchoolIds = $relationships['administeredCourseSchoolIds'];
+        $this->administeredSessionSchoolIds = $relationships['administeredSessionSchoolIds'];
+        $this->administeredSessionCourseIds = $relationships['administeredSessionCourseIds'];
+        $this->taughtCourseIds = $relationships['taughtCourseIds'];
+        $this->taughtCourseSchoolIds = $relationships['taughtCourseSchoolIds'];
 
         $this->userId = $user->getId();
         $this->isRoot = $user->isRoot();

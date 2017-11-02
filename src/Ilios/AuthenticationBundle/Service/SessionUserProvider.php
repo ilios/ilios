@@ -34,7 +34,7 @@ class SessionUserProvider implements UserProviderInterface
         $user = $this->userManager->findOneBy(['id' => $userId]);
 
         if ($user) {
-            return new SessionUser($user);
+            return new SessionUser($user, $this->userManager);
         }
 
         throw new UsernameNotFoundException(
