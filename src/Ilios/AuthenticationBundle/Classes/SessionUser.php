@@ -115,6 +115,16 @@ class SessionUser implements SessionUserInterface
     /**
      * @var array
      */
+    protected $administeredSessionIds;
+
+    /**
+     * @var array
+     */
+    protected $instructedSessionIds;
+
+    /**
+     * @var array
+     */
     protected $taughtCourseSchoolIds;
     
     public function __construct(IliosUserInterface $user, UserManager $userManager)
@@ -132,6 +142,8 @@ class SessionUser implements SessionUserInterface
         $this->administeredSessionCourseIds = $relationships['administeredSessionCourseIds'];
         $this->taughtCourseIds = $relationships['taughtCourseIds'];
         $this->taughtCourseSchoolIds = $relationships['taughtCourseSchoolIds'];
+        $this->administeredSessionIds = $relationships['administeredSessionIds'];
+        $this->instructedSessionIds = $relationships['instructedSessionIds'];
 
         $this->userId = $user->getId();
         $this->isRoot = $user->isRoot();
@@ -487,6 +499,16 @@ class SessionUser implements SessionUserInterface
         return in_array($courseId, $this->taughtCourseIds);
     }
 
+    public function isAdministeringSession(int $sessionId) : bool
+    {
+        return in_array($sessionId, $this->administeredSessionIds);
+    }
+
+    public function isTeachingSession(int $sessionId) : bool
+    {
+        return in_array($sessionId, $this->instructedSessionIds);
+    }
+
     public function rolesInSchool(int $schoolId) : array
     {
         $roles = [];
@@ -527,6 +549,20 @@ class SessionUser implements SessionUserInterface
         }
         if ($this->isTeachingCourse($courseId)) {
             $roles[] = UserRoles::COURSE_INSTRUCTOR;
+        }
+
+        return $roles;
+    }
+
+    public function rolesInSession(int $sessionId) : array
+    {
+        $roles = [];
+
+        if ($this->isAdministeringSession($sessionId)) {
+            $roles[] = UserRoles::SESSION_ADMINISTRATOR;
+        }
+        if ($this->isTeachingSession($sessionId)) {
+            $roles[] = UserRoles::SESSION_INSTRUCTOR;
         }
 
         return $roles;
