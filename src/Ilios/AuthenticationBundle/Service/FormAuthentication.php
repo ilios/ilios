@@ -2,6 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
+use Ilios\AuthenticationBundle\Classes\SessionUser;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -35,7 +37,12 @@ class FormAuthentication implements AuthenticationInterface
      * @var JsonWebTokenManager
      */
     protected $jwtManager;
-    
+
+    /**
+     * @var UserManager
+     */
+    protected $userManager;
+
     /**
     * Constructor
     * @param AuthenticationManager $authManager
@@ -45,6 +52,7 @@ class FormAuthentication implements AuthenticationInterface
     */
     public function __construct(
         AuthenticationManager $authManager,
+        UserManager $userManager,
         UserPasswordEncoderInterface $encoder,
         TokenStorageInterface $tokenStorage,
         JsonWebTokenManager $jwtManager
@@ -53,6 +61,7 @@ class FormAuthentication implements AuthenticationInterface
         $this->encoder = $encoder;
         $this->tokenStorage = $tokenStorage;
         $this->jwtManager = $jwtManager;
+        $this->userManager = $userManager;
     }
     
     /**
@@ -89,7 +98,7 @@ class FormAuthentication implements AuthenticationInterface
         if ($username && $password) {
             $authEntity = $this->authManager->findAuthenticationByUsername($username);
             if ($authEntity) {
-                $sessionUser = $authEntity->getSessionUser();
+                $sessionUser = new SessionUser($authEntity->getUser(), $this->userManager);
                 if ($sessionUser->isEnabled()) {
                     $passwordValid = $this->encoder->isPasswordValid($sessionUser, $password);
                     if ($passwordValid) {
@@ -142,7 +151,7 @@ class FormAuthentication implements AuthenticationInterface
             $this->tokenStorage->setToken($authenticatedToken);
             
             $authEntity->setPasswordSha256(null);
-            $sessionUser = $authEntity->getSessionUser();
+            $sessionUser = $sessionUser = new SessionUser($authEntity->getUser(), $this->userManager);
             $encodedPassword = $this->encoder->encodePassword($sessionUser, $password);
             $authEntity->setPasswordBcrypt($encodedPassword);
             $this->authManager->update($authEntity);
