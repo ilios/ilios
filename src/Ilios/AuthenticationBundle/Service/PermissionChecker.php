@@ -24,6 +24,20 @@ class PermissionChecker
     const CAN_UPDATE_THEIR_COURSES = 'canUpdateTheirCourses';
     /** @var string */
     const CAN_DELETE_THEIR_COURSES = 'canDeleteTheirCourses';
+    /** @var string */
+    const CAN_READ_ALL_SESSIONS = 'canReadAllSessions';
+    /** @var string */
+    const CAN_UPDATE_ALL_SESSIONS = 'canUpdateAllSessions';
+    /** @var string */
+    const CAN_DELETE_ALL_SESSIONS = 'canDeleteAllSessions';
+    /** @var string */
+    const CAN_CREATE_SESSIONS = 'canCreateSessions';
+    /** @var string */
+    const CAN_READ_THEIR_SESSIONS = 'canReadTheirSessions';
+    /** @var string */
+    const CAN_UPDATE_THEIR_SESSIONS = 'canUpdateTheirSessions';
+    /** @var string */
+    const CAN_DELETE_THEIR_SESSIONS = 'canDeleteTheirSessions';
     /**
      * @var SchoolManager
      */
@@ -42,53 +56,32 @@ class PermissionChecker
         /** @var SchoolDTO $schoolDto */
         foreach ($schoolDtos as $schoolDto) {
             $arr = [];
-            $arr[self::CAN_READ_ALL_COURSES] = [
+            $allRoles = [
                 UserRoles::SCHOOL_DIRECTOR,
                 UserRoles::SCHOOL_ADMINISTRATOR,
                 UserRoles::COURSE_DIRECTOR,
                 UserRoles::COURSE_ADMINISTRATOR,
                 UserRoles::SESSION_ADMINISTRATOR,
+                UserRoles::COURSE_INSTRUCTOR,
+                UserRoles::SESSION_INSTRUCTOR,
             ];
-            $arr[self::CAN_UPDATE_ALL_COURSES] = [
-                UserRoles::SCHOOL_DIRECTOR,
-                UserRoles::SCHOOL_ADMINISTRATOR,
-                UserRoles::COURSE_DIRECTOR,
-                UserRoles::COURSE_ADMINISTRATOR,
-                UserRoles::SESSION_ADMINISTRATOR,
-            ];
-            $arr[self::CAN_CREATE_COURSES] = [
-                UserRoles::SCHOOL_DIRECTOR,
-                UserRoles::SCHOOL_ADMINISTRATOR,
-                UserRoles::COURSE_DIRECTOR,
-                UserRoles::COURSE_ADMINISTRATOR,
-                UserRoles::SESSION_ADMINISTRATOR,
-            ];
-            $arr[self::CAN_DELETE_ALL_COURSES] = [
-                UserRoles::SCHOOL_DIRECTOR,
-                UserRoles::SCHOOL_ADMINISTRATOR,
-                UserRoles::COURSE_DIRECTOR,
-                UserRoles::COURSE_ADMINISTRATOR,
-                UserRoles::SESSION_ADMINISTRATOR,
-            ];
+            $arr[self::CAN_READ_ALL_COURSES] = $allRoles;
+            $arr[self::CAN_UPDATE_ALL_COURSES] = $allRoles;
+            $arr[self::CAN_CREATE_COURSES] = $allRoles;
+            $arr[self::CAN_DELETE_ALL_COURSES] = $allRoles;
 
-            $arr[self::CAN_READ_THEIR_COURSES] = [
-                UserRoles::SCHOOL_DIRECTOR,
-                UserRoles::SCHOOL_ADMINISTRATOR,
-                UserRoles::COURSE_DIRECTOR,
-                UserRoles::COURSE_ADMINISTRATOR,
-            ];
-            $arr[self::CAN_UPDATE_THEIR_COURSES] = [
-                UserRoles::SCHOOL_DIRECTOR,
-                UserRoles::SCHOOL_ADMINISTRATOR,
-                UserRoles::COURSE_DIRECTOR,
-                UserRoles::COURSE_ADMINISTRATOR,
-            ];
-            $arr[self::CAN_DELETE_THEIR_COURSES] = [
-                UserRoles::SCHOOL_DIRECTOR,
-                UserRoles::SCHOOL_ADMINISTRATOR,
-                UserRoles::COURSE_DIRECTOR,
-                UserRoles::COURSE_ADMINISTRATOR,
-            ];
+            $arr[self::CAN_READ_THEIR_COURSES] = $allRoles;
+            $arr[self::CAN_UPDATE_THEIR_COURSES] = $allRoles;
+            $arr[self::CAN_DELETE_THEIR_COURSES] = $allRoles;
+
+            $arr[self::CAN_READ_ALL_SESSIONS] = $allRoles;
+            $arr[self::CAN_UPDATE_ALL_SESSIONS] = $allRoles;
+            $arr[self::CAN_CREATE_SESSIONS] = $allRoles;
+            $arr[self::CAN_DELETE_ALL_SESSIONS] = $allRoles;
+
+            $arr[self::CAN_READ_THEIR_SESSIONS] = $allRoles;
+            $arr[self::CAN_UPDATE_THEIR_SESSIONS] = $allRoles;
+            $arr[self::CAN_DELETE_THEIR_SESSIONS] = $allRoles;
 
             $this->matrix[$schoolDto->id] = $arr;
         }
@@ -131,7 +124,7 @@ class PermissionChecker
         )) {
             return true;
         }
-        $rolesInCourse = $sessionUser->rolesInCourse($schoolId);
+        $rolesInCourse = $sessionUser->rolesInCourse($courseId);
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_READ_THEIR_COURSES,
@@ -153,7 +146,7 @@ class PermissionChecker
         )) {
             return true;
         }
-        $rolesInCourse = $sessionUser->rolesInCourse($schoolId);
+        $rolesInCourse = $sessionUser->rolesInCourse($courseId);
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_UPDATE_THEIR_COURSES,
@@ -175,7 +168,7 @@ class PermissionChecker
         )) {
             return true;
         }
-        $rolesInCourse = $sessionUser->rolesInCourse($schoolId);
+        $rolesInCourse = $sessionUser->rolesInCourse($courseId);
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_DELETE_THEIR_COURSES,
@@ -199,5 +192,100 @@ class PermissionChecker
         }
 
         return false;
+    }
+
+    public function canReadSession(
+        SessionUserInterface $sessionUser,
+        int $courseId,
+        int $sessionId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_ALL_SESSIONS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInSession = $sessionUser->rolesInSession($sessionId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_THEIR_SESSIONS,
+            $rolesInSession
+        )) {
+            return true;
+        }
+
+        return $this->canReadCourse($sessionUser, $courseId, $schoolId);
+    }
+
+    public function canUpdateSession(
+        SessionUserInterface $sessionUser,
+        int $courseId,
+        int $sessionId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_ALL_SESSIONS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInSession = $sessionUser->rolesInSession($sessionId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_THEIR_SESSIONS,
+            $rolesInSession
+        )) {
+            return true;
+        }
+
+        return $this->canUpdateCourse($sessionUser, $courseId, $schoolId);
+    }
+
+    public function canDeleteSession(
+        SessionUserInterface $sessionUser,
+        int $courseId,
+        int $sessionId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_ALL_SESSIONS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInSession = $sessionUser->rolesInSession($sessionId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_THEIR_SESSIONS,
+            $rolesInSession
+        )) {
+            return true;
+        }
+
+        return $this->canUpdateCourse($sessionUser, $courseId, $schoolId);
+    }
+
+    public function canCreateSession(
+        SessionUserInterface $sessionUser,
+        int $courseId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_SESSIONS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return $this->canUpdateCourse($sessionUser, $courseId, $schoolId);
     }
 }
