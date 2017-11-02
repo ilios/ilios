@@ -9,8 +9,12 @@ use Doctrine\DBAL\Types\Type as DoctrineType;
 use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Classes\UserMaterial;
+use Ilios\CoreBundle\Entity\Course;
+use Ilios\CoreBundle\Entity\Session;
+use Ilios\CoreBundle\Entity\User;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\DTO\UserDTO;
+use Ilios\CoreBundle\Entity\UserRole;
 use Ilios\CoreBundle\Service\UserMaterialFactory;
 
 /**
@@ -1155,5 +1159,204 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->distinct();
 
         return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * Construct the relationships graph needed for authorization in SessionUser
+     * @param int $userId
+     * @return array
+     */
+    public function buildSessionRelationships(int $userId): array
+    {
+        $sessionUserRelationships = [];
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('r.title')->from(UserRole::class, 'r');
+        $qb->join('r.users', 'u');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $sessionUserRelationships['roleTitles'] = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id')->from(User::class, 'u');
+        $qb->join('u.cohorts', 'cohorts');
+        $qb->join('cohorts.programYear', 'programYear');
+        $qb->join('programYear.program', 'program');
+        $qb->join('program.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $cohortSchoolIds = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id')->from(User::class, 'u');
+        $qb->join('u.directedSchools', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $sessionUserRelationships['directedSchoolIds'] = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id')->from(User::class, 'u');
+        $qb->join('u.administeredSchools', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $sessionUserRelationships['administeredSchoolIds'] = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id as schoolId, courses.id as courseId')->from(User::class, 'u');
+        $qb->join('u.directedCourses', 'courses');
+        $qb->join('courses.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+
+        $sessionUserRelationships['directedCourseSchoolIds'] = [];
+        $sessionUserRelationships['directedCourseIds'] = [];
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $sessionUserRelationships['directedCourseSchoolIds'][] = $arr['schoolId'];
+            $sessionUserRelationships['directedCourseIds'][] = $arr['courseId'];
+        }
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id as schoolId, courses.id as courseId')->from(User::class, 'u');
+        $qb->join('u.administeredCourses', 'courses');
+        $qb->join('courses.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+
+        $sessionUserRelationships['administeredCourseSchoolIds'] = [];
+        $sessionUserRelationships['administeredCourseIds'] = [];
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $sessionUserRelationships['administeredCourseSchoolIds'][] = $arr['schoolId'];
+            $sessionUserRelationships['administeredCourseIds'][] = $arr['courseId'];
+        }
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id as schoolId, course.id as courseId, session.id as sessionId');
+        $qb->from(User::class, 'u');
+        $qb->join('u.administeredSessions', 'session');
+        $qb->join('session.course', 'course');
+        $qb->join('course.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+
+        $sessionUserRelationships['administeredSessionSchoolIds'] = [];
+        $sessionUserRelationships['administeredSessionCourseIds'] = [];
+        $sessionUserRelationships['administeredSessionIds'] = [];
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $sessionUserRelationships['administeredSessionSchoolIds'][] = $arr['schoolId'];
+            $sessionUserRelationships['administeredSessionCourseIds'][] = $arr['courseId'];
+            $sessionUserRelationships['administeredSessionIds'][] = $arr['sessionId'];
+        }
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id')->from(User::class, 'u');
+        $qb->join('u.learnerGroups', 'learnerGroups');
+        $qb->join('learnerGroups.cohort', 'cohort');
+        $qb->join('cohort.programYear', 'programYear');
+        $qb->join('programYear.program', 'program');
+        $qb->join('program.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $learnerGroupSchoolIds = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id')->from(User::class, 'u');
+        $qb->join('u.instructedLearnerGroups', 'instructedLearnerGroups');
+        $qb->join('instructedLearnerGroups.cohort', 'cohort');
+        $qb->join('cohort.programYear', 'programYear');
+        $qb->join('programYear.program', 'program');
+        $qb->join('program.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $instructedLearnerGroupSchoolIds = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id')->from(User::class, 'u');
+        $qb->join('u.instructorGroups', 'instructorGroup');
+        $qb->join('instructorGroup.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $instructorGroupSchoolIds = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('session.id')->from(User::class, 'u');
+        $qb->join('u.instructorGroups', 'instructorGroup');
+        $qb->join('instructorGroup.offerings', 'offerings');
+        $qb->join('offerings.session', 'session');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $sessionUserRelationships['instructedSessionIds'] = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('session.id as sessionId')->from(User::class, 'u');
+        $qb->join('u.instructorGroups', 'instructorGroup');
+        $qb->join('instructorGroup.ilmSessions', 'ilmSessions');
+        $qb->join('ilmSessions.session', 'session');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $sessionUserRelationships['instructedSessionIds'][] = $arr['sessionId'];
+        }
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('session.id')->from(User::class, 'u');
+        $qb->join('u.instructedOfferings', 'offerings');
+        $qb->join('offerings.session', 'session');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $sessionUserRelationships['instructedSessionIds'][] = $arr['id'];
+        }
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id as schoolId, session.id as sessionId')->from(User::class, 'u');
+        $qb->join('u.instructorIlmSessions', 'ilmSession');
+        $qb->join('ilmSession.session', 'session');
+        $qb->join('session.course', 'course');
+        $qb->join('course.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $instructorIlmSessionSchoolIds = [];
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $sessionUserRelationships['instructedSessionIds'][] = $arr['sessionId'];
+            $instructorIlmSessionSchoolIds[] = $arr['schoolId'];
+        }
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('course.id AS courseId, school.id AS schoolId')->from(Session::class, 'session');
+        $qb->join('session.course', 'course');
+        $qb->join('course.school', 'school');
+        $qb->andWhere($qb->expr()->in('session.id', ':sessionIds'));
+        $qb->setParameter(':sessionIds', $sessionUserRelationships['instructedSessionIds']);
+
+        $sessionUserRelationships['taughtCourseIds'] = [];
+        $sessionUserRelationships['taughtCourseSchoolIds'] = [];
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $sessionUserRelationships['taughtCourseIds'][] = $arr['courseId'];
+            $sessionUserRelationships['taughtCourseSchoolIds'][] = $arr['schoolId'];
+        }
+
+        $sessionUserRelationships['schoolIds'] = array_merge(
+            $cohortSchoolIds,
+            $sessionUserRelationships['directedSchoolIds'],
+            $sessionUserRelationships['administeredSchoolIds'],
+            $sessionUserRelationships['directedCourseSchoolIds'],
+            $sessionUserRelationships['administeredCourseSchoolIds'],
+            $sessionUserRelationships['administeredSessionSchoolIds'],
+            $sessionUserRelationships['taughtCourseSchoolIds'],
+            $learnerGroupSchoolIds,
+            $instructedLearnerGroupSchoolIds,
+            $instructorGroupSchoolIds,
+            $instructorIlmSessionSchoolIds
+        );
+        
+        return $sessionUserRelationships;
+    }
+
+    protected function flattenArray(array $arr): array
+    {
+        if (!count($arr)) {
+            return [];
+        }
+        return array_values(array_merge(...$arr));
     }
 }
