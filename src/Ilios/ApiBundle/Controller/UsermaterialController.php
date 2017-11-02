@@ -2,8 +2,10 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\AuthenticationBundle\Classes\SessionUser;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Classes\UserMaterial;
+use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTime;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -28,6 +31,7 @@ class UsermaterialController extends AbstractController
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param UserManager $manager
      * @param SerializerInterface $serializer
+     * @param TokenStorageInterface $tokenStorage
      *
      * @return Response
      */
@@ -37,7 +41,8 @@ class UsermaterialController extends AbstractController
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
         UserManager $manager,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        TokenStorageInterface $tokenStorage
     ) {
         /** @var UserInterface $user */
         $user = $manager->findOneBy(['id' => $id]);
@@ -66,11 +71,16 @@ class UsermaterialController extends AbstractController
             return $authorizationChecker->isGranted('view', $entity);
         });
 
-        $sessionUser = new SessionUser($user);
+        /** @var SessionUserInterface $sessionUser */
+        $sessionUser = $tokenStorage->getToken()->getUser();
 
+        //Remove all draft data when not viewing your own events
         //Un-privileged users get less data
-        if (!$sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+        if ($sessionUser->getId() != $user->getId() ||
+            !$sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])
+        ) {
             $now = new \DateTime();
+            $materials = $this->clearDraftMaterials($materials);
             $this->clearTimedMaterials($materials, $now);
         }
 
@@ -93,5 +103,22 @@ class UsermaterialController extends AbstractController
         foreach ($materials as $material) {
             $material->clearTimedMaterial($dateTime);
         }
+    }
+
+    /**
+     * @param UserMaterial[] $materials
+     *
+     * @return array;
+     */
+    protected function clearDraftMaterials(array $materials) : array
+    {
+        $publishedMaterials = [];
+        foreach ($materials as $material) {
+            if ($material->status !== LearningMaterialStatusInterface::IN_DRAFT) {
+                $publishedMaterials[] = $material;
+            }
+        }
+
+        return $publishedMaterials;
     }
 }

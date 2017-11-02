@@ -556,6 +556,16 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[0]['offering'], $offerings[5]['id']);
     }
 
+    public function testWhenViewingAnotherUsersEventsOnlyPublishedShows()
+    {
+        $userId = 1;
+        $from = new DateTime('2015-01-01 00:00:00');
+        $to = new DateTime('2015-02-30 23:59:59');
+
+        $events = $this->getEvents($userId, $from->getTimestamp(), $to->getTimestamp());
+        $this->assertEquals(0, count($events), 'Expected events returned');
+    }
+
     protected function getEvents($userId, $from, $to)
     {
         $parameters = [
