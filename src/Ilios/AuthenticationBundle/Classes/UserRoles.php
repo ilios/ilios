@@ -18,6 +18,8 @@ interface UserRoles
     /** @var string */
     const SESSION_ADMINISTRATOR = 'sessionAdministrator';
     /** @var string */
+    const SESSION_INSTRUCTOR = 'sessionInstructor';
+    /** @var string */
     const SCHOOL_ADMINISTRATOR = 'schoolAdministrator';
     /** @var string */
     const SCHOOL_DIRECTOR = 'schoolDirector';
