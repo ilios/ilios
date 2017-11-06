@@ -8,6 +8,9 @@
  * - $metas:    Array of meta tags to create
  * - $links:    Array of link tags to create
  * - $scripts:  Array of script tags to create
+ * - $styles:  Array of style tags to create
+ * - $noScripts:  Array of noscript tags to create
+ * - $divs:  Array of divs to create
  */
 #}
 
@@ -35,7 +38,11 @@
     {% endfor %}
 
     {% for l in links %}
-        <link rel="{{ l.rel }}" href="{{ preload(asset(l.href), { as: 'style' }) }}" />
+        {% if l.preload %}
+            <link rel="{{ l.rel }}" href="{{ preload(asset(l.href), { as: 'style' }) }}" type="{{  l.type }}" sizes="{{  l.sizes }}"  />
+        {% else %}
+            <link rel="{{ l.rel }}" href="{{ l.href }}" type="{{  l.type }}" sizes="{{  l.sizes }}"  />
+        {% endif %}
     {% endfor %}
     <link rel="stylesheet" href="{{ preload(asset('theme-overrides/custom.css'), { as: 'style'}) }}" />
 </head>

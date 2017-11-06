@@ -160,7 +160,10 @@ class IndexController extends Controller
         $links = array_map(function ($obj) {
             return [
                 'rel' => $obj->rel,
-                'href' => ltrim($obj->href, '/')
+                'preload' => $obj->rel === 'stylesheet',
+                'href' => ltrim($obj->href, '/'),
+                'sizes' => property_exists($obj, 'sizes')?$obj->sizes:null,
+                'type' => property_exists($obj, 'type')?$obj->type:null,
             ];
         }, $json->link);
 
