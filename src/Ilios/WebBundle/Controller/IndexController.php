@@ -2,6 +2,7 @@
 
 namespace Ilios\WebBundle\Controller;
 
+use Http\Discovery\Exception\NotFoundException;
 use Ilios\CoreBundle\Service\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -81,6 +82,7 @@ class IndexController extends Controller
             $templatePath = $this->getTemplatePath();
 
             $content = $this->templatingEngine->render($templatePath, $options);
+            $content = gzencode($content);
             $file = new \SplFileObject($path, 'r');
             $lastModified = \DateTime::createFromFormat('U', $file->getMTime());
             $response = $this->responseFromString($content, $request, $lastModified);
@@ -229,8 +231,9 @@ class IndexController extends Controller
         $response->setEtag(sha1($content));
         $response->setLastModified($lastModified);
         $response->setPublic();
-        if (strpos($acceptEncoding, 'gzip') !== false) {
-            $content = gzencode($content);
+        if (strpos($acceptEncoding, 'gzip') === false) {
+            $content = gzdecode($content);
+        } else {
             $response->headers->add(['Content-Encoding' => 'gzip']);
         }
         $response->setContent($content);

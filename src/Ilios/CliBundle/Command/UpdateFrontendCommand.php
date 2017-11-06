@@ -5,10 +5,13 @@ namespace Ilios\CliBundle\Command;
 use Alchemy\Zippy\Zippy;
 use Ilios\CoreBundle\Service\Config;
 use Ilios\CoreBundle\Service\Fetch;
+use Ilios\CoreBundle\Service\FinderFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 use Ilios\CoreBundle\Service\Filesystem;
@@ -56,6 +59,11 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     protected $zippy;
 
     /**
+     * @var FinderFactory
+     */
+    protected $finderFactory;
+
+    /**
      * @var string
      */
     protected $cacheDir;
@@ -85,6 +93,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         Filesystem $fs,
         Config $config,
         Zippy $zippy,
+        FinderFactory $finderFactory,
         $kernelCacheDir,
         $kernelProjectDir,
         $apiVersion,
@@ -94,6 +103,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->fs = $fs;
         $this->config = $config;
         $this->zippy = $zippy;
+        $this->finderFactory = $finderFactory;
         $this->cacheDir = $kernelCacheDir;
         $this->apiVersion = $apiVersion;
         $this->environment = $environment;
@@ -219,5 +229,41 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $frontendPath = $this->cacheDir . self::FRONTEND_DIRECTORY;
         $this->fs->remove($frontendPath);
         $this->fs->rename($archiveDir . self::UNPACKED_DIRECTORY, $frontendPath);
+        $this->compressAssets();
+    }
+
+    protected function compressAssets()
+    {
+        $frontendPath = $this->cacheDir . self::FRONTEND_DIRECTORY;
+        $compressibleExtensions = [
+            'css',
+            'js',
+            'png',
+            'svg',
+            'ico',
+            'ttf',
+            'woff',
+            'woff2',
+            'eot',
+            'otf',
+            'xml',
+            'txt'
+        ];
+        $finder = $this->finderFactory::create();
+        $finder->files()->filter(function (\SplFileInfo $file) use ($compressibleExtensions) {
+            $extension = $file->getExtension();
+            return in_array($extension, $compressibleExtensions);
+        })->in($frontendPath);
+
+        /** @var SplFileInfo $file */
+        foreach ($finder as $file) {
+            $contents = $file->getContents();
+            //check if string has gzip headers
+            if (0 !== mb_strpos($contents, "\x1f" . "\x8b" . "\x08")) {
+                $contents = gzencode($contents);
+                $this->fs->dumpFile($file->getRealPath(), $contents);
+            }
+            $this->fs->touch($file->getRealPath());
+        }
     }
 }
