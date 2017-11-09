@@ -295,6 +295,10 @@ class Entity extends ObjectNormalizer
             $value = intval($value);
         }
 
+        if (null !== $value and $type === 'string') {
+            $value = trim($value);
+        }
+
         if ($this->entityMetadata->isPropertyRemoveMarkup($property)) {
             $value = $this->purifier->purify($value);
         }
