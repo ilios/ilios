@@ -108,7 +108,7 @@ class MeshTerm implements MeshTermInterface
      * @Assert\Type(type="bool")
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("boolean")
      */
     protected $conceptPreferred;
 
@@ -120,7 +120,7 @@ class MeshTerm implements MeshTermInterface
      * @Assert\Type(type="bool")
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("boolean")
      */
     protected $recordPreferred;
 
@@ -132,7 +132,7 @@ class MeshTerm implements MeshTermInterface
      * @Assert\Type(type="bool")
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("boolean")
      */
     protected $permuted;
 
