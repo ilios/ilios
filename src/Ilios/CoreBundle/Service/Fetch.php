@@ -37,7 +37,7 @@ class Fetch
      *
      * If passed a $file it will use that to check if the response would be a 304 Not Modified
      * and if so just return the contents of $file to save bandwidth downloading it again
-     * 
+     *
      * @param string $url
      * @param \SplFileObject|null $file
      * @return string

@@ -44,7 +44,7 @@ class Config
     public function get($name)
     {
         $result = $this->getValueFromEnv($name);
-        if (null == $result) {
+        if (null === $result) {
             $result = $this->getValueFromDb($name);
         }
 
@@ -61,7 +61,12 @@ class Config
     {
         $envName = 'ILIOS_' .  s($name)->underscored()->toUpperCase();
         if (isset($_SERVER[$envName])) {
-            return $_SERVER[$envName];
+            $result = $_SERVER[$envName];
+            $lowerCaseResult = strtolower($result);
+            if (in_array($lowerCaseResult, ['null', 'false', 'true'])) {
+                $result = json_decode($lowerCaseResult);
+            }
+            return $result;
         }
 
         return null;
