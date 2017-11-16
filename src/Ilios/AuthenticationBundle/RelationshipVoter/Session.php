@@ -59,6 +59,14 @@ class Session extends AbstractVoter
                     $session->getSchool()->getId()
                 );
                 break;
+            case self::EDIT:
+                return $this->permissionChecker->canUpdateSession(
+                    $sessionUser,
+                    $session->getId(),
+                    $session->getCourse()->getId(),
+                    $session->getSchool()->getId()
+                );
+                break;
             case self::CREATE:
                 return $this->permissionChecker->canCreateSession(
                     $sessionUser,
