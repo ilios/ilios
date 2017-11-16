@@ -6,6 +6,7 @@ use Ilios\CliBundle\Command\UpdateFrontendCommand;
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Mockery as m;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpKernel\Client;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -70,7 +71,7 @@ class IndexControllerTest extends WebTestCase
             'noScript' => [],
             'div' => [],
         ]);
-        $this->setupTestFile($jsonPath, $json);
+        $this->setupTestFile($jsonPath, $json, false);
         $this->client->request('GET', '/');
         $response = $this->client->getResponse();
 
@@ -91,7 +92,7 @@ class IndexControllerTest extends WebTestCase
     {
         $path = $this->assetsPath . 'fakeTestFile';
         $string = file_get_contents(__FILE__);
-        $this->setupTestFile($path, $string);
+        $this->setupTestFile($path, $string, true);
 
         $this->client->request('GET', '/fakeTestFile');
         $response = $this->client->getResponse();
@@ -113,7 +114,7 @@ class IndexControllerTest extends WebTestCase
     {
         $path = $this->assetsPath . 'fakeTestFile';
         $string = file_get_contents(__FILE__);
-        $this->setupTestFile($path, $string);
+        $this->setupTestFile($path, $string, true);
         $now = new \DateTime();
         $this->client->request('GET', '/fakeTestFile', [], [], [
             'HTTP_If-Modified-Since' => $now->format('r')
@@ -135,7 +136,7 @@ class IndexControllerTest extends WebTestCase
             'noScript' => [],
             'div' => [],
         ]);
-        $this->setupTestFile($jsonPath, $json);
+        $this->setupTestFile($jsonPath, $json, false);
         $this->client->request(
             'GET',
             '/',
@@ -164,7 +165,7 @@ class IndexControllerTest extends WebTestCase
     {
         $path = $this->assetsPath . 'fakeTestFile';
         $string = file_get_contents(__FILE__);
-        $this->setupTestFile($path, $string);
+        $this->setupTestFile($path, $string, true);
 
         $this->client->request(
             'GET',
@@ -201,7 +202,7 @@ class IndexControllerTest extends WebTestCase
             'noScript' => [],
             'div' => [],
         ]);
-        $this->setupTestFile($jsonPath, $json);
+        $this->setupTestFile($jsonPath, $json, false);
 
         $this->client->request(
             'GET',
@@ -250,7 +251,7 @@ class IndexControllerTest extends WebTestCase
     {
         $path = $this->assetsPath . 'fakeTestFile';
         $string = file_get_contents(__FILE__);
-        $this->setupTestFile($path, $string);
+        $this->setupTestFile($path, $string, true);
 
         $this->client->request(
             'GET',
@@ -295,9 +296,12 @@ class IndexControllerTest extends WebTestCase
         $this->assertEmpty($response->getContent());
     }
 
-    protected function setupTestFile($path, $contents)
+    protected function setupTestFile(string $path, string $contents, bool $compressContents)
     {
         $this->testFiles[] = $path;
+        if ($compressContents) {
+            $contents = gzencode($contents);
+        }
         $this->fileSystem->dumpFile($path, $contents);
     }
 }
