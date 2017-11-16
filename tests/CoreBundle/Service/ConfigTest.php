@@ -75,4 +75,41 @@ class ConfigTest extends TestCase
         $manager->shouldReceive('getValue')->with($key)->once();
         $config->get($key);
     }
+
+    public function testConvertsUpercaseStringFalseToBooleanFalse()
+    {
+        $manager = m::mock(ApplicationConfigManager::class);
+        $config = new Config($manager);
+        $value = 'FALSE';
+        $key = 'random-key-99';
+        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $_SERVER[$envKey] = $value;
+        $result = $config->get($key);
+        $this->assertTrue($result === false);
+        unset($_SERVER[$envKey]);
+    }
+
+    public function testConvertsUpercaseStringTrueToBooleanTrue()
+    {
+        $manager = m::mock(ApplicationConfigManager::class);
+        $config = new Config($manager);
+        $value = 'TRUE';
+        $key = 'random-key-99';
+        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $_SERVER[$envKey] = $value;
+        $result = $config->get($key);
+        $this->assertTrue($result === true);
+        unset($_SERVER[$envKey]);
+    }
+
+    public function testConvertsUpercaseStringNullToNullNull()
+    {
+        $manager = m::mock(ApplicationConfigManager::class);
+        $config = new Config($manager);
+        $key = 'random-key-99';
+        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $_SERVER[$envKey] = 'NULL';
+        $manager->shouldReceive('getValue')->with($key)->once();
+        $config->get($key);
+    }
 }

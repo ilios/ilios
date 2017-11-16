@@ -62,8 +62,9 @@ class Config
         $envName = 'ILIOS_' .  s($name)->underscored()->toUpperCase();
         if (isset($_SERVER[$envName])) {
             $result = $_SERVER[$envName];
-            if (in_array($result, ['null', 'false', 'true'])) {
-                $result = json_decode($result);
+            $lowerCaseResult = strtolower($result);
+            if (in_array($lowerCaseResult, ['null', 'false', 'true'])) {
+                $result = json_decode($lowerCaseResult);
             }
             return $result;
         }
