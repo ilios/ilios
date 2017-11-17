@@ -1,11 +1,11 @@
 # This file is a "template" of what your parameters.yml file should look like
 parameters:
-    env(ILIOS_DATABASE_HOST):           127.0.0.1
-    env(ILIOS_DATABASE_PORT):           ~
-    env(ILIOS_DATABASE_NAME):           ilios
-    env(ILIOS_DATABASE_USER):           ilios
-    env(ILIOS_DATABASE_PASSWORD):       ilios_pass
-    env(ILIOS_DATABASE_MYSQL_VERSION):  5.5
+    env(ILIOS_DATABASE_HOST):           mysql-user-master.stanford.edu
+    env(ILIOS_DATABASE_PORT):           3306
+    env(ILIOS_DATABASE_NAME):           g_canvas_ilios_lti_iliosv3
+    env(ILIOS_DATABASE_USER):           gcanvasilioslt1
+    env(ILIOS_DATABASE_PASSWORD):       RhFVpp82JLJDHMbP
+    env(ILIOS_DATABASE_MYSQL_VERSION):  5.6
 
     env(ILIOS_MAILER_TRANSPORT):        smtp
     env(ILIOS_MAILER_HOST):             127.0.0.1
@@ -15,4 +15,14 @@ parameters:
     env(ILIOS_LOCALE):                  en
 
     # A secret key that's used to generate certain security-related tokens
-    env(ILIOS_SECRET):                  ThisTokenIsNotSoSecretChangeIt
+    env(ILIOS_SECRET):                  ChangeThisSecret
+    
+    env(ILIOS_LEGACY_PASSWORD_SALT):    awkjebhflkawjebf
+    env(ILIOS_FILE_SYSTEM_STORAGE_PATH): /afs/ir.stanford.edu/group/canvas-ilios-lti/var/ilios/files
+    env(ILIOS_INSTITUTION_DOMAIN):      stanford.edu
+    env(ILIOS_AUTHENTICATION_TYPE):     shibboleth
+    env(ILIOS_HIBBOLETH_AUTHENTICATION_LOGIN_PATH): /Shibboleth.sso/Login
+    env(ILIOS_SHIBBOLETH_AUTHENTICATION_LOGOUT_PATH):  /Shibboleth.sso/Logout
+    env(ILIOS_SHIBBOLETH_AUTHENTICATION_USER_ID_ATTRIBUTE): eppn
+    env(ILIOS_DEBUG_TOOLBAR):           true
+    env(ILIOS_DEBUG_REDIRECTS):         true
