@@ -247,7 +247,8 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             'eot',
             'otf',
             'xml',
-            'txt'
+            'txt',
+            'webmanifest'
         ];
         $finder = $this->finderFactory::create();
         $finder->files()->filter(function (\SplFileInfo $file) use ($compressibleExtensions) {
