@@ -17,17 +17,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ilios</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
     {% for m in metas %}
-        <meta name="{{ m.name }}" content="{{ m.content }}" />
+        <meta {% if m.httpequiv %} http-equiv="{{ m.httpequiv }}" {% endif %} {% if m.charset %} charset="{{ m.charset }}" {% endif %} {% if m.name %} name="{{ m.name }}" {% endif %} {% if m.content %} content="{{ m.content }}" {% endif %} />
     {% endfor %}
     <meta name='iliosconfig-api-name-space'content='api/v1'>
     <meta name='iliosconfig-api-host'content=''>
+    <title>Ilios</title>
 
     {% for s in styles %}
         <style type="{{ s.type }}">
