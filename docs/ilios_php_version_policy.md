@@ -4,11 +4,11 @@ In an effort to ensure the best security and performance of the application over
   
 ### The Ilios PHP Version Policy
 
-At any given time, the Ilios application will only be supported on the very latest minor version of PHP 7 and, for the first 3 months of that version's release, we will also ensure support the previous minor version.  After 3 months, only the newest version will continue to be supported.
+At any given time, the Ilios application will only be supported on the very latest minor version of PHP 7 and, for the first 3 months of that version's release, we will also ensure support for the previous minor version.  After 3 months, only the newest version will continue to be supported.
  
 #### Policy Example
 
-For example, the current version of Ilios is v7.2.  When PHP v7.3 is released, we will continue to ensure the Ilios code will work on PHP 7.2 for approximately 90 days, and then, after that time has past, we will only offer support for Ilios applications running on PHP 7.3 going forward.
+For example, the current version of PHP is v7.2.  When PHP v7.3 is released, we will continue to ensure the Ilios code will work on PHP 7.2 for at least 90 days, and then, after that time has past, we will only offer support for Ilios applications running on PHP 7.3 going forward.
 
 ### Currently Supported Versions of PHP
 
