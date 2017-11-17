@@ -17,6 +17,6 @@ Based on the policy above, Ilios is currently compatible with the following vers
 * PHP 7.1
 * PHP 7.2
  
-#### Up-To-Date PHP Repositories for CentOS and RHEL
+### Up-To-Date PHP Repositories for CentOS and RHEL
 
 While some Linux distributions like Ubuntu and Fedora maintain package repositories with the very latest versions of PHP, it can be difficult to find trustworthy ones for CentOS and RHEL distributions. For RedHat-based systems such as these, we have found reliable YUM package repositories at the [IUS Community Project](https://ius.io).
