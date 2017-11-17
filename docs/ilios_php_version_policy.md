@@ -8,14 +8,14 @@ At any given time, the Ilios application will only be supported on the very late
  
 #### Policy Example
 
-For example, the current version of PHP is v7.2.  When PHP v7.3 is released, we will continue to ensure the Ilios code will work on PHP 7.2 for at least 90 days, and then, after that time has passed, we will only offer support for Ilios applications running on PHP 7.3 going forward.
+For example, the current version of PHP is v7.1.  When PHP v7.2 is released, we will continue to ensure the Ilios code will work on PHP 7.1 for at least 90 days, and then, after that time has passed, we will only offer support for Ilios applications running on PHP 7.2 going forward.
 
 ### Currently Supported Versions of PHP
 
 Based on the policy above, Ilios is currently compatible with the following versions of PHP:
 
-* PHP 7.1
-* PHP 7.2 (Recommended)
+* PHP 7.0
+* PHP 7.1 (Recommended)
  
 ### Up-To-Date PHP Repositories for CentOS and RHEL
 
