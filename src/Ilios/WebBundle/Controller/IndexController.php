@@ -152,12 +152,18 @@ class IndexController extends Controller
         $contents = $this->fs->readFile($path);
         $json = json_decode($contents);
 
+        $filteredMetas = array_filter($json->meta, function ($obj) {
+            return !property_exists($obj, 'name') or !(strncmp($obj->name, "iliosconfig", 11) === 0);
+        });
+
         $metas = array_map(function ($obj) {
             return [
-                'name' => $obj->name,
-                'content' => $obj->content
+                'charset' => property_exists($obj, 'charset')?$obj->charset:null,
+                'httpequiv' => property_exists($obj, 'http-equiv')?$obj->{'http-equiv'}:null,
+                'name' => property_exists($obj, 'name')?$obj->name:null,
+                'content' => property_exists($obj, 'content')?$obj->content:null,
             ];
-        }, $json->meta);
+        }, $filteredMetas);
 
         $links = array_map(function ($obj) {
             return [
