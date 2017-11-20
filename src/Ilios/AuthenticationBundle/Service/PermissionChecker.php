@@ -58,7 +58,7 @@ class PermissionChecker
     /** @var string */
     const CAN_UPDATE_ALL_PROGRAMS = 'canUpdateAllPrograms';
     /** @var string */
-    const CAN_DELETE_ALL_PROGRAMS  = 'canDeleteAllPrograms';
+    const CAN_DELETE_ALL_PROGRAMS = 'canDeleteAllPrograms';
     /** @var string */
     const CAN_CREATE_PROGRAMS = 'canCreatePrograms';
     /** @var string */
@@ -72,7 +72,7 @@ class PermissionChecker
     /** @var string */
     const CAN_UPDATE_ALL_PROGRAM_YEARS = 'canUpdateAllProgramYears';
     /** @var string */
-    const CAN_DELETE_ALL_PROGRAM_YEARS  = 'canDeleteAllProgramYears';
+    const CAN_DELETE_ALL_PROGRAM_YEARS = 'canDeleteAllProgramYears';
     /** @var string */
     const CAN_CREATE_PROGRAM_YEARS = 'canCreateProgramYears';
     /** @var string */
@@ -86,7 +86,7 @@ class PermissionChecker
     /** @var string */
     const CAN_UPDATE_ALL_COHORTS = 'canUpdateAllCohorts';
     /** @var string */
-    const CAN_DELETE_ALL_COHORTS  = 'canDeleteAllCohorts';
+    const CAN_DELETE_ALL_COHORTS = 'canDeleteAllCohorts';
     /** @var string */
     const CAN_CREATE_COHORTS = 'canCreateCohorts';
     /** @var string */
@@ -190,7 +190,7 @@ class PermissionChecker
      * @param array $roles
      * @return bool
      */
-    public function hasPermission(int $schoolId, string $capability, array $roles) : bool
+    public function hasPermission(int $schoolId, string $capability, array $roles): bool
     {
         if (!array_key_exists($schoolId, $this->matrix)) {
             return false;
@@ -211,7 +211,7 @@ class PermissionChecker
         return $hasPermission;
     }
 
-    public function canReadCourse(SessionUserInterface $sessionUser, int $courseId, int $schoolId) : bool
+    public function canReadCourse(SessionUserInterface $sessionUser, int $courseId, int $schoolId): bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
@@ -233,7 +233,7 @@ class PermissionChecker
         return false;
     }
 
-    public function canUpdateCourse(SessionUserInterface $sessionUser, int $courseId, int $schoolId) : bool
+    public function canUpdateCourse(SessionUserInterface $sessionUser, int $courseId, int $schoolId): bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
@@ -255,7 +255,7 @@ class PermissionChecker
         return false;
     }
 
-    public function canDeleteCourse(SessionUserInterface $sessionUser, int $courseId, int $schoolId) : bool
+    public function canDeleteCourse(SessionUserInterface $sessionUser, int $courseId, int $schoolId): bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
@@ -277,7 +277,7 @@ class PermissionChecker
         return false;
     }
 
-    public function canCreateCourse(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canCreateCourse(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
@@ -296,7 +296,7 @@ class PermissionChecker
         int $sessionId,
         int $courseId,
         int $schoolId
-    ) : bool {
+    ): bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
             $schoolId,
@@ -322,7 +322,7 @@ class PermissionChecker
         int $sessionId,
         int $courseId,
         int $schoolId
-    ) : bool {
+    ): bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
             $schoolId,
@@ -348,7 +348,7 @@ class PermissionChecker
         int $sessionId,
         int $courseId,
         int $schoolId
-    ) : bool {
+    ): bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
             $schoolId,
@@ -373,7 +373,7 @@ class PermissionChecker
         SessionUserInterface $sessionUser,
         int $courseId,
         int $schoolId
-    ) : bool {
+    ): bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
             $schoolId,
@@ -386,7 +386,7 @@ class PermissionChecker
         return $this->canUpdateCourse($sessionUser, $courseId, $schoolId);
     }
 
-    public function canReadSessionType(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canReadSessionType(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
@@ -400,7 +400,7 @@ class PermissionChecker
         return false;
     }
 
-    public function canUpdateSessionType(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canUpdateSessionType(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
@@ -414,7 +414,7 @@ class PermissionChecker
         return false;
     }
 
-    public function canDeleteSessionType(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canDeleteSessionType(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
@@ -428,7 +428,7 @@ class PermissionChecker
         return false;
     }
 
-    public function canCreateSessionType(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canCreateSessionType(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
@@ -490,6 +490,86 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_CREATE_DEPARTMENTS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canReadProgram(SessionUserInterface $sessionUser, int $programId, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_ALL_PROGRAMS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInProgram = $sessionUser->rolesInProgram($programId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_THEIR_PROGRAMS,
+            $rolesInProgram
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateProgram(SessionUserInterface $sessionUser, int $programId, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_ALL_PROGRAMS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInProgram = $sessionUser->rolesInProgram($programId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_THEIR_PROGRAMS,
+            $rolesInProgram
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteProgram(SessionUserInterface $sessionUser, int $programId, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_ALL_PROGRAMS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInProgram = $sessionUser->rolesInProgram($programId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_THEIR_PROGRAMS,
+            $rolesInProgram
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateProgram(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_PROGRAMS,
             $rolesInSchool
         )) {
             return true;
