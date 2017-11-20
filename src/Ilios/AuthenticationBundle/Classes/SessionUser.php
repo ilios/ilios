@@ -132,6 +132,21 @@ class SessionUser implements SessionUserInterface
      */
     protected $directedProgramIds;
 
+    /**
+     * @var array
+     */
+    protected $directedProgramYearIds;
+
+    /**
+     * @var array
+     */
+    protected $directedProgramYearProgramIds;
+
+    /**
+     * @var array
+     */
+    protected $directedCohortIds;
+
     public function __construct(IliosUserInterface $user, UserManager $userManager)
     {
         $relationships = $userManager->buildSessionRelationships($user->getId());
@@ -150,6 +165,9 @@ class SessionUser implements SessionUserInterface
         $this->administeredSessionIds = $relationships['administeredSessionIds'];
         $this->instructedSessionIds = $relationships['instructedSessionIds'];
         $this->directedProgramIds = $relationships['directedProgramIds'];
+        $this->directedProgramYearIds = $relationships['directedProgramYearIds'];
+        $this->directedProgramYearProgramIds = $relationships['directedProgramYearProgramIds'];
+        $this->directedCohortIds = $relationships['directedCohortIds'];
 
         $this->userId = $user->getId();
         $this->isRoot = $user->isRoot();
@@ -515,6 +533,21 @@ class SessionUser implements SessionUserInterface
         return in_array($programId, $this->directedProgramIds);
     }
 
+    public function isDirectingProgramYearInProgram(int $programId) : bool
+    {
+        return in_array($programId, $this->directedProgramYearProgramIds);
+    }
+
+    public function isDirectingCohort(int $cohortId) : bool
+    {
+        return in_array($cohortId, $this->directedCohortIds);
+    }
+
+    public function isDirectingProgramYear(int $programYearId) : bool
+    {
+        return in_array($programYearId, $this->directedProgramYearIds);
+    }
+
     public function isTeachingSession(int $sessionId) : bool
     {
         return in_array($sessionId, $this->instructedSessionIds);
@@ -585,6 +618,31 @@ class SessionUser implements SessionUserInterface
 
         if ($this->isDirectingProgram($programId)) {
             $roles[] = UserRoles::PROGRAM_DIRECTOR;
+        }
+        if ($this->isDirectingProgramYearInProgram($programId)) {
+            $roles[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
+        }
+
+        return $roles;
+    }
+
+    public function rolesInProgramYear(int $programYearId) : array
+    {
+        $roles = [];
+
+        if ($this->isDirectingProgramYear($programYearId)) {
+            $roles[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
+        }
+
+        return $roles;
+    }
+
+    public function rolesInCohort(int $cohortId) : array
+    {
+        $roles = [];
+
+        if ($this->isDirectingCohort($cohortId)) {
+            $roles[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
         }
 
         return $roles;
