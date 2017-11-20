@@ -577,4 +577,194 @@ class PermissionChecker
 
         return false;
     }
+
+    public function canReadProgramYear(
+        SessionUserInterface $sessionUser,
+        int $programId,
+        int $programYearId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_ALL_PROGRAM_YEARS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYearId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_THEIR_PROGRAM_YEARS,
+            $rolesInProgramYear
+        )) {
+            return true;
+        }
+
+        return $this->canReadProgram($sessionUser, $programId, $schoolId);
+    }
+
+    public function canUpdateProgramYear(
+        SessionUserInterface $sessionUser,
+        int $programId,
+        int $programYearId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_ALL_PROGRAM_YEARS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYearId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_THEIR_PROGRAM_YEARS,
+            $rolesInProgramYear
+        )) {
+            return true;
+        }
+
+        return $this->canUpdateProgram($sessionUser, $programId, $schoolId);
+    }
+
+    public function canDeleteProgramYear(
+        SessionUserInterface $sessionUser,
+        int $programId,
+        int $programYearId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_ALL_PROGRAM_YEARS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYearId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_THEIR_PROGRAM_YEARS,
+            $rolesInProgramYear
+        )) {
+            return true;
+        }
+
+        return $this->canUpdateProgram($sessionUser, $programId, $schoolId);
+    }
+
+    public function canCreateProgramYear(
+        SessionUserInterface $sessionUser,
+        int $programId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_PROGRAM_YEARS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return $this->canUpdateProgram($sessionUser, $programId, $schoolId);
+    }
+
+    public function canReadCohort(
+        SessionUserInterface $sessionUser,
+        int $programId,
+        int $programYearId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_ALL_COHORTS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInCohort = $sessionUser->rolesInCohort($programYearId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_THEIR_COHORTS,
+            $rolesInCohort
+        )) {
+            return true;
+        }
+
+        return $this->canReadProgram($sessionUser, $programId, $schoolId);
+    }
+
+    public function canUpdateCohort(
+        SessionUserInterface $sessionUser,
+        int $programId,
+        int $programYearId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_ALL_COHORTS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInCohort = $sessionUser->rolesInCohort($programYearId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_THEIR_COHORTS,
+            $rolesInCohort
+        )) {
+            return true;
+        }
+
+        return $this->canUpdateProgram($sessionUser, $programId, $schoolId);
+    }
+
+    public function canDeleteCohort(
+        SessionUserInterface $sessionUser,
+        int $programId,
+        int $programYearId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_ALL_COHORTS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+        $rolesInCohort = $sessionUser->rolesInCohort($programYearId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_THEIR_COHORTS,
+            $rolesInCohort
+        )) {
+            return true;
+        }
+
+        return $this->canUpdateProgram($sessionUser, $programId, $schoolId);
+    }
+
+    public function canCreateCohort(
+        SessionUserInterface $sessionUser,
+        int $programId,
+        int $schoolId
+    ) : bool {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_COHORTS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return $this->canUpdateProgram($sessionUser, $programId, $schoolId);
+    }
 }
