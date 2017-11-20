@@ -1347,6 +1347,23 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $programDirectorSchoolIds[] = $arr['schoolId'];
         }
 
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id as schoolId, program.id as programId, py.id as pyId, cohort.id as cohortId');
+        $qb->from(User::class, 'u');
+        $qb->join('u.programYears', 'py');
+        $qb->join('py.program', 'program');
+        $qb->join('py.cohort', 'cohort');
+        $qb->join('program.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $programYearDirectorSchoolIds = [];
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $sessionUserRelationships['directedProgramYearIds'][] = $arr['pyId'];
+            $sessionUserRelationships['directedCohortIds'][] = $arr['cohortId'];
+            $sessionUserRelationships['directedProgramYearProgramIds'][] = $arr['programId'];
+            $programYearDirectorSchoolIds[] = $arr['schoolId'];
+        }
+
         $sessionUserRelationships['schoolIds'] = array_merge(
             $cohortSchoolIds,
             $sessionUserRelationships['directedSchoolIds'],
@@ -1359,7 +1376,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $instructedLearnerGroupSchoolIds,
             $instructorGroupSchoolIds,
             $instructorIlmSessionSchoolIds,
-            $programDirectorSchoolIds
+            $programDirectorSchoolIds,
+            $programYearDirectorSchoolIds
         );
 
         return $sessionUserRelationships;
