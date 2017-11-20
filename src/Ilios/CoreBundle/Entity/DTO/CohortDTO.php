@@ -55,6 +55,12 @@ class CohortDTO
      */
     public $users;
 
+    /**
+     * For Voter use, not public
+     * @var int
+     */
+    public $school;
+
     public function __construct(
         $id,
         $title
