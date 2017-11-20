@@ -55,6 +55,13 @@ class CohortDTO
      */
     public $users;
 
+
+    /**
+     * For Voter use, not public
+     * @var int
+     */
+    public $program;
+
     /**
      * For Voter use, not public
      * @var int
