@@ -580,8 +580,8 @@ class PermissionChecker
 
     public function canReadProgramYear(
         SessionUserInterface $sessionUser,
-        int $programId,
         int $programYearId,
+        int $programId,
         int $schoolId
     ) : bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
@@ -606,8 +606,8 @@ class PermissionChecker
 
     public function canUpdateProgramYear(
         SessionUserInterface $sessionUser,
-        int $programId,
         int $programYearId,
+        int $programId,
         int $schoolId
     ) : bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
@@ -632,8 +632,8 @@ class PermissionChecker
 
     public function canDeleteProgramYear(
         SessionUserInterface $sessionUser,
-        int $programId,
         int $programYearId,
+        int $programId,
         int $schoolId
     ) : bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
@@ -675,8 +675,8 @@ class PermissionChecker
 
     public function canReadCohort(
         SessionUserInterface $sessionUser,
+        int $cohortId,
         int $programId,
-        int $programYearId,
         int $schoolId
     ) : bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
@@ -687,7 +687,7 @@ class PermissionChecker
         )) {
             return true;
         }
-        $rolesInCohort = $sessionUser->rolesInCohort($programYearId);
+        $rolesInCohort = $sessionUser->rolesInCohort($cohortId);
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_READ_THEIR_COHORTS,
@@ -701,8 +701,8 @@ class PermissionChecker
 
     public function canUpdateCohort(
         SessionUserInterface $sessionUser,
+        int $cohortId,
         int $programId,
-        int $programYearId,
         int $schoolId
     ) : bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
@@ -713,7 +713,7 @@ class PermissionChecker
         )) {
             return true;
         }
-        $rolesInCohort = $sessionUser->rolesInCohort($programYearId);
+        $rolesInCohort = $sessionUser->rolesInCohort($cohortId);
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_UPDATE_THEIR_COHORTS,
@@ -727,8 +727,8 @@ class PermissionChecker
 
     public function canDeleteCohort(
         SessionUserInterface $sessionUser,
+        int $cohortId,
         int $programId,
-        int $programYearId,
         int $schoolId
     ) : bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
@@ -739,7 +739,7 @@ class PermissionChecker
         )) {
             return true;
         }
-        $rolesInCohort = $sessionUser->rolesInCohort($programYearId);
+        $rolesInCohort = $sessionUser->rolesInCohort($cohortId);
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_DELETE_THEIR_COHORTS,
