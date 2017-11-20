@@ -115,12 +115,12 @@ class PermissionChecker
         foreach ($schoolDtos as $schoolDto) {
             $arr = [];
             $allRoles = [
-                UserRoles::SCHOOL_DIRECTOR,
-                UserRoles::SCHOOL_ADMINISTRATOR,
-                UserRoles::COURSE_DIRECTOR,
                 UserRoles::COURSE_ADMINISTRATOR,
-                UserRoles::SESSION_ADMINISTRATOR,
+                UserRoles::COURSE_DIRECTOR,
                 UserRoles::COURSE_INSTRUCTOR,
+                UserRoles::SCHOOL_ADMINISTRATOR,
+                UserRoles::SCHOOL_DIRECTOR,
+                UserRoles::SESSION_ADMINISTRATOR,
                 UserRoles::SESSION_INSTRUCTOR,
             ];
             $arr[self::CAN_READ_ALL_COURSES] = $allRoles;
