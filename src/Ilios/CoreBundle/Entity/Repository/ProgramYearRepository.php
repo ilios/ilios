@@ -60,16 +60,19 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
         $programYearIds = array_keys($programYearDTOs);
 
         $qb = $this->_em->createQueryBuilder()
-            ->select('p.id as programYearId, pr.id as programId, c.id as cohortId')
-            ->from('IliosCoreBundle:ProgramYear', 'p')
-            ->join('p.program', 'pr')
+            ->select('py.id as programYearId, p.id as programId, c.id as cohortId, s.id as schoolId')
+            ->from('IliosCoreBundle:ProgramYear', 'py')
+            ->join('py.program', 'p')
             ->join('p.cohort', 'c')
+            ->join('p.school', 's')
+
             ->where($qb->expr()->in('p.id', ':ids'))
             ->setParameter('ids', $programYearIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $programYearDTOs[$arr['programYearId']]->program = (int) $arr['programId'];
             $programYearDTOs[$arr['programYearId']]->cohort = (int) $arr['cohortId'];
+            $programYearDTOs[$arr['programYearId']]->school = (int) $arr['schoolId'];
         }
 
         $related = [
