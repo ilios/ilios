@@ -120,6 +120,8 @@ class PermissionChecker
                 UserRoles::COURSE_INSTRUCTOR,
                 UserRoles::SCHOOL_ADMINISTRATOR,
                 UserRoles::SCHOOL_DIRECTOR,
+                UserRoles::PROGRAM_DIRECTOR,
+                UserRoles::PROGRAM_YEAR_DIRECTOR,
                 UserRoles::SESSION_ADMINISTRATOR,
                 UserRoles::SESSION_INSTRUCTOR,
             ];
@@ -150,6 +152,33 @@ class PermissionChecker
             $arr[self::CAN_UPDATE_DEPARTMENTS] = $allRoles;
             $arr[self::CAN_CREATE_DEPARTMENTS] = $allRoles;
             $arr[self::CAN_DELETE_DEPARTMENTS] = $allRoles;
+
+            $arr[self::CAN_READ_ALL_PROGRAMS] = $allRoles;
+            $arr[self::CAN_UPDATE_ALL_PROGRAMS] = $allRoles;
+            $arr[self::CAN_CREATE_PROGRAMS] = $allRoles;
+            $arr[self::CAN_DELETE_ALL_PROGRAMS] = $allRoles;
+
+            $arr[self::CAN_READ_THEIR_PROGRAMS] = $allRoles;
+            $arr[self::CAN_UPDATE_THEIR_PROGRAMS] = $allRoles;
+            $arr[self::CAN_DELETE_THEIR_PROGRAMS] = $allRoles;
+
+            $arr[self::CAN_READ_ALL_PROGRAM_YEARS] = $allRoles;
+            $arr[self::CAN_UPDATE_ALL_PROGRAM_YEARS] = $allRoles;
+            $arr[self::CAN_CREATE_PROGRAM_YEARS] = $allRoles;
+            $arr[self::CAN_DELETE_ALL_PROGRAM_YEARS] = $allRoles;
+
+            $arr[self::CAN_READ_THEIR_PROGRAM_YEARS] = $allRoles;
+            $arr[self::CAN_UPDATE_THEIR_PROGRAM_YEARS] = $allRoles;
+            $arr[self::CAN_DELETE_THEIR_PROGRAM_YEARS] = $allRoles;
+
+            $arr[self::CAN_READ_ALL_COHORTS] = $allRoles;
+            $arr[self::CAN_UPDATE_ALL_COHORTS] = $allRoles;
+            $arr[self::CAN_CREATE_COHORTS] = $allRoles;
+            $arr[self::CAN_DELETE_ALL_COHORTS] = $allRoles;
+
+            $arr[self::CAN_READ_THEIR_COHORTS] = $allRoles;
+            $arr[self::CAN_UPDATE_THEIR_COHORTS] = $allRoles;
+            $arr[self::CAN_DELETE_THEIR_COHORTS] = $allRoles;
 
             $this->matrix[$schoolDto->id] = $arr;
         }
