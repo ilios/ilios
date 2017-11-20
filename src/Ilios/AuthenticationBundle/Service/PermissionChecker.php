@@ -53,6 +53,48 @@ class PermissionChecker
     const CAN_DELETE_DEPARTMENTS = 'canDeleteDepartments';
     /** @var string */
     const CAN_CREATE_DEPARTMENTS = 'canCreateDepartments';
+    /** @var string */
+    const CAN_READ_ALL_PROGRAMS = 'canReadAllPrograms';
+    /** @var string */
+    const CAN_UPDATE_ALL_PROGRAMS = 'canUpdateAllPrograms';
+    /** @var string */
+    const CAN_DELETE_ALL_PROGRAMS  = 'canDeleteAllPrograms';
+    /** @var string */
+    const CAN_CREATE_PROGRAMS = 'canCreatePrograms';
+    /** @var string */
+    const CAN_READ_THEIR_PROGRAMS = 'canReadTheirPrograms';
+    /** @var string */
+    const CAN_UPDATE_THEIR_PROGRAMS = 'canUpdateTheirPrograms';
+    /** @var string */
+    const CAN_DELETE_THEIR_PROGRAMS = 'canDeleteTheirPrograms';
+    /** @var string */
+    const CAN_READ_ALL_PROGRAM_YEARS = 'canReadAllProgramYears';
+    /** @var string */
+    const CAN_UPDATE_ALL_PROGRAM_YEARS = 'canUpdateAllProgramYears';
+    /** @var string */
+    const CAN_DELETE_ALL_PROGRAM_YEARS  = 'canDeleteAllProgramYears';
+    /** @var string */
+    const CAN_CREATE_PROGRAM_YEARS = 'canCreateProgramYears';
+    /** @var string */
+    const CAN_READ_THEIR_PROGRAM_YEARS = 'canReadTheirProgramYears';
+    /** @var string */
+    const CAN_UPDATE_THEIR_PROGRAM_YEARS = 'canUpdateTheirProgramYears';
+    /** @var string */
+    const CAN_DELETE_THEIR_PROGRAM_YEARS = 'canDeleteTheirProgramYears';
+    /** @var string */
+    const CAN_READ_ALL_COHORTS = 'canReadAllCohorts';
+    /** @var string */
+    const CAN_UPDATE_ALL_COHORTS = 'canUpdateAllCohorts';
+    /** @var string */
+    const CAN_DELETE_ALL_COHORTS  = 'canDeleteAllCohorts';
+    /** @var string */
+    const CAN_CREATE_COHORTS = 'canCreateCohorts';
+    /** @var string */
+    const CAN_READ_THEIR_COHORTS = 'canReadTheirCohorts';
+    /** @var string */
+    const CAN_UPDATE_THEIR_COHORTS = 'canUpdateTheirCohorts';
+    /** @var string */
+    const CAN_DELETE_THEIR_COHORTS = 'canDeleteTheirCohorts';
 
     /**
      * @var SchoolManager
