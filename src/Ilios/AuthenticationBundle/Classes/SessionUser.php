@@ -126,7 +126,12 @@ class SessionUser implements SessionUserInterface
      * @var array
      */
     protected $taughtCourseSchoolIds;
-    
+
+    /**
+     * @var array
+     */
+    protected $directedProgramIds;
+
     public function __construct(IliosUserInterface $user, UserManager $userManager)
     {
         $relationships = $userManager->buildSessionRelationships($user->getId());
@@ -144,6 +149,7 @@ class SessionUser implements SessionUserInterface
         $this->taughtCourseSchoolIds = $relationships['taughtCourseSchoolIds'];
         $this->administeredSessionIds = $relationships['administeredSessionIds'];
         $this->instructedSessionIds = $relationships['instructedSessionIds'];
+        $this->directedProgramIds = $relationships['directedProgramIds'];
 
         $this->userId = $user->getId();
         $this->isRoot = $user->isRoot();
@@ -504,6 +510,11 @@ class SessionUser implements SessionUserInterface
         return in_array($sessionId, $this->administeredSessionIds);
     }
 
+    public function isDirectingProgram(int $programId) : bool
+    {
+        return in_array($programId, $this->directedProgramIds);
+    }
+
     public function isTeachingSession(int $sessionId) : bool
     {
         return in_array($sessionId, $this->instructedSessionIds);
@@ -563,6 +574,17 @@ class SessionUser implements SessionUserInterface
         }
         if ($this->isTeachingSession($sessionId)) {
             $roles[] = UserRoles::SESSION_INSTRUCTOR;
+        }
+
+        return $roles;
+    }
+
+    public function rolesInProgram(int $programId) : array
+    {
+        $roles = [];
+
+        if ($this->isDirectingProgram($programId)) {
+            $roles[] = UserRoles::PROGRAM_DIRECTOR;
         }
 
         return $roles;
