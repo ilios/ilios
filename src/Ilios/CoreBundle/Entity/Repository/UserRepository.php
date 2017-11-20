@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Entity\Course;
+use Ilios\CoreBundle\Entity\Program;
 use Ilios\CoreBundle\Entity\Session;
 use Ilios\CoreBundle\Entity\User;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -1335,6 +1336,18 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $sessionUserRelationships['taughtCourseSchoolIds'][] = $arr['schoolId'];
         }
 
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id as schoolId, program.id as programId')->from(User::class, 'u');
+        $qb->join('u.directedPrograms', 'program');
+        $qb->join('program.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+        $programDirectorSchoolIds = [];
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $sessionUserRelationships['directedProgramIds'][] = $arr['programId'];
+            $programDirectorSchoolIds[] = $arr['schoolId'];
+        }
+
         $sessionUserRelationships['schoolIds'] = array_merge(
             $cohortSchoolIds,
             $sessionUserRelationships['directedSchoolIds'],
@@ -1346,9 +1359,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $learnerGroupSchoolIds,
             $instructedLearnerGroupSchoolIds,
             $instructorGroupSchoolIds,
-            $instructorIlmSessionSchoolIds
+            $instructorIlmSessionSchoolIds,
+            $programDirectorSchoolIds
         );
-        
+
         return $sessionUserRelationships;
     }
 
