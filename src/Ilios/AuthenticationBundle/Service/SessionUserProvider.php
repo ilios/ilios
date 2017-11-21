@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Service;
 
 use Ilios\AuthenticationBundle\Classes\SessionUser;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface as IliosUser;
 
@@ -26,6 +27,12 @@ class SessionUserProvider implements UserProviderInterface
         UserManager $userManager
     ) {
         $this->userManager = $userManager;
+    }
+
+
+    public function createSessionUserFromUser(IliosUser $user) : SessionUserInterface
+    {
+        return new SessionUser($user, $this->userManager);
     }
 
     public function loadUserByUsername($userId)
