@@ -21,7 +21,7 @@ class CasAuthentication implements AuthenticationInterface
      * @var AuthenticationManager
      */
     protected $authManager;
-    
+
     /**
      * @var JsonWebTokenManager
      */
@@ -43,27 +43,35 @@ class CasAuthentication implements AuthenticationInterface
     protected $casManager;
 
     /**
+     * @var SessionUserProvider
+     */
+    protected $sessionUserProvider;
+
+    /**
      * Constructor
      * @param AuthenticationManager $authManager
      * @param JsonWebTokenManager $jwtManager
      * @param LoggerInterface $logger
      * @param Router $router
      * @param CasManager $casManager
+     * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
         AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger,
         Router $router,
-        CasManager $casManager
+        CasManager $casManager,
+        SessionUserProvider $sessionUserProvider
     ) {
         $this->authManager = $authManager;
         $this->jwtManager = $jwtManager;
         $this->logger = $logger;
         $this->router = $router;
         $this->casManager = $casManager;
+        $this->sessionUserProvider = $sessionUserProvider;
     }
-    
+
     /**
      * Authenticate a user from shibboleth
      *
@@ -97,7 +105,7 @@ class CasAuthentication implements AuthenticationInterface
         /* @var \Ilios\CoreBundle\Entity\AuthenticationInterface $authEntity */
         $authEntity = $this->authManager->findOneBy(['username' => $userId]);
         if ($authEntity) {
-            $sessionUser = $authEntity->getSessionUser();
+            $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             if ($sessionUser->isEnabled()) {
                 $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
 

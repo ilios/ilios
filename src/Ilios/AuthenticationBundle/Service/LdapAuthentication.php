@@ -17,45 +17,51 @@ class LdapAuthentication implements AuthenticationInterface
      * @var AuthenticationManager
      */
     protected $authManager;
-    
+
     /**
      * @var JsonWebTokenManager
      */
     protected $jwtManager;
-    
+
     /**
      * @var string
      */
     protected $ldapHost;
-    
+
     /**
      * @var string
      */
     protected $ldapPort;
-    
+
     /**
      * @var string
      */
     protected $ldapBindTemplate;
-    
     /**
-     * Constructor
+     * @var SessionUserProvider
+     */
+    protected $sessionUserProvider;
+
+    /**
      * @param AuthenticationManager $authManager
-     * @param JsonWebTokenManager            $jwtManager
+     * @param JsonWebTokenManager $jwtManager
      * @param Config $config
+     * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
         AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
-        Config $config
+        Config $config,
+        SessionUserProvider $sessionUserProvider
     ) {
         $this->authManager = $authManager;
         $this->jwtManager = $jwtManager;
         $this->ldapHost = $config->get('ldap_authentication_host');
         $this->ldapPort = $config->get('ldap_authentication_port');
         $this->ldapBindTemplate = $config->get('ldap_authentication_bind_template');
+        $this->sessionUserProvider = $sessionUserProvider;
     }
-    
+
     /**
      * Login a user using a username and password
      * to bind against an LDAP server
@@ -87,11 +93,11 @@ class LdapAuthentication implements AuthenticationInterface
             $errors[] = 'missingPassword';
             $code = JsonResponse::HTTP_BAD_REQUEST;
         }
-        
+
         if ($username && $password) {
             $authEntity = $this->authManager->findAuthenticationByUsername($username);
             if ($authEntity) {
-                $sessionUser = $authEntity->getSessionUser();
+                $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
                 if ($sessionUser->isEnabled()) {
                     $passwordValid = $this->checkLdapPassword($username, $password);
                     if ($passwordValid) {
@@ -124,7 +130,7 @@ class LdapAuthentication implements AuthenticationInterface
             'status' => 'success'
         ], JsonResponse::HTTP_OK);
     }
-    
+
     /**
      * Check against ldap to see if the user is valid
      * @param  string $username
@@ -142,7 +148,7 @@ class LdapAuthentication implements AuthenticationInterface
                 return true;
             }
         }
-        
+
         return false;
     }
 
