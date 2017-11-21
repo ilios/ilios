@@ -2,6 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,12 +29,12 @@ class AddUserCommand extends Command
      * @var UserManager
      */
     protected $userManager;
-    
+
     /**
      * @var AuthenticationManager
      */
     protected $authenticationManager;
-    
+
     /**
      * @var SchoolManager
      */
@@ -43,21 +44,27 @@ class AddUserCommand extends Command
      * @var UserPasswordEncoderInterface
      */
     protected $encoder;
-    
+
+    /**
+     * @var SessionUserProvider
+     */
+    protected $sessionUserProvider;
+
     public function __construct(
         UserManager $userManager,
         AuthenticationManager $authenticationManager,
         SchoolManager $schoolManager,
-        UserPasswordEncoderInterface $encoder
+        UserPasswordEncoderInterface $encoder,
+        SessionUserProvider $sessionUserProvider
     ) {
         $this->userManager = $userManager;
         $this->authenticationManager = $authenticationManager;
         $this->schoolManager = $schoolManager;
         $this->encoder = $encoder;
-
+        $this->sessionUserProvider = $sessionUserProvider;
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -153,14 +160,14 @@ class AddUserCommand extends Command
             ))
         ;
         $table->render();
-        
+
         $helper = $this->getHelper('question');
         $output->writeln('');
         $question = new ConfirmationQuestion(
             "<question>Do you wish to add this user to Ilios in {$school->getTitle()}?</question>\n",
             true
         );
-        
+
         if ($helper->ask($input, $output, $question)) {
             $user = $this->userManager->create();
             $user->setFirstName($userRecord['firstName']);
@@ -178,7 +185,7 @@ class AddUserCommand extends Command
             $authentication->setUsername($userRecord['username']);
 
             $user->setAuthentication($authentication);
-            $sessionUser = $authentication->getSessionUser();
+            $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
 
             $encodedPassword = $this->encoder->encodePassword($sessionUser, $userRecord['password']);
             $authentication->setPasswordBcrypt($encodedPassword);

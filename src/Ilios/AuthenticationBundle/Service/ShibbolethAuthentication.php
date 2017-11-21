@@ -21,7 +21,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
      * @var AuthenticationManager
      */
     protected $authManager;
-    
+
     /**
      * @var JsonWebTokenManager
      */
@@ -48,17 +48,24 @@ class ShibbolethAuthentication implements AuthenticationInterface
     protected $userIdAttribute;
 
     /**
+     * @var SessionUserProvider
+     */
+    protected $sessionUserProvider;
+
+    /**
      * Constructor
      * @param AuthenticationManager $authManager
      * @param JsonWebTokenManager $jwtManager
      * @param LoggerInterface $logger
      * @param Config $config
+     * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
         AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger,
-        Config $config
+        Config $config,
+        SessionUserProvider $sessionUserProvider
     ) {
         $this->authManager = $authManager;
         $this->jwtManager = $jwtManager;
@@ -66,6 +73,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
         $this->logoutPath = $config->get('shibboleth_authentication_logout_path');
         $this->loginPath = $config->get('shibboleth_authentication_login_path');
         $this->userIdAttribute = $config->get('shibboleth_authentication_user_id_attribute');
+        $this->sessionUserProvider = $sessionUserProvider;
     }
 
     /**
@@ -118,7 +126,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
         /* @var \Ilios\CoreBundle\Entity\AuthenticationInterface $authEntity */
         $authEntity = $this->authManager->findOneBy(['username' => $userId]);
         if ($authEntity) {
-            $sessionUser = $authEntity->getSessionUser();
+            $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             if ($sessionUser->isEnabled()) {
                 $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
 
