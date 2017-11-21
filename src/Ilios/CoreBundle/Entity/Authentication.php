@@ -188,20 +188,12 @@ class Authentication implements AuthenticationInterface
     {
         return $this->invalidateTokenIssuedBefore;
     }
-    
+
     /**
     * @inheritdoc
     */
     public function __toString()
     {
         return (string) $this->user;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSessionUser()
-    {
-        return new SessionUser($this->user);
     }
 }

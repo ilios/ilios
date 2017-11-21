@@ -71,9 +71,4 @@ interface AuthenticationInterface extends LoggableEntityInterface
      * @return \DateTime
      */
     public function getInvalidateTokenIssuedBefore();
-
-    /**
-     * @return SessionUserInterface
-     */
-    public function getSessionUser();
 }
