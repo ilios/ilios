@@ -2,7 +2,6 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
-
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Classes\UserRoles;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
@@ -196,8 +195,8 @@ class PermissionChecker
 
     public function canReadSession(
         SessionUserInterface $sessionUser,
-        int $courseId,
         int $sessionId,
+        int $courseId,
         int $schoolId
     ) : bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
@@ -222,8 +221,8 @@ class PermissionChecker
 
     public function canUpdateSession(
         SessionUserInterface $sessionUser,
-        int $courseId,
         int $sessionId,
+        int $courseId,
         int $schoolId
     ) : bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
@@ -248,8 +247,8 @@ class PermissionChecker
 
     public function canDeleteSession(
         SessionUserInterface $sessionUser,
-        int $courseId,
         int $sessionId,
+        int $courseId,
         int $schoolId
     ) : bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
