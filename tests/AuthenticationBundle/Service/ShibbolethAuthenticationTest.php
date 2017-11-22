@@ -57,7 +57,6 @@ class ShibbolethAuthenticationTest extends TestCase
         unset($this->logger);
         unset($this->config);
         unset($this->sessionUserProvider);
-
     }
 
 
