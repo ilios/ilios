@@ -23,7 +23,7 @@ class FormAuthentication implements AuthenticationInterface
      * @var AuthenticationManager
      */
     protected $authManager;
-    
+
     /**
      * @var UserPasswordEncoderInterface
      */
@@ -32,7 +32,7 @@ class FormAuthentication implements AuthenticationInterface
      * @var TokenStorageInterface
      */
     protected $tokenStorage;
-    
+
     /**
      * @var JsonWebTokenManager
      */
@@ -44,26 +44,35 @@ class FormAuthentication implements AuthenticationInterface
     protected $userManager;
 
     /**
-    * Constructor
-    * @param AuthenticationManager $authManager
-    * @param UserPasswordEncoderInterface   $encoder
-    * @param TokenStorageInterface          $tokenStorage
-    * @param JsonWebTokenManager            $jwtManager
-    */
+     * @var SessionUserProvider
+     */
+    protected $sessionUserProvider;
+
+    /**
+     * Constructor
+     * @param AuthenticationManager $authManager
+     * @param UserManager                    $userManager
+     * @param UserPasswordEncoderInterface   $encoder
+     * @param TokenStorageInterface          $tokenStorage
+     * @param JsonWebTokenManager            $jwtManager
+     * @param SessionUserProvider            $sessionUserProvider
+     */
     public function __construct(
         AuthenticationManager $authManager,
         UserManager $userManager,
         UserPasswordEncoderInterface $encoder,
         TokenStorageInterface $tokenStorage,
-        JsonWebTokenManager $jwtManager
+        JsonWebTokenManager $jwtManager,
+        SessionUserProvider $sessionUserProvider
     ) {
         $this->authManager = $authManager;
         $this->encoder = $encoder;
         $this->tokenStorage = $tokenStorage;
         $this->jwtManager = $jwtManager;
         $this->userManager = $userManager;
+        $this->sessionUserProvider = $sessionUserProvider;
     }
-    
+
     /**
      * Login a user using a username and password
      * @param Request $request
@@ -94,11 +103,11 @@ class FormAuthentication implements AuthenticationInterface
             $errors[] = 'missingPassword';
             $code = JsonResponse::HTTP_BAD_REQUEST;
         }
-        
+
         if ($username && $password) {
             $authEntity = $this->authManager->findAuthenticationByUsername($username);
             if ($authEntity) {
-                $sessionUser = new SessionUser($authEntity->getUser(), $this->userManager);
+                $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
                 if ($sessionUser->isEnabled()) {
                     $passwordValid = $this->encoder->isPasswordValid($sessionUser, $password);
                     if ($passwordValid) {
@@ -132,7 +141,7 @@ class FormAuthentication implements AuthenticationInterface
             'status' => 'success'
         ), JsonResponse::HTTP_OK);
     }
-    
+
     /**
      * Update users to the new password encoding when they login
      * @param  AuthenticationEntityInterface $authEntity
@@ -149,9 +158,9 @@ class FormAuthentication implements AuthenticationInterface
             );
             $authenticatedToken->setAuthenticated(true);
             $this->tokenStorage->setToken($authenticatedToken);
-            
+
             $authEntity->setPasswordSha256(null);
-            $sessionUser = $sessionUser = new SessionUser($authEntity->getUser(), $this->userManager);
+            $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             $encodedPassword = $this->encoder->encodePassword($sessionUser, $password);
             $authEntity->setPasswordBcrypt($encodedPassword);
             $this->authManager->update($authEntity);
