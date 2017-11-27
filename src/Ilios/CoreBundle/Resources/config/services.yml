@@ -30,6 +30,12 @@ services:
         calls:
             - [ setContainer, ['@service_container'] ]
 
+    Ilios\CoreBundle\EventListener\FlushResultsCache:
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+        calls:
+            - [ setContainer, ['@service_container'] ]
+
     Ilios\CoreBundle\EventListener\TrackApiUsageListener:
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

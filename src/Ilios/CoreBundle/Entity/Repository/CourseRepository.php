@@ -45,9 +45,11 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
     {
         $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('IliosCoreBundle:Course', 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
 
         $courseDTOs = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+        foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $courseDTOs[$arr['id']] = new CourseDTO(
                 $arr['id'],
                 $arr['title'],
@@ -73,7 +75,10 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
             ->where($qb->expr()->in('c.id', ':courseIds'))
             ->setParameter('courseIds', $courseIds);
 
-        foreach ($qb->getQuery()->getResult() as $arr) {
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+
+        foreach ($query->getResult() as $arr) {
             $courseDTOs[$arr['courseId']]->school = (int) $arr['schoolId'];
             $courseDTOs[$arr['courseId']]->clerkshipType = $arr['clerkshipTypeId']?(int)$arr['clerkshipTypeId']:null;
             $courseDTOs[$arr['courseId']]->ancestor = $arr['ancestorId']?(int)$arr['ancestorId']:null;
@@ -98,8 +103,10 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
                 ->where($qb->expr()->in('c.id', ':courseIds'))
                 ->orderBy('relId')
                 ->setParameter('courseIds', $courseIds);
+            $query = $qb->getQuery();
+            $query->useResultCache(true);
 
-            foreach ($qb->getQuery()->getResult() as $arr) {
+            foreach ($query->getResult() as $arr) {
                 $courseDTOs[$arr['courseId']]->{$rel}[] = $arr['relId'];
             }
         }

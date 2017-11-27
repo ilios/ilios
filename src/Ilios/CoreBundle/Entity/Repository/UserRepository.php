@@ -27,7 +27,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->select('DISTINCT u')->from('IliosCoreBundle:User', 'u');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        return $qb->getQuery()->getResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        return $query->getResult();
     }
 
     /**
@@ -87,7 +89,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $qb->setMaxResults($limit);
         }
 
-        return $qb->getQuery()->getResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        return $query->getResult();
     }
 
     /**
@@ -319,7 +323,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 
-        $results = $qb->getQuery()->getArrayResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        $results = $query->getArrayResult();
         return $this->createEventObjectsForOfferings($id, $results);
     }
 
@@ -361,7 +367,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 
-        $results = $qb->getQuery()->getArrayResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        $results = $query->getArrayResult();
         return $this->createEventObjectsForIlmSessions($id, $results);
     }
 
@@ -457,7 +465,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $qb->expr()->in('o.id', ':offerings')
         );
         $qb->setParameter(':offerings', $ids);
-        $instructedOfferings = $qb->getQuery()->getArrayResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        $instructedOfferings = $query->getArrayResult();
 
 
         $qb = $this->_em->createQueryBuilder();
@@ -469,7 +479,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $qb->expr()->in('o.id', ':offerings')
         );
         $qb->setParameter(':offerings', $ids);
-        $groupOfferings = $qb->getQuery()->getArrayResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        $groupOfferings = $query->getArrayResult();
 
         $results = array_merge($instructedOfferings, $groupOfferings);
 
@@ -503,7 +515,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $qb->expr()->in('ilm.id', ':ilms')
         );
         $qb->setParameter(':ilms', $ids);
-        $instructedIlms = $qb->getQuery()->getArrayResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        $instructedIlms = $query->getArrayResult();
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('ilm.id AS ilmId, u.id AS userId, u.firstName, u.lastName')
@@ -514,7 +528,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $qb->expr()->in('ilm.id', ':ilms')
         );
         $qb->setParameter(':ilms', $ids);
-        $groupIlms = $qb->getQuery()->getArrayResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        $groupIlms = $query->getArrayResult();
 
         $results = array_merge($instructedIlms, $groupIlms);
 
@@ -809,7 +825,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     protected function createUserDTOs(AbstractQuery $query)
     {
         $userDTOs = [];
-        foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+        $query->useResultCache(true);
+        $results = $query->getArrayResult();
+
+        foreach ($results as $arr) {
             $userDTOs[$arr['id']] = new UserDTO(
                 $arr['id'],
                 $arr['firstName'],
@@ -840,7 +859,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             ->where($qb->expr()->in('u.id', ':userIds'))
             ->setParameter('userIds', $userIds);
 
-        foreach ($qb->getQuery()->getResult() as $arr) {
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        $results = $query->getResult();
+        foreach ($results as $arr) {
             $userDTOs[$arr['userId']]->primaryCohort = $arr['primaryCohortId'] ? $arr['primaryCohortId'] : null;
             $userDTOs[$arr['userId']]->school = $arr['schoolId'];
             $userDTOs[$arr['userId']]->authentication = $arr['authenticationId'] ? $arr['authenticationId'] : null;
@@ -878,7 +900,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
                 ->orderBy('relId')
                 ->setParameter('ids', $userIds);
 
-            foreach ($qb->getQuery()->getResult() as $arr) {
+            $query = $qb->getQuery();
+            $query->useResultCache(true);
+            $results = $query->getResult();
+            foreach ($results as $arr) {
                 $userDTOs[$arr['userId']]->{$rel}[] = $arr['relId'];
             }
         }
@@ -925,7 +950,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
         $qb->setParameter('user_id', $id);
 
-        $offeringSessions = $qb->getQuery()->getArrayResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        $offeringSessions = $query->getArrayResult();
 
         $ilmQb = $this->_em->createQueryBuilder();
         $ilmQb->select('learnerIlmSession.id')->from('IliosCoreBundle:User', 'learnerU');
@@ -956,7 +983,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
         $qb->setParameter('user_id', $id);
 
-        $ilmSessions = $qb->getQuery()->getArrayResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        $ilmSessions = $query->getArrayResult();
         $offeringIds = array_map(function (array $arr) {
             return $arr['offeringId'];
         }, $offeringSessions);
@@ -1122,7 +1151,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->setParameter(':sessions', $sessionIds);
         $qb->distinct();
 
-        return $qb->getQuery()->getArrayResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        return $query->getArrayResult();
     }
 
     /**
@@ -1154,6 +1185,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->setParameter(':sessions', $sessionIds);
         $qb->distinct();
 
-        return $qb->getQuery()->getArrayResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
+        return $query->getArrayResult();
     }
 }
