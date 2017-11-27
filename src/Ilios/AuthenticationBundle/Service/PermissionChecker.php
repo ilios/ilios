@@ -37,6 +37,15 @@ class PermissionChecker
     const CAN_UPDATE_THEIR_SESSIONS = 'canUpdateTheirSessions';
     /** @var string */
     const CAN_DELETE_THEIR_SESSIONS = 'canDeleteTheirSessions';
+    /** @var string */
+    const CAN_READ_SESSION_TYPES = 'canReadSessionTypes';
+    /** @var string */
+    const CAN_UPDATE_SESSION_TYPES = 'canUpdateSessionTypes';
+    /** @var string */
+    const CAN_DELETE_SESSION_TYPES = 'canDeleteSessionTypes';
+    /** @var string */
+    const CAN_CREATE_SESSION_TYPES = 'canCreateSessionTypes';
+
     /**
      * @var SchoolManager
      */
@@ -81,6 +90,11 @@ class PermissionChecker
             $arr[self::CAN_READ_THEIR_SESSIONS] = $allRoles;
             $arr[self::CAN_UPDATE_THEIR_SESSIONS] = $allRoles;
             $arr[self::CAN_DELETE_THEIR_SESSIONS] = $allRoles;
+
+            $arr[self::CAN_READ_SESSION_TYPES] = $allRoles;
+            $arr[self::CAN_UPDATE_SESSION_TYPES] = $allRoles;
+            $arr[self::CAN_CREATE_SESSION_TYPES] = $allRoles;
+            $arr[self::CAN_DELETE_SESSION_TYPES] = $allRoles;
 
             $this->matrix[$schoolDto->id] = $arr;
         }
@@ -286,5 +300,61 @@ class PermissionChecker
         }
 
         return $this->canUpdateCourse($sessionUser, $courseId, $schoolId);
+    }
+
+    public function canReadSessionType(SessionUserInterface $sessionUser, int $sessionTypeId, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_SESSION_TYPES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateSessionType(SessionUserInterface $sessionUser, int $sessionTypeId, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_SESSION_TYPES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteSessionType(SessionUserInterface $sessionUser, int $sessionTypeId, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_SESSION_TYPES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateSessionType(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_SESSION_TYPES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
     }
 }
