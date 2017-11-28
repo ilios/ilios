@@ -42,7 +42,7 @@ class SessionType extends AbstractVoter
 
     protected function voteOnDTO(SessionUserInterface $sessionUser, SessionTypeDTO $sessionType): bool
     {
-        return $this->permissionChecker->canReadSessionType($sessionUser, $sessionType->id, $sessionType->school);
+        return $this->permissionChecker->canReadSessionType($sessionUser, $sessionType->school);
     }
 
     protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, SessionTypeInterface $sessionType): bool
@@ -51,7 +51,6 @@ class SessionType extends AbstractVoter
             case self::VIEW:
                 return $this->permissionChecker->canReadSessionType(
                     $sessionUser,
-                    $sessionType->getId(),
                     $sessionType->getSchool()->getId()
                 );
                 break;
@@ -61,14 +60,12 @@ class SessionType extends AbstractVoter
             case self::EDIT:
                 return $this->permissionChecker->canUpdateSessionType(
                     $sessionUser,
-                    $sessionType->getId(),
                     $sessionType->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteSessionType(
                     $sessionUser,
-                    $sessionType->getId(),
                     $sessionType->getSchool()->getId()
                 );
                 break;
