@@ -45,6 +45,14 @@ class PermissionChecker
     const CAN_DELETE_SESSION_TYPES = 'canDeleteSessionTypes';
     /** @var string */
     const CAN_CREATE_SESSION_TYPES = 'canCreateSessionTypes';
+    /** @var string */
+    const CAN_READ_DEPARTMENTS = 'canReadDepartments';
+    /** @var string */
+    const CAN_UPDATE_DEPARTMENTS = 'canUpdateDepartments';
+    /** @var string */
+    const CAN_DELETE_DEPARTMENTS = 'canDeleteDepartments';
+    /** @var string */
+    const CAN_CREATE_DEPARTMENTS = 'canCreateDepartments';
 
     /**
      * @var SchoolManager
@@ -95,6 +103,11 @@ class PermissionChecker
             $arr[self::CAN_UPDATE_SESSION_TYPES] = $allRoles;
             $arr[self::CAN_CREATE_SESSION_TYPES] = $allRoles;
             $arr[self::CAN_DELETE_SESSION_TYPES] = $allRoles;
+
+            $arr[self::CAN_READ_DEPARTMENTS] = $allRoles;
+            $arr[self::CAN_UPDATE_DEPARTMENTS] = $allRoles;
+            $arr[self::CAN_CREATE_DEPARTMENTS] = $allRoles;
+            $arr[self::CAN_DELETE_DEPARTMENTS] = $allRoles;
 
             $this->matrix[$schoolDto->id] = $arr;
         }
@@ -350,6 +363,62 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_CREATE_SESSION_TYPES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canReadDepartment(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_DEPARTMENTS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateDepartment(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_DEPARTMENTS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteDepartment(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_DEPARTMENTS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateDepartment(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_DEPARTMENTS,
             $rolesInSchool
         )) {
             return true;
