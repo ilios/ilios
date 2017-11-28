@@ -63,10 +63,10 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
             ->select('py.id as programYearId, p.id as programId, c.id as cohortId, s.id as schoolId')
             ->from('IliosCoreBundle:ProgramYear', 'py')
             ->join('py.program', 'p')
-            ->join('p.cohort', 'c')
+            ->join('py.cohort', 'c')
             ->join('p.school', 's')
 
-            ->where($qb->expr()->in('p.id', ':ids'))
+            ->where($qb->expr()->in('py.id', ':ids'))
             ->setParameter('ids', $programYearIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
