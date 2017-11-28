@@ -95,6 +95,14 @@ class PermissionChecker
     const CAN_UPDATE_THEIR_COHORTS = 'canUpdateTheirCohorts';
     /** @var string */
     const CAN_DELETE_THEIR_COHORTS = 'canDeleteTheirCohorts';
+    /** @var string */
+    const CAN_READ_SCHOOL_CONFIGS = 'canReadSchoolConfigs';
+    /** @var string */
+    const CAN_UPDATE_SCHOOL_CONFIGS = 'canUpdateSchoolConfigs';
+    /** @var string */
+    const CAN_DELETE_SCHOOL_CONFIGS = 'canDeleteSchoolConfigs';
+    /** @var string */
+    const CAN_CREATE_SCHOOL_CONFIGS = 'canCreateSchoolConfigs';
 
     /**
      * @var SchoolManager
@@ -152,6 +160,11 @@ class PermissionChecker
             $arr[self::CAN_UPDATE_DEPARTMENTS] = $allRoles;
             $arr[self::CAN_CREATE_DEPARTMENTS] = $allRoles;
             $arr[self::CAN_DELETE_DEPARTMENTS] = $allRoles;
+
+            $arr[self::CAN_READ_SCHOOL_CONFIGS] = $allRoles;
+            $arr[self::CAN_UPDATE_SCHOOL_CONFIGS] = $allRoles;
+            $arr[self::CAN_CREATE_SCHOOL_CONFIGS] = $allRoles;
+            $arr[self::CAN_DELETE_SCHOOL_CONFIGS] = $allRoles;
 
             $arr[self::CAN_READ_ALL_PROGRAMS] = $allRoles;
             $arr[self::CAN_UPDATE_ALL_PROGRAMS] = $allRoles;
@@ -504,10 +517,12 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_READ_ALL_PROGRAMS,
+
             $rolesInSchool
         )) {
             return true;
         }
+
         $rolesInProgram = $sessionUser->rolesInProgram($programId);
         if ($this->hasPermission(
             $schoolId,
@@ -530,6 +545,7 @@ class PermissionChecker
         )) {
             return true;
         }
+
         $rolesInProgram = $sessionUser->rolesInProgram($programId);
         if ($this->hasPermission(
             $schoolId,
@@ -552,6 +568,7 @@ class PermissionChecker
         )) {
             return true;
         }
+
         $rolesInProgram = $sessionUser->rolesInProgram($programId);
         if ($this->hasPermission(
             $schoolId,
