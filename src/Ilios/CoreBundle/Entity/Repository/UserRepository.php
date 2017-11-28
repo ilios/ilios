@@ -1335,6 +1335,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $sessionUserRelationships['taughtCourseSchoolIds'][] = $arr['schoolId'];
         }
 
+        $sessionUserRelationships['directedProgramIds'] = [];
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, program.id as programId')->from(User::class, 'u');
         $qb->join('u.directedPrograms', 'program');
@@ -1347,6 +1348,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $programDirectorSchoolIds[] = $arr['schoolId'];
         }
 
+        $sessionUserRelationships['directedProgramYearIds'] = [];
+        $sessionUserRelationships['directedCohortIds'] = [];
+        $sessionUserRelationships['directedProgramYearProgramIds'] = [];
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, program.id as programId, py.id as pyId, cohort.id as cohortId');
         $qb->from(User::class, 'u');
