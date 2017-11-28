@@ -302,7 +302,7 @@ class PermissionChecker
         return $this->canUpdateCourse($sessionUser, $courseId, $schoolId);
     }
 
-    public function canReadSessionType(SessionUserInterface $sessionUser, int $sessionTypeId, int $schoolId) : bool
+    public function canReadSessionType(SessionUserInterface $sessionUser, int $schoolId) : bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
@@ -316,7 +316,7 @@ class PermissionChecker
         return false;
     }
 
-    public function canUpdateSessionType(SessionUserInterface $sessionUser, int $sessionTypeId, int $schoolId) : bool
+    public function canUpdateSessionType(SessionUserInterface $sessionUser, int $schoolId) : bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
@@ -330,7 +330,7 @@ class PermissionChecker
         return false;
     }
 
-    public function canDeleteSessionType(SessionUserInterface $sessionUser, int $sessionTypeId, int $schoolId) : bool
+    public function canDeleteSessionType(SessionUserInterface $sessionUser, int $schoolId) : bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
