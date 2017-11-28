@@ -45,8 +45,11 @@ class Program extends AbstractVoter
         return $this->permissionChecker->canReadProgram($sessionUser, $program->id, $program->school);
     }
 
-    protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, ProgramInterface $program): bool
-    {
+    protected function voteOnEntity(
+        string $attribute,
+        SessionUserInterface $sessionUser,
+        ProgramInterface $program
+    ): bool {
         switch ($attribute) {
             case self::VIEW:
                 return $this->permissionChecker->canReadProgram(
