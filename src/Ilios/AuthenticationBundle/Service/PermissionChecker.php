@@ -103,6 +103,12 @@ class PermissionChecker
     const CAN_DELETE_SCHOOL_CONFIGS = 'canDeleteSchoolConfigs';
     /** @var string */
     const CAN_CREATE_SCHOOL_CONFIGS = 'canCreateSchoolConfigs';
+    /** @var string */
+    const CAN_READ_SCHOOLS = 'canReadSchools';
+    /** @var string */
+    const CAN_UPDATE_SCHOOLS = 'canUpdateSchools';
+    /** @var string */
+    const CAN_DELETE_SCHOOLS = 'canDeleteSchools';
 
     /**
      * @var SchoolManager
@@ -192,6 +198,10 @@ class PermissionChecker
             $arr[self::CAN_UPDATE_SCHOOL_CONFIGS] = $allRoles;
             $arr[self::CAN_CREATE_SCHOOL_CONFIGS] = $allRoles;
             $arr[self::CAN_DELETE_SCHOOL_CONFIGS] = $allRoles;
+
+            $arr[self::CAN_READ_SCHOOLS] = $allRoles;
+            $arr[self::CAN_UPDATE_SCHOOLS] = $allRoles;
+            $arr[self::CAN_DELETE_SCHOOLS] = $allRoles;
 
             $this->matrix[$schoolDto->id] = $arr;
         }
@@ -829,6 +839,48 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_CREATE_SCHOOL_CONFIGS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canReadSchools(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_SCHOOLS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateSchool(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_SCHOOLS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteSchool(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_SCHOOLS,
             $rolesInSchool
         )) {
             return true;
