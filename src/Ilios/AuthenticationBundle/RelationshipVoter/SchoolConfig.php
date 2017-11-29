@@ -45,8 +45,11 @@ class SchoolConfig extends AbstractVoter
         return $this->permissionChecker->canReadSchoolConfig($sessionUser, $schoolConfig->school);
     }
 
-    protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, SchoolConfigInterface $schoolConfig): bool
-    {
+    protected function voteOnEntity(
+        string $attribute,
+        SessionUserInterface $sessionUser,
+        SchoolConfigInterface $schoolConfig
+    ): bool {
         switch ($attribute) {
             case self::VIEW:
                 return $this->permissionChecker->canReadSchoolConfig(
@@ -55,7 +58,10 @@ class SchoolConfig extends AbstractVoter
                 );
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateSchoolConfig($sessionUser, $schoolConfig->getSchool()->getId());
+                return $this->permissionChecker->canCreateSchoolConfig(
+                    $sessionUser,
+                    $schoolConfig->getSchool()->getId()
+                );
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateSchoolConfig(
