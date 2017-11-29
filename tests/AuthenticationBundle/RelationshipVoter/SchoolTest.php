@@ -112,8 +112,6 @@ class SchoolTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(School::class);
-        $entity->shouldReceive('getId')->andReturn(1);
-        $this->permissionChecker->shouldReceive('canCreateSchool')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Create allowed");
     }
