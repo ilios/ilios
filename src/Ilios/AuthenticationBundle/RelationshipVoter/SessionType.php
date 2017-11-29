@@ -45,8 +45,11 @@ class SessionType extends AbstractVoter
         return $this->permissionChecker->canReadSessionType($sessionUser, $sessionType->school);
     }
 
-    protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, SessionTypeInterface $sessionType): bool
-    {
+    protected function voteOnEntity(
+        string $attribute,
+        SessionUserInterface $sessionUser,
+        SessionTypeInterface $sessionType
+    ): bool {
         switch ($attribute) {
             case self::VIEW:
                 return $this->permissionChecker->canReadSessionType(
