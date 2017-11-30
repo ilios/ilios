@@ -149,12 +149,8 @@ class DirectoryControllerTest extends WebTestCase
             'campusId' => 'abc',
         ];
 
-        $mockDeveloperRole = m::mock('Ilios\CoreBundle\Entity\UserRole')
-            ->shouldReceive('getTitle')->once()->andReturn('Developer')
-            ->mock();
-
         $mockSchool = m::mock('Ilios\CoreBundle\Entity\School')
-            ->shouldReceive('getId')->twice()->andReturn('1')
+            ->shouldReceive('getId')->once()->andReturn('1')
             ->mock();
 
         $mockAuthentication = m::mock('Ilios\CoreBundle\Entity\Authentication')
@@ -164,16 +160,13 @@ class DirectoryControllerTest extends WebTestCase
             ->mock();
 
         $mockUser = m::mock('Ilios\CoreBundle\Entity\User')
-            ->shouldReceive('getId')->once()->andReturn('2')
+            ->shouldReceive('getId')->twice()->andReturn('2')
             ->shouldReceive('isRoot')->once()->andReturn(false)
             ->shouldReceive('isEnabled')->once()->andReturn(true)
             ->shouldReceive('getCampusId')->once()->andReturn('abc')
             ->shouldReceive('getSchool')->once()->andReturn($mockSchool)
             ->shouldReceive('getAuthentication')->once()->andReturn($mockAuthentication)
-            ->shouldReceive('getRoles')->once()->andReturn(new ArrayCollection([$mockDeveloperRole]))
-            ->shouldReceive('getAllSchools')->once()->andReturn(new ArrayCollection([$mockSchool]))
             ->shouldReceive('getPermissions')->once()->andReturn(new ArrayCollection([]))
-            ->shouldReceive('getDirectedCourses')->once()->andReturn(new ArrayCollection([]))
             ->mock();
 
         $container->mock(Directory::class, Directory::class)
@@ -182,11 +175,35 @@ class DirectoryControllerTest extends WebTestCase
             ->once()
             ->andReturn($fakeDirectoryUser);
 
+        $relationships = [
+            'roleTitles' => ['Developer'],
+            'schoolIds' => [],
+            'directedCourseIds' => [],
+            'administeredCourseIds' => [],
+            'directedSchoolIds' => [],
+            'administeredSchoolIds' => [],
+            'directedCourseSchoolIds' => [],
+            'administeredCourseSchoolIds' => [],
+            'administeredSessionSchoolIds' => [],
+            'administeredSessionCourseIds' => [],
+            'taughtCourseIds' => [],
+            'taughtCourseSchoolIds' => [],
+            'administeredSessionIds' => [],
+            'instructedSessionIds' => [],
+            'directedProgramIds' => [],
+            'directedProgramYearIds' => [],
+            'directedProgramYearProgramIds' => [],
+            'directedCohortIds' => [],
+        ];
         $container->mock(UserManager::class, UserManager::class)
             ->shouldReceive('findOneBy')
             ->with(['id' => 1])
             ->twice()
-            ->andReturn($mockUser);
+            ->andReturn($mockUser)
+            ->shouldReceive('buildSessionRelationships')
+            ->with(2)
+            ->once()
+            ->andReturn($relationships);
 
         $this->makeJsonRequest(
             $this->client,
