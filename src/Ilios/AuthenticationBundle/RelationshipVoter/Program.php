@@ -3,17 +3,17 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\SessionTypeInterface;
-use Ilios\CoreBundle\Entity\DTO\SessionTypeDTO;
+use Ilios\CoreBundle\Entity\ProgramInterface;
+use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class SessionType extends AbstractVoter
+class Program extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
         return (
-            ($subject instanceof SessionTypeDTO && in_array($attribute, [self::VIEW])) or
-            ($subject instanceof SessionTypeInterface && in_array($attribute, [
+            ($subject instanceof ProgramDTO && in_array($attribute, [self::VIEW])) or
+            ($subject instanceof ProgramInterface && in_array($attribute, [
                     self::CREATE, self::VIEW, self::EDIT, self::DELETE
                 ]))
         );
@@ -29,47 +29,50 @@ class SessionType extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof SessionTypeDTO) {
+        if ($subject instanceof ProgramDTO) {
             return $this->voteOnDTO($user, $subject);
         }
 
-        if ($subject instanceof SessionTypeInterface) {
+        if ($subject instanceof ProgramInterface) {
             return $this->voteOnEntity($attribute, $user, $subject);
         }
 
         return false;
     }
 
-    protected function voteOnDTO(SessionUserInterface $sessionUser, SessionTypeDTO $sessionType): bool
+    protected function voteOnDTO(SessionUserInterface $sessionUser, ProgramDTO $program): bool
     {
-        return $this->permissionChecker->canReadSessionType($sessionUser, $sessionType->school);
+        return $this->permissionChecker->canReadProgram($sessionUser, $program->id, $program->school);
     }
 
     protected function voteOnEntity(
         string $attribute,
         SessionUserInterface $sessionUser,
-        SessionTypeInterface $sessionType
+        ProgramInterface $program
     ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadSessionType(
+                return $this->permissionChecker->canReadProgram(
                     $sessionUser,
-                    $sessionType->getSchool()->getId()
+                    $program->getId(),
+                    $program->getSchool()->getId()
                 );
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateSessionType($sessionUser, $sessionType->getSchool()->getId());
+                return $this->permissionChecker->canCreateProgram($sessionUser, $program->getSchool()->getId());
                 break;
             case self::EDIT:
-                return $this->permissionChecker->canUpdateSessionType(
+                return $this->permissionChecker->canUpdateProgram(
                     $sessionUser,
-                    $sessionType->getSchool()->getId()
+                    $program->getId(),
+                    $program->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
-                return $this->permissionChecker->canDeleteSessionType(
+                return $this->permissionChecker->canDeleteProgram(
                     $sessionUser,
-                    $sessionType->getSchool()->getId()
+                    $program->getId(),
+                    $program->getSchool()->getId()
                 );
                 break;
         }
