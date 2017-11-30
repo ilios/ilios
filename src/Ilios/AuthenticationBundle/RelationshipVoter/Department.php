@@ -45,8 +45,11 @@ class Department extends AbstractVoter
         return $this->permissionChecker->canReadDepartment($sessionUser, $department->id, $department->school);
     }
 
-    protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, DepartmentInterface $department): bool
-    {
+    protected function voteOnEntity(
+        string $attribute,
+        SessionUserInterface $sessionUser,
+        DepartmentInterface $department
+    ): bool {
         switch ($attribute) {
             case self::VIEW:
                 return $this->permissionChecker->canReadDepartment(
