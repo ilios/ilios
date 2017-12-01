@@ -5,7 +5,6 @@ namespace Ilios\Migrations;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 use SebastianBergmann\RecursionContext\Exception;
-use Symfony\Component\Yaml\Parser;
 
 /**
  * Correct timezone offsets and fix times to 5pm for ILM due dates.
@@ -53,7 +52,7 @@ class Version20160105002207 extends AbstractMigration
      */
     private function getTimezone()
     {
-        return date_default_timezone_get();
+        return new \DateTimeZone(date_default_timezone_get());
     }
 
     /**
