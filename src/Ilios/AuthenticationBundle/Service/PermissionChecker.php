@@ -109,6 +109,14 @@ class PermissionChecker
     const CAN_UPDATE_SCHOOLS = 'canUpdateSchools';
     /** @var string */
     const CAN_DELETE_SCHOOLS = 'canDeleteSchools';
+    /** @var string */
+    const CAN_READ_COMPETENCIES = 'canReadCompetencies';
+    /** @var string */
+    const CAN_UPDATE_COMPETENCIES = 'canUpdateCompetencies';
+    /** @var string */
+    const CAN_DELETE_COMPETENCIES = 'canDeleteCompetencies';
+    /** @var string */
+    const CAN_CREATE_COMPETENCIES = 'canCreateCompetencies';
 
     /**
      * @var SchoolManager
@@ -207,6 +215,11 @@ class PermissionChecker
             $arr[self::CAN_READ_SCHOOLS] = $allRoles;
             $arr[self::CAN_UPDATE_SCHOOLS] = $allRoles;
             $arr[self::CAN_DELETE_SCHOOLS] = $allRoles;
+
+            $arr[self::CAN_READ_COMPETENCIES] = $allRoles;
+            $arr[self::CAN_UPDATE_COMPETENCIES] = $allRoles;
+            $arr[self::CAN_CREATE_COMPETENCIES] = $allRoles;
+            $arr[self::CAN_DELETE_COMPETENCIES] = $allRoles;
 
             $this->matrix[$schoolDto->id] = $arr;
         }
@@ -890,6 +903,62 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_DELETE_SCHOOLS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canReadCompetency(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_COMPETENCIES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateCompetency(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_COMPETENCIES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteCompetency(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_COMPETENCIES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateCompetency(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_COMPETENCIES,
             $rolesInSchool
         )) {
             return true;
