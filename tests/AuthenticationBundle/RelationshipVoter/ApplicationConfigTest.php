@@ -22,20 +22,20 @@ class ApplicationConfigTest extends AbstractBase
         $this->checkRootAccess(ApplicationConfig::class, ApplicationConfigDTO::class);
     }
 
-    public function testCanViewDTO()
+    public function testCanNotViewDTO()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $dto = m::mock(ApplicationConfigDTO::class);
         $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
     }
 
-    public function testCanView()
+    public function testCanNotView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ApplicationConfig::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, " View allowed");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " View denied");
     }
 
     public function testCanNotEdit()
