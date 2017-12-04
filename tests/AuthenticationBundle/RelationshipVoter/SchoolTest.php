@@ -105,7 +105,7 @@ class SchoolTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn(1);
         $this->permissionChecker->shouldReceive('canDeleteSchool')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Delete allowed");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Delete denied");
     }
 
     public function testCanNotCreate()
@@ -113,6 +113,6 @@ class SchoolTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(School::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Create allowed");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Create denied");
     }
 }
