@@ -29,14 +29,6 @@ class ApplicationConfig extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof ApplicationConfigDTO) {
-            return true;
-        }
-
-        if ($subject instanceof ApplicationConfigInterface) {
-            return self::VIEW === $attribute;
-        }
-
         return false;
     }
 }
