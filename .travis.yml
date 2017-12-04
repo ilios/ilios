@@ -6,36 +6,36 @@ matrix:
   fast_finish: true
   allow_failures: 
   exclude:
-  - php: '7'
   - php: '7.1'
+  - php: '7.2'
   include:
-  - php: '7'
-    env: TEST_EVERYTHING_ELSE=true
   - php: '7.1'
     env: TEST_EVERYTHING_ELSE=true
-  - php: '7'
-    env: TEST_PHPUNIT_API1=true
+  - php: '7.2'
+    env: TEST_EVERYTHING_ELSE=true
   - php: '7.1'
     env: TEST_PHPUNIT_API1=true
-  - php: '7'
-    env: TEST_PHPUNIT_API2=true
+  - php: '7.2'
+    env: TEST_PHPUNIT_API1=true
   - php: '7.1'
     env: TEST_PHPUNIT_API2=true
-  - php: '7'
-    env: TEST_PHPUNIT_API3=true
+  - php: '7.2'
+    env: TEST_PHPUNIT_API2=true
   - php: '7.1'
     env: TEST_PHPUNIT_API3=true
-  - php: '7'
-    env: TEST_PHPUNIT_API4=true
+  - php: '7.2'
+    env: TEST_PHPUNIT_API3=true
   - php: '7.1'
     env: TEST_PHPUNIT_API4=true
-  - php: '7'
+  - php: '7.2'
+    env: TEST_PHPUNIT_API4=true
+  - php: '7.1'
     env: TEST_PHPUNIT_API5=true
-  - php: '7.1'
+  - php: '7.2'
     env: TEST_PHPUNIT_API5=true
 php:
-- '7'
 - '7.1'
+- '7.2'
 env:
   matrix:
   - TEST_PHPUNIT_API1=false
