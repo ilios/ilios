@@ -133,6 +133,14 @@ class PermissionChecker
     const CAN_DELETE_TERMS = 'canDeleteTerms';
     /** @var string */
     const CAN_CREATE_TERMS = 'canCreateTerms';
+    /** @var string */
+    const CAN_READ_INSTRUCTOR_GROUPS = 'canReadInstructorGroups';
+    /** @var string */
+    const CAN_UPDATE_INSTRUCTOR_GROUPS = 'canUpdateInstructorGroups';
+    /** @var string */
+    const CAN_DELETE_INSTRUCTOR_GROUPS = 'canDeleteInstructorGroups';
+    /** @var string */
+    const CAN_CREATE_INSTRUCTOR_GROUPS = 'canCreateInstructorGroups';
 
     /**
      * @var SchoolManager
@@ -246,6 +254,11 @@ class PermissionChecker
             $arr[self::CAN_UPDATE_TERMS] = $allRoles;
             $arr[self::CAN_CREATE_TERMS] = $allRoles;
             $arr[self::CAN_DELETE_TERMS] = $allRoles;
+
+            $arr[self::CAN_READ_INSTRUCTOR_GROUPS] = $allRoles;
+            $arr[self::CAN_UPDATE_INSTRUCTOR_GROUPS] = $allRoles;
+            $arr[self::CAN_CREATE_INSTRUCTOR_GROUPS] = $allRoles;
+            $arr[self::CAN_DELETE_INSTRUCTOR_GROUPS] = $allRoles;
 
             $this->matrix[$schoolDto->id] = $arr;
         }
@@ -1097,6 +1110,62 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_CREATE_TERMS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canReadInstructorGroup(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_INSTRUCTOR_GROUPS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateInstructorGroup(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_INSTRUCTOR_GROUPS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteInstructorGroup(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_INSTRUCTOR_GROUPS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateInstructorGroup(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_INSTRUCTOR_GROUPS,
             $rolesInSchool
         )) {
             return true;
