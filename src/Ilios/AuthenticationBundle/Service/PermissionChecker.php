@@ -117,6 +117,22 @@ class PermissionChecker
     const CAN_DELETE_COMPETENCIES = 'canDeleteCompetencies';
     /** @var string */
     const CAN_CREATE_COMPETENCIES = 'canCreateCompetencies';
+    /** @var string */
+    const CAN_READ_VOCABULARIES = 'canReadVocabularies';
+    /** @var string */
+    const CAN_UPDATE_VOCABULARIES = 'canUpdateVocabularies';
+    /** @var string */
+    const CAN_DELETE_VOCABULARIES = 'canDeleteVocabularies';
+    /** @var string */
+    const CAN_CREATE_VOCABULARIES = 'canCreateVocabularies';
+    /** @var string */
+    const CAN_READ_TERMS = 'canReadTerms';
+    /** @var string */
+    const CAN_UPDATE_TERMS = 'canUpdateTerms';
+    /** @var string */
+    const CAN_DELETE_TERMS = 'canDeleteTerms';
+    /** @var string */
+    const CAN_CREATE_TERMS = 'canCreateTerms';
 
     /**
      * @var SchoolManager
@@ -220,6 +236,16 @@ class PermissionChecker
             $arr[self::CAN_UPDATE_COMPETENCIES] = $allRoles;
             $arr[self::CAN_CREATE_COMPETENCIES] = $allRoles;
             $arr[self::CAN_DELETE_COMPETENCIES] = $allRoles;
+
+            $arr[self::CAN_READ_VOCABULARIES] = $allRoles;
+            $arr[self::CAN_UPDATE_VOCABULARIES] = $allRoles;
+            $arr[self::CAN_CREATE_VOCABULARIES] = $allRoles;
+            $arr[self::CAN_DELETE_VOCABULARIES] = $allRoles;
+
+            $arr[self::CAN_READ_TERMS] = $allRoles;
+            $arr[self::CAN_UPDATE_TERMS] = $allRoles;
+            $arr[self::CAN_CREATE_TERMS] = $allRoles;
+            $arr[self::CAN_DELETE_TERMS] = $allRoles;
 
             $this->matrix[$schoolDto->id] = $arr;
         }
@@ -959,6 +985,118 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_CREATE_COMPETENCIES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canReadVocabulary(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_VOCABULARIES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateVocabulary(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_VOCABULARIES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteVocabulary(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_VOCABULARIES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateVocabulary(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_VOCABULARIES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canReadTerm(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_TERMS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateTerm(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_TERMS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteTerm(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_TERMS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateTerm(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_TERMS,
             $rolesInSchool
         )) {
             return true;
