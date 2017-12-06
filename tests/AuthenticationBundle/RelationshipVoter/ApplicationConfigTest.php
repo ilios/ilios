@@ -35,7 +35,7 @@ class ApplicationConfigTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ApplicationConfig::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " View denied");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
     public function testCanNotEdit()
@@ -43,7 +43,7 @@ class ApplicationConfigTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ApplicationConfig::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Edit denied");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
     public function testCanNotDelete()
@@ -51,7 +51,7 @@ class ApplicationConfigTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ApplicationConfig::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Delete denied");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
     public function testCanNotCreate()
@@ -59,6 +59,6 @@ class ApplicationConfigTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ApplicationConfig::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Create denied");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
     }
 }
