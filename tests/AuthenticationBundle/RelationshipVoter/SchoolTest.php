@@ -50,7 +50,7 @@ class SchoolTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn(1);
         $this->permissionChecker->shouldReceive('canReadSchool')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, " View allowed");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanNotView()
@@ -61,7 +61,7 @@ class SchoolTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn(1);
         $this->permissionChecker->shouldReceive('canReadSchool')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " View denied");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
     public function testCanEdit()
@@ -72,7 +72,7 @@ class SchoolTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn(1);
         $this->permissionChecker->shouldReceive('canUpdateSchool')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, " Edit allowed");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
     public function testCanNotEdit()
@@ -83,7 +83,7 @@ class SchoolTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn(1);
         $this->permissionChecker->shouldReceive('canUpdateSchool')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Edit denied");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
     public function testCanDelete()
@@ -94,7 +94,7 @@ class SchoolTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn(1);
         $this->permissionChecker->shouldReceive('canDeleteSchool')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, " Delete allowed");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
 
     public function testCanNotDelete()
@@ -105,7 +105,7 @@ class SchoolTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn(1);
         $this->permissionChecker->shouldReceive('canDeleteSchool')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Delete denied");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
     public function testCanNotCreate()
@@ -113,6 +113,6 @@ class SchoolTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(School::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Create denied");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
     }
 }

@@ -55,7 +55,7 @@ class SessionTypeTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canReadSessionType')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, " View allowed");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanNotView()
@@ -68,7 +68,7 @@ class SessionTypeTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canReadSessionType')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " View denied");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
     public function testCanEdit()
@@ -81,7 +81,7 @@ class SessionTypeTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateSessionType')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, " Edit allowed");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
     public function testCanNotEdit()
@@ -94,7 +94,7 @@ class SessionTypeTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateSessionType')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Edit denied");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
     public function testCanDelete()
@@ -107,7 +107,7 @@ class SessionTypeTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canDeleteSessionType')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, " Delete allowed");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
 
     public function testCanNotDelete()
@@ -120,7 +120,7 @@ class SessionTypeTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canDeleteSessionType')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Delete allowed");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete allowed");
     }
 
     public function testCanCreate()
@@ -132,7 +132,7 @@ class SessionTypeTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canCreateSessionType')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, " Create denied");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create denied");
     }
 
     public function testCanNotCreate()
@@ -144,6 +144,6 @@ class SessionTypeTest extends AbstractBase
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canCreateSessionType')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, " Create allowed");
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create allowed");
     }
 }
