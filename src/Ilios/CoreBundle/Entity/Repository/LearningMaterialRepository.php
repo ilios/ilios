@@ -291,6 +291,20 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
             $qb->setParameter(':sessionTypes', $ids);
         }
 
+        if (array_key_exists('fullCourses', $criteria)) {
+            $ids = is_array($criteria['fullCourses']) ? $criteria['fullCourses'] : [$criteria['fullCourses']];
+            $qb->leftJoin('x.sessionLearningMaterials', 'f_slm');
+            $qb->leftJoin('f_slm.session', 'f_session');
+            $qb->leftJoin('f_session.course', 'f_session_course');
+            $qb->leftJoin('x.courseLearningMaterials', 'f_clm');
+            $qb->leftJoin('f_clm.course', 'f_course');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('f_course.id', ':courses'),
+                $qb->expr()->in('f_session_course.id', ':courses')
+            ));
+            $qb->setParameter(':courses', $ids);
+        }
+
         //cleanup all the possible relationship filters
         unset($criteria['courses']);
         unset($criteria['sessions']);
@@ -299,6 +313,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
         unset($criteria['terms']);
         unset($criteria['meshDescriptors']);
         unset($criteria['sessionTypes']);
+        unset($criteria['fullCourses']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
