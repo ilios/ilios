@@ -21,102 +21,127 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class MeshTest extends AbstractBase
 {
-    /** @var array */
-    protected $dtos;
-
-    /** @var array */
-    protected $entities;
-
-    /** @var array */
-    protected $names = [
-        'MeshConcept',
-        'MeshDescriptor',
-        'MeshPreviousIndexing',
-        'MeshQualifier',
-        'MeshTerm',
-        'MeshTree'
-    ];
-
+    /**
+     * @inheritdoc
+     */
     public function setup()
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
         $this->voter = new Voter($this->permissionChecker);
-
-        $this->dtos['MeshConcept'] = MeshConceptDTO::class;
-        $this->dtos['MeshDescriptor'] = MeshDescriptorDTO::class;
-        $this->dtos['MeshPreviousIndexing'] = MeshPreviousIndexingDTO::class;
-        $this->dtos['MeshQualifier'] = MeshQualifierDTO::class;
-        $this->dtos['MeshTerm'] = MeshTermDTO::class;
-        $this->dtos['MeshTree'] = MeshTreeDTO::class;
-
-        $this->entities['MeshConcept'] = MeshConcept::class;
-        $this->entities['MeshDescriptor'] = MeshDescriptor::class;
-        $this->entities['MeshPreviousIndexing'] = MeshPreviousIndexing::class;
-        $this->entities['MeshQualifier'] = MeshQualifier::class;
-        $this->entities['MeshTerm'] = MeshTerm::class;
-        $this->entities['MeshTree'] = MeshTree::class;
     }
 
-    public function tearDown()
+    /**
+     * @return array
+     */
+    public function dtoProvider()
     {
-        unset($this->dtos);
-        unset($this->entities);
+        return [
+            [MeshConceptDTO::class],
+            [MeshDescriptorDTO::class],
+            [MeshPreviousIndexingDTO::class],
+            [MeshQualifierDTO::class],
+            [MeshTermDTO::class],
+            [MeshTreeDTO::class],
+        ];
     }
 
-    public function testAllowsRootFullAccess()
+    /**
+     * @return array
+     */
+    public function entityProvider()
     {
-        foreach ($this->names as $name) {
-            $this->checkRootAccess($this->entities[$name], $this->dtos[$name]);
-        }
+        return [
+            [MeshConcept::class],
+            [MeshDescriptor::class],
+            [MeshPreviousIndexing::class],
+            [MeshQualifier::class],
+            [MeshTerm::class],
+            [MeshTree::class],
+        ];
     }
 
-    public function testCanViewDTO()
+    /**
+     * @return array
+     */
+    public function pairProvider()
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        foreach ($this->names as $name) {
-            $dto = m::mock($this->dtos[$name]);
-            $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-            $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "${name}DTO View allowed");
-        }
+        return [
+            [MeshConcept::class, MeshConceptDTO::class],
+            [MeshDescriptor::class, MeshDescriptorDTO::class],
+            [MeshPreviousIndexing::class, MeshPreviousIndexingDTO::class],
+            [MeshQualifier::class, MeshQualifierDTO::class],
+            [MeshTerm::class, MeshTermDTO::class],
+            [MeshTree::class, MeshTreeDTO::class]
+        ];
     }
 
-    public function testCanView()
+    /**
+     * @dataProvider pairProvider
+     * @param string $entityClass
+     * @param string $dtoClass
+     */
+    public function testAllowsRootFullAccess($entityClass, $dtoClass)
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        foreach ($this->names as $name) {
-            $entity = m::mock($this->entities[$name]);
-            $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
-            $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "${name} View allowed");
-        }
+        $this->checkRootAccess($entityClass, $dtoClass);
     }
 
-    public function testCanNotEdit()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        foreach ($this->names as $name) {
-            $entity = m::mock($this->entities[$name]);
-            $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
-            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${name} Edit denied");
-        }
-    }
-
-    public function testCanNotDelete()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        foreach ($this->names as $name) {
-            $entity = m::mock($this->entities[$name]);
-            $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
-            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${name} Delete denied");
-        }
-    }
-
-    public function testCanNotCreate()
+    /**
+     * @dataProvider dtoProvider
+     * @param string $dtoClass
+     */
+    public function testCanViewDTO($dtoClass)
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        foreach ($this->names as $name) {
-            $entity = m::mock($this->entities[$name]);
-            $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${name} Create denied");
-        }
+        $dto = m::mock($dtoClass);
+        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "${dtoClass} View allowed");
+    }
+
+    /**
+     * @dataProvider entityProvider
+     * @param string $entityClass
+     */
+    public function testCanView($entityClass)
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock($entityClass);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "${entityClass} View allowed");
+    }
+
+    /**
+     * @dataProvider entityProvider
+     * @param string $entityClass
+     */
+    public function testCanNotEdit($entityClass)
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock($entityClass);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${entityClass} Edit denied");
+    }
+
+    /**
+     * @dataProvider entityProvider
+     * @param string $entityClass
+     */
+    public function testCanNotDelete($entityClass)
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock($entityClass);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${entityClass} Delete denied");
+    }
+
+    /**
+     * @dataProvider entityProvider
+     * @param string $entityClass
+     */
+    public function testCanNotCreate($entityClass)
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock($entityClass);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${entityClass} Create denied");
     }
 }
