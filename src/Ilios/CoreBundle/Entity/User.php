@@ -1684,7 +1684,6 @@ class User implements UserInterface
     public function setAdministeredCurriculumInventoryReports(Collection $reports)
     {
         $this->administeredCurriculumInventoryReports = new ArrayCollection();
-
         foreach ($reports as $report) {
             $this->addAdministeredCurriculumInventoryReport($report);
         }
