@@ -27,4 +27,6 @@ interface UserRoles
     const SESSION_ADMINISTRATOR = 'sessionAdministrator';
     /** @var string */
     const SESSION_INSTRUCTOR = 'sessionInstructor';
+    /** @var string */
+    const CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR = 'curriculumInventoryReportAdministrator';
 }
