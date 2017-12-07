@@ -21,7 +21,7 @@
         ]
     },
     "require": {
-        "php": ">= 7.0",
+        "php": ">= 7.1",
         "ext-apcu": "*",
         "alchemy/zippy": "^0.4.8",
         "danielstjules/stringy": "^3.1",
@@ -47,7 +47,7 @@
         "swagger-api/swagger-ui": "^3.0",
         "symfony/monolog-bundle": "^3.1.0",
         "symfony/swiftmailer-bundle": "^2.3.10",
-        "symfony/symfony": "^3.3.4",
+        "symfony/symfony": "~v3.3.13",
         "twig/extensions": "^1.5"
     },
     "require-dev": {
@@ -81,7 +81,7 @@
     },
     "config": {
       "platform": {
-        "php": "7.0.8"
+        "php": "7.1.0"
       },
       "sort-packages": true
     },
