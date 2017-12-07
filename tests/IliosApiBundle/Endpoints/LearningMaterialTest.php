@@ -105,6 +105,8 @@ class LearningMaterialTest extends AbstractEndpointTest
             'terms' => [[0, 2, 4, 5, 6, 7, 8, 9], ['terms' => [3]]],
             'meshDescriptors' => [[0, 1, 2, 4, 5, 6, 7, 8, 9], ['meshDescriptors' => ['abc1', 'abc2']]],
             'sessionTypes' => [[0], ['sessionTypes' => [1]]],
+            'fullCoursesThroughCourse' => [[0], ['fullCourses' => [4]]],
+            'fullCoursesThroughSession' => [[2, 4, 5, 6, 7, 8, 9], ['fullCourses' => [2]]],
         ];
     }
 
