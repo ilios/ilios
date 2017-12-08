@@ -50,12 +50,21 @@ class AbstractBase extends TestCase
         return $this->createMockTokenWithSessionUser($sessionUser);
     }
 
-    protected function checkRootAccess($entityClass, $dtoClass)
-    {
+    /**
+     * Check that "root" users are granted access in all votes.
+     * @param $entityClass
+     * @param $dtoClass
+     * @param array $entityAttrs
+     */
+    protected function checkRootAccess(
+        $entityClass,
+        $dtoClass,
+        $entityAttrs = [AbstractVoter::VIEW, AbstractVoter::DELETE, AbstractVoter::CREATE, AbstractVoter::EDIT]
+    ) {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(true);
         $token = $this->createMockTokenWithSessionUser($sessionUser);
-        foreach ([AbstractVoter::VIEW, AbstractVoter::DELETE, AbstractVoter::CREATE, AbstractVoter::EDIT] as $attr) {
+        foreach ($entityAttrs as $attr) {
             $response = $this->voter->vote($token, m::mock($entityClass), [$attr]);
             $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "${attr} allowed");
         }
