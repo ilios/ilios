@@ -58,7 +58,10 @@ class InstructorGroup extends AbstractVoter
                 );
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateInstructorGroup($sessionUser, $vocabulary->getSchool()->getId());
+                return $this->permissionChecker->canCreateInstructorGroup(
+                    $sessionUser,
+                    $vocabulary->getSchool()->getId()
+                );
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateInstructorGroup(

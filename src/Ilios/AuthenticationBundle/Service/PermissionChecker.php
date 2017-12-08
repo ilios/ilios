@@ -608,7 +608,6 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_READ_ALL_PROGRAMS,
-
             $rolesInSchool
         )) {
             return true;
@@ -1202,8 +1201,7 @@ class PermissionChecker
         SessionUserInterface $sessionUser,
         int $curriculumInventoryReportId,
         int $schoolId
-    ): bool
-    {
+    ): bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
             $schoolId,
@@ -1228,8 +1226,7 @@ class PermissionChecker
         SessionUserInterface $sessionUser,
         int $curriculumInventoryReportId,
         int $schoolId
-    ): bool
-    {
+    ): bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
             $schoolId,
@@ -1278,8 +1275,7 @@ class PermissionChecker
     public function canCreateCurriculumInventoryReport(
         SessionUserInterface $sessionUser,
         int $schoolId
-    ): bool
-    {
+    ): bool {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
             $schoolId,

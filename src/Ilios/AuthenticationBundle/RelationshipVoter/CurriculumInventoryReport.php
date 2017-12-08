@@ -45,8 +45,11 @@ class CurriculumInventoryReport extends AbstractVoter
         return $this->permissionChecker->canReadCurriculumInventoryReport($sessionUser, $course->id, $course->school);
     }
 
-    protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, CurriculumInventoryReportInterface $course): bool
-    {
+    protected function voteOnEntity(
+        string $attribute,
+        SessionUserInterface $sessionUser,
+        CurriculumInventoryReportInterface $course
+    ): bool {
         switch ($attribute) {
             case self::VIEW:
                 return $this->permissionChecker->canReadCurriculumInventoryReport(
@@ -56,7 +59,10 @@ class CurriculumInventoryReport extends AbstractVoter
                 );
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateCurriculumInventoryReport($sessionUser, $course->getSchool()->getId());
+                return $this->permissionChecker->canCreateCurriculumInventoryReport(
+                    $sessionUser,
+                    $course->getSchool()->getId()
+                );
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateCurriculumInventoryReport(
