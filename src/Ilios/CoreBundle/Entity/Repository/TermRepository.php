@@ -72,7 +72,6 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
             $termDTOs[$arr['termId']]->vocabulary = $arr['vocabularyId'];
             $termDTOs[$arr['termId']]->parent = $arr['parentId'] ? $arr['parentId'] : null;
             $termDTOs[$arr['termId']]->school = $arr['schoolId'];
-
         }
 
         $related = [
