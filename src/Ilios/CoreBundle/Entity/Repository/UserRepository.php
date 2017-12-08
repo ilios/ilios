@@ -1235,8 +1235,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('u.administeredCurriculumInventoryReports', 'ciReports');
         $qb->join('ciReports.program', 'program');
         $qb->join('program.school', 'school');
-
-
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
