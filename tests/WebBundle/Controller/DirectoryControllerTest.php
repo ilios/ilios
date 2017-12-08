@@ -194,6 +194,8 @@ class DirectoryControllerTest extends WebTestCase
             'directedProgramYearIds' => [],
             'directedProgramYearProgramIds' => [],
             'directedCohortIds' => [],
+            'administeredCurriculumInventoryReportIds' => [],
+            'administeredCurriculumInventoryReportSchoolIds' => [],
         ];
         $container->mock(UserManager::class, UserManager::class)
             ->shouldReceive('findOneBy')
