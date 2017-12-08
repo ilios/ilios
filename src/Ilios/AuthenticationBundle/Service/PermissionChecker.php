@@ -156,6 +156,14 @@ class PermissionChecker
     const CAN_UPDATE_THEIR_CURRICULUM_INVENTORY_REPORTS = 'canUpdateTheirCurriculumInventoryReports';
     /** @var string */
     const CAN_DELETE_THEIR_CURRICULUM_INVENTORY_REPORTS = 'canDeleteTheirCurriculumInventoryReports';
+    /** @var string */
+    const CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS = 'canCreateCurriculumInventoryInstitutions';
+    /** @var string */
+    const CAN_READ_CURRICULUM_INVENTORY_INSTITUTIONS = 'canReadCurriculumInventoryInstitutions';
+    /** @var string */
+    const CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS = 'canUpdateCurriculumInventoryInstitutions';
+    /** @var string */
+    const CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS = 'canDeleteCurriculumInventoryInstitutions';
 
     /**
      * @var SchoolManager
@@ -283,6 +291,12 @@ class PermissionChecker
             $arr[self::CAN_READ_THEIR_CURRICULUM_INVENTORY_REPORTS] = $allRoles;
             $arr[self::CAN_UPDATE_THEIR_CURRICULUM_INVENTORY_REPORTS] = $allRoles;
             $arr[self::CAN_DELETE_THEIR_CURRICULUM_INVENTORY_REPORTS] = $allRoles;
+
+            $arr[self::CAN_READ_CURRICULUM_INVENTORY_INSTITUTIONS] = $allRoles;
+            $arr[self::CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS] = $allRoles;
+            $arr[self::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS] = $allRoles;
+            $arr[self::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS] = $allRoles;
+
 
             $this->matrix[$schoolDto->id] = $arr;
         }
@@ -1280,6 +1294,62 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_CREATE_CURRICULUM_INVENTORY_REPORTS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canReadCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_CURRICULUM_INVENTORY_INSTITUTIONS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS,
             $rolesInSchool
         )) {
             return true;
