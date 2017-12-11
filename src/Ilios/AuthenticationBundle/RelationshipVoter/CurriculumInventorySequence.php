@@ -63,19 +63,7 @@ class CurriculumInventorySequence extends AbstractVoter
                 );
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canUpdateCurriculumInventoryReport(
-                    $sessionUser,
-                    $sequence->getReport()->getId(),
-                    $sequence->getReport()->getSchool()->getId()
-                );
-                break;
             case self::EDIT:
-                return $this->permissionChecker->canUpdateCurriculumInventoryReport(
-                    $sessionUser,
-                    $sequence->getReport()->getId(),
-                    $sequence->getReport()->getSchool()->getId()
-                );
-                break;
             case self::DELETE:
                 return $this->permissionChecker->canUpdateCurriculumInventoryReport(
                     $sessionUser,
