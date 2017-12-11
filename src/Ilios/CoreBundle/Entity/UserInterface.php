@@ -157,7 +157,7 @@ interface UserInterface extends
      * @return boolean
      */
     public function isUserSyncIgnore();
-    
+
     /**
      * Generate a random string to use as the calendar feed url
      */
@@ -319,7 +319,7 @@ interface UserInterface extends
      * @return ArrayCollection|PendingUserUpdateInterface[]
      */
     public function getPendingUserUpdates();
-    
+
     /**
      * @return ArrayCollection[School]
      */
@@ -494,4 +494,25 @@ interface UserInterface extends
      * @return boolean
      */
     public function isRoot();
+
+
+    /**
+     * @return ArrayCollection|CurriculumInventoryReportInterface[]
+     */
+    public function getAdministeredCurriculumInventoryReports();
+
+    /**
+     * @param Collection $reports
+     */
+    public function setAdministeredCurriculumInventoryReports(Collection $reports);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     */
+    public function addAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     */
+    public function removeAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
 }

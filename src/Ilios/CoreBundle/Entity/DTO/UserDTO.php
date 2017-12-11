@@ -271,6 +271,13 @@ class UserDTO
      */
     public $directedPrograms;
 
+    /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("array<string>")
+     */
+    public $administeredCurriculumInventoryReports;
+
     public function __construct(
         $id,
         $firstName,
@@ -302,26 +309,27 @@ class UserDTO
         $this->icsFeedKey = $icsFeedKey;
         $this->root = $root;
 
-        $this->reminders                = [];
-        $this->directedCourses          = [];
-        $this->administeredCourses          = [];
-        $this->learnerGroups            = [];
-        $this->instructedLearnerGroups  = [];
-        $this->instructorGroups         = [];
-        $this->offerings                = [];
-        $this->instructedOfferings      = [];
-        $this->instructorIlmSessions    = [];
-        $this->programYears             = [];
-        $this->roles                    = [];
-        $this->reports                  = [];
-        $this->cohorts                  = [];
-        $this->pendingUserUpdates       = [];
-        $this->auditLogs                = [];
-        $this->permissions              = [];
-        $this->learnerIlmSessions       = [];
-        $this->directedSchools          = [];
-        $this->administeredSchools      = [];
-        $this->administeredSessions     = [];
-        $this->directedPrograms         = [];
+        $this->reminders = [];
+        $this->directedCourses = [];
+        $this->administeredCourses = [];
+        $this->learnerGroups = [];
+        $this->instructedLearnerGroups = [];
+        $this->instructorGroups = [];
+        $this->offerings = [];
+        $this->instructedOfferings = [];
+        $this->instructorIlmSessions = [];
+        $this->programYears = [];
+        $this->roles = [];
+        $this->reports = [];
+        $this->cohorts = [];
+        $this->pendingUserUpdates = [];
+        $this->auditLogs = [];
+        $this->permissions = [];
+        $this->learnerIlmSessions = [];
+        $this->directedSchools = [];
+        $this->administeredSchools = [];
+        $this->administeredSessions = [];
+        $this->directedPrograms = [];
+        $this->administeredCurriculumInventoryReports = [];
     }
 }

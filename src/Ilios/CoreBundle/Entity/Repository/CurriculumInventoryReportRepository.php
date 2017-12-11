@@ -80,7 +80,8 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
 
         $related = [
             'sequenceBlocks',
-            'academicLevels'
+            'academicLevels',
+            'administrators',
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
@@ -154,7 +155,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
 
         return $qb;
     }
-    
+
     /**
      * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
      * in a given curriculum inventory report.
@@ -698,7 +699,7 @@ EOL;
             $rhett['session_objective_ids'][] = $row['objective_id'];
             $rhett['course_objective_ids'][] = $row['parent_objective_id'];
         }
-        
+
         // dedupe
         $rhett['session_objective_ids'] = array_values(array_unique($rhett['session_objective_ids']));
         $rhett['course_objective_ids'] = array_values(array_unique($rhett['course_objective_ids']));

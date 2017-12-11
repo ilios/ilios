@@ -68,6 +68,11 @@ class LoadUserData extends AbstractFixture implements
             foreach ($arr['directedPrograms'] as $id) {
                 $entity->addDirectedProgram($this->getReference('programs' . $id));
             }
+            foreach ($arr['administeredCurriculumInventoryReports'] as $id) {
+                $entity->addAdministeredCurriculumInventoryReport(
+                    $this->getReference('curriculumInventoryReports' . $id)
+                );
+            }
             $manager->persist($entity);
             $this->addReference('users' . $arr['id'], $entity);
         }
@@ -83,6 +88,7 @@ class LoadUserData extends AbstractFixture implements
             'Tests\CoreBundle\Fixture\LoadUserRoleData',
             'Tests\CoreBundle\Fixture\LoadSchoolData',
             'Tests\CoreBundle\Fixture\LoadProgramData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryReportData',
         );
     }
 }

@@ -122,6 +122,13 @@ class CurriculumInventoryReportDTO
     public $token;
 
     /**
+     * @var int[]
+     * @IS\Expose
+     * @IS\Type("array<string>")
+     */
+    public $administrators;
+
+    /**
      * Constructor
      */
     public function __construct($id, $name, $description, $year, $startDate, $endDate, $token)
@@ -136,5 +143,6 @@ class CurriculumInventoryReportDTO
 
         $this->academicLevels = [];
         $this->sequenceBlocks = [];
+        $this->administrators = [];
     }
 }

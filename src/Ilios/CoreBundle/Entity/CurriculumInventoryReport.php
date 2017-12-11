@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\AdministratorsEntity;
 use Ilios\CoreBundle\Traits\SequenceBlocksEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -37,6 +38,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     use DescribableEntity;
     use StringableIdEntity;
     use SequenceBlocksEntity;
+    use AdministratorsEntity;
 
     /**
      * @var int
@@ -189,12 +191,31 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     protected $token;
 
     /**
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="administeredCurriculumInventoryReports"))
+     * @ORM\JoinTable(name="curriculum_inventory_report_administrator",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $administrators;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->academicLevels = new ArrayCollection();
         $this->sequenceBlocks = new ArrayCollection();
+        $this->administrators = new ArrayCollection();
     }
 
     /**
@@ -365,5 +386,27 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 
         // hash the string to give consistent length and URL safe characters
         $this->token = hash('sha256', $key);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addAdministrator(UserInterface $administrator)
+    {
+        if (!$this->administrators->contains($administrator)) {
+            $this->administrators->add($administrator);
+            $administrator->addAdministeredCurriculumInventoryReport($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeAdministrator(UserInterface $administrator)
+    {
+        if ($this->administrators->contains($administrator)) {
+            $this->administrators->removeElement($administrator);
+            $administrator->removeAdministeredCurriculumInventoryReport($this);
+        }
     }
 }

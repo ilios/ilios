@@ -47,6 +47,8 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
             'sequenceBlocks' => ['sequenceBlocks', [1], $skipped = true],
             'program' => ['program', $this->getFaker()->text, $skipped = true],
             'academicLevels' => ['academicLevels', [1], $skipped = true],
+            'administrators' => ['administrators', [1]],
+
         ];
     }
 

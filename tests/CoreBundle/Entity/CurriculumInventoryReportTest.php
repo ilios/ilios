@@ -189,4 +189,48 @@ class CurriculumInventoryReportTest extends EntityBase
     {
         $this->entityCollectionSetTest('academicLevel', 'CurriculumInventoryAcademicLevel');
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryReport::addAdministrator
+     */
+    public function testAddAdministrator()
+    {
+        $this->entityCollectionAddTest(
+            'administrator',
+            'User',
+            false,
+            false,
+            'addAdministeredCurriculumInventoryReport'
+        );
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryReport::removeAdministrator
+     */
+    public function testRemoveAdministrator()
+    {
+        $this->entityCollectionRemoveTest(
+            'administrator',
+            'User',
+            false,
+            false,
+            false,
+            'removeAdministeredCurriculumInventoryReport'
+        );
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryReport::getAdministrators
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryReport::setAdministrators
+     */
+    public function testSetAdministrators()
+    {
+        $this->entityCollectionSetTest(
+            'administrator',
+            'User',
+            false,
+            false,
+            'addAdministeredCurriculumInventoryReport'
+        );
+    }
 }

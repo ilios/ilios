@@ -38,6 +38,7 @@ class UserTest extends AbstractEndpointTest
             'Tests\CoreBundle\Fixture\LoadReportData',
             'Tests\CoreBundle\Fixture\LoadAuthenticationData',
             'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryReportData',
         ];
     }
 
@@ -81,6 +82,7 @@ class UserTest extends AbstractEndpointTest
             'directedSchools' => ['directedSchools', [2]],
             'administeredSchools' => ['administeredSchools', [1, 2]],
             'directedPrograms' => ['directedPrograms', [2]],
+            'administeredCurriculumInventoryReports' => ['administeredCurriculumInventoryReports', [2]],
             'root' => ['root', true],
         ];
     }
@@ -152,6 +154,7 @@ class UserTest extends AbstractEndpointTest
             'instructedSessionTypes' => [[0, 1], ['instructedSessionTypes' => [2]]],
             'instructedLearningMaterials' => [[0, 1], ['instructedLearningMaterials' => [1, 2, 3]]],
             'learnerSessions' => [[1, 4], ['learnerSessions' => [1]]],
+            'administeredCurriculumInventoryReports' => [],
         ];
     }
 
