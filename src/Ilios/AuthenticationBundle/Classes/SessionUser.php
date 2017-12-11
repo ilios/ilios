@@ -147,6 +147,16 @@ class SessionUser implements SessionUserInterface
      */
     protected $directedCohortIds;
 
+    /**
+     * @var array
+     */
+    protected $administeredCurriculumInventoryReportIds;
+
+    /**
+     * @var array
+     */
+    protected $administeredCurriculumInventoryReportSchoolIds;
+
     public function __construct(IliosUserInterface $user, UserManager $userManager)
     {
         $relationships = $userManager->buildSessionRelationships($user->getId());
@@ -168,6 +178,9 @@ class SessionUser implements SessionUserInterface
         $this->directedProgramYearIds = $relationships['directedProgramYearIds'];
         $this->directedProgramYearProgramIds = $relationships['directedProgramYearProgramIds'];
         $this->directedCohortIds = $relationships['directedCohortIds'];
+        $this->administeredCurriculumInventoryReportIds = $relationships['administeredCurriculumInventoryReportIds'];
+        $this->administeredCurriculumInventoryReportSchoolIds
+            = $relationships['administeredCurriculumInventoryReportSchoolIds'];
 
         $this->userId = $user->getId();
         $this->isRoot = $user->isRoot();
@@ -575,6 +588,10 @@ class SessionUser implements SessionUserInterface
             $roles[] = UserRoles::COURSE_INSTRUCTOR;
         }
 
+        if ($this->isAdministeringCurriculumInventoryReportInSchool($schoolId)) {
+            $roles[] = UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR;
+        }
+
         return $roles;
     }
 
@@ -643,6 +660,27 @@ class SessionUser implements SessionUserInterface
 
         if ($this->isDirectingCohort($cohortId)) {
             $roles[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
+        }
+
+        return $roles;
+    }
+
+    public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId) : bool
+    {
+        return in_array($schoolId, $this->administeredCurriculumInventoryReportSchoolIds);
+    }
+
+    public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId): bool
+    {
+        return in_array($curriculumInventoryReportId, $this->administeredCurriculumInventoryReportIds);
+    }
+
+    public function rolesInCurriculumInventoryReport(int $curriculumInventoryReportId): array
+    {
+        $roles = [];
+
+        if ($this->isAdministeringCurriculumInventoryReport($curriculumInventoryReportId)) {
+            $roles[] = UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR;
         }
 
         return $roles;

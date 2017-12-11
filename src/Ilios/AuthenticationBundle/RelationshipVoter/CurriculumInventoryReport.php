@@ -3,17 +3,17 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\DTO\CourseDTO;
+use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
+use Ilios\CoreBundle\Entity\DTO\CurriculumInventoryReportDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class Course extends AbstractVoter
+class CurriculumInventoryReport extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
         return (
-            ($subject instanceof CourseDTO && in_array($attribute, [self::VIEW])) or
-            ($subject instanceof CourseInterface && in_array($attribute, [
+            ($subject instanceof CurriculumInventoryReportDTO && in_array($attribute, [self::VIEW])) or
+            ($subject instanceof CurriculumInventoryReportInterface && in_array($attribute, [
                     self::CREATE, self::VIEW, self::EDIT, self::DELETE
                 ]))
         );
@@ -29,44 +29,50 @@ class Course extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof CourseDTO) {
+        if ($subject instanceof CurriculumInventoryReportDTO) {
             return $this->voteOnDTO($user, $subject);
         }
 
-        if ($subject instanceof CourseInterface) {
+        if ($subject instanceof CurriculumInventoryReportInterface) {
             return $this->voteOnEntity($attribute, $user, $subject);
         }
 
         return false;
     }
 
-    protected function voteOnDTO(SessionUserInterface $sessionUser, CourseDTO $course): bool
+    protected function voteOnDTO(SessionUserInterface $sessionUser, CurriculumInventoryReportDTO $course): bool
     {
-        return $this->permissionChecker->canReadCourse($sessionUser, $course->id, $course->school);
+        return $this->permissionChecker->canReadCurriculumInventoryReport($sessionUser, $course->id, $course->school);
     }
 
-    protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, CourseInterface $course): bool
-    {
+    protected function voteOnEntity(
+        string $attribute,
+        SessionUserInterface $sessionUser,
+        CurriculumInventoryReportInterface $course
+    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadCourse(
+                return $this->permissionChecker->canReadCurriculumInventoryReport(
                     $sessionUser,
                     $course->getId(),
                     $course->getSchool()->getId()
                 );
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateCourse($sessionUser, $course->getSchool()->getId());
+                return $this->permissionChecker->canCreateCurriculumInventoryReport(
+                    $sessionUser,
+                    $course->getSchool()->getId()
+                );
                 break;
             case self::EDIT:
-                return $this->permissionChecker->canUpdateCourse(
+                return $this->permissionChecker->canUpdateCurriculumInventoryReport(
                     $sessionUser,
                     $course->getId(),
                     $course->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
-                return $this->permissionChecker->canDeleteCourse(
+                return $this->permissionChecker->canDeleteCurriculumInventoryReport(
                     $sessionUser,
                     $course->getId(),
                     $course->getSchool()->getId()

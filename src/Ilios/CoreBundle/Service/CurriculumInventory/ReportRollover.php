@@ -75,6 +75,7 @@ class ReportRollover
         $newReport->setStartDate($report->getStartDate());
         $newReport->setEndDate($report->getEndDate());
         $newReport->setProgram($report->getProgram());
+        $newReport->setAdministrators($report->getAdministrators());
         if (isset($newName)) {
             $newReport->setName($newName);
         } else {
@@ -90,6 +91,7 @@ class ReportRollover
         } else {
             $newReport->setYear($report->getYear());
         }
+
         $this->reportManager->update($newReport, false, false);
 
         $newLevels = [];

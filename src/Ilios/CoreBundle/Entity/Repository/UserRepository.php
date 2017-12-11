@@ -1231,6 +1231,22 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
 
         $qb = $this->_em->createQueryBuilder();
+        $qb->select('school.id as schoolId, ciReports.id as ciReportId')->from(User::class, 'u');
+        $qb->join('u.administeredCurriculumInventoryReports', 'ciReports');
+        $qb->join('ciReports.program', 'program');
+        $qb->join('program.school', 'school');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+
+        $sessionUserRelationships['administeredCurriculumInventoryReportIds'] = [];
+        $sessionUserRelationships['administeredCurriculumInventoryReportSchoolIds'] = [];
+
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $sessionUserRelationships['administeredCurriculumInventoryReportIds'][] = $arr['ciReportId'];
+            $sessionUserRelationships['administeredCurriculumInventoryReportSchoolIds'][] = $arr['schoolId'];
+        }
+
+        $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, course.id as courseId, session.id as sessionId');
         $qb->from(User::class, 'u');
         $qb->join('u.administeredSessions', 'session');

@@ -172,4 +172,7 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function isDirectingProgramYear(int $programYearId) : bool;
     public function isDirectingProgramYearInProgram(int $programId) : bool;
     public function isDirectingCohort(int $cohortId) : bool;
+
+    public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId) : bool;
+    public function rolesInCurriculumInventoryReport(int $curriculumInventoryReportId): array;
 }
