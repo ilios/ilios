@@ -283,7 +283,7 @@ class UserTest extends EntityBase
     {
         $this->entityCollectionSetTest('directedCourse', 'Course', false, false, 'addDirector');
     }
-    
+
     /**
      * @covers \Ilios\CoreBundle\Entity\User::addAdministeredSession
      */
@@ -832,5 +832,49 @@ class UserTest extends EntityBase
         $this->assertSame($obj, $this->object->getAuthentication());
         $this->object->setAuthentication(null);
         $this->assertSame(null, $this->object->getAuthentication());
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\User::addAdministeredCurriculumInventoryReport
+     */
+    public function testAddAdministeredCurriculumInventoryReport()
+    {
+        $this->entityCollectionAddTest(
+            'administeredCurriculumInventoryReport',
+            'CurriculumInventoryReport',
+            false,
+            false,
+            'addAdministrator'
+        );
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\User::removeAdministeredCurriculumInventoryReport
+     */
+    public function testRemoveAdministeredCurriculumInventoryReport()
+    {
+        $this->entityCollectionRemoveTest(
+            'administeredCurriculumInventoryReport',
+            'CurriculumInventoryReport',
+            false,
+            false,
+            false,
+            'removeAdministrator'
+        );
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\User::getAdministeredCurriculumInventoryReports
+     * @covers \Ilios\CoreBundle\Entity\User::setAdministeredCurriculumInventoryReports
+     */
+    public function testGetAdministeredCurriculumInventoryReports()
+    {
+        $this->entityCollectionSetTest(
+            'administeredCurriculumInventoryReport',
+            'CurriculumInventoryReport',
+            false,
+            false,
+            'addAdministrator'
+        );
     }
 }

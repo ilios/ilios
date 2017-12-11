@@ -531,39 +531,50 @@ class User implements UserInterface
     protected $root;
 
     /**
+     * @var ArrayCollection|CurriculumInventoryReportInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="CurriculumInventoryReport", mappedBy="administrators")
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $administeredCurriculumInventoryReports;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->reminders                = new ArrayCollection();
-        $this->directedCourses          = new ArrayCollection();
-        $this->learnerGroups            = new ArrayCollection();
-        $this->instructedLearnerGroups  = new ArrayCollection();
-        $this->instructorGroups         = new ArrayCollection();
-        $this->offerings                = new ArrayCollection();
-        $this->instructedOfferings      = new ArrayCollection();
-        $this->instructorIlmSessions    = new ArrayCollection();
-        $this->programYears             = new ArrayCollection();
-        $this->alerts                   = new ArrayCollection();
-        $this->roles                    = new ArrayCollection();
-        $this->learningMaterials        = new ArrayCollection();
-        $this->reports                  = new ArrayCollection();
-        $this->cohorts                  = new ArrayCollection();
-        $this->pendingUserUpdates       = new ArrayCollection();
-        $this->auditLogs                = new ArrayCollection();
-        $this->permissions              = new ArrayCollection();
-        $this->administeredSessions     = new ArrayCollection();
-        $this->administeredCourses      = new ArrayCollection();
-        $this->learnerIlmSessions       = new ArrayCollection();
-        $this->directedSchools          = new ArrayCollection();
-        $this->administeredSchools      = new ArrayCollection();
-        $this->directedPrograms         = new ArrayCollection();
-        $this->addedViaIlios            = false;
-        $this->enabled                  = true;
-        $this->examined                 = false;
-        $this->userSyncIgnore           = false;
-        $this->root                   = false;
-        
+        $this->reminders = new ArrayCollection();
+        $this->directedCourses = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
+        $this->instructedLearnerGroups = new ArrayCollection();
+        $this->instructorGroups = new ArrayCollection();
+        $this->offerings = new ArrayCollection();
+        $this->instructedOfferings = new ArrayCollection();
+        $this->instructorIlmSessions = new ArrayCollection();
+        $this->programYears = new ArrayCollection();
+        $this->alerts = new ArrayCollection();
+        $this->roles = new ArrayCollection();
+        $this->learningMaterials = new ArrayCollection();
+        $this->reports = new ArrayCollection();
+        $this->cohorts = new ArrayCollection();
+        $this->pendingUserUpdates = new ArrayCollection();
+        $this->auditLogs = new ArrayCollection();
+        $this->permissions = new ArrayCollection();
+        $this->administeredSessions = new ArrayCollection();
+        $this->administeredCourses = new ArrayCollection();
+        $this->learnerIlmSessions = new ArrayCollection();
+        $this->directedSchools = new ArrayCollection();
+        $this->administeredSchools = new ArrayCollection();
+        $this->directedPrograms = new ArrayCollection();
+        $this->administeredCurriculumInventoryReports = new ArrayCollection();
+        $this->addedViaIlios = false;
+        $this->enabled = true;
+        $this->examined = false;
+        $this->userSyncIgnore = false;
+        $this->root = false;
+
         $this->generateIcsFeedKey();
     }
 
@@ -750,21 +761,21 @@ class User implements UserInterface
     {
         return $this->userSyncIgnore;
     }
-    
+
     /**
      * @inheritdoc
      */
     public function generateIcsFeedKey()
     {
         $random = random_bytes(128);
-        
+
         // and current time to give some more uniqueness
         $key = microtime() . '_' . $random;
-        
+
         // hash the string to give consistent length and URL safe characters
         $this->icsFeedKey = hash('sha256', $key);
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -1593,7 +1604,7 @@ class User implements UserInterface
     {
         return $this->directedPrograms;
     }
-    
+
     /**
      * Get all the schools an user is affiliated with so we can match
      * permissions.
@@ -1657,5 +1668,45 @@ class User implements UserInterface
     public function setRoot($root)
     {
         $this->root = $root;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredCurriculumInventoryReports()
+    {
+        return $this->administeredCurriculumInventoryReports;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setAdministeredCurriculumInventoryReports(Collection $reports)
+    {
+        $this->administeredCurriculumInventoryReports = new ArrayCollection();
+
+        foreach ($reports as $report) {
+            $this->addAdministeredCurriculumInventoryReport($report);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
+    {
+        if (!$this->administeredCurriculumInventoryReports->contains($report)) {
+            $this->administeredCurriculumInventoryReports->add($report);
+            $report->addAdministrator($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
+    {
+        $this->administeredCurriculumInventoryReports->removeElement($report);
+        $report->removeAdministrator($this);
     }
 }

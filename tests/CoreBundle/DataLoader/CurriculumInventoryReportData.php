@@ -7,7 +7,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
     protected function getData()
     {
         $arr = array();
-        
+
         $dt = $this->faker->dateTime;
         $dt->setTime(0, 0, 0);
         $arr[] = array(
@@ -20,9 +20,10 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => ['1', '2', '3', '4', '5'],
-            'academicLevels' => ['1', '2']
+            'academicLevels' => ['1', '2'],
+            'administrators' => ['1'],
         );
-        
+
         $arr[] = array(
             'id' => 2,
             'export' => '1',
@@ -35,6 +36,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => [],
             'academicLevels' => [],
+            'administrators' => [],
         );
         $arr[] = array(
             'id' => 3,
@@ -47,6 +49,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => [],
             'academicLevels' => [],
+            'administrators' => [],
         );
 
         return $arr;
@@ -66,6 +69,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => [],
             'academicLevels' => [],
+            'administrators' => [],
         );
     }
 

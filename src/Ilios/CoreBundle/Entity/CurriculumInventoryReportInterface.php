@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\AdministratorsEntityInterface;
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
@@ -19,7 +20,8 @@ interface CurriculumInventoryReportInterface extends
     DescribableEntityInterface,
     StringableEntityInterface,
     LoggableEntityInterface,
-    SequenceBlocksEntityInterface
+    SequenceBlocksEntityInterface,
+    AdministratorsEntityInterface
 {
     /**
      * @param int $year

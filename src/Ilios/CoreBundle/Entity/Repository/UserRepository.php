@@ -868,6 +868,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             'administeredSchools',
             'administeredSessions',
             'directedPrograms',
+            'administeredCurriculumInventoryReports',
         ];
 
         foreach ($related as $rel) {
