@@ -47,9 +47,12 @@ class LearnerGroupRepository extends EntityRepository implements DTORepositoryIn
         $learnerGroupIds = array_keys($learnerGroupDTOs);
 
         $qb = $this->_em->createQueryBuilder()
-            ->select('l.id as learnerGroupId, plg.id as parentId, c.id as cohortId')
+            ->select('l.id as learnerGroupId, plg.id as parentId, c.id as cohortId, s.id as schoolId')
             ->from('IliosCoreBundle:LearnerGroup', 'l')
             ->join('l.cohort', 'c')
+            ->join('c.programYear', 'py')
+            ->join('py.program', 'p')
+            ->join('p.school', 's')
             ->leftJoin('l.parent', 'plg')
             ->where($qb->expr()->in('l.id', ':ids'))
             ->setParameter('ids', $learnerGroupIds);
@@ -57,6 +60,7 @@ class LearnerGroupRepository extends EntityRepository implements DTORepositoryIn
         foreach ($qb->getQuery()->getResult() as $arr) {
             $learnerGroupDTOs[$arr['learnerGroupId']]->cohort = (int) $arr['cohortId'];
             $learnerGroupDTOs[$arr['learnerGroupId']]->parent = $arr['parentId']?(int)$arr['parentId']:null;
+            $learnerGroupDTOs[$arr['learnerGroupId']]->school = (int) $arr['schoolId'];
         }
 
         $related = [
