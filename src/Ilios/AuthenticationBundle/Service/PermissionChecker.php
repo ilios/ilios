@@ -164,6 +164,14 @@ class PermissionChecker
     const CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS = 'canUpdateCurriculumInventoryInstitutions';
     /** @var string */
     const CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS = 'canDeleteCurriculumInventoryInstitutions';
+    /** @var string */
+    const CAN_CREATE_LEARNER_GROUPS = 'canCreateLearnerGroups';
+    /** @var string */
+    const CAN_READ_LEARNER_GROUPS = 'canReadLearnerGroups';
+    /** @var string */
+    const CAN_UPDATE_LEARNER_GROUPS = 'canUpdateLearnerGroups';
+    /** @var string */
+    const CAN_DELETE_LEARNER_GROUPS = 'canDeleteLearnerGroups';
 
     /**
      * @var SchoolManager
@@ -297,6 +305,10 @@ class PermissionChecker
             $arr[self::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS] = $allRoles;
             $arr[self::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS] = $allRoles;
 
+            $arr[self::CAN_READ_LEARNER_GROUPS] = $allRoles;
+            $arr[self::CAN_UPDATE_LEARNER_GROUPS] = $allRoles;
+            $arr[self::CAN_CREATE_LEARNER_GROUPS] = $allRoles;
+            $arr[self::CAN_DELETE_LEARNER_GROUPS] = $allRoles;
 
             $this->matrix[$schoolDto->id] = $arr;
         }
@@ -1350,6 +1362,62 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canReadLearnerGroup(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_READ_LEARNER_GROUPS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateLearnerGroup(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_LEARNER_GROUPS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteLearnerGroup(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_LEARNER_GROUPS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateLearnerGroup(SessionUserInterface $sessionUser, int $schoolId) : bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_LEARNER_GROUPS,
             $rolesInSchool
         )) {
             return true;

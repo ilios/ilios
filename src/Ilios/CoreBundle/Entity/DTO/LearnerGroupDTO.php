@@ -12,7 +12,7 @@ use Ilios\ApiBundle\Annotation as IS;
  */
 class LearnerGroupDTO
 {
-    
+
     /**
      * @var int
      * @IS\Expose
@@ -89,6 +89,13 @@ class LearnerGroupDTO
      * @IS\Type("array<string>")
      */
     public $instructors;
+
+    /**
+     * Needed for voting not exposed in the API
+     *
+     * @var integer
+     */
+    public $school;
 
     public function __construct(
         $id,
