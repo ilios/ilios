@@ -13,6 +13,7 @@
         <server name="ILIOS_ENABLE_TRACKING" value="0" />
         <server name="ILIOS_FILE_SYSTEM_STORAGE_PATH" value="/tmp" />
         <server name="ILIOS_AUTHENTICATION_TYPE" value="form" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="50" />
     </php>
 
     <testsuites>
