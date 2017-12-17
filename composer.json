@@ -59,8 +59,7 @@
         "matthiasnoback/symfony-config-test": "@stable",
         "mockery/mockery": "@stable",
         "fzaninotto/faker": "@stable",
-        "liip/functional-test-bundle": "@stable",
-        "polishsymfonycommunity/symfony-mocker-container": "@stable"
+        "liip/functional-test-bundle": "@stable"
     },
     "scripts": {
       "symfony-scripts": [

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b42ccdc08a86772a4c74ac2526d3cdf1",
+    "content-hash": "d8778457c621489e93bc8a38eb615fea",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -5712,58 +5712,6 @@
             "time": "2017-12-10T08:01:53+00:00"
         },
         {
-            "name": "polishsymfonycommunity/symfony-mocker-container",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PolishSymfonyCommunity/SymfonyMockerContainer.git",
-                "reference": "111537c17f32f1bda5ed0253e723b57915c08ff4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PolishSymfonyCommunity/SymfonyMockerContainer/zipball/111537c17f32f1bda5ed0253e723b57915c08ff4",
-                "reference": "111537c17f32f1bda5ed0253e723b57915c08ff4",
-                "shasum": ""
-            },
-            "require": {
-                "mockery/mockery": ">=0.7.0",
-                "php": ">=5.3.2",
-                "symfony/dependency-injection": ">=2.0.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "PSS\\SymfonyMockerContainer": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Polish Symfony Community",
-                    "homepage": "http://symfonylab.pl"
-                },
-                {
-                    "name": "Jakub Zalas",
-                    "email": "jakub@zalas.pl",
-                    "homepage": "http://www.zalas.eu"
-                }
-            ],
-            "description": "Provides base Symfony dependency injection container enabling service mocking.",
-            "homepage": "http://symfonylab.pl",
-            "keywords": [
-                "BDD",
-                "Behat",
-                "TDD",
-                "mock",
-                "mockery",
-                "test"
-            ],
-            "time": "2016-03-04T08:53:43+00:00"
-        },
-        {
             "name": "sebastian/code-unit-reverse-lookup",
             "version": "1.0.1",
             "source": {
@@ -6593,8 +6541,7 @@
         "matthiasnoback/symfony-config-test": 0,
         "mockery/mockery": 0,
         "fzaninotto/faker": 0,
-        "liip/functional-test-bundle": 0,
-        "polishsymfonycommunity/symfony-mocker-container": 0
+        "liip/functional-test-bundle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
