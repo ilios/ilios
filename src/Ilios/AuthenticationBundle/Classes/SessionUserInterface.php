@@ -175,4 +175,11 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
 
     public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId) : bool;
     public function rolesInCurriculumInventoryReport(int $curriculumInventoryReportId): array;
+
+    /**
+     * Checks if this user is performing any non-student function in the system,
+     * such as teaching, directing or administering courses, programs, etc.
+     * @return bool
+     */
+    public function performsNonLearnerFunction(): bool;
 }
