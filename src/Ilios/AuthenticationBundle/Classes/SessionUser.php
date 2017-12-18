@@ -219,6 +219,34 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
+     * @return bool
+     */
+    public function performsNonLearnerFunction():bool
+    {
+        $rhett = false;
+        $props = [
+            'directedCourseIds',
+            'administeredCourseIds',
+            'directedSchoolIds',
+            'administeredSchoolIds',
+            'taughtCourseIds',
+            'administeredSessionIds',
+            'instructedSessionIds',
+            'directedProgramIds',
+            'directedProgramYearIds',
+            'directedCohortIds',
+            'administeredCurriculumInventoryReportIds'
+        ];
+        foreach($props as $prop) {
+            if (! empty($this->$prop)) {
+                $rhett = true;
+                break;
+            }
+        }
+        return $rhett;
+    }
+
+    /**
      * @inheritDoc
      */
     public function isEqualTo(UserInterface $user)
