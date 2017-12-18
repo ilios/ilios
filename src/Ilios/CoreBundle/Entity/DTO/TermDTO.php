@@ -91,6 +91,12 @@ class TermDTO
      */
     public $active;
 
+    /**
+     * For Voter use, not public
+     * @var int
+     */
+    public $school;
+
     public function __construct(
         $id,
         $title,

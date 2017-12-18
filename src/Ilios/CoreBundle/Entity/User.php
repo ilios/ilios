@@ -1709,4 +1709,33 @@ class User implements UserInterface
         $this->administeredCurriculumInventoryReports->removeElement($report);
         $report->removeAdministrator($this);
     }
+
+    /**
+     * @return CourseInterface[]
+     */
+    public function getInstructedCourses() : ArrayCollection
+    {
+        $groupCourses = $this->getInstructorGroups()->map(function (InstructorGroupInterface $group) {
+            $ilmSessions = $group->getIlmSessions();
+            $offerings = $group->getOfferings();
+            $sessions = $offerings->map(function (OfferingInterface $offering) {
+                return $offering->getSession();
+            });
+            return array_map(function (SessionInterface $session) {
+                return $session->getCourse();
+            }, array_merge($ilmSessions, $sessions));
+        })->toArray();
+        $offeringCourses = $this->getInstructedOfferings()->map(function (OfferingInterface $offering) {
+            $session = $offering->getSession();
+            return $session->getCourse();
+        })->toArray();
+        $ilmSessionCourses = $this->getInstructorIlmSessions()->map(function (IlmSessionInterface $ilmSession) {
+            $session = $ilmSession->getSession();
+            return $session->getCourse();
+        })->toArray();
+
+        $courses = array_merge($groupCourses, $offeringCourses, $ilmSessionCourses);
+
+        return new ArrayCollection($courses);
+    }
 }
