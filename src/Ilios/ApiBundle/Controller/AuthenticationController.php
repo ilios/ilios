@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUser;
+use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,12 +25,19 @@ class AuthenticationController extends ApiController
     protected $passwordEncoder;
 
     /**
-     * Inject dependancies without overriding ApiControllers constructor
+     * @var SessionUserProvider
+     */
+    protected $sessionUserProvider;
+
+    /**
+     * Inject dependencies without overriding ApiControllers constructor
      * @required
      * @param UserPasswordEncoder $passwordEncoder
+     * @param SessionUserProvider $sessionUserProvider
      */
-    public function setup(UserPasswordEncoder $passwordEncoder)
+    public function setup(UserPasswordEncoder $passwordEncoder, SessionUserProvider $sessionUserProvider)
     {
+        $this->sessionUserProvider = $sessionUserProvider;
         $this->passwordEncoder = $passwordEncoder;
     }
 
@@ -83,7 +91,7 @@ class AuthenticationController extends ApiController
             if (!empty($obj->password) && !empty($obj->user)) {
                 $user = $users[$obj->user];
                 if ($user) {
-                    $sessionUser = new SessionUser($user);
+                    $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
                     $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $obj->password);
                     $encodedPasswords[$user->getId()] = $encodedPassword;
                 }
@@ -145,7 +153,7 @@ class AuthenticationController extends ApiController
                 //set the password to null to reset the encoder
                 //so we don't use the legacy one
                 $entity->setPasswordSha256(null);
-                $sessionUser = new SessionUser($user);
+                $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
                 $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
             }
         }

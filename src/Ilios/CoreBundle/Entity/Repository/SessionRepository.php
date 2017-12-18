@@ -61,9 +61,13 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
         $sessionIds = array_keys($sessionDTOs);
 
         $qb = $this->_em->createQueryBuilder()
-            ->select('s.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, sd.id AS descId')
+            ->select(
+                's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
+                'sd.id AS descId, school.id as schoolId'
+            )
             ->from('IliosCoreBundle:Session', 's')
             ->join('s.course', 'c')
+            ->join('c.school', 'school')
             ->join('s.sessionType', 'st')
             ->leftJoin('s.ilmSession', 'ilm')
             ->leftJoin('s.sessionDescription', 'sd')
@@ -72,6 +76,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $sessionDTOs[$arr['sessionId']]->course = $arr['courseId'];
+            $sessionDTOs[$arr['sessionId']]->school = $arr['schoolId'];
             $sessionDTOs[$arr['sessionId']]->sessionType = $arr['sessionTypeId'];
             $sessionDTOs[$arr['sessionId']]->ilmSession = $arr['ilmId'] ? $arr['ilmId'] : null;
             $sessionDTOs[$arr['sessionId']]->sessionDescription = $arr['descId'] ? $arr['descId'] : null;
