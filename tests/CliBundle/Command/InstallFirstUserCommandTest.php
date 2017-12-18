@@ -1,6 +1,7 @@
 <?php
 namespace Tests\CliBundle\Command;
 
+use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Ilios\CliBundle\Command\InstallFirstUserCommand;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
@@ -28,6 +29,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     protected $userRoleManager;
     protected $encoder;
     protected $questionHelper;
+    protected $sessionUserProvider;
 
     /**
      * @var CommandTester
@@ -44,13 +46,15 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->schoolManager = m::mock(SchoolManager::class);
         $this->userRoleManager = m::mock(UserRoleManager::class);
         $this->encoder = m::mock(UserPasswordEncoderInterface::class);
+        $this->sessionUserProvider = m::mock(SessionUserProvider::class);
 
         $command = new InstallFirstUserCommand(
             $this->userManager,
             $this->schoolManager,
             $this->userRoleManager,
             $this->authenticationManager,
-            $this->encoder
+            $this->encoder,
+            $this->sessionUserProvider
         );
         $kernel = $this->createKernel();
         $kernel->boot();
@@ -72,6 +76,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         unset($this->userRoleManager);
         unset($this->commandTester);
         unset($this->questionHelper);
+        unset($this->sessionUserProvider);
     }
 
     public function testExecute()
@@ -137,12 +142,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
             ->shouldReceive('getTitle')->andReturn('Big School Title')
             ->mock();
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface');
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('setUsername')->with('first_user')
-            ->shouldReceive('setPasswordBcrypt')->with('hashBlurb')
-            ->shouldReceive('getSessionUser')->andReturn($sessionUser)
-            ->shouldReceive('setUser')
-            ->mock();
         $developerRole = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface');
         $courseDirectorRole = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface');
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
@@ -154,10 +153,16 @@ class InstallFirstUserCommandTest extends KernelTestCase
             ->shouldReceive('setEnabled')->with(true)
             ->shouldReceive('setUserSyncIgnore')->with(false)
             ->shouldReceive('setSchool')->with($school)
-            ->shouldReceive('setAuthentication')->with($authentication)
             ->shouldReceive('addRole')->with($developerRole)
             ->shouldReceive('addRole')->with($courseDirectorRole)
             ->mock();
+        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+            ->shouldReceive('setUsername')->with('first_user')
+            ->shouldReceive('setPasswordBcrypt')->with('hashBlurb')
+            ->shouldReceive('getUser')->andReturn($user)
+            ->shouldReceive('setUser')
+            ->mock();
+        $user->shouldReceive('setAuthentication')->with($authentication);
         $this->schoolManager->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($school);
         $this->schoolManager->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([$school]);
         $this->userRoleManager
@@ -175,6 +180,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->authenticationManager->shouldReceive('update')->with($authentication);
         $this->encoder->shouldReceive('encodePassword')->with($sessionUser, 'Ch4nge_m3')->andReturn('hashBlurb');
         $this->userManager->shouldReceive('update');
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
     }
 
     protected function checkOuput()

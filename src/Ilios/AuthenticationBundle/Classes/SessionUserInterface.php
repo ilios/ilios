@@ -149,5 +149,30 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      *
      * @return boolean
      */
-    public function isDirectingCourse($courseId);
+    public function isDirectingCourse(int $courseId);
+    public function isAdministeringCourse(int $courseId): bool;
+
+    public function isDirectingSchool(int $schoolId) : bool;
+    public function isAdministeringSchool(int $schoolId) : bool;
+    public function isDirectingCourseInSchool(int $schoolId) : bool;
+    public function isAdministeringCourseInSchool(int $schoolId) : bool;
+    public function isAdministeringSessionInSchool(int $schoolId) : bool;
+    public function isTeachingCourseInSchool(int $schoolId) : bool;
+    public function isTeachingCourse(int $courseId) : bool;
+    public function rolesInSchool(int $schoolId): array;
+    public function rolesInCourse(int $courseId): array;
+    public function isAdministeringSessionInCourse(int $courseId) : bool;
+    public function isAdministeringSession(int $sessionId): bool;
+    public function isTeachingSession(int $sessionId): bool;
+    public function rolesInSession(int $sessionId): array;
+    public function rolesInProgram(int $programId): array;
+    public function isDirectingProgram(int $programId): bool;
+    public function rolesInProgramYear(int $programYearId): array;
+    public function rolesInCohort(int $cohortId): array;
+    public function isDirectingProgramYear(int $programYearId) : bool;
+    public function isDirectingProgramYearInProgram(int $programId) : bool;
+    public function isDirectingCohort(int $cohortId) : bool;
+
+    public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId) : bool;
+    public function rolesInCurriculumInventoryReport(int $curriculumInventoryReportId): array;
 }
