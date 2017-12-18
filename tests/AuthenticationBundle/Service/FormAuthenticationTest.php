@@ -1,53 +1,86 @@
 <?php
 namespace Tests\AuthenticationBundle\Service;
 
+use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use Ilios\AuthenticationBundle\Service\SessionUserProvider;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 
 use Ilios\AuthenticationBundle\Service\FormAuthentication;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class FormAuthenticationTest extends TestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
+    protected $authManager;
+    protected $userManager;
+    protected $encoder;
+    protected $tokenStorage;
+    protected $jwtManager;
+    protected $sessionUserProvider;
+
+    /**
+     * @var FormAuthentication
+     */
+    protected $obj;
+
+    /**
+     * @inheritdoc
+     */
+    protected function setUp()
+    {
+        $this->authManager = m::mock(AuthenticationManager::class);
+        $this->encoder = m::mock(UserPasswordEncoderInterface::class);
+        $this->tokenStorage = m::mock(TokenStorageInterface::class);
+        $this->jwtManager = m::mock(JsonWebTokenManager::class);
+        $this->sessionUserProvider = m::mock(SessionUserProvider::class);
+        $this->userManager = m::mock(UserManager::class);
+        $this->obj = new FormAuthentication(
+            $this->authManager,
+            $this->userManager,
+            $this->encoder,
+            $this->tokenStorage,
+            $this->jwtManager,
+            $this->sessionUserProvider
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function tearDown()
+    {
+        unset($this->authManager);
+        unset($this->userManager);
+        unset($this->encoder);
+        unset($this->tokenStorage);
+        unset($this->jwtManager);
+        unset($this->sessionUserProvider);
+        unset($this->obj);
+    }
+
     public function testConstructor()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
-            $authManager,
-            $encoder,
-            $tokenStorage,
-            $jwtManager
-        );
-        $this->assertTrue($obj instanceof FormAuthentication);
+        $this->assertTrue($this->obj instanceof FormAuthentication);
     }
-    
+
     public function testMissingValues()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
-            $authManager,
-            $encoder,
-            $tokenStorage,
-            $jwtManager
-        );
-
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $arr = [
             'username' => null,
             'password' => null
         ];
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
-        
-        $result = $obj->login($request);
-        
+
+        $result = $this->obj->login($request);
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
@@ -55,20 +88,9 @@ class FormAuthenticationTest extends TestCase
         $this->assertTrue(in_array('missingUsername', $data->errors));
         $this->assertTrue(in_array('missingPassword', $data->errors));
     }
-    
+
     public function testBadUserName()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
-            $authManager,
-            $encoder,
-            $tokenStorage,
-            $jwtManager
-        );
-
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $arr = [
             'username' => 'abc',
@@ -76,30 +98,19 @@ class FormAuthenticationTest extends TestCase
         ];
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
-        $authManager->shouldReceive('findAuthenticationByUsername')
+        $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn(null);
-        $result = $obj->login($request);
-        
+        $result = $this->obj->login($request);
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'error');
         $this->assertTrue(in_array('badCredentials', $data->errors));
     }
-    
+
     public function testBadPassword()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
-            $authManager,
-            $encoder,
-            $tokenStorage,
-            $jwtManager
-        );
-
         $arr = [
             'username' => 'abc',
             'password' => '123'
@@ -108,15 +119,17 @@ class FormAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
+        $user = m::mock(UserInterface::class);
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
-        $authManager->shouldReceive('findAuthenticationByUsername')
+            ->shouldReceive('getUser')->andReturn($user)->mock();
+        $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
-        $encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(false);
-        $result = $obj->login($request);
-        
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
+        $this->encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(false);
+        $result = $this->obj->login($request);
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
@@ -126,17 +139,6 @@ class FormAuthenticationTest extends TestCase
 
     public function testDisabledUser()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
-            $authManager,
-            $encoder,
-            $tokenStorage,
-            $jwtManager
-        );
-
         $arr = [
             'username' => 'abc',
             'password' => '123'
@@ -145,13 +147,15 @@ class FormAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
+        $user = m::mock(UserInterface::class);
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(false)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
-        $authManager->shouldReceive('findAuthenticationByUsername')
+            ->shouldReceive('getUser')->andReturn($user)->mock();
+        $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
-        $result = $obj->login($request);
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
+        $result = $this->obj->login($request);
 
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
@@ -159,20 +163,9 @@ class FormAuthenticationTest extends TestCase
         $this->assertSame($data->status, 'error');
         $this->assertTrue(in_array('badCredentials', $data->errors));
     }
-    
+
     public function testSuccess()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
-        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
-            $authManager,
-            $encoder,
-            $tokenStorage,
-            $jwtManager
-        );
-
         $arr = [
             'username' => 'abc',
             'password' => '123'
@@ -181,19 +174,20 @@ class FormAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
+        $user = m::mock(UserInterface::class);
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('getSessionUser')->andReturn($sessionUser)
+            ->shouldReceive('getUser')->andReturn($user)
             ->shouldReceive('isLegacyAccount')->andReturn(false)->mock();
-        $authManager->shouldReceive('findAuthenticationByUsername')
+        $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
-        $encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(true);
-        $jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
-        
-        
-        $result = $obj->login($request);
-        
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
+        $this->encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(true);
+        $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
+
+        $result = $this->obj->login($request);
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
