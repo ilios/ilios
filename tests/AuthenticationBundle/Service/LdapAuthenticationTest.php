@@ -3,8 +3,10 @@ namespace Tests\AuthenticationBundle\Service;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,13 +21,19 @@ class LdapAuthenticationTest extends TestCase
 
     protected $authManager;
     protected $jwtManager;
+    protected $sessionUserProvider;
     protected $config;
+
+    /**
+     * @var LdapAuthentication
+     */
     protected $obj;
 
     public function setup()
     {
         $this->authManager = m::mock(AuthenticationManager::class);
         $this->jwtManager = m::mock(JsonWebTokenManager::class);
+        $this->sessionUserProvider = m::mock(SessionUserProvider::class);
         $this->config = m::mock(Config::class);
         $this->config->shouldReceive('get')->with('ldap_authentication_host')->andReturn('host');
         $this->config->shouldReceive('get')->with('ldap_authentication_port')->andReturn('port');
@@ -33,7 +41,8 @@ class LdapAuthenticationTest extends TestCase
         $this->obj = new LdapAuthentication(
             $this->authManager,
             $this->jwtManager,
-            $this->config
+            $this->config,
+            $this->sessionUserProvider
         );
     }
 
@@ -42,6 +51,7 @@ class LdapAuthenticationTest extends TestCase
         unset($this->obj);
         unset($this->authManager);
         unset($this->jwtManager);
+        unset($this->sessionUserProvider);
         unset($this->config);
     }
 
@@ -50,7 +60,7 @@ class LdapAuthenticationTest extends TestCase
     {
         $this->assertTrue($this->obj instanceof LdapAuthentication);
     }
-    
+
     public function testMissingValues()
     {
         $arr = [
@@ -62,7 +72,7 @@ class LdapAuthenticationTest extends TestCase
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $result = $this->obj->login($request);
-        
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
@@ -70,7 +80,7 @@ class LdapAuthenticationTest extends TestCase
         $this->assertTrue(in_array('missingUsername', $data->errors));
         $this->assertTrue(in_array('missingPassword', $data->errors));
     }
-    
+
     public function testBadUserName()
     {
         $arr = [
@@ -90,7 +100,7 @@ class LdapAuthenticationTest extends TestCase
         $this->assertSame($data->status, 'error');
         $this->assertTrue(in_array('badCredentials', $data->errors));
     }
-    
+
     public function testBadPassword()
     {
         $obj = m::mock(
@@ -98,7 +108,8 @@ class LdapAuthenticationTest extends TestCase
             array(
                 $this->authManager,
                 $this->jwtManager,
-                $this->config
+                $this->config,
+                $this->sessionUserProvider
             )
         );
         $obj->shouldReceive('checkLdapPassword')->once()->andReturn(false);
@@ -109,12 +120,15 @@ class LdapAuthenticationTest extends TestCase
 
         $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
+
+        $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class)->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
+            ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
-        
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
+
         $result = $obj->login($request);
 
         $this->assertTrue($result instanceof JsonResponse);
@@ -133,11 +147,15 @@ class LdapAuthenticationTest extends TestCase
 
         $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
+
+        $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class)->shouldReceive('isEnabled')->andReturn(false)->mock();
         $authenticationEntity = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
+            ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
+
 
         $result = $this->obj->login($request);
 
@@ -147,7 +165,7 @@ class LdapAuthenticationTest extends TestCase
         $this->assertSame($data->status, 'error');
         $this->assertTrue(in_array('badCredentials', $data->errors));
     }
-    
+
     public function testSuccess()
     {
         //partially mock so we can override checkLdapPassword
@@ -157,7 +175,8 @@ class LdapAuthenticationTest extends TestCase
             array(
                 $this->authManager,
                 $this->jwtManager,
-                $this->config
+                $this->config,
+                $this->sessionUserProvider
             )
         );
         $obj->shouldReceive('checkLdapPassword')->once()->andReturn(true);
@@ -169,16 +188,18 @@ class LdapAuthenticationTest extends TestCase
         $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
+        $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
+            ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
 
         $result = $obj->login($request);
-        
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);

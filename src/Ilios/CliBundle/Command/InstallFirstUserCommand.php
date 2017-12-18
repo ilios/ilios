@@ -2,9 +2,9 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
@@ -61,7 +61,7 @@ class InstallFirstUserCommand extends Command
     protected $userRoleManager;
 
     /**
-     * @var  AuthenticationManager
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
 
@@ -71,25 +71,33 @@ class InstallFirstUserCommand extends Command
     protected $passwordEncoder;
 
     /**
+     * @var SessionUserProvider
+     */
+    protected $sessionUserProvider;
+
+    /**
      * Constructor.
      * @param UserManager $userManager
      * @param SchoolManager $schoolManager
      * @param UserRoleManager $userRoleManager
      * @param AuthenticationManager $authenticationManager
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
         UserManager $userManager,
         SchoolManager $schoolManager,
         UserRoleManager $userRoleManager,
         AuthenticationManager $authenticationManager,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordEncoderInterface $passwordEncoder,
+        SessionUserProvider $sessionUserProvider
     ) {
         $this->userManager = $userManager;
         $this->schoolManager = $schoolManager;
         $this->userRoleManager = $userRoleManager;
         $this->authenticationManager = $authenticationManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->sessionUserProvider = $sessionUserProvider;
         parent::__construct();
     }
 
@@ -193,7 +201,7 @@ class InstallFirstUserCommand extends Command
 
         $authentication->setUser($user);
         $user->setAuthentication($authentication);
-        $sessionUser = $authentication->getSessionUser();
+        $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
 
         $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, self::PASSWORD);
 

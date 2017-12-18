@@ -145,6 +145,12 @@ class SessionDTO
      */
     public $offerings;
 
+    /**
+     * For Voter use, not public
+     * @var int
+     */
+    public $school;
+
     public function __construct(
         $id,
         $title,

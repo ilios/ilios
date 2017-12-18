@@ -60,9 +60,10 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
         $termIds = array_keys($termDTOs);
 
         $qb = $this->_em->createQueryBuilder()
-            ->select('t.id AS termId, v.id AS vocabularyId, p.id AS parentId')
+            ->select('t.id AS termId, v.id AS vocabularyId, p.id AS parentId, s.id AS schoolId')
             ->from('IliosCoreBundle:Term', 't')
             ->join('t.vocabulary', 'v')
+            ->join('v.school', 's')
             ->leftJoin('t.parent', 'p')
             ->where($qb->expr()->in('t.id', ':termIds'))
             ->setParameter('termIds', $termIds);
@@ -70,6 +71,7 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
         foreach ($qb->getQuery()->getResult() as $arr) {
             $termDTOs[$arr['termId']]->vocabulary = $arr['vocabularyId'];
             $termDTOs[$arr['termId']]->parent = $arr['parentId'] ? $arr['parentId'] : null;
+            $termDTOs[$arr['termId']]->school = $arr['schoolId'];
         }
 
         $related = [
