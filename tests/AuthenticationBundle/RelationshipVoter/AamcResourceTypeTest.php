@@ -19,15 +19,7 @@ class AamcResourceTypeTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(AamcResourceType::class, AamcResourceTypeDTO::class);
-    }
-
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(AamcResourceTypeDTO::class);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
+        $this->checkRootEntityAccess(AamcResourceType::class);
     }
 
     public function testCanView()
