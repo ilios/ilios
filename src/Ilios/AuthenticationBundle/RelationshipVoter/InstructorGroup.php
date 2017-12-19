@@ -27,41 +27,26 @@ class InstructorGroup extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof InstructorGroupInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        InstructorGroupInterface $vocabulary
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadInstructorGroup(
-                    $sessionUser,
-                    $vocabulary->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::CREATE:
                 return $this->permissionChecker->canCreateInstructorGroup(
-                    $sessionUser,
-                    $vocabulary->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateInstructorGroup(
-                    $sessionUser,
-                    $vocabulary->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteInstructorGroup(
-                    $sessionUser,
-                    $vocabulary->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
         }

@@ -27,38 +27,25 @@ class Course extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof CourseInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, CourseInterface $course): bool
-    {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadCourse(
-                    $sessionUser,
-                    $course->getId(),
-                    $course->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateCourse($sessionUser, $course->getSchool()->getId());
+                return $this->permissionChecker->canCreateCourse($user, $subject->getSchool()->getId());
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateCourse(
-                    $sessionUser,
-                    $course->getId(),
-                    $course->getSchool()->getId()
+                    $user,
+                    $subject->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteCourse(
-                    $sessionUser,
-                    $course->getId(),
-                    $course->getSchool()->getId()
+                    $user,
+                    $subject->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
         }

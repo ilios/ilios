@@ -19,25 +19,7 @@ class CurriculumInventoryAcademicLevel extends AbstractVoter
         if (!$user instanceof SessionUserInterface) {
             return false;
         }
-        if ($user->isRoot()) {
-            return true;
-        }
 
-        if ($subject instanceof CurriculumInventoryAcademicLevelInterface) {
-            return $this->voteOnEntity($user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        SessionUserInterface $sessionUser,
-        CurriculumInventoryAcademicLevelInterface $level
-    ): bool {
-        return $this->permissionChecker->canReadCurriculumInventoryReport(
-            $sessionUser,
-            $level->getReport()->getId(),
-            $level->getReport()->getSchool()->getId()
-        );
+        return true;
     }
 }

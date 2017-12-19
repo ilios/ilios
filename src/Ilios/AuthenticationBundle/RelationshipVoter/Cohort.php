@@ -27,48 +27,31 @@ class Cohort extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof CohortInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $cohortUser,
-        CohortInterface $cohort
-    ) : bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadCohort(
-                    $cohortUser,
-                    $cohort->getId(),
-                    $cohort->getProgram()->getId(),
-                    $cohort->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateCohort(
-                    $cohortUser,
-                    $cohort->getId(),
-                    $cohort->getProgram()->getId(),
-                    $cohort->getSchool()->getId()
+                    $user,
+                    $subject->getId(),
+                    $subject->getProgram()->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::CREATE:
                 return $this->permissionChecker->canCreateCohort(
-                    $cohortUser,
-                    $cohort->getProgram()->getId(),
-                    $cohort->getSchool()->getId()
+                    $user,
+                    $subject->getProgram()->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteCohort(
-                    $cohortUser,
-                    $cohort->getId(),
-                    $cohort->getProgram()->getId(),
-                    $cohort->getSchool()->getId()
+                    $user,
+                    $subject->getId(),
+                    $subject->getProgram()->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
         }

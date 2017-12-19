@@ -27,33 +27,17 @@ class CurriculumInventorySequenceBlock extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof CurriculumInventorySequenceBlockInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        CurriculumInventorySequenceBlockInterface $block
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadCurriculumInventoryReport(
-                    $sessionUser,
-                    $block->getReport()->getId(),
-                    $block->getReport()->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
                 return $this->permissionChecker->canUpdateCurriculumInventoryReport(
-                    $sessionUser,
-                    $block->getReport()->getId(),
-                    $block->getReport()->getSchool()->getId()
+                    $user,
+                    $subject->getReport()->getId(),
+                    $subject->getReport()->getSchool()->getId()
                 );
                 break;
         }

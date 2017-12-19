@@ -27,15 +27,6 @@ class AamcResourceType extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof AamcResourceTypeInterface) {
-            return $this->voteOnEntity($attribute);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(string $attribute): bool
-    {
         if (self::VIEW === $attribute) {
             return true;
         }

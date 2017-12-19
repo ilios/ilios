@@ -27,38 +27,23 @@ class SessionType extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof SessionTypeInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        SessionTypeInterface $sessionType
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadSessionType(
-                    $sessionUser,
-                    $sessionType->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateSessionType($sessionUser, $sessionType->getSchool()->getId());
+                return $this->permissionChecker->canCreateSessionType($user, $subject->getSchool()->getId());
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateSessionType(
-                    $sessionUser,
-                    $sessionType->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteSessionType(
-                    $sessionUser,
-                    $sessionType->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
         }

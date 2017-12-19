@@ -27,41 +27,26 @@ class Competency extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof CompetencyInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        CompetencyInterface $Competency
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadCompetency(
-                    $sessionUser,
-                    $Competency->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::CREATE:
                 return $this->permissionChecker->canCreateCompetency(
-                    $sessionUser,
-                    $Competency->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateCompetency(
-                    $sessionUser,
-                    $Competency->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteCompetency(
-                    $sessionUser,
-                    $Competency->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
         }
