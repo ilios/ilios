@@ -27,15 +27,6 @@ class AamcMethod extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof AamcMethodInterface) {
-            return $this->voteOnEntity($attribute);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(string $attribute): bool
-    {
         if (self::VIEW === $attribute) {
             return true;
         }

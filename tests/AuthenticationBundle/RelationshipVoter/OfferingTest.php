@@ -28,17 +28,8 @@ class OfferingTest extends AbstractBase
     public function testCanView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
+        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(true);
         $entity = m::mock(Offering::class);
-        $session = m::mock(Session::class);
-        $session->shouldReceive('getId')->andReturn(1);
-        $course = m::mock(Course::class);
-        $course->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSession')->andReturn($session);
-        $session->shouldReceive('getCourse')->andReturn($course);
-        $course->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canReadSession')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -46,17 +37,8 @@ class OfferingTest extends AbstractBase
     public function testCanNotView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
+        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $entity = m::mock(Offering::class);
-        $session = m::mock(Session::class);
-        $session->shouldReceive('getId')->andReturn(1);
-        $course = m::mock(Course::class);
-        $course->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSession')->andReturn($session);
-        $session->shouldReceive('getCourse')->andReturn($course);
-        $course->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canReadSession')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
