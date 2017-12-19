@@ -945,7 +945,7 @@ class PermissionChecker
         return false;
     }
 
-    public function canReadSchools(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canReadSchool(SessionUserInterface $sessionUser, int $schoolId) : bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
         if ($this->hasPermission(
