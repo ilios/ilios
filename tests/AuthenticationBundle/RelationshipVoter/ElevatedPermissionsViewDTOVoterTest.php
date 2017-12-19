@@ -74,4 +74,3 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
     }
 }
-
