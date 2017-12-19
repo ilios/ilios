@@ -101,4 +101,3 @@ class GreenlightViewDtoVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }
 }
-

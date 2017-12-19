@@ -72,7 +72,8 @@ class AbstractBase extends TestCase
      * Check that "root" users are granted access in all votes on the given DTO.
      * @param $dtoClass
      */
-    protected function checkRootDTOAccess($dtoClass) {
+    protected function checkRootDTOAccess($dtoClass)
+    {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(true);
         $token = $this->createMockTokenWithSessionUser($sessionUser);
