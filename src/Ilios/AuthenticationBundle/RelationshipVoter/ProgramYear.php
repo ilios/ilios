@@ -27,50 +27,33 @@ class ProgramYear extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof ProgramYearInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $programYearUser,
-        ProgramYearInterface $programYear
-    ) : bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadProgramYear(
-                    $programYearUser,
-                    $programYear->getId(),
-                    $programYear->getProgram()->getId(),
-                    $programYear->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateProgramYear(
-                    $programYearUser,
-                    $programYear->getId(),
-                    $programYear->getProgram()->getId(),
-                    $programYear->getSchool()->getId()
+                    $user,
+                    $subject->getId(),
+                    $subject->getProgram()->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::CREATE:
                 return $this->permissionChecker->canCreateProgramYear(
-                    $programYearUser,
-                    $programYear->getProgram()->getId(),
-                    $programYear->getSchool()->getId()
+                    $user,
+                    $subject->getProgram()->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
-                return $this->permissionChecker->canDeleteProgramYear(
-                    $programYearUser,
-                    $programYear->getId(),
-                    $programYear->getProgram()->getId(),
-                    $programYear->getSchool()->getId()
-                );
-                break;
+            return $this->permissionChecker->canDeleteProgramYear(
+                $user,
+                $subject->getId(),
+                $subject->getProgram()->getId(),
+                $subject->getSchool()->getId()
+            );
+            break;
         }
 
         return false;
