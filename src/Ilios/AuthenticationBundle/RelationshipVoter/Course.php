@@ -4,19 +4,17 @@ namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\DTO\CourseDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Course extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return (
-            ($subject instanceof CourseDTO && in_array($attribute, [self::VIEW])) or
-            ($subject instanceof CourseInterface && in_array($attribute, [
-                    self::CREATE, self::VIEW, self::EDIT, self::DELETE
-                ]))
-        );
+        return $subject instanceof CourseInterface
+            && in_array(
+                $attribute,
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+            );
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -29,20 +27,11 @@ class Course extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof CourseDTO) {
-            return $this->voteOnDTO($user, $subject);
-        }
-
         if ($subject instanceof CourseInterface) {
             return $this->voteOnEntity($attribute, $user, $subject);
         }
 
         return false;
-    }
-
-    protected function voteOnDTO(SessionUserInterface $sessionUser, CourseDTO $course): bool
-    {
-        return $this->permissionChecker->canReadCourse($sessionUser, $course->id, $course->school);
     }
 
     protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, CourseInterface $course): bool

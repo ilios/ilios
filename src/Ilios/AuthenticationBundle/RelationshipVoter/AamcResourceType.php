@@ -4,19 +4,17 @@ namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\AamcResourceTypeInterface;
-use Ilios\CoreBundle\Entity\DTO\AamcResourceTypeDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class AamcResourceType extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return (
-            ($subject instanceof AamcResourceTypeDTO && in_array($attribute, [self::VIEW])) or
-            ($subject instanceof AamcResourceTypeInterface && in_array($attribute, [
-                    self::CREATE, self::VIEW, self::EDIT, self::DELETE
-                ]))
-        );
+        return $subject instanceof AamcResourceTypeInterface
+            && in_array(
+                $attribute,
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+            );
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -26,10 +24,6 @@ class AamcResourceType extends AbstractVoter
             return false;
         }
         if ($user->isRoot()) {
-            return true;
-        }
-
-        if ($subject instanceof AamcResourceTypeDTO) {
             return true;
         }
 

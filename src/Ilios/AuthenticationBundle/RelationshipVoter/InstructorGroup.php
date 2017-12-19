@@ -4,19 +4,17 @@ namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\InstructorGroupInterface;
-use Ilios\CoreBundle\Entity\DTO\InstructorGroupDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class InstructorGroup extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return (
-            ($subject instanceof InstructorGroupDTO && in_array($attribute, [self::VIEW])) or
-            ($subject instanceof InstructorGroupInterface && in_array($attribute, [
-                    self::CREATE, self::VIEW, self::EDIT, self::DELETE
-                ]))
-        );
+        return $subject instanceof InstructorGroupInterface
+            && in_array(
+                $attribute,
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+            );
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -29,20 +27,11 @@ class InstructorGroup extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof InstructorGroupDTO) {
-            return $this->voteOnDTO($user, $subject);
-        }
-
         if ($subject instanceof InstructorGroupInterface) {
             return $this->voteOnEntity($attribute, $user, $subject);
         }
 
         return false;
-    }
-
-    protected function voteOnDTO(SessionUserInterface $sessionUser, InstructorGroupDTO $vocabulary): bool
-    {
-        return $this->permissionChecker->canReadInstructorGroup($sessionUser, $vocabulary->school);
     }
 
     protected function voteOnEntity(
