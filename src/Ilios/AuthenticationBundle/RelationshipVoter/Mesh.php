@@ -22,7 +22,7 @@ class Mesh extends AbstractVoter
                 $subject instanceof MeshQualifierInterface ||
                 $subject instanceof MeshTermInterface ||
                 $subject instanceof MeshTreeInterface
-            ) && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
+            ) && (self::VIEW === $attribute);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
