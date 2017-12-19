@@ -10,7 +10,7 @@ class SchoolConfig extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof SchoolConfig
+        return $subject instanceof SchoolConfigInterface
             && in_array(
                 $attribute,
                 [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
