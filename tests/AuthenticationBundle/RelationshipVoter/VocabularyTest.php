@@ -5,7 +5,6 @@ use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\Vocabulary as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use Ilios\CoreBundle\Entity\Vocabulary;
-use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
 use Ilios\CoreBundle\Entity\School;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -20,29 +19,7 @@ class VocabularyTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(Vocabulary::class, VocabularyDTO::class);
-    }
-
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(VocabularyDTO::class);
-        $dto->id = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadVocabulary')->andReturn(true);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
-    }
-
-    public function testCanNotViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(VocabularyDTO::class);
-        $dto->id = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadVocabulary')->andReturn(false);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
+        $this->checkRootEntityAccess(Vocabulary::class);
     }
 
     public function testCanView()

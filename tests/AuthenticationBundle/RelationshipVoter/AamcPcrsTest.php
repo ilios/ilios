@@ -19,15 +19,7 @@ class AamcPcrsTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(AamcPcrs::class, AamcPcrsDTO::class);
-    }
-
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(AamcPcrsDTO::class);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
+        $this->checkRootEntityAccess(AamcPcrs::class);
     }
 
     public function testCanView()

@@ -4,19 +4,17 @@ namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\DepartmentInterface;
-use Ilios\CoreBundle\Entity\DTO\DepartmentDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Department extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return (
-            ($subject instanceof DepartmentDTO && in_array($attribute, [self::VIEW])) or
-            ($subject instanceof DepartmentInterface && in_array($attribute, [
-                    self::CREATE, self::VIEW, self::EDIT, self::DELETE
-                ]))
-        );
+        return $subject instanceof DepartmentInterface
+            && in_array(
+                $attribute,
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+            );
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -29,20 +27,11 @@ class Department extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof DepartmentDTO) {
-            return $this->voteOnDTO($user, $subject);
-        }
-
         if ($subject instanceof DepartmentInterface) {
             return $this->voteOnEntity($attribute, $user, $subject);
         }
 
         return false;
-    }
-
-    protected function voteOnDTO(SessionUserInterface $sessionUser, DepartmentDTO $department): bool
-    {
-        return $this->permissionChecker->canReadDepartment($sessionUser, $department->id, $department->school);
     }
 
     protected function voteOnEntity(

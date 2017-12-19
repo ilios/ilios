@@ -19,15 +19,7 @@ class AamcMethodTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(AamcMethod::class, AamcMethodDTO::class);
-    }
-
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(AamcMethodDTO::class);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
+        $this->checkRootEntityAccess(AamcMethod::class);
     }
 
     public function testCanView()

@@ -3,14 +3,6 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\ApplicationConfigInterface;
-use Ilios\CoreBundle\Entity\DTO\ApplicationConfigDTO;
-use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
-use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
-use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
-use Ilios\CoreBundle\Entity\DTO\MeshQualifierDTO;
-use Ilios\CoreBundle\Entity\DTO\MeshTermDTO;
-use Ilios\CoreBundle\Entity\DTO\MeshTreeDTO;
 use Ilios\CoreBundle\Entity\MeshConceptInterface;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
@@ -24,28 +16,13 @@ class Mesh extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return (
-            (
-                (
-                    $subject instanceof MeshConceptDTO ||
-                    $subject instanceof MeshDescriptorDTO ||
-                    $subject instanceof MeshPreviousIndexingDTO ||
-                    $subject instanceof MeshQualifierDTO ||
-                    $subject instanceof MeshTermDTO ||
-                    $subject instanceof MeshTreeDTO
-                ) && in_array($attribute, [self::VIEW])
-            )
-            or
-            (
-                (
-                    $subject instanceof MeshConceptInterface ||
-                    $subject instanceof MeshDescriptorInterface ||
-                    $subject instanceof MeshPreviousIndexingInterface ||
-                    $subject instanceof MeshQualifierInterface ||
-                    $subject instanceof MeshTermInterface ||
-                    $subject instanceof MeshTreeInterface
-                ) && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE])
-            )
-        );
+                $subject instanceof MeshConceptInterface ||
+                $subject instanceof MeshDescriptorInterface ||
+                $subject instanceof MeshPreviousIndexingInterface ||
+                $subject instanceof MeshQualifierInterface ||
+                $subject instanceof MeshTermInterface ||
+                $subject instanceof MeshTreeInterface
+            ) && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -55,16 +32,6 @@ class Mesh extends AbstractVoter
             return false;
         }
         if ($user->isRoot()) {
-            return true;
-        }
-
-        if ($subject instanceof MeshConceptDTO ||
-            $subject instanceof MeshDescriptorDTO ||
-            $subject instanceof MeshPreviousIndexingDTO ||
-            $subject instanceof MeshQualifierDTO ||
-            $subject instanceof MeshTermDTO ||
-            $subject instanceof MeshTreeDTO
-        ) {
             return true;
         }
 
