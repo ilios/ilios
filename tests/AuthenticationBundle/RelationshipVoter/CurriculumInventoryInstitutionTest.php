@@ -20,29 +20,7 @@ class CurriculumInventoryInstitutionTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(CurriculumInventoryInstitution::class, CurriculumInventoryInstitutionDTO::class);
-    }
-
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(CurriculumInventoryInstitutionDTO::class);
-        $dto->id = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadCurriculumInventoryInstitution')->andReturn(true);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
-    }
-
-    public function testCanNotViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(CurriculumInventoryInstitutionDTO::class);
-        $dto->id = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadCurriculumInventoryInstitution')->andReturn(false);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
+        $this->checkRootEntityAccess(CurriculumInventoryInstitution::class);
     }
 
     public function testCanView()

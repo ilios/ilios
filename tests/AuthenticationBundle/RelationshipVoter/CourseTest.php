@@ -20,29 +20,7 @@ class CourseTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(Course::class, CourseDTO::class);
-    }
-
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(CourseDTO::class);
-        $dto->id = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadCourse')->andReturn(true);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
-    }
-
-    public function testCanNotViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(CourseDTO::class);
-        $dto->id = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadCourse')->andReturn(false);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
+        $this->checkRootEntityAccess(Course::class);
     }
 
     public function testCanView()

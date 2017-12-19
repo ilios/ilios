@@ -22,13 +22,10 @@ class CurriculumInventoryExportTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $sessionUser = m::mock(SessionUserInterface::class);
-        $sessionUser->shouldReceive('isRoot')->andReturn(true);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
-        foreach ([AbstractVoter::VIEW, AbstractVoter::CREATE] as $attr) {
-            $response = $this->voter->vote($token, m::mock(CurriculumInventoryExport::class), [$attr]);
-            $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "${attr} allowed");
-        }
+        $this->checkRootEntityAccess(
+            CurriculumInventoryExport::class,
+            [AbstractVoter::VIEW, AbstractVoter::CREATE]
+        );
     }
 
     public function testCanView()

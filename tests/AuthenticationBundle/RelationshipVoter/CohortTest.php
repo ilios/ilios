@@ -21,31 +21,7 @@ class CohortTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(Cohort::class, CohortDTO::class);
-    }
-
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(CohortDTO::class);
-        $dto->id = 1;
-        $dto->program = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadCohort')->andReturn(true);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
-    }
-
-    public function testCanNotViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(CohortDTO::class);
-        $dto->id = 1;
-        $dto->program = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadCohort')->andReturn(false);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
+        $this->checkRootEntityAccess(Cohort::class);
     }
 
     public function testCanView()
