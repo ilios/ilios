@@ -19,7 +19,9 @@ class ApplicationConfigTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(ApplicationConfig::class, ApplicationConfigDTO::class);
+        $this->checkRootEntityAccess(ApplicationConfig::class);
+        $this->checkRootDTOAccess(ApplicationConfigDTO::class);
+
     }
 
     public function testCanNotViewDTO()

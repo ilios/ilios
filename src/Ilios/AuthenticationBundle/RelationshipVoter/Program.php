@@ -4,19 +4,17 @@ namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
-use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Program extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return (
-            ($subject instanceof ProgramDTO && in_array($attribute, [self::VIEW])) or
-            ($subject instanceof ProgramInterface && in_array($attribute, [
-                    self::CREATE, self::VIEW, self::EDIT, self::DELETE
-                ]))
-        );
+        return $subject instanceof ProgramInterface
+            && in_array(
+                $attribute,
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+            );
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -29,20 +27,11 @@ class Program extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof ProgramDTO) {
-            return $this->voteOnDTO($user, $subject);
-        }
-
         if ($subject instanceof ProgramInterface) {
             return $this->voteOnEntity($attribute, $user, $subject);
         }
 
         return false;
-    }
-
-    protected function voteOnDTO(SessionUserInterface $sessionUser, ProgramDTO $program): bool
-    {
-        return $this->permissionChecker->canReadProgram($sessionUser, $program->id, $program->school);
     }
 
     protected function voteOnEntity(

@@ -4,19 +4,17 @@ namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
-use Ilios\CoreBundle\Entity\DTO\CurriculumInventoryInstitutionDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CurriculumInventoryInstitution extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return (
-            ($subject instanceof CurriculumInventoryInstitutionDTO && in_array($attribute, [self::VIEW])) or
-            ($subject instanceof CurriculumInventoryInstitutionInterface && in_array($attribute, [
-                    self::CREATE, self::VIEW, self::EDIT, self::DELETE
-                ]))
-        );
+        return $subject instanceof CurriculumInventoryInstitutionInterface
+            && in_array(
+                $attribute,
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+            );
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -29,22 +27,11 @@ class CurriculumInventoryInstitution extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof CurriculumInventoryInstitutionDTO) {
-            return $this->voteOnDTO($user, $subject);
-        }
-
         if ($subject instanceof CurriculumInventoryInstitutionInterface) {
             return $this->voteOnEntity($attribute, $user, $subject);
         }
 
         return false;
-    }
-
-    protected function voteOnDTO(
-        SessionUserInterface $sessionUser,
-        CurriculumInventoryInstitutionDTO $institution
-    ): bool {
-        return $this->permissionChecker->canReadCurriculumInventoryInstitution($sessionUser, $institution->school);
     }
 
     protected function voteOnEntity(

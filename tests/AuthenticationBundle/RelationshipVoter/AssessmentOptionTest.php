@@ -19,15 +19,7 @@ class AssessmentOptionTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(AssessmentOption::class, AssessmentOptionDTO::class);
-    }
-
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(AssessmentOptionDTO::class);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
+        $this->checkRootEntityAccess(AssessmentOption::class);
     }
 
     public function testCanView()

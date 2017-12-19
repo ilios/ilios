@@ -20,29 +20,7 @@ class InstructorGroupTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(InstructorGroup::class, InstructorGroupDTO::class);
-    }
-
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(InstructorGroupDTO::class);
-        $dto->id = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadInstructorGroup')->andReturn(true);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
-    }
-
-    public function testCanNotViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(InstructorGroupDTO::class);
-        $dto->id = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadInstructorGroup')->andReturn(false);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
+        $this->checkRootEntityAccess(InstructorGroup::class);
     }
 
     public function testCanView()

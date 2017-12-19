@@ -4,19 +4,17 @@ namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\CohortInterface;
-use Ilios\CoreBundle\Entity\DTO\CohortDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Cohort extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return (
-            ($subject instanceof CohortDTO && in_array($attribute, [self::VIEW])) or
-            ($subject instanceof CohortInterface && in_array($attribute, [
-                    self::CREATE, self::VIEW, self::EDIT, self::DELETE
-                ]))
-        );
+        return $subject instanceof CohortInterface
+            && in_array(
+                $attribute,
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+            );
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -29,25 +27,11 @@ class Cohort extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof CohortDTO) {
-            return $this->voteOnDTO($user, $subject);
-        }
-
         if ($subject instanceof CohortInterface) {
             return $this->voteOnEntity($attribute, $user, $subject);
         }
 
         return false;
-    }
-
-    protected function voteOnDTO(SessionUserInterface $cohortUser, CohortDTO $cohort): bool
-    {
-        return $this->permissionChecker->canReadCohort(
-            $cohortUser,
-            $cohort->id,
-            $cohort->program,
-            $cohort->school
-        );
     }
 
     protected function voteOnEntity(

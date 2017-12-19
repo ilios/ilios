@@ -20,29 +20,7 @@ class CompetencyTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootAccess(Competency::class, CompetencyDTO::class);
-    }
-
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(CompetencyDTO::class);
-        $dto->id = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadCompetency')->andReturn(true);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
-    }
-
-    public function testCanNotViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $dto = m::mock(CompetencyDTO::class);
-        $dto->id = 1;
-        $dto->school = 1;
-        $this->permissionChecker->shouldReceive('canReadCompetency')->andReturn(false);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
+        $this->checkRootEntityAccess(Competency::class);
     }
 
     public function testCanView()

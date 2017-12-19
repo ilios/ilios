@@ -4,19 +4,17 @@ namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\VocabularyInterface;
-use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Vocabulary extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return (
-            ($subject instanceof VocabularyDTO && in_array($attribute, [self::VIEW])) or
-            ($subject instanceof VocabularyInterface && in_array($attribute, [
-                    self::CREATE, self::VIEW, self::EDIT, self::DELETE
-                ]))
-        );
+        return $subject instanceof VocabularyInterface
+            && in_array(
+                $attribute,
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+            );
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -29,20 +27,11 @@ class Vocabulary extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof VocabularyDTO) {
-            return $this->voteOnDTO($user, $subject);
-        }
-
         if ($subject instanceof VocabularyInterface) {
             return $this->voteOnEntity($attribute, $user, $subject);
         }
 
         return false;
-    }
-
-    protected function voteOnDTO(SessionUserInterface $sessionUser, VocabularyDTO $vocabulary): bool
-    {
-        return $this->permissionChecker->canReadVocabulary($sessionUser, $vocabulary->school);
     }
 
     protected function voteOnEntity(
