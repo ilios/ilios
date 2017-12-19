@@ -43,7 +43,6 @@ class Department extends AbstractVoter
             case self::VIEW:
                 return $this->permissionChecker->canReadDepartment(
                     $sessionUser,
-                    $department->getId(),
                     $department->getSchool()->getId()
                 );
                 break;
@@ -53,14 +52,12 @@ class Department extends AbstractVoter
             case self::EDIT:
                 return $this->permissionChecker->canUpdateDepartment(
                     $sessionUser,
-                    $department->getId(),
                     $department->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteDepartment(
                     $sessionUser,
-                    $department->getId(),
                     $department->getSchool()->getId()
                 );
                 break;
