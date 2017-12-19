@@ -237,7 +237,7 @@ class SessionUser implements SessionUserInterface
             'directedCohortIds',
             'administeredCurriculumInventoryReportIds'
         ];
-        foreach($props as $prop) {
+        foreach ($props as $prop) {
             if (! empty($this->$prop)) {
                 $rhett = true;
                 break;
