@@ -27,48 +27,31 @@ class Session extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof SessionInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        SessionInterface $session
-    ) : bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadSession(
-                    $sessionUser,
-                    $session->getId(),
-                    $session->getCourse()->getId(),
-                    $session->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateSession(
-                    $sessionUser,
-                    $session->getId(),
-                    $session->getCourse()->getId(),
-                    $session->getSchool()->getId()
+                    $user,
+                    $subject->getId(),
+                    $subject->getCourse()->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::CREATE:
                 return $this->permissionChecker->canCreateSession(
-                    $sessionUser,
-                    $session->getCourse()->getId(),
-                    $session->getSchool()->getId()
+                    $user,
+                    $subject->getCourse()->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteSession(
-                    $sessionUser,
-                    $session->getId(),
-                    $session->getCourse()->getId(),
-                    $session->getSchool()->getId()
+                    $user,
+                    $subject->getId(),
+                    $subject->getCourse()->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
         }

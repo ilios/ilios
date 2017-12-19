@@ -27,41 +27,26 @@ class Term extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof TermInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        TermInterface $term
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadTerm(
-                    $sessionUser,
-                    $term->getVocabulary()->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::CREATE:
                 return $this->permissionChecker->canCreateTerm(
-                    $sessionUser,
-                    $term->getVocabulary()->getSchool()->getId()
+                    $user,
+                    $subject->getVocabulary()->getSchool()->getId()
                 );
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateTerm(
-                    $sessionUser,
-                    $term->getVocabulary()->getSchool()->getId()
+                    $user,
+                    $subject->getVocabulary()->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteTerm(
-                    $sessionUser,
-                    $term->getVocabulary()->getSchool()->getId()
+                    $user,
+                    $subject->getVocabulary()->getSchool()->getId()
                 );
                 break;
         }

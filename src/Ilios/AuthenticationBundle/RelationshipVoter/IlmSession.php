@@ -27,35 +27,17 @@ class IlmSession extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof IlmSessionInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        IlmSessionInterface $ilmSession
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadSession(
-                    $sessionUser,
-                    $ilmSession->getSession()->getId(),
-                    $ilmSession->getSession()->getCourse()->getId(),
-                    $ilmSession->getSession()->getCourse()->getSchool()->getId()
-                );
-                break;
+                return true;
             case self::EDIT:
             case self::CREATE:
             case self::DELETE:
                 return $this->permissionChecker->canUpdateSession(
-                    $sessionUser,
-                    $ilmSession->getSession()->getId(),
-                    $ilmSession->getSession()->getCourse()->getId(),
-                    $ilmSession->getSession()->getCourse()->getSchool()->getId()
+                    $user,
+                    $subject->getSession()->getId(),
+                    $subject->getSession()->getCourse()->getId(),
+                    $subject->getSession()->getCourse()->getSchool()->getId()
                 );
                 break;
         }

@@ -27,38 +27,23 @@ class Vocabulary extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof VocabularyInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        VocabularyInterface $vocabulary
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadVocabulary(
-                    $sessionUser,
-                    $vocabulary->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateVocabulary($sessionUser, $vocabulary->getSchool()->getId());
+                return $this->permissionChecker->canCreateVocabulary($user, $subject->getSchool()->getId());
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateVocabulary(
-                    $sessionUser,
-                    $vocabulary->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteVocabulary(
-                    $sessionUser,
-                    $vocabulary->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
         }
