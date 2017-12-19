@@ -28,25 +28,8 @@ class CompetencyTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Competency::class);
         $entity->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canReadCompetency')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
-    }
-
-    public function testCanNotView()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Competency::class);
-        $entity->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canReadCompetency')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
     public function testCanEdit()

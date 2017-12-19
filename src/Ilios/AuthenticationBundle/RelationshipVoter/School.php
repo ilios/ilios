@@ -27,32 +27,20 @@ class School extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof SchoolInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(string $attribute, SessionUserInterface $sessionUser, SchoolInterface $school): bool
-    {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadSchool(
-                    $sessionUser,
-                    $school->getId()
-                );
+                return true;
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateSchool(
-                    $sessionUser,
-                    $school->getId()
+                    $user,
+                    $subject->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteSchool(
-                    $sessionUser,
-                    $school->getId()
+                    $user,
+                    $subject->getId()
                 );
                 break;
         }

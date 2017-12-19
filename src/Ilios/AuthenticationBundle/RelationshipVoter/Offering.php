@@ -27,35 +27,18 @@ class Offering extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof OfferingInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        OfferingInterface $offering
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadSession(
-                    $sessionUser,
-                    $offering->getSession()->getId(),
-                    $offering->getSession()->getCourse()->getId(),
-                    $offering->getSession()->getCourse()->getSchool()->getId()
-                );
+                return $user->performsNonLearnerFunction();
                 break;
             case self::EDIT:
             case self::CREATE:
             case self::DELETE:
                 return $this->permissionChecker->canUpdateSession(
-                    $sessionUser,
-                    $offering->getSession()->getId(),
-                    $offering->getSession()->getCourse()->getId(),
-                    $offering->getSession()->getCourse()->getSchool()->getId()
+                    $user,
+                    $subject->getSession()->getId(),
+                    $subject->getSession()->getCourse()->getId(),
+                    $subject->getSession()->getCourse()->getSchool()->getId()
                 );
                 break;
         }

@@ -27,38 +27,23 @@ class Department extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof DepartmentInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        DepartmentInterface $department
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadDepartment(
-                    $sessionUser,
-                    $department->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateDepartment($sessionUser, $department->getSchool()->getId());
+                return $this->permissionChecker->canCreateDepartment($user, $subject->getSchool()->getId());
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateDepartment(
-                    $sessionUser,
-                    $department->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteDepartment(
-                    $sessionUser,
-                    $department->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
         }

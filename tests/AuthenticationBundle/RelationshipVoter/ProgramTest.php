@@ -27,26 +27,8 @@ class ProgramTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Program::class);
-        $entity->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canReadProgram')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
-    }
-
-    public function testCanNotView()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Program::class);
-        $entity->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canReadProgram')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
     public function testCanEdit()

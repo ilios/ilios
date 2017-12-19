@@ -27,41 +27,26 @@ class SchoolConfig extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof SchoolConfigInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        SchoolConfigInterface $schoolConfig
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadSchoolConfig(
-                    $sessionUser,
-                    $schoolConfig->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::CREATE:
                 return $this->permissionChecker->canCreateSchoolConfig(
-                    $sessionUser,
-                    $schoolConfig->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateSchoolConfig(
-                    $sessionUser,
-                    $schoolConfig->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteSchoolConfig(
-                    $sessionUser,
-                    $schoolConfig->getSchool()->getId()
+                    $user,
+                    $subject->getSchool()->getId()
                 );
                 break;
         }

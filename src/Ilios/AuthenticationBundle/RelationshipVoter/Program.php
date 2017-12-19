@@ -27,41 +27,25 @@ class Program extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof ProgramInterface) {
-            return $this->voteOnEntity($attribute, $user, $subject);
-        }
-
-        return false;
-    }
-
-    protected function voteOnEntity(
-        string $attribute,
-        SessionUserInterface $sessionUser,
-        ProgramInterface $program
-    ): bool {
         switch ($attribute) {
             case self::VIEW:
-                return $this->permissionChecker->canReadProgram(
-                    $sessionUser,
-                    $program->getId(),
-                    $program->getSchool()->getId()
-                );
+                return true;
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateProgram($sessionUser, $program->getSchool()->getId());
+                return $this->permissionChecker->canCreateProgram($user, $subject->getSchool()->getId());
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateProgram(
-                    $sessionUser,
-                    $program->getId(),
-                    $program->getSchool()->getId()
+                    $user,
+                    $subject->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
             case self::DELETE:
                 return $this->permissionChecker->canDeleteProgram(
-                    $sessionUser,
-                    $program->getId(),
-                    $program->getSchool()->getId()
+                    $user,
+                    $subject->getId(),
+                    $subject->getSchool()->getId()
                 );
                 break;
         }
