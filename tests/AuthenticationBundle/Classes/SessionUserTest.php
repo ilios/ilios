@@ -98,6 +98,5 @@ class SessionUserTest extends TestCase
         $this->userManager->shouldReceive('buildSessionRelationships')->andReturn($relationships);
         $sessionUser = new SessionUser($this->iliosUser, $this->userManager);
         $this->assertEquals($expectedResult, $sessionUser->performsNonLearnerFunction());
-
     }
 }
