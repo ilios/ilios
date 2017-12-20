@@ -7,6 +7,7 @@ use Ilios\CoreBundle\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -15,9 +16,38 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class DirectoryController extends Controller
 {
+
+    /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
+
+    /**
+     * @var UserManager
+     */
+    protected $userManager;
+
+    /**
+     * @var Directory
+     */
+    protected $directory;
+
+    /**
+     * DirectoryController constructor.
+     * @param TokenStorageInterface $tokenStorage
+     * @param UserManager $userManager
+     * @param Directory $directory
+     */
+    public function __construct(TokenStorageInterface $tokenStorage, UserManager $userManager, Directory $directory)
+    {
+        $this->tokenStorage = $tokenStorage;
+        $this->userManager = $userManager;
+        $this->directory = $directory;
+    }
+
     public function searchAction(Request $request)
     {
-        $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
+        $sessionUser = $this->tokenStorage->getToken()->getUser();
         if (!$sessionUser->hasRole(['Developer'])) {
             throw new AccessDeniedException();
         }
@@ -26,8 +56,7 @@ class DirectoryController extends Controller
         if ($request->query->has('searchTerms')) {
             $searchTerms = explode(' ', $request->query->get('searchTerms'));
 
-            $directory = $this->container->get(Directory::class);
-            $searchResults = $directory->find($searchTerms);
+            $searchResults = $this->directory->find($searchTerms);
 
             if (is_array($searchResults)) {
                 $results = $searchResults;
@@ -40,8 +69,7 @@ class DirectoryController extends Controller
         $campusIds = array_map(function ($arr) {
             return $arr['campusId'];
         }, $results);
-        $userManager = $this->get(UserManager::class);
-        $dtos = $userManager->findAllMatchingDTOsByCampusIds($campusIds);
+        $dtos = $this->userManager->findAllMatchingDTOsByCampusIds($campusIds);
 
         $usersIdsByCampusId = [];
         foreach ($dtos as $dto) {
@@ -59,19 +87,17 @@ class DirectoryController extends Controller
 
     public function findAction($id)
     {
-        $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
+        $sessionUser = $this->tokenStorage->getToken()->getUser();
         if (!$sessionUser->hasRole(['Developer'])) {
             throw new AccessDeniedException();
         }
 
-        $userManager = $this->container->get(UserManager::class);
-        $user = $userManager->findOneBy(['id' => $id]);
+        $user = $this->userManager->findOneBy(['id' => $id]);
         if (! $user) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        $directory = $this->container->get(Directory::class);
-        $userRecord = $directory->findByCampusId($user->getCampusId());
+        $userRecord = $this->directory->findByCampusId($user->getCampusId());
         if (!$userRecord) {
             throw new \Exception('Unable to find ' . $user->getCampusId() . ' in the directory.');
         }

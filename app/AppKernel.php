@@ -86,19 +86,6 @@ class AppKernel extends Kernel
     }
 
     /**
-     * @inheritdoc
-     */
-    protected function getContainerBaseClass()
-    {
-        // Register an alternative container for testing which allows us to mock services.
-        if ('test' == $this->environment) {
-            return '\PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer';
-        }
-
-        return parent::getContainerBaseClass();
-    }
-
-    /**
      * Get the kernel based on environmental variables
      * This is used in index.php to select the correct environment
      * Thanks https://www.pmg.com/blog/symfony-no-app-dev/ for this idea
