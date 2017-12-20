@@ -47,12 +47,12 @@ class ProgramYear extends AbstractVoter
                 );
                 break;
             case self::DELETE:
-            return $this->permissionChecker->canDeleteProgramYear(
-                $user,
-                $subject->getId(),
-                $subject->getProgram()->getId(),
-                $subject->getSchool()->getId()
-            );
+                return $this->permissionChecker->canDeleteProgramYear(
+                    $user,
+                    $subject->getId(),
+                    $subject->getProgram()->getId(),
+                    $subject->getSchool()->getId()
+                );
             break;
         }
 
