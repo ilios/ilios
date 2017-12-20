@@ -70,6 +70,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof MeshQualifierDTO
                 || $subject instanceof MeshTermDTO
                 || $subject instanceof MeshTreeDTO
+                || $subject instanceof ObjectiveDTO
                 || $subject instanceof ProgramDTO
                 || $subject instanceof ProgramYearDTO
                 || $subject instanceof SchoolDTO

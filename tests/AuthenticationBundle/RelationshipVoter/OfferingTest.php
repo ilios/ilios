@@ -5,7 +5,6 @@ use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\Offering as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use Ilios\CoreBundle\Entity\Course;
-use Ilios\CoreBundle\Entity\DTO\OfferingDTO;
 use Ilios\CoreBundle\Entity\Offering;
 use Ilios\CoreBundle\Entity\Session;
 use Ilios\CoreBundle\Entity\School;
