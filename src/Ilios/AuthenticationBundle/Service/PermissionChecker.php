@@ -204,7 +204,7 @@ class PermissionChecker
 
             $arr[self::CAN_UPDATE_THEIR_COHORTS] = $allRoles;
             $arr[self::CAN_DELETE_THEIR_COHORTS] = $allRoles;
-;
+            ;
             $arr[self::CAN_UPDATE_SCHOOL_CONFIGS] = $allRoles;
             $arr[self::CAN_CREATE_SCHOOL_CONFIGS] = $allRoles;
             $arr[self::CAN_DELETE_SCHOOL_CONFIGS] = $allRoles;
