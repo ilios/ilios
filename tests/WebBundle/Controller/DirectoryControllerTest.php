@@ -2,46 +2,77 @@
 
 namespace Tests\WebBundle\Controller;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\CoreBundle\Entity\DTO\UserDTO;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Service\Directory;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Ilios\WebBundle\Controller\DirectoryController;
+use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\Traits\JsonControllerTest;
 use Mockery as m;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class DirectoryControllerTest extends WebTestCase
+class DirectoryControllerTest extends TestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    use JsonControllerTest;
 
     /**
-     * @var Client
+     * @var DirectoryController
      */
-    protected $client;
+    protected $directoryController;
+
+    /**
+     * @var m\MockInterface
+     */
+    protected $tokenStorageMock;
+
+    /**
+     * @var m\MockInterface
+     */
+    protected $userManagerMock;
+
+    /**
+     * @var m\MockInterface
+     */
+    protected $directoryMock;
 
     public function setUp()
     {
-        $this->client = static::createClient();
-        $this->loadFixtures([
-            'Tests\CoreBundle\Fixture\LoadUserData',
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
-        ]);
+        parent::setUp();
+        $this->tokenStorageMock = m::mock(TokenStorageInterface::class);
+        $this->userManagerMock = m::mock(UserManager::class);
+        $this->directoryMock = m::mock(Directory::class);
+
+        $mockSessionUser = m::mock(SessionUserInterface::class);
+        $mockSessionUser->shouldReceive('hasRole')->with(['Developer'])->andReturn(true);
+
+        $mockToken = m::mock(TokenInterface::class);
+        $mockToken->shouldReceive('getUser')->andReturn($mockSessionUser);
+
+        $this->tokenStorageMock->shouldReceive('getToken')->andReturn($mockToken);
+
+        $this->directoryController = new DirectoryController(
+            $this->tokenStorageMock,
+            $this->userManagerMock,
+            $this->directoryMock
+        );
     }
 
     public function tearDown()
     {
-        foreach ($this->client->getContainer()->getMockedServices() as $id => $service) {
-            $this->client->getContainer()->unmock($id);
-        }
+        unset($this->directoryController);
+        unset($this->tokenStorageMock);
+        unset($this->userManagerMock);
+        unset($this->directoryMock);
+
         parent::tearDown();
     }
 
-    public function testSearch()
+    public function testSearchOne()
     {
-        $container = $this->client->getContainer();
-
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',
@@ -50,24 +81,23 @@ class DirectoryControllerTest extends WebTestCase
             'campusId' => 'abc',
         ];
 
-        $container->mock(Directory::class, Directory::class)
+        $this->directoryMock
             ->shouldReceive('find')
-            ->with(array('a', 'b'))
+            ->with(['a', 'b'])
             ->once()
-            ->andReturn(array($fakeDirectoryUser));
+            ->andReturn([$fakeDirectoryUser]);
 
-        $this->makeJsonRequest(
-            $this->client,
-            'GET',
-            $this->getUrl(
-                'ilios_web_directory_search',
-                ['searchTerms' => 'a b']
-            ),
-            null,
-            $this->getAuthenticatedUserToken()
-        );
+        $user = m::mock(UserDTO::class);
 
-        $response = $this->client->getResponse();
+        $this->userManagerMock
+            ->shouldReceive('findAllMatchingDTOsByCampusIds')
+            ->with(['abc'])->andReturn([$user]);
+
+
+        $request = new Request();
+        $request->query->add(['searchTerms' => 'a b']);
+
+        $response = $this->directoryController->searchAction($request);
         $content = $response->getContent();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
         $fakeDirectoryUser['user'] = null;
@@ -81,8 +111,6 @@ class DirectoryControllerTest extends WebTestCase
 
     public function testSearchReturnsCurrentUserId()
     {
-        $container = $this->client->getContainer();
-
         $fakeDirectoryUser1 = [
             'firstName' => 'first',
             'lastName' => 'alast',
@@ -99,27 +127,27 @@ class DirectoryControllerTest extends WebTestCase
             'campusId' => '1111@school.edu',
         ];
 
-        $container->mock(Directory::class, Directory::class)
+        $this->directoryMock
             ->shouldReceive('find')
-            ->with(array('a', 'b'))
+            ->with(['a', 'b'])
             ->once()
-            ->andReturn(array($fakeDirectoryUser1, $fakeDirectoryUser2));
+            ->andReturn([$fakeDirectoryUser1, $fakeDirectoryUser2]);
 
-        $this->makeJsonRequest(
-            $this->client,
-            'GET',
-            $this->getUrl(
-                'ilios_web_directory_search',
-                ['searchTerms' => 'a b']
-            ),
-            null,
-            $this->getAuthenticatedUserToken()
-        );
+        $user = m::mock(UserDTO::class);
+        $user->id = 1;
+        $user->campusId = '1111@school.edu';
+
+        $this->userManagerMock
+            ->shouldReceive('findAllMatchingDTOsByCampusIds')
+            ->with(['abc', '1111@school.edu'])->andReturn([$user]);
 
         $fakeDirectoryUser1['user'] = null;
         $fakeDirectoryUser2['user'] = 1;
 
-        $response = $this->client->getResponse();
+        $request = new Request();
+        $request->query->add(['searchTerms' => 'a b']);
+
+        $response = $this->directoryController->searchAction($request);
         $content = $response->getContent();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
         $results = json_decode($content, true)['results'];
@@ -139,8 +167,6 @@ class DirectoryControllerTest extends WebTestCase
 
     public function testFind()
     {
-        $container = $this->client->getContainer();
-
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',
@@ -149,57 +175,22 @@ class DirectoryControllerTest extends WebTestCase
             'campusId' => 'abc',
         ];
 
-        $mockDeveloperRole = m::mock('Ilios\CoreBundle\Entity\UserRole')
-            ->shouldReceive('getTitle')->once()->andReturn('Developer')
-            ->mock();
-
-        $mockSchool = m::mock('Ilios\CoreBundle\Entity\School')
-            ->shouldReceive('getId')->twice()->andReturn('1')
-            ->mock();
-
-        $mockAuthentication = m::mock('Ilios\CoreBundle\Entity\Authentication')
-            ->shouldReceive('getInvalidateTokenIssuedBefore')->once()->andReturn(null)
-            ->shouldReceive('getPassword')->once()->andReturn('hash')
-            ->shouldReceive('isLegacyAccount')->once()->andReturn(false)
-            ->mock();
-
-        $mockUser = m::mock('Ilios\CoreBundle\Entity\User')
-            ->shouldReceive('getId')->once()->andReturn('2')
-            ->shouldReceive('isRoot')->once()->andReturn(false)
-            ->shouldReceive('isEnabled')->once()->andReturn(true)
-            ->shouldReceive('getCampusId')->once()->andReturn('abc')
-            ->shouldReceive('getSchool')->once()->andReturn($mockSchool)
-            ->shouldReceive('getAuthentication')->once()->andReturn($mockAuthentication)
-            ->shouldReceive('getRoles')->once()->andReturn(new ArrayCollection([$mockDeveloperRole]))
-            ->shouldReceive('getAllSchools')->once()->andReturn(new ArrayCollection([$mockSchool]))
-            ->shouldReceive('getPermissions')->once()->andReturn(new ArrayCollection([]))
-            ->shouldReceive('getDirectedCourses')->once()->andReturn(new ArrayCollection([]))
-            ->mock();
-
-        $container->mock(Directory::class, Directory::class)
+        $this->directoryMock
             ->shouldReceive('findByCampusId')
             ->with('abc')
             ->once()
             ->andReturn($fakeDirectoryUser);
 
-        $container->mock(UserManager::class, UserManager::class)
+        $userMock = m::mock(UserInterface::class)
+            ->shouldReceive('getCampusId')
+            ->andReturn('abc')
+            ->mock();
+
+        $this->userManagerMock
             ->shouldReceive('findOneBy')
-            ->with(['id' => 1])
-            ->twice()
-            ->andReturn($mockUser);
+            ->with(['id' => 1])->andReturn($userMock);
 
-        $this->makeJsonRequest(
-            $this->client,
-            'GET',
-            $this->getUrl(
-                'ilios_web_directory_find',
-                ['id' => '1']
-            ),
-            null,
-            $this->getTokenForUser(1)
-        );
-
-        $response = $this->client->getResponse();
+        $response = $this->directoryController->findAction(1);
         $content = $response->getContent();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
