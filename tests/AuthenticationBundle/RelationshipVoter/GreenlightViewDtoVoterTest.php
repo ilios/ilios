@@ -74,7 +74,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [DepartmentDTO::class],
             [IlmSessionDTO::class],
             [InstructorGroupDTO::class],
-            [LearningMaterialStatusDTO::class]
+            [LearningMaterialStatusDTO::class],
             [MeshConceptDTO::class],
             [MeshDescriptorDTO::class],
             [MeshPreviousIndexingDTO::class],
