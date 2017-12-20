@@ -21,6 +21,7 @@ use Ilios\CoreBundle\Entity\DTO\CurriculumInventorySequenceDTO;
 use Ilios\CoreBundle\Entity\DTO\DepartmentDTO;
 use Ilios\CoreBundle\Entity\DTO\IlmSessionDTO;
 use Ilios\CoreBundle\Entity\DTO\InstructorGroupDTO;
+use Ilios\CoreBundle\Entity\DTO\LearningMaterialStatusDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
@@ -72,6 +73,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [DepartmentDTO::class],
             [IlmSessionDTO::class],
             [InstructorGroupDTO::class],
+            [LearningMaterialStatusDTO::class]
             [MeshConceptDTO::class],
             [MeshDescriptorDTO::class],
             [MeshPreviousIndexingDTO::class],
