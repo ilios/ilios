@@ -28,6 +28,7 @@ use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshQualifierDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshTermDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshTreeDTO;
+use Ilios\CoreBundle\Entity\DTO\ObjectiveDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearDTO;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
@@ -80,6 +81,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [MeshQualifierDTO::class],
             [MeshTermDTO::class],
             [MeshTreeDTO::class],
+            [ObjectiveDTO::class],
             [ProgramDTO::class],
             [ProgramYearDTO::class],
             [SchoolDTO::class],
