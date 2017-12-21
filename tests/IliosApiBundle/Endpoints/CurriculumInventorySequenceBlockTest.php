@@ -449,11 +449,11 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
             ['filters[parent]' => $parent['id']]
         );
 
-         $this->assertEquals(
-             count($childrenBeforeMove),
-             count($childrenAfterMove),
-             'Sequence contains the same number of blocks as before.'
-         );
+        $this->assertEquals(
+            count($childrenBeforeMove),
+            count($childrenAfterMove),
+            'Sequence contains the same number of blocks as before.'
+        );
 
         $childrenAfterMove = $this->sortOrderedSequence($childrenAfterMove);
 
