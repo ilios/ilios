@@ -128,6 +128,12 @@ class PermissionChecker
     const CAN_UPDATE_LEARNER_GROUPS = 'canUpdateLearnerGroups';
     /** @var string */
     const CAN_DELETE_LEARNER_GROUPS = 'canDeleteLearnerGroups';
+    /** @var string */
+    const CAN_CREATE_USERS = 'canCreateUser';
+    /** @var string */
+    const CAN_UPDATE_USERS = 'canUpdateUser';
+    /** @var string */
+    const CAN_DELETE_USERS = 'canDeleteUser';
 
     /**
      * @var SchoolManager
@@ -1063,6 +1069,48 @@ class PermissionChecker
         if ($this->hasPermission(
             $schoolId,
             PermissionChecker::CAN_CREATE_LEARNER_GROUPS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canUpdateUser(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_UPDATE_USERS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canDeleteUser(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_DELETE_USERS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCreateUser(SessionUserInterface $sessionUser, int $schoolId): bool
+    {
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
+        if ($this->hasPermission(
+            $schoolId,
+            PermissionChecker::CAN_CREATE_USERS,
             $rolesInSchool
         )) {
             return true;
