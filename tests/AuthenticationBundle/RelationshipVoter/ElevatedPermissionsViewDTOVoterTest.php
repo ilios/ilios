@@ -6,8 +6,12 @@ use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\ElevatedPermissionsViewDTOVoter as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use Ilios\CoreBundle\Entity\DTO\AuthenticationDTO;
+use Ilios\CoreBundle\Entity\DTO\IngestionExceptionDTO;
 use Ilios\CoreBundle\Entity\DTO\LearnerGroupDTO;
 use Ilios\CoreBundle\Entity\DTO\OfferingDTO;
+use Ilios\CoreBundle\Entity\DTO\PendingUserUpdateDTO;
+use Ilios\CoreBundle\Entity\DTO\UserDTO;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -29,8 +33,12 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
     public function dtoProvider()
     {
         return [
+            [AuthenticationDTO::class],
+            [IngestionExceptionDTO::class],
             [LearnerGroupDTO::class],
             [OfferingDTO::class],
+            [PendingUserUpdateDTO::class],
+            [UserDTO::class],
         ];
     }
 
