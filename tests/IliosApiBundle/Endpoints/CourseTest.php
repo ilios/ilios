@@ -342,6 +342,13 @@ class CourseTest extends AbstractEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
+        /* KLUDGE!
+         * Fix up the course's year to be last year.
+         * Otherwise, rollover may bomb out with a "Courses cannot be rolled over to a new year before YYYY" error,
+         * with YYYY being last year.
+         * [ST 2018/01/02].
+         */
+        $course['year'] = intval(strftime('%Y'), 10) - 1;
         $newCourseTitle = 'New (very cool) course title';
 
         $newCourse = $this->rolloverCourse([
@@ -350,9 +357,40 @@ class CourseTest extends AbstractEndpointTest
             'newCourseTitle' => $newCourseTitle
         ]);
 
-
         $this->assertSame($course['year'], $newCourse['year']);
         $this->assertSame($newCourseTitle, $newCourse['title']);
+    }
+
+    public function testFailRolloverToPassedYear()
+    {
+        $dataLoader = $this->getDataLoader();
+        $course = $dataLoader->getOne();
+        $course['year'] = 2001; // most definitely yesteryear
+        $newCourseTitle = 'Does not matter';
+
+        $parameters = array_merge([
+            'version' => 'v1',
+            'object' => 'courses'
+        ], [
+            'id' => $course['id'],
+            'year' => $course['year'],
+            'newCourseTitle' => $newCourseTitle
+        ]);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'ilios_api_courserollover',
+                $parameters
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
+        $data = json_decode($response->getContent(), true);
+        $this->assertContains('Courses cannot be rolled over to a new year before', $data['message']);
     }
 
     public function testRolloverIlmSessions()
