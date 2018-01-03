@@ -25,7 +25,7 @@ class Authentication implements AuthenticationInterface
      * @ORM\Id
      * @ORM\OneToOne(targetEntity="User", inversedBy="authentication")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="person_id", referencedColumnName="user_id", unique=true, onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="person_id", referencedColumnName="user_id", onDelete="CASCADE")
      * })
      *
      * @Assert\NotBlank()
