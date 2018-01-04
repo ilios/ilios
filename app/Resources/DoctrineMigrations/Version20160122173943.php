@@ -75,7 +75,6 @@ class Version20160122173943 extends AbstractMigration
         $this->addSql('ALTER TABLE department DROP FOREIGN KEY FK_CD1DE18AC32A47EE');
         $this->addSql('ALTER TABLE department CHANGE school_id school_id INT NOT NULL');
         $this->addSql('ALTER TABLE department ADD CONSTRAINT FK_CD1DE18AC32A47EE FOREIGN KEY (school_id) REFERENCES school (school_id)');
-
     }
 
     /**

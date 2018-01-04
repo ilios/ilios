@@ -145,6 +145,5 @@ class Version20151104175441 extends AbstractMigration
         $this->addSql('ALTER TABLE session ADD deleted TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE program ADD deleted TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE department ADD deleted TINYINT(1) NOT NULL');
-
     }
 }

@@ -21,7 +21,7 @@ class Version20170824000000 extends AbstractMigration
         $rows = $this->connection->executeQuery($sql)->fetchAll();
 
         if (count($rows)) {
-            $names = array_map(function(array $arr) {
+            $names = array_map(function (array $arr) {
                 return $arr['name'];
             }, $rows);
             $names = join(', ', $names);
@@ -109,7 +109,7 @@ class Version20170824000000 extends AbstractMigration
             ];
         }, array_keys($parameters), $parameters);
 
-        $clean = array_filter($mapped, function($arr) {
+        $clean = array_filter($mapped, function ($arr) {
             return !is_null($arr['value']);
         });
 

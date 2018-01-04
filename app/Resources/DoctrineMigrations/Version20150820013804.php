@@ -20,7 +20,6 @@ class Version20150820013804 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('DROP TABLE api_key');
-
     }
 
     /**
