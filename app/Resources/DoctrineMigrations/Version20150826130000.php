@@ -45,7 +45,7 @@ class Version20150826130000 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_100AC50F928873C ON mesh_concept_x_term (mesh_term_id)');
         $this->addSql('ALTER TABLE mesh_concept_x_term ADD PRIMARY KEY (mesh_term_id, mesh_concept_uid)');
         if (isset($insertSql)) {
-            $this->addSql($insertSql);    
+            $this->addSql($insertSql);
         }
     }
 
@@ -87,7 +87,7 @@ class Version20150826130000 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_100AC50F17293A95 ON mesh_concept_x_term (mesh_term_uid)');
         $this->addSql('ALTER TABLE mesh_concept_x_term ADD PRIMARY KEY (mesh_concept_uid, mesh_term_uid)');
         if (isset($insertSql)) {
-            $this->addSql($insertSql);    
+            $this->addSql($insertSql);
         }
     }
 }

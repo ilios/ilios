@@ -59,7 +59,6 @@ class Version20150901000000 extends AbstractMigration
         $this->addSql('ALTER TABLE `session_learning_material` DROP FOREIGN KEY `FK_9BE2AF8DC1D99609`');
         $this->addSql('ALTER TABLE `session_learning_material` ADD CONSTRAINT `FK_9BE2AF8D613FECDF` FOREIGN KEY (`session_id`) REFERENCES `session` (`session_id`)');
         $this->addSql('ALTER TABLE `session_learning_material` ADD CONSTRAINT `FK_9BE2AF8DC1D99609` FOREIGN KEY (`learning_material_id`) REFERENCES `learning_material` (`learning_material_id`)');
-
     }
 
     /**

@@ -27,6 +27,5 @@ class Version20170917182423 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('ALTER TABLE mesh_term ADD print TINYINT(1) DEFAULT NULL');
-
     }
 }

@@ -17,7 +17,6 @@ class Version20170818144244 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('UPDATE session_type SET active = 1');
-
     }
 
     /**
@@ -27,7 +26,5 @@ class Version20170818144244 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('UPDATE session_type SET active = 0');
-
-
     }
 }

@@ -64,7 +64,6 @@ class Version20160627210338 extends AbstractMigration
 
         $this->addSql('ALTER TABLE term_x_aamc_resource_type ADD CONSTRAINT FK_F4C4B9D698EC6B7B FOREIGN KEY (resource_type_id) REFERENCES aamc_resource_type (resource_type_id)');
         $this->addSql('CREATE INDEX IDX_F4C4B9D698EC6B7B ON term_x_aamc_resource_type (resource_type_id)');
-
     }
 
     /**
