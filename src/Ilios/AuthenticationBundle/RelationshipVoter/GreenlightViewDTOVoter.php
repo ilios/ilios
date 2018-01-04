@@ -29,6 +29,7 @@ use Ilios\CoreBundle\Entity\DTO\MeshTreeDTO;
 use Ilios\CoreBundle\Entity\DTO\ObjectiveDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearDTO;
+use Ilios\CoreBundle\Entity\DTO\ProgramYearStewardDTO;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDescriptionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDTO;
@@ -74,6 +75,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof ObjectiveDTO
                 || $subject instanceof ProgramDTO
                 || $subject instanceof ProgramYearDTO
+                || $subject instanceof ProgramYearStewardDTO
                 || $subject instanceof SchoolDTO
                 || $subject instanceof SessionDTO
                 || $subject instanceof SessionDescriptionDTO

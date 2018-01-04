@@ -31,6 +31,7 @@ use Ilios\CoreBundle\Entity\DTO\MeshTreeDTO;
 use Ilios\CoreBundle\Entity\DTO\ObjectiveDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearDTO;
+use Ilios\CoreBundle\Entity\DTO\ProgramYearStewardDTO;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDescriptionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDTO;
@@ -84,6 +85,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [ObjectiveDTO::class],
             [ProgramDTO::class],
             [ProgramYearDTO::class],
+            [ProgramYearStewardDTO::class],
             [SchoolDTO::class],
             [SessionDTO::class],
             [SessionDescriptionDTO::class],
@@ -96,6 +98,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
     /**
      * @dataProvider canViewDTOProvider
      * @covers GreenlightViewDTOVoter::voteOnAttribute()
+     * @param string $class The fully qualified class name.
      */
     public function testCanViewDTO($class)
     {
