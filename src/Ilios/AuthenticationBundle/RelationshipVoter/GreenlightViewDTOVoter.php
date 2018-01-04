@@ -11,6 +11,7 @@ use Ilios\CoreBundle\Entity\DTO\CohortDTO;
 use Ilios\CoreBundle\Entity\DTO\CompetencyDTO;
 use Ilios\CoreBundle\Entity\DTO\CourseClerkshipTypeDTO;
 use Ilios\CoreBundle\Entity\DTO\CourseDTO;
+use Ilios\CoreBundle\Entity\DTO\CourseLearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\CurriculumInventoryAcademicLevelDTO;
 use Ilios\CoreBundle\Entity\DTO\CurriculumInventoryInstitutionDTO;
 use Ilios\CoreBundle\Entity\DTO\CurriculumInventoryReportDTO;
@@ -19,6 +20,7 @@ use Ilios\CoreBundle\Entity\DTO\CurriculumInventorySequenceDTO;
 use Ilios\CoreBundle\Entity\DTO\DepartmentDTO;
 use Ilios\CoreBundle\Entity\DTO\IlmSessionDTO;
 use Ilios\CoreBundle\Entity\DTO\InstructorGroupDTO;
+use Ilios\CoreBundle\Entity\DTO\LearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialStatusDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
@@ -33,6 +35,7 @@ use Ilios\CoreBundle\Entity\DTO\ProgramYearStewardDTO;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDescriptionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDTO;
+use Ilios\CoreBundle\Entity\DTO\SessionLearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionTypeDTO;
 use Ilios\CoreBundle\Entity\DTO\TermDTO;
 use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
@@ -57,6 +60,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof CompetencyDTO
                 || $subject instanceof CourseDTO
                 || $subject instanceof CourseClerkshipTypeDTO
+                || $subject instanceof CourseLearningMaterialDTO
                 || $subject instanceof CurriculumInventoryAcademicLevelDTO
                 || $subject instanceof CurriculumInventoryInstitutionDTO
                 || $subject instanceof CurriculumInventoryReportDTO
@@ -65,6 +69,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof DepartmentDTO
                 || $subject instanceof IlmSessionDTO
                 || $subject instanceof InstructorGroupDTO
+                || $subject instanceof LearningMaterialDTO
                 || $subject instanceof LearningMaterialStatusDTO
                 || $subject instanceof MeshConceptDTO
                 || $subject instanceof MeshDescriptorDTO
@@ -79,6 +84,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof SchoolDTO
                 || $subject instanceof SessionDTO
                 || $subject instanceof SessionDescriptionDTO
+                || $subject instanceof SessionLearningMaterialDTO
                 || $subject instanceof SessionTypeDTO
                 || $subject instanceof TermDTO
                 || $subject instanceof VocabularyDTO
