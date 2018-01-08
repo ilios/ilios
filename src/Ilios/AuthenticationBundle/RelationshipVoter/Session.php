@@ -32,27 +32,13 @@ class Session extends AbstractVoter
                 return true;
                 break;
             case self::EDIT:
-                return $this->permissionChecker->canUpdateSession(
-                    $user,
-                    $subject->getId(),
-                    $subject->getCourse()->getId(),
-                    $subject->getSchool()->getId()
-                );
+                return $this->permissionChecker->canUpdateSession($user, $subject);
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateSession(
-                    $user,
-                    $subject->getCourse()->getId(),
-                    $subject->getSchool()->getId()
-                );
+                return $this->permissionChecker->canCreateSession($user, $subject->getCourse());
                 break;
             case self::DELETE:
-                return $this->permissionChecker->canDeleteSession(
-                    $user,
-                    $subject->getId(),
-                    $subject->getCourse()->getId(),
-                    $subject->getSchool()->getId()
-                );
+                return $this->permissionChecker->canDeleteSession($user, $subject);
                 break;
         }
 

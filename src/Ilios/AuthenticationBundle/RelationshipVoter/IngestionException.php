@@ -3,18 +3,15 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
+use Ilios\CoreBundle\Entity\IngestionExceptionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class SessionDescription extends AbstractVoter
+class IngestionException extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof SessionDescriptionInterface
-            && in_array(
-                $attribute,
-                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
-            );
+        return $subject instanceof IngestionExceptionInterface
+            && in_array($attribute, [self::VIEW]);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -29,12 +26,7 @@ class SessionDescription extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                return true;
-                break;
-            case self::EDIT:
-            case self::CREATE:
-            case self::DELETE:
-                return $this->permissionChecker->canUpdateSession($user, $subject->getSession());
+                return $user->performsNonLearnerFunction();
                 break;
         }
 
