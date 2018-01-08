@@ -34,11 +34,7 @@ class CourseLearningMaterial extends AbstractVoter
             case self::EDIT:
             case self::CREATE:
             case self::DELETE:
-                return $this->permissionChecker->canUpdateCourse(
-                    $user,
-                    $subject->getCourse()->getId(),
-                    $subject->getCourse()->getSchool()->getId()
-                );
+                return $this->permissionChecker->canUpdateCourse($user, $subject->getCourse());
                 break;
         }
 

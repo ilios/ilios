@@ -34,12 +34,7 @@ class SessionLearningMaterial extends AbstractVoter
             case self::EDIT:
             case self::CREATE:
             case self::DELETE:
-                return $this->permissionChecker->canUpdateSession(
-                    $user,
-                    $subject->getSession()->getId(),
-                    $subject->getSession()->getCourse()->getId(),
-                    $subject->getSession()->getCourse()->getSchool()->getId()
-                );
+                return $this->permissionChecker->canUpdateSession($user, $subject->getSession());
                 break;
         }
 
