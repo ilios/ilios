@@ -32,27 +32,13 @@ class Cohort extends AbstractVoter
                 return true;
                 break;
             case self::EDIT:
-                return $this->permissionChecker->canUpdateCohort(
-                    $user,
-                    $subject->getId(),
-                    $subject->getProgram()->getId(),
-                    $subject->getSchool()->getId()
-                );
+                return $this->permissionChecker->canUpdateCohort($user, $subject);
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateCohort(
-                    $user,
-                    $subject->getProgram()->getId(),
-                    $subject->getSchool()->getId()
-                );
+                return $this->permissionChecker->canCreateCohort($user, $subject->getProgramYear());
                 break;
             case self::DELETE:
-                return $this->permissionChecker->canDeleteCohort(
-                    $user,
-                    $subject->getId(),
-                    $subject->getProgram()->getId(),
-                    $subject->getSchool()->getId()
-                );
+                return $this->permissionChecker->canDeleteCohort($user, $subject);
                 break;
         }
 

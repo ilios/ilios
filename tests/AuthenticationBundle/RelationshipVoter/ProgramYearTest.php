@@ -36,13 +36,6 @@ class ProgramYearTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ProgramYear::class);
-        $entity->shouldReceive('getId')->andReturn(1);
-        $program = m::mock(Program::class);
-        $program->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getProgram')->andReturn($program);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateProgramYear')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
@@ -52,13 +45,6 @@ class ProgramYearTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ProgramYear::class);
-        $entity->shouldReceive('getId')->andReturn(1);
-        $program = m::mock(Program::class);
-        $program->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getProgram')->andReturn($program);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateProgramYear')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
@@ -68,13 +54,6 @@ class ProgramYearTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ProgramYear::class);
-        $entity->shouldReceive('getId')->andReturn(1);
-        $program = m::mock(Program::class);
-        $program->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getProgram')->andReturn($program);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canDeleteProgramYear')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
@@ -84,13 +63,6 @@ class ProgramYearTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ProgramYear::class);
-        $entity->shouldReceive('getId')->andReturn(1);
-        $program = m::mock(Program::class);
-        $program->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getProgram')->andReturn($program);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canDeleteProgramYear')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
@@ -101,11 +73,7 @@ class ProgramYearTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ProgramYear::class);
         $program = m::mock(Program::class);
-        $program->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getProgram')->andReturn($program);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canCreateProgramYear')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
@@ -116,13 +84,45 @@ class ProgramYearTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(ProgramYear::class);
         $program = m::mock(Program::class);
-        $program->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getProgram')->andReturn($program);
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canCreateProgramYear')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
+    }
+
+    public function testCanUnlock()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(ProgramYear::class);
+        $this->permissionChecker->shouldReceive('canUnlockProgramYear')->andReturn(true);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::UNLOCK]);
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
+    }
+
+    public function testCanNotUnlock()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(ProgramYear::class);
+        $this->permissionChecker->shouldReceive('canUnlockProgramYear')->andReturn(false);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::UNLOCK]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
+    }
+
+    public function testCanUnarchive()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(ProgramYear::class);
+        $this->permissionChecker->shouldReceive('canUnarchiveProgramYear')->andReturn(true);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::UNARCHIVE]);
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
+    }
+
+    public function testCanNotUnarchive()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(ProgramYear::class);
+        $this->permissionChecker->shouldReceive('canUnarchiveProgramYear')->andReturn(false);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::UNARCHIVE]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 }
