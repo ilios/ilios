@@ -74,12 +74,7 @@ class Objective extends AbstractVoter
         /* @var ProgramYearInterface $programYear */
         $programYear = $objective->getProgramYears()->first(); // there should ever only be one
 
-        return $this->permissionChecker->canUpdateProgramYear(
-            $user,
-            $programYear->getId(),
-            $programYear->getProgram()->getId(),
-            $programYear->getProgram()->getSchool()->getId()
-        );
+        return $this->permissionChecker->canUpdateProgramYear($user, $programYear);
     }
 
     /**
@@ -94,12 +89,7 @@ class Objective extends AbstractVoter
         /* @var SessionInterface $session */
         $session = $objective->getSessions()->first(); // there should ever only be one
 
-        return $this->permissionChecker->canUpdateSession(
-            $user,
-            $session->getId(),
-            $session->getCourse()->getId(),
-            $session->getCourse()->getSchool()->getId()
-        );
+        return $this->permissionChecker->canUpdateSession($user, $session);
     }
 
     /**
@@ -112,10 +102,6 @@ class Objective extends AbstractVoter
         /* @var CourseInterface $course */
         $course = $objective->getCourses()->first(); // there should ever only be one
 
-        return $this->permissionChecker->canUpdateCourse(
-            $user,
-            $course->getId(),
-            $course->getSchool()->getId()
-        );
+        return $this->permissionChecker->canUpdateCourse($user, $course);
     }
 }

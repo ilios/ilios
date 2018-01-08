@@ -34,12 +34,7 @@ class ProgramYearSteward extends AbstractVoter
             case self::EDIT:
             case self::CREATE:
             case self::DELETE:
-                return $this->permissionChecker->canUpdateProgramYear(
-                    $user,
-                    $subject->getProgramYear()->getId(),
-                    $subject->getProgram()->getId(),
-                    $subject->getProgramOwningSchool()->getId()
-                );
+                return $this->permissionChecker->canUpdateProgramYear($user, $subject->getProgramYear());
                 break;
         }
 
