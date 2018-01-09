@@ -45,8 +45,6 @@ class PermissionMatrix implements PermissionMatrixInterface
         if (!array_key_exists($schoolId, $this->matrix)) {
             $this->matrix[$schoolId] = [];
         }
-        $schoolPermissions = $this->matrix[$schoolId];
-
-        $schoolPermissions[$capability] = $roles;
+        $this->matrix[$schoolId][$capability] = $roles;
     }
 }
