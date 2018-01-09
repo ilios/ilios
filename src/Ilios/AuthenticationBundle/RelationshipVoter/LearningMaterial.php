@@ -2,27 +2,38 @@
 
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
+use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class SessionDescription extends AbstractVoter
+/**
+ * Class LearningMaterial
+ */
+class LearningMaterial extends AbstractVoter
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof SessionDescriptionInterface
-            && in_array(
-                $attribute,
-                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
-            );
+        return $subject instanceof LearningMaterialInterface && in_array($attribute, array(
+                self::VIEW, self::CREATE, self::EDIT, self::DELETE
+            ));
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    /**
+     * @param string $attribute
+     * @param LearningMaterialInterface $learningMaterial
+     * @param TokenInterface $token
+     * @return bool
+     */
+    protected function voteOnAttribute($attribute, $learningMaterial, TokenInterface $token)
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
             return false;
         }
+
         if ($user->isRoot()) {
             return true;
         }
@@ -31,10 +42,10 @@ class SessionDescription extends AbstractVoter
             case self::VIEW:
                 return true;
                 break;
-            case self::EDIT:
             case self::CREATE:
+            case self::EDIT:
             case self::DELETE:
-                return $this->permissionChecker->canUpdateSession($user, $subject->getSession());
+                return $user->performsNonLearnerFunction();
                 break;
         }
 

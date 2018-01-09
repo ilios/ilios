@@ -3,14 +3,14 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
+use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class SessionDescription extends AbstractVoter
+class CourseLearningMaterial extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof SessionDescriptionInterface
+        return $subject instanceof CourseLearningMaterialInterface
             && in_array(
                 $attribute,
                 [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
@@ -34,7 +34,7 @@ class SessionDescription extends AbstractVoter
             case self::EDIT:
             case self::CREATE:
             case self::DELETE:
-                return $this->permissionChecker->canUpdateSession($user, $subject->getSession());
+                return $this->permissionChecker->canUpdateCourse($user, $subject->getCourse());
                 break;
         }
 

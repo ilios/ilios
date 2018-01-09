@@ -13,7 +13,7 @@ class Course extends AbstractVoter
         return $subject instanceof CourseInterface
             && in_array(
                 $attribute,
-                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE, self::UNLOCK, self::UNARCHIVE]
             );
     }
 
@@ -32,21 +32,19 @@ class Course extends AbstractVoter
                 return true;
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateCourse($user, $subject->getSchool()->getId());
+                return $this->permissionChecker->canCreateCourse($user, $subject->getSchool());
                 break;
             case self::EDIT:
-                return $this->permissionChecker->canUpdateCourse(
-                    $user,
-                    $subject->getId(),
-                    $subject->getSchool()->getId()
-                );
+                return $this->permissionChecker->canUpdateCourse($user, $subject);
                 break;
             case self::DELETE:
-                return $this->permissionChecker->canDeleteCourse(
-                    $user,
-                    $subject->getId(),
-                    $subject->getSchool()->getId()
-                );
+                return $this->permissionChecker->canDeleteCourse($user, $subject);
+                break;
+            case self::UNLOCK:
+                return $this->permissionChecker->canUnlockCourse($user, $subject);
+                break;
+            case self::UNARCHIVE:
+                return $this->permissionChecker->canUnarchiveCourse($user, $subject);
                 break;
         }
 

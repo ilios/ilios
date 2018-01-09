@@ -13,7 +13,7 @@ class ProgramYear extends AbstractVoter
         return $subject instanceof ProgramYearInterface
             && in_array(
                 $attribute,
-                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE, self::UNLOCK, self::UNARCHIVE]
             );
     }
 
@@ -32,28 +32,20 @@ class ProgramYear extends AbstractVoter
                 return true;
                 break;
             case self::EDIT:
-                return $this->permissionChecker->canUpdateProgramYear(
-                    $user,
-                    $subject->getId(),
-                    $subject->getProgram()->getId(),
-                    $subject->getSchool()->getId()
-                );
+                return $this->permissionChecker->canUpdateProgramYear($user, $subject);
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateProgramYear(
-                    $user,
-                    $subject->getProgram()->getId(),
-                    $subject->getSchool()->getId()
-                );
+                return $this->permissionChecker->canCreateProgramYear($user, $subject->getProgram());
                 break;
             case self::DELETE:
-                return $this->permissionChecker->canDeleteProgramYear(
-                    $user,
-                    $subject->getId(),
-                    $subject->getProgram()->getId(),
-                    $subject->getSchool()->getId()
-                );
-            break;
+                return $this->permissionChecker->canDeleteProgramYear($user, $subject);
+                break;
+            case self::UNLOCK:
+                return $this->permissionChecker->canUnlockProgramYear($user, $subject);
+                break;
+            case self::UNARCHIVE:
+                return $this->permissionChecker->canUnarchiveProgramYear($user, $subject);
+                break;
         }
 
         return false;

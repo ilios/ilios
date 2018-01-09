@@ -3,8 +3,12 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\CoreBundle\Entity\DTO\AuthenticationDTO;
+use Ilios\CoreBundle\Entity\DTO\IngestionExceptionDTO;
 use Ilios\CoreBundle\Entity\DTO\LearnerGroupDTO;
 use Ilios\CoreBundle\Entity\DTO\OfferingDTO;
+use Ilios\CoreBundle\Entity\DTO\PendingUserUpdateDTO;
+use Ilios\CoreBundle\Entity\DTO\UserDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -20,11 +24,17 @@ class ElevatedPermissionsViewDTOVoter extends AbstractVoter
     {
         return (
             array($attribute, [self::VIEW]) && (
-                $subject instanceof OfferingDTO
+                $subject instanceof AuthenticationDTO
+                || $subject instanceof IngestionExceptionDTO
                 || $subject instanceof LearnerGroupDTO
+                || $subject instanceof OfferingDTO
+                || $subject instanceof PendingUserUpdateDTO
+                || $subject instanceof UserDTO
+
             )
         );
     }
+
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $user = $token->getUser();

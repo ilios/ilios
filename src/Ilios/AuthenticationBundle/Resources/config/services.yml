@@ -31,3 +31,7 @@ services:
 
     Ilios\AuthenticationBundle\Service\CasManager:
         public: true
+
+    Ilios\AuthenticationBundle\Services\DefaultPermissionMatrix: ~
+
+    Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface: '@Ilios\AuthenticationBundle\Services\DefaultPermissionMatrix'

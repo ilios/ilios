@@ -2,15 +2,15 @@
 namespace Tests\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\AuthenticationBundle\RelationshipVoter\Course as Voter;
+use Ilios\AuthenticationBundle\RelationshipVoter\Authentication as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
-use Ilios\CoreBundle\Entity\Course;
-use Ilios\CoreBundle\Entity\DTO\CourseDTO;
+use Ilios\CoreBundle\Entity\Authentication;
 use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Entity\User;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class CourseTest extends AbstractBase
+class AuthenticationTest extends AbstractBase
 {
     public function setup()
     {
@@ -20,26 +20,39 @@ class CourseTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(Course::class);
+        $this->checkRootEntityAccess(Authentication::class);
     }
+
 
     public function testCanView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
+        $entity = m::mock(Authentication::class);
+        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanNotView()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(Authentication::class);
+        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
     public function testCanEdit()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
+        $entity = m::mock(Authentication::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canUpdateCourse')->andReturn(true);
+        $user = m::mock(User::class);
+        $user->shouldReceive('getSchool')->andReturn($school);
+        $entity->shouldReceive('getUser')->andReturn($user);
+        $this->permissionChecker->shouldReceive('canUpdateUser')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
@@ -47,12 +60,14 @@ class CourseTest extends AbstractBase
     public function testCanNotEdit()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
+        $entity = m::mock(Authentication::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canUpdateCourse')->andReturn(false);
+        $user = m::mock(User::class);
+        $user->shouldReceive('getSchool')->andReturn($school);
+        $entity->shouldReceive('getUser')->andReturn($user);
+        $this->permissionChecker->shouldReceive('canUpdateUser')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
@@ -60,12 +75,14 @@ class CourseTest extends AbstractBase
     public function testCanDelete()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
+        $entity = m::mock(Authentication::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canDeleteCourse')->andReturn(true);
+        $user = m::mock(User::class);
+        $user->shouldReceive('getSchool')->andReturn($school);
+        $entity->shouldReceive('getUser')->andReturn($user);
+        $this->permissionChecker->shouldReceive('canUpdateUser')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
@@ -73,12 +90,14 @@ class CourseTest extends AbstractBase
     public function testCanNotDelete()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
+        $entity = m::mock(Authentication::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canDeleteCourse')->andReturn(false);
+        $user = m::mock(User::class);
+        $user->shouldReceive('getSchool')->andReturn($school);
+        $entity->shouldReceive('getUser')->andReturn($user);
+        $this->permissionChecker->shouldReceive('canUpdateUser')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
@@ -86,11 +105,13 @@ class CourseTest extends AbstractBase
     public function testCanCreate()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
+        $entity = m::mock(Authentication::class);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canCreateCourse')->andReturn(true);
+        $user = m::mock(User::class);
+        $user->shouldReceive('getSchool')->andReturn($school);
+        $entity->shouldReceive('getUser')->andReturn($user);
+        $this->permissionChecker->shouldReceive('canUpdateUser')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
     }
@@ -98,48 +119,14 @@ class CourseTest extends AbstractBase
     public function testCanNotCreate()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
+        $entity = m::mock(Authentication::class);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canCreateCourse')->andReturn(false);
+        $user = m::mock(User::class);
+        $user->shouldReceive('getSchool')->andReturn($school);
+        $entity->shouldReceive('getUser')->andReturn($user);
+        $this->permissionChecker->shouldReceive('canUpdateUser')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
-    }
-
-    public function testCanUnlock()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
-        $this->permissionChecker->shouldReceive('canUnlockCourse')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::UNLOCK]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
-    }
-
-    public function testCanNotUnlock()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
-        $this->permissionChecker->shouldReceive('canUnlockCourse')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::UNLOCK]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
-    }
-
-    public function testCanUnarchive()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
-        $this->permissionChecker->shouldReceive('canUnarchiveCourse')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::UNARCHIVE]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
-    }
-
-    public function testCanNotUnarchive()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
-        $this->permissionChecker->shouldReceive('canUnarchiveCourse')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::UNARCHIVE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 }
