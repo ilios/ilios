@@ -11,6 +11,10 @@ class ApplicationConfig extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return (
             ($subject instanceof ApplicationConfigDTO && in_array($attribute, [self::VIEW])) or
             ($subject instanceof ApplicationConfigInterface && in_array($attribute, [

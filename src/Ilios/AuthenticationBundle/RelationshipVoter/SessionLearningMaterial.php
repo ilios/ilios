@@ -10,6 +10,10 @@ class SessionLearningMaterial extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof SessionLearningMaterialInterface
             && in_array(
                 $attribute,

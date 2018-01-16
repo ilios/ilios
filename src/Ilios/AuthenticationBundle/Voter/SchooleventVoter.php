@@ -20,9 +20,11 @@ class SchooleventVoter extends AbstractVoter
 
     /**
      * @param SchoolManager $schoolManager
+     * @param bool $useNewPermissionsSystem
      */
-    public function __construct(SchoolManager $schoolManager)
+    public function __construct(SchoolManager $schoolManager, bool $useNewPermissionsSystem = false)
     {
+        parent::__construct($useNewPermissionsSystem);
         $this->schoolManager = $schoolManager;
     }
 
@@ -31,6 +33,10 @@ class SchooleventVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof SchoolEvent && in_array($attribute, array(self::VIEW));
     }
 

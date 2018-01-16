@@ -15,6 +15,10 @@ class PendingUserUpdateEntityVoter extends UserEntityVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+        
         return $subject instanceof PendingUserUpdateInterface && in_array($attribute, array(
             self::VIEW, self::CREATE, self::EDIT, self::DELETE
         ));

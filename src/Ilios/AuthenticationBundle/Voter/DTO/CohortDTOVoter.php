@@ -17,6 +17,10 @@ class CohortDTOVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+        
         return $subject instanceof CohortDTO && in_array($attribute, array(self::VIEW));
     }
 

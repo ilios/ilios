@@ -17,9 +17,11 @@ abstract class CourseVoter extends AbstractVoter
 
     /**
      * @param CourseManager $courseManager
+     * @param bool $useNewPermissionsSystem
      */
-    public function __construct(CourseManager $courseManager)
+    public function __construct(CourseManager $courseManager, bool $useNewPermissionsSystem = false)
     {
+        parent::__construct($useNewPermissionsSystem);
         $this->courseManager = $courseManager;
     }
 

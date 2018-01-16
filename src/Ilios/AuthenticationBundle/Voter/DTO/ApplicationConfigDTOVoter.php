@@ -15,6 +15,10 @@ class ApplicationConfigDTOVoter extends ApplicationConfigEntityVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof ApplicationConfigDTO && in_array($attribute, array(self::VIEW));
     }
 }

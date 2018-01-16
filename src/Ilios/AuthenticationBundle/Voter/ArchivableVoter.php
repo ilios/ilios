@@ -4,12 +4,11 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Class ArchivableVoter
  */
-class ArchivableVoter extends Voter
+class ArchivableVoter extends AbstractVoter
 {
     /**
      * @var string
@@ -21,6 +20,10 @@ class ArchivableVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof ArchivableEntityInterface && in_array($attribute, array(self::MODIFY));
     }
 

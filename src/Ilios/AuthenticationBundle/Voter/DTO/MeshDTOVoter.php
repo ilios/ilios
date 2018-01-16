@@ -22,6 +22,10 @@ class MeshDTOVoter extends MeshEntityVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return (
                 $subject instanceof MeshDescriptorDTO ||
                 $subject instanceof MeshConceptDTO ||

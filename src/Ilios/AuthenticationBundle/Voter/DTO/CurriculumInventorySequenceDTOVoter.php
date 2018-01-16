@@ -16,6 +16,10 @@ class CurriculumInventorySequenceDTOVoter extends CurriculumInventoryReportDTOVo
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+        
         return $subject instanceof CurriculumInventorySequenceDTO && in_array($attribute, array(self::VIEW));
     }
 

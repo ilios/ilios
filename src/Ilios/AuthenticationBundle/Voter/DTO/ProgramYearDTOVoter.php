@@ -17,6 +17,10 @@ class ProgramYearDTOVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+        
         return $subject instanceof ProgramYearDTO && in_array($attribute, array(self::VIEW));
     }
 

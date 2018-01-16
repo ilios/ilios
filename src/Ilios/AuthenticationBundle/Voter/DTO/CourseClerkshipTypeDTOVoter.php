@@ -15,6 +15,10 @@ class CourseClerkshipTypeDTOVoter extends CourseClerkshipTypeEntityVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof CourseClerkshipTypeDTO && in_array($attribute, [self::VIEW]);
     }
 }

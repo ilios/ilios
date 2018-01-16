@@ -21,10 +21,11 @@ class ProgramYearEntityVoter extends AbstractVoter
 
     /**
      * @param ProgramYearStewardManager $stewardManager
+     * @param bool $useNewPermissionsSystem
      */
-    public function __construct(
-        ProgramYearStewardManager $stewardManager
-    ) {
+    public function __construct(ProgramYearStewardManager $stewardManager, bool $useNewPermissionsSystem)
+    {
+        parent::__construct($useNewPermissionsSystem);
         $this->stewardManager = $stewardManager;
     }
 
@@ -33,6 +34,10 @@ class ProgramYearEntityVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof ProgramYearInterface && in_array($attribute, array(
             self::CREATE, self::VIEW, self::EDIT, self::DELETE
         ));

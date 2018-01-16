@@ -23,10 +23,11 @@ class ObjectiveEntityVoter extends AbstractVoter
 
     /**
      * @param ProgramYearStewardManager $stewardManager
+     * @param bool $useNewPermissionSystem
      */
-    public function __construct(
-        ProgramYearStewardManager $stewardManager
-    ) {
+    public function __construct(ProgramYearStewardManager $stewardManager, bool $useNewPermissionSystem = false)
+    {
+        parent::__construct($useNewPermissionSystem);
         $this->stewardManager = $stewardManager;
     }
 
@@ -35,6 +36,10 @@ class ObjectiveEntityVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+        
         return $subject instanceof ObjectiveInterface && in_array($attribute, array(
             self::VIEW, self::CREATE, self::EDIT, self::DELETE
         ));

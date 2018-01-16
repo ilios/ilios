@@ -10,6 +10,10 @@ class Cohort extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof CohortInterface
             && in_array(
                 $attribute,

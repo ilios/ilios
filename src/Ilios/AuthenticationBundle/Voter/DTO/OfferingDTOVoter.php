@@ -16,6 +16,10 @@ class OfferingDTOVoter extends CourseDTOVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof OfferingDTO && in_array($attribute, array(self::VIEW));
     }
 

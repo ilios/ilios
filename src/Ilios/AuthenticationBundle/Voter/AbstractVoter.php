@@ -27,4 +27,14 @@ abstract class AbstractVoter extends Voter
      * @var string
      */
     const CREATE = 'create';
+
+    /**
+     * @var bool
+     */
+    protected $abstain = false;
+
+    public function __construct(bool $useNewPermissionsSystem = false)
+    {
+        $this->abstain = $useNewPermissionsSystem;
+    }
 }
