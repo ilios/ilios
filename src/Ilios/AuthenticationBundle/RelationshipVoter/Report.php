@@ -3,7 +3,6 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\DTO\ReportDTO;
 use Ilios\CoreBundle\Entity\ReportInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
