@@ -23,7 +23,7 @@ class ProgramYearEntityVoter extends AbstractVoter
      * @param ProgramYearStewardManager $stewardManager
      * @param bool $useNewPermissionsSystem
      */
-    public function __construct(ProgramYearStewardManager $stewardManager, bool $useNewPermissionsSystem)
+    public function __construct(ProgramYearStewardManager $stewardManager, bool $useNewPermissionsSystem = false)
     {
         parent::__construct($useNewPermissionsSystem);
         $this->stewardManager = $stewardManager;
