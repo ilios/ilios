@@ -297,6 +297,14 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
+     * inheritdoc
+     */
+    public function getAssociatedSchoolIdsInNonLearnerFunction()
+    {
+        return $this->schoolIds;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getPassword()
