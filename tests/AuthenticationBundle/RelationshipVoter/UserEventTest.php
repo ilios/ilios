@@ -40,7 +40,7 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewOOwnUnpublishedEventsIfUserPerformsNonStudentFunction()
+    public function testCanViewOwnUnpublishedEventsIfUserPerformsNonStudentFunction()
     {
         $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
@@ -73,7 +73,6 @@ class UserEventTest extends AbstractBase
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
-
     }
 
     public function testCanNotViewOtherUsersEventsEvenIfUserPerformsNonStudentFunction()
@@ -94,5 +93,3 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 }
-
-
