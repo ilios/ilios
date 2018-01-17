@@ -37,7 +37,7 @@ class UserEventTest extends AbstractBase
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View granted");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanViewOOwnUnpublishedEventsIfUserPerformsNonStudentFunction()
@@ -54,7 +54,7 @@ class UserEventTest extends AbstractBase
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View granted");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanNotViewOtherUsersEvents()

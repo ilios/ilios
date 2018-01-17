@@ -38,7 +38,7 @@ class SchoolEventTest extends AbstractBase
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View granted");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanViewUnpublishedSchoolEventInPrimarySchoolIfUserPerformsNonStudentFunction()
@@ -58,7 +58,7 @@ class SchoolEventTest extends AbstractBase
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View granted");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanViewUnpublishedSchoolEventInAssociatedSchoolIfUserPerformsNonStudentFunction()
@@ -78,7 +78,7 @@ class SchoolEventTest extends AbstractBase
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View granted");
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanNotViewUnpublishedSchoolEventInPrimarySchool()
