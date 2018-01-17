@@ -26,9 +26,7 @@ class SchoolEntityVoterTest extends AbstractVoterTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->voter = new SchoolEntityVoter(
-            m::mock('Ilios\CoreBundle\Entity\Manager\PermissionManager')
-        );
+        $this->voter = new SchoolEntityVoter(false);
     }
 
     /**
@@ -56,7 +54,7 @@ class SchoolEntityVoterTest extends AbstractVoterTestCase
             $token = $this->createMockTokenWithSessionUser($currentUser);
             $data[] = [$token, $school, VoterInterface::ACCESS_GRANTED, "${role} can view school."];
         }
-        
+
         $currentUser = $this->createMockSessionUserWithUserRoles([]);
         $token = $this->createMockTokenWithSessionUser($currentUser);
         $data[] = [$token, $school, VoterInterface::ACCESS_GRANTED, "User without roles can view school."];

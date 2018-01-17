@@ -22,7 +22,7 @@ class UsereventVoterTest extends AbstractVoterTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->voter = new UsereventVoter();
+        $this->voter = new UsereventVoter(false);
     }
 
     /**

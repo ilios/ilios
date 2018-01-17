@@ -24,7 +24,7 @@ class AamcResourceTypeEntityVoterTest extends AbstractVoterTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->voter = new AamcResourceTypeEntityVoter();
+        $this->voter = new AamcResourceTypeEntityVoter(false);
     }
 
     /**

@@ -24,7 +24,7 @@ class ApplicationConfigEntityVoterTest extends AbstractVoterTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->voter = new ApplicationConfigEntityVoter();
+        $this->voter = new ApplicationConfigEntityVoter(false);
     }
 
     /**
