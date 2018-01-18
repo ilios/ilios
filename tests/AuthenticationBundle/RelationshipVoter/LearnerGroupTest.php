@@ -6,6 +6,7 @@ use Ilios\AuthenticationBundle\RelationshipVoter\LearnerGroup as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use Ilios\CoreBundle\Entity\LearnerGroup;
 use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -14,7 +15,9 @@ class LearnerGroupTest extends AbstractBase
     public function setup()
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
-        $this->voter = new Voter($this->permissionChecker, true);
+        $config = m::mock(Config::class);
+        $config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
+        $this->voter = new Voter($this->permissionChecker, $config);
     }
 
     public function testAllowsRootFullAccess()

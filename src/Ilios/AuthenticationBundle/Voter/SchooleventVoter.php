@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -20,11 +21,11 @@ class SchooleventVoter extends AbstractVoter
 
     /**
      * @param SchoolManager $schoolManager
-     * @param bool $useNewPermissionsSystem
+     * @param Config $config
      */
-    public function __construct(SchoolManager $schoolManager, bool $useNewPermissionsSystem = false)
+    public function __construct(SchoolManager $schoolManager, Config $config)
     {
-        parent::__construct($useNewPermissionsSystem);
+        parent::__construct($config);
         $this->schoolManager = $schoolManager;
     }
 

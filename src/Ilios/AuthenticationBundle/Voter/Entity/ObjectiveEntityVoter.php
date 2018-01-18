@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -23,11 +24,11 @@ class ObjectiveEntityVoter extends AbstractVoter
 
     /**
      * @param ProgramYearStewardManager $stewardManager
-     * @param bool $useNewPermissionSystem
+     * @param Config $config
      */
-    public function __construct(ProgramYearStewardManager $stewardManager, bool $useNewPermissionSystem = false)
+    public function __construct(ProgramYearStewardManager $stewardManager, Config $config)
     {
-        parent::__construct($useNewPermissionSystem);
+        parent::__construct($config);
         $this->stewardManager = $stewardManager;
     }
 
@@ -39,7 +40,7 @@ class ObjectiveEntityVoter extends AbstractVoter
         if ($this->abstain) {
             return false;
         }
-        
+
         return $subject instanceof ObjectiveInterface && in_array($attribute, array(
             self::VIEW, self::CREATE, self::EDIT, self::DELETE
         ));

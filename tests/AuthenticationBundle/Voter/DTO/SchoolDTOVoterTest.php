@@ -1,10 +1,12 @@
 <?php
 namespace Tests\AuthenticationBundle\Voter\DTO;
 
+use Ilios\CoreBundle\Service\Config;
 use Tests\AuthenticationBundle\Voter\AbstractVoterTestCase;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\AuthenticationBundle\Voter\DTO\SchoolDTOVoter;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
+use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
@@ -12,6 +14,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class SchoolDTOVoterTest extends AbstractVoterTestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @var SchoolDTOVoter
      */
@@ -23,7 +27,9 @@ class SchoolDTOVoterTest extends AbstractVoterTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->voter = new SchoolDTOVoter();
+        $config = m::mock(Config::class);
+        $config->shouldReceive('useNewPermissionsSystem')->andReturn(false);
+        $this->voter = new SchoolDTOVoter($config);
     }
 
     /**

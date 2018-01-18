@@ -12,6 +12,7 @@ use Ilios\CoreBundle\Entity\DTO\LearnerGroupDTO;
 use Ilios\CoreBundle\Entity\DTO\OfferingDTO;
 use Ilios\CoreBundle\Entity\DTO\PendingUserUpdateDTO;
 use Ilios\CoreBundle\Entity\DTO\UserDTO;
+use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -27,7 +28,9 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
     public function setup()
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
-        $this->voter = new Voter($this->permissionChecker, true);
+        $config = m::mock(Config::class);
+        $config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
+        $this->voter = new Voter($this->permissionChecker, $config);
     }
 
     public function dtoProvider()

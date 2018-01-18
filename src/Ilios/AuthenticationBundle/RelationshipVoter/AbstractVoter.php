@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter as SymfonyVoter;
 
 abstract class AbstractVoter extends SymfonyVoter
@@ -47,9 +48,13 @@ abstract class AbstractVoter extends SymfonyVoter
      */
     protected $permissionChecker;
 
-    public function __construct(PermissionChecker $permissionChecker, bool $useNewPermissionsSystem = false)
+    /**
+     * @param PermissionChecker $permissionChecker
+     * @param Config $config
+     */
+    public function __construct(PermissionChecker $permissionChecker, Config $config)
     {
         $this->permissionChecker = $permissionChecker;
-        $this->abstain = ! $useNewPermissionsSystem;
+        $this->abstain = ! $config->useNewPermissionsSystem();
     }
 }

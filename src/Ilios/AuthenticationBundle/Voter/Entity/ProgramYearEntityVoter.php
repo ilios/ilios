@@ -7,6 +7,7 @@ use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -21,11 +22,11 @@ class ProgramYearEntityVoter extends AbstractVoter
 
     /**
      * @param ProgramYearStewardManager $stewardManager
-     * @param bool $useNewPermissionsSystem
+     * @param Config $config
      */
-    public function __construct(ProgramYearStewardManager $stewardManager, bool $useNewPermissionsSystem = false)
+    public function __construct(ProgramYearStewardManager $stewardManager, Config $config)
     {
-        parent::__construct($useNewPermissionsSystem);
+        parent::__construct($config);
         $this->stewardManager = $stewardManager;
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
@@ -33,8 +34,11 @@ abstract class AbstractVoter extends Voter
      */
     protected $abstain = false;
 
-    public function __construct(bool $useNewPermissionsSystem = false)
+    /**
+     * @param Config $config
+     */
+    public function __construct(Config $config)
     {
-        $this->abstain = $useNewPermissionsSystem;
+        $this->abstain = $config->useNewPermissionsSystem();
     }
 }

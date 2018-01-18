@@ -5,10 +5,10 @@ use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\IlmSession as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use Ilios\CoreBundle\Entity\Course;
-use Ilios\CoreBundle\Entity\DTO\IlmSessionDTO;
 use Ilios\CoreBundle\Entity\IlmSession;
 use Ilios\CoreBundle\Entity\Session;
 use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -17,7 +17,9 @@ class IlmSessionTest extends AbstractBase
     public function setup()
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
-        $this->voter = new Voter($this->permissionChecker, true);
+        $config = m::mock(Config::class);
+        $config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
+        $this->voter = new Voter($this->permissionChecker, $config);
     }
 
     public function testAllowsRootFullAccess()
