@@ -30,7 +30,7 @@ class SessionUser implements SessionUserInterface
     /**
      * @var array
      */
-    protected $schoolIds;
+    protected $nonStudentSchoolIds;
 
     /**
      * @var integer
@@ -161,7 +161,7 @@ class SessionUser implements SessionUserInterface
     {
         $relationships = $userManager->buildSessionRelationships($user->getId());
         $this->roleTitles = $relationships['roleTitles'];
-        $this->schoolIds = $relationships['schoolIds'];
+        $this->nonStudentSchoolIds = $relationships['nonStudentSchoolIds'];
         $this->directedCourseIds = $relationships['directedCourseIds'];
         $this->administeredCourseIds = $relationships['administeredCourseIds'];
         $this->directedSchoolIds = $relationships['directedSchoolIds'];
@@ -294,6 +294,14 @@ class SessionUser implements SessionUserInterface
     public function getRoles()
     {
         return [];
+    }
+
+    /**
+     * inheritdoc
+     */
+    public function getAssociatedSchoolIdsInNonLearnerFunction()
+    {
+        return $this->nonStudentSchoolIds;
     }
 
     /**

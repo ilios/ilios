@@ -17,6 +17,10 @@ class PendingUserUpdateDTOVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof PendingUserUpdateDTO && in_array($attribute, array(self::VIEW));
     }
 

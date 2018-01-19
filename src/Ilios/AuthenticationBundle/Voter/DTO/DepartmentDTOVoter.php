@@ -17,6 +17,10 @@ class DepartmentDTOVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof DepartmentDTO && in_array($attribute, array(self::VIEW));
     }
 

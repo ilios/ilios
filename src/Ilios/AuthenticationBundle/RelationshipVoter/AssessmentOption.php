@@ -10,6 +10,10 @@ class AssessmentOption extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof AssessmentOptionInterface
             && in_array(
                 $attribute,

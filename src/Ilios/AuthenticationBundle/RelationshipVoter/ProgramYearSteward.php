@@ -10,6 +10,10 @@ class ProgramYearSteward extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof ProgramYearStewardInterface
             && in_array(
                 $attribute,

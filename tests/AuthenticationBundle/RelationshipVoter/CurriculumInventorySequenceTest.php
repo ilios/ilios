@@ -6,8 +6,8 @@ use Ilios\AuthenticationBundle\RelationshipVoter\CurriculumInventorySequence as 
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReport;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequence;
-use Ilios\CoreBundle\Entity\DTO\CurriculumInventorySequenceDTO;
 use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -16,7 +16,9 @@ class CurriculumInventorySequenceTest extends AbstractBase
     public function setup()
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
-        $this->voter = new Voter($this->permissionChecker);
+        $config = m::mock(Config::class);
+        $config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
+        $this->voter = new Voter($this->permissionChecker, $config);
     }
 
     public function testAllowsRootFullAccess()

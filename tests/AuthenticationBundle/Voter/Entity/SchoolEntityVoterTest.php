@@ -1,13 +1,14 @@
 <?php
 namespace Tests\AuthenticationBundle\Voter\Entity;
 
+use Ilios\CoreBundle\Service\Config;
 use Tests\AuthenticationBundle\Voter\AbstractVoterTestCase;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\AuthenticationBundle\Voter\Entity\SchoolEntityVoter;
 use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Entity\SchoolInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Mockery as m;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class SchoolEntityVoterTest
@@ -15,6 +16,8 @@ use Mockery as m;
  */
 class SchoolEntityVoterTest extends AbstractVoterTestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @var SchoolEntityVoter
      */
@@ -26,9 +29,9 @@ class SchoolEntityVoterTest extends AbstractVoterTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->voter = new SchoolEntityVoter(
-            m::mock('Ilios\CoreBundle\Entity\Manager\PermissionManager')
-        );
+        $config = m::mock(Config::class);
+        $config->shouldReceive('useNewPermissionsSystem')->andReturn(false);
+        $this->voter = new SchoolEntityVoter($config);
     }
 
     /**
@@ -56,7 +59,7 @@ class SchoolEntityVoterTest extends AbstractVoterTestCase
             $token = $this->createMockTokenWithSessionUser($currentUser);
             $data[] = [$token, $school, VoterInterface::ACCESS_GRANTED, "${role} can view school."];
         }
-        
+
         $currentUser = $this->createMockSessionUserWithUserRoles([]);
         $token = $this->createMockTokenWithSessionUser($currentUser);
         $data[] = [$token, $school, VoterInterface::ACCESS_GRANTED, "User without roles can view school."];

@@ -10,6 +10,10 @@ class User extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof UserInterface
             && in_array(
                 $attribute,

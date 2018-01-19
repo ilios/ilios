@@ -3,7 +3,6 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\DTO\ReportDTO;
 use Ilios\CoreBundle\Entity\ReportInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -18,6 +17,10 @@ class Report extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return ($subject instanceof ReportDTO && self::VIEW === $attribute) ||
             ($subject instanceof ReportInterface && in_array(
                 $attribute,

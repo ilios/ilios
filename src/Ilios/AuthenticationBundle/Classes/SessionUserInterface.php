@@ -55,6 +55,14 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function getSchoolId();
 
     /**
+     * Get the ids of all schools that this user is associated with
+     * in a non learner function (e.g. as session administrator, program director, etc.)
+     *
+     * @return array
+     */
+    public function getAssociatedSchoolIdsInNonLearnerFunction();
+
+    /**
      * Check if a user can read a school
      *
      * @param $schoolId

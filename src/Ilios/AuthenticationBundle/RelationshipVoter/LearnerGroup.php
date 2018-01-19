@@ -10,6 +10,10 @@ class LearnerGroup extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof LearnerGroupInterface
             && in_array(
                 $attribute,

@@ -7,6 +7,7 @@ use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -21,10 +22,11 @@ class ProgramYearEntityVoter extends AbstractVoter
 
     /**
      * @param ProgramYearStewardManager $stewardManager
+     * @param Config $config
      */
-    public function __construct(
-        ProgramYearStewardManager $stewardManager
-    ) {
+    public function __construct(ProgramYearStewardManager $stewardManager, Config $config)
+    {
+        parent::__construct($config);
         $this->stewardManager = $stewardManager;
     }
 
@@ -33,6 +35,10 @@ class ProgramYearEntityVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof ProgramYearInterface && in_array($attribute, array(
             self::CREATE, self::VIEW, self::EDIT, self::DELETE
         ));

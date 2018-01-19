@@ -18,6 +18,10 @@ class UserEntityVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof UserInterface && in_array($attribute, array(
             self::CREATE, self::VIEW, self::EDIT, self::DELETE
         ));

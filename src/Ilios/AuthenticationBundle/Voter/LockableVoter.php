@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 /**
  * Class LockableVoter
  */
-class LockableVoter extends Voter
+class LockableVoter extends AbstractVoter
 {
     /**
      * @var string
@@ -27,6 +27,10 @@ class LockableVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof LockableEntityInterface && in_array($attribute, [self::MODIFY, self::UNLOCK]);
     }
 

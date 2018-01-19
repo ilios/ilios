@@ -5,10 +5,10 @@ use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\SessionDescription as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use Ilios\CoreBundle\Entity\Course;
-use Ilios\CoreBundle\Entity\DTO\SessionDescriptionDTO;
 use Ilios\CoreBundle\Entity\SessionDescription;
 use Ilios\CoreBundle\Entity\Session;
 use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -17,7 +17,9 @@ class SessionDescriptionTest extends AbstractBase
     public function setup()
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
-        $this->voter = new Voter($this->permissionChecker);
+        $config = m::mock(Config::class);
+        $config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
+        $this->voter = new Voter($this->permissionChecker, $config);
     }
 
     public function testAllowsRootFullAccess()

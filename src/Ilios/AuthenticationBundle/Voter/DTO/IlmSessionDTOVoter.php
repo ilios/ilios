@@ -17,6 +17,10 @@ class IlmSessionDTOVoter extends CourseVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof IlmSessionDTO && in_array($attribute, array(self::VIEW));
     }
 
