@@ -36,7 +36,7 @@ class SessionUserTest extends TestCase
 
         $this->relationships = [
             'roleTitles' => ['Developer'],
-            'schoolIds' => [],
+            'nonStudentSchoolIds' => [],
             'directedCourseIds' => [],
             'administeredCourseIds' => [],
             'directedSchoolIds' => [],
