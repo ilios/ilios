@@ -4,7 +4,6 @@ imports:
 
 parameters:
     ilios_api_version: v1.27
-    use_new_permissions_system: '%env(ILIOS_USE_NEW_PERMISSIONS_SYSTEM)%'
 
 framework:
     #esi:             ~

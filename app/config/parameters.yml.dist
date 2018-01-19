@@ -1,21 +1,18 @@
 # This file is a "template" of what your parameters.yml file should look like
 parameters:
-    env(ILIOS_DATABASE_HOST):               127.0.0.1
-    env(ILIOS_DATABASE_PORT):               ~
-    env(ILIOS_DATABASE_NAME):               ilios
-    env(ILIOS_DATABASE_USER):               ilios
-    env(ILIOS_DATABASE_PASSWORD):           ilios_pass
-    env(ILIOS_DATABASE_MYSQL_VERSION):      5.5
+    env(ILIOS_DATABASE_HOST):           127.0.0.1
+    env(ILIOS_DATABASE_PORT):           ~
+    env(ILIOS_DATABASE_NAME):           ilios
+    env(ILIOS_DATABASE_USER):           ilios
+    env(ILIOS_DATABASE_PASSWORD):       ilios_pass
+    env(ILIOS_DATABASE_MYSQL_VERSION):  5.5
 
-    env(ILIOS_MAILER_TRANSPORT):            smtp
-    env(ILIOS_MAILER_HOST):                 127.0.0.1
-    env(ILIOS_MAILER_USER):                 ~
-    env(ILIOS_MAILER_PASSWORD):             ~
+    env(ILIOS_MAILER_TRANSPORT):        smtp
+    env(ILIOS_MAILER_HOST):             127.0.0.1
+    env(ILIOS_MAILER_USER):             ~
+    env(ILIOS_MAILER_PASSWORD):         ~
 
-    env(ILIOS_LOCALE):                      en
+    env(ILIOS_LOCALE):                  en
 
     # A secret key that's used to generate certain security-related tokens
     env(ILIOS_SECRET):                  ThisTokenIsNotSoSecretChangeIt
-
-    # Feature flag for enabling/disabling new permissions system
-    env(ILIOS_USE_NEW_PERMISSIONS_SYSTEM):  false
