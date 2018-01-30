@@ -116,7 +116,7 @@ class Config
     /**
      * @return bool
      */
-    public function useNewPermissionsSystem()
+    public function useNewPermissionsSystem(): bool
     {
         return self::USE_NEW_PERMISSIONS_SYSTEM;
     }
