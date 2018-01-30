@@ -100,7 +100,7 @@ class SchoolEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
-    public function testCanNotSchoolEventOutsideOfPrimarySchool()
+    public function testCanNotViewSchoolEventOutsideOfPrimarySchool()
     {
         $primarySchoolId = 1;
         $eventSchoolId = 4;
