@@ -1,5 +1,6 @@
 security:
     access_decision_manager:
+      allow_if_all_abstain: false
       strategy: unanimous
     firewalls:
         api_docs:
