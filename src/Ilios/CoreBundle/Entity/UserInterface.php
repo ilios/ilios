@@ -514,9 +514,4 @@ interface UserInterface extends
      * @param CurriculumInventoryReportInterface $report
      */
     public function removeAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
-
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getInstructedCourses() : ArrayCollection;
 }
