@@ -495,7 +495,6 @@ interface UserInterface extends
      */
     public function isRoot();
 
-
     /**
      * @return ArrayCollection|CurriculumInventoryReportInterface[]
      */

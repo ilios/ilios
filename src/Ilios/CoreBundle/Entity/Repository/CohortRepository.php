@@ -49,14 +49,18 @@ class CohortRepository extends EntityRepository implements DTORepositoryInterfac
         $cohortIds = array_keys($cohortDTOs);
 
         $qb = $this->_em->createQueryBuilder()
-            ->select('c.id as cohortId, p.id as programYearId')
+            ->select('c.id as cohortId, py.id as programYearId, p.id as programId, s.id as schoolId')
             ->from('IliosCoreBundle:Cohort', 'c')
-            ->join('c.programYear', 'p')
+            ->join('c.programYear', 'py')
+            ->join('py.program', 'p')
+            ->join('p.school', 's')
             ->where($qb->expr()->in('c.id', ':ids'))
             ->setParameter('ids', $cohortIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $cohortDTOs[$arr['cohortId']]->programYear = (int) $arr['programYearId'];
+            $cohortDTOs[$arr['cohortId']]->program = (int) $arr['programId'];
+            $cohortDTOs[$arr['cohortId']]->school = (int) $arr['schoolId'];
         }
 
         $related = [

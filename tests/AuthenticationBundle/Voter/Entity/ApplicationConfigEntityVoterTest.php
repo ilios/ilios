@@ -1,11 +1,13 @@
 <?php
 namespace Tests\AuthenticationBundle\Voter\Entity;
 
+use Ilios\CoreBundle\Service\Config;
 use Tests\AuthenticationBundle\Voter\AbstractVoterTestCase;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\AuthenticationBundle\Voter\Entity\ApplicationConfigEntityVoter;
 use Ilios\CoreBundle\Entity\ApplicationConfig;
 use Ilios\CoreBundle\Entity\ApplicationConfigInterface;
+use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
@@ -13,6 +15,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class ApplicationConfigEntityVoterTest extends AbstractVoterTestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @var ApplicationConfigEntityVoter
      */
@@ -24,7 +28,9 @@ class ApplicationConfigEntityVoterTest extends AbstractVoterTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->voter = new ApplicationConfigEntityVoter();
+        $config = m::mock(Config::class);
+        $config->shouldReceive('useNewPermissionsSystem')->andReturn(false);
+        $this->voter = new ApplicationConfigEntityVoter($config);
     }
 
     /**

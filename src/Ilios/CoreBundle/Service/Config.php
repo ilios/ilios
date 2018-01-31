@@ -16,13 +16,17 @@ class Config
     ];
 
     /**
+     * @var bool
+     */
+    const USE_NEW_PERMISSIONS_SYSTEM = false;
+
+    /**
      * @var ApplicationConfigManager
      */
     protected $applicationConfigManager;
 
     /**
      * Config constructor.
-     * @param string $kernelRootDir
      * @param ApplicationConfigManager $applicationConfigManager
      *
      * @throws \Exception
@@ -34,7 +38,7 @@ class Config
     }
 
     /**
-     * Look in ENV varialbes first, if this is set there then
+     * Look in ENV variables first, if this is set there then
      * go ahead and ignore the DB
      *
      * @param $name
@@ -96,7 +100,7 @@ class Config
      * Since the database stores all of these as long_text we need to cast them back
      *
      * @param $name
-     * @param $value
+     * @param $result
      *
      * @return mixed
      */
@@ -107,5 +111,13 @@ class Config
         }
 
         return $result;
+    }
+
+    /**
+     * @return bool
+     */
+    public function useNewPermissionsSystem(): bool
+    {
+        return self::USE_NEW_PERMISSIONS_SYSTEM;
     }
 }

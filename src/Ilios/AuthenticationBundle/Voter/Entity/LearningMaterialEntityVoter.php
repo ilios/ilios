@@ -18,6 +18,10 @@ class LearningMaterialEntityVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof LearningMaterialInterface && in_array($attribute, array(
             self::VIEW, self::CREATE, self::EDIT, self::DELETE
         ));

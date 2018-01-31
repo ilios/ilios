@@ -16,6 +16,10 @@ class CohortEntityVoter extends ProgramYearEntityVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+        
         return $subject instanceof CohortInterface && in_array($attribute, array(
             self::CREATE, self::VIEW, self::EDIT, self::DELETE
         ));

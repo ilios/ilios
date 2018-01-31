@@ -4,6 +4,8 @@ namespace Tests\AuthenticationBundle\Voter;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\AuthenticationBundle\Voter\UsereventVoter;
 use Ilios\CoreBundle\Classes\UserEvent;
+use Ilios\CoreBundle\Service\Config;
+use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
@@ -11,6 +13,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class UsereventVoterTest extends AbstractVoterTestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @var UsereventVoter
      */
@@ -22,7 +26,9 @@ class UsereventVoterTest extends AbstractVoterTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->voter = new UsereventVoter();
+        $config = m::mock(Config::class);
+        $config->shouldReceive('useNewPermissionsSystem')->andReturn(false);
+        $this->voter = new UsereventVoter($config);
     }
 
     /**

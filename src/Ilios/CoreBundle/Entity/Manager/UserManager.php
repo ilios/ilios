@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Classes\UserMaterial;
+use Ilios\CoreBundle\Entity\Repository\UserRepository;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\DTO\UserDTO;
 use Ilios\CoreBundle\Service\UserMaterialFactory;
@@ -137,5 +138,18 @@ class UserManager extends BaseManager
     public function addMaterialsToEvents(array $events)
     {
         return $this->getRepository()->addMaterialsToEvents($events, $this->factory);
+    }
+
+    /**
+     * Finds and adds learning materials to a given list of user events.
+     *
+     * @param int $userId
+     * @return array
+     */
+    public function buildSessionRelationships(int $userId) : array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->buildSessionRelationships($userId);
     }
 }

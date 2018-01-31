@@ -17,6 +17,10 @@ class ProgramYearStewardDTOVoter extends CourseVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+        
         return $subject instanceof ProgramYearStewardDTO && in_array($attribute, array(self::VIEW));
     }
 

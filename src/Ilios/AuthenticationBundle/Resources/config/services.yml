@@ -6,7 +6,7 @@ services:
         public: false
 
     Ilios\AuthenticationBundle\:
-            resource: '../../*'
+          resource: '../../*'
 
     Ilios\AuthenticationBundle\Controller\:
         resource: '../../Controller'
@@ -30,3 +30,7 @@ services:
 
     Ilios\AuthenticationBundle\Service\CasManager:
         public: true
+
+    Ilios\AuthenticationBundle\Service\DefaultPermissionMatrix: ~
+
+    Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface: '@Ilios\AuthenticationBundle\Service\DefaultPermissionMatrix'

@@ -3,8 +3,10 @@ namespace Tests\AuthenticationBundle\Service;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Service\Config;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
@@ -24,6 +26,7 @@ class ShibbolethAuthenticationTest extends TestCase
     protected $logger;
     protected $config;
     protected $obj;
+    protected $sessionUserProvider;
 
     public function setup()
     {
@@ -31,6 +34,7 @@ class ShibbolethAuthenticationTest extends TestCase
         $this->jwtManager = m::mock(JsonWebTokenManager::class);
         $this->logger = m::mock(LoggerInterface::class);
         $this->config = m::mock(Config::class);
+        $this->sessionUserProvider = m::mock(SessionUserProvider::class);
         $this->config->shouldReceive('get')->with('shibboleth_authentication_logout_path')
             ->andReturn('/Shibboleth.sso/Logout');
         $this->config->shouldReceive('get')->with('shibboleth_authentication_login_path')
@@ -40,7 +44,8 @@ class ShibbolethAuthenticationTest extends TestCase
             $this->authManager,
             $this->jwtManager,
             $this->logger,
-            $this->config
+            $this->config,
+            $this->sessionUserProvider
         );
     }
 
@@ -51,6 +56,7 @@ class ShibbolethAuthenticationTest extends TestCase
         unset($this->jwtManager);
         unset($this->logger);
         unset($this->config);
+        unset($this->sessionUserProvider);
     }
 
 
@@ -58,7 +64,7 @@ class ShibbolethAuthenticationTest extends TestCase
     {
         $this->assertTrue($this->obj instanceof ShibbolethAuthentication);
     }
-    
+
     public function testNotAuthenticated()
     {
         $serverBag = m::mock(ServerBag::class)
@@ -66,15 +72,15 @@ class ShibbolethAuthenticationTest extends TestCase
             ->mock();
         $request = m::mock(Request::class);
         $request->server = $serverBag;
-        
+
         $result = $this->obj->login($request);
-        
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'redirect');
     }
-    
+
     public function testNoEppn()
     {
         $serverBag = m::mock(ServerBag::class)
@@ -98,7 +104,7 @@ class ShibbolethAuthenticationTest extends TestCase
         $data = json_decode($content);
         $this->assertSame($data->status, 'redirect');
     }
-    
+
     public function testNoUserWithEppn()
     {
         $serverBag = m::mock(ServerBag::class)
@@ -111,14 +117,14 @@ class ShibbolethAuthenticationTest extends TestCase
             ->with(array('username' => 'userid1'))->andReturn(null);
 
         $result = $this->obj->login($request);
-        
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'noAccountExists');
         $this->assertSame($data->userId, 'userid1');
     }
-    
+
     public function testDisabledUser()
     {
         $serverBag = m::mock(ServerBag::class)
@@ -128,17 +134,18 @@ class ShibbolethAuthenticationTest extends TestCase
         $request = m::mock(Request::class);
         $request->server = $serverBag;
 
+        $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
+            ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
-        
-        
+
         $result = $this->obj->login($request);
-        
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
@@ -155,15 +162,15 @@ class ShibbolethAuthenticationTest extends TestCase
         $request = m::mock(Request::class);
         $request->server = $serverBag;
 
+        $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
-
         $authenticationEntity = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
+            ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
-
 
         $result = $this->obj->login($request);
 

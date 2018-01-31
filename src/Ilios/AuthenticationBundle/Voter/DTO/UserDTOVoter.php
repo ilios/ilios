@@ -17,6 +17,10 @@ class UserDTOVoter extends UserEntityVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof UserDTO && in_array($attribute, array(self::VIEW));
     }
 

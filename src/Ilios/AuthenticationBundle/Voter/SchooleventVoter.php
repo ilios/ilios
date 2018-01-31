@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -20,9 +21,11 @@ class SchooleventVoter extends AbstractVoter
 
     /**
      * @param SchoolManager $schoolManager
+     * @param Config $config
      */
-    public function __construct(SchoolManager $schoolManager)
+    public function __construct(SchoolManager $schoolManager, Config $config)
     {
+        parent::__construct($config);
         $this->schoolManager = $schoolManager;
     }
 
@@ -31,6 +34,10 @@ class SchooleventVoter extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
+        if ($this->abstain) {
+            return false;
+        }
+
         return $subject instanceof SchoolEvent && in_array($attribute, array(self::VIEW));
     }
 
