@@ -6,6 +6,7 @@ use Ilios\AuthenticationBundle\Classes\SessionUser;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
@@ -21,10 +22,9 @@ class SessionUserTest extends TestCase
 
     protected $iliosUser;
 
-    /**
-     * @var
-     */
     protected $userManager;
+
+    protected $config;
 
     /**
      * @inheritdoc
@@ -33,6 +33,7 @@ class SessionUserTest extends TestCase
     {
         $this->userManager = m::mock(UserManager::class);
         $this->iliosUser = m::mock(UserInterface::class);
+        $this->config = m::mock(Config::class);
 
         $this->relationships = [
             'roleTitles' => ['Developer'],
@@ -69,6 +70,17 @@ class SessionUserTest extends TestCase
     }
 
     /**
+     * @inheritdoc
+     */
+    public function tearDown()
+    {
+        unset($this->relationships);
+        unset($this->iliosUser);
+        unset($this->userManager);
+        unset($this->config);
+
+    }
+    /**
      * @return array
      */
     public function performsNonLearnerFunctionProvider()
@@ -96,7 +108,8 @@ class SessionUserTest extends TestCase
     {
         $relationships = array_merge($this->relationships, $modifiedRelationships);
         $this->userManager->shouldReceive('buildSessionRelationships')->andReturn($relationships);
-        $sessionUser = new SessionUser($this->iliosUser, $this->userManager);
+        $this->config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
+        $sessionUser = new SessionUser($this->iliosUser, $this->userManager, $this->config);
         $this->assertEquals($expectedResult, $sessionUser->performsNonLearnerFunction());
     }
 }
