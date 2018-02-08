@@ -553,76 +553,121 @@ class SessionUser implements SessionUserInterface
 
     public function isAdministeringCourse(int $courseId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($courseId, $this->administeredCourseIds);
     }
 
     public function isDirectingSchool(int $schoolId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($schoolId, $this->directedSchoolIds);
     }
 
     public function isAdministeringSchool(int $schoolId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($schoolId, $this->administeredSchoolIds);
     }
 
     public function isDirectingCourseInSchool(int $schoolId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($schoolId, $this->directedCourseSchoolIds);
     }
 
     public function isAdministeringCourseInSchool(int $schoolId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($schoolId, $this->administeredCourseSchoolIds);
     }
 
     public function isAdministeringSessionInSchool(int $schoolId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($schoolId, $this->administeredSessionSchoolIds);
     }
 
     public function isAdministeringSessionInCourse(int $courseId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($courseId, $this->administeredSessionCourseIds);
     }
 
     public function isTeachingCourseInSchool(int $schoolId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($schoolId, $this->taughtCourseSchoolIds);
     }
 
     public function isTeachingCourse(int $courseId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($courseId, $this->taughtCourseIds);
     }
 
     public function isAdministeringSession(int $sessionId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($sessionId, $this->administeredSessionIds);
     }
 
     public function isDirectingProgram(int $programId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($programId, $this->directedProgramIds);
     }
 
     public function isDirectingProgramYearInProgram(int $programId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($programId, $this->directedProgramYearProgramIds);
     }
 
     public function isDirectingCohort(int $cohortId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($cohortId, $this->directedCohortIds);
     }
 
     public function isDirectingProgramYear(int $programYearId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($programYearId, $this->directedProgramYearIds);
     }
 
     public function isTeachingSession(int $sessionId) : bool
     {
+        if (! $this->useNewPermissionsSystem) {
+            throw new \Exception('Not implemented.');
+        }
         return in_array($sessionId, $this->instructedSessionIds);
     }
 
