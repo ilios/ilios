@@ -192,7 +192,8 @@ class SessionUser implements SessionUserInterface
             $this->directedProgramYearIds = $relationships['directedProgramYearIds'];
             $this->directedProgramYearProgramIds = $relationships['directedProgramYearProgramIds'];
             $this->directedCohortIds = $relationships['directedCohortIds'];
-            $this->administeredCurriculumInventoryReportIds = $relationships['administeredCurriculumInventoryReportIds'];
+            $this->administeredCurriculumInventoryReportIds
+                = $relationships['administeredCurriculumInventoryReportIds'];
             $this->administeredCurriculumInventoryReportSchoolIds
                 = $relationships['administeredCurriculumInventoryReportSchoolIds'];
         } else {
