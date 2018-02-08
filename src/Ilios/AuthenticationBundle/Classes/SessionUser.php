@@ -2,8 +2,11 @@
 
 namespace Ilios\AuthenticationBundle\Classes;
 
+use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\UserRoleInterface;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Ilios\CoreBundle\Entity\UserInterface as IliosUserInterface;
 use DateTime;
@@ -17,6 +20,10 @@ use DateTime;
  */
 class SessionUser implements SessionUserInterface
 {
+    /**
+     * @var bool
+     */
+    protected $useNewPermissionsSystem;
     /**
      * @var array
      */
@@ -157,30 +164,47 @@ class SessionUser implements SessionUserInterface
      */
     protected $administeredCurriculumInventoryReportSchoolIds;
 
-    public function __construct(IliosUserInterface $user, UserManager $userManager)
+    /**
+     * @param IliosUserInterface $user
+     * @param UserManager $userManager
+     * @param Config $config
+     */
+    public function __construct(IliosUserInterface $user, UserManager $userManager, Config $config)
     {
-        $relationships = $userManager->buildSessionRelationships($user->getId());
-        $this->roleTitles = $relationships['roleTitles'];
-        $this->nonStudentSchoolIds = $relationships['nonStudentSchoolIds'];
-        $this->directedCourseIds = $relationships['directedCourseIds'];
-        $this->administeredCourseIds = $relationships['administeredCourseIds'];
-        $this->directedSchoolIds = $relationships['directedSchoolIds'];
-        $this->administeredSchoolIds = $relationships['administeredSchoolIds'];
-        $this->directedCourseSchoolIds = $relationships['directedCourseSchoolIds'];
-        $this->administeredCourseSchoolIds = $relationships['administeredCourseSchoolIds'];
-        $this->administeredSessionSchoolIds = $relationships['administeredSessionSchoolIds'];
-        $this->administeredSessionCourseIds = $relationships['administeredSessionCourseIds'];
-        $this->taughtCourseIds = $relationships['taughtCourseIds'];
-        $this->taughtCourseSchoolIds = $relationships['taughtCourseSchoolIds'];
-        $this->administeredSessionIds = $relationships['administeredSessionIds'];
-        $this->instructedSessionIds = $relationships['instructedSessionIds'];
-        $this->directedProgramIds = $relationships['directedProgramIds'];
-        $this->directedProgramYearIds = $relationships['directedProgramYearIds'];
-        $this->directedProgramYearProgramIds = $relationships['directedProgramYearProgramIds'];
-        $this->directedCohortIds = $relationships['directedCohortIds'];
-        $this->administeredCurriculumInventoryReportIds = $relationships['administeredCurriculumInventoryReportIds'];
-        $this->administeredCurriculumInventoryReportSchoolIds
-            = $relationships['administeredCurriculumInventoryReportSchoolIds'];
+        $this->useNewPermissionsSystem = $config->useNewPermissionsSystem();
+        if ($this->useNewPermissionsSystem) {
+            $relationships = $userManager->buildSessionRelationships($user->getId());
+            $this->roleTitles = $relationships['roleTitles'];
+            $this->nonStudentSchoolIds = $relationships['nonStudentSchoolIds'];
+            $this->directedCourseIds = $relationships['directedCourseIds'];
+            $this->administeredCourseIds = $relationships['administeredCourseIds'];
+            $this->directedSchoolIds = $relationships['directedSchoolIds'];
+            $this->administeredSchoolIds = $relationships['administeredSchoolIds'];
+            $this->directedCourseSchoolIds = $relationships['directedCourseSchoolIds'];
+            $this->administeredCourseSchoolIds = $relationships['administeredCourseSchoolIds'];
+            $this->administeredSessionSchoolIds = $relationships['administeredSessionSchoolIds'];
+            $this->administeredSessionCourseIds = $relationships['administeredSessionCourseIds'];
+            $this->taughtCourseIds = $relationships['taughtCourseIds'];
+            $this->taughtCourseSchoolIds = $relationships['taughtCourseSchoolIds'];
+            $this->administeredSessionIds = $relationships['administeredSessionIds'];
+            $this->instructedSessionIds = $relationships['instructedSessionIds'];
+            $this->directedProgramIds = $relationships['directedProgramIds'];
+            $this->directedProgramYearIds = $relationships['directedProgramYearIds'];
+            $this->directedProgramYearProgramIds = $relationships['directedProgramYearProgramIds'];
+            $this->directedCohortIds = $relationships['directedCohortIds'];
+            $this->administeredCurriculumInventoryReportIds = $relationships['administeredCurriculumInventoryReportIds'];
+            $this->administeredCurriculumInventoryReportSchoolIds
+                = $relationships['administeredCurriculumInventoryReportSchoolIds'];
+        } else {
+            $this->roleTitles = $user->getRoles()->map(function (UserRoleInterface $role) {
+                return $role->getTitle();
+            })->toArray();
+
+            $this->directedCourseIds = $user->getDirectedCourses()->map(function (CourseInterface $course) {
+                return $course->getId();
+            })->toArray();
+        }
+
 
         $this->userId = $user->getId();
         $this->isRoot = $user->isRoot();
