@@ -2,12 +2,12 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
@@ -35,33 +35,33 @@ class SyncAllUsersCommand extends Command
      * @var PendingUserUpdateManager
      */
     protected $pendingUserUpdateManager;
-    
+
     /**
      * @var Directory
      */
     protected $directory;
-    
+
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $em;
-    
+
     public function __construct(
         UserManager $userManager,
         AuthenticationManager $authenticationManager,
         PendingUserUpdateManager $pendingUserUpdateManager,
         Directory $directory,
-        EntityManager $em
+        EntityManagerInterface $em
     ) {
         $this->userManager = $userManager;
         $this->authenticationManager = $authenticationManager;
         $this->pendingUserUpdateManager = $pendingUserUpdateManager;
         $this->directory = $directory;
         $this->em = $em;
-        
+
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -88,7 +88,7 @@ class SyncAllUsersCommand extends Command
         );
         $output->writeln('<info>Searching the directory for users.</info>');
         $allUserRecords = $this->directory->findByCampusIds($campusIds);
-        
+
         if (!$allUserRecords) {
             $output->writeln('<error>[E] Unable to find any users in the directory.</error>');
         }
@@ -163,7 +163,7 @@ class SyncAllUsersCommand extends Command
                         $this->pendingUserUpdateManager->update($pendingUpdate, false);
                     }
                 }
-                
+
                 if ($fixSmallThings && $user->getFirstName() != $recordArray['firstName']) {
                     $update = true;
                     $output->writeln(
@@ -221,7 +221,7 @@ class SyncAllUsersCommand extends Command
                     $authentication->setUsername($recordArray['username']);
                     $this->authenticationManager->update($authentication, false);
                 }
-                
+
                 if ($update) {
                     $updated++;
                 }
@@ -232,13 +232,13 @@ class SyncAllUsersCommand extends Command
             $this->em->clear();
         }
         $output->writeln('<info>Searching for users who were not examined during the sync process.</info>');
-        
+
         $unsyncedUsers = $this->userManager->findBy(
             ['examined' => false, 'enabled' => true, 'userSyncIgnore' => false],
             ['lastName' => ' ASC', 'firstName' => 'ASC']
         );
         $output->writeln('<info>Found ' . count($unsyncedUsers) . ' unexamined users.</info>');
-        
+
         foreach ($unsyncedUsers as $user) {
             $campusId = $user->getCampusId()?$user->getCampusId():'(no campusId)';
             $output->writeln(
@@ -258,7 +258,7 @@ class SyncAllUsersCommand extends Command
             "{$updated} users updated.</info>"
         );
     }
-    
+
     protected function validateDirectoryRecord(array $record, OutputInterface $output)
     {
         $valid = true;
@@ -273,7 +273,7 @@ class SyncAllUsersCommand extends Command
                 );
             }
         }
-        
+
         return $valid;
     }
 }

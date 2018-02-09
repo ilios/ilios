@@ -2,14 +2,14 @@
 namespace Ilios\CoreBundle\Service;
 
 use Ilios\CoreBundle\Classes\UserMaterial;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\RouterInterface;
 
 class UserMaterialFactory
 {
 
     /**
-     * @var Router
+     * @var RouterInterface
      */
     protected $router;
 
@@ -19,10 +19,10 @@ class UserMaterialFactory
     protected $decoratorClassName;
 
     /**
-     * @param Router $router
+     * @param RouterInterface $router
      * @param string $decoratorClassName
      */
-    public function __construct(Router $router, $decoratorClassName)
+    public function __construct(RouterInterface $router, $decoratorClassName)
     {
         $this->router = $router;
         $this->decoratorClassName = $decoratorClassName;

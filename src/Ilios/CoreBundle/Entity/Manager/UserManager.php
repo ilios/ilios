@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Classes\UserEvent;
@@ -11,6 +10,7 @@ use Ilios\CoreBundle\Entity\Repository\UserRepository;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\DTO\UserDTO;
 use Ilios\CoreBundle\Service\UserMaterialFactory;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class UserManager
@@ -23,11 +23,11 @@ class UserManager extends BaseManager
     protected $factory;
 
     /**
-     * @param Registry $registry
+     * @param RegistryInterface $registry
      * @param string $class
      * @param UserMaterialFactory $factory
      */
-    public function __construct(Registry $registry, $class, UserMaterialFactory $factory)
+    public function __construct(RegistryInterface $registry, $class, UserMaterialFactory $factory)
     {
         parent::__construct($registry, $class);
         $this->factory = $factory;

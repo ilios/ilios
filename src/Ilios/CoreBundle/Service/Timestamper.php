@@ -2,9 +2,9 @@
 
 namespace Ilios\CoreBundle\Service;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class Timestamper
 {
@@ -14,14 +14,14 @@ class Timestamper
     protected $entities;
 
     /**
-     * @var Registry
+     * @var RegistryInterface
      */
     protected $registry;
 
     /**
-     * @param Registry $registry
+     * @param RegistryInterface $registry
      */
-    public function __construct(Registry $registry)
+    public function __construct(RegistryInterface $registry)
     {
         $this->registry   = $registry;
         $this->entities   = [];

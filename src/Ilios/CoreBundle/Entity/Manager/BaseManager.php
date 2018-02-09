@@ -2,10 +2,10 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\Repository\DTORepositoryInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class BaseManager
@@ -23,7 +23,7 @@ class BaseManager implements ManagerInterface
     protected $repository;
 
     /**
-     * @var Registry
+     * @var RegistryInterface
      */
     protected $registry;
 
@@ -33,10 +33,10 @@ class BaseManager implements ManagerInterface
     protected $class;
 
     /**
-     * @param Registry $registry
+     * @param RegistryInterface $registry
      * @param string $class
      */
-    public function __construct(Registry $registry, $class)
+    public function __construct(RegistryInterface $registry, $class)
     {
         $this->registry   = $registry;
         $this->em         = $registry->getManagerForClass($class);

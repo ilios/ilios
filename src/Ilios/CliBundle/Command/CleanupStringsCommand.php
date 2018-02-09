@@ -2,12 +2,12 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Entity\Manager\ObjectiveManager;
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
@@ -28,7 +28,7 @@ class CleanupStringsCommand extends Command
     protected $purifier;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $em;
 
@@ -64,10 +64,10 @@ class CleanupStringsCommand extends Command
      * @var integer where to limit each query for memory management
      */
     const QUERY_LIMIT = 500;
-    
+
     public function __construct(
         \HTMLPurifier $purifier,
-        EntityManager $em,
+        EntityManagerInterface $em,
         ObjectiveManager $objectiveManager,
         LearningMaterialManager $learningMaterialManager,
         CourseLearningMaterialManager $courseLearningMaterialManager,
@@ -84,7 +84,7 @@ class CleanupStringsCommand extends Command
 
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */

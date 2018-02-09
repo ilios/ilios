@@ -3,12 +3,12 @@
 namespace Ilios\AuthenticationBundle\Service;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Class CasAuthentication
@@ -33,7 +33,7 @@ class CasAuthentication implements AuthenticationInterface
     protected $logger;
 
     /**
-     * @var Router
+     * @var RouterInterface
      */
     protected $router;
 
@@ -52,7 +52,7 @@ class CasAuthentication implements AuthenticationInterface
      * @param AuthenticationManager $authManager
      * @param JsonWebTokenManager $jwtManager
      * @param LoggerInterface $logger
-     * @param Router $router
+     * @param RouterInterface $router
      * @param CasManager $casManager
      * @param SessionUserProvider $sessionUserProvider
      */
@@ -60,7 +60,7 @@ class CasAuthentication implements AuthenticationInterface
         AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger,
-        Router $router,
+        RouterInterface $router,
         CasManager $casManager,
         SessionUserProvider $sessionUserProvider
     ) {
