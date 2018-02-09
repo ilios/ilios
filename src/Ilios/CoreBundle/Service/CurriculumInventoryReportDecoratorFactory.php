@@ -2,15 +2,15 @@
 namespace Ilios\CoreBundle\Service;
 
 use Ilios\CoreBundle\Entity\DTO\CurriculumInventoryReportDTO;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\RouterInterface;
 
 class CurriculumInventoryReportDecoratorFactory
 {
 
     /**
-     * @var Router
+     * @var RouterInterface
      */
     protected $router;
 
@@ -20,15 +20,20 @@ class CurriculumInventoryReportDecoratorFactory
     protected $entityDecoratorClassName;
 
     /**
-     * @param Router $router
+     * @param RouterInterface $router
      * @param string $decoratorClassName
      */
-    public function __construct(Router $router, $decoratorClassName)
+    public function __construct(RouterInterface $router, $decoratorClassName)
     {
         $this->router = $router;
         $this->entityDecoratorClassName = $decoratorClassName;
     }
 
+    /**
+     * @param $report
+     * @return CurriculumInventoryReportDTO
+     * @throws \Exception
+     */
     public function create(
         $report
     ) {
