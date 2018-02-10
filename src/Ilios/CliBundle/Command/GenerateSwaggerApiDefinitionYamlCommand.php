@@ -2,8 +2,8 @@
 
 namespace Ilios\CliBundle\Command;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Service\EntityMetadata;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,7 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
     protected $templatingEngine;
 
     /**
-     * @var Registry
+     * @var RegistryInterface
      */
     protected $registry;
 
@@ -35,12 +35,12 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
     /**
      *
      * @param EngineInterface $templatingEngine
-     * @param Registry $registry
+     * @param RegistryInterface $registry
      * @param EntityMetadata $entityMetadata
      */
     public function __construct(
         EngineInterface $templatingEngine,
-        Registry $registry,
+        RegistryInterface $registry,
         EntityMetadata $entityMetadata
     ) {
         parent::__construct();

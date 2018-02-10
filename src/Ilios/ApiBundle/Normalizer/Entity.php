@@ -2,9 +2,9 @@
 
 namespace Ilios\ApiBundle\Normalizer;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Ilios\CoreBundle\Service\EntityMetadata;
 use HTMLPurifier;
@@ -20,7 +20,7 @@ class Entity extends ObjectNormalizer
     private $entityMetadata;
 
     /**
-     * @var Registry
+     * @var RegistryInterface
      */
     private $registry;
 
@@ -53,9 +53,9 @@ class Entity extends ObjectNormalizer
      * service
      *
      * @required
-     * @param Registry $registry
+     * @param RegistryInterface $registry
      */
-    public function setRegistry(Registry $registry)
+    public function setRegistry(RegistryInterface $registry)
     {
         $this->registry = $registry;
     }

@@ -2,12 +2,12 @@
 
 namespace Ilios\ApiBundle\Service;
 
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Templating\EngineInterface;
@@ -36,14 +36,14 @@ class SwaggerDocBuilder
     protected $apiVersion;
 
     /**
-     * @var Router
+     * @var RouterInterface
      */
     protected $router;
 
     public function __construct(
         KernelInterface $kernel,
         EngineInterface $templatingEngine,
-        Router $router,
+        RouterInterface $router,
         $apiVersion
     ) {
         $this->swaggerDir = $kernel->locateResource("@IliosApiBundle/Resources/swagger");

@@ -2,14 +2,13 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\AuthenticationBundle\Classes\SessionUser;
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class AuthenticationController
@@ -20,7 +19,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 class AuthenticationController extends ApiController
 {
     /**
-     * @var UserPasswordEncoder
+     * @var UserPasswordEncoderInterface
      */
     protected $passwordEncoder;
 
@@ -32,10 +31,10 @@ class AuthenticationController extends ApiController
     /**
      * Inject dependencies without overriding ApiControllers constructor
      * @required
-     * @param UserPasswordEncoder $passwordEncoder
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @param SessionUserProvider $sessionUserProvider
      */
-    public function setup(UserPasswordEncoder $passwordEncoder, SessionUserProvider $sessionUserProvider)
+    public function setup(UserPasswordEncoderInterface $passwordEncoder, SessionUserProvider $sessionUserProvider)
     {
         $this->sessionUserProvider = $sessionUserProvider;
         $this->passwordEncoder = $passwordEncoder;

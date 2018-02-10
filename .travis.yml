@@ -51,7 +51,7 @@ before_install:
 - mysql -e "create database IF NOT EXISTS ilios;" -uroot
 - echo $TRAVIS_PHP_VERSION
 - echo "extension=apcu.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-- echo "memory_limit=2048M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+- echo "memory_limit=3000M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 - cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
 install:
 - composer install --no-interaction --prefer-dist -d ${TRAVIS_BUILD_DIR}

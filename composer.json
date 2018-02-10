@@ -51,15 +51,15 @@
         "twig/extensions": "^1.5"
     },
     "require-dev": {
-        "sensio/generator-bundle": "@stable",
-        "symfony/phpunit-bridge": "@stable",
-        "phpunit/phpunit": "@stable",
-        "squizlabs/php_codesniffer": "@stable",
-        "matthiasnoback/symfony-dependency-injection-test": "@stable",
-        "matthiasnoback/symfony-config-test": "@stable",
-        "mockery/mockery": "@stable",
         "fzaninotto/faker": "@stable",
-        "liip/functional-test-bundle": "@stable"
+        "liip/functional-test-bundle": "@stable",
+        "matthiasnoback/symfony-config-test": "@stable",
+        "matthiasnoback/symfony-dependency-injection-test": "@stable",
+        "mockery/mockery": "@stable",
+        "phpunit/phpunit": "~6",
+        "sensio/generator-bundle": "@stable",
+        "squizlabs/php_codesniffer": "@stable",
+        "symfony/phpunit-bridge": "@stable"
     },
     "scripts": {
       "symfony-scripts": [

@@ -1,34 +1,30 @@
 <?php
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Classes\LearningMaterialDecorator;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialDTO;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\RouterInterface;
 
 class LearningMaterialDecoratorFactory
 {
 
     /**
-     * @var Router
+     * @var RouterInterface
      */
     protected $router;
 
     /**
-     * @param Router $router
-     * @param string $decoratorClassName
+     * @param RouterInterface $router
      */
-    public function __construct(Router $router)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
     }
 
     /**
-     * @param LearningMaterialInterface | LearningMaterialDTO $learningMaterial
-     * @param Router $router
-     *
+     * @param mixed $object
      * @return LearningMaterialDTO
      */
     public function create($object)
@@ -83,7 +79,6 @@ class LearningMaterialDecoratorFactory
 
     /**
      * @param LearningMaterialDTO $learningMaterialDTO
-     * @param Router $router
      * @return LearningMaterialDTO
      */
     protected function decorateDto(LearningMaterialDTO $learningMaterialDTO)
