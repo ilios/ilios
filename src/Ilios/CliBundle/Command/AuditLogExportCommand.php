@@ -2,8 +2,10 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,8 +20,29 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @link http://symfony.com/doc/current/cookbook/console/logging.html
  * @link http://symfony.com/doc/current/components/console/helpers/table.html
  */
-class AuditLogExportCommand extends ContainerAwareCommand
+class AuditLogExportCommand extends Command
 {
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
+     * @var AuditLogManager
+     */
+    protected $auditLogManager;
+
+    /**
+     * @param LoggerInterface $logger
+     * @param AuditLogManager $auditLogManager
+     */
+    public function __construct(LoggerInterface $logger, AuditLogManager $auditLogManager)
+    {
+        $this->logger = $logger;
+        $this->auditLogManager = $auditLogManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -54,8 +77,6 @@ class AuditLogExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var $logger LoggerInterface */
-        $logger = $this->getContainer()->get('logger');
 
         $from = $input->getArgument('from');
         $to = $input->getArgument('to');
@@ -65,11 +86,9 @@ class AuditLogExportCommand extends ContainerAwareCommand
 
         $delete = $input->getOption('delete');
 
-        $em = $this->getContainer()->get('Ilios\CoreBundle\Entity\Manager\AuditLogManager');
-
         $headers = ['id', 'userId', 'action', 'createdAt', 'objectId', 'objectClass', 'valuesChanged'];
 
-        $logger->info('Starting Audit Log Export.');
+        $this->logger->info('Starting Audit Log Export.');
 
         $rows = array_map(function (array $arr) {
             /** @var \DateTime $dt */
@@ -83,9 +102,9 @@ class AuditLogExportCommand extends ContainerAwareCommand
                 $arr['objectClass'],
                 $arr['valuesChanged']
             ];
-        }, $em->findInRange($from, $to));
+        }, $this->auditLogManager->findInRange($from, $to));
 
-        $logger->info(
+        $this->logger->info(
             sprintf(
                 'Exporting %d audit log entries which were created between %s and %s.',
                 count($rows),
@@ -100,16 +119,16 @@ class AuditLogExportCommand extends ContainerAwareCommand
         $table->render();
 
         if ($delete) {
-            $logger->info(
+            $this->logger->info(
                 sprintf(
                     'Deleting all audit log entries that were created between %s and %s.',
                     $from->format('c'),
                     $to->format('c')
                 )
             );
-            $em->deleteInRange($from, $to);
+            $this->auditLogManager->deleteInRange($from, $to);
         }
 
-        $logger->info('Finished Audit Log Export.');
+        $this->logger->info('Finished Audit Log Export.');
     }
 }

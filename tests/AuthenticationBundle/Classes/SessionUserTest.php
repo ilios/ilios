@@ -78,7 +78,6 @@ class SessionUserTest extends TestCase
         unset($this->iliosUser);
         unset($this->userManager);
         unset($this->config);
-
     }
     /**
      * @return array
