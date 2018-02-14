@@ -470,7 +470,12 @@ class CourseRollover
             $newObjective->setTitle($objective->getTitle());
             $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
             $newObjective->addCourse($newCourse);
-            $newObjective->setAncestor($objective->getAncestorOrSelf());
+            $ancestor = $objective->getAncestor();
+            if ($ancestor) {
+                $newObjective->setAncestor($ancestor);
+            } else {
+                $newObjective->setAncestor($objective);
+            }
             $this->objectiveManager->update($newObjective, false, false);
             $newCourseObjectives[$objective->getId()] = $newObjective;
         }
@@ -496,7 +501,12 @@ class CourseRollover
                     $newObjective->setTitle($objective->getTitle());
                     $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
                     $newObjective->addSession($newSession);
-                    $newObjective->setAncestor($objective->getAncestorOrSelf());
+                    $ancestor = $objective->getAncestor();
+                    if ($ancestor) {
+                        $newObjective->setAncestor($ancestor);
+                    } else {
+                        $newObjective->setAncestor($objective);
+                    }
                     $newParents = $objective->getParents()
                         ->map(
                             function (ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective) {
