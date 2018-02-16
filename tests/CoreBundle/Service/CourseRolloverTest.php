@@ -1,6 +1,10 @@
 <?php
 namespace Tests\CoreBundle\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
+use Ilios\CoreBundle\Entity\IlmSessionInterface;
+use Ilios\CoreBundle\Entity\Manager\CohortManager;
 use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
@@ -10,6 +14,12 @@ use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager;
 use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager;
 use Ilios\CoreBundle\Entity\Manager\SessionManager;
+use Ilios\CoreBundle\Entity\ObjectiveInterface;
+use Ilios\CoreBundle\Entity\OfferingInterface;
+use Ilios\CoreBundle\Entity\ProgramYear;
+use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
+use Ilios\CoreBundle\Entity\SessionInterface;
+use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 use Ilios\CoreBundle\Service\CourseRollover;
 use Ilios\CoreBundle\Entity\Cohort;
 use Ilios\CoreBundle\Entity\Course;
@@ -86,6 +96,11 @@ class CourseRolloverTest extends TestCase
     protected $ilmSessionManager;
 
     /**
+     * @var m\MockInterface
+     */
+    protected $cohortManager;
+
+    /**
      * @var CourseRollover
      */
     protected $service;
@@ -105,6 +120,7 @@ class CourseRolloverTest extends TestCase
         $this->offeringManager = m::mock(OfferingManager::class);
         $this->objectiveManager = m::mock(ObjectiveManager::class);
         $this->ilmSessionManager = m::mock(IlmSessionManager::class);
+        $this->cohortManager = m::mock(CohortManager::class);
         $this->service = new CourseRollover(
             $this->courseManager,
             $this->learningMaterialManager,
@@ -114,7 +130,8 @@ class CourseRolloverTest extends TestCase
             $this->sessionLearningMaterialManager,
             $this->offeringManager,
             $this->objectiveManager,
-            $this->ilmSessionManager
+            $this->ilmSessionManager,
+            $this->cohortManager
         );
     }
 
@@ -132,13 +149,14 @@ class CourseRolloverTest extends TestCase
         unset($this->offeringManager);
         unset($this->objectiveManager);
         unset($this->ilmSessionManager);
+        unset($this->cohortManager);
         unset($this->service);
     }
 
     public function testRolloverWithEverything()
     {
         $course = $this->createTestCourseWithAssociations();
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newYear = $this->setupCourseManager($course, $newCourse);
 
         $newCourse->shouldReceive('setTitle')->with($course->getTitle())->once();
@@ -176,7 +194,7 @@ class CourseRolloverTest extends TestCase
 
         /** @var Objective $objective */
         foreach ($course->getObjectives() as $objective) {
-            $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+            $newObjective = m::mock(ObjectiveInterface::class);
             $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
             $newObjective->shouldReceive('addCourse')->with($newCourse)->once();
             $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
@@ -193,7 +211,7 @@ class CourseRolloverTest extends TestCase
         }
 
         foreach ($course->getLearningMaterials() as $learningMaterial) {
-            $newLearningMaterial = m::mock('Ilios\CoreBundle\Entity\CourseLearningMaterial');
+            $newLearningMaterial = m::mock(CourseLearningMaterialInterface::class);
             $newLearningMaterial->shouldReceive('setLearningMaterial')
                 ->with($learningMaterial->getLearningMaterial())->once();
             $newLearningMaterial->shouldReceive('setCourse')->with($newCourse)->once();
@@ -210,7 +228,7 @@ class CourseRolloverTest extends TestCase
         }
 
         foreach ($course->getSessions() as $session) {
-            $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+            $newSession = m::mock(SessionInterface::class);
             $newSession->shouldReceive('setTitle')->with($session->getTitle())->once();
             $newSession->shouldReceive('setCourse')->with($newCourse)->once();
             $newSession->shouldReceive('setAttireRequired')->with($session->isAttireRequired())->once();
@@ -228,7 +246,7 @@ class CourseRolloverTest extends TestCase
 
             /** @var Objective $objective */
             foreach ($session->getObjectives() as $objective) {
-                $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+                $newObjective = m::mock(ObjectiveInterface::class);
                 $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
                 $newObjective->shouldReceive('addSession')->with($newSession)->once();
                 $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
@@ -249,7 +267,7 @@ class CourseRolloverTest extends TestCase
             }
 
             foreach ($session->getLearningMaterials() as $learningMaterial) {
-                $newLearningMaterial = m::mock('Ilios\CoreBundle\Entity\SessionLearningMaterial');
+                $newLearningMaterial = m::mock(SessionLearningMaterialInterface::class);
                 $newLearningMaterial->shouldReceive('setLearningMaterial')
                     ->with($learningMaterial->getLearningMaterial())->once();
                 $newLearningMaterial->shouldReceive('setSession')->with($newSession)->once();
@@ -267,7 +285,7 @@ class CourseRolloverTest extends TestCase
             }
 
             if ($oldDescription = $session->getSessionDescription()) {
-                $newDescription = m::mock('Ilios\CoreBundle\Entity\SessionDescriptionInterface');
+                $newDescription = m::mock(SessionDescriptionInterface::class);
                 $newDescription->shouldReceive('setDescription')->with($oldDescription->getDescription())->once();
                 $newSession->shouldReceive('setSessionDescription')->with($newDescription)->once();
                 $this->sessionDescriptionManager
@@ -278,7 +296,7 @@ class CourseRolloverTest extends TestCase
             }
 
             if ($oldIlmSession = $session->getIlmSession()) {
-                $newIlmSession = m::mock('Ilios\CoreBundle\Entity\IlmSessionInterface');
+                $newIlmSession = m::mock(IlmSessionInterface::class);
                 $newIlmSession->shouldReceive('setHours')->with($oldIlmSession->getHours())->once();
                 $newIlmSession->shouldReceive('setDueDate')
                     ->with(m::on(function (DateTime $newDueDate) use ($oldIlmSession) {
@@ -299,7 +317,7 @@ class CourseRolloverTest extends TestCase
             }
 
             foreach ($session->getOfferings() as $offering) {
-                $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
+                $newOffering = m::mock(OfferingInterface::class);
                 $newOffering->shouldReceive('setRoom')->once()->with($offering->getRoom());
                 $newOffering->shouldReceive('setSite')->once()->with($offering->getSite());
                 $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
@@ -332,6 +350,7 @@ class CourseRolloverTest extends TestCase
             }
         }
 
+        $newCourse->shouldReceive('getCohorts')->once()->andReturn(new ArrayCollection());
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, []);
         $this->assertSame($newCourse, $rhett);
     }
@@ -341,7 +360,7 @@ class CourseRolloverTest extends TestCase
         $course = $this->createTestCourseWithOfferings();
 
 
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newYear = $this->setupCourseManager($course, $newCourse, 15);
         $newCourse->shouldReceive('setYear')->with($newYear)->once();
@@ -367,11 +386,11 @@ class CourseRolloverTest extends TestCase
         }))->once();
 
         foreach ($course->getSessions() as $session) {
-            $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+            $newSession = m::mock(SessionInterface::class);
             $newSession->shouldIgnoreMissing();
 
             foreach ($session->getOfferings() as $offering) {
-                $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
+                $newOffering = m::mock(OfferingInterface::class);
                 $newOffering->shouldIgnoreMissing();
                 $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
                     $oldStart = $offering->getStartDate();
@@ -406,7 +425,7 @@ class CourseRolloverTest extends TestCase
     {
         $course = $this->createTestCourseWithOfferings();
 
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newYear = $this->setupCourseManager($course, $newCourse);
 
@@ -459,11 +478,11 @@ class CourseRolloverTest extends TestCase
         }))->once();
 
         foreach ($course->getSessions() as $session) {
-            $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+            $newSession = m::mock(SessionInterface::class);
             $newSession->shouldIgnoreMissing();
 
             foreach ($session->getOfferings() as $offering) {
-                $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
+                $newOffering = m::mock(OfferingInterface::class);
                 $newOffering->shouldIgnoreMissing();
                 $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
                     $oldStart = $offering->getStartDate();
@@ -507,7 +526,7 @@ class CourseRolloverTest extends TestCase
     {
         $course = $this->createTestCourseWithOfferings();
 
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
 
         $newYear = $course->getYear();
@@ -563,11 +582,11 @@ class CourseRolloverTest extends TestCase
         }))->once();
 
         foreach ($course->getSessions() as $session) {
-            $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+            $newSession = m::mock(SessionInterface::class);
             $newSession->shouldIgnoreMissing();
 
             foreach ($session->getOfferings() as $offering) {
-                $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
+                $newOffering = m::mock(OfferingInterface::class);
                 $newOffering->shouldIgnoreMissing();
                 $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
                     $oldStart = $offering->getStartDate();
@@ -625,13 +644,13 @@ class CourseRolloverTest extends TestCase
         $session->addObjective($sessionObjective);
         $course->addSession($session);
 
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newYear = $this->setupCourseManager($course, $newCourse);
 
-        $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+        $newSession = m::mock(SessionInterface::class);
         $newSession->shouldIgnoreMissing();
-        $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+        $newObjective = m::mock(ObjectiveInterface::class);
         $newObjective->shouldIgnoreMissing();
 
         $self = $this;
@@ -648,6 +667,7 @@ class CourseRolloverTest extends TestCase
         $this->sessionManager->shouldIgnoreMissing();
         $this->objectiveManager->shouldIgnoreMissing();
 
+        $newCourse->shouldReceive('getCohorts')->once()->andReturn(new ArrayCollection());
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['']);
         $this->assertSame($newCourse, $rhett);
     }
@@ -655,7 +675,7 @@ class CourseRolloverTest extends TestCase
     public function testRolloverInSameYearKeepsRelationships()
     {
         $course = $this->createTestCourseWithAssociations();
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newYear = $course->getYear();
         $newTitle = $course->getTitle() . ' again';
         $this->courseManager->shouldReceive('findOneBy')
@@ -671,29 +691,32 @@ class CourseRolloverTest extends TestCase
             ->andReturn($newCourse);
 
         $this->courseManager->shouldReceive('flushAndClear')->once();
-        $newCourse->shouldReceive()->setCohorts()->with($course->getCohorts());
+        $newCourse->shouldReceive('setCohorts')->with($course->getCohorts());
+        $newCourse->shouldReceive('getCohorts')->once()->andReturn($course->getCohorts());
         $newCourse->shouldIgnoreMissing();
 
+        /** @var ObjectiveInterface $objective */
         foreach ($course->getObjectives() as $objective) {
-            $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+            $newObjective = m::mock(ObjectiveInterface::class);
             $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
             $newObjective->shouldReceive('addCourse')->with($newCourse)->once();
             $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
             $newObjective->shouldReceive('setParents')->with($objective->getParents());
+
             $newObjective->shouldReceive('setAncestor')->with($objective->getAncestorOrSelf())->once();
             $this->objectiveManager->shouldReceive('create')->once()->andReturn($newObjective);
             $this->objectiveManager->shouldReceive('update')->once()->withArgs([$newObjective, false, false]);
         }
 
         foreach ($course->getLearningMaterials() as $learningMaterial) {
-            $newLearningMaterial = m::mock('Ilios\CoreBundle\Entity\CourseLearningMaterial');
+            $newLearningMaterial = m::mock(CourseLearningMaterialInterface::class);
             $newLearningMaterial->shouldIgnoreMissing();
             $this->courseLearningMaterialManager->shouldReceive('create')->once()->andReturn($newLearningMaterial);
             $this->courseLearningMaterialManager->shouldIgnoreMissing();
         }
 
         foreach ($course->getSessions() as $session) {
-            $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+            $newSession = m::mock(SessionInterface::class);
             $newSession->shouldIgnoreMissing();
             $this->sessionManager
                 ->shouldReceive('create')->once()
@@ -701,21 +724,21 @@ class CourseRolloverTest extends TestCase
             $this->sessionManager->shouldReceive('update')->withArgs([$newSession, false, false])->once();
 
             foreach ($session->getObjectives() as $objective) {
-                $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+                $newObjective = m::mock(ObjectiveInterface::class);
                 $newObjective->shouldIgnoreMissing();
                 $this->objectiveManager->shouldReceive('create')->once()->andReturn($newObjective);
                 $this->objectiveManager->shouldIgnoreMissing();
             }
 
             foreach ($session->getLearningMaterials() as $learningMaterial) {
-                $newLearningMaterial = m::mock('Ilios\CoreBundle\Entity\SessionLearningMaterial');
+                $newLearningMaterial = m::mock(SessionLearningMaterialInterface::class);
                 $newLearningMaterial->shouldIgnoreMissing();
                 $this->sessionLearningMaterialManager->shouldReceive('create')->once()->andReturn($newLearningMaterial);
                 $this->sessionLearningMaterialManager->shouldIgnoreMissing();
             }
 
             if ($oldDescription = $session->getSessionDescription()) {
-                $newDescription = m::mock('Ilios\CoreBundle\Entity\SessionDescriptionInterface');
+                $newDescription = m::mock(SessionDescriptionInterface::class);
                 $newDescription->shouldReceive('setDescription')->with($oldDescription->getDescription())->once();
                 $newSession->shouldReceive('setSessionDescription')->with($newDescription)->once();
                 $this->sessionDescriptionManager
@@ -726,7 +749,7 @@ class CourseRolloverTest extends TestCase
             }
 
             if ($oldIlmSession = $session->getIlmSession()) {
-                $newIlmSession = m::mock('Ilios\CoreBundle\Entity\IlmSessionInterface');
+                $newIlmSession = m::mock(IlmSessionInterface::class);
                 $newIlmSession->shouldReceive('setHours')->with($oldIlmSession->getHours())->once();
                 $newIlmSession->shouldReceive('setDueDate')
                     ->with(m::on(function (DateTime $newDueDate) use ($oldIlmSession) {
@@ -747,7 +770,7 @@ class CourseRolloverTest extends TestCase
             }
 
             foreach ($session->getOfferings() as $offering) {
-                $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
+                $newOffering = m::mock(OfferingInterface::class);
                 $newOffering->shouldReceive('setRoom')->once()->with($offering->getRoom());
                 $newOffering->shouldReceive('setSite')->once()->with($offering->getSite());
                 $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
@@ -789,7 +812,7 @@ class CourseRolloverTest extends TestCase
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('setClerkshipType');
         $newYear = $this->setupCourseManager($course, $newCourse);
@@ -812,7 +835,7 @@ class CourseRolloverTest extends TestCase
         $course = $this->createTestCourse();
         $course->setSchool(new School());
         $course->addLearningMaterial(new CourseLearningMaterial());
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('addLearningMaterial');
         $this->courseLearningMaterialManager->shouldNotReceive('create');
@@ -826,7 +849,7 @@ class CourseRolloverTest extends TestCase
         $course = $this->createTestCourse();
         $course->setSchool(new School());
         $course->addObjective(new Objective());
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('addObjective');
         $this->objectiveManager->shouldNotReceive('create');
@@ -840,7 +863,7 @@ class CourseRolloverTest extends TestCase
         $course = $this->createTestCourse();
         $course->setSchool(new School());
         $course->addTerm(new Term());
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('setTerms');
         $newYear = $this->setupCourseManager($course, $newCourse);
@@ -853,7 +876,7 @@ class CourseRolloverTest extends TestCase
         $course = $this->createTestCourse();
         $course->setSchool(new School());
         $course->addMeshDescriptor(new MeshDescriptor());
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('setMeshDescriptors');
         $newYear = $this->setupCourseManager($course, $newCourse);
@@ -865,12 +888,13 @@ class CourseRolloverTest extends TestCase
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldReceive('setAncestor')->with($course)->once();
+        $newCourse->shouldReceive('getCohorts')->once()->andReturn(new ArrayCollection());
         $newYear = $this->setupCourseManager($course, $newCourse);
 
-        $this->service->rolloverCourse($course->getId(), $newYear, 1);
+        $this->service->rolloverCourse($course->getId(), $newYear, []);
     }
 
     public function testRolloverWithoutSessionLearningMaterials()
@@ -971,7 +995,7 @@ class CourseRolloverTest extends TestCase
         $course = $this->createTestCourse();
         $course->setSchool(new School());
 
-        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newYear = $course->getYear() + 1;
         $this->courseManager->shouldReceive('findOneBy')
@@ -989,6 +1013,61 @@ class CourseRolloverTest extends TestCase
             "The new start date must take place on the same day of the week as the original course start date"
         );
         $this->service->rolloverCourse($course->getId(), $newYear, ['new-start-date' => $newStartDate->format('c')]);
+    }
+
+    public function testRolloverCohortAndReLinkObjectives()
+    {
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+        $programYear = new ProgramYear();
+        $cohort = new Cohort();
+        $cohort->setProgramYear($programYear);
+        $programYear->setCohort($cohort);
+        $pyObjective = new Objective();
+        $pyObjective->setId(1);
+        $pyObjective->setTitle('test program year objective');
+        $programYear->addObjective($pyObjective);
+
+        $newProgramYear = new ProgramYear();
+        $newCohort = new Cohort();
+        $newCohort->setId(11);
+        $newCohort->setProgramYear($newProgramYear);
+        $newProgramYear->setCohort($newCohort);
+        $newPyObjective = new Objective();
+        $newPyObjective->setId(1);
+        $newPyObjective->setTitle('test program year objective');
+        $newPyObjective->setAncestor($pyObjective);
+        $newProgramYear->addObjective($newPyObjective);
+
+        $courseObjective1 = new Objective();
+        $courseObjective1->setId(808);
+        $courseObjective1->setTitle('test course objective1');
+        $courseObjective1->addParent($pyObjective);
+        $course->addObjective($courseObjective1);
+
+        $newCourse = m::mock(CourseInterface::class);
+        $newCourse->shouldIgnoreMissing();
+        $newYear = $this->setupCourseManager($course, $newCourse);
+
+        $newCourse->shouldReceive('setAncestor')->with($course)->once();
+
+        $this->cohortManager->shouldReceive('findOneBy')->with(['id' => 11])->andReturn($newCohort);
+        $newCourse->shouldReceive('addCohort')->once()->with($newCohort);
+        $newCourse->shouldReceive('getCohorts')->andReturn(new ArrayCollection([$newCohort]));
+
+        $newObjective = m::mock(ObjectiveInterface::class);
+        $newObjective->shouldReceive('setTitle')->with('test course objective1')->once();
+        $newObjective->shouldReceive('addCourse')->with($newCourse)->once();
+        $newObjective->shouldReceive('setAncestor')->with($courseObjective1)->once();
+        $newObjective->shouldReceive('addParent')->with($newPyObjective)->once();
+        $newObjective->shouldReceive('setMeshDescriptors')->with($courseObjective1->getMeshDescriptors())->once();
+        $this->objectiveManager
+            ->shouldReceive('create')->once()
+            ->andReturn($newObjective);
+        $this->objectiveManager->shouldReceive('update')->once()->withArgs([$newObjective, false, false]);
+
+        $rhett = $this->service->rolloverCourse($course->getId(), $newYear, [], [11]);
+        $this->assertSame($newCourse, $rhett);
     }
 
     /**
@@ -1016,7 +1095,7 @@ class CourseRolloverTest extends TestCase
     }
 
     /**
-     * Gets a course with a bunch of relationsips attached
+     * Gets a course with a bunch of relationships attached
      * @return Course
      */
     protected function createTestCourseWithAssociations()
@@ -1062,7 +1141,11 @@ class CourseRolloverTest extends TestCase
         $courseLearningMaterial1->setRequired(false);
         $course->addLearningMaterial($courseLearningMaterial1);
 
-        $course->addCohort(new Cohort());
+        $programYear = new ProgramYear();
+        $cohort = new Cohort();
+        $cohort->setProgramYear($programYear);
+        $programYear->setCohort($cohort);
+        $course->addCohort($cohort);
 
         $session1 = new Session();
         $session1->setSessionType(new SessionType());

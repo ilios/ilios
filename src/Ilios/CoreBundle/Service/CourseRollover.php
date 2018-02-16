@@ -2,9 +2,11 @@
 
 namespace Ilios\CoreBundle\Service;
 
+use Ilios\CoreBundle\Entity\CohortInterface;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
+use Ilios\CoreBundle\Entity\Manager\CohortManager;
 use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
@@ -74,17 +76,23 @@ class CourseRollover
     protected $ilmSessionManager;
 
     /**
+     * @var CohortManager
+     */
+    private $cohortManager;
+
+    /**
      * CourseRollover constructor.
      *
-     * @param CourseManager $courseManager,
-     * @param LearningMaterialManager $learningMaterialManager,
-     * @param CourseLearningMaterialManager $courseLearningMaterialManager,
-     * @param SessionManager $sessionManager,
-     * @param SessionDescriptionManager $sessionDescriptionManager,
-     * @param SessionLearningMaterialManager $sessionLearningMaterialManager,
-     * @param OfferingManager $offeringManager,
-     * @param ObjectiveManager $objectiveManager,
+     * @param CourseManager $courseManager
+     * @param LearningMaterialManager $learningMaterialManager
+     * @param CourseLearningMaterialManager $courseLearningMaterialManager
+     * @param SessionManager $sessionManager
+     * @param SessionDescriptionManager $sessionDescriptionManager
+     * @param SessionLearningMaterialManager $sessionLearningMaterialManager
+     * @param OfferingManager $offeringManager
+     * @param ObjectiveManager $objectiveManager
      * @param IlmSessionManager $ilmSessionManager
+     * @param CohortManager $cohortManager
      */
     public function __construct(
         CourseManager $courseManager,
@@ -95,7 +103,8 @@ class CourseRollover
         SessionLearningMaterialManager $sessionLearningMaterialManager,
         OfferingManager $offeringManager,
         ObjectiveManager $objectiveManager,
-        IlmSessionManager $ilmSessionManager
+        IlmSessionManager $ilmSessionManager,
+        CohortManager $cohortManager
     ) {
         $this->courseManager = $courseManager;
         $this->learningMaterialManager = $learningMaterialManager;
@@ -106,16 +115,18 @@ class CourseRollover
         $this->offeringManager = $offeringManager;
         $this->objectiveManager = $objectiveManager;
         $this->ilmSessionManager = $ilmSessionManager;
+        $this->cohortManager = $cohortManager;
     }
 
     /**
-     * @param int   $courseId
-     * @param int   $newAcademicYear
+     * @param int $courseId
+     * @param int $newAcademicYear
      * @param array $options
+     * @param array $newCohortIds
      * @return CourseInterface the new, rolled-over course.
      * @throws \Exception
      */
-    public function rolloverCourse($courseId, $newAcademicYear, $options)
+    public function rolloverCourse(int $courseId, int $newAcademicYear, array $options, array $newCohortIds = [])
     {
         //now, get/set the required values from the provided arguments
         $origCourseId = $courseId;
@@ -170,6 +181,15 @@ class CourseRollover
         }
         $newCourse->setSchool($origCourse->getSchool());
         $newCourse->setDirectors($origCourse->getDirectors());
+
+        foreach ($newCohortIds as $id) {
+            /** @var CohortInterface $cohort */
+            $cohort = $this->cohortManager->findOneBy(['id' => $id]);
+            if (!$cohort) {
+                throw new \Exception("There are no cohorts with id ${id}.");
+            }
+            $newCourse->addCohort($cohort);
+        }
 
         if (empty($options['skip-course-terms'])) {
             $newCourse->setTerms($origCourse->getTerms());
@@ -464,6 +484,7 @@ class CourseRollover
         CourseInterface $origCourse
     ) {
         $newCourseObjectives = [];
+        $cohorts = $newCourse->getCohorts();
         foreach ($origCourse->getObjectives() as $objective) {
             /* @var ObjectiveInterface $newObjective */
             $newObjective = $this->objectiveManager->create();
@@ -471,11 +492,34 @@ class CourseRollover
             $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
             $newObjective->addCourse($newCourse);
             $newObjective->setAncestor($objective->getAncestorOrSelf());
+            foreach ($cohorts as $cohort) {
+                $this->reLinkCourseObjectiveToParents($objective, $newObjective, $cohort);
+            }
+
             $this->objectiveManager->update($newObjective, false, false);
             $newCourseObjectives[$objective->getId()] = $newObjective;
         }
 
         return $newCourseObjectives;
+    }
+
+    protected function reLinkCourseObjectiveToParents(
+        ObjectiveInterface $objective,
+        ObjectiveInterface $newObjective,
+        CohortInterface $cohort
+    ) {
+        $programYear = $cohort->getProgramYear();
+        $possibleParents = $programYear->getObjectives();
+        /** @var ObjectiveInterface $parent */
+        foreach ($objective->getParents() as $parent) {
+            $ancestorId = $parent->getAncestorOrSelf()->getId();
+            $possibleNewParents = $possibleParents->filter(function (ObjectiveInterface $objective) use ($ancestorId) {
+                return $objective->getAncestorOrSelf()->getId() === $ancestorId;
+            });
+            if (count($possibleNewParents)) {
+                $newObjective->addParent($possibleNewParents[0]);
+            }
+        }
     }
 
     /**

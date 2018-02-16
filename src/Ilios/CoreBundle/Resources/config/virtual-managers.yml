@@ -21,10 +21,6 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\AssessmentOption'
-    Ilios\CoreBundle\Entity\Manager\CohortManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\Cohort'
     Ilios\CoreBundle\Entity\Manager\CompetencyManager:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:

@@ -111,6 +111,11 @@ services:
         public: true
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Authentication'
+    Ilios\CoreBundle\Entity\Manager\CohortManager:
+        public: true
+        class: Ilios\CoreBundle\Entity\Manager\CohortManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Cohort'
     Ilios\CoreBundle\Entity\Manager\CourseManager:
         public: true
         class: Ilios\CoreBundle\Entity\Manager\CourseManager
