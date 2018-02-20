@@ -69,7 +69,7 @@ class CohortTest extends AbstractEndpointTest
             'learnerGroups' => [[1], ['learnerGroups' => [2]]],
             'users' => [[0], ['users' => [2]]],
             'schools' => [[3], ['schools' => [2]]],
-            'startYears' => [[1, 3], ['startYears' => ['2014', '2016']]],
+            'startYears' => [[1, 3, 4], ['startYears' => ['2014', '2016']]],
         ];
     }
 

@@ -516,8 +516,8 @@ class CourseRollover
             $possibleNewParents = $possibleParents->filter(function (ObjectiveInterface $objective) use ($ancestorId) {
                 return $objective->getAncestorOrSelf()->getId() === $ancestorId;
             });
-            if (count($possibleNewParents)) {
-                $newObjective->addParent($possibleNewParents[0]);
+            if ($possibleNewParents->count() > 0) {
+                $newObjective->addParent($possibleNewParents->first());
             }
         }
     }

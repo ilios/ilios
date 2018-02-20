@@ -433,6 +433,30 @@ class CourseTest extends AbstractEndpointTest
         $this->assertEquals($newIlmData[1]['hours'], $ilms[1]['hours']);
     }
 
+    public function testRolloverCourseWithCohorts()
+    {
+        $dataLoader = $this->getDataLoader();
+        $course = $dataLoader->getOne();
+
+        $newCourse = $this->rolloverCourse([
+            'id' => $course['id'],
+            'year' => 2019,
+            'newStartDate' => 'false',
+            'skipOfferings' => 'true',
+            'newCohorts' => [5]
+        ]);
+
+        $this->assertSame($course['title'], $newCourse['title']);
+        $this->assertCount(1, $newCourse['cohorts']);
+        $this->assertSame('5', $newCourse['cohorts'][0]);
+        $this->assertSame(count($course['objectives']), count($newCourse['objectives']));
+
+        $newObjectiveData = $this->getFiltered('objectives', 'objectives', ['filters[id]' => $newCourse['objectives']]);
+        $this->assertCount(count($course['objectives']), $newObjectiveData);
+        $this->assertCount(1, $newObjectiveData[0]['parents']);
+        $this->assertSame('8', $newObjectiveData[0]['parents'][0]);
+    }
+
     protected function rolloverCourse(array $rolloverDetails)
     {
         $parameters = array_merge([

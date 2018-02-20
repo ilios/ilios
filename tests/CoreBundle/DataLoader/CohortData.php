@@ -44,6 +44,15 @@ class CohortData extends AbstractDataLoader
             'users' => []
         );
 
+        $arr[] = array(
+            'id' => 5,
+            'title' => "Class of 2019",
+            'programYear' => '5',
+            'courses' => [],
+            'learnerGroups' => [],
+            'users' => []
+        );
+
 
         return $arr;
     }
@@ -51,7 +60,7 @@ class CohortData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 5,
+            'id' => 6,
             'title' => $this->faker->text(15),
             'programYear' => "5",
             'courses' => ['1'],
