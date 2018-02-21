@@ -116,10 +116,22 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
             $qb->andWhere($qb->expr()->in('session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
         }
+        if (array_key_exists('fullCourses', $criteria)) {
+            $ids = is_array($criteria['fullCourses']) ? $criteria['fullCourses'] : [$criteria['fullCourses']];
+            $qb->leftJoin('o.courses', 'f_course');
+            $qb->leftJoin('o.sessions', 'f_sessions');
+            $qb->leftJoin('f_sessions.course', 'f_session_course');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('f_course.id', ':fullCourses'),
+                $qb->expr()->in('f_session_course.id', ':fullCourses')
+            ));
+            $qb->setParameter(':fullCourses', $ids);
+        }
 
         unset($criteria['courses']);
         unset($criteria['programYears']);
         unset($criteria['sessions']);
+        unset($criteria['fullCourses']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {

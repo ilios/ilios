@@ -80,6 +80,8 @@ class ObjectiveTest extends AbstractEndpointTest
 //            'meshDescriptors' => [[6], ['meshDescriptors' => ['abc3']]],
             'ancestor' => [[6], ['ancestor' => 6]],
 //            'descendants' => [[1], ['descendants' => [3]]],
+            'fullCoursesThroughCourse' => [[1, 3], ['fullCourses' => [2]]],
+            'fullCoursesThroughSession' => [[1, 2], ['fullCourses' => [1]]],
         ];
     }
 
