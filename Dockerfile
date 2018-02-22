@@ -44,7 +44,7 @@ ILIOS_SHIBBOLETH_AUTHENTICATION_LOGOUT_PATH=null \
 ILIOS_SHIBBOLETH_AUTHENTICATION_USER_ID_ATTRIBUTE=null \
 ILIOS_TIMEZONE='America/Los_Angeles' \
 # This is for development, so SSL should be set to false by default \
-ILIOS_REQUIRE_SECURE_CONNECTION=true \
+ILIOS_REQUIRE_SECURE_CONNECTION=false \
 ILIOS_KEEP_FRONTEND_UPDATED=true \
 ILIOS_FRONTEND_RELEASE_VERSION=null \
 ILIOS_CAS_AUTHENTICATION_SERVER=null \
@@ -111,12 +111,10 @@ RUN \
     --no-suggest \
     --classmap-authoritative \
     # update the frontend
-    && bin/console ilios:maintenance:update-frontend --env=prod
+    && /var/www/ilios/bin/console ilios:maintenance:update-frontend --env=prod
 
 # switch back to the root user to finish up
 USER root
-
-WORKDIR /var/www/ilios
 
 # revert the 'www-data' user's shell to its default
 RUN \
