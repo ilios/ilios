@@ -11,6 +11,8 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 MAINTAINER Ilios Project Team <support@iliosproject.org>
 
 ENV \
+COMPOSER_HOME=/tmp \
+SYMFONY_ENV=prod \
 ILIOS_DATABASE_HOST=db \
 ILIOS_DATABASE_PORT=~ \
 ILIOS_DATABASE_NAME=ilios \
