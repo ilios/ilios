@@ -110,6 +110,7 @@ RUN \
     --no-interaction \
     --no-suggest \
     --classmap-authoritative \
+    && /usr/bin/composer clear-cache \
     # update the frontend
     && /var/www/ilios/bin/console ilios:maintenance:update-frontend --env=prod
 
