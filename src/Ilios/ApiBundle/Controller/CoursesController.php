@@ -123,7 +123,9 @@ class CoursesController extends ApiController
             return $item;
         }, $options);
 
-        $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, $options);
+        $newCohortIds =  $request->get('newCohorts', []);
+
+        $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, $options, $newCohortIds);
 
         //pulling the DTO ensures we get all the new relationships
         $newCourseDTO = $manager->findDTOBy(['id' => $newCourse->getId()]);

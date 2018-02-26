@@ -16,7 +16,7 @@ class ProgramData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'published' => true,
             'school' => "1",
-            'programYears' => ["1", "2"],
+            'programYears' => ["1", "2", "5"],
             'curriculumInventoryReports' => ["1", "2", "3"],
             'directors' => ['1'],
         );

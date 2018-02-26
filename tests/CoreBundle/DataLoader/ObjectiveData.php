@@ -19,7 +19,7 @@ class ObjectiveData extends AbstractDataLoader
             'parents' => [],
             'children' => ['2'],
             'meshDescriptors' => [],
-            'descendants' => []
+            'descendants' => ['8']
         );
 
         $arr[] = array(
@@ -101,6 +101,19 @@ class ObjectiveData extends AbstractDataLoader
             'ancestor' => '6',
             'descendants' => []
         );
+        $arr[] = array(
+            'id' => 8,
+            'title' => $this->faker->text,
+            'position' => 0,
+            'courses' => [],
+            'programYears' => ['5'],
+            'sessions' => [],
+            'parents' => [],
+            'children' => [],
+            'meshDescriptors' => [],
+            'ancestor' => '1',
+            'descendants' => []
+        );
 
         return $arr;
     }
@@ -108,7 +121,7 @@ class ObjectiveData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 8,
+            'id' => 9,
             'title' => $this->faker->text,
             'position' => 0,
             'competency' => "1",
