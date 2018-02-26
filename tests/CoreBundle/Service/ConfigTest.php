@@ -22,10 +22,10 @@ class ConfigTest extends TestCase
         $value = '123Test';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
-        $_SERVER[$envKey] = $value;
+        $_ENV[$envKey] = $value;
         $result = $config->get($key);
         $this->assertEquals($value, $result);
-        unset($_SERVER[$envKey]);
+        unset($_ENV[$envKey]);
     }
 
     public function testPullsFromDBIfNoEnv()
@@ -46,10 +46,10 @@ class ConfigTest extends TestCase
         $value = 'false';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
-        $_SERVER[$envKey] = $value;
+        $_ENV[$envKey] = $value;
         $result = $config->get($key);
         $this->assertTrue($result === false);
-        unset($_SERVER[$envKey]);
+        unset($_ENV[$envKey]);
     }
 
     public function testConvertsStringTrueToBooleanTrue()
@@ -59,10 +59,10 @@ class ConfigTest extends TestCase
         $value = 'true';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
-        $_SERVER[$envKey] = $value;
+        $_ENV[$envKey] = $value;
         $result = $config->get($key);
         $this->assertTrue($result === true);
-        unset($_SERVER[$envKey]);
+        unset($_ENV[$envKey]);
     }
 
     public function testConvertsStringNullToNullNull()
@@ -71,9 +71,10 @@ class ConfigTest extends TestCase
         $config = new Config($manager);
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
-        $_SERVER[$envKey] = 'null';
+        $_ENV[$envKey] = 'null';
         $manager->shouldReceive('getValue')->with($key)->once();
         $config->get($key);
+        unset($_ENV[$envKey]);
     }
 
     public function testConvertsUpercaseStringFalseToBooleanFalse()
@@ -83,10 +84,10 @@ class ConfigTest extends TestCase
         $value = 'FALSE';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
-        $_SERVER[$envKey] = $value;
+        $_ENV[$envKey] = $value;
         $result = $config->get($key);
         $this->assertTrue($result === false);
-        unset($_SERVER[$envKey]);
+        unset($_ENV[$envKey]);
     }
 
     public function testConvertsUpercaseStringTrueToBooleanTrue()
@@ -96,10 +97,10 @@ class ConfigTest extends TestCase
         $value = 'TRUE';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
-        $_SERVER[$envKey] = $value;
+        $_ENV[$envKey] = $value;
         $result = $config->get($key);
         $this->assertTrue($result === true);
-        unset($_SERVER[$envKey]);
+        unset($_ENV[$envKey]);
     }
 
     public function testConvertsUpercaseStringNullToNullNull()
@@ -108,8 +109,24 @@ class ConfigTest extends TestCase
         $config = new Config($manager);
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
-        $_SERVER[$envKey] = 'NULL';
+        $_ENV[$envKey] = 'NULL';
         $manager->shouldReceive('getValue')->with($key)->once();
         $config->get($key);
+        unset($_ENV[$envKey]);
+    }
+
+    public function testLooksInServerIfNotInEnv()
+    {
+        $manager = m::mock(ApplicationConfigManager::class);
+        $config = new Config($manager);
+        $value = '123Test';
+        $key = 'random-key-99';
+        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $_ENV[$envKey] = $value;
+        $_SERVER[$envKey] = 'bad';
+        $result = $config->get($key);
+        $this->assertEquals($value, $result);
+        unset($_SERVER[$envKey]);
+        unset($_ENV[$envKey]);
     }
 }

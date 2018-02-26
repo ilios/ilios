@@ -64,16 +64,21 @@ class Config
     protected function getValueFromEnv($name)
     {
         $envName = 'ILIOS_' .  s($name)->underscored()->toUpperCase();
-        if (isset($_SERVER[$envName])) {
+        $result = null;
+        if (isset($_ENV[$envName])) {
+            $result = $_ENV[$envName];
+        }
+        if ($result === null && isset($_SERVER[$envName])) {
             $result = $_SERVER[$envName];
+        }
+        if ($result !== null) {
             $lowerCaseResult = strtolower($result);
             if (in_array($lowerCaseResult, ['null', 'false', 'true'])) {
                 $result = json_decode($lowerCaseResult);
             }
-            return $result;
         }
 
-        return null;
+        return $result;
     }
 
     /**
