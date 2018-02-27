@@ -119,7 +119,7 @@ class ObjectiveTest extends AbstractEndpointTest
      * To keep things easy, I bolted this test on to this controller test for the time being.
      * @todo Revisit occasionally and check if future versions of Symfony have addressed this need. [ST 2015/10/19]
      *
-     * @dataProvider testInputSanitationTestProvider
+     * @dataProvider inputSanitationTestProvider
      *
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
@@ -155,7 +155,7 @@ class ObjectiveTest extends AbstractEndpointTest
     /**
      * @return array
      */
-    public function testInputSanitationTestProvider()
+    public function inputSanitationTestProvider()
     {
         return [
             ['foo', 'foo'],
@@ -164,7 +164,7 @@ class ObjectiveTest extends AbstractEndpointTest
             ['<script>alert("hello");</script><p>foo</p>', '<p>foo</p>'],
             [
                 '<a href="https://iliosproject.org" target="_blank">Ilios</a>',
-                '<a href="https://iliosproject.org">Ilios</a>'
+                '<a href="https://iliosproject.org" target="_blank" rel="noreferrer noopener">Ilios</a>'
             ],
             ['<u>NOW I CRY</u>', '<u>NOW I CRY</u>'],
         ];
