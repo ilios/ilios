@@ -54,24 +54,11 @@ class SchoolTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
-    public function testCanDelete()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(School::class);
-        $entity->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn(1);
-        $this->permissionChecker->shouldReceive('canDeleteSchool')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
-    }
 
     public function testCanNotDelete()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(School::class);
-        $entity->shouldReceive('getId')->andReturn(1);
-        $entity->shouldReceive('getSchool')->andReturn(1);
-        $this->permissionChecker->shouldReceive('canDeleteSchool')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }

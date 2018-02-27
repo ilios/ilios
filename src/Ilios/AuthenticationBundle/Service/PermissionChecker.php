@@ -604,20 +604,6 @@ class PermissionChecker
         return false;
     }
 
-    public function canDeleteSchool(SessionUserInterface $sessionUser, int $schoolId) : bool
-    {
-        $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_SCHOOLS,
-            $rolesInSchool
-        )) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function canUpdateCompetency(SessionUserInterface $sessionUser, int $schoolId) : bool
     {
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId);
