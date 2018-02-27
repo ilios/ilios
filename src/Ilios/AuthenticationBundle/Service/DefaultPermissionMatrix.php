@@ -99,7 +99,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
             $this->setPermission($schoolId, Capabilities::CAN_DELETE_SCHOOL_CONFIGS, $allRoles);
 
             $this->setPermission($schoolId, Capabilities::CAN_UPDATE_SCHOOLS, $allRoles);
-            $this->setPermission($schoolId, Capabilities::CAN_DELETE_SCHOOLS, $allRoles);
 
             $this->setPermission($schoolId, Capabilities::CAN_UPDATE_COMPETENCIES, $allRoles);
             $this->setPermission($schoolId, Capabilities::CAN_CREATE_COMPETENCIES, $allRoles);

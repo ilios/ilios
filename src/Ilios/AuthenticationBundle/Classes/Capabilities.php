@@ -94,8 +94,6 @@ interface Capabilities
     /** @var string */
     const CAN_UPDATE_SCHOOLS = 'canUpdateSchools';
     /** @var string */
-    const CAN_DELETE_SCHOOLS = 'canDeleteSchools';
-    /** @var string */
     const CAN_UPDATE_COMPETENCIES = 'canUpdateCompetencies';
     /** @var string */
     const CAN_DELETE_COMPETENCIES = 'canDeleteCompetencies';

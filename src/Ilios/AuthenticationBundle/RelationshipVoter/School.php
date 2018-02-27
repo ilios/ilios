@@ -41,12 +41,6 @@ class School extends AbstractVoter
                     $subject->getId()
                 );
                 break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteSchool(
-                    $user,
-                    $subject->getId()
-                );
-                break;
         }
 
         return false;
