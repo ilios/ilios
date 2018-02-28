@@ -33,6 +33,8 @@ matrix:
     env: TEST_PHPUNIT_API5=true
   - php: '7.2'
     env: TEST_PHPUNIT_API5=true
+  - php: '7.2'
+    env: TEST_CONTAINER_BUILD=true
 php:
 - '7.1'
 - '7.2'
@@ -44,6 +46,7 @@ env:
   - TEST_PHPUNIT_API4=false
   - TEST_PHPUNIT_API5=false
   - TEST_EVERYTHING_ELSE=false
+  - TEST_CONTAINER_BUILD=false
 cache:
   directories:
   - "$HOME/.composer/cache"
@@ -82,6 +85,11 @@ script:
    vendor/bin/phpcs --standard=app/phpcs.xml tests;
    bin/console security:check --end-point=http://security.sensiolabs.org/check_lock;
    vendor/bin/phpunit -c phpunit.xml.dist --exclude-group api_1,api_2,api_3,api_4,api_5;
+  fi
+- if [ "$TEST_CONTAINER_BUILD" = true ];then
+   docker build -t ilios-php-apache-test .;
+   docker run -d --name ilios-php-apache-test ilios-php-apache-test;
+   docker ps | grep -q ilios-php-apache-test;
   fi
 notifications:
   slack:
