@@ -27,14 +27,20 @@ class CurriculumInventoryReport extends AbstractVoter
         if (!$user instanceof SessionUserInterface) {
             return false;
         }
+
+        if (self::VIEW === $attribute) {
+            return true;
+        }
+
+        if ($subject->getExport()) {
+            return false;
+        }
+
         if ($user->isRoot()) {
             return true;
         }
 
         switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
             case self::CREATE:
                 return $this->permissionChecker->canCreateCurriculumInventoryReport(
                     $user,

@@ -26,23 +26,23 @@ class CurriculumInventoryExport extends AbstractVoter
         if (!$user instanceof SessionUserInterface) {
             return false;
         }
+
+        if (self::VIEW === $attribute) {
+            return true;
+        }
+
+        if ($subject->getReport()->getExport()) {
+            return false;
+        }
+
         if ($user->isRoot()) {
             return true;
         }
 
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canUpdateCurriculumInventoryReport(
-                    $user,
-                    $subject->getReport()->getId(),
-                    $subject->getReport()->getSchool()->getId()
-                );
-                break;
-        }
-
-        return false;
+        return $this->permissionChecker->canUpdateCurriculumInventoryReport(
+            $user,
+            $subject->getReport()->getId(),
+            $subject->getReport()->getSchool()->getId()
+        );
     }
 }
