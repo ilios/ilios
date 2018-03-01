@@ -24,7 +24,7 @@ class OfferingTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(Offering::class);
+        $this->checkRootEntityAccess(m::mock(Offering::class));
     }
 
     public function testCanView()

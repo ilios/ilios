@@ -24,7 +24,7 @@ class CurriculumInventoryExportTest extends AbstractBase
     public function testAllowsRootFullAccess()
     {
         $this->checkRootEntityAccess(
-            CurriculumInventoryExport::class,
+            m::mock(CurriculumInventoryExport::class),
             [AbstractVoter::VIEW, AbstractVoter::CREATE]
         );
     }

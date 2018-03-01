@@ -24,7 +24,7 @@ class SessionLearningMaterialTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(SessionLearningMaterial::class);
+        $this->checkRootEntityAccess(m::mock(SessionLearningMaterial::class));
     }
 
     public function testCanView()

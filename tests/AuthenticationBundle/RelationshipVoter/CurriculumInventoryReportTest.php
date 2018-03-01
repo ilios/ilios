@@ -22,7 +22,7 @@ class CurriculumInventoryReportTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(CurriculumInventoryReport::class);
+        $this->checkRootEntityAccess(m::mock(CurriculumInventoryReport::class));
     }
 
     public function testCanView()

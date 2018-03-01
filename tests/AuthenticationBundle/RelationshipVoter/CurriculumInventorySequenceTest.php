@@ -23,7 +23,7 @@ class CurriculumInventorySequenceTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(CurriculumInventorySequence::class);
+        $this->checkRootEntityAccess(m::mock(CurriculumInventorySequence::class));
     }
 
     public function testCanView()

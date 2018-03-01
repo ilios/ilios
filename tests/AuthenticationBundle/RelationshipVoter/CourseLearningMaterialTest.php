@@ -23,7 +23,7 @@ class CourseLearningMaterialTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(CourseLearningMaterial::class);
+        $this->checkRootEntityAccess(m::mock(CourseLearningMaterial::class));
     }
 
     public function testCanView()

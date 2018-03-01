@@ -21,7 +21,7 @@ class AssessmentOptionTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(AssessmentOption::class);
+        $this->checkRootEntityAccess(m::mock(AssessmentOption::class));
     }
 
     public function testCanView()

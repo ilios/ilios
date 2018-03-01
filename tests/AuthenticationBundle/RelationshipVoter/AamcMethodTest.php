@@ -21,7 +21,7 @@ class AamcMethodTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(AamcMethod::class);
+        $this->checkRootEntityAccess(m::mock(AamcMethod::class));
     }
 
     public function testCanView()

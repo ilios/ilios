@@ -21,7 +21,7 @@ class SchoolTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(School::class);
+        $this->checkRootEntityAccess(m::mock(School::class));
     }
 
     public function testCanView()

@@ -22,7 +22,7 @@ class CohortTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(Cohort::class);
+        $this->checkRootEntityAccess(m::mock(Cohort::class));
     }
 
     public function testCanView()

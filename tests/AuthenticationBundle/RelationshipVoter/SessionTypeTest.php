@@ -22,7 +22,7 @@ class SessionTypeTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(SessionType::class);
+        $this->checkRootEntityAccess(m::mock(SessionType::class));
     }
 
     public function testCanView()

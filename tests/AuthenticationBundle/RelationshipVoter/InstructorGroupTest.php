@@ -22,7 +22,7 @@ class InstructorGroupTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(InstructorGroup::class);
+        $this->checkRootEntityAccess(m::mock(InstructorGroup::class));
     }
 
     public function testCanView()

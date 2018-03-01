@@ -22,7 +22,7 @@ class VocabularyTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(Vocabulary::class);
+        $this->checkRootEntityAccess(m::mock(Vocabulary::class));
     }
 
     public function testCanView()

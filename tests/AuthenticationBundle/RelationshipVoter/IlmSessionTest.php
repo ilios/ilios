@@ -24,7 +24,7 @@ class IlmSessionTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(IlmSession::class);
+        $this->checkRootEntityAccess(m::mock(IlmSession::class));
     }
 
     public function testCanView()
