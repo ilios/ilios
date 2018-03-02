@@ -22,7 +22,9 @@ class CurriculumInventoryReportTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(m::mock(CurriculumInventoryReport::class));
+        $report = m::mock(CurriculumInventoryReport::class);
+        $report->shouldReceive('getExport')->andReturn(null);
+        $this->checkRootEntityAccess($report);
     }
 
     public function testCanView()
@@ -37,6 +39,7 @@ class CurriculumInventoryReportTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(CurriculumInventoryReport::class);
+        $entity->shouldReceive('getExport')->andReturn(null);
         $entity->shouldReceive('getId')->andReturn(1);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
@@ -51,6 +54,7 @@ class CurriculumInventoryReportTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(CurriculumInventoryReport::class);
         $entity->shouldReceive('getId')->andReturn(1);
+        $entity->shouldReceive('getExport')->andReturn(null);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
@@ -64,6 +68,7 @@ class CurriculumInventoryReportTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(CurriculumInventoryReport::class);
         $entity->shouldReceive('getId')->andReturn(1);
+        $entity->shouldReceive('getExport')->andReturn(null);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
@@ -77,6 +82,7 @@ class CurriculumInventoryReportTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(CurriculumInventoryReport::class);
         $entity->shouldReceive('getId')->andReturn(1);
+        $entity->shouldReceive('getExport')->andReturn(null);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
@@ -89,6 +95,7 @@ class CurriculumInventoryReportTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(CurriculumInventoryReport::class);
+        $entity->shouldReceive('getExport')->andReturn(null);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
@@ -101,6 +108,7 @@ class CurriculumInventoryReportTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(CurriculumInventoryReport::class);
+        $entity->shouldReceive('getExport')->andReturn(null);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);

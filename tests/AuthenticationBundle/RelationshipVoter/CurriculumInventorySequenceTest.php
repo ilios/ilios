@@ -23,7 +23,11 @@ class CurriculumInventorySequenceTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(m::mock(CurriculumInventorySequence::class));
+        $report = m::mock(CurriculumInventoryReport::class);
+        $report->shouldReceive('getExport')->andReturn(null);
+        $sequence = m::mock(CurriculumInventorySequence::class);
+        $sequence->shouldReceive('getReport')->andReturn($report);
+        $this->checkRootEntityAccess($sequence);
     }
 
     public function testCanView()
@@ -41,6 +45,7 @@ class CurriculumInventorySequenceTest extends AbstractBase
         $entity->shouldReceive('getId')->andReturn(1);
         $report = m::mock(CurriculumInventoryReport::class);
         $report->shouldReceive('getId')->andReturn(1);
+        $report->shouldReceive('getExport')->andReturn(null);
         $entity->shouldReceive('getReport')->andReturn($report);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
@@ -57,6 +62,7 @@ class CurriculumInventorySequenceTest extends AbstractBase
         $entity->shouldReceive('getId')->andReturn(1);
         $report = m::mock(CurriculumInventoryReport::class);
         $report->shouldReceive('getId')->andReturn(1);
+        $report->shouldReceive('getExport')->andReturn(null);
         $entity->shouldReceive('getReport')->andReturn($report);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
@@ -73,6 +79,7 @@ class CurriculumInventorySequenceTest extends AbstractBase
         $entity->shouldReceive('getId')->andReturn(1);
         $report = m::mock(CurriculumInventoryReport::class);
         $report->shouldReceive('getId')->andReturn(1);
+        $report->shouldReceive('getExport')->andReturn(null);
         $entity->shouldReceive('getReport')->andReturn($report);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
@@ -89,6 +96,7 @@ class CurriculumInventorySequenceTest extends AbstractBase
         $entity->shouldReceive('getId')->andReturn(1);
         $report = m::mock(CurriculumInventoryReport::class);
         $report->shouldReceive('getId')->andReturn(1);
+        $report->shouldReceive('getExport')->andReturn(null);
         $entity->shouldReceive('getReport')->andReturn($report);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
@@ -104,6 +112,7 @@ class CurriculumInventorySequenceTest extends AbstractBase
         $entity = m::mock(CurriculumInventorySequence::class);
         $report = m::mock(CurriculumInventoryReport::class);
         $report->shouldReceive('getId')->andReturn(1);
+        $report->shouldReceive('getExport')->andReturn(null);
         $entity->shouldReceive('getReport')->andReturn($report);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
@@ -119,6 +128,7 @@ class CurriculumInventorySequenceTest extends AbstractBase
         $entity = m::mock(CurriculumInventorySequence::class);
         $report = m::mock(CurriculumInventoryReport::class);
         $report->shouldReceive('getId')->andReturn(1);
+        $report->shouldReceive('getExport')->andReturn(null);
         $entity->shouldReceive('getReport')->andReturn($report);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);

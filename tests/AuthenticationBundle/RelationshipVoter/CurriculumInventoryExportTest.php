@@ -23,8 +23,12 @@ class CurriculumInventoryExportTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
+        $report = m::mock(CurriculumInventoryReport::class);
+        $report->shouldReceive('getExport')->andReturn(null);
+        $export = m::mock(CurriculumInventoryExport::class);
+        $export->shouldReceive('getReport')->andReturn($report);
         $this->checkRootEntityAccess(
-            m::mock(CurriculumInventoryExport::class),
+            $export,
             [AbstractVoter::VIEW, AbstractVoter::CREATE]
         );
     }
@@ -42,6 +46,7 @@ class CurriculumInventoryExportTest extends AbstractBase
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(CurriculumInventoryExport::class);
         $report = m::mock(CurriculumInventoryReport::class);
+        $report->shouldReceive('getExport')->andReturn(null);
         $report->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getReport')->andReturn($report);
         $school = m::mock(School::class);
@@ -58,6 +63,7 @@ class CurriculumInventoryExportTest extends AbstractBase
         $entity = m::mock(CurriculumInventoryExport::class);
         $report = m::mock(CurriculumInventoryReport::class);
         $report->shouldReceive('getId')->andReturn(1);
+        $report->shouldReceive('getExport')->andReturn(null);
         $entity->shouldReceive('getReport')->andReturn($report);
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
