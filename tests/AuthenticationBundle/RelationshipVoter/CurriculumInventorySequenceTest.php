@@ -4,6 +4,7 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\CurriculumInventorySequence as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use Ilios\CoreBundle\Entity\CurriculumInventoryExport;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReport;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequence;
 use Ilios\CoreBundle\Entity\School;
@@ -136,5 +137,31 @@ class CurriculumInventorySequenceTest extends AbstractBase
         $this->permissionChecker->shouldReceive('canUpdateCurriculumInventoryReport')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
+    }
+
+    public function testRootCannotCreateEditDeleteSequenceOnFinalizedReport()
+    {
+        $token = $this->createMockTokenWithRootSessionUser();
+        $report = m::mock(CurriculumInventoryReport::class);
+        $report->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExport::class));
+        $entity = m::mock(CurriculumInventorySequence::class);
+        $entity->shouldReceive('getReport')->andReturn($report);
+        foreach ([ AbstractVoter::CREATE, AbstractVoter::EDIT, AbstractVoter::DELETE ] as $attr) {
+            $response = $this->voter->vote($token, $entity, [ $attr ]);
+            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${attr} allowed");
+        }
+    }
+
+    public function testCannotCreateEditDeleteSequenceOnFinalizedReport()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $report = m::mock(CurriculumInventoryReport::class);
+        $report->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExport::class));
+        $entity = m::mock(CurriculumInventorySequence::class);
+        $entity->shouldReceive('getReport')->andReturn($report);
+        foreach ([ AbstractVoter::CREATE, AbstractVoter::EDIT, AbstractVoter::DELETE ] as $attr) {
+            $response = $this->voter->vote($token, $entity, [ $attr ]);
+            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${attr} allowed");
+        }
     }
 }

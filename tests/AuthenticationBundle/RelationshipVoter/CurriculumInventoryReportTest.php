@@ -4,6 +4,7 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\CurriculumInventoryReport as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use Ilios\CoreBundle\Entity\CurriculumInventoryExport;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReport;
 use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Service\Config;
@@ -115,5 +116,27 @@ class CurriculumInventoryReportTest extends AbstractBase
         $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReport')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
+    }
+
+    public function testRootCannotCreateEditDeleteFinalizedReport()
+    {
+        $token = $this->createMockTokenWithRootSessionUser();
+        $entity = m::mock(CurriculumInventoryReport::class);
+        $entity->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExport::class));
+        foreach ([ AbstractVoter::CREATE, AbstractVoter::EDIT, AbstractVoter::DELETE ] as $attr) {
+            $response = $this->voter->vote($token, $entity, [ $attr ]);
+            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${attr} allowed");
+        }
+    }
+
+    public function testCannotCreateEditDeleteFinalizedReport()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(CurriculumInventoryReport::class);
+        $entity->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExport::class));
+        foreach ([ AbstractVoter::CREATE, AbstractVoter::EDIT, AbstractVoter::DELETE ] as $attr) {
+            $response = $this->voter->vote($token, $entity, [ $attr ]);
+            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${attr} allowed");
+        }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Tests\AuthenticationBundle\RelationshipVoter;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\CurriculumInventoryExport as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
@@ -71,5 +72,27 @@ class CurriculumInventoryExportTest extends AbstractBase
         $this->permissionChecker->shouldReceive('canUpdateCurriculumInventoryReport')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
+    }
+
+    public function testRootCannotCreateExportOnFinalizedReport()
+    {
+        $token = $this->createMockTokenWithRootSessionUser();
+        $report = m::mock(CurriculumInventoryReport::class);
+        $report->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExport::class));
+        $entity = m::mock(CurriculumInventoryExport::class);
+        $entity->shouldReceive('getReport')->andReturn($report);
+        $response = $this->voter->vote($token, $entity, [ AbstractVoter::CREATE ]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create allowed");
+    }
+
+    public function testCannotCreateExportOnFinalizedReport()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $report = m::mock(CurriculumInventoryReport::class);
+        $report->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExport::class));
+        $entity = m::mock(CurriculumInventoryExport::class);
+        $entity->shouldReceive('getReport')->andReturn($report);
+        $response = $this->voter->vote($token, $entity, [ AbstractVoter::CREATE ]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create allowed");
     }
 }
