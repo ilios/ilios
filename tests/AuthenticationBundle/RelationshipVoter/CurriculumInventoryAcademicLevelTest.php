@@ -21,7 +21,7 @@ class CurriculumInventoryAcademicLevelTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(CurriculumInventoryAcademicLevel::class, [AbstractVoter::VIEW]);
+        $this->checkRootEntityAccess(m::mock(CurriculumInventoryAcademicLevel::class), [AbstractVoter::VIEW]);
     }
 
     public function testCanView()

@@ -22,7 +22,7 @@ class ProgramTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(Program::class);
+        $this->checkRootEntityAccess(m::mock(Program::class));
     }
 
     public function testCanView()

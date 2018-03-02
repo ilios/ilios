@@ -22,7 +22,7 @@ class DepartmentTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(Department::class);
+        $this->checkRootEntityAccess(m::mock(Department::class));
     }
 
     public function testCanView()

@@ -22,7 +22,7 @@ class CompetencyTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(Competency::class);
+        $this->checkRootEntityAccess(m::mock(Competency::class));
     }
 
     public function testCanView()

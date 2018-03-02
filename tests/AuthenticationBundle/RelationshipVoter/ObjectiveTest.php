@@ -29,7 +29,7 @@ class ObjectiveTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(ObjectiveInterface::class);
+        $this->checkRootEntityAccess(m::mock(ObjectiveInterface::class));
     }
 
     public function testCanView()

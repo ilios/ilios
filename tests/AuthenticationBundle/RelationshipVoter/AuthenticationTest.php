@@ -23,7 +23,7 @@ class AuthenticationTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(Authentication::class);
+        $this->checkRootEntityAccess(m::mock(Authentication::class));
     }
 
 

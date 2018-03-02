@@ -21,7 +21,7 @@ class IngestionExceptionTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(IngestionException::class, [AbstractVoter::VIEW]);
+        $this->checkRootEntityAccess(m::mock(IngestionException::class), [AbstractVoter::VIEW]);
     }
 
 

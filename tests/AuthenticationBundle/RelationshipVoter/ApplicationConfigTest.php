@@ -22,7 +22,7 @@ class ApplicationConfigTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(ApplicationConfig::class);
+        $this->checkRootEntityAccess(m::mock(ApplicationConfig::class));
         $this->checkRootDTOAccess(ApplicationConfigDTO::class);
     }
 

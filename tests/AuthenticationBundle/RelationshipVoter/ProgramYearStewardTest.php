@@ -24,7 +24,7 @@ class ProgramYearStewardTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(ProgramYearSteward::class);
+        $this->checkRootEntityAccess(m::mock(ProgramYearSteward::class));
     }
 
     public function testCanView()

@@ -24,7 +24,7 @@ class PendingUserUpdateTest extends AbstractBase
     public function testAllowsRootFullAccess()
     {
         $this->checkRootEntityAccess(
-            PendingUserUpdate::class,
+            m::mock(PendingUserUpdate::class),
             [AbstractVoter::VIEW, AbstractVoter::DELETE, AbstractVoter::EDIT]
         );
     }

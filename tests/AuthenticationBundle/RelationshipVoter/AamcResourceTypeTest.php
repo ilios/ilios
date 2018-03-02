@@ -21,7 +21,7 @@ class AamcResourceTypeTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(AamcResourceType::class);
+        $this->checkRootEntityAccess(m::mock(AamcResourceType::class));
     }
 
     public function testCanView()

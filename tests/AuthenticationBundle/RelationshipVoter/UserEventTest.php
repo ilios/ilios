@@ -22,7 +22,7 @@ class UserEventTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(UserEvent::class, [AbstractVoter::VIEW]);
+        $this->checkRootEntityAccess(m::mock(UserEvent::class), [AbstractVoter::VIEW]);
     }
 
     public function testCanViewOwnPublishedEvents()

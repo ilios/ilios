@@ -21,7 +21,7 @@ class LearningMaterialStatusTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(LearningMaterialStatus::class);
+        $this->checkRootEntityAccess(m::mock(LearningMaterialStatus::class));
     }
 
     public function testCanView()

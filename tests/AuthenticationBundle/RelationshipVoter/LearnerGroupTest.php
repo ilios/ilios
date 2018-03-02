@@ -22,7 +22,7 @@ class LearnerGroupTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(LearnerGroup::class);
+        $this->checkRootEntityAccess(m::mock(LearnerGroup::class));
     }
 
 

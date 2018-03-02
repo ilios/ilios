@@ -22,7 +22,7 @@ class TemporaryFileSystemTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(TemporaryFileSystem::class, [AbstractVoter::CREATE]);
+        $this->checkRootEntityAccess(m::mock(TemporaryFileSystem::class), [AbstractVoter::CREATE]);
     }
 
     public function testCanCreateTemporaryFileSystem()

@@ -23,7 +23,7 @@ class ReportTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(Report::class);
+        $this->checkRootEntityAccess(m::mock(Report::class));
     }
 
     public function testCanViewDTO()

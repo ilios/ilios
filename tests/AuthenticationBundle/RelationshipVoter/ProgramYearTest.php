@@ -22,7 +22,7 @@ class ProgramYearTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(ProgramYear::class);
+        $this->checkRootEntityAccess(m::mock(ProgramYear::class));
     }
 
     public function testCanView()

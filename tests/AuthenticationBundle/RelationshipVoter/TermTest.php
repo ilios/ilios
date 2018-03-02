@@ -23,7 +23,7 @@ class TermTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(Term::class);
+        $this->checkRootEntityAccess(m::mock(Term::class));
     }
 
     public function testCanView()

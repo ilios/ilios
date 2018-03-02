@@ -21,7 +21,7 @@ class AamcPcrsTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(AamcPcrs::class);
+        $this->checkRootEntityAccess(m::mock(AamcPcrs::class));
     }
 
     public function testCanView()

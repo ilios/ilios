@@ -22,7 +22,7 @@ class SchoolEventTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(SchoolEvent::class, [AbstractVoter::VIEW]);
+        $this->checkRootEntityAccess(m::mock(SchoolEvent::class), [AbstractVoter::VIEW]);
     }
 
     public function testCanViewPublishedSchoolEventInPrimarySchool()

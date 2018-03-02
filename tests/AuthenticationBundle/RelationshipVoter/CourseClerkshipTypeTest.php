@@ -21,7 +21,7 @@ class CourseClerkshipTypeTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(CourseClerkshipType::class);
+        $this->checkRootEntityAccess(m::mock(CourseClerkshipType::class));
     }
 
     public function testCanNotEdit()

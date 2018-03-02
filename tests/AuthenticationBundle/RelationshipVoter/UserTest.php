@@ -22,7 +22,7 @@ class UserTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(User::class);
+        $this->checkRootEntityAccess(m::mock(User::class));
     }
 
 

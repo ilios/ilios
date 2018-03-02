@@ -23,7 +23,7 @@ class UserMaterialTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(UserMaterial::class, [AbstractVoter::VIEW]);
+        $this->checkRootEntityAccess(m::mock(UserMaterial::class), [AbstractVoter::VIEW]);
     }
 
     public function testCanViewNonDraftMaterials()
