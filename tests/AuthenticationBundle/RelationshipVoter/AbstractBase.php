@@ -51,6 +51,17 @@ class AbstractBase extends TestCase
     }
 
     /**
+     * Creates a mock token with a root user
+     * @return TokenInterface
+     */
+    protected function createMockTokenWithRootSessionUser()
+    {
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('isRoot')->andReturn(true);
+        return $this->createMockTokenWithSessionUser($sessionUser);
+    }
+
+    /**
      * Check that "root" users are granted access in all votes on the given entity.
      * @param m\MockInterface $mockEntity
      * @param array $entityAttrs
