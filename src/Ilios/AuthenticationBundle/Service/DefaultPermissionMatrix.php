@@ -32,12 +32,14 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_UPDATE_SCHOOLS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_CREATE_PROGRAMS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
                 ]
@@ -46,6 +48,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_UPDATE_ALL_PROGRAMS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
@@ -53,7 +56,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_UPDATE_THEIR_PROGRAMS,
                 [
-                    UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
                 ]
             );
@@ -61,6 +63,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_DELETE_ALL_PROGRAMS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
@@ -68,7 +71,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_DELETE_THEIR_PROGRAMS,
                 [
-                    UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
                 ]
             );
@@ -76,15 +78,16 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_CREATE_PROGRAM_YEARS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
                 ]
@@ -93,15 +96,14 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS,
                 [
-                    UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
                 ]
@@ -110,15 +112,14 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS,
                 [
-                    UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
                 ]
@@ -127,15 +128,14 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_UNLOCK_THEIR_PROGRAM_YEARS,
                 [
-                    UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_UNARCHIVE_ALL_PROGRAM_YEARS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
                 ]
@@ -144,23 +144,24 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_UNARCHIVE_THEIR_PROGRAM_YEARS,
                 [
-                    UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_CREATE_COHORTS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_UPDATE_ALL_COHORTS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
                 ]
             );
@@ -169,13 +170,14 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_UPDATE_THEIR_COHORTS,
                 [
                     UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_DELETE_ALL_COHORTS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
                 ]
             );
@@ -184,22 +186,23 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_DELETE_THEIR_COHORTS,
                 [
                     UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_CREATE_COURSES,
                 [
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_UPDATE_ALL_COURSES,
                 [
-                    UserRoles::COURSE_ADMINISTRATOR,
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
+                    UserRoles::PROGRAM_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -208,29 +211,20 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 [
                     UserRoles::COURSE_ADMINISTRATOR,
                     UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_DELETE_ALL_COURSES,
                 [
-                    UserRoles::COURSE_ADMINISTRATOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
-                Capabilities::CAN_DELETE_THEIR_COURSES,
-                [
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_UNLOCK_ALL_COURSES,
                 [
-                    UserRoles::COURSE_ADMINISTRATOR,
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                 ]
             );
             $this->setPermission(
@@ -245,44 +239,35 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_UNARCHIVE_ALL_COURSES,
                 [
-                    UserRoles::COURSE_ADMINISTRATOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
-                Capabilities::CAN_UNARCHIVE_THEIR_COURSES,
-                [
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
+                    UserRoles::SCHOOL_ADMINISTRATOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_CREATE_SESSIONS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
+                    UserRoles::PROGRAM_DIRECTOR,
                     UserRoles::COURSE_ADMINISTRATOR,
                     UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
-                    UserRoles::SESSION_ADMINISTRATOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_UPDATE_ALL_SESSIONS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
+                    UserRoles::PROGRAM_DIRECTOR,
                     UserRoles::COURSE_ADMINISTRATOR,
                     UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
-                    UserRoles::SESSION_ADMINISTRATOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_UPDATE_THEIR_SESSIONS,
                 [
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                 ]
@@ -291,20 +276,10 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 $schoolId,
                 Capabilities::CAN_DELETE_ALL_SESSIONS,
                 [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::COURSE_ADMINISTRATOR,
                     UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
-                    UserRoles::SESSION_ADMINISTRATOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
-                Capabilities::CAN_DELETE_THEIR_SESSIONS,
-                [
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
-                    UserRoles::SESSION_ADMINISTRATOR,
                 ]
             );
             $this->setPermission(
@@ -375,6 +350,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_CREATE_TERMS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -382,6 +358,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_UPDATE_TERMS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -389,6 +366,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_DELETE_TERMS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -396,6 +374,10 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_CREATE_INSTRUCTOR_GROUPS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
+                    UserRoles::PROGRAM_DIRECTOR,
+                    UserRoles::COURSE_ADMINISTRATOR,
+                    UserRoles::COURSE_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -403,6 +385,8 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::COURSE_ADMINISTRATOR,
+                    UserRoles::COURSE_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -417,6 +401,9 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_CREATE_LEARNER_GROUPS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::COURSE_ADMINISTRATOR,
+                    UserRoles::COURSE_DIRECTOR,
+                    UserRoles::SESSION_ADMINISTRATOR,
                 ]
             );
             $this->setPermission(
@@ -424,6 +411,9 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_UPDATE_LEARNER_GROUPS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::COURSE_ADMINISTRATOR,
+                    UserRoles::COURSE_DIRECTOR,
+                    UserRoles::SESSION_ADMINISTRATOR,
                 ]
             );
             $this->setPermission(
@@ -438,7 +428,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_REPORTS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -446,13 +436,13 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
                 $schoolId,
                 Capabilities::CAN_UPDATE_THEIR_CURRICULUM_INVENTORY_REPORTS,
                 [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
                 ]
             );
@@ -465,17 +455,10 @@ class DefaultPermissionMatrix extends PermissionMatrix
             );
             $this->setPermission(
                 $schoolId,
-                Capabilities::CAN_DELETE_THEIR_CURRICULUM_INVENTORY_REPORTS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
                 Capabilities::CAN_CREATE_SCHOOL_CONFIGS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -483,6 +466,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_UPDATE_SCHOOL_CONFIGS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -490,6 +474,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_DELETE_SCHOOL_CONFIGS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -539,6 +524,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_CREATE_DEPARTMENTS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -546,6 +532,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_UPDATE_DEPARTMENTS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -553,6 +540,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_DELETE_DEPARTMENTS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
                 ]
             );
         }
