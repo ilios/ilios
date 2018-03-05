@@ -326,26 +326,6 @@ interface UserInterface extends
     public function getAllSchools();
 
     /**
-     * @param Collection $permissions
-     */
-    public function setPermissions(Collection $permissions);
-
-    /**
-     * @param PermissionInterface $permission
-     */
-    public function addPermission(PermissionInterface $permission);
-
-    /**
-     * @param PermissionInterface $permission
-     */
-    public function removePermission(PermissionInterface $permission);
-
-    /**
-     * @return ArrayCollection|PermissionInterface[]
-     */
-    public function getPermissions();
-
-    /**
      * @param Collection $auditLogs
      */
     public function setAuditLogs(Collection $auditLogs);
