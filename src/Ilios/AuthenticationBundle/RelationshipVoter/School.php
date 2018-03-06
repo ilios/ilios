@@ -10,10 +10,6 @@ class School extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return $subject instanceof SchoolInterface
             && in_array(
                 $attribute,

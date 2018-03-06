@@ -22,10 +22,6 @@ class ElevatedPermissionsViewDTOVoter extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return (
             array($attribute, [self::VIEW]) && (
                 $subject instanceof AuthenticationDTO
