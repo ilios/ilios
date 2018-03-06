@@ -3,7 +3,6 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\PermissionData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -33,7 +32,6 @@ class UserTest extends AbstractEndpointTest
             'Tests\CoreBundle\Fixture\LoadIlmSessionData',
             'Tests\CoreBundle\Fixture\LoadOfferingData',
             'Tests\CoreBundle\Fixture\LoadPendingUserUpdateData',
-            'Tests\CoreBundle\Fixture\LoadPermissionData',
             'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadReportData',
             'Tests\CoreBundle\Fixture\LoadAuthenticationData',
@@ -78,7 +76,6 @@ class UserTest extends AbstractEndpointTest
             'cohorts' => ['cohorts', [2], $skipped = true],
             'primaryCohort' => ['primaryCohort', 3, $skipped = true],
             'pendingUserUpdates' => ['pendingUserUpdates', [2], $skipped = true],
-            'permissions' => ['permissions', [1], $skipped = true],
             'directedSchools' => ['directedSchools', [2]],
             'administeredSchools' => ['administeredSchools', [1, 2]],
             'directedPrograms' => ['directedPrograms', [2]],
@@ -143,7 +140,6 @@ class UserTest extends AbstractEndpointTest
             'primaryCohort' => [[0], ['primaryCohort' => 1]],
 //            'nullPrimaryCohort' => [[1, 2, 3, 4], ['primaryCohort' => null]],
 //            'pendingUserUpdates' => [[0], ['pendingUserUpdates' => [1]]],
-//            'permissions' => [[0], ['permissions' => [1]]],
 //            'directedSchools' => [[0], ['directedSchools' => [1]]],
 //            'administeredSchools' => [[0], ['administeredSchools' => [1]]],
 //            'directedPrograms' => [[0], ['directedPrograms' => [1]]],
@@ -481,15 +477,6 @@ class UserTest extends AbstractEndpointTest
 
         $newUserSchool = 2;
 
-        $permissionDataLoader = $this->container->get(PermissionData::class);
-        $permission = $permissionDataLoader->create();
-        $permission['user'] = $user['id'];
-        $permission['canRead'] = true;
-        $permission['canWrite'] = true;
-        $permission['tableRowId'] = $newUserSchool;
-        $permission['tableName'] = 'school';
-        $this->postOne('permissions', 'permission', 'permissions', $permission);
-
         $data = $dataLoader->create();
         $data['school'] = $newUserSchool;
 
@@ -522,14 +509,6 @@ class UserTest extends AbstractEndpointTest
             $user['roles'],
             'User #1 should be a developer or this test is garbage'
         );
-        $permissionDataLoader = $this->container->get(PermissionData::class);
-        $permission = $permissionDataLoader->create();
-        $permission['user'] = $user['id'];
-        $permission['canRead'] = true;
-        $permission['canWrite'] = true;
-        $permission['tableRowId'] = 2;
-        $permission['tableName'] = 'school';
-        $this->postOne('permissions', 'permission', 'permissions', $permission);
 
         $data = $all[3];
         $this->assertNotContains(
