@@ -42,7 +42,6 @@ class CurrentSessionTest extends WebTestCase
 
         $fixtures = [
             'Tests\CoreBundle\Fixture\LoadAuthenticationData',
-            'Tests\CoreBundle\Fixture\LoadPermissionData',
             'Tests\CoreBundle\Fixture\LoadUserData',
         ];
         $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
