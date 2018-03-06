@@ -60,6 +60,7 @@ before_script:
 - bin/console doctrine:database:create --env=dev
 - bin/console doctrine:migrations:migrate  --env=dev --no-interaction
 - bin/console cache:clear --env=test --no-interaction
+- bin/console cache:warmup --env=test --no-interaction
 script:
 - if [ "$TEST_PHPUNIT_API1" = true ];
   then (vendor/bin/phpunit -c phpunit.xml.dist --group api_1);
