@@ -10,7 +10,7 @@ class AamcResourceType extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-       return $subject instanceof AamcResourceTypeInterface
+        return $subject instanceof AamcResourceTypeInterface
             && in_array(
                 $attribute,
                 [self::CREATE, self::VIEW, self::EDIT, self::DELETE]

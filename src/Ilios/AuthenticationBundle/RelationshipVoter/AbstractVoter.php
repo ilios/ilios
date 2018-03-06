@@ -46,7 +46,7 @@ abstract class AbstractVoter extends SymfonyVoter
     /**
      * @param PermissionChecker $permissionChecker
      */
-    public function __construct( $permissionChecker)
+    public function __construct($permissionChecker)
     {
         $this->permissionChecker = $permissionChecker;
     }
