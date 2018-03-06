@@ -10,10 +10,6 @@ class AamcPcrs extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return $subject instanceof AamcPcrsInterface
             && in_array(
                 $attribute,

@@ -10,10 +10,6 @@ class IngestionException extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return $subject instanceof IngestionExceptionInterface
             && in_array($attribute, [self::VIEW]);
     }

@@ -10,10 +10,6 @@ class Vocabulary extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return $subject instanceof VocabularyInterface
             && in_array(
                 $attribute,

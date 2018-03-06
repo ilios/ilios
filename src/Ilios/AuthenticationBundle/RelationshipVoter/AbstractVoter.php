@@ -39,22 +39,15 @@ abstract class AbstractVoter extends SymfonyVoter
     const UNARCHIVE = 'unarchive';
 
     /**
-     * @var bool
-     */
-    protected $abstain = false;
-
-    /**
      * @var PermissionChecker
      */
     protected $permissionChecker;
 
     /**
      * @param PermissionChecker $permissionChecker
-     * @param Config $config
      */
-    public function __construct(PermissionChecker $permissionChecker, Config $config)
+    public function __construct( $permissionChecker)
     {
         $this->permissionChecker = $permissionChecker;
-        $this->abstain = ! $config->useNewPermissionsSystem();
     }
 }
