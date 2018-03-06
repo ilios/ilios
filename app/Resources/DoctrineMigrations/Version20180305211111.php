@@ -7,7 +7,6 @@ use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Assigns users into new roles based on their current explicit write permissions and legacy roles.
- * Then drops the old permissions table.
  * ACHTUNG! This migration cannot be rolled back!
  */
 class Version20180305211111 extends AbstractMigration
@@ -75,9 +74,6 @@ INSERT IGNORE INTO course_administrator (course_id, user_id) (
 );
 EOL;
         $this->addSql($sql);
-
-        // drop permissions table
-        $this->addSql('DROP TABLE `permission`');
     }
 
     /**
