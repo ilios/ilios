@@ -24,8 +24,6 @@ class SessionUserTest extends TestCase
 
     protected $userManager;
 
-    protected $config;
-
     /**
      * @inheritdoc
      */
@@ -33,7 +31,6 @@ class SessionUserTest extends TestCase
     {
         $this->userManager = m::mock(UserManager::class);
         $this->iliosUser = m::mock(UserInterface::class);
-        $this->config = m::mock(Config::class);
 
         $this->relationships = [
             'roleTitles' => ['Developer'],
@@ -107,8 +104,7 @@ class SessionUserTest extends TestCase
     {
         $relationships = array_merge($this->relationships, $modifiedRelationships);
         $this->userManager->shouldReceive('buildSessionRelationships')->andReturn($relationships);
-        $this->config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
-        $sessionUser = new SessionUser($this->iliosUser, $this->userManager, $this->config);
+        $sessionUser = new SessionUser($this->iliosUser, $this->userManager);
         $this->assertEquals($expectedResult, $sessionUser->performsNonLearnerFunction());
     }
 }

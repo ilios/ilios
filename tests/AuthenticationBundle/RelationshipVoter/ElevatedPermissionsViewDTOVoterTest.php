@@ -28,9 +28,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
     public function setup()
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
-        $config = m::mock(Config::class);
-        $config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
-        $this->voter = new Voter($this->permissionChecker, $config);
+        $this->voter = new Voter($this->permissionChecker);
     }
 
     public function dtoProvider()
