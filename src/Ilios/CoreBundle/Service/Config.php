@@ -117,12 +117,4 @@ class Config
 
         return $result;
     }
-
-    /**
-     * @return bool
-     */
-    public function useNewPermissionsSystem(): bool
-    {
-        return self::USE_NEW_PERMISSIONS_SYSTEM;
-    }
 }
