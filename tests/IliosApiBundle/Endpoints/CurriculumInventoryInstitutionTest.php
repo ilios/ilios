@@ -24,7 +24,6 @@ class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
         return [
             'Tests\CoreBundle\Fixture\LoadCurriculumInventoryInstitutionData',
             'Tests\CoreBundle\Fixture\LoadSchoolData',
-            'Tests\CoreBundle\Fixture\LoadPermissionData',
         ];
     }
 

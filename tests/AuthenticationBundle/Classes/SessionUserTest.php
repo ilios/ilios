@@ -63,7 +63,6 @@ class SessionUserTest extends TestCase
         $this->iliosUser->shouldReceive('isEnabled')->andReturn(true);
         $this->iliosUser->shouldReceive('getSchool')->andReturn($school);
         $this->iliosUser->shouldReceive('getAuthentication')->andReturn(null);
-        $this->iliosUser->shouldReceive('getPermissions')->andReturn([]);
     }
 
     /**

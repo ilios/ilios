@@ -58,7 +58,6 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getAuditLogs());
         $this->assertEmpty($this->object->getReports());
         $this->assertEmpty($this->object->getPendingUserUpdates());
-        $this->assertEmpty($this->object->getPermissions());
         $this->assertEmpty($this->object->getAdministeredSessions());
         $this->assertEmpty($this->object->getAdministeredCourses());
         $this->assertEmpty($this->object->getDirectedSchools());
@@ -232,31 +231,6 @@ class UserTest extends EntityBase
     public function testSetAuditLogs()
     {
         $this->entityCollectionSetTest('auditLog', 'AuditLog');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::addPermission
-     */
-    public function testAddPermission()
-    {
-        $this->entityCollectionAddTest('permission', 'Permission');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::removePermission
-     */
-    public function testRemovePermission()
-    {
-        $this->entityCollectionRemoveTest('permission', 'Permission');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::setPermissions
-     * @covers \Ilios\CoreBundle\Entity\User::getPermissions
-     */
-    public function testSetPermissions()
-    {
-        $this->entityCollectionSetTest('permission', 'Permission');
     }
 
     /**
