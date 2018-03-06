@@ -124,11 +124,6 @@ User:
    type: array
    items:
     type: string
-  permissions:
-   description: Permissions
-   type: array
-   items:
-    type: string
   directedSchools:
    description: Directedschools
    type: array

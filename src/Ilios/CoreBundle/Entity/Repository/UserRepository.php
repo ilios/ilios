@@ -867,7 +867,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             'cohorts',
             'pendingUserUpdates',
             'auditLogs',
-            'permissions',
             'learnerIlmSessions',
             'directedSchools',
             'administeredSchools',

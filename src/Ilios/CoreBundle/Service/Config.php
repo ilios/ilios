@@ -16,11 +16,6 @@ class Config
     ];
 
     /**
-     * @var bool
-     */
-    const USE_NEW_PERMISSIONS_SYSTEM = false;
-
-    /**
      * @var ApplicationConfigManager
      */
     protected $applicationConfigManager;
