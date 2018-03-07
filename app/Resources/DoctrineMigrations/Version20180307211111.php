@@ -9,7 +9,7 @@ use Doctrine\DBAL\Schema\Schema;
  * Assigns users into new roles based on their current explicit write permissions and legacy roles.
  * ACHTUNG! This migration cannot be rolled back!
  */
-class Version20180305211111 extends AbstractMigration
+class Version20180307211111 extends AbstractMigration
 {
     /**
      * @inheritdoc
