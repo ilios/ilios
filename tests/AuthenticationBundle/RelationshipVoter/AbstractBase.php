@@ -2,7 +2,7 @@
 namespace Tests\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Voter\AbstractVoter;
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
