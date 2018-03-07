@@ -20,14 +20,12 @@ class ImportMeshUniverseCommand extends Command
     use LockableTrait;
 
     /**
-     * @var string
-     */
-    const URL_TEMPLATE = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/.xmlmesh/desc{{year}}.xml';
-
-    /**
      * @var array
      */
-    const YEARS = [2016, 2017];
+    const YEARS = [
+        2017 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/.xmlmesh/desc2017.xml',
+        2018 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2018.xml',
+    ];
 
     /**
      * @var MeshDescriptorManager
@@ -127,18 +125,19 @@ class ImportMeshUniverseCommand extends Command
             return $url;
         }
 
+        $supportedYears = array_keys(self::YEARS);
+
         if ('' !== $year) {
             $year = (int)$year;
-            if (!in_array($year, self::YEARS)) {
-                throw new \RuntimeException('Given year must be one of: '.implode(', ', self::YEARS));
+            if (!in_array($year, $supportedYears)) {
+                throw new \RuntimeException('Given year must be one of: '.implode(', ', $supportedYears));
             }
 
-            return strtr(self::URL_TEMPLATE, ['{{year}}' => $year]);
+            return self::YEARS[$year];
         }
 
-        $years = array_merge(self::YEARS);
-        rsort($years);
+        rsort($supportedYears);
 
-        return strtr(self::URL_TEMPLATE, ['{{year}}' => $years[0]]);
+        return self::YEARS[$supportedYears[0]];
     }
 }

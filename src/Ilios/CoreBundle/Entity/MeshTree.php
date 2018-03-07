@@ -42,13 +42,13 @@ class MeshTree implements MeshTreeInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="tree_number", type="string", length=50)
+     * @ORM\Column(name="tree_number", type="string", length=80)
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 50
+     *      max = 80
      * )
      *
      * @IS\Expose
