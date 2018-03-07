@@ -72,7 +72,7 @@ class ImportMeshUniverseCommandTest extends TestCase
     {
         $this->mockHappyPath();
 
-        $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/.xmlmesh/desc2017.xml';
+        $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2018.xml';
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
@@ -135,12 +135,35 @@ class ImportMeshUniverseCommandTest extends TestCase
     /**
      * @covers ImportMeshUniverseCommand::execute
      */
-    public function testGivenYear()
+    public function testYear2017()
     {
         $this->mockHappyPath();
 
-        $year = '2016';
-        $url = "ftp://nlmpubs.nlm.nih.gov/online/mesh/.xmlmesh/desc${year}.xml";
+        $year = '2017';
+        $url = "ftp://nlmpubs.nlm.nih.gov/online/mesh/.xmlmesh/desc2017.xml";
+        $this->meshParser
+            ->shouldReceive('parse')
+            ->withArgs([$url])
+            ->once()
+            ->andReturn(new DescriptorSet());
+        $this->commandTester->execute(
+            [
+                '--year' => $year,
+            ]
+        );
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
+    }
+
+    /**
+     * @covers ImportMeshUniverseCommand::execute
+     */
+    public function testYear2018()
+    {
+        $this->mockHappyPath();
+
+        $year = '2018';
+        $url = "ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2018.xml";
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
@@ -161,7 +184,7 @@ class ImportMeshUniverseCommandTest extends TestCase
     public function testInvalidGivenYear()
     {
         $year = '1906';
-        $this->expectExceptionMessage('Given year must be one of: 2016, 2017');
+        $this->expectExceptionMessage('Given year must be one of: 2017, 2018');
 
         $this->commandTester->execute(
             [
