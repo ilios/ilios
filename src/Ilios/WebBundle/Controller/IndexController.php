@@ -110,6 +110,9 @@ class IndexController extends Controller
         if ($extension === 'js') {
             $response->headers->set('Content-Type', 'text/javascript');
         }
+        if ($extension === 'svg') {
+            $response->headers->set('Content-Type', 'image/svg+xml');
+        }
         if ($versionedStaticFile) {
             //cache for one year
             $response->setMaxAge(60 * 60 * 24 * 365);
