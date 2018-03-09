@@ -579,7 +579,7 @@ EOL;
                     \PDO::PARAM_STR,
                     \PDO::PARAM_STR,
                     \PDO::PARAM_BOOL,
-                    \PDO::PARAM_BOOL,
+                    \PDO::PARAM_STR,
                     \PDO::PARAM_STR,
                     \PDO::PARAM_STR,
                     'datetime',
