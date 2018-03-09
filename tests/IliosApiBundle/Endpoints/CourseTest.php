@@ -7,7 +7,6 @@ use Tests\CoreBundle\DataLoader\IlmSessionData;
 use Tests\CoreBundle\DataLoader\OfferingData;
 use Tests\CoreBundle\DataLoader\SessionData;
 use Tests\CoreBundle\DataLoader\SessionDescriptionData;
-use Tests\CoreBundle\DataLoader\UserData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
