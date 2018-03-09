@@ -3,17 +3,14 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\CoreBundle\DataLoader\SessionData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * SessionDescription API endpoint Test.
  * @group api_5
  */
-class SessionDescriptionTest extends AbstractEndpointTest
+class SessionDescriptionTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'sessionDescriptions';
 
     /**

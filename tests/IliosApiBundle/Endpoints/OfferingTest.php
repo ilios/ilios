@@ -5,17 +5,14 @@ namespace Tests\IliosApiBundle\Endpoints;
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 use Tests\CoreBundle\DataLoader\InstructorGroupData;
 use Tests\CoreBundle\DataLoader\LearnerGroupData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * Offering API endpoint Test.
  * @group api_1
  */
-class OfferingTest extends AbstractEndpointTest
+class OfferingTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'offerings';
     protected $skipDates = false;
 

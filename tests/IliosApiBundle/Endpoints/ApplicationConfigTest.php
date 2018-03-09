@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * ApplicationConfig API endpoint Test.
  * @group api_3
  */
-class ApplicationConfigTest extends AbstractEndpointTest
+class ApplicationConfigTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'applicationConfigs';
 
     /**

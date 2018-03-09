@@ -7,17 +7,14 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\LearningMaterialData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * LearningMaterial API endpoint Test.
  * @group api_4
  */
-class LearningMaterialTest extends AbstractEndpointTest
+class LearningMaterialTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'learningMaterials';
 
     /**

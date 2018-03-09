@@ -2,23 +2,12 @@
 
 namespace Tests\IliosApiBundle;
 
-use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\DataLoaderInterface;
-
 /**
- * Set of tests that will run packaged as a trait
- *
+ * Class ReadWriteEndpointTest
+ * @package Tests\IliosApiBundle
  */
-trait EndpointTestsTrait
+abstract class ReadWriteEndpointTest extends ReadEndpointTest
 {
-    /**
-     * @return array [[positions], [[filterKey, filterValue]]
-     * the key for each item is reflected in the failure message
-     * positions:  array of the positions the expected items from the DataLoader
-     * filter: array containing the filterKey and filterValue we are testing
-     */
-    public abstract function filtersToTest();
-
     /**
      * @return array [field, value]
      * field / value pairs to modify
@@ -42,22 +31,6 @@ trait EndpointTestsTrait
      * each one will be separately tested in a PUT request
      */
     public abstract function readOnlyPropertiesToTest();
-
-    /**
-     * Test fetching a single object
-     */
-    public function testGetOne()
-    {
-        $this->getOneTest();
-    }
-
-    /**
-     * Test fetching ALL objects
-     */
-    public function testGetAll()
-    {
-        $this->getAllTest();
-    }
 
     /**
      * Test posting a single object
@@ -185,60 +158,4 @@ trait EndpointTestsTrait
         $data = $dataLoader->getOne();
         $this->deleteTest($data['id']);
     }
-
-    /**
-     * Test that a bad ID produces a 404 response
-     */
-    public function testNotFound()
-    {
-        $this->notFoundTest(99);
-    }
-
-    /**
-     * @param array $dataKeys
-     * @param array $filterParts
-     * @param bool $skipped
-     *
-     * @dataProvider filtersToTest
-     */
-    public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false)
-    {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
-        if (empty($filterParts)) {
-            $this->markTestSkipped('Missing filters tests for this endpoint');
-            return;
-        }
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(function ($i) use ($all) {
-            return $all[$i];
-        }, $dataKeys);
-        $filters = [];
-        foreach ($filterParts as $key => $value) {
-            $filters["filters[{$key}]"] = $value;
-        }
-        $this->filterTest($filters, $expectedData);
-    }
-
-    // All of these functions must be implemented in the class
-    // which inherits this trait.  That will probably be AbstractEndpointTest.
-
-    /**
-     * @return DataLoaderInterface
-     */
-    abstract protected function getDataLoader();
-    abstract protected function getOneTest();
-    abstract protected function filterTest(array $filters, array $expectedData);
-    abstract protected function notFoundTest($badId);
-    abstract protected function putTest(array $data, array $postData, $id, $new = false);
-    abstract protected function deleteTest($id);
-    abstract protected function postTest(array $data, array $postData);
-    abstract protected function postManyTest(array $data);
-    abstract protected function getAllTest();
-    abstract protected function badPostTest(array $data, $code = Response::HTTP_BAD_REQUEST);
-
-    abstract public function fail($message = '');
-    abstract protected function markTestSkipped($message = '');
 }

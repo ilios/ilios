@@ -4,17 +4,14 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\ProgramYearData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * Cohort API endpoint Test.
  * @group api_2
  */
-class CohortTest extends AbstractEndpointTest
+class CohortTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'cohorts';
 
     /**
