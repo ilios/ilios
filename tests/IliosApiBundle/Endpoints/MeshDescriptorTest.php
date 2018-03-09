@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * MeshDescriptor API endpoint Test.
  * @group api_3
  */
-class MeshDescriptorTest extends AbstractEndpointTest
+class MeshDescriptorTest extends ReadEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'meshDescriptors';
 
     /**
@@ -32,37 +29,6 @@ class MeshDescriptorTest extends AbstractEndpointTest
             'Tests\CoreBundle\Fixture\LoadMeshTermData',
             'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'name' => ['name', $this->getFaker()->text],
-            'annotation' => ['annotation', $this->getFaker()->text],
-            'courses' => ['courses', [2]],
-            'objectives' => ['objectives', [1]],
-            'sessions' => ['sessions', [2]],
-            'concepts' => ['concepts', [1]],
-            'qualifiers' => ['qualifiers', [1]],
-            'trees' => ['trees', [1], $skipped = true],
-            'sessionLearningMaterials' => ['sessionLearningMaterials', [1, 2]],
-            'courseLearningMaterials' => ['courseLearningMaterials', [1]],
-            'previousIndexing' => ['previousIndexing', 2, $skipped = true],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest()
-    {
-        return [
-            'createdAt' => ['createdAt', 'abc1', 99],
-            'updatedAt' => ['updatedAt', 'abc1', 99],
         ];
     }
 
@@ -125,61 +91,5 @@ class MeshDescriptorTest extends AbstractEndpointTest
         }, $dataKeys);
         $filters = ['q' => $q];
         $this->filterTest($filters, $expectedData);
-    }
-
-    public function testPostMeshDescriptorCourse()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'meshDescriptors', 'courses');
-    }
-
-    public function testPostMeshDescriptorSession()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'meshDescriptors', 'sessions');
-    }
-
-    public function testPostMeshDescriptorObjective()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'meshDescriptors', 'objectives');
-    }
-
-    public function testPostMeshDescriptorConcepts()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'descriptors', 'meshConcepts', 'concepts');
-    }
-
-    public function testPostMeshDescriptorQualifier()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'descriptors', 'meshQualifiers', 'qualifiers');
-    }
-
-    public function testPostMeshDescriptorSessionLearningMaterial()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'meshDescriptors', 'sessionLearningMaterials');
-    }
-
-    public function testPostMeshDescriptorCourseLearningMaterial()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'meshDescriptors', 'courseLearningMaterials');
     }
 }

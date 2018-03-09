@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * MeshQualifier API endpoint Test.
  * @group api_1
  */
-class MeshQualifierTest extends AbstractEndpointTest
+class MeshQualifierTest extends ReadEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'meshQualifiers';
 
     /**
@@ -22,18 +19,6 @@ class MeshQualifierTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadMeshQualifierData',
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'name' => ['name', $this->getFaker()->text(60)],
-//            'id' => ['id', $this->getFaker()->word],
-            'descriptors' => ['descriptors', ['abc2']],
         ];
     }
 

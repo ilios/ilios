@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * PendingUserUpdate API endpoint Test.
  * @group api_3
  */
-class PendingUserUpdateTest extends AbstractEndpointTest
+class PendingUserUpdateTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'pendingUserUpdates';
 
     /**
