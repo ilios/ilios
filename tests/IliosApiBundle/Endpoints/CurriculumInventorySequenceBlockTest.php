@@ -4,17 +4,14 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * CurriculumInventorySequenceBlock API endpoint Test.
  * @group api_4
  */
-class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
+class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'curriculumInventorySequenceBlocks';
 
     /**

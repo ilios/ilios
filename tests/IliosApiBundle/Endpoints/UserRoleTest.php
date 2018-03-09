@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * UserRole API endpoint Test.
  * @group api_4
  */
-class UserRoleTest extends AbstractEndpointTest
+class UserRoleTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'userRoles';
 
     /**
@@ -64,8 +61,12 @@ class UserRoleTest extends AbstractEndpointTest
      * @inheritdoc
      * @dataProvider putsToTest
      */
-    public function testPut($key, $value)
+    public function testPut($key, $value, $skipped = false)
     {
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
+
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
 

@@ -4,17 +4,14 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\SessionData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * SessionType API endpoint Test.
  * @group api_3
  */
-class SessionTypeTest extends AbstractEndpointTest
+class SessionTypeTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'sessionTypes';
 
     /**

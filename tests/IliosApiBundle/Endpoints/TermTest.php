@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * Term API endpoint Test.
  * @group api_4
  */
-class TermTest extends AbstractEndpointTest
+class TermTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'terms';
 
     /**

@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * MeshTree API endpoint Test.
  * @group api_4
  */
-class MeshTreeTest extends AbstractEndpointTest
+class MeshTreeTest extends ReadEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'meshTrees';
 
     /**
@@ -22,17 +19,6 @@ class MeshTreeTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadMeshTreeData',
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'treeNumber' => ['treeNumber', $this->getFaker()->text(31)],
-            'descriptor' => ['descriptor', 'abc2'],
         ];
     }
 

@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * ProgramYear API endpoint Test.
  * @group api_3
  */
-class ProgramYearTest extends AbstractEndpointTest
+class ProgramYearTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'programYears';
 
     /**
