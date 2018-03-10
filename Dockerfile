@@ -111,8 +111,8 @@ RUN \
     --no-suggest \
     --classmap-authoritative \
     && /usr/bin/composer clear-cache \
-    # update the frontend
-    && /var/www/ilios/bin/console ilios:maintenance:update-frontend --env=prod
+    && /var/www/ilios/bin/console cache:clear --env=prod \
+    && /var/www/ilios/bin/console cache:warmup --env=prod
 
 # switch back to the root user to finish up
 USER root
