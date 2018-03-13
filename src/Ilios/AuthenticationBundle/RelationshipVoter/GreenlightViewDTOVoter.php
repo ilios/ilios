@@ -22,6 +22,7 @@ use Ilios\CoreBundle\Entity\DTO\IlmSessionDTO;
 use Ilios\CoreBundle\Entity\DTO\InstructorGroupDTO;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialStatusDTO;
+use Ilios\CoreBundle\Entity\DTO\LearningMaterialUserRoleDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
@@ -72,6 +73,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof InstructorGroupDTO
                 || $subject instanceof LearningMaterialDTO
                 || $subject instanceof LearningMaterialStatusDTO
+                || $subject instanceof LearningMaterialUserRoleDTO
                 || $subject instanceof MeshConceptDTO
                 || $subject instanceof MeshDescriptorDTO
                 || $subject instanceof MeshPreviousIndexingDTO
