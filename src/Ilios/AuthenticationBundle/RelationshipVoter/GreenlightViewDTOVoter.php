@@ -40,6 +40,7 @@ use Ilios\CoreBundle\Entity\DTO\SessionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionLearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionTypeDTO;
 use Ilios\CoreBundle\Entity\DTO\TermDTO;
+use Ilios\CoreBundle\Entity\DTO\UserRoleDTO;
 use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -91,6 +92,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof SessionLearningMaterialDTO
                 || $subject instanceof SessionTypeDTO
                 || $subject instanceof TermDTO
+                || $subject instanceof UserRoleDTO
                 || $subject instanceof VocabularyDTO
             )
         );
