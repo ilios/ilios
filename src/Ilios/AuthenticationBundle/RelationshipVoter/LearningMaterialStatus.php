@@ -11,10 +11,7 @@ class LearningMaterialStatus extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return $subject instanceof LearningMaterialStatusInterface
-            && in_array(
-                $attribute,
-                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
-            );
+            && self::VIEW === $attribute;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
