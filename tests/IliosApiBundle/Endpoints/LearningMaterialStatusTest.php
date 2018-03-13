@@ -2,13 +2,13 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\ReadWriteEndpointTest;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * LearningMaterialStatus API endpoint Test.
  * @group api_3
  */
-class LearningMaterialStatusTest extends ReadWriteEndpointTest
+class LearningMaterialStatusTest extends ReadEndpointTest
 {
     protected $testName =  'learningMaterialStatuses';
 
@@ -20,26 +20,6 @@ class LearningMaterialStatusTest extends ReadWriteEndpointTest
         return [
             'Tests\CoreBundle\Fixture\LoadLearningMaterialStatusData',
             'Tests\CoreBundle\Fixture\LoadLearningMaterialData'
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'title' => ['title', $this->getFaker()->text(60)],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest()
-    {
-        return [
-            'id' => ['id', 1, 99],
         ];
     }
 
