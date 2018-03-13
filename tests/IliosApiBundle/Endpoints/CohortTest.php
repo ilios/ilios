@@ -156,46 +156,6 @@ class CohortTest extends ReadWriteEndpointTest
         }
     }
 
-    public function testRejectPutCohortInLockedProgramYear()
-    {
-        $userId = 2;
-        $dataLoader = $this->getDataLoader();
-        $cohort = $dataLoader->getOne();
-        $programYear = $this->getProgramYear($cohort['programYear']);
-        $programYear['locked'] = true;
-        $programYear['archived'] = false;
-        $this->putOne('programyears', 'programYear', $programYear['id'], $programYear);
-
-        $id = $cohort['id'];
-
-        $this->canNot(
-            $userId,
-            'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'cohorts', 'id' => $id]),
-            json_encode(['cohort' => $cohort])
-        );
-    }
-
-    public function testRejectPutCohortInArchivedProgramYear()
-    {
-        $userId = 2;
-        $dataLoader = $this->getDataLoader();
-        $cohort = $dataLoader->getOne();
-        $programYear = $this->getProgramYear($cohort['programYear']);
-        $programYear['locked'] = false;
-        $programYear['archived'] = true;
-        $this->putOne('programyears', 'programYear', $programYear['id'], $programYear);
-
-        $id = $cohort['id'];
-
-        $this->canNot(
-            $userId,
-            'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'cohorts', 'id' => $id]),
-            json_encode(['cohort' => $cohort])
-        );
-    }
-
     /**
      * Get programYear data from loader by id
      * @param integer $programYearId
