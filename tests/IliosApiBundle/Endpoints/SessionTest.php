@@ -6,17 +6,14 @@ use Tests\CoreBundle\DataLoader\IlmSessionData;
 use Tests\CoreBundle\DataLoader\LearningMaterialData;
 use Tests\CoreBundle\DataLoader\SessionDescriptionData;
 use Tests\CoreBundle\DataLoader\SessionLearningMaterialData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * Session API endpoint Test.
  * @group api_2
  */
-class SessionTest extends AbstractEndpointTest
+class SessionTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'sessions';
 
     /**

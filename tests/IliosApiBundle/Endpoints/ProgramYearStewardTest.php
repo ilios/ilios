@@ -3,17 +3,14 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\CoreBundle\DataLoader\DepartmentData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * ProgramYearSteward API endpoint Test.
  * @group api_2
  */
-class ProgramYearStewardTest extends AbstractEndpointTest
+class ProgramYearStewardTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'programYearStewards';
 
     /**

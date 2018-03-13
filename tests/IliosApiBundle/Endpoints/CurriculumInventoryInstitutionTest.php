@@ -3,17 +3,14 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\CoreBundle\DataLoader\SchoolData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * CurriculumInventoryInstitution API endpoint Test.
  * @group api_2
  */
-class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
+class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'curriculumInventoryInstitutions';
 
     /**
@@ -24,7 +21,6 @@ class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
         return [
             'Tests\CoreBundle\Fixture\LoadCurriculumInventoryInstitutionData',
             'Tests\CoreBundle\Fixture\LoadSchoolData',
-            'Tests\CoreBundle\Fixture\LoadPermissionData',
         ];
     }
 

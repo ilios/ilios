@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * CurriculumInventoryAcademicLevel API endpoint Test.
  * @group api_4
  */
-class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
+class CurriculumInventoryAcademicLevelTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'curriculumInventoryAcademicLevels';
 
     /**

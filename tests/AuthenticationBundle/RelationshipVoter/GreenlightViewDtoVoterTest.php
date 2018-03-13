@@ -34,6 +34,7 @@ use Ilios\CoreBundle\Entity\DTO\ObjectiveDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearStewardDTO;
+use Ilios\CoreBundle\Entity\DTO\SchoolConfigDTO;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDescriptionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDTO;
@@ -57,9 +58,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
     public function setup()
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
-        $config = m::mock(Config::class);
-        $config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
-        $this->voter = new Voter($this->permissionChecker, $config);
+        $this->voter = new Voter($this->permissionChecker);
     }
 
     public function canViewDTOProvider()
@@ -95,6 +94,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [ProgramYearDTO::class],
             [ProgramYearStewardDTO::class],
             [SchoolDTO::class],
+            [SchoolConfigDTO::class],
             [SessionDTO::class],
             [SessionDescriptionDTO::class],
             [SessionLearningMaterialDTO::class],

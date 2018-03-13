@@ -32,6 +32,7 @@ use Ilios\CoreBundle\Entity\DTO\ObjectiveDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearStewardDTO;
+use Ilios\CoreBundle\Entity\DTO\SchoolConfigDTO;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDescriptionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDTO;
@@ -50,10 +51,6 @@ class GreenlightViewDTOVoter extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return (
             array($attribute, [self::VIEW]) && (
                 $subject instanceof AamcMethodDTO
@@ -86,6 +83,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof ProgramYearDTO
                 || $subject instanceof ProgramYearStewardDTO
                 || $subject instanceof SchoolDTO
+                || $subject instanceof SchoolConfigDTO
                 || $subject instanceof SessionDTO
                 || $subject instanceof SessionDescriptionDTO
                 || $subject instanceof SessionLearningMaterialDTO

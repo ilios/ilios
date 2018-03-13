@@ -27,7 +27,6 @@ class DownloadControllerTest extends WebTestCase
     {
         $this->fixtures = $this->loadFixtures([
             'Tests\CoreBundle\Fixture\LoadAuthenticationData',
-            'Tests\CoreBundle\Fixture\LoadPermissionData',
             'Tests\CoreBundle\Fixture\LoadOfferingData',
             'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',

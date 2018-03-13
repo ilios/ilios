@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * LearningMaterialUserRole API endpoint Test.
  * @group api_1
  */
-class LearningMaterialUserRoleTest extends AbstractEndpointTest
+class LearningMaterialUserRoleTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'learningMaterialUserRoles';
 
     /**

@@ -240,13 +240,6 @@ class UserDTO
      * @var array
      * @IS\Expose
      * @IS\Type("array<string>")
-     **/
-    public $permissions;
-
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array<string>")
      */
     public $directedSchools;
 
@@ -324,7 +317,6 @@ class UserDTO
         $this->cohorts = [];
         $this->pendingUserUpdates = [];
         $this->auditLogs = [];
-        $this->permissions = [];
         $this->learnerIlmSessions = [];
         $this->directedSchools = [];
         $this->administeredSchools = [];
