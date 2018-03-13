@@ -579,34 +579,6 @@ class CourseTest extends ReadWriteEndpointTest
         );
     }
 
-    public function testCourseCannotBeUnlockedByNonDeveloper()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $courseId = $data['id'];
-        $data['locked'] = true;
-        $responseData = $this->putTest($data, $data, $courseId);
-        $this->assertTrue(
-            $responseData['locked']
-        );
-
-        $userId = 3;
-        $user3 = $this->getOne('users', 'users', $userId);
-        $this->assertNotContains(1, $user3['roles'], 'User #3 should not be a developer or this test is garbage.');
-        //make User #3 a Course director
-        $user3['roles'][] = 3;
-        $this->putOne('users', 'user', $userId, $user3);
-
-        $data['locked'] = false;
-        $this->putOne('courses', 'course', $courseId, $data, false, $userId);
-        $responseData = $this->getOne('courses', 'courses', $courseId);
-        $this->assertTrue(
-            $responseData['locked'],
-            'Course is still locked'
-        );
-    }
-
-
     public function testRemovingCourseObjectiveRemovesSessionObjectivesToo()
     {
         $dataLoader = $this->getDataLoader();

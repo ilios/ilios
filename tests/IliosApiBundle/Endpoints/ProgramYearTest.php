@@ -220,31 +220,4 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $response = $this->putOne('programyears', 'programYear', $data['id'], $data);
         $this->assertFalse($response['locked']);
     }
-
-    public function testProgramYearCannotBeUnlockedByNonDeveloper()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $programYearId = $data['id'];
-        $data['locked'] = true;
-        $responseData = $this->putTest($data, $data, $programYearId);
-        $this->assertTrue(
-            $responseData['locked']
-        );
-
-        $userId = 3;
-        $user3 = $this->getOne('users', 'users', $userId);
-        $this->assertNotContains(1, $user3['roles'], 'User #3 should not be a developer or this test is garbage.');
-        //make User #3 a Course director
-        $user3['roles'][] = 3;
-        $this->putOne('users', 'user', $userId, $user3);
-
-        $data['locked'] = false;
-        $this->putOne('programyears', 'programYear', $programYearId, $data, false, $userId);
-        $responseData = $this->getOne('programyears', 'programYears', $programYearId);
-        $this->assertTrue(
-            $responseData['locked'],
-            'ProgramYear is still locked'
-        );
-    }
 }
