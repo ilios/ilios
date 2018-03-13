@@ -30,7 +30,7 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public abstract function readOnlyPropertiesToTest();
+    abstract public function readOnlyPropertiesToTest();
 
     /**
      * Test posting a single object

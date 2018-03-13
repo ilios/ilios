@@ -14,7 +14,7 @@ abstract class ReadEndpointTest extends AbstractEndpointTest
      * positions:  array of the positions the expected items from the DataLoader
      * filter: array containing the filterKey and filterValue we are testing
      */
-    public abstract function filtersToTest();
+    abstract public function filtersToTest();
 
     /**
      * Test fetching a single object
