@@ -963,4 +963,24 @@ class PermissionChecker
 
         return false;
     }
+
+    /**
+     * Checks if a given user can create users in any of its schools.
+     * @param SessionUserInterface $sessionUser
+     * @return bool
+     */
+    public function canCreateUsersInAnySchool(SessionUserInterface $sessionUser)
+    {
+        // limit this to schools that the user performs a non-student function in.
+        // the assumption here is that a student will NEVER be able to create other users.
+        $schoolIds = $sessionUser->getAssociatedSchoolIdsInNonLearnerFunction();
+        $can = false;
+        foreach ($schoolIds as $schoolId) {
+            if ($this->canCreateUser($sessionUser, $schoolId)) {
+                $can = true;
+                break;
+            }
+        }
+        return $can;
+    }
 }
