@@ -39,7 +39,12 @@ class UsereventTest extends AbstractEndpointTest
     public function testAttachedUserMaterials()
     {
         $userId = 5;
-        $events = $this->getEvents($userId, 0, 100000000000);
+        $events = $this->getEvents(
+            $userId,
+            0,
+            100000000000,
+            $this->getAuthenticatedUserToken()
+        );
         $lms = $events[0]['learningMaterials'];
 
         $this->assertEquals(9, count($lms));
@@ -111,7 +116,12 @@ class UsereventTest extends AbstractEndpointTest
 
         $userId = 2;
 
-        $events = $this->getEvents($userId, 0, 100000000000);
+        $events = $this->getEvents(
+            $userId,
+            0,
+            100000000000,
+            $this->getAuthenticatedUserToken()
+        );
 
         $this->assertEquals(12, count($events), 'Expected events returned');
         $this->assertEquals(
@@ -548,7 +558,12 @@ class UsereventTest extends AbstractEndpointTest
         $from = new DateTime('2015-01-30 00:00:00');
         $to = new DateTime('2015-01-30 23:59:59');
 
-        $events = $this->getEvents($userId, $from->getTimestamp(), $to->getTimestamp());
+        $events = $this->getEvents(
+            $userId,
+            $from->getTimestamp(),
+            $to->getTimestamp(),
+            $this->getAuthenticatedUserToken()
+        );
         $this->assertEquals(1, count($events), 'Expected events returned');
 
         $this->assertEquals($events[0]['startDate'], $offerings[5]['startDate']);
@@ -562,11 +577,23 @@ class UsereventTest extends AbstractEndpointTest
         $from = new DateTime('2015-01-01 00:00:00');
         $to = new DateTime('2015-02-30 23:59:59');
 
-        $events = $this->getEvents($userId, $from->getTimestamp(), $to->getTimestamp());
+        $events = $this->getEvents(
+            $userId,
+            $from->getTimestamp(),
+            $to->getTimestamp(),
+            $this->getAuthenticatedUserToken()
+        );
         $this->assertEquals(0, count($events), 'Expected events returned');
     }
 
-    protected function getEvents($userId, $from, $to)
+    /**
+     * @param int $userId
+     * @param int $from
+     * @param int $to
+     * @param string|null $userToken
+     * @return array
+     */
+    protected function getEvents($userId, $from, $to, $userToken)
     {
         $parameters = [
             'version' => 'v1',
@@ -582,7 +609,7 @@ class UsereventTest extends AbstractEndpointTest
             'GET',
             $url,
             null,
-            $this->getAuthenticatedUserToken()
+            $userToken
         );
 
         $response = $this->client->getResponse();
