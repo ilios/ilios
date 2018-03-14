@@ -2,6 +2,9 @@
 
 namespace Ilios\WebBundle\Controller;
 
+use Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,22 +36,33 @@ class DirectoryController extends Controller
     protected $directory;
 
     /**
+     * @var PermissionChecker
+     */
+    protected $permissionChecker;
+
+    /**
      * DirectoryController constructor.
      * @param TokenStorageInterface $tokenStorage
      * @param UserManager $userManager
      * @param Directory $directory
+     * @param PermissionChecker $permissionChecker
      */
-    public function __construct(TokenStorageInterface $tokenStorage, UserManager $userManager, Directory $directory)
-    {
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        UserManager $userManager,
+        Directory $directory,
+        PermissionChecker $permissionChecker
+    ) {
         $this->tokenStorage = $tokenStorage;
         $this->userManager = $userManager;
         $this->directory = $directory;
+        $this->permissionChecker = $permissionChecker;
     }
 
     public function searchAction(Request $request)
     {
         $sessionUser = $this->tokenStorage->getToken()->getUser();
-        if (!$sessionUser->hasRole(['Developer'])) {
+        if (! $this->permissionChecker->canCreateUsersInAnySchool($sessionUser)) {
             throw new AccessDeniedException();
         }
         $results = [];
@@ -88,7 +102,7 @@ class DirectoryController extends Controller
     public function findAction($id)
     {
         $sessionUser = $this->tokenStorage->getToken()->getUser();
-        if (!$sessionUser->hasRole(['Developer'])) {
+        if (!$this->permissionChecker->canCreateUsersInAnySchool($sessionUser)) {
             throw new AccessDeniedException();
         }
 
