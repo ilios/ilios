@@ -3,14 +3,14 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
+use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class LearningMaterialStatus extends AbstractVoter
+class LearningMaterialUserRole extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof LearningMaterialStatusInterface
+        return $subject instanceof LearningMaterialUserRoleInterface
             && self::VIEW === $attribute;
     }
 
@@ -24,7 +24,7 @@ class LearningMaterialStatus extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof LearningMaterialStatusInterface) {
+        if ($subject instanceof LearningMaterialUserRoleInterface) {
             return self::VIEW === $attribute;
         }
 

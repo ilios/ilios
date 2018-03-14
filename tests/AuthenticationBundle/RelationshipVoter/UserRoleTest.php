@@ -2,14 +2,13 @@
 namespace Tests\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\AuthenticationBundle\RelationshipVoter\LearningMaterialStatus as Voter;
+use Ilios\AuthenticationBundle\RelationshipVoter\UserRole as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
-use Ilios\CoreBundle\Entity\LearningMaterialStatus;
-use Ilios\CoreBundle\Service\Config;
+use Ilios\CoreBundle\Entity\UserRole;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class LearningMaterialStatusTest extends AbstractBase
+class UserRoleTest extends AbstractBase
 {
     public function setup()
     {
@@ -19,13 +18,13 @@ class LearningMaterialStatusTest extends AbstractBase
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(m::mock(LearningMaterialStatus::class), [AbstractVoter::VIEW]);
+        $this->checkRootEntityAccess(m::mock(UserRole::class), [AbstractVoter::VIEW]);
     }
 
     public function testCanView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(LearningMaterialStatus::class);
+        $entity = m::mock(UserRole::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }

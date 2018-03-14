@@ -22,6 +22,7 @@ use Ilios\CoreBundle\Entity\DTO\IlmSessionDTO;
 use Ilios\CoreBundle\Entity\DTO\InstructorGroupDTO;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialStatusDTO;
+use Ilios\CoreBundle\Entity\DTO\LearningMaterialUserRoleDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
@@ -39,6 +40,7 @@ use Ilios\CoreBundle\Entity\DTO\SessionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionLearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionTypeDTO;
 use Ilios\CoreBundle\Entity\DTO\TermDTO;
+use Ilios\CoreBundle\Entity\DTO\UserRoleDTO;
 use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -72,6 +74,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof InstructorGroupDTO
                 || $subject instanceof LearningMaterialDTO
                 || $subject instanceof LearningMaterialStatusDTO
+                || $subject instanceof LearningMaterialUserRoleDTO
                 || $subject instanceof MeshConceptDTO
                 || $subject instanceof MeshDescriptorDTO
                 || $subject instanceof MeshPreviousIndexingDTO
@@ -89,6 +92,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof SessionLearningMaterialDTO
                 || $subject instanceof SessionTypeDTO
                 || $subject instanceof TermDTO
+                || $subject instanceof UserRoleDTO
                 || $subject instanceof VocabularyDTO
             )
         );

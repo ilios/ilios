@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -50,7 +51,7 @@ class UsereventController extends AbstractController
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted('view', $user)) {
+        if (! $authorizationChecker->isGranted(AbstractVoter::VIEW, $user)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -68,7 +69,7 @@ class UsereventController extends AbstractController
         $events = $manager->findEventsForUser($user->getId(), $from, $to);
 
         $events = array_filter($events, function ($entity) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted('view', $entity);
+            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
         });
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
@@ -76,11 +77,10 @@ class UsereventController extends AbstractController
         $result = $manager->addInstructorsToEvents($events);
         $result = $manager->addMaterialsToEvents($result);
 
-        //Remove all draft data when not viewing your own events
-        //Un-privileged users get less data
-        if ($sessionUser->getId() != $user->getId() ||
-            !$sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])
-        ) {
+        // Remove all draft data when not viewing your own events
+        // or if the requesting user does not have elevated privileges
+        $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
+        if ($sessionUser->getId() !== $user->getId() || ! $hasElevatedPrivileges) {
             $now = new \DateTime();
             /* @var UserEvent $event */
             foreach ($events as $event) {
