@@ -43,7 +43,7 @@ class UsereventTest extends AbstractEndpointTest
             $userId,
             0,
             100000000000,
-            $this->getAuthenticatedUserToken()
+            $this->getTokenForUser(5)
         );
         $lms = $events[0]['learningMaterials'];
 
@@ -104,6 +104,20 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertNotEmpty($lms[8]['startDate']);
         $this->assertNotEmpty($lms[8]['endDate']);
         $this->assertTrue($lms[8]['isBlanked']);
+    }
+
+    public function testAttachedMaterialsRemovedIfUserIsNotOwnerOfRequestedEvents()
+    {
+        $userId = 5;
+        $events = $this->getEvents(
+            $userId,
+            0,
+            100000000000,
+            $this->getTokenForUser(2)
+        );
+        $lms = $events[0]['learningMaterials'];
+
+        $this->assertEquals(0, count($lms));
     }
 
     public function testGetEvents()
@@ -569,21 +583,6 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[0]['startDate'], $offerings[5]['startDate']);
         $this->assertEquals($events[0]['endDate'], $offerings[5]['endDate']);
         $this->assertEquals($events[0]['offering'], $offerings[5]['id']);
-    }
-
-    public function testWhenViewingAnotherUsersEventsOnlyPublishedShows()
-    {
-        $userId = 1;
-        $from = new DateTime('2015-01-01 00:00:00');
-        $to = new DateTime('2015-02-30 23:59:59');
-
-        $events = $this->getEvents(
-            $userId,
-            $from->getTimestamp(),
-            $to->getTimestamp(),
-            $this->getAuthenticatedUserToken()
-        );
-        $this->assertEquals(0, count($events), 'Expected events returned');
     }
 
     /**
