@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
@@ -51,7 +52,7 @@ class UsermaterialController extends AbstractController
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted('view', $user)) {
+        if (! $authorizationChecker->isGranted(AbstractVoter::VIEW, $user)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -68,17 +69,16 @@ class UsermaterialController extends AbstractController
         $materials = $manager->findMaterialsForUser($user->getId(), $criteria);
 
         $materials = array_filter($materials, function ($entity) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted('view', $entity);
+            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
         });
 
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
-        //Remove all draft data when not viewing your own events
-        //Un-privileged users get less data
-        if ($sessionUser->getId() != $user->getId() ||
-            !$sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])
-        ) {
+        // Remove all draft data when not viewing your own events
+        // or if the requesting user does not have elevated privileges
+        $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
+        if ($sessionUser->getId() !== $user->getId() || ! $hasElevatedPrivileges) {
             $now = new \DateTime();
             $materials = $this->clearDraftMaterials($materials);
             $this->clearTimedMaterials($materials, $now);
