@@ -45,6 +45,7 @@
               items:
                 $ref: '#/definitions/Meshconcept'
   post:
+    deprecated: true
     summary: Create Meshconcepts
     parameters:
     - name: X-JWT-Authorization
@@ -66,19 +67,8 @@
     tags:
       - Meshconcepts
     responses:
-      '201':
-        description: An array of newly created meshconcepts
-        schema:
-          type: object
-          properties:
-            meshconcepts:
-              type: array
-              items:
-                $ref: '#/definitions/Meshconcept'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
+      '410':
+        description: Gone
 /meshconcepts/{id}:
   get:
     summary: Fetch a single Meshconcept
@@ -109,6 +99,7 @@
       '404':
         description: Not found
   put:
+    deprecated: true
     summary: Edit a Meshconcept
     parameters:
     - name: X-JWT-Authorization
@@ -133,20 +124,10 @@
     tags:
       - Meshconcepts
     responses:
-      '200':
-        description: A single Meshconcept
-        schema:
-          type: object
-          properties:
-            meshconcept:
-              $ref: '#/definitions/Meshconcept'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
+      '410':
+        description: Gone
   delete:
+    deprecated: true
     summary: Delete a Meshconcept
     parameters:
     - name: X-JWT-Authorization
@@ -163,11 +144,5 @@
     tags:
       - Meshconcepts
     responses:
-      '204':
-        description: Deleted Meshconcept
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
-      '500':
-        description: Failed to delete entity (usually caused by non-cascading relationships)
+      '410':
+        description: Gone
