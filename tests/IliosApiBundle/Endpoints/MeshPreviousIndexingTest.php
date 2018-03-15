@@ -2,14 +2,11 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\CoreBundle\DataLoader\MeshDescriptorData;
-use Tests\IliosApiBundle\ReadEndpointTest;
-
 /**
  * MeshPreviousIndexing API endpoint Test.
  * @group api_4
  */
-class MeshPreviousIndexingTest extends ReadEndpointTest
+class MeshPreviousIndexingTest extends AbstractMeshTest
 {
     protected $testName =  'meshPreviousIndexings';
 
