@@ -2,13 +2,11 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\ReadEndpointTest;
-
 /**
  * MeshDescriptor API endpoint Test.
  * @group api_3
  */
-class MeshDescriptorTest extends ReadEndpointTest
+class MeshDescriptorTest extends AbstractMeshTest
 {
     protected $testName =  'meshDescriptors';
 
