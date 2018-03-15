@@ -2,16 +2,21 @@
 
 namespace Ilios\WebBundle\Controller;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ErrorController extends Controller
 {
-    public function errorAction(Request $request)
+    /**
+     * @param Request $request
+     * @param LoggerInterface $logger
+     * @return Response
+     */
+    public function errorAction(Request $request, LoggerInterface $logger)
     {
         if ($request->request->has('data')) {
-            $logger = $this->get('logger');
             $data = $request->request->get('data');
             $user = $this->get('security.token_storage')->getToken()->getUser();
             $error = json_decode($data);
