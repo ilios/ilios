@@ -249,16 +249,6 @@ class User implements UserInterface
     protected $authentication;
 
     /**
-     * @var ArrayCollection|UserMadeReminderInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="UserMadeReminder", mappedBy="user")
-     *
-     * @IS\Expose
-     * @IS\Type("entityCollection")
-     */
-    protected $reminders;
-
-    /**
      * @var ArrayCollection|AuditLogInterface[]
      *
      * @ORM\OneToMany(targetEntity="AuditLog", mappedBy="user")
@@ -535,7 +525,6 @@ class User implements UserInterface
      */
     public function __construct()
     {
-        $this->reminders = new ArrayCollection();
         $this->directedCourses = new ArrayCollection();
         $this->learnerGroups = new ArrayCollection();
         $this->instructedLearnerGroups = new ArrayCollection();
@@ -779,44 +768,6 @@ class User implements UserInterface
     public function getIcsFeedKey()
     {
         return $this->icsFeedKey;
-    }
-
-    /**
-     * @param Collection $reminders
-     */
-    public function setReminders(Collection $reminders)
-    {
-        $this->reminders = new ArrayCollection();
-
-        foreach ($reminders as $reminder) {
-            $this->addReminder($reminder);
-        }
-    }
-
-    /**
-     * @param UserMadeReminderInterface $reminder
-     */
-    public function addReminder(UserMadeReminderInterface $reminder)
-    {
-        if (!$this->reminders->contains($reminder)) {
-            $this->reminders->add($reminder);
-        }
-    }
-
-    /**
-     * @param UserMadeReminderInterface $reminder
-     */
-    public function removeReminder(UserMadeReminderInterface $reminder)
-    {
-        $this->reminders->removeElement($reminder);
-    }
-
-    /**
-     * @return ArrayCollection|UserMadeReminderInterface[]
-     */
-    public function getReminders()
-    {
-        return $this->reminders;
     }
 
     /**

@@ -359,3 +359,12 @@ ilios_api_programyears_put:
         version: "%ilios_api_valid_api_versions%"
         object: "programyears"
         id: '\d+'
+
+ilios_api_usermadereminders_410:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:UserMadeReminder:fourTen, id: 0 }
+    methods:  [GET, POST, PUT, DELETE]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: 'usermadereminders'
+        id: '(?i)[a-z0-9\-]+'
