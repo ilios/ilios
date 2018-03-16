@@ -3,14 +3,16 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\IliosApiBundle\ReadEndpointTest;
+use Tests\IliosApiBundle\AbstractEndpointTest;
 
 /**
- * Class AbstractMeshTest
+ * Class UserMadeReminderTest
  * @package Tests\IliosApiBundle\Endpoints
  */
-abstract class AbstractMeshTest extends ReadEndpointTest
+class UserMadeReminderTest extends AbstractEndpointTest
 {
+    protected $testName = 'usermadereminders';
+
     public function testPostFails()
     {
         $endpoint = $this->getPluralName();
@@ -52,6 +54,36 @@ abstract class AbstractMeshTest extends ReadEndpointTest
             'DELETE',
             $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => $endpoint, 'id' => 1]),
             json_encode([$responseKey => []]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_GONE);
+    }
+
+    public function testGetOneFails()
+    {
+        $endpoint = $this->getPluralName();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => $endpoint, 'id' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_GONE);
+    }
+
+    public function testGetAllFails()
+    {
+        $endpoint = $this->getPluralName();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('ilios_api_getall', ['version' => 'v1', 'object' => $endpoint]),
+            null,
             $this->getAuthenticatedUserToken()
         );
 

@@ -317,6 +317,15 @@ ilios_api_meshtrees_410:
         object: 'meshtrees'
         id: '(?i)[a-z0-9\-]+'
 
+ilios_api_permissions_410:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:Permission:fourTen, id: 0 }
+    methods:  [GET, POST, PUT, DELETE]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: 'permissions'
+        id: '(?i)[a-z0-9\-]+'
+
 ilios_api_programyears_post:
     path:     /{version}/{object}
     defaults: { _controller: IliosApiBundle:ProgramYear:post }
@@ -350,3 +359,12 @@ ilios_api_programyears_put:
         version: "%ilios_api_valid_api_versions%"
         object: "programyears"
         id: '\d+'
+
+ilios_api_usermadereminders_410:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:UserMadeReminder:fourTen, id: 0 }
+    methods:  [GET, POST, PUT, DELETE]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: 'usermadereminders'
+        id: '(?i)[a-z0-9\-]+'

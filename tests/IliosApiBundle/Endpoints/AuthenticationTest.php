@@ -27,7 +27,6 @@ class AuthenticationTest extends ReadWriteEndpointTest
             'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
             'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
-            'Tests\CoreBundle\Fixture\LoadUserMadeReminderData',
             'Tests\CoreBundle\Fixture\LoadIlmSessionData',
             'Tests\CoreBundle\Fixture\LoadOfferingData',
             'Tests\CoreBundle\Fixture\LoadPendingUserUpdateData',

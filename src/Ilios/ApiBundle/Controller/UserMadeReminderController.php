@@ -2,19 +2,18 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 
 /**
- * Class MeshTreeController
+ * Class UserMadeReminderController
  * @package Ilios\ApiBundle\Controller
  */
-class MeshTreeController extends ApiController
+class UserMadeReminderController extends ApiController
 {
     /**
      * @inheritdoc
+     * @deprecated
      */
     public function postAction($version, $object, Request $request)
     {
@@ -22,7 +21,27 @@ class MeshTreeController extends ApiController
     }
 
     /**
+     * @inheritDoc
+     * @deprecated
+     */
+    public function getAction($version, $object, $id)
+    {
+        $this->fourTenAction();
+
+    }
+
+    /**
      * @inheritdoc
+     * @deprecated
+     */
+    public function getAllAction($version, $object, Request $request)
+    {
+        $this->fourTenAction();
+    }
+
+    /**
+     * @inheritdoc
+     * @deprecated
      */
     public function putAction($version, $object, $id, Request $request)
     {
@@ -31,18 +50,23 @@ class MeshTreeController extends ApiController
 
     /**
      * @inheritdoc
+     * @deprecated
      */
     public function deleteAction($version, $object, $id)
     {
         $this->fourTenAction();
     }
 
+
     /**
      * Generic action used by the router to send a 410 GONE
-     * to anyone trying to POST, PUT or DELETE a MeSH Tree
+     * to anyone trying to interact with user-made reminders.
+     * @throws GoneHttpException
      */
     public function fourTenAction()
     {
-        throw new GoneHttpException('Creating, updating and deleting MeSH Trees is no longer supported.');
+        throw new GoneHttpException(
+            'Accessing user-made reminders is no longer supported.'
+        );
     }
 }

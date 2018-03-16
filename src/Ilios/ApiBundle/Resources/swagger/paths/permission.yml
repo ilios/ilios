@@ -1,7 +1,7 @@
-/usermadereminders:
+/permissions:
   get:
     deprecated: true
-    summary: Fetch all Usermadereminders
+    summary: Fetch all Permissions
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -34,13 +34,13 @@
         items:
           type: string
     tags:
-      - Usermadereminders
+      - Permissions
     responses:
       '410':
         description: Gone
   post:
     deprecated: true
-    summary: Create Usermadereminders
+    summary: Create Permissions
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -54,19 +54,19 @@
       schema:
           type: object
           properties:
-            userMadeReminders:
+            permissions:
               type: array
               items:
-                $ref: '#/definitions/Usermadereminder'
+                $ref: '#/definitions/Permission'
     tags:
-      - Usermadereminders
+      - Permissions
     responses:
       '410':
         description: Gone
-/usermadereminders/{id}:
+/permissions/{id}:
   get:
     deprecated: true
-    summary: Fetch a single Usermadereminder
+    summary: Fetch a single Permission
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -80,13 +80,13 @@
       description: id
       type: integer
     tags:
-      - Usermadereminders
+      - Permissions
     responses:
       '410':
         description: Gone
   put:
     deprecated: true
-    summary: Edit a Usermadereminder
+    summary: Edit a Permission
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -105,16 +105,16 @@
       schema:
           type: object
           properties:
-            userMadeReminder:
-              $ref: '#/definitions/Usermadereminder'
+            permission:
+              $ref: '#/definitions/Permission'
     tags:
-      - Usermadereminders
+      - Permissions
     responses:
       '410':
         description: Gone
   delete:
     deprecated: true
-    summary: Delete a Usermadereminder
+    summary: Delete a Permission
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -128,7 +128,7 @@
       description: id
       type: integer
     tags:
-      - Usermadereminders
+      - Permissions
     responses:
       '410':
         description: Gone
