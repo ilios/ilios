@@ -12,14 +12,6 @@ use DateTime;
 interface SessionUserInterface extends UserInterface, EquatableInterface, EncoderAwareInterface
 {
     /**
-     * Utility method, determines if the user has any of the given roles.
-     * @param array $eligibleRoles a list of role names
-     *
-     * @return bool TRUE if the user has at least one of the roles, FALSE otherwise.
-     */
-    public function hasRole(array $eligibleRoles);
-
-    /**
      * Is this user a root user
      *
      * @return boolean
