@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
- * Class MeshTest
+ * Class AbstractMeshTest
  * @package Tests\IliosApiBundle\Endpoints
  */
 abstract class AbstractMeshTest extends ReadEndpointTest
