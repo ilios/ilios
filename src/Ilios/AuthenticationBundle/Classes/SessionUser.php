@@ -20,11 +20,6 @@ class SessionUser implements SessionUserInterface
     /**
      * @var array
      */
-    protected $roleTitles;
-
-    /**
-     * @var array
-     */
     protected $nonStudentSchoolIds;
 
     /**
@@ -153,13 +148,18 @@ class SessionUser implements SessionUserInterface
     protected $administeredCurriculumInventoryReportSchoolIds;
 
     /**
+     * @var UserManager
+     */
+    protected $userManager;
+
+    /**
      * @param IliosUserInterface $user
      * @param UserManager $userManager
      */
     public function __construct(IliosUserInterface $user, UserManager $userManager)
     {
+        $this->userManager = $userManager;
         $relationships = $userManager->buildSessionRelationships($user->getId());
-        $this->roleTitles = $relationships['roleTitles'];
         $this->nonStudentSchoolIds = $relationships['nonStudentSchoolIds'];
         $this->directedCourseIds = $relationships['directedCourseIds'];
         $this->administeredCourseIds = $relationships['administeredCourseIds'];
@@ -311,16 +311,6 @@ class SessionUser implements SessionUserInterface
     public function eraseCredentials()
     {
         $this->password = null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function hasRole(array $eligibleRoles)
-    {
-        $intersection = array_intersect($eligibleRoles, $this->roleTitles);
-
-        return ! empty($intersection);
     }
 
     /**

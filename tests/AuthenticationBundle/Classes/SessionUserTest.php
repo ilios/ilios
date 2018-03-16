@@ -33,7 +33,6 @@ class SessionUserTest extends TestCase
         $this->iliosUser = m::mock(UserInterface::class);
 
         $this->relationships = [
-            'roleTitles' => ['Developer'],
             'nonStudentSchoolIds' => [],
             'directedCourseIds' => [],
             'administeredCourseIds' => [],
