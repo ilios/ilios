@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 
 /**
- * Class MeshTest
+ * Class PermissionsTest
  * @package Tests\IliosApiBundle\Endpoints
  */
 class PermissionsTest extends AbstractEndpointTest
