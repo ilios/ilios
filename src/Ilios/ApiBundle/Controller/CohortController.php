@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 
 /**
  * Class CohortController
- * Cohorts cannot be created, we need to reject any attempts to do so.
+ * @package Ilios\ApiBundle\Controller
  */
 class CohortController extends ApiController
 {
@@ -21,25 +21,36 @@ class CohortController extends ApiController
         $entity = $manager->findOneBy(['id'=> $id]);
 
         if (!$entity) {
-            $this->throwCreatingCohortNotSupportedException();
+            $this->fourTenAction();
         }
 
         return parent::putAction($version, $object, $id, $request);
     }
 
     /**
-     * Generic action used by the router to send a 410 GONE
-     * to anyone trying to POST or DELETE a cohort
+     * @inheritdoc
+     * @deprecated
      */
-    public function fourTenAction()
+    public function postAction($version, $object, Request $request)
     {
-        $this->throwCreatingCohortNotSupportedException();
+        $this->fourTenAction();
     }
 
     /**
+     * @inheritdoc
+     * @deprecated
+     */
+    public function deleteAction($version, $object, $id)
+    {
+        $this->fourTenAction();
+    }
+
+    /**
+     * Generic action used by the router to send a 410 GONE
+     * to anyone trying to POST or DELETE a cohort
      * @throws GoneHttpException
      */
-    protected function throwCreatingCohortNotSupportedException()
+    public function fourTenAction()
     {
         throw new GoneHttpException('Explicitly creating and deleting cohorts is no longer supported.');
     }
