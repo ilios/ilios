@@ -1377,22 +1377,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $programYearDirectorSchoolIds[] = $arr['schoolId'];
         }
 
-        $sessionUserRelationships['schoolIds'] = array_merge(
-            $cohortSchoolIds,
-            $sessionUserRelationships['directedSchoolIds'],
-            $sessionUserRelationships['administeredSchoolIds'],
-            $sessionUserRelationships['directedCourseSchoolIds'],
-            $sessionUserRelationships['administeredCourseSchoolIds'],
-            $sessionUserRelationships['administeredSessionSchoolIds'],
-            $sessionUserRelationships['taughtCourseSchoolIds'],
-            $learnerGroupSchoolIds,
-            $instructedLearnerGroupSchoolIds,
-            $instructorGroupSchoolIds,
-            $instructorIlmSessionSchoolIds,
-            $programDirectorSchoolIds,
-            $programYearDirectorSchoolIds
-        );
-
         $sessionUserRelationships['nonStudentSchoolIds'] = array_merge(
             $sessionUserRelationships['directedSchoolIds'],
             $sessionUserRelationships['administeredSchoolIds'],
