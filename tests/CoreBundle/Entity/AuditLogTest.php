@@ -103,8 +103,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::setCreatedAt
-     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::getCreatedAt
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::setCreatedAt
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::getCreatedAt
      */
     public function testSetCreatedAt()
     {

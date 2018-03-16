@@ -50,7 +50,6 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getInstructedLearnerGroups());
         $this->assertEmpty($this->object->getOfferings());
         $this->assertEmpty($this->object->getProgramYears());
-        $this->assertEmpty($this->object->getReminders());
         $this->assertEmpty($this->object->getRoles());
         $this->assertEmpty($this->object->getLearnerGroups());
         $this->assertEmpty($this->object->getLearningMaterials());
@@ -181,31 +180,6 @@ class UserTest extends EntityBase
     public function testSetSchool()
     {
         $this->entitySetTest('school', 'School');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::addReminder
-     */
-    public function testAddReminder()
-    {
-        $this->entityCollectionAddTest('reminder', 'UserMadeReminder');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::removeReminder
-     */
-    public function testRemoveReminder()
-    {
-        $this->entityCollectionRemoveTest('reminder', 'UserMadeReminder');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::setReminders
-     * @covers \Ilios\CoreBundle\Entity\User::getReminders
-     */
-    public function testSetReminders()
-    {
-        $this->entityCollectionSetTest('reminder', 'UserMadeReminder');
     }
 
     /**

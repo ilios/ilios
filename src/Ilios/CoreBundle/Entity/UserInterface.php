@@ -175,26 +175,6 @@ interface UserInterface extends
     public function getIcsFeedKey();
 
     /**
-     * @param Collection $reminders
-     */
-    public function setReminders(Collection $reminders);
-
-    /**
-     * @param UserMadeReminderInterface $reminder
-     */
-    public function addReminder(UserMadeReminderInterface $reminder);
-
-    /**
-     * @param UserMadeReminderInterface $reminder
-     */
-    public function removeReminder(UserMadeReminderInterface $reminder);
-
-    /**
-     * @return ArrayCollection|UserMadeReminderInterface[]
-     */
-    public function getReminders();
-
-    /**
      * @param Collection $courses
      */
     public function setDirectedCourses(Collection $courses);

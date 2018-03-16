@@ -852,7 +852,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
 
         $related = [
-            'reminders',
             'directedCourses',
             'administeredCourses',
             'learnerGroups',

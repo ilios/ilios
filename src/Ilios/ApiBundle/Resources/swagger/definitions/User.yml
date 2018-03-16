@@ -38,11 +38,6 @@ User:
   authentication:
    description: Authentication
    type: string
-  reminders:
-   description: Reminders
-   type: array
-   items:
-    type: string
   reports:
    description: Reports
    type: array
