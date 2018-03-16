@@ -1,0 +1,22 @@
+Permission:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  user:
+   description: User
+   type: string
+  canRead:
+   description: Canread
+   type: boolean
+  canWrite:
+   description: Canwrite
+   type: boolean
+  tableRowId:
+   description: Tablerowid
+   type: integer
+  tableName:
+   description: Tablename
+   type: string
