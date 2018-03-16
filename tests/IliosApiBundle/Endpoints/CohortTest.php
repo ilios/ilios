@@ -4,14 +4,18 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\ProgramYearData;
-use Tests\IliosApiBundle\ReadWriteEndpointTest;
+use Tests\IliosApiBundle\PutEndpointTestable;
+use Tests\IliosApiBundle\PutEndpointTestInterface;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * Cohort API endpoint Test.
  * @group api_2
  */
-class CohortTest extends ReadWriteEndpointTest
+class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
 {
+    use PutEndpointTestable;
+
     protected $testName =  'cohorts';
 
     /**
@@ -70,7 +74,7 @@ class CohortTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function testPostOne()
+    public function testPostFails()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
@@ -84,7 +88,7 @@ class CohortTest extends ReadWriteEndpointTest
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
-    public function testCreateWithPut()
+    public function testCreateWithPutFails()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
@@ -102,7 +106,7 @@ class CohortTest extends ReadWriteEndpointTest
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
-    public function testDelete()
+    public function testDeleteFails()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
@@ -114,22 +118,6 @@ class CohortTest extends ReadWriteEndpointTest
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
-    }
-
-    /**
-     * This test is disabled since cohorts can't be posted
-     */
-    public function testPostBad()
-    {
-        $this->assertTrue(true);
-    }
-
-    /**
-     * This test is disabled since cohorts can't be posted
-     */
-    public function testPostMany()
-    {
-        $this->assertTrue(true);
     }
 
     /**
@@ -158,8 +146,7 @@ class CohortTest extends ReadWriteEndpointTest
 
     /**
      * Get programYear data from loader by id
-     * @param integer $programYearId
-     *
+     * @param int $id
      * @return array
      */
     protected function getProgramYear($id)

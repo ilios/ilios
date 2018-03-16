@@ -45,6 +45,7 @@
               items:
                 $ref: '#/definitions/Cohort'
   post:
+    deprecated: true
     summary: Create Cohorts
     parameters:
     - name: X-JWT-Authorization
@@ -66,19 +67,8 @@
     tags:
       - Cohorts
     responses:
-      '201':
-        description: An array of newly created cohorts
-        schema:
-          type: object
-          properties:
-            cohorts:
-              type: array
-              items:
-                $ref: '#/definitions/Cohort'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
+      '410':
+        description: Gone
 /cohorts/{id}:
   get:
     summary: Fetch a single Cohort
@@ -147,6 +137,7 @@
       '404':
         description: Not Found
   delete:
+    deprecated: true
     summary: Delete a Cohort
     parameters:
     - name: X-JWT-Authorization
@@ -163,11 +154,5 @@
     tags:
       - Cohorts
     responses:
-      '204':
-        description: Deleted Cohort
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
-      '500':
-        description: Failed to delete entity (usually caused by non-cascading relationships)
+      '410':
+        description: Gone
