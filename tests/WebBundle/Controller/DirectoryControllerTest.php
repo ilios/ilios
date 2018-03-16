@@ -55,7 +55,6 @@ class DirectoryControllerTest extends TestCase
         $this->permissionChecker = m::mock(PermissionChecker::class);
 
         $mockSessionUser = m::mock(SessionUserInterface::class);
-        $mockSessionUser->shouldReceive('hasRole')->with(['Developer'])->andReturn(true);
 
         $mockToken = m::mock(TokenInterface::class);
         $mockToken->shouldReceive('getUser')->andReturn($mockSessionUser);

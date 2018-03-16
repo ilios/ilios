@@ -1169,12 +1169,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     public function buildSessionRelationships(int $userId): array
     {
         $sessionUserRelationships = [];
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('r.title')->from(UserRole::class, 'r');
-        $qb->join('r.users', 'u');
-        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
-        $qb->setParameter(':userId', $userId);
-        $sessionUserRelationships['roleTitles'] = $this->flattenArray($qb->getQuery()->getArrayResult());
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id')->from(User::class, 'u');
