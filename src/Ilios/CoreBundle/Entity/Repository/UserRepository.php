@@ -1172,16 +1172,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id')->from(User::class, 'u');
-        $qb->join('u.cohorts', 'cohorts');
-        $qb->join('cohorts.programYear', 'programYear');
-        $qb->join('programYear.program', 'program');
-        $qb->join('program.school', 'school');
-        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
-        $qb->setParameter(':userId', $userId);
-        $cohortSchoolIds = $this->flattenArray($qb->getQuery()->getArrayResult());
-
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('school.id')->from(User::class, 'u');
         $qb->join('u.directedSchools', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
@@ -1255,17 +1245,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $sessionUserRelationships['administeredSessionCourseIds'][] = $arr['courseId'];
             $sessionUserRelationships['administeredSessionIds'][] = $arr['sessionId'];
         }
-
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('school.id')->from(User::class, 'u');
-        $qb->join('u.learnerGroups', 'learnerGroups');
-        $qb->join('learnerGroups.cohort', 'cohort');
-        $qb->join('cohort.programYear', 'programYear');
-        $qb->join('programYear.program', 'program');
-        $qb->join('program.school', 'school');
-        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
-        $qb->setParameter(':userId', $userId);
-        $learnerGroupSchoolIds = $this->flattenArray($qb->getQuery()->getArrayResult());
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id')->from(User::class, 'u');
