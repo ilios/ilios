@@ -41,6 +41,30 @@ class MeshDescriptorController extends ApiController
     }
 
     /**
+     * @inheritdoc
+     */
+    public function postAction($version, $object, Request $request)
+    {
+        $this->fourTenAction();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function putAction($version, $object, $id, Request $request)
+    {
+        $this->fourTenAction();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function deleteAction($version, $object, $id)
+    {
+        $this->fourTenAction();
+    }
+
+    /**
      * Generic action used by the router to send a 410 GONE
      * to anyone trying to POST, PUT or DELETE a MeSH Descriptor
      */
