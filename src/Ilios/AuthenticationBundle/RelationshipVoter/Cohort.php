@@ -13,7 +13,7 @@ class Cohort extends AbstractVoter
         return $subject instanceof CohortInterface
             && in_array(
                 $attribute,
-                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+                [self::VIEW, self::EDIT]
             );
     }
 
@@ -32,13 +32,7 @@ class Cohort extends AbstractVoter
                 return true;
                 break;
             case self::EDIT:
-                return $this->permissionChecker->canUpdateCohort($user, $subject);
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateCohort($user, $subject->getProgramYear());
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteCohort($user, $subject);
+                return $this->permissionChecker->canUpdateProgramYear($user, $subject->getProgramYear());
                 break;
         }
 
