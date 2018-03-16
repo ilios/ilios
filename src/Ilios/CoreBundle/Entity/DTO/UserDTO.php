@@ -107,13 +107,6 @@ class UserDTO
      * @IS\Expose
      * @IS\Type("array<string>")
      */
-    public $reminders;
-
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array<string>")
-     */
     public $reports;
 
     /**
@@ -302,7 +295,6 @@ class UserDTO
         $this->icsFeedKey = $icsFeedKey;
         $this->root = $root;
 
-        $this->reminders = [];
         $this->directedCourses = [];
         $this->administeredCourses = [];
         $this->learnerGroups = [];
