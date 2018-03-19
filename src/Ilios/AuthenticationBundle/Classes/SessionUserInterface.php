@@ -87,23 +87,49 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function isAdministeringSessionInSchool(int $schoolId) : bool;
     public function isTeachingCourseInSchool(int $schoolId) : bool;
     public function isTeachingCourse(int $courseId) : bool;
-    public function rolesInSchool(int $schoolId): array;
-    public function rolesInCourse(int $courseId): array;
+    public function rolesInSchool(
+        int $schoolId,
+        $roles = [
+            UserRoles::SCHOOL_DIRECTOR,
+            UserRoles::SCHOOL_ADMINISTRATOR,
+            UserRoles::COURSE_DIRECTOR,
+            UserRoles::COURSE_ADMINISTRATOR,
+            UserRoles::SESSION_ADMINISTRATOR,
+            UserRoles::COURSE_INSTRUCTOR,
+            UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR
+        ]
+    ): array;
+    public function rolesInCourse(
+        int $courseId,
+        $roles = [
+            UserRoles::COURSE_DIRECTOR,
+            UserRoles::COURSE_ADMINISTRATOR,
+            UserRoles::SESSION_ADMINISTRATOR,
+            UserRoles::COURSE_INSTRUCTOR
+        ]
+    ): array;
     public function isAdministeringSessionInCourse(int $courseId) : bool;
     public function isAdministeringSession(int $sessionId): bool;
     public function isTeachingSession(int $sessionId): bool;
-    public function rolesInSession(int $sessionId): array;
-    public function rolesInProgram(int $programId): array;
+    public function rolesInSession(
+        int $sessionId,
+        $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]): array;
+    public function rolesInProgram(
+        int $programId,
+        $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR]
+    ): array;
     public function isDirectingProgram(int $programId): bool;
-    public function rolesInProgramYear(int $programYearId): array;
-    public function rolesInCohort(int $cohortId): array;
+    public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array;
+    public function rolesInCohort(int $cohortId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array;
     public function isDirectingProgramYear(int $programYearId) : bool;
     public function isDirectingProgramYearInProgram(int $programId) : bool;
     public function isDirectingCohort(int $cohortId) : bool;
 
     public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId) : bool;
-    public function rolesInCurriculumInventoryReport(int $curriculumInventoryReportId): array;
-
+    public function rolesInCurriculumInventoryReport(
+        int $curriculumInventoryReportId,
+        $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR]
+    ): array;
     /**
      * Checks if this user is performing any non-student function in the system,
      * such as teaching, directing or administering courses, programs, etc.
