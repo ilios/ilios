@@ -68,7 +68,11 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('isLocked')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool])
@@ -99,10 +103,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn($rolesInSchool);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool ])
             ->andReturn(false);
-
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES])
+            ->andReturn($rolesInCourse);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES, $rolesInCourse])
@@ -133,10 +144,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn($rolesInSchool);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool ])
             ->andReturn(false);
-
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES])
+            ->andReturn($rolesInCourse);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES, $rolesInCourse])
@@ -191,6 +209,11 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('isLocked')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES])
+            ->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES, $rolesInSchool])
@@ -221,10 +244,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES])
+            ->andReturn($rolesInSchool);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES, $rolesInSchool ])
             ->andReturn(false);
-
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COURSES])
+            ->andReturn($rolesInCourse);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COURSES, $rolesInCourse])
@@ -255,10 +285,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES])
+            ->andReturn($rolesInSchool);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES, $rolesInSchool ])
             ->andReturn(false);
-
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COURSES])
+            ->andReturn($rolesInCourse);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COURSES, $rolesInCourse])

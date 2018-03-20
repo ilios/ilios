@@ -20,11 +20,6 @@ class SessionUser implements SessionUserInterface
     /**
      * @var array
      */
-    protected $roleTitles;
-
-    /**
-     * @var array
-     */
     protected $nonStudentSchoolIds;
 
     /**
@@ -153,13 +148,18 @@ class SessionUser implements SessionUserInterface
     protected $administeredCurriculumInventoryReportSchoolIds;
 
     /**
+     * @var UserManager
+     */
+    protected $userManager;
+
+    /**
      * @param IliosUserInterface $user
      * @param UserManager $userManager
      */
     public function __construct(IliosUserInterface $user, UserManager $userManager)
     {
+        $this->userManager = $userManager;
         $relationships = $userManager->buildSessionRelationships($user->getId());
-        $this->roleTitles = $relationships['roleTitles'];
         $this->nonStudentSchoolIds = $relationships['nonStudentSchoolIds'];
         $this->directedCourseIds = $relationships['directedCourseIds'];
         $this->administeredCourseIds = $relationships['administeredCourseIds'];
@@ -316,16 +316,6 @@ class SessionUser implements SessionUserInterface
     /**
      * @inheritdoc
      */
-    public function hasRole(array $eligibleRoles)
-    {
-        $intersection = array_intersect($eligibleRoles, $this->roleTitles);
-
-        return ! empty($intersection);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function isRoot()
     {
         return $this->isRoot;
@@ -460,103 +450,132 @@ class SessionUser implements SessionUserInterface
         return in_array($sessionId, $this->instructedSessionIds);
     }
 
-    public function rolesInSchool(int $schoolId) : array
-    {
-        $roles = [];
-        if ($this->isDirectingSchool($schoolId)) {
-            $roles[] = UserRoles::SCHOOL_DIRECTOR;
+    public function rolesInSchool(
+        int $schoolId,
+        $roles = [
+            UserRoles::SCHOOL_DIRECTOR,
+            UserRoles::SCHOOL_ADMINISTRATOR,
+            UserRoles::COURSE_DIRECTOR,
+            UserRoles::COURSE_ADMINISTRATOR,
+            UserRoles::SESSION_ADMINISTRATOR,
+            UserRoles::COURSE_INSTRUCTOR,
+            UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR
+        ]
+    ): array {
+        $rhett = [];
+
+        if (in_array(UserRoles::SCHOOL_DIRECTOR, $roles) && $this->isDirectingSchool($schoolId)) {
+            $rhett[] = UserRoles::SCHOOL_DIRECTOR;
         }
-        if ($this->isAdministeringSchool($schoolId)) {
-            $roles[] = UserRoles::SCHOOL_ADMINISTRATOR;
+        if (in_array(UserRoles::SCHOOL_ADMINISTRATOR, $roles) && $this->isAdministeringSchool($schoolId)) {
+            $rhett[] = UserRoles::SCHOOL_ADMINISTRATOR;
         }
-        if ($this->isDirectingCourseInSchool($schoolId)) {
-            $roles[] = UserRoles::COURSE_DIRECTOR;
+        if (in_array(UserRoles::COURSE_DIRECTOR, $roles) && $this->isDirectingCourseInSchool($schoolId)) {
+            $rhett[] = UserRoles::COURSE_DIRECTOR;
         }
-        if ($this->isAdministeringCourseInSchool($schoolId)) {
-            $roles[] = UserRoles::COURSE_ADMINISTRATOR;
+        if (in_array(UserRoles::COURSE_ADMINISTRATOR, $roles) &&
+            $this->isAdministeringCourseInSchool($schoolId)) {
+            $rhett[] = UserRoles::COURSE_ADMINISTRATOR;
         }
-        if ($this->isAdministeringSessionInSchool($schoolId)) {
-            $roles[] = UserRoles::SESSION_ADMINISTRATOR;
+        if (in_array(UserRoles::SESSION_ADMINISTRATOR, $roles) &&
+            $this->isAdministeringSessionInSchool($schoolId)) {
+            $rhett[] = UserRoles::SESSION_ADMINISTRATOR;
         }
-        if ($this->isTeachingCourseInSchool($schoolId)) {
-            $roles[] = UserRoles::COURSE_INSTRUCTOR;
+        if (in_array(UserRoles::COURSE_INSTRUCTOR, $roles) &&
+            $this->isTeachingCourseInSchool($schoolId)) {
+            $rhett[] = UserRoles::COURSE_INSTRUCTOR;
         }
 
-        if ($this->isAdministeringCurriculumInventoryReportInSchool($schoolId)) {
-            $roles[] = UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR;
+        if (in_array(UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR, $roles) &&
+            $this->isAdministeringCurriculumInventoryReportInSchool($schoolId)) {
+            $rhett[] = UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR;
         }
 
-        return $roles;
+        return $rhett;
     }
 
-    public function rolesInCourse(int $courseId) : array
-    {
-        $roles = [];
+    public function rolesInCourse(
+        int $courseId,
+        $roles = [
+            UserRoles::COURSE_DIRECTOR,
+            UserRoles::COURSE_ADMINISTRATOR,
+            UserRoles::SESSION_ADMINISTRATOR,
+            UserRoles::COURSE_INSTRUCTOR
+        ]
+    ): array {
+        $rhett = [];
 
-        if ($this->isDirectingCourse($courseId)) {
-            $roles[] = UserRoles::COURSE_DIRECTOR;
+        if (in_array(UserRoles::COURSE_DIRECTOR, $roles) && $this->isDirectingCourse($courseId)) {
+            $rhett[] = UserRoles::COURSE_DIRECTOR;
         }
-        if ($this->isAdministeringCourse($courseId)) {
-            $roles[] = UserRoles::COURSE_ADMINISTRATOR;
+        if (in_array(UserRoles::COURSE_ADMINISTRATOR, $roles) && $this->isAdministeringCourse($courseId)) {
+            $rhett[] = UserRoles::COURSE_ADMINISTRATOR;
         }
-        if ($this->isAdministeringSessionInCourse($courseId)) {
-            $roles[] = UserRoles::SESSION_ADMINISTRATOR;
+        if (in_array(UserRoles::SESSION_ADMINISTRATOR, $roles) &&
+            $this->isAdministeringSessionInCourse($courseId)) {
+            $rhett[] = UserRoles::SESSION_ADMINISTRATOR;
         }
-        if ($this->isTeachingCourse($courseId)) {
-            $roles[] = UserRoles::COURSE_INSTRUCTOR;
+        if (in_array(UserRoles::COURSE_INSTRUCTOR, $roles) && $this->isTeachingCourse($courseId)) {
+            $rhett[] = UserRoles::COURSE_INSTRUCTOR;
         }
 
-        return $roles;
+        return $rhett;
     }
 
-    public function rolesInSession(int $sessionId) : array
-    {
-        $roles = [];
+    public function rolesInSession(
+        int $sessionId,
+        $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]
+    ): array {
+        $rhett = [];
 
-        if ($this->isAdministeringSession($sessionId)) {
-            $roles[] = UserRoles::SESSION_ADMINISTRATOR;
+        if (in_array(UserRoles::SESSION_ADMINISTRATOR, $roles) && $this->isAdministeringSession($sessionId)) {
+            $rhett[] = UserRoles::SESSION_ADMINISTRATOR;
         }
-        if ($this->isTeachingSession($sessionId)) {
-            $roles[] = UserRoles::SESSION_INSTRUCTOR;
+        if (in_array(UserRoles::SESSION_INSTRUCTOR, $roles) && $this->isTeachingSession($sessionId)) {
+            $rhett[] = UserRoles::SESSION_INSTRUCTOR;
         }
 
-        return $roles;
+        return $rhett;
     }
 
-    public function rolesInProgram(int $programId) : array
-    {
-        $roles = [];
+    public function rolesInProgram(
+        int $programId,
+        $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR]
+    ): array {
+        $rhett = [];
 
-        if ($this->isDirectingProgram($programId)) {
-            $roles[] = UserRoles::PROGRAM_DIRECTOR;
+        if (in_array(UserRoles::PROGRAM_DIRECTOR, $roles) && $this->isDirectingProgram($programId)) {
+            $rhett[] = UserRoles::PROGRAM_DIRECTOR;
         }
-        if ($this->isDirectingProgramYearInProgram($programId)) {
-            $roles[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
+        if (in_array(UserRoles::PROGRAM_YEAR_DIRECTOR, $roles) &&
+            $this->isDirectingProgramYearInProgram($programId)) {
+            $rhett[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
         }
 
-        return $roles;
+        return $rhett;
     }
 
-    public function rolesInProgramYear(int $programYearId) : array
+    public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array
     {
-        $roles = [];
+        $rhett = [];
 
-        if ($this->isDirectingProgramYear($programYearId)) {
-            $roles[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
+        if (in_array(UserRoles::PROGRAM_YEAR_DIRECTOR, $roles) &&
+            $this->isDirectingProgramYear($programYearId)) {
+            $rhett[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
         }
 
-        return $roles;
+        return $rhett;
     }
 
-    public function rolesInCohort(int $cohortId) : array
+    public function rolesInCohort(int $cohortId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array
     {
-        $roles = [];
+        $rhett = [];
 
-        if ($this->isDirectingCohort($cohortId)) {
-            $roles[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
+        if (in_array(UserRoles::PROGRAM_YEAR_DIRECTOR, $roles) && $this->isDirectingCohort($cohortId)) {
+            $rhett[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
         }
 
-        return $roles;
+        return $rhett;
     }
 
     public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId) : bool
@@ -569,14 +588,17 @@ class SessionUser implements SessionUserInterface
         return in_array($curriculumInventoryReportId, $this->administeredCurriculumInventoryReportIds);
     }
 
-    public function rolesInCurriculumInventoryReport(int $curriculumInventoryReportId): array
-    {
-        $roles = [];
+    public function rolesInCurriculumInventoryReport(
+        int $curriculumInventoryReportId,
+        $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR]
+    ): array {
+        $rhett = [];
 
-        if ($this->isAdministeringCurriculumInventoryReport($curriculumInventoryReportId)) {
-            $roles[] = UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR;
+        if (in_array(UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR, $roles) &&
+            $this->isAdministeringCurriculumInventoryReport($curriculumInventoryReportId)) {
+            $rhett[] = UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR;
         }
 
-        return $roles;
+        return $rhett;
     }
 }

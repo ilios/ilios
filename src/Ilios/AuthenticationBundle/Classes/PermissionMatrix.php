@@ -47,4 +47,20 @@ class PermissionMatrix implements PermissionMatrixInterface
         }
         $this->matrix[$schoolId][$capability] = $roles;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPermittedRoles(int $schoolId, string $capability): array
+    {
+        if (!array_key_exists($schoolId, $this->matrix)) {
+            return [];
+        }
+        $schoolPermissions = $this->matrix[$schoolId];
+        if (!array_key_exists($capability, $schoolPermissions)) {
+            return [];
+        };
+
+        return $schoolPermissions[$capability];
+    }
 }
