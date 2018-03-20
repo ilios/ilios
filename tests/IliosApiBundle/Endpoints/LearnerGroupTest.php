@@ -22,7 +22,6 @@ class LearnerGroupTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
-            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
             'Tests\CoreBundle\Fixture\LoadCohortData',
             'Tests\CoreBundle\Fixture\LoadIlmSessionData',
             'Tests\CoreBundle\Fixture\LoadOfferingData',
@@ -42,6 +41,7 @@ class LearnerGroupTest extends AbstractEndpointTest
             'location' => ['location', $this->getFaker()->text(100)],
             'cohort' => ['cohort', 3],
             'parent' => ['parent', 2],
+            'ancestor' => ['ancestor', '3'],
             'removeParent' => ['parent', null],
             'children' => ['children', [1], $skipped = true],
             'ilmSessions' => ['ilmSessions', [2]],
@@ -49,6 +49,7 @@ class LearnerGroupTest extends AbstractEndpointTest
             'instructorGroups' => ['instructorGroups', [1, 2]],
             'users' => ['users', [1]],
             'instructors' => ['instructors', [1, 2]],
+            'descendants' => ['descendants', [2, 3]],
         ];
     }
 
@@ -74,6 +75,7 @@ class LearnerGroupTest extends AbstractEndpointTest
             'location' => [[3], ['location' => 'fourth location']],
             'cohort' => [[1], ['cohort' => 2]],
             'parent' => [[3], ['parent' => 1]],
+            'ancestor' => [[3], ['ancestor' => '3']],
             'noParent' => [[0, 1, 2, 4], ['parent' => 'null']],
             'children' => [[0], ['children' => [4]], $skipped = true],
             'ilmSessions' => [[0, 2], ['ilmSessions' => [1]], $skipped = true],

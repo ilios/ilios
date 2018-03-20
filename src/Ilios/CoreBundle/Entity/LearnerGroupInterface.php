@@ -95,4 +95,39 @@ interface LearnerGroupInterface extends
      * @return ProgramYearInterface|null
      */
     public function getProgramYear();
+
+    /**
+     * @param LearnerGroupInterface $ancestor
+     */
+    public function setAncestor(LearnerGroupInterface $ancestor);
+
+    /**
+     * @return LearnerGroupInterface
+     */
+    public function getAncestor();
+
+    /**
+     * @return LearnerGroupInterface
+     */
+    public function getAncestorOrSelf();
+
+    /**
+     * @param Collection $children
+     */
+    public function setDescendants(Collection $children);
+
+    /**
+     * @param LearnerGroupInterface $child
+     */
+    public function addDescendant(LearnerGroupInterface $child);
+
+    /**
+     * @param LearnerGroupInterface $child
+     */
+    public function removeDescendant(LearnerGroupInterface $child);
+
+    /**
+     * @return ArrayCollection|LearnerGroupInterface[]
+     */
+    public function getDescendants();
 }

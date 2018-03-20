@@ -18,7 +18,8 @@ class LearnerGroupData extends AbstractDataLoader
             'offerings' => ['1'],
             'instructorGroups' => ['1'],
             'users' => ['2', '5'],
-            'instructors' => ['1']
+            'instructors' => ['1'],
+            'descendants' => [],
         );
 
         $arr[] = array(
@@ -30,7 +31,8 @@ class LearnerGroupData extends AbstractDataLoader
             'offerings' => ['2'],
             'instructorGroups' => [],
             'users' => ['2'],
-            'instructors' => []
+            'instructors' => [],
+            'descendants' => [],
         );
 
         $arr[] = array(
@@ -42,7 +44,8 @@ class LearnerGroupData extends AbstractDataLoader
             'offerings' => [],
             'instructorGroups' => [],
             'users' => ['2'],
-            'instructors' => ['1']
+            'instructors' => ['1'],
+            'descendants' => ['4'],
         );
 
 
@@ -53,11 +56,13 @@ class LearnerGroupData extends AbstractDataLoader
             'cohort' => '1',
             'children' => [],
             'parent' => '1',
+            'ancestor' => '3',
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
             'users' => [],
-            'instructors' => []
+            'instructors' => [],
+            'descendants' => [],
         );
 
 
@@ -70,7 +75,8 @@ class LearnerGroupData extends AbstractDataLoader
             'offerings' => ['1', '2'],
             'instructorGroups' => [],
             'users' => ['5'],
-            'instructors' => []
+            'instructors' => [],
+            'descendants' => [],
         );
 
 
@@ -83,12 +89,14 @@ class LearnerGroupData extends AbstractDataLoader
             'id' => 6,
             'title' => $this->faker->text(25),
             'cohort' => "1",
+            'ancestor' => '2',
             'children' => [],
             'ilmSessions' => ['1'],
             'offerings' => ['1'],
             'instructorGroups' => [],
             'users' => [],
-            'instructors' => []
+            'instructors' => [],
+            'descendants' => [],
         );
     }
 

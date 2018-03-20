@@ -45,6 +45,7 @@ class ObjectiveTest extends EntityBase
         $this->assertEmpty($this->object->getDescendants());
         $this->assertEmpty($this->object->getParents());
         $this->assertEmpty($this->object->getChildren());
+        $this->assertEmpty($this->object->getDescendants());
     }
 
     /**

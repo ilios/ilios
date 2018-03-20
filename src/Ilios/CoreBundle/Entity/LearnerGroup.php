@@ -112,6 +112,29 @@ class LearnerGroup implements LearnerGroupInterface
     protected $parent;
 
     /**
+     * @var LearnerGroupInterface
+     *
+     * @ORM\ManyToOne(targetEntity="LearnerGroup", inversedBy="descendants")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ancestor_id", referencedColumnName="group_id")
+     * })
+     *
+     * @IS\Expose
+     * @IS\Type("entity")
+     */
+    protected $ancestor;
+
+    /**
+     * @var LearnerGroupInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="ancestor")
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $descendants;
+
+    /**
      * @var ArrayCollection|LearnerGroupInterface[]
      *
      * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="parent")
@@ -206,6 +229,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->children         = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->instructors      = new ArrayCollection();
+        $this->descendants      = new ArrayCollection();
     }
 
     /**
@@ -276,6 +300,73 @@ class LearnerGroup implements LearnerGroupInterface
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * @param LearnerGroupInterface $ancestor
+     */
+    public function setAncestor(LearnerGroupInterface $ancestor = null)
+    {
+        $this->ancestor = $ancestor;
+    }
+
+    /**
+     * @return LearnerGroupInterface
+     */
+    public function getAncestor()
+    {
+        return $this->ancestor;
+    }
+
+    /**
+     * If the objective has no ancestor then we need to objective itself
+     *
+     * @return LearnerGroupInterface
+     */
+    public function getAncestorOrSelf()
+    {
+        $ancestor = $this->getAncestor();
+
+        return $ancestor?$ancestor:$this;
+    }
+
+    /**
+     * @param Collection $descendants
+     */
+    public function setDescendants(Collection $descendants)
+    {
+        $this->descendants = new ArrayCollection();
+
+        foreach ($descendants as $descendant) {
+            $this->addDescendant($descendant);
+        }
+    }
+
+    /**
+     * @param LearnerGroupInterface $descendant
+     */
+    public function addDescendant(LearnerGroupInterface $descendant)
+    {
+        if (!$this->descendants->contains($descendant)) {
+            $this->descendants->add($descendant);
+            $descendant->setAncestor($this);
+        }
+    }
+
+    /**
+     * @param LearnerGroupInterface $descendant
+     */
+    public function removeDescendant(LearnerGroupInterface $descendant)
+    {
+        $this->descendants->removeElement($descendant);
+    }
+
+    /**
+     * @return ArrayCollection|LearnerGroupInterface[]
+     */
+    public function getDescendants()
+    {
+        return $this->descendants;
     }
 
     /**
