@@ -201,21 +201,22 @@ class SessionUser implements SessionUserInterface
     public function performsNonLearnerFunction():bool
     {
         $rhett = false;
-        $props = [
-            'directedCourseIds',
-            'administeredCourseIds',
-            'directedSchoolIds',
-            'administeredSchoolIds',
-            'taughtCourseIds',
-            'administeredSessionIds',
-            'instructedSessionIds',
-            'directedProgramIds',
-            'directedProgramYearIds',
-            'directedCohortIds',
-            'administeredCurriculumInventoryReportIds'
+        $getters = [
+            'getDirectedCourseIds',
+            'getAdministeredCourseIds',
+            'getDirectedSchoolIds',
+            'getAdministeredSchoolIds',
+            'getTaughtCourseIds',
+            'getAdministeredSessionIds',
+            'getInstructedSessionIds',
+            'getDirectedProgramIds',
+            'getDirectedProgramYearIds',
+            'getDirectedCohortIds',
+            'getAdministeredCurriculumInventoryReportIds'
         ];
-        foreach ($props as $prop) {
-            if (! empty($this->$prop)) {
+        foreach ($getters as $getter) {
+            $ids = call_user_func([$this, $getter]);
+            if (! empty($ids)) {
                 $rhett = true;
                 break;
             }
@@ -372,82 +373,82 @@ class SessionUser implements SessionUserInterface
      */
     public function isDirectingCourse(int $courseId)
     {
-        return in_array($courseId, $this->directedCourseIds);
+        return in_array($courseId, $this->getDirectedCourseIds());
     }
 
     public function isAdministeringCourse(int $courseId) : bool
     {
-        return in_array($courseId, $this->administeredCourseIds);
+        return in_array($courseId, $this->getAdministeredCourseIds());
     }
 
     public function isDirectingSchool(int $schoolId) : bool
     {
-        return in_array($schoolId, $this->directedSchoolIds);
+        return in_array($schoolId, $this->getDirectedSchoolIds());
     }
 
     public function isAdministeringSchool(int $schoolId) : bool
     {
-        return in_array($schoolId, $this->administeredSchoolIds);
+        return in_array($schoolId, $this->getAdministeredSchoolIds());
     }
 
     public function isDirectingCourseInSchool(int $schoolId) : bool
     {
-        return in_array($schoolId, $this->directedCourseSchoolIds);
+        return in_array($schoolId, $this->getDirectedCourseSchoolIds());
     }
 
     public function isAdministeringCourseInSchool(int $schoolId) : bool
     {
-        return in_array($schoolId, $this->administeredCourseSchoolIds);
+        return in_array($schoolId, $this->getAdministeredCourseSchoolIds());
     }
 
     public function isAdministeringSessionInSchool(int $schoolId) : bool
     {
-        return in_array($schoolId, $this->administeredSessionSchoolIds);
+        return in_array($schoolId, $this->getAdministeredSessionSchoolIds());
     }
 
     public function isAdministeringSessionInCourse(int $courseId) : bool
     {
-        return in_array($courseId, $this->administeredSessionCourseIds);
+        return in_array($courseId, $this->getAdministeredSessionCourseIds());
     }
 
     public function isTeachingCourseInSchool(int $schoolId) : bool
     {
-        return in_array($schoolId, $this->taughtCourseSchoolIds);
+        return in_array($schoolId, $this->getTaughtCourseSchoolIds());
     }
 
     public function isTeachingCourse(int $courseId) : bool
     {
-        return in_array($courseId, $this->taughtCourseIds);
+        return in_array($courseId, $this->getTaughtCourseIds());
     }
 
     public function isAdministeringSession(int $sessionId) : bool
     {
-        return in_array($sessionId, $this->administeredSessionIds);
+        return in_array($sessionId, $this->getAdministeredSessionIds());
     }
 
     public function isDirectingProgram(int $programId) : bool
     {
-        return in_array($programId, $this->directedProgramIds);
+        return in_array($programId, $this->getDirectedProgramIds());
     }
 
     public function isDirectingProgramYearInProgram(int $programId) : bool
     {
-        return in_array($programId, $this->directedProgramYearProgramIds);
+        return in_array($programId, $this->getDirectedProgramYearProgramIds());
     }
 
     public function isDirectingCohort(int $cohortId) : bool
     {
-        return in_array($cohortId, $this->directedCohortIds);
+        return in_array($cohortId, $this->getDirectedCohortIds());
     }
 
     public function isDirectingProgramYear(int $programYearId) : bool
     {
-        return in_array($programYearId, $this->directedProgramYearIds);
+        return in_array($programYearId, $this->getDirectedProgramYearIds());
     }
 
     public function isTeachingSession(int $sessionId) : bool
     {
-        return in_array($sessionId, $this->instructedSessionIds);
+        return in_array($sessionId, $this->getInstructedSessionIds());
     }
 
     public function rolesInSchool(
@@ -580,12 +581,12 @@ class SessionUser implements SessionUserInterface
 
     public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId) : bool
     {
-        return in_array($schoolId, $this->administeredCurriculumInventoryReportSchoolIds);
+        return in_array($schoolId, $this->getAdministeredCurriculumInventoryReportSchoolIds());
     }
 
     public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId): bool
     {
-        return in_array($curriculumInventoryReportId, $this->administeredCurriculumInventoryReportIds);
+        return in_array($curriculumInventoryReportId, $this->getAdministeredCurriculumInventoryReportIds());
     }
 
     public function rolesInCurriculumInventoryReport(
