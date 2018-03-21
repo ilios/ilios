@@ -27,7 +27,6 @@ class PermissionController extends ApiController
     public function getAction($version, $object, $id)
     {
         $this->fourTenAction();
-
     }
 
     /**
