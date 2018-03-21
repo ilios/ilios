@@ -601,4 +601,149 @@ class SessionUser implements SessionUserInterface
 
         return $rhett;
     }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedCourseIds(): array
+    {
+        return $this->directedCourseIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredCourseIds(): array
+    {
+        return $this->administeredCourseIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedSchoolIds(): array
+    {
+        return $this->directedSchoolIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredSchoolIds(): array
+    {
+        return $this->administeredSchoolIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedCourseSchoolIds(): array
+    {
+        return $this->directedCourseSchoolIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredCourseSchoolIds(): array
+    {
+        return $this->administeredCourseSchoolIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredSessionSchoolIds(): array
+    {
+        return $this->administeredSessionSchoolIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredSessionCourseIds(): array
+    {
+        return $this->administeredSessionCourseIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTaughtCourseIds(): array
+    {
+        return $this->taughtCourseIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredSessionIds(): array
+    {
+        return $this->administeredSessionIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getInstructedSessionIds(): array
+    {
+        return $this->instructedSessionIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTaughtCourseSchoolIds(): array
+    {
+        return $this->taughtCourseSchoolIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedProgramIds(): array
+    {
+        return $this->directedProgramIds;
+    }
+
+    /**
+     * @@inheritdoc
+     */
+    public function getDirectedProgramYearIds(): array
+    {
+        return $this->directedProgramYearIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedProgramYearProgramIds(): array
+    {
+        return $this->directedProgramYearProgramIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedCohortIds(): array
+    {
+        return $this->directedCohortIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredCurriculumInventoryReportIds(): array
+    {
+        return $this->administeredCurriculumInventoryReportIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredCurriculumInventoryReportSchoolIds(): array
+    {
+        return $this->administeredCurriculumInventoryReportSchoolIds;
+    }
 }
