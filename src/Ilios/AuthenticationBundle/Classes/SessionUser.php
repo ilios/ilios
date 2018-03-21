@@ -60,12 +60,12 @@ class SessionUser implements SessionUserInterface
     /**
      * @var array
      */
-    protected $directedCourseIds;
+    protected $directedCourseAndSchoolIds;
 
     /**
      * @var array
      */
-    protected $administeredCourseIds;
+    protected $administeredCourseAndSchoolIds;
 
     /**
      * @var array
@@ -76,16 +76,6 @@ class SessionUser implements SessionUserInterface
      * @var array
      */
     protected $administeredSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $directedCourseSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $administeredCourseSchoolIds;
 
     /**
      * @var array
@@ -161,12 +151,6 @@ class SessionUser implements SessionUserInterface
         $this->userManager = $userManager;
         $relationships = $userManager->buildSessionRelationships($user->getId());
         $this->nonStudentSchoolIds = $relationships['nonStudentSchoolIds'];
-        $this->directedCourseIds = $relationships['directedCourseIds'];
-        $this->administeredCourseIds = $relationships['administeredCourseIds'];
-        $this->directedSchoolIds = $relationships['directedSchoolIds'];
-        $this->administeredSchoolIds = $relationships['administeredSchoolIds'];
-        $this->directedCourseSchoolIds = $relationships['directedCourseSchoolIds'];
-        $this->administeredCourseSchoolIds = $relationships['administeredCourseSchoolIds'];
         $this->administeredSessionSchoolIds = $relationships['administeredSessionSchoolIds'];
         $this->administeredSessionCourseIds = $relationships['administeredSessionCourseIds'];
         $this->taughtCourseIds = $relationships['taughtCourseIds'];
@@ -607,9 +591,20 @@ class SessionUser implements SessionUserInterface
     /**
      * @inheritdoc
      */
+    public function getDirectedCourseAndSchoolIds(): array
+    {
+        if (!isset($this->directedCourseAndSchoolIds)) {
+            $this->directedCourseAndSchoolIds = $this->userManager->getDirectedCourseAndSchoolIds($this->getId());
+        }
+        return $this->directedCourseAndSchoolIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getDirectedCourseIds(): array
     {
-        return $this->directedCourseIds;
+        return $this->getDirectedCourseAndSchoolIds()['courseIds'];
     }
 
     /**
@@ -617,7 +612,7 @@ class SessionUser implements SessionUserInterface
      */
     public function getAdministeredCourseIds(): array
     {
-        return $this->administeredCourseIds;
+        return $this->getAdministeredCourseAndSchoolIds()['courseIds'];
     }
 
     /**
@@ -625,6 +620,9 @@ class SessionUser implements SessionUserInterface
      */
     public function getDirectedSchoolIds(): array
     {
+        if (!isset($this->directedSchoolIds)) {
+            $this->directedSchoolIds = $this->userManager->getDirectedSchoolIds($this->getId());
+        }
         return $this->directedSchoolIds;
     }
 
@@ -633,6 +631,9 @@ class SessionUser implements SessionUserInterface
      */
     public function getAdministeredSchoolIds(): array
     {
+        if (!isset($this->administeredSchoolIds)) {
+            $this->administeredSchoolIds = $this->userManager->getAdministeredSchoolIds($this->getId());
+        }
         return $this->administeredSchoolIds;
     }
 
@@ -641,7 +642,21 @@ class SessionUser implements SessionUserInterface
      */
     public function getDirectedCourseSchoolIds(): array
     {
-        return $this->directedCourseSchoolIds;
+        return $this->getDirectedCourseAndSchoolIds()['schoolIds'];
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredCourseAndSchoolIds(): array
+    {
+        if (!isset($this->administeredCourseAndSchoolIds)) {
+            $this->administeredCourseAndSchoolIds = $this->userManager->getAdministeredCourseAndSchoolIds(
+                $this->getId()
+            );
+        }
+        return $this->administeredCourseAndSchoolIds;
     }
 
     /**
@@ -649,7 +664,7 @@ class SessionUser implements SessionUserInterface
      */
     public function getAdministeredCourseSchoolIds(): array
     {
-        return $this->administeredCourseSchoolIds;
+        return $this->getAdministeredCourseAndSchoolIds()['schoolIds'];
     }
 
     /**

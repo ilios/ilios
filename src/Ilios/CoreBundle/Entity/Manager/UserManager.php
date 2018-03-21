@@ -152,4 +152,56 @@ class UserManager extends BaseManager
         $repository = $this->getRepository();
         return $repository->buildSessionRelationships($userId);
     }
+
+    /**
+     * @param int $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getDirectedSchoolIds()
+     */
+    public function getDirectedSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getDirectedSchoolIds($userId);
+    }
+
+    /**
+     * @param int $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getAdministeredSchoolIds()
+     */
+    public function getAdministeredSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getAdministeredSchoolIds($userId);
+    }
+
+    /**
+     * @param int $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getDirectedCourseAndSchoolIds()
+     */
+    public function getDirectedCourseAndSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getDirectedCourseAndSchoolIds($userId);
+    }
+
+    /**
+     * @param int $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getAdministeredCourseAndSchoolIds()
+     */
+    public function getAdministeredCourseAndSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getAdministeredCourseAndSchoolIds($userId);
+    }
 }

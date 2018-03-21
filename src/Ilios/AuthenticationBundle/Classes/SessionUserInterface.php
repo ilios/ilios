@@ -141,6 +141,11 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     /**
      * @return array
      */
+    public function getDirectedCourseAndSchoolIds(): array;
+
+    /**
+     * @return array
+     */
     public function getDirectedCourseIds(): array;
 
     /**
@@ -162,6 +167,11 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return array
      */
     public function getDirectedCourseSchoolIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getAdministeredCourseAndSchoolIds(): array;
 
     /**
      * @return array
