@@ -113,7 +113,8 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function isTeachingSession(int $sessionId): bool;
     public function rolesInSession(
         int $sessionId,
-        $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]): array;
+        $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]
+    ): array;
     public function rolesInProgram(
         int $programId,
         $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR]
