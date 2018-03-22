@@ -17,11 +17,14 @@ use Ilios\CoreBundle\Traits\CoursesEntity;
 use Ilios\CoreBundle\Traits\SessionsEntity;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 
+use FS\SolrBundle\Doctrine\Annotation as Solr;
+
 /**
  * Class Objective
  *
  * @ORM\Table(name="objective")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ObjectiveRepository")
+ * @Solr\Document()
  *
  * @IS\Entity
  */
@@ -40,6 +43,8 @@ class Objective implements ObjectiveInterface
     /**
      * @var int
      *
+     * @Solr\Id
+     *
      * @ORM\Column(name="objective_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -54,6 +59,8 @@ class Objective implements ObjectiveInterface
 
     /**
      * @var string
+     *
+     * @Solr\Field(type="string")
      *
      * @ORM\Column(type="text")
      *
