@@ -34,6 +34,7 @@
         "eluceo/ical": "0.12.1",
         "exercise/htmlpurifier-bundle": "@stable",
         "firebase/php-jwt": "@stable",
+        "floriansemm/solr-bundle": "^1.6",
         "happyr/google-analytics-bundle": "^4.0",
         "ilios/mesh-parser": "^2.0",
         "incenteev/composer-parameter-handler": "^2.0",
