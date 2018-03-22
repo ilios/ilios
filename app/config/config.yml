@@ -126,3 +126,13 @@ httplug:
 happyr_google_analytics:
     tracking_id: 'INJECTED FROM Config IN TrackApiUsageListener'
     http_message_factory: 'httplug.message_factory'
+
+
+fs_solr:
+    endpoints:
+        core0:
+            host: localhost
+            port: 8983
+            path: /solr/core0
+            core: ilios
+            timeout: 5
