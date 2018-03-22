@@ -230,7 +230,7 @@ trait EndpointTestsTrait
      */
     abstract protected function getDataLoader();
     abstract protected function getOneTest();
-    abstract protected function filterTest(array $filters, array $expectedData);
+    abstract protected function filterTest(array $filters, array $expectedData, int $userId = 2);
     abstract protected function notFoundTest($badId);
     abstract protected function putTest(array $data, array $postData, $id, $new = false);
     abstract protected function deleteTest($id);

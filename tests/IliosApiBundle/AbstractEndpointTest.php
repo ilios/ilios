@@ -395,7 +395,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     /**
      * Test POSTing bad data to the API
      * @param array $data
-     * @param string $error code
+     * @param int $code
      */
     protected function badPostTest(array $data, $code = Response::HTTP_BAD_REQUEST)
     {
@@ -557,12 +557,13 @@ abstract class AbstractEndpointTest extends WebTestCase
      * Test that a filter returns the expected data
      * @param array $filters we are using
      * @param array $expectedData we hope to see
+     * @param int $userId
      */
-    protected function filterTest(array $filters, array $expectedData)
+    protected function filterTest(array $filters, array $expectedData, int $userId = 2)
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $filteredData = $this->getFiltered($endpoint, $responseKey, $filters);
+        $filteredData = $this->getFiltered($endpoint, $responseKey, $filters, $userId);
 
         $timeStampFields = $this->getTimeStampFields();
         $responseData = array_map(function ($arr) use ($timeStampFields) {
@@ -587,9 +588,10 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param $endpoint
      * @param $responseKey
      * @param array $filters
+     * @param int $userId
      * @return mixed
      */
-    protected function getFiltered($endpoint, $responseKey, array $filters)
+    protected function getFiltered($endpoint, $responseKey, array $filters, int $userId = 2)
     {
         $parameters = array_merge([
             'version' => 'v1',
@@ -602,7 +604,7 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $parameters
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getTokenForUser($userId)
         );
 
         $response = $this->client->getResponse();

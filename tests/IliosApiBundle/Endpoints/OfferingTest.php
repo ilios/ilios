@@ -131,11 +131,14 @@ class OfferingTest extends AbstractEndpointTest
     /**
      * Some of the offering time stamps are dynamic so we can't really test them
      * We have to skip that instead.
+     * @param array $filters
+     * @param array $expectedData
+     * @param int $userId
      */
-    public function filterTest(array $filters, array $expectedData)
+    public function filterTest(array $filters, array $expectedData, int $userId = 2)
     {
         $this->skipDates = true;
-        parent::filterTest($filters, $expectedData);
+        parent::filterTest($filters, $expectedData, $userId);
     }
 
     public function testUpdatingLearnerGroupUpdatesOfferingStamp()

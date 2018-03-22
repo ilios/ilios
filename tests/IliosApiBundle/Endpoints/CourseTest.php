@@ -671,4 +671,15 @@ class CourseTest extends AbstractEndpointTest
         $this->assertCount(1, $courses);
         $this->compareData($course, $courses[0]);
     }
+
+    public function testGetMyCoursesIncludesAdministeredCourses()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $this->filterTest(
+            ['my' => true],
+            [$all[0], $all[1], $all[4]],
+            5
+        );
+    }
 }

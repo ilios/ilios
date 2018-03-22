@@ -137,6 +137,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
 
         $qb->leftJoin('c.sessions', 'session');
         $qb->leftJoin('c.directors', 'director');
+        $qb->leftJoin('c.administrators', 'administrator');
         $qb->leftJoin('session.offerings', 'offering');
         $qb->leftJoin('offering.instructors', 'user');
         $qb->leftJoin('offering.instructorGroups', 'insGroup');
@@ -147,6 +148,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
         $qb->leftJoin('ilmInsGroup.users', 'ilmInsGroupUser');
         $qb->andWhere($qb->expr()->orX(
             $qb->expr()->in('director.id', ':users'),
+            $qb->expr()->in('administrator.id', ':users'),
             $qb->expr()->in('user.id', ':users'),
             $qb->expr()->in('groupUser.id', ':users'),
             $qb->expr()->in('ilmInstructor.id', ':users'),
@@ -183,6 +185,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
 
         $qb->leftJoin('c.sessions', 'session');
         $qb->leftJoin('c.directors', 'director');
+        $qb->leftJoin('c.administrators', 'administrator');
         $qb->leftJoin('session.offerings', 'offering');
         $qb->leftJoin('session.ilmSession', 'ilmSession');
 
@@ -205,6 +208,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
 
         $qb->andWhere($qb->expr()->orX(
             $qb->expr()->in('director.id', ':users'),
+            $qb->expr()->in('administrator.id', ':users'),
             $qb->expr()->in('instructor.id', ':users'),
             $qb->expr()->in('instructorGroupUser.id', ':users'),
             $qb->expr()->in('ilmInstructor.id', ':users'),
