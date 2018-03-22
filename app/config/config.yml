@@ -133,6 +133,6 @@ fs_solr:
         core0:
             host: localhost
             port: 8983
-            path: /solr/core0
+            path: /solr
             core: ilios
             timeout: 5
