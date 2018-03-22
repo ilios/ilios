@@ -145,7 +145,7 @@ class UserData extends AbstractDataLoader
             'directedCourses' => ["3"],
             'learnerGroups' => [],
             'instructedLearnerGroups' => [],
-            'instructorGroups' => [],
+            'instructorGroups' => ['2'],
             'instructorIlmSessions' => [],
             'learnerIlmSessions' => [],
             'offerings' => [],

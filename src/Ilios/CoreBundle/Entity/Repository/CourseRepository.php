@@ -133,78 +133,42 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function isUserInstructingInCourse($userId, $courseId)
     {
-        $sql =<<<EOL
-SELECT
-  oxi.user_id
-FROM
-  offering_x_instructor oxi
-JOIN offering o ON o.offering_id = oxi.offering_id
-JOIN session s ON s.session_id = o.session_id
-WHERE
-  oxi.user_id = :user_id
-  AND s.course_id = :course_id
+        $qb = $this->_em->createQueryBuilder()->select('c.id')->from('IliosCoreBundle:Course', 'c');
 
-UNION
+        $qb->leftJoin('c.sessions', 'session');
+        $qb->leftJoin('c.directors', 'director');
+        $qb->leftJoin('session.offerings', 'offering');
+        $qb->leftJoin('offering.instructors', 'user');
+        $qb->leftJoin('offering.instructorGroups', 'insGroup');
+        $qb->leftJoin('insGroup.users', 'groupUser');
+        $qb->leftJoin('session.ilmSession', 'ilmSession');
+        $qb->leftJoin('ilmSession.instructors', 'ilmInstructor');
+        $qb->leftJoin('ilmSession.instructorGroups', 'ilmInsGroup');
+        $qb->leftJoin('ilmInsGroup.users', 'ilmInsGroupUser');
+        $qb->andWhere($qb->expr()->orX(
+            $qb->expr()->in('director.id', ':users'),
+            $qb->expr()->in('user.id', ':users'),
+            $qb->expr()->in('groupUser.id', ':users'),
+            $qb->expr()->in('ilmInstructor.id', ':users'),
+            $qb->expr()->in('ilmInsGroupUser.id', ':users')
+        ));
+        $qb->setParameter(':users', $userId);
 
-SELECT
-  igxu.user_id
-FROM 
-  instructor_group_x_user igxu 
-JOIN offering_x_instructor_group oxig ON oxig.instructor_group_id = igxu.instructor_group_id
-JOIN offering o ON o.offering_id = oxig.offering_id
-JOIN session s ON s.session_id = o.session_id
-WHERE 
-  igxu.user_id = :user_id
-  AND s.course_id = :course_id
+        $results = $qb->getQuery()->getResult();
 
-UNION
-
-SELECT 
-  ixi.user_id
-FROM 
-  ilm_session_facet_x_instructor ixi
-JOIN ilm_session_facet i ON i.ilm_session_facet_id = ixi.ilm_session_facet_id
-JOIN session s ON s.session_id = i.session_id
-WHERE
-  ixi.user_id = :user_id
-  AND s.course_id = :course_id
-
-UNION
-
-SELECT
-  igxu.user_id
-FROM
-  instructor_group_x_user igxu
-JOIN ilm_session_facet_x_instructor_group ixig ON ixig.instructor_group_id = igxu.instructor_group_id
-JOIN ilm_session_facet i ON i.ilm_session_facet_id = ixig.ilm_session_facet_id
-JOIN session s ON s.session_id = i.session_id
-WHERE
-  igxu.user_id = :user_id
-  AND s.course_id = :course_id
-EOL;
-
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("user_id", $userId);
-        $stmt->bindValue("course_id", $courseId);
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
-        $isInstructing = ! empty($rows);
-        $stmt->closeCursor();
-        return $isInstructing;
+        return !empty($results);
     }
 
     /**
      * Finds all courses associated with a given user.
      * A user can be associated as either course director, learner or instructor with a given course.
      *
-     * @param integer $user
+     * @param integer $userId
      * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
      * @return CourseInterface[]
-     * @throws \Exception
      */
     public function findByUserId(
         $userId,
@@ -214,144 +178,72 @@ EOL;
         $offset = null
     ) {
 
-        $rsm = new ResultSetMappingBuilder($this->_em);
-        $rsm->addRootEntityFromClassMetadata('IliosCoreBundle:Course', 'c');
-        $meta = $this->_em->getClassMetadata('IliosCoreBundle:Course');
+        $qb = $this->_em->createQueryBuilder()->distinct()->select('c');
+        $qb->from('IliosCoreBundle:Course', 'c');
+
+        $qb->leftJoin('c.sessions', 'session');
+        $qb->leftJoin('c.directors', 'director');
+        $qb->leftJoin('session.offerings', 'offering');
+        $qb->leftJoin('session.ilmSession', 'ilmSession');
+
+        //instructors relationships
+        $qb->leftJoin('offering.instructors', 'instructor');
+        $qb->leftJoin('offering.instructorGroups', 'instructorGroup');
+        $qb->leftJoin('instructorGroup.users', 'instructorGroupUser');
+        $qb->leftJoin('ilmSession.instructors', 'ilmInstructor');
+        $qb->leftJoin('ilmSession.instructorGroups', 'ilmInstructorGroup');
+        $qb->leftJoin('ilmInstructorGroup.users', 'ilmInstructorGroupUser');
+
+        //learner relationships
+        $qb->leftJoin('offering.learners', 'learner');
+        $qb->leftJoin('offering.learnerGroups', 'learnerGroup');
+        $qb->leftJoin('learnerGroup.users', 'learnerGroupUser');
+
+        $qb->leftJoin('ilmSession.learners', 'ilmLearner');
+        $qb->leftJoin('ilmSession.learnerGroups', 'ilmLearnerGroup');
+        $qb->leftJoin('ilmLearnerGroup.users', 'ilmLearnerGroupUser');
+
+        $qb->andWhere($qb->expr()->orX(
+            $qb->expr()->in('director.id', ':users'),
+            $qb->expr()->in('instructor.id', ':users'),
+            $qb->expr()->in('instructorGroupUser.id', ':users'),
+            $qb->expr()->in('ilmInstructor.id', ':users'),
+            $qb->expr()->in('ilmInstructorGroupUser.id', ':users'),
+            $qb->expr()->in('learner.id', ':users'),
+            $qb->expr()->in('learnerGroupUser.id', ':users'),
+            $qb->expr()->in('ilmLearner.id', ':users'),
+            $qb->expr()->in('ilmLearnerGroupUser.id', ':users')
+        ));
+        $qb->setParameter(':users', $userId);
+
+        if (count($criteria)) {
+            foreach ($criteria as $key => $value) {
+                $values = is_array($value) ? $value : [$value];
+                $qb->andWhere($qb->expr()->in("c.{$key}", ":{$key}"));
+                $qb->setParameter(":{$key}", $values);
+            }
+        }
 
         if (empty($orderBy)) {
             $orderBy = ['id' => 'ASC'];
         }
 
-        $sql =<<<EOL
-SELECT * FROM (
-  SELECT c.* FROM course c
-    JOIN course_director cd ON cd.course_id = c.course_id
-    JOIN user u ON u.user_id = cd.user_id
-    WHERE u.user_id = :user_id
-  UNION
-  SELECT c.* FROM course c
-    JOIN `session` s ON s.course_id = c.course_id
-    JOIN offering o ON o.session_id = s.session_id
-    JOIN offering_x_learner oxl ON oxl.offering_id = o.offering_id
-    JOIN user u ON u.user_id = oxl.user_id
-    WHERE u.user_id = :user_id
-  UNION
-  SELECT c.* FROM course c
-    JOIN `session` s ON s.course_id = c.course_id
-    JOIN offering o ON o.session_id = s.session_id
-    JOIN offering_x_group oxg ON oxg.offering_id = o.offering_id
-    JOIN `group` g ON g.group_id = oxg.group_id
-    JOIN group_x_user gxu ON gxu.group_id = g.group_id
-    JOIN user u ON u.user_id = gxu.user_id
-    WHERE u.user_id = :user_id
-  UNION
-  SELECT c.* FROM course c
-    JOIN `session` s ON s.course_id = c.course_id
-    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
-    JOIN ilm_session_facet_x_learner ilmxl ON ilmxl.ilm_session_facet_id = ilm.ilm_session_facet_id
-    JOIN user u ON u.user_id = ilmxl.user_id
-    WHERE u.user_id = :user_id
-  UNION
-  SELECT c.* FROM course c
-    JOIN `session` s ON s.course_id = c.course_id
-    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
-    JOIN ilm_session_facet_x_group ilmxg ON ilmxg.ilm_session_facet_id = ilm.ilm_session_facet_id
-    JOIN `group` g ON g.group_id = ilmxg.group_id
-    JOIN group_x_user gxu ON gxu.group_id = g.group_id
-    JOIN user u ON u.user_id = gxu.user_id
-    WHERE u.user_id = :user_id
-  UNION
-  SELECT c.* FROM course c
-    JOIN `session` s ON s.course_id = c.course_id
-    JOIN offering o ON o.session_id = s.session_id
-    JOIN offering_x_instructor oxi ON oxi.offering_id = o.offering_id
-    JOIN user u ON u.user_id = oxi.user_id
-    WHERE u.user_id = :user_id
-  UNION
-  SELECT c.* FROM course c
-    JOIN `session` s ON s.course_id = c.course_id
-    JOIN offering o ON o.session_id = s.session_id
-    JOIN offering_x_instructor_group oxig ON oxig.offering_id = o.offering_id
-    JOIN instructor_group ig ON ig.instructor_group_id = oxig.instructor_group_id
-    JOIN instructor_group_x_user igxu ON igxu.instructor_group_id = ig.instructor_group_id
-    JOIN user u ON u.user_id = igxu.user_id
-    WHERE u.user_id = :user_id
-  UNION
-  SELECT c.* FROM course c
-    JOIN `session` s ON s.course_id = c.course_id
-    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
-    JOIN ilm_session_facet_x_instructor ilmxi ON ilmxi.ilm_session_facet_id = ilm.ilm_session_facet_id
-    JOIN user u ON u.user_id = ilmxi.user_id
-    WHERE u.user_id = :user_id
-  UNION
-  SELECT c.* FROM course c
-    JOIN `session` s ON s.course_id = c.course_id
-    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
-    JOIN ilm_session_facet_x_instructor_group ilmxig ON ilmxig.ilm_session_facet_id = ilm.ilm_session_facet_id
-    JOIN instructor_group ig ON ig.instructor_group_id = ilmxig.instructor_group_id
-    JOIN instructor_group_x_user igxu ON igxu.instructor_group_id = ig.instructor_group_id
-    JOIN user u ON u.user_id = igxu.user_id
-    WHERE u.user_id = :user_id
-) AS my_courses
-EOL;
-
-        $params = [];
-        $i = 0;
-        $sqlFragments = [];
-        foreach ($criteria as $name => $value) {
-            $i++;
-            if (! $meta->hasField($name)) {
-                throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $name));
-            }
-
-            $column = $meta->getColumnName($name);
-            $label = 'param' . $i;
-            $params[$name] = $label;
-            if (is_array($value)) {
-                $sqlFragments[] = "{$column} IN (:{$label})";
-            } else {
-                $sqlFragments[] = "{$column} = :{$label}";
-            }
-        }
-        if (count($sqlFragments)) {
-            $sql .= ' WHERE ' . implode(' AND ', $sqlFragments);
-        }
-
         if (is_array($orderBy)) {
-            $sqlFragments = [];
             foreach ($orderBy as $sort => $order) {
-                if (! $meta->hasField($sort)) {
-                    throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $sort));
-                }
-                $column = $meta->getColumnName($sort);
-                $sqlFragments[] = "{$column} " . ('desc' === strtolower($order) ? 'DESC' : 'ASC');
+                $qb->addOrderBy('c.' . $sort, $order);
             }
-            $sql .= ' ORDER BY ';
-            $sql .= implode(', ', $sqlFragments);
         }
 
-        if (isset($limit)) {
-            $sql .= ' LIMIT :limit';
+        if ($offset) {
+            $qb->setFirstResult($offset);
         }
 
-        if (isset($offset)) {
-            $sql .= ' OFFSET :offset';
+        if ($limit) {
+            $qb->setMaxResults($limit);
         }
 
-        $query = $this->_em->createNativeQuery($sql, $rsm);
-        $query->setParameter('user_id', $userId);
-        foreach ($params as $field => $label) {
-            $value = $criteria[$field];
-            $query->setParameter($label, $value);
-        }
 
-        if (isset($limit)) {
-            $query->setParameter('limit', (int) $limit);
-        }
-        if (isset($offset)) {
-            $query->setParameter('offset', (int) $offset);
-        }
-        return $query->getResult();
+        return $qb->getQuery()->getResult();
     }
 
 

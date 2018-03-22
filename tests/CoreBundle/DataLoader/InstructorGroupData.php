@@ -24,7 +24,7 @@ class InstructorGroupData extends AbstractDataLoader
             'school' => '1',
             'learnerGroups' => [],
             'ilmSessions' => [],
-            'users' => ['2'],
+            'users' => ['2', '4'],
             'offerings' => ['3']
         );
 
