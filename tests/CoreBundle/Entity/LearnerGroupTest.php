@@ -63,6 +63,7 @@ class LearnerGroupTest extends EntityBase
         $this->assertEmpty($this->object->getOfferings());
         $this->assertEmpty($this->object->getUsers());
         $this->assertEmpty($this->object->getChildren());
+        $this->assertEmpty($this->object->getDescendants());
     }
 
     /**
@@ -327,5 +328,57 @@ class LearnerGroupTest extends EntityBase
     public function testGetChildren()
     {
         $this->entityCollectionSetTest('child', 'LearnerGroup', 'getChildren', 'setChildren');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\LearnerGroup::setAncestor
+     * @covers \Ilios\CoreBundle\Entity\LearnerGroup::getAncestor
+     */
+    public function testSetAncestor()
+    {
+        $this->entitySetTest('ancestor', 'LearnerGroup');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\LearnerGroup::getAncestorOrSelf
+     */
+    public function testGetAncestorOrSelfWithAncestor()
+    {
+        $ancestor = m::mock('Ilios\CoreBundle\Entity\LearnerGroup');
+        $this->object->setAncestor($ancestor);
+        $this->assertSame($ancestor, $this->object->getAncestorOrSelf());
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\LearnerGroup::getAncestorOrSelf
+     */
+    public function testGetAncestorOrSelfWithNoAncestor()
+    {
+        $this->assertSame($this->object, $this->object->getAncestorOrSelf());
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\LearnerGroup::addDescendant
+     */
+    public function testAddDescendant()
+    {
+        $this->entityCollectionAddTest('descendant', 'LearnerGroup', 'getDescendants', 'addDescendant', 'setAncestor');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\LearnerGroup::removeDescendant
+     */
+    public function testRemoveDescendant()
+    {
+        $this->entityCollectionRemoveTest('descendant', 'LearnerGroup');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\LearnerGroup::getDescendants
+     * @covers \Ilios\CoreBundle\Entity\LearnerGroup::setDescendants
+     */
+    public function testGetDescendants()
+    {
+        $this->entityCollectionSetTest('descendant', 'LearnerGroup', 'getDescendants', 'setDescendants', 'setAncestor');
     }
 }

@@ -38,6 +38,9 @@ class LoadLearnerGroupData extends AbstractFixture implements
             if (!empty($arr['parent'])) {
                 $entity->setParent($this->getReference('learnerGroups' . $arr['parent']));
             }
+            if (!empty($arr['ancestor'])) {
+                $entity->setAncestor($this->getReference('learnerGroups' . $arr['ancestor']));
+            }
             $entity->setCohort($this->getReference('cohorts' . $arr['cohort']));
             foreach ($arr['users'] as $id) {
                 $entity->addUser($this->getReference('users' . $id));

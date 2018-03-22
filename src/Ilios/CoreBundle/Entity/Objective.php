@@ -365,7 +365,7 @@ class Objective implements ObjectiveInterface
     }
 
     /**
-     * @param ObjectiveInterface $parent
+     * @param ObjectiveInterface $ancestor
      */
     public function setAncestor(ObjectiveInterface $ancestor = null)
     {

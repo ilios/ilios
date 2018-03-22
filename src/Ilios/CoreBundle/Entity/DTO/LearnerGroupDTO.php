@@ -49,6 +49,22 @@ class LearnerGroupDTO
     public $parent;
 
     /**
+     * @var integer
+     * @IS\Expose
+     * @IS\Type("string")
+     *
+     */
+    public $ancestor;
+
+    /**
+     * @var int[]
+     * @IS\Expose
+     * @IS\Type("array<string>")
+     *
+     */
+    public $descendants;
+
+    /**
      * @var array
      * @IS\Expose
      * @IS\Type("array<string>")
@@ -106,5 +122,6 @@ class LearnerGroupDTO
         $this->instructorGroups = [];
         $this->users = [];
         $this->instructors = [];
+        $this->descendants = [];
     }
 }
