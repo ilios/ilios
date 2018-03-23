@@ -612,44 +612,14 @@ class CourseTest extends ReadWriteEndpointTest
         $this->badPostTest($data);
     }
 
-    public function testViewInstructedCourseInAnotherSchool()
-    {
-        $dataLoader = $this->getDataLoader();
-        $course = $dataLoader->getOne();
-        $this->assertSame('1', $course['school']);
-
-        /** @var UserData $dataLoader */
-        $userDataLoader = $this->container->get(UserData::class);
-        $users = $userDataLoader->getAll();
-        $user = $users[3];
-        $this->assertSame('2', $user['school']);
-
-        $url = $this->getUrl(
-            'ilios_api_get',
-            ['version' => 'v1', 'object' => 'courses', 'id' => $course['id']]
-        );
-        $this->createJsonRequest(
-            'GET',
-            $url,
-            null,
-            $this->getTokenForUser($user['id'])
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_OK);
-        $courses = json_decode($response->getContent(), true)['courses'];
-        $this->assertCount(1, $courses);
-        $this->compareData($course, $courses[0]);
-    }
-
     public function testGetMyCoursesIncludesAdministeredCourses()
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $this->filterTest(
             ['my' => true],
-            [$all[0], $all[1], $all[4]],
-            5
+            [$all[0], $all[2], $all[4]],
+            4
         );
     }
 }
