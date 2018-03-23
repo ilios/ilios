@@ -204,6 +204,10 @@ class SessionUser implements SessionUserInterface
             $this->directedCourseIds = $user->getDirectedCourses()->map(function (CourseInterface $course) {
                 return $course->getId();
             })->toArray();
+
+            $this->administeredCourseIds = $user->getAdministeredCourses()->map(function (CourseInterface $course) {
+                return $course->getId();
+            })->toArray();
         }
 
 
@@ -554,9 +558,6 @@ class SessionUser implements SessionUserInterface
 
     public function isAdministeringCourse(int $courseId) : bool
     {
-        if (! $this->useNewPermissionsSystem) {
-            throw new \Exception('Not implemented.');
-        }
         return in_array($courseId, $this->administeredCourseIds);
     }
 
