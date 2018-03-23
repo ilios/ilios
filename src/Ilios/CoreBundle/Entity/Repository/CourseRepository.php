@@ -292,6 +292,11 @@ SELECT * FROM (
     JOIN instructor_group_x_user igxu ON igxu.instructor_group_id = ig.instructor_group_id
     JOIN user u ON u.user_id = igxu.user_id
     WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN course_administrator a ON c.course_id = a.course_id
+    JOIN user u ON u.user_id = cd.user_id
+    WHERE u.user_id = :user_id
 ) AS my_courses
 EOL;
 
