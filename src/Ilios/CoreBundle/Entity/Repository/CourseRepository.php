@@ -294,8 +294,8 @@ SELECT * FROM (
     WHERE u.user_id = :user_id
   UNION
   SELECT c.* FROM course c
-    JOIN course_administrator a ON c.course_id = a.course_id
-    JOIN user u ON u.user_id = cd.user_id
+    JOIN course_administrator ca ON c.course_id = ca.course_id
+    JOIN user u ON u.user_id = ca.user_id
     WHERE u.user_id = :user_id
 ) AS my_courses
 EOL;
