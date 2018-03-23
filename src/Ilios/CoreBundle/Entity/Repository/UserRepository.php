@@ -1360,7 +1360,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $sessionUserRelationships['directedProgramYearProgramIds'][] = $arr['programId'];
             $programYearDirectorSchoolIds[] = $arr['schoolId'];
         }
-        */
+
 
         $sessionUserRelationships['nonStudentSchoolIds'] = array_merge(
             $sessionUserRelationships['directedSchoolIds'],
@@ -1377,6 +1377,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         );
 
         return $sessionUserRelationships;
+
+        */
     }
 
     /**
@@ -1391,6 +1393,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('u.directedSchools', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         return $this->flattenArray($qb->getQuery()->getArrayResult());
     }
 
@@ -1406,6 +1409,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('u.administeredSchools', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         return $this->flattenArray($qb->getQuery()->getArrayResult());
     }
 
@@ -1417,6 +1421,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      */
     public function getDirectedCourseAndSchoolIds($userId): array
     {
+        $rhett['schoolIds'] = [];
+        $rhett['courseIds'] = [];
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, courses.id as courseId')->from(User::class, 'u');
         $qb->join('u.directedCourses', 'courses');
@@ -1424,13 +1431,13 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        $rhett['schoolIds'] = [];
-        $rhett['courseIds'] = [];
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
+
         }
-        return $rhett;
+
+        return $this->dedupeSubArrays($rhett);
     }
 
     /**
@@ -1441,6 +1448,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      */
     public function getAdministeredCourseAndSchoolIds($userId)
     {
+        $rhett['schoolIds'] = [];
+        $rhett['courseIds'] = [];
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, courses.id as courseId')->from(User::class, 'u');
         $qb->join('u.administeredCourses', 'courses');
@@ -1448,13 +1458,12 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        $rhett['schoolIds'] = [];
-        $rhett['courseIds'] = [];
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
         }
-        return $rhett;
+
+        return $this->dedupeSubArrays($rhett);
     }
 
     /**
@@ -1465,6 +1474,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      */
     public function getAdministeredCurriculumInventoryReportAndSchoolIds($userId): array
     {
+        $rhett['reportIds'] = [];
+        $rhett['schoolIds'] = [];
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, ciReports.id as ciReportId')->from(User::class, 'u');
         $qb->join('u.administeredCurriculumInventoryReports', 'ciReports');
@@ -1473,13 +1485,12 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        $rhett['reportIds'] = [];
-        $rhett['schoolIds'] = [];
-
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['reportIds'][] = $arr['ciReportId'];
             $rhett['schoolIds'][] = $arr['schoolId'];
         }
+
+        return $this->dedupeSubArrays($rhett);
     }
 
     /**
@@ -1490,6 +1501,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      */
     public function getAdministeredSessionCourseAndSchoolIds($userId): array
     {
+        $rhett['schoolIds'] = [];
+        $rhett['courseIds'] = [];
+        $rhett['sessionIds'] = [];
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, course.id as courseId, session.id as sessionId');
         $qb->from(User::class, 'u');
@@ -1499,14 +1514,13 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        $rhett['schoolIds'] = [];
-        $rhett['courseIds'] = [];
-        $rhett['sessionIds'] = [];
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
         }
+
+        return $this->dedupeSubArrays($rhett);
     }
 
     /**
@@ -1525,6 +1539,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('program.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         return $this->flattenArray($qb->getQuery()->getArrayResult());
     }
 
@@ -1541,6 +1556,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('instructorGroup.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         return $this->flattenArray($qb->getQuery()->getArrayResult());
     }
 
@@ -1566,6 +1582,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
@@ -1582,6 +1599,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
@@ -1597,6 +1615,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
@@ -1612,13 +1631,14 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
         }
 
-        return $rhett;
+        return $this->dedupeSubArrays($rhett);
     }
 
     /**
@@ -1631,6 +1651,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     {
         $rhett['programIds'] = [];
         $rhett['schoolIds'] = [];
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, program.id as programId')->from(User::class, 'u');
         $qb->join('u.directedPrograms', 'program');
@@ -1641,7 +1662,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['programIds'][] = $arr['programId'];
             $rhett['schoolIds'][] = $arr['schoolId'];
         }
-        return $rhett;
+
+        return $this->dedupeSubArrays($rhett);
     }
 
     /**
@@ -1657,6 +1679,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $rhett['cohortIds'] = [];
         $rhett['programIds'] = [];
         $rhett['schoolIds'] = [];
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, program.id as programId, py.id as pyId, cohort.id as cohortId');
         $qb->from(User::class, 'u');
@@ -1666,20 +1689,48 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('program.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['programYearIds'][] = $arr['pyId'];
             $rhett['cohortIds'][] = $arr['cohortId'];
             $rhett['programIds'][] = $arr['programId'];
-            $rhett['schoolIds'] = $arr['schoolId'];
+            $rhett['schoolIds'][] = $arr['schoolId'];
         }
-        return $rhett;
+
+        return $this->dedupeSubArrays($rhett);
     }
 
+    /**
+     * Flattens a given array of arrays into one array.
+     *
+     * @param array $arr
+     * @return array
+     */
     protected function flattenArray(array $arr): array
     {
         if (!count($arr)) {
             return [];
         }
         return array_values(array_merge(...$arr));
+    }
+
+    /**
+     * De-dupes entries in sub-arrays of a given associative array.
+     *
+     * @param array $map
+     * @return array
+     */
+    protected function dedupeSubArrays(array $map): array
+    {
+        $rhett = [];
+
+        foreach ($map as $key => $value) {
+            if (is_array($value)) {
+                $value = array_unique($value);
+            }
+            $rhett[$key] = $value;
+        }
+
+        return $rhett;
     }
 }

@@ -587,11 +587,11 @@ class SessionUser implements SessionUserInterface
         return $rhett;
     }
 
-
     /**
-     * @inheritdoc
+     * @return array
+     * @throws \Exception
      */
-    public function getDirectedCourseAndSchoolIds(): array
+    protected function getDirectedCourseAndSchoolIds(): array
     {
         if (!isset($this->directedCourseAndSchoolIds)) {
             $this->directedCourseAndSchoolIds = $this->userManager->getDirectedCourseAndSchoolIds($this->getId());
@@ -647,9 +647,10 @@ class SessionUser implements SessionUserInterface
 
 
     /**
-     * @inheritdoc
+     * @return array
+     * @throws \Exception
      */
-    public function getAdministeredCourseAndSchoolIds(): array
+    protected function getAdministeredCourseAndSchoolIds(): array
     {
         if (!isset($this->administeredCourseAndSchoolIds)) {
             $this->administeredCourseAndSchoolIds = $this->userManager->getAdministeredCourseAndSchoolIds(
