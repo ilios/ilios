@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Drops obsolete <code>user_made_reminder</code> table.
  */
-class Version20180316192517 extends AbstractMigration
+class Version20180323231630 extends AbstractMigration
 {
     /**
      * @inheritdoc

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Removes <code>permission</code> table.
  */
-class Version20180313231620 extends AbstractMigration
+class Version20180323231620 extends AbstractMigration
 {
     /**
      * @inheritdoc
