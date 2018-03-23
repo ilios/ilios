@@ -204,4 +204,95 @@ class UserManager extends BaseManager
         $repository = $this->getRepository();
         return $repository->getAdministeredCourseAndSchoolIds($userId);
     }
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getAdministeredCurriculumInventoryReportAndSchoolIds
+     */
+    public function getAdministeredCurriculumInventoryReportAndSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getAdministeredCurriculumInventoryReportAndSchoolIds($userId);
+    }
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getAdministeredSessionCourseAndSchoolIds()
+     */
+    public function getAdministeredSessionCourseAndSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getAdministeredSessionCourseAndSchoolIds($userId);
+    }
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getInstructedLearnerGroupSchoolIds()
+     */
+    public function getInstructedLearnerGroupSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getInstructedLearnerGroupSchoolIds($userId);
+    }
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getInstructorGroupSchoolIds()
+     */
+    public function getInstructorGroupSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getInstructorGroupSchoolIds($userId);
+    }
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getInstructedSessionCourseAndSchoolIds()
+     */
+    public function getInstructedSessionCourseAndSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getInstructedSessionCourseAndSchoolIds($userId);
+    }
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getDirectedProgramAndSchoolIds()
+     */
+    public function getDirectedProgramAndSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getDirectedProgramAndSchoolIds($userId);
+    }
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getDirectedCohortProgramYearProgramAndSchoolIds()
+     */
+    public function getDirectedCohortProgramYearProgramAndSchoolIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getDirectedProgramAndSchoolIds($userId);
+    }
 }

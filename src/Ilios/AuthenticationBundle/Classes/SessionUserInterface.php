@@ -125,23 +125,19 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function isDirectingProgramYear(int $programYearId) : bool;
     public function isDirectingProgramYearInProgram(int $programId) : bool;
     public function isDirectingCohort(int $cohortId) : bool;
-
+    public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId) : bool;
     public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId) : bool;
     public function rolesInCurriculumInventoryReport(
         int $curriculumInventoryReportId,
         $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR]
     ): array;
+
     /**
      * Checks if this user is performing any non-student function in the system,
      * such as teaching, directing or administering courses, programs, etc.
      * @return bool
      */
     public function performsNonLearnerFunction(): bool;
-
-    /**
-     * @return array
-     */
-    public function getDirectedCourseAndSchoolIds(): array;
 
     /**
      * @return array
@@ -167,11 +163,6 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return array
      */
     public function getDirectedCourseSchoolIds(): array;
-
-    /**
-     * @return array
-     */
-    public function getAdministeredCourseAndSchoolIds(): array;
 
     /**
      * @return array
