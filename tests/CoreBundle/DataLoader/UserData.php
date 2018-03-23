@@ -151,7 +151,7 @@ class UserData extends AbstractDataLoader
             'directedSchools' => [],
             'administeredSchools' => [],
             'administeredSessions' => [],
-            'administeredCourses' => [],
+            'administeredCourses' => ['5'],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
         );
@@ -187,7 +187,7 @@ class UserData extends AbstractDataLoader
             'directedSchools' => [],
             'administeredSchools' => [],
             'administeredSessions' => [],
-            'administeredCourses' => ['5'],
+            'administeredCourses' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
         );
