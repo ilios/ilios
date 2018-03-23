@@ -141,19 +141,6 @@ class UserManager extends BaseManager
     }
 
     /**
-     * Finds and adds learning materials to a given list of user events.
-     *
-     * @param int $userId
-     * @return array
-     */
-    public function buildSessionRelationships(int $userId) : array
-    {
-        /** @var UserRepository $repository */
-        $repository = $this->getRepository();
-        return $repository->buildSessionRelationships($userId);
-    }
-
-    /**
      * @param int $userId
      * @return array
      * @throws \Exception
@@ -293,6 +280,6 @@ class UserManager extends BaseManager
     {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
-        return $repository->getDirectedProgramAndSchoolIds($userId);
+        return $repository->getDirectedCohortProgramYearProgramAndSchoolIds($userId);
     }
 }

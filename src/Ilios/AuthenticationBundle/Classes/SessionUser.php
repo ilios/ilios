@@ -18,11 +18,6 @@ use DateTime;
 class SessionUser implements SessionUserInterface
 {
     /**
-     * @var array
-     */
-    protected $nonStudentSchoolIds;
-
-    /**
      * @var integer
      */
     protected $userId;
@@ -80,62 +75,32 @@ class SessionUser implements SessionUserInterface
     /**
      * @var array
      */
-    protected $administeredSessionSchoolIds;
+    protected $administeredSessionCourseAndSchoolIds;
 
     /**
      * @var array
      */
-    protected $administeredSessionCourseIds;
+    protected $instructedSessionCourseAndSchoolIds;
 
     /**
      * @var array
      */
-    protected $taughtCourseIds;
+    protected $instructedLearnerGroupSchoolIds;
 
     /**
      * @var array
      */
-    protected $administeredSessionIds;
+    protected $directedProgramAndSchoolIds;
 
     /**
      * @var array
      */
-    protected $instructedSessionIds;
+    protected $directedCohortProgramYearProgramAndSchoolIds;
 
     /**
      * @var array
      */
-    protected $taughtCourseSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $directedProgramIds;
-
-    /**
-     * @var array
-     */
-    protected $directedProgramYearIds;
-
-    /**
-     * @var array
-     */
-    protected $directedProgramYearProgramIds;
-
-    /**
-     * @var array
-     */
-    protected $directedCohortIds;
-
-    /**
-     * @var array
-     */
-    protected $administeredCurriculumInventoryReportIds;
-
-    /**
-     * @var array
-     */
-    protected $administeredCurriculumInventoryReportSchoolIds;
+    protected $administeredCurriculumInventoryReportAndSchoolIds;
 
     /**
      * @var UserManager
@@ -149,22 +114,6 @@ class SessionUser implements SessionUserInterface
     public function __construct(IliosUserInterface $user, UserManager $userManager)
     {
         $this->userManager = $userManager;
-        $relationships = $userManager->buildSessionRelationships($user->getId());
-        $this->nonStudentSchoolIds = $relationships['nonStudentSchoolIds'];
-        $this->administeredSessionSchoolIds = $relationships['administeredSessionSchoolIds'];
-        $this->administeredSessionCourseIds = $relationships['administeredSessionCourseIds'];
-        $this->taughtCourseIds = $relationships['taughtCourseIds'];
-        $this->taughtCourseSchoolIds = $relationships['taughtCourseSchoolIds'];
-        $this->administeredSessionIds = $relationships['administeredSessionIds'];
-        $this->instructedSessionIds = $relationships['instructedSessionIds'];
-        $this->directedProgramIds = $relationships['directedProgramIds'];
-        $this->directedProgramYearIds = $relationships['directedProgramYearIds'];
-        $this->directedProgramYearProgramIds = $relationships['directedProgramYearProgramIds'];
-        $this->directedCohortIds = $relationships['directedCohortIds'];
-        $this->administeredCurriculumInventoryReportIds
-            = $relationships['administeredCurriculumInventoryReportIds'];
-        $this->administeredCurriculumInventoryReportSchoolIds
-            = $relationships['administeredCurriculumInventoryReportSchoolIds'];
 
         $this->userId = $user->getId();
         $this->isRoot = $user->isRoot();
@@ -184,32 +133,22 @@ class SessionUser implements SessionUserInterface
      */
     public function performsNonLearnerFunction():bool
     {
-        $rhett = false;
-        $getters = [
-            'getDirectedCourseIds',
-            'getAdministeredCourseIds',
-            'getDirectedSchoolIds',
-            'getAdministeredSchoolIds',
-            'getTaughtCourseIds',
-            'getAdministeredSessionIds',
-            'getInstructedSessionIds',
-            'getDirectedProgramIds',
-            'getDirectedProgramYearIds',
-            'getDirectedCohortIds',
-            'getAdministeredCurriculumInventoryReportIds'
-        ];
-        foreach ($getters as $getter) {
-            $ids = call_user_func([$this, $getter]);
-            if (! empty($ids)) {
-                $rhett = true;
-                break;
-            }
-        }
-        return $rhett;
+        return
+            !empty($this->getDirectedCourseIds()) ||
+            !empty($this->getAdministeredCourseIds()) ||
+            !empty($this->getDirectedSchoolIds()) ||
+            !empty($this->getAdministeredSchoolIds()) ||
+            !empty($this->getTaughtCourseIds()) ||
+            !empty($this->getAdministeredSessionIds()) ||
+            !empty($this->getInstructedSessionIds()) ||
+            !empty($this->getDirectedProgramIds()) ||
+            !empty($this->getDirectedProgramYearIds()) ||
+            !empty($this->getDirectedCohortIds()) ||
+            !empty($this->getAdministeredCurriculumInventoryReportIds());
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isEqualTo(UserInterface $user)
     {
@@ -225,7 +164,7 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isTheUser(IliosUserInterface $user)
     {
@@ -238,7 +177,7 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isThePrimarySchool(SchoolInterface $school)
     {
@@ -251,7 +190,7 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getRoles()
     {
@@ -259,15 +198,26 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * inheritdoc
+     * @inheritdoc
      */
     public function getAssociatedSchoolIdsInNonLearnerFunction()
     {
-        return $this->nonStudentSchoolIds;
+        return array_merge(
+            $this->getDirectedSchoolIds(),
+            $this->getAdministeredSchoolIds(),
+            $this->getDirectedCourseSchoolIds(),
+            $this->getAdministeredCourseSchoolIds(),
+            $this->getAdministeredSessionSchoolIds(),
+            $this->getTaughtCourseSchoolIds(),
+            $this->getInstructedLearnerGroupSchoolIds(),
+            $this->getInstructorGroupSchoolIds(),
+            $this->getDirectedProgramAndSchoolIds()['schoolIds'],
+            $this->getDirectedCohortProgramYearProgramAndSchoolIds()['schoolIds']
+        );
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getPassword()
     {
@@ -275,7 +225,7 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getSalt()
     {
@@ -283,7 +233,7 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getUsername()
     {
@@ -291,7 +241,7 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function eraseCredentials()
     {
@@ -307,7 +257,7 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isEnabled()
     {
@@ -315,7 +265,7 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function tokenNotValidBefore()
     {
@@ -323,7 +273,7 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getSchoolId()
     {
@@ -331,7 +281,7 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getId()
     {
@@ -360,81 +310,129 @@ class SessionUser implements SessionUserInterface
         return in_array($courseId, $this->getDirectedCourseIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isAdministeringCourse(int $courseId) : bool
     {
         return in_array($courseId, $this->getAdministeredCourseIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isDirectingSchool(int $schoolId) : bool
     {
         return in_array($schoolId, $this->getDirectedSchoolIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isAdministeringSchool(int $schoolId) : bool
     {
         return in_array($schoolId, $this->getAdministeredSchoolIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isDirectingCourseInSchool(int $schoolId) : bool
     {
         return in_array($schoolId, $this->getDirectedCourseSchoolIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isAdministeringCourseInSchool(int $schoolId) : bool
     {
         return in_array($schoolId, $this->getAdministeredCourseSchoolIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isAdministeringSessionInSchool(int $schoolId) : bool
     {
         return in_array($schoolId, $this->getAdministeredSessionSchoolIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isAdministeringSessionInCourse(int $courseId) : bool
     {
         return in_array($courseId, $this->getAdministeredSessionCourseIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isTeachingCourseInSchool(int $schoolId) : bool
     {
         return in_array($schoolId, $this->getTaughtCourseSchoolIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isTeachingCourse(int $courseId) : bool
     {
         return in_array($courseId, $this->getTaughtCourseIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isAdministeringSession(int $sessionId) : bool
     {
         return in_array($sessionId, $this->getAdministeredSessionIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isDirectingProgram(int $programId) : bool
     {
         return in_array($programId, $this->getDirectedProgramIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isDirectingProgramYearInProgram(int $programId) : bool
     {
         return in_array($programId, $this->getDirectedProgramYearProgramIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isDirectingCohort(int $cohortId) : bool
     {
         return in_array($cohortId, $this->getDirectedCohortIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isDirectingProgramYear(int $programYearId) : bool
     {
         return in_array($programYearId, $this->getDirectedProgramYearIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isTeachingSession(int $sessionId) : bool
     {
         return in_array($sessionId, $this->getInstructedSessionIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rolesInSchool(
         int $schoolId,
         $roles = [
@@ -479,6 +477,9 @@ class SessionUser implements SessionUserInterface
         return $rhett;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rolesInCourse(
         int $courseId,
         $roles = [
@@ -507,6 +508,9 @@ class SessionUser implements SessionUserInterface
         return $rhett;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rolesInSession(
         int $sessionId,
         $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]
@@ -523,6 +527,9 @@ class SessionUser implements SessionUserInterface
         return $rhett;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rolesInProgram(
         int $programId,
         $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR]
@@ -540,6 +547,9 @@ class SessionUser implements SessionUserInterface
         return $rhett;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array
     {
         $rhett = [];
@@ -552,6 +562,9 @@ class SessionUser implements SessionUserInterface
         return $rhett;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rolesInCohort(int $cohortId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array
     {
         $rhett = [];
@@ -563,16 +576,25 @@ class SessionUser implements SessionUserInterface
         return $rhett;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId) : bool
     {
         return in_array($schoolId, $this->getAdministeredCurriculumInventoryReportSchoolIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId): bool
     {
         return in_array($curriculumInventoryReportId, $this->getAdministeredCurriculumInventoryReportIds());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rolesInCurriculumInventoryReport(
         int $curriculumInventoryReportId,
         $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR]
@@ -585,18 +607,6 @@ class SessionUser implements SessionUserInterface
         }
 
         return $rhett;
-    }
-
-    /**
-     * @return array
-     * @throws \Exception
-     */
-    protected function getDirectedCourseAndSchoolIds(): array
-    {
-        if (!isset($this->directedCourseAndSchoolIds)) {
-            $this->directedCourseAndSchoolIds = $this->userManager->getDirectedCourseAndSchoolIds($this->getId());
-        }
-        return $this->directedCourseAndSchoolIds;
     }
 
     /**
@@ -645,6 +655,174 @@ class SessionUser implements SessionUserInterface
         return $this->getDirectedCourseAndSchoolIds()['schoolIds'];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredCourseSchoolIds(): array
+    {
+        return $this->getAdministeredCourseAndSchoolIds()['schoolIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredSessionSchoolIds(): array
+    {
+        return $this->getAdministeredSessionCourseAndSchoolIds()['schoolIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredSessionCourseIds(): array
+    {
+        return $this->getAdministeredSessionCourseAndSchoolIds()['courseIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTaughtCourseIds(): array
+    {
+        return $this->getInstructedSessionCourseAndSchoolIds()['courseIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredSessionIds(): array
+    {
+        return $this->getAdministeredSessionCourseAndSchoolIds()['sessionIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getInstructedSessionIds(): array
+    {
+        return $this->getInstructedSessionCourseAndSchoolIds()['sessionIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTaughtCourseSchoolIds(): array
+    {
+        return $this->getInstructedSessionCourseAndSchoolIds()['schoolIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedProgramIds(): array
+    {
+        return $this->getDirectedProgramAndSchoolIds()['programIds'];
+    }
+
+    /**
+     * @@inheritdoc
+     */
+    public function getDirectedProgramYearIds(): array
+    {
+        return $this->getDirectedCohortProgramYearProgramAndSchoolIds()['programYearIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedProgramYearProgramIds(): array
+    {
+        return $this->getDirectedCohortProgramYearProgramAndSchoolIds()['programIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedCohortIds(): array
+    {
+        return $this->getDirectedCohortProgramYearProgramAndSchoolIds()['cohortIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredCurriculumInventoryReportIds(): array
+    {
+        return $this->getAdministeredCurriculumInventoryReportAndSchoolIds()['reportIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredCurriculumInventoryReportSchoolIds(): array
+    {
+        return $this->getAdministeredCurriculumInventoryReportAndSchoolIds()['schoolIds'];
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    protected function getDirectedCohortProgramYearProgramAndSchoolIds(): array
+    {
+        if (!isset($this->directedCohortProgramYearProgramAndSchoolIds)) {
+            $this->directedCohortProgramYearProgramAndSchoolIds =
+                $this->userManager->getDirectedCohortProgramYearProgramAndSchoolIds($this->getId());
+        }
+
+        return $this->directedCohortProgramYearProgramAndSchoolIds;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    protected function getAdministeredCurriculumInventoryReportAndSchoolIds()
+    {
+        if (!isset($this->administeredCurriculumInventoryReportSchoolIds)) {
+            $this->administeredCurriculumInventoryReportAndSchoolIds =
+                $this->userManager->getAdministeredCurriculumInventoryReportAndSchoolIds($this->getId());
+        }
+        return $this->administeredCurriculumInventoryReportAndSchoolIds;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    protected function getInstructedSessionCourseAndSchoolIds(): array
+    {
+        if (!isset($this->instructedSessionCourseAndSchoolIds)) {
+            $this->instructedSessionCourseAndSchoolIds =
+                $this->userManager->getInstructedSessionCourseAndSchoolIds($this->getId());
+        }
+        return $this->instructedSessionCourseAndSchoolIds;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    protected function getDirectedProgramAndSchoolIds(): array
+    {
+        if (!isset($this->directedProgramAndSchoolIds)) {
+            $this->directedProgramAndSchoolIds = $this->userManager->getDirectedProgramAndSchoolIds($this->getId());
+        }
+        return $this->directedProgramAndSchoolIds;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    protected function getAdministeredSessionCourseAndSchoolIds(): array
+    {
+        if (!isset($this->administeredSessionCourseAndSchoolIds)) {
+            $this->administeredSessionCourseAndSchoolIds =
+                $this->userManager->getAdministeredSessionCourseAndSchoolIds($this->getId());
+        }
+        return $this->administeredSessionCourseAndSchoolIds;
+    }
 
     /**
      * @return array
@@ -661,106 +839,42 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @inheritdoc
+     * @return array
+     * @throws \Exception
      */
-    public function getAdministeredCourseSchoolIds(): array
+    protected function getDirectedCourseAndSchoolIds(): array
     {
-        return $this->getAdministeredCourseAndSchoolIds()['schoolIds'];
+        if (!isset($this->directedCourseAndSchoolIds)) {
+            $this->directedCourseAndSchoolIds = $this->userManager->getDirectedCourseAndSchoolIds($this->getId());
+        }
+        return $this->directedCourseAndSchoolIds;
     }
 
     /**
-     * @inheritdoc
+     * @return array
+     * @throws \Exception
+     * @see UserManager::getInstructedLearnerGroupSchoolIds()
      */
-    public function getAdministeredSessionSchoolIds(): array
+    protected function getInstructedLearnerGroupSchoolIds(): array
     {
-        return $this->administeredSessionSchoolIds;
+        if (!isset($this->instructedLearnerGroupSchoolIds)) {
+            $this->instructedLearnerGroupSchoolIds =
+                $this->userManager->getInstructedLearnerGroupSchoolIds($this->getId());
+        }
+        return $this->instructedLearnerGroupSchoolIds;
     }
 
     /**
-     * @inheritdoc
+     * @return array
+     * @throws \Exception
+     * @see UserManager::getInstructorGroupSchoolIds()
      */
-    public function getAdministeredSessionCourseIds(): array
+    protected function getInstructorGroupSchoolIds(): array
     {
-        return $this->administeredSessionCourseIds;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTaughtCourseIds(): array
-    {
-        return $this->taughtCourseIds;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAdministeredSessionIds(): array
-    {
-        return $this->administeredSessionIds;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getInstructedSessionIds(): array
-    {
-        return $this->instructedSessionIds;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTaughtCourseSchoolIds(): array
-    {
-        return $this->taughtCourseSchoolIds;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDirectedProgramIds(): array
-    {
-        return $this->directedProgramIds;
-    }
-
-    /**
-     * @@inheritdoc
-     */
-    public function getDirectedProgramYearIds(): array
-    {
-        return $this->directedProgramYearIds;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDirectedProgramYearProgramIds(): array
-    {
-        return $this->directedProgramYearProgramIds;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDirectedCohortIds(): array
-    {
-        return $this->directedCohortIds;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAdministeredCurriculumInventoryReportIds(): array
-    {
-        return $this->administeredCurriculumInventoryReportIds;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAdministeredCurriculumInventoryReportSchoolIds(): array
-    {
-        return $this->administeredCurriculumInventoryReportSchoolIds;
+        if (!isset($this->instructorGroupSchoolIds)) {
+            $this->instructorGroupSchoolIds =
+                $this->userManager->getInstructorGroupSchoolIds($this->getId());
+        }
+        return $this->instructorGroupSchoolIds;
     }
 }
