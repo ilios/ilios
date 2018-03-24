@@ -40,12 +40,14 @@ abstract class CourseVoter extends AbstractVoter
         // 1. the user's primary school is the course's owning school
         // 2. the user is instructing ILMs or offerings in this course
         // 3. the user is directing this course
-        // 4. the user has READ rights on the course's owning school via the permissions system
-        // 5. the user has READ rights on the course via the permissions system
+        // 4. the user is administering the course
+        // 5. the user has READ rights on the course's owning school via the permissions system
+        // 6. the user has READ rights on the course via the permissions system
         return (
             $owningSchoolId === $user->getSchoolId()
             || $this->courseManager->isUserInstructingInCourse($user->getId(), $courseId)
             || $user->isDirectingCourse($courseId)
+            || $user->isAdministeringCourse($courseId)
             || $user->hasReadPermissionToSchool($owningSchoolId)
             || $user->hasReadPermissionToCourse($courseId)
         );
