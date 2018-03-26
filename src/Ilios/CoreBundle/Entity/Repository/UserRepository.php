@@ -1448,31 +1448,27 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
     /**
      * Returns an assoc. array of ids of program-years directed by the given user,
-     * and the ids of programs and schools owning these directed program years,
-     * as well as the ids of the cohorts associated with these program years.
+     * and the ids of programs and schools owning these directed program years.
      * @param $userId
      * @return array
      */
-    public function getDirectedCohortProgramYearProgramAndSchoolIds($userId): array
+    public function getDirectedProgramYearProgramAndSchoolIds($userId): array
     {
         $rhett['programYearIds'] = [];
-        $rhett['cohortIds'] = [];
         $rhett['programIds'] = [];
         $rhett['schoolIds'] = [];
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('school.id as schoolId, program.id as programId, py.id as pyId, cohort.id as cohortId');
+        $qb->select('school.id as schoolId, program.id as programId, py.id as pyId');
         $qb->from(User::class, 'u');
         $qb->join('u.programYears', 'py');
         $qb->join('py.program', 'program');
-        $qb->join('py.cohort', 'cohort');
         $qb->join('program.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['programYearIds'][] = $arr['pyId'];
-            $rhett['cohortIds'][] = $arr['cohortId'];
             $rhett['programIds'][] = $arr['programId'];
             $rhett['schoolIds'][] = $arr['schoolId'];
         }
