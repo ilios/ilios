@@ -76,16 +76,6 @@ interface Capabilities
     /** @var string */
     const CAN_UNARCHIVE_THEIR_PROGRAM_YEARS = 'canUnarchiveTheirProgramYears';
     /** @var string */
-    const CAN_UPDATE_ALL_COHORTS = 'canUpdateAllCohorts';
-    /** @var string */
-    const CAN_DELETE_ALL_COHORTS = 'canDeleteAllCohorts';
-    /** @var string */
-    const CAN_CREATE_COHORTS = 'canCreateCohorts';
-    /** @var string */
-    const CAN_UPDATE_THEIR_COHORTS = 'canUpdateTheirCohorts';
-    /** @var string */
-    const CAN_DELETE_THEIR_COHORTS = 'canDeleteTheirCohorts';
-    /** @var string */
     const CAN_UPDATE_SCHOOL_CONFIGS = 'canUpdateSchoolConfigs';
     /** @var string */
     const CAN_DELETE_SCHOOL_CONFIGS = 'canDeleteSchoolConfigs';

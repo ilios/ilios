@@ -6,7 +6,6 @@ use Ilios\AuthenticationBundle\Classes\Capabilities;
 use Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 
-use Ilios\CoreBundle\Entity\CohortInterface;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
@@ -529,93 +528,6 @@ class PermissionChecker
             $schoolId,
             Capabilities::CAN_UNARCHIVE_THEIR_PROGRAM_YEARS,
             $rolesInProgramYear
-        )) {
-            return true;
-        }
-
-        return $this->canUpdateProgram(
-            $sessionUser,
-            $programYear->getProgram()->getId(),
-            $schoolId
-        );
-    }
-
-    public function canUpdateCohort(SessionUserInterface $sessionUser, CohortInterface $cohort): bool
-    {
-        if ($cohort->getProgramYear()->isLocked() || $cohort->getProgramYear()->isArchived()) {
-            return false;
-        }
-
-        $schoolId = $cohort->getSchool()->getId();
-
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_ALL_COHORTS);
-        $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_ALL_COHORTS,
-            $rolesInSchool
-        )) {
-            return true;
-        }
-
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_THEIR_COHORTS);
-        $rolesInCohort = $sessionUser->rolesInCohort($cohort->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_THEIR_COHORTS,
-            $rolesInCohort
-        )) {
-            return true;
-        }
-
-        return $this->canUpdateProgram($sessionUser, $cohort->getProgram()->getId(), $schoolId);
-    }
-
-    public function canDeleteCohort(SessionUserInterface $sessionUser, CohortInterface $cohort): bool
-    {
-        if ($cohort->getProgramYear()->isLocked() || $cohort->getProgramYear()->isArchived()) {
-            return false;
-        }
-
-        $schoolId = $cohort->getSchool()->getId();
-
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_ALL_COHORTS);
-        $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_ALL_COHORTS,
-            $rolesInSchool
-        )) {
-            return true;
-        }
-
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_THEIR_COHORTS);
-        $rolesInCohort = $sessionUser->rolesInCohort($cohort->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_THEIR_COHORTS,
-            $rolesInCohort
-        )) {
-            return true;
-        }
-
-        return $this->canUpdateProgram($sessionUser, $cohort->getProgram()->getId(), $schoolId);
-    }
-
-    public function canCreateCohort(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
-    {
-        if ($programYear->isLocked() || $programYear->isArchived()) {
-            return false;
-        }
-
-        $schoolId = $programYear->getSchool()->getId();
-
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_COHORTS);
-        $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_COHORTS,
-            $rolesInSchool
         )) {
             return true;
         }
