@@ -95,7 +95,7 @@ class SessionUser implements SessionUserInterface
     /**
      * @var array
      */
-    protected $directedCohortProgramYearProgramAndSchoolIds;
+    protected $directedProgramYearProgramAndSchoolIds;
 
     /**
      * @var array
@@ -143,7 +143,6 @@ class SessionUser implements SessionUserInterface
             !empty($this->getInstructedSessionIds()) ||
             !empty($this->getDirectedProgramIds()) ||
             !empty($this->getDirectedProgramYearIds()) ||
-            !empty($this->getDirectedCohortIds()) ||
             !empty($this->getAdministeredCurriculumInventoryReportIds());
     }
 
@@ -212,7 +211,7 @@ class SessionUser implements SessionUserInterface
             $this->getInstructedLearnerGroupSchoolIds(),
             $this->getInstructorGroupSchoolIds(),
             $this->getDirectedProgramAndSchoolIds()['schoolIds'],
-            $this->getDirectedCohortProgramYearProgramAndSchoolIds()['schoolIds']
+            $this->getDirectedProgramYearProgramAndSchoolIds()['schoolIds']
         );
     }
 
@@ -409,14 +408,6 @@ class SessionUser implements SessionUserInterface
     /**
      * @inheritdoc
      */
-    public function isDirectingCohort(int $cohortId) : bool
-    {
-        return in_array($cohortId, $this->getDirectedCohortIds());
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function isDirectingProgramYear(int $programYearId) : bool
     {
         return in_array($programYearId, $this->getDirectedProgramYearIds());
@@ -556,20 +547,6 @@ class SessionUser implements SessionUserInterface
 
         if (in_array(UserRoles::PROGRAM_YEAR_DIRECTOR, $roles) &&
             $this->isDirectingProgramYear($programYearId)) {
-            $rhett[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
-        }
-
-        return $rhett;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rolesInCohort(int $cohortId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array
-    {
-        $rhett = [];
-
-        if (in_array(UserRoles::PROGRAM_YEAR_DIRECTOR, $roles) && $this->isDirectingCohort($cohortId)) {
             $rhett[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
         }
 
@@ -724,7 +701,7 @@ class SessionUser implements SessionUserInterface
      */
     public function getDirectedProgramYearIds(): array
     {
-        return $this->getDirectedCohortProgramYearProgramAndSchoolIds()['programYearIds'];
+        return $this->getDirectedProgramYearProgramAndSchoolIds()['programYearIds'];
     }
 
     /**
@@ -732,15 +709,7 @@ class SessionUser implements SessionUserInterface
      */
     public function getDirectedProgramYearProgramIds(): array
     {
-        return $this->getDirectedCohortProgramYearProgramAndSchoolIds()['programIds'];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDirectedCohortIds(): array
-    {
-        return $this->getDirectedCohortProgramYearProgramAndSchoolIds()['cohortIds'];
+        return $this->getDirectedProgramYearProgramAndSchoolIds()['programIds'];
     }
 
     /**
@@ -763,14 +732,14 @@ class SessionUser implements SessionUserInterface
      * @return array
      * @throws \Exception
      */
-    protected function getDirectedCohortProgramYearProgramAndSchoolIds(): array
+    protected function getDirectedProgramYearProgramAndSchoolIds(): array
     {
-        if (!isset($this->directedCohortProgramYearProgramAndSchoolIds)) {
-            $this->directedCohortProgramYearProgramAndSchoolIds =
-                $this->userManager->getDirectedCohortProgramYearProgramAndSchoolIds($this->getId());
+        if (!isset($this->directedProgramYearProgramAndSchoolIds)) {
+            $this->directedProgramYearProgramAndSchoolIds =
+                $this->userManager->getDirectedProgramYearProgramAndSchoolIds($this->getId());
         }
 
-        return $this->directedCohortProgramYearProgramAndSchoolIds;
+        return $this->directedProgramYearProgramAndSchoolIds;
     }
 
     /**
