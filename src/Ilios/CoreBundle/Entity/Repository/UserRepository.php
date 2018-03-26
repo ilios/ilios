@@ -1214,7 +1214,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
-
         }
 
         return $this->dedupeSubArrays($rhett);
