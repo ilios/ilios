@@ -133,7 +133,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $this->assertContains("Session:  {$sessionTitle}", $output);
         $this->assertContains("Date:     {$startDate->format('D M d, Y')}", $output);
         $this->assertContains("Time:     {$startDate->format('h:i a')} - {$endDate->format('h:i a')}", $output);
-        $this->assertContains("Location: {$offering->getRoom()}", $output);
+        $this->assertContains("Location: {$offering->getSite()} {$offering->getRoom()}", $output);
         $this->assertContains(
             "Coordinator at {$offering->getSession()->getCourse()->getSchool()->getIliosAdministratorEmail()}.",
             $output
