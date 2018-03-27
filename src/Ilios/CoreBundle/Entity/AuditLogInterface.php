@@ -43,14 +43,14 @@ interface AuditLogInterface extends
     /**
      * Set objectId
      *
-     * @param integer $objectId
+     * @param string $objectId
      */
     public function setObjectId($objectId);
 
     /**
      * Get objectId
      *
-     * @return integer
+     * @return string
      */
     public function getObjectId();
 

@@ -60,9 +60,9 @@ class AuditLog implements AuditLogInterface
     /**
      * @var int
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      *
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="string")
      * @Assert\NotBlank()
      */
     protected $objectId;
@@ -157,18 +157,18 @@ class AuditLog implements AuditLogInterface
     /**
      * Set objectId
      *
-     * @param integer $objectId
+     * @param string $objectId
      *
      */
     public function setObjectId($objectId)
     {
-        $this->objectId = (int) $objectId;
+        $this->objectId = $objectId;
     }
 
     /**
      * Get objectId
      *
-     * @return integer
+     * @return string
      */
     public function getObjectId()
     {

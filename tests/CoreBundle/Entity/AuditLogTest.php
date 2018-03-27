@@ -33,7 +33,7 @@ class AuditLogTest extends EntityBase
         $this->validateNotBlanks($notBlank);
 
         $this->object->setAction('test');
-        $this->object->setObjectId(1);
+        $this->object->setObjectId('1');
         $this->object->setObjectClass('test');
         $this->object->setValuesChanged('test');
         $this->validate(0);
@@ -69,10 +69,9 @@ class AuditLogTest extends EntityBase
      * @covers \Ilios\CoreBundle\Entity\AuditLog::setObjectId
      * @covers \Ilios\CoreBundle\Entity\AuditLog::getObjectId
      */
-    public function testSetObjectIdForcesInt()
+    public function testSetObjectIdString()
     {
-        $this->object->setObjectId('');
-        $this->assertSame(0, $this->object->getObjectId());
+        $this->basicSetTest('objectId', 'string');
     }
 
     /**
