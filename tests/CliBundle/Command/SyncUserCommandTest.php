@@ -2,6 +2,12 @@
 namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\SyncUserCommand;
+use Ilios\CoreBundle\Entity\AuthenticationInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\PendingUserUpdateInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -17,17 +23,24 @@ class SyncUserCommandTest extends TestCase
     
     protected $userManager;
     protected $authenticationManager;
+    protected $pendingUserUpdateManager;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
+        $this->userManager = m::mock(UserManager::class);
+        $this->authenticationManager = m::mock(AuthenticationManager::class);
+        $this->pendingUserUpdateManager = m::mock(PendingUserUpdateManager::class);
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
         
-        $command = new SyncUserCommand($this->userManager, $this->authenticationManager, $this->directory);
+        $command = new SyncUserCommand(
+            $this->userManager,
+            $this->authenticationManager,
+            $this->pendingUserUpdateManager,
+            $this->directory
+        );
         $application = new Application();
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
@@ -42,17 +55,20 @@ class SyncUserCommandTest extends TestCase
     {
         unset($this->userManager);
         unset($this->authenticationManager);
+        unset($this->pendingUserUpdateManager);
         unset($this->directory);
         unset($this->commandTester);
     }
     
     public function testExecute()
     {
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('setUsername')->with('username')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $pendingUpdate = m::mock(PendingUserUpdateInterface::class);
+        $user = m::mock(UserInterface::class)
             ->shouldReceive('getFirstName')->andReturn('old-first')
+            ->shouldReceive('getPendingUserUpdates')->andReturn([$pendingUpdate])
             ->shouldReceive('getLastName')->andReturn('old-last')
             ->shouldReceive('getEmail')->andReturn('old-email')
             ->shouldReceive('getPhone')->andReturn('old-phone')
@@ -66,6 +82,7 @@ class SyncUserCommandTest extends TestCase
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->userManager->shouldReceive('update')->with($user);
         $this->authenticationManager->shouldReceive('update')->with($authentication, false);
+        $this->pendingUserUpdateManager->shouldReceive('delete')->with($pendingUpdate)->once();
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',

@@ -11,6 +11,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
@@ -29,19 +30,26 @@ class SyncUserCommand extends Command
      * @var AuthenticationManager
      */
     protected $authenticationManager;
+
+    /**
+     * @var PendingUserUpdateManager
+     */
+    protected $pendingUserUpdateManager;
     
     /**
      * @var Directory
      */
     protected $directory;
-    
+
     public function __construct(
         UserManager $userManager,
         AuthenticationManager $authenticationManager,
+        PendingUserUpdateManager $pendingUserUpdateManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;
         $this->authenticationManager = $authenticationManager;
+        $this->pendingUserUpdateManager = $pendingUserUpdateManager;
         $this->directory = $directory;
         
         parent::__construct();
@@ -129,7 +137,11 @@ class SyncUserCommand extends Command
             $this->authenticationManager->update($authentication, false);
             
             $this->userManager->update($user);
-            
+
+            foreach($user->getPendingUserUpdates() as $update) {
+                $this->pendingUserUpdateManager->delete($update);
+            }
+
             $output->writeln('<info>User updated successfully!</info>');
         } else {
             $output->writeln('<comment>Update canceled.</comment>');
