@@ -227,7 +227,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsTeachingCourseInSchool()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $taughtSchoolIds = ['schoolIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->andReturn($taughtSchoolIds);
+        $this->assertTrue($this->sessionUser->isTeachingCourseInSchool(1));
     }
 
     /**
@@ -235,7 +239,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsNotTeachingCourseInSchool()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $taughtSchoolIds = ['schoolIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->andReturn($taughtSchoolIds);
+        $this->assertFalse($this->sessionUser->isTeachingCourseInSchool(1));
     }
 
     /**
@@ -243,7 +251,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsTeachingCourse()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $taughtCourseIds = ['courseIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->andReturn($taughtCourseIds);
+        $this->assertTrue($this->sessionUser->isTeachingCourse(1));
     }
 
     /**
@@ -251,7 +263,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsNotTeachingCourse()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $taughtCourseIds = ['courseIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->andReturn($taughtCourseIds);
+        $this->assertFalse($this->sessionUser->isTeachingCourse(1));
     }
 
     /**
@@ -259,7 +275,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsAdministeringSessionInCourse()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $administeredCourseIds = ['courseIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->andReturn($administeredCourseIds);
+        $this->assertTrue($this->sessionUser->isAdministeringSessionInCourse(1));
     }
 
     /**
@@ -267,7 +287,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsNotAdministeringSessionInCourse()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $administeredCourseIds = ['courseIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->andReturn($administeredCourseIds);
+        $this->assertFalse($this->sessionUser->isAdministeringSessionInCourse(1));
     }
 
     /**
@@ -275,7 +299,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsAdministeringSession()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $administeredSessionIds = ['sessionIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->andReturn($administeredSessionIds);
+        $this->assertTrue($this->sessionUser->isAdministeringSession(1));
     }
 
     /**
@@ -283,7 +311,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsNotAdministeringSession()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $administeredSessionIds = ['sessionIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->andReturn($administeredSessionIds);
+        $this->assertFalse($this->sessionUser->isAdministeringSession(1));
     }
 
     /**
@@ -291,7 +323,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsTeachingSession()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $taughtSessionIds = ['sessionIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->andReturn($taughtSessionIds);
+        $this->assertTrue($this->sessionUser->isTeachingSession(1));
     }
 
     /**
@@ -299,7 +335,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsNotTeachingSession()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $taughtSessionIds = ['sessionIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->andReturn($taughtSessionIds);
+        $this->assertFalse($this->sessionUser->isTeachingSession(1));
     }
 
     /**
@@ -307,7 +347,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsDirectingProgram()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $directedProgramIds = ['programIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramAndSchoolIds')
+            ->andReturn($directedProgramIds);
+        $this->assertTrue($this->sessionUser->isDirectingProgram(1));
     }
 
     /**
@@ -315,7 +359,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsNotDirectingProgram()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $directedProgramIds = ['programIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramAndSchoolIds')
+            ->andReturn($directedProgramIds);
+        $this->assertFalse($this->sessionUser->isDirectingProgram(1));
     }
 
     /**
@@ -323,7 +371,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsDirectingProgramYear()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $directedProgramYearIds = ['programYearIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->andReturn($directedProgramYearIds);
+        $this->assertTrue($this->sessionUser->isDirectingProgramYear(1));
     }
 
     /**
@@ -331,7 +383,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsNotDirectingProgramYear()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $directedProgramYearIds = ['programYearIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->andReturn($directedProgramYearIds);
+        $this->assertFalse($this->sessionUser->isDirectingProgramYear(1));
     }
 
     /**
@@ -339,7 +395,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsDirectingProgramYearInProgram()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $directedProgramIds = ['programIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->andReturn($directedProgramIds);
+        $this->assertTrue($this->sessionUser->isDirectingProgramYearInProgram(1));
     }
 
     /**
@@ -347,7 +407,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsNotDirectingProgramYearInProgram()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $directedProgramIds = ['programIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->andReturn($directedProgramIds);
+        $this->assertFalse($this->sessionUser->isDirectingProgramYearInProgram(1));
     }
 
     /**
@@ -355,7 +419,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsAdministeringCurriculumInventoryReport()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $administeredReportIds = ['reportIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->andReturn($administeredReportIds);
+        $this->assertTrue($this->sessionUser->isAdministeringCurriculumInventoryReport(1));
     }
 
     /**
@@ -363,7 +431,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsNotAdministeringCurriculumInventoryReport()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $administeredReportIds = ['reportIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->andReturn($administeredReportIds);
+        $this->assertFalse($this->sessionUser->isAdministeringCurriculumInventoryReport(1));
     }
 
     /**
@@ -371,7 +443,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsAdministeringCurriculumInventoryReportInSchool()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $administeredSchoolIds = ['schoolIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->andReturn($administeredSchoolIds);
+        $this->assertTrue($this->sessionUser->isAdministeringCurriculumInventoryReportInSchool(1));
     }
 
     /**
@@ -379,7 +455,11 @@ class SessionUserTest extends TestCase
      */
     public function testIsNotAdministeringCurriculumInventoryReportInSchool()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $administeredSchoolIds = ['schoolIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->andReturn($administeredSchoolIds);
+        $this->assertFalse($this->sessionUser->isAdministeringCurriculumInventoryReportInSchool(1));
     }
 
 
