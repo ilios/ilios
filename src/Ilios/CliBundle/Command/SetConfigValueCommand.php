@@ -23,7 +23,7 @@ class SetConfigValueCommand extends Command
     protected $applicationConfigManager;
 
     /**
-     * RolloverCourseCommand constructor.
+     * SetConfigValueCommand constructor.
      * @param ApplicationConfigManager $applicationConfigManager
      */
     public function __construct(ApplicationConfigManager $applicationConfigManager)
@@ -58,7 +58,6 @@ class SetConfigValueCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //get/set the courseId and newAcademicYear arguments
         $name = $input->getArgument('name');
         $value = $input->getArgument('value');
 
