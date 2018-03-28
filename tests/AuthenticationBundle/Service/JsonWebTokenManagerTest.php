@@ -1,8 +1,9 @@
 <?php
 namespace Tests\AuthenticationBundle\Service;
 
+use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Firebase\JWT\JWT;
 use DateTime;
 use Mockery as m;
@@ -13,66 +14,129 @@ class JsonWebTokenManagerTest extends TestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
+    /** @var JsonWebTokenManager */
+    protected $obj;
+    protected $permissionChecker;
+    protected $sessionUserProvider;
+
+    public function setup()
+    {
+        $this->permissionChecker = m::mock(PermissionChecker::class);
+        $this->sessionUserProvider = m::mock(SessionUserProvider::class);
+        $this->obj = new JsonWebTokenManager(
+            $this->permissionChecker,
+            $this->sessionUserProvider,
+            'secret'
+        );
+    }
+
+    /**
+     * Remove all mock objects
+     */
+    public function tearDown()
+    {
+        unset($this->obj);
+        unset($this->permissionChecker);
+        unset($this->sessionUserProvider);
+    }
+
     public function testConstructor()
     {
-        $obj = new JsonWebTokenManager('secretKey');
-        $this->assertTrue($obj instanceof JsonWebTokenManager);
+        $this->assertTrue($this->obj instanceof JsonWebTokenManager);
     }
     
     public function testGetUserIdFromToken()
     {
-        $obj = new JsonWebTokenManager('secret');
         $jwt = $this->buildToken();
-        $this->assertSame(42, $obj->getUserIdFromToken($jwt));
+        $this->assertSame(42, $this->obj->getUserIdFromToken($jwt));
     }
     
     public function testGetIssuedAtFromToken()
     {
         $yesterday = new DateTime('yesterday');
         $stamp = $yesterday->format('U');
-        $obj = new JsonWebTokenManager('secret');
         $jwt = $this->buildToken(array('iat' => $stamp));
-        $this->assertSame($stamp, $obj->getIssuedAtFromToken($jwt)->format('U'));
+        $this->assertSame($stamp, $this->obj->getIssuedAtFromToken($jwt)->format('U'));
     }
     
-    public function testCreateJwtFromUser()
+    public function testCreateJwtFromSessionUser()
     {
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('getId')->andReturn(42)
             ->mock();
-        $obj = new JsonWebTokenManager('secret');
+        $sessionUser->shouldReceive('isRoot')->once()->andReturn(true);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
+        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->with($sessionUser)->once()->andReturn(true);
+        $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReportInAnySchool')
+            ->with($sessionUser)->once()->andReturn(true);
+
+        $jwt = $this->obj->createJwtFromSessionUser($sessionUser);
         
-        $jwt = $obj->createJwtFromSessionUser($sessionUser);
-        
-        $this->assertSame(42, $obj->getUserIdFromToken($jwt));
+        $this->assertSame(42, $this->obj->getUserIdFromToken($jwt));
+        $this->assertSame(true, $this->obj->getPerformsNonLearnerFunctionFromToken($jwt));
+        $this->assertSame(true, $this->obj->getIsRootFromToken($jwt));
+        $this->assertSame(true, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
+        $this->assertSame(true, $this->obj->getCanCreateCIReportInAnySchoolFromToken($jwt));
     }
     
-    public function testCreateJwtFromUserWhichExpiresNextWeek()
+    public function testCreateJwtFromSessionUserWhichExpiresNextWeek()
     {
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('getId')->andReturn(42)
             ->mock();
-        $obj = new JsonWebTokenManager('secret');
+        $sessionUser->shouldReceive('isRoot')->once()->andReturn(true);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
+        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->with($sessionUser)->once()->andReturn(true);
+        $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReportInAnySchool')
+            ->with($sessionUser)->once()->andReturn(true);
         
-        $jwt = $obj->createJwtFromSessionUser($sessionUser, 'P1W');
+        $jwt = $this->obj->createJwtFromSessionUser($sessionUser, 'P1W');
         $now = new DateTime();
-        $expiresAt = $obj->getExpiresAtFromToken($jwt);
+        $expiresAt = $this->obj->getExpiresAtFromToken($jwt);
         
         $this->assertTrue($now->diff($expiresAt)->d > 5);
     }
     
-    public function testCreateJwtFromUserWhichExpiresAfterMaximumTime()
+    public function testCreateJwtFromSessionUserWhichExpiresAfterMaximumTime()
     {
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('getId')->andReturn(42)
             ->mock();
-        $obj = new JsonWebTokenManager('secret');
+        $sessionUser->shouldReceive('isRoot')->once()->andReturn(true);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
+        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->with($sessionUser)->once()->andReturn(true);
+        $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReportInAnySchool')
+            ->with($sessionUser)->once()->andReturn(true);
         
-        $jwt = $obj->createJwtFromSessionUser($sessionUser, 'P400D');
+        $jwt = $this->obj->createJwtFromSessionUser($sessionUser, 'P400D');
         $now = new DateTime();
-        $expiresAt = $obj->getExpiresAtFromToken($jwt);
+        $expiresAt = $this->obj->getExpiresAtFromToken($jwt);
 
         $this->assertTrue($now->diff($expiresAt)->days < 365, 'maximum ttl not applied');
+    }
+
+    public function testCreateJwtFromSessionUserWithLessPrivileges()
+    {
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
+            ->shouldReceive('getId')->andReturn(42)
+            ->mock();
+        $sessionUser->shouldReceive('isRoot')->once()->andReturn(false);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(false);
+        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->with($sessionUser)->once()->andReturn(false);
+        $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReportInAnySchool')
+            ->with($sessionUser)->once()->andReturn(false);
+
+        $jwt = $this->obj->createJwtFromSessionUser($sessionUser);
+
+        $this->assertSame(42, $this->obj->getUserIdFromToken($jwt));
+        $this->assertSame(false, $this->obj->getIsRootFromToken($jwt));
+        $this->assertSame(false, $this->obj->getPerformsNonLearnerFunctionFromToken($jwt));
+        $this->assertSame(false, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
+        $this->assertSame(false, $this->obj->getCanCreateCIReportInAnySchoolFromToken($jwt));
     }
     
     protected function buildToken(array $values = array(), $secretKey = 'ilios.jwt.key.secret')

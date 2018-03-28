@@ -21,14 +21,30 @@ class JsonWebTokenManager
      * @var string
      */
     protected $jwtKey;
-    
+
+    /**
+     * @var PermissionChecker
+     */
+    protected $permissionChecker;
+
+    /**
+     * @var SessionUserProvider
+     */
+    protected $sessionUserProvider;
+
     /**
      * Constructor
+     * @param PermissionChecker $permissionChecker
+     * @param SessionUserProvider $sessionUserProvider
      * @param string $secretKey injected kernel secret key
      */
     public function __construct(
+        PermissionChecker $permissionChecker,
+        SessionUserProvider $sessionUserProvider,
         $secretKey
     ) {
+        $this->permissionChecker = $permissionChecker;
+        $this->sessionUserProvider = $sessionUserProvider;
         $this->jwtKey = self::PREPEND_KEY . $secretKey;
         JWT::$leeway = 5;
     }
@@ -56,6 +72,30 @@ class JsonWebTokenManager
         
         return $datetime;
     }
+
+    public function getIsRootFromToken($jwt)
+    {
+        $arr = $this->decode($jwt);
+        return $arr['is_root'];
+    }
+
+    public function getPerformsNonLearnerFunctionFromToken($jwt)
+    {
+        $arr = $this->decode($jwt);
+        return $arr['performs_non_learner_function'];
+    }
+
+    public function getCanCreateOrUpdateUserInAnySchoolFromToken($jwt)
+    {
+        $arr = $this->decode($jwt);
+        return $arr['can_create_or_update_user_in_any_school'];
+    }
+
+    public function getCanCreateCIReportInAnySchoolFromToken($jwt)
+    {
+        $arr = $this->decode($jwt);
+        return $arr['can_create_curriculum_inventory_report_in_any_school'];
+    }
     
     protected function decode($jwt)
     {
@@ -71,29 +111,6 @@ class JsonWebTokenManager
      */
     public function createJwtFromSessionUser(SessionUserInterface $sessionUser, $timeToLive = 'PT8H')
     {
-        return $this->createJwtFromUserId($sessionUser->getId(), $timeToLive);
-    }
-
-    /**
-     * Build a token from a user
-     * @param  UserInterface $user
-     * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
-     * @return string
-     */
-    public function createJwtFromUser(UserInterface $user, $timeToLive = 'PT8H')
-    {
-        return $this->createJwtFromUserId($user->getId(), $timeToLive);
-    }
-    
-    /**
-     * Build a token from a userId
-     * @param  integer $userId
-     * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
-     *
-     * @return string
-     */
-    public function createJwtFromUserId($userId, $timeToLive = 'PT8H')
-    {
         $requestedInterval = new \DateInterval($timeToLive);
         $maximumInterval = new \DateInterval('P364D');
         $now = new DateTime();
@@ -107,15 +124,46 @@ class JsonWebTokenManager
         $interval = $requestedFromToday > $maximumFromToday?$maximumInterval:$requestedInterval;
         $expires = clone $now;
         $expires->add($interval);
+        $canCreateOrUpdateUserInAnySchool = $this->permissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser);
+        $canCreateCIReportInAnySchool = $this->permissionChecker
+            ->canCreateCurriculumInventoryReportInAnySchool($sessionUser);
 
         $arr = array(
             'iss' => self::TOKEN_ISS,
             'aud' => self::TOKEN_AUD,
             'iat' => $now->format('U'),
             'exp' => $expires->format('U'),
-            'user_id' => $userId
+            'user_id' => $sessionUser->getId(),
+            'is_root' => $sessionUser->isRoot(),
+            'performs_non_learner_function' => $sessionUser->performsNonLearnerFunction(),
+            'can_create_or_update_user_in_any_school' => $canCreateOrUpdateUserInAnySchool,
+            'can_create_curriculum_inventory_report_in_any_school' => $canCreateCIReportInAnySchool,
         );
 
         return JWT::encode($arr, $this->jwtKey);
+    }
+
+    /**
+     * Build a token from a user
+     * @param  UserInterface $user
+     * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
+     * @return string
+     */
+    public function createJwtFromUser(UserInterface $user, $timeToLive = 'PT8H')
+    {
+        return $this->createJwtFromUserId($user->getId(), $timeToLive);
+    }
+
+    /**
+     * Build a token from a userId
+     * @param  integer $userId
+     * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
+     *
+     * @return string
+     */
+    public function createJwtFromUserId($userId, $timeToLive = 'PT8H')
+    {
+        $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
+        return $this->createJwtFromSessionUser($sessionUser, $timeToLive);
     }
 }

@@ -874,6 +874,26 @@ class PermissionChecker
         return false;
     }
 
+    /**
+     * Checks if a given user can create CI reports in any of its schools.
+     * @param SessionUserInterface $sessionUser
+     * @return bool
+     */
+    public function canCreateCurriculumInventoryReportInAnySchool(SessionUserInterface $sessionUser)
+    {
+        // limit this to schools that the user performs a non-student function in.
+        // the assumption here is that a student will NEVER be able to create other users.
+        $schoolIds = $sessionUser->getAssociatedSchoolIdsInNonLearnerFunction();
+        $can = false;
+        foreach ($schoolIds as $schoolId) {
+            if ($this->canCreateCurriculumInventoryReport($sessionUser, $schoolId)) {
+                $can = true;
+                break;
+            }
+        }
+        return $can;
+    }
+
     public function canUpdateCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId) : bool
     {
         $permittedRoles = $this->matrix->getPermittedRoles(
@@ -1031,6 +1051,32 @@ class PermissionChecker
         $can = false;
         foreach ($schoolIds as $schoolId) {
             if ($this->canCreateUser($sessionUser, $schoolId)) {
+                $can = true;
+                break;
+            }
+        }
+        return $can;
+    }
+
+    /**
+     * Checks if a given user can create users in any of its schools.
+     * @param SessionUserInterface $sessionUser
+     * @return bool
+     */
+    public function canCreateOrUpdateUsersInAnySchool(SessionUserInterface $sessionUser)
+    {
+        // limit this to schools that the user performs a non-student function in.
+        // the assumption here is that a student will NEVER be able to create other users.
+        $schoolIds = $sessionUser->getAssociatedSchoolIdsInNonLearnerFunction();
+        $can = false;
+        foreach ($schoolIds as $schoolId) {
+            if ($this->canCreateUser($sessionUser, $schoolId)) {
+                $can = true;
+                break;
+            }
+        }
+        foreach ($schoolIds as $schoolId) {
+            if ($this->canUpdateUser($sessionUser, $schoolId)) {
                 $can = true;
                 break;
             }
