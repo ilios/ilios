@@ -177,6 +177,10 @@ services:
         public: true
         arguments:
             $class: 'Ilios\CoreBundle\Entity\ProgramYearSteward'
+    Ilios\CoreBundle\Entity\Manager\SchoolConfigManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\SchoolConfig'
     Ilios\CoreBundle\Entity\Manager\SchoolManager:
         public: true
         arguments:

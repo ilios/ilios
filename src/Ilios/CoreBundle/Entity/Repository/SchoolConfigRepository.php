@@ -2,6 +2,7 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use Ilios\CoreBundle\Entity\DTO\SchoolConfigDTO;
@@ -60,6 +61,26 @@ class SchoolConfigRepository extends EntityRepository implements DTORepositoryIn
         }
 
         return array_values($schoolConfigDTOs);
+    }
+
+    /**
+     * @param $name
+     * @return mixed|null
+     */
+    public function getValue($name)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('x.value')->from('IliosCoreBundle:SchoolConfig', 'x')
+            ->where($qb->expr()->eq('x.name', ':name'))
+            ->setParameter('name', $name);
+
+        try {
+            $result = $qb->getQuery()->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            $result = null;
+        }
+
+        return $result;
     }
 
 
