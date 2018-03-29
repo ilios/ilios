@@ -5,6 +5,7 @@ namespace Ilios\CliBundle\Command;
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -90,10 +91,18 @@ class AddUserCommand extends Command
                 "{$option} for new user"
             );
         }
+
+        $this->addOption(
+            'isRoot',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Grants root privileges to new user.'
+        );
     }
 
     /**
      * {@inheritdoc}
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -128,6 +137,13 @@ class AddUserCommand extends Command
             'campusId'          => $input->getOption('campusId'),
             'username'          => $input->getOption('username'),
             'password'          => $input->getOption('password'),
+            'isRoot'            => (null !== $input->getOption('isRoot')) ?
+                filter_var(
+                    $input->getOption('isRoot'),
+                    FILTER_VALIDATE_BOOLEAN,
+                    FILTER_NULL_ON_FAILURE
+                )
+                : null,
         ];
 
         $userRecord = $this->fillUserRecord($userRecord, $input, $output);
@@ -147,7 +163,7 @@ class AddUserCommand extends Command
 
         $table = new Table($output);
         $table
-            ->setHeaders(array('Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number'))
+            ->setHeaders(array('Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number', 'Is Root?'))
             ->setRows(array(
                 [
                     $userRecord['campusId'],
@@ -155,7 +171,8 @@ class AddUserCommand extends Command
                     $userRecord['lastName'],
                     $userRecord['email'],
                     $userRecord['username'],
-                    $userRecord['telephoneNumber']
+                    $userRecord['telephoneNumber'],
+                    $userRecord['isRoot'] ? 'yes' : 'no',
                 ]
             ))
         ;
@@ -178,6 +195,7 @@ class AddUserCommand extends Command
             $user->setEnabled(true);
             $user->setSchool($school);
             $user->setUserSyncIgnore(false);
+            $user->setRoot($userRecord['isRoot']);
             $this->userManager->update($user);
 
             /** @var AuthenticationInterface $authentication */
@@ -244,7 +262,10 @@ class AddUserCommand extends Command
             $userRecord['email'] = $this->getHelper('question')->ask($input, $output, $question);
         }
 
-
+        if (null === $userRecord['isRoot']) {
+            $question = new ConfirmationQuestion("Grant root privileges to new user?", false);
+            $userRecord['isRoot'] = $this->getHelper('question')->ask($input, $output, $question);
+        }
 
 
         return $userRecord;
