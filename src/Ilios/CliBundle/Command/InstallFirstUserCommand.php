@@ -8,8 +8,8 @@ use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -56,11 +56,6 @@ class InstallFirstUserCommand extends Command
     protected $schoolManager;
 
     /**
-     * @var UserRoleManager
-     */
-    protected $userRoleManager;
-
-    /**
      * @var AuthenticationManager
      */
     protected $authenticationManager;
@@ -79,7 +74,6 @@ class InstallFirstUserCommand extends Command
      * Constructor.
      * @param UserManager $userManager
      * @param SchoolManager $schoolManager
-     * @param UserRoleManager $userRoleManager
      * @param AuthenticationManager $authenticationManager
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param SessionUserProvider $sessionUserProvider
@@ -87,14 +81,12 @@ class InstallFirstUserCommand extends Command
     public function __construct(
         UserManager $userManager,
         SchoolManager $schoolManager,
-        UserRoleManager $userRoleManager,
         AuthenticationManager $authenticationManager,
         UserPasswordEncoderInterface $passwordEncoder,
         SessionUserProvider $sessionUserProvider
     ) {
         $this->userManager = $userManager;
         $this->schoolManager = $schoolManager;
-        $this->userRoleManager = $userRoleManager;
         $this->authenticationManager = $authenticationManager;
         $this->passwordEncoder = $passwordEncoder;
         $this->sessionUserProvider = $sessionUserProvider;
@@ -108,7 +100,7 @@ class InstallFirstUserCommand extends Command
     {
         $this
             ->setName('ilios:setup:first-user')
-            ->setDescription('Creates a first user account with "Course Director" privileges.')
+            ->setDescription('Creates a first user account with root privileges.')
             ->addOption(
                 'school',
                 null,
@@ -125,6 +117,7 @@ class InstallFirstUserCommand extends Command
 
     /**
      * {@inheritdoc}
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -182,6 +175,7 @@ class InstallFirstUserCommand extends Command
             $email = $this->getHelper('question')->ask($input, $output, $question);
         }
 
+        /** @var UserInterface $user */
         $user = $this->userManager->create();
         $user->setFirstName(self::FIRST_NAME);
         $user->setMiddleName(date('Y-m-d_h.i.s'));
@@ -190,9 +184,8 @@ class InstallFirstUserCommand extends Command
         $user->setAddedViaIlios(true);
         $user->setEnabled(true);
         $user->setUserSyncIgnore(false);
+        $user->setRoot(true);
 
-        $user->addRole($this->userRoleManager->findOneBy(['title' => 'Developer']));
-        $user->addRole($this->userRoleManager->findOneBy(['title' => 'Course Director']));
         $user->setSchool($school);
         $this->userManager->update($user);
 
