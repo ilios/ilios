@@ -1,5 +1,6 @@
 /permissions:
   get:
+    deprecated: true
     summary: Fetch all Permissions
     parameters:
       - name: X-JWT-Authorization
@@ -35,16 +36,10 @@
     tags:
       - Permissions
     responses:
-      '200':
-        description: An array of permissions
-        schema:
-          type: object
-          properties:
-            permissions:
-              type: array
-              items:
-                $ref: '#/definitions/Permission'
+      '410':
+        description: Gone
   post:
+    deprecated: true
     summary: Create Permissions
     parameters:
     - name: X-JWT-Authorization
@@ -66,21 +61,11 @@
     tags:
       - Permissions
     responses:
-      '201':
-        description: An array of newly created permissions
-        schema:
-          type: object
-          properties:
-            permissions:
-              type: array
-              items:
-                $ref: '#/definitions/Permission'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
+      '410':
+        description: Gone
 /permissions/{id}:
   get:
+    deprecated: true
     summary: Fetch a single Permission
     parameters:
     - name: X-JWT-Authorization
@@ -97,18 +82,10 @@
     tags:
       - Permissions
     responses:
-      '200':
-        description: A single Permission
-        schema:
-          type: object
-          properties:
-            permissions:
-              type: array
-              items:
-                $ref: '#/definitions/Permission'
-      '404':
-        description: Not found
+      '410':
+        description: Gone
   put:
+    deprecated: true
     summary: Edit a Permission
     parameters:
     - name: X-JWT-Authorization
@@ -133,20 +110,10 @@
     tags:
       - Permissions
     responses:
-      '200':
-        description: A single Permission
-        schema:
-          type: object
-          properties:
-            permission:
-              $ref: '#/definitions/Permission'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
+      '410':
+        description: Gone
   delete:
+    deprecated: true
     summary: Delete a Permission
     parameters:
     - name: X-JWT-Authorization
@@ -163,11 +130,5 @@
     tags:
       - Permissions
     responses:
-      '204':
-        description: Deleted Permission
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
-      '500':
-        description: Failed to delete entity (usually caused by non-cascading relationships)
+      '410':
+        description: Gone

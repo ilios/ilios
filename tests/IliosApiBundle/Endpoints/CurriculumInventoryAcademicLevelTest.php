@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * CurriculumInventoryAcademicLevel API endpoint Test.
  * @group api_4
  */
-class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
+class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'curriculumInventoryAcademicLevels';
 
     /**
@@ -26,29 +23,6 @@ class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
             'Tests\CoreBundle\Fixture\LoadCurriculumInventoryExportData',
             'Tests\CoreBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
             'Tests\CoreBundle\Fixture\LoadProgramData',
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'name' => ['name', $this->getFaker()->text(50)],
-            'description' => ['description', $this->getFaker()->text],
-            'level' => ['level', $this->getFaker()->randomDigit],
-            'sequenceBlocks' => ['sequenceBlocks', [2], $skipped = true],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest()
-    {
-        return [
-            'id' => ['id', 1, 99],
         ];
     }
 

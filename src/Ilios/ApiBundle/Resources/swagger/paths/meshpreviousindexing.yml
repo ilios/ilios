@@ -45,6 +45,7 @@
               items:
                 $ref: '#/definitions/Meshpreviousindexing'
   post:
+    deprecated: true
     summary: Create Meshpreviousindexings
     parameters:
     - name: X-JWT-Authorization
@@ -66,19 +67,8 @@
     tags:
       - Meshpreviousindexings
     responses:
-      '201':
-        description: An array of newly created meshpreviousindexings
-        schema:
-          type: object
-          properties:
-            meshpreviousindexings:
-              type: array
-              items:
-                $ref: '#/definitions/Meshpreviousindexing'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
+      '410':
+        description: Gone
 /meshpreviousindexings/{id}:
   get:
     summary: Fetch a single Meshpreviousindexing
@@ -109,6 +99,7 @@
       '404':
         description: Not found
   put:
+    deprecated: true
     summary: Edit a Meshpreviousindexing
     parameters:
     - name: X-JWT-Authorization
@@ -133,20 +124,10 @@
     tags:
       - Meshpreviousindexings
     responses:
-      '200':
-        description: A single Meshpreviousindexing
-        schema:
-          type: object
-          properties:
-            meshpreviousindexing:
-              $ref: '#/definitions/Meshpreviousindexing'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
+      '410':
+        description: Gone
   delete:
+    deprecated: true
     summary: Delete a Meshpreviousindexing
     parameters:
     - name: X-JWT-Authorization
@@ -163,11 +144,5 @@
     tags:
       - Meshpreviousindexings
     responses:
-      '204':
-        description: Deleted Meshpreviousindexing
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
-      '500':
-        description: Failed to delete entity (usually caused by non-cascading relationships)
+      '410':
+        description: Gone

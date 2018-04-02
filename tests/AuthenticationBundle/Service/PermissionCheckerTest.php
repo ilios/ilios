@@ -68,7 +68,11 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('isLocked')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool])
@@ -99,10 +103,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool])
             ->andReturn(false);
-
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES, $rolesInCourse])
@@ -133,10 +144,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool])
             ->andReturn(false);
-
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES, $rolesInCourse])
@@ -190,7 +208,12 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('isLocked')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES, $rolesInSchool])
@@ -221,10 +244,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES, $rolesInSchool])
             ->andReturn(false);
-
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COURSES, $rolesInCourse])
@@ -255,10 +285,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COURSES, $rolesInSchool])
             ->andReturn(false);
-
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COURSES, $rolesInCourse])
@@ -306,7 +343,11 @@ class PermissionCheckerTest extends TestCase
         $sessionUser = m::mock(SessionUserInterface::class);
 
         $school->shouldReceive('getId')->andReturn($schoolId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_CREATE_COURSES, $rolesInSchool])
@@ -326,7 +367,11 @@ class PermissionCheckerTest extends TestCase
         $sessionUser = m::mock(SessionUserInterface::class);
 
         $school->shouldReceive('getId')->andReturn($schoolId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_CREATE_COURSES, $rolesInSchool])
@@ -350,7 +395,11 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_COURSES, $rolesInSchool])
@@ -377,12 +426,18 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
-
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_COURSES, $rolesInSchool])
             ->andReturn(false);
-
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_THEIR_COURSES, $rolesInCourse])
@@ -411,9 +466,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_COURSES, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_THEIR_COURSES, $rolesInCourse])
@@ -437,8 +500,12 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_ALL_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_ALL_COURSES, $rolesInSchool])
@@ -467,9 +534,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_ALL_COURSES, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_THEIR_COURSES, $rolesInCourse])
@@ -498,9 +573,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_ALL_COURSES, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UNARCHIVE_THEIR_COURSES, $rolesInCourse])
@@ -529,8 +612,12 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isLocked')->andReturn(false);
         $course->shouldReceive('isArchived')->andReturn(false);
         $school->shouldReceive('getId')->andReturn($schoolId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS, $rolesInSchool])
@@ -564,9 +651,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInSession')->andReturn($rolesInSession);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_SESSIONS, $rolesInSession])
@@ -605,16 +700,28 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_SESSIONS, $rolesInSession])
             ->andReturn(false);
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool])
             ->andReturn(true);
 
         $this->assertTrue($this->permissionChecker->canUpdateSession($sessionUser, $session));
@@ -650,17 +757,33 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_SESSIONS, $rolesInSession])
             ->andReturn(false);
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES, $rolesInCourse])
@@ -721,8 +844,12 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isLocked')->andReturn(false);
         $course->shouldReceive('isArchived')->andReturn(false);
         $school->shouldReceive('getId')->andReturn($schoolId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS, $rolesInSchool])
@@ -757,9 +884,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInSession')->andReturn($rolesInSession);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_SESSIONS, $rolesInSession])
@@ -796,16 +931,28 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInSession')->andReturn($rolesInSession);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_SESSIONS, $rolesInSession])
             ->andReturn(false);
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool])
             ->andReturn(true);
 
         $this->assertTrue($this->permissionChecker->canDeleteSession($sessionUser, $session));
@@ -841,17 +988,33 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_SESSIONS, $rolesInSession])
             ->andReturn(false);
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES, $rolesInCourse])
@@ -907,8 +1070,12 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isLocked')->andReturn(false);
         $course->shouldReceive('isArchived')->andReturn(false);
         $school->shouldReceive('getId')->andReturn($schoolId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSIONS, $rolesInSchool])
@@ -932,12 +1099,20 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isLocked')->andReturn(false);
         $course->shouldReceive('isArchived')->andReturn(false);
         $school->shouldReceive('getId')->andReturn($schoolId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSIONS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool])
@@ -968,13 +1143,25 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
         $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSIONS, $rolesInSchool ])
-            ->andReturn(false);
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSIONS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSIONS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COURSES, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES, $rolesInCourse])
@@ -1073,8 +1260,12 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS, $rolesInSchool])
@@ -1105,9 +1296,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
@@ -1142,16 +1341,28 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
             ->andReturn(false);
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
             ->andReturn(true);
 
         $this->assertTrue($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
@@ -1185,17 +1396,33 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
             ->andReturn(false);
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS, $rolesInProgram])
@@ -1249,8 +1476,12 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS, $rolesInSchool])
@@ -1281,9 +1512,17 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
@@ -1318,16 +1557,28 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
             ->andReturn(false);
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
             ->andReturn(true);
 
 
@@ -1362,17 +1613,33 @@ class PermissionCheckerTest extends TestCase
         $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
 
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
             ->andReturn(false);
         $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
             ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool ])
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS, $rolesInProgram])
@@ -1424,8 +1691,12 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive(('getId'))->andReturn($schoolId);
         $program->shouldReceive('getId')->andReturn($programId);
         $program->shouldReceive('getSchool')->andReturn($school);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_CREATE_PROGRAM_YEARS, $rolesInSchool])
@@ -1449,12 +1720,20 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive(('getId'))->andReturn($schoolId);
         $program->shouldReceive('getId')->andReturn($programId);
         $program->shouldReceive('getSchool')->andReturn($school);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_CREATE_PROGRAM_YEARS, $rolesInSchool])
             ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
@@ -1471,6 +1750,7 @@ class PermissionCheckerTest extends TestCase
         $programId = 20;
         $schoolId = 10;
         $rolesInSchool = ['foo'];
+        $rolesInProgram = ['bar'];
         $program = m::mock(ProgramInterface::class);
         $school = m::mock(SchoolInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -1478,523 +1758,36 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive(('getId'))->andReturn($schoolId);
         $program->shouldReceive('getId')->andReturn($programId);
         $program->shouldReceive('getSchool')->andReturn($school);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
 
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_PROGRAM_YEARS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_CREATE_PROGRAM_YEARS, $rolesInSchool])
-            ->andReturn(true);
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
             ->andReturn(false);
         $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS, $rolesInSchool])
-            ->andReturn(false);
-
-        $this->assertTrue($this->permissionChecker->canCreateProgramYear($sessionUser, $program));
-    }
-
-    /**
-     * @covers PermissionChecker::canUpdateCohort()
-     */
-    public function testCanUpdateAllCohorts()
-    {
-        $rolesInSchool = ['foo'];
-        $cohortId = 10;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $cohort->shouldReceive('getSchool')->andReturn($school);
-        $cohort->shouldReceive('getId')->andReturn($cohortId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COHORTS, $rolesInSchool])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canUpdateCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canUpdateCohort()
-     */
-    public function testCanUpdateTheirCohorts()
-    {
-        $rolesInSchool  = ['foo'];
-        $rolesInCohort = ['bar'];
-        $cohortId = 10;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $cohort->shouldReceive('getSchool')->andReturn($school);
-        $cohort->shouldReceive('getId')->andReturn($cohortId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
-        $sessionUser->shouldReceive('rolesInCohort')->andReturn($rolesInCohort);
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COHORTS, $rolesInSchool ])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COHORTS, $rolesInCohort])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canUpdateCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canUpdateCohort()
-     */
-    public function testCanNotUpdateCohorts()
-    {
-        $rolesInSchool  = ['foo'];
-        $rolesInCohort = ['bar'];
-        $rolesInProgram = ['baz'];
-        $cohortId = 10;
-        $programId = 15;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $program = m::mock(ProgramInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $cohort->shouldReceive('getProgram')->andReturn($program);
-        $cohort->shouldReceive('getSchool')->andReturn($school);
-        $cohort->shouldReceive('getId')->andReturn($cohortId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $program->shouldReceive('getId')->andReturn($programId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
-        $sessionUser->shouldReceive('rolesInCohort')->andReturn($rolesInCohort);
-        $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COHORTS, $rolesInSchool ])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COHORTS, $rolesInCohort])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool ])
-            ->andReturn(false);
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS])
+            ->andReturn([]);
         $this->permissionMatrix
             ->shouldReceive('hasPermission')
             ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS, $rolesInProgram])
             ->andReturn(false);
 
-        $this->assertFalse($this->permissionChecker->canUpdateCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canUpdateCohort()
-     */
-    public function testCanNotUpdateCohortsInLockedProgramYear()
-    {
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('isLocked')->andReturn(true);
-
-        $this->assertFalse($this->permissionChecker->canUpdateCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canUpdateCohort()
-     */
-    public function testCanNotUpdateCohortsIfUserCanUpdateProgram()
-    {
-        $rolesInSchool  = ['foo'];
-        $rolesInCohort = ['bar'];
-        $cohortId = 10;
-        $programId = 15;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $program = m::mock(ProgramInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $cohort->shouldReceive('getProgram')->andReturn($program);
-        $cohort->shouldReceive('getSchool')->andReturn($school);
-        $cohort->shouldReceive('getId')->andReturn($cohortId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $program->shouldReceive('getId')->andReturn($programId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
-        $sessionUser->shouldReceive('rolesInCohort')->andReturn($rolesInCohort);
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_COHORTS, $rolesInSchool ])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_COHORTS, $rolesInCohort])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool ])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canUpdateCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canUpdateCohort()
-     */
-    public function testCanNotUpdateCohortsInArchivedProgramYear()
-    {
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $programYear->shouldReceive('isArchived')->andReturn(true);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-
-        $this->assertFalse($this->permissionChecker->canUpdateCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canDeleteCohort()
-     */
-    public function testCanDeleteAllCohorts()
-    {
-        $rolesInSchool = ['foo'];
-        $cohortId = 10;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $cohort->shouldReceive('getSchool')->andReturn($school);
-        $cohort->shouldReceive('getId')->andReturn($cohortId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COHORTS, $rolesInSchool])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canDeleteCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canDeleteCohort()
-     */
-    public function testCanDeleteTheirCohorts()
-    {
-        $rolesInSchool  = ['foo'];
-        $rolesInCohort = ['bar'];
-        $cohortId = 10;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $cohort->shouldReceive('getSchool')->andReturn($school);
-        $cohort->shouldReceive('getId')->andReturn($cohortId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
-        $sessionUser->shouldReceive('rolesInCohort')->andReturn($rolesInCohort);
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COHORTS, $rolesInSchool ])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COHORTS, $rolesInCohort])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canDeleteCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canDeleteCohort()
-     */
-    public function testCanDeleteCohortsIfUserCanUpdateProgram()
-    {
-        $rolesInSchool  = ['foo'];
-        $rolesInCohort = ['bar'];
-        $cohortId = 10;
-        $programId = 15;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $program = m::mock(ProgramInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $cohort->shouldReceive('getProgram')->andReturn($program);
-        $cohort->shouldReceive('getSchool')->andReturn($school);
-        $cohort->shouldReceive('getId')->andReturn($cohortId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $program->shouldReceive('getId')->andReturn($programId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
-        $sessionUser->shouldReceive('rolesInCohort')->andReturn($rolesInCohort);
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COHORTS, $rolesInSchool ])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COHORTS, $rolesInCohort])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool ])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canDeleteCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canDeleteCohort()
-     */
-    public function testCanNotDeleteCohorts()
-    {
-        $rolesInSchool  = ['foo'];
-        $rolesInCohort = ['bar'];
-        $rolesInProgram = ['baz'];
-        $cohortId = 10;
-        $programId = 15;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $program = m::mock(ProgramInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $cohort->shouldReceive('getProgram')->andReturn($program);
-        $cohort->shouldReceive('getSchool')->andReturn($school);
-        $cohort->shouldReceive('getId')->andReturn($cohortId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $program->shouldReceive('getId')->andReturn($programId);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
-        $sessionUser->shouldReceive('rolesInCohort')->andReturn($rolesInCohort);
-        $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_COHORTS, $rolesInSchool ])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_COHORTS, $rolesInCohort])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool ])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS, $rolesInProgram])
-            ->andReturn(false);
-
-        $this->assertFalse($this->permissionChecker->canDeleteCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canDeleteCohort()
-     */
-    public function testCanNotDeleteCohortsInLockedProgramYear()
-    {
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('isLocked')->andReturn(true);
-
-        $this->assertFalse($this->permissionChecker->canDeleteCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canDeleteCohort()
-     */
-    public function testCanNotDeleteCohortsInArchivedProgramYear()
-    {
-        $cohort = m::mock(CohortInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $cohort->shouldReceive('getProgramYear')->andReturn($programYear);
-        $programYear->shouldReceive('isArchived')->andReturn(true);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-
-        $this->assertFalse($this->permissionChecker->canDeleteCohort($sessionUser, $cohort));
-    }
-
-    /**
-     * @covers PermissionChecker::canCreateCohort()
-     */
-    public function testCanCreateCohort()
-    {
-        $schoolId = 10;
-        $rolesInSchool = ['foo'];
-        $programYear = m::mock(ProgramYearInterface::class);
-        $school = m::mock(SchoolInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive(('getId'))->andReturn($schoolId);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('getSchool')->andReturn($school);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_CREATE_COHORTS, $rolesInSchool])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canCreateCohort($sessionUser, $programYear));
-    }
-
-    /**
-     * @covers PermissionChecker::canCreateCohort()
-     */
-    public function testCanCreateCohortIfUserCanUpdateProgram()
-    {
-        $programId = 20;
-        $schoolId = 10;
-        $rolesInSchool = ['foo'];
-        $programYear = m::mock(ProgramYearInterface::class);
-        $program = m::mock(ProgramInterface::class);
-        $school = m::mock(SchoolInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive(('getId'))->andReturn($schoolId);
-        $program->shouldReceive('getId')->andReturn($programId);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('getSchool')->andReturn($school);
-        $programYear->shouldReceive('getProgram')->andReturn($program);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool) ;
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_CREATE_COHORTS, $rolesInSchool])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canCreateCohort($sessionUser, $programYear));
-    }
-
-    /**
-     * @covers PermissionChecker::canCreateCohort()
-     */
-    public function testCanNotCreateCohort()
-    {
-        $programId = 20;
-        $schoolId = 10;
-        $rolesInSchool  = ['foo'];
-        $rolesInProgram = ['bar'];
-        $programYear = m::mock(ProgramYearInterface::class);
-        $program = m::mock(ProgramInterface::class);
-        $school = m::mock(SchoolInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive(('getId'))->andReturn($schoolId);
-        $program->shouldReceive('getId')->andReturn($programId);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-        $programYear->shouldReceive('getSchool')->andReturn($school);
-        $programYear->shouldReceive('getProgram')->andReturn($program);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
-        $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
-
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_CREATE_COHORTS, $rolesInSchool ])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool ])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS, $rolesInProgram])
-            ->andReturn(false);
-
-        $this->assertFalse($this->permissionChecker->canCreateCohort($sessionUser, $programYear));
-    }
-
-    /**
-     * @covers PermissionChecker::canCreateCohort()
-     */
-    public function testCanNotCreateCohortInLockedProgramYear()
-    {
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $programYear->shouldReceive('isLocked')->andReturn(true);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-
-        $this->assertFalse($this->permissionChecker->canCreateCohort($sessionUser, $programYear));
-    }
-
-    /**
-     * @covers PermissionChecker::canCreateCohort()
-     */
-    public function testCanNotCreateCohortInArchivedProgramYear()
-    {
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $programYear->shouldReceive('isLocked')->andReturn(true);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
-
-        $this->assertFalse($this->permissionChecker->canCreateCohort($sessionUser, $programYear));
+        $this->assertFalse($this->permissionChecker->canCreateProgramYear($sessionUser, $program));
     }
 
     public function testCanUpdateSchoolConfig()
@@ -2138,6 +1931,11 @@ class PermissionCheckerTest extends TestCase
     }
 
     public function testCanCreateUser()
+    {
+        $this->markTestIncomplete('This test has not been implemented yet.');
+    }
+
+    public function testCanCreateUserInAnySchool()
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }

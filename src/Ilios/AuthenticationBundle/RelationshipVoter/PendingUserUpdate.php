@@ -10,10 +10,6 @@ class PendingUserUpdate extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return $subject instanceof PendingUserUpdateInterface
             && in_array(
                 $attribute,

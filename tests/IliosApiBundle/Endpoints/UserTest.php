@@ -3,18 +3,14 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\PermissionData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * User API endpoint Test.
  * @group api_1
  */
-class UserTest extends AbstractEndpointTest
+class UserTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'users';
 
     /**
@@ -29,11 +25,9 @@ class UserTest extends AbstractEndpointTest
             'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
             'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
-            'Tests\CoreBundle\Fixture\LoadUserMadeReminderData',
             'Tests\CoreBundle\Fixture\LoadIlmSessionData',
             'Tests\CoreBundle\Fixture\LoadOfferingData',
             'Tests\CoreBundle\Fixture\LoadPendingUserUpdateData',
-            'Tests\CoreBundle\Fixture\LoadPermissionData',
             'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadReportData',
             'Tests\CoreBundle\Fixture\LoadAuthenticationData',
@@ -60,7 +54,6 @@ class UserTest extends AbstractEndpointTest
             'addedViaIlios' => ['addedViaIlios', true],
             'examined' => ['examined', false],
             'icsFeedKey' => ['icsFeedKey', hash('sha256', 'testValueICS')],
-            'reminders' => ['reminders', [1], $skipped = true],
             'reports' => ['reports', [1], $skipped = true],
             'school' => ['school', 3],
             'directedCourses' => ['directedCourses', [2]],
@@ -78,7 +71,6 @@ class UserTest extends AbstractEndpointTest
             'cohorts' => ['cohorts', [2], $skipped = true],
             'primaryCohort' => ['primaryCohort', 3, $skipped = true],
             'pendingUserUpdates' => ['pendingUserUpdates', [2], $skipped = true],
-            'permissions' => ['permissions', [1], $skipped = true],
             'directedSchools' => ['directedSchools', [2]],
             'administeredSchools' => ['administeredSchools', [1, 2]],
             'directedPrograms' => ['directedPrograms', [2]],
@@ -122,7 +114,6 @@ class UserTest extends AbstractEndpointTest
             'notExamined' => [[2, 3, 4], ['examined' => false]],
             'icsFeedKey' => [[1], ['icsFeedKey' => hash('sha256', '2')]],
 //            'authentication' => [[2], ['authentication' => 2]],
-//            'reminders' => [[1], ['reminders' => [2]]],
 //            'reports' => [[1], ['reports' => [1]]],
             'school' => [[0, 1, 2, 4], ['school' => 1]],
             'schools' => [[0, 1, 2, 4], ['schools' => [1]]],
@@ -143,7 +134,6 @@ class UserTest extends AbstractEndpointTest
             'primaryCohort' => [[0], ['primaryCohort' => 1]],
 //            'nullPrimaryCohort' => [[1, 2, 3, 4], ['primaryCohort' => null]],
 //            'pendingUserUpdates' => [[0], ['pendingUserUpdates' => [1]]],
-//            'permissions' => [[0], ['permissions' => [1]]],
 //            'directedSchools' => [[0], ['directedSchools' => [1]]],
 //            'administeredSchools' => [[0], ['administeredSchools' => [1]]],
 //            'directedPrograms' => [[0], ['directedPrograms' => [1]]],
@@ -464,99 +454,5 @@ class UserTest extends AbstractEndpointTest
         $responseData = $this->getOne('users', 'users', $userId);
 
         $this->compareData($user, $responseData);
-    }
-
-    public function testPostUserInDifferentPrimarySchool()
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $user = $all[0];
-        $this->assertEquals($user['school'], 1, 'User #1 should be in school 1 or this test is garbage');
-        $this->assertFalse($user['root'], 'User #1 should not be root or this test is garbage');
-        $this->assertContains(
-            1,
-            $user['roles'],
-            'User #1 should be a developer or this test is garbage'
-        );
-
-        $newUserSchool = 2;
-
-        $permissionDataLoader = $this->container->get(PermissionData::class);
-        $permission = $permissionDataLoader->create();
-        $permission['user'] = $user['id'];
-        $permission['canRead'] = true;
-        $permission['canWrite'] = true;
-        $permission['tableRowId'] = $newUserSchool;
-        $permission['tableName'] = 'school';
-        $this->postOne('permissions', 'permission', 'permissions', $permission);
-
-        $data = $dataLoader->create();
-        $data['school'] = $newUserSchool;
-
-        $this->createJsonRequest(
-            'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'users']),
-            json_encode(['user' => $data]),
-            $this->getTokenForUser($user['id'])
-        );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_CREATED);
-
-        $responseData = json_decode($response->getContent(), true)['users'][0];
-
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne('users', 'users', $responseData['id']);
-
-        $this->compareData($data, $fetchedResponseData);
-    }
-
-    public function testAddRoleInDifferentPrimarySchool()
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $user = $all[0];
-        $this->assertEquals($user['school'], 1, 'User #1 should be in school 1 or this test is garbage');
-        $this->assertFalse($user['root'], 'User #1 should not be root or this test is garbage');
-        $this->assertContains(
-            1,
-            $user['roles'],
-            'User #1 should be a developer or this test is garbage'
-        );
-        $permissionDataLoader = $this->container->get(PermissionData::class);
-        $permission = $permissionDataLoader->create();
-        $permission['user'] = $user['id'];
-        $permission['canRead'] = true;
-        $permission['canWrite'] = true;
-        $permission['tableRowId'] = 2;
-        $permission['tableName'] = 'school';
-        $this->postOne('permissions', 'permission', 'permissions', $permission);
-
-        $data = $all[3];
-        $this->assertNotContains(
-            1,
-            $data['roles'],
-            'User #4 should Not be a developer or this test is garbage'
-        );
-        $this->assertNotEquals(
-            1,
-            $data['school'],
-            'User #4 should Not be in school 1 or this test is garbage'
-        );
-
-        $this->createJsonRequest(
-            'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'users', 'id' => $data['id']]),
-            json_encode(['user' => $data]),
-            $this->getTokenForUser($user['id'])
-        );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_OK);
-
-        $responseData = json_decode($response->getContent(), true)['user'];
-
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne('users', 'users', $responseData['id']);
-
-        $this->compareData($data, $fetchedResponseData);
     }
 }

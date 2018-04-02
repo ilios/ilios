@@ -2,17 +2,12 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
-
 /**
  * MeshTerm API endpoint Test.
  * @group api_3
  */
-class MeshTermTest extends AbstractEndpointTest
+class MeshTermTest extends AbstractMeshTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'meshTerms';
 
     /**
@@ -23,22 +18,6 @@ class MeshTermTest extends AbstractEndpointTest
         return [
             'Tests\CoreBundle\Fixture\LoadMeshTermData',
             'Tests\CoreBundle\Fixture\LoadMeshConceptData',
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'meshTermUid' => ['meshTermUid', $this->getFaker()->text(9)],
-            'name' => ['name', $this->getFaker()->text],
-            'lexicalTag' => ['lexicalTag', $this->getFaker()->text(12)],
-            'conceptPreferred' => ['conceptPreferred', false],
-            'recordPreferred' => ['recordPreferred', true],
-            'permuted' => ['permuted', false],
-            'concepts' => ['concepts', [2]],
         ];
     }
 
@@ -78,13 +57,5 @@ class MeshTermTest extends AbstractEndpointTest
     public function getTimeStampFields()
     {
         return ['createdAt', 'updatedAt'];
-    }
-
-    public function testPostMeshTermConcept()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'terms', 'meshConcepts', 'concepts');
     }
 }

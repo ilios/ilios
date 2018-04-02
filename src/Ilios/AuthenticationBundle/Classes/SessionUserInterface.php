@@ -12,14 +12,6 @@ use DateTime;
 interface SessionUserInterface extends UserInterface, EquatableInterface, EncoderAwareInterface
 {
     /**
-     * Utility method, determines if the user has any of the given roles.
-     * @param array $eligibleRoles a list of role names
-     *
-     * @return bool TRUE if the user has at least one of the roles, FALSE otherwise.
-     */
-    public function hasRole(array $eligibleRoles);
-
-    /**
      * Is this user a root user
      *
      * @return boolean
@@ -63,78 +55,6 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function getAssociatedSchoolIdsInNonLearnerFunction();
 
     /**
-     * Check if a user can read a school
-     *
-     * @param $schoolId
-     *
-     * @return boolean
-     */
-    public function hasReadPermissionToSchool($schoolId);
-
-    /**
-     * Check if a user can read a school
-     *
-     * @param array $schoolIds
-     *
-     * @return boolean
-     */
-    public function hasReadPermissionToSchools(array $schoolIds);
-
-    /**
-     * Check if a user can read a program
-     *
-     * @param $programId
-     *
-     * @return boolean
-     */
-    public function hasReadPermissionToProgram($programId);
-
-    /**
-     * Check if a user can read a course
-     *
-     * @param $courseId
-     *
-     * @return boolean
-     */
-    public function hasReadPermissionToCourse($courseId);
-
-    /**
-     * Check if a user can write a school
-     *
-     * @param $schoolId
-     *
-     * @return boolean
-     */
-    public function hasWritePermissionToSchool($schoolId);
-
-    /**
-     * Check if a user can write a school
-     *
-     * @param array $schoolIds
-     *
-     * @return boolean
-     */
-    public function hasWritePermissionToSchools(array $schoolIds);
-
-    /**
-     * Check if a user can write a program
-     *
-     * @param $programId
-     *
-     * @return boolean
-     */
-    public function hasWritePermissionToProgram($programId);
-
-    /**
-     * Check if a user can write a course
-     *
-     * @param $courseId
-     *
-     * @return boolean
-     */
-    public function hasWritePermissionToCourse($courseId);
-
-    /**
      * Check if the passed user is our session user by id
      *
      * @param IliosUserInterface $user
@@ -167,22 +87,48 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function isAdministeringSessionInSchool(int $schoolId) : bool;
     public function isTeachingCourseInSchool(int $schoolId) : bool;
     public function isTeachingCourse(int $courseId) : bool;
-    public function rolesInSchool(int $schoolId): array;
-    public function rolesInCourse(int $courseId): array;
+    public function rolesInSchool(
+        int $schoolId,
+        $roles = [
+            UserRoles::SCHOOL_DIRECTOR,
+            UserRoles::SCHOOL_ADMINISTRATOR,
+            UserRoles::COURSE_DIRECTOR,
+            UserRoles::COURSE_ADMINISTRATOR,
+            UserRoles::SESSION_ADMINISTRATOR,
+            UserRoles::COURSE_INSTRUCTOR,
+            UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR
+        ]
+    ): array;
+    public function rolesInCourse(
+        int $courseId,
+        $roles = [
+            UserRoles::COURSE_DIRECTOR,
+            UserRoles::COURSE_ADMINISTRATOR,
+            UserRoles::SESSION_ADMINISTRATOR,
+            UserRoles::COURSE_INSTRUCTOR
+        ]
+    ): array;
     public function isAdministeringSessionInCourse(int $courseId) : bool;
     public function isAdministeringSession(int $sessionId): bool;
     public function isTeachingSession(int $sessionId): bool;
-    public function rolesInSession(int $sessionId): array;
-    public function rolesInProgram(int $programId): array;
+    public function rolesInSession(
+        int $sessionId,
+        $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]
+    ): array;
+    public function rolesInProgram(
+        int $programId,
+        $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR]
+    ): array;
     public function isDirectingProgram(int $programId): bool;
-    public function rolesInProgramYear(int $programYearId): array;
-    public function rolesInCohort(int $cohortId): array;
+    public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array;
     public function isDirectingProgramYear(int $programYearId) : bool;
     public function isDirectingProgramYearInProgram(int $programId) : bool;
-    public function isDirectingCohort(int $cohortId) : bool;
-
+    public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId) : bool;
     public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId) : bool;
-    public function rolesInCurriculumInventoryReport(int $curriculumInventoryReportId): array;
+    public function rolesInCurriculumInventoryReport(
+        int $curriculumInventoryReportId,
+        $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR]
+    ): array;
 
     /**
      * Checks if this user is performing any non-student function in the system,
@@ -190,4 +136,89 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return bool
      */
     public function performsNonLearnerFunction(): bool;
+
+    /**
+     * @return array
+     */
+    public function getDirectedCourseIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getAdministeredCourseIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getDirectedSchoolIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getAdministeredSchoolIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getDirectedCourseSchoolIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getAdministeredCourseSchoolIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getAdministeredSessionSchoolIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getAdministeredSessionCourseIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getTaughtCourseIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getAdministeredSessionIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getInstructedSessionIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getTaughtCourseSchoolIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getDirectedProgramIds(): array;
+
+    /**
+     * @@return array
+     */
+    public function getDirectedProgramYearIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getDirectedProgramYearProgramIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getAdministeredCurriculumInventoryReportIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getAdministeredCurriculumInventoryReportSchoolIds(): array;
 }

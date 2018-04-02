@@ -50,6 +50,7 @@
               items:
                 $ref: '#/definitions/Meshdescriptor'
   post:
+    deprecated: true
     summary: Create Meshdescriptors
     parameters:
     - name: X-JWT-Authorization
@@ -71,19 +72,8 @@
     tags:
       - Meshdescriptors
     responses:
-      '201':
-        description: An array of newly created meshdescriptors
-        schema:
-          type: object
-          properties:
-            meshdescriptors:
-              type: array
-              items:
-                $ref: '#/definitions/Meshdescriptor'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
+      '410':
+        description: Gone
 /meshdescriptors/{id}:
   get:
     summary: Fetch a single Meshdescriptor
@@ -114,6 +104,7 @@
       '404':
         description: Not found
   put:
+    deprecated: true
     summary: Edit a Meshdescriptor
     parameters:
     - name: X-JWT-Authorization
@@ -138,20 +129,10 @@
     tags:
       - Meshdescriptors
     responses:
-      '200':
-        description: A single Meshdescriptor
-        schema:
-          type: object
-          properties:
-            meshdescriptor:
-              $ref: '#/definitions/Meshdescriptor'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
+      '410':
+        description: Gone
   delete:
+    deprecated: true
     summary: Delete a Meshdescriptor
     parameters:
     - name: X-JWT-Authorization
@@ -168,11 +149,5 @@
     tags:
       - Meshdescriptors
     responses:
-      '204':
-        description: Deleted Meshdescriptor
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
-      '500':
-        description: Failed to delete entity (usually caused by non-cascading relationships)
+      '410':
+        description: Gone

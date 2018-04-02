@@ -4,16 +4,17 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\ProgramYearData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\PutEndpointTestable;
+use Tests\IliosApiBundle\PutEndpointTestInterface;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * Cohort API endpoint Test.
  * @group api_2
  */
-class CohortTest extends AbstractEndpointTest
+class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
 {
-    use EndpointTestsTrait;
+    use PutEndpointTestable;
 
     protected $testName =  'cohorts';
 
@@ -73,7 +74,7 @@ class CohortTest extends AbstractEndpointTest
         ];
     }
 
-    public function testPostOne()
+    public function testPostFails()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
@@ -87,7 +88,7 @@ class CohortTest extends AbstractEndpointTest
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
-    public function testCreateWithPut()
+    public function testCreateWithPutFails()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
@@ -105,7 +106,7 @@ class CohortTest extends AbstractEndpointTest
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
-    public function testDelete()
+    public function testDeleteFails()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
@@ -117,22 +118,6 @@ class CohortTest extends AbstractEndpointTest
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
-    }
-
-    /**
-     * This test is disabled since cohorts can't be posted
-     */
-    public function testPostBad()
-    {
-        $this->assertTrue(true);
-    }
-
-    /**
-     * This test is disabled since cohorts can't be posted
-     */
-    public function testPostMany()
-    {
-        $this->assertTrue(true);
     }
 
     /**
@@ -159,50 +144,9 @@ class CohortTest extends AbstractEndpointTest
         }
     }
 
-    public function testRejectPutCohortInLockedProgramYear()
-    {
-        $userId = 2;
-        $dataLoader = $this->getDataLoader();
-        $cohort = $dataLoader->getOne();
-        $programYear = $this->getProgramYear($cohort['programYear']);
-        $programYear['locked'] = true;
-        $programYear['archived'] = false;
-        $this->putOne('programyears', 'programYear', $programYear['id'], $programYear);
-
-        $id = $cohort['id'];
-
-        $this->canNot(
-            $userId,
-            'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'cohorts', 'id' => $id]),
-            json_encode(['cohort' => $cohort])
-        );
-    }
-
-    public function testRejectPutCohortInArchivedProgramYear()
-    {
-        $userId = 2;
-        $dataLoader = $this->getDataLoader();
-        $cohort = $dataLoader->getOne();
-        $programYear = $this->getProgramYear($cohort['programYear']);
-        $programYear['locked'] = false;
-        $programYear['archived'] = true;
-        $this->putOne('programyears', 'programYear', $programYear['id'], $programYear);
-
-        $id = $cohort['id'];
-
-        $this->canNot(
-            $userId,
-            'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'cohorts', 'id' => $id]),
-            json_encode(['cohort' => $cohort])
-        );
-    }
-
     /**
      * Get programYear data from loader by id
-     * @param integer $programYearId
-     *
+     * @param int $id
      * @return array
      */
     protected function getProgramYear($id)

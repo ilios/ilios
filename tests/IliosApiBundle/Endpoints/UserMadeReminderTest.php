@@ -2,71 +2,92 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
- * UserMadeReminder API endpoint Test.
- * @group api_2
+ * Class UserMadeReminderTest
+ * @package Tests\IliosApiBundle\Endpoints
  */
 class UserMadeReminderTest extends AbstractEndpointTest
 {
-    use EndpointTestsTrait;
+    protected $testName = 'usermadereminders';
 
-    protected $testName =  'userMadeReminders';
-
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    public function testPostFails()
     {
-        return [
-            'Tests\CoreBundle\Fixture\LoadUserMadeReminderData',
-            'Tests\CoreBundle\Fixture\LoadUserData'
-        ];
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedSingularName();
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            json_encode([$responseKey => []]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
+    public function testPutFails()
     {
-        return [
-            'note' => ['note', $this->getFaker()->text(150)],
-            'dueDate' => ['dueDate', $this->getFaker()->iso8601, $skipped = true],
-            'closed' => ['closed', false],
-            'user' => ['user', 2, $skipped = true],
-        ];
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedSingularName();
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => $endpoint, 'id' => 1]),
+            json_encode([$responseKey => []]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest()
+    public function testDeleteFails()
     {
-        return [
-            'id' => ['id', 1, 99],
-            'createdAt' => ['createdAt', 1, 99],
-        ];
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedSingularName();
+
+        $this->createJsonRequest(
+            'DELETE',
+            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => $endpoint, 'id' => 1]),
+            json_encode([$responseKey => []]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest()
+    public function testGetOneFails()
     {
-        return [
-            'id' => [[0], ['id' => 1]],
-            'ids' => [[0, 1], ['id' => [1, 2]]],
-            'note' => [[1], ['note' => 'second note']],
-            'open' => [[1], ['closed' => false]],
-            'closed' => [[0], ['closed' => true]],
-            'user' => [[0, 1], ['user' => 2]],
-        ];
+        $endpoint = $this->getPluralName();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => $endpoint, 'id' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
-    protected function getTimeStampFields()
+    public function testGetAllFails()
     {
-        return ['createdAt'];
+        $endpoint = $this->getPluralName();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('ilios_api_getall', ['version' => 'v1', 'object' => $endpoint]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 }

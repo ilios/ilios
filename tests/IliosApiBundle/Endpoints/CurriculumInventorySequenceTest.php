@@ -3,17 +3,14 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\CoreBundle\DataLoader\CurriculumInventoryReportData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * CurriculumInventorySequence API endpoint Test.
  * @group api_1
  */
-class CurriculumInventorySequenceTest extends AbstractEndpointTest
+class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'curriculumInventorySequences';
 
     /**

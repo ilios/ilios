@@ -4,15 +4,15 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\CourseData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * AamcMethod API endpoint Test.
  * @group api_5
  */
-class AcademicYearTest extends AbstractEndpointTest
+class AcademicYearTest extends ReadEndpointTest
 {
-    protected $testName =  'academicYears';
+    protected $testName = 'academicYears';
 
     /**
      * @inheritdoc
@@ -70,30 +70,6 @@ class AcademicYearTest extends AbstractEndpointTest
             $academicYears,
             $responses
         );
-    }
-
-    /**
-     * @dataProvider filtersToTest
-     * @inheritdoc
-     */
-    public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false)
-    {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
-        if (empty($filterParts)) {
-            $this->markTestSkipped('Missing filters tests for this endpoint');
-            return;
-        }
-        $all = $this->getYears();
-        $expectedData = array_map(function ($i) use ($all) {
-            return $all[$i];
-        }, $dataKeys);
-        $filters = [];
-        foreach ($filterParts as $key => $value) {
-            $filters["filters[{$key}]"] = $value;
-        }
-        $this->filterTest($filters, $expectedData);
     }
 
     public function testPostIs404()

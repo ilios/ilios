@@ -10,10 +10,6 @@ class CurriculumInventoryAcademicLevel extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return $subject instanceof CurriculumInventoryAcademicLevelInterface && in_array($attribute, [self::VIEW]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
@@ -64,16 +65,17 @@ class SchooleventController extends Controller
         $events = $schoolManager->findEventsForSchool($school->getId(), $from, $to);
 
         $events = array_filter($events, function ($entity) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted('view', $entity);
+            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
         });
 
         $result = $userManager->addInstructorsToEvents($events);
         $result = $userManager->addMaterialsToEvents($result);
 
-        $user = $tokenStorage->getToken()->getUser();
+        $sessionUser = $tokenStorage->getToken()->getUser();
 
         //Un-privileged users get less data
-        if (!$user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+        $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
+        if (! $hasElevatedPrivileges) {
             /** @var SchoolEvent $event */
             $now = new \DateTime();
             foreach ($events as $event) {

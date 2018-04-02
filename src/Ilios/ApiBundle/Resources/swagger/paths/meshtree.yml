@@ -45,6 +45,7 @@
               items:
                 $ref: '#/definitions/Meshtree'
   post:
+    deprecated: true
     summary: Create Meshtrees
     parameters:
     - name: X-JWT-Authorization
@@ -66,19 +67,8 @@
     tags:
       - Meshtrees
     responses:
-      '201':
-        description: An array of newly created meshtrees
-        schema:
-          type: object
-          properties:
-            meshtrees:
-              type: array
-              items:
-                $ref: '#/definitions/Meshtree'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
+      '410':
+        description: Gone
 /meshtrees/{id}:
   get:
     summary: Fetch a single Meshtree
@@ -109,6 +99,7 @@
       '404':
         description: Not found
   put:
+    deprecated: true
     summary: Edit a Meshtree
     parameters:
     - name: X-JWT-Authorization
@@ -133,20 +124,10 @@
     tags:
       - Meshtrees
     responses:
-      '200':
-        description: A single Meshtree
-        schema:
-          type: object
-          properties:
-            meshtree:
-              $ref: '#/definitions/Meshtree'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
+      '410':
+        description: Gone
   delete:
+    deprecated: true
     summary: Delete a Meshtree
     parameters:
     - name: X-JWT-Authorization
@@ -163,11 +144,5 @@
     tags:
       - Meshtrees
     responses:
-      '204':
-        description: Deleted Meshtree
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
-      '500':
-        description: Failed to delete entity (usually caused by non-cascading relationships)
+      '410':
+        description: Gone

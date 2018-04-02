@@ -10,10 +10,6 @@ class SessionType extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return $subject instanceof SessionTypeInterface
             && in_array(
                 $attribute,

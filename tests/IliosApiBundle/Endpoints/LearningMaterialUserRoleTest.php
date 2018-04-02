@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * LearningMaterialUserRole API endpoint Test.
  * @group api_1
  */
-class LearningMaterialUserRoleTest extends AbstractEndpointTest
+class LearningMaterialUserRoleTest extends ReadEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'learningMaterialUserRoles';
 
     /**
@@ -26,25 +23,6 @@ class LearningMaterialUserRoleTest extends AbstractEndpointTest
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'title' => ['title', $this->getFaker()->text(10)],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest()
-    {
-        return [
-            'id' => ['id', 1, 99],
-        ];
-    }
 
     /**
      * @inheritDoc

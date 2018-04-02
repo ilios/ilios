@@ -24,6 +24,7 @@ use Ilios\CoreBundle\Entity\DTO\IlmSessionDTO;
 use Ilios\CoreBundle\Entity\DTO\InstructorGroupDTO;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialStatusDTO;
+use Ilios\CoreBundle\Entity\DTO\LearningMaterialUserRoleDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
@@ -34,12 +35,14 @@ use Ilios\CoreBundle\Entity\DTO\ObjectiveDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearStewardDTO;
+use Ilios\CoreBundle\Entity\DTO\SchoolConfigDTO;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDescriptionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionLearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionTypeDTO;
 use Ilios\CoreBundle\Entity\DTO\TermDTO;
+use Ilios\CoreBundle\Entity\DTO\UserRoleDTO;
 use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
 use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
@@ -57,9 +60,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
     public function setup()
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
-        $config = m::mock(Config::class);
-        $config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
-        $this->voter = new Voter($this->permissionChecker, $config);
+        $this->voter = new Voter($this->permissionChecker);
     }
 
     public function canViewDTOProvider()
@@ -84,6 +85,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [InstructorGroupDTO::class],
             [LearningMaterialDTO::class],
             [LearningMaterialStatusDTO::class],
+            [LearningMaterialUserRoleDTO::class],
             [MeshConceptDTO::class],
             [MeshDescriptorDTO::class],
             [MeshPreviousIndexingDTO::class],
@@ -95,11 +97,13 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [ProgramYearDTO::class],
             [ProgramYearStewardDTO::class],
             [SchoolDTO::class],
+            [SchoolConfigDTO::class],
             [SessionDTO::class],
             [SessionDescriptionDTO::class],
             [SessionLearningMaterialDTO::class],
             [SessionTypeDTO::class],
             [TermDTO::class],
+            [UserRoleDTO::class],
             [VocabularyDTO::class],
         ];
     }

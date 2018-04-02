@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * SessionLearningMaterial API endpoint Test.
  * @group api_1
  */
-class SessionLearningMaterialTest extends AbstractEndpointTest
+class SessionLearningMaterialTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName = 'sessionLearningMaterials';
 
     /**

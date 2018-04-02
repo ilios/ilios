@@ -107,13 +107,6 @@ class UserDTO
      * @IS\Expose
      * @IS\Type("array<string>")
      */
-    public $reminders;
-
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array<string>")
-     */
     public $reports;
 
     /**
@@ -240,13 +233,6 @@ class UserDTO
      * @var array
      * @IS\Expose
      * @IS\Type("array<string>")
-     **/
-    public $permissions;
-
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array<string>")
      */
     public $directedSchools;
 
@@ -309,7 +295,6 @@ class UserDTO
         $this->icsFeedKey = $icsFeedKey;
         $this->root = $root;
 
-        $this->reminders = [];
         $this->directedCourses = [];
         $this->administeredCourses = [];
         $this->learnerGroups = [];
@@ -324,7 +309,6 @@ class UserDTO
         $this->cohorts = [];
         $this->pendingUserUpdates = [];
         $this->auditLogs = [];
-        $this->permissions = [];
         $this->learnerIlmSessions = [];
         $this->directedSchools = [];
         $this->administeredSchools = [];

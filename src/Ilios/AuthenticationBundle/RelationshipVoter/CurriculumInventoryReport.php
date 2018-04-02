@@ -10,10 +10,6 @@ class CurriculumInventoryReport extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return $subject instanceof CurriculumInventoryReportInterface
             && in_array(
                 $attribute,
