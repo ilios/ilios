@@ -144,7 +144,7 @@ sudo service httpd restart
 
 ## Setup a First User
 
-To get started with your new version of Ilios, you are going to have to create the 'first user' in order to get into the application. The username for this user will be 'first_user', the password will be 'Ch4nge_m3', and the user's role will be set as 'Course Director', which will allow you to perform all necessary tasks to start administering the application.
+To get started with your new version of Ilios, you are going to have to create the 'first user' in order to get into the application. The username for this user will be 'first_user', the password will be 'Ch4nge_m3', and the user will be granted 'root'-level privileges, which will allow you to perform all necessary tasks to start administering the application.
 
 To add the first user, we need to return to the the Ilios application root folder ('/web/ilios3/ilios') and get ready to run the following console command.  Before running the command, however, you'll want to gather this information about the user you intend to add:
 
