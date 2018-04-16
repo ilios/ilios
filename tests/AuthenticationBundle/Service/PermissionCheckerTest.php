@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Entity\CohortInterface;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
+use Ilios\CoreBundle\Entity\SchoolConfigInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Mockery as m;
@@ -1198,49 +1199,498 @@ class PermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateSession($sessionUser, $course));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateSessionType()
+     */
     public function testCanUpdateSessionType()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SESSION_TYPES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SESSION_TYPES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateSessionType($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateSessionType()
+     */
+    public function testCanNotUpdateSessionType()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SESSION_TYPES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SESSION_TYPES, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateSessionType($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteSessionType()
+     */
     public function testCanDeleteSessionType()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_SESSION_TYPES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_SESSION_TYPES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteSessionType($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canDeleteSessionType()
+     */
+    public function testCanNotDeleteSessionType()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_SESSION_TYPES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_SESSION_TYPES, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteSessionType($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateSessionType()
+     */
     public function testCanCreateSessionType()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSION_TYPES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSION_TYPES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateSessionType($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canCreateSessionType()
+     */
+    public function testCanNotCreateSessionType()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSION_TYPES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SESSION_TYPES, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateSessionType($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canUpdateDepartment()
+     */
     public function testCanUpdateDepartment()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_DEPARTMENTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_DEPARTMENTS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateDepartment($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateDepartment()
+     */
+    public function testCanNotUpdateDepartment()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_DEPARTMENTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_DEPARTMENTS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateDepartment($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteDepartment()
+     */
     public function testCanDeleteDepartment()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_DEPARTMENTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_DEPARTMENTS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteDepartment($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canDeleteDepartment()
+     */
+    public function testCanNotDeleteDepartment()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_DEPARTMENTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_DEPARTMENTS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteDepartment($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateDepartment()
+     */
     public function testCanCreateDepartment()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_DEPARTMENTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_DEPARTMENTS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateDepartment($sessionUser, $schoolId));
     }
 
-    public function testCanUpdateProgram()
+    /**
+     * @covers PermissionChecker::canCreateDepartment()
+     */
+    public function testCanNotCreateDepartment()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_DEPARTMENTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_DEPARTMENTS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateDepartment($sessionUser, $schoolId));
     }
 
-    public function testCanDeleteProgram()
+    /**
+     * @covers PermissionChecker::canUpdateProgram()
+     */
+    public function testCanUpdateAllPrograms()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $rolesInSchool = ['foo'];
+        $schoolId = 10;
+        $programId = 20;
+
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
+            ->andReturn(true);
+        $this->assertTrue($this->permissionChecker->canUpdateProgram($sessionUser, $programId, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateProgram()
+     */
+    public function testCanUpdateTheirPrograms()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInProgram = ['bar'];
+        $schoolId = 10;
+        $programId = 20;
+
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS, $rolesInProgram])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateProgram($sessionUser, $programId, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canUpdateProgram()
+     */
+    public function testCanNotUpdatePrograms()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInProgram = ['bar'];
+        $schoolId = 10;
+        $programId = 20;
+
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS, $rolesInProgram])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateProgram($sessionUser, $programId, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteProgram()
+     */
+    public function testCanDeleteAllPrograms()
+    {
+        $rolesInSchool = ['foo'];
+        $schoolId = 10;
+        $programId = 20;
+
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAMS, $rolesInSchool])
+            ->andReturn(true);
+        $this->assertTrue($this->permissionChecker->canDeleteProgram($sessionUser, $programId, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteProgram()
+     */
+    public function testCanDeleteTheirPrograms()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInProgram = ['bar'];
+        $schoolId = 10;
+        $programId = 20;
+
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAMS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAMS, $rolesInProgram])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteProgram($sessionUser, $programId, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteProgram()
+     */
+    public function testCanNotDeletePrograms()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInProgram = ['bar'];
+        $schoolId = 10;
+        $programId = 20;
+
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_PROGRAMS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAMS, $rolesInProgram])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteProgram($sessionUser, $programId, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateProgram()
+     */
     public function testCanCreateProgram()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_PROGRAMS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateProgram($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateProgram()
+     */
+    public function testCanNotCreateProgram()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_PROGRAMS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateProgram($sessionUser, $schoolId));
     }
 
     /**
@@ -1790,152 +2240,1364 @@ class PermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateProgramYear($sessionUser, $program));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateSchoolConfig()
+     */
     public function testCanUpdateSchoolConfig()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SCHOOL_CONFIGS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SCHOOL_CONFIGS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateSchoolConfig($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateSchoolConfig()
+     */
+    public function testCanNotUpdateSchoolConfig()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SCHOOL_CONFIGS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SCHOOL_CONFIGS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateSchoolConfig($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteSchoolConfig()
+     */
     public function testCanDeleteSchoolConfig()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_SCHOOL_CONFIGS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_SCHOOL_CONFIGS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteSchoolConfig($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canDeleteSchoolConfig()
+     */
+    public function testCanNotDeleteSchoolConfig()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_SCHOOL_CONFIGS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_SCHOOL_CONFIGS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteSchoolConfig($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateSchoolConfig()
+     */
     public function testCanCreateSchoolConfig()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SCHOOL_CONFIGS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SCHOOL_CONFIGS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateSchoolConfig($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canCreateSchoolConfig()
+     */
+    public function testCanNotCreateSchoolConfig()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SCHOOL_CONFIGS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_SCHOOL_CONFIGS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateSchoolConfig($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canUpdateSchool()
+     */
     public function testCanUpdateSchool()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SCHOOLS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SCHOOLS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateSchool($sessionUser, $schoolId));
     }
 
-    public function testCanDeleteSchool()
+    /**
+     * @covers PermissionChecker::canUpdateSchool()
+     */
+    public function testCanNotUpdateSchool()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SCHOOLS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_SCHOOLS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateSchool($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateCompetency()
+     */
     public function testCanUpdateCompetency()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_COMPETENCIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_COMPETENCIES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateCompetency($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateCompetency()
+     */
+    public function testCanNotUpdateCompetency()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_COMPETENCIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_COMPETENCIES, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateCompetency($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteCompetency()
+     */
     public function testCanDeleteCompetency()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_COMPETENCIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_COMPETENCIES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteCompetency($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canDeleteCompetency()
+     */
+    public function testCanNotDeleteCompetency()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_COMPETENCIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_COMPETENCIES, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteCompetency($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateCompetency()
+     */
     public function testCanCreateCompetency()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_COMPETENCIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_COMPETENCIES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateCompetency($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canCreateCompetency()
+     */
+    public function testCanNotCreateCompetency()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_COMPETENCIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_COMPETENCIES, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateCompetency($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canUpdateVocabulary()
+     */
     public function testCanUpdateVocabulary()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_VOCABULARIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_VOCABULARIES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateVocabulary($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateVocabulary()
+     */
+    public function testCanNotUpdateVocabulary()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_VOCABULARIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_VOCABULARIES, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateVocabulary($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteVocabulary()
+     */
     public function testCanDeleteVocabulary()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_VOCABULARIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_VOCABULARIES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteVocabulary($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canDeleteVocabulary()
+     */
+    public function testCanNotDeleteVocabulary()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_VOCABULARIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_VOCABULARIES, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteVocabulary($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateVocabulary()
+     */
     public function testCanCreateVocabulary()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_VOCABULARIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_VOCABULARIES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateVocabulary($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canCreateVocabulary()
+     */
+    public function testCanNotCreateVocabulary()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_VOCABULARIES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_VOCABULARIES, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateVocabulary($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canUpdateTerm()
+     */
     public function testCanUpdateTerm()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_TERMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_TERMS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateTerm($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateTerm()
+     */
+    public function testCanNotUpdateTerm()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_TERMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_TERMS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateTerm($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteTerm()
+     */
     public function testCanDeleteTerm()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_TERMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_TERMS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteTerm($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canDeleteTerm()
+     */
+    public function testCanNotDeleteTerm()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_TERMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_TERMS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteTerm($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateTerm()
+     */
     public function testCanCreateTerm()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_TERMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_TERMS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateTerm($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canCreateTerm()
+     */
+    public function testCanNotCreateTerm()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_TERMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_TERMS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateTerm($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canUpdateInstructorGroup()
+     */
     public function testCanUpdateInstructorGroup()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateInstructorGroup($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateInstructorGroup()
+     */
+    public function testCanNotUpdateInstructorGroup()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateInstructorGroup($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteInstructorGroup()
+     */
     public function testCanDeleteInstructorGroup()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_INSTRUCTOR_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_INSTRUCTOR_GROUPS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteInstructorGroup($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canDeleteInstructorGroup()
+     */
+    public function testCanNotDeleteInstructorGroup()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_INSTRUCTOR_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_INSTRUCTOR_GROUPS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteInstructorGroup($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateInstructorGroup()
+     */
     public function testCanCreateInstructorGroup()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_INSTRUCTOR_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_INSTRUCTOR_GROUPS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateInstructorGroup($sessionUser, $schoolId));
     }
 
-    public function testCanUpdateCurriculumInventoryReport()
+    /**
+     * @covers PermissionChecker::canCreateInstructorGroup()
+     */
+    public function testCanNotCreateInstructorGroup()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_INSTRUCTOR_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_INSTRUCTOR_GROUPS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateInstructorGroup($sessionUser, $schoolId));
     }
 
-    public function testCanDeleteCurriculumInventoryReport()
+    /**
+     * @covers PermissionChecker::canUpdateCurriculumInventoryReport()
+     */
+    public function testCanUpdateAllCurriculumInventoryReports()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $rolesInSchool = ['foo'];
+        $schoolId = 10;
+        $reportId = 20;
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue(
+            $this->permissionChecker->canUpdateCurriculumInventoryReport($sessionUser, $reportId, $schoolId)
+        );
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateCurriculumInventoryReport()
+     */
+    public function testCanUpdateTheirCurriculumInventoryReports()
+    {
+        $rolesInSchool = ['foo'];
+        $rolesInReport = ['bar'];
+        $schoolId = 10;
+        $reportId = 20;
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInCurriculumInventoryReport')->andReturn($rolesInReport);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_CURRICULUM_INVENTORY_REPORTS, $rolesInReport])
+            ->andReturn(true);
+
+        $this->assertTrue(
+            $this->permissionChecker->canUpdateCurriculumInventoryReport($sessionUser, $reportId, $schoolId)
+        );
+    }
+
+    /**
+     * @covers PermissionChecker::canUpdateCurriculumInventoryReport()
+     */
+    public function testCanNotUpdateCurriculumInventoryReport()
+    {
+        $rolesInSchool = ['foo'];
+        $rolesInReport = ['bar'];
+        $schoolId = 10;
+        $reportId = 20;
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInCurriculumInventoryReport')->andReturn($rolesInReport);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_THEIR_CURRICULUM_INVENTORY_REPORTS, $rolesInReport])
+            ->andReturn(false);
+
+        $this->assertFalse(
+            $this->permissionChecker->canUpdateCurriculumInventoryReport($sessionUser, $reportId, $schoolId)
+        );
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteCurriculumInventoryReport()
+     */
+    public function testCanDeleteAllCurriculumInventoryReports()
+    {
+        $rolesInSchool = ['foo'];
+        $schoolId = 10;
+        $reportId = 20;
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_CURRICULUM_INVENTORY_REPORTS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue(
+            $this->permissionChecker->canDeleteCurriculumInventoryReport($sessionUser, $reportId, $schoolId)
+        );
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteCurriculumInventoryReport()
+     */
+    public function testCanDeleteTheirCurriculumInventoryReports()
+    {
+        $rolesInSchool = ['foo'];
+        $rolesInReport = ['bar'];
+        $schoolId = 10;
+        $reportId = 20;
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInCurriculumInventoryReport')->andReturn($rolesInReport);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_CURRICULUM_INVENTORY_REPORTS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_CURRICULUM_INVENTORY_REPORTS, $rolesInReport])
+            ->andReturn(true);
+
+        $this->assertTrue(
+            $this->permissionChecker->canDeleteCurriculumInventoryReport($sessionUser, $reportId, $schoolId)
+        );
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteCurriculumInventoryReport()
+     */
+    public function testCanNotDeleteCurriculumInventoryReport()
+    {
+        $rolesInSchool = ['foo'];
+        $rolesInReport = ['bar'];
+        $schoolId = 10;
+        $reportId = 20;
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInCurriculumInventoryReport')->andReturn($rolesInReport);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_ALL_CURRICULUM_INVENTORY_REPORTS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_THEIR_CURRICULUM_INVENTORY_REPORTS, $rolesInReport])
+            ->andReturn(false);
+
+        $this->assertFalse(
+            $this->permissionChecker->canDeleteCurriculumInventoryReport($sessionUser, $reportId, $schoolId)
+        );
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateCurriculumInventoryReport()
+     */
     public function testCanCreateCurriculumInventoryReport()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_REPORTS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateCurriculumInventoryReport($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canCreateCurriculumInventoryReport()
+     */
+    public function testCanNotCreateCurriculumInventoryReport()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_REPORTS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_REPORTS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateCurriculumInventoryReport($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canUpdateCurriculumInventoryInstitution()
+     */
     public function testCanUpdateCurriculumInventoryInstitution()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateCurriculumInventoryInstitution($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateCurriculumInventoryInstitution()
+     */
+    public function testCanNotUpdateCurriculumInventoryInstitution()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateCurriculumInventoryInstitution($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteCurriculumInventoryInstitution()
+     */
     public function testCanDeleteCurriculumInventoryInstitution()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteCurriculumInventoryInstitution($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canDeleteCurriculumInventoryInstitution()
+     */
+    public function testCanNotDeleteCurriculumInventoryInstitution()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteCurriculumInventoryInstitution($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateCurriculumInventoryInstitution()
+     */
     public function testCanCreateCurriculumInventoryInstitution()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateCurriculumInventoryInstitution($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canCreateCurriculumInventoryInstitution()
+     */
+    public function testCanNotCreateCurriculumInventoryInstitution()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateCurriculumInventoryInstitution($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canUpdateLearnerGroup()
+     */
     public function testCanUpdateLearnerGroup()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_LEARNER_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_LEARNER_GROUPS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateLearnerGroup($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateLearnerGroup()
+     */
+    public function testCanNotUpdateLearnerGroup()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_LEARNER_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_LEARNER_GROUPS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateLearnerGroup($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteLearnerGroup()
+     */
     public function testCanDeleteLearnerGroup()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_LEARNER_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_LEARNER_GROUPS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteLearnerGroup($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canDeleteLearnerGroup()
+     */
+    public function testCanNotDeleteLearnerGroup()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_LEARNER_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_LEARNER_GROUPS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteLearnerGroup($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateLearnerGroup()
+     */
     public function testCanCreateLearnerGroup()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_LEARNER_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_LEARNER_GROUPS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateLearnerGroup($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canCreateLearnerGroup()
+     */
+    public function testCanNotCreateLearnerGroup()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_LEARNER_GROUPS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_LEARNER_GROUPS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateLearnerGroup($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canUpdateUser()
+     */
     public function testCanUpdateUser()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_USERS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_USERS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUpdateUser($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canUpdateUser()
+     */
+    public function testCanNotUpdateUser()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_USERS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_USERS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canUpdateUser($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canDeleteUser()
+     */
     public function testCanDeleteUser()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_USERS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_USERS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canDeleteUser($sessionUser, $schoolId));
     }
 
+    /**
+     * @covers PermissionChecker::canDeleteUser()
+     */
+    public function testCanNotDeleteUser()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_USERS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_DELETE_USERS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canDeleteUser($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateUser()
+     */
     public function testCanCreateUser()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_USERS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_USERS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canCreateUser($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateUser()
+     */
+    public function testCanNotCreateUser()
+    {
+        $schoolId = 10;
+        $rolesInSchool = ['foo'];
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_USERS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_CREATE_USERS, $rolesInSchool])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canCreateUser($sessionUser, $schoolId));
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateUsersInAnySchool()
+     */
+    public function testCanCreateUsersInAnySchool()
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
-    public function testCanCreateUserInAnySchool()
+    /**
+     * @covers PermissionChecker::canCreateOrUpdateUsersInAnySchool()
+     */
+    public function testCanCreateOrUpdateUsersInAnySchool()
+    {
+        $this->markTestIncomplete('This test has not been implemented yet.');
+    }
+
+    /**
+     * @covers PermissionChecker::canCreateCurriculumInventoryReportInAnySchool()
+     */
+    public function testCanCreateCurriculumInventoryReportUserInAnySchool()
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
