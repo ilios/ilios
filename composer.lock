@@ -3673,16 +3673,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.13.3",
+            "version": "v3.13.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "a0b659a96ed2407d355ac2340b8e0975a63ee391"
+                "reference": "5f855e56bb893ef164ffe691e220df1cc9cea9e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/a0b659a96ed2407d355ac2340b8e0975a63ee391",
-                "reference": "a0b659a96ed2407d355ac2340b8e0975a63ee391",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/5f855e56bb893ef164ffe691e220df1cc9cea9e6",
+                "reference": "5f855e56bb893ef164ffe691e220df1cc9cea9e6",
                 "shasum": ""
             },
             "type": "library",
@@ -3726,7 +3726,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2018-04-07T05:55:24+00:00"
+            "time": "2018-04-14T01:38:21+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -5585,16 +5585,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.7",
+            "version": "6.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6bd77b57707c236833d2b57b968e403df060c9d9"
+                "reference": "4f21a3c6b97c42952fd5c2837bb354ec0199b97b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6bd77b57707c236833d2b57b968e403df060c9d9",
-                "reference": "6bd77b57707c236833d2b57b968e403df060c9d9",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4f21a3c6b97c42952fd5c2837bb354ec0199b97b",
+                "reference": "4f21a3c6b97c42952fd5c2837bb354ec0199b97b",
                 "shasum": ""
             },
             "require": {
@@ -5665,7 +5665,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-02-26T07:01:09+00:00"
+            "time": "2018-04-10T11:38:34+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
