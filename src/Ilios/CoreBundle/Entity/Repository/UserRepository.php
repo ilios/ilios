@@ -1174,7 +1174,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        return $this->flattenArray($qb->getQuery()->getArrayResult());
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
     /**
@@ -1190,7 +1190,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        return $this->flattenArray($qb->getQuery()->getArrayResult());
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
     /**
@@ -1319,7 +1319,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        return $this->flattenArray($qb->getQuery()->getArrayResult());
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
     /**
@@ -1336,7 +1336,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        return $this->flattenArray($qb->getQuery()->getArrayResult());
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
     /**
@@ -1473,20 +1473,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
 
         return $this->dedupeSubArrays($rhett);
-    }
-
-    /**
-     * Flattens a given array of arrays into one array.
-     *
-     * @param array $arr
-     * @return array
-     */
-    protected function flattenArray(array $arr): array
-    {
-        if (!count($arr)) {
-            return [];
-        }
-        return array_values(array_merge(...$arr));
     }
 
     /**
