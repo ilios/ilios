@@ -10,27 +10,19 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 /**
  * Class Report
  */
-class Report extends AbstractVoter
+class ReportDTOVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof ReportInterface && in_array(
-                $attribute,
-                array(
-                        self::VIEW,
-                        self::CREATE,
-                        self::EDIT,
-                        self::DELETE,
-                    )
-            );
+        return $subject instanceof ReportDTO && self::VIEW === $attribute;
     }
 
     /**
      * @param string $attribute
-     * @param ReportInterface $report
+     * @param ReportDTO $report
      * @param TokenInterface $token
      * @return bool
      */
@@ -45,15 +37,6 @@ class Report extends AbstractVoter
             return true;
         }
 
-        switch ($attribute) {
-            case self::CREATE:
-            case self::VIEW:
-            case self::EDIT:
-            case self::DELETE:
-                return $user->isTheUser($report->getUser());
-                break;
-        }
-
-        return false;
+        return $user->getId() === $report->user;
     }
 }
