@@ -41,9 +41,10 @@ class AbstractBase extends TestCase
 
     /**
      * Creates a mock token with a non-root user
+     *
      * @return TokenInterface
      */
-    protected function createMockTokenWithNonRootSessionUser()
+    protected function createMockTokenWithNonRootSessionUser($userId = null)
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);

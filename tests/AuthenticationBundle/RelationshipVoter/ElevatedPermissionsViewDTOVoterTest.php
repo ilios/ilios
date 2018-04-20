@@ -17,7 +17,7 @@ use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
- * Class GreenlightViewDtoVoterTest
+ * Class ElevatedPermissionsViewDtoVoterTest
  * @package Tests\AuthenticationBundle\RelationshipVoter
  */
 class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
@@ -39,13 +39,12 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
             [LearnerGroupDTO::class],
             [OfferingDTO::class],
             [PendingUserUpdateDTO::class],
-            [UserDTO::class],
         ];
     }
 
     /**
      * @dataProvider dtoProvider
-     * @covers GreenlightViewDTOVoter::voteOnAttribute()
+     * @covers ElevatedPermissionsViewDTOVoter::voteOnAttribute()
      */
     public function testCanViewDTO($class)
     {
@@ -58,7 +57,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
 
     /**
      * @dataProvider dtoProvider
-     * @covers GreenlightViewDTOVoter::voteOnAttribute()
+     * @covers ElevatedPermissionsViewDTOVoter::voteOnAttribute()
      */
     public function testRootCanViewDTO($class)
     {
@@ -72,7 +71,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
 
     /**
      * @dataProvider dtoProvider
-     * @covers GreenlightViewDTOVoter::voteOnAttribute()
+     * @covers ElevatedPermissionsViewDTOVoter::voteOnAttribute()
      */
     public function testCanNotViewDTO($class)
     {
