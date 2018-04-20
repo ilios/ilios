@@ -16,11 +16,6 @@ class Config
     ];
 
     /**
-     * @var bool
-     */
-    const USE_NEW_PERMISSIONS_SYSTEM = false;
-
-    /**
      * @var ApplicationConfigManager
      */
     protected $applicationConfigManager;
@@ -116,13 +111,5 @@ class Config
         }
 
         return $result;
-    }
-
-    /**
-     * @return bool
-     */
-    public function useNewPermissionsSystem(): bool
-    {
-        return self::USE_NEW_PERMISSIONS_SYSTEM;
     }
 }

@@ -1,5 +1,6 @@
 /usermadereminders:
   get:
+    deprecated: true
     summary: Fetch all Usermadereminders
     parameters:
       - name: X-JWT-Authorization
@@ -35,16 +36,10 @@
     tags:
       - Usermadereminders
     responses:
-      '200':
-        description: An array of usermadereminders
-        schema:
-          type: object
-          properties:
-            userMadeReminders:
-              type: array
-              items:
-                $ref: '#/definitions/Usermadereminder'
+      '410':
+        description: Gone
   post:
+    deprecated: true
     summary: Create Usermadereminders
     parameters:
     - name: X-JWT-Authorization
@@ -66,21 +61,11 @@
     tags:
       - Usermadereminders
     responses:
-      '201':
-        description: An array of newly created usermadereminders
-        schema:
-          type: object
-          properties:
-            userMadeReminders:
-              type: array
-              items:
-                $ref: '#/definitions/Usermadereminder'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
+      '410':
+        description: Gone
 /usermadereminders/{id}:
   get:
+    deprecated: true
     summary: Fetch a single Usermadereminder
     parameters:
     - name: X-JWT-Authorization
@@ -97,18 +82,10 @@
     tags:
       - Usermadereminders
     responses:
-      '200':
-        description: A single Usermadereminder
-        schema:
-          type: object
-          properties:
-            userMadeReminders:
-              type: array
-              items:
-                $ref: '#/definitions/Usermadereminder'
-      '404':
-        description: Not found
+      '410':
+        description: Gone
   put:
+    deprecated: true
     summary: Edit a Usermadereminder
     parameters:
     - name: X-JWT-Authorization
@@ -133,20 +110,10 @@
     tags:
       - Usermadereminders
     responses:
-      '200':
-        description: A single Usermadereminder
-        schema:
-          type: object
-          properties:
-            userMadeReminder:
-              $ref: '#/definitions/Usermadereminder'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
+      '410':
+        description: Gone
   delete:
+    deprecated: true
     summary: Delete a Usermadereminder
     parameters:
     - name: X-JWT-Authorization
@@ -163,11 +130,5 @@
     tags:
       - Usermadereminders
     responses:
-      '204':
-        description: Deleted Usermadereminder
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
-      '500':
-        description: Failed to delete entity (usually caused by non-cascading relationships)
+      '410':
+        description: Gone

@@ -2,17 +2,12 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
-
 /**
  * MeshConcept API endpoint Test.
  * @group api_5
  */
-class MeshConceptTest extends AbstractEndpointTest
+class MeshConceptTest extends AbstractMeshTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'meshConcepts';
 
     /**
@@ -23,23 +18,6 @@ class MeshConceptTest extends AbstractEndpointTest
         return [
             'Tests\CoreBundle\Fixture\LoadMeshConceptData',
             'Tests\CoreBundle\Fixture\LoadMeshTermData',
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'name' => ['name', $this->getFaker()->text],
-            'id' => ['id', $this->getFaker()->word, $skipped = true],
-            'preferred' => ['preferred', false],
-            'scopeNote' => ['scopeNote', $this->getFaker()->text],
-            'casn1Name' => ['casn1Name', $this->getFaker()->text(120)],
-            'registryNumber' => ['registryNumber', $this->getFaker()->text(20)],
-            'terms' => ['terms', [1]],
-            'descriptors' => ['descriptors', [1], $skipped = true],
         ];
     }
 
@@ -76,13 +54,5 @@ class MeshConceptTest extends AbstractEndpointTest
     protected function getTimeStampFields()
     {
         return ['updatedAt', 'createdAt'];
-    }
-
-    public function testPostMeshConceptTerm()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'concepts', 'meshTerms', 'terms');
     }
 }

@@ -14,14 +14,12 @@ class LearningMaterialStatusTest extends AbstractBase
     public function setup()
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
-        $config = m::mock(Config::class);
-        $config->shouldReceive('useNewPermissionsSystem')->andReturn(true);
-        $this->voter = new Voter($this->permissionChecker, $config);
+        $this->voter = new Voter($this->permissionChecker);
     }
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(m::mock(LearningMaterialStatus::class));
+        $this->checkRootEntityAccess(m::mock(LearningMaterialStatus::class), [AbstractVoter::VIEW]);
     }
 
     public function testCanView()
@@ -30,29 +28,5 @@ class LearningMaterialStatusTest extends AbstractBase
         $entity = m::mock(LearningMaterialStatus::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
-    }
-
-    public function testCanNotEdit()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(LearningMaterialStatus::class);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
-    }
-
-    public function testCanNotDelete()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(LearningMaterialStatus::class);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
-    }
-
-    public function testCanNotCreate()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(LearningMaterialStatus::class);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
     }
 }

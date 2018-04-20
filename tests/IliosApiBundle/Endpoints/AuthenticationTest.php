@@ -4,17 +4,14 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\UserData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * Authentication API endpoint Test.
  * @group api_5
  */
-class AuthenticationTest extends AbstractEndpointTest
+class AuthenticationTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'authentications';
 
     /**
@@ -30,11 +27,9 @@ class AuthenticationTest extends AbstractEndpointTest
             'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
             'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
-            'Tests\CoreBundle\Fixture\LoadUserMadeReminderData',
             'Tests\CoreBundle\Fixture\LoadIlmSessionData',
             'Tests\CoreBundle\Fixture\LoadOfferingData',
             'Tests\CoreBundle\Fixture\LoadPendingUserUpdateData',
-            'Tests\CoreBundle\Fixture\LoadPermissionData',
             'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadReportData',
         ];
@@ -188,8 +183,12 @@ class AuthenticationTest extends AbstractEndpointTest
      * @dataProvider putsToTest
      * @inheritdoc
      */
-    public function testPut($key, $value)
+    public function testPut($key, $value, $skipped = false)
     {
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
+
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         if (array_key_exists($key, $data) and $data[$key] == $value) {

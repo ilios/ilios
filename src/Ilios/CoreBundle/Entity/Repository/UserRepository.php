@@ -852,7 +852,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
 
         $related = [
-            'reminders',
             'directedCourses',
             'administeredCourses',
             'learnerGroups',
@@ -867,7 +866,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             'cohorts',
             'pendingUserUpdates',
             'auditLogs',
-            'permissions',
             'learnerIlmSessions',
             'directedSchools',
             'administeredSchools',
@@ -1164,43 +1162,47 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     }
 
     /**
-     * Construct the relationships graph needed for authorization in SessionUser
-     * @param int $userId
+     * Returns a list of ids of schools directed by the given user.
+     * @param $userId
      * @return array
      */
-    public function buildSessionRelationships(int $userId): array
+    public function getDirectedSchoolIds($userId): array
     {
-        $sessionUserRelationships = [];
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('r.title')->from(UserRole::class, 'r');
-        $qb->join('r.users', 'u');
-        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
-        $qb->setParameter(':userId', $userId);
-        $sessionUserRelationships['roleTitles'] = $this->flattenArray($qb->getQuery()->getArrayResult());
-
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('school.id')->from(User::class, 'u');
-        $qb->join('u.cohorts', 'cohorts');
-        $qb->join('cohorts.programYear', 'programYear');
-        $qb->join('programYear.program', 'program');
-        $qb->join('program.school', 'school');
-        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
-        $qb->setParameter(':userId', $userId);
-        $cohortSchoolIds = $this->flattenArray($qb->getQuery()->getArrayResult());
-
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id')->from(User::class, 'u');
         $qb->join('u.directedSchools', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
-        $sessionUserRelationships['directedSchoolIds'] = $this->flattenArray($qb->getQuery()->getArrayResult());
 
+        return $this->flattenArray($qb->getQuery()->getArrayResult());
+    }
+
+    /**
+     * Returns a list of ids of schools administered by the given user.
+     * @param $userId
+     * @return array
+     */
+    public function getAdministeredSchoolIds($userId): array
+    {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id')->from(User::class, 'u');
         $qb->join('u.administeredSchools', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
-        $sessionUserRelationships['administeredSchoolIds'] = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        return $this->flattenArray($qb->getQuery()->getArrayResult());
+    }
+
+    /**
+     * Returns an assoc. array of ids os courses directed by the given user,
+     * and the ids of schools owning these directed courses.
+     * @param $userId
+     * @return array
+     */
+    public function getDirectedCourseAndSchoolIds($userId): array
+    {
+        $rhett['schoolIds'] = [];
+        $rhett['courseIds'] = [];
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, courses.id as courseId')->from(User::class, 'u');
@@ -1209,12 +1211,24 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        $sessionUserRelationships['directedCourseSchoolIds'] = [];
-        $sessionUserRelationships['directedCourseIds'] = [];
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $sessionUserRelationships['directedCourseSchoolIds'][] = $arr['schoolId'];
-            $sessionUserRelationships['directedCourseIds'][] = $arr['courseId'];
+            $rhett['schoolIds'][] = $arr['schoolId'];
+            $rhett['courseIds'][] = $arr['courseId'];
         }
+
+        return $this->dedupeSubArrays($rhett);
+    }
+
+    /**
+     * Returns an assoc. array of ids of courses administered by the given user,
+     * and the ids of schools owning these administered courses.
+     * @param $userId
+     * @return array
+     */
+    public function getAdministeredCourseAndSchoolIds($userId)
+    {
+        $rhett['schoolIds'] = [];
+        $rhett['courseIds'] = [];
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, courses.id as courseId')->from(User::class, 'u');
@@ -1223,12 +1237,24 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        $sessionUserRelationships['administeredCourseSchoolIds'] = [];
-        $sessionUserRelationships['administeredCourseIds'] = [];
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $sessionUserRelationships['administeredCourseSchoolIds'][] = $arr['schoolId'];
-            $sessionUserRelationships['administeredCourseIds'][] = $arr['courseId'];
+            $rhett['schoolIds'][] = $arr['schoolId'];
+            $rhett['courseIds'][] = $arr['courseId'];
         }
+
+        return $this->dedupeSubArrays($rhett);
+    }
+
+    /**
+     * Returns an assoc. array of ids of curriculum inventory reports administered by the given user,
+     * and the ids of schools owning these administered reports.
+     * @param $userId
+     * @return array
+     */
+    public function getAdministeredCurriculumInventoryReportAndSchoolIds($userId): array
+    {
+        $rhett['reportIds'] = [];
+        $rhett['schoolIds'] = [];
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, ciReports.id as ciReportId')->from(User::class, 'u');
@@ -1238,13 +1264,25 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        $sessionUserRelationships['administeredCurriculumInventoryReportIds'] = [];
-        $sessionUserRelationships['administeredCurriculumInventoryReportSchoolIds'] = [];
-
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $sessionUserRelationships['administeredCurriculumInventoryReportIds'][] = $arr['ciReportId'];
-            $sessionUserRelationships['administeredCurriculumInventoryReportSchoolIds'][] = $arr['schoolId'];
+            $rhett['reportIds'][] = $arr['ciReportId'];
+            $rhett['schoolIds'][] = $arr['schoolId'];
         }
+
+        return $this->dedupeSubArrays($rhett);
+    }
+
+    /**
+     * Returns an assoc. array of ids of sessions administered by the given user,
+     * and the ids of schools and courses owning these administered sessions.
+     * @param $userId
+     * @return array
+     */
+    public function getAdministeredSessionCourseAndSchoolIds($userId): array
+    {
+        $rhett['schoolIds'] = [];
+        $rhett['courseIds'] = [];
+        $rhett['sessionIds'] = [];
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, course.id as courseId, session.id as sessionId');
@@ -1255,26 +1293,22 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
-        $sessionUserRelationships['administeredSessionSchoolIds'] = [];
-        $sessionUserRelationships['administeredSessionCourseIds'] = [];
-        $sessionUserRelationships['administeredSessionIds'] = [];
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $sessionUserRelationships['administeredSessionSchoolIds'][] = $arr['schoolId'];
-            $sessionUserRelationships['administeredSessionCourseIds'][] = $arr['courseId'];
-            $sessionUserRelationships['administeredSessionIds'][] = $arr['sessionId'];
+            $rhett['schoolIds'][] = $arr['schoolId'];
+            $rhett['courseIds'][] = $arr['courseId'];
+            $rhett['sessionIds'][] = $arr['sessionId'];
         }
 
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('school.id')->from(User::class, 'u');
-        $qb->join('u.learnerGroups', 'learnerGroups');
-        $qb->join('learnerGroups.cohort', 'cohort');
-        $qb->join('cohort.programYear', 'programYear');
-        $qb->join('programYear.program', 'program');
-        $qb->join('program.school', 'school');
-        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
-        $qb->setParameter(':userId', $userId);
-        $learnerGroupSchoolIds = $this->flattenArray($qb->getQuery()->getArrayResult());
+        return $this->dedupeSubArrays($rhett);
+    }
 
+    /**
+     * Returns a list of ids of schools which own learner groups instructed by the given user.
+     * @param $userId
+     * @return array
+     */
+    public function getInstructedLearnerGroupSchoolIds($userId): array
+    {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id')->from(User::class, 'u');
         $qb->join('u.instructedLearnerGroups', 'instructedLearnerGroups');
@@ -1284,145 +1318,194 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->join('program.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
-        $instructedLearnerGroupSchoolIds = $this->flattenArray($qb->getQuery()->getArrayResult());
 
+        return $this->flattenArray($qb->getQuery()->getArrayResult());
+    }
+
+    /**
+     * Returns a list of ids of schools owning instructor groups that the given user is part of.
+     * @param $userId
+     * @return array
+     */
+    public function getInstructorGroupSchoolIds($userId): array
+    {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id')->from(User::class, 'u');
         $qb->join('u.instructorGroups', 'instructorGroup');
         $qb->join('instructorGroup.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
-        $instructorGroupSchoolIds = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        return $this->flattenArray($qb->getQuery()->getArrayResult());
+    }
+
+    /**
+     * Returns an assoc. array of ids of sessions instructed by the given user,
+     * and the ids of schools and courses owning these instructed sessions.
+     * @param $userId
+     * @return array
+     */
+    public function getInstructedSessionCourseAndSchoolIds($userId): array
+    {
+        $rhett['schoolIds'] = [];
+        $rhett['courseIds'] = [];
+        $rhett['sessionIds'] = [];
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id')->from(User::class, 'u');
+        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
+            ->from(User::class, 'u');
         $qb->join('u.instructorGroups', 'instructorGroup');
         $qb->join('instructorGroup.offerings', 'offerings');
         $qb->join('offerings.session', 'session');
+        $qb->join('session.course', 'course');
+        $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
-        $sessionUserRelationships['instructedSessionIds'] = $this->flattenArray($qb->getQuery()->getArrayResult());
+
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $rhett['schoolIds'][] = $arr['schoolId'];
+            $rhett['courseIds'][] = $arr['courseId'];
+            $rhett['sessionIds'][] = $arr['sessionId'];
+        }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id as sessionId')->from(User::class, 'u');
+        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
+            ->from(User::class, 'u');
         $qb->join('u.instructorGroups', 'instructorGroup');
         $qb->join('instructorGroup.ilmSessions', 'ilmSessions');
         $qb->join('ilmSessions.session', 'session');
+        $qb->join('session.course', 'course');
+        $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $sessionUserRelationships['instructedSessionIds'][] = $arr['sessionId'];
+            $rhett['schoolIds'][] = $arr['schoolId'];
+            $rhett['courseIds'][] = $arr['courseId'];
+            $rhett['sessionIds'][] = $arr['sessionId'];
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id')->from(User::class, 'u');
+        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
+            ->from(User::class, 'u');
         $qb->join('u.instructedOfferings', 'offerings');
         $qb->join('offerings.session', 'session');
+        $qb->join('session.course', 'course');
+        $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
+
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $sessionUserRelationships['instructedSessionIds'][] = $arr['id'];
+            $rhett['schoolIds'][] = $arr['schoolId'];
+            $rhett['courseIds'][] = $arr['courseId'];
+            $rhett['sessionIds'][] = $arr['sessionId'];
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('school.id as schoolId, session.id as sessionId')->from(User::class, 'u');
+        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
+            ->from(User::class, 'u');
         $qb->join('u.instructorIlmSessions', 'ilmSession');
         $qb->join('ilmSession.session', 'session');
         $qb->join('session.course', 'course');
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
-        $instructorIlmSessionSchoolIds = [];
+
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $sessionUserRelationships['instructedSessionIds'][] = $arr['sessionId'];
-            $instructorIlmSessionSchoolIds[] = $arr['schoolId'];
+            $rhett['schoolIds'][] = $arr['schoolId'];
+            $rhett['courseIds'][] = $arr['courseId'];
+            $rhett['sessionIds'][] = $arr['sessionId'];
         }
 
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('course.id AS courseId, school.id AS schoolId')->from(Session::class, 'session');
-        $qb->join('session.course', 'course');
-        $qb->join('course.school', 'school');
-        $qb->andWhere($qb->expr()->in('session.id', ':sessionIds'));
-        $qb->setParameter(':sessionIds', $sessionUserRelationships['instructedSessionIds']);
+        return $this->dedupeSubArrays($rhett);
+    }
 
-        $sessionUserRelationships['taughtCourseIds'] = [];
-        $sessionUserRelationships['taughtCourseSchoolIds'] = [];
-        foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $sessionUserRelationships['taughtCourseIds'][] = $arr['courseId'];
-            $sessionUserRelationships['taughtCourseSchoolIds'][] = $arr['schoolId'];
-        }
+    /**
+     * Returns an assoc. array of ids of programs directed by the given user,
+     * and the ids of schools owning these directed programs.
+     * @param $userId
+     * @return array
+     */
+    public function getDirectedProgramAndSchoolIds($userId): array
+    {
+        $rhett['programIds'] = [];
+        $rhett['schoolIds'] = [];
 
-        $sessionUserRelationships['directedProgramIds'] = [];
         $qb = $this->_em->createQueryBuilder();
         $qb->select('school.id as schoolId, program.id as programId')->from(User::class, 'u');
         $qb->join('u.directedPrograms', 'program');
         $qb->join('program.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
-        $programDirectorSchoolIds = [];
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $sessionUserRelationships['directedProgramIds'][] = $arr['programId'];
-            $programDirectorSchoolIds[] = $arr['schoolId'];
+            $rhett['programIds'][] = $arr['programId'];
+            $rhett['schoolIds'][] = $arr['schoolId'];
         }
 
-        $sessionUserRelationships['directedProgramYearIds'] = [];
-        $sessionUserRelationships['directedCohortIds'] = [];
-        $sessionUserRelationships['directedProgramYearProgramIds'] = [];
+        return $this->dedupeSubArrays($rhett);
+    }
+
+    /**
+     * Returns an assoc. array of ids of program-years directed by the given user,
+     * and the ids of programs and schools owning these directed program years.
+     * @param $userId
+     * @return array
+     */
+    public function getDirectedProgramYearProgramAndSchoolIds($userId): array
+    {
+        $rhett['programYearIds'] = [];
+        $rhett['programIds'] = [];
+        $rhett['schoolIds'] = [];
+
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('school.id as schoolId, program.id as programId, py.id as pyId, cohort.id as cohortId');
+        $qb->select('school.id as schoolId, program.id as programId, py.id as pyId');
         $qb->from(User::class, 'u');
         $qb->join('u.programYears', 'py');
         $qb->join('py.program', 'program');
-        $qb->join('py.cohort', 'cohort');
         $qb->join('program.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
-        $programYearDirectorSchoolIds = [];
+
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $sessionUserRelationships['directedProgramYearIds'][] = $arr['pyId'];
-            $sessionUserRelationships['directedCohortIds'][] = $arr['cohortId'];
-            $sessionUserRelationships['directedProgramYearProgramIds'][] = $arr['programId'];
-            $programYearDirectorSchoolIds[] = $arr['schoolId'];
+            $rhett['programYearIds'][] = $arr['pyId'];
+            $rhett['programIds'][] = $arr['programId'];
+            $rhett['schoolIds'][] = $arr['schoolId'];
         }
 
-        $sessionUserRelationships['schoolIds'] = array_merge(
-            $cohortSchoolIds,
-            $sessionUserRelationships['directedSchoolIds'],
-            $sessionUserRelationships['administeredSchoolIds'],
-            $sessionUserRelationships['directedCourseSchoolIds'],
-            $sessionUserRelationships['administeredCourseSchoolIds'],
-            $sessionUserRelationships['administeredSessionSchoolIds'],
-            $sessionUserRelationships['taughtCourseSchoolIds'],
-            $learnerGroupSchoolIds,
-            $instructedLearnerGroupSchoolIds,
-            $instructorGroupSchoolIds,
-            $instructorIlmSessionSchoolIds,
-            $programDirectorSchoolIds,
-            $programYearDirectorSchoolIds
-        );
-
-        $sessionUserRelationships['nonStudentSchoolIds'] = array_merge(
-            $sessionUserRelationships['directedSchoolIds'],
-            $sessionUserRelationships['administeredSchoolIds'],
-            $sessionUserRelationships['directedCourseSchoolIds'],
-            $sessionUserRelationships['administeredCourseSchoolIds'],
-            $sessionUserRelationships['administeredSessionSchoolIds'],
-            $sessionUserRelationships['taughtCourseSchoolIds'],
-            $instructedLearnerGroupSchoolIds,
-            $instructorGroupSchoolIds,
-            $instructorIlmSessionSchoolIds,
-            $programDirectorSchoolIds,
-            $programYearDirectorSchoolIds
-        );
-
-        return $sessionUserRelationships;
+        return $this->dedupeSubArrays($rhett);
     }
 
+    /**
+     * Flattens a given array of arrays into one array.
+     *
+     * @param array $arr
+     * @return array
+     */
     protected function flattenArray(array $arr): array
     {
         if (!count($arr)) {
             return [];
         }
         return array_values(array_merge(...$arr));
+    }
+
+    /**
+     * De-dupes entries in sub-arrays of a given associative array.
+     *
+     * @param array $map
+     * @return array
+     */
+    protected function dedupeSubArrays(array $map): array
+    {
+        $rhett = [];
+
+        foreach ($map as $key => $value) {
+            if (is_array($value)) {
+                $value = array_unique($value);
+            }
+            $rhett[$key] = $value;
+        }
+
+        return $rhett;
     }
 }

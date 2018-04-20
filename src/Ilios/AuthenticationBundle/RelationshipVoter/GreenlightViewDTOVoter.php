@@ -22,6 +22,7 @@ use Ilios\CoreBundle\Entity\DTO\IlmSessionDTO;
 use Ilios\CoreBundle\Entity\DTO\InstructorGroupDTO;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\LearningMaterialStatusDTO;
+use Ilios\CoreBundle\Entity\DTO\LearningMaterialUserRoleDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
@@ -32,12 +33,14 @@ use Ilios\CoreBundle\Entity\DTO\ObjectiveDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearDTO;
 use Ilios\CoreBundle\Entity\DTO\ProgramYearStewardDTO;
+use Ilios\CoreBundle\Entity\DTO\SchoolConfigDTO;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDescriptionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionLearningMaterialDTO;
 use Ilios\CoreBundle\Entity\DTO\SessionTypeDTO;
 use Ilios\CoreBundle\Entity\DTO\TermDTO;
+use Ilios\CoreBundle\Entity\DTO\UserRoleDTO;
 use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -50,10 +53,6 @@ class GreenlightViewDTOVoter extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return (
             array($attribute, [self::VIEW]) && (
                 $subject instanceof AamcMethodDTO
@@ -75,6 +74,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof InstructorGroupDTO
                 || $subject instanceof LearningMaterialDTO
                 || $subject instanceof LearningMaterialStatusDTO
+                || $subject instanceof LearningMaterialUserRoleDTO
                 || $subject instanceof MeshConceptDTO
                 || $subject instanceof MeshDescriptorDTO
                 || $subject instanceof MeshPreviousIndexingDTO
@@ -86,11 +86,13 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof ProgramYearDTO
                 || $subject instanceof ProgramYearStewardDTO
                 || $subject instanceof SchoolDTO
+                || $subject instanceof SchoolConfigDTO
                 || $subject instanceof SessionDTO
                 || $subject instanceof SessionDescriptionDTO
                 || $subject instanceof SessionLearningMaterialDTO
                 || $subject instanceof SessionTypeDTO
                 || $subject instanceof TermDTO
+                || $subject instanceof UserRoleDTO
                 || $subject instanceof VocabularyDTO
             )
         );

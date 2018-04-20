@@ -7,7 +7,6 @@ use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface as IliosUser;
 
-use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -21,27 +20,33 @@ class SessionUserProvider implements UserProviderInterface
     protected $userManager;
 
     /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
      * SessionUserProvider constructor.
      * @param UserManager $userManager
-     * @param Config $config
      */
     public function __construct(
-        UserManager $userManager,
-        Config $config
+        UserManager $userManager
     ) {
         $this->userManager = $userManager;
-        $this->config = $config;
     }
 
-
+    /**
+     * @param IliosUser $user
+     * @return SessionUserInterface
+     */
     public function createSessionUserFromUser(IliosUser $user) : SessionUserInterface
     {
-        return new SessionUser($user, $this->userManager, $this->config);
+        return new SessionUser($user, $this->userManager);
+    }
+
+    /**
+     * @param int $userId
+     * @return SessionUserInterface
+     */
+    public function createSessionUserFromUserId(int $userId) : SessionUserInterface
+    {
+        /** @var IliosUser $user */
+        $user = $this->userManager->findOneBy(['id' => $userId]);
+        return new SessionUser($user, $this->userManager);
     }
 
     public function loadUserByUsername($userId)
@@ -50,7 +55,7 @@ class SessionUserProvider implements UserProviderInterface
         $user = $this->userManager->findOneBy(['id' => $userId]);
 
         if ($user) {
-            return new SessionUser($user, $this->userManager, $this->config);
+            return new SessionUser($user, $this->userManager);
         }
 
         throw new UsernameNotFoundException(

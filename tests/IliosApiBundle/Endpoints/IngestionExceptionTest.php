@@ -3,13 +3,13 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * IngestionException API endpoint Test.
  * @group api_4
  */
-class IngestionExceptionTest extends AbstractEndpointTest
+class IngestionExceptionTest extends ReadEndpointTest
 {
     protected $testName =  'ingestionExceptions';
 
@@ -34,38 +34,6 @@ class IngestionExceptionTest extends AbstractEndpointTest
             'uid' => [[1], ['uid' => 'second exception']],
             'user' => [[1], ['user' => 2]],
         ];
-    }
-
-    public function testGetOne()
-    {
-        $this->getOneTest();
-    }
-
-    public function testGetAll()
-    {
-        $this->getAllTest();
-    }
-
-    /**
-     * @inheritdoc
-     * @dataProvider filtersToTest
-     */
-    public function testFilters(array $dataKeys = [], array $filterParts = [])
-    {
-        if (empty($filterParts)) {
-            $this->markTestSkipped('Missing filters tests for this endpoint');
-            return;
-        }
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(function ($i) use ($all) {
-            return $all[$i];
-        }, $dataKeys);
-        $filters = [];
-        foreach ($filterParts as $key => $value) {
-            $filters["filters[{$key}]"] = $value;
-        }
-        $this->filterTest($filters, $expectedData);
     }
 
     public function testPostIs404()

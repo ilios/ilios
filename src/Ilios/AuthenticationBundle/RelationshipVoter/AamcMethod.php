@@ -10,10 +10,6 @@ class AamcMethod extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        if ($this->abstain) {
-            return false;
-        }
-
         return $subject instanceof AamcMethodInterface
             && in_array(
                 $attribute,

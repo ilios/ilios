@@ -45,6 +45,7 @@
               items:
                 $ref: '#/definitions/Meshterm'
   post:
+    deprecated: true
     summary: Create Meshterms
     parameters:
     - name: X-JWT-Authorization
@@ -66,19 +67,8 @@
     tags:
       - Meshterms
     responses:
-      '201':
-        description: An array of newly created meshterms
-        schema:
-          type: object
-          properties:
-            meshterms:
-              type: array
-              items:
-                $ref: '#/definitions/Meshterm'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
+      '410':
+        description: Gone
 /meshterms/{id}:
   get:
     summary: Fetch a single Meshterm
@@ -109,6 +99,7 @@
       '404':
         description: Not found
   put:
+    deprecated: true
     summary: Edit a Meshterm
     parameters:
     - name: X-JWT-Authorization
@@ -133,20 +124,10 @@
     tags:
       - Meshterms
     responses:
-      '200':
-        description: A single Meshterm
-        schema:
-          type: object
-          properties:
-            meshterm:
-              $ref: '#/definitions/Meshterm'
-      '400':
-        description: Bad Request Data
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
+      '410':
+        description: Gone
   delete:
+    deprecated: true
     summary: Delete a Meshterm
     parameters:
     - name: X-JWT-Authorization
@@ -163,11 +144,5 @@
     tags:
       - Meshterms
     responses:
-      '204':
-        description: Deleted Meshterm
-      '403':
-        description: Access Denied
-      '404':
-        description: Not Found
-      '500':
-        description: Failed to delete entity (usually caused by non-cascading relationships)
+      '410':
+        description: Gone

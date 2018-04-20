@@ -50,7 +50,6 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getInstructedLearnerGroups());
         $this->assertEmpty($this->object->getOfferings());
         $this->assertEmpty($this->object->getProgramYears());
-        $this->assertEmpty($this->object->getReminders());
         $this->assertEmpty($this->object->getRoles());
         $this->assertEmpty($this->object->getLearnerGroups());
         $this->assertEmpty($this->object->getLearningMaterials());
@@ -58,7 +57,6 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getAuditLogs());
         $this->assertEmpty($this->object->getReports());
         $this->assertEmpty($this->object->getPendingUserUpdates());
-        $this->assertEmpty($this->object->getPermissions());
         $this->assertEmpty($this->object->getAdministeredSessions());
         $this->assertEmpty($this->object->getAdministeredCourses());
         $this->assertEmpty($this->object->getDirectedSchools());
@@ -185,31 +183,6 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\Entity\User::addReminder
-     */
-    public function testAddReminder()
-    {
-        $this->entityCollectionAddTest('reminder', 'UserMadeReminder');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::removeReminder
-     */
-    public function testRemoveReminder()
-    {
-        $this->entityCollectionRemoveTest('reminder', 'UserMadeReminder');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::setReminders
-     * @covers \Ilios\CoreBundle\Entity\User::getReminders
-     */
-    public function testSetReminders()
-    {
-        $this->entityCollectionSetTest('reminder', 'UserMadeReminder');
-    }
-
-    /**
      * @covers \Ilios\CoreBundle\Entity\User::addAuditLog
      */
     public function testAddAuditLog()
@@ -232,31 +205,6 @@ class UserTest extends EntityBase
     public function testSetAuditLogs()
     {
         $this->entityCollectionSetTest('auditLog', 'AuditLog');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::addPermission
-     */
-    public function testAddPermission()
-    {
-        $this->entityCollectionAddTest('permission', 'Permission');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::removePermission
-     */
-    public function testRemovePermission()
-    {
-        $this->entityCollectionRemoveTest('permission', 'Permission');
-    }
-
-    /**
-     * @covers \Ilios\CoreBundle\Entity\User::setPermissions
-     * @covers \Ilios\CoreBundle\Entity\User::getPermissions
-     */
-    public function testSetPermissions()
-    {
-        $this->entityCollectionSetTest('permission', 'Permission');
     }
 
     /**

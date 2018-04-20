@@ -2,18 +2,12 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\CoreBundle\DataLoader\MeshDescriptorData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
-
 /**
  * MeshPreviousIndexing API endpoint Test.
  * @group api_4
  */
-class MeshPreviousIndexingTest extends AbstractEndpointTest
+class MeshPreviousIndexingTest extends AbstractMeshTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'meshPreviousIndexings';
 
     /**
@@ -27,17 +21,6 @@ class MeshPreviousIndexingTest extends AbstractEndpointTest
             'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadMeshConceptData',
             'Tests\CoreBundle\Fixture\LoadMeshQualifierData',
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'previousIndexing' => ['previousIndexing', $this->getFaker()->text],
-            'descriptor' => ['descriptor', 'abc3'],
         ];
     }
 
@@ -62,31 +45,5 @@ class MeshPreviousIndexingTest extends AbstractEndpointTest
             'descriptor' => [[1], ['descriptor' => 'abc2']],
             'previousIndexing' => [[1], ['previousIndexing' => 'second previous indexing']],
         ];
-    }
-
-    /**
-     * We need to create additional descriptors to
-     * go with each new PreviousIndex
-     * @inheritdoc
-     */
-    public function testPostMany()
-    {
-        $count = 51;
-        $descriptorDataLoader = $this->container->get(MeshDescriptorData::class);
-        $descriptors = $descriptorDataLoader->createMany($count);
-        $savedDescriptors = $this->postMany('meshdescriptors', 'meshDescriptors', $descriptors);
-
-        $dataLoader = $this->getDataLoader();
-        $data = [];
-
-        foreach ($savedDescriptors as $i => $descriptor) {
-            $arr = $dataLoader->create();
-            $arr['id'] += $i;
-            $arr['descriptor'] = $descriptor['id'];
-
-            $data[] = $arr;
-        }
-
-        $this->postManyTest($data);
     }
 }

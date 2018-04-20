@@ -4,17 +4,14 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\ObjectiveData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * Objective API endpoint Test.
  * @group api_5
  */
-class ObjectiveTest extends AbstractEndpointTest
+class ObjectiveTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'objectives';
 
     /**

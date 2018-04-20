@@ -25,7 +25,6 @@ class IcsControllerTest extends WebTestCase
         $this->client = static::createClient();
         $this->fixtures = $this->loadFixtures([
             'Tests\CoreBundle\Fixture\LoadAuthenticationData',
-            'Tests\CoreBundle\Fixture\LoadPermissionData',
             'Tests\CoreBundle\Fixture\LoadOfferingData',
             'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',

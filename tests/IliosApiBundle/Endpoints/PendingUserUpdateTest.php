@@ -2,17 +2,20 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\DeleteEndpointTestable;
+use Tests\IliosApiBundle\DeleteEndpointTestInterface;
+use Tests\IliosApiBundle\PutEndpointTestable;
+use Tests\IliosApiBundle\PutEndpointTestInterface;
+use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
  * PendingUserUpdate API endpoint Test.
  * @group api_3
  */
-class PendingUserUpdateTest extends AbstractEndpointTest
+class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestInterface, DeleteEndpointTestInterface
 {
-    use EndpointTestsTrait;
-
+    use PutEndpointTestable;
+    use DeleteEndpointTestable;
     protected $testName =  'pendingUserUpdates';
 
     /**

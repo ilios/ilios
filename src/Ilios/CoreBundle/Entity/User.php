@@ -249,16 +249,6 @@ class User implements UserInterface
     protected $authentication;
 
     /**
-     * @var ArrayCollection|UserMadeReminderInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="UserMadeReminder", mappedBy="user")
-     *
-     * @IS\Expose
-     * @IS\Type("entityCollection")
-     */
-    protected $reminders;
-
-    /**
      * @var ArrayCollection|AuditLogInterface[]
      *
      * @ORM\OneToMany(targetEntity="AuditLog", mappedBy="user")
@@ -478,16 +468,6 @@ class User implements UserInterface
     protected $pendingUserUpdates;
 
     /**
-     * @var ArrayCollection|PermissionInterface[]
-     * @ORM\OneToMany(targetEntity="Permission", mappedBy="user")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
-     * @IS\Expose
-     * @IS\Type("entityCollection")
-     **/
-    protected $permissions;
-
-    /**
      * @var ArrayCollection|SchoolInterface[]
      *
      * @ORM\ManyToMany(targetEntity="School", mappedBy="directors")
@@ -545,7 +525,6 @@ class User implements UserInterface
      */
     public function __construct()
     {
-        $this->reminders = new ArrayCollection();
         $this->directedCourses = new ArrayCollection();
         $this->learnerGroups = new ArrayCollection();
         $this->instructedLearnerGroups = new ArrayCollection();
@@ -561,7 +540,6 @@ class User implements UserInterface
         $this->cohorts = new ArrayCollection();
         $this->pendingUserUpdates = new ArrayCollection();
         $this->auditLogs = new ArrayCollection();
-        $this->permissions = new ArrayCollection();
         $this->administeredSessions = new ArrayCollection();
         $this->administeredCourses = new ArrayCollection();
         $this->learnerIlmSessions = new ArrayCollection();
@@ -790,82 +768,6 @@ class User implements UserInterface
     public function getIcsFeedKey()
     {
         return $this->icsFeedKey;
-    }
-
-    /**
-     * @param Collection $reminders
-     */
-    public function setReminders(Collection $reminders)
-    {
-        $this->reminders = new ArrayCollection();
-
-        foreach ($reminders as $reminder) {
-            $this->addReminder($reminder);
-        }
-    }
-
-    /**
-     * @param UserMadeReminderInterface $reminder
-     */
-    public function addReminder(UserMadeReminderInterface $reminder)
-    {
-        if (!$this->reminders->contains($reminder)) {
-            $this->reminders->add($reminder);
-        }
-    }
-
-    /**
-     * @param UserMadeReminderInterface $reminder
-     */
-    public function removeReminder(UserMadeReminderInterface $reminder)
-    {
-        $this->reminders->removeElement($reminder);
-    }
-
-    /**
-     * @return ArrayCollection|UserMadeReminderInterface[]
-     */
-    public function getReminders()
-    {
-        return $this->reminders;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setPermissions(Collection $permissions)
-    {
-        $this->permissions = new ArrayCollection();
-
-        foreach ($permissions as $permission) {
-            $this->addPermission($permission);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addPermission(PermissionInterface $permission)
-    {
-        if (!$this->permissions->contains($permission)) {
-            $this->permissions->add($permission);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removePermission(PermissionInterface $permission)
-    {
-        $this->permissions->removeElement($permission);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPermissions()
-    {
-        return $this->permissions;
     }
 
     /**

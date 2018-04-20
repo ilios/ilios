@@ -2,17 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * CourseClerkshipType API endpoint Test.
  * @group api_4
  */
-class CourseClerkshipTypeTest extends AbstractEndpointTest
+class CourseClerkshipTypeTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'courseClerkshipTypes';
 
     /**

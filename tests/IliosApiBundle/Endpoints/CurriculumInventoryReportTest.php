@@ -3,17 +3,14 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * CurriculumInventoryReport API endpoint Test.
  * @group api_5
  */
-class CurriculumInventoryReportTest extends AbstractEndpointTest
+class CurriculumInventoryReportTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'curriculumInventoryReports';
 
     /**

@@ -7,17 +7,14 @@ use Tests\CoreBundle\DataLoader\IlmSessionData;
 use Tests\CoreBundle\DataLoader\OfferingData;
 use Tests\CoreBundle\DataLoader\SessionData;
 use Tests\CoreBundle\DataLoader\SessionDescriptionData;
-use Tests\CoreBundle\DataLoader\UserData;
-use Tests\IliosApiBundle\AbstractEndpointTest;
-use Tests\IliosApiBundle\EndpointTestsTrait;
+use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
  * Course API endpoint Test.
  * @group api_2
  */
-class CourseTest extends AbstractEndpointTest
+class CourseTest extends ReadWriteEndpointTest
 {
-    use EndpointTestsTrait;
     protected $testName =  'courses';
 
     /**
@@ -582,34 +579,6 @@ class CourseTest extends AbstractEndpointTest
         );
     }
 
-    public function testCourseCannotBeUnlockedByNonDeveloper()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $courseId = $data['id'];
-        $data['locked'] = true;
-        $responseData = $this->putTest($data, $data, $courseId);
-        $this->assertTrue(
-            $responseData['locked']
-        );
-
-        $userId = 3;
-        $user3 = $this->getOne('users', 'users', $userId);
-        $this->assertNotContains(1, $user3['roles'], 'User #3 should not be a developer or this test is garbage.');
-        //make User #3 a Course director
-        $user3['roles'][] = 3;
-        $this->putOne('users', 'user', $userId, $user3);
-
-        $data['locked'] = false;
-        $this->putOne('courses', 'course', $courseId, $data, false, $userId);
-        $responseData = $this->getOne('courses', 'courses', $courseId);
-        $this->assertTrue(
-            $responseData['locked'],
-            'Course is still locked'
-        );
-    }
-
-
     public function testRemovingCourseObjectiveRemovesSessionObjectivesToo()
     {
         $dataLoader = $this->getDataLoader();
@@ -642,44 +611,14 @@ class CourseTest extends AbstractEndpointTest
         $this->badPostTest($data);
     }
 
-    public function testViewInstructedCourseInAnotherSchool()
-    {
-        $dataLoader = $this->getDataLoader();
-        $course = $dataLoader->getOne();
-        $this->assertSame('1', $course['school']);
-
-        /** @var UserData $dataLoader */
-        $userDataLoader = $this->container->get(UserData::class);
-        $users = $userDataLoader->getAll();
-        $user = $users[3];
-        $this->assertSame('2', $user['school']);
-
-        $url = $this->getUrl(
-            'ilios_api_get',
-            ['version' => 'v1', 'object' => 'courses', 'id' => $course['id']]
-        );
-        $this->createJsonRequest(
-            'GET',
-            $url,
-            null,
-            $this->getTokenForUser($user['id'])
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_OK);
-        $courses = json_decode($response->getContent(), true)['courses'];
-        $this->assertCount(1, $courses);
-        $this->compareData($course, $courses[0]);
-    }
-
     public function testGetMyCoursesIncludesAdministeredCourses()
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $this->filterTest(
             ['my' => true],
-            [$all[0], $all[1], $all[4]],
-            5
+            [$all[0], $all[2], $all[4]],
+            4
         );
     }
 }

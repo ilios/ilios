@@ -3,6 +3,7 @@
 namespace Tests\WebBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use Ilios\CoreBundle\Entity\DTO\UserDTO;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class DirectoryControllerTest extends TestCase
 {
@@ -39,15 +41,20 @@ class DirectoryControllerTest extends TestCase
      */
     protected $directoryMock;
 
+    /**
+     * @var m\MockInterface
+     */
+    protected $permissionChecker;
+
     public function setUp()
     {
         parent::setUp();
         $this->tokenStorageMock = m::mock(TokenStorageInterface::class);
         $this->userManagerMock = m::mock(UserManager::class);
         $this->directoryMock = m::mock(Directory::class);
+        $this->permissionChecker = m::mock(PermissionChecker::class);
 
         $mockSessionUser = m::mock(SessionUserInterface::class);
-        $mockSessionUser->shouldReceive('hasRole')->with(['Developer'])->andReturn(true);
 
         $mockToken = m::mock(TokenInterface::class);
         $mockToken->shouldReceive('getUser')->andReturn($mockSessionUser);
@@ -57,7 +64,8 @@ class DirectoryControllerTest extends TestCase
         $this->directoryController = new DirectoryController(
             $this->tokenStorageMock,
             $this->userManagerMock,
-            $this->directoryMock
+            $this->directoryMock,
+            $this->permissionChecker
         );
     }
 
@@ -67,6 +75,8 @@ class DirectoryControllerTest extends TestCase
         unset($this->tokenStorageMock);
         unset($this->userManagerMock);
         unset($this->directoryMock);
+        unset($this->permissionChecker);
+
 
         parent::tearDown();
     }
@@ -86,6 +96,9 @@ class DirectoryControllerTest extends TestCase
             ->with(['a', 'b'])
             ->once()
             ->andReturn([$fakeDirectoryUser]);
+
+        $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(true);
+
 
         $user = m::mock(UserDTO::class);
 
@@ -133,6 +146,9 @@ class DirectoryControllerTest extends TestCase
             ->once()
             ->andReturn([$fakeDirectoryUser1, $fakeDirectoryUser2]);
 
+        $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(true);
+
+
         $user = m::mock(UserDTO::class);
         $user->id = 1;
         $user->campusId = '1111@school.edu';
@@ -175,6 +191,8 @@ class DirectoryControllerTest extends TestCase
             'campusId' => 'abc',
         ];
 
+        $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(true);
+
         $this->directoryMock
             ->shouldReceive('findByCampusId')
             ->with('abc')
@@ -199,5 +217,21 @@ class DirectoryControllerTest extends TestCase
             json_decode($content, true),
             var_export($content, true)
         );
+    }
+
+    public function testFindFailsIfUserDoesntHaveProperPermissions()
+    {
+        $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(false);
+        $this->expectException(AccessDeniedException::class);
+        $this->directoryController->findAction(1);
+    }
+
+    public function testSearchFailsIfUserDoesntHaveProperPermissions()
+    {
+        $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(false);
+        $this->expectException(AccessDeniedException::class);
+        $request = new Request();
+        $request->query->add(['searchTerms' => 'a b']);
+        $this->directoryController->searchAction($request);
     }
 }

@@ -4,7 +4,7 @@ services: mysql
 sudo: false
 matrix:
   fast_finish: true
-  allow_failures: 
+  allow_failures:
   exclude:
   - php: '7.2'
   include:
@@ -47,6 +47,8 @@ before_script:
 - bin/console doctrine:migrations:migrate  --env=dev --no-interaction
 - bin/console cache:clear --env=test --no-interaction
 - bin/console cache:warmup --env=test --no-interaction
+- phpenv config-rm xdebug.ini
+
 script:
 - if [ "$TEST_PHPUNIT_API1" = true ];
   then (vendor/bin/phpunit -c phpunit.xml.dist --group api_1);

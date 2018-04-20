@@ -5,11 +5,11 @@ namespace Tests\CliBundle\Command;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Ilios\CliBundle\Command\AddUserCommand;
-use Ilios\CoreBundle\Entity\Authentication;
+use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\User;
+use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -84,6 +84,7 @@ class AddUserCommandTest extends TestCase
                 '--campusId' => 'abc',
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
+                '--isRoot' => 'yes',
             )
         );
 
@@ -120,6 +121,7 @@ class AddUserCommandTest extends TestCase
                 '--campusId' => 'abc',
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
+                '--isRoot' => 'yes',
             )
         );
 
@@ -142,6 +144,7 @@ class AddUserCommandTest extends TestCase
                 '--campusId' => 'abc',
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
+                '--isRoot' => 'yes',
             )
         );
 
@@ -159,6 +162,30 @@ class AddUserCommandTest extends TestCase
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
+                '--lastName' => 'last',
+                '--telephoneNumber' => 'phone',
+                '--campusId' => 'abc',
+                '--username' => 'abc123',
+                '--password' => 'abc123pass',
+                '--isRoot' => 'yes',
+            )
+        );
+
+        $this->checkOuput();
+    }
+
+    public function testAskIfIsRoot()
+    {
+        $this->getReadyForInput();
+
+        $this->commandTester->setInputs(['Yes', 'Yes']);
+
+        $this->commandTester->execute(
+            array(
+                'command' => self::COMMAND_NAME,
+                '--schoolId' => '1',
+                '--firstName' => 'first',
+                '--email' => 'email@example.com',
                 '--lastName' => 'last',
                 '--telephoneNumber' => 'phone',
                 '--campusId' => 'abc',
@@ -186,6 +213,7 @@ class AddUserCommandTest extends TestCase
                 '--campusId' => 'abc',
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
+                '--isRoot' => 'yes',
             )
         );
 
@@ -208,6 +236,7 @@ class AddUserCommandTest extends TestCase
                 '--telephoneNumber' => 'phone',
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
+                '--isRoot' => 'yes',
             )
         );
 
@@ -230,6 +259,7 @@ class AddUserCommandTest extends TestCase
                 '--telephoneNumber' => 'phone',
                 '--campusId' => 'abc',
                 '--password' => 'abc123pass',
+                '--isRoot' => 'yes',
             )
         );
 
@@ -252,6 +282,7 @@ class AddUserCommandTest extends TestCase
                 '--telephoneNumber' => 'phone',
                 '--campusId' => 'abc',
                 '--username' => 'abc123',
+                '--isRoot' => 'yes',
             )
         );
 
@@ -260,9 +291,9 @@ class AddUserCommandTest extends TestCase
 
     protected function getReadyForInput()
     {
-        $school = m::mock('Ilios\CoreBundle\Entity\SchoolInterface');
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getTitle')->andReturn('Big School Title');
-        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface');
+        $sessionUser = m::mock(SessionUserInterface::class);
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('setFirstName')->with('first')
             ->shouldReceive('setLastName')->with('last')
@@ -275,9 +306,10 @@ class AddUserCommandTest extends TestCase
             ->shouldReceive('setSchool')->with($school)
             ->shouldReceive('getId')->andReturn(1)
             ->shouldReceive('getFirstAndLastName')->andReturn('Test Person')
+            ->shouldReceive('setRoot')->with(true)
             ->mock();
 
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('setUsername')->with('abc123')
             ->shouldReceive('setPasswordBcrypt')->with('hashBlurb')
             ->shouldReceive('getUser')->andReturn($user)
@@ -285,6 +317,7 @@ class AddUserCommandTest extends TestCase
 
         $user->shouldReceive('getAuthentication')->andReturn($authentication);
         $user->shouldReceive('setAuthentication')->with($authentication);
+
 
         $this->encoder->shouldReceive('encodePassword')->with($sessionUser, 'abc123pass')->andReturn('hashBlurb');
 
@@ -302,7 +335,7 @@ class AddUserCommandTest extends TestCase
     {
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/abc\s+\| first\s+\| last\s+\| email@example.com\s+\| abc123\s+\| phone/',
+            '/abc\s+\| first\s+\| last\s+\| email@example.com\s+\| abc123\s+\| phone\s+\| yes/',
             $output
         );
         $this->assertRegExp(

@@ -6,7 +6,6 @@ use Ilios\CliBundle\Command\InstallFirstUserCommand;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Ilios\CoreBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Application;
@@ -26,7 +25,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
     protected $userManager;
     protected $authenticationManager;
     protected $schoolManager;
-    protected $userRoleManager;
     protected $encoder;
     protected $questionHelper;
     protected $sessionUserProvider;
@@ -44,14 +42,12 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->userManager = m::mock(UserManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
         $this->schoolManager = m::mock(SchoolManager::class);
-        $this->userRoleManager = m::mock(UserRoleManager::class);
         $this->encoder = m::mock(UserPasswordEncoderInterface::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
 
         $command = new InstallFirstUserCommand(
             $this->userManager,
             $this->schoolManager,
-            $this->userRoleManager,
             $this->authenticationManager,
             $this->encoder,
             $this->sessionUserProvider
@@ -73,7 +69,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
         unset($this->userManager);
         unset($this->authenticationManager);
         unset($this->schoolManager);
-        unset($this->userRoleManager);
         unset($this->commandTester);
         unset($this->questionHelper);
         unset($this->sessionUserProvider);
@@ -153,8 +148,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
             ->shouldReceive('setEnabled')->with(true)
             ->shouldReceive('setUserSyncIgnore')->with(false)
             ->shouldReceive('setSchool')->with($school)
-            ->shouldReceive('addRole')->with($developerRole)
-            ->shouldReceive('addRole')->with($courseDirectorRole)
+            ->shouldReceive('setRoot')->with(true)
             ->mock();
         $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
             ->shouldReceive('setUsername')->with('first_user')
@@ -165,14 +159,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $user->shouldReceive('setAuthentication')->with($authentication);
         $this->schoolManager->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($school);
         $this->schoolManager->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([$school]);
-        $this->userRoleManager
-            ->shouldReceive('findOneBy')
-            ->with(['title' => 'Developer'])
-            ->andReturn($developerRole);
-        $this->userRoleManager
-            ->shouldReceive('findOneBy')
-            ->with(['title' => 'Course Director'])
-            ->andReturn($courseDirectorRole);
         $this->userManager->shouldReceive('findOneBy')->with([])->andReturn([]);
         $this->userManager->shouldReceive('create')->andReturn($user);
         $this->userManager->shouldReceive('update')->with($user);

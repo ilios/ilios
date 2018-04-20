@@ -121,7 +121,7 @@ class CourseData extends AbstractDataLoader
             'published' => true,
             'school' => "2",
             'directors' => [],
-            'administrators' => ['5'],
+            'administrators' => ['4'],
             'cohorts' => ["3"],
             'terms' => [],
             'objectives' => [],
