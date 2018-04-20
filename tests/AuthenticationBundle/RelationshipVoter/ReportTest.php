@@ -24,28 +24,6 @@ class ReportTest extends AbstractBase
         $this->checkRootEntityAccess(m::mock(Report::class));
     }
 
-    public function testCanViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
-        $dto = m::mock(ReportDTO::class);
-        $dto->shouldReceive('getUser')->andReturn(m::mock(UserInterface::class));
-        $user->shouldReceive('isTheUser')->andReturn(true);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View DTO allowed");
-    }
-
-    public function testCanNotViewDTO()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
-        $dto = m::mock(ReportDTO::class);
-        $dto->shouldReceive('getUser')->andReturn(m::mock(UserInterface::class));
-        $user->shouldReceive('isTheUser')->andReturn(false);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View DTO denied");
-    }
-
     public function testCanView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
