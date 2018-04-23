@@ -65,7 +65,7 @@ class SchoolConfigTest extends AbstractBase
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canDeleteSchoolConfig')->andReturn(true);
+        $this->permissionChecker->shouldReceive('canUpdateSchoolConfig')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
@@ -78,7 +78,7 @@ class SchoolConfigTest extends AbstractBase
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canDeleteSchoolConfig')->andReturn(false);
+        $this->permissionChecker->shouldReceive('canUpdateSchoolConfig')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
@@ -90,7 +90,7 @@ class SchoolConfigTest extends AbstractBase
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canCreateSchoolConfig')->andReturn(true);
+        $this->permissionChecker->shouldReceive('canUpdateSchoolConfig')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
     }
@@ -102,7 +102,7 @@ class SchoolConfigTest extends AbstractBase
         $school = m::mock(School::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
-        $this->permissionChecker->shouldReceive('canCreateSchoolConfig')->andReturn(false);
+        $this->permissionChecker->shouldReceive('canUpdateSchoolConfig')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
     }

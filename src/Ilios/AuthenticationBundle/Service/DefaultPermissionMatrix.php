@@ -410,23 +410,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
             );
             $this->setPermission(
                 $schoolId,
-                Capabilities::CAN_CREATE_SCHOOL_CONFIGS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
                 Capabilities::CAN_UPDATE_SCHOOL_CONFIGS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
-                Capabilities::CAN_DELETE_SCHOOL_CONFIGS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,

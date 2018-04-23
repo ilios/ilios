@@ -32,19 +32,9 @@ class SchoolConfig extends AbstractVoter
                 return true;
                 break;
             case self::CREATE:
-                return $this->permissionChecker->canCreateSchoolConfig(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
             case self::EDIT:
-                return $this->permissionChecker->canUpdateSchoolConfig(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
             case self::DELETE:
-                return $this->permissionChecker->canDeleteSchoolConfig(
+                return $this->permissionChecker->canUpdateSchoolConfig(
                     $user,
                     $subject->getSchool()->getId()
                 );
