@@ -38,6 +38,16 @@ abstract class AbstractVoter extends SymfonyVoter
     const UNARCHIVE = 'unarchive';
 
     /**
+     * @var string
+     */
+    const LOCK = 'lock';
+
+    /**
+     * @var string
+     */
+    const ARCHIVE = 'archive';
+
+    /**
      * @var PermissionChecker
      */
     protected $permissionChecker;
