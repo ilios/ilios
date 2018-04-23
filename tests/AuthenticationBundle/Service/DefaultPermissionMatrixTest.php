@@ -943,41 +943,7 @@ class DefaultPermissionMatrixTest extends TestCase
                 ]
             ],
             [
-                Capabilities::CAN_CREATE_SCHOOL_CONFIGS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                ],
-                [
-                    UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
-                    UserRoles::SESSION_ADMINISTRATOR,
-                    UserRoles::SESSION_INSTRUCTOR,
-                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
-            ],
-            [
                 Capabilities::CAN_UPDATE_SCHOOL_CONFIGS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                ],
-                [
-                    UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
-                    UserRoles::SESSION_ADMINISTRATOR,
-                    UserRoles::SESSION_INSTRUCTOR,
-                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
-            ],
-            [
-                Capabilities::CAN_DELETE_SCHOOL_CONFIGS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
