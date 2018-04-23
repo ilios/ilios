@@ -182,7 +182,6 @@ class DefaultPermissionMatrixTest extends TestCase
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
-                    UserRoles::PROGRAM_DIRECTOR,
                 ],
                 [
                     UserRoles::PROGRAM_YEAR_DIRECTOR,
@@ -192,6 +191,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
+                    UserRoles::PROGRAM_DIRECTOR,
                 ]
             ],
             [
@@ -216,7 +216,6 @@ class DefaultPermissionMatrixTest extends TestCase
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
-                    UserRoles::PROGRAM_DIRECTOR,
                 ],
                 [
                     UserRoles::PROGRAM_YEAR_DIRECTOR,
@@ -226,6 +225,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
+                    UserRoles::PROGRAM_DIRECTOR,
                 ]
             ],
             [
