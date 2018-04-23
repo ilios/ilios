@@ -219,8 +219,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
                     UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
                     UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
                 ]
             );
             $this->setPermission(
@@ -237,8 +235,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
                 ]
             );
             $this->setPermission(
