@@ -14,9 +14,6 @@ web_profiler:
 
 monolog:
     handlers:
-        main:
-            type: error_log
-            level: debug
         buffered:
             type:     buffer
             handler:  easylog

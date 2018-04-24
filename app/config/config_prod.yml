@@ -6,11 +6,11 @@ monolog:
     handlers:
         main:
             type:         error_log
-            action_level: debug
+            action_level: error
             handler:      nested
         nested:
             type:  stream
-            path:  "php://stderr"
+            path:  '%kernel.logs_dir%/%kernel.environment%.log'
             level: debug
         console:
             type:  console
