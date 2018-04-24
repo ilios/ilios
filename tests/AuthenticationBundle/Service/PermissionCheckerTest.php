@@ -396,6 +396,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
+        $course->shouldReceive('isArchived')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -425,6 +426,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
+        $course->shouldReceive('isArchived')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
         $this->permissionMatrix
@@ -463,6 +465,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
+        $course->shouldReceive('isArchived')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
@@ -484,6 +487,245 @@ class PermissionCheckerTest extends TestCase
             ->andReturn(false);
 
         $this->assertFalse($this->permissionChecker->canUnlockCourse($sessionUser, $course));
+    }
+
+    /**
+     * @covers PermissionChecker::canUnlockCourse()
+     */
+    public function testCanNotUnlockCourseIfCourseIsArchived()
+    {
+        $course = m::mock(CourseInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $course->shouldReceive('isArchived')->andReturn(true);
+
+        $this->assertFalse($this->permissionChecker->canUnlockCourse($sessionUser, $course));
+    }
+
+    /**
+     * @covers PermissionChecker::canLockCourse()
+     */
+    public function testCanLockAllCourses()
+    {
+        $rolesInSchool = ['foo'];
+        $courseId = 20;
+        $schoolId = 10;
+        $school = m::mock(SchoolInterface::class);
+        $course = m::mock(CourseInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $course->shouldReceive('getSchool')->andReturn($school);
+        $course->shouldReceive('getId')->andReturn($courseId);
+        $course->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_COURSES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canLockCourse($sessionUser, $course));
+    }
+
+    /**
+     * @covers PermissionChecker::canLockCourse()
+     */
+    public function testCanLockTheirCourses()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInCourse = ['bar'];
+        $courseId = 20;
+        $schoolId = 10;
+        $school = m::mock(SchoolInterface::class);
+        $course = m::mock(CourseInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $course->shouldReceive('getSchool')->andReturn($school);
+        $course->shouldReceive('getId')->andReturn($courseId);
+        $course->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_COURSES, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_THEIR_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_THEIR_COURSES, $rolesInCourse])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canLockCourse($sessionUser, $course));
+    }
+
+    /**
+     * @covers PermissionChecker::canLockCourse()
+     */
+    public function testCanNotLockCourses()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInCourse = ['bar'];
+        $courseId = 20;
+        $schoolId = 10;
+        $school = m::mock(SchoolInterface::class);
+        $course = m::mock(CourseInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $course->shouldReceive('getSchool')->andReturn($school);
+        $course->shouldReceive('getId')->andReturn($courseId);
+        $course->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_COURSES, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_THEIR_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_THEIR_COURSES, $rolesInCourse])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canLockCourse($sessionUser, $course));
+    }
+
+    /**
+     * @covers PermissionChecker::canUnlockCourse()
+     */
+    public function testCanNotLockCourseIfCourseIsArchived()
+    {
+        $course = m::mock(CourseInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $course->shouldReceive('isArchived')->andReturn(true);
+
+        $this->assertFalse($this->permissionChecker->canLockCourse($sessionUser, $course));
+    }
+
+    /**
+     * @covers PermissionChecker::canArchiveCourse()
+     */
+    public function testCanArchiveAllCourses()
+    {
+        $rolesInSchool = ['foo'];
+        $courseId = 20;
+        $schoolId = 10;
+        $school = m::mock(SchoolInterface::class);
+        $course = m::mock(CourseInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $course->shouldReceive('getSchool')->andReturn($school);
+        $course->shouldReceive('getId')->andReturn($courseId);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_COURSES, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canArchiveCourse($sessionUser, $course));
+    }
+
+    /**
+     * @covers PermissionChecker::canArchiveCourse()
+     */
+    public function testCanArchiveTheirCourses()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInCourse = ['bar'];
+        $courseId = 20;
+        $schoolId = 10;
+        $school = m::mock(SchoolInterface::class);
+        $course = m::mock(CourseInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $course->shouldReceive('getSchool')->andReturn($school);
+        $course->shouldReceive('getId')->andReturn($courseId);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_COURSES, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_COURSES, $rolesInCourse])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canArchiveCourse($sessionUser, $course));
+    }
+
+    /**
+     * @covers PermissionChecker::canArchiveCourse()
+     */
+    public function testCanNotArchiveCourses()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInCourse = ['bar'];
+        $courseId = 20;
+        $schoolId = 10;
+        $school = m::mock(SchoolInterface::class);
+        $course = m::mock(CourseInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $course->shouldReceive('getSchool')->andReturn($school);
+        $course->shouldReceive('getId')->andReturn($courseId);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_COURSES, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_COURSES])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_COURSES, $rolesInCourse])
+            ->andReturn(false);
+
+        $this->assertFalse($this->permissionChecker->canArchiveCourse($sessionUser, $course));
     }
 
     /**
@@ -1587,8 +1829,8 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-    * @covers PermissionChecker::canUpdateProgramYear()
-    */
+     * @covers PermissionChecker::canUpdateProgramYear()
+     */
     public function testCanUpdateAllProgramYears()
     {
         $rolesInSchool = ['foo'];
@@ -2131,6 +2373,395 @@ class PermissionCheckerTest extends TestCase
             ->andReturn(false);
 
         $this->assertFalse($this->permissionChecker->canCreateProgramYear($sessionUser, $program));
+    }
+
+    /**
+     * @covers PermissionChecker::canLockProgramYear()
+     */
+    public function testCanLockAllProgramYears()
+    {
+        $rolesInSchool = ['foo'];
+        $programYearId = 10;
+        $schoolId = 20;
+        $school = m::mock(SchoolInterface::class);
+        $programYear = m::mock(ProgramYearInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $programYear->shouldReceive('getSchool')->andReturn($school);
+        $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
+    }
+
+    /**
+     * @covers PermissionChecker::canLockProgramYear()
+     */
+    public function testCanLockTheirProgramYears()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInProgramYear = ['bar'];
+        $programYearId = 10;
+        $schoolId = 20;
+        $school = m::mock(SchoolInterface::class);
+        $programYear = m::mock(ProgramYearInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $programYear->shouldReceive('getSchool')->andReturn($school);
+        $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
+    }
+
+    /**
+     * @covers PermissionChecker::canLockProgramYear()
+     */
+    public function testCanLockProgramYearsIfUserCanUpdateProgram()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInProgramYear = ['bar'];
+        $programYearId = 10;
+        $programId = 15;
+        $schoolId = 20;
+        $school = m::mock(SchoolInterface::class);
+        $programYear = m::mock(ProgramYearInterface::class);
+        $program = m::mock(ProgramInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $program->shouldReceive('getId')->andReturn($programId);
+        $programYear->shouldReceive('getSchool')->andReturn($school);
+        $programYear->shouldReceive('getProgram')->andReturn($program);
+        $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
+    }
+
+    /**
+     * @covers PermissionChecker::canLockProgramYear()
+     */
+    public function testCanNotLockProgramYearIfProgramYearIsArchived()
+    {
+        $programYear = m::mock(ProgramYearInterface::class);
+        $programYear->shouldReceive('isArchived')->andReturn(true);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+
+        $this->assertFalse($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
+    }
+
+    /**
+     * @covers PermissionChecker::canUnlockProgramYear()
+     */
+    public function testCanUnlockAllProgramYears()
+    {
+        $rolesInSchool = ['foo'];
+        $programYearId = 10;
+        $schoolId = 20;
+        $school = m::mock(SchoolInterface::class);
+        $programYear = m::mock(ProgramYearInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $programYear->shouldReceive('getSchool')->andReturn($school);
+        $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
+    }
+
+    /**
+     * @covers PermissionChecker::canUnlockProgramYear()
+     */
+    public function testCanUnlockTheirProgramYears()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInProgramYear = ['bar'];
+        $programYearId = 10;
+        $schoolId = 20;
+        $school = m::mock(SchoolInterface::class);
+        $programYear = m::mock(ProgramYearInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $programYear->shouldReceive('getSchool')->andReturn($school);
+        $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
+    }
+
+    /**
+     * @covers PermissionChecker::canUnlockProgramYear()
+     */
+    public function testCanUnlockProgramYearsIfUserCanUpdateProgram()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInProgramYear = ['bar'];
+        $programYearId = 10;
+        $programId = 15;
+        $schoolId = 20;
+        $school = m::mock(SchoolInterface::class);
+        $programYear = m::mock(ProgramYearInterface::class);
+        $program = m::mock(ProgramInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $program->shouldReceive('getId')->andReturn($programId);
+        $programYear->shouldReceive('getSchool')->andReturn($school);
+        $programYear->shouldReceive('getProgram')->andReturn($program);
+        $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UNLOCK_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
+    }
+
+    /**
+     * @covers PermissionChecker::canUnlockProgramYear()
+     */
+    public function testCanNotUnlockProgramYearIfProgramYearIsArchived()
+    {
+        $programYear = m::mock(ProgramYearInterface::class);
+        $programYear->shouldReceive('isArchived')->andReturn(true);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+
+        $this->assertFalse($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
+    }
+
+    /**
+     * @covers PermissionChecker::canArchiveProgramYear()
+     */
+    public function testCanArchiveAllProgramYears()
+    {
+        $rolesInSchool = ['foo'];
+        $programYearId = 10;
+        $schoolId = 20;
+        $school = m::mock(SchoolInterface::class);
+        $programYear = m::mock(ProgramYearInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $programYear->shouldReceive('getSchool')->andReturn($school);
+        $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canArchiveProgramYear($sessionUser, $programYear));
+    }
+
+    /**
+     * @covers PermissionChecker::canArchiveProgramYear()
+     */
+    public function testCanArchiveTheirProgramYears()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInProgramYear = ['bar'];
+        $programYearId = 10;
+        $schoolId = 20;
+        $school = m::mock(SchoolInterface::class);
+        $programYear = m::mock(ProgramYearInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $programYear->shouldReceive('getSchool')->andReturn($school);
+        $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canArchiveProgramYear($sessionUser, $programYear));
+    }
+
+    /**
+     * @covers PermissionChecker::canArchiveProgramYear()
+     */
+    public function testCanArchiveProgramYearsIfUserCanUpdateProgram()
+    {
+        $rolesInSchool  = ['foo'];
+        $rolesInProgramYear = ['bar'];
+        $programYearId = 10;
+        $programId = 15;
+        $schoolId = 20;
+        $school = m::mock(SchoolInterface::class);
+        $programYear = m::mock(ProgramYearInterface::class);
+        $program = m::mock(ProgramInterface::class);
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $school->shouldReceive('getId')->andReturn($schoolId);
+        $program->shouldReceive('getId')->andReturn($programId);
+        $programYear->shouldReceive('getSchool')->andReturn($school);
+        $programYear->shouldReceive('getProgram')->andReturn($program);
+        $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
+        $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
+
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS, $rolesInSchool])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
+            ->andReturn(false);
+        $this->permissionMatrix
+            ->shouldReceive('getPermittedRoles')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
+            ->andReturn([]);
+        $this->permissionMatrix
+            ->shouldReceive('hasPermission')
+            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
+            ->andReturn(true);
+
+        $this->assertTrue($this->permissionChecker->canArchiveProgramYear($sessionUser, $programYear));
     }
 
     /**
