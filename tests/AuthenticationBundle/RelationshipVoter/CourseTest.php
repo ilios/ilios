@@ -124,22 +124,4 @@ class CourseTest extends AbstractBase
         $response = $this->voter->vote($token, $entity, [AbstractVoter::UNLOCK]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
-
-    public function testCanUnarchive()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
-        $this->permissionChecker->shouldReceive('canUnarchiveCourse')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::UNARCHIVE]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
-    }
-
-    public function testCanNotUnarchive()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Course::class);
-        $this->permissionChecker->shouldReceive('canUnarchiveCourse')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::UNARCHIVE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
-    }
 }

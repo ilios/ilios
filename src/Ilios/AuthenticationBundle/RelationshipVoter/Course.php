@@ -19,7 +19,6 @@ class Course extends AbstractVoter
                     self::EDIT,
                     self::DELETE,
                     self::UNLOCK,
-                    self::UNARCHIVE,
                     self::LOCK,
                     self::ARCHIVE,
                 ]
@@ -51,9 +50,6 @@ class Course extends AbstractVoter
                 break;
             case self::UNLOCK:
                 return $this->permissionChecker->canUnlockCourse($user, $subject);
-                break;
-            case self::UNARCHIVE:
-                return $this->permissionChecker->canUnarchiveCourse($user, $subject);
                 break;
             case self::ARCHIVE:
                 return $this->permissionChecker->canArchiveCourse($user, $subject);

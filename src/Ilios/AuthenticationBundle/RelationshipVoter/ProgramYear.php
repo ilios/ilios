@@ -19,7 +19,6 @@ class ProgramYear extends AbstractVoter
                     self::EDIT,
                     self::DELETE,
                     self::UNLOCK,
-                    self::UNARCHIVE,
                     self::LOCK,
                     self::ARCHIVE,
                 ]
@@ -51,9 +50,6 @@ class ProgramYear extends AbstractVoter
                 break;
             case self::UNLOCK:
                 return $this->permissionChecker->canUnlockProgramYear($user, $subject);
-                break;
-            case self::UNARCHIVE:
-                return $this->permissionChecker->canUnarchiveProgramYear($user, $subject);
                 break;
             case self::ARCHIVE:
                 return $this->permissionChecker->canArchiveProgramYear($user, $subject);

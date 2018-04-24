@@ -131,22 +131,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
             );
             $this->setPermission(
                 $schoolId,
-                Capabilities::CAN_UNARCHIVE_ALL_PROGRAM_YEARS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                    UserRoles::PROGRAM_DIRECTOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
-                Capabilities::CAN_UNARCHIVE_THEIR_PROGRAM_YEARS,
-                [
-                    UserRoles::PROGRAM_DIRECTOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
                 Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
@@ -222,13 +206,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 [
                     UserRoles::COURSE_ADMINISTRATOR,
                     UserRoles::COURSE_DIRECTOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
-                Capabilities::CAN_UNARCHIVE_ALL_COURSES,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
                 ]
             );
             $this->setPermission(
