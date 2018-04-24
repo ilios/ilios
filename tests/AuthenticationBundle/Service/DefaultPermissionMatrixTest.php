@@ -280,7 +280,7 @@ class DefaultPermissionMatrixTest extends TestCase
                 ]
             ],
             [
-                Capabilities::CAN_UNARCHIVE_ALL_PROGRAM_YEARS,
+                Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
                     UserRoles::SCHOOL_DIRECTOR,
@@ -297,7 +297,41 @@ class DefaultPermissionMatrixTest extends TestCase
                 ]
             ],
             [
-                Capabilities::CAN_UNARCHIVE_THEIR_PROGRAM_YEARS,
+                Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS,
+                [
+                    UserRoles::PROGRAM_DIRECTOR,
+                ],
+                [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
+                    UserRoles::PROGRAM_YEAR_DIRECTOR,
+                    UserRoles::COURSE_ADMINISTRATOR,
+                    UserRoles::COURSE_DIRECTOR,
+                    UserRoles::COURSE_INSTRUCTOR,
+                    UserRoles::SESSION_ADMINISTRATOR,
+                    UserRoles::SESSION_INSTRUCTOR,
+                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
+                ]
+            ],
+            [
+                Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS,
+                [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
+                    UserRoles::PROGRAM_DIRECTOR,
+                ],
+                [
+                    UserRoles::PROGRAM_YEAR_DIRECTOR,
+                    UserRoles::COURSE_ADMINISTRATOR,
+                    UserRoles::COURSE_DIRECTOR,
+                    UserRoles::COURSE_INSTRUCTOR,
+                    UserRoles::SESSION_ADMINISTRATOR,
+                    UserRoles::SESSION_INSTRUCTOR,
+                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
+                ]
+            ],
+            [
+                Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS,
                 [
                     UserRoles::PROGRAM_DIRECTOR,
                 ],
@@ -433,7 +467,7 @@ class DefaultPermissionMatrixTest extends TestCase
                 ]
             ],
             [
-                Capabilities::CAN_UNARCHIVE_ALL_COURSES,
+                Capabilities::CAN_LOCK_ALL_COURSES,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
                 ],
@@ -450,7 +484,41 @@ class DefaultPermissionMatrixTest extends TestCase
                 ]
             ],
             [
-                Capabilities::CAN_UNARCHIVE_THEIR_COURSES,
+                Capabilities::CAN_LOCK_THEIR_COURSES,
+                [
+                    UserRoles::COURSE_ADMINISTRATOR,
+                    UserRoles::COURSE_DIRECTOR,
+                ],
+                [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
+                    UserRoles::PROGRAM_DIRECTOR,
+                    UserRoles::PROGRAM_YEAR_DIRECTOR,
+                    UserRoles::COURSE_INSTRUCTOR,
+                    UserRoles::SESSION_ADMINISTRATOR,
+                    UserRoles::SESSION_INSTRUCTOR,
+                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
+                ]
+            ],
+            [
+                Capabilities::CAN_ARCHIVE_ALL_COURSES,
+                [
+                    UserRoles::SCHOOL_ADMINISTRATOR,
+                ],
+                [
+                    UserRoles::SCHOOL_DIRECTOR,
+                    UserRoles::PROGRAM_DIRECTOR,
+                    UserRoles::PROGRAM_YEAR_DIRECTOR,
+                    UserRoles::COURSE_ADMINISTRATOR,
+                    UserRoles::COURSE_DIRECTOR,
+                    UserRoles::COURSE_INSTRUCTOR,
+                    UserRoles::SESSION_ADMINISTRATOR,
+                    UserRoles::SESSION_INSTRUCTOR,
+                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
+                ]
+            ],
+            [
+                Capabilities::CAN_ARCHIVE_THEIR_COURSES,
                 [
                 ],
                 [

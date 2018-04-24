@@ -105,6 +105,10 @@ class PermissionChecker
 
     public function canUnlockCourse(SessionUserInterface $sessionUser, CourseInterface $course): bool
     {
+        if ($course->isArchived()) {
+            return false;
+        }
+
         $schoolId = $course->getSchool()->getId();
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UNLOCK_ALL_COURSES);
@@ -130,20 +134,56 @@ class PermissionChecker
         return false;
     }
 
-    public function canUnarchiveCourse(SessionUserInterface $sessionUser, CourseInterface $course): bool
+    public function canLockCourse(SessionUserInterface $sessionUser, CourseInterface $course): bool
     {
-        $rolesInSchool = $sessionUser->rolesInSchool($course->getSchool()->getId());
+        if ($course->isArchived()) {
+            return false;
+        }
+
+        $schoolId = $course->getSchool()->getId();
+
+        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_LOCK_ALL_COURSES);
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
         if ($this->matrix->hasPermission(
-            $course->getSchool()->getId(),
-            Capabilities::CAN_UNARCHIVE_ALL_COURSES,
+            $schoolId,
+            Capabilities::CAN_LOCK_ALL_COURSES,
             $rolesInSchool
         )) {
             return true;
         }
-        $rolesInCourse = $sessionUser->rolesInCourse($course->getId());
+
+        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_LOCK_THEIR_COURSES);
+        $rolesInCourse = $sessionUser->rolesInCourse($course->getId(), $permittedRoles);
         if ($this->matrix->hasPermission(
-            $course->getSchool()->getId(),
-            Capabilities::CAN_UNARCHIVE_THEIR_COURSES,
+            $schoolId,
+            Capabilities::CAN_LOCK_THEIR_COURSES,
+            $rolesInCourse
+        )) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canArchiveCourse(SessionUserInterface $sessionUser, CourseInterface $course): bool
+    {
+        $schoolId = $course->getSchool()->getId();
+
+        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_ARCHIVE_ALL_COURSES);
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
+        if ($this->matrix->hasPermission(
+            $schoolId,
+            Capabilities::CAN_ARCHIVE_ALL_COURSES,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_ARCHIVE_THEIR_COURSES);
+        $rolesInCourse = $sessionUser->rolesInCourse($course->getId(), $permittedRoles);
+        if ($this->matrix->hasPermission(
+            $schoolId,
+            Capabilities::CAN_ARCHIVE_THEIR_COURSES,
             $rolesInCourse
         )) {
             return true;
@@ -479,6 +519,10 @@ class PermissionChecker
 
     public function canUnlockProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear) : bool
     {
+        if ($programYear->isArchived()) {
+            return false;
+        }
+
         $schoolId = $programYear->getSchool()->getId();
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS);
@@ -508,25 +552,60 @@ class PermissionChecker
         );
     }
 
-    public function canUnarchiveProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear) : bool
+    public function canLockProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
+        if ($programYear->isArchived()) {
+            return false;
+        }
+
         $schoolId = $programYear->getSchool()->getId();
 
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UNARCHIVE_ALL_PROGRAM_YEARS);
+        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
         if ($this->matrix->hasPermission(
             $schoolId,
-            Capabilities::CAN_UNARCHIVE_ALL_PROGRAM_YEARS,
+            Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS,
             $rolesInSchool
         )) {
             return true;
         }
 
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UNARCHIVE_THEIR_PROGRAM_YEARS);
+        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS);
         $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYear->getId(), $permittedRoles);
         if ($this->matrix->hasPermission(
             $schoolId,
-            Capabilities::CAN_UNARCHIVE_THEIR_PROGRAM_YEARS,
+            Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS,
+            $rolesInProgramYear
+        )) {
+            return true;
+        }
+
+        return $this->canUpdateProgram(
+            $sessionUser,
+            $programYear->getProgram()->getId(),
+            $schoolId
+        );
+    }
+
+    public function canArchiveProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
+    {
+        $schoolId = $programYear->getSchool()->getId();
+
+        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS);
+        $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
+        if ($this->matrix->hasPermission(
+            $schoolId,
+            Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS,
+            $rolesInSchool
+        )) {
+            return true;
+        }
+
+        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS);
+        $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYear->getId(), $permittedRoles);
+        if ($this->matrix->hasPermission(
+            $schoolId,
+            Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS,
             $rolesInProgramYear
         )) {
             return true;
@@ -1081,6 +1160,7 @@ class PermissionChecker
                 break;
             }
         }
+
         return $can;
     }
 }

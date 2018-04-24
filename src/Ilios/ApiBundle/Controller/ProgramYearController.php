@@ -2,7 +2,10 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Entity\CohortInterface;
+use Ilios\CoreBundle\Entity\Manager\BaseManager;
+use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,25 +47,28 @@ class ProgramYearController extends ApiController
      */
     public function putAction($version, $object, $id, Request $request)
     {
+        /** @var BaseManager $manager */
         $manager = $this->getManager($object);
         /** @var ProgramYearInterface $entity */
         $entity = $manager->findOneBy(['id'=> $id]);
         $data = $this->extractPutDataFromRequest($request, $object);
 
         if ($entity) {
-            $code = Response::HTTP_OK;
-            $permission = 'edit';
-            if ($entity->isLocked() && !$data->locked) {
-                //check if the programYear can be unlocked and unlock it
-                if ($this->authorizationChecker->isGranted('unlock', $entity)) {
-                    $entity->setLocked(false);
-                }
-                $data->locked = $entity->isLocked();
+            if (!$entity->isArchived() && $data->archived) {
+                return $this->archiveProgramYear($object, $manager, $entity);
             }
+            if ($entity->isLocked() && !$data->locked) {
+                return $this->unlockProgramYear($object, $manager, $entity);
+            }
+            if (!$entity->isLocked() && $data->locked) {
+                return $this->lockProgramYear($object, $manager, $entity);
+            }
+            $code = Response::HTTP_OK;
+            $permission = AbstractVoter::EDIT;
         } else {
             $entity = $manager->create();
             $code = Response::HTTP_CREATED;
-            $permission = 'create';
+            $permission = AbstractVoter::CREATE;
         }
         $json = json_encode($data);
         $serializer = $this->getSerializer();
@@ -96,5 +102,56 @@ class ProgramYearController extends ApiController
         $programYear->setCohort($cohort);
 
         $cohortManager->update($cohort, false, false);
+    }
+
+    /**
+     * @param string $object
+     * @param BaseManager $manager
+     * @param ProgramYearInterface $entity
+     * @return Response
+     */
+    protected function archiveProgramYear($object, BaseManager $manager, ProgramYearInterface $entity)
+    {
+        if (! $this->authorizationChecker->isGranted(AbstractVoter::ARCHIVE, $entity)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+        $entity->setArchived(true);
+        $manager->update($entity, true, false);
+
+        return $this->createResponse($this->getSingularResponseKey($object), $entity, Response::HTTP_OK);
+    }
+
+    /**
+     * @param string $object
+     * @param BaseManager $manager
+     * @param ProgramYearInterface $entity
+     * @return Response
+     */
+    protected function lockProgramYear($object, BaseManager $manager, ProgramYearInterface $entity)
+    {
+        if (! $this->authorizationChecker->isGranted(AbstractVoter::LOCK, $entity)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+        $entity->setLocked(true);
+        $manager->update($entity, true, false);
+
+        return $this->createResponse($this->getSingularResponseKey($object), $entity, Response::HTTP_OK);
+    }
+
+    /**
+     * @param string $object
+     * @param BaseManager $manager
+     * @param ProgramYearInterface $entity
+     * @return Response
+     */
+    protected function unlockProgramYear($object, BaseManager $manager, ProgramYearInterface $entity)
+    {
+        if (!$this->authorizationChecker->isGranted(AbstractVoter::UNLOCK, $entity)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+        $entity->setLocked(false);
+        $manager->update($entity, true, false);
+
+        return $this->createResponse($this->getSingularResponseKey($object), $entity, Response::HTTP_OK);
     }
 }

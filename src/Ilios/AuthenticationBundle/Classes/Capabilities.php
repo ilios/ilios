@@ -12,9 +12,11 @@ interface Capabilities
     /** @var string */
     const CAN_DELETE_ALL_COURSES = 'canDeleteAllCourses';
     /** @var string */
-    const CAN_UNLOCK_ALL_COURSES = 'canUnlockAllCourses';
+    const CAN_LOCK_ALL_COURSES = 'canLockAllCourses';
     /** @var string */
-    const CAN_UNARCHIVE_ALL_COURSES = 'canUnarchiveAllCourses';
+    const CAN_ARCHIVE_ALL_COURSES = 'canArchiveAllCourses';
+    /** @var string */
+    const CAN_UNLOCK_ALL_COURSES = 'canUnlockAllCourses';
     /** @var string */
     const CAN_CREATE_COURSES = 'canCreateCourses';
     /** @var string */
@@ -22,9 +24,11 @@ interface Capabilities
     /** @var string */
     const CAN_DELETE_THEIR_COURSES = 'canDeleteTheirCourses';
     /** @var string */
-    const CAN_UNLOCK_THEIR_COURSES = 'canUnlockTheirCourses';
+    const CAN_LOCK_THEIR_COURSES = 'canLockTheirCourses';
     /** @var string */
-    const CAN_UNARCHIVE_THEIR_COURSES = 'canUnarchiveTheirCourses';
+    const CAN_ARCHIVE_THEIR_COURSES = 'canArchiveTheirCourses';
+    /** @var string */
+    const CAN_UNLOCK_THEIR_COURSES = 'canUnlockTheirCourses';
     /** @var string */
     const CAN_UPDATE_ALL_SESSIONS = 'canUpdateAllSessions';
     /** @var string */
@@ -64,7 +68,9 @@ interface Capabilities
     /** @var string */
     const CAN_UNLOCK_ALL_PROGRAM_YEARS = 'canUnlockAllProgramYears';
     /** @var string */
-    const CAN_UNARCHIVE_ALL_PROGRAM_YEARS = 'canUnarchiveAllProgramYears';
+    const CAN_LOCK_ALL_PROGRAM_YEARS = 'canLockAllProgramYears';
+    /** @var string */
+    const CAN_ARCHIVE_ALL_PROGRAM_YEARS = 'canArchiveAllProgramYears';
     /** @var string */
     const CAN_CREATE_PROGRAM_YEARS = 'canCreateProgramYears';
     /** @var string */
@@ -72,9 +78,11 @@ interface Capabilities
     /** @var string */
     const CAN_DELETE_THEIR_PROGRAM_YEARS = 'canDeleteTheirProgramYears';
     /** @var string */
-    const CAN_UNLOCK_THEIR_PROGRAM_YEARS = 'canUnlockTheirProgramYears';
+    const CAN_LOCK_THEIR_PROGRAM_YEARS = 'canLockTheirProgramYears';
     /** @var string */
-    const CAN_UNARCHIVE_THEIR_PROGRAM_YEARS = 'canUnarchiveTheirProgramYears';
+    const CAN_ARCHIVE_THEIR_PROGRAM_YEARS = 'canArchiveTheirProgramYears';
+    /** @var string */
+    const CAN_UNLOCK_THEIR_PROGRAM_YEARS = 'canUnlockTheirProgramYears';
     /** @var string */
     const CAN_UPDATE_SCHOOL_CONFIGS = 'canUpdateSchoolConfigs';
     /** @var string */
