@@ -61,7 +61,7 @@ ILIOS_CAS_AUTHENTICATION_CERTIFICATE_PATH=null \
 ILIOS_ENABLE_TRACKING=false \
 ILIOS_TRACKING_CODE=UA-XXXXXXXX-1 \
 # Apache mpm_prefork modules are set as arguments above and can be overridden at build-time with command line arguments
-# (eg, `docker build --build-arg "MPM_STARTSERVERS=20" --build-arg "MPM_MAXCONNECTIONSPERCHILD=4500"
+# (eg, `docker build --build-arg "MPM_STARTSERVERS=20" --build-arg "MPM_MAXCONNECTIONSPERCHILD=4500")
 MPM_STARTSERVERS=${MPM_STARTSERVERS} \
 MPM_MINSPARESERVERS=${MPM_MINSPARESERVERS} \
 MPM_MAXSPARESERVERS=${MPM_MAXSPARESERVERS} \
