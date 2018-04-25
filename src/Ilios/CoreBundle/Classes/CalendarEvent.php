@@ -144,6 +144,8 @@ abstract class CalendarEvent
 
     /**
      * @var int
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $sessionId;
 
