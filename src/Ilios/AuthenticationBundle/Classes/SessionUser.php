@@ -134,6 +134,7 @@ class SessionUser implements SessionUserInterface
     public function performsNonLearnerFunction():bool
     {
         return
+            $this->isRoot() ||
             !empty($this->getDirectedCourseIds()) ||
             !empty($this->getAdministeredCourseIds()) ||
             !empty($this->getDirectedSchoolIds()) ||
