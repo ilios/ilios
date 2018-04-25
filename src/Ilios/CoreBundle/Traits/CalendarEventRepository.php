@@ -38,7 +38,7 @@ trait CalendarEventRepository
             $event->sessionTypeTitle = $arr['sessionTypeTitle'];
             $event->courseExternalId = $arr['courseExternalId'];
             $event->sessionDescription = $arr['sessionDescription'];
-            $event->sessionId = $arr['sessionId'];
+            $event->session = $arr['sessionId'];
             $event->courseId = $arr['courseId'];
             $event->attireRequired = $arr['attireRequired'];
             $event->equipmentRequired = $arr['equipmentRequired'];
@@ -73,7 +73,7 @@ trait CalendarEventRepository
             $event->sessionTypeTitle = $arr['sessionTypeTitle'];
             $event->courseExternalId = $arr['courseExternalId'];
             $event->sessionDescription = $arr['sessionDescription'];
-            $event->sessionId = $arr['sessionId'];
+            $event->session = $arr['sessionId'];
             $event->courseId = $arr['courseId'];
             $event->attireRequired = $arr['attireRequired'];
             $event->equipmentRequired = $arr['equipmentRequired'];
@@ -227,7 +227,7 @@ trait CalendarEventRepository
     public function attachMaterialsToEvents(array $events, UserMaterialFactory $factory, EntityManager $em)
     {
         $sessionIds = array_map(function (CalendarEvent $event) {
-            return $event->sessionId;
+            return $event->session;
         }, $events);
 
         $sessionIds = array_values(array_unique($sessionIds));
@@ -276,7 +276,7 @@ trait CalendarEventRepository
 
         for ($i =0, $n = count($events); $i < $n; $i++) {
             $event = $events[$i];
-            $sessionId = $event->sessionId;
+            $sessionId = $event->session;
             $courseId = $event->courseId;
             $sessionLms = array_key_exists($sessionId, $groupedSessionLms) ? $groupedSessionLms[$sessionId] : [];
             $courseLms = array_key_exists($courseId, $groupedCourseLms) ? $groupedCourseLms[$courseId] : [];
