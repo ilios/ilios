@@ -153,6 +153,34 @@ abstract class CalendarEvent
     public $courseId;
 
     /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $courseExternalId;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $sessionTitle;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $sessionDescription;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $sessionTypeTitle;
+
+    /**
      * Clean out all the data for draft or scheduled events
      *
      * This information is not available to un-privileged users
@@ -170,6 +198,10 @@ abstract class CalendarEvent
             $this->equipmentRequired = null;
             $this->supplemental = null;
             $this->attendanceRequired = null;
+            $this->courseExternalId = null;
+            $this->sessionDescription = null;
+            $this->sessionTitle = null;
+            $this->sessionTypeTitle = null;
 
             $this->instructors = [];
             $this->learningMaterials = [];
