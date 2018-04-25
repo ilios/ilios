@@ -11,7 +11,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
  *
  *@IS\DTO
  */
-abstract class CalendarEvent
+class CalendarEvent
 {
     /**
      * @var string

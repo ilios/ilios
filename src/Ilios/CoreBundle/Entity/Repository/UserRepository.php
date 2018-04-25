@@ -9,20 +9,19 @@ use Doctrine\DBAL\Types\Type as DoctrineType;
 use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Classes\UserMaterial;
-use Ilios\CoreBundle\Entity\Course;
-use Ilios\CoreBundle\Entity\Program;
-use Ilios\CoreBundle\Entity\Session;
 use Ilios\CoreBundle\Entity\User;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\DTO\UserDTO;
-use Ilios\CoreBundle\Entity\UserRole;
 use Ilios\CoreBundle\Service\UserMaterialFactory;
+use Ilios\CoreBundle\Traits\CalendarEventRepository;
 
 /**
  * Class UserRepository
  */
 class UserRepository extends EntityRepository implements DTORepositoryInterface
 {
+    use CalendarEventRepository;
+
     /**
      * @inheritdoc
      */
@@ -38,7 +37,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     /**
      * Find by a string query
      * @param string $q
-     * @param integer $orderBy
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      * @param array $criteria
@@ -47,7 +46,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     public function findByQ($q, $orderBy, $limit, $offset, array $criteria = array())
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'u')->from('IliosCoreBundle:User', 'u');
+        $qb->addSelect('u')->from('IliosCoreBundle:User', 'u');
         $qb->leftJoin('u.authentication', 'auth');
 
         $terms = explode(' ', $q);
@@ -189,8 +188,21 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
 
         $events = array_merge($events, $uniqueIlmEvents);
+
+        //cast calendar events into user events
+        $userEvents = array_map(function (CalendarEvent $event) use ($id) {
+            $userEvent = new UserEvent();
+            $userEvent->user = $id;
+
+            foreach (get_object_vars($event) as $key => $name) {
+                $userEvent->$key = $name;
+            }
+
+            return $userEvent;
+        }, $events);
+
         //sort events by startDate and endDate for consistency
-        usort($events, function ($a, $b) {
+        usort($userEvents, function ($a, $b) {
             $diff = $a->startDate->getTimestamp() - $b->startDate->getTimestamp();
             if ($diff === 0) {
                 $diff = $a->endDate->getTimestamp() - $b->endDate->getTimestamp();
@@ -198,7 +210,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             return $diff;
         });
 
-        return $events;
+        return $userEvents;
     }
 
     /**
@@ -221,7 +233,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }, $formerStudents);
 
         $qb2 = $this->_em->createQueryBuilder();
-        $qb2->add('select', 'u')
+        $qb2->addSelect('u')
             ->from('IliosCoreBundle:User', 'u')
             ->where('u.enabled=1')
             ->andWhere($qb->expr()->notIn('u.id', $formerStudentUserIds))
@@ -246,7 +258,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     public function getAllCampusIds($includeDisabled, $includeSyncIgnore)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'u.campusId')->from('IliosCoreBundle:User', 'u');
+        $qb->addSelect('u.campusId')->from('IliosCoreBundle:User', 'u');
         if (!$includeDisabled) {
             $qb->andWhere('u.enabled=1');
         }
@@ -274,6 +286,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->getQuery()->execute();
     }
 
+
     /**
      * Use the query builder and the $joins to get a set of
      * offering based user events
@@ -282,8 +295,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      * @param \DateTime $from
      * @param \DateTime $to
      * @param array $joins
-     *
-     * @return UserEvent[]
+     * @return CalendarEvent[]
      */
     protected function getOfferingEventsFor(
         $id,
@@ -299,9 +311,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
-        $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
-
-        $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
+        $qb->addSelect($what)->from('IliosCoreBundle:User', 'u');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
@@ -336,7 +346,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      * @param \DateTime $from
      * @param \DateTime $to
      * @param array $joins
-     * @return UserEvent[]
+     * @return CalendarEvent[]
      */
     protected function getIlmSessionEventsFor($id, \DateTime $from, \DateTime $to, array $joins)
     {
@@ -348,7 +358,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
 
-        $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
+        $qb->addSelect($what)->from('IliosCoreBundle:User', 'u');
 
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
@@ -370,207 +380,15 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         return $this->createEventObjectsForIlmSessions($id, $results);
     }
 
-
-    /**
-     * Convert offerings into UserEvent objects
-     * @param integer $userId
-     * @param array $results
-     *
-     * @return UserEvent[]
-     */
-    protected function createEventObjectsForOfferings($userId, array $results)
-    {
-        return array_map(function ($arr) use ($userId) {
-            $event = new UserEvent;
-            $event->user = $userId;
-            $event->name = $arr['title'];
-            $event->startDate = $arr['startDate'];
-            $event->endDate = $arr['endDate'];
-            $event->offering = $arr['id'];
-            $event->location = $arr['room'];
-            $event->color = $arr['calendarColor'];
-            $event->lastModified = max($arr['offeringUpdatedAt'], $arr['sessionUpdatedAt']);
-            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
-            $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
-            $event->courseTitle = $arr['courseTitle'];
-            $event->sessionTypeTitle = $arr['sessionTypeTitle'];
-            $event->courseExternalId = $arr['courseExternalId'];
-            $event->sessionDescription = $arr['sessionDescription'];
-            $event->sessionId = $arr['sessionId'];
-            $event->courseId = $arr['courseId'];
-            $event->attireRequired = $arr['attireRequired'];
-            $event->equipmentRequired = $arr['equipmentRequired'];
-            $event->supplemental = $arr['supplemental'];
-            $event->attendanceRequired = $arr['attendanceRequired'];
-            return $event;
-        }, $results);
-    }
-
-
-    /**
-     * Convert IlmSessions into UserEvent objects
-     * @param integer $userId
-     * @param array $results
-     * @return UserEvent[]
-     */
-    protected function createEventObjectsForIlmSessions($userId, array $results)
-    {
-        return array_map(function ($arr) use ($userId) {
-            $event = new UserEvent();
-            $event->user = $userId;
-            $event->name = $arr['title'];
-            $event->startDate = $arr['dueDate'];
-            $endDate = new \DateTime();
-            $endDate->setTimestamp($event->startDate->getTimestamp());
-            $event->endDate = $endDate->modify('+15 minutes');
-            $event->ilmSession = $arr['id'];
-            $event->color = $arr['calendarColor'];
-            $event->lastModified = $arr['updatedAt'];
-            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
-            $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
-            $event->courseTitle = $arr['courseTitle'];
-            $event->sessionTypeTitle = $arr['sessionTypeTitle'];
-            $event->courseExternalId = $arr['courseExternalId'];
-            $event->sessionDescription = $arr['sessionDescription'];
-            $event->sessionId = $arr['sessionId'];
-            $event->courseId = $arr['courseId'];
-            $event->attireRequired = $arr['attireRequired'];
-            $event->equipmentRequired = $arr['equipmentRequired'];
-            $event->supplemental = $arr['supplemental'];
-            $event->attendanceRequired = $arr['attendanceRequired'];
-            return $event;
-        }, $results);
-    }
-
-    /**
-     * Retrieves a list of instructors associated with given offerings.
-     *
-     * @param array $ids A list of offering ids.
-     * @return array A map of instructor lists, keyed off by offering ids.
-     */
-    protected function getInstructorsForOfferings(array $ids)
-    {
-        if (empty($ids)) {
-            return [];
-        }
-
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName')
-            ->from('IliosCoreBundle:User', 'u');
-        $qb->leftJoin('u.instructedOfferings', 'o');
-        $qb->where(
-            $qb->expr()->in('o.id', ':offerings')
-        );
-        $qb->setParameter(':offerings', $ids);
-        $instructedOfferings = $qb->getQuery()->getArrayResult();
-
-
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName')
-            ->from('IliosCoreBundle:User', 'u');
-        $qb->leftJoin('u.instructorGroups', 'ig');
-        $qb->leftJoin('ig.offerings', 'o');
-        $qb->where(
-            $qb->expr()->in('o.id', ':offerings')
-        );
-        $qb->setParameter(':offerings', $ids);
-        $groupOfferings = $qb->getQuery()->getArrayResult();
-
-        $results = array_merge($instructedOfferings, $groupOfferings);
-
-        $offeringInstructors = [];
-        foreach ($results as $result) {
-            if (! array_key_exists($result['oId'], $offeringInstructors)) {
-                $offeringInstructors[$result['oId']] = [];
-            }
-            $offeringInstructors[$result['oId']][$result['userId']] = $result['firstName'] . ' ' . $result['lastName'];
-        }
-        return $offeringInstructors;
-    }
-
-    /**
-     * Retrieves a list of instructors associated with given ILM sessions.
-     *
-     * @param array $ids A list of ILM session ids.
-     * @return array A map of instructor lists, keyed off by ILM sessions ids.
-     */
-    protected function getInstructorsForIlmSessions(array $ids)
-    {
-        if (empty($ids)) {
-            return [];
-        }
-
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('ilm.id AS ilmId, u.id AS userId, u.firstName, u.lastName')
-            ->from('IliosCoreBundle:User', 'u');
-        $qb->leftJoin('u.instructorIlmSessions', 'ilm');
-        $qb->where(
-            $qb->expr()->in('ilm.id', ':ilms')
-        );
-        $qb->setParameter(':ilms', $ids);
-        $instructedIlms = $qb->getQuery()->getArrayResult();
-
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('ilm.id AS ilmId, u.id AS userId, u.firstName, u.lastName')
-            ->from('IliosCoreBundle:User', 'u');
-        $qb->leftJoin('u.instructorGroups', 'ig');
-        $qb->leftJoin('ig.ilmSessions', 'ilm');
-        $qb->where(
-            $qb->expr()->in('ilm.id', ':ilms')
-        );
-        $qb->setParameter(':ilms', $ids);
-        $groupIlms = $qb->getQuery()->getArrayResult();
-
-        $results = array_merge($instructedIlms, $groupIlms);
-
-        $ilmInstructors = [];
-        foreach ($results as $result) {
-            if (! array_key_exists($result['ilmId'], $ilmInstructors)) {
-                $ilmInstructors[$result['ilmId']] = [];
-            }
-            $ilmInstructors[$result['ilmId']][$result['userId']] = $result['firstName'] . ' ' . $result['lastName'];
-        }
-        return $ilmInstructors;
-    }
-
     /**
      * Adds instructors to a given list of events.
-     * @param array $events A list of events
-     * @return array The events list with instructors added.
+     * @param UserEvent[] $events A list of events
+     *
+     * @return UserEvent[] The events list with instructors added.
      */
     public function addInstructorsToEvents(array $events)
     {
-        $offeringIds = array_map(function ($event) {
-            return $event->offering;
-        }, array_filter($events, function ($event) {
-            return $event->offering;
-        }));
-
-        $ilmIds = array_map(function ($event) {
-            return $event->ilmSession;
-        }, array_filter($events, function ($event) {
-            return $event->ilmSession;
-        }));
-
-        // array-filtering throws off the array index.
-        // set this right again.
-        $events = array_values($events);
-
-        $offeringInstructors = $this->getInstructorsForOfferings($offeringIds);
-        $ilmInstructors = $this->getInstructorsForIlmSessions($ilmIds);
-
-        for ($i = 0, $n = count($events); $i < $n; $i++) {
-            if ($events[$i]->offering) { // event maps to offering
-                if (array_key_exists($events[$i]->offering, $offeringInstructors)) {
-                    $events[$i]->instructors = array_values($offeringInstructors[$events[$i]->offering]);
-                }
-            } elseif ($events[$i]->ilmSession) { // event maps to ILM session
-                if (array_key_exists($events[$i]->ilmSession, $ilmInstructors)) {
-                    $events[$i]->instructors = array_values($ilmInstructors[$events[$i]->ilmSession]);
-                }
-            }
-        }
-        return $events;
+        return $this->attachInstructorsToEvents($events, $this->_em);
     }
 
     /**
@@ -967,8 +785,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $ilmIds = array_map(function (array $arr) {
             return $arr['ilmId'];
         }, $ilmSessions);
-        $offeringInstructors = $this->getInstructorsForOfferings($offeringIds);
-        $ilmInstructors = $this->getInstructorsForIlmSessions($ilmIds);
+        $offeringInstructors = $this->getInstructorsForOfferings($offeringIds, $this->_em);
+        $ilmInstructors = $this->getInstructorsForIlmSessions($ilmIds, $this->_em);
 
         $sessions = [];
         foreach ($offeringSessions as $arr) {
@@ -1002,7 +820,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $sessionIds = array_keys($sessions);
 
 
-        $sessionMaterials = $this->getLearningMaterialsForSessions($sessionIds);
+        $sessionMaterials = $this->getLearningMaterialsForSessions($sessionIds, $this->_em);
 
         $sessionUserMaterials = array_map(function (array $arr) use ($factory, $sessions) {
             $arr['firstOfferingDate'] = $sessions[$arr['sessionId']]['firstOfferingDate'];
@@ -1010,7 +828,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             return $factory->create($arr);
         }, $sessionMaterials);
 
-        $courseMaterials = $this->getLearningMaterialsForCourses($sessionIds);
+        $courseMaterials = $this->getLearningMaterialsForCourses($sessionIds, $this->_em);
 
         $courseUserMaterials = array_map(function (array $arr) use ($factory) {
             return $factory->create($arr);
@@ -1035,131 +853,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      */
     public function addMaterialsToEvents(array $events, UserMaterialFactory $factory)
     {
-        $sessionIds = array_map(function (CalendarEvent $event) {
-            return $event->sessionId;
-        }, $events);
-
-        $sessionIds = array_values(array_unique($sessionIds));
-
-        $sessionMaterials = $this->getLearningMaterialsForSessions($sessionIds);
-
-        $sessionUserMaterials = array_map(function (array $arr) use ($factory) {
-            return $factory->create($arr);
-        }, $sessionMaterials);
-
-        $courseMaterials = $this->getLearningMaterialsForCourses($sessionIds);
-
-        $courseUserMaterials = array_map(function (array $arr) use ($factory) {
-            return $factory->create($arr);
-        }, $courseMaterials);
-
-
-
-        //sort materials by id for consistency
-        $sortFn = function (UserMaterial $a, UserMaterial $b) {
-            return $a->id - $b->id;
-        };
-
-        usort($sessionUserMaterials, $sortFn);
-        usort($courseUserMaterials, $sortFn);
-
-        // group materials by session or course
-        $groupedSessionLms = [];
-        $groupedCourseLms = [];
-        for ($i = 0, $n = count($sessionUserMaterials); $i < $n; $i++) {
-            $lm = $sessionUserMaterials[$i];
-            $id = $lm->session;
-            if (! array_key_exists($id, $groupedSessionLms)) {
-                $groupedSessionLms[$id] = [];
-            }
-            $groupedSessionLms[$id][] = $lm;
-        }
-        for ($i = 0, $n = count($courseUserMaterials); $i < $n; $i++) {
-            $lm = $courseUserMaterials[$i];
-            $id = $lm->course;
-            if (! array_key_exists($id, $groupedCourseLms)) {
-                $groupedCourseLms[$id] = [];
-            }
-            $groupedCourseLms[$id][] = $lm;
-        }
-
-        for ($i =0, $n = count($events); $i < $n; $i++) {
-            $event = $events[$i];
-            $sessionId = $event->sessionId;
-            $courseId = $event->courseId;
-            $sessionLms = array_key_exists($sessionId, $groupedSessionLms) ? $groupedSessionLms[$sessionId] : [];
-            $courseLms = array_key_exists($courseId, $groupedCourseLms) ? $groupedCourseLms[$courseId] : [];
-            $lms = array_merge($sessionLms, $courseLms);
-            $event->learningMaterials = $lms;
-        }
-        return $events;
+        return $this->attachMaterialsToEvents($events, $factory, $this->_em);
     }
 
-    /**
-     * Get a set of learning materials based on session
-     *
-     * @param array $sessionIds
-     *
-     * @return array
-     */
-    protected function getLearningMaterialsForSessions(
-        array $sessionIds
-    ) {
-
-        $qb = $this->_em->createQueryBuilder();
-        $what = 's.title as sessionTitle, s.id as sessionId, ' .
-            'c.id as courseId, c.title as courseTitle, ' .
-            'slm.id as slmId, slm.position, slm.notes, slm.required, slm.publicNotes, slm.startDate, slm.endDate, ' .
-            'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
-            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype, lms.id AS status';
-        $qb->select($what)->from('IliosCoreBundle:Session', 's');
-        $qb->join('s.learningMaterials', 'slm');
-        $qb->join('slm.learningMaterial', 'lm');
-        $qb->join('lm.status', 'lms');
-        $qb->join('s.course', 'c');
-
-        $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
-        $qb->andWhere($qb->expr()->eq('s.published', 1));
-        $qb->andWhere($qb->expr()->eq('s.publishedAsTbd', 0));
-        $qb->andWhere($qb->expr()->eq('c.published', 1));
-        $qb->andWhere($qb->expr()->eq('c.publishedAsTbd', 0));
-        $qb->setParameter(':sessions', $sessionIds);
-        $qb->distinct();
-
-        return $qb->getQuery()->getArrayResult();
-    }
-
-    /**
-     * Get a set of course learning materials based on sessionIds
-     *
-     * @param array $sessionIds
-     *
-     * @return array
-     */
-    protected function getLearningMaterialsForCourses(
-        array $sessionIds
-    ) {
-
-        $qb = $this->_em->createQueryBuilder();
-        $what = 'c.title as courseTitle, c.id as courseId, c.startDate as firstOfferingDate, ' .
-            'clm.id as clmId, clm.position, clm.notes, clm.required, clm.publicNotes, clm.startDate, clm.endDate, ' .
-            'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
-            'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype, lms.id AS status';
-        $qb->select($what)->from('IliosCoreBundle:Session', 's');
-        $qb->join('s.course', 'c');
-        $qb->join('c.learningMaterials', 'clm');
-        $qb->join('clm.learningMaterial', 'lm');
-        $qb->join('lm.status', 'lms');
-
-
-        $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
-        $qb->andWhere($qb->expr()->eq('c.published', 1));
-        $qb->andWhere($qb->expr()->eq('c.publishedAsTbd', 0));
-        $qb->setParameter(':sessions', $sessionIds);
-        $qb->distinct();
-
-        return $qb->getQuery()->getArrayResult();
-    }
 
     /**
      * Returns a list of ids of schools directed by the given user.

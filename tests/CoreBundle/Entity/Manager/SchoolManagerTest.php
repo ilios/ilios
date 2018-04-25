@@ -2,6 +2,7 @@
 namespace Tests\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
+use Ilios\CoreBundle\Service\UserMaterialFactory;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;
 
@@ -28,7 +29,7 @@ class SchoolManagerTest extends TestCase
             ->mock();
         
         $entity = m::mock($class);
-        $manager = new SchoolManager($registry, $class);
+        $manager = new SchoolManager($registry, $class, m::mock(UserMaterialFactory::class));
         $manager->delete($entity);
     }
 }

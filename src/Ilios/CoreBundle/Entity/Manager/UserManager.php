@@ -37,11 +37,14 @@ class UserManager extends BaseManager
      * @param array $campusIds
      *
      * @return UserDTO[]
+     * @throws \Exception
      */
     public function findAllMatchingDTOsByCampusIds(
         array $campusIds
     ) {
-        return $this->getRepository()->findAllMatchingDTOsByCampusIds($campusIds);
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findAllMatchingDTOsByCampusIds($campusIds);
     }
 
     /**
@@ -52,6 +55,7 @@ class UserManager extends BaseManager
      * @param array $criteria
      *
      * @return UserInterface[]
+     * @throws \Exception
      */
     public function findUsersByQ(
         $q,
@@ -60,7 +64,9 @@ class UserManager extends BaseManager
         $offset = null,
         array $criteria = array()
     ) {
-        return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset, $criteria);
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findByQ($q, $orderBy, $limit, $offset, $criteria);
     }
 
     /**
@@ -70,10 +76,13 @@ class UserManager extends BaseManager
      * @param \DateTime $from
      * @param \DateTime $to
      * @return UserEvent[]
+     * @throws \Exception
      */
     public function findEventsForUser($userId, \DateTime $from, \DateTime $to)
     {
-        return $this->getRepository()->findEventsForUser($userId, $from, $to);
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findEventsForUser($userId, $from, $to);
     }
 
     /**
@@ -81,20 +90,26 @@ class UserManager extends BaseManager
      *
      * @param CalendarEvent[] $events
      * @return CalendarEvent[]
+     * @throws \Exception
      */
     public function addInstructorsToEvents(array $events)
     {
-        return $this->getRepository()->addInstructorsToEvents($events);
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->addInstructorsToEvents($events);
     }
 
     /**
      * @param array $campusIdFilter an array of the campusIDs to include in our search if empty then all users
      *
      * @return ArrayCollection
+     * @throws \Exception
      */
     public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = array())
     {
-        return $this->getRepository()->findUsersWhoAreNotFormerStudents($campusIdFilter);
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findUsersWhoAreNotFormerStudents($campusIdFilter);
     }
 
     /**
@@ -103,18 +118,24 @@ class UserManager extends BaseManager
      * @param $includeSyncIgnore
      *
      * @return array
+     * @throws \Exception
      */
     public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true)
     {
-        return $this->getRepository()->getAllCampusIds($includeDisabled, $includeSyncIgnore);
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getAllCampusIds($includeDisabled, $includeSyncIgnore);
     }
 
     /**
      * Reset the examined flags on every user
+     * @throws \Exception
      */
     public function resetExaminedFlagForAllUsers()
     {
-        return $this->getRepository()->resetExaminedFlagForAllUsers();
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->resetExaminedFlagForAllUsers();
     }
 
     /**
@@ -123,10 +144,13 @@ class UserManager extends BaseManager
      * @param integer $userId
      * @param array $criteria
      * @return UserMaterial[]
+     * @throws \Exception
      */
     public function findMaterialsForUser($userId, $criteria)
     {
-        return $this->getRepository()->findMaterialsForUser($userId, $this->factory, $criteria);
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findMaterialsForUser($userId, $this->factory, $criteria);
     }
 
     /**
@@ -134,10 +158,13 @@ class UserManager extends BaseManager
      *
      * @param UserEvent[] $events
      * @return UserEvent[]
+     * @throws \Exception
      */
     public function addMaterialsToEvents(array $events)
     {
-        return $this->getRepository()->addMaterialsToEvents($events, $this->factory);
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->addMaterialsToEvents($events, $this->factory);
     }
 
     /**

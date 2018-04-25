@@ -5,15 +5,18 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\DBAL\Types\Type as DoctrineType;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
+use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Classes\SchoolEvent;
-use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
+use Ilios\CoreBundle\Service\UserMaterialFactory;
+use Ilios\CoreBundle\Traits\CalendarEventRepository;
 
 /**
  * Class SchoolRepository
  */
 class SchoolRepository extends EntityRepository implements DTORepositoryInterface
 {
+    use CalendarEventRepository;
     /**
      * Custom findBy so we can filter by related entities
      *
@@ -110,7 +113,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
      * @param \DateTime $from
      * @param \DateTime $to
      *
-     * @return UserEvent[]
+     * @return SchoolEvent[]
      */
     public function findEventsForSchool($id, \DateTime $from, \DateTime $to)
     {
@@ -140,8 +143,21 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         }
 
         $events = array_merge($events, $uniqueIlmEvents);
+
+        //cast calendar events into school events
+        $schoolEvents = array_map(function (CalendarEvent $event) use ($id) {
+            $schoolEvent = new SchoolEvent();
+            $schoolEvent->school = $id;
+
+            foreach (get_object_vars($event) as $key => $name) {
+                $schoolEvent->$key = $name;
+            }
+
+            return $schoolEvent;
+        }, $events);
+
         //sort events by startDate and endDate for consistency
-        usort($events, function ($a, $b) {
+        usort($schoolEvents, function ($a, $b) {
             $diff = $a->startDate->getTimestamp() - $b->startDate->getTimestamp();
             if ($diff === 0) {
                 $diff = $a->endDate->getTimestamp() - $b->endDate->getTimestamp();
@@ -149,7 +165,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             return $diff;
         });
 
-        return $events;
+        return $schoolEvents;
     }
 
     /**
@@ -159,7 +175,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
      * @param \DateTime $from
      * @param \DateTime $to
      *
-     * @return SchoolEvent[]
+     * @return CalendarEvent[]
      */
     protected function getOfferingEventsFor(
         $id,
@@ -169,15 +185,17 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         $qb = $this->_em->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, ' .
           'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
-          's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, ' .
+          's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
           's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
           's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
-          'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
-        $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
+          'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+          'c.externalId as courseExternalId, sd.description AS sessionDescription';
+        $qb->addSelect($what)->from('IliosCoreBundle:School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.offerings', 'o');
         $qb->leftJoin('s.sessionType', 'st');
+        $qb->leftJoin('s.sessionDescription', 'sd');
 
         $qb->andWhere($qb->expr()->eq('school.id', ':school_id'));
         $qb->andWhere($qb->expr()->orX(
@@ -203,7 +221,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
      * @param \DateTime $from
      * @param \DateTime $to
      *
-     * @return SchoolEvent[]
+     * @return CalendarEvent[]
      */
     protected function getIlmSessionEventsFor(
         $id,
@@ -215,16 +233,18 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         $what = 'c.id as courseId, s.id AS sessionId, ' .
             'ilm.id, ilm.dueDate, ' .
-            's.updatedAt, s.title, st.calendarColor, ' .
+            's.updatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
-            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
-        $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.externalId as courseExternalId, sd.description AS sessionDescription';
+        $qb->addSelect($what)->from('IliosCoreBundle:School', 'school');
 
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.ilmSession', 'ilm');
         $qb->leftJoin('s.sessionType', 'st');
+        $qb->leftJoin('s.sessionDescription', 'sd');
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('school.id', ':school_id'),
@@ -239,72 +259,27 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         return $this->createEventObjectsForIlmSessions($id, $results);
     }
 
-
     /**
-     * Convert offerings into UserEvent objects.
+     * Adds instructors to a given list of events.
+     * @param CalendarEvent[] $events A list of events
      *
-     * @param integer $schoolId
-     * @param array $results
-     *
-     * @return SchoolEvent[]
+     * @return CalendarEvent[] The events list with instructors added.
      */
-    protected function createEventObjectsForOfferings($schoolId, array $results)
+    public function addInstructorsToEvents(array $events)
     {
-        return array_map(function ($arr) use ($schoolId) {
-            $event = new SchoolEvent;
-            $event->school = $schoolId;
-            $event->name = $arr['title'];
-            $event->startDate = $arr['startDate'];
-            $event->endDate = $arr['endDate'];
-            $event->offering = $arr['id'];
-            $event->location = $arr['room'];
-            $event->color = $arr['calendarColor'];
-            $event->lastModified = max($arr['offeringUpdatedAt'], $arr['sessionUpdatedAt']);
-            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
-            $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
-            $event->courseTitle = $arr['courseTitle'];
-            $event->sessionId = $arr['sessionId'];
-            $event->courseId = $arr['courseId'];
-            $event->attireRequired = $arr['attireRequired'];
-            $event->equipmentRequired = $arr['equipmentRequired'];
-            $event->supplemental = $arr['supplemental'];
-            $event->attendanceRequired = $arr['attendanceRequired'];
-            return $event;
-        }, $results);
+        return $this->attachInstructorsToEvents($events, $this->_em);
     }
 
-
     /**
-     * Convert IlmSessions into UserEvent objects
-     * @param integer $schoolId
-     * @param array $results
+     * Finds and adds learning materials to a given list of calendar events.
      *
-     * @return SchoolEvent[]
+     * @param CalendarEvent[] $events
+     * @param UserMaterialFactory $factory
+     * @return CalendarEvent[]
      */
-    protected function createEventObjectsForIlmSessions($schoolId, array $results)
+    public function addMaterialsToEvents(array $events, UserMaterialFactory $factory)
     {
-        return array_map(function ($arr) use ($schoolId) {
-            $event = new SchoolEvent;
-            $event->school = $schoolId;
-            $event->name = $arr['title'];
-            $event->startDate = $arr['dueDate'];
-            $endDate = new \DateTime();
-            $endDate->setTimestamp($event->startDate->getTimestamp());
-            $event->endDate = $endDate->modify('+15 minutes');
-            $event->ilmSession = $arr['id'];
-            $event->color = $arr['calendarColor'];
-            $event->lastModified = $arr['updatedAt'];
-            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
-            $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
-            $event->courseTitle = $arr['courseTitle'];
-            $event->sessionId = $arr['sessionId'];
-            $event->courseId = $arr['courseId'];
-            $event->attireRequired = $arr['attireRequired'];
-            $event->equipmentRequired = $arr['equipmentRequired'];
-            $event->supplemental = $arr['supplemental'];
-            $event->attendanceRequired = $arr['attendanceRequired'];
-            return $event;
-        }, $results);
+        return $this->attachMaterialsToEvents($events, $factory, $this->_em);
     }
 
     /**
