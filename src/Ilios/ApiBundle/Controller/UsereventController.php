@@ -34,6 +34,7 @@ class UsereventController extends AbstractController
      * @param TokenStorageInterface $tokenStorage
      *
      * @return Response
+     * @throws \Exception
      */
     public function getAction(
         $version,

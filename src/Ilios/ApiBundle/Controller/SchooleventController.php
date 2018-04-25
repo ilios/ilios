@@ -29,18 +29,18 @@ class SchooleventController extends Controller
      * @param Request $request
      * @param SchoolManager $schoolManager
      * @param UserManager $userManager
-     * @param AuthorizationCheckerInterface $authorizationChecker,
-     * @param TokenStorageInterface $tokenStorage,
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param TokenStorageInterface $tokenStorage
      * @param SerializerInterface $serializer
      *
      * @return Response
+     * @throws \Exception
      */
     public function getAction(
         $version,
         $id,
         Request $request,
         SchoolManager $schoolManager,
-        UserManager $userManager,
         AuthorizationCheckerInterface $authorizationChecker,
         TokenStorageInterface $tokenStorage,
         SerializerInterface $serializer
@@ -68,8 +68,8 @@ class SchooleventController extends Controller
             return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
         });
 
-        $result = $userManager->addInstructorsToEvents($events);
-        $result = $userManager->addMaterialsToEvents($result);
+        $result = $schoolManager->addInstructorsToEvents($events);
+        $result = $schoolManager->addMaterialsToEvents($result);
 
         $sessionUser = $tokenStorage->getToken()->getUser();
 

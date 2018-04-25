@@ -11,7 +11,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
  *
  *@IS\DTO
  */
-abstract class CalendarEvent
+class CalendarEvent
 {
     /**
      * @var string
@@ -144,13 +144,43 @@ abstract class CalendarEvent
 
     /**
      * @var int
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
-    public $sessionId;
+    public $session;
 
     /**
      * @var int
      */
     public $courseId;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $courseExternalId;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $sessionTitle;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $sessionDescription;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $sessionTypeTitle;
 
     /**
      * Clean out all the data for draft or scheduled events
@@ -170,6 +200,10 @@ abstract class CalendarEvent
             $this->equipmentRequired = null;
             $this->supplemental = null;
             $this->attendanceRequired = null;
+            $this->courseExternalId = null;
+            $this->sessionDescription = null;
+            $this->sessionTitle = null;
+            $this->sessionTypeTitle = null;
 
             $this->instructors = [];
             $this->learningMaterials = [];
