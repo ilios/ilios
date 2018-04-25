@@ -75,6 +75,16 @@ interface SessionInterface extends
     public function isAttendanceRequired();
 
     /**
+     * @return string
+     */
+    public function getInstructionalNotes(): ?string;
+
+    /**
+     * @param string $instructionalNotes
+     */
+    public function setInstructionalNotes(string $instructionalNotes = null): void;
+
+    /**
      * @param SessionTypeInterface $sessionType
      */
     public function setSessionType(SessionTypeInterface $sessionType);

@@ -8,6 +8,7 @@ use Tests\CoreBundle\DataLoader\CourseData;
 use Tests\CoreBundle\DataLoader\IlmSessionData;
 use Tests\CoreBundle\DataLoader\OfferingData;
 use Tests\CoreBundle\DataLoader\SchoolData;
+use Tests\CoreBundle\DataLoader\SessionData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use DateTime;
 
@@ -104,6 +105,7 @@ class SchooleventsTest extends AbstractEndpointTest
         $offerings = $this->container->get(OfferingData::class)->getAll();
         $ilmSessions = $this->container->get(IlmSessionData::class)->getAll();
         $courses = $this->container->get(CourseData::class)->getAll();
+        $sessions = $this->container->get(SessionData::class)->getAll();
 
         $events = $this->getEvents($school['id'], 0, 100000000000);
 
@@ -122,6 +124,11 @@ class SchooleventsTest extends AbstractEndpointTest
             count($events[0]['learningMaterials']),
             9,
             'Event 0 has the correct number of learning materials'
+        );
+        $this->assertEquals(
+            $events[0]['instructionalNotes'],
+            $sessions[1]['instructionalNotes'],
+            'instructional notes is correct for event 0'
         );
         $this->assertEquals(0, count($events[0]['sessionObjectives']));
         $this->assertEquals(1, count($events[0]['courseObjectives']));
@@ -152,6 +159,12 @@ class SchooleventsTest extends AbstractEndpointTest
             'Event 1 has the correct number of learning materials'
         );
 
+        $this->assertEquals(
+            $events[1]['instructionalNotes'],
+            $sessions[1]['instructionalNotes'],
+            'instructional notes is correct for event 1'
+        );
+
         $this->assertEquals($events[2]['offering'], 5);
         $this->assertEquals($events[2]['startDate'], $offerings[4]['startDate']);
         $this->assertEquals($events[2]['endDate'], $offerings[4]['endDate']);
@@ -164,6 +177,11 @@ class SchooleventsTest extends AbstractEndpointTest
             count($events[2]['learningMaterials']),
             9,
             'Event 2 has the correct number of learning materials'
+        );
+        $this->assertEquals(
+            $events[2]['instructionalNotes'],
+            $sessions[1]['instructionalNotes'],
+            'instructional notes is correct for event 2'
         );
 
         $this->assertEquals($events[3]['offering'], 6);
@@ -179,6 +197,11 @@ class SchooleventsTest extends AbstractEndpointTest
             count($events[3]['learningMaterials']),
             'Event 3 has the correct number of learning materials'
         );
+        $this->assertEquals(
+            $events[3]['instructionalNotes'],
+            $sessions[2]['instructionalNotes'],
+            'instructional notes is correct for event 3'
+        );
 
         $this->assertEquals($events[4]['offering'], 7);
         $this->assertEquals($events[4]['startDate'], $offerings[6]['startDate']);
@@ -193,6 +216,11 @@ class SchooleventsTest extends AbstractEndpointTest
             count($events[4]['learningMaterials']),
             'Event 4 has the correct number of learning materials'
         );
+        $this->assertEquals(
+            $events[4]['instructionalNotes'],
+            $sessions[2]['instructionalNotes'],
+            'instructional notes is correct for event 4'
+        );
 
         $this->assertEquals($events[5]['ilmSession'], 1);
         $this->assertEquals($events[5]['startDate'], $ilmSessions[0]['dueDate']);
@@ -202,6 +230,11 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertFalse($events[5]['supplemental'], 'supplemental is correct for event 5');
         $this->assertArrayNotHasKey('attendanceRequired', $events[5], 'attendanceRequired is correct for event 5');
         $this->assertEquals(count($events[5]['learningMaterials']), 0, 'Event 5 has no learning materials');
+        $this->assertArrayNotHasKey(
+            'instructionalNotes',
+            $events[5],
+            'instructional notes is correct for event 5'
+        );
 
         $this->assertEquals($events[6]['ilmSession'], 2);
         $this->assertEquals($events[6]['startDate'], $ilmSessions[1]['dueDate']);
@@ -211,6 +244,11 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertFalse($events[6]['supplemental'], 'supplemental is correct for event 6');
         $this->assertArrayNotHasKey('attendanceRequired', $events[6], 'attendanceRequired is correct for event 6');
         $this->assertEquals(count($events[6]['learningMaterials']), 0, 'Event 6 has no learning materials');
+        $this->assertArrayNotHasKey(
+            'instructionalNotes',
+            $events[6],
+            'instructional notes is correct for event 6'
+        );
 
         $this->assertEquals($events[7]['ilmSession'], 3);
         $this->assertEquals($events[7]['startDate'], $ilmSessions[2]['dueDate']);
@@ -220,7 +258,11 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertFalse($events[7]['supplemental'], 'supplemental is correct for event 7');
         $this->assertArrayNotHasKey('attendanceRequired', $events[7], 'attendanceRequired is correct for event 7');
         $this->assertEquals(count($events[7]['learningMaterials']), 0, 'Event 7 has no learning materials');
-
+        $this->assertArrayNotHasKey(
+            'instructionalNotes',
+            $events[7],
+            'instructional notes is correct for event 7'
+        );
 
         $this->assertEquals($events[8]['ilmSession'], 4);
         $this->assertEquals($events[8]['startDate'], $ilmSessions[3]['dueDate']);
@@ -230,6 +272,11 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertFalse($events[8]['supplemental'], 'supplemental is correct for event 8');
         $this->assertArrayNotHasKey('attendanceRequired', $events[8], 'attendanceRequired is correct for event 8');
         $this->assertEquals(0, count($events[8]['learningMaterials']), 'Event 8 has no learning materials');
+        $this->assertArrayNotHasKey(
+            'instructionalNotes',
+            $events[8],
+            'instructional notes is correct for event 8'
+        );
 
         $this->assertEquals($events[9]['offering'], 1);
         $this->assertEquals($events[9]['startDate'], $offerings[0]['startDate']);
@@ -244,6 +291,11 @@ class SchooleventsTest extends AbstractEndpointTest
             count($events[9]['learningMaterials']),
             10,
             'Event 9 has the correct number of learning materials'
+        );
+        $this->assertEquals(
+            $events[10]['instructionalNotes'],
+            $sessions[2]['instructionalNotes'],
+            'instructional notes is correct for event 10'
         );
         $this->assertEquals(1, count($events[9]['sessionObjectives']));
         $this->assertEquals(3, $events[9]['sessionObjectives'][0]['id']);

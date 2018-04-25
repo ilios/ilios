@@ -187,7 +187,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
           'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
           's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
           's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
-          's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
+          's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
           'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
           'c.externalId as courseExternalId, sd.description AS sessionDescription';
         $qb->addSelect($what)->from('IliosCoreBundle:School', 'school');
@@ -235,7 +235,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             'ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
-            's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
+            's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
         $qb->addSelect($what)->from('IliosCoreBundle:School', 'school');

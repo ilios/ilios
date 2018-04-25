@@ -180,6 +180,13 @@ class CalendarEvent
      * @IS\Expose
      * @IS\Type("string")
      */
+    public $instructionalNotes;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
     public $sessionTypeTitle;
 
     /**
@@ -207,8 +214,22 @@ class CalendarEvent
      * Clean out all the data for draft or scheduled events
      *
      * This information is not available to un-privileged users
+     * @param \DateTime $dateTime
      */
-    public function clearDataForDraftOrScheduledEvent()
+    public function clearDataForUnprivilegedUsers(\DateTime $dateTime)
+    {
+        $this->instructionalNotes = null;
+        $this->clearDataForDraftOrScheduledEvent();
+        $this->removeMaterialsInDraft();
+        $this->clearTimedMaterials($dateTime);
+    }
+
+    /**
+     * Clean out all the data for draft or scheduled events
+     *
+     * This information is not available to un-privileged users
+     */
+    protected function clearDataForDraftOrScheduledEvent()
     {
         if (!$this->isPublished || $this->isScheduled) {
             $this->name = 'Scheduled';
@@ -237,7 +258,7 @@ class CalendarEvent
     /**
      * Removes any materials that are in draft mode.
      */
-    public function removeMaterialsInDraft()
+    protected function removeMaterialsInDraft()
     {
         $this->learningMaterials = array_values(array_filter($this->learningMaterials, function (UserMaterial $lm) {
             return $lm->status !== LearningMaterialStatusInterface::IN_DRAFT;
@@ -248,7 +269,7 @@ class CalendarEvent
     /**
      * @param \DateTime $dateTime
      */
-    public function clearTimedMaterials(\DateTime $dateTime)
+    protected function clearTimedMaterials(\DateTime $dateTime)
     {
         /** @var UserMaterial $lm */
         foreach ($this->learningMaterials as $lm) {

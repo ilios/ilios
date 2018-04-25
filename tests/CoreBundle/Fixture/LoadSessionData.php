@@ -33,13 +33,14 @@ class LoadSessionData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
 
-            $related = array(
+            $properties = array(
                 'attireRequired' => 'setAttireRequired',
                 'equipmentRequired' => 'setEquipmentRequired',
                 'supplemental' => 'setSupplemental',
                 'attendanceRequired' => 'setAttendanceRequired',
+                'instructionalNotes' => 'setInstructionalNotes',
             );
-            foreach ($related as $key => $method) {
+            foreach ($properties as $key => $method) {
                 if (array_key_exists($key, $arr)) {
                     $entity->$method($arr[$key]);
                 }

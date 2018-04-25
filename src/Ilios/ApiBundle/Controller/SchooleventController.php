@@ -28,7 +28,6 @@ class SchooleventController extends Controller
      * @param string $id of the school
      * @param Request $request
      * @param SchoolManager $schoolManager
-     * @param UserManager $userManager
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param TokenStorageInterface $tokenStorage
      * @param SerializerInterface $serializer
@@ -80,9 +79,7 @@ class SchooleventController extends Controller
             /** @var SchoolEvent $event */
             $now = new \DateTime();
             foreach ($events as $event) {
-                $event->removeMaterialsInDraft();
-                $event->clearTimedMaterials($now);
-                $event->clearDataForDraftOrScheduledEvent();
+                $event->clearDataForUnprivilegedUsers($now);
             }
         }
 

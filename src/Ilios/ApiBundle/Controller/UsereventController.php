@@ -86,9 +86,7 @@ class UsereventController extends AbstractController
             $now = new \DateTime();
             /* @var UserEvent $event */
             foreach ($events as $event) {
-                $event->removeMaterialsInDraft();
-                $event->clearTimedMaterials($now);
-                $event->clearDataForDraftOrScheduledEvent();
+                $event->clearDataForUnprivilegedUsers($now);
             }
         }
 

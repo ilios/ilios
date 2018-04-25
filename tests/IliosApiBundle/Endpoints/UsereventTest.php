@@ -6,8 +6,8 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\CourseData;
 use Tests\CoreBundle\DataLoader\IlmSessionData;
-use Tests\CoreBundle\DataLoader\LearningMaterialData;
 use Tests\CoreBundle\DataLoader\OfferingData;
+use Tests\CoreBundle\DataLoader\SessionData;
 use Tests\CoreBundle\DataLoader\SessionDescriptionData;
 use Tests\CoreBundle\DataLoader\SessionTypeData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
@@ -127,6 +127,7 @@ class UsereventTest extends AbstractEndpointTest
         $sessionDescriptions = $this->container->get(SessionDescriptionData::class)->getAll();
         $ilmSessions = $this->container->get(IlmSessionData::class)->getAll();
         $courses = $this->container->get(CourseData::class)->getAll();
+        $sessions = $this->container->get(SessionData::class)->getAll();
 
         $userId = 2;
 
@@ -168,6 +169,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[0]['sessionDescription'],
             $sessionDescriptions[1]['description'],
             'session description is correct for event 0'
+        );
+        $this->assertEquals(
+            $events[0]['instructionalNotes'],
+            $sessions[1]['instructionalNotes'],
+            'instructional notes is correct for event 0'
         );
         $this->assertEquals(
             count($events[0]['learningMaterials']),
@@ -215,6 +221,11 @@ class UsereventTest extends AbstractEndpointTest
             'session description is correct for event 1'
         );
         $this->assertEquals(
+            $events[1]['instructionalNotes'],
+            $sessions[1]['instructionalNotes'],
+            'instructional notes is correct for event 1'
+        );
+        $this->assertEquals(
             count($events[1]['learningMaterials']),
             9,
             'Event 1 has the correct number of learning materials'
@@ -260,6 +271,11 @@ class UsereventTest extends AbstractEndpointTest
             'session description is correct for event 2'
         );
         $this->assertEquals(
+            $events[2]['instructionalNotes'],
+            $sessions[1]['instructionalNotes'],
+            'instructional notes is correct for event 2'
+        );
+        $this->assertEquals(
             count($events[2]['learningMaterials']),
             9,
             'Event 2 has the correct number of learning materials'
@@ -294,6 +310,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[3]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 3'
+        );
+        $this->assertEquals(
+            $events[3]['instructionalNotes'],
+            $sessions[2]['instructionalNotes'],
+            'instructional notes is correct for event 3'
         );
         $this->assertEquals(
             7,
@@ -334,6 +355,11 @@ class UsereventTest extends AbstractEndpointTest
             'session type title is correct for event 4'
         );
         $this->assertEquals(
+            $events[4]['instructionalNotes'],
+            $sessions[2]['instructionalNotes'],
+            'instructional notes is correct for event 4'
+        );
+        $this->assertEquals(
             7,
             count($events[4]['learningMaterials']),
             'Event 4 has the correct number of learning materials'
@@ -370,6 +396,11 @@ class UsereventTest extends AbstractEndpointTest
             $sessionTypes[0]['title'],
             'session type title is correct for event 5'
         );
+        $this->assertArrayNotHasKey(
+            'instructionalNotes',
+            $events[5],
+            'instructional notes is correct for event 5'
+        );
         $this->assertEquals(count($events[5]['learningMaterials']), 0, 'Event 5 has no learning materials');
 
         $this->assertFalse(
@@ -403,6 +434,11 @@ class UsereventTest extends AbstractEndpointTest
             $sessionTypes[0]['title'],
             'session type title is correct for event 6'
         );
+        $this->assertArrayNotHasKey(
+            'instructionalNotes',
+            $events[6],
+            'instructional notes is correct for event 6'
+        );
         $this->assertEquals(count($events[6]['learningMaterials']), 0, 'Event 6 has no learning materials');
         $this->assertFalse(
             $events[6]['attireRequired'],
@@ -435,6 +471,11 @@ class UsereventTest extends AbstractEndpointTest
             $sessionTypes[0]['title'],
             'session type title is correct for event 7'
         );
+        $this->assertArrayNotHasKey(
+            'instructionalNotes',
+            $events[7],
+            'instructional notes is correct for event 7'
+        );
         $this->assertEquals(count($events[7]['learningMaterials']), 0, 'Event 7 has no learning materials');
         $this->assertFalse(
             $events[7]['attireRequired'],
@@ -466,6 +507,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[8]['sessionTypeTitle'],
             $sessionTypes[0]['title'],
             'session type title is correct for event 8'
+        );
+        $this->assertArrayNotHasKey(
+            'instructionalNotes',
+            $events[8],
+            'instructional notes is correct for event 8'
         );
         $this->assertEquals(count($events[8]['learningMaterials']), 0, 'Event 8 has no learning materials');
         $this->assertFalse(
@@ -502,6 +548,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[9]['sessionDescription'],
             $sessionDescriptions[0]['description'],
             'session description is correct for event 9'
+        );
+        $this->assertEquals(
+            $events[9]['instructionalNotes'],
+            $sessions[0]['instructionalNotes'],
+            'instructional notes is correct for event 9'
         );
         $this->assertEquals(
             count($events[9]['learningMaterials']),
@@ -544,6 +595,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[10]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 10'
+        );
+        $this->assertEquals(
+            $events[10]['instructionalNotes'],
+            $sessions[2]['instructionalNotes'],
+            'instructional notes is correct for event 10'
         );
         $this->assertEquals(
             $events[10]['courseExternalId'],
