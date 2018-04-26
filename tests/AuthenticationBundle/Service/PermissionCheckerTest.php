@@ -69,6 +69,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -100,6 +101,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
@@ -141,6 +143,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
@@ -209,6 +212,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -241,6 +245,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
@@ -282,6 +287,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
@@ -344,6 +350,7 @@ class PermissionCheckerTest extends TestCase
         $sessionUser = m::mock(SessionUserInterface::class);
 
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -368,6 +375,7 @@ class PermissionCheckerTest extends TestCase
         $sessionUser = m::mock(SessionUserInterface::class);
 
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -397,6 +405,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -427,6 +436,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
         $this->permissionMatrix
@@ -466,6 +476,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
@@ -518,6 +529,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -548,6 +560,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
         $this->permissionMatrix
@@ -587,6 +600,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
@@ -638,6 +652,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -667,6 +682,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
         $this->permissionMatrix
@@ -705,6 +721,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn($courseId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
@@ -747,6 +764,7 @@ class PermissionCheckerTest extends TestCase
         $session->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('isLocked')->andReturn(false);
         $course->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $school->shouldReceive('getId')->andReturn($schoolId);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
@@ -783,6 +801,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isLocked')->andReturn(false);
         $course->shouldReceive('isArchived')->andReturn(false);
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInSession')->andReturn($rolesInSession);
 
@@ -831,6 +850,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInSession')->andReturn($rolesInSession);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
@@ -888,6 +908,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInSession')->andReturn($rolesInSession);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
@@ -980,6 +1001,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isLocked')->andReturn(false);
         $course->shouldReceive('isArchived')->andReturn(false);
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -1016,6 +1038,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isArchived')->andReturn(false);
         $course->shouldReceive('getSchool')->andReturn($school);
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInSession')->andReturn($rolesInSession);
 
@@ -1063,6 +1086,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInSession')->andReturn($rolesInSession);
 
@@ -1119,6 +1143,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('getId')->andReturn($courseId);
         $course->shouldReceive('getSchool')->andReturn($school);
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInSession')->andReturn($rolesInSession);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
@@ -1206,6 +1231,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isLocked')->andReturn(false);
         $course->shouldReceive('isArchived')->andReturn(false);
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -1235,6 +1261,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isLocked')->andReturn(false);
         $course->shouldReceive('isArchived')->andReturn(false);
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -1275,6 +1302,7 @@ class PermissionCheckerTest extends TestCase
         $course->shouldReceive('isLocked')->andReturn(false);
         $course->shouldReceive('isArchived')->andReturn(false);
         $school->shouldReceive('getId')->andReturn($schoolId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCourse')->andReturn($rolesInCourse);
 
@@ -1343,6 +1371,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1365,6 +1394,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1387,6 +1417,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1409,6 +1440,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1431,6 +1463,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1453,6 +1486,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1475,6 +1509,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1497,6 +1532,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1519,6 +1555,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1541,6 +1578,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1563,6 +1601,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1585,6 +1624,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1609,6 +1649,7 @@ class PermissionCheckerTest extends TestCase
 
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1633,6 +1674,7 @@ class PermissionCheckerTest extends TestCase
 
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
 
@@ -1668,6 +1710,7 @@ class PermissionCheckerTest extends TestCase
 
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
 
@@ -1702,6 +1745,7 @@ class PermissionCheckerTest extends TestCase
 
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1726,6 +1770,7 @@ class PermissionCheckerTest extends TestCase
 
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
 
@@ -1761,6 +1806,7 @@ class PermissionCheckerTest extends TestCase
 
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
 
@@ -1793,6 +1839,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1815,6 +1862,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -1845,6 +1893,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -1877,6 +1926,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
@@ -1922,6 +1972,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
@@ -1976,6 +2027,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
@@ -2061,6 +2113,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -2093,6 +2146,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
@@ -2138,6 +2192,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
@@ -2193,6 +2248,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
         $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
@@ -2276,6 +2332,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive(('getId'))->andReturn($schoolId);
         $program->shouldReceive('getId')->andReturn($programId);
         $program->shouldReceive('getSchool')->andReturn($school);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -2305,6 +2362,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive(('getId'))->andReturn($schoolId);
         $program->shouldReceive('getId')->andReturn($programId);
         $program->shouldReceive('getSchool')->andReturn($school);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -2343,6 +2401,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive(('getId'))->andReturn($schoolId);
         $program->shouldReceive('getId')->andReturn($programId);
         $program->shouldReceive('getSchool')->andReturn($school);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgram')->andReturn($rolesInProgram);
 
@@ -2391,6 +2450,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -2422,6 +2482,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
@@ -2466,6 +2527,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
@@ -2526,6 +2588,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -2557,6 +2620,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
@@ -2601,6 +2665,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
         $programYear->shouldReceive('isArchived')->andReturn(false);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
@@ -2660,6 +2725,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
         $this->permissionMatrix
@@ -2690,6 +2756,7 @@ class PermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
@@ -2733,6 +2800,7 @@ class PermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
 
@@ -2773,6 +2841,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -2795,6 +2864,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -2817,6 +2887,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -2839,6 +2910,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -2861,6 +2933,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -2883,6 +2956,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -2905,6 +2979,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -2927,6 +3002,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -2949,6 +3025,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -2971,6 +3048,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -2993,6 +3071,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3015,6 +3094,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3037,6 +3117,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3059,6 +3140,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3081,6 +3163,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3103,6 +3186,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3125,6 +3209,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3147,6 +3232,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3169,6 +3255,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3191,6 +3278,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3213,6 +3301,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3235,6 +3324,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3257,6 +3347,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3279,6 +3370,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3301,6 +3393,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3323,6 +3416,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3345,6 +3439,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3367,6 +3462,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3389,6 +3485,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3411,6 +3508,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3433,6 +3531,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3455,6 +3554,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3478,6 +3578,7 @@ class PermissionCheckerTest extends TestCase
         $reportId = 20;
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3504,6 +3605,7 @@ class PermissionCheckerTest extends TestCase
         $reportId = 20;
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCurriculumInventoryReport')->andReturn($rolesInReport);
 
@@ -3540,6 +3642,7 @@ class PermissionCheckerTest extends TestCase
         $reportId = 20;
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCurriculumInventoryReport')->andReturn($rolesInReport);
 
@@ -3575,6 +3678,7 @@ class PermissionCheckerTest extends TestCase
         $reportId = 20;
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3601,6 +3705,7 @@ class PermissionCheckerTest extends TestCase
         $reportId = 20;
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCurriculumInventoryReport')->andReturn($rolesInReport);
 
@@ -3637,6 +3742,7 @@ class PermissionCheckerTest extends TestCase
         $reportId = 20;
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInCurriculumInventoryReport')->andReturn($rolesInReport);
 
@@ -3671,6 +3777,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3693,6 +3800,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3715,6 +3823,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3737,6 +3846,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3759,6 +3869,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3781,6 +3892,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3803,6 +3915,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3825,6 +3938,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3847,6 +3961,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3869,6 +3984,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3891,6 +4007,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3913,6 +4030,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3935,6 +4053,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3957,6 +4076,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -3979,6 +4099,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -4001,6 +4122,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -4023,6 +4145,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -4045,6 +4168,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -4067,6 +4191,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
@@ -4089,6 +4214,7 @@ class PermissionCheckerTest extends TestCase
         $rolesInSchool = ['foo'];
         $sessionUser = m::mock(SessionUserInterface::class);
 
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $this->permissionMatrix
             ->shouldReceive('getPermittedRoles')
