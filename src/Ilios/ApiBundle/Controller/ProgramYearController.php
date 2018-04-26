@@ -29,7 +29,7 @@ class ProgramYearController extends ApiController
         $json = $this->extractJsonFromRequest($request, $object, 'POST');
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
-        $this->validateAndAuthorizeEntities($entities, 'create');
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE);
 
         foreach ($entities as $entity) {
             $manager->update($entity, false);

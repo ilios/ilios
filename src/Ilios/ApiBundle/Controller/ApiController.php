@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\ApiBundle\Service\EndpointResponseNamer;
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -125,7 +126,7 @@ class ApiController extends Controller implements ApiControllerInterface
         $json = $this->extractJsonFromRequest($request, $object, 'POST');
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
-        $this->validateAndAuthorizeEntities($entities, 'create');
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE);
 
         foreach ($entities as $entity) {
             $manager->update($entity, false);
@@ -153,11 +154,11 @@ class ApiController extends Controller implements ApiControllerInterface
 
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = 'edit';
+            $permission = AbstractVoter::EDIT;
         } else {
             $entity = $manager->create();
             $code = Response::HTTP_CREATED;
-            $permission = 'create';
+            $permission = AbstractVoter::CREATE;
         }
         $json = $this->extractJsonFromRequest($request, $object, 'PUT');
         $serializer = $this->getSerializer();
@@ -189,7 +190,7 @@ class ApiController extends Controller implements ApiControllerInterface
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $this->authorizationChecker->isGranted('delete', $entity)) {
+        if (! $this->authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -445,7 +446,7 @@ class ApiController extends Controller implements ApiControllerInterface
     {
         $authChecker = $this->authorizationChecker;
         $filteredResults = array_filter($results, function ($object) use ($authChecker) {
-            return $authChecker->isGranted('view', $object);
+            return $authChecker->isGranted(AbstractVoter::VIEW, $object);
         });
 
         //If there are no matches return an empty array

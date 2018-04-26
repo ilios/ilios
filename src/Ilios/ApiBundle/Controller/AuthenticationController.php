@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -101,7 +102,7 @@ class AuthenticationController extends ApiController
         $json = json_encode($arr);
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
-        $this->validateAndAuthorizeEntities($entities, 'create');
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE);
 
         $entitiesByUserId = [];
         /** @var AuthenticationInterface $authentication */
@@ -135,11 +136,11 @@ class AuthenticationController extends ApiController
 
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = 'edit';
+            $permission = AbstractVoter::EDIT;
         } else {
             $entity = $manager->create();
             $code = Response::HTTP_CREATED;
-            $permission = 'create';
+            $permission = AbstractVoter::CREATE;
         }
 
         $authObject = $this->extractPutDataFromRequest($request, $object);
@@ -184,7 +185,7 @@ class AuthenticationController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $userId));
         }
 
-        if (! $this->authorizationChecker->isGranted('delete', $entity)) {
+        if (! $this->authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
