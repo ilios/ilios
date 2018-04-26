@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -69,7 +70,7 @@ class CurriculumInventoryExportController extends ApiController
         /** @var CurriculumInventoryExportInterface $export */
         foreach ($entities as $export) {
             $export->setCreatedBy($user);
-            $this->authorizeEntity($export, 'create');
+            $this->authorizeEntity($export, AbstractVoter::CREATE);
 
             // generate and set the report document
             $document = $this->exporter->getXmlReport($export->getReport());

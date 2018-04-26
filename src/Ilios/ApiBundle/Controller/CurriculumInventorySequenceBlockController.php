@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,7 @@ class CurriculumInventorySequenceBlockController extends ApiController
         $json = $this->extractJsonFromRequest($request, $object, 'POST');
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
-        $this->validateAndAuthorizeEntities($entities, 'create');
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE);
 
         /** @var CurriculumInventorySequenceBlockInterface $block */
         foreach ($entities as $block) {
@@ -54,11 +55,11 @@ class CurriculumInventorySequenceBlockController extends ApiController
 
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = 'edit';
+            $permission = AbstractVoter::EDIT;
         } else {
             $entity = $manager->create();
             $code = Response::HTTP_CREATED;
-            $permission = 'create';
+            $permission = AbstractVoter::CREATE;
         }
 
         $oldChildSequenceOrder = $entity->getChildSequenceOrder();
@@ -98,7 +99,7 @@ class CurriculumInventorySequenceBlockController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $this->authorizationChecker->isGranted('delete', $entity)) {
+        if (! $this->authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 

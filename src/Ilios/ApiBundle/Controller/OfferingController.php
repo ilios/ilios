@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -48,7 +49,7 @@ class OfferingController extends ApiController
         $json = $this->extractJsonFromRequest($request, $object, 'POST');
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
-        $this->validateAndAuthorizeEntities($entities, 'create');
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE);
 
         foreach ($entities as $entity) {
             $manager->update($entity, false);
@@ -80,11 +81,11 @@ class OfferingController extends ApiController
 
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = 'edit';
+            $permission = AbstractVoter::EDIT;
         } else {
             $entity = $manager->create();
             $code = Response::HTTP_CREATED;
-            $permission = 'create';
+            $permission = AbstractVoter::CREATE;
         }
 
         // capture the values of offering properties pre-update

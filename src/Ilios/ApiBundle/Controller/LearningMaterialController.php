@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Service\IliosFileSystem;
 use Ilios\CoreBundle\Service\TemporaryFileSystem;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
@@ -135,7 +136,7 @@ class LearningMaterialController extends ApiController
                 $entity->setRelativePath($relativePath);
             }
             $manager->update($entity, false);
-            $this->validateAndAuthorizeEntities([$entity], 'create');
+            $this->validateAndAuthorizeEntities([$entity], AbstractVoter::CREATE);
 
             $entities[] = $entity;
         }
@@ -162,11 +163,11 @@ class LearningMaterialController extends ApiController
 
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = 'edit';
+            $permission = AbstractVoter::EDIT;
         } else {
             $entity = $manager->create();
             $code = Response::HTTP_CREATED;
-            $permission = 'create';
+            $permission = AbstractVoter::CREATE;
         }
 
         $data = $this->extractPutDataFromRequest($request, $object);

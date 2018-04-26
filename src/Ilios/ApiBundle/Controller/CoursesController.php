@@ -106,7 +106,7 @@ class CoursesController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $this->authorizationChecker->isGranted(['edit'], $course)) {
+        if (! $this->authorizationChecker->isGranted([AbstractVoter::EDIT], $course)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 

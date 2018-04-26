@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Service\CurriculumInventory\ReportRollover;
 use Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory;
@@ -46,7 +47,7 @@ class CurriculumInventoryReportController extends ApiController
         $json = $this->extractJsonFromRequest($request, $object, 'POST');
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
-        $this->validateAndAuthorizeEntities($entities, 'create');
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE);
 
         $levelManager = $this->getManager('curriculuminventoryacademiclevels');
         $sequenceManager = $this->getManager('curriculuminventorysequences');
@@ -122,7 +123,7 @@ class CurriculumInventoryReportController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $this->authorizationChecker->isGranted(['create'], $report)) {
+        if (! $this->authorizationChecker->isGranted([AbstractVoter::CREATE], $report)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
