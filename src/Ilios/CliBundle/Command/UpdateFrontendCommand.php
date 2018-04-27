@@ -175,13 +175,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             }
             $this->downloadAndExtractArchive(self::PRODUCTION, $version);
         } catch (\Exception $e) {
-            if ($this->environment === 'prod') {
-                throw new \Exception(
-                    'Unable to load the frontend.  Please try again or let the Ilios Team know about this issue:' .
-                    $e->getMessage()
-                );
-            }
-            print "Unable to load frontend.  Please run ilios:maintenance:update-frontend again. \n";
+            print "\n\n **Warning: Unable to load frontend.  Please run ilios:maintenance:update-frontend again.** \n\n\n";
         }
     }
 
