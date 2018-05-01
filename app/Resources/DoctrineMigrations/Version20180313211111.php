@@ -32,31 +32,21 @@ INSERT IGNORE INTO school_administrator (school_id, user_id) (
 EOL;
         $this->addSql($sql);
 
-        // migrate users with write permissions to school X
+        // migrate users who have "course director" role, but in fact are not connected
+        // to any course as director or administrator,
+        // to become "school administrators" in their primary school.
         $sql=<<<EOL
 INSERT IGNORE INTO school_administrator (school_id, user_id) (
   SELECT DISTINCT
-    school.school_id,
+    user.school_id,
     user.user_id
   FROM user
-    JOIN permission p ON user.user_id = p.user_id
-    JOIN school ON school.school_id = p.table_row_id
-  WHERE p.can_write = 1 AND p.table_name = 'school'
-)
-EOL;
-        $this->addSql($sql);
+    JOIN user_x_user_role u ON user.user_id = u.user_id
+    JOIN user_role r ON u.user_role_id = r.user_role_id
+  WHERE r.title = 'Course Director'
+  AND NOT EXISTS (SELECT * FROM course_director WHERE course_director.user_id = user.user_id)
+  AND NOT EXISTS (SELECT * FROM course_administrator WHERE course_administrator.user_id = user.user_id)
 
-        // migrate users with write permissions to program X
-        $sql=<<<EOL
-INSERT IGNORE INTO school_administrator (school_id, user_id) (
-  SELECT DISTINCT
-    school.school_id,
-    user.user_id
-  FROM user
-    JOIN permission p ON user.user_id = p.user_id
-    JOIN program ON program.program_id = p.table_row_id
-    JOIN school ON school.school_id = program.school_id
-  WHERE p.can_write = 1 AND p.table_name = 'program'
 )
 EOL;
         $this->addSql($sql);
