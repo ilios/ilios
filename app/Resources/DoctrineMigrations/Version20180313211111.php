@@ -32,6 +32,25 @@ INSERT IGNORE INTO school_administrator (school_id, user_id) (
 EOL;
         $this->addSql($sql);
 
+        // migrate users who have "course director" role, but in fact are not connected
+        // to any course as director or administrator,
+        // to become "school administrators" in their primary school.
+        $sql=<<<EOL
+INSERT IGNORE INTO school_administrator (school_id, user_id) (
+  SELECT DISTINCT
+    user.school_id,
+    user.user_id
+  FROM user
+    JOIN user_x_user_role u ON user.user_id = u.user_id
+    JOIN user_role r ON u.user_role_id = r.user_role_id
+  WHERE r.title = 'Course Director'
+  AND NOT EXISTS (SELECT * FROM course_director WHERE course_director.user_id = user.user_id)
+  AND NOT EXISTS (SELECT * FROM course_administrator WHERE course_administrator.user_id = user.user_id)
+
+)
+EOL;
+        $this->addSql($sql);
+
         // migrate users with write permissions to course X
         $sql=<<<EOL
 INSERT IGNORE INTO course_administrator (course_id, user_id) (
