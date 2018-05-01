@@ -32,35 +32,6 @@ INSERT IGNORE INTO school_administrator (school_id, user_id) (
 EOL;
         $this->addSql($sql);
 
-        // migrate users with write permissions to school X
-        $sql=<<<EOL
-INSERT IGNORE INTO school_administrator (school_id, user_id) (
-  SELECT DISTINCT
-    school.school_id,
-    user.user_id
-  FROM user
-    JOIN permission p ON user.user_id = p.user_id
-    JOIN school ON school.school_id = p.table_row_id
-  WHERE p.can_write = 1 AND p.table_name = 'school'
-)
-EOL;
-        $this->addSql($sql);
-
-        // migrate users with write permissions to program X
-        $sql=<<<EOL
-INSERT IGNORE INTO school_administrator (school_id, user_id) (
-  SELECT DISTINCT
-    school.school_id,
-    user.user_id
-  FROM user
-    JOIN permission p ON user.user_id = p.user_id
-    JOIN program ON program.program_id = p.table_row_id
-    JOIN school ON school.school_id = program.school_id
-  WHERE p.can_write = 1 AND p.table_name = 'program'
-)
-EOL;
-        $this->addSql($sql);
-
         // migrate users with write permissions to course X
         $sql=<<<EOL
 INSERT IGNORE INTO course_administrator (course_id, user_id) (
