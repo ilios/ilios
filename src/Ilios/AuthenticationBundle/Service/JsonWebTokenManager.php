@@ -90,12 +90,6 @@ class JsonWebTokenManager
         $arr = $this->decode($jwt);
         return $arr['can_create_or_update_user_in_any_school'];
     }
-
-    public function getCanCreateCIReportInAnySchoolFromToken($jwt)
-    {
-        $arr = $this->decode($jwt);
-        return $arr['can_create_curriculum_inventory_report_in_any_school'];
-    }
     
     protected function decode($jwt)
     {
@@ -108,6 +102,7 @@ class JsonWebTokenManager
      * @param  SessionUserInterface $sessionUser
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
      * @return string
+     * @throws \Exception
      */
     public function createJwtFromSessionUser(SessionUserInterface $sessionUser, $timeToLive = 'PT8H')
     {
@@ -125,8 +120,6 @@ class JsonWebTokenManager
         $expires = clone $now;
         $expires->add($interval);
         $canCreateOrUpdateUserInAnySchool = $this->permissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser);
-        $canCreateCIReportInAnySchool = $this->permissionChecker
-            ->canCreateCurriculumInventoryReportInAnySchool($sessionUser);
 
         $arr = array(
             'iss' => self::TOKEN_ISS,
@@ -137,7 +130,6 @@ class JsonWebTokenManager
             'is_root' => $sessionUser->isRoot(),
             'performs_non_learner_function' => $sessionUser->performsNonLearnerFunction(),
             'can_create_or_update_user_in_any_school' => $canCreateOrUpdateUserInAnySchool,
-            'can_create_curriculum_inventory_report_in_any_school' => $canCreateCIReportInAnySchool,
         );
 
         return JWT::encode($arr, $this->jwtKey);
