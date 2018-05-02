@@ -68,8 +68,6 @@ class JsonWebTokenManagerTest extends TestCase
         $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
         $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
             ->with($sessionUser)->once()->andReturn(true);
-        $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReportInAnySchool')
-            ->with($sessionUser)->once()->andReturn(true);
 
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser);
         
@@ -77,7 +75,6 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertSame(true, $this->obj->getPerformsNonLearnerFunctionFromToken($jwt));
         $this->assertSame(true, $this->obj->getIsRootFromToken($jwt));
         $this->assertSame(true, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
-        $this->assertSame(true, $this->obj->getCanCreateCIReportInAnySchoolFromToken($jwt));
     }
     
     public function testCreateJwtFromSessionUserWhichExpiresNextWeek()
@@ -88,8 +85,6 @@ class JsonWebTokenManagerTest extends TestCase
         $sessionUser->shouldReceive('isRoot')->once()->andReturn(true);
         $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
         $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
-            ->with($sessionUser)->once()->andReturn(true);
-        $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReportInAnySchool')
             ->with($sessionUser)->once()->andReturn(true);
         
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser, 'P1W');
@@ -108,8 +103,6 @@ class JsonWebTokenManagerTest extends TestCase
         $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
         $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
             ->with($sessionUser)->once()->andReturn(true);
-        $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReportInAnySchool')
-            ->with($sessionUser)->once()->andReturn(true);
         
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser, 'P400D');
         $now = new DateTime();
@@ -127,8 +120,6 @@ class JsonWebTokenManagerTest extends TestCase
         $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(false);
         $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
             ->with($sessionUser)->once()->andReturn(false);
-        $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReportInAnySchool')
-            ->with($sessionUser)->once()->andReturn(false);
 
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser);
 
@@ -136,7 +127,6 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertSame(false, $this->obj->getIsRootFromToken($jwt));
         $this->assertSame(false, $this->obj->getPerformsNonLearnerFunctionFromToken($jwt));
         $this->assertSame(false, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
-        $this->assertSame(false, $this->obj->getCanCreateCIReportInAnySchoolFromToken($jwt));
     }
     
     protected function buildToken(array $values = array(), $secretKey = 'ilios.jwt.key.secret')
