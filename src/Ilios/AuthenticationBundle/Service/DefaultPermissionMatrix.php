@@ -16,11 +16,46 @@ class DefaultPermissionMatrix extends PermissionMatrix
     protected $schoolManager;
 
     /**
+     * @var boolean
+     */
+    protected $hasMatrixBeenBuilt;
+
+    /**
      * @param SchoolManager $schoolManager
      */
     public function __construct(SchoolManager $schoolManager)
     {
         $this->schoolManager = $schoolManager;
+        $this->hasMatrixBeenBuilt = false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasPermission(int $schoolId, string $capability, array $roles): bool
+    {
+        if (! $this->hasMatrixBeenBuilt) {
+            $this->buildMatrix();
+        }
+        return parent::hasPermission($schoolId, $capability, $roles);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPermittedRoles(int $schoolId, string $capability): array
+    {
+        if (! $this->hasMatrixBeenBuilt) {
+            $this->buildMatrix();
+        }
+        return parent::getPermittedRoles($schoolId, $capability);
+    }
+
+    /**
+     * Builds the permission matrices for all schools.
+     */
+    protected function buildMatrix()
+    {
         $schoolDtos = $this->schoolManager->findDTOsBy([]);
 
         /** @var SchoolDTO $schoolDto */
@@ -514,5 +549,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 ]
             );
         }
+        $this->hasMatrixBeenBuilt = true;
     }
 }
