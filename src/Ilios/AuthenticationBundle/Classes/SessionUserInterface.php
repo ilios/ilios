@@ -96,7 +96,8 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
             UserRoles::COURSE_ADMINISTRATOR,
             UserRoles::SESSION_ADMINISTRATOR,
             UserRoles::COURSE_INSTRUCTOR,
-            UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR
+            UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
+            UserRoles::PROGRAM_DIRECTOR,
         ]
     ): array;
     public function rolesInCourse(
@@ -120,6 +121,7 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
         $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR]
     ): array;
     public function isDirectingProgram(int $programId): bool;
+    public function isDirectingProgramInSchool(int $schoolId) : bool;
     public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array;
     public function isDirectingProgramYear(int $programYearId) : bool;
     public function isDirectingProgramYearInProgram(int $programId) : bool;
@@ -201,6 +203,11 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return array
      */
     public function getDirectedProgramIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getDirectedProgramSchoolIds(): array;
 
     /**
      * @@return array
