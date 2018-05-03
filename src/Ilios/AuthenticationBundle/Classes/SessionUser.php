@@ -434,7 +434,8 @@ class SessionUser implements SessionUserInterface
             UserRoles::COURSE_ADMINISTRATOR,
             UserRoles::SESSION_ADMINISTRATOR,
             UserRoles::COURSE_INSTRUCTOR,
-            UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR
+            UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
+            UserRoles::PROGRAM_DIRECTOR,
         ]
     ): array {
         $rhett = [];
@@ -460,10 +461,13 @@ class SessionUser implements SessionUserInterface
             $this->isTeachingCourseInSchool($schoolId)) {
             $rhett[] = UserRoles::COURSE_INSTRUCTOR;
         }
-
         if (in_array(UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR, $roles) &&
             $this->isAdministeringCurriculumInventoryReportInSchool($schoolId)) {
             $rhett[] = UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR;
+        }
+        if (in_array(UserRoles::PROGRAM_DIRECTOR, $roles) &&
+            $this->isDirectingProgram($schoolId)) {
+            $rhett[] = UserRoles::PROGRAM_DIRECTOR;
         }
 
         return $rhett;
