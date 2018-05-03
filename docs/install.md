@@ -58,9 +58,9 @@ This will create a folder named 'ilios' in your server root directory.  The enti
 cd ilios
 ```
 You should now be in the '/web/ilios3/ilios' directory  
-4. Checkout the correct release version, based on its release tag ('v3.46.1' for this example):
+4. Checkout the latest release tag:
 ```bash
-sudo -u apache git checkout tags/v3.46.1
+sudo -u apache git checkout tags/$(sudo -u apache git fetch --tags; sudo -u apache git describe --tags `git rev-list --tags --max-count=1`)
 ```   
 5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 7.0+ and Composer installed on your system:
 ```bash
