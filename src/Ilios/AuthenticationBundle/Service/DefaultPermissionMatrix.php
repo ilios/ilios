@@ -369,6 +369,8 @@ class DefaultPermissionMatrix extends PermissionMatrix
                 Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
+                    UserRoles::PROGRAM_DIRECTOR,
                     UserRoles::COURSE_ADMINISTRATOR,
                     UserRoles::COURSE_DIRECTOR,
                 ]

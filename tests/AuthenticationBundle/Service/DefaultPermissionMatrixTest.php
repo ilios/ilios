@@ -844,12 +844,12 @@ class DefaultPermissionMatrixTest extends TestCase
                 Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,
+                    UserRoles::SCHOOL_DIRECTOR,
+                    UserRoles::PROGRAM_DIRECTOR,
                     UserRoles::COURSE_ADMINISTRATOR,
                     UserRoles::COURSE_DIRECTOR,
                 ],
                 [
-                    UserRoles::SCHOOL_DIRECTOR,
-                    UserRoles::PROGRAM_DIRECTOR,
                     UserRoles::PROGRAM_YEAR_DIRECTOR,
                     UserRoles::COURSE_INSTRUCTOR,
                     UserRoles::SESSION_ADMINISTRATOR,
