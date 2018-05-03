@@ -401,6 +401,14 @@ class SessionUser implements SessionUserInterface
     /**
      * @inheritdoc
      */
+    public function isDirectingProgramInSchool(int $schoolId) : bool
+    {
+        return in_array($schoolId, $this->getDirectedProgramSchoolIds());
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function isDirectingProgramYearInProgram(int $programId) : bool
     {
         return in_array($programId, $this->getDirectedProgramYearProgramIds());
@@ -466,7 +474,7 @@ class SessionUser implements SessionUserInterface
             $rhett[] = UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR;
         }
         if (in_array(UserRoles::PROGRAM_DIRECTOR, $roles) &&
-            $this->isDirectingProgram($schoolId)) {
+            $this->isDirectingProgramInSchool($schoolId)) {
             $rhett[] = UserRoles::PROGRAM_DIRECTOR;
         }
 
@@ -699,6 +707,14 @@ class SessionUser implements SessionUserInterface
     public function getDirectedProgramIds(): array
     {
         return $this->getDirectedProgramAndSchoolIds()['programIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedProgramSchoolIds(): array
+    {
+        return $this->getDirectedProgramAndSchoolIds()['schoolIds'];
     }
 
     /**
