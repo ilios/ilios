@@ -38,9 +38,10 @@ class UserEvent extends AbstractVoter
         }
 
         // if the current user performs any non-learner functions,
-        // they can see their user events, regardless of published status.
+        // they can see their user events, regardless of published status,
+        // and any other published events.
         if ($user->performsNonLearnerFunction()) {
-            return $user->getId() === $event->user;
+            return $event->isPublished || $user->getId() === $event->user;
         }
 
         // otherwise, only published user events owned by the current user are accessible.
