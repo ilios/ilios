@@ -1328,4 +1328,15 @@ class PermissionChecker
 
         return $can;
     }
+
+    /**
+     * Checks if the given user can view the given learner group.
+     * @param SessionUserInterface $sessionUser
+     * @param int $learnerGroupId
+     * @return bool
+     */
+    public function canViewLearnerGroup(SessionUserInterface $sessionUser, int $learnerGroupId): bool
+    {
+        return $sessionUser->isInLearnerGroup($learnerGroupId) || $sessionUser->performsNonLearnerFunction();
+    }
 }

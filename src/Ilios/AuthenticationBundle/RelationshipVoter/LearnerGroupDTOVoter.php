@@ -18,18 +18,11 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @package Ilios\AuthenticationBundle\RelationshipVoter
  */
-class ElevatedPermissionsViewDTOVoter extends AbstractVoter
+class LearnerGroupDTOVoter extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return (
-            in_array($attribute, [self::VIEW]) && (
-                $subject instanceof AuthenticationDTO
-                || $subject instanceof IngestionExceptionDTO
-                || $subject instanceof OfferingDTO
-                || $subject instanceof PendingUserUpdateDTO
-            )
-        );
+        return in_array($attribute, [self::VIEW]) && $subject instanceof LearnerGroupDTO;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -43,6 +36,6 @@ class ElevatedPermissionsViewDTOVoter extends AbstractVoter
             return true;
         }
 
-        return $user->performsNonLearnerFunction();
+        return $this->permissionChecker->canViewLearnerGroup($user, $subject->id);
     }
 }

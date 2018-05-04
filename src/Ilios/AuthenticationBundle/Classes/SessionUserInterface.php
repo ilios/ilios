@@ -228,4 +228,11 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return array
      */
     public function getAdministeredCurriculumInventoryReportSchoolIds(): array;
+
+    /**
+     * @param int $learnerGroupId
+     * @return bool
+     */
+    public function isInLearnerGroup(int $learnerGroupId): bool;
+
 }

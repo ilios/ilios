@@ -29,7 +29,7 @@ class LearnerGroup extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                return $user->performsNonLearnerFunction();
+                return $this->permissionChecker->canViewLearnerGroup($user, $subject->getId());
                 break;
             case self::CREATE:
                 return $this->permissionChecker->canCreateLearnerGroup($user, $subject->getSchool()->getId());
