@@ -462,6 +462,30 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isAdministeringCurriculumInventoryReportInSchool(1));
     }
 
+    /**
+     * @covers SessionUser::isInLearnerGroup()
+     */
+    public function testIsInLearnerGroup()
+    {
+        $learnerGroupIds = [1, 2, 3];
+        $this->userManager
+            ->shouldReceive('getLearnerGroupIds')
+            ->andReturn($learnerGroupIds);
+        $this->assertTrue($this->sessionUser->isInLearnerGroup(1));
+    }
+
+    /**
+     * @covers SessionUser::isInLearnerGroup()
+     */
+    public function testIsNotInLearnerGroup()
+    {
+        $learnerGroupIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getLearnerGroupIds')
+            ->andReturn($learnerGroupIds);
+        $this->assertFalse($this->sessionUser->isInLearnerGroup(1));
+    }
+
 
     /**
      * @covers SessionUser::rolesInSchool

@@ -27,8 +27,9 @@ class LearnerGroupTest extends AbstractBase
     public function testCanView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(true);
+        $this->permissionChecker->shouldReceive('canViewLearnerGroup')->andReturn(true);
         $entity = m::mock(LearnerGroup::class);
+        $entity->shouldReceive('getId')->andReturn(1);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -36,8 +37,9 @@ class LearnerGroupTest extends AbstractBase
     public function testCanNotView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $this->permissionChecker->shouldReceive('canViewLearnerGroup')->andReturn(false);
         $entity = m::mock(LearnerGroup::class);
+        $entity->shouldReceive('getId')->andReturn(1);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }

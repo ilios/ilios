@@ -36,7 +36,6 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
         return [
             [AuthenticationDTO::class],
             [IngestionExceptionDTO::class],
-            [LearnerGroupDTO::class],
             [OfferingDTO::class],
             [PendingUserUpdateDTO::class],
         ];

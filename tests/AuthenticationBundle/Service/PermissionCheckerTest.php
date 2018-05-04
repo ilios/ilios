@@ -4228,6 +4228,62 @@ class PermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateUser($sessionUser, $schoolId));
     }
 
+
+    /**
+     * @covers PermissionChecker::canViewLearnerGroup()
+     */
+    public function testCanViewLearnerGroupIfUseIsInLearnerGroup()
+    {
+        $learnerGroupId = 10;
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
+        $sessionUser
+            ->shouldReceive('isInLearnerGroup')
+            ->withArgs([$learnerGroupId])
+            ->andReturn(true);
+        $this->assertTrue($this->permissionChecker->canViewLearnerGroup($sessionUser, $learnerGroupId));
+    }
+
+
+    /**
+     * @covers PermissionChecker::canViewLearnerGroup()
+     */
+    public function testCanViewLearnerGroupIfUserPerformsNonLearnerFunction()
+    {
+        $learnerGroupId = 10;
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
+        $sessionUser
+            ->shouldReceive('isInLearnerGroup')
+            ->withArgs([$learnerGroupId])
+            ->andReturn(false);
+        $sessionUser
+            ->shouldReceive('performsNonLearnerFunction')
+            ->andReturn(true);
+        $this->assertTrue($this->permissionChecker->canViewLearnerGroup($sessionUser, $learnerGroupId));
+    }
+
+    /**
+     * @covers PermissionChecker::canViewLearnerGroup()
+     */
+    public function testCanNotViewLearnerGroup()
+    {
+        $learnerGroupId = 10;
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
+        $sessionUser
+            ->shouldReceive('isInLearnerGroup')
+            ->withArgs([$learnerGroupId])
+            ->andReturn(false);
+        $sessionUser
+            ->shouldReceive('performsNonLearnerFunction')
+            ->andReturn(false);
+        $this->assertFalse($this->permissionChecker->canViewLearnerGroup($sessionUser, $learnerGroupId));
+    }
+
     /**
      * @covers PermissionChecker::canCreateUsersInAnySchool()
      */
@@ -4251,4 +4307,5 @@ class PermissionCheckerTest extends TestCase
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
+
 }
