@@ -234,5 +234,4 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return bool
      */
     public function isInLearnerGroup(int $learnerGroupId): bool;
-
 }

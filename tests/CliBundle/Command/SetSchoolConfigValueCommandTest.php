@@ -70,15 +70,19 @@ class SetSchoolConfigValueCommandTest extends TestCase
         $mockConfig = m::mock(SchoolConfig::class);
         $mockConfig->shouldReceive('setValue')->with('bar')->once();
         $mockConfig->shouldReceive('setName')->with('foo')->once();
-        $this->schoolConfigManager->shouldReceive('findOneBy')->with(['school' => '1', 'name' => 'foo'])->once()->andReturn(null);
+        $this->schoolConfigManager
+            ->shouldReceive('findOneBy')
+            ->with(['school' => '1', 'name' => 'foo'])
+            ->once()
+            ->andReturn(null);
         $this->schoolConfigManager->shouldReceive('create')->once()->andReturn($mockConfig);
         $this->schoolConfigManager->shouldReceive('update')->with($mockConfig, true)->once();
 
         $this->commandTester->execute(array(
-            'command'      => self::COMMAND_NAME,
-            'school'         => '1',
-            'name'         => 'foo',
-            'value'        => 'bar',
+            'command' => self::COMMAND_NAME,
+            'school' => '1',
+            'name' => 'foo',
+            'value' => 'bar',
         ));
     }
     

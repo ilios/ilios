@@ -322,5 +322,4 @@ class UserManager extends BaseManager
         $repository = $this->getRepository();
         return $repository->getLearnerGroupIds($userId);
     }
-
 }
