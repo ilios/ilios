@@ -18,14 +18,14 @@ class Report extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return $subject instanceof ReportInterface && in_array(
-                $attribute,
-                array(
+            $attribute,
+            array(
                         self::VIEW,
                         self::CREATE,
                         self::EDIT,
                         self::DELETE,
                     )
-            );
+        );
     }
 
     /**

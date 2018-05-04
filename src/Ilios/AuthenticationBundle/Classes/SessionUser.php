@@ -103,6 +103,11 @@ class SessionUser implements SessionUserInterface
     protected $administeredCurriculumInventoryReportAndSchoolIds;
 
     /**
+     * @var array
+     */
+    protected $learnerGroupIds;
+
+    /**
      * @var UserManager
      */
     protected $userManager;
@@ -750,6 +755,15 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function isInLearnerGroup(int $learnerGroupId): bool
+    {
+        $ids = $this->getLearnerGroupIds();
+        return in_array($learnerGroupId, $ids);
+    }
+
+    /**
      * @return array
      * @throws \Exception
      */
@@ -866,5 +880,19 @@ class SessionUser implements SessionUserInterface
                 $this->userManager->getInstructorGroupSchoolIds($this->getId());
         }
         return $this->instructorGroupSchoolIds;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     * @see UserManager::getLearnerGroupIds()
+     */
+    protected function getLearnerGroupIds(): array
+    {
+        if (!isset($this->learnerGroupIds)) {
+            $this->learnerGroupIds =
+                $this->userManager->getLearnerGroupIds($this->getId());
+        }
+        return $this->learnerGroupIds;
     }
 }

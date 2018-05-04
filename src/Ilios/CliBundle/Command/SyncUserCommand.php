@@ -138,7 +138,7 @@ class SyncUserCommand extends Command
             
             $this->userManager->update($user);
 
-            foreach($user->getPendingUserUpdates() as $update) {
+            foreach ($user->getPendingUserUpdates() as $update) {
                 $this->pendingUserUpdateManager->delete($update);
             }
 
