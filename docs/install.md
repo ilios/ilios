@@ -57,12 +57,15 @@ This will create a folder named 'ilios' in your server root directory.  The enti
 ```bash
 cd ilios
 ```
-You should now be in the '/web/ilios3/ilios' directory  
-4. Checkout the correct release version, based on its release tag ('v3.0.0' for this example):
+You should now be in the '/web/ilios3/ilios' directory
+
+4. Checkout the latest release tag:
 ```bash
-sudo -u apache git checkout tags/v3.0.0
-```   
-5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 7.0+ and Composer installed on your system:
+# NOTE: When running this command in the context of your web services user, you can ignore any `Permission denied`
+# errors related to git files in your own user's `.config` directory:
+sudo -u apache git checkout tags/$(git fetch --tags; git describe --tags `git rev-list --tags --max-count=1`)
+```
+5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 7.2+ and Composer installed on your system:
 ```bash
 sudo -u apache SYMFONY_ENV=prod composer install --no-dev --optimize-autoloader
 ```  
