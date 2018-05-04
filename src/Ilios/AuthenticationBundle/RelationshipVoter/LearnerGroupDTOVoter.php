@@ -12,10 +12,6 @@ use Ilios\CoreBundle\Entity\DTO\UserDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Grants VIEW permissions on all supported DTOs if the given user
- * fulfills a function that requires elevated permissions, such as
- * administrating courses, teaching sessions, directing programs, etc.
- *
  * @package Ilios\AuthenticationBundle\RelationshipVoter
  */
 class LearnerGroupDTOVoter extends AbstractVoter
