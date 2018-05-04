@@ -57,6 +57,21 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
+
+    public function testCanViewOtherPublishedEventsIfUserPerformsNonStudentFunction()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->isPublished = true;
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
     public function testCanNotViewOtherUsersEvents()
     {
         $userId = 1;
@@ -75,7 +90,7 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
-    public function testCanNotViewOtherUsersEventsEvenIfUserPerformsNonStudentFunction()
+    public function testCanNotViewOtherUsersUnpublishedEventsEvenIfUserPerformsNonStudentFunction()
     {
         $userId = 1;
         $otherUserId = 2;
@@ -84,7 +99,7 @@ class UserEventTest extends AbstractBase
         $sessionUser = $token->getUser();
 
         $entity->user = $otherUserId;
-        $entity->isPublished = true;
+        $entity->isPublished = false;
         $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
