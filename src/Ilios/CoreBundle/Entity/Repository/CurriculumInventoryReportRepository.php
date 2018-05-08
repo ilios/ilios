@@ -718,7 +718,7 @@ EOL;
     public function getPcrs(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
-        $sql =<<<EOL
+        $queries[] =<<<EOL
 SELECT
   am.pcrs_id,
   am.description
@@ -738,9 +738,8 @@ FROM
   JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
 WHERE
   r.report_id = :report_id
-
-UNION
-
+EOL;
+        $queries[] =<<<EOL
 SELECT
   am.pcrs_id,
   am.description
@@ -761,14 +760,16 @@ WHERE
   r.report_id = :report_id
 EOL;
         $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
-        foreach ($rows as $row) {
-            $rhett[$row['pcrs_id']] = $row;
+        foreach ($queries as $query) {
+            $stmt = $conn->prepare($query);
+            $stmt->bindValue("report_id", $report->getId());
+            $stmt->execute();
+            $rows =  $stmt->fetchAll();
+            foreach ($rows as $row) {
+                $rhett[$row['pcrs_id']] = $row;
+            }
+            $stmt->closeCursor();
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 
