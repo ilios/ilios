@@ -220,10 +220,12 @@ EOL;
      */
     public function getEventKeywords(CurriculumInventoryReportInterface $report)
     {
-        $sql =<<< EOL
+        $rhett = [];
+        $queries[] =<<<EOL
 SELECT
   s.session_id AS 'event_id',
-  md.mesh_descriptor_uid,
+  md.mesh_descriptor_uid AS 'id',
+  'MeSH' AS 'source',
   md.name
 FROM
   `session` s
@@ -235,12 +237,33 @@ WHERE
   s.published
   AND sb.report_id = :report_id
 EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rhett = $stmt->fetchAll();
-        $stmt->closeCursor();
+
+        $queries[] =<<<EOL
+SELECT
+  s.session_id AS 'event_id',
+  t.term_id AS 'id',
+  v.title AS 'source',
+  t.title AS 'name'
+FROM
+  `session` s
+  JOIN course c ON c.course_id = s.course_id
+  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
+  JOIN session_x_term sxt ON sxt.session_id = s.session_id
+  JOIN term t ON t.term_id = sxt.term_id
+  JOIN vocabulary v on t.vocabulary_id = v.vocabulary_id
+WHERE
+  s.published
+  AND sb.report_id = :report_id;
+EOL;
+        foreach ($queries as $query) {
+            $conn = $this->getEntityManager()->getConnection();
+            $stmt = $conn->prepare($query);
+            $stmt->bindValue("report_id", $report->getId());
+            $stmt->execute();
+            $rhett = array_merge($rhett, $stmt->fetchAll());
+            $stmt->closeCursor();
+        }
+
         return $rhett;
     }
 

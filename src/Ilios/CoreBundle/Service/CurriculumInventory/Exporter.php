@@ -369,8 +369,8 @@ class Exporter
                 foreach ($event['keywords'] as $keyword) {
                     $keywordNode = $dom->createElement('Keyword');
                     $eventNode->appendChild($keywordNode);
-                    $keywordNode->setAttribute('hx:source', 'MeSH');
-                    $keywordNode->setAttribute('hx:id', $keyword['mesh_descriptor_uid']);
+                    $keywordNode->setAttribute('hx:source', $keyword['source']);
+                    $keywordNode->setAttribute('hx:id', $keyword['id']);
                     $descriptorNode = $dom->createElementNS('http://ns.medbiq.org/lom/extend/v1/', 'string');
                     $keywordNode->appendChild($descriptorNode);
                     $descriptorNode->appendChild($dom->createTextNode($keyword['name']));
