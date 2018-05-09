@@ -126,3 +126,15 @@ httplug:
 happyr_google_analytics:
     tracking_id: 'INJECTED FROM Config IN TrackApiUsageListener'
     http_message_factory: 'httplug.message_factory'
+
+liip_monitor:
+    enable_controller: true
+    checks:
+      php_extensions: [apcu, mbstring, ldap, xml, dom, mysqli, mysqlnd, pdo, zip]
+      php_version:
+        7.2: ">="
+      readable_directory: ["%kernel.cache_dir%"]
+      writable_directory: ["%kernel.cache_dir%"]
+      disk_usage:
+        path: '%env(ILIOS_FILE_SYSTEM_STORAGE_PATH)%'
+      doctrine_dbal: [default]

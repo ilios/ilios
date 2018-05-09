@@ -28,6 +28,10 @@ ilios_core_downloadcurriculuminventoryreport:
     requirements:
         token: '^[a-zA-Z0-9]{64}$'
 
+_monitor:
+    resource: "@LiipMonitorBundle/Resources/config/routing.xml"
+    prefix: /ilios/health
+
 ilios_web:
     resource: '@IliosWebBundle/Resources/config/routing.yml'
     prefix:   /
