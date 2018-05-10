@@ -893,10 +893,10 @@ class Exporter
             foreach ($refs as $reference) {
                 $sequenceBlockEventNode = $dom->createElement('SequenceBlockEvent');
                 $sequenceBlockNode->appendChild($sequenceBlockEventNode);
-                if ($reference['required']) {
-                    $sequenceBlockEventNode->setAttribute('required', 'true');
-                } else {
+                if ($reference['optional']) {
                     $sequenceBlockEventNode->setAttribute('required', 'false');
+                } else {
+                    $sequenceBlockEventNode->setAttribute('required', 'true');
                 }
                 $refUri = "/CurriculumInventory/Events/Event[@id='E{$reference['event_id']}']";
                 $eventReferenceNode = $dom->createElement('EventReference', $refUri);

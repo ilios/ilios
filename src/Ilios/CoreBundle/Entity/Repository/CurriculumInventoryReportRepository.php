@@ -249,31 +249,23 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      */
     public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('sb.id, s.id AS event_id, s.supplemental AS optional')
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         $rhett = [];
-        $sql =<<< EOL
-SELECT
-  sb.sequence_block_id,
-  s.session_id AS 'event_id',
-  NOT s.supplemental AS 'required'
-FROM `session` s
-  JOIN `course` c ON c.course_id = s.course_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-WHERE
-  s.published
-  AND sb.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
         foreach ($rows as $row) {
-            if (! array_key_exists($row['sequence_block_id'], $rhett)) {
-                $rhett[$row['sequence_block_id']] = [];
+            if (! array_key_exists($row['id'], $rhett)) {
+                $rhett[$row['id']] = [];
             }
-            $rhett[$row['sequence_block_id']][] = $row;
+            $rhett[$row['id']][] = $row;
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 
