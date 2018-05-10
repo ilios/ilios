@@ -362,6 +362,14 @@ class Course implements CourseInterface
     protected $sessions;
 
     /**
+     * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="course")
+     * @IS\Type("entityCollection")
+     */
+    protected $sequenceBlocks;
+
+    /**
      * @var CourseInterface
      *
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="descendants")
@@ -397,6 +405,7 @@ class Course implements CourseInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
         $this->sessions = new ArrayCollection();
+        $this->sequenceBlocks = new ArrayCollection();
         $this->descendants = new ArrayCollection();
         $this->publishedAsTbd = false;
         $this->published = false;
@@ -719,5 +728,43 @@ class Course implements CourseInterface
                 }
             }
         }
+    }
+
+    /**
+     * @param Collection $sequenceBlocks
+     */
+    public function setSequenceBlocks(Collection $sequenceBlocks)
+    {
+        $this->sequenceBlocks = new ArrayCollection();
+
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addSequenceBlock($sequenceBlock);
+        }
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     */
+    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    {
+        if (!$this->sequenceBlocks->contains($sequenceBlock)) {
+            $this->sequenceBlocks->add($sequenceBlock);
+        }
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     */
+    public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    {
+        $this->sequenceBlocks->removeElement($sequenceBlock);
+    }
+
+    /**
+     * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
+     */
+    public function getSequenceBlocks()
+    {
+        return $this->sequenceBlocks;
     }
 }

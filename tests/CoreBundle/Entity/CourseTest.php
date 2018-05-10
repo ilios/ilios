@@ -423,4 +423,29 @@ class CourseTest extends EntityBase
         $this->object->addObjective($courseObjective);
         $this->object->removeObjective($courseObjective);
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Course::addSequenceBlock
+     */
+    public function testAddSequenceBlock()
+    {
+        $this->entityCollectionAddTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Course::removeSequenceBlock
+     */
+    public function testRemoveSequenceBlock()
+    {
+        $this->entityCollectionRemoveTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Course::getSequenceBlocks
+     * @covers \Ilios\CoreBundle\Entity\Course::setSequenceBlocks
+     */
+    public function testSetSequenceBlocks()
+    {
+        $this->entityCollectionSetTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
 }
