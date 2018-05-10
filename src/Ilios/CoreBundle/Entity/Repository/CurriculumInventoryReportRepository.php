@@ -211,49 +211,32 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     public function getEventKeywords(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
-        $queries[] =<<<EOL
-SELECT
-  s.session_id AS 'event_id',
-  md.mesh_descriptor_uid AS 'id',
-  'MeSH' AS 'source',
-  md.name
-FROM
-  `session` s
-  JOIN course c ON c.course_id = s.course_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-  JOIN session_x_mesh sxm ON sxm.session_id = s.session_id
-  JOIN mesh_descriptor md ON md.mesh_descriptor_uid = sxm.mesh_descriptor_uid
-WHERE
-  s.published
-  AND sb.report_id = :report_id
-EOL;
-
-        $queries[] =<<<EOL
-SELECT
-  s.session_id AS 'event_id',
-  t.term_id AS 'id',
-  v.title AS 'source',
-  t.title AS 'name'
-FROM
-  `session` s
-  JOIN course c ON c.course_id = s.course_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-  JOIN session_x_term sxt ON sxt.session_id = s.session_id
-  JOIN term t ON t.term_id = sxt.term_id
-  JOIN vocabulary v on t.vocabulary_id = v.vocabulary_id
-WHERE
-  s.published
-  AND sb.report_id = :report_id;
-EOL;
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("s.id AS event_id, md.id, 'MeSH' AS source, md.name")
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->join('s.meshDescriptors', 'md')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+        $queries[] = $qb->getQuery();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("s.id AS event_id, t.id, v.title AS source, t.title AS name")
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->join('s.terms', 't')
+            ->join('t.vocabulary', 'v')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+        $queries[] = $qb->getQuery();
         foreach ($queries as $query) {
-            $conn = $this->getEntityManager()->getConnection();
-            $stmt = $conn->prepare($query);
-            $stmt->bindValue("report_id", $report->getId());
-            $stmt->execute();
-            $rhett = array_merge($rhett, $stmt->fetchAll());
-            $stmt->closeCursor();
+            $rhett = array_merge($rhett, $query->getResult(AbstractQuery::HYDRATE_ARRAY));
         }
-
         return $rhett;
     }
 
