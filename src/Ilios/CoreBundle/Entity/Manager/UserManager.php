@@ -322,4 +322,18 @@ class UserManager extends BaseManager
         $repository = $this->getRepository();
         return $repository->getLearnerGroupIds($userId);
     }
+
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::getInstructorGroupIds()
+     */
+    public function getInstructorGroupIds($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getInstructorGroupIds($userId);
+    }
 }
