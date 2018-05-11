@@ -279,34 +279,28 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      */
     public function getProgramObjectives(CurriculumInventoryReportInterface $report)
     {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id, o.title')
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('p.school', 's')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->join('c.cohorts', 'co')
+            ->join('co.programYear', 'py')
+            ->join('py.program', 'p2')
+            ->join('p2.school', 's2')
+            ->join('py.objectives', 'o')
+            ->where($qb->expr()->eq('s.id', 's2.id'))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         $rhett = [];
-        $sql =<<<EOL
-SELECT DISTINCT
-  o.objective_id,
-  o.title
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
-  JOIN cohort co ON co.cohort_id = cxc.cohort_id
-  JOIN program_year py ON py.program_year_id = co.program_year_id
-  JOIN program p2 ON p2.program_id = py.program_id AND p2.school_id = p.school_id
-  JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
-  JOIN objective o ON o.objective_id = pyxo.objective_id
-WHERE
-  r.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
         foreach ($rows as $row) {
-            $rhett[$row['objective_id']] = $row;
+            $rhett[$row['id']] = $row;
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 

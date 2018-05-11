@@ -454,7 +454,7 @@ class Exporter
         $rootNode->appendChild($expectationsNode);
         // program objectives
         foreach ($expectations['program_objectives'] as $programObjective) {
-            $uri = $this->createCompetencyObjectUri($programObjective['objective_id'], 'program_objective');
+            $uri = $this->createCompetencyObjectUri($programObjective['id'], 'program_objective');
             $this->createCompetencyObjectNode(
                 $dom,
                 $expectationsNode,
