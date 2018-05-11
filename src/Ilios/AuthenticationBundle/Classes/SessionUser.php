@@ -108,6 +108,11 @@ class SessionUser implements SessionUserInterface
     protected $learnerGroupIds;
 
     /**
+     * @var array
+     */
+    protected $instructorGroupIds;
+
+    /**
      * @var UserManager
      */
     protected $userManager;
@@ -144,6 +149,7 @@ class SessionUser implements SessionUserInterface
             !empty($this->getAdministeredCourseIds()) ||
             !empty($this->getDirectedSchoolIds()) ||
             !empty($this->getAdministeredSchoolIds()) ||
+            !empty($this->getInstructorGroupIds()) ||
             !empty($this->getTaughtCourseIds()) ||
             !empty($this->getAdministeredSessionIds()) ||
             !empty($this->getInstructedSessionIds()) ||
@@ -894,5 +900,20 @@ class SessionUser implements SessionUserInterface
                 $this->userManager->getLearnerGroupIds($this->getId());
         }
         return $this->learnerGroupIds;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     * @see UserManager::getInstructorGroupIds()
+     */
+    protected function getInstructorGroupIds(): array
+    {
+        if (!isset($this->instructorGroupIds)) {
+            $this->instructorGroupIds =
+                $this->userManager->getInstructorGroupIds($this->getId());
+        }
+        return $this->instructorGroupIds;
+
     }
 }

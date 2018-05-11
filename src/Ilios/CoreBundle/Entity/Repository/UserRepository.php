@@ -1035,6 +1035,22 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     }
 
     /**
+     * Returns a list of ids of instructor groups that the given user is a member of.
+     * @param $userId
+     * @return array
+     */
+    public function getInstructorGroupIds($userId): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('instructorGroups.id')->distinct()->from(User::class, 'u');
+        $qb->join('u.instructorGroups', 'instructorGroups');
+        $qb->where($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
      * Returns a list of ids of schools owning instructor groups that the given user is part of.
      * @param $userId
      * @return array
