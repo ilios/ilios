@@ -476,7 +476,7 @@ class Exporter
         }
         // session objectives
         foreach ($expectations['session_objectives'] as $sessionObjective) {
-            $uri = $this->createCompetencyObjectUri($sessionObjective['objective_id'], 'session_objective');
+            $uri = $this->createCompetencyObjectUri($sessionObjective['id'], 'session_objective');
             $this->createCompetencyObjectNode(
                 $dom,
                 $expectationsNode,
