@@ -314,30 +314,22 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      */
     public function getCourseObjectives(CurriculumInventoryReportInterface $report)
     {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id, o.title')
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->join('c.objectives', 'o')
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         $rhett = [];
-        $sql =<<<EOL
-SELECT DISTINCT
-  o.objective_id,
-  o.title
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN course_x_objective cxo ON cxo.course_id = c.course_id
-  JOIN objective o ON o.objective_id = cxo.objective_id
-WHERE
-  r.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
         foreach ($rows as $row) {
-            $rhett[$row['objective_id']] = $row;
+            $rhett[$row['id']] = $row;
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 

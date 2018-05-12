@@ -465,7 +465,7 @@ class Exporter
         }
         // course objectives
         foreach ($expectations['course_objectives'] as $courseObjective) {
-            $uri = $this->createCompetencyObjectUri($courseObjective['objective_id'], 'course_objective');
+            $uri = $this->createCompetencyObjectUri($courseObjective['id'], 'course_objective');
             $this->createCompetencyObjectNode(
                 $dom,
                 $expectationsNode,
