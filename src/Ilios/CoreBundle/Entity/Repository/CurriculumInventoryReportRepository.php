@@ -704,47 +704,36 @@ EOL;
     protected function getEventsFromIlmSessions(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
-        $sql =<<<EOL
-SELECT
-  s.session_id AS 'event_id',
-  s.title,
-  sd.description,
-  stxam.method_id,
-  st.assessment AS is_assessment_method,
-  ao.name AS assessment_option_name,
-  sf.hours
-FROM
-  `session` s
-  JOIN course c ON c.course_id = s.course_id
-  JOIN ilm_session_facet sf ON sf.session_id = s.session_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-  JOIN session_type st ON st.session_type_id = s.session_type_id
-  LEFT JOIN session_description sd ON sd.session_id = s.session_id
-  LEFT JOIN session_type_x_aamc_method stxam ON stxam.session_type_id = st.session_type_id
-  LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
-WHERE
-  s.published
-  AND sb.report_id = :report_id
-GROUP BY
-  s.session_id,
-  s.title,
-  sd.description,
-  stxam.method_id,
-  is_assessment_method
-ORDER BY
-  s.session_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
+            's.id AS event_id, s.title, sd.description, am.id AS method_id,'
+            . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, sf.hours'
+        )
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('s.ilmSession', 'sf')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->leftJoin('s.sessionDescription', 'sd')
+            ->leftJoin('s.sessionType', 'st')
+            ->leftJoin('st.aamcMethods', 'am')
+            ->leftJoin('st.assessmentOption', 'ao')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->in('r.id', ':id'))
+            ->groupBy('s.id')
+            ->addGroupBy('s.title')
+            ->addGroupBy('sd.description')
+            ->addGroupBy('am.id')
+            ->addGroupBy('st.assessment')
+            ->setParameter(':id', $report->getId());
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+
         foreach ($rows as $row) {
             $row['duration'] = floor($row['hours'] * 60); // convert from hours to minutes
             unset($row['hours']);
             $rhett[$row['event_id']] = $row;
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 
