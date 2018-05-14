@@ -460,30 +460,22 @@ EOL;
     public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
-        $sql =<<<EOL
-SELECT DISTINCT
-  sb.sequence_block_id,
-  o.objective_id as 'course_objective_id',
-  o2.objective_id AS 'program_objective_id'
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN course_x_objective cxo ON cxo.course_id = c.course_id
-  LEFT JOIN objective o ON o.objective_id = cxo.objective_id
-  LEFT JOIN objective_x_objective oxo ON oxo.objective_id = o.objective_id
-  LEFT JOIN objective o2 ON o2.objective_id = oxo.parent_objective_id
-WHERE
-  r.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('sb.id, co.id AS course_objective_id, po.id AS program_objective_id')
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('p.school', 's')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->leftJoin('c.objectives', 'co')
+            ->leftJoin('co.parents', 'po')
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         foreach ($rows as $row) {
-            $sequenceBlockId = $row['sequence_block_id'];
+            $sequenceBlockId = $row['id'];
             if (! array_key_exists($sequenceBlockId, $rhett)) {
                 $rhett[$sequenceBlockId] = [
                     'course_objectives' => [],
@@ -499,7 +491,6 @@ EOL;
                 $rhett[$sequenceBlockId]['program_objectives'][] = $row['program_objective_id'];
             }
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 
