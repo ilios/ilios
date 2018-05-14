@@ -378,4 +378,30 @@ class SessionTest extends EntityBase
     {
         $this->entityCollectionSetTest('administrator', 'User', false, false, 'addAdministeredSession');
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Session::addExcludedSequenceBlock
+     */
+    public function testAddExcludedSequenceBlock()
+    {
+        $this->entityCollectionAddTest('excludedSequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Session::removeExcludedSequenceBlock
+     */
+    public function testRemoveExcludedSequenceBlock()
+    {
+        $this->entityCollectionRemoveTest('excludedSequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Session::setExcludedSequenceBlocks
+     * @covers \Ilios\CoreBundle\Entity\Session::getExcludedSequenceBlocks
+     */
+    public function testGetExcludedSequenceBlocks()
+    {
+        $this->entityCollectionSetTest('excludedSequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
 }

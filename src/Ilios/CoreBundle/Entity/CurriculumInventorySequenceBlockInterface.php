@@ -203,4 +203,24 @@ interface CurriculumInventorySequenceBlockInterface extends
      * @return CurriculumInventorySequenceBlockInterface[] The sorted list of child sequence blocks.
      */
     public function getChildrenAsSortedList();
+
+    /**
+     * @param Collection $sessions
+     */
+    public function setExcludedSessions(Collection $sessions);
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function addExcludedSession(SessionInterface $session);
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function removeExcludedSession(SessionInterface $session);
+
+    /**
+     * @return SessionInterface[]|ArrayCollection
+     */
+    public function getExcludedSessions();
 }

@@ -27,6 +27,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'endDate' => $dt->format('c'),
             'children' => ['2', '3', '4', '5'],
             'sessions' => ['1'],
+            'excludedSessions' => ['1'],
             'track' => true,
         );
         for ($i = 1; $i < 5; $i++) {
@@ -45,6 +46,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
                 'endDate' => $dt->format('c'),
                 'children' => [],
                 'sessions' => [],
+                'excludedSessions' => [],
                 'parent' => '1',
                 'track' => false,
             );
@@ -72,6 +74,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'endDate' => $dt->format('c'),
             'children' => [],
             'sessions' => [],
+            'excludedSessions' => [],
             'parent' => '1',
             'track' => true,
         );

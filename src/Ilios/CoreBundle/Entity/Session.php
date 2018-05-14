@@ -300,6 +300,13 @@ class Session implements SessionInterface
     protected $sequenceBlocks;
 
     /**
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="excludedSessions")
+     */
+    protected $excludedSequenceBlocks;
+
+    /**
      * @var ArrayCollection|UserInterface[]
      *
      * @ORM\ManyToMany(targetEntity="User", inversedBy="administeredSessions"))
@@ -334,6 +341,7 @@ class Session implements SessionInterface
         $this->offerings = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
         $this->sequenceBlocks = new ArrayCollection();
+        $this->excludedSequenceBlocks = new ArrayCollection();
         $this->administrators = new ArrayCollection();
 
         $this->updatedAt = new \DateTime();
@@ -545,5 +553,43 @@ class Session implements SessionInterface
             $this->administrators->removeElement($administrator);
             $administrator->removeAdministeredSession($this);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setExcludedSequenceBlocks(Collection $sequenceBlocks)
+    {
+        $this->sequenceBlocks = new ArrayCollection();
+
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addExcludedSequenceBlock($sequenceBlock);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    {
+        if (!$this->excludedSequenceBlocks->contains($sequenceBlock)) {
+            $this->excludedSequenceBlocks->add($sequenceBlock);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    {
+        $this->excludedSequenceBlocks->removeElement($sequenceBlock);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getExcludedSequenceBlocks()
+    {
+        return $this->excludedSequenceBlocks;
     }
 }

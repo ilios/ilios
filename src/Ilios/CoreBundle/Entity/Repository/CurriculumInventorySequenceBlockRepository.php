@@ -85,7 +85,8 @@ class CurriculumInventorySequenceBlockRepository extends EntityRepository implem
 
         $related = [
             'children',
-            'sessions'
+            'sessions',
+            'excludedSessions',
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()

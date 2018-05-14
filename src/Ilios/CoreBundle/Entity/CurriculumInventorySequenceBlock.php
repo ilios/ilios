@@ -284,10 +284,30 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      */
     protected $sessions;
 
+
+    /**
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Session", inversedBy="excludedSequenceBlocks")
+     * @ORM\JoinTable("curriculum_inventory_sequence_block_x_excluded_session",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="sequence_block_id", referencedColumnName="sequence_block_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $excludedSessions;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->sessions = new ArrayCollection();
+        $this->excludedSessions = new ArrayCollection();
         $this->required = self::OPTIONAL;
         $this->track = false;
     }
@@ -626,5 +646,43 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
             return -1;
         }
         return 0;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setExcludedSessions(Collection $sessions)
+    {
+        $this->excludedSessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addExcludedSession($session);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addExcludedSession(SessionInterface $session)
+    {
+        if (!$this->excludedSessions->contains($session)) {
+            $this->excludedSessions->add($session);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeExcludedSession(SessionInterface $session)
+    {
+        $this->excludedSessions->removeElement($session);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getExcludedSessions()
+    {
+        return $this->excludedSessions;
     }
 }
