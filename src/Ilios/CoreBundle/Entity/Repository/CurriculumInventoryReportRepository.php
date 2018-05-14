@@ -512,26 +512,18 @@ EOL;
             return $rhett;
         }
 
-        $sql =<<<EOL
-SELECT DISTINCT
-  o.objective_id,
-  cxam.pcrs_id
-FROM
-  objective o
-  JOIN competency c ON o.competency_id = c.competency_id
-  JOIN competency_x_aamc_pcrs cxam ON c.competency_id = cxam.competency_id
-  JOIN aamc_pcrs am ON am.pcrs_id = cxam.pcrs_id
-WHERE
-  am.pcrs_id IN (?)
-  AND o.objective_id IN (?)
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->executeQuery(
-            $sql,
-            [ $pcrsIds, $programObjectivesId ],
-            [ Connection::PARAM_STR_ARRAY, Connection::PARAM_INT_ARRAY ]
-        );
-        $rows = $stmt->fetchAll();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id as objective_id, am.id AS pcrs_id')
+            ->distinct()
+            ->from('IliosCoreBundle:Objective', 'o')
+            ->join('o.competency', 'c')
+            ->join('c.aamcPcrses', 'am')
+            ->where($qb->expr()->in('am.id', ':pcrs'))
+            ->andWhere($qb->expr()->in('o.id', ':objectives'))
+            ->setParameter(':pcrs', $pcrsIds)
+            ->setParameter(':objectives', $programObjectivesId);
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
 
         foreach ($rows as $row) {
             $rhett['relations'][] = [
@@ -546,7 +538,6 @@ EOL;
         $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
         $rhett['pcrs_ids'] = array_values(array_unique($rhett['pcrs_ids']));
 
-        $stmt->closeCursor();
         return $rhett;
     }
 
