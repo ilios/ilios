@@ -649,57 +649,48 @@ EOL;
     public function getPcrs(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
-        $queries[] =<<<EOL
-SELECT
-  am.pcrs_id,
-  am.description
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
-  JOIN cohort co ON co.cohort_id = cxc.cohort_id
-  JOIN program_year py ON py.program_year_id = co.program_year_id
-  JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
-  JOIN objective o ON o.objective_id = pyxo.objective_id
-  JOIN competency cm ON cm.competency_id = o.competency_id AND cm.school_id = p.school_id
-  JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
-  JOIN competency_x_aamc_pcrs cxm ON cxm.competency_id = cm2.competency_id
-  JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
-WHERE
-  r.report_id = :report_id
-EOL;
-        $queries[] =<<<EOL
-SELECT
-  am.pcrs_id,
-  am.description
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
-  JOIN cohort co ON co.cohort_id = cxc.cohort_id
-  JOIN program_year py ON py.program_year_id = co.program_year_id
-  JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
-  JOIN objective o ON o.objective_id = pyxo.objective_id
-  JOIN competency cm ON cm.competency_id = o.competency_id AND cm.school_id = p.school_id
-  JOIN competency_x_aamc_pcrs cxm ON cxm.competency_id = cm.competency_id
-  JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
-WHERE
-  r.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('am.id AS pcrs_id, am.description')
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('p.school', 's')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->join('c.cohorts', 'co')
+            ->join('co.programYear', 'py')
+            ->join('py.objectives', 'o')
+            ->join('o.competency', 'cm')
+            ->join('cm.school', 's2')
+            ->join('cm.parent', 'cm2')
+            ->join('cm2.aamcPcrses', 'am')
+            ->where($qb->expr()->eq('s.id', 's2.id'))
+            ->andWhere($qb->expr()->in('r.id', ':id'))
+            ->setParameter(':id', $report->getId());
+        $queries[] = $qb->getQuery();
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('am.id AS pcrs_id, am.description')
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('p.school', 's')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->join('c.cohorts', 'co')
+            ->join('co.programYear', 'py')
+            ->join('py.objectives', 'o')
+            ->join('o.competency', 'cm')
+            ->join('cm.school', 's2')
+            ->join('cm.aamcPcrses', 'am')
+            ->where($qb->expr()->eq('s.id', 's2.id'))
+            ->andWhere($qb->expr()->in('r.id', ':id'))
+            ->setParameter(':id', $report->getId());
+        $queries[] = $qb->getQuery();
+
         foreach ($queries as $query) {
-            $stmt = $conn->prepare($query);
-            $stmt->bindValue("report_id", $report->getId());
-            $stmt->execute();
-            $rows =  $stmt->fetchAll();
+            $rows = $query->getResult(AbstractQuery::HYDRATE_ARRAY);
             foreach ($rows as $row) {
                 $rhett[$row['pcrs_id']] = $row;
             }
-            $stmt->closeCursor();
         }
         return $rhett;
     }
