@@ -611,26 +611,18 @@ EOL;
             return $rhett;
         }
 
-        $sql =<<<EOL
-SELECT DISTINCT
-  oxo.objective_id,
-  oxo.parent_objective_id
-FROM
-  objective_x_objective oxo
-  JOIN session_x_objective sxo ON sxo.objective_id = oxo.objective_id
-  JOIN course_x_objective cxo ON cxo.objective_id = oxo.parent_objective_id
-WHERE
-  oxo.objective_id IN (?)
-  AND oxo.parent_objective_id IN (?)
-EOL;
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id AS objective_id, p.id AS parent_objective_id')
+            ->distinct()
+            ->from('IliosCoreBundle:Objective', 'o')
+            ->join('o.sessions', 's')
+            ->join('o.parents', 'p')
+            ->where($qb->expr()->in('p.id', ':courseObjectiveIds'))
+            ->andWhere($qb->expr()->in('o.id', ':sessionObjectiveIds'))
+            ->setParameter(':sessionObjectiveIds', $sessionObjectiveIds)
+            ->setParameter(':courseObjectiveIds', $courseObjectiveIds);
 
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->executeQuery(
-            $sql,
-            [ $sessionObjectiveIds, $courseObjectiveIds ],
-            [ Connection::PARAM_INT_ARRAY, Connection::PARAM_INT_ARRAY ]
-        );
-        $rows =  $stmt->fetchAll();
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         foreach ($rows as $row) {
             $rhett['relations'][] = [
                 'rel1' => $row['parent_objective_id'],
@@ -644,7 +636,6 @@ EOL;
         $rhett['session_objective_ids'] = array_values(array_unique($rhett['session_objective_ids']));
         $rhett['course_objective_ids'] = array_values(array_unique($rhett['course_objective_ids']));
 
-        $stmt->closeCursor();
         return $rhett;
     }
 
