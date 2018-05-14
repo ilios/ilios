@@ -156,4 +156,24 @@ interface CourseInterface extends
      * @return ArrayCollection|CourseInterface[]
      */
     public function getDescendants();
+
+    /**
+     * @param Collection $sequenceBlocks
+     */
+    public function setSequenceBlocks(Collection $sequenceBlocks);
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     */
+    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     */
+    public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
+
+    /**
+     * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
+     */
+    public function getSequenceBlocks();
 }

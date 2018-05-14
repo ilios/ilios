@@ -186,29 +186,19 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      */
     public function getEventResourceTypes(CurriculumInventoryReportInterface $report)
     {
-        $sql =<<< EOL
-SELECT DISTINCT
-s.session_id AS 'event_id',
-txart.resource_type_id AS 'resource_type_id',
-art.title AS 'resource_type_title'
-FROM
-  `session` s
-  JOIN course c ON c.course_id = s.course_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-  JOIN session_x_term sxt ON sxt.session_id = s.session_id
-  JOIN term_x_aamc_resource_type txart ON txart.term_id = sxt.term_id
-  JOIN aamc_resource_type art ON art.resource_type_id = txart.resource_type_id
-WHERE
-  s.published
-  AND sb.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rhett = $stmt->fetchAll();
-        $stmt->closeCursor();
-        return $rhett;
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('s.id AS event_id, art.id AS resource_type_id, art.title AS resource_type_title')
+            ->distinct()
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->join('s.terms', 't')
+            ->join('t.aamcResourceTypes', 'art')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+        return $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
     /**
@@ -221,49 +211,32 @@ EOL;
     public function getEventKeywords(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
-        $queries[] =<<<EOL
-SELECT
-  s.session_id AS 'event_id',
-  md.mesh_descriptor_uid AS 'id',
-  'MeSH' AS 'source',
-  md.name
-FROM
-  `session` s
-  JOIN course c ON c.course_id = s.course_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-  JOIN session_x_mesh sxm ON sxm.session_id = s.session_id
-  JOIN mesh_descriptor md ON md.mesh_descriptor_uid = sxm.mesh_descriptor_uid
-WHERE
-  s.published
-  AND sb.report_id = :report_id
-EOL;
-
-        $queries[] =<<<EOL
-SELECT
-  s.session_id AS 'event_id',
-  t.term_id AS 'id',
-  v.title AS 'source',
-  t.title AS 'name'
-FROM
-  `session` s
-  JOIN course c ON c.course_id = s.course_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-  JOIN session_x_term sxt ON sxt.session_id = s.session_id
-  JOIN term t ON t.term_id = sxt.term_id
-  JOIN vocabulary v on t.vocabulary_id = v.vocabulary_id
-WHERE
-  s.published
-  AND sb.report_id = :report_id;
-EOL;
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("s.id AS event_id, md.id, 'MeSH' AS source, md.name")
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->join('s.meshDescriptors', 'md')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+        $queries[] = $qb->getQuery();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("s.id AS event_id, t.id, v.title AS source, t.title AS name")
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->join('s.terms', 't')
+            ->join('t.vocabulary', 'v')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+        $queries[] = $qb->getQuery();
         foreach ($queries as $query) {
-            $conn = $this->getEntityManager()->getConnection();
-            $stmt = $conn->prepare($query);
-            $stmt->bindValue("report_id", $report->getId());
-            $stmt->execute();
-            $rhett = array_merge($rhett, $stmt->fetchAll());
-            $stmt->closeCursor();
+            $rhett = array_merge($rhett, $query->getResult(AbstractQuery::HYDRATE_ARRAY));
         }
-
         return $rhett;
     }
 
@@ -276,31 +249,23 @@ EOL;
      */
     public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('sb.id, s.id AS event_id, s.supplemental AS optional')
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         $rhett = [];
-        $sql =<<< EOL
-SELECT
-  sb.sequence_block_id,
-  s.session_id AS 'event_id',
-  NOT s.supplemental AS 'required'
-FROM `session` s
-  JOIN `course` c ON c.course_id = s.course_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-WHERE
-  s.published
-  AND sb.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
         foreach ($rows as $row) {
-            if (! array_key_exists($row['sequence_block_id'], $rhett)) {
-                $rhett[$row['sequence_block_id']] = [];
+            if (! array_key_exists($row['id'], $rhett)) {
+                $rhett[$row['id']] = [];
             }
-            $rhett[$row['sequence_block_id']][] = $row;
+            $rhett[$row['id']][] = $row;
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 
@@ -314,34 +279,28 @@ EOL;
      */
     public function getProgramObjectives(CurriculumInventoryReportInterface $report)
     {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id, o.title')
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('p.school', 's')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->join('c.cohorts', 'co')
+            ->join('co.programYear', 'py')
+            ->join('py.program', 'p2')
+            ->join('p2.school', 's2')
+            ->join('py.objectives', 'o')
+            ->where($qb->expr()->eq('s.id', 's2.id'))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         $rhett = [];
-        $sql =<<<EOL
-SELECT DISTINCT
-  o.objective_id,
-  o.title
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
-  JOIN cohort co ON co.cohort_id = cxc.cohort_id
-  JOIN program_year py ON py.program_year_id = co.program_year_id
-  JOIN program p2 ON p2.program_id = py.program_id AND p2.school_id = p.school_id
-  JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
-  JOIN objective o ON o.objective_id = pyxo.objective_id
-WHERE
-  r.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
         foreach ($rows as $row) {
-            $rhett[$row['objective_id']] = $row;
+            $rhett[$row['id']] = $row;
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 
@@ -355,30 +314,22 @@ EOL;
      */
     public function getCourseObjectives(CurriculumInventoryReportInterface $report)
     {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id, o.title')
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->join('c.objectives', 'o')
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         $rhett = [];
-        $sql =<<<EOL
-SELECT DISTINCT
-  o.objective_id,
-  o.title
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN course_x_objective cxo ON cxo.course_id = c.course_id
-  JOIN objective o ON o.objective_id = cxo.objective_id
-WHERE
-  r.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
         foreach ($rows as $row) {
-            $rhett[$row['objective_id']] = $row;
+            $rhett[$row['id']] = $row;
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 
@@ -392,35 +343,26 @@ EOL;
      */
     public function getSessionObjectives(CurriculumInventoryReportInterface $report)
     {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id, o.title')
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->join('c.sessions', 's')
+            ->join('s.objectives', 'o')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         $rhett = [];
-        $sql =<<<EOL
-SELECT DISTINCT
-  o.objective_id,
-  o.title
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN `session` s ON s.course_id = c.course_id
-  JOIN session_x_objective sxo ON sxo.session_id = s.session_id
-  JOIN objective o ON o.objective_id = sxo.objective_id
-WHERE
-  s.published
-  AND r.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
         foreach ($rows as $row) {
-            $rhett[$row['objective_id']] = $row;
+            $rhett[$row['id']] = $row;
         }
-        $stmt->closeCursor();
         return $rhett;
     }
-
 
     /**
      * Retrieves all the competency object references per event in a given report.
@@ -518,30 +460,22 @@ EOL;
     public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
-        $sql =<<<EOL
-SELECT DISTINCT
-  sb.sequence_block_id,
-  o.objective_id as 'course_objective_id',
-  o2.objective_id AS 'program_objective_id'
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN course_x_objective cxo ON cxo.course_id = c.course_id
-  LEFT JOIN objective o ON o.objective_id = cxo.objective_id
-  LEFT JOIN objective_x_objective oxo ON oxo.objective_id = o.objective_id
-  LEFT JOIN objective o2 ON o2.objective_id = oxo.parent_objective_id
-WHERE
-  r.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('sb.id, co.id AS course_objective_id, po.id AS program_objective_id')
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('p.school', 's')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->leftJoin('c.objectives', 'co')
+            ->leftJoin('co.parents', 'po')
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->setParameter('id', $report->getId());
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         foreach ($rows as $row) {
-            $sequenceBlockId = $row['sequence_block_id'];
+            $sequenceBlockId = $row['id'];
             if (! array_key_exists($sequenceBlockId, $rhett)) {
                 $rhett[$sequenceBlockId] = [
                     'course_objectives' => [],
@@ -557,7 +491,6 @@ EOL;
                 $rhett[$sequenceBlockId]['program_objectives'][] = $row['program_objective_id'];
             }
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 
@@ -579,26 +512,18 @@ EOL;
             return $rhett;
         }
 
-        $sql =<<<EOL
-SELECT DISTINCT
-  o.objective_id,
-  cxam.pcrs_id
-FROM
-  objective o
-  JOIN competency c ON o.competency_id = c.competency_id
-  JOIN competency_x_aamc_pcrs cxam ON c.competency_id = cxam.competency_id
-  JOIN aamc_pcrs am ON am.pcrs_id = cxam.pcrs_id
-WHERE
-  am.pcrs_id IN (?)
-  AND o.objective_id IN (?)
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->executeQuery(
-            $sql,
-            [ $pcrsIds, $programObjectivesId ],
-            [ Connection::PARAM_STR_ARRAY, Connection::PARAM_INT_ARRAY ]
-        );
-        $rows = $stmt->fetchAll();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id as objective_id, am.id AS pcrs_id')
+            ->distinct()
+            ->from('IliosCoreBundle:Objective', 'o')
+            ->join('o.competency', 'c')
+            ->join('c.aamcPcrses', 'am')
+            ->where($qb->expr()->in('am.id', ':pcrs'))
+            ->andWhere($qb->expr()->in('o.id', ':objectives'))
+            ->setParameter(':pcrs', $pcrsIds)
+            ->setParameter(':objectives', $programObjectivesId);
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
 
         foreach ($rows as $row) {
             $rhett['relations'][] = [
@@ -613,7 +538,6 @@ EOL;
         $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
         $rhett['pcrs_ids'] = array_values(array_unique($rhett['pcrs_ids']));
 
-        $stmt->closeCursor();
         return $rhett;
     }
 
@@ -637,25 +561,19 @@ EOL;
             return $rhett;
         }
 
-        $sql =<<<EOL
-SELECT DISTINCT
-   oxo.objective_id,
-   oxo.parent_objective_id
-FROM
-   objective_x_objective oxo
-   JOIN course_x_objective cxo ON cxo.objective_id = oxo.objective_id
-   JOIN program_year_x_objective pyxo ON pyxo.objective_id = oxo.parent_objective_id
-WHERE
-   oxo.objective_id IN (?)
-   AND oxo.parent_objective_id IN (?)
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->executeQuery(
-            $sql,
-            [ $courseObjectiveIds, $programObjectiveIds ],
-            [ Connection::PARAM_INT_ARRAY, Connection::PARAM_INT_ARRAY ]
-        );
-        $rows =  $stmt->fetchAll();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id AS objective_id, p.id AS parent_objective_id')
+            ->distinct()
+            ->from('IliosCoreBundle:Objective', 'o')
+            ->join('o.courses', 'c')
+            ->join('o.parents', 'p')
+            ->where($qb->expr()->in('p.id', ':programObjectiveIds'))
+            ->andWhere($qb->expr()->in('o.id', ':courseObjectiveIds'))
+            ->setParameter(':courseObjectiveIds', $courseObjectiveIds)
+            ->setParameter(':programObjectiveIds', $programObjectiveIds);
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+
         foreach ($rows as $row) {
             $rhett['relations'][] = [
                 'rel1' => $row['parent_objective_id'],
@@ -669,7 +587,6 @@ EOL;
         $rhett['course_objective_ids'] = array_values(array_unique($rhett['course_objective_ids']));
         $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
 
-        $stmt->closeCursor();
         return $rhett;
     }
 
@@ -694,26 +611,18 @@ EOL;
             return $rhett;
         }
 
-        $sql =<<<EOL
-SELECT DISTINCT
-  oxo.objective_id,
-  oxo.parent_objective_id
-FROM
-  objective_x_objective oxo
-  JOIN session_x_objective sxo ON sxo.objective_id = oxo.objective_id
-  JOIN course_x_objective cxo ON cxo.objective_id = oxo.parent_objective_id
-WHERE
-  oxo.objective_id IN (?)
-  AND oxo.parent_objective_id IN (?)
-EOL;
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id AS objective_id, p.id AS parent_objective_id')
+            ->distinct()
+            ->from('IliosCoreBundle:Objective', 'o')
+            ->join('o.sessions', 's')
+            ->join('o.parents', 'p')
+            ->where($qb->expr()->in('p.id', ':courseObjectiveIds'))
+            ->andWhere($qb->expr()->in('o.id', ':sessionObjectiveIds'))
+            ->setParameter(':sessionObjectiveIds', $sessionObjectiveIds)
+            ->setParameter(':courseObjectiveIds', $courseObjectiveIds);
 
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->executeQuery(
-            $sql,
-            [ $sessionObjectiveIds, $courseObjectiveIds ],
-            [ Connection::PARAM_INT_ARRAY, Connection::PARAM_INT_ARRAY ]
-        );
-        $rows =  $stmt->fetchAll();
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         foreach ($rows as $row) {
             $rhett['relations'][] = [
                 'rel1' => $row['parent_objective_id'],
@@ -727,7 +636,6 @@ EOL;
         $rhett['session_objective_ids'] = array_values(array_unique($rhett['session_objective_ids']));
         $rhett['course_objective_ids'] = array_values(array_unique($rhett['course_objective_ids']));
 
-        $stmt->closeCursor();
         return $rhett;
     }
 
@@ -741,57 +649,48 @@ EOL;
     public function getPcrs(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
-        $queries[] =<<<EOL
-SELECT
-  am.pcrs_id,
-  am.description
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
-  JOIN cohort co ON co.cohort_id = cxc.cohort_id
-  JOIN program_year py ON py.program_year_id = co.program_year_id
-  JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
-  JOIN objective o ON o.objective_id = pyxo.objective_id
-  JOIN competency cm ON cm.competency_id = o.competency_id AND cm.school_id = p.school_id
-  JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
-  JOIN competency_x_aamc_pcrs cxm ON cxm.competency_id = cm2.competency_id
-  JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
-WHERE
-  r.report_id = :report_id
-EOL;
-        $queries[] =<<<EOL
-SELECT
-  am.pcrs_id,
-  am.description
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
-  JOIN cohort co ON co.cohort_id = cxc.cohort_id
-  JOIN program_year py ON py.program_year_id = co.program_year_id
-  JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
-  JOIN objective o ON o.objective_id = pyxo.objective_id
-  JOIN competency cm ON cm.competency_id = o.competency_id AND cm.school_id = p.school_id
-  JOIN competency_x_aamc_pcrs cxm ON cxm.competency_id = cm.competency_id
-  JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
-WHERE
-  r.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('am.id AS pcrs_id, am.description')
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('p.school', 's')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->join('c.cohorts', 'co')
+            ->join('co.programYear', 'py')
+            ->join('py.objectives', 'o')
+            ->join('o.competency', 'cm')
+            ->join('cm.school', 's2')
+            ->join('cm.parent', 'cm2')
+            ->join('cm2.aamcPcrses', 'am')
+            ->where($qb->expr()->eq('s.id', 's2.id'))
+            ->andWhere($qb->expr()->in('r.id', ':id'))
+            ->setParameter(':id', $report->getId());
+        $queries[] = $qb->getQuery();
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('am.id AS pcrs_id, am.description')
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('p.school', 's')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->join('c.cohorts', 'co')
+            ->join('co.programYear', 'py')
+            ->join('py.objectives', 'o')
+            ->join('o.competency', 'cm')
+            ->join('cm.school', 's2')
+            ->join('cm.aamcPcrses', 'am')
+            ->where($qb->expr()->eq('s.id', 's2.id'))
+            ->andWhere($qb->expr()->in('r.id', ':id'))
+            ->setParameter(':id', $report->getId());
+        $queries[] = $qb->getQuery();
+
         foreach ($queries as $query) {
-            $stmt = $conn->prepare($query);
-            $stmt->bindValue("report_id", $report->getId());
-            $stmt->execute();
-            $rows =  $stmt->fetchAll();
+            $rows = $query->getResult(AbstractQuery::HYDRATE_ARRAY);
             foreach ($rows as $row) {
                 $rhett[$row['pcrs_id']] = $row;
             }
-            $stmt->closeCursor();
         }
         return $rhett;
     }
@@ -805,47 +704,36 @@ EOL;
     protected function getEventsFromIlmSessions(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
-        $sql =<<<EOL
-SELECT
-  s.session_id AS 'event_id',
-  s.title,
-  sd.description,
-  stxam.method_id,
-  st.assessment AS is_assessment_method,
-  ao.name AS assessment_option_name,
-  sf.hours
-FROM
-  `session` s
-  JOIN course c ON c.course_id = s.course_id
-  JOIN ilm_session_facet sf ON sf.session_id = s.session_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-  JOIN session_type st ON st.session_type_id = s.session_type_id
-  LEFT JOIN session_description sd ON sd.session_id = s.session_id
-  LEFT JOIN session_type_x_aamc_method stxam ON stxam.session_type_id = st.session_type_id
-  LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
-WHERE
-  s.published
-  AND sb.report_id = :report_id
-GROUP BY
-  s.session_id,
-  s.title,
-  sd.description,
-  stxam.method_id,
-  is_assessment_method
-ORDER BY
-  s.session_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
+            's.id AS event_id, s.title, sd.description, am.id AS method_id,'
+            . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, sf.hours'
+        )
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('s.ilmSession', 'sf')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->leftJoin('s.sessionDescription', 'sd')
+            ->leftJoin('s.sessionType', 'st')
+            ->leftJoin('st.aamcMethods', 'am')
+            ->leftJoin('st.assessmentOption', 'ao')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->in('r.id', ':id'))
+            ->groupBy('s.id')
+            ->addGroupBy('s.title')
+            ->addGroupBy('sd.description')
+            ->addGroupBy('am.id')
+            ->addGroupBy('st.assessment')
+            ->setParameter(':id', $report->getId());
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+
         foreach ($rows as $row) {
             $row['duration'] = floor($row['hours'] * 60); // convert from hours to minutes
             unset($row['hours']);
             $rhett[$row['event_id']] = $row;
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 

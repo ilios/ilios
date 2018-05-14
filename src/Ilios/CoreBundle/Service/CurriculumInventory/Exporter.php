@@ -454,7 +454,7 @@ class Exporter
         $rootNode->appendChild($expectationsNode);
         // program objectives
         foreach ($expectations['program_objectives'] as $programObjective) {
-            $uri = $this->createCompetencyObjectUri($programObjective['objective_id'], 'program_objective');
+            $uri = $this->createCompetencyObjectUri($programObjective['id'], 'program_objective');
             $this->createCompetencyObjectNode(
                 $dom,
                 $expectationsNode,
@@ -465,7 +465,7 @@ class Exporter
         }
         // course objectives
         foreach ($expectations['course_objectives'] as $courseObjective) {
-            $uri = $this->createCompetencyObjectUri($courseObjective['objective_id'], 'course_objective');
+            $uri = $this->createCompetencyObjectUri($courseObjective['id'], 'course_objective');
             $this->createCompetencyObjectNode(
                 $dom,
                 $expectationsNode,
@@ -476,7 +476,7 @@ class Exporter
         }
         // session objectives
         foreach ($expectations['session_objectives'] as $sessionObjective) {
-            $uri = $this->createCompetencyObjectUri($sessionObjective['objective_id'], 'session_objective');
+            $uri = $this->createCompetencyObjectUri($sessionObjective['id'], 'session_objective');
             $this->createCompetencyObjectNode(
                 $dom,
                 $expectationsNode,
@@ -893,10 +893,10 @@ class Exporter
             foreach ($refs as $reference) {
                 $sequenceBlockEventNode = $dom->createElement('SequenceBlockEvent');
                 $sequenceBlockNode->appendChild($sequenceBlockEventNode);
-                if ($reference['required']) {
-                    $sequenceBlockEventNode->setAttribute('required', 'true');
-                } else {
+                if ($reference['optional']) {
                     $sequenceBlockEventNode->setAttribute('required', 'false');
+                } else {
+                    $sequenceBlockEventNode->setAttribute('required', 'true');
                 }
                 $refUri = "/CurriculumInventory/Events/Event[@id='E{$reference['event_id']}']";
                 $eventReferenceNode = $dom->createElement('EventReference', $refUri);
