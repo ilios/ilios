@@ -48,6 +48,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             'children' => ['children', [1], $skipped = true],
             'report' => ['report', 2],
             'sessions' => ['sessions', [1, 2]],
+            'excludedSessions' => ['excludedSessions', [1, 2]]
         ];
     }
 
@@ -88,6 +89,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
 //            'children' => [[0], ['children' => [3]]],
             'report' => [[0, 1, 2, 3, 4], ['report' => 1]],
 //            'sessions' => [[0], ['sessions' => [1]]],
+            'excludedSessions' => [[0], ['sessions' => [1]]],
         ];
     }
 

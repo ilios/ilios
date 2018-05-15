@@ -155,6 +155,14 @@ class CurriculumInventorySequenceBlockDTO
     public $sessions;
 
     /**
+     * @var array
+     *
+     * @IS\Expose
+     * @IS\Type("array<string>")
+     */
+    public $excludedSessions;
+
+    /**
      * Needed for voting not exposed in the API
      *
      * @var integer
@@ -207,5 +215,6 @@ class CurriculumInventorySequenceBlockDTO
 
         $this->children = [];
         $this->sessions = [];
+        $this->excludedSessions = [];
     }
 }

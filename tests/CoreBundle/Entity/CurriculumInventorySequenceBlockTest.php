@@ -389,4 +389,28 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     {
         $this->entityCollectionSetTest('session', 'Session');
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::addExcludedSession
+     */
+    public function testAddExcludedSession()
+    {
+        $this->entityCollectionAddTest('excludedSession', 'Session');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::removeExcludedSession
+     */
+    public function testRemoveExcludedSession()
+    {
+        $this->entityCollectionRemoveTest('excludedSession', 'Session');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getExcludedSessions
+     */
+    public function testGetExcludedSessions()
+    {
+        $this->entityCollectionSetTest('excludedSession', 'Session');
+    }
 }
