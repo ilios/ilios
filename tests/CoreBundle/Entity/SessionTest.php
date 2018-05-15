@@ -403,5 +403,4 @@ class SessionTest extends EntityBase
     {
         $this->entityCollectionSetTest('excludedSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
-
 }

@@ -914,6 +914,5 @@ class SessionUser implements SessionUserInterface
                 $this->userManager->getInstructorGroupIds($this->getId());
         }
         return $this->instructorGroupIds;
-
     }
 }
