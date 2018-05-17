@@ -167,7 +167,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     {
         // WHAT'S GOING ON HERE?!
         // Aggregate the CI events retrieved from session-offerings with the events retrieved from ILM sessions,
-        // and blank sessions, and sessions that are ILMs with offerings.
+        // and sessions that are ILMs with offerings.
         // We can't do this by ways of <code>array_merge()</code>, since this would clobber the keys on the joined array
         // (we're dealing with associative arrays using numeric keys here).
         // Hence the use of the '+' array-operator.
@@ -178,7 +178,6 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $sessionIds = $this->getCountForOneOfferingSessionIds($report);
         $rhett = $this->getEventsFromOfferingsOnlySessions($report, $sessionIds)
             + $this->getEventsFromIlmOnlySessions($report)
-            + $this->getEventsFromBlankSessions($report)
             + $this->getEventsFromIlmSessionsWithOfferings($report, $sessionIds);
         return $rhett;
     }
@@ -739,49 +738,6 @@ EOL;
         foreach ($rows as $row) {
             $row['duration'] = floor($row['hours'] * 60); // convert from hours to minutes
             unset($row['hours']);
-            $rhett[$row['event_id']] = $row;
-        }
-        return $rhett;
-    }
-
-    /**
-     * Retrieves a list of events derived sessions that are neither ILMs, nor have any offerings.
-     *
-     * @param CurriculumInventoryReportInterface $report
-     * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
-     */
-    protected function getEventsFromBlankSessions(CurriculumInventoryReportInterface $report)
-    {
-        $rhett = [];
-
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select(
-            's.id AS event_id, s.title, sd.description, am.id AS method_id,'
-            . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, 0 AS duration'
-        )
-            ->from('IliosCoreBundle:Session', 's')
-            ->join('s.course', 'c')
-            ->join('c.sequenceBlocks', 'sb')
-            ->join('sb.report', 'r')
-            ->leftJoin('s.ilmSession', 'sf')
-            ->leftJoin('s.offerings', 'o')
-            ->leftJoin('s.sessionDescription', 'sd')
-            ->leftJoin('s.sessionType', 'st')
-            ->leftJoin('st.aamcMethods', 'am')
-            ->leftJoin('st.assessmentOption', 'ao')
-            ->where($qb->expr()->eq('s.published', 1))
-            ->andWhere($qb->expr()->isNull('o.id'))
-            ->andWhere($qb->expr()->isNull('sf.id'))
-            ->andWhere($qb->expr()->eq('r.id', ':id'))
-            ->groupBy('s.id')
-            ->addGroupBy('s.title')
-            ->addGroupBy('sd.description')
-            ->addGroupBy('am.id')
-            ->addGroupBy('st.assessment')
-            ->setParameter(':id', $report->getId());
-
-        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
-        foreach ($rows as $row) {
             $rhett[$row['event_id']] = $row;
         }
         return $rhett;
