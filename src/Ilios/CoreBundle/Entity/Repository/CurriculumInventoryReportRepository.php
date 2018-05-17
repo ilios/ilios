@@ -174,7 +174,9 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         // [ST 2015/09/18]
         // @link http://php.net/manual/en/language.operators.array.php
         // @link http://php.net/manual/en/function.array-merge.php
-        $rhett = $this->getEventsFromSessionOfferings($report) + $this->getEventsFromIlmSessions($report);
+        $sessionIds = $this->getCountForOneOfferingSessionIds($report);
+        $rhett = $this->getEventsFromOfferingsOnlySessions($report, $sessionIds)
+            + $this->getEventsFromIlmOnlySessions($report);
         return $rhett;
     }
 
@@ -701,7 +703,7 @@ EOL;
      * @param CurriculumInventoryReportInterface $report
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
      */
-    protected function getEventsFromIlmSessions(CurriculumInventoryReportInterface $report)
+    protected function getEventsFromIlmOnlySessions(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
 
@@ -738,14 +740,17 @@ EOL;
     }
 
     /**
-     * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
+     * Retrieves a list of events (derived from published sessions/offerings)
      * in a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param array $sessionIds The ids of session that are flagged to have their offerings counted as one.
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
      */
-    protected function getEventsFromSessionOfferings(CurriculumInventoryReportInterface $report)
-    {
+    protected function getEventsFromOfferingsOnlySessions(
+        CurriculumInventoryReportInterface $report,
+        array $sessionIds = []
+    ) {
         $rhett = [];
         $sql =<<<EOL
 SELECT
@@ -755,7 +760,6 @@ SELECT
   stxam.method_id,
   st.assessment AS is_assessment_method,
   ao.name AS assessment_option_name,
-  sbxs.session_id AS count_offerings_once,
   o.start_date,
   o.end_date
 FROM
@@ -768,8 +772,6 @@ FROM
   LEFT JOIN session_type_x_aamc_method stxam ON stxam.session_type_id = st.session_type_id
   LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
   LEFT JOIN ilm_session_facet sf ON sf.session_id = s.session_id
-  LEFT JOIN curriculum_inventory_sequence_block_x_session sbxs 
-    ON sbxs.session_id = s.session_id AND sbxs.sequence_block_id = sb.sequence_block_id 
 WHERE
   s.published
   AND sf.ilm_session_facet_id IS NULL
@@ -794,7 +796,7 @@ EOL;
             if (!array_key_exists($row['event_id'], $rhett)) {
                 $rhett[$row['event_id']] = $row;
             } else {
-                if ($row['count_offerings_once']) {
+                if (array_key_exists($row['event_id'], $sessionIds)) {
                     if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
                         $rhett[$row['event_id']]['duration'] = $row['duration'];
                     }
@@ -812,5 +814,25 @@ EOL;
 
         $stmt->closeCursor();
         return $rhett;
+    }
+
+    /**
+     * Get all ids of sessions that are flagged to have their offerings counted as one in the given report.
+     * @param CurriculumInventoryReportInterface $report
+     * @return array|int[]
+     */
+    protected function getCountForOneOfferingSessionIds(CurriculumInventoryReportInterface $report)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('s.id')
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.sessions', 's')
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->setParameter(':id', $report->getId());
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+
+        return array_column($rows, 'id');
     }
 }
