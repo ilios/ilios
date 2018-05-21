@@ -176,9 +176,10 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         // @link http://php.net/manual/en/language.operators.array.php
         // @link http://php.net/manual/en/function.array-merge.php
         $sessionIds = $this->getCountForOneOfferingSessionIds($report);
-        $rhett = $this->getEventsFromOfferingsOnlySessions($report, $sessionIds)
-            + $this->getEventsFromIlmOnlySessions($report)
-            + $this->getEventsFromIlmSessionsWithOfferings($report, $sessionIds);
+        $excludedSessionids = $this->getExcludedSessionIds($report);
+        $rhett = $this->getEventsFromOfferingsOnlySessions($report, $sessionIds, $excludedSessionids)
+            + $this->getEventsFromIlmOnlySessions($report, $excludedSessionids)
+            + $this->getEventsFromIlmSessionsWithOfferings($report, $sessionIds, $excludedSessionids);
         return $rhett;
     }
 
@@ -703,10 +704,13 @@ EOL;
      * Retrieves a list of events derived from independent learning sessions in a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param array $excludedSessionIds The ids of sessions that are flagged to be excluded from this report.
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
      */
-    protected function getEventsFromIlmOnlySessions(CurriculumInventoryReportInterface $report)
-    {
+    protected function getEventsFromIlmOnlySessions(
+        CurriculumInventoryReportInterface $report,
+        array $excludedSessionIds = []
+    ) {
         $rhett = [];
 
         $qb = $this->_em->createQueryBuilder();
@@ -733,6 +737,12 @@ EOL;
             ->addGroupBy('am.id')
             ->addGroupBy('st.assessment')
             ->setParameter(':id', $report->getId());
+
+        if (! empty($excludedSessionIds)) {
+            $qb->andWhere($qb->expr()->notIn('s.id', ':excludedSessions'))
+                ->setParameter(':excludedSessions', $excludedSessionIds);
+        }
+
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
 
         foreach ($rows as $row) {
@@ -748,12 +758,14 @@ EOL;
      * in a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
-     * @param array $sessionIds The ids of session that are flagged to have their offerings counted as one.
+     * @param array $sessionIds The ids of sessions that are flagged to have their offerings counted as one.
+     * @param array $excludedSessionIds The ids of sessions that are flagged to be excluded from this report.
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
      */
     protected function getEventsFromOfferingsOnlySessions(
         CurriculumInventoryReportInterface $report,
-        array $sessionIds = []
+        array $sessionIds = [],
+        array $excludedSessionIds = []
     ) {
         $rhett = [];
         $qb = $this->_em->createQueryBuilder();
@@ -776,7 +788,13 @@ EOL;
             ->andWhere($qb->expr()->eq('r.id', ':id'))
             ->setParameter(':id', $report->getId());
 
+        if (! empty($excludedSessionIds)) {
+            $qb->andWhere($qb->expr()->notIn('s.id', ':excludedSessions'))
+                ->setParameter(':excludedSessions', $excludedSessionIds);
+        }
+
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+
         foreach ($rows as $row) {
             $row['duration'] = 0;
             if ($row['startDate']) {
@@ -811,12 +829,14 @@ EOL;
      * in a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
-     * @param array $sessionIds The ids of session that are flagged to have their offerings counted as one.
+     * @param array $sessionIds The ids of sessions that are flagged to have their offerings counted as one.
+     * @param array $excludedSessionIds The ids of sessions that are flagged to be excluded from this report.
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
      */
     protected function getEventsFromIlmSessionsWithOfferings(
         CurriculumInventoryReportInterface $report,
-        array $sessionIds = []
+        array $sessionIds = [],
+        array $excludedSessionIds = []
     ) {
         $rhett = [];
         $qb = $this->_em->createQueryBuilder();
@@ -837,6 +857,11 @@ EOL;
             ->where($qb->expr()->eq('s.published', 1))
             ->andWhere($qb->expr()->eq('r.id', ':id'))
             ->setParameter(':id', $report->getId());
+
+        if (! empty($excludedSessionIds)) {
+            $qb->andWhere($qb->expr()->notIn('s.id', ':excludedSessions'))
+                ->setParameter(':excludedSessions', $excludedSessionIds);
+        }
 
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         $ilmHours = [];
@@ -886,6 +911,26 @@ EOL;
             ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
             ->join('r.sequenceBlocks', 'sb')
             ->join('sb.sessions', 's')
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->setParameter(':id', $report->getId());
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+
+        return array_column($rows, 'id');
+    }
+
+    /**
+     * Get all ids of sessions that are flagged to be excluded from the given report.
+     * @param CurriculumInventoryReportInterface $report
+     * @return array|int[]
+     */
+    protected function getExcludedSessionIds(CurriculumInventoryReportInterface $report)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('s.id')
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.excludedSessions', 's')
             ->where($qb->expr()->eq('r.id', ':id'))
             ->setParameter(':id', $report->getId());
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
