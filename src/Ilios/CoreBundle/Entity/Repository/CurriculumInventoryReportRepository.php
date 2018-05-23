@@ -1,7 +1,6 @@
 <?php
 namespace Ilios\CoreBundle\Entity\Repository;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -184,12 +183,13 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     }
 
     /**
-     * Retrieves AAMC resource types associated with events (sessions) in a given curriculum inventory report.
+     * Retrieves AAMC resource types associated with given events (sessions) in a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $eventIds
      * @return array An array of assoc. arrays, each sub-array representing a resource type.
      */
-    public function getEventResourceTypes(CurriculumInventoryReportInterface $report)
+    public function getEventResourceTypes(CurriculumInventoryReportInterface $report, array $eventIds = array())
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('s.id AS event_id, art.id AS resource_type_id, art.title AS resource_type_title')
@@ -200,9 +200,11 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('sb.report', 'r')
             ->join('s.terms', 't')
             ->join('t.aamcResourceTypes', 'art')
-            ->where($qb->expr()->eq('s.published', 1))
-            ->andWhere($qb->expr()->eq('r.id', ':id'))
-            ->setParameter('id', $report->getId());
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->andWhere($qb->expr()->in('s.id', ':eventIds'))
+            ->setParameter('id', $report->getId())
+            ->setParameter('eventIds', $eventIds);
+
         return $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
@@ -211,9 +213,10 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      * in a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $eventIds
      * @return array An array of assoc. arrays, each sub-array representing a keyword.
      */
-    public function getEventKeywords(CurriculumInventoryReportInterface $report)
+    public function getEventKeywords(CurriculumInventoryReportInterface $report, array $eventIds = array())
     {
         $rhett = [];
         $qb = $this->_em->createQueryBuilder();
@@ -223,9 +226,11 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('c.sequenceBlocks', 'sb')
             ->join('sb.report', 'r')
             ->join('s.meshDescriptors', 'md')
-            ->where($qb->expr()->eq('s.published', 1))
-            ->andWhere($qb->expr()->eq('r.id', ':id'))
-            ->setParameter('id', $report->getId());
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->andWhere($qb->expr()->in('s.id', ':eventIds'))
+            ->setParameter('id', $report->getId())
+            ->setParameter('eventIds', $eventIds);
+
         $queries[] = $qb->getQuery();
         $qb = $this->_em->createQueryBuilder();
         $qb->select("s.id AS event_id, t.id, v.title AS source, t.title AS name")
@@ -235,9 +240,11 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('sb.report', 'r')
             ->join('s.terms', 't')
             ->join('t.vocabulary', 'v')
-            ->where($qb->expr()->eq('s.published', 1))
-            ->andWhere($qb->expr()->eq('r.id', ':id'))
-            ->setParameter('id', $report->getId());
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->andWhere($qb->expr()->in('s.id', ':eventIds'))
+            ->setParameter('id', $report->getId())
+            ->setParameter('eventIds', $eventIds);
+
         $queries[] = $qb->getQuery();
         foreach ($queries as $query) {
             $rhett = array_merge($rhett, $query->getResult(AbstractQuery::HYDRATE_ARRAY));
@@ -246,23 +253,27 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     }
 
     /**
-     * Retrieves a lookup map of events ('sessions') in a given curriculum inventory report,
+     * Retrieves a lookup map of given events ('sessions') in a given curriculum inventory report,
      * grouped and keyed off by sequence block id.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $eventIds
      * @return array
      */
-    public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
-    {
+    public function getEventReferencesForSequenceBlocks(
+        CurriculumInventoryReportInterface $report,
+        array $eventIds = array()
+    ) {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('sb.id, s.id AS event_id, s.supplemental AS optional')
             ->from('IliosCoreBundle:Session', 's')
             ->join('s.course', 'c')
             ->join('c.sequenceBlocks', 'sb')
             ->join('sb.report', 'r')
-            ->where($qb->expr()->eq('s.published', 1))
-            ->andWhere($qb->expr()->eq('r.id', ':id'))
-            ->setParameter('id', $report->getId());
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->andWhere($qb->expr()->in('s.id', ':eventIds'))
+            ->setParameter('id', $report->getId())
+            ->setParameter('eventIds', $eventIds);
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         $rhett = [];
         foreach ($rows as $row) {
@@ -339,14 +350,15 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     }
 
     /**
-     * Retrieves all session objectives in a given curriculum inventory report.
+     * Retrieves all session objectives for given sessions in a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $sessionIds
      * @return array An associative array of arrays, keyed off by objective id.
      *   Each item is an associative array, containing
      *   the objective's id and title (keys: "objective_id" and "title").
      */
-    public function getSessionObjectives(CurriculumInventoryReportInterface $report)
+    public function getSessionObjectives(CurriculumInventoryReportInterface $report, array $sessionIds = array())
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('o.id, o.title')
@@ -357,9 +369,10 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('sb.course', 'c')
             ->join('c.sessions', 's')
             ->join('s.objectives', 'o')
-            ->where($qb->expr()->eq('s.published', 1))
-            ->andWhere($qb->expr()->eq('r.id', ':id'))
-            ->setParameter('id', $report->getId());
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->andWhere($qb->expr()->in('s.id', ':sessionIds'))
+            ->setParameter('id', $report->getId())
+            ->setParameter('sessionIds', $sessionIds);
 
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         $rhett = [];
@@ -370,9 +383,10 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     }
 
     /**
-     * Retrieves all the competency object references per event in a given report.
+     * Retrieves all the competency object references per given event (session) in a given report.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $eventIds
      * @return array An associative array of arrays, keyed off by event id.
      *     Each sub-array is in turn a two item map, containing a list of course objectives ids
      *     under 'course_objectives', a list of program objective ids under 'program_objective'
@@ -388,37 +402,33 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      *   ],
      *   </pre>
      */
-    public function getCompetencyObjectReferencesForEvents(CurriculumInventoryReportInterface $report)
-    {
+    public function getCompetencyObjectReferencesForEvents(
+        CurriculumInventoryReportInterface $report,
+        array $eventIds = array()
+    ) {
         $rhett = [];
-        $sql =<<<EOL
-SELECT DISTINCT
-  s.session_id AS 'event_id',
-  so.objective_id AS 'session_objective_id',
-  o.objective_id as 'course_objective_id',
-  o2.objective_id AS 'program_objective_id'
-FROM
-  curriculum_inventory_report r
-  JOIN program p ON p.program_id = r.program_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
-  JOIN course c ON c.course_id = sb.course_id
-  JOIN `session` s ON s.course_id = c.course_id
-  JOIN session_x_objective sxo ON sxo.session_id = s.session_id
-  JOIN objective so ON so.objective_id = sxo.objective_id
-  LEFT JOIN objective_x_objective oxo ON oxo.objective_id = so.objective_id
-  LEFT JOIN course_x_objective cxo ON cxo.objective_id = oxo.parent_objective_id
-  LEFT JOIN objective o ON o.objective_id = cxo.objective_id
-  LEFT JOIN objective_x_objective oxo2 ON oxo2.objective_id = o.objective_id
-  LEFT JOIN objective o2 ON o2.objective_id = oxo2.parent_objective_id
-WHERE
-  s.published
-  AND r.report_id = :report_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
+            's.id AS event_id, so.id AS session_objective_id, co.id AS course_objective_id,'
+            . 'po.id AS program_objective_id'
+        )
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.program', 'p')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.course', 'c')
+            ->join('c.sessions', 's')
+            ->leftJoin('s.objectives', 'so')
+            ->leftJoin('so.parents', 'co')
+            ->leftJoin('co.parents', 'po')
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->andWhere($qb->expr()->in('s.id', ':eventIds'))
+            ->setParameter('id', $report->getId())
+            ->setParameter('eventIds', $eventIds);
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+
         foreach ($rows as $row) {
             $eventId = $row['event_id'];
             if (! array_key_exists($eventId, $rhett)) {
@@ -441,7 +451,6 @@ EOL;
                 $rhett[$eventId]['program_objectives'][] = $row['program_objective_id'];
             }
         }
-        $stmt->closeCursor();
         return $rhett;
     }
 
