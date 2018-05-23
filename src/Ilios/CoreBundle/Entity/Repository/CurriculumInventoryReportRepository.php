@@ -166,15 +166,19 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     public function getEvents(CurriculumInventoryReportInterface $report)
     {
         // WHAT'S GOING ON HERE?!
-        // Aggregate the CI events retrieved from session-offerings with the events retrieved from ILM sessions.
+        // Aggregate the CI events retrieved from session-offerings with the events retrieved from ILM sessions,
+        // and sessions that are ILMs with offerings.
         // We can't do this by ways of <code>array_merge()</code>, since this would clobber the keys on the joined array
         // (we're dealing with associative arrays using numeric keys here).
         // Hence the use of the '+' array-operator.
-        // This should be OK since there is no overlap of elements between the two source arrays.
+        // This should be OK since there is no overlap of elements between the various source arrays.
         // [ST 2015/09/18]
         // @link http://php.net/manual/en/language.operators.array.php
         // @link http://php.net/manual/en/function.array-merge.php
-        $rhett = $this->getEventsFromSessionOfferings($report) + $this->getEventsFromIlmSessions($report);
+        $sessionIds = $this->getCountForOneOfferingSessionIds($report);
+        $rhett = $this->getEventsFromOfferingsOnlySessions($report, $sessionIds)
+            + $this->getEventsFromIlmOnlySessions($report)
+            + $this->getEventsFromIlmSessionsWithOfferings($report, $sessionIds);
         return $rhett;
     }
 
@@ -664,7 +668,7 @@ EOL;
             ->join('cm.parent', 'cm2')
             ->join('cm2.aamcPcrses', 'am')
             ->where($qb->expr()->eq('s.id', 's2.id'))
-            ->andWhere($qb->expr()->in('r.id', ':id'))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
             ->setParameter(':id', $report->getId());
         $queries[] = $qb->getQuery();
 
@@ -682,7 +686,7 @@ EOL;
             ->join('cm.school', 's2')
             ->join('cm.aamcPcrses', 'am')
             ->where($qb->expr()->eq('s.id', 's2.id'))
-            ->andWhere($qb->expr()->in('r.id', ':id'))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
             ->setParameter(':id', $report->getId());
         $queries[] = $qb->getQuery();
 
@@ -701,7 +705,7 @@ EOL;
      * @param CurriculumInventoryReportInterface $report
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
      */
-    protected function getEventsFromIlmSessions(CurriculumInventoryReportInterface $report)
+    protected function getEventsFromIlmOnlySessions(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
 
@@ -715,12 +719,14 @@ EOL;
             ->join('s.ilmSession', 'sf')
             ->join('c.sequenceBlocks', 'sb')
             ->join('sb.report', 'r')
+            ->leftJoin('s.offerings', 'o')
             ->leftJoin('s.sessionDescription', 'sd')
             ->leftJoin('s.sessionType', 'st')
             ->leftJoin('st.aamcMethods', 'am')
             ->leftJoin('st.assessmentOption', 'ao')
             ->where($qb->expr()->eq('s.published', 1))
-            ->andWhere($qb->expr()->in('r.id', ':id'))
+            ->andWhere($qb->expr()->isNull('o.id'))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
             ->groupBy('s.id')
             ->addGroupBy('s.title')
             ->addGroupBy('sd.description')
@@ -738,55 +744,44 @@ EOL;
     }
 
     /**
-     * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
+     * Retrieves a list of events (derived from published sessions/offerings)
      * in a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param array $sessionIds The ids of session that are flagged to have their offerings counted as one.
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
      */
-    protected function getEventsFromSessionOfferings(CurriculumInventoryReportInterface $report)
-    {
+    protected function getEventsFromOfferingsOnlySessions(
+        CurriculumInventoryReportInterface $report,
+        array $sessionIds = []
+    ) {
         $rhett = [];
-        $sql =<<<EOL
-SELECT
-  s.session_id AS 'event_id',
-  s.title,
-  sd.description,
-  stxam.method_id,
-  st.assessment AS is_assessment_method,
-  ao.name AS assessment_option_name,
-  sbxs.session_id AS count_offerings_once,
-  o.start_date,
-  o.end_date
-FROM
-  `session` s
-  JOIN session_type st ON st.session_type_id = s.session_type_id
-  JOIN course c ON c.course_id = s.course_id
-  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-  LEFT JOIN offering o ON o.session_id = s.session_id
-  LEFT JOIN session_description sd ON sd.session_id = s.session_id
-  LEFT JOIN session_type_x_aamc_method stxam ON stxam.session_type_id = st.session_type_id
-  LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
-  LEFT JOIN ilm_session_facet sf ON sf.session_id = s.session_id
-  LEFT JOIN curriculum_inventory_sequence_block_x_session sbxs 
-    ON sbxs.session_id = s.session_id AND sbxs.sequence_block_id = sb.sequence_block_id 
-WHERE
-  s.published
-  AND sf.ilm_session_facet_id IS NULL
-  AND sb.report_id = :report_id
-ORDER BY
-  s.session_id
-EOL;
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("report_id", $report->getId());
-        $stmt->execute();
-        $rows =  $stmt->fetchAll();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
+            's.id AS event_id, s.title, sd.description, am.id AS method_id,'
+            . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, o.startDate, o.endDate'
+        )
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->join('s.offerings', 'o')
+            ->leftJoin('s.ilmSession', 'sf')
+            ->leftJoin('s.sessionDescription', 'sd')
+            ->leftJoin('s.sessionType', 'st')
+            ->leftJoin('st.aamcMethods', 'am')
+            ->leftJoin('st.assessmentOption', 'ao')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->isNull('sf.id'))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter(':id', $report->getId());
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         foreach ($rows as $row) {
             $row['duration'] = 0;
-            if ($row['start_date']) {
-                $startDate = new \Datetime($row['start_date'], new \DateTimeZone('UTC'));
-                $endDate = new \DateTime($row['end_date'], new \DateTimeZone('UTC'));
+            if ($row['startDate']) {
+                $startDate = $row['startDate'];
+                $endDate = $row['endDate'];
                 $duration = floor(($endDate->getTimestamp() - $startDate->getTimestamp()) / 60);
                 $row['duration'] = $duration;
             }
@@ -794,7 +789,7 @@ EOL;
             if (!array_key_exists($row['event_id'], $rhett)) {
                 $rhett[$row['event_id']] = $row;
             } else {
-                if ($row['count_offerings_once']) {
+                if (array_key_exists($row['event_id'], $sessionIds)) {
                     if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
                         $rhett[$row['event_id']]['duration'] = $row['duration'];
                     }
@@ -805,12 +800,96 @@ EOL;
         }
 
         array_walk($rhett, function (&$row) {
-            unset($row['count_offerings_once']);
-            unset($row['start_date']);
-            unset($row['end_date']);
+            unset($row['startDate']);
+            unset($row['endDate']);
+        });
+        return $rhett;
+    }
+
+    /**
+     * Retrieves a list of events (derived from published ILM sessions with offerings)
+     * in a given curriculum inventory report.
+     *
+     * @param CurriculumInventoryReportInterface $report
+     * @param array $sessionIds The ids of session that are flagged to have their offerings counted as one.
+     * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
+     */
+    protected function getEventsFromIlmSessionsWithOfferings(
+        CurriculumInventoryReportInterface $report,
+        array $sessionIds = []
+    ) {
+        $rhett = [];
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
+            's.id AS event_id, s.title, sd.description, am.id AS method_id, sf.hours as ilm_hours,'
+            . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, o.startDate, o.endDate'
+        )
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('c.sequenceBlocks', 'sb')
+            ->join('sb.report', 'r')
+            ->join('s.offerings', 'o')
+            ->join('s.ilmSession', 'sf')
+            ->leftJoin('s.sessionDescription', 'sd')
+            ->leftJoin('s.sessionType', 'st')
+            ->leftJoin('st.aamcMethods', 'am')
+            ->leftJoin('st.assessmentOption', 'ao')
+            ->where($qb->expr()->eq('s.published', 1))
+            ->andWhere($qb->expr()->eq('r.id', ':id'))
+            ->setParameter(':id', $report->getId());
+
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+        $ilmHours = [];
+        foreach ($rows as $row) {
+            $ilmHours[$row['event_id']] =  floor($row['ilm_hours'] * 60);
+            $row['duration'] = 0;
+            if ($row['startDate']) {
+                $startDate = $row['startDate'];
+                $endDate = $row['endDate'];
+                $duration = floor(($endDate->getTimestamp() - $startDate->getTimestamp()) / 60);
+                $row['duration'] = $duration;
+            }
+
+            if (!array_key_exists($row['event_id'], $rhett)) {
+                $rhett[$row['event_id']] = $row;
+            } else {
+                if (array_key_exists($row['event_id'], $sessionIds)) {
+                    if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
+                        $rhett[$row['event_id']]['duration'] = $row['duration'];
+                    }
+                } else {
+                    $rhett[$row['event_id']]['duration'] += $row['duration'];
+                }
+            }
+        }
+
+        array_walk($rhett, function (&$row) use ($ilmHours) {
+            $row['duration'] = $row['duration'] + $ilmHours[$row['event_id']];
+            unset($row['startDate']);
+            unset($row['endDate']);
+            unset($row['ilm_hours']);
         });
 
-        $stmt->closeCursor();
         return $rhett;
+    }
+
+    /**
+     * Get all ids of sessions that are flagged to have their offerings counted as one in the given report.
+     * @param CurriculumInventoryReportInterface $report
+     * @return array|int[]
+     */
+    protected function getCountForOneOfferingSessionIds(CurriculumInventoryReportInterface $report)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('s.id')
+            ->distinct()
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
+            ->join('r.sequenceBlocks', 'sb')
+            ->join('sb.sessions', 's')
+            ->where($qb->expr()->eq('r.id', ':id'))
+            ->setParameter(':id', $report->getId());
+        $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+
+        return array_column($rows, 'id');
     }
 }
