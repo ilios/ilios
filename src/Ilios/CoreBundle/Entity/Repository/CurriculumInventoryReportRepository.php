@@ -191,6 +191,10 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      */
     public function getEventResourceTypes(CurriculumInventoryReportInterface $report, array $eventIds = array())
     {
+        if (empty($eventIds)) {
+            return [];
+        }
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select('s.id AS event_id, art.id AS resource_type_id, art.title AS resource_type_title')
             ->distinct()
@@ -219,6 +223,11 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     public function getEventKeywords(CurriculumInventoryReportInterface $report, array $eventIds = array())
     {
         $rhett = [];
+
+        if (empty($eventIds)) {
+            return $rhett;
+        }
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select("s.id AS event_id, md.id, 'MeSH' AS source, md.name")
             ->from('IliosCoreBundle:Session', 's')
@@ -264,6 +273,12 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         CurriculumInventoryReportInterface $report,
         array $eventIds = array()
     ) {
+        $rhett = [];
+
+        if (empty($eventIds)) {
+            return $rhett;
+        }
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select('sb.id, s.id AS event_id, s.supplemental AS optional')
             ->from('IliosCoreBundle:Session', 's')
@@ -274,8 +289,9 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->andWhere($qb->expr()->in('s.id', ':eventIds'))
             ->setParameter('id', $report->getId())
             ->setParameter('eventIds', $eventIds);
+
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
-        $rhett = [];
+
         foreach ($rows as $row) {
             if (! array_key_exists($row['id'], $rhett)) {
                 $rhett[$row['id']] = [];
@@ -360,6 +376,12 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      */
     public function getSessionObjectives(CurriculumInventoryReportInterface $report, array $sessionIds = array())
     {
+        $rhett = [];
+
+        if (empty($sessionIds)) {
+            return $rhett;
+        }
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select('o.id, o.title')
             ->distinct()
@@ -375,7 +397,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->setParameter('sessionIds', $sessionIds);
 
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
-        $rhett = [];
+
         foreach ($rows as $row) {
             $rhett[$row['id']] = $row;
         }
@@ -407,6 +429,10 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         array $eventIds = array()
     ) {
         $rhett = [];
+
+        if (empty($eventIds)) {
+            return $rhett;
+        }
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
