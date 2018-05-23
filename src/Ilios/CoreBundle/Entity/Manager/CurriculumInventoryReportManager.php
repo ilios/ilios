@@ -20,28 +20,34 @@ class CurriculumInventoryReportManager extends BaseManager
 
     /**
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $eventIds
      * @return array
      */
-    public function getEventResourceTypes(CurriculumInventoryReportInterface $report)
+    public function getEventResourceTypes(CurriculumInventoryReportInterface $report, array $eventIds = array())
     {
-        return $this->getRepository()->getEventResourceTypes($report);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEventKeywords(CurriculumInventoryReportInterface $report)
-    {
-        return $this->getRepository()->getEventKeywords($report);
+        return $this->getRepository()->getEventResourceTypes($report, $eventIds);
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $eventIds
      * @return array
      */
-    public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
+    public function getEventKeywords(CurriculumInventoryReportInterface $report, array $eventIds = array())
     {
-        return $this->getRepository()->getEventReferencesForSequenceBlocks($report);
+        return $this->getRepository()->getEventKeywords($report, $eventIds);
+    }
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $eventIds
+     * @return array
+     */
+    public function getEventReferencesForSequenceBlocks(
+        CurriculumInventoryReportInterface $report,
+        array $eventIds = array()
+    ) {
+        return $this->getRepository()->getEventReferencesForSequenceBlocks($report, $eventIds);
     }
 
     /**
@@ -55,11 +61,12 @@ class CurriculumInventoryReportManager extends BaseManager
 
     /**
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $sessionIds
      * @return array
      */
-    public function getSessionObjectives(CurriculumInventoryReportInterface $report)
+    public function getSessionObjectives(CurriculumInventoryReportInterface $report, array $sessionIds = array())
     {
-        return $this->getRepository()->getSessionObjectives($report);
+        return $this->getRepository()->getSessionObjectives($report, $sessionIds);
     }
 
     /**
@@ -91,11 +98,14 @@ class CurriculumInventoryReportManager extends BaseManager
 
     /**
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $eventIds
      * @return array
      */
-    public function getCompetencyObjectReferencesForEvents(CurriculumInventoryReportInterface $report)
-    {
-        return $this->getRepository()->getCompetencyObjectReferencesForEvents($report);
+    public function getCompetencyObjectReferencesForEvents(
+        CurriculumInventoryReportInterface $report,
+        array $eventIds = array()
+    ) {
+        return $this->getRepository()->getCompetencyObjectReferencesForEvents($report, $eventIds);
     }
 
     /**

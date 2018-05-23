@@ -111,17 +111,18 @@ class Exporter
         }
 
         $events = $this->reportManager->getEvents($invReport);
-        $keywords = $this->reportManager->getEventKeywords($invReport);
-        $resourceTypes = $this->reportManager->getEventResourceTypes($invReport);
+        $eventIds = array_keys($events);
+        $keywords = $this->reportManager->getEventKeywords($invReport, $eventIds);
+        $resourceTypes = $this->reportManager->getEventResourceTypes($invReport, $eventIds);
 
-        $eventRefsForSeqBlocks = $this->reportManager->getEventReferencesForSequenceBlocks($invReport);
+        $eventRefsForSeqBlocks = $this->reportManager->getEventReferencesForSequenceBlocks($invReport, $eventIds);
 
         $programObjectives = $this->reportManager->getProgramObjectives($invReport);
-        $sessionObjectives = $this->reportManager->getSessionObjectives($invReport);
+        $sessionObjectives = $this->reportManager->getSessionObjectives($invReport, $eventIds);
         $courseObjectives = $this->reportManager->getCourseObjectives($invReport);
 
         $compObjRefsForSeqBlocks = $this->reportManager->getCompetencyObjectReferencesForSequenceBlocks($invReport);
-        $compRefsForEvents = $this->reportManager->getCompetencyObjectReferencesForEvents($invReport);
+        $compRefsForEvents = $this->reportManager->getCompetencyObjectReferencesForEvents($invReport, $eventIds);
 
         // The various objective type are all "Competency Objects" in the context of reporting the curriculum inventory.
         // The are grouped in the "Expectations" section of the report, lump 'em together here.
