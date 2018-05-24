@@ -477,6 +477,23 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      */
     public function setCourse(CourseInterface $course = null)
     {
+        // on course change, remove any linked sessions NOT belonging to the given course
+        if ($this->course !== $course) {
+            $sessions = $this->getSessions();
+            foreach ($sessions as $session) {
+                if ($session->getCourse() !== $course) {
+                    $this->removeSession($session);
+                }
+            }
+
+            $sessions = $this->getExcludedSessions();
+            foreach ($sessions as $session) {
+                if ($session->getCourse() !== $course) {
+                    $this->removeExcludedSession($session);
+                }
+            }
+
+        }
         $this->course = $course;
     }
 
