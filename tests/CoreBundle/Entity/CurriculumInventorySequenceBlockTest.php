@@ -1,9 +1,12 @@
 <?php
 namespace Tests\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
+use Ilios\CoreBundle\Entity\Session;
 use Mockery as m;
 
 /**
@@ -412,5 +415,30 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     public function testGetExcludedSessions()
     {
         $this->entityCollectionSetTest('excludedSession', 'Session');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setCourse
+     */
+    public function testChangingCourseRemovesOrphanedSessions()
+    {
+        $newCourse = new Course();
+        $oldCourse = new Course();
+        $session1 = new Session();
+        $session1->setCourse($oldCourse);
+        $session2 = new Session();
+        $session2->setCourse($oldCourse);
+
+        $this->object->setCourse($oldCourse);
+        $this->object->setSessions(new ArrayCollection([$session1]));
+        $this->object->setExcludedSessions(new ArrayCollection([$session2]));
+
+        $this->assertTrue($this->object->getSessions()->contains($session1));
+        $this->assertTrue($this->object->getExcludedSessions()->contains($session2));
+
+        $this->object->setCourse($newCourse);
+
+        $this->assertFalse($this->object->getSessions()->contains($session1));
+        $this->assertFalse($this->object->getExcludedSessions()->contains($session2));
     }
 }
