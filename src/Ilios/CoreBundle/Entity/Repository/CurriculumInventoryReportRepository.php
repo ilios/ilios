@@ -179,6 +179,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $rhett = $this->getEventsFromOfferingsOnlySessions($report, $sessionIds, $excludedSessionids)
             + $this->getEventsFromIlmOnlySessions($report, $excludedSessionids)
             + $this->getEventsFromIlmSessionsWithOfferings($report, $sessionIds, $excludedSessionids);
+        ksort($rhett);
         return $rhett;
     }
 
