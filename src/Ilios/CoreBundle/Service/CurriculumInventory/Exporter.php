@@ -2,15 +2,7 @@
 
 namespace Ilios\CoreBundle\Service\CurriculumInventory;
 
-use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
-use Ilios\CoreBundle\Entity\ProgramInterface;
-use Ilios\CoreBundle\Service\Config;
 use Ilios\CoreBundle\Service\CurriculumInventory\Export\Aggregator;
 use Ilios\CoreBundle\Service\CurriculumInventory\Export\XmlPrinter;
 
