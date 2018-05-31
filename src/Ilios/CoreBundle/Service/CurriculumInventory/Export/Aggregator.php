@@ -113,8 +113,9 @@ class Aggregator
      * @return array An associated array, containing the inventory.
      *     Data is keyed off by:
      *         'report' ... The inventory report entity.
-     *         'supportingLink' ... A link to supporting information of the curriculum.
-     *         'institutionDomain' ... URN part of the report id.
+     *         'created_at' ... UNIX timestamp indicating when this report was created.
+     *         'supporting_link' ... A link to supporting information of the curriculum.
+     *         'institution_domain' ... URN part of the report id.
      *         'institution' ... An object representing the curriculum inventory's owning institution
      *         'events' ... An array of events, keyed off by event id. Each event is represented as assoc. array.
      *         'expectations' ... An associative array of arrays, each sub-array containing a
@@ -262,8 +263,9 @@ class Aggregator
             'events' => $eventRefsForSeqBlocks,
             'competency_objects' =>$compObjRefsForSeqBlocks,
         ];
-        $rhett['institutionDomain'] = $this->config->get('institution_domain');
-        $rhett['supportingLink'] = $this->config->get('supporting_link');
+        $rhett['institution_domain'] = $this->config->get('institution_domain');
+        $rhett['supporting_link'] = $this->config->get('supporting_link');
+        $rhett['created_at'] = time();
         return $rhett;
     }
 }

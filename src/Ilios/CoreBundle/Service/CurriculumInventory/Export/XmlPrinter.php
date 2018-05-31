@@ -21,8 +21,9 @@ class XmlPrinter
      * @param array $inventory An associated array, containing the inventory.
      *     Data is keyed off by:
      *         'report' ... The inventory report entity.
-     *         'supportingLink' ... A link to supporting information of the curriculum.
-     *         'institutionDomain' ... URN part of the report id.
+     *         'created_at' ... UNIX timestamp indicating when this report was created.
+     *         'supporting_link' ... A link to supporting information of the curriculum.
+     *         'institution_domain' ... URN part of the report id.
      *         'institution' ... An object representing the curriculum inventory's owning institution
      *         'events' ... An array of events, keyed off by event id. Each event is represented as assoc. array.
      *         'expectations' ... An associative array of arrays, each sub-array containing a
@@ -83,12 +84,12 @@ class XmlPrinter
         /** @var CurriculumInventoryReportInterface $report */
         $report = $inventory['report'];
 
-        $institutionDomain = $inventory['institutionDomain'];
+        $institutionDomain = $inventory['institution_domain'];
 
         //
         // ReportID
         //
-        $reportId = $report->getYear() . 'x' . $report->getProgram()->getId() . 'x' . $report->getId() . 'x' . time();
+        $reportId = $report->getYear() . 'x' . $report->getProgram()->getId() . 'x' . $report->getId() . 'x' . $inventory['created_at'];
         $reportIdNode = $dom->createElement('ReportID', $reportId);
         $reportIdNode->setAttribute('domain', "idd:{$institutionDomain}:cireport");
         $rootNode->appendChild($reportIdNode);
@@ -170,8 +171,8 @@ class XmlPrinter
         $descriptionNode->appendChild($dom->createTextNode($report->getDescription()));
         $rootNode->appendChild($descriptionNode);
 
-        if ($inventory['supportingLink']) {
-            $supportingLinkNode = $dom->createElement('SupportingLink', $inventory['supportingLink']);
+        if ($inventory['supporting_link']) {
+            $supportingLinkNode = $dom->createElement('SupportingLink', $inventory['supporting_link']);
             $rootNode->appendChild($supportingLinkNode);
         }
         //
