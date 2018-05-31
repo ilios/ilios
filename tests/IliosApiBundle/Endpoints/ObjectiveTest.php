@@ -71,7 +71,7 @@ class ObjectiveTest extends ReadWriteEndpointTest
             'competency' => [[0], ['competency' => 3]],
             'courses' => [[1, 3], ['courses' => [2]]],
             'programYears' => [[0, 1], ['programYears' => [1]]],
-            'sessions' => [[1, 2], ['sessions' => [1]]],
+            'sessions' => [[2], ['sessions' => [1]]],
 //            'parents' => [[2, 5], ['parents' => [2]]],
 //            'children' => [[1], ['children' => [3]]],
 //            'meshDescriptors' => [[6], ['meshDescriptors' => ['abc3']]],
