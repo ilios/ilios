@@ -100,6 +100,20 @@ class UserManager extends BaseManager
     }
 
     /**
+     * Finds and adds course- and session-objectives and their competencies to a given list of calendar events.
+     *
+     * @param CalendarEvent[] $events
+     * @return CalendarEvent[]
+     * @throws \Exception
+     */
+    public function addObjectivesAndCompetenciesToEvents(array $events)
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->addObjectivesAndCompetenciesToEvents($events);
+    }
+
+    /**
      * @param array $campusIdFilter an array of the campusIDs to include in our search if empty then all users
      *
      * @return ArrayCollection

@@ -283,6 +283,17 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     }
 
     /**
+     * Finds and adds course- and session-objectives and their competencies to a given list of calendar events.
+     *
+     * @param CalendarEvent[] $events
+     * @return CalendarEvent[]
+     */
+    public function addObjectivesAndCompetenciesToEvents(array $events)
+    {
+        return $this->attachObjectivesAndCompetenciesToEvents($events, $this->_em);
+    }
+
+    /**
      * @param QueryBuilder $qb
      * @param array $criteria
      * @param array $orderBy

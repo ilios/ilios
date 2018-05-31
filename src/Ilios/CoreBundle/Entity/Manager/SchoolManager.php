@@ -70,4 +70,18 @@ class SchoolManager extends BaseManager
         $repository = $this->getRepository();
         return $repository->addMaterialsToEvents($events, $this->factory);
     }
+
+    /**
+     * Finds and adds course- and session-objectives and their competencies to a given list of calendar events.
+     *
+     * @param CalendarEvent[] $events
+     * @return CalendarEvent[]
+     * @throws \Exception
+     */
+    public function addObjectivesAndCompetenciesToEvents(array $events)
+    {
+        /** @var SchoolRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->addObjectivesAndCompetenciesToEvents($events);
+    }
 }

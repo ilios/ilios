@@ -70,6 +70,8 @@ class SchooleventController extends Controller
 
         $result = $schoolManager->addInstructorsToEvents($events);
         $result = $schoolManager->addMaterialsToEvents($result);
+        $result = $schoolManager->addObjectivesAndCompetenciesToEvents($result);
+
 
         $sessionUser = $tokenStorage->getToken()->getUser();
 
