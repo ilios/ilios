@@ -72,7 +72,6 @@ class SchooleventController extends Controller
         $result = $schoolManager->addMaterialsToEvents($result);
         $result = $schoolManager->addObjectivesAndCompetenciesToEvents($result);
 
-
         $sessionUser = $tokenStorage->getToken()->getUser();
 
         //Un-privileged users get less data
