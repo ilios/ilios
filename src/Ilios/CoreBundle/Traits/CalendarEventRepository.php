@@ -268,7 +268,7 @@ trait CalendarEventRepository
         $results = $qb->getQuery()->getArrayResult();
         $courseObjectives =  [];
         foreach ($results as $result) {
-            if (! array_key_exists($result['course_id'], $sessionObjectives)) {
+            if (! array_key_exists($result['course_id'], $courseObjectives)) {
                 $courseObjectives[$result['course_id']] = [];
             }
             $courseObjectives[$result['course_id']][] = [
