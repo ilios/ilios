@@ -240,19 +240,33 @@ trait CalendarEventRepository
             ->setParameter(':ids', $sessionIds);
 
         $results = $qb->getQuery()->getArrayResult();
-        $sessionObjectives = [];
-        foreach ($results as $result) {
-            if (! array_key_exists($result['session_id'], $sessionObjectives)) {
-                $sessionObjectives[$result['session_id']] = [];
-            }
-            $sessionObjectives[$result['session_id']][] = [
-                'id' => $result['id'],
-                'title' => $result['title'],
-                'position' => $result['position'],
-                'competency' => $result['competency_id']
-            ];
 
-            $competencyIds[] = $result['competency_id'];
+        $sessionObjectives = [];
+
+        foreach ($results as $result) {
+            $sessionId = $result['session_id'];
+            $objectiveId = $result['id'];
+            $competencyId = $result['competency_id'];
+
+            if (! array_key_exists($sessionId, $sessionObjectives)) {
+                $sessionObjectives[$sessionId] = [];
+            }
+            if (! array_key_exists($objectiveId, $sessionObjectives[$sessionId])) {
+                $sessionObjectives[$sessionId][$objectiveId] = [
+                    'id' => $objectiveId,
+                    'title' => $result['title'],
+                    'position' => $result['position'],
+                    'competencies' => []
+                ];
+            }
+
+            if (! empty($competencyId)
+                && ! in_array($competencyId, $sessionObjectives[$sessionId][$objectiveId]['competencies'])
+            ) {
+                $sessionObjectives[$sessionId][$objectiveId]['competencies'][] = $competencyId;
+            }
+
+            $competencyIds[] = $competencyId;
         }
 
         $qb = $em->createQueryBuilder();
@@ -266,22 +280,36 @@ trait CalendarEventRepository
             ->setParameter(':ids', $courseIds);
 
         $results = $qb->getQuery()->getArrayResult();
-        $courseObjectives =  [];
-        foreach ($results as $result) {
-            if (! array_key_exists($result['course_id'], $courseObjectives)) {
-                $courseObjectives[$result['course_id']] = [];
-            }
-            $courseObjectives[$result['course_id']][] = [
-                'id' => $result['id'],
-                'title' => $result['title'],
-                'position' => $result['position'],
-                'competency' => $result['competency_id']
-            ];
 
-            $competencyIds[] = $result['competency_id'];
+        $courseObjectives =  [];
+
+        foreach ($results as $result) {
+            $courseId = $result['course_id'];
+            $objectiveId = $result['id'];
+            $competencyId = $result['competency_id'];
+
+            if (! array_key_exists($courseId, $courseObjectives)) {
+                $courseObjectives[$courseId] = [];
+            }
+            if (! array_key_exists($objectiveId, $courseObjectives[$courseId])) {
+                $courseObjectives[$courseId][$objectiveId] = [
+                    'id' => $objectiveId,
+                    'title' => $result['title'],
+                    'position' => $result['position'],
+                    'competencies' => []
+                ];
+            }
+
+            if (! empty($competencyId)
+                && ! in_array($competencyId, $courseObjectives[$courseId][$objectiveId]['competencies'])
+            ) {
+                $courseObjectives[$courseId][$objectiveId]['competencies'][] = $competencyId;
+            }
+
+            $competencyIds[] = $competencyId;
         }
 
-        $competencyIds = array_unique(array_filter($competencyIds));
+        $competencyIds = array_values(array_unique(array_filter($competencyIds)));
 
         $qb = $em->createQueryBuilder();
         $qb->select('cm.id, cm.title, cm2.id AS parent_id, cm2.title AS parent_title')
@@ -313,17 +341,24 @@ trait CalendarEventRepository
         for ($i = 0, $n = count($events); $i < $n; $i++) {
             $event = $events[$i];
             if (array_key_exists($event->session, $sessionObjectives)) {
-                $event->sessionObjectives = $sessionObjectives[$event->session];
+                $event->sessionObjectives = array_values($sessionObjectives[$event->session]);
             }
             if (array_key_exists($event->courseId, $courseObjectives)) {
-                $event->courseObjectives = $courseObjectives[$event->courseId];
+                $event->courseObjectives = array_values($courseObjectives[$event->courseId]);
             }
-            $competencyIds = array_merge(
-                array_column($event->sessionObjectives, 'competency'),
-                array_column($event->courseObjectives, 'competency')
-            );
 
-            $competencyIds = array_unique(array_filter($competencyIds));
+            $listsOfCompetencyIds = array_merge(
+                array_column($event->sessionObjectives, 'competencies'),
+                array_column($event->courseObjectives, 'competencies')
+            );
+            $competencyIds = [];
+            // flatted out lists of competency ids
+            // @link https://stackoverflow.com/a/1320156
+            array_walk_recursive($listsOfCompetencyIds, function ($a) use (&$competencyIds) {
+                $competencyIds[] = $a;
+            });
+            // filter out null values and de-dupe list
+            $competencyIds = array_values(array_unique(array_filter($competencyIds)));
 
             $tmp = [];
             foreach ($competencyIds as $id) {

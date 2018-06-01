@@ -128,7 +128,8 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals(2, $events[0]['courseObjectives'][0]['id']);
         $this->assertEquals('second objective', $events[0]['courseObjectives'][0]['title']);
         $this->assertEquals(0, $events[0]['courseObjectives'][0]['position']);
-        $this->assertEquals(3, $events[0]['courseObjectives'][0]['competency']);
+        $this->assertEquals(1, count($events[0]['courseObjectives'][0]['competencies']));
+        $this->assertEquals(3, $events[0]['courseObjectives'][0]['competencies'][0]);
         $this->assertEquals(2, count($events[0]['competencies']));
         $this->assertEquals(3, $events[0]['competencies'][0]['id']);
         $this->assertEquals('third competency', $events[0]['competencies'][0]['title']);
@@ -240,13 +241,14 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals(3, $events[9]['sessionObjectives'][0]['id']);
         $this->assertEquals('third objective', $events[9]['sessionObjectives'][0]['title']);
         $this->assertEquals(0, $events[9]['sessionObjectives'][0]['position']);
-        $this->assertEquals(3, $events[9]['sessionObjectives'][0]['competency']);
-
+        $this->assertEquals(1, count($events[9]['sessionObjectives'][0]['competencies']));
+        $this->assertEquals(3, $events[9]['sessionObjectives'][0]['competencies'][0]);
         $this->assertEquals(1, count($events[9]['courseObjectives']));
         $this->assertEquals(2, $events[9]['courseObjectives'][0]['id']);
         $this->assertEquals('second objective', $events[9]['courseObjectives'][0]['title']);
         $this->assertEquals(0, $events[9]['courseObjectives'][0]['position']);
-        $this->assertEquals(3, $events[9]['courseObjectives'][0]['competency']);
+        $this->assertEquals(1, count($events[9]['courseObjectives'][0]['competencies']));
+        $this->assertEquals(3, $events[9]['courseObjectives'][0]['competencies'][0]);
         $this->assertEquals(2, count($events[9]['competencies']));
         $this->assertEquals(3, $events[9]['competencies'][0]['id']);
         $this->assertEquals('third competency', $events[9]['competencies'][0]['title']);
