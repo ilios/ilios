@@ -220,7 +220,7 @@ trait CalendarEventRepository
      * Adds course- and session-objectives and their competencies to a given list of events.
      * @param array $events A list of events
      * @param EntityManager $em
-     * @return array The events list with instructors added.
+     * @return array The events list with objectives and competencies added.
      */
     public function attachObjectivesAndCompetenciesToEvents(array $events, EntityManager $em)
     {
