@@ -123,6 +123,20 @@ class SchooleventsTest extends AbstractEndpointTest
             9,
             'Event 0 has the correct number of learning materials'
         );
+        $this->assertEquals(0, count($events[0]['sessionObjectives']));
+        $this->assertEquals(1, count($events[0]['courseObjectives']));
+        $this->assertEquals(2, $events[0]['courseObjectives'][0]['id']);
+        $this->assertEquals('second objective', $events[0]['courseObjectives'][0]['title']);
+        $this->assertEquals(0, $events[0]['courseObjectives'][0]['position']);
+        $this->assertEquals(1, count($events[0]['courseObjectives'][0]['competencies']));
+        $this->assertEquals(3, $events[0]['courseObjectives'][0]['competencies'][0]);
+        $this->assertEquals(2, count($events[0]['competencies']));
+        $this->assertEquals(3, $events[0]['competencies'][0]['id']);
+        $this->assertEquals('third competency', $events[0]['competencies'][0]['title']);
+        $this->assertEquals(1, $events[0]['competencies'][0]['parent']);
+        $this->assertEquals(1, $events[0]['competencies'][1]['id']);
+        $this->assertEquals('first competency', $events[0]['competencies'][1]['title']);
+        $this->assertEquals(null, $events[0]['competencies'][1]['parent']);
 
         $this->assertEquals($events[1]['offering'], 4);
         $this->assertEquals($events[1]['startDate'], $offerings[3]['startDate']);
@@ -223,6 +237,26 @@ class SchooleventsTest extends AbstractEndpointTest
             10,
             'Event 9 has the correct number of learning materials'
         );
+        $this->assertEquals(1, count($events[9]['sessionObjectives']));
+        $this->assertEquals(3, $events[9]['sessionObjectives'][0]['id']);
+        $this->assertEquals('third objective', $events[9]['sessionObjectives'][0]['title']);
+        $this->assertEquals(0, $events[9]['sessionObjectives'][0]['position']);
+        $this->assertEquals(1, count($events[9]['sessionObjectives'][0]['competencies']));
+        $this->assertEquals(3, $events[9]['sessionObjectives'][0]['competencies'][0]);
+        $this->assertEquals(1, count($events[9]['courseObjectives']));
+        $this->assertEquals(2, $events[9]['courseObjectives'][0]['id']);
+        $this->assertEquals('second objective', $events[9]['courseObjectives'][0]['title']);
+        $this->assertEquals(0, $events[9]['courseObjectives'][0]['position']);
+        $this->assertEquals(1, count($events[9]['courseObjectives'][0]['competencies']));
+        $this->assertEquals(3, $events[9]['courseObjectives'][0]['competencies'][0]);
+        $this->assertEquals(2, count($events[9]['competencies']));
+        $this->assertEquals(3, $events[9]['competencies'][0]['id']);
+        $this->assertEquals('third competency', $events[9]['competencies'][0]['title']);
+        $this->assertEquals(1, $events[9]['competencies'][0]['parent']);
+        $this->assertEquals(1, $events[9]['competencies'][1]['id']);
+        $this->assertEquals('first competency', $events[9]['competencies'][1]['title']);
+        $this->assertEquals(null, $events[9]['competencies'][1]['parent']);
+
 
         /** @var OfferingInterface $offering */
         $offering = $this->fixtures->getReference('offerings8');

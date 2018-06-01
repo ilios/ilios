@@ -856,6 +856,16 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         return $this->attachMaterialsToEvents($events, $factory, $this->_em);
     }
 
+    /**
+     * Finds and adds course- and session-objectives and their competencies to a given list of calendar events.
+     *
+     * @param CalendarEvent[] $events
+     * @return CalendarEvent[]
+     */
+    public function addObjectivesAndCompetenciesToEvents(array $events)
+    {
+        return $this->attachObjectivesAndCompetenciesToEvents($events, $this->_em);
+    }
 
     /**
      * Returns a list of ids of schools directed by the given user.

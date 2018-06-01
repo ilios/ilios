@@ -10,7 +10,7 @@ class ObjectiveData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'title' => $this->faker->text,
+            'title' => 'first objective',
             'position' => 0,
             'competency' => '3',
             'courses' => [],
@@ -28,7 +28,7 @@ class ObjectiveData extends AbstractDataLoader
             'position' => 0,
             'courses' => ['1', '2', '4'],
             'programYears' => ['1'],
-            'sessions' => ['1'],
+            'sessions' => [],
             'parents' => ['1'],
             'children' => ['3', '6'],
             'meshDescriptors' => ['abc1'],
@@ -37,7 +37,7 @@ class ObjectiveData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 3,
-            'title' => $this->faker->text,
+            'title' => 'third objective',
             'position' => 0,
             'courses' => [],
             'programYears' => [],
@@ -51,7 +51,7 @@ class ObjectiveData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 4,
-            'title' => $this->faker->text,
+            'title' => 'fourth objective',
             'position' => 0,
             'courses' => ["2"],
             'programYears' => [],
@@ -64,7 +64,7 @@ class ObjectiveData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 5,
-            'title' => $this->faker->text,
+            'title' => 'fifth objective',
             'position' => 0,
             'courses' => ["3"],
             'programYears' => [],
@@ -77,7 +77,7 @@ class ObjectiveData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 6,
-            'title' => $this->faker->text,
+            'title' =>'sixth objective',
             'position' => 0,
             'courses' => [],
             'programYears' => [],
@@ -90,7 +90,7 @@ class ObjectiveData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 7,
-            'title' => $this->faker->text,
+            'title' => 'seventh objective',
             'position' => 0,
             'courses' => [],
             'programYears' => [],
@@ -103,7 +103,7 @@ class ObjectiveData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 8,
-            'title' => $this->faker->text,
+            'title' => 'eighth objective',
             'position' => 0,
             'courses' => [],
             'programYears' => ['5'],

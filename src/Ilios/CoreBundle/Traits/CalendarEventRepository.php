@@ -217,6 +217,164 @@ trait CalendarEventRepository
     }
 
     /**
+     * Adds course- and session-objectives and their competencies to a given list of events.
+     * @param array $events A list of events
+     * @param EntityManager $em
+     * @return array The events list with objectives and competencies added.
+     */
+    public function attachObjectivesAndCompetenciesToEvents(array $events, EntityManager $em)
+    {
+        $sessionIds = array_unique(array_column($events, 'session'));
+        $courseIds = array_unique(array_column($events, 'courseId'));
+        $competencyIds = [];
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('s.id AS session_id, so.id, so.title, so.position, cm.id AS competency_id')
+            ->distinct()
+            ->from('IliosCoreBundle:Session', 's')
+            ->join('s.objectives', 'so')
+            ->leftJoin('so.parents', 'co')
+            ->leftJoin('co.parents', 'po')
+            ->leftJoin('po.competency', 'cm')
+            ->where($qb->expr()->in('s.id', ':ids'))
+            ->setParameter(':ids', $sessionIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        $sessionObjectives = [];
+
+        foreach ($results as $result) {
+            $sessionId = $result['session_id'];
+            $objectiveId = $result['id'];
+            $competencyId = $result['competency_id'];
+
+            if (! array_key_exists($sessionId, $sessionObjectives)) {
+                $sessionObjectives[$sessionId] = [];
+            }
+            if (! array_key_exists($objectiveId, $sessionObjectives[$sessionId])) {
+                $sessionObjectives[$sessionId][$objectiveId] = [
+                    'id' => $objectiveId,
+                    'title' => $result['title'],
+                    'position' => $result['position'],
+                    'competencies' => []
+                ];
+            }
+
+            if (! empty($competencyId)
+                && ! in_array($competencyId, $sessionObjectives[$sessionId][$objectiveId]['competencies'])
+            ) {
+                $sessionObjectives[$sessionId][$objectiveId]['competencies'][] = $competencyId;
+            }
+
+            $competencyIds[] = $competencyId;
+        }
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('c.id AS course_id, co.id, co.title, co.position, cm.id AS competency_id')
+            ->distinct()
+            ->from('IliosCoreBundle:Course', 'c')
+            ->join('c.objectives', 'co')
+            ->leftJoin('co.parents', 'po')
+            ->leftJoin('po.competency', 'cm')
+            ->where($qb->expr()->in('c.id', ':ids'))
+            ->setParameter(':ids', $courseIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        $courseObjectives =  [];
+
+        foreach ($results as $result) {
+            $courseId = $result['course_id'];
+            $objectiveId = $result['id'];
+            $competencyId = $result['competency_id'];
+
+            if (! array_key_exists($courseId, $courseObjectives)) {
+                $courseObjectives[$courseId] = [];
+            }
+            if (! array_key_exists($objectiveId, $courseObjectives[$courseId])) {
+                $courseObjectives[$courseId][$objectiveId] = [
+                    'id' => $objectiveId,
+                    'title' => $result['title'],
+                    'position' => $result['position'],
+                    'competencies' => []
+                ];
+            }
+
+            if (! empty($competencyId)
+                && ! in_array($competencyId, $courseObjectives[$courseId][$objectiveId]['competencies'])
+            ) {
+                $courseObjectives[$courseId][$objectiveId]['competencies'][] = $competencyId;
+            }
+
+            $competencyIds[] = $competencyId;
+        }
+
+        $competencyIds = array_values(array_unique(array_filter($competencyIds)));
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('cm.id, cm.title, cm2.id AS parent_id, cm2.title AS parent_title')
+            ->distinct()
+            ->from('IliosCoreBundle:Competency', 'cm')
+            ->leftJoin('cm.parent', 'cm2')
+            ->where($qb->expr()->in('cm.id', ':ids'))
+            ->setParameter(':ids', $competencyIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+        $competencies = [];
+        foreach ($results as $result) {
+            if (! array_key_exists($result['id'], $competencies)) {
+                $competencies[$result['id']] = [
+                    'id' => $result['id'],
+                    'title' => $result['title'],
+                    'parent' => $result['parent_id']
+                ];
+            }
+            if (! empty($result['parent_id']) && ! array_key_exists($result['parent_id'], $competencies)) {
+                $competencies[$result['parent_id']] = [
+                    'id' => $result['parent_id'],
+                    'title' => $result['parent_title'],
+                    'parent' => null,
+                ];
+            }
+        }
+
+        for ($i = 0, $n = count($events); $i < $n; $i++) {
+            $event = $events[$i];
+            if (array_key_exists($event->session, $sessionObjectives)) {
+                $event->sessionObjectives = array_values($sessionObjectives[$event->session]);
+            }
+            if (array_key_exists($event->courseId, $courseObjectives)) {
+                $event->courseObjectives = array_values($courseObjectives[$event->courseId]);
+            }
+
+            $listsOfCompetencyIds = array_merge(
+                array_column($event->sessionObjectives, 'competencies'),
+                array_column($event->courseObjectives, 'competencies')
+            );
+            $competencyIds = [];
+            // flatted out lists of competency ids
+            // @link https://stackoverflow.com/a/1320156
+            array_walk_recursive($listsOfCompetencyIds, function ($a) use (&$competencyIds) {
+                $competencyIds[] = $a;
+            });
+            // filter out null values and de-dupe list
+            $competencyIds = array_values(array_unique(array_filter($competencyIds)));
+
+            $tmp = [];
+            foreach ($competencyIds as $id) {
+                $competency = $competencies[$id];
+                $tmp[$id] = $competency;
+                if (! empty($competency['parent'])) {
+                    $tmp[$competency['parent']] = $competencies[$competency['parent']];
+                }
+            }
+            $event->competencies = array_values($tmp);
+        }
+
+        return $events;
+    }
+
+    /**
      * Finds and adds learning materials to a given list of calendar events.
      *
      * @param CalendarEvent[] $events

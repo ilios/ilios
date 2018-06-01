@@ -183,6 +183,27 @@ class CalendarEvent
     public $sessionTypeTitle;
 
     /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $sessionObjectives = array();
+
+    /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $courseObjectives = array();
+
+    /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $competencies = array();
+
+    /**
      * Clean out all the data for draft or scheduled events
      *
      * This information is not available to un-privileged users
@@ -207,6 +228,9 @@ class CalendarEvent
 
             $this->instructors = [];
             $this->learningMaterials = [];
+            $this->sessionObjectives = [];
+            $this->courseObjectives = [];
+            $this->competencies = [];
         }
     }
 
