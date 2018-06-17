@@ -4,6 +4,7 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\IlmSessionData;
+use Tests\CoreBundle\DataLoader\ObjectiveData;
 use Tests\CoreBundle\DataLoader\OfferingData;
 use Tests\CoreBundle\DataLoader\SessionData;
 use Tests\CoreBundle\DataLoader\SessionDescriptionData;
@@ -620,5 +621,46 @@ class CourseTest extends ReadWriteEndpointTest
             [$all[0], $all[2], $all[4]],
             4
         );
+    }
+
+    public function testRemoveLinksFromOrphanedObjectives()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $id = $data['id'];
+        $self = $this;
+
+        //create data we an depend on
+        $dataLoader = $this->container->get(ObjectiveData::class);
+        $create = [];
+        for ($i = 0; $i < 2; $i++) {
+            $arr = $dataLoader->create();
+            $arr['parents'] = ['1'];
+            $arr['children'] = ['7', '8'];
+            $arr['competency'] = 1;
+            $arr['programYears'] = [];
+            $arr['courses'] = [$id];
+            $arr['sessions'] = [];
+            unset($arr['id']);
+            $create[] = $arr;
+        }
+        $newObjectives = $this->postMany('objectives', 'objectives', $create);
+
+        $getObjectives = function($id) use ($self) {
+            return $self->getOne('objectives', 'objectives', $id);
+        };
+        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
+        foreach($objectives as $arr) {
+            $this->assertNotEmpty($arr['parents'], 'parents have been created');
+            $this->assertNotEmpty($arr['children'], 'children have been created');
+            $this->assertArrayHasKey('competency', $arr);
+        }
+        $this->deleteTest($id);
+        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
+        foreach($objectives as $arr) {
+            $this->assertEmpty($arr['parents'], 'parents have been removed');
+            $this->assertEmpty($arr['children'], 'children have been removed');
+            $this->assertArrayNotHasKey('competency', $arr);
+        }
     }
 }
