@@ -89,7 +89,8 @@ class XmlPrinter
         //
         // ReportID
         //
-        $reportId = $report->getYear() . 'x' . $report->getProgram()->getId() . 'x' . $report->getId() . 'x' . $inventory['created_at'];
+        $reportId = $report->getYear() . 'x' . $report->getProgram()->getId() . 'x' .
+            $report->getId() . 'x' . $inventory['created_at'];
         $reportIdNode = $dom->createElement('ReportID', $reportId);
         $reportIdNode->setAttribute('domain', "idd:{$institutionDomain}:cireport");
         $rootNode->appendChild($reportIdNode);
