@@ -27,8 +27,7 @@ class RemoveOrphanedObjectives
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            if (
-                $entity instanceof ProgramYearInterface ||
+            if ($entity instanceof ProgramYearInterface ||
                 $entity instanceof CourseInterface ||
                 $entity instanceof SessionInterface
             ) {

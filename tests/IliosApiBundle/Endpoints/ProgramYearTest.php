@@ -245,18 +245,18 @@ class ProgramYearTest extends ReadWriteEndpointTest
         }
         $newObjectives = $this->postMany('objectives', 'objectives', $create);
 
-        $getObjectives = function($id) use ($self) {
+        $getObjectives = function ($id) use ($self) {
             return $self->getOne('objectives', 'objectives', $id);
         };
         $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
-        foreach($objectives as $arr) {
+        foreach ($objectives as $arr) {
             $this->assertNotEmpty($arr['parents'], 'parents have been created');
             $this->assertNotEmpty($arr['children'], 'children have been created');
             $this->assertArrayHasKey('competency', $arr);
         }
         $this->deleteTest($id);
         $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
-        foreach($objectives as $arr) {
+        foreach ($objectives as $arr) {
             $this->assertEmpty($arr['parents'], 'parents have been removed');
             $this->assertEmpty($arr['children'], 'children have been removed');
             $this->assertArrayNotHasKey('competency', $arr);

@@ -151,7 +151,14 @@ class ObjectiveTest extends EntityBase
      */
     public function testRemoveChild()
     {
-        $this->entityCollectionRemoveTest('children', 'Objective', 'getChildren', 'addChild', 'removeChild', 'removeParent');
+        $this->entityCollectionRemoveTest(
+            'children',
+            'Objective',
+            'getChildren',
+            'addChild',
+            'removeChild',
+            'removeParent'
+        );
     }
 
     /**
