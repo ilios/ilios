@@ -32,87 +32,6 @@ class IcsControllerTest extends WebTestCase
         ])->getReferenceRepository();
     }
 
-    public function testAbsolutePathsToLms()
-    {
-        $client = static::createClient();
-        $url = '/ics/' . hash('sha256', '1');
-        $client->request('GET', $url);
-        $response = $client->getResponse();
-
-        $content = $response->getContent();
-
-
-        $this->assertEquals(
-            Response::HTTP_OK,
-            $response->getStatusCode(),
-            "Status Code: {$response->getStatusCode()} is not OK"
-        );
-        $this->assertTrue(
-            $response->headers->contains(
-                'Content-Type',
-                'text/calendar; charset=utf-8'
-            ),
-            var_export($response->headers, true)
-        );
-
-        $this->assertTrue(
-            (!empty($content)),
-            $content
-        );
-        $matches = [];
-        preg_match('/DESCRIPTION:(.+?)DTSTAMP/s', $content, $matches);
-        $this->assertEquals(count($matches), 2, 'Found description in response');
-        $firstDescription = preg_replace('/\s+/', '', $matches[1]);
-
-        $this->assertRegExp(
-            '#thirdlmhttp://localhost/lm/[a-z0-9]{64}#',
-            $firstDescription,
-            'LM Links are absolute paths'
-        );
-    }
-
-    public function testForTimedReleaseLms()
-    {
-        $client = static::createClient();
-        $url = '/ics/' . hash('sha256', '1');
-        $client->request('GET', $url);
-        $response = $client->getResponse();
-
-        $content = preg_replace('/\s+/', '', $response->getContent());
-        foreach (['sixthlm', 'eighthlm', 'tenthlm'] as $lm) {
-            $this->assertContains(
-                "${lm}(TimedRelease)",
-                $content,
-                'Timed materials outside of their timing window are labeled as such.'
-            );
-        }
-    }
-
-    public function testDraftLmsNotInFeedForStudents()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-
-        $users = $container->get(UserData::class)->getAll();
-        $studentUser = $users[4];
-        $this->assertEmpty($studentUser['roles']);
-
-        $url = '/ics/' . $studentUser['icsFeedKey'];
-        $client->request('GET', $url);
-        $response = $client->getResponse();
-
-        $content = $response->getContent();
-
-        $this->assertEquals(
-            Response::HTTP_OK,
-            $response->getStatusCode(),
-            "Status Code: {$response->getStatusCode()} is not OK"
-        );
-        $this->assertRegexp('/firstlm/', $content);
-        $this->assertRegexp('/thirdlm/', $content);
-        $this->assertFalse(strpos($content, 'secondlm'));
-    }
-
     public function testSessionAttributesShowUp()
     {
         $client = static::createClient();
@@ -243,5 +162,47 @@ class IcsControllerTest extends WebTestCase
             $firstDescription,
             'Attendance required is hidden'
         );
+    }
+
+    public function testAbsolutePathsToEvents()
+    {
+        $client = static::createClient();
+        $url = '/ics/' . hash('sha256', '1');
+        $client->request('GET', $url);
+        $response = $client->getResponse();
+
+        $content = $response->getContent();
+
+        $this->assertEquals(
+            Response::HTTP_OK,
+            $response->getStatusCode(),
+            "Status Code: {$response->getStatusCode()} is not OK"
+        );
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'text/calendar; charset=utf-8'
+            ),
+            var_export($response->headers, true)
+        );
+
+        $this->assertTrue(
+            (!empty($content)),
+            $content
+        );
+        $matches = [];
+        preg_match('/DESCRIPTION:(.+?)DTSTAMP/s', $content, $matches);
+        $this->assertEquals(count($matches), 2, 'Found description in response');
+        $firstDescription = preg_replace('/\s+/', '', $matches[1]);
+
+        $today = new \DateTime();
+        $format = $today->format('Ymd');
+
+        $this->assertRegExp(
+            "#http://localhost/events/U${format}O2#",
+            $firstDescription,
+            'Event Links are absolute paths'
+        );
+
     }
 }
