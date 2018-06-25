@@ -38,6 +38,10 @@ services:
         tags:
           - { name: doctrine.event_listener, event: onFlush }
 
+    Ilios\CoreBundle\EventListener\RemoveOrphanedObjectives:
+        tags:
+          - { name: doctrine.event_listener, event: onFlush }
+
     Ilios\CoreBundle\Service\Config:
         public: true
 

@@ -279,6 +279,7 @@ class Objective implements ObjectiveInterface
     {
         if (!$this->children->contains($child)) {
             $this->children->add($child);
+            $child->addParent($this);
         }
     }
 
@@ -287,7 +288,10 @@ class Objective implements ObjectiveInterface
      */
     public function removeChild(ObjectiveInterface $child)
     {
-        $this->children->removeElement($child);
+        if ($this->children->contains($child)) {
+            $this->children->removeElement($child);
+            $child->removeParent($this);
+        }
     }
 
     /**

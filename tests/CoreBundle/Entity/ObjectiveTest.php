@@ -143,7 +143,7 @@ class ObjectiveTest extends EntityBase
      */
     public function testAddChild()
     {
-        $this->entityCollectionAddTest('children', 'Objective', 'getChildren', 'addChild');
+        $this->entityCollectionAddTest('children', 'Objective', 'getChildren', 'addChild', 'addParent');
     }
 
     /**
@@ -151,7 +151,14 @@ class ObjectiveTest extends EntityBase
      */
     public function testRemoveChild()
     {
-        $this->entityCollectionRemoveTest('children', 'Objective', 'getChildren', 'addChild', 'removeChild');
+        $this->entityCollectionRemoveTest(
+            'children',
+            'Objective',
+            'getChildren',
+            'addChild',
+            'removeChild',
+            'removeParent'
+        );
     }
 
     /**
@@ -160,7 +167,7 @@ class ObjectiveTest extends EntityBase
      */
     public function testGetChildren()
     {
-        $this->entityCollectionSetTest('children', 'Objective', 'getChildren', 'setChildren', false);
+        $this->entityCollectionSetTest('children', 'Objective', 'getChildren', 'setChildren', 'addParent');
     }
 
     /**

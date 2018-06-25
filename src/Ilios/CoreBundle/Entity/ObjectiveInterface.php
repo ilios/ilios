@@ -52,7 +52,7 @@ interface ObjectiveInterface extends
     public function removeParent(ObjectiveInterface $parent);
 
     /**
-     * @return ArrayCollection|ObjectiveInterface
+     * @return ObjectiveInterface[]
      */
     public function getParents();
 
@@ -72,7 +72,7 @@ interface ObjectiveInterface extends
     public function removeChild(ObjectiveInterface $child);
 
     /**
-     * @return ArrayCollection|ObjectiveInterface[]
+     * @return ObjectiveInterface[]
      */
     public function getChildren();
 
