@@ -37,7 +37,7 @@ class RemoveOrphanedObjectives
                     $courses = $objective->getCourses();
                     $sessions = $objective->getSessions();
                     /** @var IdentifiableEntityInterface[] $allLinks */
-                    $allLinks = $programYears->toArray() + $courses->toArray() + $sessions->toArray();
+                    $allLinks = array_merge($programYears->toArray(), $courses->toArray(), $sessions->toArray());
                     //ensure that this Objective is only linked to the deleted entity
                     if (count($allLinks) === 0 ||
                         (count($allLinks) === 1 && $allLinks[0]->getId() === $entity->getId())
