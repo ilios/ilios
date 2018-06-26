@@ -820,7 +820,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $sessionIds = array_keys($sessions);
 
 
-        $sessionMaterials = $this->getLearningMaterialsForSessions($sessionIds, $this->_em);
+        $sessionMaterials = $this->getSessionLearningMaterialsForPublishedSessions($sessionIds, $this->_em);
 
         $sessionUserMaterials = array_map(function (array $arr) use ($factory, $sessions) {
             $arr['firstOfferingDate'] = $sessions[$arr['sessionId']]['firstOfferingDate'];
@@ -828,7 +828,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             return $factory->create($arr);
         }, $sessionMaterials);
 
-        $courseMaterials = $this->getLearningMaterialsForCourses($sessionIds, $this->_em);
+        $courseMaterials = $this->getCourseLearningMaterialsForPublishedSessions($sessionIds, $this->_em);
 
         $courseUserMaterials = array_map(function (array $arr) use ($factory) {
             return $factory->create($arr);
