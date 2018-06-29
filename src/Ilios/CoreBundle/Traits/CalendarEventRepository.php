@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Traits;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Service\UserMaterialFactory;
@@ -390,13 +391,13 @@ trait CalendarEventRepository
 
         $sessionIds = array_values(array_unique($sessionIds));
 
-        $sessionMaterials = $this->getLearningMaterialsForSessions($sessionIds, $em);
+        $sessionMaterials = $this->getSessionLearningMaterials($sessionIds, $em);
 
         $sessionUserMaterials = array_map(function (array $arr) use ($factory) {
             return $factory->create($arr);
         }, $sessionMaterials);
 
-        $courseMaterials = $this->getLearningMaterialsForCourses($sessionIds, $em);
+        $courseMaterials = $this->getCourseLearningMaterials($sessionIds, $em);
 
         $courseUserMaterials = array_map(function (array $arr) use ($factory) {
             return $factory->create($arr);
@@ -445,6 +446,27 @@ trait CalendarEventRepository
     }
 
     /**
+     * Get a set of learning materials based on published session
+     *
+     * @param array $sessionIds
+     *
+     * @param EntityManager $em
+     * @return array
+     */
+    protected function getSessionLearningMaterialsForPublishedSessions(
+        array $sessionIds,
+        EntityManager $em
+    ) {
+        $qb = $this->sessionLmQuery($sessionIds, $em);
+        $qb->andWhere($qb->expr()->eq('s.published', 1));
+        $qb->andWhere($qb->expr()->eq('s.publishedAsTbd', 0));
+        $qb->andWhere($qb->expr()->eq('c.published', 1));
+        $qb->andWhere($qb->expr()->eq('c.publishedAsTbd', 0));
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
      * Get a set of learning materials based on session
      *
      * @param array $sessionIds
@@ -452,7 +474,20 @@ trait CalendarEventRepository
      * @param EntityManager $em
      * @return array
      */
-    protected function getLearningMaterialsForSessions(
+    protected function getSessionLearningMaterials(
+        array $sessionIds,
+        EntityManager $em
+    ) {
+        $qb = $this->sessionLmQuery($sessionIds, $em);
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param array $sessionIds
+     * @param EntityManager $em
+     * @return QueryBuilder
+     */
+    protected function sessionLmQuery(
         array $sessionIds,
         EntityManager $em
     ) {
@@ -470,29 +505,57 @@ trait CalendarEventRepository
         $qb->join('s.course', 'c');
 
         $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
-        $qb->andWhere($qb->expr()->eq('s.published', 1));
-        $qb->andWhere($qb->expr()->eq('s.publishedAsTbd', 0));
-        $qb->andWhere($qb->expr()->eq('c.published', 1));
-        $qb->andWhere($qb->expr()->eq('c.publishedAsTbd', 0));
         $qb->setParameter(':sessions', $sessionIds);
         $qb->distinct();
 
-        return $qb->getQuery()->getArrayResult();
+        return $qb;
     }
 
     /**
-     * Get a set of course learning materials based on sessionIds
+     * Get a set of course learning materials
      *
      * @param array $sessionIds
      *
      * @param EntityManager $em
      * @return array
      */
-    protected function getLearningMaterialsForCourses(
+    protected function getCourseLearningMaterials(
         array $sessionIds,
         EntityManager $em
     ) {
+        $qb = $this->courseLmQuery($sessionIds, $em);
 
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * Get a set of course learning materials for published sessions
+     *
+     * @param array $sessionIds
+     *
+     * @param EntityManager $em
+     * @return array
+     */
+    protected function getCourseLearningMaterialsForPublishedSessions(
+        array $sessionIds,
+        EntityManager $em
+    ) {
+        $qb = $this->courseLmQuery($sessionIds, $em);
+        $qb->andWhere($qb->expr()->eq('c.published', 1));
+        $qb->andWhere($qb->expr()->eq('c.publishedAsTbd', 0));
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param array $sessionIds
+     * @param EntityManager $em
+     * @return QueryBuilder
+     */
+    protected function courseLmQuery(
+        array $sessionIds,
+        EntityManager $em
+    ) {
         $qb = $em->createQueryBuilder();
         $what = 'c.title as courseTitle, c.id as courseId, c.startDate as firstOfferingDate, ' .
             'clm.id as clmId, clm.position, clm.notes, clm.required, clm.publicNotes, clm.startDate, clm.endDate, ' .
@@ -506,11 +569,9 @@ trait CalendarEventRepository
 
 
         $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
-        $qb->andWhere($qb->expr()->eq('c.published', 1));
-        $qb->andWhere($qb->expr()->eq('c.publishedAsTbd', 0));
         $qb->setParameter(':sessions', $sessionIds);
         $qb->distinct();
 
-        return $qb->getQuery()->getArrayResult();
+        return $qb;
     }
 }

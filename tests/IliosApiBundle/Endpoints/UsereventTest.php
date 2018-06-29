@@ -295,7 +295,11 @@ class UsereventTest extends AbstractEndpointTest
             $sessionTypes[1]['title'],
             'session type title is correct for event 3'
         );
-        $this->assertEquals(count($events[3]['learningMaterials']), 0, 'Event 3 has no learning materials');
+        $this->assertEquals(
+            7,
+            count($events[3]['learningMaterials']),
+            'Event 3 has the correct number of learning materials'
+        );
 
         $this->assertFalse(
             $events[3]['attireRequired'],
@@ -329,7 +333,11 @@ class UsereventTest extends AbstractEndpointTest
             $sessionTypes[1]['title'],
             'session type title is correct for event 4'
         );
-        $this->assertEquals(count($events[4]['learningMaterials']), 0, 'Event 4 has no learning materials');
+        $this->assertEquals(
+            7,
+            count($events[4]['learningMaterials']),
+            'Event 4 has the correct number of learning materials'
+        );
 
         $this->assertFalse(
             $events[4]['attireRequired'],
@@ -583,6 +591,30 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[0]['startDate'], $offerings[5]['startDate']);
         $this->assertEquals($events[0]['endDate'], $offerings[5]['endDate']);
         $this->assertEquals($events[0]['offering'], $offerings[5]['id']);
+    }
+
+    public function testPrivilegedUsersGetsEventsForUnpublishedSessions()
+    {
+        $userId = 2;
+        $events = $this->getEvents(
+            $userId,
+            0,
+            100000000000,
+            $this->getTokenForUser($userId)
+        );
+        $event = $events[3];
+        $this->assertFalse($event['isPublished']);
+        $this->assertFalse($event['isScheduled']);
+        $lms = $event['learningMaterials'];
+
+        $this->assertEquals(7, count($lms));
+        $this->assertEquals('2', $lms[0]['sessionLearningMaterial']);
+        $this->assertEquals('3', $lms[1]['sessionLearningMaterial']);
+        $this->assertEquals('4', $lms[2]['sessionLearningMaterial']);
+        $this->assertEquals('5', $lms[3]['sessionLearningMaterial']);
+        $this->assertEquals('6', $lms[4]['sessionLearningMaterial']);
+        $this->assertEquals('7', $lms[5]['sessionLearningMaterial']);
+        $this->assertEquals('8', $lms[6]['sessionLearningMaterial']);
     }
 
     /**

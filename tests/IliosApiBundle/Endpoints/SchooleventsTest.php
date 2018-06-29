@@ -174,7 +174,11 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertFalse($events[3]['equipmentRequired'], 'equipmentRequired is correct for event 3');
         $this->assertTrue($events[3]['supplemental'], 'supplemental is correct for event 3');
         $this->assertArrayNotHasKey('attendanceRequired', $events[3], 'attendanceRequired is correct for event 3');
-        $this->assertEquals(count($events[3]['learningMaterials']), 0, 'Event 3 has no learning materials');
+        $this->assertEquals(
+            7,
+            count($events[3]['learningMaterials']),
+            'Event 3 has the correct number of learning materials'
+        );
 
         $this->assertEquals($events[4]['offering'], 7);
         $this->assertEquals($events[4]['startDate'], $offerings[6]['startDate']);
@@ -184,7 +188,11 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertFalse($events[4]['equipmentRequired'], 'equipmentRequired is correct for event 4');
         $this->assertTrue($events[4]['supplemental'], 'supplemental is correct for event 4');
         $this->assertArrayNotHasKey('attendanceRequired', $events[4], 'attendanceRequired is correct for event 4');
-        $this->assertEquals(count($events[4]['learningMaterials']), 0, 'Event 4 has no learning materials');
+        $this->assertEquals(
+            7,
+            count($events[4]['learningMaterials']),
+            'Event 4 has the correct number of learning materials'
+        );
 
         $this->assertEquals($events[5]['ilmSession'], 1);
         $this->assertEquals($events[5]['startDate'], $ilmSessions[0]['dueDate']);
@@ -221,7 +229,7 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertFalse($events[8]['equipmentRequired'], 'equipmentRequired is correct for event 8');
         $this->assertFalse($events[8]['supplemental'], 'supplemental is correct for event 8');
         $this->assertArrayNotHasKey('attendanceRequired', $events[8], 'attendanceRequired is correct for event 8');
-        $this->assertEquals(count($events[8]['learningMaterials']), 0, 'Event 8 has no learning materials');
+        $this->assertEquals(0, count($events[8]['learningMaterials']), 'Event 8 has no learning materials');
 
         $this->assertEquals($events[9]['offering'], 1);
         $this->assertEquals($events[9]['startDate'], $offerings[0]['startDate']);
@@ -267,7 +275,11 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertFalse($events[10]['equipmentRequired'], 'equipmentRequired is correct for event 10');
         $this->assertTrue($events[10]['supplemental'], 'supplemental is correct for event 10');
         $this->assertArrayNotHasKey('attendanceRequired', $events[10], 'attendanceRequired is correct for event 10');
-        $this->assertEquals(count($events[10]['learningMaterials']), 0, 'Event 8 has no learning materials');
+        $this->assertEquals(
+            7,
+            count($events[10]['learningMaterials']),
+            'Event 10 has the correct number of learning materials'
+        );
 
 
         foreach ($events as $event) {
@@ -290,6 +302,26 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[0]['offering'], $offerings[5]['id']);
     }
 
+    public function testPrivilegedUsersGetsEventsForUnpublishedSessions()
+    {
+        $school = $this->container->get(SchoolData::class)->getOne();
+        $events = $this->getEvents($school['id'], 0, 100000000000);
+
+        $event = $events[3];
+        $this->assertFalse($event['isPublished']);
+        $this->assertFalse($event['isScheduled']);
+        $lms = $event['learningMaterials'];
+
+        $this->assertEquals(7, count($lms));
+        $this->assertEquals('2', $lms[0]['sessionLearningMaterial']);
+        $this->assertEquals('3', $lms[1]['sessionLearningMaterial']);
+        $this->assertEquals('4', $lms[2]['sessionLearningMaterial']);
+        $this->assertEquals('5', $lms[3]['sessionLearningMaterial']);
+        $this->assertEquals('6', $lms[4]['sessionLearningMaterial']);
+        $this->assertEquals('7', $lms[5]['sessionLearningMaterial']);
+        $this->assertEquals('8', $lms[6]['sessionLearningMaterial']);
+    }
+
     protected function getEvents($schoolId, $from, $to, $userId = null)
     {
         $parameters = [
@@ -303,7 +335,7 @@ class SchooleventsTest extends AbstractEndpointTest
             $parameters
         );
 
-        $userToken = isset($userId) ? $this->getTokenForUser($userId): $this->getAuthenticatedUserToken();
+        $userToken = isset($userId) ? $this->getTokenForUser($userId) : $this->getAuthenticatedUserToken();
         $this->createJsonRequest(
             'GET',
             $url,
