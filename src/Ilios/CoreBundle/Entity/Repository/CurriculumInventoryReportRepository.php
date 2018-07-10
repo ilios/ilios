@@ -308,12 +308,13 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      * @param CurriculumInventoryReportInterface $report
      * @return array An associative array of arrays, keyed off by objective id.
      *   Each item is an associative array, containing
-     *   the objective's id and title (keys: "objective_id" and "title").
+     *   the objective's id, title and its ancestor's id.
+     *  (keys: "objective_id", "title" and "ancestor_id").
      */
     public function getProgramObjectives(CurriculumInventoryReportInterface $report)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('o.id, o.title')
+        $qb->select('o.id, o.title, a.id AS ancestor_id')
             ->distinct()
             ->from('IliosCoreBundle:CurriculumInventoryReport', 'r')
             ->join('r.program', 'p')
@@ -325,6 +326,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('py.program', 'p2')
             ->join('p2.school', 's2')
             ->join('py.objectives', 'o')
+            ->leftJoin('o.ancestor', 'a')
             ->where($qb->expr()->eq('s.id', 's2.id'))
             ->andWhere($qb->expr()->eq('r.id', ':id'))
             ->setParameter('id', $report->getId());
