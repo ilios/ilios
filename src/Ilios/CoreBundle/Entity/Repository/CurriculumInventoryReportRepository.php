@@ -411,6 +411,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      * Retrieves all the competency object references per given event (session) in a given report.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $consolidatedProgramObjectivesMap
      * @param array|int[] $eventIds
      * @return array An associative array of arrays, keyed off by event id.
      *     Each sub-array is in turn a two item map, containing a list of course objectives ids
@@ -429,6 +430,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      */
     public function getCompetencyObjectReferencesForEvents(
         CurriculumInventoryReportInterface $report,
+        array $consolidatedProgramObjectivesMap,
         array $eventIds = array()
     ) {
         $rhett = [];
@@ -460,6 +462,12 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
 
         foreach ($rows as $row) {
             $eventId = $row['event_id'];
+            $sessionObjectiveId = $row['session_objective_id'];
+            $courseObjectiveId = $row['course_objective_id'];
+            $programObjectiveId = $row['program_objective_id'];
+            if (array_key_exists($programObjectiveId, $consolidatedProgramObjectivesMap)) {
+                $programObjectiveId = $consolidatedProgramObjectivesMap[$programObjectiveId];
+            }
             if (! array_key_exists($eventId, $rhett)) {
                 $rhett[$eventId] = [
                     'session_objectives' => [],
@@ -467,17 +475,17 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
                     'program_objectives' => [],
                 ];
             }
-            if (isset($row['session_objective_id'])
-                && ! in_array($row['session_objective_id'], $rhett[$eventId]['session_objectives'])) {
-                $rhett[$eventId]['session_objectives'][] = $row['session_objective_id'];
+            if (isset($sessionObjectiveId)
+                && ! in_array($sessionObjectiveId, $rhett[$eventId]['session_objectives'])) {
+                $rhett[$eventId]['session_objectives'][] = $sessionObjectiveId;
             }
-            if (isset($row['course_objective_id'])
-                && ! in_array($row['course_objective_id'], $rhett[$eventId]['course_objectives'])) {
-                $rhett[$eventId]['course_objectives'][] = $row['course_objective_id'];
+            if (isset($courseObjectiveId)
+                && ! in_array($courseObjectiveId, $rhett[$eventId]['course_objectives'])) {
+                $rhett[$eventId]['course_objectives'][] = $courseObjectiveId;
             }
-            if (isset($row['program_objective_id'])
-                && ! in_array($row['program_objective_id'], $rhett[$eventId]['program_objectives'])) {
-                $rhett[$eventId]['program_objectives'][] = $row['program_objective_id'];
+            if (isset($programObjectiveId)
+                && ! in_array($programObjectiveId, $rhett[$eventId]['program_objectives'])) {
+                $rhett[$eventId]['program_objectives'][] = $programObjectiveId;
             }
         }
         return $rhett;
@@ -487,6 +495,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      * Retrieves all the competency object references per sequence block in a given report.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param array $consolidatedProgramObjectivesMap
      * @return array An associative array of arrays, keyed off by sequence block id.
      *     Each sub-array is in turn a two item map, containing a list of course objectives ids
      *     under 'course_objectives' and a list of program objective ids under 'program_objective'.
@@ -500,8 +509,10 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      *   ],
      *   </pre>
      */
-    public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
-    {
+    public function getCompetencyObjectReferencesForSequenceBlocks(
+        CurriculumInventoryReportInterface $report,
+        array $consolidatedProgramObjectivesMap
+    ) {
         $rhett = [];
         $qb = $this->_em->createQueryBuilder();
         $qb->select('sb.id, co.id AS course_objective_id, po.id AS program_objective_id')
@@ -519,19 +530,24 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
         foreach ($rows as $row) {
             $sequenceBlockId = $row['id'];
+            $courseObjectiveId = $row['course_objective_id'];
+            $programObjectiveId = $row['program_objective_id'];
+            if (array_key_exists($programObjectiveId, $consolidatedProgramObjectivesMap)) {
+                $programObjectiveId = $consolidatedProgramObjectivesMap[$programObjectiveId];
+            }
             if (! array_key_exists($sequenceBlockId, $rhett)) {
                 $rhett[$sequenceBlockId] = [
                     'course_objectives' => [],
                     'program_objectives' => [],
                 ];
             }
-            if (isset($row['course_objective_id'])
-                && ! in_array($row['course_objective_id'], $rhett[$sequenceBlockId]['course_objectives'])) {
-                $rhett[$sequenceBlockId]['course_objectives'][] = $row['course_objective_id'];
+            if (isset($courseObjectiveId)
+                && ! in_array($courseObjectiveId, $rhett[$sequenceBlockId]['course_objectives'])) {
+                $rhett[$sequenceBlockId]['course_objectives'][] = $courseObjectiveId;
             }
-            if (isset($row['program_objective_id'])
-                && ! in_array($row['program_objective_id'], $rhett[$sequenceBlockId]['program_objectives'])) {
-                $rhett[$sequenceBlockId]['program_objectives'][] = $row['program_objective_id'];
+            if (isset($programObjectiveId)
+                && ! in_array($programObjectiveId, $rhett[$sequenceBlockId]['program_objectives'])) {
+                $rhett[$sequenceBlockId]['program_objectives'][] = $programObjectiveId;
             }
         }
         return $rhett;
@@ -541,10 +557,14 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      * Retrieves the relations between given program-objectives and PCRS (via competencies).
      * @param array $programObjectivesId
      * @param array $pcrsIds
+     * @param array $consolidatedProgramObjectivesMap
      * @return array
      */
-    public function getProgramObjectivesToPcrsRelations(array $programObjectivesId, array $pcrsIds)
-    {
+    public function getProgramObjectivesToPcrsRelations(
+        array $programObjectivesId,
+        array $pcrsIds,
+        array $consolidatedProgramObjectivesMap
+    ) {
         $rhett = [
             'relations' => [],
             'program_objective_ids' => [],
@@ -569,17 +589,26 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
 
         foreach ($rows as $row) {
-            $rhett['relations'][] = [
-                'rel1' => $row['objective_id'],
-                'rel2' => $row['pcrs_id'],
+            $pcrsId = $row['pcrs_id'];
+            $objectiveId = $row['objective_id'];
+            if (array_key_exists($objectiveId, $consolidatedProgramObjectivesMap)) {
+                $objectiveId = $consolidatedProgramObjectivesMap[$objectiveId];
+            }
+            $relKey = $objectiveId . ':' . $pcrsId; // poor man's way to avoid duplication
+            $rhett['relations'][$relKey] = [
+                'rel1' => $objectiveId,
+                'rel2' => $pcrsId,
             ];
-            $rhett['program_objective_ids'][] = $row['objective_id'];
-            $rhett['pcrs_ids'][] = $row['pcrs_id'];
+            $rhett['program_objective_ids'][] = $objectiveId;
+            $rhett['pcrs_ids'][] = $pcrsId;
         }
 
         // dedupe
         $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
         $rhett['pcrs_ids'] = array_values(array_unique($rhett['pcrs_ids']));
+
+        // lose the temp key
+        $rhett['relations'] = array_values($rhett['relations']);
 
         return $rhett;
     }
@@ -588,11 +617,13 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      * Retrieves the relations between given course- and program-objectives.
      * @param array $courseObjectiveIds
      * @param array $programObjectiveIds
+     * @param array $consolidatedProgramObjectivesMap
      * @return array
      */
     public function getCourseObjectivesToProgramObjectivesRelations(
         array $courseObjectiveIds,
-        array $programObjectiveIds
+        array $programObjectiveIds,
+        array $consolidatedProgramObjectivesMap
     ) {
         $rhett = [
             'relations' => [],
@@ -618,17 +649,27 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $rows = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
 
         foreach ($rows as $row) {
-            $rhett['relations'][] = [
-                'rel1' => $row['parent_objective_id'],
-                'rel2' => $row['objective_id'],
+            $programObjectiveId = $row['parent_objective_id'];
+            $courseObjectiveId = $row['objective_id'];
+            if (array_key_exists($programObjectiveId, $consolidatedProgramObjectivesMap)) {
+                $programObjectiveId = $consolidatedProgramObjectivesMap[$programObjectiveId];
+            }
+            $relKey = $programObjectiveId . ':' . $courseObjectiveId; // poor man's way to avoid duplication
+            $rhett['relations'][$relKey] = [
+                'rel1' => $programObjectiveId,
+                'rel2' => $courseObjectiveId,
             ];
-            $rhett['course_objective_ids'][] = $row['objective_id'];
-            $rhett['program_objective_ids'][] = $row['parent_objective_id'];
+
+            $rhett['course_objective_ids'][] = $courseObjectiveId;
+            $rhett['program_objective_ids'][] = $programObjectiveId;
         }
 
         // dedupe
         $rhett['course_objective_ids'] = array_values(array_unique($rhett['course_objective_ids']));
         $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
+
+        // lose the temp key
+        $rhett['relations'] = array_values($rhett['relations']);
 
         return $rhett;
     }

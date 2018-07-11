@@ -170,16 +170,30 @@ class Aggregator
         $eventRefsForSeqBlocks = $this->reportManager->getEventReferencesForSequenceBlocks($invReport, $eventIds);
 
         $programObjectives = $this->reportManager->getProgramObjectives($invReport);
+        $consolidatedProgramObjectivesMap = $this->getConsolidatedObjectivesMap($programObjectives);
         $sessionObjectives = $this->reportManager->getSessionObjectives($invReport, $eventIds);
         $courseObjectives = $this->reportManager->getCourseObjectives($invReport);
 
-        $compObjRefsForSeqBlocks = $this->reportManager->getCompetencyObjectReferencesForSequenceBlocks($invReport);
-        $compRefsForEvents = $this->reportManager->getCompetencyObjectReferencesForEvents($invReport, $eventIds);
+        $compObjRefsForSeqBlocks = $this->reportManager->getCompetencyObjectReferencesForSequenceBlocks(
+            $invReport,
+            $consolidatedProgramObjectivesMap
+        );
+        $compRefsForEvents = $this->reportManager->getCompetencyObjectReferencesForEvents(
+            $invReport,
+            $consolidatedProgramObjectivesMap,
+            $eventIds
+        );
 
         // The various objective type are all "Competency Objects" in the context of reporting the curriculum inventory.
         // The are grouped in the "Expectations" section of the report, lump 'em together here.
         $expectations =[];
-        $expectations['program_objectives'] = $programObjectives;
+        $expectations['program_objectives'] = array_filter(
+            array_values($programObjectives),
+            function ($objective) use ($consolidatedProgramObjectivesMap) {
+                return ! array_key_exists($objective['id'], $consolidatedProgramObjectivesMap);
+            }
+        );
+
         $expectations['session_objectives'] = $sessionObjectives;
         $expectations['course_objectives'] = $courseObjectives;
 
@@ -205,14 +219,16 @@ class Aggregator
 
         $rel = $this->reportManager->getProgramObjectivesToPcrsRelations(
             $programObjectiveIds,
-            $pcrsIds
+            $pcrsIds,
+            $consolidatedProgramObjectivesMap
         );
         $relations['program_objectives_to_pcrs'] = $rel['relations'];
         $includes['pcrs_ids'] = $rel['pcrs_ids'];
         $includes['program_objective_ids'] = $rel['program_objective_ids'];
         $rel = $this->reportManager->getCourseObjectivesToProgramObjectivesRelations(
             $courseObjectiveIds,
-            $programObjectiveIds
+            $programObjectiveIds,
+            $consolidatedProgramObjectivesMap
         );
         $relations['course_objectives_to_program_objectives'] = $rel['relations'];
         $includes['program_objective_ids'] = array_values(
@@ -275,12 +291,12 @@ class Aggregator
      * @param array $objectives
      * @return array An associative array with objective ids as keys, and the id of their most recent sibling as value.
      */
-    protected function getConsolidatedProgramYearObjectivesMap(array $objectives): array
+    protected function getConsolidatedObjectivesMap(array $objectives): array
     {
         $objectives = array_values($objectives);
 
         // filter out any objectives without ancestors
-        $objectives = array_filter($objectives, function($objective) {
+        $objectives = array_filter($objectives, function ($objective) {
             return ! empty($objective['ancestor_id']);
         });
 

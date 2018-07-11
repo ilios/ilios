@@ -89,23 +89,35 @@ class CurriculumInventoryReportManager extends BaseManager
 
     /**
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $consolidatedProgramObjectivesMap
      * @return array
      */
-    public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
-    {
-        return $this->getRepository()->getCompetencyObjectReferencesForSequenceBlocks($report);
+    public function getCompetencyObjectReferencesForSequenceBlocks(
+        CurriculumInventoryReportInterface $report,
+        array $consolidatedProgramObjectivesMap
+    ) {
+        return $this->getRepository()->getCompetencyObjectReferencesForSequenceBlocks(
+            $report,
+            $consolidatedProgramObjectivesMap
+        );
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
+     * @param array|int[] $consolidatedProgramObjectivesMap
      * @param array|int[] $eventIds
      * @return array
      */
     public function getCompetencyObjectReferencesForEvents(
         CurriculumInventoryReportInterface $report,
+        array $consolidatedProgramObjectivesMap,
         array $eventIds = array()
     ) {
-        return $this->getRepository()->getCompetencyObjectReferencesForEvents($report, $eventIds);
+        return $this->getRepository()->getCompetencyObjectReferencesForEvents(
+            $report,
+            $consolidatedProgramObjectivesMap,
+            $eventIds
+        );
     }
 
     /**
@@ -126,28 +138,36 @@ class CurriculumInventoryReportManager extends BaseManager
     /**
      * @param array $courseObjectiveIds
      * @param array $programObjectiveIds
+     * @param array $consolidatedProgramObjectivesMap
      * @return array
      */
     public function getCourseObjectivesToProgramObjectivesRelations(
         array $courseObjectiveIds,
-        array $programObjectiveIds
+        array $programObjectiveIds,
+        array $consolidatedProgramObjectivesMap
     ) {
         return $this->getRepository()->getCourseObjectivesToProgramObjectivesRelations(
             $courseObjectiveIds,
-            $programObjectiveIds
+            $programObjectiveIds,
+            $consolidatedProgramObjectivesMap
         );
     }
 
     /**
      * @param array $programObjectiveIds
      * @param array $pcrsIds
+     * @param array $consolidatedProgramObjectivesMap
      * @return array
      */
-    public function getProgramObjectivesToPcrsRelations(array $programObjectiveIds, array $pcrsIds)
-    {
+    public function getProgramObjectivesToPcrsRelations(
+        array $programObjectiveIds,
+        array $pcrsIds,
+        array $consolidatedProgramObjectivesMap
+    ) {
         return $this->getRepository()->getProgramObjectivesToPcrsRelations(
             $programObjectiveIds,
-            $pcrsIds
+            $pcrsIds,
+            $consolidatedProgramObjectivesMap
         );
     }
 }
