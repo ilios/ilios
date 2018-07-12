@@ -591,11 +591,12 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         foreach ($rows as $row) {
             $pcrsId = $row['pcrs_id'];
             $objectiveId = $row['objective_id'];
+            // ignore substituted objectives here, in order to prevent
+            // false objective-to-PCRS relationships from being reported out.
             if (array_key_exists($objectiveId, $consolidatedProgramObjectivesMap)) {
-                $objectiveId = $consolidatedProgramObjectivesMap[$objectiveId];
+                continue;
             }
-            $relKey = $objectiveId . ':' . $pcrsId; // poor man's way to avoid duplication
-            $rhett['relations'][$relKey] = [
+            $rhett['relations'][] = [
                 'rel1' => $objectiveId,
                 'rel2' => $pcrsId,
             ];
@@ -606,9 +607,6 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         // dedupe
         $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
         $rhett['pcrs_ids'] = array_values(array_unique($rhett['pcrs_ids']));
-
-        // lose the temp key
-        $rhett['relations'] = array_values($rhett['relations']);
 
         return $rhett;
     }
