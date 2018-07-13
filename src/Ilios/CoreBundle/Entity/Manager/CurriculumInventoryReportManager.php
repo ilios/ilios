@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
+use Ilios\CoreBundle\Entity\Repository\CurriculumInventoryReportRepository;
 
 /**
  * Class CurriculumInventoryReportManager
@@ -12,91 +13,118 @@ class CurriculumInventoryReportManager extends BaseManager
     /**
      * @param CurriculumInventoryReportInterface $report
      * @return array
+     * @throws \Exception
      */
     public function getEvents(CurriculumInventoryReportInterface $report)
     {
-        return $this->getRepository()->getEvents($report);
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getEvents($report);
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $eventIds
      * @return array
+     * @throws \Exception
      */
     public function getEventResourceTypes(CurriculumInventoryReportInterface $report, array $eventIds = array())
     {
-        return $this->getRepository()->getEventResourceTypes($report, $eventIds);
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getEventResourceTypes($report, $eventIds);
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $eventIds
      * @return array
+     * @throws \Exception
      */
     public function getEventKeywords(CurriculumInventoryReportInterface $report, array $eventIds = array())
     {
-        return $this->getRepository()->getEventKeywords($report, $eventIds);
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getEventKeywords($report, $eventIds);
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $eventIds
      * @return array
+     * @throws \Exception
      */
     public function getEventReferencesForSequenceBlocks(
         CurriculumInventoryReportInterface $report,
         array $eventIds = array()
     ) {
-        return $this->getRepository()->getEventReferencesForSequenceBlocks($report, $eventIds);
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getEventReferencesForSequenceBlocks($report, $eventIds);
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
      * @return array
+     * @throws \Exception
      */
     public function getProgramObjectives(CurriculumInventoryReportInterface $report)
     {
-        return $this->getRepository()->getProgramObjectives($report);
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getProgramObjectives($report);
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $sessionIds
      * @return array
+     * @throws \Exception
      */
     public function getSessionObjectives(CurriculumInventoryReportInterface $report, array $sessionIds = array())
     {
-        return $this->getRepository()->getSessionObjectives($report, $sessionIds);
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getSessionObjectives($report, $sessionIds);
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
      * @return array
+     * @throws \Exception
      */
     public function getCourseObjectives(CurriculumInventoryReportInterface $report)
     {
-        return $this->getRepository()->getCourseObjectives($report);
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getCourseObjectives($report);
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
      * @return array
+     * @throws \Exception
      */
     public function getPcrs(CurriculumInventoryReportInterface $report)
     {
-        return $this->getRepository()->getPcrs($report);
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getPcrs($report);
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $consolidatedProgramObjectivesMap
      * @return array
+     * @throws \Exception
      */
     public function getCompetencyObjectReferencesForSequenceBlocks(
         CurriculumInventoryReportInterface $report,
         array $consolidatedProgramObjectivesMap
     ) {
-        return $this->getRepository()->getCompetencyObjectReferencesForSequenceBlocks(
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getCompetencyObjectReferencesForSequenceBlocks(
             $report,
             $consolidatedProgramObjectivesMap
         );
@@ -107,13 +135,16 @@ class CurriculumInventoryReportManager extends BaseManager
      * @param array|int[] $consolidatedProgramObjectivesMap
      * @param array|int[] $eventIds
      * @return array
+     * @throws \Exception
      */
     public function getCompetencyObjectReferencesForEvents(
         CurriculumInventoryReportInterface $report,
         array $consolidatedProgramObjectivesMap,
         array $eventIds = array()
     ) {
-        return $this->getRepository()->getCompetencyObjectReferencesForEvents(
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getCompetencyObjectReferencesForEvents(
             $report,
             $consolidatedProgramObjectivesMap,
             $eventIds
@@ -124,12 +155,15 @@ class CurriculumInventoryReportManager extends BaseManager
      * @param array $sessionObjectiveIds
      * @param array $courseObjectiveIds
      * @return array
+     * @throws \Exception
      */
     public function getSessionObjectivesToCourseObjectivesRelations(
         array $sessionObjectiveIds,
         array $courseObjectiveIds
     ) {
-        return $this->getRepository()->getSessionObjectivesToCourseObjectivesRelations(
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getSessionObjectivesToCourseObjectivesRelations(
             $sessionObjectiveIds,
             $courseObjectiveIds
         );
@@ -140,13 +174,16 @@ class CurriculumInventoryReportManager extends BaseManager
      * @param array $programObjectiveIds
      * @param array $consolidatedProgramObjectivesMap
      * @return array
+     * @throws \Exception
      */
     public function getCourseObjectivesToProgramObjectivesRelations(
         array $courseObjectiveIds,
         array $programObjectiveIds,
         array $consolidatedProgramObjectivesMap
     ) {
-        return $this->getRepository()->getCourseObjectivesToProgramObjectivesRelations(
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getCourseObjectivesToProgramObjectivesRelations(
             $courseObjectiveIds,
             $programObjectiveIds,
             $consolidatedProgramObjectivesMap
@@ -158,13 +195,16 @@ class CurriculumInventoryReportManager extends BaseManager
      * @param array $pcrsIds
      * @param array $consolidatedProgramObjectivesMap
      * @return array
+     * @throws \Exception
      */
     public function getProgramObjectivesToPcrsRelations(
         array $programObjectiveIds,
         array $pcrsIds,
         array $consolidatedProgramObjectivesMap
     ) {
-        return $this->getRepository()->getProgramObjectivesToPcrsRelations(
+        /** @var CurriculumInventoryReportRepository $repo */
+        $repo = $this->getRepository();
+        return $repo->getProgramObjectivesToPcrsRelations(
             $programObjectiveIds,
             $pcrsIds,
             $consolidatedProgramObjectivesMap
