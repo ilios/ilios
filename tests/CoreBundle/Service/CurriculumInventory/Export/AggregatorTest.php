@@ -66,7 +66,22 @@ class AggregatorTest extends TestCase
      */
     public function testAddKeywordsToEvents()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $event1 = [];
+        $event2 = [];
+        $keyword1 = ['event_id' => 10];
+        $keyword2 = ['event_id' => 10];
+        $keyword3 = ['event_id' => 30];
+
+        $events = [10 => $event1, 20 => $event2];
+        $keywords = [$keyword1, $keyword2, $keyword3];
+
+        $events = Aggregator::addKeywordsToEvents($events, $keywords);
+
+        $this->assertEquals(2, count($events));
+        $this->assertEquals(2, count($events[10]['keywords']));
+        $this->assertEquals($keyword1, $events[10]['keywords'][0]);
+        $this->assertEquals($keyword2, $events[10]['keywords'][1]);
+        $this->assertFalse(array_key_exists('keywords', $events[20]));
     }
 
     /**
@@ -74,7 +89,20 @@ class AggregatorTest extends TestCase
      */
     public function testAddResourceTypesToEvents()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $resourceType1 = ['event_id' => 10];
+        $resourceType2 = ['event_id' => 10];
+        $resourceType3 = ['event_id' => 30];
+
+        $events = [10 => [], 20 => []];
+        $keywords = [$resourceType1, $resourceType2, $resourceType3];
+
+        $events = Aggregator::addResourceTypesToEvents($events, $keywords);
+
+        $this->assertEquals(2, count($events));
+        $this->assertEquals(2, count($events[10]['resource_types']));
+        $this->assertEquals($resourceType1, $events[10]['resource_types'][0]);
+        $this->assertEquals($resourceType2, $events[10]['resource_types'][1]);
+        $this->assertFalse(array_key_exists('resource_types', $events[20]));
     }
 
     /**
@@ -82,7 +110,26 @@ class AggregatorTest extends TestCase
      */
     public function testAddCompetencyObjectReferencesToEvents()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $events = [
+            10 => [],
+            20 => [],
+            30 => [],
+        ];
+
+        $ref1 = 'Does';
+        $ref2 = 'Not';
+        $ref3 = 'Matter';
+        $references = [
+            10 => $ref1,
+            20 => $ref2,
+            50 => $ref3,
+        ];
+        $events = Aggregator::addCompetencyObjectReferencesToEvents($events, $references);
+
+        $this->assertEquals($ref1, $events[10]['competency_object_references']);
+        $this->assertEquals($ref2, $events[20]['competency_object_references']);
+        $this->assertTrue(array_key_exists(30, $events));
+        $this->assertFalse(array_key_exists('competency_object_references', $events[30]));
     }
 
     /**
