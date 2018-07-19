@@ -2,6 +2,7 @@
 
 namespace Tests\CoreBundle\Service\CurriculumInventory\Export;
 
+use Ilios\CoreBundle\Entity\CurriculumInventoryReport;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
 use Ilios\CoreBundle\Service\Config;
@@ -137,7 +138,22 @@ class AggregatorTest extends TestCase
      */
     public function testGetConsolidatedObjectivesMap()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $objectives = [
+            ['id' => 10, 'ancestor_id' => 1],
+            ['id' => 20, 'ancestor_id' => null],
+            ['id' => 40, 'ancestor_id' => 2],
+            ['id' => 30, 'ancestor_id' => 2],
+            ['id' => 50, 'ancestor_id' => 3],
+            ['id' => 60, 'ancestor_id' => 3],
+            ['id' => 70, 'ancestor_id' => 3],
+        ];
+
+        $map = Aggregator::getConsolidatedObjectivesMap($objectives);
+
+        $this->assertEquals(3, count($map));
+        $this->assertEquals(40, $map[30]);
+        $this->assertEquals(70, $map[50]);
+        $this->assertEquals(70, $map[60]);
     }
 
     /**
@@ -145,7 +161,15 @@ class AggregatorTest extends TestCase
      */
     public function testGetFailsIfReportHasNoProgram()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $this->expectExceptionMessage('No program found for report with id = 1.');
+        $report = m::mock(CurriculumInventoryReport::class)
+            ->shouldReceive('getProgram')
+            ->andReturn(null)
+            ->shouldReceive('getId')
+            ->andReturn(1)
+            ->getMock();
+
+        $this->aggregator->getData($report);
     }
 
     /**
@@ -153,11 +177,24 @@ class AggregatorTest extends TestCase
      */
     public function testGetFailsIfProgramHasNoSchool()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $this->expectExceptionMessage('No school found for program with id = 1.');
+        $program = m::mock(Program::class)
+            ->shouldReceive('getSchool')
+            ->andReturn(null)
+            ->shouldReceive('getId')
+            ->andReturn(1)
+            ->getMock();
+        $report = m::mock(CurriculumInventoryReport::class)
+            ->shouldReceive('getProgram')
+            ->andReturn($program)
+            ->getMock();
+
+        $this->aggregator->getData($report);
     }
 
     /**
      * @covers \Ilios\CoreBundle\Service\CurriculumInventory\Export\Aggregator::getData
+     * @todo Implement this monster of a test. [ST 2018/07/18]
      */
     public function testGetData()
     {
