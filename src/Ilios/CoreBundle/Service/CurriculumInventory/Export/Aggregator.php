@@ -51,7 +51,7 @@ class Aggregator
      * @param array $keywords A list of keywords.
      * @return array The events with the keywords added.
      */
-    protected function addKeywordsToEvents(array $events, array $keywords)
+    public static function addKeywordsToEvents(array $events, array $keywords)
     {
         foreach ($keywords as $keyword) {
             $eventId = $keyword['event_id'];
@@ -72,7 +72,7 @@ class Aggregator
      * @param array $resourceTypes A list of resource types.
      * @return array The events with their resource types added.
      */
-    protected function addResourceTypesToEvents(array $events, array $resourceTypes)
+    public static function addResourceTypesToEvents(array $events, array $resourceTypes)
     {
         foreach ($resourceTypes as $resourceType) {
             $eventId = $resourceType['event_id'];
@@ -93,7 +93,7 @@ class Aggregator
      * @param array $references A list of competency object references.
      * @return array The events with references added.
      */
-    protected function addCompetencyObjectReferencesToEvents(array $events, array $references)
+    public static function addCompetencyObjectReferencesToEvents(array $events, array $references)
     {
         $sessionIds = array_keys($events);
         for ($i = 0, $n = count($sessionIds); $i < $n; $i++) {
@@ -170,7 +170,7 @@ class Aggregator
         $eventRefsForSeqBlocks = $this->reportManager->getEventReferencesForSequenceBlocks($invReport, $eventIds);
 
         $programObjectives = $this->reportManager->getProgramObjectives($invReport);
-        $consolidatedProgramObjectivesMap = $this->getConsolidatedObjectivesMap($programObjectives);
+        $consolidatedProgramObjectivesMap = self::getConsolidatedObjectivesMap($programObjectives);
         $sessionObjectives = $this->reportManager->getSessionObjectives($invReport, $eventIds);
         $courseObjectives = $this->reportManager->getCourseObjectives($invReport);
 
@@ -263,9 +263,9 @@ class Aggregator
         //
         // transmogrify inventory data for reporting and fill in the blanks
         //
-        $events = $this->addKeywordsToEvents($events, $keywords);
-        $events = $this->addResourceTypesToEvents($events, $resourceTypes);
-        $events = $this->addCompetencyObjectReferencesToEvents($events, $compRefsForEvents);
+        $events = self::addKeywordsToEvents($events, $keywords);
+        $events = self::addResourceTypesToEvents($events, $resourceTypes);
+        $events = self::addCompetencyObjectReferencesToEvents($events, $compRefsForEvents);
 
         //
         // aggregate inventory into single return-array
@@ -291,7 +291,7 @@ class Aggregator
      * @param array $objectives
      * @return array An associative array with objective ids as keys, and the id of their most recent sibling as value.
      */
-    protected function getConsolidatedObjectivesMap(array $objectives): array
+    public static function getConsolidatedObjectivesMap(array $objectives): array
     {
         $objectives = array_values($objectives);
 
