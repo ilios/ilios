@@ -15,6 +15,8 @@ use Tests\CoreBundle\TestCase;
  */
 class CurriculumInventoryReportManagerTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @var m\MockInterface
      */
