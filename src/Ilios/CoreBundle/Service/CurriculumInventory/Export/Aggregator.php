@@ -146,7 +146,7 @@ class Aggregator
         // report validation
         $program = $invReport->getProgram();
         if (! $program) {
-            throw new \Exception('No program found for report with id  ' . $invReport->getId() . '.');
+            throw new \Exception('No program found for report with id = ' . $invReport->getId() . '.');
         }
 
         $school  = $program->getSchool();
