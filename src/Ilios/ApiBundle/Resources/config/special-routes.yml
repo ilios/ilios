@@ -360,6 +360,15 @@ ilios_api_programyears_put:
         object: "programyears"
         id: '\d+'
 
+ilios_api_programyears_downloadobjectivesmapping:
+    path: /{version}/{object}/{id}/downloadobjectivesmapping
+    defaults: { _controller: IliosApiBundle:ProgramYear:downloadCourseObjectivesReport, id: 0 }
+    methods: [GET]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: 'programyears'
+        id: '(?i)[a-z0-9\-]+'
+
 ilios_api_usermadereminders_410:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:UserMadeReminder:fourTen, id: 0 }

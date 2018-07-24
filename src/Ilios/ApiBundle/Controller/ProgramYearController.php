@@ -4,11 +4,17 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\CoreBundle\Entity\CohortInterface;
+use Ilios\CoreBundle\Entity\DTO\ProgramYearDTO;
 use Ilios\CoreBundle\Entity\Manager\BaseManager;
+use Ilios\CoreBundle\Entity\Manager\ProgramYearManager;
 use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Class ProgramYearController
@@ -82,6 +88,45 @@ class ProgramYearController extends ApiController
         $manager->update($entity, true, false);
 
         return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
+    }
+
+    /**
+     * @param $version
+     * @param $object
+     * @param $id
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function downloadCourseObjectivesReportAction($version, $object, $id, Request $request)
+    {
+        /** @var ProgramYearManager $manager */
+        $manager = $this->getManager($object);
+        /** @var ProgramYearDTO $dto */
+        $dto = $manager->findDTOBy(['id' => $id]);
+
+        if (! $dto) {
+            $name = ucfirst($this->getSingularResponseKey($object));
+            throw new NotFoundHttpException(sprintf("%s with id '%s' was not found.", $name, $id));
+        }
+
+        $data = $manager->getProgramYearObjectiveToCourseObjectivesMapping($dto->id);
+
+        array_walk($data, function (&$row) {
+            foreach (['program_year_objective', 'mapped_course_objective'] as $key) {
+                $row[$key] = strip_tags($row[$key]);
+            }
+        });
+
+        $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+        return new Response(
+            $serializer->serialize($data, 'csv'),
+            Response::HTTP_OK,
+            [
+                'Content-type' => 'text/csv',
+                'Content-Disposition' => 'inline',
+            ]
+        );
     }
 
     /**
