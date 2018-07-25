@@ -116,6 +116,7 @@ class ProgramYearController extends ApiController
             foreach (['program_year_objective', 'mapped_course_objective'] as $key) {
                 $row[$key] = strip_tags($row[$key]);
             }
+            $row['matriculation_year'] = $row['matriculation_year'] . ' - ' . ($row['matriculation_year'] + 1);
         });
 
         $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);

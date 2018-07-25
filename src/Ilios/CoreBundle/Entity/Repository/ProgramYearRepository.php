@@ -191,7 +191,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
-            "p.title AS program_title, py.startYear AS program_year, pyo.title AS program_year_objective," .
+            "p.title AS program_title, py.startYear AS matriculation_year, pyo.title AS program_year_objective," .
                 "cmp.title AS competency, c.title AS course_title, c.externalId AS course_shortname," .
                 "co.title AS mapped_course_objective"
         )
