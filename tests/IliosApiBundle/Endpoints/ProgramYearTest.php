@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\ObjectiveData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
@@ -11,7 +12,7 @@ use Tests\IliosApiBundle\ReadWriteEndpointTest;
  */
 class ProgramYearTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'programYears';
+    protected $testName = 'programYears';
 
     /**
      * @inheritdoc
@@ -28,7 +29,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'Tests\CoreBundle\Fixture\LoadObjectiveData',
             'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
             'Tests\CoreBundle\Fixture\LoadSessionData',
-            'Tests\CoreBundle\Fixture\LoadCourseData'
+            'Tests\CoreBundle\Fixture\LoadCourseData',
         ];
     }
 
@@ -113,7 +114,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $program = $this->getOne('programs', 'programs', $fetchedResponseData['program']);
 
         $this->assertEquals($cohort['programYear'], $fetchedResponseData['id']);
-        $this->assertEquals($cohort['title'], 'Class of ' . ($fetchedResponseData['startYear'] + $program['duration']));
+        $this->assertEquals($cohort['title'], 'Class of '.($fetchedResponseData['startYear'] + $program['duration']));
 
         return $fetchedResponseData;
     }
@@ -123,19 +124,25 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $responseData = $this->postMany($endpoint, $responseKey, $data);
-        $ids = array_map(function (array $arr) {
-            return $arr['id'];
-        }, $responseData);
+        $ids = array_map(
+            function (array $arr) {
+                return $arr['id'];
+            },
+            $responseData
+        );
         $filters = [
             'filters[id]' => $ids,
-            'limit' => count($ids)
+            'limit' => count($ids),
         ];
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
 
-        usort($fetchedResponseData, function ($a, $b) {
-            return strnatcasecmp($a['id'], $b['id']);
-        });
+        usort(
+            $fetchedResponseData,
+            function ($a, $b) {
+                return strnatcasecmp($a['id'], $b['id']);
+            }
+        );
 
         $program = $this->getOne('programs', 'programs', $data[0]['program']);
         foreach ($data as $i => $datum) {
@@ -148,7 +155,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
 
             $cohort = $this->getOne('cohorts', 'cohorts', $cohortId);
             $this->assertEquals($cohort['programYear'], $response['id']);
-            $this->assertEquals($cohort['title'], 'Class of ' . ($response['startYear'] + $program['duration']));
+            $this->assertEquals($cohort['title'], 'Class of '.($response['startYear'] + $program['duration']));
         }
 
         return $fetchedResponseData;
@@ -261,5 +268,61 @@ class ProgramYearTest extends ReadWriteEndpointTest
             $this->assertEmpty($arr['children'], 'children have been removed');
             $this->assertArrayNotHasKey('competency', $arr);
         }
+    }
+
+    /**
+     * @covers \Ilios\ApiBundle\Controller\ProgramYearController::downloadCourseObjectivesReportAction
+     */
+    public function testDownloadCourseObjectivesReport()
+    {
+        $parameters = array_merge(
+            [
+                'version' => 'v1',
+                'object' => $this->getPluralName(),
+                'id' => 1,
+            ]
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'ilios_api_programyears_downloadobjectivesmapping',
+                $parameters
+            ),
+            null,
+            $this->getTokenForUser(2)
+        );
+
+        $response = $this->client->getResponse();
+
+        $expected = [
+            [
+                'program_title',
+                'matriculation_year',
+                'program_year_objective',
+                'competency',
+                'course_title',
+                'course_shortname',
+                'mapped_course_objective',
+            ],
+            ['Miss', '2013 - 2014', 'first objective', 'third competency', 'firstCourse', 'first', 'second objective',],
+            ['Miss', '2013 - 2014', 'first objective', 'third competency', 'course 2', 'second', 'second objective',],
+            [
+                'Miss',
+                '2013 - 2014',
+                'first objective',
+                'third competency',
+                'fourth course',
+                'fourth',
+                'second objective',
+            ],
+            ['Miss', '2013 - 2014', 'second objective', null, null, null, 'third objective',],
+            ['Miss', '2013 - 2014', 'second objective', null, null, null, 'sixth objective',],
+        ];
+
+        $actual = array_map('str_getcsv', explode(PHP_EOL, trim($response->getContent())));
+        $this->assertEquals($response->getStatusCode(), Response::HTTP_OK);
+        $this->assertStringStartsWith('text/csv', $response->headers->get('Content-Type'));
+        $this->assertEquals($expected, $actual);
     }
 }

@@ -177,6 +177,10 @@ services:
         public: true
         arguments:
             $class: 'Ilios\CoreBundle\Entity\PendingUserUpdate'
+    Ilios\CoreBundle\Entity\Manager\ProgramYearManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\ProgramYear'
     Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager:
         public: true
         arguments:
