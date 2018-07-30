@@ -78,24 +78,25 @@ class MeshQualifier implements MeshQualifierInterface
     protected $updatedAt;
 
     /**
-    * @var ArrayCollection|MeshDescriptorInterface[]
-    *
-    * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="qualifiers")
-    * @ORM\JoinTable(name="mesh_descriptor_x_qualifier",
-    *   joinColumns={
-    *     @ORM\JoinColumn(name="mesh_qualifier_uid", referencedColumnName="mesh_qualifier_uid")
-    *   },
-    *   inverseJoinColumns={
-    *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
-    *   }
-    * )
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|MeshDescriptorInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="qualifiers")
+     * @ORM\JoinTable(name="mesh_descriptor_x_qualifier",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="mesh_qualifier_uid", referencedColumnName="mesh_qualifier_uid")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *   }
+     * )
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $descriptors;
 
-        /**
+    /**
      * Constructor
      */
     public function __construct()

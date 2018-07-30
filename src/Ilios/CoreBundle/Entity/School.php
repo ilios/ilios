@@ -129,6 +129,7 @@ class School implements SchoolInterface
      * @var ArrayCollection|AlertInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Alert", mappedBy="recipients")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * Don't put alerts in the school API it takes forever to load them all
      * @IS\Type("entityCollection")
@@ -139,6 +140,7 @@ class School implements SchoolInterface
      * @var ArrayCollection|CompetencyInterface[]
      *
      * @ORM\OneToMany(targetEntity="Competency", mappedBy="school")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -149,6 +151,7 @@ class School implements SchoolInterface
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\OneToMany(targetEntity="Course", mappedBy="school")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -159,6 +162,7 @@ class School implements SchoolInterface
      * @var ArrayCollection|ProgramInterface[]
      *
      * @ORM\OneToMany(targetEntity="Program", mappedBy="school")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -169,6 +173,7 @@ class School implements SchoolInterface
      * @var ArrayCollection|DepartmentInterface[]
      *
      * @ORM\OneToMany(targetEntity="Department", mappedBy="school")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -179,6 +184,7 @@ class School implements SchoolInterface
      * @var ArrayCollection|VocabularyInterface[]
      *
      * @ORM\OneToMany(targetEntity="Vocabulary", mappedBy="school")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -186,13 +192,14 @@ class School implements SchoolInterface
     protected $vocabularies;
 
     /**
-    * @var ArrayCollection|InstructorGroupInterface[]
-    *
-    * @ORM\OneToMany(targetEntity="InstructorGroup", mappedBy="school")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|InstructorGroupInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="InstructorGroup", mappedBy="school")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $instructorGroups;
 
     /**
@@ -206,19 +213,21 @@ class School implements SchoolInterface
     protected $curriculumInventoryInstitution;
 
     /**
-    * @var ArrayCollection|SessionTypeInterface[]
-    *
-    * @ORM\OneToMany(targetEntity="SessionType", mappedBy="school")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|SessionTypeInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="SessionType", mappedBy="school")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $sessionTypes;
 
     /**
      * @var ArrayCollection|ProgramYearStewardInterface[]
      *
      * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="school")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -237,6 +246,7 @@ class School implements SchoolInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -255,6 +265,7 @@ class School implements SchoolInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -265,6 +276,7 @@ class School implements SchoolInterface
      * @var ArrayCollection|SchoolConfigInterface[]
      *
      * @ORM\OneToMany(targetEntity="SchoolConfig", mappedBy="school")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

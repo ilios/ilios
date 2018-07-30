@@ -63,6 +63,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\OneToMany(targetEntity="Course", mappedBy="clerkshipType")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

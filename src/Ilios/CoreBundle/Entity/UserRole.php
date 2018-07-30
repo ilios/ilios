@@ -61,13 +61,14 @@ class UserRole implements UserRoleInterface
     protected $title;
 
      /**
-     * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
-     *
-     * Don't put users in the UserRole API it takes too long to load
-     * @IS\Type("entityCollection")
-     */
+      * @var ArrayCollection|UserInterface[]
+      *
+      * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
+      * @ORM\OrderBy({"id" = "ASC"})
+      *
+      * Don't put users in the UserRole API it takes too long to load
+      * @IS\Type("entityCollection")
+      */
     protected $users;
 
     /**

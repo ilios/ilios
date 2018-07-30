@@ -68,6 +68,7 @@ class AamcPcrs implements AamcPcrsInterface
      * @var ArrayCollection|CompetencyInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Competency", mappedBy="aamcPcrses")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

@@ -111,6 +111,7 @@ class IlmSession implements IlmSessionInterface
      *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -129,6 +130,7 @@ class IlmSession implements IlmSessionInterface
      *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -147,6 +149,7 @@ class IlmSession implements IlmSessionInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -165,6 +168,7 @@ class IlmSession implements IlmSessionInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

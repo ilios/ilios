@@ -58,6 +58,7 @@ class Term implements TermInterface
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="terms")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -98,6 +99,7 @@ class Term implements TermInterface
      * @var ArrayCollection|TermInterface[]
      *
      * @ORM\OneToMany(targetEntity="Term", mappedBy="parent")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -108,6 +110,7 @@ class Term implements TermInterface
      * @var ArrayCollection|ProgramYearInterface[]
      *
      * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="terms")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -118,6 +121,7 @@ class Term implements TermInterface
      * @var ArrayCollection|SessionInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="terms")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -167,6 +171,7 @@ class Term implements TermInterface
      *     @ORM\JoinColumn(name="resource_type_id", referencedColumnName="resource_type_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

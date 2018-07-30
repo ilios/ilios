@@ -125,6 +125,7 @@ class MeshConcept implements MeshConceptInterface
      * @var ArrayCollection|MeshTermInterface[]
      *
      * @ORM\ManyToMany(targetEntity="MeshTerm", mappedBy="concepts")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -150,21 +151,22 @@ class MeshConcept implements MeshConceptInterface
     protected $updatedAt;
 
     /**
-    * @var ArrayCollection|MeshDescriptorInterface[]
-    *
-    * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="concepts")
-    * @ORM\JoinTable(name="mesh_descriptor_x_concept",
-    *   joinColumns={
-    *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
-    *   },
-    *   inverseJoinColumns={
-    *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
-    *   }
-    * )
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|MeshDescriptorInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="concepts")
+     * @ORM\JoinTable(name="mesh_descriptor_x_concept",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *   }
+     * )
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $descriptors;
 
     /**

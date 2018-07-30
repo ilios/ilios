@@ -80,12 +80,13 @@ class Competency implements CompetencyInterface
     protected $school;
 
     /**
-    * @var ArrayCollection|ObjectiveInterface[]
-    * @ORM\OneToMany(targetEntity="Objective", mappedBy="competency")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|ObjectiveInterface[]
+     * @ORM\OneToMany(targetEntity="Objective", mappedBy="competency")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $objectives;
 
     /**
@@ -105,6 +106,7 @@ class Competency implements CompetencyInterface
      * @var ArrayCollection|CompetencyInterface[]
      *
      * @ORM\OneToMany(targetEntity="Competency", mappedBy="parent")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -123,6 +125,7 @@ class Competency implements CompetencyInterface
      *     @ORM\JoinColumn(name="pcrs_id", referencedColumnName="pcrs_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -133,6 +136,7 @@ class Competency implements CompetencyInterface
      * @var ArrayCollection|ProgramYearInterface[]
      *
      * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="competencies")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

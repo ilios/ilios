@@ -78,6 +78,7 @@ class Department implements DepartmentInterface
      * @var ArrayCollection|ProgramYearStewardInterface[]
      *
      * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="department")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

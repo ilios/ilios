@@ -87,6 +87,7 @@ class Objective implements ObjectiveInterface
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="objectives")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -97,6 +98,7 @@ class Objective implements ObjectiveInterface
      * @var ArrayCollection|ProgramYearInterface[]
      *
      * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="objectives")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -107,6 +109,7 @@ class Objective implements ObjectiveInterface
      * @var ArrayCollection|SessionInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="objectives")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -121,6 +124,7 @@ class Objective implements ObjectiveInterface
      *   joinColumns={@ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id")},
      *   inverseJoinColumns={@ORM\JoinColumn(name="parent_objective_id", referencedColumnName="objective_id")}
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -131,6 +135,7 @@ class Objective implements ObjectiveInterface
      * @var ArrayCollection|ObjectiveInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Objective", mappedBy="parents")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -149,6 +154,7 @@ class Objective implements ObjectiveInterface
      *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -172,6 +178,7 @@ class Objective implements ObjectiveInterface
      * @var ObjectiveInterface
      *
      * @ORM\OneToMany(targetEntity="Objective", mappedBy="ancestor")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

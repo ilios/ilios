@@ -219,6 +219,7 @@ class Session implements SessionInterface
      *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -237,6 +238,7 @@ class Session implements SessionInterface
      *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -255,6 +257,7 @@ class Session implements SessionInterface
      *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -272,23 +275,25 @@ class Session implements SessionInterface
     protected $sessionDescription;
 
     /**
-    * @var ArrayCollection|SessionLearningMaterialInterface[]
-    *
-    * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="session")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|SessionLearningMaterialInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="session")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $learningMaterials;
 
     /**
-    * @var ArrayCollection|OfferingInterface[]
-    *
-    * @ORM\OneToMany(targetEntity="Offering", mappedBy="session")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|OfferingInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Offering", mappedBy="session")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $offerings;
 
 
@@ -296,6 +301,7 @@ class Session implements SessionInterface
      * @var ArrayCollection|SessionInterface[]
      *
      * @ORM\ManyToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="sessions")
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sequenceBlocks;
 
@@ -303,6 +309,7 @@ class Session implements SessionInterface
      * @var ArrayCollection|SessionInterface[]
      *
      * @ORM\ManyToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="excludedSessions")
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $excludedSequenceBlocks;
 
@@ -318,6 +325,7 @@ class Session implements SessionInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

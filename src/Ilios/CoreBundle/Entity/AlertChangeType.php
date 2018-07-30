@@ -46,29 +46,30 @@ class AlertChangeType implements AlertChangeTypeInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=60)
-    * @var string
-    *
-    * @Assert\NotBlank()
-    * @Assert\Type(type="string")
-    * @Assert\Length(
-    *      min = 1,
-    *      max = 60
-    * )
-    *
-    * @IS\Expose
-    * @IS\Type("string")
-    */
+     * @ORM\Column(type="string", length=60)
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 60
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+     */
     protected $title;
 
     /**
-    * @var ArrayCollection|AlertInterface[]
-    *
-    * @ORM\ManyToMany(targetEntity="Alert", mappedBy="changeTypes")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|AlertInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Alert", mappedBy="changeTypes")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $alerts;
 
     /**

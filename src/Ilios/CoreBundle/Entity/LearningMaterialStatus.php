@@ -64,6 +64,7 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
      * @var ArrayCollection|LearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="status")
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $learningMaterials;
 
