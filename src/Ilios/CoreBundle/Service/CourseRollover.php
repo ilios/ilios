@@ -249,6 +249,7 @@ class CourseRollover
             $newCourseLearningMaterial->setCourse($newCourse);
             $newCourseLearningMaterial->setLearningMaterial($origCourseLearningMaterial->getLearningMaterial());
             $newCourseLearningMaterial->setMeshDescriptors($origCourseLearningMaterial->getMeshDescriptors());
+            $newCourseLearningMaterial->setPosition($origCourseLearningMaterial->getPosition());
 
             $this->courseLearningMaterialManager->update($newCourseLearningMaterial, false, false);
         }
@@ -349,6 +350,7 @@ class CourseRollover
             $newSessionLearningMaterial->setPublicNotes($origSessionLearningMaterial->hasPublicNotes());
             $newSessionLearningMaterial->setLearningMaterial($origSessionLearningMaterial->getLearningMaterial());
             $newSessionLearningMaterial->setMeshDescriptors($origSessionLearningMaterial->getMeshDescriptors());
+            $newSessionLearningMaterial->setPosition($origSessionLearningMaterial->getPosition());
 
             $this->sessionLearningMaterialManager->update($newSessionLearningMaterial, false, false);
         }
@@ -492,6 +494,7 @@ class CourseRollover
             $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
             $newObjective->addCourse($newCourse);
             $newObjective->setAncestor($objective->getAncestorOrSelf());
+            $newObjective->setPosition($objective->getPosition());
             foreach ($cohorts as $cohort) {
                 $this->reLinkCourseObjectiveToParents($objective, $newObjective, $cohort);
             }
@@ -541,6 +544,7 @@ class CourseRollover
                     $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
                     $newObjective->addSession($newSession);
                     $newObjective->setAncestor($objective->getAncestorOrSelf());
+                    $newObjective->setPosition($objective->getPosition());
                     $newParents = $objective->getParents()
                         ->map(
                             function (ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective) {
