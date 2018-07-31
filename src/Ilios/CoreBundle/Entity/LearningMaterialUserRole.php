@@ -63,6 +63,7 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
      * @var ArrayCollection|LearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="userRole")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      */
     protected $learningMaterials;

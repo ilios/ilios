@@ -156,6 +156,7 @@ class ProgramYear implements ProgramYearInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -174,6 +175,7 @@ class ProgramYear implements ProgramYearInterface
      *     @ORM\JoinColumn(name="competency_id", referencedColumnName="competency_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -192,6 +194,7 @@ class ProgramYear implements ProgramYearInterface
      *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -210,6 +213,7 @@ class ProgramYear implements ProgramYearInterface
      *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -220,6 +224,7 @@ class ProgramYear implements ProgramYearInterface
      * @var ArrayCollection|ProgramYearStewardInterface[]
      *
      * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="programYear")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

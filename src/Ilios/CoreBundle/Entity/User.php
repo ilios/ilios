@@ -252,6 +252,7 @@ class User implements UserInterface
      * @var ArrayCollection|AuditLogInterface[]
      *
      * @ORM\OneToMany(targetEntity="AuditLog", mappedBy="user")
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $auditLogs;
 
@@ -259,6 +260,7 @@ class User implements UserInterface
      * @var ArrayCollection|LearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="owningUser")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * Don't put learningMaterials in the user API it takes forever to load them all
      * @IS\Type("entityCollection")
@@ -269,6 +271,7 @@ class User implements UserInterface
      * @var ArrayCollection|ReportInterface[]
      *
      * @ORM\OneToMany(targetEntity="Report", mappedBy="user")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -292,6 +295,7 @@ class User implements UserInterface
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="directors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -302,6 +306,7 @@ class User implements UserInterface
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="administrators")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -312,6 +317,7 @@ class User implements UserInterface
      * @var ArrayCollection|SessionInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="administrators")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -322,6 +328,7 @@ class User implements UserInterface
      * @var ArrayCollection|LearnerGroupInterface[]
      *
      * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="users")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -332,6 +339,7 @@ class User implements UserInterface
      * @var ArrayCollection|LearnerGroupInterface[]
      *
      * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -342,6 +350,7 @@ class User implements UserInterface
     * @var ArrayCollection|InstructorGroupInterface[]
     *
     * @ORM\ManyToMany(targetEntity="InstructorGroup", mappedBy="users")
+     * @ORM\OrderBy({"id" = "ASC"})
     *
     * @IS\Expose
     * @IS\Type("entityCollection")
@@ -349,29 +358,32 @@ class User implements UserInterface
     protected $instructorGroups;
 
     /**
-    * @var ArrayCollection|IlmSessionInterface[]
-    *
-    * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="instructors")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|IlmSessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="instructors")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $instructorIlmSessions;
 
     /**
-    * @var ArrayCollection|IlmSessionInterface[]
-    *
-    * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="learners")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|IlmSessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="learners")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $learnerIlmSessions;
 
     /**
      * @var ArrayCollection|OfferingInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Offering", mappedBy="learners")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -382,6 +394,7 @@ class User implements UserInterface
      * @var ArrayCollection|OfferingInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Offering", mappedBy="instructors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -389,19 +402,21 @@ class User implements UserInterface
     protected $instructedOfferings;
 
     /**
-    * @var ArrayCollection|ProgramYearInterface[]
-    *
-    * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="directors")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|ProgramYearInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="directors")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $programYears;
 
     /**
      * @var ArrayCollection|AlertInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Alert", mappedBy="instigators")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * Don't put alerts in the user API it takes forever to load them all
      * @IS\Type("entityCollection")
@@ -420,6 +435,7 @@ class User implements UserInterface
      *     @ORM\JoinColumn(name="user_role_id", referencedColumnName="user_role_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -438,6 +454,7 @@ class User implements UserInterface
     *     @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id")
     *   }
     * )
+    * @ORM\OrderBy({"id" = "ASC"})
     *
     * @IS\Expose
     * @IS\Type("entityCollection")
@@ -461,6 +478,7 @@ class User implements UserInterface
      * @var ArrayCollection|PendingUserUpdateInterface[]
      *
      * @ORM\OneToMany(targetEntity="PendingUserUpdate", mappedBy="user")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -471,6 +489,7 @@ class User implements UserInterface
      * @var ArrayCollection|SchoolInterface[]
      *
      * @ORM\ManyToMany(targetEntity="School", mappedBy="directors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -481,6 +500,7 @@ class User implements UserInterface
      * @var ArrayCollection|SchoolInterface[]
      *
      * @ORM\ManyToMany(targetEntity="School", mappedBy="administrators")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -491,6 +511,7 @@ class User implements UserInterface
      * @var ArrayCollection|ProgramInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Program", mappedBy="directors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -514,6 +535,7 @@ class User implements UserInterface
      * @var ArrayCollection|CurriculumInventoryReportInterface[]
      *
      * @ORM\ManyToMany(targetEntity="CurriculumInventoryReport", mappedBy="administrators")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

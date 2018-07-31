@@ -66,6 +66,7 @@ class AssessmentOption implements AssessmentOptionInterface
      * @var ArrayCollection|SessionTypeInterface[]
      *
      * @ORM\OneToMany(targetEntity="SessionType", mappedBy="assessmentOption")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

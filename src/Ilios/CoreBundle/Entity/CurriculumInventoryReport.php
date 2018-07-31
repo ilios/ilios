@@ -135,46 +135,48 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     protected $export;
 
     /**
-    * @var CurriculumInventorySequenceInterface
-    *
-    * @ORM\OneToOne(targetEntity="CurriculumInventorySequence", mappedBy="report")
-    *
-    * @IS\Expose
-    * @IS\Type("entity")
-    */
+     * @var CurriculumInventorySequenceInterface
+     *
+     * @ORM\OneToOne(targetEntity="CurriculumInventorySequence", mappedBy="report")
+     *
+     * @IS\Expose
+     * @IS\Type("entity")
+     */
     protected $sequence;
 
     /**
-    * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-    *
-    * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock",mappedBy="report")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock",mappedBy="report")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $sequenceBlocks;
 
     /**
-    * @var ProgramInterface
-    *
-    * @ORM\ManyToOne(targetEntity="Program", inversedBy="curriculumInventoryReports")
-    * @ORM\JoinColumns({
-    *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")
-    * })
-    *
-    * @IS\Expose
-    * @IS\Type("entity")
-    */
+     * @var ProgramInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Program", inversedBy="curriculumInventoryReports")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")
+     * })
+     *
+     * @IS\Expose
+     * @IS\Type("entity")
+     */
     protected $program;
 
     /**
-    * @var CurriculumInventoryAcademicLevelInterface
-    *
-    * @ORM\OneToMany(targetEntity="CurriculumInventoryAcademicLevel", mappedBy="report")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var CurriculumInventoryAcademicLevelInterface
+     *
+     * @ORM\OneToMany(targetEntity="CurriculumInventoryAcademicLevel", mappedBy="report")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $academicLevels;
 
     /**
@@ -202,6 +204,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

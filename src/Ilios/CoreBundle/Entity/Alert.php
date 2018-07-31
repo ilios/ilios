@@ -110,6 +110,7 @@ class Alert implements AlertInterface
      *     @ORM\JoinColumn(name="alert_change_type_id", referencedColumnName="alert_change_type_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -128,6 +129,7 @@ class Alert implements AlertInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -146,6 +148,7 @@ class Alert implements AlertInterface
      *     @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

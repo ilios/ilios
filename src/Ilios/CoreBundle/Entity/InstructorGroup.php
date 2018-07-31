@@ -85,6 +85,7 @@ class InstructorGroup implements InstructorGroupInterface
      * @var ArrayCollection|LearnerGroupInterface[]
      *
      * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructorGroups")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -95,6 +96,7 @@ class InstructorGroup implements InstructorGroupInterface
      * @var ArrayCollection|IlmSession[]
      *
      * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="instructorGroups")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -113,6 +115,7 @@ class InstructorGroup implements InstructorGroupInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -123,6 +126,7 @@ class InstructorGroup implements InstructorGroupInterface
      * @var ArrayCollection|OfferingInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Offering", mappedBy="instructorGroups")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

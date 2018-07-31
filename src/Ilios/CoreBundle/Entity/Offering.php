@@ -151,6 +151,7 @@ class Offering implements OfferingInterface
      *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -169,6 +170,7 @@ class Offering implements OfferingInterface
      *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -187,6 +189,7 @@ class Offering implements OfferingInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -205,6 +208,7 @@ class Offering implements OfferingInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

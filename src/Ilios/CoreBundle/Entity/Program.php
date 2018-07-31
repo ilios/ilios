@@ -137,23 +137,25 @@ class Program implements ProgramInterface
     protected $school;
 
     /**
-    * @var ArrayCollection|ProgramYearInterface[]
-    *
-    * @ORM\OneToMany(targetEntity="ProgramYear", mappedBy="program")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|ProgramYearInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="ProgramYear", mappedBy="program")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $programYears;
 
     /**
-    * @var ArrayCollection|CurriculumInventoryReportInterface[]
-    *
-    * @ORM\OneToMany(targetEntity="CurriculumInventoryReport", mappedBy="program")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|CurriculumInventoryReportInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="CurriculumInventoryReport", mappedBy="program")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $curriculumInventoryReports;
 
     /**
@@ -168,6 +170,7 @@ class Program implements ProgramInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

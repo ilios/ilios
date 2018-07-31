@@ -119,6 +119,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="meshDescriptors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -129,6 +130,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @var ArrayCollection|ObjectiveInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Objective", mappedBy="meshDescriptors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -139,6 +141,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @var ArrayCollection|SessionInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="meshDescriptors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -149,6 +152,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @var ArrayCollection|MeshConceptInterface[]
      *
      * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="descriptors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -159,6 +163,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @var ArrayCollection|MeshQualifierInterface[]
      *
      * @ORM\ManyToMany(targetEntity="MeshQualifier", mappedBy="descriptors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -169,6 +174,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @var ArrayCollection|MeshTreeInterface[]
      *
      * @ORM\OneToMany(targetEntity="MeshTree", mappedBy="descriptor")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -179,6 +185,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @var ArrayCollection|SessionLearningMaterialInterface[]
      *
      * @ORM\ManyToMany(targetEntity="SessionLearningMaterial", mappedBy="meshDescriptors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -189,6 +196,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @var ArrayCollection|CourseLearningMaterialInterface[]
      *
      * @ORM\ManyToMany(targetEntity="CourseLearningMaterial", mappedBy="meshDescriptors")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

@@ -246,6 +246,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      *
      * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="parent")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -278,6 +279,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -297,6 +299,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

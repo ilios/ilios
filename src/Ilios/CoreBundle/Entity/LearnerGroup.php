@@ -128,6 +128,7 @@ class LearnerGroup implements LearnerGroupInterface
      * @var LearnerGroupInterface[]
      *
      * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="ancestor")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -138,6 +139,7 @@ class LearnerGroup implements LearnerGroupInterface
      * @var ArrayCollection|LearnerGroupInterface[]
      *
      * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="parent")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -148,6 +150,7 @@ class LearnerGroup implements LearnerGroupInterface
      * @var ArrayCollection|IlmSessionInterface[]
      *
      * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="learnerGroups")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -158,6 +161,7 @@ class LearnerGroup implements LearnerGroupInterface
      * @var ArrayCollection|OfferingInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Offering", mappedBy="learnerGroups")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -176,6 +180,7 @@ class LearnerGroup implements LearnerGroupInterface
      *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -194,6 +199,7 @@ class LearnerGroup implements LearnerGroupInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -212,6 +218,7 @@ class LearnerGroup implements LearnerGroupInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

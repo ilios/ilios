@@ -177,6 +177,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @var ArrayCollection|SessionLearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="learningMaterial")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -184,13 +185,14 @@ class LearningMaterial implements LearningMaterialInterface
     protected $sessionLearningMaterials;
 
     /**
-    * @var ArrayCollection|CourseLearningMaterialInterface[]
-    *
-    * @ORM\OneToMany(targetEntity="CourseLearningMaterial",mappedBy="learningMaterial")
+     * @var ArrayCollection|CourseLearningMaterialInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="CourseLearningMaterial",mappedBy="learningMaterial")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
-    */
+     */
     protected $courseLearningMaterials;
 
     /**

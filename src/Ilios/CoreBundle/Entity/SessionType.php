@@ -151,6 +151,7 @@ class SessionType implements SessionTypeInterface
      *     @ORM\JoinColumn(name="method_id", referencedColumnName="method_id")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -161,6 +162,7 @@ class SessionType implements SessionTypeInterface
      * @var ArrayCollection|SessionInterface[]
      *
      * @ORM\OneToMany(targetEntity="Session", mappedBy="sessionType")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

@@ -81,19 +81,21 @@ class Cohort implements CohortInterface
     protected $programYear;
 
     /**
-    * @var ArrayCollection|CourseInterface[]
-    *
-    * @ORM\ManyToMany(targetEntity="Course", mappedBy="cohorts")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="cohorts")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $courses;
 
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
      *
      * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="cohort")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -104,6 +106,7 @@ class Cohort implements CohortInterface
     * @var Collection
     *
     * @ORM\ManyToMany(targetEntity="User", mappedBy="cohorts")
+    * @ORM\OrderBy({"id" = "ASC"})
     *
     * @IS\Expose
     * @IS\Type("entityCollection")

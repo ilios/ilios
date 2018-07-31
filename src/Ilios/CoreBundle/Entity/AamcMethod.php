@@ -69,6 +69,7 @@ class AamcMethod implements AamcMethodInterface
      * @var ArrayCollection|SessionTypeInterface[]
      *
      * @ORM\ManyToMany(targetEntity="SessionType", mappedBy="aamcMethods")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

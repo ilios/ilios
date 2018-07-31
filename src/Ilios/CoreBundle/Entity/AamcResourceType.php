@@ -85,6 +85,7 @@ class AamcResourceType implements AamcResourceTypeInterface
      * @var ArrayCollection|TermInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Term", mappedBy="aamcResourceTypes")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

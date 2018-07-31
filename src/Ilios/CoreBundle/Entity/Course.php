@@ -245,6 +245,7 @@ class Course implements CourseInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -263,6 +264,7 @@ class Course implements CourseInterface
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -281,6 +283,7 @@ class Course implements CourseInterface
      *     @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -299,6 +302,7 @@ class Course implements CourseInterface
      *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -317,6 +321,7 @@ class Course implements CourseInterface
      *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
      *   }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -335,6 +340,7 @@ class Course implements CourseInterface
      *      @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
      *    }
      * )
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -345,6 +351,7 @@ class Course implements CourseInterface
      * @var ArrayCollection|CourseLearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="CourseLearningMaterial",mappedBy="course")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -355,6 +362,7 @@ class Course implements CourseInterface
      * @var ArrayCollection|SessionInterface[]
      *
      * @ORM\OneToMany(targetEntity="Session", mappedBy="course")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -365,6 +373,8 @@ class Course implements CourseInterface
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      *
      * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="course")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
      * @IS\Type("entityCollection")
      */
     protected $sequenceBlocks;
@@ -386,6 +396,7 @@ class Course implements CourseInterface
      * @var CourseInterface
      *
      * @ORM\OneToMany(targetEntity="Course", mappedBy="ancestor")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")

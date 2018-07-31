@@ -115,13 +115,14 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     protected $report;
 
     /**
-    * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-    *
-    * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="academicLevel")
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="academicLevel")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     protected $sequenceBlocks;
 
     /**
