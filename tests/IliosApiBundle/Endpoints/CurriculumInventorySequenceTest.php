@@ -80,7 +80,7 @@ class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
             $sequenceId = $report['sequence'];
             $this->deleteOne('curriculuminventorysequences', $sequenceId);
             $arr = $dataLoader->create();
-            $arr['id'] += $i;
+            $arr['id'] += ($i + $count);
             $arr['report'] = $report['id'];
 
             $data[] = $arr;
