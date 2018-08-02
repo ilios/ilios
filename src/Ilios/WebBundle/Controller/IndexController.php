@@ -239,14 +239,13 @@ class IndexController extends Controller
     protected function responseFromString(string $content, Request $request, \DateTime $lastModified) : Response
     {
         $response = new Response();
-        $acceptEncoding = $request->headers->get('Accept-Encoding');
         $response->setEtag(sha1($content));
         $response->setLastModified($lastModified);
         $response->setPublic();
-        if (strpos($acceptEncoding, 'gzip') === false) {
-            $content = gzdecode($content);
-        } else {
+        if (in_array('gzip', $request->getEncodings())) {
             $response->headers->add(['Content-Encoding' => 'gzip']);
+        } else {
+            $content = gzdecode($content);
         }
         $response->setContent($content);
 
