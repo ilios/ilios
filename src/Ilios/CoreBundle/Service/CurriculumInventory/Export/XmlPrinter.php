@@ -230,8 +230,7 @@ class XmlPrinter
                 foreach ($event['resource_types'] as $resourceType) {
                     $resourceTypeNode = $dom->createElement('ResourceType');
                     $eventNode->appendChild($resourceTypeNode);
-                    $resourceTypeNode->setAttribute('sourceID', $resourceType['resource_type_id']);
-                    $resourceTypeNode->appendChild($dom->createTextNode($resourceType['resource_type_title']));
+                    $resourceTypeNode->appendChild($dom->createTextNode($resourceType['resource_type_id']));
                 }
             }
 
