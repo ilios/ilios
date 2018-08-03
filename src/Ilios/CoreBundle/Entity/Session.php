@@ -168,6 +168,24 @@ class Session implements SessionInterface
     protected $updatedAt;
 
     /**
+     *
+     * @ORM\Column(name="instructionalNotes", type="text", nullable=true)
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+     * @IS\RemoveMarkup
+     *
+     */
+    protected $instructionalNotes;
+
+    /**
      * @var SessionTypeInterface
      *
      * @Assert\NotNull()
@@ -417,6 +435,22 @@ class Session implements SessionInterface
     public function isAttendanceRequired()
     {
         return $this->attendanceRequired;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getInstructionalNotes(): ?string
+    {
+        return $this->instructionalNotes;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setInstructionalNotes(string $instructionalNotes = null): void
+    {
+        $this->instructionalNotes = $instructionalNotes;
     }
 
     /**

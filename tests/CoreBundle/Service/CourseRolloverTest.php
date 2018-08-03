@@ -241,6 +241,7 @@ class CourseRolloverTest extends TestCase
             $newSession->shouldReceive('setSupplemental')->with($session->isSupplemental())->once();
             $newSession->shouldReceive('setPublished')->with(false)->once();
             $newSession->shouldReceive('setPublishedAsTbd')->with(false)->once();
+            $newSession->shouldReceive('setInstructionalNotes')->with($session->getInstructionalNotes())->once();
             $newSession->shouldReceive('setMeshDescriptors')->with($session->getMeshDescriptors())->once();
             $newSession->shouldReceive('setTerms')->with($session->getTerms())->once();
             $this->sessionManager

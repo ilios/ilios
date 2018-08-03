@@ -27,9 +27,19 @@ class SessionTest extends AbstractBase
     public function testCanView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
+        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(true);
         $entity = m::mock(Session::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanNotView()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $entity = m::mock(Session::class);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
     public function testCanEdit()

@@ -283,6 +283,7 @@ class CourseRollover
             $newSession->setSupplemental($origCourseSession->isSupplemental());
             $newSession->setPublishedAsTbd(0);
             $newSession->setPublished(0);
+            $newSession->setInstructionalNotes($origCourseSession->getInstructionalNotes());
 
             //now check for a session description and, if there is one, set it...
             $origSessionDescription = $origCourseSession->getSessionDescription();

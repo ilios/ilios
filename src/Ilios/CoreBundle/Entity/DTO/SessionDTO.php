@@ -69,6 +69,13 @@ class SessionDTO
     public $published;
 
     /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $instructionalNotes;
+
+    /**
      * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
@@ -160,6 +167,7 @@ class SessionDTO
         $attendanceRequired,
         $publishedAsTbd,
         $published,
+        $instructionalNotes,
         $updatedAt
     ) {
         $this->id = $id;
@@ -170,6 +178,7 @@ class SessionDTO
         $this->attendanceRequired = $attendanceRequired;
         $this->publishedAsTbd = $publishedAsTbd;
         $this->published = $published;
+        $this->instructionalNotes = $instructionalNotes;
         $this->updatedAt = $updatedAt;
 
         $this->terms = [];

@@ -125,6 +125,15 @@ class SessionTest extends EntityBase
     }
 
     /**
+     * @covers \Ilios\CoreBundle\Entity\Session::setInstructionalNotes
+     * @covers \Ilios\CoreBundle\Entity\Session::getInstructionalNotes
+     */
+    public function testSetInstructionalNotes()
+    {
+        $this->basicSetTest('instructionalNotes', 'string');
+    }
+
+    /**
      * @covers \Ilios\CoreBundle\Entity\Session::setSessionType
      * @covers \Ilios\CoreBundle\Entity\Session::getSessionType
      */

@@ -23,6 +23,9 @@ Session:
   published:
    description: Published
    type: boolean
+  instructionalNotes:
+   description: Instructional Notes
+   type: string
   updatedAt:
    description: Updatedat
    type: string

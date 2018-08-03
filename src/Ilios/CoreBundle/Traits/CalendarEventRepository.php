@@ -39,6 +39,7 @@ trait CalendarEventRepository
             $event->sessionTypeTitle = $arr['sessionTypeTitle'];
             $event->courseExternalId = $arr['courseExternalId'];
             $event->sessionDescription = $arr['sessionDescription'];
+            $event->instructionalNotes = $arr['instructionalNotes'];
             $event->session = $arr['sessionId'];
             $event->courseId = $arr['courseId'];
             $event->attireRequired = $arr['attireRequired'];

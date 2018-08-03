@@ -55,6 +55,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
                 $arr['attendanceRequired'],
                 $arr['publishedAsTbd'],
                 $arr['published'],
+                $arr['instructionalNotes'],
                 $arr['updatedAt']
             );
         }

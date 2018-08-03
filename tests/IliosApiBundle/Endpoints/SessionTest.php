@@ -57,6 +57,8 @@ class SessionTest extends ReadWriteEndpointTest
             'nullAttendanceRequired' => ['attendanceRequired', null],
             'publishedAsTbd' => ['publishedAsTbd', true],
             'published' => ['published', false],
+            'instructionalNotes' => ['instructionalNotes', $this->getFaker()->text],
+            'emptyInstructionalNotes' => ['instructionalNotes', ''],
             'sessionType' => ['sessionType', 2],
             'course' => ['course', 2],
             'ilmSession' => ['ilmSession', 1],

@@ -49,7 +49,8 @@ class UserEventTest extends TestCase
         $finalizedMaterial->status = LearningMaterialStatusInterface::FINALIZED;
 
         $this->userEvent->learningMaterials = [ $draftMaterial, $revisedMaterial, $finalizedMaterial ];
-        $this->userEvent->removeMaterialsInDraft();
+        $this->userEvent->isPublished = true;
+        $this->userEvent->clearDataForUnprivilegedUsers(new \DateTime());
         $this->assertEquals(2, count($this->userEvent->learningMaterials));
         $this->assertTrue(in_array($finalizedMaterial, $this->userEvent->learningMaterials));
         $this->assertTrue(in_array($revisedMaterial, $this->userEvent->learningMaterials));

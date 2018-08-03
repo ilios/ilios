@@ -29,7 +29,7 @@ class Session extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                return true;
+                return $user->performsNonLearnerFunction();
                 break;
             case self::EDIT:
                 return $this->permissionChecker->canUpdateSession($user, $subject);
