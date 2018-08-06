@@ -1910,31 +1910,34 @@
         },
         {
             "name": "exercise/htmlpurifier-bundle",
-            "version": "v1.0.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Exercise/HTMLPurifierBundle.git",
-                "reference": "308b47f2f11bbc17c102c3eba92272949957c5c4"
+                "reference": "7165c3e7fa45900051812e52c15ec1cc18504b75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Exercise/HTMLPurifierBundle/zipball/308b47f2f11bbc17c102c3eba92272949957c5c4",
-                "reference": "308b47f2f11bbc17c102c3eba92272949957c5c4",
+                "url": "https://api.github.com/repos/Exercise/HTMLPurifierBundle/zipball/7165c3e7fa45900051812e52c15ec1cc18504b75",
+                "reference": "7165c3e7fa45900051812e52c15ec1cc18504b75",
                 "shasum": ""
             },
             "require": {
                 "ezyang/htmlpurifier": "~4.0",
-                "php": ">=5.3.2",
-                "symfony/framework-bundle": "^2.7 || ^3.0 || ^4.0"
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/config": "~3.3 || ~4.0",
+                "symfony/dependency-injection": "~3.4.1 || ^4.0.1",
+                "symfony/http-kernel": "~3.4.1 || ^4.0.1"
             },
             "require-dev": {
-                "symfony/form": "^2.7 || ^3.0 || ^4.0",
-                "twig/twig": "~1.3|~2.0"
+                "phpunit/phpunit": "^7.2",
+                "symfony/form": "~3.4.1 || ^4.0.1",
+                "twig/twig": "^1.34.4 || ^2.4.3"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -1955,9 +1958,12 @@
             "description": "HTMLPurifier integration for your Symfony project",
             "homepage": "https://github.com/Exercise/HTMLPurifierBundle",
             "keywords": [
-                "htmlpurifier"
+                "Purifier",
+                "html",
+                "htmlpurifier",
+                "symfony"
             ],
-            "time": "2018-03-09T09:23:51+00:00"
+            "time": "2018-07-29T19:13:10+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -5725,16 +5731,16 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.7.6",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "33a7e3c4fda54e912ff6338c48823bd5c0f0b712"
+                "reference": "4ba436b55987b4bf311cb7c6ba82aa528aac0a06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/33a7e3c4fda54e912ff6338c48823bd5c0f0b712",
-                "reference": "33a7e3c4fda54e912ff6338c48823bd5c0f0b712",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/4ba436b55987b4bf311cb7c6ba82aa528aac0a06",
+                "reference": "4ba436b55987b4bf311cb7c6ba82aa528aac0a06",
                 "shasum": ""
             },
             "require": {
@@ -5746,12 +5752,12 @@
             },
             "require-dev": {
                 "phpspec/phpspec": "^2.5|^3.2",
-                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5"
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5 || ^7.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7.x-dev"
+                    "dev-master": "1.8.x-dev"
                 }
             },
             "autoload": {
@@ -5784,7 +5790,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2018-04-18T13:57:24+00:00"
+            "time": "2018-08-05T17:53:17+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -6037,16 +6043,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.9",
+            "version": "6.5.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "093ca5508174cd8ab8efe44fd1dde447adfdec8f"
+                "reference": "5744955af9c0a2de74a5eb5287c50bf025100d39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/093ca5508174cd8ab8efe44fd1dde447adfdec8f",
-                "reference": "093ca5508174cd8ab8efe44fd1dde447adfdec8f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/5744955af9c0a2de74a5eb5287c50bf025100d39",
+                "reference": "5744955af9c0a2de74a5eb5287c50bf025100d39",
                 "shasum": ""
             },
             "require": {
@@ -6064,7 +6070,7 @@
                 "phpunit/php-file-iterator": "^1.4.3",
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-timer": "^1.0.9",
-                "phpunit/phpunit-mock-objects": "^5.0.5",
+                "phpunit/phpunit-mock-objects": "^5.0.8",
                 "sebastian/comparator": "^2.1",
                 "sebastian/diff": "^2.0",
                 "sebastian/environment": "^3.1",
@@ -6117,7 +6123,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-07-03T06:40:40+00:00"
+            "time": "2018-08-03T05:27:14+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
