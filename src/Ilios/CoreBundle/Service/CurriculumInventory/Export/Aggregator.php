@@ -286,8 +286,9 @@ class Aggregator
     }
 
     /**
-     * Returns a lookup map that matches objectives to their most recent siblings within their ancestry tree,
-     * excluding objectives without ancestors and the most recent siblings (we don't need to look them up)
+     * Returns a lookup map that matches objectives to their most recent siblings, or most recent descendant,
+     * within their ancestry tree,
+     * excluding the most recent siblings (we don't need to look them up)
      * @param array $objectives
      * @return array An associative array with objective ids as keys, and the id of their most recent sibling as value.
      */
@@ -296,22 +297,22 @@ class Aggregator
         $objectives = array_values($objectives);
 
         // filter out any objectives without ancestors
-        $objectives = array_filter($objectives, function ($objective) {
+        $objectivesWithAncestors = array_filter($objectives, function ($objective) {
             return ! empty($objective['ancestor_id']);
         });
 
         // sort objectives by ancestor id and by objective id descending,
         // effectively grouping them by ancestor and putting the newest objective in each group on top
         // Obtain a list of columns
-        $ids = array_column($objectives, 'id');
-        $ancestorIds = array_column($objectives, 'ancestor_id');
-        array_multisort($ancestorIds, SORT_ASC, $ids, SORT_DESC, $objectives);
+        $ids = array_column($objectivesWithAncestors, 'id');
+        $ancestorIds = array_column($objectivesWithAncestors, 'ancestor_id');
+        array_multisort($ancestorIds, SORT_ASC, $ids, SORT_DESC, $objectivesWithAncestors);
 
         // map each objective to their most recent/newest sibling in the ancestor tree
         //, excluding the most recent siblings themselves.
         $newestSiblingsMap = [];
         $rhett = [];
-        foreach ($objectives as $objective) {
+        foreach ($objectivesWithAncestors as $objective) {
             $ancestorId = $objective['ancestor_id'];
             $id = $objective['id'];
             if (! array_key_exists($ancestorId, $newestSiblingsMap)) {
@@ -319,6 +320,16 @@ class Aggregator
                 continue;
             }
             $rhett[$id] = $newestSiblingsMap[$ancestorId];
+        }
+
+        // make another pass over all objectives.
+        // map all ancestors to their most recent descendant.
+        foreach ($objectives as $objective) {
+            $id = $objective['id'];
+            if (array_key_exists($id, $newestSiblingsMap) && ! array_key_exists($id, $rhett)) {
+                $newestSiblingId = $newestSiblingsMap[$id];
+                $rhett[$id] = $newestSiblingId;
+            }
         }
 
         return $rhett;

@@ -139,6 +139,8 @@ class AggregatorTest extends TestCase
     public function testGetConsolidatedObjectivesMap()
     {
         $objectives = [
+            ['id' => 1, 'ancestor_id' => null],
+            ['id' => 3, 'ancestor_id' => null],
             ['id' => 10, 'ancestor_id' => 1],
             ['id' => 20, 'ancestor_id' => null],
             ['id' => 40, 'ancestor_id' => 2],
@@ -150,10 +152,12 @@ class AggregatorTest extends TestCase
 
         $map = Aggregator::getConsolidatedObjectivesMap($objectives);
 
-        $this->assertEquals(3, count($map));
+        $this->assertEquals(5, count($map));
         $this->assertEquals(40, $map[30]);
         $this->assertEquals(70, $map[50]);
         $this->assertEquals(70, $map[60]);
+        $this->assertEquals(70, $map[3]);
+        $this->assertEquals(10, $map[1]);
     }
 
     /**
