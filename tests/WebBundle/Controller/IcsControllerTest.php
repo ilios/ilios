@@ -203,6 +203,5 @@ class IcsControllerTest extends WebTestCase
             $firstDescription,
             'Event Links are absolute paths'
         );
-
     }
 }
