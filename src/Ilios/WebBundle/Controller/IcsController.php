@@ -17,13 +17,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use \Eluceo\iCal\Component as ICS;
+use Symfony\Component\Routing\RouterInterface;
 
 class IcsController extends Controller
 {
     const LOOK_BACK = '-4 months';
     const LOOK_FORWARD = '+2 months';
+
+    /**
+     * @var RouterInterface
+     */
+    private $router;
+
+    /**
+     * IcsController constructor.
+     * @param RouterInterface $router
+     */
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
+    }
 
     public function indexAction(Request $request, $key)
     {
@@ -45,7 +61,6 @@ class IcsController extends Controller
         $publishedEvents = array_filter($events, function (UserEvent $event) {
             return $event->isPublished && !$event->isScheduled;
         });
-        $publishedEvents = $manager->addInstructorsToEvents($publishedEvents);
 
         $scheduledEvents = array_filter($events, function (UserEvent $event) {
             return $event->isPublished && $event->isScheduled;
@@ -88,146 +103,44 @@ class IcsController extends Controller
      */
     protected function getDescriptionForEvent(UserEvent $event)
     {
-        $now = new \DateTime();
+        $slug = 'U' . $event->startDate->format('Ymd');
 
         if ($event->offering) {
             $offeringManager = $this->container->get(OfferingManager::class);
             $offering = $offeringManager->findOneBy(['id' => $event->offering]);
             /* @var SessionInterface $session */
             $session = $offering->getSession();
+            $slug .= 'O' . $event->offering;
         }
         if ($event->ilmSession) {
             $ilmSessionManager = $this->container->get(IlmSessionManager::class);
             $ilmSession = $ilmSessionManager->findOneBy(['id' => $event->ilmSession]);
             $session = $ilmSession->getSession();
+            $slug .= 'I' . $event->ilmSession;
         }
+        $link = $this->router->generate(
+            'ilios_web_assets',
+            ['fileName' => "events/$slug"],
+            UrlGenerator::ABSOLUTE_URL
+        );
 
         $type = 'This offering is a(n) ' . $session->getSessionType()->getTitle();
         if ($session->isSupplemental()) {
             $type .= ' and is considered supplemental';
         }
 
-        $description = null;
-        if ($sessionDescription = $session->getSessionDescription()) {
-            $description = $sessionDescription->getDescription();
-        }
-
-        $sessionObjectives = $session->getObjectives()->map(function (ObjectiveInterface $objective) {
-            return $this->purify($objective->getTitle());
-        })->toArray();
-
-        $sessionMaterials =
-            $session->getLearningMaterials()
-                ->filter(function (SessionLearningMaterialInterface $learningMaterial) {
-                    /** @var LearningMaterialInterface $lm */
-                    $lm = $learningMaterial->getLearningMaterial();
-                    $status = $lm->getStatus();
-                    return $status->getId() !== LearningMaterialStatusInterface::IN_DRAFT;
-                })
-                ->toArray();
-
-        $courseMaterials =
-            $session->getCourse()->getLearningMaterials()
-                ->filter(function (CourseLearningMaterialInterface $learningMaterial) {
-                    /** @var LearningMaterialInterface $lm */
-                    $lm = $learningMaterial->getLearningMaterial();
-                    $status = $lm->getStatus();
-                    return $status->getId() !== LearningMaterialStatusInterface::IN_DRAFT;
-                })
-                ->toArray();
-
-        $callback = function ($lm1, $lm2) {
-            $pos1 = $lm1->getPosition();
-            $pos2 = $lm2->getPosition();
-            if ($pos1 > $pos2) {
-                return 1;
-            } elseif ($pos1 < $pos2) {
-                return -1;
-            }
-
-            $id1 = $lm1->getId();
-            $id2 = $lm2->getId();
-
-            if ($id1 > $id2) {
-                return -1;
-            } elseif ($id1 < $id2) {
-                return 1;
-            }
-            return 0;
-        };
-
-        usort($sessionMaterials, $callback);
-        usort($courseMaterials, $callback);
-
-        $courseMaterials = array_map(function (LearningMaterialRelationshipInterface $learningMaterial) use ($now) {
-            return $this->getTextForLearningMaterial($learningMaterial, $now);
-        }, $courseMaterials);
-
-        $sessionMaterials = array_map(function (LearningMaterialRelationshipInterface $learningMaterial) use ($now) {
-            return $this->getTextForLearningMaterial($learningMaterial, $now);
-        }, $sessionMaterials);
-
         $lines = [
-            $this->purify($description),
-            'Taught By ' . implode($event->instructors, '; '),
             $this->purify($type),
             $session->isAttireRequired()?'You will need special attire':null,
             $session->isEquipmentRequired()?'You will need special equipment':null,
             $session->isAttendanceRequired()?'Attendance is Required':null,
-            "\nSession Objectives",
-            implode($sessionObjectives, "\n"),
-            "\nSession Learning Materials",
-            implode("\n", $sessionMaterials),
-            "\nCourse Learning Materials",
-            implode("\n", $courseMaterials),
+            "\n" . $link,
         ];
 
         //removes any empty values
         $lines = array_filter($lines);
 
         return implode("\n", $lines);
-    }
-
-    /**
-     * @param LearningMaterialRelationshipInterface $learningMaterialRelationship
-     * @param \DateTime $dateTime
-     * @return string
-     */
-    protected function getTextForLearningMaterial(
-        LearningMaterialRelationshipInterface $learningMaterialRelationship,
-        \DateTime $dateTime
-    ) {
-        $learningMaterial = $learningMaterialRelationship->getLearningMaterial();
-        $startDate = $learningMaterialRelationship->getStartDate();
-        $endDate = $learningMaterialRelationship->getEndDate();
-
-        $blankThis = false;
-        if (isset($startDate) && isset($endDate)) {
-            $blankThis = ($startDate > $dateTime || $dateTime > $endDate);
-        } elseif (isset($startDate)) {
-            $blankThis = ($startDate > $dateTime);
-        } elseif (isset($endDate)) {
-            $blankThis = ($dateTime > $endDate);
-        }
-
-        $text = $this->purify($learningMaterial->getTitle()) . ' ';
-
-        if ($blankThis) {
-            $text .= '(Timed Release)';
-        } else {
-            if ($citation = $learningMaterial->getCitation()) {
-                $text .= $this->purify($citation);
-            } elseif ($link = $learningMaterial->getLink()) {
-                $text .= $this->purify($link);
-            } else {
-                $uri = $this->generateUrl('ilios_core_downloadlearningmaterial', array(
-                    'token' => $learningMaterial->getToken(),
-                ), UrlGeneratorInterface::ABSOLUTE_URL);
-                $text .= $uri;
-            }
-        }
-
-        return $text;
     }
 
     /**
