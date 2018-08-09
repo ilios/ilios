@@ -433,7 +433,7 @@ class CurriculumInventoryReportManagerTest extends TestCase
         $this->assertEquals(4, count($events));
         $this->assertEquals(2880, $events[10]['duration']);
         $this->assertEquals(90, $events[20]['duration']);
-        $this->assertEquals(4320, $events[30]['duration']);
+        $this->assertEquals(2880, $events[30]['duration']);
         $this->assertEquals(0, $events[40]['duration']);
     }
 
@@ -496,7 +496,7 @@ class CurriculumInventoryReportManagerTest extends TestCase
         $this->assertEquals(5, count($events));
         $this->assertEquals(1440, $events[10]['duration']);
         $this->assertEquals(90, $events[20]['duration']);
-        $this->assertEquals(4320, $events[30]['duration']);
+        $this->assertEquals(2880, $events[30]['duration']);
         $this->assertEquals(0, $events[40]['duration']);
         $this->assertEquals(2970, $events[50]['duration']);
     }
