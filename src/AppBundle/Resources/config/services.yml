@@ -12,3 +12,10 @@ services:
         resource: '../../Controller'
         public: true
         tags: ['controller.service_arguments']
+
+    AppBundle\Command\UpdateFrontendCommand:
+        arguments:
+            $kernelCacheDir: '%kernel.cache_dir%'
+            $kernelProjectDir: '%kernel.project_dir%'
+            $apiVersion: '%ilios_api_version%'
+            $environment: '%kernel.environment%'

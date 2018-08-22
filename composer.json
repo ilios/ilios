@@ -65,7 +65,7 @@
     },
     "scripts": {
       "symfony-scripts": [
-        "Ilios\\CliBundle\\Composer\\MigrateParameters::migrate",
+        "AppBundle\\Composer\\MigrateParameters::migrate",
         "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",

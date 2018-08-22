@@ -40,7 +40,6 @@ class AppKernel extends Kernel
             new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
             new Ilios\CoreBundle\IliosCoreBundle(),
             new Ilios\AuthenticationBundle\IliosAuthenticationBundle(),
-            new Ilios\CliBundle\IliosCliBundle(),
             new Ilios\ApiBundle\IliosApiBundle(),
             new Http\HttplugBundle\HttplugBundle(),
             new Happyr\GoogleAnalyticsBundle\HappyrGoogleAnalyticsBundle(),

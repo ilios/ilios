@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\Controller;
 
-use Ilios\CliBundle\Command\UpdateFrontendCommand;
+use AppBundle\Command\UpdateFrontendCommand;
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Mockery as m;

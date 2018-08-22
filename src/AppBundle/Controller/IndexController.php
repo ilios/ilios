@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Ilios\CliBundle\Command\UpdateFrontendCommand;
+use AppBundle\Command\UpdateFrontendCommand;
 use Symfony\Component\Templating\EngineInterface;
 
 class IndexController extends Controller
