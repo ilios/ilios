@@ -32,7 +32,7 @@
         "dreamscapes/ldap-core": "^3.1",
         "easycorp/easy-log-handler": "^1.0",
         "eluceo/ical": "0.12.1",
-        "exercise/htmlpurifier-bundle": "@stable",
+        "exercise/htmlpurifier-bundle": "V2.0.0-BETA2",
         "firebase/php-jwt": "@stable",
         "happyr/google-analytics-bundle": "^4.0",
         "ilios/mesh-parser": "^2.0",
