@@ -3,3 +3,5 @@ services:
         class: EasyCorp\EasyLog\EasyLogHandler
         arguments:
             - '%kernel.logs_dir%/%kernel.environment%.log'
+
+    Ilios\MeSH\Parser:
