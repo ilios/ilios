@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\WebBundle\Controller;
+namespace AppBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;

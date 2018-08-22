@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\WebBundle\Controller;
+namespace Tests\AppBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;

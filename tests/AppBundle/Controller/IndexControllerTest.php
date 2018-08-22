@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\WebBundle\Controller;
+namespace Tests\AppBundle\Controller;
 
 use Ilios\CliBundle\Command\UpdateFrontendCommand;
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;

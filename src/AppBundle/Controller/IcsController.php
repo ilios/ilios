@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\WebBundle\Controller;
+namespace AppBundle\Controller;
 
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;

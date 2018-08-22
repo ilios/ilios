@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\WebBundle\Controller;
+namespace AppBundle\Controller;
 
 use Http\Discovery\Exception\NotFoundException;
 use Ilios\CoreBundle\Service\Filesystem;
@@ -71,7 +71,7 @@ class IndexController extends Controller
         $path = $this->getFilePath('index.json');
         if (!$path) {
             $response = new Response(
-                $this->renderView('IliosWebBundle:Index:error.html.twig')
+                $this->renderView('AppBundle:Index:error.html.twig')
             );
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $response->headers->addCacheControlDirective('no-cache');
@@ -233,7 +233,7 @@ class IndexController extends Controller
                 return $path;
             }
         }
-        return 'IliosWebBundle:WebIndex:' .self::DEFAULT_TEMPLATE_NAME;
+        return 'AppBundle:WebIndex:' .self::DEFAULT_TEMPLATE_NAME;
     }
 
     protected function responseFromString(string $content, Request $request, \DateTime $lastModified) : Response

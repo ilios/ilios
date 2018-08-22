@@ -39,13 +39,13 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
             new Ilios\CoreBundle\IliosCoreBundle(),
-            new Ilios\WebBundle\IliosWebBundle(),
             new Ilios\AuthenticationBundle\IliosAuthenticationBundle(),
             new Ilios\CliBundle\IliosCliBundle(),
             new Ilios\ApiBundle\IliosApiBundle(),
             new Http\HttplugBundle\HttplugBundle(),
             new Happyr\GoogleAnalyticsBundle\HappyrGoogleAnalyticsBundle(),
             new Liip\MonitorBundle\LiipMonitorBundle(),
+            new AppBundle\AppBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -1,28 +1,28 @@
 ilios_web_ics:
     path:     /ics/{key}
     defaults:
-        _controller: IliosWebBundle:Ics:index
+        _controller: AppBundle:Ics:index
     requirements:
         key: "^[a-zA-Z0-9]{64}$"
 ilios_web_config:
     path:     /application/config
     defaults:
-        _controller: IliosWebBundle:Config:index
+        _controller: AppBundle:Config:index
     methods: [GET]
 ilios_web_errors:
     path:     /errors
     defaults:
-        _controller: IliosWebBundle:Error:error
+        _controller: AppBundle:Error:error
     methods:  [POST]
 ilios_web_directory_search:
     path:     /application/directory/search
     defaults:
-        _controller: IliosWebBundle:Directory:search
+        _controller: AppBundle:Directory:search
     methods: [GET]
 ilios_web_directory_find:
     path:     /application/directory/find/{id}
     defaults:
-        _controller: IliosWebBundle:Directory:find
+        _controller: AppBundle:Directory:find
     methods: [GET]
     requirements:
         key: '\d+'
@@ -30,14 +30,14 @@ ilios_web_sw_registraton_js:
     path:     /sw-registration.js
     defaults:
         fileName: sw-registration.js
-        _controller: IliosWebBundle:Index:get
+        _controller: AppBundle:Index:get
     requirements:
         fileName: ".+"
 ilios_web_sw_js:
     path:     /sw.js
     defaults:
         fileName: sw.js
-        _controller: IliosWebBundle:Index:get
+        _controller: AppBundle:Index:get
     requirements:
         fileName: ".+"
 ilios_web_assets:
@@ -45,6 +45,6 @@ ilios_web_assets:
     defaults:
         fileName: null
         versionedStaticFile: true
-        _controller: IliosWebBundle:Index:get
+        _controller: AppBundle:Index:get
     requirements:
         fileName: ".+"

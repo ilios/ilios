@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\WebBundle\Controller;
+namespace Tests\AppBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Entity\DTO\UserDTO;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Service\Directory;
-use Ilios\WebBundle\Controller\DirectoryController;
+use AppBundle\Controller\DirectoryController;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

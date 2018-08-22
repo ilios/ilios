@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\WebBundle\Controller;
+namespace AppBundle\Controller;
 
 use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
 use Ilios\CoreBundle\Service\Config;

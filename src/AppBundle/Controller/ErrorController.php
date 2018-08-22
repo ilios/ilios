@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\WebBundle\Controller;
+namespace AppBundle\Controller;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

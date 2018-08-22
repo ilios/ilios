@@ -5,10 +5,10 @@ services:
         autoconfigure: true
         public: false
 
-    Ilios\WebBundle\:
+    AppBundle\:
             resource: '../../*'
 
-    Ilios\WebBundle\Controller\:
+    AppBundle\Controller\:
         resource: '../../Controller'
         public: true
         tags: ['controller.service_arguments']

@@ -5,7 +5,8 @@
     "description": "The \"Ilios Standard Edition\" distribution",
     "autoload": {
         "psr-4": {
-            "Ilios\\": "src/Ilios"
+            "Ilios\\": "src/Ilios",
+            "AppBundle\\": "src/AppBundle"
         },
         "classmap": [
             "app/AppKernel.php",
