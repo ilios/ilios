@@ -66,6 +66,9 @@ class LoadSessionData extends AbstractFixture implements
             foreach ($arr['administrators'] as $id) {
                 $entity->addAdministrator($this->getReference('users' . $id));
             }
+            foreach ($arr['prerequisites'] as $id) {
+                $entity->addPrerequisite($this->getReference('sessions' . $id));
+            }
             $manager->persist($entity);
 
             $this->addReference('sessions' . $arr['id'], $entity);

@@ -59,6 +59,7 @@ class SessionTest extends EntityBase
         $this->assertEmpty($this->object->getOfferings());
         $this->assertEmpty($this->object->getTerms());
         $this->assertEmpty($this->object->getSequenceBlocks());
+        $this->assertEmpty($this->object->getPrerequisites());
     }
 
     /**
@@ -411,5 +412,39 @@ class SessionTest extends EntityBase
     public function testGetExcludedSequenceBlocks()
     {
         $this->entityCollectionSetTest('excludedSequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Session::setPostrequisite
+     * @covers \Ilios\CoreBundle\Entity\Session::getPostrequisite
+     */
+    public function testSetPostrequisite()
+    {
+        $this->entitySetTest('postrequisite', 'Session');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Session::addPrerequisite
+     */
+    public function testAddPrerequisite()
+    {
+        $this->entityCollectionAddTest('prerequisite', 'Session', false, false, 'setPostrequisite');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Session::removePrerequisite
+     */
+    public function testRemovePrerequisite()
+    {
+        $this->entityCollectionRemoveTest('prerequisite', 'Session');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Session::getPrerequisites
+     * @covers \Ilios\CoreBundle\Entity\Session::setPrerequisites
+     */
+    public function testGetPrerequisites()
+    {
+        $this->entityCollectionSetTest('prerequisite', 'Session', false, false, 'setPostrequisite');
     }
 }
