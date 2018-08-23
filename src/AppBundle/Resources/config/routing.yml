@@ -1,0 +1,50 @@
+ilios_web_ics:
+    path:     /ics/{key}
+    defaults:
+        _controller: AppBundle:Ics:index
+    requirements:
+        key: "^[a-zA-Z0-9]{64}$"
+ilios_web_config:
+    path:     /application/config
+    defaults:
+        _controller: AppBundle:Config:index
+    methods: [GET]
+ilios_web_errors:
+    path:     /errors
+    defaults:
+        _controller: AppBundle:Error:error
+    methods:  [POST]
+ilios_web_directory_search:
+    path:     /application/directory/search
+    defaults:
+        _controller: AppBundle:Directory:search
+    methods: [GET]
+ilios_web_directory_find:
+    path:     /application/directory/find/{id}
+    defaults:
+        _controller: AppBundle:Directory:find
+    methods: [GET]
+    requirements:
+        key: '\d+'
+ilios_web_sw_registraton_js:
+    path:     /sw-registration.js
+    defaults:
+        fileName: sw-registration.js
+        _controller: AppBundle:Index:get
+    requirements:
+        fileName: ".+"
+ilios_web_sw_js:
+    path:     /sw.js
+    defaults:
+        fileName: sw.js
+        _controller: AppBundle:Index:get
+    requirements:
+        fileName: ".+"
+ilios_web_assets:
+    path:     /{fileName}
+    defaults:
+        fileName: null
+        versionedStaticFile: true
+        _controller: AppBundle:Index:get
+    requirements:
+        fileName: ".+"
