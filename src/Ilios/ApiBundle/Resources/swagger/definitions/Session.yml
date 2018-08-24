@@ -73,3 +73,11 @@ Session:
    type: array
    items:
     type: string
+  postrequisite:
+   description: Postrequisite
+   type: string
+  prerequisites:
+   description: Prerequisites
+   type: array
+   items:
+    type: string

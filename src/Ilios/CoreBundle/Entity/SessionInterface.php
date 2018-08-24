@@ -168,4 +168,34 @@ interface SessionInterface extends
      * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
      */
     public function getExcludedSequenceBlocks();
+
+    /**
+     * @param SessionInterface $ancestor
+     */
+    public function setPostrequisite(SessionInterface $ancestor);
+
+    /**
+     * @return SessionInterface
+     */
+    public function getPostrequisite();
+
+    /**
+     * @param Collection $children
+     */
+    public function setPrerequisites(Collection $children);
+
+    /**
+     * @param SessionInterface $child
+     */
+    public function addPrerequisite(SessionInterface $child);
+
+    /**
+     * @param SessionInterface $child
+     */
+    public function removePrerequisite(SessionInterface $child);
+
+    /**
+     * @return ArrayCollection|SessionInterface[]
+     */
+    public function getPrerequisites();
 }

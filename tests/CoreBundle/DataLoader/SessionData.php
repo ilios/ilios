@@ -25,6 +25,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => ['1'],
             'offerings' => ['1', '2'],
             'administrators' => ['1'],
+            'prerequisites' => [],
         );
 
         $arr[] = array(
@@ -39,6 +40,7 @@ class SessionData extends AbstractDataLoader
             'instructionalNotes' => $this->faker->text(100),
             'sessionType' => '2',
             'course' => '1',
+            'postrequisite' => '4',
             'sessionDescription' => '2',
             'terms' => ['1', '4'],
             'objectives' => [],
@@ -46,6 +48,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => [],
             'offerings' => ['3', '4', '5'],
             'administrators' => [],
+            'prerequisites' => [],
         );
 
         $arr[] = array(
@@ -59,12 +62,14 @@ class SessionData extends AbstractDataLoader
             'instructionalNotes' => $this->faker->text(100),
             'sessionType' => '2',
             'course' => '2',
+            'postrequisite' => '4',
             'terms' => ['3', '6'],
             'objectives' => [],
             'meshDescriptors' => ["abc2"],
             'learningMaterials' => ['2', '3', '4', '5', '6', '7', '8'],
             'offerings' => ['6', '7', '8'],
             'administrators' => [],
+            'prerequisites' => [],
         );
 
         $arr[] = array(
@@ -84,6 +89,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => [],
             'offerings' => [],
             'administrators' => [],
+            'prerequisites' => ['2', '3'],
         );
 
         for ($i = 5; $i <= 8; $i++) {
@@ -106,6 +112,7 @@ class SessionData extends AbstractDataLoader
                 'learningMaterials' => [],
                 'offerings' => [],
                 'administrators' => [],
+                'prerequisites' => [],
             );
         }
 
@@ -132,6 +139,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => [],
             'offerings' => [],
             'administrators' => [],
+            'prerequisites' => [],
         );
     }
 

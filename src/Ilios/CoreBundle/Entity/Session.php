@@ -314,7 +314,6 @@ class Session implements SessionInterface
      */
     protected $offerings;
 
-
     /**
      * @var ArrayCollection|SessionInterface[]
      *
@@ -349,6 +348,30 @@ class Session implements SessionInterface
      * @IS\Type("entityCollection")
      */
     protected $administrators;
+
+    /**
+     * @var SessionInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Session", inversedBy="prerequisites")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="postrequisite_id", referencedColumnName="session_id")
+     * })
+     *
+     * @IS\Expose
+     * @IS\Type("entity")
+     */
+    protected $postrequisite;
+
+    /**
+     * @var SessionInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Session", mappedBy="postrequisite")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $prerequisites;
     
     /**
      * Constructor
@@ -369,6 +392,7 @@ class Session implements SessionInterface
         $this->sequenceBlocks = new ArrayCollection();
         $this->excludedSequenceBlocks = new ArrayCollection();
         $this->administrators = new ArrayCollection();
+        $this->prerequisites = new ArrayCollection();
 
         $this->updatedAt = new \DateTime();
     }
@@ -633,5 +657,60 @@ class Session implements SessionInterface
     public function getExcludedSequenceBlocks()
     {
         return $this->excludedSequenceBlocks;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPostrequisite(SessionInterface $postrequisite = null)
+    {
+        $this->postrequisite = $postrequisite;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPostrequisite()
+    {
+        return $this->postrequisite;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPrerequisites(Collection $prerequisites)
+    {
+        $this->prerequisites = new ArrayCollection();
+
+        foreach ($prerequisites as $prerequisite) {
+            $this->addPrerequisite($prerequisite);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addPrerequisite(SessionInterface $prerequisite)
+    {
+        if (!$this->prerequisites->contains($prerequisite)) {
+            $this->prerequisites->add($prerequisite);
+            $prerequisite->setPostrequisite($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removePrerequisite(SessionInterface $prerequisite)
+    {
+        $this->prerequisites->removeElement($prerequisite);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPrerequisites()
+    {
+        return $this->prerequisites;
     }
 }

@@ -153,6 +153,20 @@ class SessionDTO
     public $offerings;
 
     /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $postrequisite;
+
+    /**
+     * @var int[]
+     * @IS\Expose
+     * @IS\Type("array<string>")
+     */
+    public $prerequisites;
+
+    /**
      * For Voter use, not public
      * @var int
      */
@@ -187,5 +201,6 @@ class SessionDTO
         $this->learningMaterials = [];
         $this->offerings = [];
         $this->administrators = [];
+        $this->prerequisites = [];
     }
 }

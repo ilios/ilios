@@ -64,12 +64,13 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
         $qb = $this->_em->createQueryBuilder()
             ->select(
                 's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
-                'sd.id AS descId, school.id as schoolId'
+                'sd.id AS descId, school.id as schoolId, postrequisite.id as postrequisiteId'
             )
             ->from('IliosCoreBundle:Session', 's')
             ->join('s.course', 'c')
             ->join('c.school', 'school')
             ->join('s.sessionType', 'st')
+            ->leftJoin('s.postrequisite', 'postrequisite')
             ->leftJoin('s.ilmSession', 'ilm')
             ->leftJoin('s.sessionDescription', 'sd')
             ->where($qb->expr()->in('s.id', ':sessionIds'))
@@ -81,6 +82,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
             $sessionDTOs[$arr['sessionId']]->sessionType = $arr['sessionTypeId'];
             $sessionDTOs[$arr['sessionId']]->ilmSession = $arr['ilmId'] ? $arr['ilmId'] : null;
             $sessionDTOs[$arr['sessionId']]->sessionDescription = $arr['descId'] ? $arr['descId'] : null;
+            $sessionDTOs[$arr['sessionId']]->postrequisite = $arr['postrequisiteId'] ? $arr['postrequisiteId'] : null;
         }
 
         $related = [
@@ -89,7 +91,8 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
             'meshDescriptors',
             'learningMaterials',
             'offerings',
-            'administrators'
+            'administrators',
+            'prerequisites'
         ];
 
         foreach ($related as $rel) {
