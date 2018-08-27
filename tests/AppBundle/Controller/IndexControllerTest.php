@@ -296,6 +296,36 @@ class IndexControllerTest extends WebTestCase
         $this->assertEmpty($response->getContent());
     }
 
+    public function testPNGFile()
+    {
+        $path = $this->assetsPath . 'fakeTestFile.png';
+        $string = file_get_contents(__FILE__);
+        $this->setupTestFile($path, $string, false);
+
+        $this->client->request(
+            'GET',
+            '/fakeTestFile.png',
+            [],
+            [],
+            ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br']
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode(), 'Wrong Status Code');
+        $lastModified = \DateTime::createFromFormat('U', filemtime($path));
+
+        $this->assertEquals($lastModified, $response->getLastModified(), 'Wrong Modified Cache Header');
+        $this->assertGreaterThan(0, strlen($response->getEtag()), 'Missing Cache Header');
+        $this->assertEquals(
+            'image/png',
+            $response->headers->get('Content-Type'),
+            'content type headers are correct' . var_export($response->getContent(), true)
+        );
+        $this->assertFalse($response->headers->has('Content-Encoding'));
+        $content = $response->getContent();
+        $this->assertEquals($string, $content);
+    }
+
     protected function setupTestFile(string $path, string $contents, bool $compressContents)
     {
         $this->testFiles[] = $path;
