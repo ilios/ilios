@@ -5,6 +5,7 @@ namespace Ilios\AuthenticationBundle\Service;
 use Ilios\AuthenticationBundle\Classes\SessionUser;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -176,5 +177,13 @@ class FormAuthentication implements AuthenticationInterface
         $configuration['type'] = 'form';
 
         return $configuration;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createAuthenticationResponse(Request $request): Response
+    {
+        return new Response();
     }
 }

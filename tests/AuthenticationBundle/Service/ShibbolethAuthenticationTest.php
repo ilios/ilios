@@ -14,7 +14,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 
 use Ilios\AuthenticationBundle\Service\ShibbolethAuthentication;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ServerBag;
 
 class ShibbolethAuthenticationTest extends TestCase
@@ -25,6 +27,7 @@ class ShibbolethAuthenticationTest extends TestCase
     protected $jwtManager;
     protected $logger;
     protected $config;
+    /** @var ShibbolethAuthentication */
     protected $obj;
     protected $sessionUserProvider;
 
@@ -179,5 +182,36 @@ class ShibbolethAuthenticationTest extends TestCase
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
         $this->assertSame($data->jwt, 'jwt123Test');
+    }
+
+    public function testCreateAuthenticationResponseAuthenticated()
+    {
+        $serverBag = m::mock(ServerBag::class)
+            ->shouldReceive('get')->with('Shib-Application-ID')->andReturn(true)
+            ->mock();
+        $request = m::mock(Request::class);
+        $request->server = $serverBag;
+
+
+        $result = $this->obj->createAuthenticationResponse($request);
+        $this->assertInstanceOf(Response::class, $result);
+        $this->assertNotInstanceOf(RedirectResponse::class, $result);
+    }
+
+    public function testCreateAuthenticationResponseNotAuthenticated()
+    {
+        $serverBag = m::mock(ServerBag::class)
+            ->shouldReceive('get')->with('Shib-Application-ID')->andReturn(false)
+            ->mock();
+        $request = m::mock(Request::class)
+            ->shouldReceive('getSchemeAndHttpHost')->andReturn('http://testhost')
+            ->shouldReceive('getRequestUri')->andReturn('something.html')
+            ->mock();
+        $request->server = $serverBag;
+
+        /** @var RedirectResponse $result */
+        $result = $this->obj->createAuthenticationResponse($request);
+        $this->assertInstanceOf(RedirectResponse::class, $result);
+        $this->assertContains('?target=something.html', $result->getTargetUrl());
     }
 }

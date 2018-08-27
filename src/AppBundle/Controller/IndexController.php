@@ -2,10 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Http\Discovery\Exception\NotFoundException;
+use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
 use Ilios\CoreBundle\Service\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Command\UpdateFrontendCommand;
@@ -26,14 +27,24 @@ class IndexController extends Controller
     protected $templatingEngine;
 
     /**
+     * @var AuthenticationInterface
+     */
+    private $authentication;
+
+    /**
      * IndexController constructor.
      * @param Filesystem $fs
      * @param EngineInterface $templatingEngine
+     * @param AuthenticationInterface $authentication
      */
-    public function __construct(Filesystem $fs, EngineInterface $templatingEngine)
-    {
+    public function __construct(
+        Filesystem $fs,
+        EngineInterface $templatingEngine,
+        AuthenticationInterface $authentication
+    ) {
         $this->fs = $fs;
         $this->templatingEngine = $templatingEngine;
+        $this->authentication = $authentication;
     }
 
     /**
@@ -68,9 +79,14 @@ class IndexController extends Controller
      */
     protected function getIndex(Request $request)
     {
+        $response = $this->authentication->createAuthenticationResponse($request);
+        if ($response instanceof RedirectResponse) {
+            return $response;
+        }
+
         $path = $this->getFilePath('index.json');
         if (!$path) {
-            $response = new Response(
+            $response->setContent(
                 $this->renderView('AppBundle:Index:error.html.twig')
             );
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
@@ -85,7 +101,7 @@ class IndexController extends Controller
             $content = gzencode($content);
             $file = new \SplFileObject($path, 'r');
             $lastModified = \DateTime::createFromFormat('U', $file->getMTime());
-            $response = $this->responseFromString($content, $request, $lastModified);
+            $response = $this->responseFromString($response, $content, $request, $lastModified);
 
             // doesn't actually mean don't cache - it means that the server must
             // check the status and if a 304 is returned it can use the cached version
@@ -101,7 +117,8 @@ class IndexController extends Controller
         $content = $this->fs->readFile($path);
         $file = new \SplFileObject($path, 'r');
         $lastModified = \DateTime::createFromFormat('U', $file->getMTime());
-        $response = $this->responseFromString($content, $request, $lastModified);
+        $response = new Response();
+        $response = $this->responseFromString($response, $content, $request, $lastModified);
 
         $extension = $file->getExtension();
         if ($extension === 'css') {
@@ -236,9 +253,12 @@ class IndexController extends Controller
         return 'AppBundle:WebIndex:' .self::DEFAULT_TEMPLATE_NAME;
     }
 
-    protected function responseFromString(string $content, Request $request, \DateTime $lastModified) : Response
-    {
-        $response = new Response();
+    protected function responseFromString(
+        Response $response,
+        string $content,
+        Request $request,
+        \DateTime $lastModified
+    ) : Response {
         $response->setEtag(sha1($content));
         $response->setLastModified($lastModified);
         $response->setPublic();
