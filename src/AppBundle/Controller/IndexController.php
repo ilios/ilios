@@ -113,6 +113,11 @@ class IndexController extends Controller
         if ($extension === 'svg') {
             $response->headers->set('Content-Type', 'image/svg+xml');
         }
+        if ($extension === 'png') {
+            //PNG files are already compressed and we don't gzip them again
+            $response->headers->remove('Content-Encoding');
+            $response->headers->set('Content-Type', 'image/png');
+        }
         if ($versionedStaticFile) {
             //cache for one year
             $response->setMaxAge(60 * 60 * 24 * 365);
