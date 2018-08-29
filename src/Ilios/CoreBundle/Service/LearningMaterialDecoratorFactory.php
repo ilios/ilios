@@ -1,9 +1,9 @@
 <?php
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Entity\DTO\LearningMaterialDTO;
+use AppBundle\Entity\DTO\LearningMaterialDTO;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use AppBundle\Entity\LearningMaterialInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 

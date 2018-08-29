@@ -3,7 +3,7 @@ namespace Ilios\CoreBundle\EventListener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
-use Ilios\CoreBundle\Entity\LoggableEntityInterface;
+use AppBundle\Entity\LoggableEntityInterface;
 use Ilios\CoreBundle\Service\LoggerQueue;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 

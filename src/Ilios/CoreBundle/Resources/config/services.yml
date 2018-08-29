@@ -1,6 +1,3 @@
-imports:
-    - { resource: virtual-managers.yml }
-
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -11,9 +8,6 @@ services:
     Ilios\CoreBundle\:
         resource: '../../*'
         exclude: '../../{Entity,Exception,Controller}'
-
-    Ilios\CoreBundle\Entity\Manager\:
-        resource: '../../Entity/Manager'
 
     Ilios\CoreBundle\Controller\:
         resource: '../../Controller'
@@ -95,122 +89,3 @@ services:
     Alchemy\Zippy\Zippy:
         factory: ['Alchemy\Zippy\Zippy', 'load']
 
-    Ilios\CoreBundle\Entity\Manager\AlertManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\Alert'
-    Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\AlertChangeType'
-    Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\ApplicationConfig'
-    Ilios\CoreBundle\Entity\Manager\AuditLogManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\AuditLog'
-    Ilios\CoreBundle\Entity\Manager\AuthenticationManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\Authentication'
-    Ilios\CoreBundle\Entity\Manager\CohortManager:
-        public: true
-        class: Ilios\CoreBundle\Entity\Manager\CohortManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\Cohort'
-    Ilios\CoreBundle\Entity\Manager\CourseManager:
-        public: true
-        class: Ilios\CoreBundle\Entity\Manager\CourseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\Course'
-    Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\CourseLearningMaterial'
-    Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel'
-    Ilios\CoreBundle\Entity\Manager\CurriculumInventoryExportManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\CurriculumInventoryExport'
-    Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\CurriculumInventoryInstitution'
-    Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\CurriculumInventoryReport'
-    Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock'
-    Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\CurriculumInventorySequence'
-    Ilios\CoreBundle\Entity\Manager\IlmSessionManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\IlmSession'
-    Ilios\CoreBundle\Entity\Manager\LearningMaterialManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\LearningMaterial'
-    Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\MeshDescriptor'
-    Ilios\CoreBundle\Entity\Manager\ObjectiveManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\Objective'
-    Ilios\CoreBundle\Entity\Manager\OfferingManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\Offering'
-    Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\PendingUserUpdate'
-    Ilios\CoreBundle\Entity\Manager\ProgramYearManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\ProgramYear'
-    Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\ProgramYearSteward'
-    Ilios\CoreBundle\Entity\Manager\SchoolConfigManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\SchoolConfig'
-    Ilios\CoreBundle\Entity\Manager\SchoolManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\School'
-    Ilios\CoreBundle\Entity\Manager\SessionManager:
-        public: true
-        class: Ilios\CoreBundle\Entity\Manager\SessionManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\Session'
-    Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\SessionDescription'
-    Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\SessionLearningMaterial'
-    Ilios\CoreBundle\Entity\Manager\UserManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\User'
-    Ilios\CoreBundle\Entity\Manager\UserRoleManager:
-        public: true
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\UserRole'

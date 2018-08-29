@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AamcMethod;
-use Ilios\CoreBundle\Entity\AamcMethodInterface;
+use AppBundle\Entity\AamcMethod;
+use AppBundle\Entity\AamcMethodInterface;
 
 /**
  * Class LoadAamcMethodData

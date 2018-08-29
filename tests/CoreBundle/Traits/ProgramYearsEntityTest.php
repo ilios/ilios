@@ -2,7 +2,7 @@
 namespace Tests\CoreBundle\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\ProgramYear;
+use AppBundle\Entity\ProgramYear;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;

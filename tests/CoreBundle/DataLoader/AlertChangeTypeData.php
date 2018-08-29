@@ -2,7 +2,7 @@
 
 namespace Tests\CoreBundle\DataLoader;
 
-use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
+use AppBundle\Entity\AlertChangeTypeInterface;
 
 class AlertChangeTypeData extends AbstractDataLoader
 {

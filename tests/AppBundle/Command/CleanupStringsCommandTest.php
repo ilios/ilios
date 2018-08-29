@@ -25,16 +25,16 @@ class CleanupStringsCommandTest extends TestCase
     public function setUp()
     {
         $this->purifier = m::mock('HTMLPurifier');
-        $this->objectiveManager = m::mock('Ilios\CoreBundle\Entity\Manager\ObjectiveManager');
-        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManager');
+        $this->objectiveManager = m::mock('AppBundle\Entity\Manager\ObjectiveManager');
+        $this->learningMaterialManager = m::mock('AppBundle\Entity\Manager\LearningMaterialManager');
         $this->courseLearningMaterialManager = m::mock(
-            'Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager'
+            'AppBundle\Entity\Manager\CourseLearningMaterialManager'
         );
         $this->sessionLearningMaterialManager = m::mock(
-            'Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager'
+            'AppBundle\Entity\Manager\SessionLearningMaterialManager'
         );
         $this->sessionDescriptionManager = m::mock(
-            'Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager'
+            'AppBundle\Entity\Manager\SessionDescriptionManager'
         );
         $this->em = m::mock(EntityManagerInterface::class);
 
@@ -70,10 +70,10 @@ class CleanupStringsCommandTest extends TestCase
     
     public function testObjectiveTitle()
     {
-        $cleanObjective = m::mock('Ilios\CoreBundle\Entity\ObjectiveInterface')
+        $cleanObjective = m::mock('AppBundle\Entity\ObjectiveInterface')
             ->shouldReceive('getTitle')->andReturn('clean title')
             ->mock();
-        $dirtyObjective = m::mock('Ilios\CoreBundle\Entity\ObjectiveInterface')
+        $dirtyObjective = m::mock('AppBundle\Entity\ObjectiveInterface')
             ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setTitle')->with('<h1>html title</h1>')
             ->mock();
@@ -103,10 +103,10 @@ class CleanupStringsCommandTest extends TestCase
 
     public function testLearningMaterialDescription()
     {
-        $clean = m::mock('Ilios\CoreBundle\Entity\LearningMaterialInterface')
+        $clean = m::mock('AppBundle\Entity\LearningMaterialInterface')
             ->shouldReceive('getDescription')->andReturn('clean title')
             ->mock();
-        $dirty = m::mock('Ilios\CoreBundle\Entity\LearningMaterialInterface')
+        $dirty = m::mock('AppBundle\Entity\LearningMaterialInterface')
             ->shouldReceive('getDescription')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setDescription')->with('<h1>html title</h1>')
             ->mock();
@@ -137,10 +137,10 @@ class CleanupStringsCommandTest extends TestCase
 
     public function testLearningMaterialNotes()
     {
-        $cleanCourse = m::mock('Ilios\CoreBundle\Entity\CourseLearningMaterialInterface')
+        $cleanCourse = m::mock('AppBundle\Entity\CourseLearningMaterialInterface')
             ->shouldReceive('getNotes')->andReturn('clean course note')
             ->mock();
-        $dirtyCourse = m::mock('Ilios\CoreBundle\Entity\CourseLearningMaterialInterface')
+        $dirtyCourse = m::mock('AppBundle\Entity\CourseLearningMaterialInterface')
             ->shouldReceive('getNotes')->andReturn('<script>alert();</script><h1>html course note</h1>')
             ->shouldReceive('setNotes')->with('<h1>html course note</h1>')
             ->mock();
@@ -156,10 +156,10 @@ class CleanupStringsCommandTest extends TestCase
             ->andReturn('<h1>html course note</h1>');
 
 
-        $cleanSession = m::mock('Ilios\CoreBundle\Entity\SessionLearningMaterialInterface')
+        $cleanSession = m::mock('AppBundle\Entity\SessionLearningMaterialInterface')
             ->shouldReceive('getNotes')->andReturn('clean session note')
             ->mock();
-        $dirtySession = m::mock('Ilios\CoreBundle\Entity\SessionLearningMaterialInterface')
+        $dirtySession = m::mock('AppBundle\Entity\SessionLearningMaterialInterface')
             ->shouldReceive('getNotes')->andReturn('<script>alert();</script><h1>html session note</h1>')
             ->shouldReceive('setNotes')->with('<h1>html session note</h1>')
             ->mock();
@@ -199,10 +199,10 @@ class CleanupStringsCommandTest extends TestCase
 
     public function testSessionDescription()
     {
-        $clean = m::mock('Ilios\CoreBundle\Entity\SessionDescriptionInterface')
+        $clean = m::mock('AppBundle\Entity\SessionDescriptionInterface')
             ->shouldReceive('getDescription')->andReturn('clean title')
             ->mock();
-        $dirty = m::mock('Ilios\CoreBundle\Entity\SessionDescriptionInterface')
+        $dirty = m::mock('AppBundle\Entity\SessionDescriptionInterface')
             ->shouldReceive('getDescription')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setDescription')->with('<h1>html title</h1>')
             ->mock();

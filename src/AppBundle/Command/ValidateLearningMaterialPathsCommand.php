@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use AppBundle\Entity\Manager\LearningMaterialManager;
 use Ilios\CoreBundle\Service\IliosFileSystem;
 
 /**

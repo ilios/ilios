@@ -3,12 +3,12 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\DTO\AuthenticationDTO;
-use Ilios\CoreBundle\Entity\DTO\IngestionExceptionDTO;
-use Ilios\CoreBundle\Entity\DTO\LearnerGroupDTO;
-use Ilios\CoreBundle\Entity\DTO\OfferingDTO;
-use Ilios\CoreBundle\Entity\DTO\PendingUserUpdateDTO;
-use Ilios\CoreBundle\Entity\DTO\UserDTO;
+use AppBundle\Entity\DTO\AuthenticationDTO;
+use AppBundle\Entity\DTO\IngestionExceptionDTO;
+use AppBundle\Entity\DTO\LearnerGroupDTO;
+use AppBundle\Entity\DTO\OfferingDTO;
+use AppBundle\Entity\DTO\PendingUserUpdateDTO;
+use AppBundle\Entity\DTO\UserDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**

@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Classes;
 use AppBundle\Classes\CalendarEvent;
 use AppBundle\Classes\UserEvent;
 use AppBundle\Classes\UserMaterial;
-use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
+use AppBundle\Entity\LearningMaterialStatusInterface;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**

@@ -2,8 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Classes;
 
-use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\UserInterface as IliosUserInterface;
+use AppBundle\Entity\SchoolInterface;
+use AppBundle\Entity\UserInterface as IliosUserInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;

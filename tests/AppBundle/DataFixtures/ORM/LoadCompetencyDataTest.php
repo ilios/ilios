@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\CompetencyInterface;
+use AppBundle\Entity\CompetencyInterface;
 
 /**
  * Class LoadCompetencyDataTest
@@ -14,7 +14,7 @@ class LoadCompetencyDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\CompetencyManager';
+        return 'AppBundle\Entity\Manager\CompetencyManager';
     }
 
     /**

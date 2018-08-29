@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
+use AppBundle\Entity\CurriculumInventoryInstitutionInterface;
 
 /**
  * Class LoadCurriculumInventoryInstitutionDataTest
@@ -14,7 +14,7 @@ class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager';
+        return 'AppBundle\Entity\Manager\CurriculumInventoryInstitutionManager';
     }
 
     /**

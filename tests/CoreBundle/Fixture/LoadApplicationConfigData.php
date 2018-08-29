@@ -5,7 +5,7 @@ namespace Tests\CoreBundle\Fixture;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Ilios\CoreBundle\Entity\ApplicationConfig;
+use AppBundle\Entity\ApplicationConfig;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

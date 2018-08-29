@@ -2,8 +2,8 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AamcMethodInterface;
-use Ilios\CoreBundle\Entity\SessionTypeInterface;
+use AppBundle\Entity\AamcMethodInterface;
+use AppBundle\Entity\SessionTypeInterface;
 
 /**
  * Class LoadSessionTypeAamcMethodDataTest
@@ -15,7 +15,7 @@ class LoadSessionTypeAamcMethodDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\SessionTypeManager';
+        return 'AppBundle\Entity\Manager\SessionTypeManager';
     }
 
     /**

@@ -1,20 +1,20 @@
 <?php
 namespace Tests\CoreBundle\Service;
 
-use Ilios\CoreBundle\Entity\Alert;
-use Ilios\CoreBundle\Entity\AlertChangeType;
-use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
-use Ilios\CoreBundle\Entity\AlertInterface;
-use Ilios\CoreBundle\Entity\Course;
-use Ilios\CoreBundle\Entity\InstructorGroup;
-use Ilios\CoreBundle\Entity\LearnerGroup;
-use Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager;
-use Ilios\CoreBundle\Entity\Manager\AlertManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\Offering;
-use Ilios\CoreBundle\Entity\School;
-use Ilios\CoreBundle\Entity\Session;
-use Ilios\CoreBundle\Entity\User;
+use AppBundle\Entity\Alert;
+use AppBundle\Entity\AlertChangeType;
+use AppBundle\Entity\AlertChangeTypeInterface;
+use AppBundle\Entity\AlertInterface;
+use AppBundle\Entity\Course;
+use AppBundle\Entity\InstructorGroup;
+use AppBundle\Entity\LearnerGroup;
+use AppBundle\Entity\Manager\AlertChangeTypeManager;
+use AppBundle\Entity\Manager\AlertManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\Offering;
+use AppBundle\Entity\School;
+use AppBundle\Entity\Session;
+use AppBundle\Entity\User;
 use Ilios\CoreBundle\Service\ChangeAlertHandler;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;

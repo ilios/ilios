@@ -2,9 +2,9 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\ListSchoolConfigValuesCommand;
-use Ilios\CoreBundle\Entity\Manager\SchoolConfigManager;
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Entity\SchoolConfigInterface;
+use AppBundle\Entity\Manager\SchoolConfigManager;
+use AppBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\SchoolConfigInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;

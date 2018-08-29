@@ -4,8 +4,8 @@ namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-use Ilios\CoreBundle\Entity\Term;
-use Ilios\CoreBundle\Entity\TermInterface;
+use AppBundle\Entity\Term;
+use AppBundle\Entity\TermInterface;
 
 /**
  * Class LoadTermData

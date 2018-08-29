@@ -5,7 +5,7 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Ilios\CoreBundle\Service\Timestamper;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
-use Ilios\CoreBundle\Entity\SessionStampableInterface;
+use AppBundle\Entity\SessionStampableInterface;
 
 /**
  * Doctrine event listener.

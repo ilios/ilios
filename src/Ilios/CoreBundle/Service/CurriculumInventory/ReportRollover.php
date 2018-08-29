@@ -2,14 +2,14 @@
 
 namespace Ilios\CoreBundle\Service\CurriculumInventory;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceInterface;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManager;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager;
+use AppBundle\Entity\CurriculumInventoryAcademicLevelInterface;
+use AppBundle\Entity\CurriculumInventoryReportInterface;
+use AppBundle\Entity\CurriculumInventorySequenceBlockInterface;
+use AppBundle\Entity\CurriculumInventorySequenceInterface;
+use AppBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager;
+use AppBundle\Entity\Manager\CurriculumInventoryReportManager;
+use AppBundle\Entity\Manager\CurriculumInventorySequenceBlockManager;
+use AppBundle\Entity\Manager\CurriculumInventorySequenceManager;
 
 /**
  * Service-class for rolling over a given curriculum inventory report.

@@ -2,25 +2,25 @@
 
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Entity\CohortInterface;
-use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
-use Ilios\CoreBundle\Entity\IlmSessionInterface;
-use Ilios\CoreBundle\Entity\Manager\CohortManager;
-use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
-use Ilios\CoreBundle\Entity\Manager\CourseManager;
-use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
-use Ilios\CoreBundle\Entity\Manager\ObjectiveManager;
-use Ilios\CoreBundle\Entity\Manager\OfferingManager;
-use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager;
-use Ilios\CoreBundle\Entity\Manager\SessionManager;
-use Ilios\CoreBundle\Entity\OfferingInterface;
-use Ilios\CoreBundle\Entity\SessionInterface;
-use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager;
-use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
-use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
-use Ilios\CoreBundle\Entity\ObjectiveInterface;
+use AppBundle\Entity\CohortInterface;
+use AppBundle\Entity\CourseInterface;
+use AppBundle\Entity\CourseLearningMaterialInterface;
+use AppBundle\Entity\IlmSessionInterface;
+use AppBundle\Entity\Manager\CohortManager;
+use AppBundle\Entity\Manager\CourseLearningMaterialManager;
+use AppBundle\Entity\Manager\CourseManager;
+use AppBundle\Entity\Manager\IlmSessionManager;
+use AppBundle\Entity\Manager\LearningMaterialManager;
+use AppBundle\Entity\Manager\ObjectiveManager;
+use AppBundle\Entity\Manager\OfferingManager;
+use AppBundle\Entity\Manager\SessionLearningMaterialManager;
+use AppBundle\Entity\Manager\SessionManager;
+use AppBundle\Entity\OfferingInterface;
+use AppBundle\Entity\SessionInterface;
+use AppBundle\Entity\Manager\SessionDescriptionManager;
+use AppBundle\Entity\SessionDescriptionInterface;
+use AppBundle\Entity\SessionLearningMaterialInterface;
+use AppBundle\Entity\ObjectiveInterface;
 
 /**
  * CourseRollover Rolls over an existing course and its components to a new Academic Year

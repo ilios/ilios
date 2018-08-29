@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
+use AppBundle\Entity\Manager\ManagerInterface;
 
 use Ilios\CoreBundle\Service\DataimportFileLocator;
 use Liip\FunctionalTestBundle\Test\WebTestCase;

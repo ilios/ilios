@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\School;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use AppBundle\Entity\School;
+use AppBundle\Entity\SchoolInterface;
 
 /**
  * Class LoadSchoolData

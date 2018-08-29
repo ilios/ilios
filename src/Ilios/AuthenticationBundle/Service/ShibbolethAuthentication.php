@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\AuthenticationManager;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -125,7 +125,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
                 'jwt' => null,
             ], JsonResponse::HTTP_OK);
         }
-        /* @var \Ilios\CoreBundle\Entity\AuthenticationInterface $authEntity */
+        /* @var \AppBundle\Entity\AuthenticationInterface $authEntity */
         $authEntity = $this->authManager->findOneBy(['username' => $userId]);
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());

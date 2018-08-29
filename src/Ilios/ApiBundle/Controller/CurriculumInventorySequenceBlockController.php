@@ -3,8 +3,8 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock;
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
+use AppBundle\Entity\CurriculumInventorySequenceBlock;
+use AppBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

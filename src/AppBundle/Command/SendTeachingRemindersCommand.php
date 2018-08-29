@@ -2,10 +2,10 @@
 
 namespace AppBundle\Command;
 
-use Ilios\CoreBundle\Entity\Manager\OfferingManager;
-use Ilios\CoreBundle\Entity\OfferingInterface;
-use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\Manager\OfferingManager;
+use AppBundle\Entity\OfferingInterface;
+use AppBundle\Entity\SchoolInterface;
+use AppBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -52,7 +52,7 @@ class SendTeachingRemindersCommand extends Command
     protected $config;
 
     /**
-     * @param \Ilios\CoreBundle\Entity\Manager\OfferingManager $offeringManager
+     * @param \AppBundle\Entity\Manager\OfferingManager $offeringManager
      * @param \Symfony\Component\Templating\EngineInterface
      * @param \Swift_Mailer $mailer
      * @param Config $config

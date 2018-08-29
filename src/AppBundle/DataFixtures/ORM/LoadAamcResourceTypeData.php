@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AamcResourceType;
-use Ilios\CoreBundle\Entity\AamcResourceTypeInterface;
+use AppBundle\Entity\AamcResourceType;
+use AppBundle\Entity\AamcResourceTypeInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**

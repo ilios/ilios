@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Traits;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Entity\SessionTypeInterface;
+use AppBundle\Entity\SessionTypeInterface;
 
 /**
  * Class SessionTypesEntity

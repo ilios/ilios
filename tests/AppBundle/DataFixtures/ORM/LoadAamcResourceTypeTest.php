@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AamcResourceTypeInterface;
+use AppBundle\Entity\AamcResourceTypeInterface;
 
 /**
  * Class LoadAamcResourceTypeDataTest
@@ -14,7 +14,7 @@ class LoadAamcResourceTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\AamcResourceTypeManager';
+        return 'AppBundle\Entity\Manager\AamcResourceTypeManager';
     }
 
     /**

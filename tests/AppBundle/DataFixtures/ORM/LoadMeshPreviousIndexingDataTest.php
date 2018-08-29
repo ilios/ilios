@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
+use AppBundle\Entity\MeshPreviousIndexingInterface;
 
 /**
  * Class LoadMeshPreviousIndexingDataTest
@@ -14,7 +14,7 @@ class LoadMeshPreviousIndexingDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\MeshPreviousIndexingManager';
+        return 'AppBundle\Entity\Manager\MeshPreviousIndexingManager';
     }
 
     /**

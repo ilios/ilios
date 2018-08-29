@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\CohortInterface;
+use AppBundle\Entity\CohortInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Cohort extends AbstractVoter

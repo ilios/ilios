@@ -1,7 +1,7 @@
 <?php
 namespace Tests\CoreBundle\Service;
 
-use Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager;
+use AppBundle\Entity\Manager\ApplicationConfigManager;
 use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;

@@ -2,7 +2,7 @@
 
 namespace Tests\CoreBundle\Fixture;
 
-use Ilios\CoreBundle\Entity\PendingUserUpdate;
+use AppBundle\Entity\PendingUserUpdate;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;

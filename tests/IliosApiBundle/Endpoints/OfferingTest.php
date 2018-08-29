@@ -2,7 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
+use AppBundle\Entity\AlertChangeTypeInterface;
 use Tests\CoreBundle\DataLoader\InstructorGroupData;
 use Tests\CoreBundle\DataLoader\LearnerGroupData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;

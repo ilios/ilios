@@ -2,8 +2,8 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\MeshConceptInterface;
-use Ilios\CoreBundle\Entity\MeshTermInterface;
+use AppBundle\Entity\MeshConceptInterface;
+use AppBundle\Entity\MeshTermInterface;
 
 /**
  * Class LoadMeshConceptTermDataTest
@@ -15,7 +15,7 @@ class LoadMeshConceptTermDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\MeshConceptManager';
+        return 'AppBundle\Entity\Manager\MeshConceptManager';
     }
 
     /**

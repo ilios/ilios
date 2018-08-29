@@ -2,8 +2,8 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AamcResourceTypeInterface;
-use Ilios\CoreBundle\Entity\TermInterface;
+use AppBundle\Entity\AamcResourceTypeInterface;
+use AppBundle\Entity\TermInterface;
 
 /**
  * Class LoadTermAamcResourceTypeTest
@@ -15,7 +15,7 @@ class LoadTermAamcResourceTypeTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\TermManager';
+        return 'AppBundle\Entity\Manager\TermManager';
     }
 
     /**

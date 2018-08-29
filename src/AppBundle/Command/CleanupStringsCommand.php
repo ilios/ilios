@@ -9,11 +9,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-use Ilios\CoreBundle\Entity\Manager\ObjectiveManager;
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
-use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
-use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager;
-use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager;
+use AppBundle\Entity\Manager\ObjectiveManager;
+use AppBundle\Entity\Manager\LearningMaterialManager;
+use AppBundle\Entity\Manager\CourseLearningMaterialManager;
+use AppBundle\Entity\Manager\SessionLearningMaterialManager;
+use AppBundle\Entity\Manager\SessionDescriptionManager;
 
 /**
  * Cleans up all the strings in the database

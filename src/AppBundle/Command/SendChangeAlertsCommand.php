@@ -2,12 +2,12 @@
 
 namespace AppBundle\Command;
 
-use Ilios\CoreBundle\Entity\AlertInterface;
-use Ilios\CoreBundle\Entity\AuditLogInterface;
-use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
-use Ilios\CoreBundle\Entity\Manager\AlertManager;
-use Ilios\CoreBundle\Entity\Manager\OfferingManager;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use AppBundle\Entity\AlertInterface;
+use AppBundle\Entity\AuditLogInterface;
+use AppBundle\Entity\Manager\AuditLogManager;
+use AppBundle\Entity\Manager\AlertManager;
+use AppBundle\Entity\Manager\OfferingManager;
+use AppBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

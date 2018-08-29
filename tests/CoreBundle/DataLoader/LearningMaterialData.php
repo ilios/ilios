@@ -2,7 +2,7 @@
 
 namespace Tests\CoreBundle\DataLoader;
 
-use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
+use AppBundle\Entity\LearningMaterialStatusInterface;
 
 class LearningMaterialData extends AbstractDataLoader
 {

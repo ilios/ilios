@@ -2,7 +2,7 @@
 
 namespace Tests\CoreBundle\Fixture;
 
-use Ilios\CoreBundle\Entity\Objective;
+use AppBundle\Entity\Objective;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;

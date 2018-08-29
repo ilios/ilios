@@ -3,9 +3,9 @@ namespace Tests\AuthenticationBundle\Service;
 
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
@@ -122,7 +122,7 @@ class FormAuthenticationTest extends TestCase
         $user = m::mock(UserInterface::class);
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
-        $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authenticationEntity = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
@@ -150,7 +150,7 @@ class FormAuthenticationTest extends TestCase
         $user = m::mock(UserInterface::class);
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(false)->mock();
-        $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authenticationEntity = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
@@ -177,7 +177,7 @@ class FormAuthenticationTest extends TestCase
         $user = m::mock(UserInterface::class);
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
-        $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authenticationEntity = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)
             ->shouldReceive('isLegacyAccount')->andReturn(false)->mock();
         $this->authManager->shouldReceive('findAuthenticationByUsername')

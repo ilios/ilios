@@ -4,8 +4,8 @@ namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-use Ilios\CoreBundle\Entity\Department;
-use Ilios\CoreBundle\Entity\DepartmentInterface;
+use AppBundle\Entity\Department;
+use AppBundle\Entity\DepartmentInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**

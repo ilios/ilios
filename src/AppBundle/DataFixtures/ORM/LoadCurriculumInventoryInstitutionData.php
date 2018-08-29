@@ -4,8 +4,8 @@ namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryInstitution;
-use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
+use AppBundle\Entity\CurriculumInventoryInstitution;
+use AppBundle\Entity\CurriculumInventoryInstitutionInterface;
 
 /**
  * Class LoadCurriculumInventoryInstitutionData

@@ -2,7 +2,7 @@
 namespace Tests\CoreBundle\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\Cohort;
+use AppBundle\Entity\Cohort;
 use Ilios\CoreBundle\Traits\CohortsEntity;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;

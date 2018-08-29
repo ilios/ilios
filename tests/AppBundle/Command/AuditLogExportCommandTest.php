@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\AuditLogExportCommand;
-use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
+use AppBundle\Entity\Manager\AuditLogManager;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;

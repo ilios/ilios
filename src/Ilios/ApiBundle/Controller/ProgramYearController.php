@@ -3,12 +3,12 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Entity\CohortInterface;
-use Ilios\CoreBundle\Entity\DTO\ProgramYearDTO;
-use Ilios\CoreBundle\Entity\Manager\BaseManager;
-use Ilios\CoreBundle\Entity\Manager\ProgramYearManager;
-use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
-use Ilios\CoreBundle\Entity\ProgramYearInterface;
+use AppBundle\Entity\CohortInterface;
+use AppBundle\Entity\DTO\ProgramYearDTO;
+use AppBundle\Entity\Manager\BaseManager;
+use AppBundle\Entity\Manager\ProgramYearManager;
+use AppBundle\Entity\Manager\ProgramYearStewardManager;
+use AppBundle\Entity\ProgramYearInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

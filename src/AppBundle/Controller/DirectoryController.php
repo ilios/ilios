@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;

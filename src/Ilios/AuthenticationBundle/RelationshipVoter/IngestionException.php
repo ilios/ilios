@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\IngestionExceptionInterface;
+use AppBundle\Entity\IngestionExceptionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class IngestionException extends AbstractVoter

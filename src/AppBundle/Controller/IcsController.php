@@ -3,16 +3,16 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Classes\UserEvent;
-use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
-use Ilios\CoreBundle\Entity\LearningMaterialRelationshipInterface;
-use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
-use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
-use Ilios\CoreBundle\Entity\Manager\OfferingManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\ObjectiveInterface;
-use Ilios\CoreBundle\Entity\SessionInterface;
-use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
+use AppBundle\Entity\CourseLearningMaterialInterface;
+use AppBundle\Entity\LearningMaterialInterface;
+use AppBundle\Entity\LearningMaterialRelationshipInterface;
+use AppBundle\Entity\LearningMaterialStatusInterface;
+use AppBundle\Entity\Manager\IlmSessionManager;
+use AppBundle\Entity\Manager\OfferingManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\ObjectiveInterface;
+use AppBundle\Entity\SessionInterface;
+use AppBundle\Entity\SessionLearningMaterialInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use AppBundle\Entity\Manager\LearningMaterialManager;
 use Ilios\CoreBundle\Service\IliosFileSystem;
 
 /**

@@ -2,12 +2,12 @@
 
 namespace Ilios\CoreBundle\Service\CurriculumInventory\Export;
 
-use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
-use Ilios\CoreBundle\Entity\ProgramInterface;
+use AppBundle\Entity\CourseClerkshipTypeInterface;
+use AppBundle\Entity\CurriculumInventoryAcademicLevelInterface;
+use AppBundle\Entity\CurriculumInventoryInstitutionInterface;
+use AppBundle\Entity\CurriculumInventoryReportInterface;
+use AppBundle\Entity\CurriculumInventorySequenceBlockInterface;
+use AppBundle\Entity\ProgramInterface;
 
 /**
  * XML printer for Curriculum Inventory reporting.
@@ -389,7 +389,7 @@ class XmlPrinter
         usort(
             $topLevelSequenceBlocks,
             [
-                'Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock',
+                'AppBundle\Entity\CurriculumInventorySequenceBlock',
                 'compareSequenceBlocksWithDefaultStrategy'
             ]
         );

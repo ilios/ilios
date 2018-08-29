@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Service;
 
 use Ilios\AuthenticationBundle\Classes\SessionUser;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\Manager\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -11,9 +11,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 
-use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
+use AppBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\UserInterface;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
 class FormAuthentication implements AuthenticationInterface

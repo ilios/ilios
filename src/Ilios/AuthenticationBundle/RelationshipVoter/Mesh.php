@@ -3,12 +3,12 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\MeshConceptInterface;
-use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
-use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
-use Ilios\CoreBundle\Entity\MeshQualifierInterface;
-use Ilios\CoreBundle\Entity\MeshTermInterface;
-use Ilios\CoreBundle\Entity\MeshTreeInterface;
+use AppBundle\Entity\MeshConceptInterface;
+use AppBundle\Entity\MeshDescriptorInterface;
+use AppBundle\Entity\MeshPreviousIndexingInterface;
+use AppBundle\Entity\MeshQualifierInterface;
+use AppBundle\Entity\MeshTermInterface;
+use AppBundle\Entity\MeshTreeInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Mesh extends AbstractVoter

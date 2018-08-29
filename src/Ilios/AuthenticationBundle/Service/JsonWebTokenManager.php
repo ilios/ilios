@@ -6,7 +6,7 @@ use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Encoder;
 
 use Ilios\AuthenticationBundle\Jwt\Token as JwtToken;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\UserInterface;
 use Firebase\JWT\JWT;
 use DateTime;
 use DateInterval;

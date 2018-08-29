@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\ImportMeshUniverseCommand;
-use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager;
+use AppBundle\Entity\Manager\MeshDescriptorManager;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Parser;
 use Symfony\Component\Console\Application;

@@ -2,7 +2,7 @@
 
 namespace Tests\CoreBundle\Fixture;
 
-use Ilios\CoreBundle\Entity\Authentication;
+use AppBundle\Entity\Authentication;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;

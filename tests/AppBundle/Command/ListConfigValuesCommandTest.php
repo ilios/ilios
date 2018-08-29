@@ -2,8 +2,8 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\ListConfigValuesCommand;
-use Ilios\CoreBundle\Entity\ApplicationConfig;
-use Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager;
+use AppBundle\Entity\ApplicationConfig;
+use AppBundle\Entity\Manager\ApplicationConfigManager;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;

@@ -4,8 +4,8 @@ namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-use Ilios\CoreBundle\Entity\Vocabulary;
-use Ilios\CoreBundle\Entity\VocabularyInterface;
+use AppBundle\Entity\Vocabulary;
+use AppBundle\Entity\VocabularyInterface;
 
 /**
  * Class LoadVocabularyData

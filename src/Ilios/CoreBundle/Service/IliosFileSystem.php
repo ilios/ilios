@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Service;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use AppBundle\Entity\LearningMaterialInterface;
 
 /**
  * Class IliosFileSystem

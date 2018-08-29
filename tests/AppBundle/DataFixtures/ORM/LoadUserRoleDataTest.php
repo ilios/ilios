@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\UserRoleInterface;
+use AppBundle\Entity\UserRoleInterface;
 
 /**
  * Class LoadUserRoleDataTest
@@ -14,7 +14,7 @@ class LoadUserRoleDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\UserRoleManager';
+        return 'AppBundle\Entity\Manager\UserRoleManager';
     }
 
     /**

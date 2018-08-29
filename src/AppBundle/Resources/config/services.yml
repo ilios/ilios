@@ -6,12 +6,16 @@ services:
         public: false
 
     AppBundle\:
-            resource: '../../*'
+        resource: '../../*'
+        exclude: '../../{Entity}'
 
     AppBundle\Controller\:
         resource: '../../Controller'
         public: true
         tags: ['controller.service_arguments']
+
+    AppBundle\Entity\Manager\:
+        resource: '../../Entity/Manager'
 
     AppBundle\Command\UpdateFrontendCommand:
         arguments:
@@ -19,3 +23,124 @@ services:
             $kernelProjectDir: '%kernel.project_dir%'
             $apiVersion: '%ilios_api_version%'
             $environment: '%kernel.environment%'
+
+
+    AppBundle\Entity\Manager\AlertManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\Alert'
+    AppBundle\Entity\Manager\AlertChangeTypeManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\AlertChangeType'
+    AppBundle\Entity\Manager\ApplicationConfigManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\ApplicationConfig'
+    AppBundle\Entity\Manager\AuditLogManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\AuditLog'
+    AppBundle\Entity\Manager\AuthenticationManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\Authentication'
+    AppBundle\Entity\Manager\CohortManager:
+        public: true
+        class: AppBundle\Entity\Manager\CohortManager
+        arguments:
+            $class: 'AppBundle\Entity\Cohort'
+    AppBundle\Entity\Manager\CourseManager:
+        public: true
+        class: AppBundle\Entity\Manager\CourseManager
+        arguments:
+            $class: 'AppBundle\Entity\Course'
+    AppBundle\Entity\Manager\CourseLearningMaterialManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\CourseLearningMaterial'
+    AppBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\CurriculumInventoryAcademicLevel'
+    AppBundle\Entity\Manager\CurriculumInventoryExportManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\CurriculumInventoryExport'
+    AppBundle\Entity\Manager\CurriculumInventoryInstitutionManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\CurriculumInventoryInstitution'
+    AppBundle\Entity\Manager\CurriculumInventoryReportManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\CurriculumInventoryReport'
+    AppBundle\Entity\Manager\CurriculumInventorySequenceBlockManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\CurriculumInventorySequenceBlock'
+    AppBundle\Entity\Manager\CurriculumInventorySequenceManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\CurriculumInventorySequence'
+    AppBundle\Entity\Manager\IlmSessionManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\IlmSession'
+    AppBundle\Entity\Manager\LearningMaterialManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\LearningMaterial'
+    AppBundle\Entity\Manager\MeshDescriptorManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\MeshDescriptor'
+    AppBundle\Entity\Manager\ObjectiveManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\Objective'
+    AppBundle\Entity\Manager\OfferingManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\Offering'
+    AppBundle\Entity\Manager\PendingUserUpdateManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\PendingUserUpdate'
+    AppBundle\Entity\Manager\ProgramYearManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\ProgramYear'
+    AppBundle\Entity\Manager\ProgramYearStewardManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\ProgramYearSteward'
+    AppBundle\Entity\Manager\SchoolConfigManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\SchoolConfig'
+    AppBundle\Entity\Manager\SchoolManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\School'
+    AppBundle\Entity\Manager\SessionManager:
+        public: true
+        class: AppBundle\Entity\Manager\SessionManager
+        arguments:
+            $class: 'AppBundle\Entity\Session'
+    AppBundle\Entity\Manager\SessionDescriptionManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\SessionDescription'
+    AppBundle\Entity\Manager\SessionLearningMaterialManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\SessionLearningMaterial'
+    AppBundle\Entity\Manager\UserManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\User'
+    AppBundle\Entity\Manager\UserRoleManager:
+        public: true
+        arguments:
+            $class: 'AppBundle\Entity\UserRole'

@@ -3,7 +3,7 @@
 namespace Tests\CoreBundle\Fixture;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Ilios\CoreBundle\Entity\Report;
+use AppBundle\Entity\Report;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;

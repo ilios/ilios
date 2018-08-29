@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\ApplicationConfig;
-use Ilios\CoreBundle\Entity\ApplicationConfigInterface;
+use AppBundle\Entity\ApplicationConfig;
+use AppBundle\Entity\ApplicationConfigInterface;
 
 /**
  * Class LoadApplicationConfigData

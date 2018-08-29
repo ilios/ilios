@@ -4,9 +4,9 @@ namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-use Ilios\CoreBundle\Entity\AamcResourceTypeInterface;
-use Ilios\CoreBundle\Entity\Term;
-use Ilios\CoreBundle\Entity\TermInterface;
+use AppBundle\Entity\AamcResourceTypeInterface;
+use AppBundle\Entity\Term;
+use AppBundle\Entity\TermInterface;
 
 /**
  * Class LoadSessionTypeAamcMethodData

@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\MeshTreeInterface;
+use AppBundle\Entity\MeshTreeInterface;
 
 /**
  * Class LoadMeshTreeDataTest
@@ -14,7 +14,7 @@ class LoadMeshTreeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\MeshTreeManager';
+        return 'AppBundle\Entity\Manager\MeshTreeManager';
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
+use AppBundle\Entity\MeshDescriptorInterface;
 
 /**
  * Class LoadMeshDescriptorDataTest
@@ -14,7 +14,7 @@ class LoadMeshDescriptorDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager';
+        return 'AppBundle\Entity\Manager\MeshDescriptorManager';
     }
 
     /**

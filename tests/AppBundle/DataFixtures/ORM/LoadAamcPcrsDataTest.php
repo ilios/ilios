@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AamcPcrsInterface;
+use AppBundle\Entity\AamcPcrsInterface;
 
 /**
  * Class LoadAamcPcrsDataTest
@@ -14,7 +14,7 @@ class LoadAamcPcrsDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\AamcPcrsManager';
+        return 'AppBundle\Entity\Manager\AamcPcrsManager';
     }
 
     /**

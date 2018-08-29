@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
+use AppBundle\Entity\LearningMaterialStatusInterface;
 
 /**
  * Class LoadLearningMaterialStatusDataTest
@@ -14,7 +14,7 @@ class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager';
+        return 'AppBundle\Entity\Manager\LearningMaterialStatusManager';
     }
 
     /**

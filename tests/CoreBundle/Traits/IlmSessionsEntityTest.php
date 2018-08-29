@@ -2,7 +2,7 @@
 namespace Tests\CoreBundle\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\IlmSession;
+use AppBundle\Entity\IlmSession;
 use Ilios\CoreBundle\Traits\IlmSessionsEntity;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;

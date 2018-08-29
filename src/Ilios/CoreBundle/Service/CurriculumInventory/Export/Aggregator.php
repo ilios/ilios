@@ -2,10 +2,10 @@
 
 namespace Ilios\CoreBundle\Service\CurriculumInventory\Export;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
+use AppBundle\Entity\CurriculumInventoryInstitutionInterface;
+use AppBundle\Entity\CurriculumInventoryReportInterface;
+use AppBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
+use AppBundle\Entity\Manager\CurriculumInventoryReportManager;
 use Ilios\CoreBundle\Service\Config;
 
 /**

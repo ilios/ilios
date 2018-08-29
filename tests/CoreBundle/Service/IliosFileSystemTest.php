@@ -142,10 +142,10 @@ class IliosFileSystemTest extends TestCase
 
     public function testCheckLearningMaterialFilePath()
     {
-        $goodLm = m::mock('Ilios\CoreBundle\Entity\LearningMaterial')
+        $goodLm = m::mock('AppBundle\Entity\LearningMaterial')
             ->shouldReceive('getRelativePath')->andReturn('goodfile')
             ->mock();
-        $badLm = m::mock('Ilios\CoreBundle\Entity\LearningMaterial')
+        $badLm = m::mock('AppBundle\Entity\LearningMaterial')
             ->shouldReceive('getRelativePath')->andReturn('badfile')
             ->mock();
         $this->mockFileSystem->shouldReceive('exists')

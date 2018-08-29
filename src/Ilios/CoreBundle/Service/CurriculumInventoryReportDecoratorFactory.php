@@ -1,8 +1,8 @@
 <?php
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Entity\DTO\CurriculumInventoryReportDTO;
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
+use AppBundle\Entity\DTO\CurriculumInventoryReportDTO;
+use AppBundle\Entity\CurriculumInventoryReportInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 

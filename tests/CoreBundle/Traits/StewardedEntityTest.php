@@ -2,7 +2,7 @@
 namespace Tests\CoreBundle\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
+use AppBundle\Entity\ProgramYearStewardInterface;
 use Ilios\CoreBundle\Traits\StewardedEntity;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;

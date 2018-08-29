@@ -2,7 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
+use AppBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 

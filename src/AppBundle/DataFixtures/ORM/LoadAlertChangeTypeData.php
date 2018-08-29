@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AlertChangeType;
-use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
+use AppBundle\Entity\AlertChangeType;
+use AppBundle\Entity\AlertChangeTypeInterface;
 
 /**
  * Class LoadAlertChangeTypeData

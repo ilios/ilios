@@ -3,8 +3,8 @@ namespace Ilios\AuthenticationBundle\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\UserInterface;
 
 interface AuthenticationInterface
 {

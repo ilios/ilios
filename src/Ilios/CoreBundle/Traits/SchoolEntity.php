@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Traits;
 
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use AppBundle\Entity\SchoolInterface;
 
 /**
  * Class SchoolEntity

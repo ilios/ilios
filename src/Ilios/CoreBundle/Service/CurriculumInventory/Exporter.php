@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Service\CurriculumInventory;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
+use AppBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Service\CurriculumInventory\Export\Aggregator;
 use Ilios\CoreBundle\Service\CurriculumInventory\Export\XmlPrinter;
 

@@ -3,8 +3,8 @@
 namespace AppBundle\Classes;
 
 use Ilios\ApiBundle\Annotation as IS;
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
-use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
+use AppBundle\Entity\LearningMaterialInterface;
+use AppBundle\Entity\LearningMaterialStatusInterface;
 
 /**
  * Class CalendarEvent

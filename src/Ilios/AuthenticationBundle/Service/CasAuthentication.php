@@ -6,7 +6,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\AuthenticationManager;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -103,7 +103,7 @@ class CasAuthentication implements AuthenticationInterface
             $this->logger->error($msg, ['server vars' => var_export($_SERVER, true)]);
             throw new \Exception($msg);
         }
-        /* @var \Ilios\CoreBundle\Entity\AuthenticationInterface $authEntity */
+        /* @var \AppBundle\Entity\AuthenticationInterface $authEntity */
         $authEntity = $this->authManager->findOneBy(['username' => $userId]);
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());

@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\LearningMaterialUserRole;
-use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
+use AppBundle\Entity\LearningMaterialUserRole;
+use AppBundle\Entity\LearningMaterialUserRoleInterface;
 
 /**
  * Class LoadLearningMaterialUserRoleData

@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\TermInterface;
+use AppBundle\Entity\TermInterface;
 
 /**
  * Class LoadTermDataTest
@@ -14,7 +14,7 @@ class LoadTermDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\TermManager';
+        return 'AppBundle\Entity\Manager\TermManager';
     }
 
     /**

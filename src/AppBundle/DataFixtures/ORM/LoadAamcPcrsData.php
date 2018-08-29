@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AamcPcrs;
-use Ilios\CoreBundle\Entity\AamcPcrsInterface;
+use AppBundle\Entity\AamcPcrs;
+use AppBundle\Entity\AamcPcrsInterface;
 
 /**
  * Class LoadAamcPcrsData

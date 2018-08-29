@@ -2,7 +2,7 @@
 
 namespace Tests\CoreBundle\DataLoader;
 
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
+use AppBundle\Entity\CurriculumInventorySequenceBlockInterface;
 
 class CurriculumInventorySequenceBlockData extends AbstractDataLoader
 {

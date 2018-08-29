@@ -30,7 +30,7 @@ class AddRootUserCommandTest extends TestCase
      */
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
+        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
 
         $command = new AddRootUserCommand($this->userManager);
         $application = new Application();
@@ -54,7 +54,7 @@ class AddRootUserCommandTest extends TestCase
     public function testAddRootUser()
     {
         $userId = 1;
-        $user = m::mock('Ilios\CoreBundle\Entity\User');
+        $user = m::mock('AppBundle\Entity\User');
 
         $this->userManager->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn($user);
         $this->userManager->shouldReceive('update');

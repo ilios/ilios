@@ -3,7 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
+use AppBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Service\CurriculumInventory\ReportRollover;
 use Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\VocabularyInterface;
+use AppBundle\Entity\VocabularyInterface;
 
 /**
  * Class LoadVocabularyDataTest
@@ -14,7 +14,7 @@ class LoadVocabularyDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\VocabularyManager';
+        return 'AppBundle\Entity\Manager\VocabularyManager';
     }
 
     /**

@@ -3,7 +3,7 @@ namespace Ilios\CoreBundle\Service;
 
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ServerException;
-use Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager;
+use AppBundle\Entity\Manager\ApplicationConfigManager;
 use function Stringy\create as s;
 
 class Config

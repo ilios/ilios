@@ -3,7 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use AppBundle\Classes\AcademicYear;
-use Ilios\CoreBundle\Entity\Manager\CourseManager;
+use AppBundle\Entity\Manager\CourseManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

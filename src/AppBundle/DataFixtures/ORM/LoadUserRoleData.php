@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\UserRole;
-use Ilios\CoreBundle\Entity\UserRoleInterface;
+use AppBundle\Entity\UserRole;
+use AppBundle\Entity\UserRoleInterface;
 
 /**
  * Class LoadUserRoleData

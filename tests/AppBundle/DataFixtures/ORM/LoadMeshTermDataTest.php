@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\MeshTermInterface;
+use AppBundle\Entity\MeshTermInterface;
 
 /**
  * Class LoadMeshTermDataTest
@@ -14,7 +14,7 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\MeshTermManager';
+        return 'AppBundle\Entity\Manager\MeshTermManager';
     }
 
     /**

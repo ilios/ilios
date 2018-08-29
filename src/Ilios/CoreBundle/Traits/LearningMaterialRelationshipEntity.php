@@ -2,8 +2,8 @@
 
 namespace Ilios\CoreBundle\Traits;
 
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
-use Ilios\CoreBundle\Entity\LearningMaterialRelationshipInterface;
+use AppBundle\Entity\LearningMaterialInterface;
+use AppBundle\Entity\LearningMaterialRelationshipInterface;
 
 /**
  * Trait LearningMaterialRelationshipEntity

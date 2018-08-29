@@ -2,8 +2,8 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AamcPcrsInterface;
-use Ilios\CoreBundle\Entity\CompetencyInterface;
+use AppBundle\Entity\AamcPcrsInterface;
+use AppBundle\Entity\CompetencyInterface;
 
 /**
  * Class LoadCompetencyAmcPcrsDataTest
@@ -15,7 +15,7 @@ class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\CompetencyManager';
+        return 'AppBundle\Entity\Manager\CompetencyManager';
     }
 
     /**

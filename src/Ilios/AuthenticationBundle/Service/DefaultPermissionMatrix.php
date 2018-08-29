@@ -5,8 +5,8 @@ namespace Ilios\AuthenticationBundle\Service;
 use Ilios\AuthenticationBundle\Classes\Capabilities;
 use Ilios\AuthenticationBundle\Classes\PermissionMatrix;
 use Ilios\AuthenticationBundle\Classes\UserRoles;
-use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\DTO\SchoolDTO;
+use AppBundle\Entity\Manager\SchoolManager;
 
 class DefaultPermissionMatrix extends PermissionMatrix
 {

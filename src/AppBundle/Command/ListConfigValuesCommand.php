@@ -2,8 +2,8 @@
 
 namespace AppBundle\Command;
 
-use Ilios\CoreBundle\Entity\ApplicationConfig;
-use Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager;
+use AppBundle\Entity\ApplicationConfig;
+use AppBundle\Entity\Manager\ApplicationConfigManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;

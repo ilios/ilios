@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use AppBundle\Entity\SchoolInterface;
 
 /**
  * Class LoadSchoolDataTest
@@ -14,7 +14,7 @@ class LoadSchoolDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\SchoolManager';
+        return 'AppBundle\Entity\Manager\SchoolManager';
     }
 
     /**

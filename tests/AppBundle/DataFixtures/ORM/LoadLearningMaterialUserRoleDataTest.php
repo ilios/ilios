@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
+use AppBundle\Entity\LearningMaterialUserRoleInterface;
 
 /**
  * Class LoadLearningMaterialUserRoleDataTest
@@ -14,7 +14,7 @@ class LoadLearningMaterialUserRoleDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager';
+        return 'AppBundle\Entity\Manager\LearningMaterialUserRoleManager';
     }
 
     /**

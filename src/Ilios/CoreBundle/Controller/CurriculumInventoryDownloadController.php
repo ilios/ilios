@@ -2,15 +2,15 @@
 
 namespace Ilios\CoreBundle\Controller;
 
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryExportManager;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
+use AppBundle\Entity\Manager\CurriculumInventoryExportManager;
+use AppBundle\Entity\Manager\CurriculumInventoryReportManager;
 use Ilios\CoreBundle\Service\CurriculumInventory\Exporter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
+use AppBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
  * Class CurriculumInventoryDownloadController

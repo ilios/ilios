@@ -2,9 +2,9 @@
 
 namespace Tests\CoreBundle\Service\CurriculumInventory\Export;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryReport;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
+use AppBundle\Entity\CurriculumInventoryReport;
+use AppBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
+use AppBundle\Entity\Manager\CurriculumInventoryReportManager;
 use Ilios\CoreBundle\Service\Config;
 use Ilios\CoreBundle\Service\CurriculumInventory\Export\Aggregator;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;

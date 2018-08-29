@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
+use AppBundle\Entity\AlertChangeTypeInterface;
 
 /**
  * Class LoadAlertChangeTypeDataTest
@@ -14,7 +14,7 @@ class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager';
+        return 'AppBundle\Entity\Manager\AlertChangeTypeManager';
     }
 
     /**

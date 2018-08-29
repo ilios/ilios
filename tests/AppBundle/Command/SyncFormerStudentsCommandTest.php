@@ -2,8 +2,8 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\SyncFormerStudentsCommand;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\Manager\UserRoleManager;
 use Ilios\CoreBundle\Service\Directory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -64,7 +64,7 @@ class SyncFormerStudentsCommandTest extends TestCase
             'telephoneNumber' => 'phone2',
             'campusId' => 'abc2',
         ];
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock('AppBundle\Entity\UserInterface')
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
@@ -80,7 +80,7 @@ class SyncFormerStudentsCommandTest extends TestCase
             ->andReturn(new ArrayCollection([$user]));
         $this->userManager->shouldReceive('update')
             ->with($user, false);
-        $role = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface')
+        $role = m::mock('AppBundle\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)
             ->mock();
         $user->shouldReceive('addRole')->with($role);

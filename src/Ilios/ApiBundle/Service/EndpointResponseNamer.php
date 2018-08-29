@@ -28,7 +28,7 @@ class EndpointResponseNamer
      */
     public function __construct(KernelInterface $kernel)
     {
-        $this->pathToEntities = $kernel->locateResource('@IliosCoreBundle/Entity');
+        $this->pathToEntities = $kernel->locateResource('@AppBundle/Entity');
     }
 
     /**

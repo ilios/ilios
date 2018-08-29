@@ -2,7 +2,7 @@
 namespace Tests\CoreBundle\Service;
 
 use Ilios\CoreBundle\Service\LoggerQueue;
-use Ilios\CoreBundle\Entity\School;
+use AppBundle\Entity\School;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;
 

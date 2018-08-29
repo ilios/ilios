@@ -3,13 +3,13 @@
 namespace AppBundle\Command;
 
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
-use Ilios\CoreBundle\Entity\AuthenticationInterface;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\AuthenticationInterface;
+use AppBundle\Entity\Manager\AuthenticationManager;
 
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\SchoolInterface;
+use AppBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

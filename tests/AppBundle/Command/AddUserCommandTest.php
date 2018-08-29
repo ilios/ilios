@@ -5,11 +5,11 @@ namespace Tests\AppBundle\Command;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use AppBundle\Command\AddUserCommand;
-use Ilios\CoreBundle\Entity\AuthenticationInterface;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use AppBundle\Entity\AuthenticationInterface;
+use AppBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -294,7 +294,7 @@ class AddUserCommandTest extends TestCase
         $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getTitle')->andReturn('Big School Title');
         $sessionUser = m::mock(SessionUserInterface::class);
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock('AppBundle\Entity\UserInterface')
             ->shouldReceive('setFirstName')->with('first')
             ->shouldReceive('setLastName')->with('last')
             ->shouldReceive('setEmail')->with('email@example.com')

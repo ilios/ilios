@@ -4,7 +4,7 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\ApiBundle\Service\EndpointResponseNamer;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
+use AppBundle\Entity\Manager\ManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
@@ -217,7 +217,7 @@ class ApiController extends Controller implements ApiControllerInterface
     protected function getManager($pluralObjectName)
     {
         $entityName = $this->getEntityName($pluralObjectName);
-        $name = "Ilios\\CoreBundle\\Entity\\Manager\\${entityName}Manager";
+        $name = "AppBundle\\Entity\\Manager\\${entityName}Manager";
         if (!$this->container->has($name)) {
             throw new \Exception(
                 sprintf('The manager for \'%s\' does not exist.', $pluralObjectName)

@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\ApplicationConfigInterface;
+use AppBundle\Entity\ApplicationConfigInterface;
 
 /**
  * Class LoadApplicationConfigDataTest
@@ -15,7 +15,7 @@ class LoadApplicationConfigDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager';
+        return 'AppBundle\Entity\Manager\ApplicationConfigManager';
     }
 
     /**

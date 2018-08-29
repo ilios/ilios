@@ -2,8 +2,8 @@
 
 namespace AppBundle\Command;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
+use AppBundle\Entity\CurriculumInventoryReportInterface;
+use AppBundle\Entity\Manager\CurriculumInventoryReportManager;
 use Ilios\CoreBundle\Service\CurriculumInventory\ReportRollover;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

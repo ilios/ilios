@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AssessmentOption;
-use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
+use AppBundle\Entity\AssessmentOption;
+use AppBundle\Entity\AssessmentOptionInterface;
 
 /**
  * Class LoadAssessmentOptionData

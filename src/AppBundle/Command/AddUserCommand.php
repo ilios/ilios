@@ -3,7 +3,7 @@
 namespace AppBundle\Command;
 
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
-use Ilios\CoreBundle\Entity\AuthenticationInterface;
+use AppBundle\Entity\AuthenticationInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,9 +15,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\Manager\SchoolManager;
 
 /**
  * Add a user by looking them up in the directory

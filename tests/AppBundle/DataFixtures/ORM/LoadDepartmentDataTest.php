@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\DepartmentInterface;
+use AppBundle\Entity\DepartmentInterface;
 
 /**
  * Class LoadDepartmentDataTest
@@ -14,7 +14,7 @@ class LoadDepartmentDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\DepartmentManager';
+        return 'AppBundle\Entity\Manager\DepartmentManager';
     }
 
     /**

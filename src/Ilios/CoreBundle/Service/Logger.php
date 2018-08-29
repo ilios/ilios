@@ -1,10 +1,10 @@
 <?php
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Entity\AuditLog;
-use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
-use Ilios\CoreBundle\Entity\Manager\BaseManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\AuditLog;
+use AppBundle\Entity\Manager\AuditLogManager;
+use AppBundle\Entity\Manager\BaseManager;
+use AppBundle\Entity\UserInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;

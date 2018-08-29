@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\SessionInterface;
+use AppBundle\Entity\SessionInterface;
 
 /**
  * Class SessionsEntity

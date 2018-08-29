@@ -5,7 +5,7 @@ namespace AppBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager;
+use AppBundle\Entity\Manager\MeshDescriptorManager;
 use Ilios\CoreBundle\Service\DataimportFileLocator;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

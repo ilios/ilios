@@ -2,7 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Ilios\CoreBundle\Entity\OfferingInterface;
+use AppBundle\Entity\OfferingInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\CourseData;
 use Tests\CoreBundle\DataLoader\IlmSessionData;

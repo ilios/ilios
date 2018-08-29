@@ -4,7 +4,7 @@ namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use AppBundle\Classes\UserMaterial as Material;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
+use AppBundle\Entity\LearningMaterialStatusInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**

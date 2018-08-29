@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Ilios\CoreBundle\Entity\AlertInterface;
+use AppBundle\Entity\AlertInterface;
 
 /**
  * Interface AlertableEntityInterface

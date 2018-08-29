@@ -180,7 +180,7 @@ class AuthenticationControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
     
-        $legacyUser = $em->getRepository('IliosCoreBundle:User')->find(1);
+        $legacyUser = $em->getRepository('AppBundle:User')->find(1);
         $authentication = $legacyUser->getAuthentication();
         $this->assertTrue($authentication->isLegacyAccount());
         $this->assertNotEmpty($authentication->getPasswordSha256());
@@ -211,7 +211,7 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(1, $token['user_id']);
     
-        $legacyUser = $em->getRepository('IliosCoreBundle:User')->find(1);
+        $legacyUser = $em->getRepository('AppBundle:User')->find(1);
         $authentication = $legacyUser->getAuthentication();
         $this->assertFalse($authentication->isLegacyAccount());
         $this->assertEmpty($authentication->getPasswordSha256());

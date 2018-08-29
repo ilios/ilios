@@ -1,7 +1,7 @@
 <?php
 namespace Ilios\CoreBundle\Controller;
 
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use AppBundle\Entity\Manager\LearningMaterialManager;
 use Ilios\CoreBundle\Service\IliosFileSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AamcMethodInterface;
+use AppBundle\Entity\AamcMethodInterface;
 
 /**
  * Class LoadAamcMethodDataTest
@@ -14,7 +14,7 @@ class LoadAamcMethodDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\AamcMethodManager';
+        return 'AppBundle\Entity\Manager\AamcMethodManager';
     }
 
     /**

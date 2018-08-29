@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Entity\ProgramYearInterface;
+use AppBundle\Entity\ProgramYearInterface;
 
 /**
  * Interface ProgramYearsEntityInterface

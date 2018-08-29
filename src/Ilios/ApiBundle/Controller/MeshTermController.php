@@ -2,7 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager;
+use AppBundle\Entity\Manager\MeshDescriptorManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\GoneHttpException;

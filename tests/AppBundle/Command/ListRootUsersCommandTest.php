@@ -2,7 +2,7 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\ListRootUsersCommand;
-use Ilios\CoreBundle\Entity\DTO\UserDTO;
+use AppBundle\Entity\DTO\UserDTO;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -31,7 +31,7 @@ class ListRootUsersCommandTest extends TestCase
      */
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
+        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
 
         $command = new ListRootUsersCommand($this->userManager);
         $application = new Application();

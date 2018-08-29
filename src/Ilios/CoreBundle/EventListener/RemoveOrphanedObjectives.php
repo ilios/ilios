@@ -5,10 +5,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
-use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\Objective;
-use Ilios\CoreBundle\Entity\ProgramYearInterface;
-use Ilios\CoreBundle\Entity\SessionInterface;
+use AppBundle\Entity\CourseInterface;
+use AppBundle\Entity\Objective;
+use AppBundle\Entity\ProgramYearInterface;
+use AppBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**

@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\LearningMaterialStatus;
-use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
+use AppBundle\Entity\LearningMaterialStatus;
+use AppBundle\Entity\LearningMaterialStatusInterface;
 
 /**
  * Class LoadLearningMaterialStatusData

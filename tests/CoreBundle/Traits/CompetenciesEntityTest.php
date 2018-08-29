@@ -2,7 +2,7 @@
 namespace Tests\CoreBundle\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\Competency;
+use AppBundle\Entity\Competency;
 use Ilios\CoreBundle\Traits\CompetenciesEntity;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;

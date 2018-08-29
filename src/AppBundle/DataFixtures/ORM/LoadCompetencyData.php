@@ -4,8 +4,8 @@ namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-use Ilios\CoreBundle\Entity\Competency;
-use Ilios\CoreBundle\Entity\CompetencyInterface;
+use AppBundle\Entity\Competency;
+use AppBundle\Entity\CompetencyInterface;
 
 /**
  * Class LoadCompetencyData

@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
+use AppBundle\Entity\CourseClerkshipTypeInterface;
 
 /**
  * Class LoadCourseClerkshipTypeDataTest
@@ -14,7 +14,7 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManager';
+        return 'AppBundle\Entity\Manager\CourseClerkshipTypeManager';
     }
 
     /**

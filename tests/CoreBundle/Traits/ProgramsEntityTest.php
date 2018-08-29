@@ -2,7 +2,7 @@
 namespace Tests\CoreBundle\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\Program;
+use AppBundle\Entity\Program;
 use Ilios\CoreBundle\Traits\ProgramsEntity;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;

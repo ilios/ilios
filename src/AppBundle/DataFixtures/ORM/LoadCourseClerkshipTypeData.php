@@ -2,8 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\CourseClerkshipType;
-use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
+use AppBundle\Entity\CourseClerkshipType;
+use AppBundle\Entity\CourseClerkshipTypeInterface;
 
 /**
  * Class LoadCourseClerkshipTypeData

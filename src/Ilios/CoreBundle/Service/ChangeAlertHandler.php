@@ -2,13 +2,13 @@
 
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
-use Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager;
-use Ilios\CoreBundle\Entity\Manager\AlertManager;
-use Ilios\CoreBundle\Entity\Manager\BaseManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\OfferingInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\AlertChangeTypeInterface;
+use AppBundle\Entity\Manager\AlertChangeTypeManager;
+use AppBundle\Entity\Manager\AlertManager;
+use AppBundle\Entity\Manager\BaseManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\OfferingInterface;
+use AppBundle\Entity\UserInterface;
 
 /**
  * Creates and updates change alerts for given data points, such as offerings.

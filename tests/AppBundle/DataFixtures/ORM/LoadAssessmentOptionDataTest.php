@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
+use AppBundle\Entity\AssessmentOptionInterface;
 
 /**
  * Class LoadAssessmentOptionDataTest
@@ -14,7 +14,7 @@ class LoadAssessmentOptionDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager';
+        return 'AppBundle\Entity\Manager\AssessmentOptionManager';
     }
 
     /**

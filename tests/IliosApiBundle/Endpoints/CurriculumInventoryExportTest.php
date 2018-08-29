@@ -2,7 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
+use AppBundle\Entity\CurriculumInventoryReportInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use DateTime;

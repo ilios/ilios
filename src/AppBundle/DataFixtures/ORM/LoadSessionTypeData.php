@@ -4,8 +4,8 @@ namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-use Ilios\CoreBundle\Entity\SessionType;
-use Ilios\CoreBundle\Entity\SessionTypeInterface;
+use AppBundle\Entity\SessionType;
+use AppBundle\Entity\SessionTypeInterface;
 
 /**
  * Class LoadSessionTypeData

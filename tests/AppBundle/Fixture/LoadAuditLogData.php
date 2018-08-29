@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\Fixture;
 
-use Ilios\CoreBundle\Entity\AuditLog;
+use AppBundle\Entity\AuditLog;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;

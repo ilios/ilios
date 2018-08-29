@@ -2,7 +2,7 @@
 namespace Tests\CoreBundle\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\MeshConcept;
+use AppBundle\Entity\MeshConcept;
 use Ilios\CoreBundle\Traits\ConceptsEntity;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;

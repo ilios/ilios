@@ -2,10 +2,10 @@
 
 namespace AppBundle\Classes;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use AppBundle\Entity\CurriculumInventoryAcademicLevelInterface;
+use AppBundle\Entity\CurriculumInventoryReportInterface;
+use AppBundle\Entity\CurriculumInventorySequenceBlockInterface;
+use AppBundle\Entity\LearningMaterialInterface;
 use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;

@@ -9,9 +9,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Service\Directory;
 
 /**

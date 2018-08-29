@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\DepartmentInterface;
+use AppBundle\Entity\DepartmentInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Department extends AbstractVoter

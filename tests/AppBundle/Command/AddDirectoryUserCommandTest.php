@@ -25,9 +25,9 @@ class AddDirectoryUserCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManager');
+        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
+        $this->authenticationManager = m::mock('AppBundle\Entity\Manager\AuthenticationManager');
+        $this->schoolManager = m::mock('AppBundle\Entity\Manager\SchoolManager');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
 
         $command = new AddDirectoryUserCommand(
@@ -58,11 +58,11 @@ class AddDirectoryUserCommandTest extends TestCase
     
     public function testExecute()
     {
-        $school = m::mock('Ilios\CoreBundle\Entity\SchoolInterface');
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $school = m::mock('AppBundle\Entity\SchoolInterface');
+        $authentication = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('setUsername')->with('abc123')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock('AppBundle\Entity\UserInterface')
             ->shouldReceive('setFirstName')->with('first')
             ->shouldReceive('setLastName')->with('last')
             ->shouldReceive('setEmail')->with('email')
@@ -116,7 +116,7 @@ class AddDirectoryUserCommandTest extends TestCase
     
     public function testBadCampusId()
     {
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock('AppBundle\Entity\UserInterface')
             ->shouldReceive('getId')->andReturn(1)
             ->mock();
         $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn($user);

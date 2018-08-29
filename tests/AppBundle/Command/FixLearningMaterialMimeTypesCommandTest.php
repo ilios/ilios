@@ -2,8 +2,8 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\FixLearningMaterialMimeTypesCommand;
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use AppBundle\Entity\LearningMaterialInterface;
+use AppBundle\Entity\Manager\LearningMaterialManager;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;

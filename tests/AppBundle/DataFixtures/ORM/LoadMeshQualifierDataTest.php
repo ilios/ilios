@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\MeshQualifierInterface;
+use AppBundle\Entity\MeshQualifierInterface;
 
 /**
  * Class LoadMeshQualifierDataTest
@@ -14,7 +14,7 @@ class LoadMeshQualifierDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'Ilios\CoreBundle\Entity\Manager\MeshQualifierManager';
+        return 'AppBundle\Entity\Manager\MeshQualifierManager';
     }
 
     /**
