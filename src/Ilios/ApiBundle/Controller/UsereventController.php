@@ -4,7 +4,7 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Classes\UserEvent;
+use AppBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;

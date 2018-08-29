@@ -66,7 +66,7 @@ services:
 
     Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory:
         arguments:
-            $decoratorClassName: '\Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator'
+            $decoratorClassName: '\AppBundle\Classes\CurriculumInventoryReportDecorator'
 
     Ilios\CoreBundle\Service\Timestamper:
         tags:
@@ -75,7 +75,7 @@ services:
 
     Ilios\CoreBundle\Service\UserMaterialFactory:
         arguments:
-            $decoratorClassName: '\Ilios\CoreBundle\Classes\UserMaterial'
+            $decoratorClassName: '\AppBundle\Classes\UserMaterial'
 
     ilios.cache:
         class: 'Doctrine\Common\Cache\Cache'

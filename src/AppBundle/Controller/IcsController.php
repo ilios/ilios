@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use Ilios\CoreBundle\Classes\UserEvent;
+use AppBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialRelationshipInterface;

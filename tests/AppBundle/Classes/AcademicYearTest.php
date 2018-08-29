@@ -1,9 +1,9 @@
 <?php
-namespace Tests\CoreBundle\Classes;
+namespace Tests\AppBundle\Classes;
 
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
-use Ilios\CoreBundle\Classes\AcademicYear;
+use AppBundle\Classes\AcademicYear;
 
 class AcademicYearTest extends TestCase
 {

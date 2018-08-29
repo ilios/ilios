@@ -2,7 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\CoreBundle\Classes\AcademicYear;
+use AppBundle\Classes\AcademicYear;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

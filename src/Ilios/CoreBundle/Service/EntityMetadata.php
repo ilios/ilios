@@ -329,13 +329,13 @@ class EntityMetadata
             }
         }
 
-        $classPath = $kernel->locateResource('@IliosCoreBundle/Classes');
+        $classPath = $kernel->locateResource('@AppBundle/Classes');
         $finder = new Finder();
         $files = $finder->in($classPath)->files()->depth("== 0")->sortByName();
 
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
-            $class = 'Ilios\\CoreBundle\\Classes' . '\\' . $file->getBasename('.php');
+            $class = 'AppBundle\\Classes' . '\\' . $file->getBasename('.php');
             $annotation = $this->annotationReader->getClassAnnotation(
                 new \ReflectionClass($class),
                 'Ilios\ApiBundle\Annotation\DTO'

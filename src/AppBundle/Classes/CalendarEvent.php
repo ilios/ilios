@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Classes;
+namespace AppBundle\Classes;
 
 use Ilios\ApiBundle\Annotation as IS;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;

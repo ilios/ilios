@@ -1,20 +1,20 @@
 <?php
 
-namespace Ilios\CoreBundle\Classes;
+namespace AppBundle\Classes;
 
 use Ilios\ApiBundle\Annotation as IS;
 
 /**
- * Class SchoolEvent
+ * Class UserEvent
  *
  * @IS\DTO
  */
-class SchoolEvent extends CalendarEvent
+class UserEvent extends CalendarEvent
 {
     /**
      * @var int
      * @IS\Expose
      * @IS\Type("integer")
-     **/
-    public $school;
+     */
+    public $user;
 }

@@ -4,8 +4,8 @@ namespace Ilios\CoreBundle\Traits;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Ilios\CoreBundle\Classes\CalendarEvent;
-use Ilios\CoreBundle\Classes\UserMaterial;
+use AppBundle\Classes\CalendarEvent;
+use AppBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Service\UserMaterialFactory;
 
 /**

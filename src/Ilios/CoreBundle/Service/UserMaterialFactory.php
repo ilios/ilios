@@ -1,7 +1,7 @@
 <?php
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Classes\UserMaterial;
+use AppBundle\Classes\UserMaterial;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 

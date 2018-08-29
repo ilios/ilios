@@ -1,17 +1,17 @@
 <?php
-namespace Tests\CoreBundle\Classes;
+namespace Tests\AppBundle\Classes;
 
-use Ilios\CoreBundle\Classes\CalendarEvent;
-use Ilios\CoreBundle\Classes\UserEvent;
-use Ilios\CoreBundle\Classes\UserMaterial;
+use AppBundle\Classes\CalendarEvent;
+use AppBundle\Classes\UserEvent;
+use AppBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class UserEventTest
- * @package Tests\CoreBundle\Classes
- * @covers \Ilios\CoreBundle\Classes\CalendarEvent
- * @covers \Ilios\CoreBundle\Classes\UserEvent
+ * @package Tests\AppBundle\Classes
+ * @covers \AppBundle\Classes\CalendarEvent
+ * @covers \AppBundle\Classes\UserEvent
  */
 class UserEventTest extends TestCase
 {

@@ -9,7 +9,7 @@ use function Stringy\create as s;
 
 /**
  * Class LoggerQueueTest
- * @package Tests\CoreBundle\\Classes
+ * @package Tests\AppBundle\Classes
  */
 class ConfigTest extends TestCase
 {

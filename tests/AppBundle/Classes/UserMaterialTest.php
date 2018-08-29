@@ -1,13 +1,13 @@
 <?php
-namespace Tests\CoreBundle\Classes;
+namespace Tests\AppBundle\Classes;
 
-use Ilios\CoreBundle\Classes\UserMaterial;
+use AppBundle\Classes\UserMaterial;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class UserMaterialTest
- * @package Tests\CoreBundle\Classes
- * @covers \Ilios\CoreBundle\Classes\UserMaterial
+ * @package Tests\AppBundle\Classes
+ * @covers \AppBundle\Classes\UserMaterial
  */
 class UserMaterialTest extends TestCase
 {

@@ -3,9 +3,9 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Classes\CalendarEvent;
-use Ilios\CoreBundle\Classes\UserEvent;
-use Ilios\CoreBundle\Classes\UserMaterial;
+use AppBundle\Classes\CalendarEvent;
+use AppBundle\Classes\UserEvent;
+use AppBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Entity\Repository\UserRepository;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\DTO\UserDTO;

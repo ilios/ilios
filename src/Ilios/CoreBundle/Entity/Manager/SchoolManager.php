@@ -2,8 +2,8 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Ilios\CoreBundle\Classes\CalendarEvent;
-use Ilios\CoreBundle\Classes\SchoolEvent;
+use AppBundle\Classes\CalendarEvent;
+use AppBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Entity\Repository\SchoolRepository;
 use Ilios\CoreBundle\Service\UserMaterialFactory;
 use Symfony\Bridge\Doctrine\RegistryInterface;
