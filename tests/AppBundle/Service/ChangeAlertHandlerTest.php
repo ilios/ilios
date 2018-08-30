@@ -17,7 +17,7 @@ use AppBundle\Entity\Session;
 use AppBundle\Entity\User;
 use AppBundle\Service\ChangeAlertHandler;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * Class ChangeAlertHandlerTest

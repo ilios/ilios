@@ -18,8 +18,8 @@ class CourseClerkshipTypeTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadCourseClerkshipTypeData',
-            'Tests\CoreBundle\Fixture\LoadCourseData'
+            'Tests\AppBundle\Fixture\LoadCourseClerkshipTypeData',
+            'Tests\AppBundle\Fixture\LoadCourseData'
         ];
     }
 

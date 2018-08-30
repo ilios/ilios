@@ -23,7 +23,7 @@ class DataimportFileLocator
     /**
      * @var string Default data-files directory path.
      */
-    const DATAIMPORT_FILE_DIR = '@IliosCoreBundle/Resources/dataimport';
+    const DATAIMPORT_FILE_DIR = '@AppBundle/Resources/dataimport';
 
     /**
      * @param FileLocator $fileLocator

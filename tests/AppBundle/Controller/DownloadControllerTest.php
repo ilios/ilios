@@ -26,11 +26,11 @@ class DownloadControllerTest extends WebTestCase
     public function setUp()
     {
         $this->fixtures = $this->loadFixtures([
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadSessionDescriptionData',
+            'Tests\AppBundle\Fixture\LoadAuthenticationData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadSessionDescriptionData',
         ])->getReferenceRepository();
     }
 
@@ -46,7 +46,7 @@ class DownloadControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $learningMaterials = $client->getContainer()
-            ->get('Tests\CoreBundle\DataLoader\LearningMaterialData')
+            ->get('Tests\AppBundle\DataLoader\LearningMaterialData')
             ->getAll();
         $fileLearningMaterials = array_filter($learningMaterials, function ($arr) {
             return !empty($arr['filesize']);

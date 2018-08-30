@@ -22,11 +22,11 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadUserData',
-            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryReportData',
-            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryExportData',
-            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Tests\CoreBundle\Fixture\LoadCurriculumInventorySequenceData',
+            'Tests\AppBundle\Fixture\LoadUserData',
+            'Tests\AppBundle\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\AppBundle\Fixture\LoadCurriculumInventoryExportData',
+            'Tests\AppBundle\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Tests\AppBundle\Fixture\LoadCurriculumInventorySequenceData',
         ];
     }
 

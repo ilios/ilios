@@ -18,9 +18,9 @@ class DepartmentTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadDepartmentData',
-            'Tests\CoreBundle\Fixture\LoadSchoolData',
-            'Tests\CoreBundle\Fixture\LoadProgramYearStewardData'
+            'Tests\AppBundle\Fixture\LoadDepartmentData',
+            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\AppBundle\Fixture\LoadProgramYearStewardData'
         ];
     }
 

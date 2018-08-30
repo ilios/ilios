@@ -20,8 +20,8 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\AppBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'Tests\AppBundle\Fixture\LoadSessionData',
         ];
     }
 

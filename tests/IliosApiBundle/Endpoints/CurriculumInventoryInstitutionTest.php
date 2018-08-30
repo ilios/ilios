@@ -2,7 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\CoreBundle\DataLoader\SchoolData;
+use Tests\AppBundle\DataLoader\SchoolData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
@@ -19,8 +19,8 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Tests\CoreBundle\Fixture\LoadSchoolData',
+            'Tests\AppBundle\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Tests\AppBundle\Fixture\LoadSchoolData',
         ];
     }
 

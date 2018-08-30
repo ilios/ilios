@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\InputArgument;
  * Set a school configuration value in the DB
  *
  * Class SetConfigValueCommand
- * @package Ilios\CoreBundle\Command
+ * @package AppBundle\Command
  */
 class SetSchoolConfigValueCommand extends Command
 {

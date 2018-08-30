@@ -8,7 +8,7 @@ use Mockery as m;
 use AppBundle\EventListener\TrackApiUsageListener;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * Class TrackApiUsageListenerTest

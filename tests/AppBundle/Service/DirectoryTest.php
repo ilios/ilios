@@ -6,7 +6,7 @@ use AppBundle\Service\LdapManager;
 use Mockery as m;
 
 use AppBundle\Service\Directory;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 class DirectoryTest extends TestCase
 {

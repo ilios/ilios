@@ -5,7 +5,7 @@ use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
 use AppBundle\Service\TemporaryFileSystem;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 class TemporaryFileSystemTest extends TestCase
 {

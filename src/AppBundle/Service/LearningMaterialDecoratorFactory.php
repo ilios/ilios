@@ -85,7 +85,7 @@ class LearningMaterialDecoratorFactory
     {
         if ($learningMaterialDTO->filename) {
             $link = $this->router->generate(
-                'ilios_core_downloadlearningmaterial',
+                'ilios_downloadlearningmaterial',
                 ['token' => $learningMaterialDTO->token],
                 UrlGenerator::ABSOLUTE_URL
             );

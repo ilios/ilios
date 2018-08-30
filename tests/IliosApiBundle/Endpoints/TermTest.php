@@ -18,20 +18,20 @@ class TermTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadAamcResourceTypeData',
-            'Tests\CoreBundle\Fixture\LoadVocabularyData',
-            'Tests\CoreBundle\Fixture\LoadSchoolData',
-            'Tests\CoreBundle\Fixture\LoadCourseData',
-            'Tests\CoreBundle\Fixture\LoadProgramYearData',
-            'Tests\CoreBundle\Fixture\LoadSessionData',
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
-            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
-            'Tests\CoreBundle\Fixture\LoadObjectiveData',
-            'Tests\CoreBundle\Fixture\LoadTermData',
+            'Tests\AppBundle\Fixture\LoadAamcResourceTypeData',
+            'Tests\AppBundle\Fixture\LoadVocabularyData',
+            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\AppBundle\Fixture\LoadCourseData',
+            'Tests\AppBundle\Fixture\LoadProgramYearData',
+            'Tests\AppBundle\Fixture\LoadSessionData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadIlmSessionData',
+            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\AppBundle\Fixture\LoadObjectiveData',
+            'Tests\AppBundle\Fixture\LoadTermData',
         ];
     }
 

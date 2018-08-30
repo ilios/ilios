@@ -2,7 +2,7 @@
 
 namespace AppBundle\Traits;
 
-use Ilios\CoreBundle\Model\UserInterface;
+use AppBundle\Entity\UserInterface;
 
 /**
  * interface BlameableEntityInterface

@@ -16,7 +16,7 @@ class MeshTreeTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadMeshTreeData',
+            'Tests\AppBundle\Fixture\LoadMeshTreeData',
         ];
     }
 

@@ -10,7 +10,7 @@ use AppBundle\Entity\Offering;
 use AppBundle\Entity\Repository\DTORepositoryInterface;
 use AppBundle\Entity\Session;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * Tests for Entity AamcMethod

@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Service;
 use AppBundle\Service\CrossingGuard;
 use AppBundle\Service\IliosFileSystem;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 class CrossingGuardTest extends TestCase
 {

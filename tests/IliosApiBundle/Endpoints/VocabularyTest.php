@@ -18,8 +18,8 @@ class VocabularyTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadSchoolData',
-            'Tests\CoreBundle\Fixture\LoadVocabularyData',
+            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\AppBundle\Fixture\LoadVocabularyData',
         ];
     }
 

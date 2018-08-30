@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Get an application configuration value from the DB
  *
  * Class ListSchoolConfigValuesCommand
- * @package Ilios\CoreBundle\Command
+ * @package AppBundle\Command
  */
 class ListSchoolConfigValuesCommand extends Command
 {

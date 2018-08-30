@@ -43,7 +43,7 @@ use AppBundle\Entity\User;
 use Doctrine\Common\Collections\Collection;
 use Mockery as m;
 use \DateTime;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * Class CourseRolloverTest

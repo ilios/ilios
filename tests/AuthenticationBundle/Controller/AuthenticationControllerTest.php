@@ -25,7 +25,7 @@ class AuthenticationControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData'
+            'Tests\AppBundle\Fixture\LoadAuthenticationData'
         ]);
 
         $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $this->getContainer()->getParameter('kernel.secret');

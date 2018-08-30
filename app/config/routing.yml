@@ -13,18 +13,18 @@ ilios_apiinfo:
         template:    'AppBundle::apiinfo.html.twig'
         _format:     'html'
     
-ilios_core_uploadfile:
+ilios_uploadfile:
     path: /upload
     defaults:  { _controller: AppBundle:Upload:upload }
 
-ilios_core_downloadlearningmaterial:
+ilios_downloadlearningmaterial:
     path:     /lm/{token}
     defaults:
         _controller: AppBundle:Download:learningMaterial
     requirements:
         token: '^[a-zA-Z0-9]{64}$'
 
-ilios_core_downloadcurriculuminventoryreport:
+ilios_downloadcurriculuminventoryreport:
     path:     /ci-report-dl/{token}
     defaults:
         _controller: AppBundle:CurriculumInventoryDownload:get

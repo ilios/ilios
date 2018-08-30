@@ -7,7 +7,7 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use \Symfony\Component\HttpFoundation\File\File;
 
 use AppBundle\Service\IliosFileSystem;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 class IliosFileSystemTest extends TestCase
 {

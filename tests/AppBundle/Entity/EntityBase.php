@@ -6,7 +6,7 @@ use Faker\Factory;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
 use Symfony\Component\Validator\Validation;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * Class EntityBase

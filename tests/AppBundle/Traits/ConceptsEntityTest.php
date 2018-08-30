@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\MeshConcept;
 use AppBundle\Traits\ConceptsEntity;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * @coversDefaultClass \AppBundle\Traits\ConceptsEntity

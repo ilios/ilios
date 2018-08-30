@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Cohort;
 use AppBundle\Traits\CohortsEntity;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * @coversDefaultClass \AppBundle\Traits\CohortsEntity

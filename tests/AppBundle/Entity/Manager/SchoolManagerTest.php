@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Entity\Manager;
 use AppBundle\Entity\Manager\SchoolManager;
 use AppBundle\Service\UserMaterialFactory;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * Class SchoolManagerTest

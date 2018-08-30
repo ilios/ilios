@@ -13,7 +13,7 @@ class ApiControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData'
+            'Tests\AppBundle\Fixture\LoadAuthenticationData'
         ]);
     }
 

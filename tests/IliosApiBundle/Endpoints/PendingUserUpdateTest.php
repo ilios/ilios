@@ -24,7 +24,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadPendingUserUpdateData',
+            'Tests\AppBundle\Fixture\LoadPendingUserUpdateData',
         ];
     }
 

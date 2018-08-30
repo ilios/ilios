@@ -5,3 +5,6 @@ services:
             - '%kernel.logs_dir%/%kernel.environment%.log'
 
     Ilios\MeSH\Parser:
+
+    Alchemy\Zippy\Zippy:
+        factory: ['Alchemy\Zippy\Zippy', 'load']

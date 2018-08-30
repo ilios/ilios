@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
  * Get an application configuration value from the DB
  *
  * Class ListConfigValuesCommand
- * @package Ilios\CoreBundle\Command
+ * @package AppBundle\Command
  */
 class ListConfigValuesCommand extends Command
 {

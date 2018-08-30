@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Service;
 use AppBundle\Entity\Manager\ApplicationConfigManager;
 use AppBundle\Service\Config;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 use function Stringy\create as s;
 
 /**

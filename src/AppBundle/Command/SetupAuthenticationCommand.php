@@ -14,7 +14,7 @@ use Symfony\Component\Console\Question\Question;
  * Easy interface for setting up authentication parameters
  *
  * Class SetupAuthenticationCommand
- * @package Ilios\CoreBundle\Command
+ * @package AppBundle\Command
  */
 class SetupAuthenticationCommand extends Command
 {

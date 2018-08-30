@@ -3,7 +3,7 @@ namespace Tests\AppBundle\Entity\Manager;
 
 use AppBundle\Entity\Manager\CourseManager;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * Class CourseManagerTest

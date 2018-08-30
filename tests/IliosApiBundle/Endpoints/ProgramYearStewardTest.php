@@ -2,7 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\CoreBundle\DataLoader\DepartmentData;
+use Tests\AppBundle\DataLoader\DepartmentData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
@@ -19,10 +19,10 @@ class ProgramYearStewardTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
-            'Tests\CoreBundle\Fixture\LoadDepartmentData',
-            'Tests\CoreBundle\Fixture\LoadProgramYearData',
-            'Tests\CoreBundle\Fixture\LoadSchoolData'
+            'Tests\AppBundle\Fixture\LoadProgramYearStewardData',
+            'Tests\AppBundle\Fixture\LoadDepartmentData',
+            'Tests\AppBundle\Fixture\LoadProgramYearData',
+            'Tests\AppBundle\Fixture\LoadSchoolData'
         ];
     }
 

@@ -6,7 +6,7 @@ use AppBundle\Entity\LearningMaterialStatusInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\LearningMaterialData;
+use Tests\AppBundle\DataLoader\LearningMaterialData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
@@ -23,13 +23,13 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadSessionData',
-            'Tests\CoreBundle\Fixture\LoadCourseData',
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadSessionData',
+            'Tests\AppBundle\Fixture\LoadCourseData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
         ];
     }
 

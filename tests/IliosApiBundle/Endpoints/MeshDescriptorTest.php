@@ -16,17 +16,17 @@ class MeshDescriptorTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
-            'Tests\CoreBundle\Fixture\LoadCourseData',
-            'Tests\CoreBundle\Fixture\LoadObjectiveData',
-            'Tests\CoreBundle\Fixture\LoadSessionData',
-            'Tests\CoreBundle\Fixture\LoadMeshConceptData',
-            'Tests\CoreBundle\Fixture\LoadMeshTreeData',
-            'Tests\CoreBundle\Fixture\LoadMeshPreviousIndexingData',
-            'Tests\CoreBundle\Fixture\LoadMeshQualifierData',
-            'Tests\CoreBundle\Fixture\LoadMeshTermData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\AppBundle\Fixture\LoadCourseData',
+            'Tests\AppBundle\Fixture\LoadObjectiveData',
+            'Tests\AppBundle\Fixture\LoadSessionData',
+            'Tests\AppBundle\Fixture\LoadMeshConceptData',
+            'Tests\AppBundle\Fixture\LoadMeshTreeData',
+            'Tests\AppBundle\Fixture\LoadMeshPreviousIndexingData',
+            'Tests\AppBundle\Fixture\LoadMeshQualifierData',
+            'Tests\AppBundle\Fixture\LoadMeshTermData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
         ];
     }
 

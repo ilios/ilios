@@ -6,7 +6,7 @@ use AppBundle\Entity\ApplicationConfigInterface;
 
 /**
  * Class LoadApplicationConfigDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
+ * @package Tests\AppBundle\DataFixtures\ORM
  */
 class LoadApplicationConfigDataTest extends AbstractDataFixtureTest
 {

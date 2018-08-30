@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\User;
 use AppBundle\Traits\UsersEntity;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * @coversDefaultClass \AppBundle\Traits\UsersEntity

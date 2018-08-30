@@ -18,13 +18,13 @@ class LearnerGroupTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
-            'Tests\CoreBundle\Fixture\LoadCohortData',
-            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadUserData',
-            'Tests\CoreBundle\Fixture\LoadVocabularyData',
-            'Tests\CoreBundle\Fixture\LoadTermData',
+            'Tests\AppBundle\Fixture\LoadLearnerGroupData',
+            'Tests\AppBundle\Fixture\LoadCohortData',
+            'Tests\AppBundle\Fixture\LoadIlmSessionData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadUserData',
+            'Tests\AppBundle\Fixture\LoadVocabularyData',
+            'Tests\AppBundle\Fixture\LoadTermData',
         ];
     }
 

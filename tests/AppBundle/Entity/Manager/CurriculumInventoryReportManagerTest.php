@@ -7,7 +7,7 @@ use AppBundle\Entity\CurriculumInventoryReport;
 use AppBundle\Entity\Manager\CurriculumInventoryReportManager;
 use AppBundle\Entity\Repository\CurriculumInventoryReportRepository;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * Class CurriculumInventoryReportManagerTest

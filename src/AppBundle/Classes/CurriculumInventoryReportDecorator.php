@@ -130,7 +130,7 @@ class CurriculumInventoryReportDecorator
     public function __construct(CurriculumInventoryReportInterface $report, Router $router)
     {
         $this->absoluteFileUri = $router->generate(
-            'ilios_core_downloadcurriculuminventoryreport',
+            'ilios_downloadcurriculuminventoryreport',
             ['token' => $report->getToken()],
             UrlGenerator::ABSOLUTE_URL
         );

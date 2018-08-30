@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Service;
 use AppBundle\Service\LoggerQueue;
 use AppBundle\Entity\School;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * Class LoggerQueueTest

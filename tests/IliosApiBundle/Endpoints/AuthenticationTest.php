@@ -3,7 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\UserData;
+use Tests\AppBundle\DataLoader\UserData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
@@ -20,18 +20,18 @@ class AuthenticationTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
-            'Tests\CoreBundle\Fixture\LoadUserData',
-            'Tests\CoreBundle\Fixture\LoadAlertData',
-            'Tests\CoreBundle\Fixture\LoadCourseData',
-            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
-            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
-            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadPendingUserUpdateData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadReportData',
+            'Tests\AppBundle\Fixture\LoadAuthenticationData',
+            'Tests\AppBundle\Fixture\LoadUserData',
+            'Tests\AppBundle\Fixture\LoadAlertData',
+            'Tests\AppBundle\Fixture\LoadCourseData',
+            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadInstructorGroupData',
+            'Tests\AppBundle\Fixture\LoadLearnerGroupData',
+            'Tests\AppBundle\Fixture\LoadIlmSessionData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadPendingUserUpdateData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadReportData',
         ];
     }
 

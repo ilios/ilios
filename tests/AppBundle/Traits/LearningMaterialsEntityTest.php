@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\LearningMaterial;
 use AppBundle\Traits\LearningMaterialsEntity;
 use Mockery as m;
-use Tests\CoreBundle\TestCase;
+use Tests\AppBundle\TestCase;
 
 /**
  * @coversDefaultClass \AppBundle\Traits\LearningMaterialsEntity

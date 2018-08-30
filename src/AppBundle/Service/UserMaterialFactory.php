@@ -37,7 +37,7 @@ class UserMaterialFactory
     ) {
         if (array_key_exists('filename', $material) && !empty($material['filename'])) {
             $absoluteFileUri = $this->router->generate(
-                'ilios_core_downloadlearningmaterial',
+                'ilios_downloadlearningmaterial',
                 ['token' => $material['token']],
                 UrlGenerator::ABSOLUTE_URL
             );
