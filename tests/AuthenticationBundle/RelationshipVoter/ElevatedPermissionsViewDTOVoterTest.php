@@ -12,7 +12,7 @@ use AppBundle\Entity\DTO\LearnerGroupDTO;
 use AppBundle\Entity\DTO\OfferingDTO;
 use AppBundle\Entity\DTO\PendingUserUpdateDTO;
 use AppBundle\Entity\DTO\UserDTO;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

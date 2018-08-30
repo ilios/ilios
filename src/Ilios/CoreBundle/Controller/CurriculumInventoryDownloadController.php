@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Controller;
 
 use AppBundle\Entity\Manager\CurriculumInventoryExportManager;
 use AppBundle\Entity\Manager\CurriculumInventoryReportManager;
-use Ilios\CoreBundle\Service\CurriculumInventory\Exporter;
+use AppBundle\Service\CurriculumInventory\Exporter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;

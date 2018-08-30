@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\EventSubscriber;
 
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;

@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Command;
 use AppBundle\Command\SyncFormerStudentsCommand;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\Manager\UserRoleManager;
-use Ilios\CoreBundle\Service\Directory;
+use AppBundle\Service\Directory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Doctrine\Common\Collections\ArrayCollection;

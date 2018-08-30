@@ -2,7 +2,7 @@
 
 namespace AppBundle\Command;
 
-use Ilios\CoreBundle\Service\EntityMetadata;
+use AppBundle\Service\EntityMetadata;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

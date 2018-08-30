@@ -4,7 +4,7 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Service\CourseRollover;
+use AppBundle\Service\CourseRollover;
 use AppBundle\Entity\CourseInterface;
 use AppBundle\Entity\Manager\CourseManager;
 use AppBundle\Exception\InvalidInputWithSafeUserMessageException;

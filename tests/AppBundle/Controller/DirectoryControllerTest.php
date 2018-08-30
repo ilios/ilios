@@ -7,7 +7,7 @@ use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use AppBundle\Entity\DTO\UserDTO;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\Directory;
+use AppBundle\Service\Directory;
 use AppBundle\Controller\DirectoryController;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;

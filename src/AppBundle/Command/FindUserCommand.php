@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 
-use Ilios\CoreBundle\Service\Directory;
+use AppBundle\Service\Directory;
 
 /**
  * Find a user in the directory

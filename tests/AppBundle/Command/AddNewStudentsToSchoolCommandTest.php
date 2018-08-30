@@ -34,7 +34,7 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
         $this->userRoleManager = m::mock(UserRoleManager::class);
         $this->schoolManager = m::mock(SchoolManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
-        $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
+        $this->directory = m::mock('AppBundle\Service\Directory');
         
         $command = new AddNewStudentsToSchoolCommand(
             $this->userManager,

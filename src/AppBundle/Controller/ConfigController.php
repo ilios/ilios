@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

@@ -5,7 +5,7 @@ namespace AppBundle\Entity\Manager;
 use AppBundle\Classes\CalendarEvent;
 use AppBundle\Classes\SchoolEvent;
 use AppBundle\Entity\Repository\SchoolRepository;
-use Ilios\CoreBundle\Service\UserMaterialFactory;
+use AppBundle\Service\UserMaterialFactory;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**

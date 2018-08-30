@@ -161,3 +161,53 @@ services:
     AppBundle\EventListener\RemoveOrphanedObjectives:
         tags:
         - { name: doctrine.event_listener, event: onFlush }
+
+
+    ilios.cache:
+      class: 'Doctrine\Common\Cache\Cache'
+      factory: ['AppBundle\Service\CacheFactory', 'createCache']
+      arguments:
+        $environment: '%kernel.environment%'
+
+    AppBundle\Service\EntityMetadata:
+      arguments:
+        $cache: '@ilios.cache'
+
+    AppBundle\Service\Config:
+      public: true
+
+    AppBundle\Service\DataimportFileLocator:
+      public: true
+
+    AppBundle\Service\Filesystem:
+      public: true
+
+    AppBundle\Service\Directory:
+      public: true
+
+    AppBundle\Service\TemporaryFileSystem:
+      arguments:
+        $kernelRootDirectory: '%kernel.root_dir%'
+
+    AppBundle\Service\LoggerQueue:
+      public: true
+      tags:
+      - { name: kernel.event_listener, event: kernel.response, method: flush }
+      - { name: kernel.event_listener, event: console.terminate, method: flush }
+
+    AppBundle\Service\CurriculumInventoryReportDecoratorFactory:
+      arguments:
+        $decoratorClassName: '\AppBundle\Classes\CurriculumInventoryReportDecorator'
+
+    AppBundle\Service\Timestamper:
+      tags:
+      - { name: kernel.event_listener, event: kernel.response, method: flush }
+      - { name: kernel.event_listener, event: console.terminate, method: flush }
+
+    AppBundle\Service\UserMaterialFactory:
+      arguments:
+        $decoratorClassName: '\AppBundle\Classes\UserMaterial'
+
+    AppBundle\Service\CrossingGuard:
+      tags:
+      - { name: kernel.event_listener, event: kernel.request, priority: 256 }

@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\Manager\AuthenticationManager;
 use AppBundle\Entity\Manager\PendingUserUpdateManager;
-use Ilios\CoreBundle\Service\Directory;
+use AppBundle\Service\Directory;
 
 /**
  * Sync a user with their directory information

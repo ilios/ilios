@@ -12,7 +12,7 @@ use AppBundle\Classes\UserMaterial;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserInterface;
 use AppBundle\Entity\DTO\UserDTO;
-use Ilios\CoreBundle\Service\UserMaterialFactory;
+use AppBundle\Service\UserMaterialFactory;
 use AppBundle\Traits\CalendarEventRepository;
 
 /**

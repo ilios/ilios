@@ -2,7 +2,7 @@
 namespace Tests\AppBundle\Entity\Manager;
 
 use AppBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Service\UserMaterialFactory;
+use AppBundle\Service\UserMaterialFactory;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;
 

@@ -13,7 +13,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use AppBundle\Entity\Manager\UserRoleManager;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\Directory;
+use AppBundle\Service\Directory;
 
 /**
  * Syncs former students from the directory.

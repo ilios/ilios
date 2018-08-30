@@ -7,7 +7,7 @@ use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use AppBundle\Entity\Authentication;
 use AppBundle\Entity\School;
 use AppBundle\Entity\User;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

@@ -44,7 +44,7 @@ use AppBundle\Entity\DTO\SessionTypeDTO;
 use AppBundle\Entity\DTO\TermDTO;
 use AppBundle\Entity\DTO\UserRoleDTO;
 use AppBundle\Entity\DTO\VocabularyDTO;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

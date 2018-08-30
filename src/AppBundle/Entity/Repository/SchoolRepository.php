@@ -8,7 +8,7 @@ use Doctrine\ORM\QueryBuilder;
 use AppBundle\Classes\CalendarEvent;
 use AppBundle\Classes\SchoolEvent;
 use AppBundle\Entity\DTO\SchoolDTO;
-use Ilios\CoreBundle\Service\UserMaterialFactory;
+use AppBundle\Service\UserMaterialFactory;
 use AppBundle\Traits\CalendarEventRepository;
 
 /**

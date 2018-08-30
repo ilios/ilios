@@ -7,7 +7,7 @@ use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use AppBundle\Entity\Report;
 use AppBundle\Entity\DTO\ReportDTO;
 use AppBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

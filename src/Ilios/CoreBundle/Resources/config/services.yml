@@ -14,59 +14,10 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    Ilios\CoreBundle\Service\EntityMetadata:
-        arguments:
-          $cache: '@ilios.cache'
-
-    Ilios\CoreBundle\Service\Config:
-        public: true
-
-    Ilios\CoreBundle\Service\DataimportFileLocator:
-        public: true
-
-    Ilios\CoreBundle\Service\Filesystem:
-        public: true
-
-    Ilios\CoreBundle\Service\Directory:
-      public: true
-
-    Ilios\CoreBundle\Service\TemporaryFileSystem:
-        arguments:
-          $kernelRootDirectory: '%kernel.root_dir%'
-
-    Ilios\CoreBundle\Service\LoggerQueue:
-        public: true
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: flush }
-            - { name: kernel.event_listener, event: console.terminate, method: flush }
-
-    Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory:
-        arguments:
-            $decoratorClassName: '\AppBundle\Classes\CurriculumInventoryReportDecorator'
-
-    Ilios\CoreBundle\Service\Timestamper:
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: flush }
-            - { name: kernel.event_listener, event: console.terminate, method: flush }
-
-    Ilios\CoreBundle\Service\UserMaterialFactory:
-        arguments:
-            $decoratorClassName: '\AppBundle\Classes\UserMaterial'
-
-    ilios.cache:
-        class: 'Doctrine\Common\Cache\Cache'
-        factory: ['Ilios\CoreBundle\Service\CacheFactory', 'createCache']
-        arguments:
-            $environment: '%kernel.environment%'
-
     Ilios\CoreBundle\Controller\ExceptionController:
         public: true
         arguments:
             $environment: '%kernel.environment%'
-
-    Ilios\CoreBundle\Service\CrossingGuard:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 256 }
 
     Alchemy\Zippy\Zippy:
         factory: ['Alchemy\Zippy\Zippy', 'load']

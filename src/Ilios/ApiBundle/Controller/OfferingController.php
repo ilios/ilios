@@ -7,7 +7,7 @@ use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Entity\OfferingInterface;
 use AppBundle\Entity\SessionInterface;
 use AppBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\ChangeAlertHandler;
+use AppBundle\Service\ChangeAlertHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -3,7 +3,7 @@ namespace AppBundle\EventListener;
 
 use Happyr\GoogleAnalyticsBundle\Service\Tracker;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;

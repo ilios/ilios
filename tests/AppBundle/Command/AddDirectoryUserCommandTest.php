@@ -28,7 +28,7 @@ class AddDirectoryUserCommandTest extends TestCase
         $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
         $this->authenticationManager = m::mock('AppBundle\Entity\Manager\AuthenticationManager');
         $this->schoolManager = m::mock('AppBundle\Entity\Manager\SchoolManager');
-        $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
+        $this->directory = m::mock('AppBundle\Service\Directory');
 
         $command = new AddDirectoryUserCommand(
             $this->userManager,

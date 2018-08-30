@@ -17,7 +17,7 @@ use AppBundle\Entity\Session;
 use AppBundle\Entity\SessionType;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;

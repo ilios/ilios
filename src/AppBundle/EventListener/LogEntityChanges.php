@@ -4,7 +4,7 @@ namespace AppBundle\EventListener;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
 use AppBundle\Entity\LoggableEntityInterface;
-use Ilios\CoreBundle\Service\LoggerQueue;
+use AppBundle\Service\LoggerQueue;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**

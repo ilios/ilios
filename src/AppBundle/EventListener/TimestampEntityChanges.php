@@ -2,7 +2,7 @@
 namespace AppBundle\EventListener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Ilios\CoreBundle\Service\Timestamper;
+use AppBundle\Service\Timestamper;
 use AppBundle\Traits\TimestampableEntityInterface;
 use AppBundle\Traits\OfferingsEntityInterface;
 use AppBundle\Entity\SessionStampableInterface;

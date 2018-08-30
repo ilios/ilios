@@ -2,7 +2,7 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\CrossingGuardCommand;
-use Ilios\CoreBundle\Service\CrossingGuard;
+use AppBundle\Service\CrossingGuard;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -21,7 +21,7 @@ class CrossingGuardCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->crossingGuard = m::mock('Ilios\CoreBundle\Service\CrossingGuard');
+        $this->crossingGuard = m::mock('AppBundle\Service\CrossingGuard');
 
         $command = new CrossingGuardCommand(
             $this->crossingGuard

@@ -4,8 +4,8 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Entity\CurriculumInventoryReportInterface;
-use Ilios\CoreBundle\Service\CurriculumInventory\ReportRollover;
-use Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory;
+use AppBundle\Service\CurriculumInventory\ReportRollover;
+use AppBundle\Service\CurriculumInventoryReportDecoratorFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

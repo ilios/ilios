@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Ilios\CoreBundle\Service\CrossingGuard;
+use AppBundle\Service\CrossingGuard;
 
 /**
  * Enable, disable, and check the status of the crossing guard service

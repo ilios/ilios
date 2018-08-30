@@ -38,7 +38,7 @@ class RolloverCurriculumInventoryReportCommandTest extends TestCase
      */
     public function setUp()
     {
-        $this->service = m::mock('Ilios\CoreBundle\Service\CurriculumInventory\ReportRollover');
+        $this->service = m::mock('AppBundle\Service\CurriculumInventory\ReportRollover');
         $this->reportManager = m::mock('AppBundle\Entity\Manager\CurriculumInventoryReportManager');
         $command = new RolloverCurriculumInventoryReportCommand($this->reportManager, $this->service);
         $application = new Application();

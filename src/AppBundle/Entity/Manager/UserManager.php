@@ -9,7 +9,7 @@ use AppBundle\Classes\UserMaterial;
 use AppBundle\Entity\Repository\UserRepository;
 use AppBundle\Entity\UserInterface;
 use AppBundle\Entity\DTO\UserDTO;
-use Ilios\CoreBundle\Service\UserMaterialFactory;
+use AppBundle\Service\UserMaterialFactory;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**

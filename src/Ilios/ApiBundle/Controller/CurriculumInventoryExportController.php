@@ -7,7 +7,7 @@ use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Entity\CurriculumInventoryExportInterface;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\CurriculumInventory\Exporter;
+use AppBundle\Service\CurriculumInventory\Exporter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

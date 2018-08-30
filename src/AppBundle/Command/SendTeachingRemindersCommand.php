@@ -6,7 +6,7 @@ use AppBundle\Entity\Manager\OfferingManager;
 use AppBundle\Entity\OfferingInterface;
 use AppBundle\Entity\SchoolInterface;
 use AppBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

@@ -13,7 +13,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\Manager\SchoolManager;
 use AppBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Service\Directory;
+use AppBundle\Service\Directory;
 
 /**
  * Adds all the users in the directory to a school with the student role

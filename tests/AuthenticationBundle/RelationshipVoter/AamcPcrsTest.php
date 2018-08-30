@@ -5,7 +5,7 @@ use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\AamcPcrs as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use AppBundle\Entity\AamcPcrs;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

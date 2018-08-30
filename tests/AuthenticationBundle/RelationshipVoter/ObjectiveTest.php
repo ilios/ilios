@@ -13,7 +13,7 @@ use AppBundle\Entity\Program;
 use AppBundle\Entity\ProgramYear;
 use AppBundle\Entity\Session;
 use AppBundle\Entity\School;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

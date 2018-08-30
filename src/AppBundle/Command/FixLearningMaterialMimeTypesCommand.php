@@ -10,7 +10,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 use AppBundle\Entity\Manager\LearningMaterialManager;
-use Ilios\CoreBundle\Service\IliosFileSystem;
+use AppBundle\Service\IliosFileSystem;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Form;
 
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Symfony\Component\Security\Core\Encoder\BasePasswordEncoder;
 
 /**

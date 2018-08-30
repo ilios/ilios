@@ -3,11 +3,11 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Service\IliosFileSystem;
-use Ilios\CoreBundle\Service\TemporaryFileSystem;
+use AppBundle\Service\IliosFileSystem;
+use AppBundle\Service\TemporaryFileSystem;
 use AppBundle\Entity\LearningMaterialInterface;
 use AppBundle\Entity\Manager\LearningMaterialManager;
-use Ilios\CoreBundle\Service\LearningMaterialDecoratorFactory;
+use AppBundle\Service\LearningMaterialDecoratorFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;

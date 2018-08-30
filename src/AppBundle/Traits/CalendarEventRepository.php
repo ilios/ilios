@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Classes\CalendarEvent;
 use AppBundle\Classes\UserMaterial;
-use Ilios\CoreBundle\Service\UserMaterialFactory;
+use AppBundle\Service\UserMaterialFactory;
 
 /**
  * Class CalendarEventRepository

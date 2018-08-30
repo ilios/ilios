@@ -6,7 +6,7 @@ use Ilios\AuthenticationBundle\RelationshipVoter\ApplicationConfig as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use AppBundle\Entity\ApplicationConfig;
 use AppBundle\Entity\DTO\ApplicationConfigDTO;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

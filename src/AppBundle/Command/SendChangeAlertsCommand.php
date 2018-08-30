@@ -8,7 +8,7 @@ use AppBundle\Entity\Manager\AuditLogManager;
 use AppBundle\Entity\Manager\AlertManager;
 use AppBundle\Entity\Manager\OfferingManager;
 use AppBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

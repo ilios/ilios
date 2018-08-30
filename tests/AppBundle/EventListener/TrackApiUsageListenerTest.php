@@ -2,7 +2,7 @@
 namespace Tests\AppBundle\EventListener;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Mockery as m;
 
 use AppBundle\EventListener\TrackApiUsageListener;

@@ -3,15 +3,15 @@
 namespace AppBundle\Command;
 
 use Alchemy\Zippy\Zippy;
-use Ilios\CoreBundle\Service\Config;
-use Ilios\CoreBundle\Service\Fetch;
+use AppBundle\Service\Config;
+use AppBundle\Service\Fetch;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
-use Ilios\CoreBundle\Service\Filesystem;
+use AppBundle\Service\Filesystem;
 
 /**
  * Pull down asset archive from AWS and extract it so

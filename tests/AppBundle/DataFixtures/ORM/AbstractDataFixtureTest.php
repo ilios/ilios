@@ -4,7 +4,7 @@ namespace Tests\AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Manager\ManagerInterface;
 
-use Ilios\CoreBundle\Service\DataimportFileLocator;
+use AppBundle\Service\DataimportFileLocator;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;

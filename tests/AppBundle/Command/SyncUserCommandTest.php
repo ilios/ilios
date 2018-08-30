@@ -33,7 +33,7 @@ class SyncUserCommandTest extends TestCase
         $this->userManager = m::mock(UserManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
         $this->pendingUserUpdateManager = m::mock(PendingUserUpdateManager::class);
-        $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
+        $this->directory = m::mock('AppBundle\Service\Directory');
         
         $command = new SyncUserCommand(
             $this->userManager,

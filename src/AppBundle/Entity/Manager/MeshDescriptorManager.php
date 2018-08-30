@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity\Manager;
 
-use Ilios\CoreBundle\Service\MeshDescriptorSetTransmogrifier;
+use AppBundle\Service\MeshDescriptorSetTransmogrifier;
 use AppBundle\Entity\MeshDescriptorInterface;
 use AppBundle\Entity\Repository\MeshDescriptorRepository;
 use Ilios\MeSH\Model\DescriptorSet;

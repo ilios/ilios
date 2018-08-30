@@ -2,7 +2,7 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\ValidateLearningMaterialPathsCommand;
-use Ilios\CoreBundle\Service\IliosFileSystem;
+use AppBundle\Service\IliosFileSystem;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;

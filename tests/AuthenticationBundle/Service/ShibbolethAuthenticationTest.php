@@ -7,7 +7,7 @@ use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use AppBundle\Entity\AuthenticationInterface;
 use AppBundle\Entity\Manager\AuthenticationManager;
 use AppBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;

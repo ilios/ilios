@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
-use Ilios\CoreBundle\Service\TemporaryFileSystem as FileSystem;
+use AppBundle\Service\TemporaryFileSystem as FileSystem;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 

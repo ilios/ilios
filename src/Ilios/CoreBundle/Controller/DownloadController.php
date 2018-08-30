@@ -2,7 +2,7 @@
 namespace Ilios\CoreBundle\Controller;
 
 use AppBundle\Entity\Manager\LearningMaterialManager;
-use Ilios\CoreBundle\Service\IliosFileSystem;
+use AppBundle\Service\IliosFileSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

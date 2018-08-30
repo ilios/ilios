@@ -32,7 +32,7 @@ class SyncAllUsersCommandTest extends TestCase
         $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
         $this->authenticationManager = m::mock('AppBundle\Entity\Manager\AuthenticationManager');
         $this->pendingUserUpdateManager = m::mock('AppBundle\Entity\Manager\PendingUserUpdateManager');
-        $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
+        $this->directory = m::mock('AppBundle\Service\Directory');
         $this->em = m::mock(EntityManagerInterface::class);
         
         $command = new SyncAllUsersCommand(

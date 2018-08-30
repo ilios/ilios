@@ -11,7 +11,7 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 use AppBundle\Entity\Manager\LearningMaterialManager;
-use Ilios\CoreBundle\Service\IliosFileSystem;
+use AppBundle\Service\IliosFileSystem;
 
 /**
  * Migrate Learning materials from Ilios2 location to Ilios3 location

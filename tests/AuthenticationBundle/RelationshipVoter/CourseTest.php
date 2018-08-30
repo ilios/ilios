@@ -6,7 +6,7 @@ use Ilios\AuthenticationBundle\RelationshipVoter\Course as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\School;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

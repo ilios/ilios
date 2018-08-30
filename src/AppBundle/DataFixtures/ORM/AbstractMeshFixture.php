@@ -6,7 +6,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Manager\MeshDescriptorManager;
-use Ilios\CoreBundle\Service\DataimportFileLocator;
+use AppBundle\Service\DataimportFileLocator;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

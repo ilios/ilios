@@ -12,7 +12,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use AppBundle\Entity\Manager\AuthenticationManager;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Service\Directory;
+use AppBundle\Service\Directory;
 
 /**
  * Add a user by looking them up in the directory

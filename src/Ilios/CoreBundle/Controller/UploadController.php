@@ -1,7 +1,7 @@
 <?php
 namespace Ilios\CoreBundle\Controller;
 
-use Ilios\CoreBundle\Service\TemporaryFileSystem;
+use AppBundle\Service\TemporaryFileSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
