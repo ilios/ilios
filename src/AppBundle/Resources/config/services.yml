@@ -24,7 +24,6 @@ services:
             $apiVersion: '%ilios_api_version%'
             $environment: '%kernel.environment%'
 
-
     AppBundle\Entity\Manager\AlertManager:
         public: true
         arguments:
@@ -144,3 +143,21 @@ services:
         public: true
         arguments:
             $class: 'AppBundle\Entity\UserRole'
+
+    AppBundle\EventListener\LogEntityChanges:
+        tags:
+        - { name: doctrine.event_listener, event: onFlush }
+        calls:
+        - [ setContainer, ['@service_container'] ]
+
+    AppBundle\EventListener\TrackApiUsageListener:
+        tags:
+        - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    AppBundle\EventListener\TimestampEntityChanges:
+        tags:
+        - { name: doctrine.event_listener, event: onFlush }
+
+    AppBundle\EventListener\RemoveOrphanedObjectives:
+        tags:
+        - { name: doctrine.event_listener, event: onFlush }

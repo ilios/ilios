@@ -1,11 +1,11 @@
 <?php
-namespace Tests\CoreBundle\EventListener;
+namespace Tests\AppBundle\EventListener;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Service\Config;
 use Mockery as m;
 
-use Ilios\CoreBundle\EventListener\TrackApiUsageListener;
+use AppBundle\EventListener\TrackApiUsageListener;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Tests\CoreBundle\TestCase;
@@ -99,7 +99,7 @@ class TrackApiUsageListenerTest extends TestCase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\EventListener\TrackApiUsageListener::onKernelController
+     * @covers \AppBundle\EventListener\TrackApiUsageListener::onKernelController
      */
     public function testTrackingIsDisabled()
     {
@@ -118,7 +118,7 @@ class TrackApiUsageListenerTest extends TestCase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\EventListener\TrackApiUsageListener::onKernelController
+     * @covers \AppBundle\EventListener\TrackApiUsageListener::onKernelController
      */
     public function testTracking()
     {
@@ -155,7 +155,7 @@ class TrackApiUsageListenerTest extends TestCase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\EventListener\TrackApiUsageListener::onKernelController
+     * @covers \AppBundle\EventListener\TrackApiUsageListener::onKernelController
      */
     public function testTrackingFailure()
     {

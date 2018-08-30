@@ -1,5 +1,5 @@
 <?php
-namespace Ilios\CoreBundle\EventListener;
+namespace AppBundle\EventListener;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;

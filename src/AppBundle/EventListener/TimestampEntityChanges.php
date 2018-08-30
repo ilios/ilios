@@ -1,5 +1,5 @@
 <?php
-namespace Ilios\CoreBundle\EventListener;
+namespace AppBundle\EventListener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Ilios\CoreBundle\Service\Timestamper;

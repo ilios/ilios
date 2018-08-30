@@ -18,24 +18,6 @@ services:
         arguments:
           $cache: '@ilios.cache'
 
-    Ilios\CoreBundle\EventListener\LogEntityChanges:
-        tags:
-            - { name: doctrine.event_listener, event: onFlush }
-        calls:
-            - [ setContainer, ['@service_container'] ]
-
-    Ilios\CoreBundle\EventListener\TrackApiUsageListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-
-    Ilios\CoreBundle\EventListener\TimestampEntityChanges:
-        tags:
-          - { name: doctrine.event_listener, event: onFlush }
-
-    Ilios\CoreBundle\EventListener\RemoveOrphanedObjectives:
-        tags:
-          - { name: doctrine.event_listener, event: onFlush }
-
     Ilios\CoreBundle\Service\Config:
         public: true
 

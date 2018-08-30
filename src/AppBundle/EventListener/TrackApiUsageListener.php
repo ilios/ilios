@@ -1,5 +1,5 @@
 <?php
-namespace Ilios\CoreBundle\EventListener;
+namespace AppBundle\EventListener;
 
 use Happyr\GoogleAnalyticsBundle\Service\Tracker;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
