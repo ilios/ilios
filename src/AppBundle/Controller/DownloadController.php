@@ -1,5 +1,5 @@
 <?php
-namespace Ilios\CoreBundle\Controller;
+namespace AppBundle\Controller;
 
 use AppBundle\Entity\Manager\LearningMaterialManager;
 use AppBundle\Service\IliosFileSystem;

@@ -1,5 +1,5 @@
 <?php
-namespace Tests\CoreBundle\Controller;
+namespace Tests\AppBundle\Controller;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;

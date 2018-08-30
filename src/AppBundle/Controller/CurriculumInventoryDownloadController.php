@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Controller;
+namespace AppBundle\Controller;
 
 use AppBundle\Entity\Manager\CurriculumInventoryExportManager;
 use AppBundle\Entity\Manager\CurriculumInventoryReportManager;

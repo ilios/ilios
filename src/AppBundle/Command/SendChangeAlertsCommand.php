@@ -233,6 +233,6 @@ class SendChangeAlertsCommand extends Command
                 return $path;
             }
         }
-        return 'IliosCoreBundle:Email:' .self::DEFAULT_TEMPLATE_NAME;
+        return 'AppBundle:Email:' .self::DEFAULT_TEMPLATE_NAME;
     }
 }

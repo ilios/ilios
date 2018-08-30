@@ -1,5 +1,5 @@
 <?php
-namespace Ilios\CoreBundle\Controller;
+namespace AppBundle\Controller;
 
 use AppBundle\Service\TemporaryFileSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Controller;
+namespace AppBundle\Controller;
 
 use AppBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Component\HttpFoundation\Request;

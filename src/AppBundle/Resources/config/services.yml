@@ -17,6 +17,11 @@ services:
     AppBundle\Entity\Manager\:
         resource: '../../Entity/Manager'
 
+    AppBundle\Controller\ExceptionController:
+      public: true
+      arguments:
+        $environment: '%kernel.environment%'
+
     AppBundle\Command\UpdateFrontendCommand:
         arguments:
             $kernelCacheDir: '%kernel.cache_dir%'

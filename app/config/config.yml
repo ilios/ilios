@@ -44,7 +44,7 @@ twig:
     strict_variables: '%kernel.debug%'
     paths:
         '%kernel.root_dir%/../custom/email_templates': custom_email_templates
-    exception_controller:  Ilios\CoreBundle\Controller\ExceptionController:showAction
+    exception_controller:  AppBundle\Controller\ExceptionController:showAction
 
 # Doctrine Configuration
 doctrine:

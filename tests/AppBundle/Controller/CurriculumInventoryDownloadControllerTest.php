@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\CoreBundle\Controller;
+namespace Tests\AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\Traits\JsonControllerTest;
@@ -31,7 +31,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\Controller\CurriculumInventoryDownloadController::getAction
+     * @covers \AppBundle\Controller\CurriculumInventoryDownloadController::getAction
      */
     public function testGetCurriculumInventoryDownload()
     {

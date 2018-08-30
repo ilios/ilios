@@ -60,7 +60,7 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
             ->addArgument(
                 'entityShortcut',
                 InputArgument::REQUIRED,
-                'The name of an entity e.g. IliosCoreBundle:Session.'
+                'The name of an entity e.g. AppBundle:Session.'
             );
     }
 
