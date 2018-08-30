@@ -7,7 +7,7 @@ services:
 
     Ilios\CoreBundle\:
         resource: '../../*'
-        exclude: '../../{Entity,Exception,Controller}'
+        exclude: '../../{Entity,Controller}'
 
     Ilios\CoreBundle\Controller\:
         resource: '../../Controller'

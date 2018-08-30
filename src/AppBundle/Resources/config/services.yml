@@ -7,7 +7,7 @@ services:
 
     AppBundle\:
         resource: '../../*'
-        exclude: '../../{Entity}'
+        exclude: '../../{Entity,Exception}'
 
     AppBundle\Controller\:
         resource: '../../Controller'

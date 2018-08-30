@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Controller;
 
-use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
+use AppBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Debug\Exception\FlattenException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Exception;
+namespace AppBundle\Exception;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 

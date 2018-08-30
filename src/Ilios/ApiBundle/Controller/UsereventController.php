@@ -7,7 +7,7 @@ use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Classes\UserEvent;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
+use AppBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
