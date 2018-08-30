@@ -4,11 +4,13 @@ namespace Ilios\AuthenticationBundle\Service;
 
 use Ilios\CoreBundle\Service\Config;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ShibbolethAuthentication
@@ -173,5 +175,22 @@ class ShibbolethAuthentication implements AuthenticationInterface
         $configuration['loginUrl'] = $url . $this->loginPath;
 
         return $configuration;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createAuthenticationResponse(Request $request): Response
+    {
+        $applicationId = $request->server->get('Shib-Application-ID');
+        if (!$applicationId) {
+            $configuration = $this->getPublicConfigurationInformation($request);
+            $url = $configuration['loginUrl'] . "?target=" . $request->getRequestUri();
+            return RedirectResponse::create(
+                $url
+            );
+        }
+
+        return new Response();
     }
 }

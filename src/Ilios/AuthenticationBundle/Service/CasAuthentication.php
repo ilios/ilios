@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -146,5 +147,13 @@ class CasAuthentication implements AuthenticationInterface
         $configuration['casLoginUrl'] = $this->casManager->getLoginUrl();
 
         return $configuration;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createAuthenticationResponse(Request $request): Response
+    {
+        return new Response();
     }
 }

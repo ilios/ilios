@@ -4,6 +4,7 @@ namespace Ilios\AuthenticationBundle\Service;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 interface AuthenticationInterface
 {
@@ -31,4 +32,14 @@ interface AuthenticationInterface
      * @return array
      */
     public function getPublicConfigurationInformation(Request $request);
+
+    /**
+     * Attempt to authenticate the user and send either an empty Response
+     * or a redirect response for SSO auth.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function createAuthenticationResponse(Request $request): Response;
 }
