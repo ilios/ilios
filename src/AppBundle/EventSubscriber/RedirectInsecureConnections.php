@@ -1,5 +1,5 @@
 <?php
-namespace Ilios\CoreBundle\EventSubscriber;
+namespace AppBundle\EventSubscriber;
 
 use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
