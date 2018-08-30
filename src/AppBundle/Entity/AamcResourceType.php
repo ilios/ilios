@@ -5,11 +5,11 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\CategorizableEntity;
-use Ilios\CoreBundle\Traits\DescribableEntity;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Traits\TitledEntity;
+use AppBundle\Traits\CategorizableEntity;
+use AppBundle\Traits\DescribableEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\TitledEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 

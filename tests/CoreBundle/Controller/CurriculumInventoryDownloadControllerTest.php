@@ -3,7 +3,7 @@
 namespace Tests\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**

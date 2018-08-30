@@ -5,9 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
-use Ilios\CoreBundle\Traits\SortableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\MeshDescriptorsEntityInterface;
+use AppBundle\Traits\SortableEntityInterface;
 
 /**
  * Interface LearningMaterialRelationshipInterface

@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\StringableIdEntity;
 
 /**
  * Class MeshPreviousIndexing

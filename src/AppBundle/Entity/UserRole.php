@@ -3,16 +3,16 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\UsersEntity;
+use AppBundle\Traits\UsersEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\TitledEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\TitledEntity;
+use AppBundle\Traits\StringableIdEntity;
 use AppBundle\Entity\UserInterface;
 
 /**

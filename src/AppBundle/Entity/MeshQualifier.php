@@ -8,10 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\NameableEntity;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Traits\TimestampableEntity;
+use AppBundle\Traits\NameableEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\TimestampableEntity;
 
 /**
  * Class MeshQualifier

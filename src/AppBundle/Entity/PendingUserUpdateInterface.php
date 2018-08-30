@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface PendingUserUpdateInterface

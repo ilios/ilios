@@ -8,8 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\StringableIdEntity;
 
 /**
  * Class MeshTree

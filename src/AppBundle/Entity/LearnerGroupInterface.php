@@ -5,14 +5,14 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\IlmSessionsEntityInterface;
-use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
-use Ilios\CoreBundle\Traits\InstructorsEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
-use Ilios\CoreBundle\Traits\UsersEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\IlmSessionsEntityInterface;
+use AppBundle\Traits\InstructorGroupsEntityInterface;
+use AppBundle\Traits\InstructorsEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\OfferingsEntityInterface;
+use AppBundle\Traits\UsersEntityInterface;
 
 /**
  * Interface GroupInterface

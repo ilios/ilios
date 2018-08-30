@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\SchoolEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
-use Ilios\CoreBundle\Traits\StewardedEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\SchoolEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\StewardedEntityInterface;
 
 /**
  * Interface DepartmentInterface

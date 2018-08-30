@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
 
 /**
  * Class MeshTreeInterface

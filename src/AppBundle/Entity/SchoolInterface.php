@@ -5,18 +5,18 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\AdministratorsEntityInterface;
-use Ilios\CoreBundle\Traits\AlertableEntityInterface;
-use Ilios\CoreBundle\Traits\CompetenciesEntityInterface;
-use Ilios\CoreBundle\Traits\DirectorsEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
-use Ilios\CoreBundle\Traits\SessionTypesEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Traits\CoursesEntityInterface;
-use Ilios\CoreBundle\Traits\ProgramsEntityInterface;
-use Ilios\CoreBundle\Traits\StewardedEntityInterface;
+use AppBundle\Traits\AdministratorsEntityInterface;
+use AppBundle\Traits\AlertableEntityInterface;
+use AppBundle\Traits\CompetenciesEntityInterface;
+use AppBundle\Traits\DirectorsEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\InstructorGroupsEntityInterface;
+use AppBundle\Traits\SessionTypesEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\CoursesEntityInterface;
+use AppBundle\Traits\ProgramsEntityInterface;
+use AppBundle\Traits\StewardedEntityInterface;
 
 /**
  * Interface SchoolInterface

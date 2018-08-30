@@ -4,12 +4,12 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Ilios\CoreBundle\Traits\AdministratorsEntityInterface;
-use Ilios\CoreBundle\Traits\DescribableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\NameableEntityInterface;
-use Ilios\CoreBundle\Traits\SequenceBlocksEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\AdministratorsEntityInterface;
+use AppBundle\Traits\DescribableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\NameableEntityInterface;
+use AppBundle\Traits\SequenceBlocksEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
 
 /**
  * Interface CurriculumInventoryReportInterface

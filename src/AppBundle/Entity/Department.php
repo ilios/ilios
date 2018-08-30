@@ -7,11 +7,11 @@ use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\TitledEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Traits\SchoolEntity;
-use Ilios\CoreBundle\Traits\StewardedEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\TitledEntity;
+use AppBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\SchoolEntity;
+use AppBundle\Traits\StewardedEntity;
 
 /**
  * Class Department

@@ -4,9 +4,9 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
-use Ilios\CoreBundle\Traits\UsersEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\UsersEntityInterface;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

@@ -9,8 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\CurriculumInventoryReportInterface;
 use AppBundle\Entity\UserInterface;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\StringableIdEntity;
 
 /**
  * Class CurriculumInventoryExport

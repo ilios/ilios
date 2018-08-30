@@ -5,23 +5,23 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\AdministratorsEntity;
-use Ilios\CoreBundle\Traits\CategorizableEntity;
-use Ilios\CoreBundle\Traits\CohortsEntity;
-use Ilios\CoreBundle\Traits\DirectorsEntity;
-use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
-use Ilios\CoreBundle\Traits\ObjectivesEntity;
-use Ilios\CoreBundle\Traits\PublishableEntity;
+use AppBundle\Traits\AdministratorsEntity;
+use AppBundle\Traits\CategorizableEntity;
+use AppBundle\Traits\CohortsEntity;
+use AppBundle\Traits\DirectorsEntity;
+use AppBundle\Traits\MeshDescriptorsEntity;
+use AppBundle\Traits\ObjectivesEntity;
+use AppBundle\Traits\PublishableEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\ArchivableEntity;
-use Ilios\CoreBundle\Traits\LockableEntity;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\TitledEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Traits\SessionsEntity;
-use Ilios\CoreBundle\Traits\SchoolEntity;
+use AppBundle\Traits\ArchivableEntity;
+use AppBundle\Traits\LockableEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\TitledEntity;
+use AppBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\SessionsEntity;
+use AppBundle\Traits\SchoolEntity;
 
 /**
  * Class Course

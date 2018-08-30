@@ -5,17 +5,17 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Ilios\CoreBundle\Traits\DirectorsEntity;
-use Ilios\CoreBundle\Traits\PublishableEntity;
+use AppBundle\Traits\DirectorsEntity;
+use AppBundle\Traits\PublishableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\ApiBundle\Annotation as IS;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\TitledEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Traits\ProgramYearsEntity;
-use Ilios\CoreBundle\Traits\SchoolEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\TitledEntity;
+use AppBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\ProgramYearsEntity;
+use AppBundle\Traits\SchoolEntity;
 
 /**
  * Class Program

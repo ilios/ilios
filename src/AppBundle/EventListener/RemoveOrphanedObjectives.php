@@ -9,7 +9,7 @@ use AppBundle\Entity\CourseInterface;
 use AppBundle\Entity\Objective;
 use AppBundle\Entity\ProgramYearInterface;
 use AppBundle\Entity\SessionInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Doctrine event listener.

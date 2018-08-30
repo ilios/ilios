@@ -3,13 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\SchoolEntity;
+use AppBundle\Traits\SchoolEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\TitledEntity;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\TitledEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\StringableIdEntity;
 
 /**
  * Class Report

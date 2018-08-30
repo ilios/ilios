@@ -2,9 +2,9 @@
 
 namespace AppBundle\Entity;
 
-use Ilios\CoreBundle\Traits\BlameableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
+use AppBundle\Traits\BlameableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\TimestampableEntityInterface;
 
 use AppBundle\Entity\CurriculumInventoryReportInterface;
 

@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Ilios\CoreBundle\Traits\DescribableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\DescribableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface SessionDescriptionInterface

@@ -7,7 +7,7 @@ use Firebase\JWT\JWT;
 use DateTime;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
 class AuthenticationControllerTest extends WebTestCase

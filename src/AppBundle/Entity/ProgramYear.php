@@ -3,21 +3,21 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\CategorizableEntity;
-use Ilios\CoreBundle\Traits\CompetenciesEntity;
-use Ilios\CoreBundle\Traits\DirectorsEntity;
-use Ilios\CoreBundle\Traits\ObjectivesEntity;
-use Ilios\CoreBundle\Traits\PublishableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\CategorizableEntity;
+use AppBundle\Traits\CompetenciesEntity;
+use AppBundle\Traits\DirectorsEntity;
+use AppBundle\Traits\ObjectivesEntity;
+use AppBundle\Traits\PublishableEntity;
+use AppBundle\Traits\StringableIdEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\ArchivableEntity;
-use Ilios\CoreBundle\Traits\LockableEntity;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StewardedEntity;
+use AppBundle\Traits\ArchivableEntity;
+use AppBundle\Traits\LockableEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\StewardedEntity;
 
 /**
  * Class ProgramYear

@@ -3,22 +3,22 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\AdministratorsEntity;
-use Ilios\CoreBundle\Traits\CategorizableEntity;
-use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
-use Ilios\CoreBundle\Traits\ObjectivesEntity;
-use Ilios\CoreBundle\Traits\PublishableEntity;
-use Ilios\CoreBundle\Traits\SequenceBlocksEntity;
+use AppBundle\Traits\AdministratorsEntity;
+use AppBundle\Traits\CategorizableEntity;
+use AppBundle\Traits\MeshDescriptorsEntity;
+use AppBundle\Traits\ObjectivesEntity;
+use AppBundle\Traits\PublishableEntity;
+use AppBundle\Traits\SequenceBlocksEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\ApiBundle\Annotation as IS;
-use Ilios\CoreBundle\Traits\TitledEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Traits\TimestampableEntity;
-use Ilios\CoreBundle\Traits\OfferingsEntity;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\TitledEntity;
+use AppBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\TimestampableEntity;
+use AppBundle\Traits\OfferingsEntity;
+use AppBundle\Traits\IdentifiableEntity;
 
 /**
  * Class Session

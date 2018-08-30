@@ -3,19 +3,19 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\IlmSessionsEntity;
-use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
-use Ilios\CoreBundle\Traits\UsersEntity;
+use AppBundle\Traits\IlmSessionsEntity;
+use AppBundle\Traits\LearnerGroupsEntity;
+use AppBundle\Traits\UsersEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\TitledEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Traits\OfferingsEntity;
-use Ilios\CoreBundle\Traits\SchoolEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\TitledEntity;
+use AppBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\OfferingsEntity;
+use AppBundle\Traits\SchoolEntity;
 
 /**
  * Class InstructorGroup

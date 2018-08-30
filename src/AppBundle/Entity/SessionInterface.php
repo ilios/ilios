@@ -5,17 +5,17 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\AdministratorsEntityInterface;
-use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
-use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
-use Ilios\CoreBundle\Traits\PublishableEntityInterface;
-use Ilios\CoreBundle\Traits\SequenceBlocksEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
-use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
+use AppBundle\Traits\AdministratorsEntityInterface;
+use AppBundle\Traits\CategorizableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\MeshDescriptorsEntityInterface;
+use AppBundle\Traits\ObjectivesEntityInterface;
+use AppBundle\Traits\PublishableEntityInterface;
+use AppBundle\Traits\SequenceBlocksEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\TimestampableEntityInterface;
+use AppBundle\Traits\OfferingsEntityInterface;
 
 /**
  * Interface SessionInterface

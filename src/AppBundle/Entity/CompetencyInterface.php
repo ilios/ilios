@@ -5,16 +5,16 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\ActivatableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\ActivatableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
 
 use AppBundle\Entity\AamcPcrsInterface;
 use AppBundle\Entity\SchoolInterface;
 use AppBundle\Entity\ProgramYearInterface;
-use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
-use Ilios\CoreBundle\Traits\SchoolEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
-use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
+use AppBundle\Traits\ObjectivesEntityInterface;
+use AppBundle\Traits\SchoolEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\ProgramYearsEntityInterface;
 
 /**
  * Interface CompetencyInterface

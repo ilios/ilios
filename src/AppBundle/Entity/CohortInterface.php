@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
 
-use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
-use Ilios\CoreBundle\Traits\CoursesEntityInterface;
-use Ilios\CoreBundle\Traits\UsersEntityInterface;
+use AppBundle\Traits\LearnerGroupsEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\CoursesEntityInterface;
+use AppBundle\Traits\UsersEntityInterface;
 
 /**
  * Interface CohortInterface

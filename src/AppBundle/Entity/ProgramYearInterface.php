@@ -5,15 +5,15 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
-use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
-use Ilios\CoreBundle\Traits\CompetenciesEntityInterface;
-use Ilios\CoreBundle\Traits\DirectorsEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\LockableEntityInterface;
-use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
-use Ilios\CoreBundle\Traits\PublishableEntityInterface;
-use Ilios\CoreBundle\Traits\StewardedEntityInterface;
+use AppBundle\Traits\ArchivableEntityInterface;
+use AppBundle\Traits\CategorizableEntityInterface;
+use AppBundle\Traits\CompetenciesEntityInterface;
+use AppBundle\Traits\DirectorsEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\LockableEntityInterface;
+use AppBundle\Traits\ObjectivesEntityInterface;
+use AppBundle\Traits\PublishableEntityInterface;
+use AppBundle\Traits\StewardedEntityInterface;
 
 /**
  * Interface ProgramYearInterface

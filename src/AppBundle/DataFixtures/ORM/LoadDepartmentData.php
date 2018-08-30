@@ -6,7 +6,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use AppBundle\Entity\Department;
 use AppBundle\Entity\DepartmentInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Class LoadDepartmentData

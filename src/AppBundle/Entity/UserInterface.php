@@ -4,17 +4,17 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Traits\AlertableEntityInterface;
-use Ilios\CoreBundle\Traits\CohortsEntityInterface;
-use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
-use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
-use Ilios\CoreBundle\Traits\LearningMaterialsEntityInterface;
+use AppBundle\Traits\AlertableEntityInterface;
+use AppBundle\Traits\CohortsEntityInterface;
+use AppBundle\Traits\InstructorGroupsEntityInterface;
+use AppBundle\Traits\LearnerGroupsEntityInterface;
+use AppBundle\Traits\LearningMaterialsEntityInterface;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
-use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
-use Ilios\CoreBundle\Traits\SchoolEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\OfferingsEntityInterface;
+use AppBundle\Traits\ProgramYearsEntityInterface;
+use AppBundle\Traits\SchoolEntityInterface;
 
 /**
  * Interface UserInterface

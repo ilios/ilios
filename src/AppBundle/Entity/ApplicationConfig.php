@@ -4,12 +4,12 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\ApiBundle\Annotation as IS;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\StringableIdEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\NameableEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\NameableEntity;
 
 /**
  * Class ApplicationConfig

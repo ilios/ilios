@@ -6,7 +6,7 @@ use AppBundle\Entity\ProgramYearInterface;
 use AppBundle\Entity\ProgramYearSteward;
 use AppBundle\Entity\ProgramYearStewardInterface;
 use AppBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Traits\SchoolEntityInterface;
+use AppBundle\Traits\SchoolEntityInterface;
 
 /**
  * Class ProgramYearStewardManager

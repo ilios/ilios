@@ -3,20 +3,20 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\ConceptsEntity;
-use Ilios\CoreBundle\Traits\ObjectivesEntity;
+use AppBundle\Traits\ConceptsEntity;
+use AppBundle\Traits\ObjectivesEntity;
 use Ilios\ApiBundle\Annotation as IS;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\NameableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Traits\TimestampableEntity;
-use Ilios\CoreBundle\Traits\CoursesEntity;
-use Ilios\CoreBundle\Traits\SessionsEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\NameableEntity;
+use AppBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\TimestampableEntity;
+use AppBundle\Traits\CoursesEntity;
+use AppBundle\Traits\SessionsEntity;
 
 /**
  * Class MeshDescriptor

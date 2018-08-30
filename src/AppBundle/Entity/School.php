@@ -4,23 +4,23 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Ilios\CoreBundle\Traits\AdministratorsEntity;
-use Ilios\CoreBundle\Traits\AlertableEntity;
-use Ilios\CoreBundle\Traits\CompetenciesEntity;
-use Ilios\CoreBundle\Traits\DirectorsEntity;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
-use Ilios\CoreBundle\Traits\SessionTypesEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\AdministratorsEntity;
+use AppBundle\Traits\AlertableEntity;
+use AppBundle\Traits\CompetenciesEntity;
+use AppBundle\Traits\DirectorsEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\InstructorGroupsEntity;
+use AppBundle\Traits\SessionTypesEntity;
+use AppBundle\Traits\StringableIdEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\TitledEntity;
-use Ilios\CoreBundle\Traits\CoursesEntity;
-use Ilios\CoreBundle\Traits\ProgramsEntity;
-use Ilios\CoreBundle\Traits\StewardedEntity;
+use AppBundle\Traits\TitledEntity;
+use AppBundle\Traits\CoursesEntity;
+use AppBundle\Traits\ProgramsEntity;
+use AppBundle\Traits\StewardedEntity;
 
 /**
  * Class School

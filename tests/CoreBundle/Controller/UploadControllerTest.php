@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 
 /**
  * Upload controller Test.

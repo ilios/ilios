@@ -4,12 +4,12 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Ilios\CoreBundle\Traits\ActivatableEntityInterface;
-use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\SchoolEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\ActivatableEntityInterface;
+use AppBundle\Traits\CategorizableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\SchoolEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface VocabularyInterface

@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Ilios\CoreBundle\Traits\DescribableEntityInterface;
+use AppBundle\Traits\DescribableEntityInterface;
 
 /**
  * Interface CurriculumInventorySequenceInterface

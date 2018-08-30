@@ -2,8 +2,8 @@
 
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\TimestampableEntityInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class Timestamper

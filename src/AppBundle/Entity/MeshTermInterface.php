@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
-use Ilios\CoreBundle\Traits\ConceptsEntityInterface;
-use Ilios\CoreBundle\Traits\NameableEntityInterface;
-use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\ConceptsEntityInterface;
+use AppBundle\Traits\NameableEntityInterface;
+use AppBundle\Traits\TimestampableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface MeshTermInterface

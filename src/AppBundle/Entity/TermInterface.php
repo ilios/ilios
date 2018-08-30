@@ -4,14 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Ilios\CoreBundle\Traits\ActivatableEntityInterface;
-use Ilios\CoreBundle\Traits\CoursesEntityInterface;
-use Ilios\CoreBundle\Traits\DescribableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
-use Ilios\CoreBundle\Traits\SessionsEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\ActivatableEntityInterface;
+use AppBundle\Traits\CoursesEntityInterface;
+use AppBundle\Traits\DescribableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\ProgramYearsEntityInterface;
+use AppBundle\Traits\SessionsEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface TermInterface

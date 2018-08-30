@@ -6,13 +6,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 
-use Ilios\CoreBundle\Traits\ConceptsEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\NameableEntityInterface;
-use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
-use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
-use Ilios\CoreBundle\Traits\CoursesEntityInterface;
-use Ilios\CoreBundle\Traits\SessionsEntityInterface;
+use AppBundle\Traits\ConceptsEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\NameableEntityInterface;
+use AppBundle\Traits\ObjectivesEntityInterface;
+use AppBundle\Traits\TimestampableEntityInterface;
+use AppBundle\Traits\CoursesEntityInterface;
+use AppBundle\Traits\SessionsEntityInterface;
 
 /**
  * Interface MeshDescriptorInterface

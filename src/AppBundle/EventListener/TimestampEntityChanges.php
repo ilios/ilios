@@ -3,8 +3,8 @@ namespace AppBundle\EventListener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Ilios\CoreBundle\Service\Timestamper;
-use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
-use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
+use AppBundle\Traits\TimestampableEntityInterface;
+use AppBundle\Traits\OfferingsEntityInterface;
 use AppBundle\Entity\SessionStampableInterface;
 
 /**

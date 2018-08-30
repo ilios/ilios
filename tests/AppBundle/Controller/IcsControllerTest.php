@@ -6,7 +6,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\SessionData;
 use Tests\CoreBundle\DataLoader\UserData;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 
 /**
  * Class ConfigControllerTest

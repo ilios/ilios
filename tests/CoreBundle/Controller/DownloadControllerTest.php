@@ -5,7 +5,7 @@ use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 
 /**
  * Download controller Test.

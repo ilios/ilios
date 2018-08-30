@@ -4,9 +4,9 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Ilios\CoreBundle\Traits\NameableEntityInterface;
-use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\NameableEntityInterface;
+use AppBundle\Traits\TimestampableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface MeshConceptInterface

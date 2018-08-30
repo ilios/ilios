@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Tests\CoreBundle\DataLoader\DataLoaderInterface;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Util\Inflector;
 use Faker\Factory as FakerFactory;

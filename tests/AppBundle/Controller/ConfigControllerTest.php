@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Fixture\LoadApplicationConfigData;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 
 /**
  * Class ConfigControllerTest

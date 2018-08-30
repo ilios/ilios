@@ -4,7 +4,7 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\AamcResourceType;
 use AppBundle\Entity\AamcResourceTypeInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Class LoadAamcResourceTypeData

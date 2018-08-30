@@ -5,20 +5,20 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\AdministratorsEntityInterface;
-use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
-use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
-use Ilios\CoreBundle\Traits\CohortsEntityInterface;
-use Ilios\CoreBundle\Traits\DirectorsEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\LockableEntityInterface;
-use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
-use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
-use Ilios\CoreBundle\Traits\PublishableEntityInterface;
-use Ilios\CoreBundle\Traits\SchoolEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Traits\SessionsEntityInterface;
+use AppBundle\Traits\AdministratorsEntityInterface;
+use AppBundle\Traits\ArchivableEntityInterface;
+use AppBundle\Traits\CategorizableEntityInterface;
+use AppBundle\Traits\CohortsEntityInterface;
+use AppBundle\Traits\DirectorsEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\LockableEntityInterface;
+use AppBundle\Traits\MeshDescriptorsEntityInterface;
+use AppBundle\Traits\ObjectivesEntityInterface;
+use AppBundle\Traits\PublishableEntityInterface;
+use AppBundle\Traits\SchoolEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\SessionsEntityInterface;
 
 /**
  * Interface CourseInterface

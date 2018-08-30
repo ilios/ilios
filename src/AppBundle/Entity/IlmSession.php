@@ -3,18 +3,18 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
-use Ilios\CoreBundle\Traits\InstructorsEntity;
-use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
-use Ilios\CoreBundle\Traits\LearnersEntity;
-use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
+use AppBundle\Traits\InstructorGroupsEntity;
+use AppBundle\Traits\InstructorsEntity;
+use AppBundle\Traits\LearnerGroupsEntity;
+use AppBundle\Traits\LearnersEntity;
+use AppBundle\Traits\SessionConsolidationEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\StringableIdEntity;
 
 /**
  * Class IlmSession

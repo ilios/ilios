@@ -9,7 +9,7 @@ use AppBundle\Classes\CalendarEvent;
 use AppBundle\Classes\SchoolEvent;
 use AppBundle\Entity\DTO\SchoolDTO;
 use Ilios\CoreBundle\Service\UserMaterialFactory;
-use Ilios\CoreBundle\Traits\CalendarEventRepository;
+use AppBundle\Traits\CalendarEventRepository;
 
 /**
  * Class SchoolRepository

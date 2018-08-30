@@ -3,21 +3,21 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\AlertableEntity;
-use Ilios\CoreBundle\Traits\CohortsEntity;
-use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
-use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
-use Ilios\CoreBundle\Traits\LearningMaterialsEntity;
+use AppBundle\Traits\AlertableEntity;
+use AppBundle\Traits\CohortsEntity;
+use AppBundle\Traits\InstructorGroupsEntity;
+use AppBundle\Traits\LearnerGroupsEntity;
+use AppBundle\Traits\LearningMaterialsEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Traits\OfferingsEntity;
-use Ilios\CoreBundle\Traits\ProgramYearsEntity;
-use Ilios\CoreBundle\Traits\SchoolEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\OfferingsEntity;
+use AppBundle\Traits\ProgramYearsEntity;
+use AppBundle\Traits\SchoolEntity;
 
 /**
  * Class User

@@ -5,11 +5,11 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
-use Ilios\CoreBundle\Traits\InstructorsEntityInterface;
-use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
-use Ilios\CoreBundle\Traits\LearnersEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\InstructorGroupsEntityInterface;
+use AppBundle\Traits\InstructorsEntityInterface;
+use AppBundle\Traits\LearnerGroupsEntityInterface;
+use AppBundle\Traits\LearnersEntityInterface;
 
 /**
  * Interface IlmSessionInterface

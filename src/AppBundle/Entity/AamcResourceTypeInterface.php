@@ -2,11 +2,11 @@
 
 namespace AppBundle\Entity;
 
-use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
-use Ilios\CoreBundle\Traits\DescribableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\CategorizableEntityInterface;
+use AppBundle\Traits\DescribableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface AamcResourceTypeInterface

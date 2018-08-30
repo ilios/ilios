@@ -5,10 +5,10 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\AlertableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Traits\TitledEntityInterface;
+use AppBundle\Traits\AlertableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\StringableEntityInterface;
+use AppBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface AlertChangeTypeInterface

@@ -2,11 +2,11 @@
 
 namespace AppBundle\Entity;
 
-use Ilios\CoreBundle\Traits\DescribableEntityInterface;
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\NameableEntityInterface;
+use AppBundle\Traits\DescribableEntityInterface;
+use AppBundle\Traits\IdentifiableEntityInterface;
+use AppBundle\Traits\NameableEntityInterface;
 use Doctrine\Common\Collections\Collection;
-use Ilios\CoreBundle\Traits\SequenceBlocksEntityInterface;
+use AppBundle\Traits\SequenceBlocksEntityInterface;
 
 /**
  * Interface CurriculumInventoryAcademicLevelInterface

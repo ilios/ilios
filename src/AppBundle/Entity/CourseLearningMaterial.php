@@ -4,14 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\LearningMaterialRelationshipEntity;
-use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
-use Ilios\CoreBundle\Traits\SortableEntity;
+use AppBundle\Traits\LearningMaterialRelationshipEntity;
+use AppBundle\Traits\MeshDescriptorsEntity;
+use AppBundle\Traits\SortableEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
+use AppBundle\Traits\IdentifiableEntity;
+use AppBundle\Traits\StringableIdEntity;
 
 /**
  * Class CourseLearningMaterial
