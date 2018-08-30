@@ -77,10 +77,6 @@ services:
         class: AppBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'AppBundle\Entity\Program'
-    AppBundle\Entity\Manager\ProgramYearManager:
-        class: AppBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'AppBundle\Entity\ProgramYear'
     AppBundle\Entity\Manager\ReportManager:
         class: AppBundle\Entity\Manager\BaseManager
         arguments:
