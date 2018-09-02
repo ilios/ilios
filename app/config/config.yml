@@ -131,12 +131,16 @@ happyr_google_analytics:
 
 liip_monitor:
     enable_controller: true
+    default_group: default
     checks:
-      php_extensions: [apcu, mbstring, ldap, xml, dom, mysqli, mysqlnd, pdo, zip]
-      php_version:
-        7.2: ">="
-      readable_directory: ["%kernel.cache_dir%"]
-      writable_directory: ["%kernel.cache_dir%"]
-      disk_usage:
-        path: '%env(ILIOS_FILE_SYSTEM_STORAGE_PATH)%'
-      doctrine_dbal: [default]
+      groups:
+        default:
+          php_extensions: [apcu, mbstring, ldap, xml, dom, mysqli, mysqlnd, pdo, zip, json, zlib]
+          php_version:
+            7.2: ">="
+          readable_directory: ["%kernel.cache_dir%"]
+          writable_directory: ["%kernel.cache_dir%"]
+          disk_usage:
+            path: '%env(ILIOS_FILE_SYSTEM_STORAGE_PATH)%'
+        production:
+          doctrine_dbal: [default]
