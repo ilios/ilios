@@ -135,9 +135,9 @@ liip_monitor:
     checks:
       groups:
         default:
-          php_extensions: [apcu, mbstring, ldap, xml, dom, mysqli, mysqlnd, pdo, zip, json, zlib]
+          php_extensions: [apcu, mbstring, ldap, xml, dom, mysqlnd, pdo, zip, json, zlib]
           php_version:
-            7.2: ">="
+            "7.2": ">="
           readable_directory: ["%kernel.cache_dir%"]
           writable_directory: ["%kernel.cache_dir%"]
           disk_usage:

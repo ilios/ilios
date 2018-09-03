@@ -66,6 +66,7 @@ script:
 - if [ "$TEST_CONTAINER_BUILD" = true ]; then (docker build -t ilios-php-apache-test .) fi
 - if [ "$TEST_CONTAINER_BUILD" = true ]; then (docker run -d --name ilios-php-apache-test ilios-php-apache-test) fi
 - if [ "$TEST_CONTAINER_BUILD" = true ]; then (docker ps | grep -q ilios-php-apache-test) fi
+- if [ "$TEST_CONTAINER_BUILD" = true ]; then (docker exec ilios-php-apache-test php /var/www/ilios/bin/console monitor:health) fi
 notifications:
   slack:
     secure: Aw/KYBBltksyk0cPOyB9ZGjtmtYWkcns5AgsZmv1FiTUT2BYVc06yQ0LGQGQDHeNs7Zi8l0BtxhJv0gtwdnYydvwiUckR3ZRjTV7//1ni8XzzyO612ArwVKA1LHTVKm8zy3PcW3XobKtI0QlQZ/jPJ2yk8nbcXJ7XnCXyFq7OyI=
