@@ -131,12 +131,23 @@ happyr_google_analytics:
 
 liip_monitor:
     enable_controller: true
+    default_group: default
     checks:
-      php_extensions: [apcu, mbstring, ldap, xml, dom, mysqli, mysqlnd, pdo, zip]
-      php_version:
-        7.2: ">="
-      readable_directory: ["%kernel.cache_dir%"]
-      writable_directory: ["%kernel.cache_dir%"]
-      disk_usage:
-        path: '%env(ILIOS_FILE_SYSTEM_STORAGE_PATH)%'
-      doctrine_dbal: [default]
+      groups:
+        default:
+          php_extensions: [apcu, mbstring, ldap, xml, dom, mysqlnd, pdo, zip, json, zlib]
+          php_version:
+            "7.2": ">="
+          readable_directory: ["%kernel.cache_dir%"]
+          writable_directory: ["%kernel.cache_dir%"]
+#          Disabled for now as create_function throws warnings we should re-enabled once we move to SymfonyFlex where there is an update
+#          symfony_requirements:
+#            file:  '%kernel.root_dir%/../var/SymfonyRequirements.php'
+          disk_usage:
+            path: '%env(ILIOS_FILE_SYSTEM_STORAGE_PATH)%'
+          security_advisory:
+        production:
+          doctrine_dbal: [default]
+          doctrine_migrations:
+            migrations_with_doctrine_bundle:
+              connection: default
