@@ -2296,16 +2296,16 @@
         },
         {
             "name": "happyr/google-analytics-bundle",
-            "version": "4.0.2",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Happyr/GoogleAnalyticsBundle.git",
-                "reference": "869868a3bc9e914eea1936c57f366e731dce7549"
+                "reference": "06f814d2c83c2c2183cf58cdea194b820c4dd26d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Happyr/GoogleAnalyticsBundle/zipball/869868a3bc9e914eea1936c57f366e731dce7549",
-                "reference": "869868a3bc9e914eea1936c57f366e731dce7549",
+                "url": "https://api.github.com/repos/Happyr/GoogleAnalyticsBundle/zipball/06f814d2c83c2c2183cf58cdea194b820c4dd26d",
+                "reference": "06f814d2c83c2c2183cf58cdea194b820c4dd26d",
                 "shasum": ""
             },
             "require": {
@@ -2314,12 +2314,12 @@
                 "php-http/httplug": "^1.0",
                 "php-http/message-factory": "^1.0",
                 "psr/cache": "^1.0",
-                "symfony/framework-bundle": "^2.7 || ^3.0"
+                "symfony/framework-bundle": "^2.7 || ^3.0 || ^4.0"
             },
             "require-dev": {
                 "matthiasnoback/symfony-dependency-injection-test": "^1.0",
                 "phpunit/phpunit": "^4.5 || ^5.4",
-                "symfony/symfony": "^2.7 || ^3.0"
+                "symfony/symfony": "^2.7 || ^3.0 || ^4.0"
             },
             "suggest": {
                 "happyr/google-site-authenticator-bundle": "To be able to fetch data from google analytics.",
@@ -2348,7 +2348,7 @@
                 "google",
                 "google analytics"
             ],
-            "time": "2017-08-02T16:55:15+00:00"
+            "time": "2018-05-21T14:25:36+00:00"
         },
         {
             "name": "ilios/mesh-parser",
@@ -4634,20 +4634,20 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.4.14",
+            "version": "v3.4.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "f50e17fa4edd6216f7fe5b908f04e64ba1d19a9e"
+                "reference": "5bb5c2d4b0d5cf10672015b68519a199e6ac27c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/f50e17fa4edd6216f7fe5b908f04e64ba1d19a9e",
-                "reference": "f50e17fa4edd6216f7fe5b908f04e64ba1d19a9e",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/5bb5c2d4b0d5cf10672015b68519a199e6ac27c1",
+                "reference": "5bb5c2d4b0d5cf10672015b68519a199e6ac27c1",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "~2.4@stable",
+                "doctrine/common": "~2.4",
                 "ext-xml": "*",
                 "fig/link-util": "^1.0",
                 "php": "^5.5.9|>=7.0.8",
@@ -4735,7 +4735,7 @@
                 "doctrine/data-fixtures": "1.0.*",
                 "doctrine/dbal": "~2.4",
                 "doctrine/doctrine-bundle": "~1.4",
-                "doctrine/orm": "~2.4,>=2.4.5,<=2.7.0",
+                "doctrine/orm": "~2.4,>=2.4.5",
                 "egulias/email-validator": "~1.2,>=1.2.8|~2.0",
                 "monolog/monolog": "~1.11",
                 "ocramius/proxy-manager": "~0.4|~1.0|~2.0",
@@ -4785,7 +4785,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2018-08-01T14:48:04+00:00"
+            "time": "2018-08-28T06:06:28+00:00"
         },
         {
             "name": "twig/extensions",
@@ -6850,16 +6850,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.1.3",
+            "version": "v4.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "3c30714807f34b7de710cc33eb612cd42cf683b0"
+                "reference": "d5f433034543bbe3b0dfa2f34e6cc85bf839846f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/3c30714807f34b7de710cc33eb612cd42cf683b0",
-                "reference": "3c30714807f34b7de710cc33eb612cd42cf683b0",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/d5f433034543bbe3b0dfa2f34e6cc85bf839846f",
+                "reference": "d5f433034543bbe3b0dfa2f34e6cc85bf839846f",
                 "shasum": ""
             },
             "require": {
@@ -6912,7 +6912,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-07-26T08:55:25+00:00"
+            "time": "2018-08-27T17:47:02+00:00"
         },
         {
             "name": "theseer/tokenizer",
