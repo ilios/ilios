@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\DataLoader;
 
-use Tests\CoreBundle\DataLoader\AbstractDataLoader;
+use Tests\AppBundle\DataLoader\AbstractDataLoader;
 
 /**
  * Class AuditLogData

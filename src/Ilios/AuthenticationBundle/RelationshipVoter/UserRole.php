@@ -3,8 +3,8 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\AamcMethodInterface;
-use Ilios\CoreBundle\Entity\UserRoleInterface;
+use AppBundle\Entity\AamcMethodInterface;
+use AppBundle\Entity\UserRoleInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class UserRole extends AbstractVoter

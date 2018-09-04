@@ -2,11 +2,11 @@
 
 namespace Ilios\ApiBundle\Normalizer;
 
-use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
+use AppBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Ilios\CoreBundle\Service\EntityMetadata;
+use AppBundle\Service\EntityMetadata;
 use HTMLPurifier;
 
 /**

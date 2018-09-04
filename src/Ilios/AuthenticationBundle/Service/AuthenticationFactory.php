@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 
 class AuthenticationFactory
 {

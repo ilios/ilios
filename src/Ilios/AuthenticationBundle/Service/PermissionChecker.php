@@ -6,11 +6,11 @@ use Ilios\AuthenticationBundle\Classes\Capabilities;
 use Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 
-use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\ProgramInterface;
-use Ilios\CoreBundle\Entity\ProgramYearInterface;
-use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\SessionInterface;
+use AppBundle\Entity\CourseInterface;
+use AppBundle\Entity\ProgramInterface;
+use AppBundle\Entity\ProgramYearInterface;
+use AppBundle\Entity\SchoolInterface;
+use AppBundle\Entity\SessionInterface;
 
 class PermissionChecker
 {

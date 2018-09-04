@@ -4,10 +4,10 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Service\CourseRollover;
-use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\Manager\CourseManager;
-use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
+use AppBundle\Service\CourseRollover;
+use AppBundle\Entity\CourseInterface;
+use AppBundle\Entity\Manager\CourseManager;
+use AppBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

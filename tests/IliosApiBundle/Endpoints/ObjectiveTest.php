@@ -3,7 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\ObjectiveData;
+use Tests\AppBundle\DataLoader\ObjectiveData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
@@ -20,12 +20,12 @@ class ObjectiveTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadObjectiveData',
-            'Tests\CoreBundle\Fixture\LoadCompetencyData',
-            'Tests\CoreBundle\Fixture\LoadCourseData',
-            'Tests\CoreBundle\Fixture\LoadProgramYearData',
-            'Tests\CoreBundle\Fixture\LoadSessionData',
-            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData'
+            'Tests\AppBundle\Fixture\LoadObjectiveData',
+            'Tests\AppBundle\Fixture\LoadCompetencyData',
+            'Tests\AppBundle\Fixture\LoadCourseData',
+            'Tests\AppBundle\Fixture\LoadProgramYearData',
+            'Tests\AppBundle\Fixture\LoadSessionData',
+            'Tests\AppBundle\Fixture\LoadMeshDescriptorData'
         ];
     }
 

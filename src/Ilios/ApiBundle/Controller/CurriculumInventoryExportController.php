@@ -4,10 +4,10 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\CurriculumInventory\Exporter;
+use AppBundle\Entity\CurriculumInventoryExportInterface;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\UserInterface;
+use AppBundle\Service\CurriculumInventory\Exporter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

@@ -4,8 +4,8 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
-use Ilios\CoreBundle\Entity\AuthenticationInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\AuthenticationInterface;
+use AppBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

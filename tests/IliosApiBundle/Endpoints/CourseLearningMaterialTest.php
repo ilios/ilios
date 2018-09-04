@@ -18,8 +18,8 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
         ];
     }
 

@@ -18,8 +18,8 @@ class AssessmentOptionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadAssessmentOptionData',
-            'Tests\CoreBundle\Fixture\LoadSessionTypeData'
+            'Tests\AppBundle\Fixture\LoadAssessmentOptionData',
+            'Tests\AppBundle\Fixture\LoadSessionTypeData'
         ];
     }
 

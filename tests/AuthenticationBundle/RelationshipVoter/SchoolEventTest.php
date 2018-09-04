@@ -5,8 +5,8 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\SchoolEvent as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
-use Ilios\CoreBundle\Classes\SchoolEvent;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Classes\SchoolEvent;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

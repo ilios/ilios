@@ -4,8 +4,8 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\AamcResourceType as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
-use Ilios\CoreBundle\Entity\AamcResourceType;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Entity\AamcResourceType;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

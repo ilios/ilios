@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 use Faker\Factory as FakerFactory;
 
 class ErrorControllerTest extends WebTestCase
@@ -14,7 +14,7 @@ class ErrorControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
+            'Tests\AppBundle\Fixture\LoadAuthenticationData',
         ]);
     }
 

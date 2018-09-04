@@ -2,14 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Ilios\CoreBundle\Entity\OfferingInterface;
+use AppBundle\Entity\OfferingInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\CourseData;
-use Tests\CoreBundle\DataLoader\IlmSessionData;
-use Tests\CoreBundle\DataLoader\OfferingData;
-use Tests\CoreBundle\DataLoader\SessionData;
-use Tests\CoreBundle\DataLoader\SessionDescriptionData;
-use Tests\CoreBundle\DataLoader\SessionTypeData;
+use Tests\AppBundle\DataLoader\CourseData;
+use Tests\AppBundle\DataLoader\IlmSessionData;
+use Tests\AppBundle\DataLoader\OfferingData;
+use Tests\AppBundle\DataLoader\SessionData;
+use Tests\AppBundle\DataLoader\SessionDescriptionData;
+use Tests\AppBundle\DataLoader\SessionTypeData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use DateTime;
 
@@ -25,14 +25,14 @@ class UsereventTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
-            'Tests\CoreBundle\Fixture\LoadUserData',
-            'Tests\CoreBundle\Fixture\LoadSessionData',
-            'Tests\CoreBundle\Fixture\LoadSessionDescriptionData',
-            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadIlmSessionData',
+            'Tests\AppBundle\Fixture\LoadUserData',
+            'Tests\AppBundle\Fixture\LoadSessionData',
+            'Tests\AppBundle\Fixture\LoadSessionDescriptionData',
+            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
         ];
     }
 

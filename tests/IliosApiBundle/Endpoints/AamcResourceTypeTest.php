@@ -18,8 +18,8 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadAamcResourceTypeData',
-            'Tests\CoreBundle\Fixture\LoadTermData'
+            'Tests\AppBundle\Fixture\LoadAamcResourceTypeData',
+            'Tests\AppBundle\Fixture\LoadTermData'
         ];
     }
 

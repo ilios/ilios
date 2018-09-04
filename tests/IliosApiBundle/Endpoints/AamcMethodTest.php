@@ -18,8 +18,8 @@ class AamcMethodTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadAamcMethodData',
-            'Tests\CoreBundle\Fixture\LoadSessionTypeData',
+            'Tests\AppBundle\Fixture\LoadAamcMethodData',
+            'Tests\AppBundle\Fixture\LoadSessionTypeData',
         ];
     }
 

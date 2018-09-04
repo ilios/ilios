@@ -2,7 +2,7 @@
 
 namespace AppBundle\Command;
 
-use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
+use AppBundle\Entity\Manager\AuditLogManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;

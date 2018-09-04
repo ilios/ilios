@@ -23,8 +23,8 @@ class InvalidateUserTokenCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
+        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
+        $this->authenticationManager = m::mock('AppBundle\Entity\Manager\AuthenticationManager');
         
         $command = new InvalidateUserTokenCommand($this->userManager, $this->authenticationManager);
         $application = new Application();
@@ -47,9 +47,9 @@ class InvalidateUserTokenCommandTest extends TestCase
     {
         $now = new DateTime();
         sleep(2);
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('setInvalidateTokenIssuedBefore')->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock('AppBundle\Entity\UserInterface')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
             ->shouldReceive('getFirstAndLastName')->andReturn('somebody great')
             ->mock();
@@ -77,11 +77,11 @@ class InvalidateUserTokenCommandTest extends TestCase
     
     public function testNoAuthenticationForUser()
     {
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('setUser')
             ->shouldReceive('setInvalidateTokenIssuedBefore')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock('AppBundle\Entity\UserInterface')
             ->shouldReceive('getAuthentication')->andReturn(null)
             ->shouldReceive('getFirstAndLastName')->andReturn('somebody great')
             ->mock();

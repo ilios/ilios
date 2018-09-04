@@ -2,7 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
+use AppBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
@@ -20,8 +20,8 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\AppBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'Tests\AppBundle\Fixture\LoadSessionData',
         ];
     }
 

@@ -7,7 +7,7 @@ use Firebase\JWT\JWT;
 use DateTime;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
 class AuthenticationControllerTest extends WebTestCase
@@ -25,7 +25,7 @@ class AuthenticationControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData'
+            'Tests\AppBundle\Fixture\LoadAuthenticationData'
         ]);
 
         $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $this->getContainer()->getParameter('kernel.secret');
@@ -180,7 +180,7 @@ class AuthenticationControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
     
-        $legacyUser = $em->getRepository('IliosCoreBundle:User')->find(1);
+        $legacyUser = $em->getRepository('AppBundle:User')->find(1);
         $authentication = $legacyUser->getAuthentication();
         $this->assertTrue($authentication->isLegacyAccount());
         $this->assertNotEmpty($authentication->getPasswordSha256());
@@ -211,7 +211,7 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(1, $token['user_id']);
     
-        $legacyUser = $em->getRepository('IliosCoreBundle:User')->find(1);
+        $legacyUser = $em->getRepository('AppBundle:User')->find(1);
         $authentication = $legacyUser->getAuthentication();
         $this->assertFalse($authentication->isLegacyAccount());
         $this->assertEmpty($authentication->getPasswordSha256());

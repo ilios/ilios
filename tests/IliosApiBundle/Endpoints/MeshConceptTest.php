@@ -16,8 +16,8 @@ class MeshConceptTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadMeshConceptData',
-            'Tests\CoreBundle\Fixture\LoadMeshTermData',
+            'Tests\AppBundle\Fixture\LoadMeshConceptData',
+            'Tests\AppBundle\Fixture\LoadMeshTermData',
         ];
     }
 

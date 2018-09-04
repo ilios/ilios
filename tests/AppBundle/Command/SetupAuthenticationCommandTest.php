@@ -2,8 +2,8 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\SetupAuthenticationCommand;
-use Ilios\CoreBundle\Entity\ApplicationConfigInterface;
-use Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager;
+use AppBundle\Entity\ApplicationConfigInterface;
+use AppBundle\Entity\Manager\ApplicationConfigManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;

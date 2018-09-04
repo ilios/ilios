@@ -2,7 +2,7 @@
 
 namespace AppBundle\Command;
 
-use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager;
+use AppBundle\Entity\Manager\MeshDescriptorManager;
 use Ilios\MeSH\Parser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;

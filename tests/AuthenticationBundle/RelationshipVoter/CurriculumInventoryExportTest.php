@@ -5,10 +5,10 @@ use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\CurriculumInventoryExport as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
-use Ilios\CoreBundle\Entity\CurriculumInventoryReport;
-use Ilios\CoreBundle\Entity\CurriculumInventoryExport;
-use Ilios\CoreBundle\Entity\School;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Entity\CurriculumInventoryReport;
+use AppBundle\Entity\CurriculumInventoryExport;
+use AppBundle\Entity\School;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

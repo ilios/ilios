@@ -2,10 +2,10 @@
 
 namespace AppBundle\Command;
 
-use Ilios\CoreBundle\Entity\Manager\SchoolConfigManager;
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Entity\SchoolConfigInterface;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use AppBundle\Entity\Manager\SchoolConfigManager;
+use AppBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\SchoolConfigInterface;
+use AppBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Get an application configuration value from the DB
  *
  * Class ListSchoolConfigValuesCommand
- * @package Ilios\CoreBundle\Command
+ * @package AppBundle\Command
  */
 class ListSchoolConfigValuesCommand extends Command
 {

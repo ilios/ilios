@@ -4,9 +4,9 @@ namespace Tests\AppBundle\Controller;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\SessionData;
-use Tests\CoreBundle\DataLoader\UserData;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\DataLoader\SessionData;
+use Tests\AppBundle\DataLoader\UserData;
+use Tests\AppBundle\Traits\JsonControllerTest;
 
 /**
  * Class ConfigControllerTest
@@ -24,11 +24,11 @@ class IcsControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->fixtures = $this->loadFixtures([
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadSessionDescriptionData',
+            'Tests\AppBundle\Fixture\LoadAuthenticationData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadSessionDescriptionData',
         ])->getReferenceRepository();
     }
 

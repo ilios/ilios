@@ -2,7 +2,7 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\MigrateIlios2LearningMaterialsCommand;
-use Ilios\CoreBundle\Service\IliosFileSystem;
+use AppBundle\Service\IliosFileSystem;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -21,7 +21,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends TestCase
     {
         $this->symfonyFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
-        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManager');
+        $this->learningMaterialManager = m::mock('AppBundle\Entity\Manager\LearningMaterialManager');
 
         $command = new MigrateIlios2LearningMaterialsCommand(
             $this->symfonyFileSystem,
@@ -51,7 +51,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends TestCase
         $this->symfonyFileSystem
             ->shouldReceive('exists')->with('path')->andReturn(true)
             ->shouldReceive('exists')->with('path/pathtofile')->andReturn(true);
-        $lm = m::mock('Ilios\CoreBundle\Entity\LearningMaterial')
+        $lm = m::mock('AppBundle\Entity\LearningMaterial')
             ->shouldReceive('getRelativePath')->andReturn('/pathtofile')->once()
             ->shouldReceive('setRelativePath')->with('newrelativepath')->once()
             ->mock();
@@ -92,7 +92,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends TestCase
             ->shouldReceive('exists')->with('path')->andReturn(true)
             ->shouldReceive('exists')->with('path/pathtofile')->andReturn(false);
         
-        $lm = m::mock('Ilios\CoreBundle\Entity\LearningMaterial')
+        $lm = m::mock('AppBundle\Entity\LearningMaterial')
             ->shouldReceive('getRelativePath')->andReturn('/pathtofile')->once()
             ->mock();
         $this->learningMaterialManager

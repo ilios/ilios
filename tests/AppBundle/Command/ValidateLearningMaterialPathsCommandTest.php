@@ -2,7 +2,7 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\ValidateLearningMaterialPathsCommand;
-use Ilios\CoreBundle\Service\IliosFileSystem;
+use AppBundle\Service\IliosFileSystem;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -20,7 +20,7 @@ class ValidateLearningMaterialPathsCommandTest extends TestCase
     public function setUp()
     {
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
-        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManager');
+        $this->learningMaterialManager = m::mock('AppBundle\Entity\Manager\LearningMaterialManager');
 
         $command = new ValidateLearningMaterialPathsCommand(
             $this->iliosFileSystem,
@@ -43,8 +43,8 @@ class ValidateLearningMaterialPathsCommandTest extends TestCase
     
     public function testExecute()
     {
-        $goodLm = m::mock('Ilios\CoreBundle\Entity\LearningMaterial');
-        $badLm = m::mock('Ilios\CoreBundle\Entity\LearningMaterial')
+        $goodLm = m::mock('AppBundle\Entity\LearningMaterial');
+        $badLm = m::mock('AppBundle\Entity\LearningMaterial')
             ->shouldReceive('getId')->andReturn('42')
             ->shouldReceive('getRelativePath')->andReturn('path/path')
             ->mock();

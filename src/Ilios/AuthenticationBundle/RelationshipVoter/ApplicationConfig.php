@@ -3,8 +3,8 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\ApplicationConfigInterface;
-use Ilios\CoreBundle\Entity\DTO\ApplicationConfigDTO;
+use AppBundle\Entity\ApplicationConfigInterface;
+use AppBundle\Entity\DTO\ApplicationConfigDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class ApplicationConfig extends AbstractVoter

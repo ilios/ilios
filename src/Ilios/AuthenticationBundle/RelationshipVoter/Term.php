@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\TermInterface;
+use AppBundle\Entity\TermInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Term extends AbstractVoter

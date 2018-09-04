@@ -3,7 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\ObjectiveData;
+use Tests\AppBundle\DataLoader\ObjectiveData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
@@ -20,16 +20,16 @@ class ProgramYearTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadProgramYearData',
-            'Tests\CoreBundle\Fixture\LoadProgramData',
-            'Tests\CoreBundle\Fixture\LoadCohortData',
-            'Tests\CoreBundle\Fixture\LoadUserData',
-            'Tests\CoreBundle\Fixture\LoadCompetencyData',
-            'Tests\CoreBundle\Fixture\LoadTermData',
-            'Tests\CoreBundle\Fixture\LoadObjectiveData',
-            'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
-            'Tests\CoreBundle\Fixture\LoadSessionData',
-            'Tests\CoreBundle\Fixture\LoadCourseData',
+            'Tests\AppBundle\Fixture\LoadProgramYearData',
+            'Tests\AppBundle\Fixture\LoadProgramData',
+            'Tests\AppBundle\Fixture\LoadCohortData',
+            'Tests\AppBundle\Fixture\LoadUserData',
+            'Tests\AppBundle\Fixture\LoadCompetencyData',
+            'Tests\AppBundle\Fixture\LoadTermData',
+            'Tests\AppBundle\Fixture\LoadObjectiveData',
+            'Tests\AppBundle\Fixture\LoadProgramYearStewardData',
+            'Tests\AppBundle\Fixture\LoadSessionData',
+            'Tests\AppBundle\Fixture\LoadCourseData',
         ];
     }
 

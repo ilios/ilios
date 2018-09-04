@@ -2,9 +2,9 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
-use Tests\CoreBundle\DataLoader\InstructorGroupData;
-use Tests\CoreBundle\DataLoader\LearnerGroupData;
+use AppBundle\Entity\AlertChangeTypeInterface;
+use Tests\AppBundle\DataLoader\InstructorGroupData;
+use Tests\AppBundle\DataLoader\LearnerGroupData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
@@ -31,11 +31,11 @@ class OfferingTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
-            'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
-            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
-            'Tests\CoreBundle\Fixture\LoadAlertChangeTypeData'
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadLearnerGroupData',
+            'Tests\AppBundle\Fixture\LoadInstructorGroupData',
+            'Tests\AppBundle\Fixture\LoadIlmSessionData',
+            'Tests\AppBundle\Fixture\LoadAlertChangeTypeData'
         ];
     }
 

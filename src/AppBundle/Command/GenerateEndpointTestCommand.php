@@ -3,7 +3,7 @@
 namespace AppBundle\Command;
 
 use Doctrine\Common\Inflector\Inflector;
-use Ilios\CoreBundle\Service\EntityMetadata;
+use AppBundle\Service\EntityMetadata;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -61,7 +61,7 @@ class GenerateEndpointTestCommand extends Command
             ->addArgument(
                 'entityShortcut',
                 InputArgument::REQUIRED,
-                'The name of an entity e.g. IliosCoreBundle:Session.'
+                'The name of an entity e.g. AppBundle:Session.'
             );
     }
 

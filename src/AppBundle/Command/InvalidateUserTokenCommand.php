@@ -8,8 +8,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use \DateTime;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\UserManager;
 
 /**
  * Invalidate all user tokens issued before now

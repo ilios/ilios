@@ -17,7 +17,7 @@ class CreateUserTokenCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
+        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
         $this->jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         
         $command = new CreateUserTokenCommand($this->userManager, $this->jwtManager);
@@ -38,7 +38,7 @@ class CreateUserTokenCommandTest extends TestCase
     
     public function testNewDefaultToken()
     {
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface');
+        $user = m::mock('AppBundle\Entity\UserInterface');
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, 'PT8H')->andReturn('123JWT');
         
@@ -57,7 +57,7 @@ class CreateUserTokenCommandTest extends TestCase
     
     public function testNewTTLToken()
     {
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface');
+        $user = m::mock('AppBundle\Entity\UserInterface');
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, '108Franks')->andReturn('123JWT');
         

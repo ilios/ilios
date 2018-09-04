@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\PendingUserUpdateInterface;
+use AppBundle\Entity\PendingUserUpdateInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class PendingUserUpdate extends AbstractVoter

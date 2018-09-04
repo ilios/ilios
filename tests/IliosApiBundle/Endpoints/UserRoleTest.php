@@ -18,8 +18,8 @@ class UserRoleTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadUserRoleData',
-            'Tests\CoreBundle\Fixture\LoadUserData'
+            'Tests\AppBundle\Fixture\LoadUserRoleData',
+            'Tests\AppBundle\Fixture\LoadUserData'
         ];
     }
 

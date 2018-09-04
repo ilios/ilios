@@ -1,8 +1,8 @@
 <?php
 namespace AppBundle\Command;
 
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

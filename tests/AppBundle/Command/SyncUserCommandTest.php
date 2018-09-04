@@ -2,12 +2,12 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\SyncUserCommand;
-use Ilios\CoreBundle\Entity\AuthenticationInterface;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\PendingUserUpdateInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\AuthenticationInterface;
+use AppBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\PendingUserUpdateManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\PendingUserUpdateInterface;
+use AppBundle\Entity\UserInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -33,7 +33,7 @@ class SyncUserCommandTest extends TestCase
         $this->userManager = m::mock(UserManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
         $this->pendingUserUpdateManager = m::mock(PendingUserUpdateManager::class);
-        $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
+        $this->directory = m::mock('AppBundle\Service\Directory');
         
         $command = new SyncUserCommand(
             $this->userManager,

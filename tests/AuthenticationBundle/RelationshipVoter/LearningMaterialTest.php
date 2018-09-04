@@ -5,10 +5,10 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\LearningMaterial as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
-use Ilios\CoreBundle\Entity\LearningMaterial;
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use AppBundle\Entity\LearningMaterial;
+use AppBundle\Entity\LearningMaterialInterface;
 
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

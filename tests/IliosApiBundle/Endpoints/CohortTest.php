@@ -3,7 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\ProgramYearData;
+use Tests\AppBundle\DataLoader\ProgramYearData;
 use Tests\IliosApiBundle\PutEndpointTestable;
 use Tests\IliosApiBundle\PutEndpointTestInterface;
 use Tests\IliosApiBundle\ReadEndpointTest;
@@ -24,12 +24,12 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadCohortData',
-            'Tests\CoreBundle\Fixture\LoadProgramYearData',
-            'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
-            'Tests\CoreBundle\Fixture\LoadCourseData',
-            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
-            'Tests\CoreBundle\Fixture\LoadUserData'
+            'Tests\AppBundle\Fixture\LoadCohortData',
+            'Tests\AppBundle\Fixture\LoadProgramYearData',
+            'Tests\AppBundle\Fixture\LoadProgramYearStewardData',
+            'Tests\AppBundle\Fixture\LoadCourseData',
+            'Tests\AppBundle\Fixture\LoadLearnerGroupData',
+            'Tests\AppBundle\Fixture\LoadUserData'
         ];
     }
 

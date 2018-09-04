@@ -17,7 +17,7 @@ class FindUserCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
+        $this->directory = m::mock('AppBundle\Service\Directory');
         $command = new FindUserCommand($this->directory);
         $application = new Application();
         $application->add($command);

@@ -3,21 +3,21 @@ namespace Tests\AppBundle\Command;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Command\SendTeachingRemindersCommand;
-use Ilios\CoreBundle\Entity\Course;
-use Ilios\CoreBundle\Entity\InstructorGroup;
-use Ilios\CoreBundle\Entity\LearnerGroup;
-use Ilios\CoreBundle\Entity\LearnerGroupInterface;
-use Ilios\CoreBundle\Entity\Manager\OfferingManager;
-use Ilios\CoreBundle\Entity\Objective;
-use Ilios\CoreBundle\Entity\ObjectiveInterface;
-use Ilios\CoreBundle\Entity\Offering;
-use Ilios\CoreBundle\Entity\OfferingInterface;
-use Ilios\CoreBundle\Entity\School;
-use Ilios\CoreBundle\Entity\Session;
-use Ilios\CoreBundle\Entity\SessionType;
-use Ilios\CoreBundle\Entity\User;
-use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Entity\Course;
+use AppBundle\Entity\InstructorGroup;
+use AppBundle\Entity\LearnerGroup;
+use AppBundle\Entity\LearnerGroupInterface;
+use AppBundle\Entity\Manager\OfferingManager;
+use AppBundle\Entity\Objective;
+use AppBundle\Entity\ObjectiveInterface;
+use AppBundle\Entity\Offering;
+use AppBundle\Entity\OfferingInterface;
+use AppBundle\Entity\School;
+use AppBundle\Entity\Session;
+use AppBundle\Entity\SessionType;
+use AppBundle\Entity\User;
+use AppBundle\Entity\UserInterface;
+use AppBundle\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -53,7 +53,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $offering = $this->createOffering();
 
         $this->fakeOfferingManager = $this
-            ->getMockBuilder('Ilios\CoreBundle\Entity\Manager\OfferingManager')
+            ->getMockBuilder('AppBundle\Entity\Manager\OfferingManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->fakeOfferingManager

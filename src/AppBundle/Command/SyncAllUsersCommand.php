@@ -3,16 +3,16 @@
 namespace AppBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Ilios\CoreBundle\Entity\AuthenticationInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\AuthenticationInterface;
+use AppBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager;
-use Ilios\CoreBundle\Service\Directory;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\PendingUserUpdateManager;
+use AppBundle\Service\Directory;
 
 /**
  * Sync a user with their directory information

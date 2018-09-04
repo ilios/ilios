@@ -2,10 +2,10 @@
 
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
-use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\ObjectiveInterface;
-use Ilios\CoreBundle\Entity\ProgramYearInterface;
-use Ilios\CoreBundle\Entity\SessionInterface;
+use AppBundle\Entity\CourseInterface;
+use AppBundle\Entity\ObjectiveInterface;
+use AppBundle\Entity\ProgramYearInterface;
+use AppBundle\Entity\SessionInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 

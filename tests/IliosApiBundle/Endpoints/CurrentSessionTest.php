@@ -7,7 +7,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 
 /**
  * AamcMethod API endpoint Test.
@@ -41,8 +41,8 @@ class CurrentSessionTest extends WebTestCase
         $this->container = $this->client->getContainer();
 
         $fixtures = [
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
-            'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\AppBundle\Fixture\LoadAuthenticationData',
+            'Tests\AppBundle\Fixture\LoadUserData',
         ];
         $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
     }

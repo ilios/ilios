@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\ProgramInterface;
+use AppBundle\Entity\ProgramInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Program extends AbstractVoter

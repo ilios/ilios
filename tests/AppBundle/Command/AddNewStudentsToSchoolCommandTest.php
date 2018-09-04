@@ -2,10 +2,10 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\AddNewStudentsToSchoolCommand;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
+use AppBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\Manager\UserRoleManager;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -34,7 +34,7 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
         $this->userRoleManager = m::mock(UserRoleManager::class);
         $this->schoolManager = m::mock(SchoolManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
-        $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
+        $this->directory = m::mock('AppBundle\Service\Directory');
         
         $command = new AddNewStudentsToSchoolCommand(
             $this->userManager,
@@ -81,10 +81,10 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
             'campusId' => 'abc2',
             'username' => 'username2',
         ];
-        $school = m::mock('Ilios\CoreBundle\Entity\SchoolInterface')
+        $school = m::mock('AppBundle\Entity\SchoolInterface')
             ->shouldReceive('getTitle')->andReturn('school 1')
             ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $user = m::mock('AppBundle\Entity\UserInterface')
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
@@ -102,7 +102,7 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
             ->shouldReceive('setSchool')->with($school)
             ->shouldReceive('addRole')->with($school)
             ->mock();
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('setUser')->with($user)
             ->shouldReceive('setUsername')->with('username')
             ->mock();
@@ -117,7 +117,7 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
             ->shouldReceive('update')
             ->with($user)->once();
         $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($school);
-        $role = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface')
+        $role = m::mock('AppBundle\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)
             ->mock();
         $user->shouldReceive('addRole')->with($role);

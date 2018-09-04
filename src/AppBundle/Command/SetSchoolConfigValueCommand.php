@@ -2,10 +2,10 @@
 
 namespace AppBundle\Command;
 
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Entity\SchoolConfig;
-use Ilios\CoreBundle\Entity\Manager\SchoolConfigManager;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use AppBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\SchoolConfig;
+use AppBundle\Entity\Manager\SchoolConfigManager;
+use AppBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\InputArgument;
  * Set a school configuration value in the DB
  *
  * Class SetConfigValueCommand
- * @package Ilios\CoreBundle\Command
+ * @package AppBundle\Command
  */
 class SetSchoolConfigValueCommand extends Command
 {

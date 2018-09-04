@@ -2,7 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\CoreBundle\DataLoader\SessionData;
+use Tests\AppBundle\DataLoader\SessionData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
@@ -19,8 +19,8 @@ class SessionDescriptionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadSessionDescriptionData',
-            'Tests\CoreBundle\Fixture\LoadSessionData'
+            'Tests\AppBundle\Fixture\LoadSessionDescriptionData',
+            'Tests\AppBundle\Fixture\LoadSessionData'
         ];
     }
 

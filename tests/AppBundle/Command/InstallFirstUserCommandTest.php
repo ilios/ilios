@@ -3,10 +3,10 @@ namespace Tests\AppBundle\Command;
 
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use AppBundle\Command\InstallFirstUserCommand;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\User;
+use AppBundle\Entity\Manager\AuthenticationManager;
+use AppBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -132,14 +132,14 @@ class InstallFirstUserCommandTest extends KernelTestCase
 
     protected function getReadyForInput()
     {
-        $school = m::mock('Ilios\CoreBundle\Entity\SchoolInterface')
+        $school = m::mock('AppBundle\Entity\SchoolInterface')
             ->shouldReceive('getId')->andReturn(1)
             ->shouldReceive('getTitle')->andReturn('Big School Title')
             ->mock();
         $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface');
-        $developerRole = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface');
-        $courseDirectorRole = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface');
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $developerRole = m::mock('AppBundle\Entity\UserRoleInterface');
+        $courseDirectorRole = m::mock('AppBundle\Entity\UserRoleInterface');
+        $user = m::mock('AppBundle\Entity\UserInterface')
             ->shouldReceive('setFirstName')->with('First')
             ->shouldReceive('setLastName')->with('User')
             ->shouldReceive('setMiddleName')
@@ -150,7 +150,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
             ->shouldReceive('setSchool')->with($school)
             ->shouldReceive('setRoot')->with(true)
             ->mock();
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('setUsername')->with('first_user')
             ->shouldReceive('setPasswordBcrypt')->with('hashBlurb')
             ->shouldReceive('getUser')->andReturn($user)

@@ -2,7 +2,7 @@
 
 namespace Ilios\ApiBundle\Normalizer;
 
-use Ilios\CoreBundle\Service\EntityMetadata;
+use AppBundle\Service\EntityMetadata;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**

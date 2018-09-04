@@ -4,11 +4,11 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Classes\UserMaterial;
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
-use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Classes\UserMaterial;
+use AppBundle\Entity\LearningMaterialInterface;
+use AppBundle\Entity\LearningMaterialStatusInterface;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

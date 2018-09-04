@@ -3,11 +3,11 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\IlmSessionData;
-use Tests\CoreBundle\DataLoader\ObjectiveData;
-use Tests\CoreBundle\DataLoader\OfferingData;
-use Tests\CoreBundle\DataLoader\SessionData;
-use Tests\CoreBundle\DataLoader\SessionDescriptionData;
+use Tests\AppBundle\DataLoader\IlmSessionData;
+use Tests\AppBundle\DataLoader\ObjectiveData;
+use Tests\AppBundle\DataLoader\OfferingData;
+use Tests\AppBundle\DataLoader\SessionData;
+use Tests\AppBundle\DataLoader\SessionDescriptionData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
@@ -24,20 +24,20 @@ class CourseTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadCourseData',
-            'Tests\CoreBundle\Fixture\LoadCourseClerkshipTypeData',
-            'Tests\CoreBundle\Fixture\LoadSchoolData',
-            'Tests\CoreBundle\Fixture\LoadUserData',
-            'Tests\CoreBundle\Fixture\LoadCohortData',
-            'Tests\CoreBundle\Fixture\LoadTermData',
-            'Tests\CoreBundle\Fixture\LoadObjectiveData',
-            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadSessionData',
-            'Tests\CoreBundle\Fixture\LoadSessionDescriptionData',
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadProgramYearData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
+            'Tests\AppBundle\Fixture\LoadCourseData',
+            'Tests\AppBundle\Fixture\LoadCourseClerkshipTypeData',
+            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\AppBundle\Fixture\LoadUserData',
+            'Tests\AppBundle\Fixture\LoadCohortData',
+            'Tests\AppBundle\Fixture\LoadTermData',
+            'Tests\AppBundle\Fixture\LoadObjectiveData',
+            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadSessionData',
+            'Tests\AppBundle\Fixture\LoadSessionDescriptionData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadProgramYearData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadIlmSessionData',
         ];
     }
 

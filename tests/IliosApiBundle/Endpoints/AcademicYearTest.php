@@ -3,7 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\CourseData;
+use Tests\AppBundle\DataLoader\CourseData;
 use Tests\IliosApiBundle\ReadEndpointTest;
 
 /**
@@ -20,7 +20,7 @@ class AcademicYearTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadCourseData',
+            'Tests\AppBundle\Fixture\LoadCourseData',
         ];
     }
 

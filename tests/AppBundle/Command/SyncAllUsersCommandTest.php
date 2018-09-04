@@ -3,8 +3,8 @@ namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\SyncAllUsersCommand;
 use Doctrine\ORM\EntityManagerInterface;
-use Ilios\CoreBundle\Entity\AuthenticationInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\AuthenticationInterface;
+use AppBundle\Entity\UserInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -29,10 +29,10 @@ class SyncAllUsersCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $this->pendingUserUpdateManager = m::mock('Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager');
-        $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
+        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
+        $this->authenticationManager = m::mock('AppBundle\Entity\Manager\AuthenticationManager');
+        $this->pendingUserUpdateManager = m::mock('AppBundle\Entity\Manager\PendingUserUpdateManager');
+        $this->directory = m::mock('AppBundle\Service\Directory');
         $this->em = m::mock(EntityManagerInterface::class);
         
         $command = new SyncAllUsersCommand(
@@ -348,7 +348,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('update')->with($user, false)->once();
-        $update = m::mock('Ilios\CoreBundle\Entity\PendingUserUpdate')
+        $update = m::mock('AppBundle\Entity\PendingUserUpdate')
             ->shouldReceive('setType')->with('emailMismatch')->once()
             ->shouldReceive('setProperty')->with('email')->once()
             ->shouldReceive('setValue')->with('new-email')->once()
@@ -878,7 +878,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->andReturn([$user])
             ->once();
         
-        $update = m::mock('Ilios\CoreBundle\Entity\PendingUserUpdate')
+        $update = m::mock('AppBundle\Entity\PendingUserUpdate')
             ->shouldReceive('setType')->with('missingFromDirectory')->once()
             ->shouldReceive('setUser')->with($user)->once()
             ->mock();
@@ -943,7 +943,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('update')->with($user, false)->once();
-        $update = m::mock('Ilios\CoreBundle\Entity\PendingUserUpdate')
+        $update = m::mock('AppBundle\Entity\PendingUserUpdate')
             ->shouldReceive('setType')->with('emailMismatch')->once()
             ->shouldReceive('setProperty')->with('email')->once()
             ->shouldReceive('setValue')->with('new-email')->once()

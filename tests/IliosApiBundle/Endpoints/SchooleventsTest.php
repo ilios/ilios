@@ -2,13 +2,13 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Ilios\CoreBundle\Entity\OfferingInterface;
+use AppBundle\Entity\OfferingInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\DataLoader\CourseData;
-use Tests\CoreBundle\DataLoader\IlmSessionData;
-use Tests\CoreBundle\DataLoader\OfferingData;
-use Tests\CoreBundle\DataLoader\SchoolData;
-use Tests\CoreBundle\DataLoader\SessionData;
+use Tests\AppBundle\DataLoader\CourseData;
+use Tests\AppBundle\DataLoader\IlmSessionData;
+use Tests\AppBundle\DataLoader\OfferingData;
+use Tests\AppBundle\DataLoader\SchoolData;
+use Tests\AppBundle\DataLoader\SessionData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use DateTime;
 
@@ -24,12 +24,12 @@ class SchooleventsTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
-            'Tests\CoreBundle\Fixture\LoadSchoolData',
-            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadIlmSessionData',
+            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
         ];
     }
 

@@ -18,8 +18,8 @@ class LearningMaterialStatusTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadLearningMaterialStatusData',
-            'Tests\CoreBundle\Fixture\LoadLearningMaterialData'
+            'Tests\AppBundle\Fixture\LoadLearningMaterialStatusData',
+            'Tests\AppBundle\Fixture\LoadLearningMaterialData'
         ];
     }
 

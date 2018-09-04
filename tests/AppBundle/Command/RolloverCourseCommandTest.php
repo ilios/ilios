@@ -2,8 +2,8 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Command\RolloverCourseCommand;
-use Ilios\CoreBundle\Entity\Course;
-use Ilios\CoreBundle\Service\CourseRollover;
+use AppBundle\Entity\Course;
+use AppBundle\Service\CourseRollover;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 

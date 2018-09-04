@@ -4,10 +4,10 @@ namespace Tests\AppBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
-use Ilios\CoreBundle\Entity\DTO\UserDTO;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\Directory;
+use AppBundle\Entity\DTO\UserDTO;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\UserInterface;
+use AppBundle\Service\Directory;
 use AppBundle\Controller\DirectoryController;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;

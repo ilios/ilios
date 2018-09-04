@@ -2,10 +2,10 @@
 
 namespace Ilios\AuthenticationBundle\Classes;
 
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\SchoolInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Ilios\CoreBundle\Entity\UserInterface as IliosUserInterface;
+use AppBundle\Entity\UserInterface as IliosUserInterface;
 use DateTime;
 
 /**

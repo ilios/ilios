@@ -18,7 +18,7 @@ class ApplicationConfigTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadApplicationConfigData',
+            'Tests\AppBundle\Fixture\LoadApplicationConfigData',
         ];
     }
 

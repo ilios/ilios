@@ -3,9 +3,9 @@
 namespace Tests\AuthenticationBundle\Classes;
 
 use Ilios\AuthenticationBundle\Classes\SessionUser;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\School;
-use Ilios\CoreBundle\Entity\UserInterface;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Entity\School;
+use AppBundle\Entity\UserInterface;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 

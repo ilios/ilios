@@ -10,8 +10,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
-use Ilios\CoreBundle\Service\IliosFileSystem;
+use AppBundle\Entity\Manager\LearningMaterialManager;
+use AppBundle\Service\IliosFileSystem;
 
 /**
  * Migrate Learning materials from Ilios2 location to Ilios3 location

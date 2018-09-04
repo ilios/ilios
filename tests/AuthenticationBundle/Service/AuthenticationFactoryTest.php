@@ -5,7 +5,7 @@ use Ilios\AuthenticationBundle\Service\CasAuthentication;
 use Ilios\AuthenticationBundle\Service\FormAuthentication;
 use Ilios\AuthenticationBundle\Service\LdapAuthentication;
 use Ilios\AuthenticationBundle\Service\ShibbolethAuthentication;
-use Ilios\CoreBundle\Service\Config;
+use AppBundle\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 

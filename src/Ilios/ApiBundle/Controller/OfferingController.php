@@ -4,10 +4,10 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Entity\OfferingInterface;
-use Ilios\CoreBundle\Entity\SessionInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\ChangeAlertHandler;
+use AppBundle\Entity\OfferingInterface;
+use AppBundle\Entity\SessionInterface;
+use AppBundle\Entity\UserInterface;
+use AppBundle\Service\ChangeAlertHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

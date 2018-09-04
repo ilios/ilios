@@ -3,10 +3,10 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\CoreBundle\Classes\SchoolEvent;
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
+use AppBundle\Classes\SchoolEvent;
+use AppBundle\Entity\Manager\SchoolManager;
+use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

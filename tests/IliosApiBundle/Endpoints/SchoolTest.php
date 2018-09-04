@@ -18,17 +18,17 @@ class SchoolTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadSchoolData',
-            'Tests\CoreBundle\Fixture\LoadSchoolConfigData',
-            'Tests\CoreBundle\Fixture\LoadAlertData',
-            'Tests\CoreBundle\Fixture\LoadCompetencyData',
-            'Tests\CoreBundle\Fixture\LoadSessionTypeData',
-            'Tests\CoreBundle\Fixture\LoadDepartmentData',
-            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
-            'Tests\CoreBundle\Fixture\LoadCourseData',
-            'Tests\CoreBundle\Fixture\LoadReportData',
-            'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
+            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\AppBundle\Fixture\LoadSchoolConfigData',
+            'Tests\AppBundle\Fixture\LoadAlertData',
+            'Tests\AppBundle\Fixture\LoadCompetencyData',
+            'Tests\AppBundle\Fixture\LoadSessionTypeData',
+            'Tests\AppBundle\Fixture\LoadDepartmentData',
+            'Tests\AppBundle\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Tests\AppBundle\Fixture\LoadProgramYearStewardData',
+            'Tests\AppBundle\Fixture\LoadCourseData',
+            'Tests\AppBundle\Fixture\LoadReportData',
+            'Tests\AppBundle\Fixture\LoadInstructorGroupData',
         ];
     }
 

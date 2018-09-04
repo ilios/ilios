@@ -2,8 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use Http\Discovery\Exception\NotFoundException;
+use AppBundle\Service\Filesystem;
 use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
-use Ilios\CoreBundle\Service\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;

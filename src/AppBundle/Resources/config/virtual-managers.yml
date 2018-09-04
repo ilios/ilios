@@ -1,0 +1,95 @@
+# Definitions for managers without a specific implementation
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    AppBundle\Entity\Manager\AamcMethodManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\AamcMethod'
+    AppBundle\Entity\Manager\AamcPcrsManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\AamcPcrs'
+    AppBundle\Entity\Manager\AamcResourceTypeManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\AamcResourceType'
+    AppBundle\Entity\Manager\AssessmentOptionManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\AssessmentOption'
+    AppBundle\Entity\Manager\CompetencyManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\Competency'
+    AppBundle\Entity\Manager\CourseClerkshipTypeManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\CourseClerkshipType'
+    AppBundle\Entity\Manager\DepartmentManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\Department'
+    AppBundle\Entity\Manager\IngestionExceptionManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\IngestionException'
+    AppBundle\Entity\Manager\InstructorGroupManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\InstructorGroup'
+    AppBundle\Entity\Manager\LearnerGroupManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\LearnerGroup'
+    AppBundle\Entity\Manager\LearningMaterialStatusManager:
+            class: AppBundle\Entity\Manager\BaseManager
+            arguments:
+                $class: 'AppBundle\Entity\LearningMaterialStatus'
+    AppBundle\Entity\Manager\LearningMaterialUserRoleManager:
+            class: AppBundle\Entity\Manager\BaseManager
+            arguments:
+                $class: 'AppBundle\Entity\LearningMaterialUserRole'
+    AppBundle\Entity\Manager\MeshConceptManager:
+            class: AppBundle\Entity\Manager\BaseManager
+            arguments:
+                $class: 'AppBundle\Entity\MeshConcept'
+    AppBundle\Entity\Manager\MeshPreviousIndexingManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\MeshPreviousIndexing'
+    AppBundle\Entity\Manager\MeshQualifierManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\MeshQualifier'
+    AppBundle\Entity\Manager\MeshTermManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\MeshTerm'
+    AppBundle\Entity\Manager\MeshTreeManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\MeshTree'
+    AppBundle\Entity\Manager\ProgramManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\Program'
+    AppBundle\Entity\Manager\ReportManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\Report'
+    AppBundle\Entity\Manager\SessionTypeManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\SessionType'
+    AppBundle\Entity\Manager\TermManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\Term'
+    AppBundle\Entity\Manager\VocabularyManager:
+        class: AppBundle\Entity\Manager\BaseManager
+        arguments:
+            $class: 'AppBundle\Entity\Vocabulary'

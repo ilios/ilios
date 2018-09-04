@@ -2,11 +2,11 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Tests\CoreBundle\DataLoader\IlmSessionData;
-use Tests\CoreBundle\DataLoader\LearningMaterialData;
-use Tests\CoreBundle\DataLoader\ObjectiveData;
-use Tests\CoreBundle\DataLoader\SessionDescriptionData;
-use Tests\CoreBundle\DataLoader\SessionLearningMaterialData;
+use Tests\AppBundle\DataLoader\IlmSessionData;
+use Tests\AppBundle\DataLoader\LearningMaterialData;
+use Tests\AppBundle\DataLoader\ObjectiveData;
+use Tests\AppBundle\DataLoader\SessionDescriptionData;
+use Tests\AppBundle\DataLoader\SessionLearningMaterialData;
 use Tests\IliosApiBundle\ReadWriteEndpointTest;
 
 /**
@@ -23,16 +23,16 @@ class SessionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadSessionData',
-            'Tests\CoreBundle\Fixture\LoadTermData',
-            'Tests\CoreBundle\Fixture\LoadSessionDescriptionData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\CoreBundle\Fixture\LoadLearningMaterialStatusData',
-            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
-            'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\AppBundle\Fixture\LoadSessionData',
+            'Tests\AppBundle\Fixture\LoadTermData',
+            'Tests\AppBundle\Fixture\LoadSessionDescriptionData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadOfferingData',
+            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\AppBundle\Fixture\LoadLearningMaterialStatusData',
+            'Tests\AppBundle\Fixture\LoadIlmSessionData',
+            'Tests\AppBundle\Fixture\LoadUserData',
         ];
     }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\CoreBundle\Controller;
+namespace Tests\AppBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\CoreBundle\Traits\JsonControllerTest;
+use Tests\AppBundle\Traits\JsonControllerTest;
 
 class ApiControllerTest extends WebTestCase
 {
@@ -13,7 +13,7 @@ class ApiControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Tests\CoreBundle\Fixture\LoadAuthenticationData'
+            'Tests\AppBundle\Fixture\LoadAuthenticationData'
         ]);
     }
 
