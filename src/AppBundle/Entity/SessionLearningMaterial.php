@@ -7,7 +7,7 @@ use AppBundle\Traits\LearningMaterialRelationshipEntity;
 use AppBundle\Traits\MeshDescriptorsEntity;
 use AppBundle\Traits\SessionConsolidationEntity;
 use AppBundle\Traits\SortableEntity;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Traits\IdentifiableEntity;
 use AppBundle\Traits\StringableIdEntity;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\ApiBundle\Annotation;
+namespace AppBundle\Annotation;
 
 /**
  * Properties which can be read in the API, but

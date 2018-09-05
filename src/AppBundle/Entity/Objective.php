@@ -7,7 +7,7 @@ use AppBundle\Traits\IdentifiableEntity;
 use AppBundle\Traits\MeshDescriptorsEntity;
 use AppBundle\Traits\SortableEntity;
 use AppBundle\Traits\StringableIdEntity;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;

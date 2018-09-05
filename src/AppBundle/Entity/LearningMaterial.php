@@ -10,7 +10,7 @@ use AppBundle\Traits\DescribableEntity;
 use AppBundle\Traits\IdentifiableEntity;
 use AppBundle\Traits\TitledEntity;
 use AppBundle\Traits\StringableIdEntity;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 
 /**
  * Class LearningMaterial

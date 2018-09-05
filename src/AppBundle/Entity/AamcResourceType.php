@@ -10,7 +10,7 @@ use AppBundle\Traits\DescribableEntity;
 use AppBundle\Traits\IdentifiableEntity;
 use AppBundle\Traits\StringableIdEntity;
 use AppBundle\Traits\TitledEntity;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

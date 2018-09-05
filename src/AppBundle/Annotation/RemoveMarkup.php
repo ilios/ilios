@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\ApiBundle\Annotation;
+namespace AppBundle\Annotation;
 
 /**
  * Apply this to a property in order to purify

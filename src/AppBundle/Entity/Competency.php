@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Traits\ActivatableEntity;
 use AppBundle\Traits\ObjectivesEntity;
 use AppBundle\Traits\StringableIdEntity;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use AppBundle\Traits\IdentifiableEntity;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\ApiBundle\Annotation;
+namespace AppBundle\Annotation;
 
 /**
  * Applied to classes which should be serialized as DTOs

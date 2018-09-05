@@ -12,7 +12,7 @@ use AppBundle\Traits\DirectorsEntity;
 use AppBundle\Traits\MeshDescriptorsEntity;
 use AppBundle\Traits\ObjectivesEntity;
 use AppBundle\Traits\PublishableEntity;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use AppBundle\Traits\ArchivableEntity;

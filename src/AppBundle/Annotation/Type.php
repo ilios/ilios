@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\ApiBundle\Annotation;
+namespace AppBundle\Annotation;
 
 /**
  * Indicates the type of data contained in the property
