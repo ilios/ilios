@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: services.yml }
+    - { resource: "@AppBundle/Resources/config/config.yml" }
     - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@AppBundle/Resources/config/dataloaders.yml" }
     - { resource: "@AppBundle/Resources/config/virtual-managers.yml" }

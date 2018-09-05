@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\ApiBundle\Normalizer;
+namespace AppBundle\Normalizer;
 
 use AppBundle\Service\EntityMetadata;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;

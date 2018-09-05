@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\ApiBundle\Normalizer;
+namespace AppBundle\Normalizer;
 
 use AppBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Psr\Log\LoggerInterface;

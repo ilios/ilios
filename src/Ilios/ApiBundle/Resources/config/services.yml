@@ -13,11 +13,6 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    Ilios\ApiBundle\EventListener\ValidApiObjectListener:
-        arguments:
-            $validApiObjects: '%ilios_api_valid_endpoints%'
-        tags: [{ name: kernel.event_listener, event: kernel.controller, method: onKernelController }]
-
     Ilios\ApiBundle\Controller\SwaggerDocsController:
         public: true
         arguments:

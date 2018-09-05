@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\ApiBundle\EventListener;
+namespace AppBundle\EventListener;
 
 use Ilios\ApiBundle\Controller\ApiControllerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

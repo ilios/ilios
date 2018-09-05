@@ -2,8 +2,8 @@
 
 namespace AppBundle\Service;
 
-use Ilios\ApiBundle\Normalizer\DTO;
-use Ilios\ApiBundle\Normalizer\Entity;
+use AppBundle\Normalizer\DTO;
+use AppBundle\Normalizer\Entity;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
