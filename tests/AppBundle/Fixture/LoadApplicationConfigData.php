@@ -3,14 +3,14 @@
 namespace Tests\AppBundle\Fixture;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\ApplicationConfig;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadApplicationConfigData extends AbstractFixture implements
-    FixtureInterface,
+    ORMFixtureInterface,
     ContainerAwareInterface
 {
 

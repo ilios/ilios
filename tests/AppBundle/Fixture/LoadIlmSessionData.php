@@ -5,14 +5,14 @@ namespace Tests\AppBundle\Fixture;
 use AppBundle\Entity\IlmSession;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Tests\AppBundle\DataLoader\IlmSessionData;
 
 class LoadIlmSessionData extends AbstractFixture implements
-    FixtureInterface,
+    ORMFixtureInterface,
     DependentFixtureInterface,
     ContainerAwareInterface
 {

@@ -5,13 +5,13 @@ namespace Tests\AppBundle\Fixture;
 use AppBundle\Entity\SessionLearningMaterial;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadSessionLearningMaterialData extends AbstractFixture implements
-    FixtureInterface,
+    ORMFixtureInterface,
     DependentFixtureInterface,
     ContainerAwareInterface
 {

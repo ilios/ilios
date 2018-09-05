@@ -4,14 +4,14 @@ namespace Tests\AppBundle\Fixture;
 
 use AppBundle\Entity\MeshTree;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadMeshTreeData extends AbstractFixture implements
-    FixtureInterface,
+    ORMFixtureInterface,
     ContainerAwareInterface,
     DependentFixtureInterface
 {

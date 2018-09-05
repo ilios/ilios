@@ -5,13 +5,13 @@ namespace Tests\AppBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use AppBundle\Entity\Report;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadReportData extends AbstractFixture implements
-    FixtureInterface,
+    ORMFixtureInterface,
     ContainerAwareInterface,
     DependentFixtureInterface
 {

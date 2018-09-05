@@ -3,14 +3,14 @@
 namespace Tests\AppBundle\Fixture;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\AamcResourceType;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadAamcResourceTypeData extends AbstractFixture implements
-    FixtureInterface,
+    ORMFixtureInterface,
     ContainerAwareInterface
 {
 

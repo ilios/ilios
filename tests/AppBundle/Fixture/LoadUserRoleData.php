@@ -4,13 +4,13 @@ namespace Tests\AppBundle\Fixture;
 
 use AppBundle\Entity\UserRole;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadUserRoleData extends AbstractFixture implements
-    FixtureInterface,
+    ORMFixtureInterface,
     ContainerAwareInterface
 {
 

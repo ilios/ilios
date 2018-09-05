@@ -5,7 +5,7 @@ namespace Tests\AppBundle\Fixture;
 use AppBundle\Entity\LearningMaterial;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Tests\AppBundle\DataLoader\LearningMaterialData;
 
 class LoadLearningMaterialData extends AbstractFixture implements
-    FixtureInterface,
+    ORMFixtureInterface,
     DependentFixtureInterface,
     ContainerAwareInterface
 {
