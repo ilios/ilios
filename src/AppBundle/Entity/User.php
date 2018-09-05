@@ -8,7 +8,7 @@ use AppBundle\Traits\CohortsEntity;
 use AppBundle\Traits\InstructorGroupsEntity;
 use AppBundle\Traits\LearnerGroupsEntity;
 use AppBundle\Traits\LearningMaterialsEntity;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;

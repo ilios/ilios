@@ -9,7 +9,7 @@ use AppBundle\Traits\DirectorsEntity;
 use AppBundle\Traits\PublishableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 
 use AppBundle\Traits\IdentifiableEntity;
 use AppBundle\Traits\TitledEntity;

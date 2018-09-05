@@ -2,7 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use Ilios\AuthenticationBundle\Classes\SessionUser;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;

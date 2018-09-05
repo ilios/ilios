@@ -3,7 +3,7 @@
 namespace AppBundle\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 
 /**
  * Class TitledEntity

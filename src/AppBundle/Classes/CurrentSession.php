@@ -4,7 +4,7 @@ namespace AppBundle\Classes;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use AppBundle\Entity\UserInterface;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 
 /**
  * Class CurrentSession

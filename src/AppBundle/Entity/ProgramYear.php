@@ -9,7 +9,7 @@ use AppBundle\Traits\DirectorsEntity;
 use AppBundle\Traits\ObjectivesEntity;
 use AppBundle\Traits\PublishableEntity;
 use AppBundle\Traits\StringableIdEntity;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;

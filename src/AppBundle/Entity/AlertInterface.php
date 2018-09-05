@@ -6,7 +6,7 @@ use AppBundle\Traits\IdentifiableEntityInterface;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 
 /**
  * Interface AlertInterface

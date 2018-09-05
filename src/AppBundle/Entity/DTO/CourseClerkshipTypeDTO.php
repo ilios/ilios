@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity\DTO;
 
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 
 /**
  * Class CourseClerkshipTypeDTO

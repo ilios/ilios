@@ -6,8 +6,8 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Cache\Cache;
-use Ilios\ApiBundle\Annotation\ReadOnly;
-use Ilios\ApiBundle\Annotation\Type;
+use AppBundle\Annotation\ReadOnly;
+use AppBundle\Annotation\Type;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -159,7 +159,7 @@ class EntityMetadata
             $exposed =  array_filter($properties, function (\ReflectionProperty $property) {
                 $annotation = $this->annotationReader->getPropertyAnnotation(
                     $property,
-                    'Ilios\ApiBundle\Annotation\Expose'
+                    'AppBundle\Annotation\Expose'
                 );
 
                 return !is_null($annotation);
@@ -223,7 +223,7 @@ class EntityMetadata
         /** @var Type $typeAnnotation */
         $typeAnnotation = $this->annotationReader->getPropertyAnnotation(
             $property,
-            'Ilios\ApiBundle\Annotation\Type'
+            'AppBundle\Annotation\Type'
         );
 
         if (is_null($typeAnnotation)) {
@@ -247,7 +247,7 @@ class EntityMetadata
         /** @var ReadOnly $annotation */
         $annotation = $this->annotationReader->getPropertyAnnotation(
             $property,
-            'Ilios\ApiBundle\Annotation\ReadOnly'
+            'AppBundle\Annotation\ReadOnly'
         );
 
         return !is_null($annotation);
@@ -265,7 +265,7 @@ class EntityMetadata
         /** @var ReadOnly $annotation */
         $annotation = $this->annotationReader->getPropertyAnnotation(
             $property,
-            'Ilios\ApiBundle\Annotation\RemoveMarkup'
+            'AppBundle\Annotation\RemoveMarkup'
         );
 
         return !is_null($annotation);
@@ -292,7 +292,7 @@ class EntityMetadata
             $class = 'AppBundle\\Entity' . '\\' . $file->getBasename('.php');
             $annotation = $this->annotationReader->getClassAnnotation(
                 new \ReflectionClass($class),
-                'Ilios\ApiBundle\Annotation\Entity'
+                'AppBundle\Annotation\Entity'
             );
             if (null !== $annotation) {
                 $list[] = $class;
@@ -322,7 +322,7 @@ class EntityMetadata
             $class = 'AppBundle\\Entity\\DTO' . '\\' . $file->getBasename('.php');
             $annotation = $this->annotationReader->getClassAnnotation(
                 new \ReflectionClass($class),
-                'Ilios\ApiBundle\Annotation\DTO'
+                'AppBundle\Annotation\DTO'
             );
             if (null !== $annotation) {
                 $list[] = $class;
@@ -338,7 +338,7 @@ class EntityMetadata
             $class = 'AppBundle\\Classes' . '\\' . $file->getBasename('.php');
             $annotation = $this->annotationReader->getClassAnnotation(
                 new \ReflectionClass($class),
-                'Ilios\ApiBundle\Annotation\DTO'
+                'AppBundle\Annotation\DTO'
             );
             if (null !== $annotation) {
                 $list[] = $class;

@@ -1,3 +1,77 @@
+ilios_swagger_index:
+    path:     /api/doc/
+    defaults: { _controller: AppBundle:SwaggerDocs:index }
+    methods:  [GET]
+
+ilios_swagger_file:
+    path:     /api/doc/swagger.yml
+    defaults: { _controller: AppBundle:SwaggerDocs:yaml }
+    methods:  [GET]
+
+ilios_swagger_ui:
+    path:     /api/doc/{fileName}
+    requirements:
+        fileName: .*
+    defaults: { _controller: AppBundle:SwaggerDocs:ui }
+    methods:  [GET]
+
+ilios_api_non_entity_routes:
+    resource: "@AppBundle/Resources/config/non-entity-routes.yml"
+
+ilios_api_special_routes:
+    resource: "@AppBundle/Resources/config/special-routes.yml"
+
+ilios_api_get:
+    path:     /api/{version}/{object}/{id}
+    defaults: { _controller: AppBundle:Api:get }
+    methods:  [GET]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: '[a-z]+'
+        id: '(?i)[a-z0-9\-]+'
+
+ilios_api_getall:
+    path:     /api/{version}/{object}
+    defaults: { _controller: AppBundle:Api:getAll }
+    methods:  [GET]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: '[a-z]+'
+
+ilios_api_post:
+    path:     /api/{version}/{object}
+    defaults: { _controller: AppBundle:Api:post }
+    methods:  [POST]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: '[a-z]+'
+
+ilios_api_put:
+    path:     /api/{version}/{object}/{id}
+    defaults: { _controller: AppBundle:Api:put }
+    methods:  [PUT]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: '[a-z]+'
+        id: '(?i)[a-z0-9\-]+'
+
+ilios_api_delete:
+    path:     /api/{version}/{object}/{id}
+    defaults: { _controller: AppBundle:Api:delete }
+    methods:  [DELETE]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: '[a-z]+'
+        id: '(?i)[a-z0-9\-]+'
+
+api_bad_request:
+    path:     /api/{url}
+    defaults:
+        url: null
+        _controller: AppBundle:BadRequest:index
+    requirements:
+        url: ".+"
+
 ilios_web_ics:
     path:     /ics/{key}
     defaults:

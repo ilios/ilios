@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Traits\SchoolEntity;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use AppBundle\Traits\TitledEntity;

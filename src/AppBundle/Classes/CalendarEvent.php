@@ -2,7 +2,7 @@
 
 namespace AppBundle\Classes;
 
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use AppBundle\Entity\LearningMaterialInterface;
 use AppBundle\Entity\LearningMaterialStatusInterface;
 

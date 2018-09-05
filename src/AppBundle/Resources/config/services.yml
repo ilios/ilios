@@ -22,6 +22,11 @@ services:
       arguments:
         $environment: '%kernel.environment%'
 
+    AppBundle\Controller\SwaggerDocsController:
+        public: true
+        arguments:
+            $kernelRootDir: '%kernel.root_dir%'
+
     AppBundle\Command\UpdateFrontendCommand:
         arguments:
             $kernelCacheDir: '%kernel.cache_dir%'
@@ -167,6 +172,10 @@ services:
         tags:
         - { name: doctrine.event_listener, event: onFlush }
 
+    AppBundle\EventListener\ValidApiObjectListener:
+        arguments:
+            $validApiObjects: '%ilios_api_valid_endpoints%'
+        tags: [{ name: kernel.event_listener, event: kernel.controller, method: onKernelController }]
 
     ilios.cache:
       class: 'Doctrine\Common\Cache\Cache'
@@ -216,3 +225,10 @@ services:
     AppBundle\Service\CrossingGuard:
       tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 256 }
+
+    AppBundle\Service\SwaggerDocBuilder:
+        arguments:
+            $apiVersion: '%ilios_api_version%'
+
+    Symfony\Component\Serializer\SerializerInterface:
+        factory:   ['AppBundle\Service\SerializerFactory', createSerializer]

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\ApiBundle\Annotation as IS;
+use AppBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use AppBundle\Traits\NameableEntity;
