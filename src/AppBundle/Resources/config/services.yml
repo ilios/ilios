@@ -22,6 +22,11 @@ services:
       arguments:
         $environment: '%kernel.environment%'
 
+    AppBundle\Controller\SwaggerDocsController:
+        public: true
+        arguments:
+            $kernelRootDir: '%kernel.root_dir%'
+
     AppBundle\Command\UpdateFrontendCommand:
         arguments:
             $kernelCacheDir: '%kernel.cache_dir%'

@@ -2,7 +2,7 @@
 
 namespace AppBundle\EventListener;
 
-use Ilios\ApiBundle\Controller\ApiControllerInterface;
+use AppBundle\Controller\ApiControllerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;

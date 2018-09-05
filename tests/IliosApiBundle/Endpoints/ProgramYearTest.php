@@ -271,7 +271,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
     }
 
     /**
-     * @covers \Ilios\ApiBundle\Controller\ProgramYearController::downloadCourseObjectivesReportAction
+     * @covers \AppBundle\Controller\ProgramYearController::downloadCourseObjectivesReportAction
      */
     public function testDownloadCourseObjectivesReport()
     {

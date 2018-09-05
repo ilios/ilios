@@ -46,7 +46,7 @@ class SwaggerDocBuilder
         RouterInterface $router,
         $apiVersion
     ) {
-        $this->swaggerDir = $kernel->locateResource("@IliosApiBundle/Resources/swagger");
+        $this->swaggerDir = $kernel->locateResource("@AppBundle/Resources/swagger");
         $this->environment = $kernel->getEnvironment();
         $this->templatingEngine = $templatingEngine;
         $this->router = $router;
@@ -149,7 +149,7 @@ class SwaggerDocBuilder
             ['version' => 'v1', 'object' => 'users'],
             UrlGenerator::ABSOLUTE_URL
         );
-        $template = 'IliosApiBundle:swagger:description.markdown.twig';
+        $template = 'AppBundle:swagger:description.markdown.twig';
         return $this->templatingEngine->render($template, [
             'apiDocsUrl' => $apiDocsUrl,
             'myprofileUrl' => $myprofileUrl . 'myprofile',

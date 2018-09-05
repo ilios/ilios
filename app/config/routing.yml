@@ -2,10 +2,6 @@ IliosAuthenticationBundle:
     resource: '@IliosAuthenticationBundle/Resources/config/routing.yml'
     prefix:   /auth
 
-IliosApiBundle:
-    resource: '@IliosApiBundle/Resources/config/routing.yml'
-    prefix:   /api
-
 ilios_apiinfo:
     path: /api
     defaults:
