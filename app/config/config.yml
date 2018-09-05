@@ -7,6 +7,7 @@ imports:
 
 parameters:
     ilios_api_version: v1.34
+    container.autowiring.strict_mode: true
 
 framework:
     #esi:             ~
@@ -23,7 +24,6 @@ framework:
         #assets_version: SomeVersionScheme
     default_locale:  '%env(ILIOS_LOCALE)%'
     trusted_hosts:   ~
-    trusted_proxies: ~
     session:
         name: 'iliosapi'
         handler_id:  session.handler.native_file

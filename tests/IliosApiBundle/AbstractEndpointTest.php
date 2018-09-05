@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Tests\AppBundle\DataLoader\DataLoaderInterface;
 use Tests\AppBundle\Traits\JsonControllerTest;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
 
@@ -656,7 +656,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $initialState = $this->getOne($endpoint, $responseKey, $id);
-        sleep(1);
+        sleep(2);
         $this->putOne($relatedEndpoint, $relatedResponseKey, $relatedData['id'], $relatedData);
         $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {

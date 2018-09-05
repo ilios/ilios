@@ -4,6 +4,7 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\AamcResourceType;
 use AppBundle\Entity\AamcResourceTypeInterface;
+use AppBundle\Service\DataimportFileLocator;
 use AppBundle\Traits\IdentifiableEntityInterface;
 
 /**
@@ -11,9 +12,9 @@ use AppBundle\Traits\IdentifiableEntityInterface;
  */
 class LoadAamcResourceTypeData extends AbstractFixture
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('aamc_resource_type');
+        parent::__construct($dataimportFileLocator, 'aamc_resource_type');
     }
 
     /**

@@ -4,15 +4,16 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\AssessmentOption;
 use AppBundle\Entity\AssessmentOptionInterface;
+use AppBundle\Service\DataimportFileLocator;
 
 /**
  * Class LoadAssessmentOptionData
  */
 class LoadAssessmentOptionData extends AbstractFixture
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('assessment_option');
+        parent::__construct($dataimportFileLocator, 'assessment_option');
     }
 
     /**

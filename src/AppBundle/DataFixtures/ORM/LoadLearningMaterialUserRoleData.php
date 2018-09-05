@@ -4,15 +4,16 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\LearningMaterialUserRole;
 use AppBundle\Entity\LearningMaterialUserRoleInterface;
+use AppBundle\Service\DataimportFileLocator;
 
 /**
  * Class LoadLearningMaterialUserRoleData
  */
 class LoadLearningMaterialUserRoleData extends AbstractFixture
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('learning_material_user_role');
+        parent::__construct($dataimportFileLocator, 'learning_material_user_role');
     }
 
     /**

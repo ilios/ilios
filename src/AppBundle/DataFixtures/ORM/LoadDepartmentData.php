@@ -2,6 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use AppBundle\Entity\Department;
@@ -13,9 +14,9 @@ use AppBundle\Traits\IdentifiableEntityInterface;
  */
 class LoadDepartmentData extends AbstractFixture implements DependentFixtureInterface
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('department');
+        parent::__construct($dataimportFileLocator, 'department');
     }
 
     /**

@@ -4,15 +4,16 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\School;
 use AppBundle\Entity\SchoolInterface;
+use AppBundle\Service\DataimportFileLocator;
 
 /**
  * Class LoadSchoolData
  */
 class LoadSchoolData extends AbstractFixture
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('school');
+        parent::__construct($dataimportFileLocator, 'school');
     }
 
     /**

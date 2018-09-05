@@ -4,6 +4,7 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\ApplicationConfig;
 use AppBundle\Entity\ApplicationConfigInterface;
+use AppBundle\Service\DataimportFileLocator;
 
 /**
  * Class LoadApplicationConfigData
@@ -11,9 +12,9 @@ use AppBundle\Entity\ApplicationConfigInterface;
  */
 class LoadApplicationConfigData extends AbstractFixture
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('application_config');
+        parent::__construct($dataimportFileLocator, 'application_config');
     }
 
     /**

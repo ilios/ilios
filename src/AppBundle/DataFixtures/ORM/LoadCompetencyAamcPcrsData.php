@@ -2,6 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use AppBundle\Entity\Competency;
@@ -12,9 +13,9 @@ use AppBundle\Entity\CompetencyInterface;
  */
 class LoadCompetencyAamcPcrsData extends AbstractFixture implements DependentFixtureInterface
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('competency_x_aamc_pcrs', false);
+        parent::__construct($dataimportFileLocator, 'competency_x_aamc_pcrs', false);
     }
 
     /**

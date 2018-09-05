@@ -5,13 +5,13 @@ namespace Tests\AppBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use AppBundle\Entity\CurriculumInventorySequenceBlock;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implements
-    FixtureInterface,
+    ORMFixtureInterface,
     ContainerAwareInterface,
     DependentFixtureInterface
 {

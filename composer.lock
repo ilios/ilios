@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "73b0ec5c617ab67543a777c1d8e9c167",
+    "content-hash": "37cbcbe4bf257f79e924017f096d77ff",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1087,28 +1087,32 @@
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
-            "version": "v2.4.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineFixturesBundle.git",
-                "reference": "74b8cc70a4a25b774628ee59f4cdf3623a146273"
+                "reference": "7fc29d2b18c61ed99826b21fbfd1ff9969cc2e7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/74b8cc70a4a25b774628ee59f4cdf3623a146273",
-                "reference": "74b8cc70a4a25b774628ee59f4cdf3623a146273",
+                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/7fc29d2b18c61ed99826b21fbfd1ff9969cc2e7f",
+                "reference": "7fc29d2b18c61ed99826b21fbfd1ff9969cc2e7f",
                 "shasum": ""
             },
             "require": {
                 "doctrine/data-fixtures": "~1.0",
                 "doctrine/doctrine-bundle": "~1.0",
-                "php": ">=5.3.2",
-                "symfony/doctrine-bridge": "~2.7|~3.0|~4.0"
+                "php": ">=5.5.9|^7.0",
+                "symfony/doctrine-bridge": "~2.7|~3.0|~4.0",
+                "symfony/framework-bundle": "^3.3|^4.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^3.3"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4.x-dev"
+                    "dev-master": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -1140,7 +1144,7 @@
                 "Fixture",
                 "persistence"
             ],
-            "time": "2017-10-30T19:26:42+00:00"
+            "time": "2017-12-04T20:26:38+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -5183,44 +5187,36 @@
         },
         {
             "name": "liip/functional-test-bundle",
-            "version": "1.10.0",
+            "version": "2.0.0-alpha6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "cbfa26d5d2ccbf8fd5350c90a77c448f3a630ff8"
+                "reference": "15ec5ab579a604e2b69bc468263db1412ce92c1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/cbfa26d5d2ccbf8fd5350c90a77c448f3a630ff8",
-                "reference": "cbfa26d5d2ccbf8fd5350c90a77c448f3a630ff8",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/15ec5ab579a604e2b69bc468263db1412ce92c1d",
+                "reference": "15ec5ab579a604e2b69bc468263db1412ce92c1d",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "~2.0",
-                "php": "^5.6|^7.0",
-                "symfony/browser-kit": "^2.7|^3.0",
-                "symfony/framework-bundle": "^2.7|^3.0"
-            },
-            "conflict": {
-                "phpunit/phpunit": ">=7"
+                "doctrine/common": "^2.0",
+                "php": "^7.1",
+                "symfony/browser-kit": "^3.4 || ^4.0",
+                "symfony/framework-bundle": "^3.4 || ^4.0"
             },
             "require-dev": {
-                "brianium/paratest": "~0.12.0|~0.13.2",
-                "doctrine/data-fixtures": "1.2.2",
-                "doctrine/doctrine-fixtures-bundle": "~2.3",
-                "doctrine/orm": "~2.5",
-                "doctrine/phpcr-bundle": "~1.3",
-                "doctrine/phpcr-odm": "~1.3",
-                "hautelook/alice-bundle": "~0.2|~1.2",
-                "jackalope/jackalope-doctrine-dbal": "1.1.*|1.2.*",
-                "nelmio/alice": "~1.7|~2.0",
-                "phpunit/phpunit": "^4.8.35|^5.7|^6.1",
-                "symfony/assetic-bundle": "^2.7|^3.0",
-                "symfony/console": "^2.7|^3.0",
-                "symfony/monolog-bundle": "^2.7|^3.0",
-                "symfony/phpunit-bridge": "^2.7|^3.0",
-                "symfony/symfony": "^2.7.1|^3.3",
-                "twig/twig": "~1.12|~2.0"
+                "doctrine/data-fixtures": "^1.3",
+                "doctrine/doctrine-bundle": "^1.8",
+                "doctrine/doctrine-fixtures-bundle": "^3.0.2",
+                "doctrine/orm": "^2.6",
+                "jackalope/jackalope-doctrine-dbal": "^1.3",
+                "phpunit/phpunit": "^6.1 || ^7.0",
+                "symfony/monolog-bundle": "^3.1",
+                "symfony/phpunit-bridge": "^3.4 || ^4.0",
+                "symfony/symfony": "^3.4 || ^4.0",
+                "theofidry/alice-data-fixtures": "^1.0.1",
+                "twig/twig": "^2.0"
             },
             "suggest": {
                 "brianium/paratest": "Required when using paratest to parallelize tests",
@@ -5228,17 +5224,17 @@
                 "doctrine/doctrine-fixtures-bundle": "Required when using the fixture loading functionality",
                 "doctrine/orm": "Required when using the fixture loading functionality with an ORM and SQLite",
                 "hautelook/alice-bundle": "Required when using loadFixtureFiles functionality with custom providers",
-                "nelmio/alice": "Required when using loadFixtureFiles functionality"
+                "theofidry/alice-data-fixtures": "Required when using loadFixtureFiles functionality"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Liip\\FunctionalTestBundle\\": ""
+                    "Liip\\FunctionalTestBundle\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -5259,7 +5255,7 @@
             "keywords": [
                 "Symfony2"
             ],
-            "time": "2018-08-10T18:22:42+00:00"
+            "time": "2018-07-17T21:10:38+00:00"
         },
         {
             "name": "matthiasnoback/symfony-config-test",
@@ -7011,7 +7007,7 @@
         "exercise/htmlpurifier-bundle": 10,
         "firebase/php-jwt": 0,
         "fzaninotto/faker": 0,
-        "liip/functional-test-bundle": 0,
+        "liip/functional-test-bundle": 15,
         "matthiasnoback/symfony-config-test": 0,
         "matthiasnoback/symfony-dependency-injection-test": 0,
         "mockery/mockery": 0,

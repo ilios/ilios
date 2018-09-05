@@ -2,28 +2,19 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Manager\MeshDescriptorManager;
 use AppBundle\Service\DataimportFileLocator;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * A data-loader base-class for importing MeSH records from data files.
  *
  * Class AbstractMeshFixture
  */
-abstract class AbstractMeshFixture extends DataFixture implements
-    FixtureInterface,
-    ContainerAwareInterface
+abstract class AbstractMeshFixture extends DataFixture implements ORMFixtureInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
     /**
      * @var string The name of the data file to import.
      */
@@ -35,11 +26,29 @@ abstract class AbstractMeshFixture extends DataFixture implements
     protected $type;
 
     /**
+     * @var MeshDescriptorManager
+     */
+    private $meshDescriptorManager;
+
+    /**
+     * @var DataimportFileLocator
+     */
+    private $dataimportFileLocator;
+
+    /**
+     * @param MeshDescriptorManager $meshDescriptorManager
+     * @param DataimportFileLocator $dataimportFileLocator
      * @param string $filename The name of the data file to import.
      * @param string $type The type of MeSH data to import.
      */
-    public function __construct($filename, $type)
-    {
+    public function __construct(
+        MeshDescriptorManager $meshDescriptorManager,
+        DataimportFileLocator $dataimportFileLocator,
+        $filename,
+        $type
+    ) {
+        $this->meshDescriptorManager = $meshDescriptorManager;
+        $this->dataimportFileLocator = $dataimportFileLocator;
         $this->filename = $filename;
         $this->type = $type;
     }
@@ -49,11 +58,7 @@ abstract class AbstractMeshFixture extends DataFixture implements
      */
     public function load(ObjectManager $manager)
     {
-        // Ignore the entity manager that gets passed in.
-        // Instead, grab the one we need from the DI container.
-        $em = $this->container->get(MeshDescriptorManager::class);
-
-        $path = $this->container->get(DataimportFileLocator::class)->getDataFilePath($this->filename);
+        $path = $this->dataimportFileLocator->getDataFilePath($this->filename);
 
         $i = 0;
 
@@ -65,7 +70,7 @@ abstract class AbstractMeshFixture extends DataFixture implements
                 if (1 === $i) {
                     continue;
                 }
-                $em->import($data, $this->type);
+                $this->meshDescriptorManager->import($data, $this->type);
             }
 
             // clean-up
@@ -75,13 +80,5 @@ abstract class AbstractMeshFixture extends DataFixture implements
         if (function_exists('gc_collect_cycles')) {
             gc_collect_cycles();
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 }

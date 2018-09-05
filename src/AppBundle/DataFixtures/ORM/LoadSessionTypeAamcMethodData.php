@@ -2,6 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use AppBundle\Entity\SessionType;
@@ -12,9 +13,9 @@ use AppBundle\Entity\SessionTypeInterface;
  */
 class LoadSessionTypeAamcMethodData extends AbstractFixture implements DependentFixtureInterface
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('session_type_x_aamc_method', false);
+        parent::__construct($dataimportFileLocator, 'session_type_x_aamc_method', false);
     }
 
     /**
