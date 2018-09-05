@@ -4,15 +4,16 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\AamcPcrs;
 use AppBundle\Entity\AamcPcrsInterface;
+use AppBundle\Service\DataimportFileLocator;
 
 /**
  * Class LoadAamcPcrsData
  */
 class LoadAamcPcrsData extends AbstractFixture
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('aamc_pcrs');
+        parent::__construct($dataimportFileLocator, 'aamc_pcrs');
     }
 
     /**

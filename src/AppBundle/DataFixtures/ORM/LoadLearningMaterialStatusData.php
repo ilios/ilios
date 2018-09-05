@@ -4,15 +4,16 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\LearningMaterialStatus;
 use AppBundle\Entity\LearningMaterialStatusInterface;
+use AppBundle\Service\DataimportFileLocator;
 
 /**
  * Class LoadLearningMaterialStatusData
  */
 class LoadLearningMaterialStatusData extends AbstractFixture
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('learning_material_status');
+        parent::__construct($dataimportFileLocator, 'learning_material_status');
     }
 
     /**

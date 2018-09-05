@@ -2,6 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Entity\Manager\MeshDescriptorManager;
+use AppBundle\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
@@ -9,9 +11,16 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
  */
 class LoadMeshPreviousIndexingData extends AbstractMeshFixture implements DependentFixtureInterface
 {
-    public function __construct()
-    {
-        parent::__construct('mesh_previous_indexing.csv', 'MeshPreviousIndexing');
+    public function __construct(
+        MeshDescriptorManager $meshDescriptorManager,
+        DataimportFileLocator $dataimportFileLocator
+    ) {
+        parent::__construct(
+            $meshDescriptorManager,
+            $dataimportFileLocator,
+            'mesh_previous_indexing.csv',
+            'MeshPreviousIndexing'
+        );
     }
 
     /**

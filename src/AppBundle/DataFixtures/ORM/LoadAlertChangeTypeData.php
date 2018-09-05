@@ -4,15 +4,16 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\AlertChangeType;
 use AppBundle\Entity\AlertChangeTypeInterface;
+use AppBundle\Service\DataimportFileLocator;
 
 /**
  * Class LoadAlertChangeTypeData
  */
 class LoadAlertChangeTypeData extends AbstractFixture
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('alert_change_type');
+        parent::__construct($dataimportFileLocator, 'alert_change_type');
     }
 
     /**

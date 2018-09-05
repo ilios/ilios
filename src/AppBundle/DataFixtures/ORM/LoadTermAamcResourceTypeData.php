@@ -2,6 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use AppBundle\Entity\AamcResourceTypeInterface;
@@ -13,9 +14,9 @@ use AppBundle\Entity\TermInterface;
  */
 class LoadTermAamcResourceTypeData extends AbstractFixture implements DependentFixtureInterface
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('term_x_aamc_resource_type', false);
+        parent::__construct($dataimportFileLocator, 'term_x_aamc_resource_type', false);
     }
 
     /**

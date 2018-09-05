@@ -2,6 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use AppBundle\Entity\CurriculumInventoryInstitution;
@@ -12,9 +13,9 @@ use AppBundle\Entity\CurriculumInventoryInstitutionInterface;
  */
 class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements DependentFixtureInterface
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('curriculum_inventory_institution');
+        parent::__construct($dataimportFileLocator, 'curriculum_inventory_institution');
     }
 
     /**

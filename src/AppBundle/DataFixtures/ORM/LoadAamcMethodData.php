@@ -4,15 +4,20 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\AamcMethod;
 use AppBundle\Entity\AamcMethodInterface;
+use AppBundle\Service\DataimportFileLocator;
 
 /**
  * Class LoadAamcMethodData
  */
 class LoadAamcMethodData extends AbstractFixture
 {
-    public function __construct()
+    /**
+     * LoadAamcMethodData constructor.
+     * @param DataimportFileLocator $dataimportFileLocator
+     */
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('aamc_method');
+        parent::__construct($dataimportFileLocator, 'aamc_method');
     }
 
     /**

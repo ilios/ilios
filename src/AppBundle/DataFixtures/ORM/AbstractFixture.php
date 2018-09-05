@@ -2,15 +2,13 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use AppBundle\Service\DataimportFileLocator;
 use AppBundle\Traits\IdentifiableEntityInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * A generic data-loader base-class for importing entities from data files.
@@ -19,9 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @link http://docs.doctrine-project.org/en/latest/reference/batch-processing.html#bulk-inserts
  */
-abstract class AbstractFixture extends DataFixture implements
-    FixtureInterface,
-    ContainerAwareInterface
+abstract class AbstractFixture extends DataFixture implements ORMFixtureInterface
 {
     /**
      * @var int number of insert statements per batch.
@@ -38,21 +34,24 @@ abstract class AbstractFixture extends DataFixture implements
      * Set to TRUE if the loaded fixture should be held on for reference.
      */
     protected $storeReference;
-
     /**
-     * @var ContainerInterface
+     * @var DataimportFileLocator
      */
-    private $container;
-
+    private $dataimportFileLocator;
 
     /**
      * @param string $key
      * @param boolean $storeReference
+     * @param DataimportFileLocator $dataimportFileLocator
      */
-    public function __construct($key, $storeReference = true)
-    {
+    public function __construct(
+        DataimportFileLocator $dataimportFileLocator,
+        $key,
+        $storeReference = true
+    ) {
         $this->key = $key;
         $this->storeReference = $storeReference;
+        $this->dataimportFileLocator = $dataimportFileLocator;
     }
 
     /**
@@ -73,7 +72,7 @@ abstract class AbstractFixture extends DataFixture implements
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
 
         $fileName = $this->getKey() . '.csv';
-        $path = $this->container->get(DataimportFileLocator::class)->getDataFilePath($fileName);
+        $path = $this->dataimportFileLocator->getDataFilePath($fileName);
 
         // honor the given entity identifiers.
         // @link http://www.ens.ro/2012/07/03/symfony2-doctrine-force-entity-id-on-persist/
@@ -118,14 +117,6 @@ abstract class AbstractFixture extends DataFixture implements
         if (function_exists('gc_collect_cycles')) {
             gc_collect_cycles();
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 
     /**

@@ -23,14 +23,11 @@ class DataimportFileLocator
     /**
      * @var string Default data-files directory path.
      */
-    const DATAIMPORT_FILE_DIR = '@AppBundle/Resources/dataimport';
+    const DATAIMPORT_FILE_DIR = __DIR__ . '/../Resources/dataimport';
 
-    /**
-     * @param FileLocator $fileLocator
-     */
-    public function __construct(FileLocator $fileLocator)
+    public function __construct()
     {
-        $this->fileLocator = $fileLocator;
+        $this->fileLocator = new FileLocator();
         $this->setDirectoryPath(self::DATAIMPORT_FILE_DIR);
     }
 

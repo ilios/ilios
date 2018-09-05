@@ -2,6 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use AppBundle\Entity\Vocabulary;
@@ -12,9 +13,9 @@ use AppBundle\Entity\VocabularyInterface;
  */
 class LoadVocabularyData extends AbstractFixture implements DependentFixtureInterface
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('vocabulary');
+        parent::__construct($dataimportFileLocator, 'vocabulary');
     }
 
     /**

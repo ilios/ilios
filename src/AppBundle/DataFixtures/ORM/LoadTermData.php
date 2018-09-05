@@ -2,6 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use AppBundle\Entity\Term;
@@ -12,9 +13,9 @@ use AppBundle\Entity\TermInterface;
  */
 class LoadTermData extends AbstractFixture implements DependentFixtureInterface
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('term');
+        parent::__construct($dataimportFileLocator, 'term');
     }
 
     /**

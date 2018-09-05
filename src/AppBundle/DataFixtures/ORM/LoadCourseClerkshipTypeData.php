@@ -4,15 +4,16 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\CourseClerkshipType;
 use AppBundle\Entity\CourseClerkshipTypeInterface;
+use AppBundle\Service\DataimportFileLocator;
 
 /**
  * Class LoadCourseClerkshipTypeData
  */
 class LoadCourseClerkshipTypeData extends AbstractFixture
 {
-    public function __construct()
+    public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
-        parent::__construct('course_clerkship_type');
+        parent::__construct($dataimportFileLocator, 'course_clerkship_type');
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Entity\Manager\MeshDescriptorManager;
+use AppBundle\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
@@ -9,9 +11,16 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
  */
 class LoadMeshConceptTermData extends AbstractMeshFixture implements DependentFixtureInterface
 {
-    public function __construct()
-    {
-        parent::__construct('mesh_concept_x_term.csv', 'MeshConceptTerm');
+    public function __construct(
+        MeshDescriptorManager $meshDescriptorManager,
+        DataimportFileLocator $dataimportFileLocator
+    ) {
+        parent::__construct(
+            $meshDescriptorManager,
+            $dataimportFileLocator,
+            'mesh_concept_x_term.csv',
+            'MeshConceptTerm'
+        );
     }
 
     /**
