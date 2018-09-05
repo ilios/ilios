@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\ApiBundle\Service;
+namespace AppBundle\Service;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpKernel\KernelInterface;

@@ -18,14 +18,7 @@ services:
             $validApiObjects: '%ilios_api_valid_endpoints%'
         tags: [{ name: kernel.event_listener, event: kernel.controller, method: onKernelController }]
 
-    Ilios\ApiBundle\Service\SwaggerDocBuilder:
-        arguments:
-            $apiVersion: '%ilios_api_version%'
-
     Ilios\ApiBundle\Controller\SwaggerDocsController:
         public: true
         arguments:
             $kernelRootDir: '%kernel.root_dir%'
-
-    Symfony\Component\Serializer\SerializerInterface:
-          factory:   ['Ilios\ApiBundle\Service\SerializerFactory', createSerializer]

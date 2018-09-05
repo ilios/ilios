@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\ApiBundle\Service;
+namespace AppBundle\Service;
 
 use Ilios\ApiBundle\Normalizer\DTO;
 use Ilios\ApiBundle\Normalizer\Entity;

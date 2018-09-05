@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\ApiBundle\Service;
+namespace AppBundle\Service;
 
 use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\Finder\Finder;

@@ -2,7 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\ApiBundle\Service\SwaggerDocBuilder;
+use AppBundle\Service\SwaggerDocBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;

@@ -216,3 +216,10 @@ services:
     AppBundle\Service\CrossingGuard:
       tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 256 }
+
+    AppBundle\Service\SwaggerDocBuilder:
+        arguments:
+            $apiVersion: '%ilios_api_version%'
+
+    Symfony\Component\Serializer\SerializerInterface:
+        factory:   ['AppBundle\Service\SerializerFactory', createSerializer]
