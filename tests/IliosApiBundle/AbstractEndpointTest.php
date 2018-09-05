@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Tests\AppBundle\DataLoader\DataLoaderInterface;
 use Tests\AppBundle\Traits\JsonControllerTest;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
 
