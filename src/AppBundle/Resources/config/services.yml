@@ -177,6 +177,10 @@ services:
             $validApiObjects: '%ilios_api_valid_endpoints%'
         tags: [{ name: kernel.event_listener, event: kernel.controller, method: onKernelController }]
 
+    AppBundle\Listener\AddJwtHeader:
+        tags:
+        - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
     ilios.cache:
       class: 'Doctrine\Common\Cache\Cache'
       factory: ['AppBundle\Service\CacheFactory', 'createCache']

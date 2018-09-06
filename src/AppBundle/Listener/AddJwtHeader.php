@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Listener;
+namespace AppBundle\Listener;
 
 use Ilios\AuthenticationBundle\Jwt\Token as JwtToken;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;

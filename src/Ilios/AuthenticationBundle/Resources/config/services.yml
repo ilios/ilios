@@ -8,10 +8,6 @@ services:
     Ilios\AuthenticationBundle\:
           resource: '../../*'
 
-    Ilios\AuthenticationBundle\Listener\AddJwtHeader:
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-
     Ilios\AuthenticationBundle\Service\JsonWebTokenManager:
         public: true
         arguments:

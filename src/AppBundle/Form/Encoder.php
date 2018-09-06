@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Form;
+namespace AppBundle\Form;
 
 use AppBundle\Service\Config;
 use Symfony\Component\Security\Core\Encoder\BasePasswordEncoder;

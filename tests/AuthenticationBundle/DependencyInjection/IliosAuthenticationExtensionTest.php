@@ -2,7 +2,7 @@
 
 namespace Tests\AuthenticationBundle\DependencyInjection;
 
-use Ilios\AuthenticationBundle\Listener\AddJwtHeader;
+use AppBundle\Listener\AddJwtHeader;
 use Ilios\AuthenticationBundle\Service\AuthenticationFactory;
 use Ilios\AuthenticationBundle\Service\CasManager;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;

@@ -101,7 +101,7 @@ security:
         AppBundle\Classes\SessionUserInterface:
             algorithm: bcrypt
         ilios_legacy_encoder:
-            id: Ilios\AuthenticationBundle\Form\Encoder
+            id: AppBundle\Form\Encoder
 
 doctrine_migrations:
     dir_name: '%kernel.root_dir%/Resources/DoctrineMigrations'
