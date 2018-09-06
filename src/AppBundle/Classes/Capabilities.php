@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Classes;
+namespace AppBundle\Classes;
 
 /**
  * Constants-interface that defines all capabilities in the system.

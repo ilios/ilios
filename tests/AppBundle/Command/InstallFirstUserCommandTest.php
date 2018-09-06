@@ -136,7 +136,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
             ->shouldReceive('getId')->andReturn(1)
             ->shouldReceive('getTitle')->andReturn('Big School Title')
             ->mock();
-        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface');
+        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface');
         $developerRole = m::mock('AppBundle\Entity\UserRoleInterface');
         $courseDirectorRole = m::mock('AppBundle\Entity\UserRoleInterface');
         $user = m::mock('AppBundle\Entity\UserInterface')

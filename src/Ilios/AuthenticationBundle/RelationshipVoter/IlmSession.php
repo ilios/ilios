@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use AppBundle\Entity\IlmSessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 

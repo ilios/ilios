@@ -36,4 +36,4 @@ services:
 
     Ilios\AuthenticationBundle\Service\DefaultPermissionMatrix: ~
 
-    Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface: '@Ilios\AuthenticationBundle\Service\DefaultPermissionMatrix'
+    AppBundle\Classes\PermissionMatrixInterface: '@Ilios\AuthenticationBundle\Service\DefaultPermissionMatrix'

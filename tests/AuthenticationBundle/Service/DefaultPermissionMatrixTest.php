@@ -2,8 +2,8 @@
 
 namespace Tests\AuthenticationBundle\Service;
 
-use Ilios\AuthenticationBundle\Classes\Capabilities;
-use Ilios\AuthenticationBundle\Classes\UserRoles;
+use AppBundle\Classes\Capabilities;
+use AppBundle\Classes\UserRoles;
 use Ilios\AuthenticationBundle\Service\DefaultPermissionMatrix;
 use AppBundle\Entity\DTO\SchoolDTO;
 use AppBundle\Entity\Manager\SchoolManager;

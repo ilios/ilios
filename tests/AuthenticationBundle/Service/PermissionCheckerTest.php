@@ -2,9 +2,9 @@
 
 namespace Tests\AuthenticationBundle\Service;
 
-use Ilios\AuthenticationBundle\Classes\Capabilities;
-use Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface;
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\Capabilities;
+use AppBundle\Classes\PermissionMatrixInterface;
+use AppBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;
 use AppBundle\Entity\CohortInterface;
 use AppBundle\Entity\CourseInterface;

@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use AppBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use AppBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

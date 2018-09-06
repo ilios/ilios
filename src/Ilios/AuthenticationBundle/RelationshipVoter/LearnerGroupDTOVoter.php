@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use AppBundle\Entity\DTO\AuthenticationDTO;
 use AppBundle\Entity\DTO\IngestionExceptionDTO;
 use AppBundle\Entity\DTO\LearnerGroupDTO;

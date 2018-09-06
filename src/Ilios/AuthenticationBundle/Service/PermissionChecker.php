@@ -2,9 +2,9 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
-use Ilios\AuthenticationBundle\Classes\Capabilities;
-use Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface;
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\Capabilities;
+use AppBundle\Classes\PermissionMatrixInterface;
+use AppBundle\Classes\SessionUserInterface;
 
 use AppBundle\Entity\CourseInterface;
 use AppBundle\Entity\ProgramInterface;

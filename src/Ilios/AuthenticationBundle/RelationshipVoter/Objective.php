@@ -6,7 +6,7 @@ use AppBundle\Entity\CourseInterface;
 use AppBundle\Entity\ObjectiveInterface;
 use AppBundle\Entity\ProgramYearInterface;
 use AppBundle\Entity\SessionInterface;
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**

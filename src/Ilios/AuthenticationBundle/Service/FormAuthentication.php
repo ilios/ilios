@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
-use Ilios\AuthenticationBundle\Classes\SessionUser;
+use AppBundle\Classes\SessionUser;
 use AppBundle\Entity\Manager\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,7 +1,7 @@
 <?php
 namespace Tests\AuthenticationBundle\Service;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 use Ilios\AuthenticationBundle\Service\SessionUserProvider;
 use AppBundle\Entity\AuthenticationInterface;

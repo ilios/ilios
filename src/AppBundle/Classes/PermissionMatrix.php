@@ -1,10 +1,10 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Classes;
+namespace AppBundle\Classes;
 
 /**
  * Class PermissionMatrix
- * @package Ilios\AuthenticationBundle\Classes
+ * @package AppBundle\Classes
  */
 class PermissionMatrix implements PermissionMatrixInterface
 {

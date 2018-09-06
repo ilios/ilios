@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\AuthenticationBundle\Classes;
+namespace Tests\AppBundle\Classes;
 
-use Ilios\AuthenticationBundle\Classes\PermissionMatrix;
+use AppBundle\Classes\PermissionMatrix;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class PermissionMatrixTest
- * @package Tests\AuthenticationBundle\Classes
+ * @package Tests\AppBundle\Classes
  */
 class PermissionMatrixTest extends TestCase
 {

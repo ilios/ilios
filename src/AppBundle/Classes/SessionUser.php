@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Classes;
+namespace AppBundle\Classes;
 
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\SchoolInterface;

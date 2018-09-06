@@ -1,11 +1,11 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Classes;
+namespace AppBundle\Classes;
 
 /**
  * Constant interface, defines all user roles in Ilios.
  * Interface UserRoleInterface
- * @package Ilios\AuthenticationBundle\Classes
+ * @package AppBundle\Classes
  */
 interface UserRoles
 {

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Classes;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use AppBundle\Entity\UserInterface;
 use AppBundle\Annotation as IS;
 

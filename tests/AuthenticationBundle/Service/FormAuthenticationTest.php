@@ -120,7 +120,7 @@ class FormAuthenticationTest extends TestCase
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $user = m::mock(UserInterface::class);
-        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
@@ -148,7 +148,7 @@ class FormAuthenticationTest extends TestCase
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $user = m::mock(UserInterface::class);
-        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(false)->mock();
         $authenticationEntity = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
@@ -175,7 +175,7 @@ class FormAuthenticationTest extends TestCase
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $user = m::mock(UserInterface::class);
-        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('AppBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)

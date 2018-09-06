@@ -2,7 +2,7 @@
 namespace AppBundle\EventListener;
 
 use Happyr\GoogleAnalyticsBundle\Service\Tracker;
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use AppBundle\Service\Config;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

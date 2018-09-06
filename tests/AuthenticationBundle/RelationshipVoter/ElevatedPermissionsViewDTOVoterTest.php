@@ -2,7 +2,7 @@
 
 namespace Tests\AuthenticationBundle\RelationshipVoter;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\ElevatedPermissionsViewDTOVoter as Voter;
 use Ilios\AuthenticationBundle\Service\PermissionChecker;

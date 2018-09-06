@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use AppBundle\Entity\DTO\AamcMethodDTO;
 use AppBundle\Entity\DTO\AamcPcrsDTO;
 use AppBundle\Entity\DTO\AamcResourceTypeDTO;

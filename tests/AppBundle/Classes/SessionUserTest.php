@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\AuthenticationBundle\Classes;
+namespace Tests\AppBundle\Classes;
 
-use Ilios\AuthenticationBundle\Classes\SessionUser;
+use AppBundle\Classes\SessionUser;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\School;
 use AppBundle\Entity\UserInterface;
@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class SessionUserTest
- * @package Tests\AuthenticationBundle\Classes
+ * @package Tests\AppBundle\Classes
  */
 class SessionUserTest extends TestCase
 {

@@ -2,9 +2,9 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
-use Ilios\AuthenticationBundle\Classes\Capabilities;
-use Ilios\AuthenticationBundle\Classes\PermissionMatrix;
-use Ilios\AuthenticationBundle\Classes\UserRoles;
+use AppBundle\Classes\Capabilities;
+use AppBundle\Classes\PermissionMatrix;
+use AppBundle\Classes\UserRoles;
 use AppBundle\Entity\DTO\SchoolDTO;
 use AppBundle\Entity\Manager\SchoolManager;
 

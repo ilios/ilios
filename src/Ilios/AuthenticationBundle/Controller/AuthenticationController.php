@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Controller;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 use AppBundle\Entity\Manager\AuthenticationManager;

@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Encoder;
 
 use Ilios\AuthenticationBundle\Jwt\Token as JwtToken;

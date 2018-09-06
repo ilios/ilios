@@ -1,7 +1,7 @@
 <?php
 namespace Tests\AuthenticationBundle\RelationshipVoter;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
