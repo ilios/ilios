@@ -8,11 +8,6 @@ services:
     Ilios\AuthenticationBundle\:
           resource: '../../*'
 
-    Ilios\AuthenticationBundle\Controller\:
-        resource: '../../Controller'
-        public: true
-        tags: ['controller.service_arguments']
-
     Ilios\AuthenticationBundle\Listener\AddJwtHeader:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }

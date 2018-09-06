@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Controller;
+namespace AppBundle\Controller;
 
 use AppBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class AuthenticationController extends AbstractController
+class AuthController extends AbstractController
 {
     
     /**

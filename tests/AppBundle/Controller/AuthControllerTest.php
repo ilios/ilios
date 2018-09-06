@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\AuthenticationBundle\Controller;
+namespace Tests\AppBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Firebase\JWT\JWT;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\Traits\JsonControllerTest;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
-class AuthenticationControllerTest extends WebTestCase
+class AuthControllerTest extends WebTestCase
 {
     use JsonControllerTest;
 
