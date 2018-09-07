@@ -5,7 +5,6 @@ namespace AppBundle\Service;
 use AppBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Encoder;
 
-use Ilios\AuthenticationBundle\Jwt\Token as JwtToken;
 use AppBundle\Entity\UserInterface;
 use Firebase\JWT\JWT;
 use DateTime;
