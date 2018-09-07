@@ -1,8 +1,8 @@
 <?php
-namespace Tests\AuthenticationBundle\Service;
+namespace Tests\AppBundle\Service;
 
-use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
-use Ilios\AuthenticationBundle\Service\SessionUserProvider;
+use AppBundle\Service\JsonWebTokenManager;
+use AppBundle\Service\SessionUserProvider;
 use AppBundle\Entity\Manager\AuthenticationManager;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\UserInterface;
@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 
-use Ilios\AuthenticationBundle\Service\FormAuthentication;
+use AppBundle\Service\FormAuthentication;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 

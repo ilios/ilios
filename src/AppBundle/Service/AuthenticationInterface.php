@@ -1,5 +1,5 @@
 <?php
-namespace Ilios\AuthenticationBundle\Service;
+namespace AppBundle\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;

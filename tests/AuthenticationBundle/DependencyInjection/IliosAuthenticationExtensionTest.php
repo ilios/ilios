@@ -3,9 +3,9 @@
 namespace Tests\AuthenticationBundle\DependencyInjection;
 
 use AppBundle\Listener\AddJwtHeader;
-use Ilios\AuthenticationBundle\Service\AuthenticationFactory;
-use Ilios\AuthenticationBundle\Service\CasManager;
-use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use AppBundle\Service\AuthenticationFactory;
+use AppBundle\Service\CasManager;
+use AppBundle\Service\JsonWebTokenManager;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Ilios\AuthenticationBundle\DependencyInjection\IliosAuthenticationExtension;
 

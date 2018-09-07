@@ -1,22 +1,16 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Service;
+namespace AppBundle\Service;
 
-use AppBundle\Classes\SessionUser;
-use AppBundle\Entity\Manager\UserManager;
+use AppBundle\Service\Config;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 
-use AppBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use AppBundle\Entity\Manager\AuthenticationManager;
-use AppBundle\Entity\UserInterface;
-use Ilios\AuthenticationBundle\Traits\AuthenticationService;
+use AppBundle\Traits\AuthenticationService;
+use Symfony\Component\HttpFoundation\Response;
 
-class FormAuthentication implements AuthenticationInterface
+class LdapAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
@@ -26,56 +20,52 @@ class FormAuthentication implements AuthenticationInterface
     protected $authManager;
 
     /**
-     * @var UserPasswordEncoderInterface
-     */
-    protected $encoder;
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
-
-    /**
      * @var JsonWebTokenManager
      */
     protected $jwtManager;
 
     /**
-     * @var UserManager
+     * @var string
      */
-    protected $userManager;
+    protected $ldapHost;
 
+    /**
+     * @var string
+     */
+    protected $ldapPort;
+
+    /**
+     * @var string
+     */
+    protected $ldapBindTemplate;
     /**
      * @var SessionUserProvider
      */
     protected $sessionUserProvider;
 
     /**
-     * Constructor
      * @param AuthenticationManager $authManager
-     * @param UserManager                    $userManager
-     * @param UserPasswordEncoderInterface   $encoder
-     * @param TokenStorageInterface          $tokenStorage
-     * @param JsonWebTokenManager            $jwtManager
-     * @param SessionUserProvider            $sessionUserProvider
+     * @param JsonWebTokenManager $jwtManager
+     * @param Config $config
+     * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
         AuthenticationManager $authManager,
-        UserManager $userManager,
-        UserPasswordEncoderInterface $encoder,
-        TokenStorageInterface $tokenStorage,
         JsonWebTokenManager $jwtManager,
+        Config $config,
         SessionUserProvider $sessionUserProvider
     ) {
         $this->authManager = $authManager;
-        $this->encoder = $encoder;
-        $this->tokenStorage = $tokenStorage;
         $this->jwtManager = $jwtManager;
-        $this->userManager = $userManager;
+        $this->ldapHost = $config->get('ldap_authentication_host');
+        $this->ldapPort = $config->get('ldap_authentication_port');
+        $this->ldapBindTemplate = $config->get('ldap_authentication_bind_template');
         $this->sessionUserProvider = $sessionUserProvider;
     }
 
     /**
      * Login a user using a username and password
+     * to bind against an LDAP server
      * @param Request $request
      *
      * @return JsonResponse
@@ -110,9 +100,8 @@ class FormAuthentication implements AuthenticationInterface
             if ($authEntity) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
                 if ($sessionUser->isEnabled()) {
-                    $passwordValid = $this->encoder->isPasswordValid($sessionUser, $password);
+                    $passwordValid = $this->checkLdapPassword($username, $password);
                     if ($passwordValid) {
-                        $this->updateLegacyPassword($authEntity, $password);
                         $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
 
                         return $this->createSuccessResponseFromJWT($jwt);
@@ -123,11 +112,11 @@ class FormAuthentication implements AuthenticationInterface
             $code = JsonResponse::HTTP_UNAUTHORIZED;
         }
 
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'error',
             'errors' => $errors,
             'jwt' => null,
-        ), $code);
+        ], $code);
     }
 
     /**
@@ -138,34 +127,30 @@ class FormAuthentication implements AuthenticationInterface
      */
     public function logout(Request $request)
     {
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'success'
-        ), JsonResponse::HTTP_OK);
+        ], JsonResponse::HTTP_OK);
     }
 
     /**
-     * Update users to the new password encoding when they login
-     * @param  AuthenticationEntityInterface $authEntity
-     * @param  string         $password
+     * Check against ldap to see if the user is valid
+     * @param  string $username
+     * @param  string $password
+     *
+     * @return boolean
      */
-    protected function updateLegacyPassword(AuthenticationEntityInterface $authEntity, $password)
+    public function checkLdapPassword($username, $password)
     {
-        if ($authEntity->isLegacyAccount()) {
-            //we have to have a valid token to update the user because the audit log requires it
-            $authenticatedToken = new PreAuthenticatedToken(
-                $authEntity->getUser(),
-                'fakekey',
-                'fakeProvider'
-            );
-            $authenticatedToken->setAuthenticated(true);
-            $this->tokenStorage->setToken($authenticatedToken);
-
-            $authEntity->setPasswordSha256(null);
-            $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
-            $encodedPassword = $this->encoder->encodePassword($sessionUser, $password);
-            $authEntity->setPasswordBcrypt($encodedPassword);
-            $this->authManager->update($authEntity);
+        $ldapConn = @ldap_connect($this->ldapHost, $this->ldapPort);
+        if ($ldapConn) {
+            $ldapRdn = sprintf($this->ldapBindTemplate, $username);
+            $ldapBind = @ldap_bind($ldapConn, $ldapRdn, $password);
+            if ($ldapBind) {
+                return true;
+            }
         }
+
+        return false;
     }
 
     /**
@@ -174,7 +159,7 @@ class FormAuthentication implements AuthenticationInterface
     public function getPublicConfigurationInformation(Request $request)
     {
         $configuration = [];
-        $configuration['type'] = 'form';
+        $configuration['type'] = 'ldap';
 
         return $configuration;
     }

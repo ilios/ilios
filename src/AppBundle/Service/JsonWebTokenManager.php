@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Service;
+namespace AppBundle\Service;
 
 use AppBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Encoder;

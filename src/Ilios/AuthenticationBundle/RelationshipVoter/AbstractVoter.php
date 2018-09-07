@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\RelationshipVoter;
 
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter as SymfonyVoter;
 
 abstract class AbstractVoter extends SymfonyVoter

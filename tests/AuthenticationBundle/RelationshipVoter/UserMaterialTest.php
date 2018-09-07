@@ -4,7 +4,7 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\UserMaterial as Voter;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Classes\UserMaterial;
 use AppBundle\Entity\LearningMaterialStatusInterface;
 use AppBundle\Service\Config;

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Command;
 
-use Ilios\AuthenticationBundle\Service\SessionUserProvider;
+use AppBundle\Service\SessionUserProvider;
 use AppBundle\Entity\AuthenticationInterface;
 use AppBundle\Entity\Manager\AuthenticationManager;
 

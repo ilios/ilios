@@ -4,7 +4,7 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 use AppBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\CurriculumInventoryExport as Voter;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Entity\CurriculumInventoryReport;
 use AppBundle\Entity\CurriculumInventoryExport;
 use AppBundle\Entity\School;

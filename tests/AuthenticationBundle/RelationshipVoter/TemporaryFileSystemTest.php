@@ -4,7 +4,7 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\TemporaryFileSystem as Voter;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Service\Config;
 use AppBundle\Service\TemporaryFileSystem;
 use Mockery as m;

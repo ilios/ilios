@@ -8,7 +8,7 @@ use DateTime;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\Traits\JsonControllerTest;
-use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use AppBundle\Service\JsonWebTokenManager;
 
 class AuthControllerTest extends WebTestCase
 {

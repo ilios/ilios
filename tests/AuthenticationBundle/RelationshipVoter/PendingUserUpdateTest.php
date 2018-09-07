@@ -3,7 +3,7 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\PendingUserUpdate as Voter;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Entity\PendingUserUpdate;
 use AppBundle\Entity\School;
 use AppBundle\Entity\User;

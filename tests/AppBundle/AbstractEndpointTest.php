@@ -236,7 +236,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
-        return json_decode($response->getContent(), true)[$responseKey][0];
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey($responseKey, $content);
+        $this->assertCount(1, $content[$responseKey], var_export($content, true));
+        return $content[$responseKey][0];
     }
 
     /**

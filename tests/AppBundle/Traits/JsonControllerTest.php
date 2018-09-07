@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Traits;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use AppBundle\Service\JsonWebTokenManager;
 
 /**
  * Class JsonControllerTest

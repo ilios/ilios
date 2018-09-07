@@ -3,7 +3,7 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\CurriculumInventoryAcademicLevel as Voter;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Entity\CurriculumInventoryAcademicLevel;
 use AppBundle\Service\Config;
 use Mockery as m;

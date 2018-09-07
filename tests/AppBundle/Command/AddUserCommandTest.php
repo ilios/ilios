@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\Command;
 
 use AppBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Service\SessionUserProvider;
+use AppBundle\Service\SessionUserProvider;
 use AppBundle\Command\AddUserCommand;
 use AppBundle\Entity\AuthenticationInterface;
 use AppBundle\Entity\Manager\AuthenticationManager;

@@ -1,7 +1,7 @@
 <?php
 namespace Tests\AppBundle\Command;
 
-use Ilios\AuthenticationBundle\Service\SessionUserProvider;
+use AppBundle\Service\SessionUserProvider;
 use AppBundle\Command\InstallFirstUserCommand;
 use AppBundle\Entity\Manager\AuthenticationManager;
 use AppBundle\Entity\Manager\SchoolManager;

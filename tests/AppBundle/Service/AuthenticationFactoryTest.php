@@ -1,15 +1,15 @@
 <?php
-namespace Tests\AuthenticationBundle\Service;
+namespace Tests\AppBundle\Service;
 
-use Ilios\AuthenticationBundle\Service\CasAuthentication;
-use Ilios\AuthenticationBundle\Service\FormAuthentication;
-use Ilios\AuthenticationBundle\Service\LdapAuthentication;
-use Ilios\AuthenticationBundle\Service\ShibbolethAuthentication;
+use AppBundle\Service\CasAuthentication;
+use AppBundle\Service\FormAuthentication;
+use AppBundle\Service\LdapAuthentication;
+use AppBundle\Service\ShibbolethAuthentication;
 use AppBundle\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 
-use Ilios\AuthenticationBundle\Service\AuthenticationFactory;
+use AppBundle\Service\AuthenticationFactory;
 
 class AuthenticationFactoryTest extends TestCase
 {

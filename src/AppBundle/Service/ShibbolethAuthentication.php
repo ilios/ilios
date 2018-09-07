@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Service;
+namespace AppBundle\Service;
 
 use AppBundle\Service\Config;
 use Psr\Log\LoggerInterface;
@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Entity\Manager\AuthenticationManager;
-use Ilios\AuthenticationBundle\Traits\AuthenticationService;
+use AppBundle\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

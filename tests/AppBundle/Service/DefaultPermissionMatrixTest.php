@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\AuthenticationBundle\Service;
+namespace Tests\AppBundle\Service;
 
 use AppBundle\Classes\Capabilities;
 use AppBundle\Classes\UserRoles;
-use Ilios\AuthenticationBundle\Service\DefaultPermissionMatrix;
+use AppBundle\Service\DefaultPermissionMatrix;
 use AppBundle\Entity\DTO\SchoolDTO;
 use AppBundle\Entity\Manager\SchoolManager;
 use Mockery as m;
@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class DefaultPermissionMatrixTest
- * @package Tests\AuthenticationBundle\Service
+ * @package Tests\AppBundle\Service
  * @covers DefaultPermissionMatrix
  */
 class DefaultPermissionMatrixTest extends TestCase

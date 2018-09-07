@@ -13,32 +13,32 @@ security:
             pattern:    ^/auth
             stateless: true
             simple_preauth:
-                authenticator: Ilios\AuthenticationBundle\Service\JsonWebTokenAuthenticator
+                authenticator: AppBundle\Service\JsonWebTokenAuthenticator
             provider: session_user
         authenticated_application:
             pattern:    ^/application
             stateless: true
             simple_preauth:
-                authenticator: Ilios\AuthenticationBundle\Service\JsonWebTokenAuthenticator
+                authenticator: AppBundle\Service\JsonWebTokenAuthenticator
             provider: session_user
         upload:
             pattern:    ^/upload
             stateless: true
             simple_preauth:
-                authenticator: Ilios\AuthenticationBundle\Service\JsonWebTokenAuthenticator
+                authenticator: AppBundle\Service\JsonWebTokenAuthenticator
             provider: session_user
         errors:
             pattern:    ^/errors
             stateless: true
             simple_preauth:
-                authenticator: Ilios\AuthenticationBundle\Service\JsonWebTokenAuthenticator
+                authenticator: AppBundle\Service\JsonWebTokenAuthenticator
             provider: session_user
         default:
             pattern:    ^/api
             stateless: true
             simple_preauth:
-                authenticator: Ilios\AuthenticationBundle\Service\JsonWebTokenAuthenticator
+                authenticator: AppBundle\Service\JsonWebTokenAuthenticator
             provider: session_user
     providers:
         session_user:
-            id: Ilios\AuthenticationBundle\Service\SessionUserProvider
+            id: AppBundle\Service\SessionUserProvider

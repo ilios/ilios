@@ -3,8 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
-use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use AppBundle\Service\AuthenticationInterface;
+use AppBundle\Service\JsonWebTokenManager;
 use AppBundle\Entity\Manager\AuthenticationManager;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\UserInterface;

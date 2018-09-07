@@ -7,24 +7,3 @@ services:
 
     Ilios\AuthenticationBundle\:
           resource: '../../*'
-
-    Ilios\AuthenticationBundle\Service\JsonWebTokenManager:
-        public: true
-        arguments:
-          $secretKey: '%kernel.secret%'
-
-    Ilios\AuthenticationBundle\Service\AuthenticationFactory:
-        public: true
-
-    Ilios\AuthenticationBundle\Service\AuthenticationInterface:
-        factory: ['@Ilios\AuthenticationBundle\Service\AuthenticationFactory', createAuthenticationService]
-
-    Ilios\AuthenticationBundle\Service\CasManager:
-        public: true
-
-    Ilios\AuthenticationBundle\Service\PermissionChecker:
-        public: true
-
-    Ilios\AuthenticationBundle\Service\DefaultPermissionMatrix: ~
-
-    AppBundle\Classes\PermissionMatrixInterface: '@Ilios\AuthenticationBundle\Service\DefaultPermissionMatrix'

@@ -3,7 +3,7 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\CurriculumInventorySequenceBlock as Voter;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Entity\CurriculumInventoryExport;
 use AppBundle\Entity\CurriculumInventoryReport;
 use AppBundle\Entity\CurriculumInventorySequenceBlock;

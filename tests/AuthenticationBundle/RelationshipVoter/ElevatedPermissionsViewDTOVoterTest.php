@@ -5,7 +5,7 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 use AppBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\ElevatedPermissionsViewDTOVoter as Voter;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Entity\DTO\AuthenticationDTO;
 use AppBundle\Entity\DTO\IngestionExceptionDTO;
 use AppBundle\Entity\DTO\LearnerGroupDTO;

@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\AuthenticationBundle\Service;
+namespace Tests\AppBundle\Service;
 
 use AppBundle\Classes\Capabilities;
 use AppBundle\Classes\PermissionMatrixInterface;
 use AppBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Entity\CohortInterface;
 use AppBundle\Entity\CourseInterface;
 use AppBundle\Entity\ProgramInterface;
@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class PermissionCheckerTest
- * @package Tests\AuthenticationBundle\Service
+ * @package Tests\AppBundle\Service
  */
 class PermissionCheckerTest extends TestCase
 {

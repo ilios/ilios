@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Classes\PermissionMatrixInterface;
 use AppBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

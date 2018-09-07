@@ -5,7 +5,7 @@ namespace Tests\AuthenticationBundle\RelationshipVoter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
 use Ilios\AuthenticationBundle\RelationshipVoter\Objective as Voter;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\Objective;
 use AppBundle\Entity\ObjectiveInterface;

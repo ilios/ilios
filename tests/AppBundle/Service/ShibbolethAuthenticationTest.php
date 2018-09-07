@@ -1,9 +1,9 @@
 <?php
-namespace Tests\AuthenticationBundle\Service;
+namespace Tests\AppBundle\Service;
 
 use AppBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
-use Ilios\AuthenticationBundle\Service\SessionUserProvider;
+use AppBundle\Service\JsonWebTokenManager;
+use AppBundle\Service\SessionUserProvider;
 use AppBundle\Entity\AuthenticationInterface;
 use AppBundle\Entity\Manager\AuthenticationManager;
 use AppBundle\Entity\UserInterface;
@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 
-use Ilios\AuthenticationBundle\Service\ShibbolethAuthentication;
+use AppBundle\Service\ShibbolethAuthentication;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

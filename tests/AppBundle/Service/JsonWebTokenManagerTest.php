@@ -1,14 +1,14 @@
 <?php
-namespace Tests\AuthenticationBundle\Service;
+namespace Tests\AppBundle\Service;
 
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
-use Ilios\AuthenticationBundle\Service\SessionUserProvider;
+use AppBundle\Service\PermissionChecker;
+use AppBundle\Service\SessionUserProvider;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Firebase\JWT\JWT;
 use DateTime;
 use Mockery as m;
 
-use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use AppBundle\Service\JsonWebTokenManager;
 
 class JsonWebTokenManagerTest extends TestCase
 {
