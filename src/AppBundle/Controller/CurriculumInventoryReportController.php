@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Entity\CurriculumInventoryReportInterface;
 use AppBundle\Service\CurriculumInventory\ReportRollover;
 use AppBundle\Service\CurriculumInventoryReportDecoratorFactory;

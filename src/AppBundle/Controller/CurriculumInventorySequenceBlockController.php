@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Entity\CurriculumInventorySequenceBlock;
 use AppBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Symfony\Component\HttpFoundation\Request;

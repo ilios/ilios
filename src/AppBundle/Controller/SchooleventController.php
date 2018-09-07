@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Classes\SchoolEvent;
 use AppBundle\Entity\Manager\SchoolManager;
 use AppBundle\Entity\Manager\UserManager;

@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Classes\UserEvent;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\UserInterface;

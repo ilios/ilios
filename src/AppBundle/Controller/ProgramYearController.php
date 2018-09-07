@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Entity\CohortInterface;
 use AppBundle\Entity\DTO\ProgramYearDTO;
 use AppBundle\Entity\Manager\BaseManager;

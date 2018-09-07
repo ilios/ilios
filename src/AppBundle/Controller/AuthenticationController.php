@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Service\SessionUserProvider;
 use AppBundle\Entity\AuthenticationInterface;
 use AppBundle\Entity\UserInterface;

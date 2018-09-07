@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Service\CourseRollover;
 use AppBundle\Entity\CourseInterface;
 use AppBundle\Entity\Manager\CourseManager;

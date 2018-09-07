@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Service\IliosFileSystem;
 use AppBundle\Service\TemporaryFileSystem;
 use AppBundle\Entity\LearningMaterialInterface;
