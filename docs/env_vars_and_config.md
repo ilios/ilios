@@ -62,7 +62,7 @@ phpinfo();
 
 For Apache-based web servers, the currently-set Environment Variables should appear under the 'Apache Environment' section of the output.  If they are not set, you need to set them in the appropriate configuration files as described below.
 
-##### (NOTE: At this time, we only have instructions for configuring ENV variables on an Apache 2.4.x server. Documentation for Nginx servers is forthcoming...)
+**(NOTE: At this time, we only have instructions for configuring ENV variables on an Apache 2.4.x server. Documentation for Nginx servers is forthcoming...)**
 
 ### Setting ENV vars on an Apache Httpd server
 
@@ -108,4 +108,4 @@ SetEnvIf Host "ilios-production\.example\.com" ILIOS_DATABASE_PASSWORD=Pr0duct10
 SetEnvIf Host "ilios-production\.example\.com ILIOS_SECRET PR0DUCT10nS3CRET12345
 ```
 
-For more information on Apache Environments, `SetEnv`, and 'SetEnvIf', please refer to the Apache 2.4.x documentation at https://httpd.apache.org/docs/2.4/env.html
+For more information on Apache Environments, `SetEnv`, and `SetEnvIf`, please refer to the Apache 2.4.x documentation at https://httpd.apache.org/docs/2.4/env.html
