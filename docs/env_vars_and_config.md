@@ -27,7 +27,7 @@ When Ilios v3.56.0 is released, the [parameters.yml](https://github.com/ilios/il
 
 ## Why Environment Variables?
 
-Many users have asked why we have decided to deprecate the `parameters.yml` file for ENV vars and there are several reasons that are best summed up by the makers of the Symfony framework in their [Symfony 3.2 release notes](https://symfony.com/blog/new-in-symfony-3-2-runtime-environment-variables), from when they first introduced the change themselves:
+Many users have asked why we have decided to deprecate/remove the `parameters.yml` file for ENV vars and there are several reasons that are best summed up by the makers of the Symfony framework in their [Symfony 3.2 release notes](https://symfony.com/blog/new-in-symfony-3-2-runtime-environment-variables), from when they first introduced the change themselves:
 
 >[Configuration Options set as Runtime ENV variables] are one of the main concepts of the [twelve-factor app methodology](https://12factor.net/). Their main advantages are that they can be changed between deploys without changing any code and that they don't need to be checked into the code repository.
 
@@ -100,12 +100,12 @@ SetEnv ILIOS_DATABASE_PORT 3306
 SetEnvIf Host "ilios-staging\.example\.com" ILIOS_DATABASE_NAME=ilios_staging_db
 SetEnvIf Host "ilios-staging\.example\.com" ILIOS_DATABASE_USER=ilios_staging_db_user
 SetEnvIf Host "ilios-staging\.example\.com" ILIOS_DATABASE_PASSWORD=St@g1ngP@ssw0rd
-SetEnvIf Host "ilios-staging\.example\.com ILIOS_SECRET ST@G1nGS3CRET12345
+SetEnvIf Host "ilios-staging\.example\.com ILIOS_SECRET=ST@G1nGS3CRET12345
 
 SetEnvIf Host "ilios-production\.example\.com" ILIOS_DATABASE_NAME=ilios_production_db
 SetEnvIf Host "ilios-production\.example\.com" ILIOS_DATABASE_USER=ilios_production_db_user
 SetEnvIf Host "ilios-production\.example\.com" ILIOS_DATABASE_PASSWORD=Pr0duct10nP@ssw0rd
-SetEnvIf Host "ilios-production\.example\.com ILIOS_SECRET PR0DUCT10nS3CRET12345
+SetEnvIf Host "ilios-production\.example\.com ILIOS_SECRET=PR0DUCT10nS3CRET12345
 ```
 
 For more information on Apache Environments, `SetEnv`, and `SetEnvIf`, please refer to the Apache 2.4.x documentation at https://httpd.apache.org/docs/2.4/env.html
