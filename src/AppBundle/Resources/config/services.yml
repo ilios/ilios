@@ -230,5 +230,26 @@ services:
         arguments:
             $apiVersion: '%ilios_api_version%'
 
+    AppBundle\Service\JsonWebTokenManager:
+        public: true
+        arguments:
+            $secretKey: '%kernel.secret%'
+
+    AppBundle\Service\AuthenticationFactory:
+        public: true
+
+    AppBundle\Service\AuthenticationInterface:
+        factory: ['@AppBundle\Service\AuthenticationFactory', createAuthenticationService]
+
+    AppBundle\Service\CasManager:
+        public: true
+
+    AppBundle\Service\PermissionChecker:
+        public: true
+
+    AppBundle\Service\DefaultPermissionMatrix: ~
+
+    AppBundle\Classes\PermissionMatrixInterface: '@AppBundle\Service\DefaultPermissionMatrix'
+
     Symfony\Component\Serializer\SerializerInterface:
         factory:   ['AppBundle\Service\SerializerFactory', createSerializer]

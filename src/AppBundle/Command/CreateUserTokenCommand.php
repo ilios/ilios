@@ -2,7 +2,7 @@
 
 namespace AppBundle\Command;
 
-use Ilios\AuthenticationBundle\Classes\SessionUser;
+use AppBundle\Classes\SessionUser;
 use AppBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use AppBundle\Entity\Manager\UserManager;
-use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use AppBundle\Service\JsonWebTokenManager;
 
 /**
  * Create a new token for a user

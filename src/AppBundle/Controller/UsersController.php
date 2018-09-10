@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Entity\Manager\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

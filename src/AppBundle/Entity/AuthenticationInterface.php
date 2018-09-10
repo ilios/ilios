@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 
 /**
  * Interface AuthenticationInterface

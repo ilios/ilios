@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Service\EndpointResponseNamer;
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\RelationshipVoter\AbstractVoter;
 use AppBundle\Entity\Manager\ManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;

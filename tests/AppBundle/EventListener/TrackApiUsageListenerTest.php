@@ -1,7 +1,7 @@
 <?php
 namespace Tests\AppBundle\EventListener;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use AppBundle\Classes\SessionUserInterface;
 use AppBundle\Service\Config;
 use Mockery as m;
 

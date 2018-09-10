@@ -2,8 +2,8 @@
 
 namespace Tests\AppBundle\Controller;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Classes\SessionUserInterface;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Entity\DTO\UserDTO;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Entity\UserInterface;

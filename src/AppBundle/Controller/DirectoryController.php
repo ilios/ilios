@@ -2,9 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use Ilios\AuthenticationBundle\Classes\PermissionMatrixInterface;
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Service\PermissionChecker;
+use AppBundle\Classes\PermissionMatrixInterface;
+use AppBundle\Classes\SessionUserInterface;
+use AppBundle\Service\PermissionChecker;
 use AppBundle\Entity\Manager\UserManager;
 use AppBundle\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

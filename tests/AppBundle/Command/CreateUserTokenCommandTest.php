@@ -18,7 +18,7 @@ class CreateUserTokenCommandTest extends TestCase
     public function setUp()
     {
         $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
-        $this->jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
+        $this->jwtManager = m::mock('AppBundle\Service\JsonWebTokenManager');
         
         $command = new CreateUserTokenCommand($this->userManager, $this->jwtManager);
         $application = new Application();

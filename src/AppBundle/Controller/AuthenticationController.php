@@ -2,8 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use Ilios\AuthenticationBundle\RelationshipVoter\AbstractVoter;
-use Ilios\AuthenticationBundle\Service\SessionUserProvider;
+use AppBundle\RelationshipVoter\AbstractVoter;
+use AppBundle\Service\SessionUserProvider;
 use AppBundle\Entity\AuthenticationInterface;
 use AppBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class AuthenticationController
+ * Class AuthController
  * Authentication uses 'user' as the primary key and
  * needs to encode passwords
  * so we have to handle that specially.
