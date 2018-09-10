@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37cbcbe4bf257f79e924017f096d77ff",
+    "content-hash": "1eee13fda9dc93a22ab92f2a9f3411dc",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1915,7 +1915,7 @@
         },
         {
             "name": "exercise/htmlpurifier-bundle",
-            "version": "V2.0.0-BETA2",
+            "version": "V2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Exercise/HTMLPurifierBundle.git",
@@ -7004,7 +7004,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "exercise/htmlpurifier-bundle": 10,
         "firebase/php-jwt": 0,
         "fzaninotto/faker": 0,
         "liip/functional-test-bundle": 15,
