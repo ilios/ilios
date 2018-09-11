@@ -43,6 +43,11 @@ abstract class AbstractVoter extends SymfonyVoter
     const ARCHIVE = 'archive';
 
     /**
+     * @var string
+     */
+    const ROLLOVER = 'rollover';
+
+    /**
      * @var PermissionChecker
      */
     protected $permissionChecker;

@@ -123,7 +123,7 @@ class CurriculumInventoryReportController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $this->authorizationChecker->isGranted([AbstractVoter::CREATE], $report)) {
+        if (! $this->authorizationChecker->isGranted([AbstractVoter::ROLLOVER], $report)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
