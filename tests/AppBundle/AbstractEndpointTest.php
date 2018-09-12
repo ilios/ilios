@@ -6,6 +6,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use DateTime;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Tests\AppBundle\DataLoader\DataLoaderInterface;
@@ -26,7 +27,6 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @var string|null the name of this endpoint (plural)
      */
     protected $testName = null;
-
 
     /**
      * @var ContainerInterface
@@ -63,6 +63,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $testFixtures = $this->getFixtures();
         $fixtures = array_merge($authFixtures, $testFixtures);
         $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
+        ClockMock::register(__CLASS__);
     }
 
     public function tearDown()
@@ -656,10 +657,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         $relatedResponseKey,
         $relatedData
     ) {
+        ClockMock::withClockMock(true);
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $initialState = $this->getOne($endpoint, $responseKey, $id);
-        sleep(2);
+        sleep(10);
         $this->putOne($relatedEndpoint, $relatedResponseKey, $relatedData['id'], $relatedData);
         $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
@@ -668,11 +670,12 @@ abstract class AbstractEndpointTest extends WebTestCase
 
             $diff = $currentStamp->getTimestamp() - $initialStamp->getTimestamp();
             $this->assertTrue(
-                $diff > 1,
+                $diff > 0,
                 'The timestamp has increased.  Original: ' . $initialStamp->format('c') .
                 ' Now: ' . $currentStamp->format('c')
             );
         }
+        ClockMock::withClockMock(false);
     }
 
     /**
@@ -688,10 +691,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         $relatedResponseKey,
         $relatedPostData
     ) {
+        ClockMock::withClockMock(true);
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $initialState = $this->getOne($endpoint, $responseKey, $id);
-        sleep(1);
+        sleep(10);
         $this->postMany($relatedPluralObjectName, $relatedResponseKey, [$relatedPostData]);
         $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
@@ -700,11 +704,12 @@ abstract class AbstractEndpointTest extends WebTestCase
 
             $diff = $currentStamp->getTimestamp() - $initialStamp->getTimestamp();
             $this->assertTrue(
-                $diff > 1,
+                $diff > 0,
                 'The timestamp has increased.  Original: ' . $initialStamp->format('c') .
                 ' Now: ' . $currentStamp->format('c')
             );
         }
+        ClockMock::withClockMock(false);
     }
 
     /**
@@ -718,10 +723,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         $relatedPluralObjectName,
         $relatedId
     ) {
+        ClockMock::withClockMock(true);
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $initialState = $this->getOne($endpoint, $responseKey, $id);
-        sleep(1);
+        sleep(10);
         $this->deleteOne($relatedPluralObjectName, $relatedId);
         $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
@@ -730,10 +736,11 @@ abstract class AbstractEndpointTest extends WebTestCase
 
             $diff = $currentStamp->getTimestamp() - $initialStamp->getTimestamp();
             $this->assertTrue(
-                $diff > 1,
+                $diff > 0,
                 'The timestamp has increased.  Original: ' . $initialStamp->format('c') .
                 ' Now: ' . $currentStamp->format('c')
             );
         }
+        ClockMock::withClockMock(false);
     }
 }
