@@ -13,7 +13,7 @@ class CurriculumInventoryReport extends AbstractVoter
         return $subject instanceof CurriculumInventoryReportInterface
             && in_array(
                 $attribute,
-                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
+                [self::CREATE, self::VIEW, self::EDIT, self::DELETE, self::ROLLOVER]
             );
     }
 
@@ -28,8 +28,10 @@ class CurriculumInventoryReport extends AbstractVoter
             return true;
         }
 
-        if ($subject->getExport()) {
-            return false;
+        if (self::ROLLOVER !== $attribute) {
+            if ($subject->getExport()) {
+                return false;
+            }
         }
 
         if ($user->isRoot()) {
@@ -38,6 +40,7 @@ class CurriculumInventoryReport extends AbstractVoter
 
         switch ($attribute) {
             case self::CREATE:
+            case self::ROLLOVER:
                 return $this->permissionChecker->canCreateCurriculumInventoryReport(
                     $user,
                     $subject->getSchool()->getId()

@@ -427,4 +427,35 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $this->assertSame((int) $overrides['year'], (int) $newReport['year']);
         $this->assertNotSame((int) $report['year'], (int) $newReport['year']);
     }
+
+
+    public function testRolloverExportedCurriculumInventoryReport()
+    {
+        $dataLoader = $this->getDataLoader();
+        $reports = $dataLoader->getAll();
+        $report = $reports[1];
+        $this->assertArrayHasKey('export', $report);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'ilios_api_curriculuminventoryreport_rollover',
+                [
+                    'version' => 'v1',
+                    'object' => 'curriculuminventoryreports',
+                    'id' => $report['id'],
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_CREATED);
+        $data = json_decode($response->getContent(), true)['curriculumInventoryReports'];
+        $newReport = $data[0];
+
+        // compare reports
+        $this->assertSame($report['name'], $newReport['name']);
+        $this->assertSame($report['description'], $newReport['description']);
+    }
 }
