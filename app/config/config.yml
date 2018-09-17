@@ -49,10 +49,7 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        url: '%env(ILIOS_DATABASE_URL)%'
-        driver:   'pdo_mysql'
         charset:  UTF8
-        server_version: '%env(ILIOS_DATABASE_MYSQL_VERSION)%'
 
     orm:
       auto_generate_proxy_classes: '%kernel.debug%'

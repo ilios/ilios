@@ -1,13 +1,3 @@
-parameters:
-    env(ILIOS_DATABASE_URL):
-    env(ILIOS_DATABASE_MYSQL_VERSION):
-    env(ILIOS_MAILER_TRANSPORT):
-    env(ILIOS_MAILER_HOST):
-    env(ILIOS_MAILER_USER):
-    env(ILIOS_MAILER_PASSWORD):
-    env(ILIOS_LOCALE):
-    env(ILIOS_SECRET):
-
 imports:
     - { resource: config.yml }
     - { resource: security.yml }
@@ -19,6 +9,7 @@ framework:
         storage_id: session.storage.mock_file
     profiler:
         collect: false
+    secret: thereAreNoSecretsHere
 
 web_profiler:
     toolbar: false
