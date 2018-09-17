@@ -58,6 +58,12 @@ sudo -u apache bin/console cache:warmup --env=prod
 
 ## Version-specific steps
 
+### Upgrading to Ilios 3.56.0
+
+1. `parameters.yml` has been replaced with ENV configuration. See [env_vars_and_config](env_vars_and_config) for details.
+
+2. Individual database configuration options have been replaced with a single database URL setting (ILIOS_DATABASE_URL). See https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url for details.
+
 ### Upgrading to Ilios 3.36.1
 
 A command was added in this version to fix an issue with Learning

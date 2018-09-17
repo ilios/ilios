@@ -34,3 +34,9 @@ monolog:
             host: 127.0.0.1:9911
 swiftmailer:
     disable_delivery: true
+
+doctrine:
+    dbal:
+        url: '%env(ILIOS_DATABASE_URL)%'
+        driver:   'pdo_mysql'
+        server_version: '%env(ILIOS_DATABASE_MYSQL_VERSION)%'

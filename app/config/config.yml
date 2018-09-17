@@ -1,5 +1,4 @@
 imports:
-    - { resource: parameters.yml }
     - { resource: services.yml }
     - { resource: "@AppBundle/Resources/config/config.yml" }
     - { resource: "@AppBundle/Resources/config/services.yml" }
@@ -50,14 +49,7 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   'pdo_mysql'
-        host:     '%env(ILIOS_DATABASE_HOST)%'
-        port:     '%env(ILIOS_DATABASE_PORT)%'
-        dbname:   '%env(ILIOS_DATABASE_NAME)%'
-        user:     '%env(ILIOS_DATABASE_USER)%'
-        password: '%env(ILIOS_DATABASE_PASSWORD)%'
         charset:  UTF8
-        server_version: '%env(ILIOS_DATABASE_MYSQL_VERSION)%'
 
     orm:
       auto_generate_proxy_classes: '%kernel.debug%'

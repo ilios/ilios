@@ -7,7 +7,7 @@ services:
         environment:
             - ILIOS_API_ENVIRONMENT=dev
             - ILIOS_API_DEBUG=true
-            - ILIOS_DATABASE_HOST=db
+            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios
             - ILIOS_REQUIRE_SECURE_CONNECTION=false
         ports:
             - "8000:80"
