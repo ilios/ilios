@@ -1,3 +1,17 @@
+parameters:
+    env(ILIOS_DATABASE_HOST):
+    env(ILIOS_DATABASE_PORT):
+    env(ILIOS_DATABASE_NAME):
+    env(ILIOS_DATABASE_USER):
+    env(ILIOS_DATABASE_PASSWORD):
+    env(ILIOS_DATABASE_MYSQL_VERSION):
+    env(ILIOS_MAILER_TRANSPORT):
+    env(ILIOS_MAILER_HOST):
+    env(ILIOS_MAILER_USER):
+    env(ILIOS_MAILER_PASSWORD):
+    env(ILIOS_LOCALE):
+    env(ILIOS_SECRET):
+
 imports:
     - { resource: config.yml }
     - { resource: security.yml }
