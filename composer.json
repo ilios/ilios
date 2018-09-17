@@ -64,8 +64,11 @@
         "symfony/phpunit-bridge": "@stable"
     },
     "scripts": {
+      "ilios-scripts": [
+          "AppBundle\\Composer\\MigrateParameters::migrate",
+          "AppBundle\\Composer\\CheckRequiredENV::check"
+      ],
       "symfony-scripts": [
-        "AppBundle\\Composer\\MigrateParameters::migrate",
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
@@ -73,9 +76,11 @@
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
       ],
       "post-install-cmd": [
+        "@ilios-scripts",
         "@symfony-scripts"
       ],
       "post-update-cmd": [
+        "@ilios-scripts",
         "@symfony-scripts"
       ]
     },
