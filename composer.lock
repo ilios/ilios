@@ -3956,16 +3956,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.18.3",
+            "version": "v3.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "1c52a9c77bc927ab3f1ab20c04929ab8d2efd70f"
+                "reference": "6f43bf11e939d06acafdc2f5ffe495a37f70f247"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/1c52a9c77bc927ab3f1ab20c04929ab8d2efd70f",
-                "reference": "1c52a9c77bc927ab3f1ab20c04929ab8d2efd70f",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/6f43bf11e939d06acafdc2f5ffe495a37f70f247",
+                "reference": "6f43bf11e939d06acafdc2f5ffe495a37f70f247",
                 "shasum": ""
             },
             "type": "library",
@@ -4009,7 +4009,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2018-09-08T04:06:27+00:00"
+            "time": "2018-09-15T05:49:16+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4971,16 +4971,16 @@
         },
         {
             "name": "zendframework/zenddiagnostics",
-            "version": "v1.3.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diagnostics.git",
-                "reference": "6dd4a159a1bd6fcc8f14f2eda195b5caebabc414"
+                "reference": "90bc83201c8fdd97715705e58bf2688796086cde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diagnostics/zipball/6dd4a159a1bd6fcc8f14f2eda195b5caebabc414",
-                "reference": "6dd4a159a1bd6fcc8f14f2eda195b5caebabc414",
+                "url": "https://api.github.com/repos/zendframework/zend-diagnostics/zipball/90bc83201c8fdd97715705e58bf2688796086cde",
+                "reference": "90bc83201c8fdd97715705e58bf2688796086cde",
                 "shasum": ""
             },
             "require": {
@@ -5032,7 +5032,7 @@
                 "test",
                 "zf"
             ],
-            "time": "2018-07-30T20:31:14+00:00"
+            "time": "2018-09-17T16:14:52+00:00"
         }
     ],
     "packages-dev": [
