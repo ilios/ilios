@@ -25,6 +25,18 @@ matrix:
 php:
 - '7.2'
 env:
+  global:
+  - ILIOS_DATABASE_HOST=127.0.0.1
+  - ILIOS_DATABASE_NAME=ilios
+  - ILIOS_DATABASE_USER=travis
+  - ILIOS_DATABASE_PASSWORD=~
+  - ILIOS_DATABASE_MYSQL_VERSION=5.5
+  - ILIOS_MAILER_TRANSPORT=smtp
+  - ILIOS_MAILER_HOST=127.0.0.1
+  - ILIOS_MAILER_USER=null
+  - ILIOS_MAILER_PASSWORD=null
+  - ILIOS_LOCALE=en
+  - ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
   matrix:
   - TEST_PHPUNIT_API1=false
   - TEST_PHPUNIT_API2=false
@@ -33,6 +45,7 @@ env:
   - TEST_PHPUNIT_API5=false
   - TEST_EVERYTHING_ELSE=false
   - TEST_CONTAINER_BUILD=false
+
 cache:
   directories:
   - "$HOME/.composer/cache"
@@ -41,7 +54,6 @@ before_install:
 - echo $TRAVIS_PHP_VERSION
 - echo "extension=apcu.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 - echo "memory_limit=3000M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-- cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
 install:
 - composer install --no-interaction --prefer-dist -d ${TRAVIS_BUILD_DIR}
 before_script:
