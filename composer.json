@@ -38,7 +38,6 @@
         "firebase/php-jwt": "@stable",
         "happyr/google-analytics-bundle": "^4.0",
         "ilios/mesh-parser": "^2.0",
-        "incenteev/composer-parameter-handler": "^2.0",
         "liip/monitor-bundle": "^2.6",
         "nelmio/cors-bundle": "^1.5",
         "ocramius/proxy-manager": "^2.0.0",
@@ -67,7 +66,6 @@
     "scripts": {
       "symfony-scripts": [
         "AppBundle\\Composer\\MigrateParameters::migrate",
-        "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
         "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
