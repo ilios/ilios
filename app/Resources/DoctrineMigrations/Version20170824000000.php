@@ -130,7 +130,7 @@ class Version20170824000000 extends AbstractMigration
                 return $parameters['parameters'];
             }
         }
-        throw new \Exception("Unable to read parameters file at ${parametersPath}");
+        return [];
     }
 
     /**
