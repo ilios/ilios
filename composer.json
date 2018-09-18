@@ -55,10 +55,7 @@
     "require-dev": {
         "fzaninotto/faker": "@stable",
         "liip/functional-test-bundle": "2.0.0-alpha6",
-        "matthiasnoback/symfony-config-test": "@stable",
-        "matthiasnoback/symfony-dependency-injection-test": "@stable",
         "mockery/mockery": "@stable",
-        "phpunit/phpunit": "~6",
         "sensio/generator-bundle": "@stable",
         "squizlabs/php_codesniffer": "@stable",
         "symfony/phpunit-bridge": "@stable"
