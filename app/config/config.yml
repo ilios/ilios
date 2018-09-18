@@ -83,11 +83,6 @@ nelmio_cors:
     paths:
         '^/':
 
-sensio_framework_extra:
-    request: { converters: true }
-    view:    { annotations: false }
-    router:  { annotations: true }
-
 security:
     encoders:
         AppBundle\Classes\SessionUserInterface:
