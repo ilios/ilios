@@ -58,7 +58,7 @@
         "matthiasnoback/symfony-config-test": "@stable",
         "matthiasnoback/symfony-dependency-injection-test": "@stable",
         "mockery/mockery": "@stable",
-        "phpunit/phpunit": "~6",
+        "phpunit/phpunit": "@stable",
         "sensio/generator-bundle": "@stable",
         "squizlabs/php_codesniffer": "@stable",
         "symfony/phpunit-bridge": "@stable"
