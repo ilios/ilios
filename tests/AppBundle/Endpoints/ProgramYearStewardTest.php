@@ -68,7 +68,7 @@ class ProgramYearStewardTest extends ReadWriteEndpointTest
      */
     public function testPostMany()
     {
-        $departmentDataLoader = $this->container->get(DepartmentData::class);
+        $departmentDataLoader = $this->getContainer()->get(DepartmentData::class);
         $departments = $departmentDataLoader->createMany(51);
         $savedDepartments = $this->postMany('departments', 'departments', $departments);
 

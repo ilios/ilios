@@ -35,7 +35,7 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testAttachedUserMaterials()
     {
-        $school = $this->container->get(SchoolData::class)->getOne();
+        $school = $this->getContainer()->get(SchoolData::class)->getOne();
         $userId = 5;
         $events = $this->getEvents($school['id'], 0, 100000000000, $userId);
         $lms = $events[3]['learningMaterials'];
@@ -101,11 +101,11 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testGetEvents()
     {
-        $school = $this->container->get(SchoolData::class)->getOne();
-        $offerings = $this->container->get(OfferingData::class)->getAll();
-        $ilmSessions = $this->container->get(IlmSessionData::class)->getAll();
-        $courses = $this->container->get(CourseData::class)->getAll();
-        $sessions = $this->container->get(SessionData::class)->getAll();
+        $school = $this->getContainer()->get(SchoolData::class)->getOne();
+        $offerings = $this->getContainer()->get(OfferingData::class)->getAll();
+        $ilmSessions = $this->getContainer()->get(IlmSessionData::class)->getAll();
+        $courses = $this->getContainer()->get(CourseData::class)->getAll();
+        $sessions = $this->getContainer()->get(SessionData::class)->getAll();
 
         $events = $this->getEvents($school['id'], 0, 100000000000);
 
@@ -341,8 +341,8 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testMultidayEvent()
     {
-        $school = $this->container->get(SchoolData::class)->getOne();
-        $offerings = $this->container->get(OfferingData::class)->getAll();
+        $school = $this->getContainer()->get(SchoolData::class)->getOne();
+        $offerings = $this->getContainer()->get(OfferingData::class)->getAll();
         $from = new DateTime('2015-01-30 00:00:00');
         $to = new DateTime('2015-01-30 23:59:59');
 
@@ -356,7 +356,7 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testPrivilegedUsersGetsEventsForUnpublishedSessions()
     {
-        $school = $this->container->get(SchoolData::class)->getOne();
+        $school = $this->getContainer()->get(SchoolData::class)->getOne();
         $events = $this->getEvents($school['id'], 0, 100000000000);
 
         $event = $events[3];

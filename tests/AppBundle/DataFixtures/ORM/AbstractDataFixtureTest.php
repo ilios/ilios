@@ -7,8 +7,6 @@ use AppBundle\Entity\Manager\ManagerInterface;
 use AppBundle\Service\DataimportFileLocator;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 /**
  * Base class for data loader tests.
  *
@@ -16,11 +14,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 abstract class AbstractDataFixtureTest extends WebTestCase
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
     /**
      * @var ManagerInterface
      */
@@ -31,7 +24,6 @@ abstract class AbstractDataFixtureTest extends WebTestCase
      */
     public function setUp()
     {
-        $this->container = static::createClient()->getContainer();
         $this->loadEntityManager($this->getEntityManagerServiceKey());
     }
 
@@ -40,7 +32,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
      */
     protected function loadEntityManager($serviceKey)
     {
-        $this->em = $this->container->get($serviceKey);
+        $this->em = $this->getContainer()->get($serviceKey);
     }
 
     /**
@@ -66,7 +58,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     {
         $this->loadFixtures($this->getFixtures());
 
-        $dataFile = fopen($this->container->get(DataimportFileLocator::class)->getDataFilePath($fileName), 'r');
+        $dataFile = fopen($this->getContainer()->get(DataimportFileLocator::class)->getDataFilePath($fileName), 'r');
 
         $i = 0;
         while (($data = fgetcsv($dataFile)) !== false && ($lineLimit < 0 || $lineLimit >= $i)) {

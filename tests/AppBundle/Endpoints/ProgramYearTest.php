@@ -237,7 +237,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $self = $this;
 
         //create data we an depend on
-        $dataLoader = $this->container->get(ObjectiveData::class);
+        $dataLoader = $this->getContainer()->get(ObjectiveData::class);
         $create = [];
         for ($i = 0; $i < 2; $i++) {
             $arr = $dataLoader->create();

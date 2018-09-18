@@ -68,7 +68,7 @@ class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
     public function testPostMany()
     {
         $count = 4;
-        $reportDataLoader = $this->container->get(CurriculumInventoryReportData::class);
+        $reportDataLoader = $this->getContainer()->get(CurriculumInventoryReportData::class);
         $reports = $reportDataLoader->createMany($count);
         $savedReports = $this->postMany('curriculuminventoryreports', 'curriculumInventoryReports', $reports);
 
