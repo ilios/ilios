@@ -124,7 +124,7 @@ class ObjectiveTest extends ReadWriteEndpointTest
      */
     public function testInputSanitation($input, $output)
     {
-        $postData = $this->container->get(ObjectiveData::class)
+        $postData = $this->getContainer()->get(ObjectiveData::class)
             ->create();
         $postData['title'] = $input;
         unset($postData['id']);
@@ -172,7 +172,7 @@ class ObjectiveTest extends ReadWriteEndpointTest
      */
     public function testInputSanitationFailure()
     {
-        $postData = $this->container->get(ObjectiveData::class)
+        $postData = $this->getContainer()->get(ObjectiveData::class)
             ->create();
         // this markup will get stripped out, leaving a blank string as input.
         // which in turn will cause the form validation to fail.

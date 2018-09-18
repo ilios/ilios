@@ -83,7 +83,7 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
             'This seems like too much of a pain to test this right now.'
         );
         $count = 26;
-        $schoolDataLoader = $this->container->get(SchoolData::class);
+        $schoolDataLoader = $this->getContainer()->get(SchoolData::class);
         $schools = $schoolDataLoader->createMany($count);
         $savedSchools = $this->postMany('schools', 'schools', $schools);
 

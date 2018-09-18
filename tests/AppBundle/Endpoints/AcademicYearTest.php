@@ -118,7 +118,7 @@ class AcademicYearTest extends ReadEndpointTest
 
     protected function getYears()
     {
-        $loader = $this->container->get(CourseData::class);
+        $loader = $this->getContainer()->get(CourseData::class);
         $data = $loader->getAll();
         $academicYears = array_map(function ($arr) {
             return $arr['year'];

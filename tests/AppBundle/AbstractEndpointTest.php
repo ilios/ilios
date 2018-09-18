@@ -8,7 +8,6 @@ use DateTime;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Tests\AppBundle\DataLoader\DataLoaderInterface;
 use Tests\AppBundle\Traits\JsonControllerTest;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,11 +26,6 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @var string|null the name of this endpoint (plural)
      */
     protected $testName = null;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
 
     /**
      * @var Client
@@ -55,7 +49,6 @@ abstract class AbstractEndpointTest extends WebTestCase
         parent::setUp();
         $this->client = $this->makeClient();
         $this->client->followRedirects();
-        $this->container = $this->client->getContainer();
 
         $authFixtures = [
             'Tests\AppBundle\Fixture\LoadAuthenticationData',
@@ -70,7 +63,6 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         parent::tearDown();
         unset($this->client);
-        unset($this->container);
         unset($this->fixtures);
         unset($this->faker);
         // Until https://github.com/doctrine/annotations/pull/135
@@ -158,7 +150,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $service = "Tests\\AppBundle\\DataLoader\\{$name}Data";
 
         /** @var DataLoaderInterface $dataLoader */
-        $dataLoader = $this->container->get($service);
+        $dataLoader = $this->getContainer()->get($service);
         return $dataLoader;
     }
 

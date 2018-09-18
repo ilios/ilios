@@ -151,7 +151,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
      */
     protected function getProgramYear($id)
     {
-        $programYearDataLoader = $this->container->get(ProgramYearData::class);
+        $programYearDataLoader = $this->getContainer()->get(ProgramYearData::class);
         $allProgramYears = $programYearDataLoader->getAll();
         $programYearsById = [];
         foreach ($allProgramYears as $arr) {

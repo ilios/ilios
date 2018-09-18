@@ -122,12 +122,12 @@ class UsereventTest extends AbstractEndpointTest
 
     public function testGetEvents()
     {
-        $offerings = $this->container->get(OfferingData::class)->getAll();
-        $sessionTypes = $this->container->get(SessionTypeData::class)->getAll();
-        $sessionDescriptions = $this->container->get(SessionDescriptionData::class)->getAll();
-        $ilmSessions = $this->container->get(IlmSessionData::class)->getAll();
-        $courses = $this->container->get(CourseData::class)->getAll();
-        $sessions = $this->container->get(SessionData::class)->getAll();
+        $offerings = $this->getContainer()->get(OfferingData::class)->getAll();
+        $sessionTypes = $this->getContainer()->get(SessionTypeData::class)->getAll();
+        $sessionDescriptions = $this->getContainer()->get(SessionDescriptionData::class)->getAll();
+        $ilmSessions = $this->getContainer()->get(IlmSessionData::class)->getAll();
+        $courses = $this->getContainer()->get(CourseData::class)->getAll();
+        $sessions = $this->getContainer()->get(SessionData::class)->getAll();
 
         $userId = 2;
 
@@ -631,7 +631,7 @@ class UsereventTest extends AbstractEndpointTest
 
     public function testMultidayEvent()
     {
-        $offerings = $this->container->get(OfferingData::class)->getAll();
+        $offerings = $this->getContainer()->get(OfferingData::class)->getAll();
         $userId = 2;
         $from = new DateTime('2015-01-30 00:00:00');
         $to = new DateTime('2015-01-30 23:59:59');

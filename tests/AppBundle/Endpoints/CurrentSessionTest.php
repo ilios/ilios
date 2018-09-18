@@ -4,7 +4,6 @@ namespace Tests\AppBundle\Endpoints;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Tests\AppBundle\Traits\JsonControllerTest;
@@ -16,12 +15,6 @@ use Tests\AppBundle\Traits\JsonControllerTest;
 class CurrentSessionTest extends WebTestCase
 {
     use JsonControllerTest;
-
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
 
     /**
      * @var Client
@@ -36,9 +29,7 @@ class CurrentSessionTest extends WebTestCase
 
     public function setUp()
     {
-        $this->client = static::createClient();
-        $this->client->followRedirects();
-        $this->container = $this->client->getContainer();
+        $this->client = $this->makeClient();
 
         $fixtures = [
             'Tests\AppBundle\Fixture\LoadAuthenticationData',
@@ -50,7 +41,6 @@ class CurrentSessionTest extends WebTestCase
     public function tearDown()
     {
         unset($this->client);
-        unset($this->container);
         unset($this->fixtures);
     }
 
