@@ -5,15 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Traits\UsersEntity;
 use AppBundle\Annotation as IS;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use AppBundle\Traits\IdentifiableEntity;
 use AppBundle\Traits\TitledEntity;
 use AppBundle\Traits\StringableIdEntity;
-use AppBundle\Entity\UserInterface;
 
 /**
  * Class UserRole
@@ -99,13 +96,5 @@ class UserRole implements UserRoleInterface
             $this->users->removeElement($user);
             $user->removeRole($this);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getRole()
-    {
-        return 'ROLE_' . $this->title;
     }
 }
