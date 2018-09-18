@@ -40,7 +40,6 @@
         "ilios/mesh-parser": "^2.0",
         "liip/monitor-bundle": "^2.6",
         "nelmio/cors-bundle": "^1.5",
-        "ocramius/proxy-manager": "^2.0.0",
         "php-http/guzzle6-adapter": "^1.1",
         "php-http/httplug-bundle": "^1.3",
         "psr/log": "1.0.0",
