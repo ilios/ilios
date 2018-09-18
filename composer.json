@@ -85,6 +85,9 @@
         "incenteev-parameters": {
             "keep-outdated": true,
             "file": "app/config/parameters.yml"
+        },
+        "symfony": {
+            "allow-contrib": true
         }
     }
 }
