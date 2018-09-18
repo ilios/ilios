@@ -10,6 +10,7 @@ framework:
     profiler:
         collect: false
     secret: thereAreNoSecretsHere
+    default_locale: en
 
 web_profiler:
     toolbar: false
