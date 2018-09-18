@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab7cf866ba834ea8f43474cb93ba972b",
+    "content-hash": "1d5e4ef7bbe0d22e599b08769287b97f",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -5207,114 +5207,6 @@
             "time": "2018-07-17T21:10:38+00:00"
         },
         {
-            "name": "matthiasnoback/symfony-config-test",
-            "version": "4.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SymfonyTest/SymfonyConfigTest.git",
-                "reference": "d69210afc4aca99038d522f59ccf5074aff2f2e1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SymfonyTest/SymfonyConfigTest/zipball/d69210afc4aca99038d522f59ccf5074aff2f2e1",
-                "reference": "d69210afc4aca99038d522f59ccf5074aff2f2e1",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1",
-                "symfony/config": "^2.7 || ^3.4 || ^4.0"
-            },
-            "conflict": {
-                "phpunit/phpunit": "<7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Matthias\\SymfonyConfigTest\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matthias Noback",
-                    "email": "matthiasnoback@gmail.com",
-                    "homepage": "http://php-and-symfony.matthiasnoback.nl"
-                }
-            ],
-            "description": "Library for testing user classes related to the Symfony Config Component",
-            "homepage": "https://github.com/matthiasnoback/SymfonyConfigTest",
-            "keywords": [
-                "config",
-                "phpunit",
-                "symfony"
-            ],
-            "time": "2018-03-05T09:21:43+00:00"
-        },
-        {
-            "name": "matthiasnoback/symfony-dependency-injection-test",
-            "version": "v3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SymfonyTest/SymfonyDependencyInjectionTest.git",
-                "reference": "17e93d791c39849edce452723928b8172691e9c9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SymfonyTest/SymfonyDependencyInjectionTest/zipball/17e93d791c39849edce452723928b8172691e9c9",
-                "reference": "17e93d791c39849edce452723928b8172691e9c9",
-                "shasum": ""
-            },
-            "require": {
-                "matthiasnoback/symfony-config-test": "^4.0",
-                "php": "^7.1",
-                "symfony/config": "^2.7 || ^3.3 || ^4.0",
-                "symfony/dependency-injection": "^2.7 || ^3.3 || ^4.0",
-                "symfony/yaml": "^2.7 || ^3.3 || ^4.0"
-            },
-            "conflict": {
-                "phpunit/phpunit": "<7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Matthias\\SymfonyDependencyInjectionTest\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matthias Noback",
-                    "email": "matthiasnoback@gmail.com",
-                    "homepage": "http://php-and-symfony.matthiasnoback.nl"
-                }
-            ],
-            "description": "Library for testing user classes related to the Symfony Dependency Injection Component",
-            "homepage": "http://github.com/matthiasnoback/SymfonyDependencyInjectionTest",
-            "keywords": [
-                "Symfony2",
-                "dependency injection",
-                "phpunit"
-            ],
-            "time": "2018-03-06T08:36:41+00:00"
-        },
-        {
             "name": "mockery/mockery",
             "version": "1.1.0",
             "source": {
@@ -6912,8 +6804,6 @@
         "firebase/php-jwt": 0,
         "fzaninotto/faker": 0,
         "liip/functional-test-bundle": 15,
-        "matthiasnoback/symfony-config-test": 0,
-        "matthiasnoback/symfony-dependency-injection-test": 0,
         "mockery/mockery": 0,
         "phpunit/phpunit": 0,
         "sensio/generator-bundle": 0,
