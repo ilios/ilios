@@ -14,7 +14,7 @@ class LoadMeshConceptDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\MeshConceptManager';
+        return 'App\Entity\Manager\MeshConceptManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadMeshConceptDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-          'AppBundle\DataFixtures\ORM\LoadMeshConceptData',
+          'App\DataFixtures\ORM\LoadMeshConceptData',
         ];
     }
 

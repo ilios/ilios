@@ -24,8 +24,8 @@ class LoadCompetencyAamcPcrsData extends AbstractFixture implements DependentFix
     public function getDependencies()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadAamcPcrsData',
-            'AppBundle\DataFixtures\ORM\LoadCompetencyData',
+            'App\DataFixtures\ORM\LoadAamcPcrsData',
+            'App\DataFixtures\ORM\LoadCompetencyData',
         ];
     }
 

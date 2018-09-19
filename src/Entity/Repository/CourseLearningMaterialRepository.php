@@ -17,7 +17,7 @@ class CourseLearningMaterialRepository extends EntityRepository implements DTORe
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:CourseLearningMaterial', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\CourseLearningMaterial', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class CourseLearningMaterialRepository extends EntityRepository implements DTORe
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:CourseLearningMaterial', 'x');
+            ->distinct()->from('App\Entity\CourseLearningMaterial', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         /** @var CourseLearningMaterialDTO[] $courseLearningMaterialDTOs */
         $courseLearningMaterialDTOs = [];
@@ -60,7 +60,7 @@ class CourseLearningMaterialRepository extends EntityRepository implements DTORe
                 'course.id AS courseId, course.locked AS courseIsLocked, course.archived AS courseIsArchived, ' .
                 'status.id as statusId, school.id AS schoolId'
             )
-            ->from('AppBundle:CourseLearningMaterial', 'x')
+            ->from('App\Entity\CourseLearningMaterial', 'x')
             ->join('x.course', 'course')
             ->join('course.school', 'school')
             ->join('x.learningMaterial', 'learningMaterial')
@@ -83,7 +83,7 @@ class CourseLearningMaterialRepository extends EntityRepository implements DTORe
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS courseLearningMaterialId')
-                ->from('AppBundle:CourseLearningMaterial', 'x')
+                ->from('App\Entity\CourseLearningMaterial', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')

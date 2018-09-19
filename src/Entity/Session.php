@@ -31,7 +31,7 @@ use App\Traits\IdentifiableEntity;
  *   }
  * )
  *
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SessionRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\SessionRepository")
  *
  * @IS\Entity
  */

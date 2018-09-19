@@ -30,7 +30,7 @@ class RemoveRootUserCommandTest extends TestCase
      */
     public function setUp()
     {
-        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
+        $this->userManager = m::mock('App\Entity\Manager\UserManager');
 
         $command = new RemoveRootUserCommand($this->userManager);
         $application = new Application();
@@ -54,7 +54,7 @@ class RemoveRootUserCommandTest extends TestCase
     public function testRemoveRootUser()
     {
         $userId = 1;
-        $user = m::mock('AppBundle\Entity\User');
+        $user = m::mock('App\Entity\User');
 
         $this->userManager->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn($user);
         $this->userManager->shouldReceive('update');

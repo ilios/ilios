@@ -6,7 +6,7 @@ use App\Entity\Repository\ApplicationConfigRepository;
 
 /**
  * Class ApplicationConfigManager
- * @package AppBundle\Entity\Manager
+ * @package App\Entity\Manager
  */
 class ApplicationConfigManager extends BaseManager
 {

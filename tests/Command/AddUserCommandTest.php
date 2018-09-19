@@ -294,7 +294,7 @@ class AddUserCommandTest extends TestCase
         $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getTitle')->andReturn('Big School Title');
         $sessionUser = m::mock(SessionUserInterface::class);
-        $user = m::mock('AppBundle\Entity\UserInterface')
+        $user = m::mock('App\Entity\UserInterface')
             ->shouldReceive('setFirstName')->with('first')
             ->shouldReceive('setLastName')->with('last')
             ->shouldReceive('setEmail')->with('email@example.com')

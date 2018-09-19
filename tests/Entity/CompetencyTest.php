@@ -65,7 +65,7 @@ class CompetencyTest extends EntityBase
      */
     public function testRemoveParent()
     {
-        $obj = m::mock('AppBundle\Entity\Competency');
+        $obj = m::mock('App\Entity\Competency');
         $this->object->setParent($obj);
         $this->assertSame($obj, $this->object->getParent());
         $this->object->setParent(null);

@@ -30,7 +30,7 @@ use App\Traits\StewardedEntity;
  *     @ORM\UniqueConstraint(name="template_prefix", columns={"template_prefix"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SchoolRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\SchoolRepository")
  *
  * @IS\Entity
  */

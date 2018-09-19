@@ -17,7 +17,7 @@ class AamcResourceTypeRepository extends EntityRepository implements DTOReposito
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:AamcResourceType', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\AamcResourceType', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -36,7 +36,7 @@ class AamcResourceTypeRepository extends EntityRepository implements DTOReposito
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('AppBundle:AamcResourceType', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\AamcResourceType', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $aamcResourceTypeDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -52,7 +52,7 @@ class AamcResourceTypeRepository extends EntityRepository implements DTOReposito
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS aamcResourceTypeId')->from('AppBundle:AamcResourceType', 'x')
+                ->select('r.id AS relId, x.id AS aamcResourceTypeId')->from('App\Entity\AamcResourceType', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':aamcResourceTypeIds'))
                 ->orderBy('relId')

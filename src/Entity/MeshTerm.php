@@ -23,7 +23,7 @@ use App\Traits\TimestampableEntity;
  *      @ORM\UniqueConstraint(name="mesh_term_uid_name", columns={"mesh_term_uid","name"})
  *  }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\MeshTermRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshTermRepository")
  *
  * @IS\Entity
  */

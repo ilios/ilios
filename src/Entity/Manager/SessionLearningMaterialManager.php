@@ -12,7 +12,7 @@ class SessionLearningMaterialManager extends BaseManager
      */
     public function getTotalSessionLearningMaterialCount()
     {
-        return $this->em->createQuery('SELECT COUNT(l.id) FROM AppBundle:SessionLearningMaterial l')
+        return $this->em->createQuery('SELECT COUNT(l.id) FROM App\Entity\SessionLearningMaterial l')
             ->getSingleScalarResult();
     }
 }

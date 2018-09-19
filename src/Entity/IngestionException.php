@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotation as IS;
@@ -12,7 +12,7 @@ use App\Traits\StringableIdEntity;
 /**
  * Class IngestionException
  *
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\IngestionExceptionRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\IngestionExceptionRepository")
  * @ORM\Table(name="ingestion_exception")
  *
  * @IS\Entity

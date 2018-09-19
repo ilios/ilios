@@ -4,7 +4,7 @@ namespace App\Entity\Manager;
 
 /**
  * Class AlertChangeTypeManager
- * @package AppBundle\Entity\Manager
+ * @package App\Entity\Manager
  */
 class AlertChangeTypeManager extends BaseManager
 {

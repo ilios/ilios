@@ -18,7 +18,7 @@ class InstructorGroupRepository extends EntityRepository implements DTORepositor
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:InstructorGroup', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\InstructorGroup', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -38,7 +38,7 @@ class InstructorGroupRepository extends EntityRepository implements DTORepositor
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:InstructorGroup', 'x');
+            ->distinct()->from('App\Entity\InstructorGroup', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var InstructorGroupDTO[] $instructorGroupDTOs */
@@ -55,7 +55,7 @@ class InstructorGroupRepository extends EntityRepository implements DTORepositor
             ->select(
                 'x.id as xId, school.id AS schoolId'
             )
-            ->from('AppBundle:InstructorGroup', 'x')
+            ->from('App\Entity\InstructorGroup', 'x')
             ->join('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $instructorGroupIds);
@@ -73,7 +73,7 @@ class InstructorGroupRepository extends EntityRepository implements DTORepositor
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS instructorGroupId')
-                ->from('AppBundle:InstructorGroup', 'x')
+                ->from('App\Entity\InstructorGroup', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')

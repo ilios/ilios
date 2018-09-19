@@ -21,7 +21,7 @@ use App\Traits\OfferingsEntity;
  * Class LearnerGroup
  *
  * @ORM\Table(name="`group`")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\LearnerGroupRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\LearnerGroupRepository")
  *
  * @IS\Entity
  */

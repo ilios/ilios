@@ -17,7 +17,7 @@ class CourseClerkshipTypeRepository extends EntityRepository implements DTORepos
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:CourseClerkshipType', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\CourseClerkshipType', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -38,7 +38,7 @@ class CourseClerkshipTypeRepository extends EntityRepository implements DTORepos
     {
         $qb = $this->_em->createQueryBuilder()
             ->select('x')->distinct()
-            ->from('AppBundle:CourseClerkshipType', 'x');
+            ->from('App\Entity\CourseClerkshipType', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $courseClerkshipTypeDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -54,7 +54,7 @@ class CourseClerkshipTypeRepository extends EntityRepository implements DTORepos
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS courseClerkshipTypeId')
-                ->from('AppBundle:CourseClerkshipType', 'x')
+                ->from('App\Entity\CourseClerkshipType', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':courseClerkshipTypeIds'))
                 ->orderBy('relId')

@@ -17,7 +17,7 @@ class CurriculumInventoryInstitutionRepository extends EntityRepository implemen
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:CurriculumInventoryInstitution', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\CurriculumInventoryInstitution', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class CurriculumInventoryInstitutionRepository extends EntityRepository implemen
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:CurriculumInventoryInstitution', 'x');
+            ->distinct()->from('App\Entity\CurriculumInventoryInstitution', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var CurriculumInventoryInstitutionDTO[] $curriculumInventoryInstitutionDTOs */
@@ -61,7 +61,7 @@ class CurriculumInventoryInstitutionRepository extends EntityRepository implemen
             ->select(
                 'x.id as xId, school.id AS schoolId'
             )
-            ->from('AppBundle:CurriculumInventoryInstitution', 'x')
+            ->from('App\Entity\CurriculumInventoryInstitution', 'x')
             ->join('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $curriculumInventoryInstitutionIds);

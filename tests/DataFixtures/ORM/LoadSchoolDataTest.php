@@ -14,7 +14,7 @@ class LoadSchoolDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\SchoolManager';
+        return 'App\Entity\Manager\SchoolManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadSchoolDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadSchoolData',
+            'App\DataFixtures\ORM\LoadSchoolData',
         ];
     }
 

@@ -12,7 +12,7 @@ class CourseLearningMaterialManager extends BaseManager
      */
     public function getTotalCourseLearningMaterialCount()
     {
-        return $this->em->createQuery('SELECT COUNT(l.id) FROM AppBundle:CourseLearningMaterial l')
+        return $this->em->createQuery('SELECT COUNT(l.id) FROM App\Entity\CourseLearningMaterial l')
             ->getSingleScalarResult();
     }
 }

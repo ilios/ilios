@@ -24,7 +24,7 @@ class AuditLogRepository extends EntityRepository implements DTORepositoryInterf
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('a as log', 'u.id as userId')
-            ->from('AppBundle:AuditLog', 'a')
+            ->from('App\Entity\AuditLog', 'a')
             ->leftJoin('a.user', 'u')
             ->where(
                 $qb->expr()->between(
@@ -62,7 +62,7 @@ class AuditLogRepository extends EntityRepository implements DTORepositoryInterf
     {
         $qb = $this->_em->createQueryBuilder();
         $qb
-            ->delete('AppBundle:AuditLog', 'a')
+            ->delete('App\Entity\AuditLog', 'a')
             ->add(
                 'where',
                 $qb->expr()->between(

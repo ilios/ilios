@@ -27,7 +27,7 @@ class InstructorGroupTest extends EntityBase
         $notBlank = array(
             'title'
         );
-        $this->object->setSchool(m::mock('AppBundle\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
@@ -42,7 +42,7 @@ class InstructorGroupTest extends EntityBase
         $this->object->setTitle('test');
 
         $this->validateNotNulls($notNulls);
-        $this->object->setSchool(m::mock('AppBundle\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
 
 
         $this->validate(0);

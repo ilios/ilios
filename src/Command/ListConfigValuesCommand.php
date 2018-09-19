@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
  * Get an application configuration value from the DB
  *
  * Class ListConfigValuesCommand
- * @package AppBundle\Command
+ * @package App\Command
  */
 class ListConfigValuesCommand extends Command
 {

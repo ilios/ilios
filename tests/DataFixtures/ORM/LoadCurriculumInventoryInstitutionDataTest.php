@@ -14,7 +14,7 @@ class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\CurriculumInventoryInstitutionManager';
+        return 'App\Entity\Manager\CurriculumInventoryInstitutionManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadCurriculumInventoryInstitutionData',
+            'App\DataFixtures\ORM\LoadCurriculumInventoryInstitutionData',
         ];
     }
 

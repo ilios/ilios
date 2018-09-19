@@ -21,7 +21,7 @@ class CrossingGuardCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->crossingGuard = m::mock('AppBundle\Service\CrossingGuard');
+        $this->crossingGuard = m::mock(CrossingGuard::class);
 
         $command = new CrossingGuardCommand(
             $this->crossingGuard

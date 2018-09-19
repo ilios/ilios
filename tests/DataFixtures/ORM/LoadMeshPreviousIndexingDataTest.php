@@ -14,7 +14,7 @@ class LoadMeshPreviousIndexingDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\MeshPreviousIndexingManager';
+        return 'App\Entity\Manager\MeshPreviousIndexingManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadMeshPreviousIndexingDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-          'AppBundle\DataFixtures\ORM\LoadMeshPreviousIndexingData',
+          'App\DataFixtures\ORM\LoadMeshPreviousIndexingData',
         ];
     }
 

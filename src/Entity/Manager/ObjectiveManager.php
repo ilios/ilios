@@ -13,6 +13,6 @@ class ObjectiveManager extends BaseManager
      */
     public function getTotalObjectiveCount()
     {
-        return $this->em->createQuery('SELECT COUNT(o.id) FROM AppBundle:Objective o')->getSingleScalarResult();
+        return $this->em->createQuery('SELECT COUNT(o.id) FROM App\Entity\Objective o')->getSingleScalarResult();
     }
 }

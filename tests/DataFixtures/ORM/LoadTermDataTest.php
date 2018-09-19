@@ -14,7 +14,7 @@ class LoadTermDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\TermManager';
+        return 'App\Entity\Manager\TermManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadTermDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadTermData',
+            'App\DataFixtures\ORM\LoadTermData',
         ];
     }
 

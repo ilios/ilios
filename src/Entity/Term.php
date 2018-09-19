@@ -24,7 +24,7 @@ use App\Traits\TitledEntity;
  *     @ORM\UniqueConstraint(name="unique_term_title", columns={"vocabulary_id", "title", "parent_term_id"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\TermRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\TermRepository")
  *
  * @IS\Entity
  */

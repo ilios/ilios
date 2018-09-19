@@ -17,7 +17,7 @@ use App\Traits\StringableIdEntity;
 /**
  * Class AamcPcrs
  *
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\AamcPcrsRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\AamcPcrsRepository")
  * @ORM\Table(name="aamc_pcrs")
  *
  * @IS\Entity

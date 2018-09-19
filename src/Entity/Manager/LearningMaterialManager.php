@@ -50,7 +50,7 @@ class LearningMaterialManager extends BaseManager
      */
     public function getTotalFileLearningMaterialCount()
     {
-        $dql = 'SELECT COUNT(l.id) FROM AppBundle:LearningMaterial l WHERE l.relativePath IS NOT NULL';
+        $dql = 'SELECT COUNT(l.id) FROM App\Entity\LearningMaterial l WHERE l.relativePath IS NOT NULL';
         return $this->em
             ->createQuery($dql)->getSingleScalarResult();
     }
@@ -61,6 +61,6 @@ class LearningMaterialManager extends BaseManager
     public function getTotalLearningMaterialCount()
     {
         return $this->em
-            ->createQuery('SELECT COUNT(l.id) FROM AppBundle:LearningMaterial l')->getSingleScalarResult();
+            ->createQuery('SELECT COUNT(l.id) FROM App\Entity\LearningMaterial l')->getSingleScalarResult();
     }
 }

@@ -17,7 +17,7 @@ class SchoolManagerTest extends TestCase
      */
     public function testDeleteSchool()
     {
-        $class = 'AppBundle\Entity\School';
+        $class = 'App\Entity\School';
         $em = m::mock('Doctrine\ORM\EntityManager')
             ->shouldReceive('remove')->shouldReceive('flush')->mock();
         $repository = m::mock('Doctrine\ORM\Repository');

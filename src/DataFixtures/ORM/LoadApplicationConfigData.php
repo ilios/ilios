@@ -8,7 +8,7 @@ use App\Service\DataimportFileLocator;
 
 /**
  * Class LoadApplicationConfigData
- * @package AppBundle\DataFixtures\ORM
+ * @package App\DataFixtures\ORM
  */
 class LoadApplicationConfigData extends AbstractFixture
 {

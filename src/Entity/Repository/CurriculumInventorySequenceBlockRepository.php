@@ -17,7 +17,7 @@ class CurriculumInventorySequenceBlockRepository extends EntityRepository implem
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:CurriculumInventorySequenceBlock', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\CurriculumInventorySequenceBlock', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class CurriculumInventorySequenceBlockRepository extends EntityRepository implem
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:CurriculumInventorySequenceBlock', 'x');
+            ->distinct()->from('App\Entity\CurriculumInventorySequenceBlock', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var CurriculumInventorySequenceBlockDTO[] $sequenceBlockDTOs */
@@ -65,7 +65,7 @@ class CurriculumInventorySequenceBlockRepository extends EntityRepository implem
                 'x.id as xId, report.id AS reportId, school.id AS schoolId, ' .
                 'academicLevel.id AS academicLevelId, course.id AS courseId, parent.id AS parentId '
             )
-            ->from('AppBundle:CurriculumInventorySequenceBlock', 'x')
+            ->from('App\Entity\CurriculumInventorySequenceBlock', 'x')
             ->join('x.report', 'report')
             ->join('report.program', 'program')
             ->join('program.school', 'school')
@@ -91,7 +91,7 @@ class CurriculumInventorySequenceBlockRepository extends EntityRepository implem
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS xId')
-                ->from('AppBundle:CurriculumInventorySequenceBlock', 'x')
+                ->from('App\Entity\CurriculumInventorySequenceBlock', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')

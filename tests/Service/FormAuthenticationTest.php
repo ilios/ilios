@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Service;
 
+use App\Classes\SessionUserInterface;
 use App\Service\JsonWebTokenManager;
 use App\Service\SessionUserProvider;
 use App\Entity\Manager\AuthenticationManager;
@@ -120,9 +121,9 @@ class FormAuthenticationTest extends TestCase
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $user = m::mock(UserInterface::class);
-        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
-        $authenticationEntity = m::mock('AppBundle\Entity\AuthenticationInterface')
+        $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
@@ -148,9 +149,9 @@ class FormAuthenticationTest extends TestCase
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $user = m::mock(UserInterface::class);
-        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('isEnabled')->andReturn(false)->mock();
-        $authenticationEntity = m::mock('AppBundle\Entity\AuthenticationInterface')
+        $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
@@ -175,9 +176,9 @@ class FormAuthenticationTest extends TestCase
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $user = m::mock(UserInterface::class);
-        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
-        $authenticationEntity = m::mock('AppBundle\Entity\AuthenticationInterface')
+        $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)
             ->shouldReceive('isLegacyAccount')->andReturn(false)->mock();
         $this->authManager->shouldReceive('findAuthenticationByUsername')

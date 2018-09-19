@@ -27,7 +27,7 @@ use App\Entity\CurriculumInventoryReportInterface;
  *     @ORM\Index(name="IDX_B4D3296D4BD2A4C0", columns={"report_id"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CurriculumInventoryAcademicLevelRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventoryAcademicLevelRepository")
  *
  * @IS\Entity
  */

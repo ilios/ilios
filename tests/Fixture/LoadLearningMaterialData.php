@@ -3,6 +3,7 @@
 namespace Tests\App\Fixture;
 
 use App\Entity\LearningMaterial;
+use App\Service\Config;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -40,7 +41,7 @@ class LoadLearningMaterialData extends AbstractFixture implements
             $fs->mkdir($fakeTestFileDir);
         }
         $fs->copy(__FILE__, $fakeTestFileDir . '/TESTFILE.txt');
-        $config = $this->container->get('AppBundle\Service\Config');
+        $config = $this->container->get(Config::class);
         $storePath = $config->get('file_system_storage_path');
 
         foreach ($data as $arr) {

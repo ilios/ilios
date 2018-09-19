@@ -15,7 +15,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:LearningMaterial', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\LearningMaterial', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -35,7 +35,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:LearningMaterial', 'x');
+            ->distinct()->from('App\Entity\LearningMaterial', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var LearningMaterialDTO[] $learningMaterialDTOs */
@@ -63,7 +63,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
             ->select(
                 'x.id as xId, userRole.id as userRoleId, owningUser.id as owningUserId, status.id as statusId'
             )
-            ->from('AppBundle:LearningMaterial', 'x')
+            ->from('App\Entity\LearningMaterial', 'x')
             ->join('x.userRole', 'userRole')
             ->join('x.owningUser', 'owningUser')
             ->join('x.status', 'status')
@@ -83,7 +83,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS learningMaterialId')
-                ->from('AppBundle:LearningMaterial', 'x')
+                ->from('App\Entity\LearningMaterial', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')
@@ -105,7 +105,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
     public function findFileLearningMaterials($limit, $offset)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:LearningMaterial', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\LearningMaterial', 'x');
         $qb->where($qb->expr()->isNotNull('x.relativePath'));
 
         $qb->setFirstResult($offset);
@@ -125,7 +125,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
     public function findByQ($q, $orderBy, $limit, $offset)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:LearningMaterial', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\LearningMaterial', 'x');
         $terms = explode(' ', $q);
         $terms = array_filter($terms, 'strlen');
         if (empty($terms)) {

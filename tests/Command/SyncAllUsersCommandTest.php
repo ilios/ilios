@@ -2,6 +2,7 @@
 namespace Tests\App\Command;
 
 use App\Command\SyncAllUsersCommand;
+use App\Service\Directory;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
@@ -29,10 +30,10 @@ class SyncAllUsersCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
-        $this->authenticationManager = m::mock('AppBundle\Entity\Manager\AuthenticationManager');
-        $this->pendingUserUpdateManager = m::mock('AppBundle\Entity\Manager\PendingUserUpdateManager');
-        $this->directory = m::mock('AppBundle\Service\Directory');
+        $this->userManager = m::mock('App\Entity\Manager\UserManager');
+        $this->authenticationManager = m::mock('App\Entity\Manager\AuthenticationManager');
+        $this->pendingUserUpdateManager = m::mock('App\Entity\Manager\PendingUserUpdateManager');
+        $this->directory = m::mock(Directory::class);
         $this->em = m::mock(EntityManagerInterface::class);
         
         $command = new SyncAllUsersCommand(
@@ -348,7 +349,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('update')->with($user, false)->once();
-        $update = m::mock('AppBundle\Entity\PendingUserUpdate')
+        $update = m::mock('App\Entity\PendingUserUpdate')
             ->shouldReceive('setType')->with('emailMismatch')->once()
             ->shouldReceive('setProperty')->with('email')->once()
             ->shouldReceive('setValue')->with('new-email')->once()
@@ -878,7 +879,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->andReturn([$user])
             ->once();
         
-        $update = m::mock('AppBundle\Entity\PendingUserUpdate')
+        $update = m::mock('App\Entity\PendingUserUpdate')
             ->shouldReceive('setType')->with('missingFromDirectory')->once()
             ->shouldReceive('setUser')->with($user)->once()
             ->mock();
@@ -943,7 +944,7 @@ class SyncAllUsersCommandTest extends TestCase
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('update')->with($user, false)->once();
-        $update = m::mock('AppBundle\Entity\PendingUserUpdate')
+        $update = m::mock('App\Entity\PendingUserUpdate')
             ->shouldReceive('setType')->with('emailMismatch')->once()
             ->shouldReceive('setProperty')->with('email')->once()
             ->shouldReceive('setValue')->with('new-email')->once()

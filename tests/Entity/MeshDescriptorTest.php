@@ -304,7 +304,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\MeshDescriptor::stampUpdate
+     * @covers \App\Entity\MeshDescriptor::stampUpdate
      */
     public function testStampUpdate()
     {

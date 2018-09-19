@@ -147,7 +147,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function getDataLoader()
     {
         $name = ucfirst($this->getCamelCasedSingularName());
-        $service = "Tests\\AppBundle\\DataLoader\\{$name}Data";
+        $service = "Tests\\App\\DataLoader\\{$name}Data";
 
         /** @var DataLoaderInterface $dataLoader */
         $dataLoader = $this->getContainer()->get($service);

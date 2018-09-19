@@ -8,7 +8,7 @@ use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * Check that required ENV variables are set on the system and print an error if they are not.
- * @package AppBundle\Composer
+ * @package App\Composer
  */
 class CheckRequiredENV
 {

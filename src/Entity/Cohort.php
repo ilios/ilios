@@ -18,7 +18,7 @@ use App\Traits\CoursesEntity;
 /**
  * Class Cohort
  *
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CohortRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CohortRepository")
  * @ORM\Table(
  *  name="cohort",
  *  indexes={

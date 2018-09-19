@@ -24,8 +24,8 @@ class LoadSessionTypeData extends AbstractFixture implements DependentFixtureInt
     public function getDependencies()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadSchoolData',
-            'AppBundle\DataFixtures\ORM\LoadAssessmentOptionData',
+            'App\DataFixtures\ORM\LoadSchoolData',
+            'App\DataFixtures\ORM\LoadAssessmentOptionData',
         ];
     }
 

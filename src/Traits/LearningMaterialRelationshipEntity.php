@@ -7,7 +7,7 @@ use App\Entity\LearningMaterialRelationshipInterface;
 
 /**
  * Trait LearningMaterialRelationshipEntity
- * @package AppBundle\Traits
+ * @package App\Traits
  * @see LearningMaterialRelationshipInterface
  */
 trait LearningMaterialRelationshipEntity

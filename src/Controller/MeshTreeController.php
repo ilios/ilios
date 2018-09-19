@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 
 /**
  * Class MeshTreeController
- * @package AppBundle\Controller
+ * @package App\Controller
  */
 class MeshTreeController extends ApiController
 {

@@ -49,7 +49,7 @@ class CurriculumInventoryReportTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\CurriculumInventoryReport::setYear
+     * @covers \App\Entity\CurriculumInventoryReport::setYear
      * @covers \App\Entity\CurriculumInventoryReport::getYear
      */
     public function testSetYear()

@@ -17,7 +17,7 @@ class CurriculumInventoryAcademicLevelRepository extends EntityRepository implem
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:CurriculumInventoryAcademicLevel', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\CurriculumInventoryAcademicLevel', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class CurriculumInventoryAcademicLevelRepository extends EntityRepository implem
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:CurriculumInventoryAcademicLevel', 'x');
+            ->distinct()->from('App\Entity\CurriculumInventoryAcademicLevel', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var CurriculumInventoryAcademicLevelDTO[] $academicLevelDTOs */
@@ -56,7 +56,7 @@ class CurriculumInventoryAcademicLevelRepository extends EntityRepository implem
             ->select(
                 'x.id as xId, report.id AS reportId, school.id AS schoolId'
             )
-            ->from('AppBundle:CurriculumInventoryAcademicLevel', 'x')
+            ->from('App\Entity\CurriculumInventoryAcademicLevel', 'x')
             ->join('x.report', 'report')
             ->join('report.program', 'program')
             ->join('program.school', 'school')
@@ -74,7 +74,7 @@ class CurriculumInventoryAcademicLevelRepository extends EntityRepository implem
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS curriculumInventoryAcademicLevelId')
-                ->from('AppBundle:CurriculumInventoryAcademicLevel', 'x')
+                ->from('App\Entity\CurriculumInventoryAcademicLevel', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')

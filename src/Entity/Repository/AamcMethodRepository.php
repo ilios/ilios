@@ -17,7 +17,7 @@ class AamcMethodRepository extends EntityRepository implements DTORepositoryInte
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:AamcMethod', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\AamcMethod', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -36,7 +36,7 @@ class AamcMethodRepository extends EntityRepository implements DTORepositoryInte
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('AppBundle:AamcMethod', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\AamcMethod', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $aamcMethodDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -51,7 +51,7 @@ class AamcMethodRepository extends EntityRepository implements DTORepositoryInte
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS aamcMethodId')->from('AppBundle:AamcMethod', 'x')
+                ->select('r.id AS relId, x.id AS aamcMethodId')->from('App\Entity\AamcMethod', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':aamcMethodIds'))
                 ->orderBy('relId')

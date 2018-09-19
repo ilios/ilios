@@ -19,7 +19,7 @@ use App\Traits\SchoolEntity;
  *     @ORM\UniqueConstraint(name="school_conf_uniq", columns={"school_id", "name"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SchoolConfigRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\SchoolConfigRepository")
  * @IS\Entity
  */
 class SchoolConfig implements SchoolConfigInterface

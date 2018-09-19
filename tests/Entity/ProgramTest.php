@@ -28,7 +28,7 @@ class ProgramTest extends EntityBase
             'title',
             'duration'
         );
-        $this->object->setSchool(m::mock('AppBundle\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
 
         $this->validateNotBlanks($notBlank);
 
@@ -47,7 +47,7 @@ class ProgramTest extends EntityBase
 
         $this->validateNotNulls($notNull);
 
-        $this->object->setSchool(m::mock('AppBundle\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
 
         $this->validate(0);
     }

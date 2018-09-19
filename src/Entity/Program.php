@@ -21,7 +21,7 @@ use App\Traits\SchoolEntity;
  * Class Program
  *
  * @ORM\Table(name="program")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ProgramRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\ProgramRepository")
  *
  * @IS\Entity
  */

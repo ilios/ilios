@@ -16,7 +16,7 @@ use App\Traits\StringableIdEntity;
  * Class UserRole
  *
  * @ORM\Table(name="user_role")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\UserRoleRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\UserRoleRepository")
  *
  * @IS\Entity
  */

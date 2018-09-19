@@ -14,7 +14,7 @@ class LoadAamcPcrsDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\AamcPcrsManager';
+        return 'App\Entity\Manager\AamcPcrsManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadAamcPcrsDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadAamcPcrsData',
+            'App\DataFixtures\ORM\LoadAamcPcrsData',
         ];
     }
 

@@ -17,7 +17,7 @@ class AlertRepository extends EntityRepository implements DTORepositoryInterface
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:Alert', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\Alert', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -36,7 +36,7 @@ class AlertRepository extends EntityRepository implements DTORepositoryInterface
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('AppBundle:Alert', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\Alert', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $alertDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -56,7 +56,7 @@ class AlertRepository extends EntityRepository implements DTORepositoryInterface
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS alertId')->from('AppBundle:Alert', 'x')
+                ->select('r.id AS relId, x.id AS alertId')->from('App\Entity\Alert', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':alertIds'))
                 ->orderBy('relId')

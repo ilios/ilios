@@ -6,7 +6,7 @@ use App\Entity\Repository\ProgramYearRepository;
 
 /**
  * Class ProgramYearManager
- * @package AppBundle\Entity\Manager
+ * @package App\Entity\Manager
  */
 class ProgramYearManager extends BaseManager
 {

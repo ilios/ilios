@@ -184,7 +184,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\Term::getChildren
+     * @covers \App\Entity\Term::getChildren
      */
     public function testGetChildren()
     {

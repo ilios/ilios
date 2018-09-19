@@ -15,7 +15,7 @@ class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\CompetencyManager';
+        return 'App\Entity\Manager\CompetencyManager';
     }
 
     /**
@@ -24,7 +24,7 @@ class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadCompetencyAamcPcrsData',
+            'App\DataFixtures\ORM\LoadCompetencyAamcPcrsData',
         ];
     }
     /**

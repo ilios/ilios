@@ -24,7 +24,7 @@ class LoadTermData extends AbstractFixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadVocabularyData',
+            'App\DataFixtures\ORM\LoadVocabularyData',
         ];
     }
 

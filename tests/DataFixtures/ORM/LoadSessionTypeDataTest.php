@@ -14,7 +14,7 @@ class LoadSessionTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\SessionTypeManager';
+        return 'App\Entity\Manager\SessionTypeManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadSessionTypeDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadSessionTypeData',
+            'App\DataFixtures\ORM\LoadSessionTypeData',
         ];
     }
 

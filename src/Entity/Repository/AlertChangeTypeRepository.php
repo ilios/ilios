@@ -17,7 +17,7 @@ class AlertChangeTypeRepository extends EntityRepository implements DTORepositor
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:AlertChangeType', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\AlertChangeType', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -36,7 +36,7 @@ class AlertChangeTypeRepository extends EntityRepository implements DTORepositor
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('AppBundle:AlertChangeType', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\AlertChangeType', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $alertChangeTypeDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -51,7 +51,7 @@ class AlertChangeTypeRepository extends EntityRepository implements DTORepositor
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS alertChangeTypeId')->from('AppBundle:AlertChangeType', 'x')
+                ->select('r.id AS relId, x.id AS alertChangeTypeId')->from('App\Entity\AlertChangeType', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':alertChangeTypeIds'))
                 ->orderBy('relId')

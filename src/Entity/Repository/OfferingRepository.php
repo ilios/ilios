@@ -17,7 +17,7 @@ class OfferingRepository extends EntityRepository implements DTORepositoryInterf
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:Offering', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\Offering', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -36,7 +36,7 @@ class OfferingRepository extends EntityRepository implements DTORepositoryInterf
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('AppBundle:Offering', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\Offering', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $offeringDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -53,7 +53,7 @@ class OfferingRepository extends EntityRepository implements DTORepositoryInterf
 
         $qb = $this->_em->createQueryBuilder()
             ->select('x.id as offeringId, school.id as schoolId, course.id as courseId, session.id as sessionId')
-            ->from('AppBundle:Offering', 'x')
+            ->from('App\Entity\Offering', 'x')
             ->join('x.session', 'session')
             ->join('session.course', 'course')
             ->join('course.school', 'school')
@@ -74,7 +74,7 @@ class OfferingRepository extends EntityRepository implements DTORepositoryInterf
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS offeringId')->from('AppBundle:Offering', 'x')
+                ->select('r.id AS relId, x.id AS offeringId')->from('App\Entity\Offering', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':offeringIds'))
                 ->orderBy('relId')

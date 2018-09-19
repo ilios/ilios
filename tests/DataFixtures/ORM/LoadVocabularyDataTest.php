@@ -14,7 +14,7 @@ class LoadVocabularyDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\VocabularyManager';
+        return 'App\Entity\Manager\VocabularyManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadVocabularyDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadVocabularyData',
+            'App\DataFixtures\ORM\LoadVocabularyData',
         ];
     }
 

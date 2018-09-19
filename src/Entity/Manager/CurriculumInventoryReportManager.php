@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Manager;
+namespace App\Entity\Manager;
 
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\Repository\CurriculumInventoryReportRepository;

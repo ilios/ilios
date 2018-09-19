@@ -14,7 +14,7 @@ class LoadDepartmentDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\DepartmentManager';
+        return 'App\Entity\Manager\DepartmentManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadDepartmentDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadDepartmentData',
+            'App\DataFixtures\ORM\LoadDepartmentData',
         ];
     }
 

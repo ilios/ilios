@@ -17,7 +17,7 @@ class MeshTreeRepository extends EntityRepository implements DTORepositoryInterf
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:MeshTree', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\MeshTree', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class MeshTreeRepository extends EntityRepository implements DTORepositoryInterf
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:MeshTree', 'x');
+            ->distinct()->from('App\Entity\MeshTree', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var MeshTreeDTO[] $meshTreeDTOs */
@@ -54,7 +54,7 @@ class MeshTreeRepository extends EntityRepository implements DTORepositoryInterf
             ->select(
                 'x.id as xId, descriptor.id AS descriptorId'
             )
-            ->from('AppBundle:MeshTree', 'x')
+            ->from('App\Entity\MeshTree', 'x')
             ->join('x.descriptor', 'descriptor')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $meshTreeIds);

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\DTO;
+namespace App\Entity\DTO;
 
 use App\Annotation as IS;
 

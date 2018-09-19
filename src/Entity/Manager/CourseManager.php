@@ -21,7 +21,7 @@ class CourseManager extends BaseManager
      * @param null $offset
      * @return CourseInterface[]
      *
-     * @see AppBundle\Entity\Repository\CourseRepository::findByUserId()
+     * @see App\Entity\Repository\CourseRepository::findByUserId()
      */
     public function findCoursesByUserId(
         $userId,

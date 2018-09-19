@@ -17,7 +17,7 @@ use App\Traits\CoursesEntity;
  * Class CourseClerkshipType
  *
  * @ORM\Table(name="course_clerkship_type")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CourseClerkshipTypeRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CourseClerkshipTypeRepository")
  *
  * @IS\Entity
  */

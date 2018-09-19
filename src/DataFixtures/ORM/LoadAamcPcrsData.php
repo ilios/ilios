@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\DataFixtures\ORM;
+namespace App\DataFixtures\ORM;
 
 use App\Entity\AamcPcrs;
 use App\Entity\AamcPcrsInterface;

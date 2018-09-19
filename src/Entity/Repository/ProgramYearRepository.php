@@ -24,7 +24,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT p')->from('AppBundle:ProgramYear', 'p');
+        $qb->select('DISTINCT p')->from('App\Entity\ProgramYear', 'p');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -43,7 +43,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from('AppBundle:ProgramYear', 'p');
+        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from('App\Entity\ProgramYear', 'p');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $programYearDTOs = [];
@@ -61,7 +61,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
 
         $qb = $this->_em->createQueryBuilder()
             ->select('py.id as programYearId, p.id as programId, c.id as cohortId, s.id as schoolId')
-            ->from('AppBundle:ProgramYear', 'py')
+            ->from('App\Entity\ProgramYear', 'py')
             ->join('py.program', 'p')
             ->join('py.cohort', 'c')
             ->join('p.school', 's')
@@ -85,7 +85,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, p.id AS programYearId')->from('AppBundle:ProgramYear', 'p')
+                ->select('r.id AS relId, p.id AS programYearId')->from('App\Entity\ProgramYear', 'p')
                 ->join("p.{$rel}", 'r')
                 ->where($qb->expr()->in('p.id', ':programYearIds'))
                 ->orderBy('relId')
@@ -195,7 +195,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
                 "cmp.title AS competency, c.title AS course_title, c.externalId AS course_shortname," .
                 "co.title AS mapped_course_objective"
         )
-            ->from('AppBundle:ProgramYear', 'py')
+            ->from('App\Entity\ProgramYear', 'py')
             ->join('py.program', 'p')
             ->join('py.objectives', 'pyo')
             ->leftJoin('pyo.competency', 'cmp')

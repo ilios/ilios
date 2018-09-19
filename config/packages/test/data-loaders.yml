@@ -6,7 +6,7 @@ services:
         public: true
 
     Tests\App\DataLoader\:
-        resource: '%kernel.project_dir%/tests/AppBundle/DataLoader'
+        resource: '%kernel.project_dir%/tests/DataLoader'
 
     Tests\App\Fixture\:
-        resource: '%kernel.project_dir%/tests/AppBundle/Fixture'
+        resource: '%kernel.project_dir%/tests/Fixture'

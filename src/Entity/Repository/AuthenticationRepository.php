@@ -20,7 +20,7 @@ class AuthenticationRepository extends EntityRepository implements DTORepository
     public function findOneByUsername($username)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'a')->from('AppBundle:Authentication', 'a');
+        $qb->add('select', 'a')->from('App\Entity\Authentication', 'a');
         $qb->where($qb->expr()->like('a.username', "?1"));
         $qb->setParameter(1, '%' . $username . '%');
         $result = null;
@@ -46,7 +46,7 @@ class AuthenticationRepository extends EntityRepository implements DTORepository
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('a')->distinct()->from('AppBundle:Authentication', 'a');
+        $qb = $this->_em->createQueryBuilder()->select('a')->distinct()->from('App\Entity\Authentication', 'a');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $authenticationDTOs = [];

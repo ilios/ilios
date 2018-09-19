@@ -15,7 +15,7 @@ use App\Traits\SchoolEntity;
  * Class CurriculumInventoryInstitution
  *
  * @ORM\Table(name="curriculum_inventory_institution")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CurriculumInventoryInstitutionRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventoryInstitutionRepository")
  *
  * @IS\Entity
  */

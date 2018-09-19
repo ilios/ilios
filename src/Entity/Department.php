@@ -17,7 +17,7 @@ use App\Traits\StewardedEntity;
  * Class Department
  *
  * @ORM\Table(name="department")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\DepartmentRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\DepartmentRepository")
  *
  * @IS\Entity
  */

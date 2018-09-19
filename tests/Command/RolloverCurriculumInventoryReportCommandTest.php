@@ -3,6 +3,7 @@ namespace Tests\App\Command;
 
 use App\Command\RolloverCurriculumInventoryReportCommand;
 use App\Entity\CurriculumInventoryReport;
+use App\Service\CurriculumInventory\ReportRollover;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -38,8 +39,8 @@ class RolloverCurriculumInventoryReportCommandTest extends TestCase
      */
     public function setUp()
     {
-        $this->service = m::mock('AppBundle\Service\CurriculumInventory\ReportRollover');
-        $this->reportManager = m::mock('AppBundle\Entity\Manager\CurriculumInventoryReportManager');
+        $this->service = m::mock(ReportRollover::class);
+        $this->reportManager = m::mock('App\Entity\Manager\CurriculumInventoryReportManager');
         $command = new RolloverCurriculumInventoryReportCommand($this->reportManager, $this->service);
         $application = new Application();
         $application->add($command);

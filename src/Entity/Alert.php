@@ -15,7 +15,7 @@ use App\Traits\StringableIdEntity;
  * Class Alert
  *
  * @ORM\Table(name="alert")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\AlertRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\AlertRepository")
  *
  * @IS\Entity
  */

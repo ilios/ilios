@@ -17,7 +17,7 @@ class DepartmentRepository extends EntityRepository implements DTORepositoryInte
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:Department', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\Department', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -36,7 +36,7 @@ class DepartmentRepository extends EntityRepository implements DTORepositoryInte
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('AppBundle:Department', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\Department', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $departmentDTOs = [];
@@ -50,7 +50,7 @@ class DepartmentRepository extends EntityRepository implements DTORepositoryInte
 
         $qb = $this->_em->createQueryBuilder()
             ->select('x.id as departmentId, s.id as schoolId')
-            ->from('AppBundle:Department', 'x')
+            ->from('App\Entity\Department', 'x')
             ->join('x.school', 's')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $departmentIds);
@@ -65,7 +65,7 @@ class DepartmentRepository extends EntityRepository implements DTORepositoryInte
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS departmentId')->from('AppBundle:Department', 'x')
+                ->select('r.id AS relId, x.id AS departmentId')->from('App\Entity\Department', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':departmentIds'))
                 ->orderBy('relId')

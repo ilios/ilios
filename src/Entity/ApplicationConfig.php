@@ -19,7 +19,7 @@ use App\Traits\NameableEntity;
  *     @ORM\UniqueConstraint(name="app_conf_uniq", columns={"name"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ApplicationConfigRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\ApplicationConfigRepository")
  * @IS\Entity
  */
 class ApplicationConfig implements ApplicationConfigInterface

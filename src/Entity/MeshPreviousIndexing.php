@@ -16,7 +16,7 @@ use App\Traits\StringableIdEntity;
  *  uniqueConstraints={
  *      @ORM\UniqueConstraint(name="descriptor_previous", columns={"mesh_descriptor_uid"})
  *  })
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\MeshPreviousIndexingRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshPreviousIndexingRepository")
  *
  * @IS\Entity
  */

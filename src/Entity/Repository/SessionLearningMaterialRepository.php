@@ -17,7 +17,7 @@ class SessionLearningMaterialRepository extends EntityRepository implements DTOR
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:SessionLearningMaterial', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\SessionLearningMaterial', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class SessionLearningMaterialRepository extends EntityRepository implements DTOR
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:SessionLearningMaterial', 'x');
+            ->distinct()->from('App\Entity\SessionLearningMaterial', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         /** @var SessionLearningMaterialDTO[] $sessionLearningMaterialDTOs */
         $sessionLearningMaterialDTOs = [];
@@ -60,7 +60,7 @@ class SessionLearningMaterialRepository extends EntityRepository implements DTOR
                 'course.id AS courseId, course.locked AS courseIsLocked, course.archived AS courseIsArchived, ' .
                 'status.id as statusId, school.id AS schoolId'
             )
-            ->from('AppBundle:SessionLearningMaterial', 'x')
+            ->from('App\Entity\SessionLearningMaterial', 'x')
             ->join('x.session', 'session')
             ->join('session.course', 'course')
             ->join('course.school', 'school')
@@ -85,7 +85,7 @@ class SessionLearningMaterialRepository extends EntityRepository implements DTOR
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS sessionLearningMaterialId')
-                ->from('AppBundle:SessionLearningMaterial', 'x')
+                ->from('App\Entity\SessionLearningMaterial', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')

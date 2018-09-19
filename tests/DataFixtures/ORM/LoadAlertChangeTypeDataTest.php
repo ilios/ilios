@@ -14,7 +14,7 @@ class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\AlertChangeTypeManager';
+        return 'App\Entity\Manager\AlertChangeTypeManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadAlertChangeTypeData',
+            'App\DataFixtures\ORM\LoadAlertChangeTypeData',
         ];
     }
 

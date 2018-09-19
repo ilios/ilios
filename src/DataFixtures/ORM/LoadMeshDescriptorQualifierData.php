@@ -29,8 +29,8 @@ class LoadMeshDescriptorQualifierData extends AbstractMeshFixture implements Dep
     public function getDependencies()
     {
         return [
-          'AppBundle\DataFixtures\ORM\LoadMeshDescriptorData',
-          'AppBundle\DataFixtures\ORM\LoadMeshQualifierData',
+          'App\DataFixtures\ORM\LoadMeshDescriptorData',
+          'App\DataFixtures\ORM\LoadMeshQualifierData',
         ];
     }
 }

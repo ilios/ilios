@@ -6,6 +6,7 @@ use App\Entity\Manager\AuthenticationManager;
 use App\Entity\Manager\SchoolManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\Manager\UserRoleManager;
+use App\Service\Directory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -34,7 +35,7 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
         $this->userRoleManager = m::mock(UserRoleManager::class);
         $this->schoolManager = m::mock(SchoolManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
-        $this->directory = m::mock('AppBundle\Service\Directory');
+        $this->directory = m::mock(Directory::class);
         
         $command = new AddNewStudentsToSchoolCommand(
             $this->userManager,
@@ -81,10 +82,10 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
             'campusId' => 'abc2',
             'username' => 'username2',
         ];
-        $school = m::mock('AppBundle\Entity\SchoolInterface')
+        $school = m::mock('App\Entity\SchoolInterface')
             ->shouldReceive('getTitle')->andReturn('school 1')
             ->mock();
-        $user = m::mock('AppBundle\Entity\UserInterface')
+        $user = m::mock('App\Entity\UserInterface')
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
@@ -102,7 +103,7 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
             ->shouldReceive('setSchool')->with($school)
             ->shouldReceive('addRole')->with($school)
             ->mock();
-        $authentication = m::mock('AppBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('setUser')->with($user)
             ->shouldReceive('setUsername')->with('username')
             ->mock();
@@ -117,7 +118,7 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
             ->shouldReceive('update')
             ->with($user)->once();
         $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($school);
-        $role = m::mock('AppBundle\Entity\UserRoleInterface')
+        $role = m::mock('App\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)
             ->mock();
         $user->shouldReceive('addRole')->with($role);

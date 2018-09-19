@@ -17,7 +17,7 @@ class SessionDescriptionRepository extends EntityRepository implements DTOReposi
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:SessionDescription', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\SessionDescription', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class SessionDescriptionRepository extends EntityRepository implements DTOReposi
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:SessionDescription', 'x');
+            ->distinct()->from('App\Entity\SessionDescription', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var SessionDescriptionDTO[] $sessionDescriptionDTOs */
@@ -54,7 +54,7 @@ class SessionDescriptionRepository extends EntityRepository implements DTOReposi
             ->select(
                 'x.id as xId, session.id AS sessionId, course.id AS courseId, school.id AS schoolId'
             )
-            ->from('AppBundle:SessionDescription', 'x')
+            ->from('App\Entity\SessionDescription', 'x')
             ->join('x.session', 'session')
             ->join('session.course', 'course')
             ->join('course.school', 'school')

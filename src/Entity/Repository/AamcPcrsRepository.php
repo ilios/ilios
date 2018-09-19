@@ -17,7 +17,7 @@ class AamcPcrsRepository extends EntityRepository implements DTORepositoryInterf
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:AamcPcrs', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\AamcPcrs', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -36,7 +36,7 @@ class AamcPcrsRepository extends EntityRepository implements DTORepositoryInterf
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('AppBundle:AamcPcrs', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\AamcPcrs', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $aamcPcrsDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -51,7 +51,7 @@ class AamcPcrsRepository extends EntityRepository implements DTORepositoryInterf
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS aamcPcrsId')->from('AppBundle:AamcPcrs', 'x')
+                ->select('r.id AS relId, x.id AS aamcPcrsId')->from('App\Entity\AamcPcrs', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':aamcPcrsIds'))
                 ->orderBy('relId')

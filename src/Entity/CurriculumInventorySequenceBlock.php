@@ -18,7 +18,7 @@ use App\Traits\StringableIdEntity;
  * Class CurriculumInventorySequenceBlock
  *
  * @ORM\Table(name="curriculum_inventory_sequence_block")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CurriculumInventorySequenceBlockRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventorySequenceBlockRepository")
  *
  * @IS\Entity
  */

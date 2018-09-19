@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\DataFixtures\ORM;
+namespace App\DataFixtures\ORM;
 
 use App\Entity\Manager\MeshDescriptorManager;
 use App\Service\DataimportFileLocator;
@@ -29,7 +29,7 @@ class LoadMeshTreeData extends AbstractMeshFixture implements DependentFixtureIn
     public function getDependencies()
     {
         return [
-          'AppBundle\DataFixtures\ORM\LoadMeshDescriptorData',
+          'App\DataFixtures\ORM\LoadMeshDescriptorData',
         ];
     }
 }

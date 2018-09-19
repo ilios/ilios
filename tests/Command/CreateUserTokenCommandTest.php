@@ -2,6 +2,7 @@
 namespace Tests\App\Command;
 
 use App\Command\CreateUserTokenCommand;
+use App\Service\JsonWebTokenManager;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -17,8 +18,8 @@ class CreateUserTokenCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
-        $this->jwtManager = m::mock('AppBundle\Service\JsonWebTokenManager');
+        $this->userManager = m::mock('App\Entity\Manager\UserManager');
+        $this->jwtManager = m::mock(JsonWebTokenManager::class);
         
         $command = new CreateUserTokenCommand($this->userManager, $this->jwtManager);
         $application = new Application();
@@ -38,7 +39,7 @@ class CreateUserTokenCommandTest extends TestCase
     
     public function testNewDefaultToken()
     {
-        $user = m::mock('AppBundle\Entity\UserInterface');
+        $user = m::mock('App\Entity\UserInterface');
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, 'PT8H')->andReturn('123JWT');
         
@@ -57,7 +58,7 @@ class CreateUserTokenCommandTest extends TestCase
     
     public function testNewTTLToken()
     {
-        $user = m::mock('AppBundle\Entity\UserInterface');
+        $user = m::mock('App\Entity\UserInterface');
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, '108Franks')->andReturn('123JWT');
         

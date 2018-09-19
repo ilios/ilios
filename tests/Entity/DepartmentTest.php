@@ -27,7 +27,7 @@ class DepartmentTest extends EntityBase
         $notBlank = array(
             'title'
         );
-        $this->object->setSchool(m::mock('AppBundle\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
@@ -42,7 +42,7 @@ class DepartmentTest extends EntityBase
         $this->object->setTitle('test');
         $this->validateNotNulls($notNull);
 
-        $this->object->setSchool(m::mock('AppBundle\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
 
         $this->validate(0);
     }
@@ -82,7 +82,7 @@ class DepartmentTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\School::removeSteward
+     * @covers \App\Entity\School::removeSteward
      */
     public function testRemoveSteward()
     {

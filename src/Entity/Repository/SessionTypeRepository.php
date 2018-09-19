@@ -15,7 +15,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT st')->from('AppBundle:SessionType', 'st');
+        $qb->select('DISTINCT st')->from('App\Entity\SessionType', 'st');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
         $qb = $this->_em->createQueryBuilder()
             ->select('st')
             ->distinct()
-            ->from('AppBundle:SessionType', 'st');
+            ->from('App\Entity\SessionType', 'st');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $sessionTypeDTOs = [];
@@ -54,7 +54,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
 
         $qb = $this->_em->createQueryBuilder()
             ->select('st.id as sessionTypeId, s.id as schoolId, a.id as assessmentOptionId')
-            ->from('AppBundle:SessionType', 'st')
+            ->from('App\Entity\SessionType', 'st')
             ->join('st.school', 's')
             ->leftJoin('st.assessmentOption', 'a')
             ->where($qb->expr()->in('st.id', ':ids'))
@@ -73,7 +73,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS sessionTypeId')->from('AppBundle:SessionType', 'x')
+                ->select('r.id AS relId, x.id AS sessionTypeId')->from('App\Entity\SessionType', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':sessionTypeIds'))
                 ->orderBy('relId')

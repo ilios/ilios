@@ -18,7 +18,7 @@ use App\Traits\StringableIdEntity;
  * Class AssessmentOption
  *
  * @ORM\Table(name="assessment_option",uniqueConstraints={@ORM\UniqueConstraint(name="name", columns={"name"})})
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\AssessmentOptionRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\AssessmentOptionRepository")
  *
  * @IS\Entity
  */

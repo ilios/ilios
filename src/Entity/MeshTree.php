@@ -15,7 +15,7 @@ use App\Traits\StringableIdEntity;
  * Class MeshTree
  *
  * @ORM\Table(name="mesh_tree")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\MeshTreeRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshTreeRepository")
  *
  * @IS\Entity
  */

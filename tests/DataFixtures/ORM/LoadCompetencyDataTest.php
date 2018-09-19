@@ -14,7 +14,7 @@ class LoadCompetencyDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\CompetencyManager';
+        return 'App\Entity\Manager\CompetencyManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadCompetencyDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadCompetencyData',
+            'App\DataFixtures\ORM\LoadCompetencyData',
         ];
     }
 

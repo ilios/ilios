@@ -17,7 +17,7 @@ use App\Traits\StringableIdEntity;
  * Class CourseLearningMaterial
  *
  * @ORM\Table(name="course_learning_material")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CourseLearningMaterialRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CourseLearningMaterialRepository")
  *
  * @IS\Entity
  */

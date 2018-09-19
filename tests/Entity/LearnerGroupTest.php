@@ -31,7 +31,7 @@ class LearnerGroupTest extends EntityBase
         $notBlank = array(
             'title'
         );
-        $this->object->setCohort(m::mock('AppBundle\Entity\CohortInterface'));
+        $this->object->setCohort(m::mock('App\Entity\CohortInterface'));
 
         $this->validateNotBlanks($notBlank);
 
@@ -47,7 +47,7 @@ class LearnerGroupTest extends EntityBase
         $this->object->setTitle('test');
         $this->validateNotNulls($notNulls);
 
-        $this->object->setCohort(m::mock('AppBundle\Entity\CohortInterface'));
+        $this->object->setCohort(m::mock('App\Entity\CohortInterface'));
 
         $this->validate(0);
     }
@@ -344,7 +344,7 @@ class LearnerGroupTest extends EntityBase
      */
     public function testGetAncestorOrSelfWithAncestor()
     {
-        $ancestor = m::mock('AppBundle\Entity\LearnerGroup');
+        $ancestor = m::mock('App\Entity\LearnerGroup');
         $this->object->setAncestor($ancestor);
         $this->assertSame($ancestor, $this->object->getAncestorOrSelf());
     }

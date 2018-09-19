@@ -14,7 +14,7 @@ use App\Traits\IdentifiableEntity;
  * Class CurriculumInventorySequence
  *
  * @ORM\Table(name="curriculum_inventory_sequence")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CurriculumInventorySequenceRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventorySequenceRepository")
  *
  * @IS\Entity
  */

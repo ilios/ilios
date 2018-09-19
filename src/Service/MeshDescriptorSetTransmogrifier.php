@@ -7,7 +7,7 @@ use Ilios\MeSH\Model\Term;
 
 /**
  * Class MeshDescriptorSetTransmogrifier
- * @package AppBundle\Classes
+ * @package App\Classes
  */
 class MeshDescriptorSetTransmogrifier
 {

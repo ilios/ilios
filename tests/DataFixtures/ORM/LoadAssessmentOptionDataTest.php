@@ -14,7 +14,7 @@ class LoadAssessmentOptionDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\AssessmentOptionManager';
+        return 'App\Entity\Manager\AssessmentOptionManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadAssessmentOptionDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadAssessmentOptionData',
+            'App\DataFixtures\ORM\LoadAssessmentOptionData',
         ];
     }
 

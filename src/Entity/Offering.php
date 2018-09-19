@@ -25,7 +25,7 @@ use App\Traits\TimestampableEntity;
  *     @ORM\Index(name="offering_dates_session_k", columns={"offering_id", "session_id", "start_date", "end_date"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\OfferingRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\OfferingRepository")
  *
  * @IS\Entity
  */

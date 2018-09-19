@@ -21,7 +21,7 @@ use App\Traits\ProgramYearsEntity;
  * Class Objective
  *
  * @ORM\Table(name="objective")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ObjectiveRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\ObjectiveRepository")
  *
  * @IS\Entity
  */

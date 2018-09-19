@@ -31,7 +31,7 @@ use App\Traits\SchoolEntity;
  *     @ORM\Index(name="external_id", columns={"external_id"}),
  *     @ORM\Index(name="clerkship_type_id", columns={"clerkship_type_id"})
  * })
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CourseRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CourseRepository")
  *
  * @IS\Entity
  */

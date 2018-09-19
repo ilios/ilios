@@ -12,7 +12,7 @@ class SessionDescriptionManager extends BaseManager
      */
     public function getTotalSessionDescriptionCount()
     {
-        return $this->em->createQuery('SELECT COUNT(s.id) FROM AppBundle:SessionDescription s')
+        return $this->em->createQuery('SELECT COUNT(s.id) FROM App\Entity\SessionDescription s')
             ->getSingleScalarResult();
     }
 }

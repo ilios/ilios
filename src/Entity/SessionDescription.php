@@ -15,7 +15,7 @@ use App\Traits\StringableIdEntity;
  * Class SessionDescription
  *
  * @ORM\Table(name="session_description")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SessionDescriptionRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\SessionDescriptionRepository")
  *
  * @IS\Entity
  */

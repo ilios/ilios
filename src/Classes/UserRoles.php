@@ -5,7 +5,7 @@ namespace App\Classes;
 /**
  * Constant interface, defines all user roles in Ilios.
  * Interface UserRoleInterface
- * @package AppBundle\Classes
+ * @package App\Classes
  */
 interface UserRoles
 {

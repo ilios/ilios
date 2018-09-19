@@ -2,6 +2,7 @@
 namespace Tests\App\Command;
 
 use App\Command\FindUserCommand;
+use App\Service\Directory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -17,7 +18,7 @@ class FindUserCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->directory = m::mock('AppBundle\Service\Directory');
+        $this->directory = m::mock(Directory::class);
         $command = new FindUserCommand($this->directory);
         $application = new Application();
         $application->add($command);

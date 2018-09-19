@@ -31,7 +31,7 @@ class ListRootUsersCommandTest extends TestCase
      */
     public function setUp()
     {
-        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
+        $this->userManager = m::mock('App\Entity\Manager\UserManager');
 
         $command = new ListRootUsersCommand($this->userManager);
         $application = new Application();

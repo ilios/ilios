@@ -15,7 +15,7 @@ use App\Traits\StringableIdEntity;
  * Class Report
  *
  * @ORM\Table(name="report")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ReportRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\ReportRepository")
  *
  * @IS\Entity
  */

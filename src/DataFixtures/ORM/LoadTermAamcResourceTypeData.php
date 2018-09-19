@@ -25,8 +25,8 @@ class LoadTermAamcResourceTypeData extends AbstractFixture implements DependentF
     public function getDependencies()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadTermData',
-            'AppBundle\DataFixtures\ORM\LoadAamcResourceTypeData',
+            'App\DataFixtures\ORM\LoadTermData',
+            'App\DataFixtures\ORM\LoadAamcResourceTypeData',
         ];
     }
 

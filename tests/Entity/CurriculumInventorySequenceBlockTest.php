@@ -34,7 +34,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
             'maximum',
             'duration'
         );
-        $this->object->setReport(m::mock('AppBundle\Entity\CurriculumInventoryReportInterface'));
+        $this->object->setReport(m::mock('App\Entity\CurriculumInventoryReportInterface'));
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test title for the block max 200');
@@ -63,7 +63,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->object->setDuration(60);
         $this->validateNotNulls($notNulls);
 
-        $this->object->setReport(m::mock('AppBundle\Entity\CurriculumInventoryReportInterface'));
+        $this->object->setReport(m::mock('App\Entity\CurriculumInventoryReportInterface'));
         $this->validate(0);
     }
 
@@ -104,7 +104,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\CurriculumInventorySequenceBlock::setMinimum
+     * @covers \App\Entity\CurriculumInventorySequenceBlock::setMinimum
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getMinimum
      */
     public function testSetMinimum()

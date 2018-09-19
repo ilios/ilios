@@ -14,7 +14,7 @@ class LoadLearningMaterialUserRoleDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\LearningMaterialUserRoleManager';
+        return 'App\Entity\Manager\LearningMaterialUserRoleManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadLearningMaterialUserRoleDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadLearningMaterialUserRoleData',
+            'App\DataFixtures\ORM\LoadLearningMaterialUserRoleData',
         ];
     }
 

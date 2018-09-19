@@ -21,7 +21,7 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT o')->from('AppBundle:Objective', 'o');
+        $qb->select('DISTINCT o')->from('App\Entity\Objective', 'o');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -41,7 +41,7 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('o')->distinct()->from('AppBundle:Objective', 'o');
+        $qb = $this->_em->createQueryBuilder()->select('o')->distinct()->from('App\Entity\Objective', 'o');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $objectiveDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -54,7 +54,7 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
         $objectiveIds = array_keys($objectiveDTOs);
         $qb = $this->_em->createQueryBuilder()
             ->select('o.id as objectiveId, c.id as competencyId, a.id as ancestorId')
-            ->from('AppBundle:Objective', 'o')
+            ->from('App\Entity\Objective', 'o')
             ->leftJoin('o.competency', 'c')
             ->leftJoin('o.ancestor', 'a')
             ->where($qb->expr()->in('o.id', ':ids'))
@@ -74,7 +74,7 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, o.id AS objectiveId')->from('AppBundle:Objective', 'o')
+                ->select('r.id AS relId, o.id AS objectiveId')->from('App\Entity\Objective', 'o')
                 ->join("o.{$rel}", 'r')
                 ->where($qb->expr()->in('o.id', ':objectiveIds'))
                 ->orderBy('relId')

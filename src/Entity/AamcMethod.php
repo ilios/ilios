@@ -19,7 +19,7 @@ use App\Traits\StringableIdEntity;
  * Class AamcMethod
  *
  * @ORM\Table(name="aamc_method")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\AamcMethodRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\AamcMethodRepository")
  *
  * @IS\Entity
  */

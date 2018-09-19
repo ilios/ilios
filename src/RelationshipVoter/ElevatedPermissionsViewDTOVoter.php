@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * fulfills a function that requires elevated permissions, such as
  * administrating courses, teaching sessions, directing programs, etc.
  *
- * @package AppBundle\RelationshipVoter
+ * @package App\RelationshipVoter
  */
 class ElevatedPermissionsViewDTOVoter extends AbstractVoter
 {

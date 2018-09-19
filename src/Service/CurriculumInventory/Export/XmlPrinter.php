@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Service\CurriculumInventory\Export;
+namespace App\Service\CurriculumInventory\Export;
 
 use App\Entity\CourseClerkshipTypeInterface;
 use App\Entity\CurriculumInventoryAcademicLevelInterface;
@@ -12,7 +12,7 @@ use App\Entity\ProgramInterface;
 /**
  * XML printer for Curriculum Inventory reporting.
  *
- * @package AppBundle\Service\CurriculumInventory\Export
+ * @package App\Service\CurriculumInventory\Export
  */
 class XmlPrinter
 {
@@ -389,7 +389,7 @@ class XmlPrinter
         usort(
             $topLevelSequenceBlocks,
             [
-                'AppBundle\Entity\CurriculumInventorySequenceBlock',
+                'App\Entity\CurriculumInventorySequenceBlock',
                 'compareSequenceBlocksWithDefaultStrategy'
             ]
         );

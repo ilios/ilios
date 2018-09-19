@@ -18,7 +18,7 @@ use App\Annotation as IS;
  * then sent as plain php objects in order to insert the absolute path to the file
  *
  *
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\LearningMaterialRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\LearningMaterialRepository")
  * @ORM\Table(
  *  name="learning_material",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="idx_learning_material_token_unique", columns={"token"})}

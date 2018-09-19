@@ -41,7 +41,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadSchoolData',
+            'App\DataFixtures\ORM\LoadSchoolData',
         ];
     }
 

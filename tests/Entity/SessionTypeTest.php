@@ -27,7 +27,7 @@ class SessionTypeTest extends EntityBase
         $notBlank = array(
             'title'
         );
-        $this->object->setSchool(m::mock('AppBundle\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
 
         $this->validateNotBlanks($notBlank);
 
@@ -44,7 +44,7 @@ class SessionTypeTest extends EntityBase
 
         $this->validateNotNulls($notNull);
 
-        $this->object->setSchool(m::mock('AppBundle\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
 
 
         $this->validate(0);
@@ -156,7 +156,7 @@ class SessionTypeTest extends EntityBase
     public function testValidHexCodes()
     {
         $this->object->setTitle('test');
-        $this->object->setSchool(m::mock('AppBundle\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
         $this->object->setCalendarColor('#123abc');
         $this->validate(0);
 

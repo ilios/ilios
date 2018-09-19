@@ -22,7 +22,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
     {
         $qb = $this->_em->createQueryBuilder();
 
-        $qb->select('DISTINCT s')->from('AppBundle:Session', 's');
+        $qb->select('DISTINCT s')->from('App\Entity\Session', 's');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -41,7 +41,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('AppBundle:Session', 's');
+        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('App\Entity\Session', 's');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $sessionDTOs = [];
@@ -66,7 +66,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
                 's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
                 'sd.id AS descId, school.id as schoolId, postrequisite.id as postrequisiteId'
             )
-            ->from('AppBundle:Session', 's')
+            ->from('App\Entity\Session', 's')
             ->join('s.course', 'c')
             ->join('c.school', 'school')
             ->join('s.sessionType', 'st')
@@ -97,7 +97,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, s.id AS sessionId')->from('AppBundle:Session', 's')
+                ->select('r.id as relId, s.id AS sessionId')->from('App\Entity\Session', 's')
                 ->join("s.{$rel}", 'r')
                 ->where($qb->expr()->in('s.id', ':sessionIds'))
                 ->orderBy('relId')

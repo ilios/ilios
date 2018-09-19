@@ -12,7 +12,7 @@ use App\Entity\DTO\UserDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * @package AppBundle\RelationshipVoter
+ * @package App\RelationshipVoter
  */
 class LearnerGroupDTOVoter extends AbstractVoter
 {

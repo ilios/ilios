@@ -30,7 +30,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT s')->from('AppBundle:School', 's');
+        $qb->select('DISTINCT s')->from('App\Entity\School', 's');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -49,7 +49,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('AppBundle:School', 's');
+        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('App\Entity\School', 's');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $schoolDTOs = [];
@@ -66,7 +66,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         $qb = $this->_em->createQueryBuilder()
             ->select('s.id as schoolId, c.id as curriculumInventoryInstitutionId')
-            ->from('AppBundle:School', 's')
+            ->from('App\Entity\School', 's')
             ->leftJoin('s.curriculumInventoryInstitution', 'c')
             ->where($qb->expr()->in('s.id', ':ids'))
             ->setParameter('ids', $schoolIds);
@@ -92,7 +92,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, s.id AS schoolId')->from('AppBundle:School', 's')
+                ->select('r.id AS relId, s.id AS schoolId')->from('App\Entity\School', 's')
                 ->join("s.{$rel}", 'r')
                 ->where($qb->expr()->in('s.id', ':schoolIds'))
                 ->orderBy('relId')
@@ -190,7 +190,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
           's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
           'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
           'c.externalId as courseExternalId, sd.description AS sessionDescription';
-        $qb->addSelect($what)->from('AppBundle:School', 'school');
+        $qb->addSelect($what)->from('App\Entity\School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.offerings', 'o');
@@ -238,7 +238,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
-        $qb->addSelect($what)->from('AppBundle:School', 'school');
+        $qb->addSelect($what)->from('App\Entity\School', 'school');
 
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');

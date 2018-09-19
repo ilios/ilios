@@ -80,7 +80,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\CurriculumInventoryAcademicLevel::addSequenceBlock
+     * @covers \App\Entity\CurriculumInventoryAcademicLevel::addSequenceBlock
      */
     public function testAddSequenceBlock()
     {

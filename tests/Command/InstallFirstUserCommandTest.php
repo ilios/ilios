@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Command;
 
+use App\Classes\SessionUserInterface;
 use App\Service\SessionUserProvider;
 use App\Command\InstallFirstUserCommand;
 use App\Entity\Manager\AuthenticationManager;
@@ -132,14 +133,14 @@ class InstallFirstUserCommandTest extends KernelTestCase
 
     protected function getReadyForInput()
     {
-        $school = m::mock('AppBundle\Entity\SchoolInterface')
+        $school = m::mock('App\Entity\SchoolInterface')
             ->shouldReceive('getId')->andReturn(1)
             ->shouldReceive('getTitle')->andReturn('Big School Title')
             ->mock();
-        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface');
-        $developerRole = m::mock('AppBundle\Entity\UserRoleInterface');
-        $courseDirectorRole = m::mock('AppBundle\Entity\UserRoleInterface');
-        $user = m::mock('AppBundle\Entity\UserInterface')
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $developerRole = m::mock('App\Entity\UserRoleInterface');
+        $courseDirectorRole = m::mock('App\Entity\UserRoleInterface');
+        $user = m::mock('App\Entity\UserInterface')
             ->shouldReceive('setFirstName')->with('First')
             ->shouldReceive('setLastName')->with('User')
             ->shouldReceive('setMiddleName')
@@ -150,7 +151,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
             ->shouldReceive('setSchool')->with($school)
             ->shouldReceive('setRoot')->with(true)
             ->mock();
-        $authentication = m::mock('AppBundle\Entity\AuthenticationInterface')
+        $authentication = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('setUsername')->with('first_user')
             ->shouldReceive('setPasswordBcrypt')->with('hashBlurb')
             ->shouldReceive('getUser')->andReturn($user)

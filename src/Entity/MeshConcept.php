@@ -17,7 +17,7 @@ use App\Traits\TimestampableEntity;
  * Class MeshConcept
  *
  * @ORM\Table(name="mesh_concept")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\MeshConceptRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshConceptRepository")
  *
  * @IS\Entity
  */

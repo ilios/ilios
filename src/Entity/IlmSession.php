@@ -20,7 +20,7 @@ use App\Traits\StringableIdEntity;
  * Class IlmSession
  *
  * @ORM\Table(name="ilm_session_facet")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\IlmSessionRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\IlmSessionRepository")
  *
  * @IS\Entity
  */

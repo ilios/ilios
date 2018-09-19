@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Entity\Repository;
+namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -17,7 +17,7 @@ class ReportRepository extends EntityRepository implements DTORepositoryInterfac
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:Report', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\Report', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class ReportRepository extends EntityRepository implements DTORepositoryInterfac
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:Report', 'x');
+            ->distinct()->from('App\Entity\Report', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var ReportDTO[] $reportDTOs */
@@ -58,7 +58,7 @@ class ReportRepository extends EntityRepository implements DTORepositoryInterfac
             ->select(
                 'x.id as xId, school.id AS schoolId, user.id AS userId'
             )
-            ->from('AppBundle:Report', 'x')
+            ->from('App\Entity\Report', 'x')
             ->join('x.user', 'user')
             ->leftJoin('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))

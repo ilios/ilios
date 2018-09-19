@@ -13,7 +13,7 @@ use App\Entity\UserInterface;
  * Class Authentication
  *
  * @ORM\Table(name="authentication")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\AuthenticationRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\AuthenticationRepository")
  *
  * @IS\Entity
  */

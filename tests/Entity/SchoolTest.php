@@ -189,7 +189,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\School::removeProgram
+     * @covers \App\Entity\School::removeProgram
      */
     public function testRemoveProgram()
     {
@@ -213,7 +213,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\School::removeDepartment
+     * @covers \App\Entity\School::removeDepartment
      */
     public function testRemoveDepartment()
     {
@@ -327,7 +327,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\School::addDirector
+     * @covers \App\Entity\School::addDirector
      */
     public function testAddDirector()
     {

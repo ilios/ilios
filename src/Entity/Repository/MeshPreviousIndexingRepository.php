@@ -17,7 +17,7 @@ class MeshPreviousIndexingRepository extends EntityRepository implements DTORepo
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:MeshPreviousIndexing', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\MeshPreviousIndexing', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class MeshPreviousIndexingRepository extends EntityRepository implements DTORepo
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:MeshPreviousIndexing', 'x');
+            ->distinct()->from('App\Entity\MeshPreviousIndexing', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var MeshPreviousIndexingDTO[] $meshPreviousIndexingDTOs */
@@ -54,7 +54,7 @@ class MeshPreviousIndexingRepository extends EntityRepository implements DTORepo
             ->select(
                 'x.id as xId, descriptor.id AS descriptorId'
             )
-            ->from('AppBundle:MeshPreviousIndexing', 'x')
+            ->from('App\Entity\MeshPreviousIndexing', 'x')
             ->join('x.descriptor', 'descriptor')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $meshPreviousIndexingIds);

@@ -29,9 +29,9 @@ class LearningMaterialTest extends EntityBase
         $notBlank = array(
             'title'
         );
-        $this->object->setUserRole(m::mock('AppBundle\Entity\LearningMaterialUserRoleInterface'));
-        $this->object->setStatus(m::mock('AppBundle\Entity\LearningMaterialStatusInterface'));
-        $this->object->setOwningUser(m::mock('AppBundle\Entity\UserInterface'));
+        $this->object->setUserRole(m::mock('App\Entity\LearningMaterialUserRoleInterface'));
+        $this->object->setStatus(m::mock('App\Entity\LearningMaterialStatusInterface'));
+        $this->object->setOwningUser(m::mock('App\Entity\UserInterface'));
 
         $this->validateNotBlanks($notBlank);
 
@@ -50,9 +50,9 @@ class LearningMaterialTest extends EntityBase
 
         $this->validateNotNulls($notNulls);
 
-        $this->object->setUserRole(m::mock('AppBundle\Entity\LearningMaterialUserRoleInterface'));
-        $this->object->setStatus(m::mock('AppBundle\Entity\LearningMaterialStatusInterface'));
-        $this->object->setOwningUser(m::mock('AppBundle\Entity\UserInterface'));
+        $this->object->setUserRole(m::mock('App\Entity\LearningMaterialUserRoleInterface'));
+        $this->object->setStatus(m::mock('App\Entity\LearningMaterialStatusInterface'));
+        $this->object->setOwningUser(m::mock('App\Entity\UserInterface'));
 
         $this->validate(0);
     }

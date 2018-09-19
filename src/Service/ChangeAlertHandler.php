@@ -14,7 +14,7 @@ use App\Entity\UserInterface;
  * Creates and updates change alerts for given data points, such as offerings.
  *
  * Class ChangeAlertHandler
- * @package AppBundle\Service
+ * @package App\Service
  */
 class ChangeAlertHandler
 {

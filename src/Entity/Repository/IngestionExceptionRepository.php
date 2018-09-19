@@ -17,7 +17,7 @@ class IngestionExceptionRepository extends EntityRepository implements DTOReposi
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:IngestionException', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\IngestionException', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class IngestionExceptionRepository extends EntityRepository implements DTOReposi
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:IngestionException', 'x');
+            ->distinct()->from('App\Entity\IngestionException', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var IngestionExceptionDTO[] $ingestionExceptionDTOs */
@@ -54,7 +54,7 @@ class IngestionExceptionRepository extends EntityRepository implements DTOReposi
             ->select(
                 'x.id as xId, user.id AS userId'
             )
-            ->from('AppBundle:IngestionException', 'x')
+            ->from('App\Entity\IngestionException', 'x')
             ->join('x.user', 'user')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $ingestionExceptionIds);

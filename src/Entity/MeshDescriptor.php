@@ -22,7 +22,7 @@ use App\Traits\SessionsEntity;
  * Class MeshDescriptor
  *
  * @ORM\Table(name="mesh_descriptor")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\MeshDescriptorRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshDescriptorRepository")
  *
  * @IS\Entity
  */

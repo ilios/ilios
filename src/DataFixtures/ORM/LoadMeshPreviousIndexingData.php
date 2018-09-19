@@ -29,7 +29,7 @@ class LoadMeshPreviousIndexingData extends AbstractMeshFixture implements Depend
     public function getDependencies()
     {
         return [
-          'AppBundle\DataFixtures\ORM\LoadMeshDescriptorData',
+          'App\DataFixtures\ORM\LoadMeshDescriptorData',
         ];
     }
 }

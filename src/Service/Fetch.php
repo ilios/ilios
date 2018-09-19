@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Fetch things from the interwebs - exposed as a service for
  * reusability, error handling, and configuration options
  *
- * @package AppBundle\Service
+ * @package App\Service
  *
  */
 class Fetch

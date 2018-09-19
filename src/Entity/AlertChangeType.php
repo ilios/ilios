@@ -18,7 +18,7 @@ use App\Traits\StringableIdEntity;
  * Class Alert
  *
  * @ORM\Table(name="alert_change_type")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\AlertChangeTypeRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\AlertChangeTypeRepository")
  *
  * @IS\Entity
  */

@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class AamcResourceType
  *
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\AamcResourceTypeRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\AamcResourceTypeRepository")
  * @ORM\Table(name="aamc_resource_type")
  *
  * @IS\Entity

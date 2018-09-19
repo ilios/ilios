@@ -32,7 +32,7 @@ class OfferingTest extends EntityBase
             'startDate',
             'endDate'
         );
-        $this->object->setSession(m::mock('AppBundle\Entity\SessionInterface'));
+        $this->object->setSession(m::mock('App\Entity\SessionInterface'));
 
         $this->validateNotBlanks($notBlank);
 
@@ -53,7 +53,7 @@ class OfferingTest extends EntityBase
         $this->object->setEndDate(new \DateTime());
 
         $this->validateNotNulls($notNulls);
-        $this->object->setSession(m::mock('AppBundle\Entity\SessionInterface'));
+        $this->object->setSession(m::mock('App\Entity\SessionInterface'));
 
         $this->validate(0);
     }

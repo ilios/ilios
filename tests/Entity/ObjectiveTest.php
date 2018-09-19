@@ -233,7 +233,7 @@ class ObjectiveTest extends EntityBase
      */
     public function testGetAncestorOrSelfWithAncestor()
     {
-        $ancestor = m::mock('AppBundle\Entity\Objective');
+        $ancestor = m::mock('App\Entity\Objective');
         $this->object->setAncestor($ancestor);
         $this->assertSame($ancestor, $this->object->getAncestorOrSelf());
     }

@@ -17,7 +17,7 @@ class CohortRepository extends EntityRepository implements DTORepositoryInterfac
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT c')->from('AppBundle:Cohort', 'c');
+        $qb->select('DISTINCT c')->from('App\Entity\Cohort', 'c');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -36,7 +36,7 @@ class CohortRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('AppBundle:Cohort', 'c');
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('App\Entity\Cohort', 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $cohortDTOs = [];
@@ -50,7 +50,7 @@ class CohortRepository extends EntityRepository implements DTORepositoryInterfac
 
         $qb = $this->_em->createQueryBuilder()
             ->select('c.id as cohortId, py.id as programYearId, p.id as programId, s.id as schoolId')
-            ->from('AppBundle:Cohort', 'c')
+            ->from('App\Entity\Cohort', 'c')
             ->join('c.programYear', 'py')
             ->join('py.program', 'p')
             ->join('p.school', 's')
@@ -71,7 +71,7 @@ class CohortRepository extends EntityRepository implements DTORepositoryInterfac
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, c.id AS cohortId')->from('AppBundle:Cohort', 'c')
+                ->select('r.id AS relId, c.id AS cohortId')->from('App\Entity\Cohort', 'c')
                 ->join("c.{$rel}", 'r')
                 ->where($qb->expr()->in('c.id', ':cohortIds'))
                 ->orderBy('relId')

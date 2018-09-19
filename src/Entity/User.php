@@ -23,7 +23,7 @@ use App\Traits\SchoolEntity;
  * Class User
  *
  * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_school", columns={"school_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\UserRepository")
  *
  * @IS\Entity
  */

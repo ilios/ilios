@@ -28,7 +28,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT u')->from('AppBundle:User', 'u');
+        $qb->select('DISTINCT u')->from('App\Entity\User', 'u');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $qb->getQuery()->getResult();
@@ -46,7 +46,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     public function findByQ($q, $orderBy, $limit, $offset, array $criteria = array())
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->addSelect('u')->from('AppBundle:User', 'u');
+        $qb->addSelect('u')->from('App\Entity\User', 'u');
         $qb->leftJoin('u.authentication', 'auth');
 
         $terms = explode(' ', $q);
@@ -106,7 +106,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('u')->distinct()->from('AppBundle:User', 'u');
+        $qb = $this->_em->createQueryBuilder()->select('u')->distinct()->from('App\Entity\User', 'u');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $this->createUserDTOs($qb->getQuery());
@@ -123,7 +123,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('u')
-            ->from('AppBundle:User', 'u')
+            ->from('App\Entity\User', 'u')
             ->where($qb->expr()->in('u.campusId', ':campusIds'));
         $qb->setParameter(':campusIds', $campusIds);
 
@@ -222,7 +222,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     {
         $qb = $this->_em->createQueryBuilder();
         $formerStudents = $qb->select('u.id')
-            ->from('AppBundle:UserRole', 'r')
+            ->from('App\Entity\UserRole', 'r')
             ->leftJoin('r.users', 'u')
             ->where($qb->expr()->eq('r.title', ':fs_role_title'))
             ->setParameter('fs_role_title', 'Former Student')
@@ -234,7 +234,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
         $qb2 = $this->_em->createQueryBuilder();
         $qb2->addSelect('u')
-            ->from('AppBundle:User', 'u')
+            ->from('App\Entity\User', 'u')
             ->where('u.enabled=1')
             ->andWhere($qb->expr()->notIn('u.id', $formerStudentUserIds))
             ->addOrderBy('u.lastName', 'ASC')
@@ -258,7 +258,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     public function getAllCampusIds($includeDisabled, $includeSyncIgnore)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->addSelect('u.campusId')->from('AppBundle:User', 'u');
+        $qb->addSelect('u.campusId')->from('App\Entity\User', 'u');
         if (!$includeDisabled) {
             $qb->andWhere('u.enabled=1');
         }
@@ -280,7 +280,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     {
         $qb = $this->_em->createQueryBuilder();
 
-        $qb->update('AppBundle:User', 'u')
+        $qb->update('App\Entity\User', 'u')
             ->set('u.examined', $qb->expr()->literal(false));
 
         $qb->getQuery()->execute();
@@ -311,7 +311,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
-        $qb->addSelect($what)->from('AppBundle:User', 'u');
+        $qb->addSelect($what)->from('App\Entity\User', 'u');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
@@ -358,7 +358,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
 
-        $qb->addSelect($what)->from('AppBundle:User', 'u');
+        $qb->addSelect($what)->from('App\Entity\User', 'u');
 
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
@@ -655,7 +655,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('u.id AS userId, c.id AS primaryCohortId, s.id AS schoolId, auser.id as authenticationId')
-            ->from('AppBundle:User', 'u')
+            ->from('App\Entity\User', 'u')
             ->join('u.school', 's')
             ->leftJoin('u.primaryCohort', 'c')
             ->leftJoin('u.authentication', 'a')
@@ -694,7 +694,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder();
-            $qb->select('r.id as relId, u.id AS userId')->from('AppBundle:User', 'u')
+            $qb->select('r.id as relId, u.id AS userId')->from('App\Entity\User', 'u')
                 ->join("u.{$rel}", 'r')
                 ->where($qb->expr()->in('u.id', ':ids'))
                 ->orderBy('relId')
@@ -719,19 +719,19 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     public function findMaterialsForUser($id, UserMaterialFactory $factory, $criteria)
     {
         $offIdQb = $this->_em->createQueryBuilder();
-        $offIdQb->select('learnerOffering.id')->from('AppBundle:User', 'learnerU');
+        $offIdQb->select('learnerOffering.id')->from('App\Entity\User', 'learnerU');
         $offIdQb->join('learnerU.offerings', 'learnerOffering');
         $offIdQb->andWhere($offIdQb->expr()->eq('learnerU.id', ':user_id'));
 
         $groupOfferingQb = $this->_em->createQueryBuilder();
-        $groupOfferingQb->select('groupOffering.id')->from('AppBundle:User', 'groupU');
+        $groupOfferingQb->select('groupOffering.id')->from('App\Entity\User', 'groupU');
         $groupOfferingQb->leftJoin('groupU.learnerGroups', 'g');
         $groupOfferingQb->leftJoin('g.offerings', 'groupOffering');
         $groupOfferingQb->andWhere($groupOfferingQb->expr()->eq('groupU.id', ':user_id'));
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('s.id, o.startDate, o.id as offeringId');
-        $qb->from('AppBundle:Offering', 'o');
+        $qb->from('App\Entity\Offering', 'o');
         $qb->join('o.session', 's');
         $qb->where($qb->expr()->orX(
             $qb->expr()->in('o.id', $offIdQb->getDQL()),
@@ -750,19 +750,19 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $offeringSessions = $qb->getQuery()->getArrayResult();
 
         $ilmQb = $this->_em->createQueryBuilder();
-        $ilmQb->select('learnerIlmSession.id')->from('AppBundle:User', 'learnerU');
+        $ilmQb->select('learnerIlmSession.id')->from('App\Entity\User', 'learnerU');
         $ilmQb->join('learnerU.learnerIlmSessions', 'learnerIlmSession');
         $ilmQb->andWhere($ilmQb->expr()->eq('learnerU.id', ':user_id'));
 
         $groupIlmSessionQb = $this->_em->createQueryBuilder();
-        $groupIlmSessionQb->select('groupIlmSession.id')->from('AppBundle:User', 'groupU');
+        $groupIlmSessionQb->select('groupIlmSession.id')->from('App\Entity\User', 'groupU');
         $groupIlmSessionQb->leftJoin('groupU.learnerGroups', 'g');
         $groupIlmSessionQb->leftJoin('g.ilmSessions', 'groupIlmSession');
         $groupIlmSessionQb->andWhere($groupIlmSessionQb->expr()->eq('groupU.id', ':user_id'));
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('s.id, ilm.dueDate, ilm.id AS ilmId');
-        $qb->from('AppBundle:IlmSession', 'ilm');
+        $qb->from('App\Entity\IlmSession', 'ilm');
         $qb->join('ilm.session', 's');
         $qb->where($qb->expr()->orX(
             $qb->expr()->in('ilm.id', $ilmQb->getDQL()),

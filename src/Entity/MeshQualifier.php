@@ -17,7 +17,7 @@ use App\Traits\TimestampableEntity;
  * Class MeshQualifier
  *
  * @ORM\Table(name="mesh_qualifier")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\MeshQualifierRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshQualifierRepository")
  *
  * @IS\Entity
  */

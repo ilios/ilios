@@ -64,7 +64,7 @@ class SyncFormerStudentsCommandTest extends TestCase
             'telephoneNumber' => 'phone2',
             'campusId' => 'abc2',
         ];
-        $user = m::mock('AppBundle\Entity\UserInterface')
+        $user = m::mock('App\Entity\UserInterface')
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
@@ -80,7 +80,7 @@ class SyncFormerStudentsCommandTest extends TestCase
             ->andReturn(new ArrayCollection([$user]));
         $this->userManager->shouldReceive('update')
             ->with($user, false);
-        $role = m::mock('AppBundle\Entity\UserRoleInterface')
+        $role = m::mock('App\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)
             ->mock();
         $user->shouldReceive('addRole')->with($role);

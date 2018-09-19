@@ -15,7 +15,7 @@ class LoadTermAamcResourceTypeTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\TermManager';
+        return 'App\Entity\Manager\TermManager';
     }
 
     /**
@@ -24,7 +24,7 @@ class LoadTermAamcResourceTypeTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadTermAamcResourceTypeData',
+            'App\DataFixtures\ORM\LoadTermAamcResourceTypeData',
         ];
     }
 

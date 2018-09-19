@@ -18,7 +18,7 @@ class SchoolConfigRepository extends EntityRepository implements DTORepositoryIn
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:SchoolConfig', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\SchoolConfig', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class SchoolConfigRepository extends EntityRepository implements DTORepositoryIn
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('AppBundle:SchoolConfig', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\SchoolConfig', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $schoolConfigDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -51,7 +51,7 @@ class SchoolConfigRepository extends EntityRepository implements DTORepositoryIn
 
         $qb = $this->_em->createQueryBuilder()
             ->select('x.id as xId, school.id AS schoolId')
-            ->from('AppBundle:SchoolConfig', 'x')
+            ->from('App\Entity\SchoolConfig', 'x')
             ->join('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $schoolConfigIds);
@@ -70,7 +70,7 @@ class SchoolConfigRepository extends EntityRepository implements DTORepositoryIn
     public function getValue($name)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('x.value')->from('AppBundle:SchoolConfig', 'x')
+        $qb->select('x.value')->from('App\Entity\SchoolConfig', 'x')
             ->where($qb->expr()->eq('x.name', ':name'))
             ->setParameter('name', $name);
 

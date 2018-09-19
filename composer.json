@@ -87,8 +87,8 @@
       "requirements-checker": "script"
     },
     "ilios-scripts": [
-      "AppBundle\\Composer\\MigrateParameters::migrate",
-      "AppBundle\\Composer\\CheckRequiredENV::check"
+      "App\\Composer\\MigrateParameters::migrate",
+      "App\\Composer\\CheckRequiredENV::check"
     ],
     "post-install-cmd": [
       "@auto-scripts",

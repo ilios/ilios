@@ -8,6 +8,7 @@ use App\Entity\Manager\PendingUserUpdateManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\PendingUserUpdateInterface;
 use App\Entity\UserInterface;
+use App\Service\Directory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -33,7 +34,7 @@ class SyncUserCommandTest extends TestCase
         $this->userManager = m::mock(UserManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
         $this->pendingUserUpdateManager = m::mock(PendingUserUpdateManager::class);
-        $this->directory = m::mock('AppBundle\Service\Directory');
+        $this->directory = m::mock(Directory::class);
         
         $command = new SyncUserCommand(
             $this->userManager,

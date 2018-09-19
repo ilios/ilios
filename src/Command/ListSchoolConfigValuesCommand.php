@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Get an application configuration value from the DB
  *
  * Class ListSchoolConfigValuesCommand
- * @package AppBundle\Command
+ * @package App\Command
  */
 class ListSchoolConfigValuesCommand extends Command
 {

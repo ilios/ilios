@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Service;
 
+use App\Service\Logger;
 use App\Service\LoggerQueue;
 use App\Entity\School;
 use Mockery as m;
@@ -19,7 +20,7 @@ class LoggerQueueTest extends TestCase
         $changes = 'foo,bar';
         $school = new School();
         $school->setId(12);
-        $logger = m::mock('AppBundle\Service\Logger')
+        $logger = m::mock(Logger::class)
             ->shouldReceive('log')
             ->times(1)
             ->with($action, '12', get_class($school), $changes, false)
@@ -31,7 +32,7 @@ class LoggerQueueTest extends TestCase
 
     public function testFlushEmptyQueue()
     {
-        $logger = m::mock('AppBundle\Service\Logger');
+        $logger = m::mock(Logger::class);
         $queue = new LoggerQueue($logger);
         $queue->flush();
         $logger->shouldNotHaveReceived('log');

@@ -15,7 +15,7 @@ class CourseManagerTest extends TestCase
      */
     public function testDeleteCourse()
     {
-        $class = 'AppBundle\Entity\Course';
+        $class = 'App\Entity\Course';
         $em = m::mock('Doctrine\ORM\EntityManager')
             ->shouldReceive('remove')->shouldReceive('flush')->mock();
         $repository = m::mock('Doctrine\ORM\Repository');

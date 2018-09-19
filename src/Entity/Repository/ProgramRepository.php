@@ -21,7 +21,7 @@ class ProgramRepository extends EntityRepository implements DTORepositoryInterfa
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT p')->from('AppBundle:Program', 'p');
+        $qb->select('DISTINCT p')->from('App\Entity\Program', 'p');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -41,7 +41,7 @@ class ProgramRepository extends EntityRepository implements DTORepositoryInterfa
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from('AppBundle:Program', 'p');
+        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from('App\Entity\Program', 'p');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $programDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -57,7 +57,7 @@ class ProgramRepository extends EntityRepository implements DTORepositoryInterfa
         $programIds = array_keys($programDTOs);
         $qb = $this->_em->createQueryBuilder()
             ->select('p.id as programId, s.id as schoolId')
-            ->from('AppBundle:Program', 'p')
+            ->from('App\Entity\Program', 'p')
             ->join('p.school', 's')
             ->where($qb->expr()->in('p.id', ':ids'))
             ->setParameter('ids', $programIds);
@@ -71,7 +71,7 @@ class ProgramRepository extends EntityRepository implements DTORepositoryInterfa
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, p.id AS programId')->from('AppBundle:Program', 'p')
+                ->select('r.id AS relId, p.id AS programId')->from('App\Entity\Program', 'p')
                 ->join("p.{$rel}", 'r')
                 ->where($qb->expr()->in('p.id', ':programIds'))
                 ->orderBy('relId')

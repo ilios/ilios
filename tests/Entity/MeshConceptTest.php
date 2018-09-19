@@ -81,7 +81,7 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\MeshConcept::setRegistryNumber
+     * @covers \App\Entity\MeshConcept::setRegistryNumber
      * @covers \App\Entity\MeshConcept::getRegistryNumber
      */
     public function testSetRegistryNumber()

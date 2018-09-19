@@ -17,7 +17,7 @@ use App\Traits\StringableIdEntity;
  * Class LearningMaterialUserRole
  *
  * @ORM\Table(name="learning_material_user_role")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\LearningMaterialUserRoleRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\LearningMaterialUserRoleRepository")
  *
  * @IS\Entity
  */

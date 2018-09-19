@@ -29,8 +29,8 @@ class SessionTest extends EntityBase
         $notBlank = array(
 
         );
-        $this->object->setSessionType(m::mock('AppBundle\Entity\SessionTypeInterface'));
-        $this->object->setCourse(m::mock('AppBundle\Entity\CourseInterface'));
+        $this->object->setSessionType(m::mock('App\Entity\SessionTypeInterface'));
+        $this->object->setCourse(m::mock('App\Entity\CourseInterface'));
 
         $this->validateNotBlanks($notBlank);
         $this->validate(0);
@@ -44,8 +44,8 @@ class SessionTest extends EntityBase
         );
         $this->validateNotNulls($notNull);
 
-        $this->object->setSessionType(m::mock('AppBundle\Entity\SessionTypeInterface'));
-        $this->object->setCourse(m::mock('AppBundle\Entity\CourseInterface'));
+        $this->object->setSessionType(m::mock('App\Entity\SessionTypeInterface'));
+        $this->object->setCourse(m::mock('App\Entity\CourseInterface'));
 
         $this->validate(0);
     }
@@ -160,7 +160,7 @@ class SessionTest extends EntityBase
     {
         $this->assertTrue(method_exists($this->object, 'getIlmSession'), "Method getIlmSession missing");
         $this->assertTrue(method_exists($this->object, 'setIlmSession'), "Method setIlmSession missing");
-        $obj = m::mock('AppBundle\Entity\IlmSession');
+        $obj = m::mock('App\Entity\IlmSession');
         $obj->shouldReceive('setSession')->with($this->object)->once();
         $this->object->setIlmSession($obj);
         $this->assertSame($obj, $this->object->getIlmSession());
@@ -276,7 +276,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\Session::addMeshDescriptor
+     * @covers \App\Entity\Session::addMeshDescriptor
      */
     public function testAddMeshDescriptor()
     {
@@ -302,13 +302,13 @@ class SessionTest extends EntityBase
 
     /**
      * @covers \App\Entity\Session::setSessionDescription
-     * @covers \AppBundle\Entity\Session::getSessionDescription
+     * @covers \App\Entity\Session::getSessionDescription
      */
     public function testSetSessionDescription()
     {
         $this->assertTrue(method_exists($this->object, 'getSessionDescription'), "Method missing");
         $this->assertTrue(method_exists($this->object, 'setSessionDescription'), "Method missing");
-        $obj = m::mock('AppBundle\Entity\SessionDescription');
+        $obj = m::mock('App\Entity\SessionDescription');
         $obj->shouldReceive('setSession')->with($this->object)->once();
         $this->object->setSessionDescription($obj);
         $this->assertSame($obj, $this->object->getSessionDescription());
@@ -382,7 +382,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers \App\Entity\Session::getAdministrators
-     * @covers \AppBundle\Entity\Session::setAdministrators
+     * @covers \App\Entity\Session::setAdministrators
      */
     public function testSetAdministrators()
     {

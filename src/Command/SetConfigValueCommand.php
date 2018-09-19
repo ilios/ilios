@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
  * Set an application configuration value in the DB
  *
  * Class SetConfigValueCommand
- * @package AppBundle\Command
+ * @package App\Command
  */
 class SetConfigValueCommand extends Command
 {

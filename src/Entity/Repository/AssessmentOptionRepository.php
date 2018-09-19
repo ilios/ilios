@@ -17,7 +17,7 @@ class AssessmentOptionRepository extends EntityRepository implements DTOReposito
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:AssessmentOption', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\AssessmentOption', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -36,7 +36,7 @@ class AssessmentOptionRepository extends EntityRepository implements DTOReposito
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('AppBundle:AssessmentOption', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\AssessmentOption', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $assessmentOptionDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -51,7 +51,7 @@ class AssessmentOptionRepository extends EntityRepository implements DTOReposito
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS assessmentOptionId')->from('AppBundle:AssessmentOption', 'x')
+                ->select('r.id AS relId, x.id AS assessmentOptionId')->from('App\Entity\AssessmentOption', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':assessmentOptionIds'))
                 ->orderBy('relId')

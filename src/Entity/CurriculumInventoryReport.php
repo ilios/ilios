@@ -27,7 +27,7 @@ use App\Traits\StringableIdEntity;
  *     @ORM\UniqueConstraint(name="idx_ci_report_token_unique", columns={"token"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CurriculumInventoryReportRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventoryReportRepository")
  *
  * @IS\Entity
  */

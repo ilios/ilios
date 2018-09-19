@@ -14,7 +14,7 @@ class LoadMeshDescriptorDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\MeshDescriptorManager';
+        return 'App\Entity\Manager\MeshDescriptorManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadMeshDescriptorDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-          'AppBundle\DataFixtures\ORM\LoadMeshDescriptorData',
+          'App\DataFixtures\ORM\LoadMeshDescriptorData',
         ];
     }
 

@@ -14,7 +14,7 @@ class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\LearningMaterialStatusManager';
+        return 'App\Entity\Manager\LearningMaterialStatusManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadLearningMaterialStatusData',
+            'App\DataFixtures\ORM\LoadLearningMaterialStatusData',
         ];
     }
 

@@ -24,7 +24,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT c')->from('AppBundle:Course', 'c');
+        $qb->select('DISTINCT c')->from('App\Entity\Course', 'c');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -43,7 +43,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('AppBundle:Course', 'c');
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('App\Entity\Course', 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $courseDTOs = [];
@@ -66,7 +66,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
 
         $qb = $this->_em->createQueryBuilder()
             ->select('s.id as schoolId, cl.id as clerkshipTypeId, a.id as ancestorId, c.id as courseId')
-            ->from('AppBundle:Course', 'c')
+            ->from('App\Entity\Course', 'c')
             ->join('c.school', 's')
             ->leftJoin('c.clerkshipType', 'cl')
             ->leftJoin('c.ancestor', 'a')
@@ -93,7 +93,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, c.id as courseId')->from('AppBundle:Course', 'c')
+                ->select('r.id as relId, c.id as courseId')->from('App\Entity\Course', 'c')
                 ->join("c.{$rel}", 'r')
                 ->where($qb->expr()->in('c.id', ':courseIds'))
                 ->orderBy('relId')
@@ -113,7 +113,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function getYears()
     {
-        $dql = 'SELECT DISTINCT c.year FROM AppBundle:Course c ORDER BY c.year ASC';
+        $dql = 'SELECT DISTINCT c.year FROM App\Entity\Course c ORDER BY c.year ASC';
         $results = $this->getEntityManager()->createQuery($dql)->getArrayResult();
 
         $return = [];
@@ -215,8 +215,8 @@ EOL;
     ) {
 
         $rsm = new ResultSetMappingBuilder($this->_em);
-        $rsm->addRootEntityFromClassMetadata('AppBundle:Course', 'c');
-        $meta = $this->_em->getClassMetadata('AppBundle:Course');
+        $rsm->addRootEntityFromClassMetadata('App\Entity\Course', 'c');
+        $meta = $this->_em->getClassMetadata('App\Entity\Course');
 
         if (empty($orderBy)) {
             $orderBy = ['id' => 'ASC'];

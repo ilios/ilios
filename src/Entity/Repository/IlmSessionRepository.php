@@ -17,7 +17,7 @@ class IlmSessionRepository extends EntityRepository implements DTORepositoryInte
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:IlmSession', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\IlmSession', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class IlmSessionRepository extends EntityRepository implements DTORepositoryInte
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:IlmSession', 'x');
+            ->distinct()->from('App\Entity\IlmSession', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var IlmSessionDTO[] $ilmSessionDTOs */
@@ -55,7 +55,7 @@ class IlmSessionRepository extends EntityRepository implements DTORepositoryInte
             ->select(
                 'x.id as xId, session.id AS sessionId, course.id AS courseId, school.id AS schoolId'
             )
-            ->from('AppBundle:IlmSession', 'x')
+            ->from('App\Entity\IlmSession', 'x')
             ->join('x.session', 'session')
             ->join('session.course', 'course')
             ->join('course.school', 'school')
@@ -77,7 +77,7 @@ class IlmSessionRepository extends EntityRepository implements DTORepositoryInte
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS ilmSessionId')
-                ->from('AppBundle:IlmSession', 'x')
+                ->from('App\Entity\IlmSession', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')

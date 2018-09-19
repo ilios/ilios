@@ -14,7 +14,7 @@ class LearnerGroupRepository extends EntityRepository implements DTORepositoryIn
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT l')->from('AppBundle:LearnerGroup', 'l');
+        $qb->select('DISTINCT l')->from('App\Entity\LearnerGroup', 'l');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -33,7 +33,7 @@ class LearnerGroupRepository extends EntityRepository implements DTORepositoryIn
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('l')->distinct()->from('AppBundle:LearnerGroup', 'l');
+        $qb = $this->_em->createQueryBuilder()->select('l')->distinct()->from('App\Entity\LearnerGroup', 'l');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $learnerGroupDTOs = [];
@@ -48,7 +48,7 @@ class LearnerGroupRepository extends EntityRepository implements DTORepositoryIn
 
         $qb = $this->_em->createQueryBuilder()
             ->select('l.id as learnerGroupId, plg.id as parentId, c.id as cohortId, alg.id as ancestorId')
-            ->from('AppBundle:LearnerGroup', 'l')
+            ->from('App\Entity\LearnerGroup', 'l')
             ->join('l.cohort', 'c')
             ->leftJoin('l.parent', 'plg')
             ->leftJoin('l.ancestor', 'alg')
@@ -73,7 +73,7 @@ class LearnerGroupRepository extends EntityRepository implements DTORepositoryIn
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, l.id AS learnerGroupId')->from('AppBundle:LearnerGroup', 'l')
+                ->select('r.id AS relId, l.id AS learnerGroupId')->from('App\Entity\LearnerGroup', 'l')
                 ->join("l.{$rel}", 'r')
                 ->where($qb->expr()->in('l.id', ':learnerGroupIds'))
                 ->orderBy('relId')

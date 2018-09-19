@@ -18,7 +18,7 @@ use App\Service\Filesystem;
  * assets can be served from the API host.
  *
  * Class UpdateFrontendCommand
- * @package AppBundle\Command
+ * @package App\Command
  */
 class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 {

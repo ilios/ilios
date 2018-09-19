@@ -13,7 +13,7 @@ use App\Traits\StringableIdEntity;
  * Class AuditLog
  *
  * @ORM\Table(name="audit_log")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\AuditLogRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\AuditLogRepository")
  *
  */
 class AuditLog implements AuditLogInterface

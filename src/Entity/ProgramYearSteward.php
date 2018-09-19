@@ -24,7 +24,7 @@ use App\Traits\StringableIdEntity;
  *     )
  *   },
  *   indexes={@ORM\Index(name="IDX_program_year_school", columns={"program_year_Id", "school_Id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ProgramYearStewardRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\ProgramYearStewardRepository")
  *
  * @IS\Entity
  */

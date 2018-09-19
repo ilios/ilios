@@ -17,7 +17,7 @@ class UserRoleRepository extends EntityRepository implements DTORepositoryInterf
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:UserRole', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\UserRole', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class UserRoleRepository extends EntityRepository implements DTORepositoryInterf
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:UserRole', 'x');
+            ->distinct()->from('App\Entity\UserRole', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var UserRoleDTO[] $userRoleDTOs */

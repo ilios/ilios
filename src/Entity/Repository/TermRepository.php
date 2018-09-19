@@ -26,7 +26,7 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
     {
         $qb = $this->_em->createQueryBuilder();
 
-        $qb->select('DISTINCT t')->from('AppBundle:Term', 't');
+        $qb->select('DISTINCT t')->from('App\Entity\Term', 't');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -45,7 +45,7 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('t')->distinct()->from('AppBundle:Term', 't');
+        $qb = $this->_em->createQueryBuilder()->select('t')->distinct()->from('App\Entity\Term', 't');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $termDTOs = [];
@@ -61,7 +61,7 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
 
         $qb = $this->_em->createQueryBuilder()
             ->select('t.id AS termId, v.id AS vocabularyId, p.id AS parentId, s.id AS schoolId')
-            ->from('AppBundle:Term', 't')
+            ->from('App\Entity\Term', 't')
             ->join('t.vocabulary', 'v')
             ->join('v.school', 's')
             ->leftJoin('t.parent', 'p')
@@ -84,7 +84,7 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, t.id AS termId')->from('AppBundle:Term', 't')
+                ->select('r.id as relId, t.id AS termId')->from('App\Entity\Term', 't')
                 ->join("t.{$rel}", 'r')
                 ->where($qb->expr()->in('t.id', ':termIds'))
                 ->orderBy('relId')

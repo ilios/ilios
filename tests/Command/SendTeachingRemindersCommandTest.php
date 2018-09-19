@@ -53,7 +53,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $offering = $this->createOffering();
 
         $this->fakeOfferingManager = $this
-            ->getMockBuilder('AppBundle\Entity\Manager\OfferingManager')
+            ->getMockBuilder('App\Entity\Manager\OfferingManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->fakeOfferingManager

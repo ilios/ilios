@@ -19,7 +19,7 @@ class ApplicationConfigRepository extends EntityRepository implements DTOReposit
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:ApplicationConfig', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\ApplicationConfig', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -38,7 +38,7 @@ class ApplicationConfigRepository extends EntityRepository implements DTOReposit
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('AppBundle:ApplicationConfig', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\ApplicationConfig', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $applicationConfigDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -61,7 +61,7 @@ class ApplicationConfigRepository extends EntityRepository implements DTOReposit
     public function getValue($name)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('x.value')->from('AppBundle:ApplicationConfig', 'x')
+        $qb->select('x.value')->from('App\Entity\ApplicationConfig', 'x')
             ->where($qb->expr()->eq('x.name', ':name'))
             ->setParameter('name', $name);
 

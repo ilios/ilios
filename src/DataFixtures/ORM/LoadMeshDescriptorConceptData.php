@@ -29,8 +29,8 @@ class LoadMeshDescriptorConceptData extends AbstractMeshFixture implements Depen
     public function getDependencies()
     {
         return [
-          'AppBundle\DataFixtures\ORM\LoadMeshDescriptorData',
-          'AppBundle\DataFixtures\ORM\LoadMeshConceptData',
+          'App\DataFixtures\ORM\LoadMeshDescriptorData',
+          'App\DataFixtures\ORM\LoadMeshConceptData',
         ];
     }
 }

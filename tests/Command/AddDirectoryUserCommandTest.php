@@ -2,6 +2,7 @@
 namespace Tests\App\Command;
 
 use App\Command\AddDirectoryUserCommand;
+use App\Service\Directory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -25,10 +26,10 @@ class AddDirectoryUserCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('AppBundle\Entity\Manager\UserManager');
-        $this->authenticationManager = m::mock('AppBundle\Entity\Manager\AuthenticationManager');
-        $this->schoolManager = m::mock('AppBundle\Entity\Manager\SchoolManager');
-        $this->directory = m::mock('AppBundle\Service\Directory');
+        $this->userManager = m::mock('App\Entity\Manager\UserManager');
+        $this->authenticationManager = m::mock('App\Entity\Manager\AuthenticationManager');
+        $this->schoolManager = m::mock('App\Entity\Manager\SchoolManager');
+        $this->directory = m::mock(Directory::class);
 
         $command = new AddDirectoryUserCommand(
             $this->userManager,
@@ -58,11 +59,11 @@ class AddDirectoryUserCommandTest extends TestCase
     
     public function testExecute()
     {
-        $school = m::mock('AppBundle\Entity\SchoolInterface');
-        $authentication = m::mock('AppBundle\Entity\AuthenticationInterface')
+        $school = m::mock('App\Entity\SchoolInterface');
+        $authentication = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('setUsername')->with('abc123')
             ->mock();
-        $user = m::mock('AppBundle\Entity\UserInterface')
+        $user = m::mock('App\Entity\UserInterface')
             ->shouldReceive('setFirstName')->with('first')
             ->shouldReceive('setLastName')->with('last')
             ->shouldReceive('setEmail')->with('email')
@@ -116,7 +117,7 @@ class AddDirectoryUserCommandTest extends TestCase
     
     public function testBadCampusId()
     {
-        $user = m::mock('AppBundle\Entity\UserInterface')
+        $user = m::mock('App\Entity\UserInterface')
             ->shouldReceive('getId')->andReturn(1)
             ->mock();
         $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn($user);

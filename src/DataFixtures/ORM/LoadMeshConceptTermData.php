@@ -29,8 +29,8 @@ class LoadMeshConceptTermData extends AbstractMeshFixture implements DependentFi
     public function getDependencies()
     {
         return [
-          'AppBundle\DataFixtures\ORM\LoadMeshConceptData',
-          'AppBundle\DataFixtures\ORM\LoadMeshTermData',
+          'App\DataFixtures\ORM\LoadMeshConceptData',
+          'App\DataFixtures\ORM\LoadMeshTermData',
         ];
     }
 }

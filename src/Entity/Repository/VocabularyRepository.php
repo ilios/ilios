@@ -17,7 +17,7 @@ class VocabularyRepository extends EntityRepository implements DTORepositoryInte
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:Vocabulary', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\Vocabulary', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class VocabularyRepository extends EntityRepository implements DTORepositoryInte
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:Vocabulary', 'x');
+            ->distinct()->from('App\Entity\Vocabulary', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var VocabularyDTO[] $vocabularyDTOs */
@@ -55,7 +55,7 @@ class VocabularyRepository extends EntityRepository implements DTORepositoryInte
             ->select(
                 'x.id as xId, school.id AS schoolId'
             )
-            ->from('AppBundle:Vocabulary', 'x')
+            ->from('App\Entity\Vocabulary', 'x')
             ->join('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $vocabularyIds);
@@ -70,7 +70,7 @@ class VocabularyRepository extends EntityRepository implements DTORepositoryInte
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS vocabularyId')
-                ->from('AppBundle:Vocabulary', 'x')
+                ->from('App\Entity\Vocabulary', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')

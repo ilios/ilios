@@ -11,7 +11,7 @@ use App\Service\Config;
 /**
  * Data aggregator for Curriculum Inventory reporting.
  *
- * @package AppBundle\Service\CurriculumInventory\Export
+ * @package App\Service\CurriculumInventory\Export
  */
 class Aggregator
 {

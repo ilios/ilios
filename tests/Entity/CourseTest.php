@@ -192,7 +192,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\Course::removeDirector
+     * @covers \App\Entity\Course::removeDirector
      */
     public function testRemoveDirector()
     {
@@ -295,7 +295,7 @@ class CourseTest extends EntityBase
      */
     public function testGetAncestorOrSelfWithAncestor()
     {
-        $ancestor = m::mock('AppBundle\Entity\Course');
+        $ancestor = m::mock('App\Entity\Course');
         $this->object->setAncestor($ancestor);
         $this->assertSame($ancestor, $this->object->getAncestorOrSelf());
     }
@@ -309,7 +309,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\Course::addDescendant
+     * @covers \App\Entity\Course::addDescendant
      */
     public function testAddDescendant()
     {
@@ -411,10 +411,10 @@ class CourseTest extends EntityBase
      */
     public function testRemoveObjectiveWithSessionChildren()
     {
-        $sessionObjective = m::mock('AppBundle\Entity\Objective');
-        $session = m::mock('AppBundle\Entity\Session');
+        $sessionObjective = m::mock('App\Entity\Objective');
+        $session = m::mock('App\Entity\Session');
         $this->object->addSession($session);
-        $courseObjective = m::mock('AppBundle\Entity\Objective');
+        $courseObjective = m::mock('App\Entity\Objective');
         $courseObjective->shouldReceive('addCourse')->with($this->object)->once();
         $courseObjective->shouldReceive('removeCourse')->with($this->object)->once();
 

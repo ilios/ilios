@@ -17,7 +17,7 @@ class PendingUserUpdateRepository extends EntityRepository implements DTOReposit
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:PendingUserUpdate', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\PendingUserUpdate', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class PendingUserUpdateRepository extends EntityRepository implements DTOReposit
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:PendingUserUpdate', 'x');
+            ->distinct()->from('App\Entity\PendingUserUpdate', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var PendingUserUpdateDTO[] $pendingUserUpdateDTOs */
@@ -56,7 +56,7 @@ class PendingUserUpdateRepository extends EntityRepository implements DTOReposit
             ->select(
                 'x.id as xId, user.id AS userId'
             )
-            ->from('AppBundle:PendingUserUpdate', 'x')
+            ->from('App\Entity\PendingUserUpdate', 'x')
             ->join('x.user', 'user')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $pendingUserUpdateIds);
@@ -133,7 +133,7 @@ class PendingUserUpdateRepository extends EntityRepository implements DTOReposit
     public function removeAllPendingUserUpdates()
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->delete('AppBundle:PendingUserUpdate', 'p');
+        $qb->delete('App\Entity\PendingUserUpdate', 'p');
         $qb->getQuery()->execute();
     }
 }

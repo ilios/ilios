@@ -14,7 +14,7 @@ class LoadAamcMethodDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\AamcMethodManager';
+        return 'App\Entity\Manager\AamcMethodManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadAamcMethodDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadAamcMethodData',
+            'App\DataFixtures\ORM\LoadAamcMethodData',
         ];
     }
 

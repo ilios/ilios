@@ -17,7 +17,7 @@ class LearningMaterialStatusRepository extends EntityRepository implements DTORe
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:LearningMaterialStatus', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\LearningMaterialStatus', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class LearningMaterialStatusRepository extends EntityRepository implements DTORe
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:LearningMaterialStatus', 'x');
+            ->distinct()->from('App\Entity\LearningMaterialStatus', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var LearningMaterialStatusDTO[] $learningMaterialStatusDTOs */

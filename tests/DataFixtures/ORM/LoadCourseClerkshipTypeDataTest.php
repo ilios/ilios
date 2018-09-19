@@ -14,7 +14,7 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\CourseClerkshipTypeManager';
+        return 'App\Entity\Manager\CourseClerkshipTypeManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadCourseClerkshipTypeData',
+            'App\DataFixtures\ORM\LoadCourseClerkshipTypeData',
         ];
     }
 

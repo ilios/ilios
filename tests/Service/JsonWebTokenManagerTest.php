@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Service;
 
+use App\Classes\SessionUserInterface;
 use App\Service\PermissionChecker;
 use App\Service\SessionUserProvider;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
@@ -61,7 +62,7 @@ class JsonWebTokenManagerTest extends TestCase
     
     public function testCreateJwtFromSessionUser()
     {
-        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->mock();
         $sessionUser->shouldReceive('isRoot')->once()->andReturn(true);
@@ -79,7 +80,7 @@ class JsonWebTokenManagerTest extends TestCase
     
     public function testCreateJwtFromSessionUserWhichExpiresNextWeek()
     {
-        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->mock();
         $sessionUser->shouldReceive('isRoot')->once()->andReturn(true);
@@ -96,7 +97,7 @@ class JsonWebTokenManagerTest extends TestCase
     
     public function testCreateJwtFromSessionUserWhichExpiresAfterMaximumTime()
     {
-        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->mock();
         $sessionUser->shouldReceive('isRoot')->once()->andReturn(true);
@@ -113,7 +114,7 @@ class JsonWebTokenManagerTest extends TestCase
 
     public function testCreateJwtFromSessionUserWithLessPrivileges()
     {
-        $sessionUser = m::mock('AppBundle\Classes\SessionUserInterface')
+        $sessionUser = m::mock(SessionUserInterface::class)
             ->shouldReceive('getId')->andReturn(42)
             ->mock();
         $sessionUser->shouldReceive('isRoot')->once()->andReturn(false);

@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 
 /**
  * Class PermissionController
- * @package AppBundle\Controller
+ * @package App\Controller
  */
 class PermissionController extends ApiController
 {

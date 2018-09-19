@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 
 /**
  * Class MeshPreviousIndexingController
- * @package AppBundle\Controller
+ * @package App\Controller
  */
 class MeshPreviousIndexingController extends ApiController
 {

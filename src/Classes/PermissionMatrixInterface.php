@@ -4,7 +4,7 @@ namespace App\Classes;
 
 /**
  * Interface PermissionMatrixInterface
- * @package AppBundle\Classes
+ * @package App\Classes
  */
 interface PermissionMatrixInterface
 {

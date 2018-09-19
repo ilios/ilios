@@ -24,7 +24,7 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements 
     public function getDependencies()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadSchoolData',
+            'App\DataFixtures\ORM\LoadSchoolData',
         ];
     }
 

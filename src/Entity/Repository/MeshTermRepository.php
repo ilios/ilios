@@ -17,7 +17,7 @@ class MeshTermRepository extends EntityRepository implements DTORepositoryInterf
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:MeshTerm', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\MeshTerm', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class MeshTermRepository extends EntityRepository implements DTORepositoryInterf
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:MeshTerm', 'x');
+            ->distinct()->from('App\Entity\MeshTerm', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var MeshTermDTO[] $meshTermDTOs */
@@ -63,7 +63,7 @@ class MeshTermRepository extends EntityRepository implements DTORepositoryInterf
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS meshTermId')
-                ->from('AppBundle:MeshTerm', 'x')
+                ->from('App\Entity\MeshTerm', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')

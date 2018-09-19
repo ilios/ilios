@@ -217,7 +217,7 @@ class ApiController extends Controller implements ApiControllerInterface
     protected function getManager($pluralObjectName)
     {
         $entityName = $this->getEntityName($pluralObjectName);
-        $name = "AppBundle\\Entity\\Manager\\${entityName}Manager";
+        $name = "App\\Entity\\Manager\\${entityName}Manager";
         if (!$this->container->has($name)) {
             throw new \Exception(
                 sprintf('The manager for \'%s\' does not exist.', $pluralObjectName)

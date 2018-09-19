@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\RelationshipVoter;
+namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
 use App\Entity\IlmSessionInterface;

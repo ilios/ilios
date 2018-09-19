@@ -20,7 +20,7 @@ use App\Traits\StringableIdEntity;
  *     @ORM\Index(name="fkey_curriculum_inventory_export_user_id", columns={"created_by"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CurriculumInventoryExportRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventoryExportRepository")
  * @IS\Entity
  */
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface

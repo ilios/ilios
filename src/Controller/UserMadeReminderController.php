@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 
 /**
  * Class UserMadeReminderController
- * @package AppBundle\Controller
+ * @package App\Controller
  */
 class UserMadeReminderController extends ApiController
 {

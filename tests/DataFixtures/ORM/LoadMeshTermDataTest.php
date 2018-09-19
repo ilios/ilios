@@ -14,7 +14,7 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\MeshTermManager';
+        return 'App\Entity\Manager\MeshTermManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-          'AppBundle\DataFixtures\ORM\LoadMeshTermData',
+          'App\DataFixtures\ORM\LoadMeshTermData',
         ];
     }
 

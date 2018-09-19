@@ -14,7 +14,7 @@ class LoadMeshTreeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\MeshTreeManager';
+        return 'App\Entity\Manager\MeshTreeManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadMeshTreeDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-          'AppBundle\DataFixtures\ORM\LoadMeshTreeData',
+          'App\DataFixtures\ORM\LoadMeshTreeData',
         ];
     }
 

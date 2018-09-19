@@ -21,7 +21,7 @@ use App\Traits\SchoolEntity;
  * Class InstructorGroup
  *
  * @ORM\Table(name="instructor_group")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\InstructorGroupRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\InstructorGroupRepository")
  *
  * @IS\Entity
  */

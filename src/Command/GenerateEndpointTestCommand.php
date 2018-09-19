@@ -61,7 +61,7 @@ class GenerateEndpointTestCommand extends Command
             ->addArgument(
                 'entityShortcut',
                 InputArgument::REQUIRED,
-                'The name of an entity e.g. AppBundle:Session.'
+                'The name of an entity e.g. App\Entity\Session.'
             );
     }
 

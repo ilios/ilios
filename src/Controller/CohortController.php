@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 
 /**
  * Class CohortController
- * @package AppBundle\Controller
+ * @package App\Controller
  */
 class CohortController extends ApiController
 {

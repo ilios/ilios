@@ -2,6 +2,7 @@
 
 namespace Tests\App\Controller;
 
+use App\Entity\User;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Firebase\JWT\JWT;
 use DateTime;
@@ -180,7 +181,7 @@ class AuthControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
     
-        $legacyUser = $em->getRepository('AppBundle:User')->find(1);
+        $legacyUser = $em->getRepository(User::class)->find(1);
         $authentication = $legacyUser->getAuthentication();
         $this->assertTrue($authentication->isLegacyAccount());
         $this->assertNotEmpty($authentication->getPasswordSha256());
@@ -211,7 +212,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(1, $token['user_id']);
     
-        $legacyUser = $em->getRepository('AppBundle:User')->find(1);
+        $legacyUser = $em->getRepository(User::class)->find(1);
         $authentication = $legacyUser->getAuthentication();
         $this->assertFalse($authentication->isLegacyAccount());
         $this->assertEmpty($authentication->getPasswordSha256());

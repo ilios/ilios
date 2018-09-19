@@ -131,7 +131,7 @@ class EntityBase extends TestCase
         $getMethod = $this->getGetMethodForProperty($property);
         $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
         $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
-        $obj = m::mock('AppBundle\Entity\\' . $entityName);
+        $obj = m::mock('App\Entity\\' . $entityName);
         $this->object->$setMethod($obj);
         $this->assertSame($obj, $this->object->$getMethod());
     }
@@ -157,7 +157,7 @@ class EntityBase extends TestCase
         $setMethod = $setter?$setter:$this->getSetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
         $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
-        $arr = $this->getArrayOfMockObjects('AppBundle\Entity\\' . $entityName, 10);
+        $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
         if ($crossSaveMethod) {
             foreach ($arr as $obj) {
                 $obj->shouldReceive($crossSaveMethod)->with($this->object)->once();
@@ -190,7 +190,7 @@ class EntityBase extends TestCase
         $setter = false,
         $crossSaveMethod = false
     ) {
-        $arr = $this->getArrayOfMockObjects('AppBundle\Entity\\' . $entityName, 10);
+        $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
         $addMethod = $setter?$setter:$this->getAddMethodForProperty($property);
         $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
@@ -227,7 +227,7 @@ class EntityBase extends TestCase
         $remover = false,
         $crossSaveMethod = false
     ) {
-        $arr = $this->getArrayOfMockObjects('AppBundle\Entity\\' . $entityName, 10);
+        $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
         $addMethod = $adder?$adder:$this->getAddMethodForProperty($property);
         $removeMethod = $remover?$remover:$this->getRemoveMethodForProperty($property);
         $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);

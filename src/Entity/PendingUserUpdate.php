@@ -13,7 +13,7 @@ use App\Traits\StringableIdEntity;
  * Class PendingUserUpdate
  *
  * @ORM\Table(name="pending_user_update")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PendingUserUpdateRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\PendingUserUpdateRepository")
  *
  * @IS\Entity
  */

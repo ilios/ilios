@@ -24,8 +24,8 @@ class LoadSessionTypeAamcMethodData extends AbstractFixture implements Dependent
     public function getDependencies()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadAamcMethodData',
-            'AppBundle\DataFixtures\ORM\LoadSessionTypeData',
+            'App\DataFixtures\ORM\LoadAamcMethodData',
+            'App\DataFixtures\ORM\LoadSessionTypeData',
         ];
     }
 

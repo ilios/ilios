@@ -20,7 +20,7 @@ use App\Traits\SchoolEntity;
  * Class Competency
  *
  * @ORM\Table(name="competency", indexes={@ORM\Index(name="parent_competency_id_k", columns={"parent_competency_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CompetencyRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\CompetencyRepository")
  *
  * @IS\Entity
  */

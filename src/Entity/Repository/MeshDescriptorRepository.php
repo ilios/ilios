@@ -36,7 +36,7 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
 
         $qb = $this->_em->createQueryBuilder()
             ->select('DISTINCT d')
-            ->from('AppBundle:MeshDescriptor', 'd')
+            ->from('App\Entity\MeshDescriptor', 'd')
             ->leftJoin('d.previousIndexing', 'pi')
             ->leftJoin('d.concepts', 'c')
             ->leftJoin('c.terms', 't')
@@ -94,7 +94,7 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
     {
         $qb = $this->_em->createQueryBuilder();
 
-        $qb->select('DISTINCT m')->from('AppBundle:MeshDescriptor', 'm');
+        $qb->select('DISTINCT m')->from('App\Entity\MeshDescriptor', 'm');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -113,7 +113,7 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from('AppBundle:MeshDescriptor', 'm');
+        $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from('App\Entity\MeshDescriptor', 'm');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $descriptorDTOs = [];
@@ -131,7 +131,7 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
 
         $qb = $this->_em->createQueryBuilder()
             ->select('p.id AS prevId, m.id AS descriptorId')
-            ->from('AppBundle:MeshPreviousIndexing', 'p')
+            ->from('App\Entity\MeshPreviousIndexing', 'p')
             ->join('p.descriptor', 'm')
             ->where($qb->expr()->in('m.id', ':descriptorIds'))
             ->setParameter('descriptorIds', $descriptorIds);
@@ -153,7 +153,7 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, m.id AS descriptorId')->from('AppBundle:MeshDescriptor', 'm')
+                ->select('r.id AS relId, m.id AS descriptorId')->from('App\Entity\MeshDescriptor', 'm')
                 ->join("m.{$rel}", 'r')
                 ->where($qb->expr()->in('m.id', ':descriptorIds'))
                 ->orderBy('relId')
@@ -661,7 +661,7 @@ EOL;
     public function flagDescriptorsAsDeleted(array $ids)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->update('AppBundle:MeshDescriptor', 'm');
+        $qb->update('App\Entity\MeshDescriptor', 'm');
         $qb->set('m.deleted', ':deleted');
         $qb->where($qb->expr()->in('m.id', ':ids'));
         $qb->setParameter(':deleted', true);

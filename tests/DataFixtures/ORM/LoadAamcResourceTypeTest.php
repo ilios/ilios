@@ -14,7 +14,7 @@ class LoadAamcResourceTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\AamcResourceTypeManager';
+        return 'App\Entity\Manager\AamcResourceTypeManager';
     }
 
     /**
@@ -23,7 +23,7 @@ class LoadAamcResourceTypeDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadAamcResourceTypeData',
+            'App\DataFixtures\ORM\LoadAamcResourceTypeData',
         ];
     }
 

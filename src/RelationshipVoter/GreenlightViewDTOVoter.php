@@ -47,7 +47,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 /**
  * Always grants VIEW permissions on all supported DTOs.
  *
- * @package AppBundle\RelationshipVoter
+ * @package App\RelationshipVoter
  */
 class GreenlightViewDTOVoter extends AbstractVoter
 {

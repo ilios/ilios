@@ -6,7 +6,7 @@ use App\Entity\Repository\SchoolConfigRepository;
 
 /**
  * Class SchoolConfigManager
- * @package AppBundle\Entity\Manager
+ * @package App\Entity\Manager
  */
 class SchoolConfigManager extends BaseManager
 {

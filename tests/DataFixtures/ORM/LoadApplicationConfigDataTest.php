@@ -15,7 +15,7 @@ class LoadApplicationConfigDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'AppBundle\Entity\Manager\ApplicationConfigManager';
+        return 'App\Entity\Manager\ApplicationConfigManager';
     }
 
     /**
@@ -24,7 +24,7 @@ class LoadApplicationConfigDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'AppBundle\DataFixtures\ORM\LoadApplicationConfigData',
+            'App\DataFixtures\ORM\LoadApplicationConfigData',
         ];
     }
 

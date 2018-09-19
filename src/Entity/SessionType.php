@@ -24,7 +24,7 @@ use App\Traits\SchoolEntity;
  *     @ORM\Index(name="assessment_option_fkey", columns={"assessment_option_id"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SessionTypeRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\SessionTypeRepository")
  *
  * @IS\Entity
  */

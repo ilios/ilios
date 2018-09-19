@@ -17,7 +17,7 @@ class MeshQualifierRepository extends EntityRepository implements DTORepositoryI
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:MeshQualifier', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\MeshQualifier', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class MeshQualifierRepository extends EntityRepository implements DTORepositoryI
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:MeshQualifier', 'x');
+            ->distinct()->from('App\Entity\MeshQualifier', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var MeshQualifierDTO[] $meshQualifierDTOs */
@@ -58,7 +58,7 @@ class MeshQualifierRepository extends EntityRepository implements DTORepositoryI
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS meshQualifierId')
-                ->from('AppBundle:MeshQualifier', 'x')
+                ->from('App\Entity\MeshQualifier', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')

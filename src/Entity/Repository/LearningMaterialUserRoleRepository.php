@@ -17,7 +17,7 @@ class LearningMaterialUserRoleRepository extends EntityRepository implements DTO
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('AppBundle:LearningMaterialUserRole', 'x');
+        $qb->select('DISTINCT x')->from('App\Entity\LearningMaterialUserRole', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -37,7 +37,7 @@ class LearningMaterialUserRoleRepository extends EntityRepository implements DTO
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('AppBundle:LearningMaterialUserRole', 'x');
+            ->distinct()->from('App\Entity\LearningMaterialUserRole', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var LearningMaterialUserRoleDTO[] $learningMaterialUserRoleDTOs */

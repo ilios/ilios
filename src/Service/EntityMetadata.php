@@ -159,7 +159,7 @@ class EntityMetadata
             $exposed =  array_filter($properties, function (\ReflectionProperty $property) {
                 $annotation = $this->annotationReader->getPropertyAnnotation(
                     $property,
-                    'AppBundle\Annotation\Expose'
+                    'App\Annotation\Expose'
                 );
 
                 return !is_null($annotation);
@@ -223,7 +223,7 @@ class EntityMetadata
         /** @var Type $typeAnnotation */
         $typeAnnotation = $this->annotationReader->getPropertyAnnotation(
             $property,
-            'AppBundle\Annotation\Type'
+            'App\Annotation\Type'
         );
 
         if (is_null($typeAnnotation)) {
@@ -247,7 +247,7 @@ class EntityMetadata
         /** @var ReadOnly $annotation */
         $annotation = $this->annotationReader->getPropertyAnnotation(
             $property,
-            'AppBundle\Annotation\ReadOnly'
+            'App\Annotation\ReadOnly'
         );
 
         return !is_null($annotation);
@@ -265,7 +265,7 @@ class EntityMetadata
         /** @var ReadOnly $annotation */
         $annotation = $this->annotationReader->getPropertyAnnotation(
             $property,
-            'AppBundle\Annotation\RemoveMarkup'
+            'App\Annotation\RemoveMarkup'
         );
 
         return !is_null($annotation);
@@ -282,17 +282,17 @@ class EntityMetadata
      */
     protected function findIliosEntities(KernelInterface $kernel)
     {
-        $path = $kernel->locateResource('@AppBundle/Entity');
+        $path = $kernel->locateResource('App/Entity');
         $finder = new Finder();
         $files = $finder->in($path)->files()->depth("== 0")->notName('*Interface.php')->sortByName();
 
         $list = [];
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
-            $class = 'AppBundle\\Entity' . '\\' . $file->getBasename('.php');
+            $class = 'App\\Entity' . '\\' . $file->getBasename('.php');
             $annotation = $this->annotationReader->getClassAnnotation(
                 new \ReflectionClass($class),
-                'AppBundle\Annotation\Entity'
+                'App\Annotation\Entity'
             );
             if (null !== $annotation) {
                 $list[] = $class;
@@ -312,33 +312,33 @@ class EntityMetadata
      */
     protected function findIliosDtos(KernelInterface $kernel)
     {
-        $dtoPath = $kernel->locateResource('@AppBundle/Entity/DTO');
+        $dtoPath = $kernel->locateResource('App/Entity/DTO');
         $finder = new Finder();
         $files = $finder->in($dtoPath)->files()->depth("== 0")->sortByName();
 
         $list = [];
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
-            $class = 'AppBundle\\Entity\\DTO' . '\\' . $file->getBasename('.php');
+            $class = 'App\\Entity\\DTO' . '\\' . $file->getBasename('.php');
             $annotation = $this->annotationReader->getClassAnnotation(
                 new \ReflectionClass($class),
-                'AppBundle\Annotation\DTO'
+                'App\Annotation\DTO'
             );
             if (null !== $annotation) {
                 $list[] = $class;
             }
         }
 
-        $classPath = $kernel->locateResource('@AppBundle/Classes');
+        $classPath = $kernel->locateResource('App/Classes');
         $finder = new Finder();
         $files = $finder->in($classPath)->files()->depth("== 0")->sortByName();
 
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
-            $class = 'AppBundle\\Classes' . '\\' . $file->getBasename('.php');
+            $class = 'App\\Classes' . '\\' . $file->getBasename('.php');
             $annotation = $this->annotationReader->getClassAnnotation(
                 new \ReflectionClass($class),
-                'AppBundle\Annotation\DTO'
+                'App\Annotation\DTO'
             );
             if (null !== $annotation) {
                 $list[] = $class;

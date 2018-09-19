@@ -29,7 +29,7 @@ class ProgramYearTest extends EntityBase
         $notBlank = array(
             'startYear',
         );
-        $this->object->setProgram(m::mock('AppBundle\Entity\ProgramInterface'));
+        $this->object->setProgram(m::mock('App\Entity\ProgramInterface'));
 
         $this->validateNotBlanks($notBlank);
 
@@ -45,7 +45,7 @@ class ProgramYearTest extends EntityBase
         $this->object->setStartYear(3);
 
         $this->validateNotNulls($notNull);
-        $this->object->setProgram(m::mock('AppBundle\Entity\ProgramInterface'));
+        $this->object->setProgram(m::mock('App\Entity\ProgramInterface'));
 
 
         $this->validate(0);
@@ -134,7 +134,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\ProgramYear::getDirectors
+     * @covers \App\Entity\ProgramYear::getDirectors
      */
     public function testGetDirectors()
     {

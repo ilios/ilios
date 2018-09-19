@@ -23,7 +23,7 @@ use App\Traits\StewardedEntity;
  * Class ProgramYear
  *
  * @ORM\Table(name="program_year")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ProgramYearRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\ProgramYearRepository")
  *
  * @IS\Entity
  */

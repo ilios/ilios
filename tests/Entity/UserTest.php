@@ -129,7 +129,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers \AppBundle\Entity\User::setCampusId
+     * @covers \App\Entity\User::setCampusId
      * @covers \App\Entity\User::getCampusId
      */
     public function testSetCampusId()
@@ -508,10 +508,10 @@ class UserTest extends EntityBase
         $this->assertTrue(method_exists($this->object, 'setPrimaryCohort'));
         $this->assertTrue(method_exists($this->object, 'getPrimaryCohort'));
 
-        $obj = m::mock('AppBundle\Entity\Cohort');
+        $obj = m::mock('App\Entity\Cohort');
         $this->object->addCohort($obj);
         $this->object->setPrimaryCohort($obj);
-        $obj2 = m::mock('AppBundle\Entity\Cohort');
+        $obj2 = m::mock('App\Entity\Cohort');
         $this->object->setCohorts(new ArrayCollection([$obj2]));
         $this->assertNull($this->object->getPrimaryCohort());
     }
@@ -614,7 +614,7 @@ class UserTest extends EntityBase
         $this->assertTrue(method_exists($this->object, 'setPrimaryCohort'));
         $this->assertTrue(method_exists($this->object, 'getPrimaryCohort'));
 
-        $obj = m::mock('AppBundle\Entity\Cohort');
+        $obj = m::mock('App\Entity\Cohort');
         $this->object->addCohort($obj);
         $this->object->setPrimaryCohort($obj);
         $this->assertSame($obj, $this->object->getPrimaryCohort());
@@ -763,7 +763,7 @@ class UserTest extends EntityBase
     {
         $this->assertTrue(method_exists($this->object, 'getAuthentication'), "Method getAuthentication missing");
         $this->assertTrue(method_exists($this->object, 'setAuthentication'), "Method setAuthentication missing");
-        $obj = m::mock('AppBundle\Entity\Authentication');
+        $obj = m::mock('App\Entity\Authentication');
         $obj->shouldReceive('setUser')->with($this->object)->once();
         $this->object->setAuthentication($obj);
         $this->assertSame($obj, $this->object->getAuthentication());
@@ -774,7 +774,7 @@ class UserTest extends EntityBase
      */
     public function testSetAuthenticationNull()
     {
-        $obj = m::mock('AppBundle\Entity\Authentication');
+        $obj = m::mock('App\Entity\Authentication');
         $obj->shouldReceive('setUser')->with($this->object)->once();
         $this->object->setAuthentication($obj);
         $this->assertSame($obj, $this->object->getAuthentication());
