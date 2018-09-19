@@ -282,7 +282,7 @@ class EntityMetadata
      */
     protected function findIliosEntities(KernelInterface $kernel)
     {
-        $path = $kernel->locateResource('App/Entity');
+        $path = $kernel->getRootDir() . '/Entity';
         $finder = new Finder();
         $files = $finder->in($path)->files()->depth("== 0")->notName('*Interface.php')->sortByName();
 
@@ -312,7 +312,7 @@ class EntityMetadata
      */
     protected function findIliosDtos(KernelInterface $kernel)
     {
-        $dtoPath = $kernel->locateResource('App/Entity/DTO');
+        $dtoPath = $path = $kernel->getRootDir() . '/Entity/DTO';
         $finder = new Finder();
         $files = $finder->in($dtoPath)->files()->depth("== 0")->sortByName();
 
@@ -329,7 +329,7 @@ class EntityMetadata
             }
         }
 
-        $classPath = $kernel->locateResource('App/Classes');
+        $classPath = $kernel->getRootDir() . '/Classes';
         $finder = new Finder();
         $files = $finder->in($classPath)->files()->depth("== 0")->sortByName();
 
