@@ -1,14 +1,10 @@
 httplug:
-    plugins:
-        redirect:
-            preserve_header: true
-
-    discovery:
-        client: 'auto'
-
-    clients:
-        app:
-            http_methods_client: true
-            plugins:
-                - 'httplug.plugin.content_length'
-                - 'httplug.plugin.redirect'
+  plugins:
+    logger: ~
+  clients:
+    ga:
+      factory: 'httplug.factory.guzzle6'
+      plugins: ['httplug.plugin.logger']
+      config:
+        verify: true
+        timeout: 10

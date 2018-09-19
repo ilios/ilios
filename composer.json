@@ -29,11 +29,15 @@
     "php-http/httplug-bundle": "^1.3",
     "psr/log": "1.0.0",
     "swagger-api/swagger-ui": "^3.0",
+    "symfony/asset": "*",
     "symfony/console": "*",
     "symfony/flex": "^1.1",
     "symfony/framework-bundle": "*",
     "symfony/monolog-bundle": "^3.1.0",
+    "symfony/security-bundle": "*",
     "symfony/swiftmailer-bundle": "^3.2",
+    "symfony/twig-bundle": "*",
+    "symfony/validator": "*",
     "symfony/yaml": "*"
   },
   "require-dev": {
