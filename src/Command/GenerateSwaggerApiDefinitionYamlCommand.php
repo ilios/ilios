@@ -93,7 +93,7 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
         $reflectionProperties = $this->entityMetadata->extractExposedProperties($reflection);
         $properties = array_map($mapProperties, $reflectionProperties);
 
-        $template = 'AppBundle:Template:definition.yml.twig';
+        $template = 'generate/definition.yml.twig';
 
         $content = $this->templatingEngine->render($template, [
             'entity' => $entity,

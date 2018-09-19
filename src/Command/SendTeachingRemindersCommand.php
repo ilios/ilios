@@ -220,7 +220,7 @@ class SendTeachingRemindersCommand extends Command
                 return $path;
             }
         }
-        return 'AppBundle:Email:' .self::DEFAULT_TEMPLATE_NAME;
+        return 'email/' .self::DEFAULT_TEMPLATE_NAME;
     }
 
     /**

@@ -55,7 +55,7 @@ class GenerateSwaggerApiPathYamlCommand extends Command
 
         $singular = Inflector::singularize($endpoint);
         $plural = Inflector::pluralize($singular);
-        $template = 'AppBundle:Template:path.yml.twig';
+        $template = 'generate/path.yml.twig';
 
         $content = $this->templatingEngine->render($template, [
             'endpoint' => $plural,

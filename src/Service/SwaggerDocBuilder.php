@@ -149,7 +149,7 @@ class SwaggerDocBuilder
             ['version' => 'v1', 'object' => 'users'],
             UrlGenerator::ABSOLUTE_URL
         );
-        $template = 'AppBundle:swagger:description.markdown.twig';
+        $template = 'swagger/description.markdown.twig';
         return $this->templatingEngine->render($template, [
             'apiDocsUrl' => $apiDocsUrl,
             'myprofileUrl' => $myprofileUrl . 'myprofile',

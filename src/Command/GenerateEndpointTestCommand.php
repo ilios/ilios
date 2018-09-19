@@ -99,7 +99,7 @@ class GenerateEndpointTestCommand extends Command
 
         $plural = Inflector::pluralize($entity);
         $endpoint = strtolower($plural);
-        $template = 'AppBundle:Template:endpointTest.php.twig';
+        $template = 'generate/endpointTest.php.twig';
         $groupNumber = rand(1, 2);
 
         $content = $this->templatingEngine->render($template, [

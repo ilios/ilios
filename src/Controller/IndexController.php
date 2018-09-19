@@ -88,7 +88,7 @@ class IndexController extends Controller
         $path = $this->getFilePath('index.json');
         if (!$path) {
             $response->setContent(
-                $this->renderView('AppBundle:Index:error.html.twig')
+                $this->renderView('index/error.html.twig')
             );
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $response->headers->addCacheControlDirective('no-cache');
@@ -256,7 +256,7 @@ class IndexController extends Controller
                 return $path;
             }
         }
-        return 'AppBundle:WebIndex:' .self::DEFAULT_TEMPLATE_NAME;
+        return 'index/' .self::DEFAULT_TEMPLATE_NAME;
     }
 
     protected function responseFromString(

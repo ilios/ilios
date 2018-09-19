@@ -18,7 +18,7 @@ ilios_apiinfo:
   path: /api
   defaults:
     _controller: FrameworkBundle:Template:template
-    template:    'AppBundle::apiinfo.html.twig'
+    template:    'apiinfo.html.twig'
     _format:     'html'
 
 ilios_uploadfile:
