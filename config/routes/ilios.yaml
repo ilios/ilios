@@ -1,0 +1,48 @@
+ilios_authentication.login:
+  path:     /auth/login
+  defaults: { _controller: AppBundle:Auth:login }
+ilios_authentication.logout:
+  path:     /auth/logout
+  defaults: { _controller: AppBundle:Auth:logout }
+ilios_authentication.whoami:
+  path:     /auth/whoami
+  defaults: { _controller: AppBundle:Auth:whoami }
+ilios_authentication.token:
+  path:     /auth/token
+  defaults: { _controller: AppBundle:Auth:token }
+ilios_authentication.invalidate_tokens:
+  path:     /auth/invalidatetokens
+  defaults: { _controller: AppBundle:Auth:invalidateTokens }
+
+ilios_apiinfo:
+  path: /api
+  defaults:
+    _controller: FrameworkBundle:Template:template
+    template:    'AppBundle::apiinfo.html.twig'
+    _format:     'html'
+
+ilios_uploadfile:
+  path: /upload
+  defaults:  { _controller: AppBundle:Upload:upload }
+
+ilios_downloadlearningmaterial:
+  path:     /lm/{token}
+  defaults:
+    _controller: AppBundle:Download:learningMaterial
+  requirements:
+    token: '^[a-zA-Z0-9]{64}$'
+
+ilios_downloadcurriculuminventoryreport:
+  path:     /ci-report-dl/{token}
+  defaults:
+    _controller: AppBundle:CurriculumInventoryDownload:get
+  requirements:
+    token: '^[a-zA-Z0-9]{64}$'
+
+_monitor:
+  resource: "@LiipMonitorBundle/Resources/config/routing.xml"
+  prefix: /ilios/health
+
+app:
+  resource: "@AppBundle/Resources/config/routing.yml"
+  prefix:   /
