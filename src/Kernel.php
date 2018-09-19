@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Doctrine\Common\Inflector\Inflector;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -57,5 +58,30 @@ class Kernel extends BaseKernel
         $routes->import($confDir.'/{routes}/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
+    }
+
+    protected function build(ContainerBuilder $container)
+    {
+        // Force a UTC timezone on everyone
+        date_default_timezone_set('UTC');
+        self::loadInflectionRules();
+        parent::build($container);
+    }
+
+    /**
+     * Words which are difficult to inflect need custom
+     * rules.  We set these up here so they are consistent across the
+     * entire application.
+     */
+    public static function loadInflectionRules()
+    {
+        Inflector::rules('singular', [
+            'rules' => ['/^aamc(p)crses$/i' => 'aamc\1crs'],
+            'uninflected' => ['aamcpcrs'],
+        ]);
+        Inflector::rules('plural', [
+            'rules' => ['/^aamc(p)crs$/i' => 'aamc\1crses'],
+            'uninflected' => ['aamcpcrses'],
+        ]);
     }
 }
