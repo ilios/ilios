@@ -43,7 +43,7 @@ security:
     session_user:
       id: App\Service\SessionUserProvider
   encoders:
-    AppBundle\Classes\SessionUserInterface:
+    App\Classes\SessionUserInterface:
       algorithm: bcrypt
     ilios_legacy_encoder:
       id: App\Form\Encoder
