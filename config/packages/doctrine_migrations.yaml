@@ -3,4 +3,4 @@ doctrine_migrations:
     # namespace is arbitrary but should be different from App\Migrations
     # as migrations classes should NOT be autoloaded
     name: Ilios Migrations
-    namespace: IliosMigrations
+    namespace: Ilios\Migrations
