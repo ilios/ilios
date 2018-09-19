@@ -34,6 +34,7 @@
     "symfony/flex": "^1.1",
     "symfony/framework-bundle": "*",
     "symfony/monolog-bundle": "^3.1.0",
+    "symfony/requirements-checker": "^1.1",
     "symfony/security-bundle": "*",
     "symfony/swiftmailer-bundle": "^3.2",
     "symfony/twig-bundle": "*",
@@ -80,7 +81,8 @@
   "scripts": {
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+      "assets:install %PUBLIC_DIR%": "symfony-cmd",
+      "requirements-checker": "script"
     },
     "ilios-scripts": [
       "AppBundle\\Composer\\MigrateParameters::migrate",
