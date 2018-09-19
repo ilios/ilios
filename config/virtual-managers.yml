@@ -1,0 +1,95 @@
+# Definitions for managers without a specific implementation
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    App\Entity\Manager\AamcMethodManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\AamcMethod'
+    App\Entity\Manager\AamcPcrsManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\AamcPcrs'
+    App\Entity\Manager\AamcResourceTypeManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\AamcResourceType'
+    App\Entity\Manager\AssessmentOptionManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\AssessmentOption'
+    App\Entity\Manager\CompetencyManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\Competency'
+    App\Entity\Manager\CourseClerkshipTypeManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\CourseClerkshipType'
+    App\Entity\Manager\DepartmentManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\Department'
+    App\Entity\Manager\IngestionExceptionManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\IngestionException'
+    App\Entity\Manager\InstructorGroupManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\InstructorGroup'
+    App\Entity\Manager\LearnerGroupManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\LearnerGroup'
+    App\Entity\Manager\LearningMaterialStatusManager:
+            class: App\Entity\Manager\BaseManager
+            arguments:
+                $class: 'App\Entity\LearningMaterialStatus'
+    App\Entity\Manager\LearningMaterialUserRoleManager:
+            class: App\Entity\Manager\BaseManager
+            arguments:
+                $class: 'App\Entity\LearningMaterialUserRole'
+    App\Entity\Manager\MeshConceptManager:
+            class: App\Entity\Manager\BaseManager
+            arguments:
+                $class: 'App\Entity\MeshConcept'
+    App\Entity\Manager\MeshPreviousIndexingManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\MeshPreviousIndexing'
+    App\Entity\Manager\MeshQualifierManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\MeshQualifier'
+    App\Entity\Manager\MeshTermManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\MeshTerm'
+    App\Entity\Manager\MeshTreeManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\MeshTree'
+    App\Entity\Manager\ProgramManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\Program'
+    App\Entity\Manager\ReportManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\Report'
+    App\Entity\Manager\SessionTypeManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\SessionType'
+    App\Entity\Manager\TermManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\Term'
+    App\Entity\Manager\VocabularyManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\Vocabulary'
