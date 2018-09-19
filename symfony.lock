@@ -434,6 +434,9 @@
             "ref": "3db029c03e452b4a23f7fc45cec7c922c2247eb8"
         }
     },
+    "symfony/templating": {
+        "version": "v4.1.4"
+    },
     "symfony/translation": {
         "version": "3.3",
         "recipe": {
