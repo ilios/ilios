@@ -25,14 +25,8 @@ class MigrateParameters
     public static function migrate(Event $event)
     {
         $io = $event->getIO();
-        $extras = $event->getComposer()->getPackage()->getExtra();
 
-        if (!isset($extras['symfony-app-dir'])) {
-            throw new \InvalidArgumentException(
-                'The parameter migrator needs to be configured through the extra.symfony-app-dir setting.'
-            );
-        }
-        $appPath = $extras['symfony-app-dir'];
+        $appPath = realpath(__DIR__ . '/../../app');
         $parametersPath = $appPath . '/config/parameters.yml';
         $parameters = self::readParameters($parametersPath);
         $changed = 0;
