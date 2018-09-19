@@ -1,4 +1,8 @@
 doctrine:
+    dbal:
+        url: '%env(ILIOS_DATABASE_URL)%'
+        driver:   'pdo_mysql'
+        server_version: '%env(ILIOS_DATABASE_MYSQL_VERSION)%'
     orm:
         metadata_cache_driver:
             type: service

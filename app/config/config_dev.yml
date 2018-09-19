@@ -2,8 +2,3 @@ imports:
     - { resource: config.yml }
     - { resource: security.yml }
 
-doctrine:
-    dbal:
-        url: '%env(ILIOS_DATABASE_URL)%'
-        driver:   'pdo_mysql'
-        server_version: '%env(ILIOS_DATABASE_MYSQL_VERSION)%'
