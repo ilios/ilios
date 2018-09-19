@@ -2,9 +2,6 @@ imports:
     - { resource: config.yml }
     - { resource: security.yml }
 
-swiftmailer:
-    disable_delivery: true
-
 doctrine:
     dbal:
         url: '%env(ILIOS_DATABASE_URL)%'
