@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Service\CurriculumInventory\Export;
+namespace App\Tests\Service\CurriculumInventory\Export;
 
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\Manager\CurriculumInventoryInstitutionManager;
@@ -12,7 +12,7 @@ use Mockery as m;
 
 /**
  * Class AggregatorTest
- * @package Tests\App\Service\CurriculumInventory\Export
+ * @package App\Tests\Service\CurriculumInventory\Export
  */
 class AggregatorTest extends TestCase
 {

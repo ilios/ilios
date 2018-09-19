@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\MeshQualifier;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadMeshQualifierData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\MeshQualifierData')
+            ->get('App\Tests\DataLoader\MeshQualifierData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshQualifier();
@@ -45,7 +45,7 @@ class LoadMeshQualifierData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadMeshDescriptorData',
+            'App\Tests\Fixture\LoadMeshDescriptorData',
         );
     }
 }

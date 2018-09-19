@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\AbstractEndpointTest;
+use App\Tests\AbstractEndpointTest;
 
 /**
  * Class UserMadeReminderTest
- * @package Tests\App\Endpoints
+ * @package App\Tests\Endpoints
  */
 class UserMadeReminderTest extends AbstractEndpointTest
 {

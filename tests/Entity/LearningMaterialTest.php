@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Entity;
+namespace App\Tests\Entity;
 
 use App\Entity\LearningMaterial;
 use App\Entity\School;

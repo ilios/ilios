@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Entity;
+namespace App\Tests\Entity;
 
 use App\Entity\User;
 use Mockery as m;

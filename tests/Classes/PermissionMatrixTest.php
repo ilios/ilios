@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\App\Classes;
+namespace App\Tests\Classes;
 
 use App\Classes\PermissionMatrix;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class PermissionMatrixTest
- * @package Tests\App\Classes
+ * @package App\Tests\Classes
  */
 class PermissionMatrixTest extends TestCase
 {

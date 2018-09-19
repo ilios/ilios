@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\DeleteEndpointTestable;
-use Tests\App\DeleteEndpointTestInterface;
-use Tests\App\PutEndpointTestable;
-use Tests\App\PutEndpointTestInterface;
-use Tests\App\ReadEndpointTest;
+use App\Tests\DeleteEndpointTestable;
+use App\Tests\DeleteEndpointTestInterface;
+use App\Tests\PutEndpointTestable;
+use App\Tests\PutEndpointTestInterface;
+use App\Tests\ReadEndpointTest;
 
 /**
  * PendingUserUpdate API endpoint Test.
@@ -24,7 +24,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadPendingUserUpdateData',
+            'App\Tests\Fixture\LoadPendingUserUpdateData',
         ];
     }
 

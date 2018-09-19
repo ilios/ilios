@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\DataLoader\SessionData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\SessionData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * SessionType API endpoint Test.
@@ -20,22 +20,22 @@ class SessionTypeTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadLearningMaterialData',
-            'Tests\App\Fixture\LoadSessionTypeData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadCourseLearningMaterialData',
-            'Tests\App\Fixture\LoadAssessmentOptionData',
-            'Tests\App\Fixture\LoadSchoolData',
-            'Tests\App\Fixture\LoadAamcMethodData',
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadIlmSessionData',
-            'Tests\App\Fixture\LoadCohortData',
-            'Tests\App\Fixture\LoadProgramYearData',
-            'Tests\App\Fixture\LoadProgramData',
-            'Tests\App\Fixture\LoadVocabularyData',
-            'Tests\App\Fixture\LoadTermData',
-            'Tests\App\Fixture\LoadSessionData'
+            'App\Tests\Fixture\LoadLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionTypeData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadCourseLearningMaterialData',
+            'App\Tests\Fixture\LoadAssessmentOptionData',
+            'App\Tests\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadAamcMethodData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadIlmSessionData',
+            'App\Tests\Fixture\LoadCohortData',
+            'App\Tests\Fixture\LoadProgramYearData',
+            'App\Tests\Fixture\LoadProgramData',
+            'App\Tests\Fixture\LoadVocabularyData',
+            'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadSessionData'
         ];
     }
 

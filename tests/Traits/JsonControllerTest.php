@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Traits;
+namespace App\Tests\Traits;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;

@@ -1,17 +1,17 @@
 <?php
 
-namespace Tests\App\Entity\Manager;
+namespace App\Tests\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\Manager\CurriculumInventoryReportManager;
 use App\Entity\Repository\CurriculumInventoryReportRepository;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Class CurriculumInventoryReportManagerTest
- * @package Tests\App\Entity\Manager
+ * @package App\Tests\Entity\Manager
  */
 class CurriculumInventoryReportManagerTest extends TestCase
 {

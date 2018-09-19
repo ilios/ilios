@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use App\Classes\Capabilities;
 use App\Classes\UserRoles;
@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class DefaultPermissionMatrixTest
- * @package Tests\App\Service
+ * @package App\Tests\Service
  * @covers DefaultPermissionMatrix
  */
 class DefaultPermissionMatrixTest extends TestCase

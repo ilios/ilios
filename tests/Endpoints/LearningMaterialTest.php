@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use App\Entity\LearningMaterialStatusInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\DataLoader\LearningMaterialData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\LearningMaterialData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * LearningMaterial API endpoint Test.
@@ -23,13 +23,13 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadLearningMaterialData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadCourseLearningMaterialData',
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadCourseData',
-            'Tests\App\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadCourseLearningMaterialData',
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadOfferingData',
         ];
     }
 

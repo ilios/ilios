@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\Authentication;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadAuthenticationData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\AuthenticationData')
+            ->get('App\Tests\DataLoader\AuthenticationData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Authentication();
@@ -44,7 +44,7 @@ class LoadAuthenticationData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadUserData'
+            'App\Tests\Fixture\LoadUserData'
         );
     }
 }

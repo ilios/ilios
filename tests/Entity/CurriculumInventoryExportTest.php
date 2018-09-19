@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Entity;
+namespace App\Tests\Entity;
 
 use App\Entity\CurriculumInventoryExport;
 use Mockery as m;

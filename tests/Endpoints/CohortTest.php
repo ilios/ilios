@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\DataLoader\ProgramYearData;
-use Tests\App\PutEndpointTestable;
-use Tests\App\PutEndpointTestInterface;
-use Tests\App\ReadEndpointTest;
+use App\Tests\DataLoader\ProgramYearData;
+use App\Tests\PutEndpointTestable;
+use App\Tests\PutEndpointTestInterface;
+use App\Tests\ReadEndpointTest;
 
 /**
  * Cohort API endpoint Test.
@@ -24,12 +24,12 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadCohortData',
-            'Tests\App\Fixture\LoadProgramYearData',
-            'Tests\App\Fixture\LoadProgramYearStewardData',
-            'Tests\App\Fixture\LoadCourseData',
-            'Tests\App\Fixture\LoadLearnerGroupData',
-            'Tests\App\Fixture\LoadUserData'
+            'App\Tests\Fixture\LoadCohortData',
+            'App\Tests\Fixture\LoadProgramYearData',
+            'App\Tests\Fixture\LoadProgramYearStewardData',
+            'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadLearnerGroupData',
+            'App\Tests\Fixture\LoadUserData'
         ];
     }
 

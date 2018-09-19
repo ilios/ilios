@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App;
+namespace App\Tests;
 
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase as BaseTestCase;

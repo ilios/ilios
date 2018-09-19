@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use App\Entity\Alert;
 use App\Entity\AlertChangeType;
@@ -17,11 +17,11 @@ use App\Entity\Session;
 use App\Entity\User;
 use App\Service\ChangeAlertHandler;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Class ChangeAlertHandlerTest
- * @package Tests\App\Service
+ * @package App\Tests\Service
  */
 class ChangeAlertHandlerTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\CurriculumInventoryReport;
@@ -26,7 +26,7 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\CurriculumInventoryReportData')
+            ->get('App\Tests\DataLoader\CurriculumInventoryReportData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryReport();
@@ -51,7 +51,7 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadProgramData',
+            'App\Tests\Fixture\LoadProgramData',
         );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\SessionLearningMaterial;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\SessionLearningMaterialData')
+            ->get('App\Tests\DataLoader\SessionLearningMaterialData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new SessionLearningMaterial();
@@ -59,9 +59,9 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadLearningMaterialData',
-            'Tests\App\Fixture\LoadMeshDescriptorData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadLearningMaterialData',
+            'App\Tests\Fixture\LoadMeshDescriptorData',
         );
     }
 }

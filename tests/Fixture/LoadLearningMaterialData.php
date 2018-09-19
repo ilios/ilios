@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\LearningMaterial;
 use App\Service\Config;
@@ -11,7 +11,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Tests\App\DataLoader\LearningMaterialData;
+use App\Tests\DataLoader\LearningMaterialData;
 
 class LoadLearningMaterialData extends AbstractFixture implements
     ORMFixtureInterface,
@@ -85,9 +85,9 @@ class LoadLearningMaterialData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadLearningMaterialUserRoleData',
-            'Tests\App\Fixture\LoadLearningMaterialStatusData',
-            'Tests\App\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadLearningMaterialUserRoleData',
+            'App\Tests\Fixture\LoadLearningMaterialStatusData',
+            'App\Tests\Fixture\LoadUserData',
         );
     }
 }

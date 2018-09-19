@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Tests\App\Traits\JsonControllerTest;
+use App\Tests\Traits\JsonControllerTest;
 
 /**
  * AamcMethod API endpoint Test.
@@ -32,8 +32,8 @@ class CurrentSessionTest extends WebTestCase
         $this->client = $this->makeClient();
 
         $fixtures = [
-            'Tests\App\Fixture\LoadAuthenticationData',
-            'Tests\App\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadAuthenticationData',
+            'App\Tests\Fixture\LoadUserData',
         ];
         $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
     }

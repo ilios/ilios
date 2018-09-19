@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\Vocabulary;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadVocabularyData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\VocabularyData')
+            ->get('App\Tests\DataLoader\VocabularyData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Vocabulary();
@@ -44,7 +44,7 @@ class LoadVocabularyData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadSchoolData',
         );
     }
 }

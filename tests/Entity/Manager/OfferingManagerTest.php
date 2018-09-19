@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Entity\Manager;
+namespace App\Tests\Entity\Manager;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,7 +10,7 @@ use App\Entity\Offering;
 use App\Entity\Repository\DTORepositoryInterface;
 use App\Entity\Session;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Tests for Entity AamcMethod

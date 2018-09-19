@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\DataLoader\DepartmentData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\DepartmentData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * ProgramYearSteward API endpoint Test.
@@ -19,10 +19,10 @@ class ProgramYearStewardTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadProgramYearStewardData',
-            'Tests\App\Fixture\LoadDepartmentData',
-            'Tests\App\Fixture\LoadProgramYearData',
-            'Tests\App\Fixture\LoadSchoolData'
+            'App\Tests\Fixture\LoadProgramYearStewardData',
+            'App\Tests\Fixture\LoadDepartmentData',
+            'App\Tests\Fixture\LoadProgramYearData',
+            'App\Tests\Fixture\LoadSchoolData'
         ];
     }
 

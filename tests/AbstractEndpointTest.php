@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App;
+namespace App\Tests;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -8,8 +8,8 @@ use DateTime;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Tests\App\DataLoader\DataLoaderInterface;
-use Tests\App\Traits\JsonControllerTest;
+use App\Tests\DataLoader\DataLoaderInterface;
+use App\Tests\Traits\JsonControllerTest;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Inflector\Inflector;
 use Faker\Factory as FakerFactory;
@@ -51,7 +51,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->client->followRedirects();
 
         $authFixtures = [
-            'Tests\App\Fixture\LoadAuthenticationData',
+            'App\Tests\Fixture\LoadAuthenticationData',
         ];
         $testFixtures = $this->getFixtures();
         $fixtures = array_merge($authFixtures, $testFixtures);
@@ -147,7 +147,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function getDataLoader()
     {
         $name = ucfirst($this->getCamelCasedSingularName());
-        $service = "Tests\\App\\DataLoader\\{$name}Data";
+        $service = "App\\Tests\\DataLoader\\{$name}Data";
 
         /** @var DataLoaderInterface $dataLoader */
         $dataLoader = $this->getContainer()->get($service);

@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Department API endpoint Test.
@@ -18,9 +18,9 @@ class DepartmentTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadDepartmentData',
-            'Tests\App\Fixture\LoadSchoolData',
-            'Tests\App\Fixture\LoadProgramYearStewardData'
+            'App\Tests\Fixture\LoadDepartmentData',
+            'App\Tests\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadProgramYearStewardData'
         ];
     }
 

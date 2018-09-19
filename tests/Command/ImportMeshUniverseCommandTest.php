@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Command;
+namespace App\Tests\Command;
 
 use App\Command\ImportMeshUniverseCommand;
 use App\Entity\Manager\MeshDescriptorManager;
@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ImportMeshUniverseCommandTest
- * @package Tests\App\Command
+ * @package App\Tests\Command
  */
 class ImportMeshUniverseCommandTest extends TestCase
 {

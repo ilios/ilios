@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use App\Service\CasAuthentication;
 use App\Service\FormAuthentication;

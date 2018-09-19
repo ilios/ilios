@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\ReadEndpointTest;
+use App\Tests\ReadEndpointTest;
 
 /**
  * Class AbstractMeshTest
- * @package Tests\App\Endpoints
+ * @package App\Tests\Endpoints
  */
 abstract class AbstractMeshTest extends ReadEndpointTest
 {

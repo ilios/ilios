@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * AssessmentOption API endpoint Test.
@@ -18,8 +18,8 @@ class AssessmentOptionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadAssessmentOptionData',
-            'Tests\App\Fixture\LoadSessionTypeData'
+            'App\Tests\Fixture\LoadAssessmentOptionData',
+            'App\Tests\Fixture\LoadSessionTypeData'
         ];
     }
 

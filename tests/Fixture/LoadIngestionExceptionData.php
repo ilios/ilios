@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\IngestionException;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadIngestionExceptionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\IngestionExceptionData')
+            ->get('App\Tests\DataLoader\IngestionExceptionData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new IngestionException();
@@ -43,7 +43,7 @@ class LoadIngestionExceptionData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadUserData',
         );
     }
 }

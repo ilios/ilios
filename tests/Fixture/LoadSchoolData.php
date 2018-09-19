@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\School;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -24,7 +24,7 @@ class LoadSchoolData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\SchoolData')
+            ->get('App\Tests\DataLoader\SchoolData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new School();

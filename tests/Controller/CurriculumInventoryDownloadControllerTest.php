@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\App\Controller;
+namespace App\Tests\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\Traits\JsonControllerTest;
+use App\Tests\Traits\JsonControllerTest;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**
@@ -19,14 +19,14 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
-            'Tests\App\Fixture\LoadCurriculumInventoryExportData',
-            'Tests\App\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Tests\App\Fixture\LoadCurriculumInventorySequenceData',
-            'Tests\App\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Tests\App\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadAuthenticationData',
+            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
+            'App\Tests\Fixture\LoadCurriculumInventoryExportData',
+            'App\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
+            'App\Tests\Fixture\LoadCurriculumInventorySequenceData',
+            'App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadAuthenticationData',
         ]);
     }
 
@@ -37,7 +37,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $curriculumInventoryExport = $client->getContainer()
-            ->get('Tests\App\DataLoader\CurriculumInventoryExportData')
+            ->get('App\Tests\DataLoader\CurriculumInventoryExportData')
             ->getOne()
         ;
 

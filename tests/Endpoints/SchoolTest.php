@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * School API endpoint Test.
@@ -18,17 +18,17 @@ class SchoolTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadSchoolData',
-            'Tests\App\Fixture\LoadSchoolConfigData',
-            'Tests\App\Fixture\LoadAlertData',
-            'Tests\App\Fixture\LoadCompetencyData',
-            'Tests\App\Fixture\LoadSessionTypeData',
-            'Tests\App\Fixture\LoadDepartmentData',
-            'Tests\App\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Tests\App\Fixture\LoadProgramYearStewardData',
-            'Tests\App\Fixture\LoadCourseData',
-            'Tests\App\Fixture\LoadReportData',
-            'Tests\App\Fixture\LoadInstructorGroupData',
+            'App\Tests\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadSchoolConfigData',
+            'App\Tests\Fixture\LoadAlertData',
+            'App\Tests\Fixture\LoadCompetencyData',
+            'App\Tests\Fixture\LoadSessionTypeData',
+            'App\Tests\Fixture\LoadDepartmentData',
+            'App\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
+            'App\Tests\Fixture\LoadProgramYearStewardData',
+            'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadReportData',
+            'App\Tests\Fixture\LoadInstructorGroupData',
         ];
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\AamcMethod;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -24,7 +24,7 @@ class LoadAamcMethodData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\AamcMethodData')
+            ->get('App\Tests\DataLoader\AamcMethodData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new AamcMethod();

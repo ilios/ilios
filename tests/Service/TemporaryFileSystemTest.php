@@ -1,11 +1,11 @@
 <?php
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
 use App\Service\TemporaryFileSystem;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 class TemporaryFileSystemTest extends TestCase
 {

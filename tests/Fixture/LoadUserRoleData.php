@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\UserRole;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -24,7 +24,7 @@ class LoadUserRoleData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\UserRoleData')
+            ->get('App\Tests\DataLoader\UserRoleData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new UserRole();

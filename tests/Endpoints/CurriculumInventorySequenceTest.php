@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\DataLoader\CurriculumInventoryReportData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\CurriculumInventoryReportData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * CurriculumInventorySequence API endpoint Test.
@@ -19,8 +19,8 @@ class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadCurriculumInventorySequenceData',
-            'Tests\App\Fixture\LoadCurriculumInventoryReportData'
+            'App\Tests\Fixture\LoadCurriculumInventorySequenceData',
+            'App\Tests\Fixture\LoadCurriculumInventoryReportData'
         ];
     }
 

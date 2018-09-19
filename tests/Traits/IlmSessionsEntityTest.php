@@ -1,11 +1,11 @@
 <?php
-namespace Tests\App\Traits;
+namespace App\Tests\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\IlmSession;
 use App\Traits\IlmSessionsEntity;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * @coversDefaultClass \App\Traits\IlmSessionsEntity

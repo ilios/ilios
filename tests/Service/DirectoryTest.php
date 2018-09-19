@@ -1,12 +1,12 @@
 <?php
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use App\Service\Config;
 use App\Service\LdapManager;
 use Mockery as m;
 
 use App\Service\Directory;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 class DirectoryTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\MeshTree;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadMeshTreeData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\MeshTreeData')
+            ->get('App\Tests\DataLoader\MeshTreeData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshTree();
@@ -43,7 +43,7 @@ class LoadMeshTreeData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadMeshDescriptorData',
+            'App\Tests\Fixture\LoadMeshDescriptorData',
         );
     }
 }

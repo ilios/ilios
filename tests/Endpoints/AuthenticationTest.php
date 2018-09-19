@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\DataLoader\UserData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\UserData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Authentication API endpoint Test.
@@ -20,18 +20,18 @@ class AuthenticationTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadAuthenticationData',
-            'Tests\App\Fixture\LoadUserData',
-            'Tests\App\Fixture\LoadAlertData',
-            'Tests\App\Fixture\LoadCourseData',
-            'Tests\App\Fixture\LoadLearningMaterialData',
-            'Tests\App\Fixture\LoadInstructorGroupData',
-            'Tests\App\Fixture\LoadLearnerGroupData',
-            'Tests\App\Fixture\LoadIlmSessionData',
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadPendingUserUpdateData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadReportData',
+            'App\Tests\Fixture\LoadAuthenticationData',
+            'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadAlertData',
+            'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadLearningMaterialData',
+            'App\Tests\Fixture\LoadInstructorGroupData',
+            'App\Tests\Fixture\LoadLearnerGroupData',
+            'App\Tests\Fixture\LoadIlmSessionData',
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadPendingUserUpdateData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadReportData',
         ];
     }
 

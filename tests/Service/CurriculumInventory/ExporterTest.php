@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Service\CurriculumInventory;
+namespace App\Tests\Service\CurriculumInventory;
 
 use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\Export\XmlPrinter;

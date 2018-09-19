@@ -1,11 +1,11 @@
 <?php
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use App\Service\Logger;
 use App\Service\LoggerQueue;
 use App\Entity\School;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Class LoggerQueueTest

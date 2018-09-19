@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Controller;
+namespace App\Tests\Controller;
 
 use App\Classes\SessionUserInterface;
 use App\Service\PermissionChecker;

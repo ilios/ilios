@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Controller;
+namespace App\Tests\Controller;
 
 use App\Command\UpdateFrontendCommand;
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;

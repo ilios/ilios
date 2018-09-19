@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -26,7 +26,7 @@ class LoadSchoolConfigData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\SchoolConfigData')
+            ->get('App\Tests\DataLoader\SchoolConfigData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new SchoolConfig();
@@ -44,7 +44,7 @@ class LoadSchoolConfigData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadSchoolData',
         );
     }
 }

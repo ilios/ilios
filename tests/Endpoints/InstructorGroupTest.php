@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * InstructorGroup API endpoint Test.
@@ -18,15 +18,15 @@ class InstructorGroupTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadInstructorGroupData',
-            'Tests\App\Fixture\LoadSchoolData',
-            'Tests\App\Fixture\LoadTermData',
-            'Tests\App\Fixture\LoadLearnerGroupData',
-            'Tests\App\Fixture\LoadIlmSessionData',
-            'Tests\App\Fixture\LoadUserData',
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadLearningMaterialData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadInstructorGroupData',
+            'App\Tests\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadLearnerGroupData',
+            'App\Tests\Fixture\LoadIlmSessionData',
+            'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
         ];
     }
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\App\DataFixtures\ORM;
+namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\ApplicationConfigInterface;
 
 /**
  * Class LoadApplicationConfigDataTest
- * @package Tests\App\DataFixtures\ORM
+ * @package App\Tests\DataFixtures\ORM
  */
 class LoadApplicationConfigDataTest extends AbstractDataFixtureTest
 {

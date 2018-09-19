@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\CourseLearningMaterialInterface;
@@ -43,7 +43,7 @@ use App\Entity\User;
 use Doctrine\Common\Collections\Collection;
 use Mockery as m;
 use \DateTime;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Class CourseRolloverTest

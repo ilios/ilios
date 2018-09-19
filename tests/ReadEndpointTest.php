@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App;
+namespace App\Tests;
 
 /**
  * Class ReadEndpointTest
- * @package Tests\App
+ * @package App\Tests
  */
 abstract class ReadEndpointTest extends AbstractEndpointTest implements GetEndpointTestInterface
 {

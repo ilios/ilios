@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadEndpointTest;
+use App\Tests\ReadEndpointTest;
 
 /**
  * CurriculumInventoryAcademicLevel API endpoint Test.
@@ -18,11 +18,11 @@ class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
-            'Tests\App\Fixture\LoadCurriculumInventoryExportData',
-            'Tests\App\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Tests\App\Fixture\LoadProgramData',
+            'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
+            'App\Tests\Fixture\LoadCurriculumInventoryExportData',
+            'App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'App\Tests\Fixture\LoadProgramData',
         ];
     }
 

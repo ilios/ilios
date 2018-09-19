@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\Report;
@@ -26,7 +26,7 @@ class LoadReportData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\ReportData')
+            ->get('App\Tests\DataLoader\ReportData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Report();
@@ -56,7 +56,7 @@ class LoadReportData extends AbstractFixture implements
      */
     public function getDependencies()
     {
-        return array('Tests\App\Fixture\LoadUserData');
-        return array('Tests\App\Fixture\LoadSchoolData');
+        return array('App\Tests\Fixture\LoadUserData');
+        return array('App\Tests\Fixture\LoadSchoolData');
     }
 }

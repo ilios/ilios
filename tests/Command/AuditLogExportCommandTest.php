@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Command;
+namespace App\Tests\Command;
 
 use App\Command\AuditLogExportCommand;
 use App\Entity\Manager\AuditLogManager;

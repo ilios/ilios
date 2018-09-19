@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\IlmSession;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -9,7 +9,7 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Tests\App\DataLoader\IlmSessionData;
+use App\Tests\DataLoader\IlmSessionData;
 
 class LoadIlmSessionData extends AbstractFixture implements
     ORMFixtureInterface,
@@ -57,10 +57,10 @@ class LoadIlmSessionData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadUserData',
-            'Tests\App\Fixture\LoadInstructorGroupData',
-            'Tests\App\Fixture\LoadLearnerGroupData',
-            'Tests\App\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadInstructorGroupData',
+            'App\Tests\Fixture\LoadLearnerGroupData',
+            'App\Tests\Fixture\LoadSessionData',
         );
     }
 }

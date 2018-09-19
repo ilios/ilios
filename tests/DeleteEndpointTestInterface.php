@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App;
+namespace App\Tests;
 
 /**
  * Interface DeleteEndpointTestInterface
- * @package Tests\App
+ * @package App\Tests
  */
 interface DeleteEndpointTestInterface
 {

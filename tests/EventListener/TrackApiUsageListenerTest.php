@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\EventListener;
+namespace App\Tests\EventListener;
 
 use App\Classes\SessionUserInterface;
 use App\Service\Config;
@@ -8,7 +8,7 @@ use Mockery as m;
 use App\EventListener\TrackApiUsageListener;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Class TrackApiUsageListenerTest

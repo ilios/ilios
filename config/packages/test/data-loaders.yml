@@ -8,10 +8,10 @@ services:
         autoconfigure: true
         public: true
 
-    Tests\App\DataLoader\:
+    App\Tests\DataLoader\:
         resource: '%kernel.project_dir%/tests/DataLoader'
 
-    Tests\App\Fixture\:
+    App\Tests\Fixture\:
         resource: '%kernel.project_dir%/tests/Fixture'
 
     app.dataloader.auditlog:

@@ -1,10 +1,10 @@
 <?php
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use App\Service\CrossingGuard;
 use App\Service\IliosFileSystem;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 class CrossingGuardTest extends TestCase
 {

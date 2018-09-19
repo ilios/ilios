@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\CurriculumInventoryAcademicLevel;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\CurriculumInventoryAcademicLevelData')
+            ->get('App\Tests\DataLoader\CurriculumInventoryAcademicLevelData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryAcademicLevel();
@@ -45,7 +45,7 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
+            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
         );
     }
 }

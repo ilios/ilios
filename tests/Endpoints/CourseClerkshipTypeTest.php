@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * CourseClerkshipType API endpoint Test.
@@ -18,8 +18,8 @@ class CourseClerkshipTypeTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadCourseClerkshipTypeData',
-            'Tests\App\Fixture\LoadCourseData'
+            'App\Tests\Fixture\LoadCourseClerkshipTypeData',
+            'App\Tests\Fixture\LoadCourseData'
         ];
     }
 

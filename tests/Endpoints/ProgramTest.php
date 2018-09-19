@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Program API endpoint Test.
@@ -18,13 +18,13 @@ class ProgramTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadProgramData',
-            'Tests\App\Fixture\LoadTermData',
-            'Tests\App\Fixture\LoadSchoolData',
-            'Tests\App\Fixture\LoadProgramYearData',
-            'Tests\App\Fixture\LoadCourseData',
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadCurriculumInventoryReportData'
+            'App\Tests\Fixture\LoadProgramData',
+            'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadProgramYearData',
+            'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadCurriculumInventoryReportData'
         ];
     }
 

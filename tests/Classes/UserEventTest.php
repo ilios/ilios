@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Classes;
+namespace App\Tests\Classes;
 
 use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class UserEventTest
- * @package Tests\App\Classes
+ * @package App\Tests\Classes
  * @covers \App\Classes\CalendarEvent
  * @covers \App\Classes\UserEvent
  */

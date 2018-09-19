@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\CurriculumInventorySequenceBlock;
@@ -26,7 +26,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\CurriculumInventorySequenceBlockData')
+            ->get('App\Tests\DataLoader\CurriculumInventorySequenceBlockData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequenceBlock();
@@ -68,9 +68,9 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
-            'Tests\App\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'Tests\App\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
+            'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'App\Tests\Fixture\LoadSessionData',
         );
     }
 }

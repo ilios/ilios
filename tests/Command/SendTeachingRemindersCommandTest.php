@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Command;
+namespace App\Tests\Command;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Command\SendTeachingRemindersCommand;

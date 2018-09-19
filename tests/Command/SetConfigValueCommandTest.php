@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Command;
+namespace App\Tests\Command;
 
 use App\Command\SetConfigValueCommand;
 use App\Entity\ApplicationConfig;

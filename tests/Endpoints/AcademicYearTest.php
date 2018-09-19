@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\DataLoader\CourseData;
-use Tests\App\ReadEndpointTest;
+use App\Tests\DataLoader\CourseData;
+use App\Tests\ReadEndpointTest;
 
 /**
  * AamcMethod API endpoint Test.
@@ -20,7 +20,7 @@ class AcademicYearTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadCourseData',
         ];
     }
 

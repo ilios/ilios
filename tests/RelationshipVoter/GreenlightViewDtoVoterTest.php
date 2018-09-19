@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\RelationshipVoter;
+namespace App\Tests\RelationshipVoter;
 
 use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\GreenlightViewDTOVoter as Voter;
@@ -50,7 +50,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class GreenlightViewDtoVoterTest
- * @package Tests\App\RelationshipVoter
+ * @package App\Tests\RelationshipVoter
  */
 class GreenlightViewDtoVoterTest extends AbstractBase
 {

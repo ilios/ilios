@@ -1,12 +1,12 @@
 <?php
-namespace Tests\App\Controller;
+namespace App\Tests\Controller;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\DataLoader\SessionData;
-use Tests\App\DataLoader\UserData;
-use Tests\App\Traits\JsonControllerTest;
+use App\Tests\DataLoader\SessionData;
+use App\Tests\DataLoader\UserData;
+use App\Tests\Traits\JsonControllerTest;
 
 /**
  * Class ConfigControllerTest
@@ -24,11 +24,11 @@ class IcsControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->fixtures = $this->loadFixtures([
-            'Tests\App\Fixture\LoadAuthenticationData',
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadCourseLearningMaterialData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadSessionDescriptionData',
+            'App\Tests\Fixture\LoadAuthenticationData',
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadCourseLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionDescriptionData',
         ])->getReferenceRepository();
     }
 

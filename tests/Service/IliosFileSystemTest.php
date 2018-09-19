@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use App\Service\Config;
 use Mockery as m;
@@ -7,7 +7,7 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use \Symfony\Component\HttpFoundation\File\File;
 
 use App\Service\IliosFileSystem;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 class IliosFileSystemTest extends TestCase
 {

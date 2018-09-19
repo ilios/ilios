@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App;
+namespace App\Tests;
 
 /**
  * Trait GetEndpointTestable
- * @package Tests\App
+ * @package App\Tests
  */
 trait GetEndpointTestable
 {

@@ -1,11 +1,11 @@
 <?php
-namespace Tests\App\Traits;
+namespace App\Tests\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Course;
 use App\Traits\CoursesEntity;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * @coversDefaultClass \App\Traits\CoursesEntity

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\CourseClerkshipType;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -24,7 +24,7 @@ class LoadCourseClerkshipTypeData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\CourseClerkshipTypeData')
+            ->get('App\Tests\DataLoader\CourseClerkshipTypeData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CourseClerkshipType();

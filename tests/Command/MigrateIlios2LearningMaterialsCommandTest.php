@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Command;
+namespace App\Tests\Command;
 
 use App\Command\MigrateIlios2LearningMaterialsCommand;
 use App\Service\IliosFileSystem;

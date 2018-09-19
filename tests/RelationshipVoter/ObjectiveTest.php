@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\RelationshipVoter;
+namespace App\Tests\RelationshipVoter;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use App\RelationshipVoter\AbstractVoter;

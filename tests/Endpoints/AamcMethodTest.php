@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * AamcMethod API endpoint Test.
@@ -18,8 +18,8 @@ class AamcMethodTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadAamcMethodData',
-            'Tests\App\Fixture\LoadSessionTypeData',
+            'App\Tests\Fixture\LoadAamcMethodData',
+            'App\Tests\Fixture\LoadSessionTypeData',
         ];
     }
 

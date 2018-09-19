@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\DataLoader\ObjectiveData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\ObjectiveData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * ProgramYear API endpoint Test.
@@ -20,16 +20,16 @@ class ProgramYearTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadProgramYearData',
-            'Tests\App\Fixture\LoadProgramData',
-            'Tests\App\Fixture\LoadCohortData',
-            'Tests\App\Fixture\LoadUserData',
-            'Tests\App\Fixture\LoadCompetencyData',
-            'Tests\App\Fixture\LoadTermData',
-            'Tests\App\Fixture\LoadObjectiveData',
-            'Tests\App\Fixture\LoadProgramYearStewardData',
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadProgramYearData',
+            'App\Tests\Fixture\LoadProgramData',
+            'App\Tests\Fixture\LoadCohortData',
+            'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadCompetencyData',
+            'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadObjectiveData',
+            'App\Tests\Fixture\LoadProgramYearStewardData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadCourseData',
         ];
     }
 

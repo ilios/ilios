@@ -1,12 +1,12 @@
 <?php
-namespace Tests\App\Controller;
+namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\Traits\JsonControllerTest;
+use App\Tests\Traits\JsonControllerTest;
 
 /**
  * Upload controller Test.

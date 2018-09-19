@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Competency API endpoint Test.
@@ -18,15 +18,15 @@ class CompetencyTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadSchoolData',
-            'Tests\App\Fixture\LoadTermData',
-            'Tests\App\Fixture\LoadObjectiveData',
-            'Tests\App\Fixture\LoadCompetencyData',
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadSessionTypeData',
-            'Tests\App\Fixture\LoadCourseData',
-            'Tests\App\Fixture\LoadAamcPcrsData',
-            'Tests\App\Fixture\LoadProgramYearData'
+            'App\Tests\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadObjectiveData',
+            'App\Tests\Fixture\LoadCompetencyData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadSessionTypeData',
+            'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadAamcPcrsData',
+            'App\Tests\Fixture\LoadProgramYearData'
         ];
     }
 

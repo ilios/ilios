@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\Session;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadSessionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\SessionData')
+            ->get('App\Tests\DataLoader\SessionData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Session();
@@ -80,12 +80,12 @@ class LoadSessionData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadSessionTypeData',
-            'Tests\App\Fixture\LoadCourseData',
-            'Tests\App\Fixture\LoadObjectiveData',
-            'Tests\App\Fixture\LoadMeshDescriptorData',
-            'Tests\App\Fixture\LoadTermData',
-            'Tests\App\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadSessionTypeData',
+            'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadObjectiveData',
+            'App\Tests\Fixture\LoadMeshDescriptorData',
+            'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadUserData',
         );
     }
 }

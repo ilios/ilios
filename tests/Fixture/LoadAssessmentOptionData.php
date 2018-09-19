@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\AssessmentOption;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -24,7 +24,7 @@ class LoadAssessmentOptionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\AssessmentOptionData')
+            ->get('App\Tests\DataLoader\AssessmentOptionData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new AssessmentOption();

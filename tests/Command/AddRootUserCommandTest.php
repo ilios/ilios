@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Command;
+namespace App\Tests\Command;
 
 use App\Command\AddRootUserCommand;
 use Symfony\Component\Console\Application;

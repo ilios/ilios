@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 /**
  * MeshQualifier API endpoint Test.
@@ -16,7 +16,7 @@ class MeshQualifierTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadMeshQualifierData',
+            'App\Tests\Fixture\LoadMeshQualifierData',
         ];
     }
 

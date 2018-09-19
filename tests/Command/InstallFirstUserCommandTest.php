@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Command;
+namespace App\Tests\Command;
 
 use App\Classes\SessionUserInterface;
 use App\Service\SessionUserProvider;

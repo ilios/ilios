@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\App\Entity;
+namespace App\Tests\Entity;
 
 use Faker\Factory;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
 use Symfony\Component\Validator\Validation;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Class EntityBase

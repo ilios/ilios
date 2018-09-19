@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Doctrine\Common\Inflector\Inflector;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * AamcPcrses API endpoint Test.
@@ -19,8 +19,8 @@ class AamcPcrsTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadAamcPcrsData',
-            'Tests\App\Fixture\LoadCompetencyData'
+            'App\Tests\Fixture\LoadAamcPcrsData',
+            'App\Tests\Fixture\LoadCompetencyData'
         ];
     }
 

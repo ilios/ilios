@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\DataFixtures\ORM;
+namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\SessionTypeInterface;
 

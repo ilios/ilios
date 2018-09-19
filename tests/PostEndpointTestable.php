@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App;
+namespace App\Tests;
 
 /**
  * Trait PostEndpointTestable
- * @package Tests\App
+ * @package App\Tests
  */
 trait PostEndpointTestable
 {

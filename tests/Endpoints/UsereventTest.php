@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use App\Entity\OfferingInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\DataLoader\CourseData;
-use Tests\App\DataLoader\IlmSessionData;
-use Tests\App\DataLoader\OfferingData;
-use Tests\App\DataLoader\SessionData;
-use Tests\App\DataLoader\SessionDescriptionData;
-use Tests\App\DataLoader\SessionTypeData;
-use Tests\App\AbstractEndpointTest;
+use App\Tests\DataLoader\CourseData;
+use App\Tests\DataLoader\IlmSessionData;
+use App\Tests\DataLoader\OfferingData;
+use App\Tests\DataLoader\SessionData;
+use App\Tests\DataLoader\SessionDescriptionData;
+use App\Tests\DataLoader\SessionTypeData;
+use App\Tests\AbstractEndpointTest;
 use DateTime;
 
 /**
@@ -25,14 +25,14 @@ class UsereventTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadIlmSessionData',
-            'Tests\App\Fixture\LoadUserData',
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadSessionDescriptionData',
-            'Tests\App\Fixture\LoadLearningMaterialData',
-            'Tests\App\Fixture\LoadCourseLearningMaterialData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadIlmSessionData',
+            'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadSessionDescriptionData',
+            'App\Tests\Fixture\LoadLearningMaterialData',
+            'App\Tests\Fixture\LoadCourseLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
         ];
     }
 

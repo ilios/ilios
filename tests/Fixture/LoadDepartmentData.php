@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\Department;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadDepartmentData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\DepartmentData')
+            ->get('App\Tests\DataLoader\DepartmentData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Department();
@@ -43,7 +43,7 @@ class LoadDepartmentData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadSchoolData'
+            'App\Tests\Fixture\LoadSchoolData'
         );
     }
 }

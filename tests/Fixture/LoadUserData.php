@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadUserData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\UserData')
+            ->get('App\Tests\DataLoader\UserData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new User();
@@ -83,12 +83,12 @@ class LoadUserData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadProgramYearData',
-            'Tests\App\Fixture\LoadCohortData',
-            'Tests\App\Fixture\LoadUserRoleData',
-            'Tests\App\Fixture\LoadSchoolData',
-            'Tests\App\Fixture\LoadProgramData',
-            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
+            'App\Tests\Fixture\LoadProgramYearData',
+            'App\Tests\Fixture\LoadCohortData',
+            'App\Tests\Fixture\LoadUserRoleData',
+            'App\Tests\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadProgramData',
+            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
         );
     }
 }

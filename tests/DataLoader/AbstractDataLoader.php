@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\DataLoader;
+namespace App\Tests\DataLoader;
 
 use Faker\Factory as FakerFactory;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\RelationshipVoter;
+namespace App\Tests\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
 use App\RelationshipVoter\AbstractVoter;
@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class UserDTOVoterTest
- * @package Tests\App\RelationshipVoter
+ * @package App\Tests\RelationshipVoter
  */
 class UserDTOVoterTest extends AbstractBase
 {

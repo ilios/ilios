@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * CurriculumInventorySequenceBlock API endpoint Test.
@@ -20,8 +20,8 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Tests\App\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'App\Tests\Fixture\LoadSessionData',
         ];
     }
 

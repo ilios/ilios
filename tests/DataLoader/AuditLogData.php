@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\DataLoader;
+namespace App\Tests\DataLoader;
 
-use Tests\App\DataLoader\AbstractDataLoader;
+use App\Tests\DataLoader\AbstractDataLoader;
 
 /**
  * Class AuditLogData

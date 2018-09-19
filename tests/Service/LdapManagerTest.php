@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use App\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;

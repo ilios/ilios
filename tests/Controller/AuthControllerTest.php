@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Controller;
+namespace App\Tests\Controller;
 
 use App\Entity\User;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -8,7 +8,7 @@ use Firebase\JWT\JWT;
 use DateTime;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\Traits\JsonControllerTest;
+use App\Tests\Traits\JsonControllerTest;
 use App\Service\JsonWebTokenManager;
 
 class AuthControllerTest extends WebTestCase
@@ -26,7 +26,7 @@ class AuthControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Tests\App\Fixture\LoadAuthenticationData'
+            'App\Tests\Fixture\LoadAuthenticationData'
         ]);
 
         $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $this->getContainer()->getParameter('kernel.secret');

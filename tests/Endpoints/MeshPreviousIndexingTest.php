@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 /**
  * MeshPreviousIndexing API endpoint Test.
@@ -16,11 +16,11 @@ class MeshPreviousIndexingTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadMeshPreviousIndexingData',
-            'Tests\App\Fixture\LoadCourseLearningMaterialData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadMeshConceptData',
-            'Tests\App\Fixture\LoadMeshQualifierData',
+            'App\Tests\Fixture\LoadMeshPreviousIndexingData',
+            'App\Tests\Fixture\LoadCourseLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadMeshConceptData',
+            'App\Tests\Fixture\LoadMeshQualifierData',
         ];
     }
 

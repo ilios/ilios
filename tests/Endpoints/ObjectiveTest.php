@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\DataLoader\ObjectiveData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\ObjectiveData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Objective API endpoint Test.
@@ -20,12 +20,12 @@ class ObjectiveTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadObjectiveData',
-            'Tests\App\Fixture\LoadCompetencyData',
-            'Tests\App\Fixture\LoadCourseData',
-            'Tests\App\Fixture\LoadProgramYearData',
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadMeshDescriptorData'
+            'App\Tests\Fixture\LoadObjectiveData',
+            'App\Tests\Fixture\LoadCompetencyData',
+            'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadProgramYearData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadMeshDescriptorData'
         ];
     }
 

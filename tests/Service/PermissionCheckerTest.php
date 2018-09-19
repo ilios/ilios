@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use App\Classes\Capabilities;
 use App\Classes\PermissionMatrixInterface;
@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class PermissionCheckerTest
- * @package Tests\App\Service
+ * @package App\Tests\Service
  */
 class PermissionCheckerTest extends TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Classes;
+namespace App\Tests\Classes;
 
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 

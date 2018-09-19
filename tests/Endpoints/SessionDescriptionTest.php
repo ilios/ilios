@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\DataLoader\SessionData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\SessionData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * SessionDescription API endpoint Test.
@@ -19,8 +19,8 @@ class SessionDescriptionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadSessionDescriptionData',
-            'Tests\App\Fixture\LoadSessionData'
+            'App\Tests\Fixture\LoadSessionDescriptionData',
+            'App\Tests\Fixture\LoadSessionData'
         ];
     }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App;
+namespace App\Tests;
 
 /**
  * Interface PutEndpointTestInterface
- * @package Tests\App
+ * @package App\Tests
  */
 interface PutEndpointTestInterface
 {

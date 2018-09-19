@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\AuditLog;
 use Doctrine\Common\DataFixtures\AbstractFixture;

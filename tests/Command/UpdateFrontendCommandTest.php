@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Command;
+namespace App\Tests\Command;
 
 use Alchemy\Zippy\Archive\ArchiveInterface;
 use Alchemy\Zippy\Zippy;

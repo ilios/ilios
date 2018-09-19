@@ -1,10 +1,10 @@
 <?php
-namespace Tests\App\Entity\Manager;
+namespace App\Tests\Entity\Manager;
 
 use App\Entity\Manager\SchoolManager;
 use App\Service\UserMaterialFactory;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Class SchoolManagerTest

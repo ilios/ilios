@@ -1,11 +1,11 @@
 <?php
-namespace Tests\App\Controller;
+namespace App\Tests\Controller;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\Traits\JsonControllerTest;
+use App\Tests\Traits\JsonControllerTest;
 
 /**
  * Download controller Test.
@@ -26,11 +26,11 @@ class DownloadControllerTest extends WebTestCase
     public function setUp()
     {
         $this->fixtures = $this->loadFixtures([
-            'Tests\App\Fixture\LoadAuthenticationData',
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadCourseLearningMaterialData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadSessionDescriptionData',
+            'App\Tests\Fixture\LoadAuthenticationData',
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadCourseLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionDescriptionData',
         ])->getReferenceRepository();
     }
 
@@ -46,7 +46,7 @@ class DownloadControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $learningMaterials = $client->getContainer()
-            ->get('Tests\App\DataLoader\LearningMaterialData')
+            ->get('App\Tests\DataLoader\LearningMaterialData')
             ->getAll();
         $fileLearningMaterials = array_filter($learningMaterials, function ($arr) {
             return !empty($arr['filesize']);

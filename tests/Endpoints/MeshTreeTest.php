@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 /**
  * MeshTree API endpoint Test.
@@ -16,7 +16,7 @@ class MeshTreeTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadMeshTreeData',
+            'App\Tests\Fixture\LoadMeshTreeData',
         ];
     }
 

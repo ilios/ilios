@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * AamcResourceType API endpoint Test.
@@ -18,8 +18,8 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadAamcResourceTypeData',
-            'Tests\App\Fixture\LoadTermData'
+            'App\Tests\Fixture\LoadAamcResourceTypeData',
+            'App\Tests\Fixture\LoadTermData'
         ];
     }
 

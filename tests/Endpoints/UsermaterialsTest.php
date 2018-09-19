@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\AbstractEndpointTest;
+use App\Tests\AbstractEndpointTest;
 
 /**
  * UsermaterialsTest API endpoint Test.
@@ -17,11 +17,11 @@ class UsermaterialsTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadIlmSessionData',
-            'Tests\App\Fixture\LoadUserData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadCourseLearningMaterialData'
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadIlmSessionData',
+            'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadCourseLearningMaterialData'
         ];
     }
 

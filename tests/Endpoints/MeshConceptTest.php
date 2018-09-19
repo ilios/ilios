@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 /**
  * MeshConcept API endpoint Test.
@@ -16,8 +16,8 @@ class MeshConceptTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadMeshConceptData',
-            'Tests\App\Fixture\LoadMeshTermData',
+            'App\Tests\Fixture\LoadMeshConceptData',
+            'App\Tests\Fixture\LoadMeshTermData',
         ];
     }
 

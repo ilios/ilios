@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\Cohort;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadCohortData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\CohortData')
+            ->get('App\Tests\DataLoader\CohortData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Cohort();
@@ -43,7 +43,7 @@ class LoadCohortData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadProgramYearData'
+            'App\Tests\Fixture\LoadProgramYearData'
         );
     }
 }

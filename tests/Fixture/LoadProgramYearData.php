@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\ProgramYear;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadProgramYearData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\ProgramYearData')
+            ->get('App\Tests\DataLoader\ProgramYearData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new ProgramYear();
@@ -57,10 +57,10 @@ class LoadProgramYearData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadProgramData',
-            'Tests\App\Fixture\LoadTermData',
-            'Tests\App\Fixture\LoadObjectiveData',
-            'Tests\App\Fixture\LoadCompetencyData',
+            'App\Tests\Fixture\LoadProgramData',
+            'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadObjectiveData',
+            'App\Tests\Fixture\LoadCompetencyData',
         );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 /**
  * MeshDescriptor API endpoint Test.
@@ -16,17 +16,17 @@ class MeshDescriptorTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadMeshDescriptorData',
-            'Tests\App\Fixture\LoadCourseData',
-            'Tests\App\Fixture\LoadObjectiveData',
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadMeshConceptData',
-            'Tests\App\Fixture\LoadMeshTreeData',
-            'Tests\App\Fixture\LoadMeshPreviousIndexingData',
-            'Tests\App\Fixture\LoadMeshQualifierData',
-            'Tests\App\Fixture\LoadMeshTermData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadCourseLearningMaterialData',
+            'App\Tests\Fixture\LoadMeshDescriptorData',
+            'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadObjectiveData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadMeshConceptData',
+            'App\Tests\Fixture\LoadMeshTreeData',
+            'App\Tests\Fixture\LoadMeshPreviousIndexingData',
+            'App\Tests\Fixture\LoadMeshQualifierData',
+            'App\Tests\Fixture\LoadMeshTermData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadCourseLearningMaterialData',
         ];
     }
 

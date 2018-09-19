@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadEndpointTest;
+use App\Tests\ReadEndpointTest;
 
 /**
  * LearningMaterialStatus API endpoint Test.
@@ -18,8 +18,8 @@ class LearningMaterialStatusTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadLearningMaterialStatusData',
-            'Tests\App\Fixture\LoadLearningMaterialData'
+            'App\Tests\Fixture\LoadLearningMaterialStatusData',
+            'App\Tests\Fixture\LoadLearningMaterialData'
         ];
     }
 

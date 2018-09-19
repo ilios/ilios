@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Report API endpoint Test.
@@ -18,8 +18,8 @@ class ReportTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadReportData',
-            'Tests\App\Fixture\LoadUserData'
+            'App\Tests\Fixture\LoadReportData',
+            'App\Tests\Fixture\LoadUserData'
         ];
     }
 

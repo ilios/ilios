@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * ApplicationConfig API endpoint Test.
@@ -18,7 +18,7 @@ class ApplicationConfigTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadApplicationConfigData',
+            'App\Tests\Fixture\LoadApplicationConfigData',
         ];
     }
 

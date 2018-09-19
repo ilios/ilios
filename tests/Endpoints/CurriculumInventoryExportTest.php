@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use App\Entity\CurriculumInventoryReportInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\AbstractEndpointTest;
+use App\Tests\AbstractEndpointTest;
 use DateTime;
 
 /**
@@ -22,11 +22,11 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadUserData',
-            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
-            'Tests\App\Fixture\LoadCurriculumInventoryExportData',
-            'Tests\App\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Tests\App\Fixture\LoadCurriculumInventorySequenceData',
+            'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
+            'App\Tests\Fixture\LoadCurriculumInventoryExportData',
+            'App\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
+            'App\Tests\Fixture\LoadCurriculumInventorySequenceData',
         ];
     }
 

@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\RelationshipVoter;
+namespace App\Tests\RelationshipVoter;
 
 use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\Offering as Voter;

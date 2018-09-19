@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App;
+namespace App\Tests;
 
 /**
  * Class ReadWriteEndpointTest
- * @package Tests\App
+ * @package App\Tests
  */
 abstract class ReadWriteEndpointTest extends ReadEndpointTest
 {

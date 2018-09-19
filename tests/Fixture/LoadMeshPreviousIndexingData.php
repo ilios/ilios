@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\MeshPreviousIndexing;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadMeshPreviousIndexingData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\MeshPreviousIndexingData')
+            ->get('App\Tests\DataLoader\MeshPreviousIndexingData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshPreviousIndexing();
@@ -43,7 +43,7 @@ class LoadMeshPreviousIndexingData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadMeshDescriptorData',
+            'App\Tests\Fixture\LoadMeshDescriptorData',
         );
     }
 }

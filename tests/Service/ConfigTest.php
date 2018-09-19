@@ -1,15 +1,15 @@
 <?php
-namespace Tests\App\Service;
+namespace App\Tests\Service;
 
 use App\Entity\Manager\ApplicationConfigManager;
 use App\Service\Config;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 use function Stringy\create as s;
 
 /**
  * Class LoggerQueueTest
- * @package Tests\App\Classes
+ * @package App\Tests\Classes
  */
 class ConfigTest extends TestCase
 {

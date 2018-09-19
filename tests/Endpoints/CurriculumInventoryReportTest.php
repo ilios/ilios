@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * CurriculumInventoryReport API endpoint Test.
@@ -19,12 +19,12 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadProgramData',
-            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
-            'Tests\App\Fixture\LoadCurriculumInventoryExportData',
-            'Tests\App\Fixture\LoadCurriculumInventorySequenceData',
-            'Tests\App\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Tests\App\Fixture\LoadCurriculumInventoryAcademicLevelData'
+            'App\Tests\Fixture\LoadProgramData',
+            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
+            'App\Tests\Fixture\LoadCurriculumInventoryExportData',
+            'App\Tests\Fixture\LoadCurriculumInventorySequenceData',
+            'App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData'
         ];
     }
 

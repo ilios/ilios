@@ -1,11 +1,11 @@
 <?php
-namespace Tests\App\Traits;
+namespace App\Tests\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\MeshConcept;
 use App\Traits\ConceptsEntity;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * @coversDefaultClass \App\Traits\ConceptsEntity

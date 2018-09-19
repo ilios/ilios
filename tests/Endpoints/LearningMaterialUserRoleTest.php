@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadEndpointTest;
+use App\Tests\ReadEndpointTest;
 
 /**
  * LearningMaterialUserRole API endpoint Test.
@@ -18,8 +18,8 @@ class LearningMaterialUserRoleTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadLearningMaterialUserRoleData',
-            'Tests\App\Fixture\LoadLearningMaterialData'
+            'App\Tests\Fixture\LoadLearningMaterialUserRoleData',
+            'App\Tests\Fixture\LoadLearningMaterialData'
         ];
     }
 

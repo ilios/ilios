@@ -1,5 +1,5 @@
 <?php
-namespace Tests\App\Command;
+namespace App\Tests\Command;
 
 use App\Command\CleanupStringsCommand;
 use Doctrine\ORM\EntityManagerInterface;

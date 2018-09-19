@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\DataLoader\IlmSessionData;
-use Tests\App\DataLoader\LearningMaterialData;
-use Tests\App\DataLoader\ObjectiveData;
-use Tests\App\DataLoader\SessionDescriptionData;
-use Tests\App\DataLoader\SessionLearningMaterialData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\IlmSessionData;
+use App\Tests\DataLoader\LearningMaterialData;
+use App\Tests\DataLoader\ObjectiveData;
+use App\Tests\DataLoader\SessionDescriptionData;
+use App\Tests\DataLoader\SessionLearningMaterialData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Session API endpoint Test.
@@ -23,16 +23,16 @@ class SessionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadTermData',
-            'Tests\App\Fixture\LoadSessionDescriptionData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadCourseLearningMaterialData',
-            'Tests\App\Fixture\LoadLearningMaterialStatusData',
-            'Tests\App\Fixture\LoadIlmSessionData',
-            'Tests\App\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadSessionDescriptionData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadCourseLearningMaterialData',
+            'App\Tests\Fixture\LoadLearningMaterialStatusData',
+            'App\Tests\Fixture\LoadIlmSessionData',
+            'App\Tests\Fixture\LoadUserData',
         ];
     }
 

@@ -1,11 +1,11 @@
 <?php
-namespace Tests\App\Traits;
+namespace App\Tests\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\ProgramYearStewardInterface;
 use App\Traits\StewardedEntity;
 use Mockery as m;
-use Tests\App\TestCase;
+use App\Tests\TestCase;
 
 /**
  * @coversDefaultClass \App\Traits\StewardedEntity

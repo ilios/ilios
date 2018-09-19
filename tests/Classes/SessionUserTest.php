@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Classes;
+namespace App\Tests\Classes;
 
 use App\Classes\SessionUser;
 use App\Entity\Manager\UserManager;
@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class SessionUserTest
- * @package Tests\App\Classes
+ * @package App\Tests\Classes
  */
 class SessionUserTest extends TestCase
 {

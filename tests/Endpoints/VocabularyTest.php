@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Vocabulary API endpoint Test.
@@ -18,8 +18,8 @@ class VocabularyTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadSchoolData',
-            'Tests\App\Fixture\LoadVocabularyData',
+            'App\Tests\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadVocabularyData',
         ];
     }
 

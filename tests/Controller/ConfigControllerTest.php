@@ -1,10 +1,10 @@
 <?php
-namespace Tests\App\Controller;
+namespace App\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\Fixture\LoadApplicationConfigData;
-use Tests\App\Traits\JsonControllerTest;
+use App\Tests\Fixture\LoadApplicationConfigData;
+use App\Tests\Traits\JsonControllerTest;
 
 /**
  * Class ConfigControllerTest

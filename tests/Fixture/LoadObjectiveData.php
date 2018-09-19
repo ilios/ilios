@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Fixture;
+namespace App\Tests\Fixture;
 
 use App\Entity\Objective;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -26,7 +26,7 @@ class LoadObjectiveData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\App\DataLoader\ObjectiveData')
+            ->get('App\Tests\DataLoader\ObjectiveData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Objective();
@@ -55,8 +55,8 @@ class LoadObjectiveData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\App\Fixture\LoadCompetencyData',
-            'Tests\App\Fixture\LoadMeshDescriptorData',
+            'App\Tests\Fixture\LoadCompetencyData',
+            'App\Tests\Fixture\LoadMeshDescriptorData',
         );
     }
 }

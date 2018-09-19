@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use App\Entity\AlertChangeTypeInterface;
-use Tests\App\DataLoader\InstructorGroupData;
-use Tests\App\DataLoader\LearnerGroupData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\InstructorGroupData;
+use App\Tests\DataLoader\LearnerGroupData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Offering API endpoint Test.
@@ -31,11 +31,11 @@ class OfferingTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadLearnerGroupData',
-            'Tests\App\Fixture\LoadInstructorGroupData',
-            'Tests\App\Fixture\LoadIlmSessionData',
-            'Tests\App\Fixture\LoadAlertChangeTypeData'
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadLearnerGroupData',
+            'App\Tests\Fixture\LoadInstructorGroupData',
+            'App\Tests\Fixture\LoadIlmSessionData',
+            'App\Tests\Fixture\LoadAlertChangeTypeData'
         ];
     }
 

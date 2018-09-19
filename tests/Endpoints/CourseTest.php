@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\App\Endpoints;
+namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use Tests\App\DataLoader\IlmSessionData;
-use Tests\App\DataLoader\ObjectiveData;
-use Tests\App\DataLoader\OfferingData;
-use Tests\App\DataLoader\SessionData;
-use Tests\App\DataLoader\SessionDescriptionData;
-use Tests\App\ReadWriteEndpointTest;
+use App\Tests\DataLoader\IlmSessionData;
+use App\Tests\DataLoader\ObjectiveData;
+use App\Tests\DataLoader\OfferingData;
+use App\Tests\DataLoader\SessionData;
+use App\Tests\DataLoader\SessionDescriptionData;
+use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Course API endpoint Test.
@@ -24,20 +24,20 @@ class CourseTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\App\Fixture\LoadCourseData',
-            'Tests\App\Fixture\LoadCourseClerkshipTypeData',
-            'Tests\App\Fixture\LoadSchoolData',
-            'Tests\App\Fixture\LoadUserData',
-            'Tests\App\Fixture\LoadCohortData',
-            'Tests\App\Fixture\LoadTermData',
-            'Tests\App\Fixture\LoadObjectiveData',
-            'Tests\App\Fixture\LoadCourseLearningMaterialData',
-            'Tests\App\Fixture\LoadSessionData',
-            'Tests\App\Fixture\LoadSessionDescriptionData',
-            'Tests\App\Fixture\LoadOfferingData',
-            'Tests\App\Fixture\LoadProgramYearData',
-            'Tests\App\Fixture\LoadSessionLearningMaterialData',
-            'Tests\App\Fixture\LoadIlmSessionData',
+            'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadCourseClerkshipTypeData',
+            'App\Tests\Fixture\LoadSchoolData',
+            'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadCohortData',
+            'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadObjectiveData',
+            'App\Tests\Fixture\LoadCourseLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadSessionDescriptionData',
+            'App\Tests\Fixture\LoadOfferingData',
+            'App\Tests\Fixture\LoadProgramYearData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadIlmSessionData',
         ];
     }
 
