@@ -1,13 +1,13 @@
 ilios_api_currentsession:
     path:     /api/{version}/currentsession
-    defaults: { _controller: AppBundle:CurrentSession:get }
+    defaults: { _controller: App\Controller\CurrentSession::get }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
 
 ilios_api_academicyear_get:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:AcademicYear:get }
+    defaults: { _controller: App\Controller\AcademicYear::get }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -16,7 +16,7 @@ ilios_api_academicyear_get:
 
 ilios_api_getallacademicyears:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:AcademicYear:getAll }
+    defaults: { _controller: App\Controller\AcademicYear::getAll }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -24,7 +24,7 @@ ilios_api_getallacademicyears:
 
 ilios_api_academicyear_404:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:AcademicYear:fourOhFour, id: 0 }
+    defaults: { _controller: App\Controller\AcademicYear::fourOhFour, id: 0 }
     methods:  [POST, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -33,7 +33,7 @@ ilios_api_academicyear_404:
 
 ilios_api_schoolevents:
     path:     /api/{version}/schoolevents/{id}
-    defaults: { _controller: AppBundle:Schoolevent:get }
+    defaults: { _controller: App\Controller\Schoolevent::get }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -41,7 +41,7 @@ ilios_api_schoolevents:
 
 ilios_api_userevents:
     path:     /api/{version}/userevents/{id}
-    defaults: { _controller: AppBundle:Userevent:get }
+    defaults: { _controller: App\Controller\Userevent::get }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -49,7 +49,7 @@ ilios_api_userevents:
 
 ilios_api_usermaterials:
     path:     /api/{version}/usermaterials/{id}
-    defaults: { _controller: AppBundle:Usermaterial:get }
+    defaults: { _controller: App\Controller\Usermaterial::get }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"

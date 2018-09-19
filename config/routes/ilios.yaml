@@ -1,18 +1,18 @@
 ilios_authentication.login:
   path:     /auth/login
-  defaults: { _controller: AppBundle:Auth:login }
+  defaults: { _controller: App\Controller\Auth::login }
 ilios_authentication.logout:
   path:     /auth/logout
-  defaults: { _controller: AppBundle:Auth:logout }
+  defaults: { _controller: App\Controller\Auth::logout }
 ilios_authentication.whoami:
   path:     /auth/whoami
-  defaults: { _controller: AppBundle:Auth:whoami }
+  defaults: { _controller: App\Controller\Auth::whoami }
 ilios_authentication.token:
   path:     /auth/token
-  defaults: { _controller: AppBundle:Auth:token }
+  defaults: { _controller: App\Controller\Auth::token }
 ilios_authentication.invalidate_tokens:
   path:     /auth/invalidatetokens
-  defaults: { _controller: AppBundle:Auth:invalidateTokens }
+  defaults: { _controller: App\Controller\Auth::invalidateTokens }
 
 ilios_apiinfo:
   path: /api
@@ -23,19 +23,19 @@ ilios_apiinfo:
 
 ilios_uploadfile:
   path: /upload
-  defaults:  { _controller: AppBundle:Upload:upload }
+  defaults:  { _controller: App\Controller\Upload::upload }
 
 ilios_downloadlearningmaterial:
   path:     /lm/{token}
   defaults:
-    _controller: AppBundle:Download:learningMaterial
+    _controller: App\Controller\Download::learningMaterial
   requirements:
     token: '^[a-zA-Z0-9]{64}$'
 
 ilios_downloadcurriculuminventoryreport:
   path:     /ci-report-dl/{token}
   defaults:
-    _controller: AppBundle:CurriculumInventoryDownload:get
+    _controller: App\Controller\CurriculumInventoryDownload::get
   requirements:
     token: '^[a-zA-Z0-9]{64}$'
 

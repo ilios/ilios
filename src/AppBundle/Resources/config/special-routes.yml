@@ -1,6 +1,6 @@
 ilios_api_learningmaterial_get:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:LearningMaterial:get }
+    defaults: { _controller: App\Controller\LearningMaterial::get }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -9,7 +9,7 @@ ilios_api_learningmaterial_get:
 
 ilios_api_learningmaterials_getall:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:LearningMaterial:getAll }
+    defaults: { _controller: App\Controller\LearningMaterial::getAll }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -17,7 +17,7 @@ ilios_api_learningmaterials_getall:
 
 ilios_api_learningmaterials_post:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:LearningMaterial:post }
+    defaults: { _controller: App\Controller\LearningMaterial::post }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -25,7 +25,7 @@ ilios_api_learningmaterials_post:
 
 ilios_api_learningmaterial_put:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:LearningMaterial:put }
+    defaults: { _controller: App\Controller\LearningMaterial::put }
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -34,7 +34,7 @@ ilios_api_learningmaterial_put:
 
 ilios_api_getallsessions:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:Sessions:getAll }
+    defaults: { _controller: App\Controller\Sessions::getAll }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -42,7 +42,7 @@ ilios_api_getallsessions:
 
 ilios_api_getallcourses:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:Courses:getAll }
+    defaults: { _controller: App\Controller\Courses::getAll }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -50,7 +50,7 @@ ilios_api_getallcourses:
 
 ilios_api_courses_put:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:Courses:put }
+    defaults: { _controller: App\Controller\Courses::put }
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -59,7 +59,7 @@ ilios_api_courses_put:
 
 ilios_api_courserollover:
     path:     /api/{version}/{object}/{id}/rollover
-    defaults: { _controller: AppBundle:Courses:rollover }
+    defaults: { _controller: App\Controller\Courses::rollover }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -68,7 +68,7 @@ ilios_api_courserollover:
 
 ilios_api_getallusers:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:Users:getAll }
+    defaults: { _controller: App\Controller\Users::getAll }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -76,7 +76,7 @@ ilios_api_getallusers:
 
 ilios_api_user_put:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:Users:put }
+    defaults: { _controller: App\Controller\Users::put }
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -85,7 +85,7 @@ ilios_api_user_put:
 
 ilios_api_user_post:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:Users:post }
+    defaults: { _controller: App\Controller\Users::post }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -93,7 +93,7 @@ ilios_api_user_post:
 
 ilios_api_authentication_get:
     path:     /api/{version}/{object}/{userId}
-    defaults: { _controller: AppBundle:Authentication:get }
+    defaults: { _controller: App\Controller\Authentication::get }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -102,7 +102,7 @@ ilios_api_authentication_get:
 
 ilios_api_authentication_put:
     path:     /api/{version}/{object}/{userId}
-    defaults: { _controller: AppBundle:Authentication:put }
+    defaults: { _controller: App\Controller\Authentication::put }
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -111,7 +111,7 @@ ilios_api_authentication_put:
 
 ilios_api_authentication_post:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:Authentication:post }
+    defaults: { _controller: App\Controller\Authentication::post }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -119,7 +119,7 @@ ilios_api_authentication_post:
 
 ilios_api_authentication_delete:
     path:     /api/{version}/{object}/{userId}
-    defaults: { _controller: AppBundle:Authentication:delete }
+    defaults: { _controller: App\Controller\Authentication::delete }
     methods:  [DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -128,7 +128,7 @@ ilios_api_authentication_delete:
 
 ilios_api_curriculuminventoryexport_post:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:CurriculumInventoryExport:post }
+    defaults: { _controller: App\Controller\CurriculumInventoryExport::post }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -136,7 +136,7 @@ ilios_api_curriculuminventoryexport_post:
 
 ilios_api_curriculuminventoryexport_404:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:CurriculumInventoryExport:fourOhFour, id: 0 }
+    defaults: { _controller: App\Controller\CurriculumInventoryExport::fourOhFour, id: 0 }
     methods:  [GET, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -144,7 +144,7 @@ ilios_api_curriculuminventoryexport_404:
 
 ilios_api_curriculuminventoryreport_getall:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:CurriculumInventoryReport:getAll }
+    defaults: { _controller: App\Controller\CurriculumInventoryReport::getAll }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -152,7 +152,7 @@ ilios_api_curriculuminventoryreport_getall:
 
 ilios_api_curriculuminventoryreport_get:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:CurriculumInventoryReport:get }
+    defaults: { _controller: App\Controller\CurriculumInventoryReport::get }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -161,7 +161,7 @@ ilios_api_curriculuminventoryreport_get:
 
 ilios_api_curriculuminventoryreport_post:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:CurriculumInventoryReport:post }
+    defaults: { _controller: App\Controller\CurriculumInventoryReport::post }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -169,7 +169,7 @@ ilios_api_curriculuminventoryreport_post:
 
 ilios_api_curriculuminventoryreport_put:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:CurriculumInventoryReport:put }
+    defaults: { _controller: App\Controller\CurriculumInventoryReport::put }
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -178,7 +178,7 @@ ilios_api_curriculuminventoryreport_put:
 
 ilios_api_curriculuminventoryreport_rollover:
     path:     /api/{version}/{object}/{id}/rollover
-    defaults: { _controller: AppBundle:CurriculumInventoryReport:rollover }
+    defaults: { _controller: App\Controller\CurriculumInventoryReport::rollover }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -187,7 +187,7 @@ ilios_api_curriculuminventoryreport_rollover:
 
 ilios_api_curriculuminventorysequenceblock_post:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:CurriculumInventorySequenceBlock:post }
+    defaults: { _controller: App\Controller\CurriculumInventorySequenceBlock::post }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -195,7 +195,7 @@ ilios_api_curriculuminventorysequenceblock_post:
 
 ilios_api_curriculuminventorysequenceblock_put:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:CurriculumInventorySequenceBlock:put }
+    defaults: { _controller: App\Controller\CurriculumInventorySequenceBlock::put }
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -204,7 +204,7 @@ ilios_api_curriculuminventorysequenceblock_put:
 
 ilios_api_curriculuminventorysequenceblock_delete:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:CurriculumInventorySequenceBlock:delete }
+    defaults: { _controller: App\Controller\CurriculumInventorySequenceBlock::delete }
     methods:  [DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -213,7 +213,7 @@ ilios_api_curriculuminventorysequenceblock_delete:
 
 ilios_api_cohort_put:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:Cohort:put }
+    defaults: { _controller: App\Controller\Cohort::put }
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -222,7 +222,7 @@ ilios_api_cohort_put:
 
 ilios_api_cohort_410:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:Cohort:fourTen, id: 0 }
+    defaults: { _controller: App\Controller\Cohort::fourTen, id: 0 }
     methods:  [POST, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -231,7 +231,7 @@ ilios_api_cohort_410:
 
 ilios_api_ingestionexception_getall:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:IngestionException:getAll }
+    defaults: { _controller: App\Controller\IngestionException::getAll }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -239,7 +239,7 @@ ilios_api_ingestionexception_getall:
 
 ilios_ingestionexception_api_get:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:IngestionException:get }
+    defaults: { _controller: App\Controller\IngestionException::get }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -248,7 +248,7 @@ ilios_ingestionexception_api_get:
 
 ilios_api_ingestionexception_404:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:IngestionException:fourOhFour, id: 0 }
+    defaults: { _controller: App\Controller\IngestionException::fourOhFour, id: 0 }
     methods:  [POST, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -257,7 +257,7 @@ ilios_api_ingestionexception_404:
 
 ilios_api_meshconcepts_410:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:MeshConcept:fourTen, id: 0 }
+    defaults: { _controller: App\Controller\MeshConcept::fourTen, id: 0 }
     methods:  [POST, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -266,7 +266,7 @@ ilios_api_meshconcepts_410:
 
 ilios_api_meshdescriptors_getall:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:MeshDescriptor:getAll }
+    defaults: { _controller: App\Controller\MeshDescriptor::getAll }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -274,7 +274,7 @@ ilios_api_meshdescriptors_getall:
 
 ilios_api_meshdescriptors_410:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:MeshDescriptor:fourTen, id: 0 }
+    defaults: { _controller: App\Controller\MeshDescriptor::fourTen, id: 0 }
     methods:  [POST, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -283,7 +283,7 @@ ilios_api_meshdescriptors_410:
 
 ilios_api_meshpreviousindexings_410:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:MeshPreviousIndexing:fourTen, id: 0 }
+    defaults: { _controller: App\Controller\MeshPreviousIndexing::fourTen, id: 0 }
     methods:  [POST, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -292,7 +292,7 @@ ilios_api_meshpreviousindexings_410:
 
 ilios_api_meshqualifiers_410:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:MeshQualifier:fourTen, id: 0 }
+    defaults: { _controller: App\Controller\MeshQualifier::fourTen, id: 0 }
     methods:  [POST, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -301,7 +301,7 @@ ilios_api_meshqualifiers_410:
 
 ilios_api_meshterms_410:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:MeshTerm:fourTen, id: 0 }
+    defaults: { _controller: App\Controller\MeshTerm::fourTen, id: 0 }
     methods:  [POST, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -310,7 +310,7 @@ ilios_api_meshterms_410:
 
 ilios_api_meshtrees_410:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:MeshTree:fourTen, id: 0 }
+    defaults: { _controller: App\Controller\MeshTree::fourTen, id: 0 }
     methods:  [POST, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -319,7 +319,7 @@ ilios_api_meshtrees_410:
 
 ilios_api_permissions_410:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:Permission:fourTen, id: 0 }
+    defaults: { _controller: App\Controller\Permission::fourTen, id: 0 }
     methods:  [GET, POST, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -328,7 +328,7 @@ ilios_api_permissions_410:
 
 ilios_api_programyears_post:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:ProgramYear:post }
+    defaults: { _controller: App\Controller\ProgramYear::post }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -336,7 +336,7 @@ ilios_api_programyears_post:
 
 ilios_api_offerings_put:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:Offering:put }
+    defaults: { _controller: App\Controller\Offering::put }
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -345,7 +345,7 @@ ilios_api_offerings_put:
 
 ilios_api_offerings_post:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:Offering:post }
+    defaults: { _controller: App\Controller\Offering::post }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -353,7 +353,7 @@ ilios_api_offerings_post:
 
 ilios_api_programyears_put:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:ProgramYear:put }
+    defaults: { _controller: App\Controller\ProgramYear::put }
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -362,7 +362,7 @@ ilios_api_programyears_put:
 
 ilios_api_programyears_downloadobjectivesmapping:
     path: /{version}/{object}/{id}/downloadobjectivesmapping
-    defaults: { _controller: AppBundle:ProgramYear:downloadCourseObjectivesReport, id: 0 }
+    defaults: { _controller: App\Controller\ProgramYear::downloadCourseObjectivesReport, id: 0 }
     methods: [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -371,7 +371,7 @@ ilios_api_programyears_downloadobjectivesmapping:
 
 ilios_api_usermadereminders_410:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:UserMadeReminder:fourTen, id: 0 }
+    defaults: { _controller: App\Controller\UserMadeReminder::fourTen, id: 0 }
     methods:  [GET, POST, PUT, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"

@@ -1,18 +1,18 @@
 ilios_swagger_index:
     path:     /api/doc/
-    defaults: { _controller: AppBundle:SwaggerDocs:index }
+    defaults: { _controller: App\Controller\SwaggerDocs::index }
     methods:  [GET]
 
 ilios_swagger_file:
     path:     /api/doc/swagger.yml
-    defaults: { _controller: AppBundle:SwaggerDocs:yaml }
+    defaults: { _controller: App\Controller\SwaggerDocs::yaml }
     methods:  [GET]
 
 ilios_swagger_ui:
     path:     /api/doc/{fileName}
     requirements:
         fileName: .*
-    defaults: { _controller: AppBundle:SwaggerDocs:ui }
+    defaults: { _controller: App\Controller\SwaggerDocs::ui }
     methods:  [GET]
 
 ilios_api_non_entity_routes:
@@ -23,7 +23,7 @@ ilios_api_special_routes:
 
 ilios_api_get:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:Api:get }
+    defaults: { _controller: App\Controller\Api::get }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -32,7 +32,7 @@ ilios_api_get:
 
 ilios_api_getall:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:Api:getAll }
+    defaults: { _controller: App\Controller\Api::getAll }
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -40,7 +40,7 @@ ilios_api_getall:
 
 ilios_api_post:
     path:     /api/{version}/{object}
-    defaults: { _controller: AppBundle:Api:post }
+    defaults: { _controller: App\Controller\Api::post }
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -48,7 +48,7 @@ ilios_api_post:
 
 ilios_api_put:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:Api:put }
+    defaults: { _controller: App\Controller\Api::put }
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -57,7 +57,7 @@ ilios_api_put:
 
 ilios_api_delete:
     path:     /api/{version}/{object}/{id}
-    defaults: { _controller: AppBundle:Api:delete }
+    defaults: { _controller: App\Controller\Api::delete }
     methods:  [DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
@@ -68,35 +68,35 @@ api_bad_request:
     path:     /api/{url}
     defaults:
         url: null
-        _controller: AppBundle:BadRequest:index
+        _controller: App\Controller\BadRequest::index
     requirements:
         url: ".+"
 
 ilios_web_ics:
     path:     /ics/{key}
     defaults:
-        _controller: AppBundle:Ics:index
+        _controller: App\Controller\Ics::index
     requirements:
         key: "^[a-zA-Z0-9]{64}$"
 ilios_web_config:
     path:     /application/config
     defaults:
-        _controller: AppBundle:Config:index
+        _controller: App\Controller\Config::index
     methods: [GET]
 ilios_web_errors:
     path:     /errors
     defaults:
-        _controller: AppBundle:Error:error
+        _controller: App\Controller\Error::error
     methods:  [POST]
 ilios_web_directory_search:
     path:     /application/directory/search
     defaults:
-        _controller: AppBundle:Directory:search
+        _controller: App\Controller\Directory::search
     methods: [GET]
 ilios_web_directory_find:
     path:     /application/directory/find/{id}
     defaults:
-        _controller: AppBundle:Directory:find
+        _controller: App\Controller\Directory::find
     methods: [GET]
     requirements:
         key: '\d+'
@@ -104,14 +104,14 @@ ilios_web_sw_registraton_js:
     path:     /sw-registration.js
     defaults:
         fileName: sw-registration.js
-        _controller: AppBundle:Index:get
+        _controller: App\Controller\Index::get
     requirements:
         fileName: ".+"
 ilios_web_sw_js:
     path:     /sw.js
     defaults:
         fileName: sw.js
-        _controller: AppBundle:Index:get
+        _controller: App\Controller\Index::get
     requirements:
         fileName: ".+"
 ilios_web_assets:
@@ -119,6 +119,6 @@ ilios_web_assets:
     defaults:
         fileName: null
         versionedStaticFile: true
-        _controller: AppBundle:Index:get
+        _controller: App\Controller\Index::get
     requirements:
         fileName: ".+"
