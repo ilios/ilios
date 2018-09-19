@@ -6,6 +6,16 @@
 parameters:
     ilios_api_version: v1.34
     locale: '%env(ILIOS_LOCALE)%'
+    ilios_api_valid_endpoints: >-
+      aamcmethods,aamcpcrses,aamcresourcetypes,academicyears,applicationconfigs,assessmentoptions,authentications,
+      cohorts,competencies,courses,courseclerkshiptypes,courselearningmaterials,curriculuminventoryacademiclevels,curriculuminventoryexports,
+      curriculuminventoryinstitutions,curriculuminventorysequenceblocks,curriculuminventorysequences,curriculuminventoryreports,
+      departments,ilmsessions,ingestionexceptions,instructorgroups,learnergroups,learningmaterials,learningmaterialstatuses,learningmaterialuserroles,
+      meshconcepts,meshdescriptors,meshterms,meshpreviousindexings,meshqualifiers,meshterms,meshtrees,
+      objectives,offerings,pendinguserupdates,permissions,programs,programyears,programyearstewards,reports,
+      sessionlearningmaterials,sessiondescriptions,sessionlearningmaterials,sessions,sessiontypes,schoolconfigs,schools,
+      terms,usermadereminders,userroles,users,vocabularies
+    ilios_api_valid_api_versions: 'v1'
 
 services:
     # default configuration for services in *this* file
