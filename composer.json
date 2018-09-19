@@ -10,7 +10,6 @@
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-zlib": "*",
-    "alchemy/zippy": "^0.4.8",
     "danielstjules/stringy": "^3.1",
     "doctrine/doctrine-bundle": "^1.6",
     "doctrine/doctrine-fixtures-bundle": "^3.0",

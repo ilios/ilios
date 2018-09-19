@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use Alchemy\Zippy\Zippy;
 use App\Service\Config;
 use App\Service\Fetch;
 use Symfony\Component\Console\Command\Command;
@@ -51,11 +50,6 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     protected $config;
 
     /**
-     * @var Zippy
-     */
-    protected $zippy;
-
-    /**
      * @var string
      */
     protected $cacheDir;
@@ -84,7 +78,6 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         Fetch $fetch,
         Filesystem $fs,
         Config $config,
-        Zippy $zippy,
         $kernelCacheDir,
         $kernelProjectDir,
         $apiVersion,
@@ -93,7 +86,6 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->fetch = $fetch;
         $this->fs = $fs;
         $this->config = $config;
-        $this->zippy = $zippy;
         $this->cacheDir = $kernelCacheDir;
         $this->apiVersion = $apiVersion;
         $this->environment = $environment;
@@ -208,8 +200,8 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 
         $this->fs->dumpFile($archivePath, $string);
 
-        $archive = $this->zippy->open($archivePath);
-        $archive->extract($archiveDir);
+        $phar = new \PharData($archivePath);
+        $phar->extractTo($archiveDir);
         $frontendPath = $this->cacheDir . self::FRONTEND_DIRECTORY;
         $this->fs->remove($frontendPath);
         $this->fs->rename($archiveDir . self::UNPACKED_DIRECTORY, $frontendPath);
