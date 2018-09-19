@@ -19,12 +19,12 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadProgramData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryReportData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryExportData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventorySequenceData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryAcademicLevelData'
+            'Tests\App\Fixture\LoadProgramData',
+            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\App\Fixture\LoadCurriculumInventoryExportData',
+            'Tests\App\Fixture\LoadCurriculumInventorySequenceData',
+            'Tests\App\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'Tests\App\Fixture\LoadCurriculumInventoryAcademicLevelData'
         ];
     }
 

@@ -18,17 +18,17 @@ class SchoolTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadSchoolConfigData',
-            'Tests\AppBundle\Fixture\LoadAlertData',
-            'Tests\AppBundle\Fixture\LoadCompetencyData',
-            'Tests\AppBundle\Fixture\LoadSessionTypeData',
-            'Tests\AppBundle\Fixture\LoadDepartmentData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Tests\AppBundle\Fixture\LoadProgramYearStewardData',
-            'Tests\AppBundle\Fixture\LoadCourseData',
-            'Tests\AppBundle\Fixture\LoadReportData',
-            'Tests\AppBundle\Fixture\LoadInstructorGroupData',
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadSchoolConfigData',
+            'Tests\App\Fixture\LoadAlertData',
+            'Tests\App\Fixture\LoadCompetencyData',
+            'Tests\App\Fixture\LoadSessionTypeData',
+            'Tests\App\Fixture\LoadDepartmentData',
+            'Tests\App\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Tests\App\Fixture\LoadProgramYearStewardData',
+            'Tests\App\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadReportData',
+            'Tests\App\Fixture\LoadInstructorGroupData',
         ];
     }
 

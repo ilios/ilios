@@ -18,8 +18,8 @@ class SchoolConfigTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadSchoolConfigData',
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadSchoolConfigData',
         ];
     }
 

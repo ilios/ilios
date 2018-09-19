@@ -19,7 +19,7 @@ class IngestionExceptionTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadIngestionExceptionData',
+            'Tests\App\Fixture\LoadIngestionExceptionData',
         ];
     }
 

@@ -20,16 +20,16 @@ class ProgramYearTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadProgramData',
-            'Tests\AppBundle\Fixture\LoadCohortData',
-            'Tests\AppBundle\Fixture\LoadUserData',
-            'Tests\AppBundle\Fixture\LoadCompetencyData',
-            'Tests\AppBundle\Fixture\LoadTermData',
-            'Tests\AppBundle\Fixture\LoadObjectiveData',
-            'Tests\AppBundle\Fixture\LoadProgramYearStewardData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadProgramData',
+            'Tests\App\Fixture\LoadCohortData',
+            'Tests\App\Fixture\LoadUserData',
+            'Tests\App\Fixture\LoadCompetencyData',
+            'Tests\App\Fixture\LoadTermData',
+            'Tests\App\Fixture\LoadObjectiveData',
+            'Tests\App\Fixture\LoadProgramYearStewardData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadCourseData',
         ];
     }
 

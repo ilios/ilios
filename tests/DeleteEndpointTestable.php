@@ -4,7 +4,7 @@ namespace Tests\App;
 
 /**
  * Trait DeleteEndpointTestable
- * @package Tests\AppBundle
+ * @package Tests\App
  */
 trait DeleteEndpointTestable
 {

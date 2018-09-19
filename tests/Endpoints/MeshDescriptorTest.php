@@ -16,17 +16,17 @@ class MeshDescriptorTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
-            'Tests\AppBundle\Fixture\LoadCourseData',
-            'Tests\AppBundle\Fixture\LoadObjectiveData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadMeshConceptData',
-            'Tests\AppBundle\Fixture\LoadMeshTreeData',
-            'Tests\AppBundle\Fixture\LoadMeshPreviousIndexingData',
-            'Tests\AppBundle\Fixture\LoadMeshQualifierData',
-            'Tests\AppBundle\Fixture\LoadMeshTermData',
-            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\App\Fixture\LoadMeshDescriptorData',
+            'Tests\App\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadObjectiveData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadMeshConceptData',
+            'Tests\App\Fixture\LoadMeshTreeData',
+            'Tests\App\Fixture\LoadMeshPreviousIndexingData',
+            'Tests\App\Fixture\LoadMeshQualifierData',
+            'Tests\App\Fixture\LoadMeshTermData',
+            'Tests\App\Fixture\LoadSessionLearningMaterialData',
+            'Tests\App\Fixture\LoadCourseLearningMaterialData',
         ];
     }
 

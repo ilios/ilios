@@ -2,7 +2,7 @@
 
 namespace Tests\App\Endpoints;
 
-use Tests\AppBundle\ReadWriteEndpointTest;
+use Tests\App\ReadWriteEndpointTest;
 
 /**
  * Term API endpoint Test.
@@ -18,20 +18,20 @@ class TermTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadAamcResourceTypeData',
-            'Tests\AppBundle\Fixture\LoadVocabularyData',
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadCourseData',
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadOfferingData',
-            'Tests\AppBundle\Fixture\LoadIlmSessionData',
-            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
-            'Tests\AppBundle\Fixture\LoadObjectiveData',
-            'Tests\AppBundle\Fixture\LoadTermData',
+            'Tests\App\Fixture\LoadAamcResourceTypeData',
+            'Tests\App\Fixture\LoadVocabularyData',
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadOfferingData',
+            'Tests\App\Fixture\LoadIlmSessionData',
+            'Tests\App\Fixture\LoadLearningMaterialData',
+            'Tests\App\Fixture\LoadCourseLearningMaterialData',
+            'Tests\App\Fixture\LoadSessionLearningMaterialData',
+            'Tests\App\Fixture\LoadMeshDescriptorData',
+            'Tests\App\Fixture\LoadObjectiveData',
+            'Tests\App\Fixture\LoadTermData',
         ];
     }
 

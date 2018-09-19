@@ -4,7 +4,7 @@ namespace Tests\App;
 
 /**
  * Class ReadWriteEndpointTest
- * @package Tests\AppBundle
+ * @package Tests\App
  */
 abstract class ReadWriteEndpointTest extends ReadEndpointTest
 {

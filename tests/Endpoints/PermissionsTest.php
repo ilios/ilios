@@ -7,7 +7,7 @@ use Tests\App\AbstractEndpointTest;
 
 /**
  * Class PermissionsTest
- * @package Tests\AppBundle\Endpoints
+ * @package Tests\App\Endpoints
  */
 class PermissionsTest extends AbstractEndpointTest
 {

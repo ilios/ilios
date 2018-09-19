@@ -18,8 +18,8 @@ class LearningMaterialUserRoleTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadLearningMaterialUserRoleData',
-            'Tests\AppBundle\Fixture\LoadLearningMaterialData'
+            'Tests\App\Fixture\LoadLearningMaterialUserRoleData',
+            'Tests\App\Fixture\LoadLearningMaterialData'
         ];
     }
 

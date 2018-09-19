@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class UserEventTest
- * @package Tests\AppBundle\Classes
+ * @package Tests\App\Classes
  * @covers \App\Classes\CalendarEvent
  * @covers \App\Classes\UserEvent
  */

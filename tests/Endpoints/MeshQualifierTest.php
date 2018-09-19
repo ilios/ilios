@@ -16,7 +16,7 @@ class MeshQualifierTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadMeshQualifierData',
+            'Tests\App\Fixture\LoadMeshQualifierData',
         ];
     }
 

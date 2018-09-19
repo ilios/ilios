@@ -26,7 +26,7 @@ class LoadVocabularyData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\VocabularyData')
+            ->get('Tests\App\DataLoader\VocabularyData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Vocabulary();
@@ -44,7 +44,7 @@ class LoadVocabularyData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadSchoolData',
         );
     }
 }

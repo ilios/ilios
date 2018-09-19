@@ -26,7 +26,7 @@ class LoadProgramYearStewardData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\ProgramYearStewardData')
+            ->get('Tests\App\DataLoader\ProgramYearStewardData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new ProgramYearSteward();
@@ -45,9 +45,9 @@ class LoadProgramYearStewardData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadDepartmentData',
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadDepartmentData',
         );
     }
 }

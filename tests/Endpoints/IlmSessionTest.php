@@ -19,8 +19,8 @@ class IlmSessionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadIlmSessionData',
-            'Tests\AppBundle\Fixture\LoadSessionData'
+            'Tests\App\Fixture\LoadIlmSessionData',
+            'Tests\App\Fixture\LoadSessionData'
         ];
     }
 

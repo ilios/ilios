@@ -26,7 +26,7 @@ class LoadCohortData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\CohortData')
+            ->get('Tests\App\DataLoader\CohortData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Cohort();
@@ -43,7 +43,7 @@ class LoadCohortData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadProgramYearData'
+            'Tests\App\Fixture\LoadProgramYearData'
         );
     }
 }

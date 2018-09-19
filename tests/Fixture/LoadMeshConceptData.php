@@ -26,7 +26,7 @@ class LoadMeshConceptData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\MeshConceptData')
+            ->get('Tests\App\DataLoader\MeshConceptData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshConcept();
@@ -49,7 +49,7 @@ class LoadMeshConceptData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\App\Fixture\LoadMeshDescriptorData',
         );
     }
 }

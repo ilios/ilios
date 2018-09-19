@@ -24,12 +24,12 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadCohortData',
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadProgramYearStewardData',
-            'Tests\AppBundle\Fixture\LoadCourseData',
-            'Tests\AppBundle\Fixture\LoadLearnerGroupData',
-            'Tests\AppBundle\Fixture\LoadUserData'
+            'Tests\App\Fixture\LoadCohortData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadProgramYearStewardData',
+            'Tests\App\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadLearnerGroupData',
+            'Tests\App\Fixture\LoadUserData'
         ];
     }
 

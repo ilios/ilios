@@ -31,11 +31,11 @@ class OfferingTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadOfferingData',
-            'Tests\AppBundle\Fixture\LoadLearnerGroupData',
-            'Tests\AppBundle\Fixture\LoadInstructorGroupData',
-            'Tests\AppBundle\Fixture\LoadIlmSessionData',
-            'Tests\AppBundle\Fixture\LoadAlertChangeTypeData'
+            'Tests\App\Fixture\LoadOfferingData',
+            'Tests\App\Fixture\LoadLearnerGroupData',
+            'Tests\App\Fixture\LoadInstructorGroupData',
+            'Tests\App\Fixture\LoadIlmSessionData',
+            'Tests\App\Fixture\LoadAlertChangeTypeData'
         ];
     }
 

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class ElevatedPermissionsViewDtoVoterTest
- * @package Tests\AppBundle\RelationshipVoter
+ * @package Tests\App\RelationshipVoter
  */
 class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
 {

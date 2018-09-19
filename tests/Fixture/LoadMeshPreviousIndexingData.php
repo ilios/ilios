@@ -26,7 +26,7 @@ class LoadMeshPreviousIndexingData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\MeshPreviousIndexingData')
+            ->get('Tests\App\DataLoader\MeshPreviousIndexingData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshPreviousIndexing();
@@ -43,7 +43,7 @@ class LoadMeshPreviousIndexingData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\App\Fixture\LoadMeshDescriptorData',
         );
     }
 }

@@ -26,7 +26,7 @@ class LoadOfferingData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\OfferingData')
+            ->get('Tests\App\DataLoader\OfferingData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Offering();
@@ -61,10 +61,10 @@ class LoadOfferingData extends AbstractFixture implements
     public function getDependencies()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadLearnerGroupData',
-            'Tests\AppBundle\Fixture\LoadInstructorGroupData',
-            'Tests\AppBundle\Fixture\LoadUserData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadLearnerGroupData',
+            'Tests\App\Fixture\LoadInstructorGroupData',
+            'Tests\App\Fixture\LoadUserData',
         ];
     }
 }

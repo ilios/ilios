@@ -7,7 +7,7 @@ use Tests\App\AbstractEndpointTest;
 
 /**
  * Class UserMadeReminderTest
- * @package Tests\AppBundle\Endpoints
+ * @package Tests\App\Endpoints
  */
 class UserMadeReminderTest extends AbstractEndpointTest
 {

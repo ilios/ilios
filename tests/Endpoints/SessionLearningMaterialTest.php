@@ -18,10 +18,10 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\App\Fixture\LoadSessionLearningMaterialData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadLearningMaterialData',
+            'Tests\App\Fixture\LoadMeshDescriptorData',
         ];
     }
 

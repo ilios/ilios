@@ -24,7 +24,7 @@ class LoadUserRoleData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\UserRoleData')
+            ->get('Tests\App\DataLoader\UserRoleData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new UserRole();

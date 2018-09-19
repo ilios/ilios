@@ -21,7 +21,7 @@ use Tests\App\TestCase;
 
 /**
  * Class ChangeAlertHandlerTest
- * @package Tests\AppBundle\Service
+ * @package Tests\App\Service
  */
 class ChangeAlertHandlerTest extends TestCase
 {

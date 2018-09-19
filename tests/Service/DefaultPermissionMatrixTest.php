@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class DefaultPermissionMatrixTest
- * @package Tests\AppBundle\Service
+ * @package Tests\App\Service
  * @covers DefaultPermissionMatrix
  */
 class DefaultPermissionMatrixTest extends TestCase

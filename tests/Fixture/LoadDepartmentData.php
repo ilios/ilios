@@ -26,7 +26,7 @@ class LoadDepartmentData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\DepartmentData')
+            ->get('Tests\App\DataLoader\DepartmentData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Department();
@@ -43,7 +43,7 @@ class LoadDepartmentData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadSchoolData'
+            'Tests\App\Fixture\LoadSchoolData'
         );
     }
 }

@@ -18,15 +18,15 @@ class CompetencyTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadTermData',
-            'Tests\AppBundle\Fixture\LoadObjectiveData',
-            'Tests\AppBundle\Fixture\LoadCompetencyData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadSessionTypeData',
-            'Tests\AppBundle\Fixture\LoadCourseData',
-            'Tests\AppBundle\Fixture\LoadAamcPcrsData',
-            'Tests\AppBundle\Fixture\LoadProgramYearData'
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadTermData',
+            'Tests\App\Fixture\LoadObjectiveData',
+            'Tests\App\Fixture\LoadCompetencyData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadSessionTypeData',
+            'Tests\App\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadAamcPcrsData',
+            'Tests\App\Fixture\LoadProgramYearData'
         ];
     }
 

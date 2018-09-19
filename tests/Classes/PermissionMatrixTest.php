@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class PermissionMatrixTest
- * @package Tests\AppBundle\Classes
+ * @package Tests\App\Classes
  */
 class PermissionMatrixTest extends TestCase
 {

@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class UserMaterialTest
- * @package Tests\AppBundle\Classes
+ * @package Tests\App\Classes
  * @covers \App\Classes\UserMaterial
  */
 class UserMaterialTest extends TestCase

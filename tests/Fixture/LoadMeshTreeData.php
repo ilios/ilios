@@ -26,7 +26,7 @@ class LoadMeshTreeData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\MeshTreeData')
+            ->get('Tests\App\DataLoader\MeshTreeData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshTree();
@@ -43,7 +43,7 @@ class LoadMeshTreeData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\App\Fixture\LoadMeshDescriptorData',
         );
     }
 }

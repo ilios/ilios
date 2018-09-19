@@ -19,14 +19,14 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryReportData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryExportData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventorySequenceData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadAuthenticationData',
+            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\App\Fixture\LoadCurriculumInventoryExportData',
+            'Tests\App\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Tests\App\Fixture\LoadCurriculumInventorySequenceData',
+            'Tests\App\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'Tests\App\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadAuthenticationData',
         ]);
     }
 
@@ -37,7 +37,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $curriculumInventoryExport = $client->getContainer()
-            ->get('Tests\AppBundle\DataLoader\CurriculumInventoryExportData')
+            ->get('Tests\App\DataLoader\CurriculumInventoryExportData')
             ->getOne()
         ;
 

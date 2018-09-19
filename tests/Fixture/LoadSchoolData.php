@@ -24,7 +24,7 @@ class LoadSchoolData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\SchoolData')
+            ->get('Tests\App\DataLoader\SchoolData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new School();

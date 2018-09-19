@@ -18,8 +18,8 @@ class ReportTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadReportData',
-            'Tests\AppBundle\Fixture\LoadUserData'
+            'Tests\App\Fixture\LoadReportData',
+            'Tests\App\Fixture\LoadUserData'
         ];
     }
 

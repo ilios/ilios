@@ -26,7 +26,7 @@ class LoadTermData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\TermData')
+            ->get('Tests\App\DataLoader\TermData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Term();
@@ -51,8 +51,8 @@ class LoadTermData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadVocabularyData',
-            'Tests\AppBundle\Fixture\LoadAamcResourceTypeData',
+            'Tests\App\Fixture\LoadVocabularyData',
+            'Tests\App\Fixture\LoadAamcResourceTypeData',
         );
     }
 }

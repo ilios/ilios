@@ -24,7 +24,7 @@ class LoadLearningMaterialUserRoleData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\LearningMaterialUserRoleData')
+            ->get('Tests\App\DataLoader\LearningMaterialUserRoleData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new LearningMaterialUserRole();

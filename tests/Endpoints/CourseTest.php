@@ -24,20 +24,20 @@ class CourseTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadCourseData',
-            'Tests\AppBundle\Fixture\LoadCourseClerkshipTypeData',
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadUserData',
-            'Tests\AppBundle\Fixture\LoadCohortData',
-            'Tests\AppBundle\Fixture\LoadTermData',
-            'Tests\AppBundle\Fixture\LoadObjectiveData',
-            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadSessionDescriptionData',
-            'Tests\AppBundle\Fixture\LoadOfferingData',
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadIlmSessionData',
+            'Tests\App\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadCourseClerkshipTypeData',
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadUserData',
+            'Tests\App\Fixture\LoadCohortData',
+            'Tests\App\Fixture\LoadTermData',
+            'Tests\App\Fixture\LoadObjectiveData',
+            'Tests\App\Fixture\LoadCourseLearningMaterialData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadSessionDescriptionData',
+            'Tests\App\Fixture\LoadOfferingData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadSessionLearningMaterialData',
+            'Tests\App\Fixture\LoadIlmSessionData',
         ];
     }
 

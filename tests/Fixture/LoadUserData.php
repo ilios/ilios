@@ -26,7 +26,7 @@ class LoadUserData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\UserData')
+            ->get('Tests\App\DataLoader\UserData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new User();
@@ -83,12 +83,12 @@ class LoadUserData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadCohortData',
-            'Tests\AppBundle\Fixture\LoadUserRoleData',
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadProgramData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadCohortData',
+            'Tests\App\Fixture\LoadUserRoleData',
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadProgramData',
+            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
         );
     }
 }

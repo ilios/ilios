@@ -19,10 +19,10 @@ class ProgramYearStewardTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadProgramYearStewardData',
-            'Tests\AppBundle\Fixture\LoadDepartmentData',
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadSchoolData'
+            'Tests\App\Fixture\LoadProgramYearStewardData',
+            'Tests\App\Fixture\LoadDepartmentData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadSchoolData'
         ];
     }
 

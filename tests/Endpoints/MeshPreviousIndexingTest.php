@@ -16,11 +16,11 @@ class MeshPreviousIndexingTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadMeshPreviousIndexingData',
-            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadMeshConceptData',
-            'Tests\AppBundle\Fixture\LoadMeshQualifierData',
+            'Tests\App\Fixture\LoadMeshPreviousIndexingData',
+            'Tests\App\Fixture\LoadCourseLearningMaterialData',
+            'Tests\App\Fixture\LoadSessionLearningMaterialData',
+            'Tests\App\Fixture\LoadMeshConceptData',
+            'Tests\App\Fixture\LoadMeshQualifierData',
         ];
     }
 

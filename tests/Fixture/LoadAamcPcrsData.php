@@ -24,7 +24,7 @@ class LoadAamcPcrsData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\AamcPcrsData')
+            ->get('Tests\App\DataLoader\AamcPcrsData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new AamcPcrs();

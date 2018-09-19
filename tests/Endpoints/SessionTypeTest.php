@@ -20,22 +20,22 @@ class SessionTypeTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadSessionTypeData',
-            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadAssessmentOptionData',
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadAamcMethodData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadOfferingData',
-            'Tests\AppBundle\Fixture\LoadIlmSessionData',
-            'Tests\AppBundle\Fixture\LoadCohortData',
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadProgramData',
-            'Tests\AppBundle\Fixture\LoadVocabularyData',
-            'Tests\AppBundle\Fixture\LoadTermData',
-            'Tests\AppBundle\Fixture\LoadSessionData'
+            'Tests\App\Fixture\LoadLearningMaterialData',
+            'Tests\App\Fixture\LoadSessionTypeData',
+            'Tests\App\Fixture\LoadSessionLearningMaterialData',
+            'Tests\App\Fixture\LoadCourseLearningMaterialData',
+            'Tests\App\Fixture\LoadAssessmentOptionData',
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadAamcMethodData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadOfferingData',
+            'Tests\App\Fixture\LoadIlmSessionData',
+            'Tests\App\Fixture\LoadCohortData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadProgramData',
+            'Tests\App\Fixture\LoadVocabularyData',
+            'Tests\App\Fixture\LoadTermData',
+            'Tests\App\Fixture\LoadSessionData'
         ];
     }
 

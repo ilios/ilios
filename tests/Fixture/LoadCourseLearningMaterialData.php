@@ -26,7 +26,7 @@ class LoadCourseLearningMaterialData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\CourseLearningMaterialData')
+            ->get('Tests\App\DataLoader\CourseLearningMaterialData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CourseLearningMaterial();
@@ -56,9 +56,9 @@ class LoadCourseLearningMaterialData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadCourseData',
-            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\App\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadLearningMaterialData',
+            'Tests\App\Fixture\LoadMeshDescriptorData',
         );
     }
 }

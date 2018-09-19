@@ -26,7 +26,7 @@ class LoadObjectiveData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\ObjectiveData')
+            ->get('Tests\App\DataLoader\ObjectiveData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Objective();
@@ -55,8 +55,8 @@ class LoadObjectiveData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadCompetencyData',
-            'Tests\AppBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\App\Fixture\LoadCompetencyData',
+            'Tests\App\Fixture\LoadMeshDescriptorData',
         );
     }
 }

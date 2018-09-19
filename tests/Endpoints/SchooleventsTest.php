@@ -24,12 +24,12 @@ class SchooleventsTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadOfferingData',
-            'Tests\AppBundle\Fixture\LoadIlmSessionData',
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadCourseLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\App\Fixture\LoadOfferingData',
+            'Tests\App\Fixture\LoadIlmSessionData',
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadLearningMaterialData',
+            'Tests\App\Fixture\LoadCourseLearningMaterialData',
+            'Tests\App\Fixture\LoadSessionLearningMaterialData',
         ];
     }
 

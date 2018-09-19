@@ -4,7 +4,7 @@ namespace Tests\App;
 
 /**
  * Interface PutEndpointTestInterface
- * @package Tests\AppBundle
+ * @package Tests\App
  */
 interface PutEndpointTestInterface
 {

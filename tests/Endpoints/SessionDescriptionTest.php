@@ -19,8 +19,8 @@ class SessionDescriptionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadSessionDescriptionData',
-            'Tests\AppBundle\Fixture\LoadSessionData'
+            'Tests\App\Fixture\LoadSessionDescriptionData',
+            'Tests\App\Fixture\LoadSessionData'
         ];
     }
 

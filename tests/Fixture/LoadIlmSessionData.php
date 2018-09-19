@@ -57,10 +57,10 @@ class LoadIlmSessionData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadUserData',
-            'Tests\AppBundle\Fixture\LoadInstructorGroupData',
-            'Tests\AppBundle\Fixture\LoadLearnerGroupData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadUserData',
+            'Tests\App\Fixture\LoadInstructorGroupData',
+            'Tests\App\Fixture\LoadLearnerGroupData',
+            'Tests\App\Fixture\LoadSessionData',
         );
     }
 }

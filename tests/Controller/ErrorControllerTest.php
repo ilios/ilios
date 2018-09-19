@@ -14,7 +14,7 @@ class ErrorControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Tests\AppBundle\Fixture\LoadAuthenticationData',
+            'Tests\App\Fixture\LoadAuthenticationData',
         ]);
     }
 

@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class LearnerGroupDTOVoterTest
- * @package Tests\AppBundle\RelationshipVoter
+ * @package Tests\App\RelationshipVoter
  */
 class LearnerGroupDTOVoterTest extends AbstractBase
 {

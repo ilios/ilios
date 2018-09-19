@@ -20,12 +20,12 @@ class ObjectiveTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadObjectiveData',
-            'Tests\AppBundle\Fixture\LoadCompetencyData',
-            'Tests\AppBundle\Fixture\LoadCourseData',
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadMeshDescriptorData'
+            'Tests\App\Fixture\LoadObjectiveData',
+            'Tests\App\Fixture\LoadCompetencyData',
+            'Tests\App\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadMeshDescriptorData'
         ];
     }
 

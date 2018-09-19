@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class PermissionCheckerTest
- * @package Tests\AppBundle\Service
+ * @package Tests\App\Service
  */
 class PermissionCheckerTest extends TestCase
 {

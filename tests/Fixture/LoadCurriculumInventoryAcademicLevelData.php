@@ -26,7 +26,7 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\CurriculumInventoryAcademicLevelData')
+            ->get('Tests\App\DataLoader\CurriculumInventoryAcademicLevelData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryAcademicLevel();
@@ -45,7 +45,7 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
         );
     }
 }

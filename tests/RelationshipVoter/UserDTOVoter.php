@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class UserDTOVoterTest
- * @package Tests\AppBundle\RelationshipVoter
+ * @package Tests\App\RelationshipVoter
  */
 class UserDTOVoterTest extends AbstractBase
 {

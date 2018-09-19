@@ -26,7 +26,7 @@ class LoadSessionTypeData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\SessionTypeData')
+            ->get('Tests\App\DataLoader\SessionTypeData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new SessionType();
@@ -53,9 +53,9 @@ class LoadSessionTypeData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadAamcMethodData',
-            'Tests\AppBundle\Fixture\LoadAssessmentOptionData',
-            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadAamcMethodData',
+            'Tests\App\Fixture\LoadAssessmentOptionData',
+            'Tests\App\Fixture\LoadSchoolData',
         );
     }
 }

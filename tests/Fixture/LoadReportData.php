@@ -26,7 +26,7 @@ class LoadReportData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\ReportData')
+            ->get('Tests\App\DataLoader\ReportData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Report();
@@ -56,7 +56,7 @@ class LoadReportData extends AbstractFixture implements
      */
     public function getDependencies()
     {
-        return array('Tests\AppBundle\Fixture\LoadUserData');
-        return array('Tests\AppBundle\Fixture\LoadSchoolData');
+        return array('Tests\App\Fixture\LoadUserData');
+        return array('Tests\App\Fixture\LoadSchoolData');
     }
 }

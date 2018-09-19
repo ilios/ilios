@@ -26,7 +26,7 @@ class LoadMeshTermData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\MeshTermData')
+            ->get('Tests\App\DataLoader\MeshTermData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshTerm();
@@ -50,7 +50,7 @@ class LoadMeshTermData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadMeshConceptData',
+            'Tests\App\Fixture\LoadMeshConceptData',
         );
     }
 }

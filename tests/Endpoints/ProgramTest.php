@@ -18,13 +18,13 @@ class ProgramTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadProgramData',
-            'Tests\AppBundle\Fixture\LoadTermData',
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadCourseData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryReportData'
+            'Tests\App\Fixture\LoadProgramData',
+            'Tests\App\Fixture\LoadTermData',
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadCurriculumInventoryReportData'
         ];
     }
 

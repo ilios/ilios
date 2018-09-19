@@ -24,7 +24,7 @@ class LoadAamcResourceTypeData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\AamcResourceTypeData')
+            ->get('Tests\App\DataLoader\AamcResourceTypeData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new AamcResourceType();

@@ -26,7 +26,7 @@ class LoadAlertData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\AlertData')
+            ->get('Tests\App\DataLoader\AlertData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Alert();
@@ -56,9 +56,9 @@ class LoadAlertData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadAlertChangeTypeData',
-            'Tests\AppBundle\Fixture\LoadSchoolData',
-            'Tests\AppBundle\Fixture\LoadUserData'
+            'Tests\App\Fixture\LoadAlertChangeTypeData',
+            'Tests\App\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadUserData'
         );
     }
 }

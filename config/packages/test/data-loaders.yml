@@ -5,8 +5,8 @@ services:
         autoconfigure: true
         public: true
 
-    Tests\AppBundle\DataLoader\:
+    Tests\App\DataLoader\:
         resource: '%kernel.project_dir%/tests/AppBundle/DataLoader'
 
-    Tests\AppBundle\Fixture\:
+    Tests\App\Fixture\:
         resource: '%kernel.project_dir%/tests/AppBundle/Fixture'

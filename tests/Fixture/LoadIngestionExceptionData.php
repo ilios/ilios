@@ -26,7 +26,7 @@ class LoadIngestionExceptionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\IngestionExceptionData')
+            ->get('Tests\App\DataLoader\IngestionExceptionData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new IngestionException();
@@ -43,7 +43,7 @@ class LoadIngestionExceptionData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadUserData',
+            'Tests\App\Fixture\LoadUserData',
         );
     }
 }

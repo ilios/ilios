@@ -26,7 +26,7 @@ class LoadSchoolConfigData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\SchoolConfigData')
+            ->get('Tests\App\DataLoader\SchoolConfigData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new SchoolConfig();
@@ -44,7 +44,7 @@ class LoadSchoolConfigData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadSchoolData',
         );
     }
 }

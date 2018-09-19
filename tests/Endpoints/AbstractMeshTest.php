@@ -7,7 +7,7 @@ use Tests\App\ReadEndpointTest;
 
 /**
  * Class AbstractMeshTest
- * @package Tests\AppBundle\Endpoints
+ * @package Tests\App\Endpoints
  */
 abstract class AbstractMeshTest extends ReadEndpointTest
 {

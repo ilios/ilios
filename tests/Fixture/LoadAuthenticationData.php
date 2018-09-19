@@ -26,7 +26,7 @@ class LoadAuthenticationData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\AuthenticationData')
+            ->get('Tests\App\DataLoader\AuthenticationData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Authentication();
@@ -44,7 +44,7 @@ class LoadAuthenticationData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadUserData'
+            'Tests\App\Fixture\LoadUserData'
         );
     }
 }

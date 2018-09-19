@@ -19,8 +19,8 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Tests\App\Fixture\LoadSchoolData',
         ];
     }
 

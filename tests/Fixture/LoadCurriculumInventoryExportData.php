@@ -26,7 +26,7 @@ class LoadCurriculumInventoryExportData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\CurriculumInventoryExportData')
+            ->get('Tests\App\DataLoader\CurriculumInventoryExportData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryExport();
@@ -44,9 +44,9 @@ class LoadCurriculumInventoryExportData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadUserData',
-            'Tests\AppBundle\Fixture\LoadProgramYearData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\App\Fixture\LoadUserData',
+            'Tests\App\Fixture\LoadProgramYearData',
+            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
         );
     }
 }

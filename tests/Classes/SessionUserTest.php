@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class SessionUserTest
- * @package Tests\AppBundle\Classes
+ * @package Tests\App\Classes
  */
 class SessionUserTest extends TestCase
 {

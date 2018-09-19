@@ -26,7 +26,7 @@ class LoadLearnerGroupData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\LearnerGroupData')
+            ->get('Tests\App\DataLoader\LearnerGroupData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new LearnerGroup();
@@ -61,9 +61,9 @@ class LoadLearnerGroupData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadCohortData',
-            'Tests\AppBundle\Fixture\LoadUserData',
-            'Tests\AppBundle\Fixture\LoadInstructorGroupData',
+            'Tests\App\Fixture\LoadCohortData',
+            'Tests\App\Fixture\LoadUserData',
+            'Tests\App\Fixture\LoadInstructorGroupData',
         );
     }
 }

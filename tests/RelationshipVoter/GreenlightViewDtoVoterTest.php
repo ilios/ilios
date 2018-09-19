@@ -50,7 +50,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class GreenlightViewDtoVoterTest
- * @package Tests\AppBundle\RelationshipVoter
+ * @package Tests\App\RelationshipVoter
  */
 class GreenlightViewDtoVoterTest extends AbstractBase
 {

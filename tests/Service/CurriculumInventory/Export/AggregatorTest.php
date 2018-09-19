@@ -12,7 +12,7 @@ use Mockery as m;
 
 /**
  * Class AggregatorTest
- * @package Tests\AppBundle\Service\CurriculumInventory\Export
+ * @package Tests\App\Service\CurriculumInventory\Export
  */
 class AggregatorTest extends TestCase
 {

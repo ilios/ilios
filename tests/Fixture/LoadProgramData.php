@@ -26,7 +26,7 @@ class LoadProgramData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\ProgramData')
+            ->get('Tests\App\DataLoader\ProgramData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Program();
@@ -47,7 +47,7 @@ class LoadProgramData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadSchoolData',
         );
     }
 }

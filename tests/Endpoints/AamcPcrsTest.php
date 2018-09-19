@@ -19,8 +19,8 @@ class AamcPcrsTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadAamcPcrsData',
-            'Tests\AppBundle\Fixture\LoadCompetencyData'
+            'Tests\App\Fixture\LoadAamcPcrsData',
+            'Tests\App\Fixture\LoadCompetencyData'
         ];
     }
 

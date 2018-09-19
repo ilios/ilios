@@ -19,20 +19,20 @@ class UserTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadUserData',
-            'Tests\AppBundle\Fixture\LoadAlertData',
-            'Tests\AppBundle\Fixture\LoadCourseData',
-            'Tests\AppBundle\Fixture\LoadLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadInstructorGroupData',
-            'Tests\AppBundle\Fixture\LoadLearnerGroupData',
-            'Tests\AppBundle\Fixture\LoadIlmSessionData',
-            'Tests\AppBundle\Fixture\LoadOfferingData',
-            'Tests\AppBundle\Fixture\LoadPendingUserUpdateData',
-            'Tests\AppBundle\Fixture\LoadSessionLearningMaterialData',
-            'Tests\AppBundle\Fixture\LoadReportData',
-            'Tests\AppBundle\Fixture\LoadAuthenticationData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\App\Fixture\LoadUserData',
+            'Tests\App\Fixture\LoadAlertData',
+            'Tests\App\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadLearningMaterialData',
+            'Tests\App\Fixture\LoadInstructorGroupData',
+            'Tests\App\Fixture\LoadLearnerGroupData',
+            'Tests\App\Fixture\LoadIlmSessionData',
+            'Tests\App\Fixture\LoadOfferingData',
+            'Tests\App\Fixture\LoadPendingUserUpdateData',
+            'Tests\App\Fixture\LoadSessionLearningMaterialData',
+            'Tests\App\Fixture\LoadReportData',
+            'Tests\App\Fixture\LoadAuthenticationData',
+            'Tests\App\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
         ];
     }
 

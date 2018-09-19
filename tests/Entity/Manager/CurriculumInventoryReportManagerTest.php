@@ -11,7 +11,7 @@ use Tests\App\TestCase;
 
 /**
  * Class CurriculumInventoryReportManagerTest
- * @package Tests\AppBundle\Entity\Manager
+ * @package Tests\App\Entity\Manager
  */
 class CurriculumInventoryReportManagerTest extends TestCase
 {

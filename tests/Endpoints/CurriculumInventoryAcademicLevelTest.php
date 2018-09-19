@@ -18,11 +18,11 @@ class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryReportData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryExportData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Tests\AppBundle\Fixture\LoadProgramData',
+            'Tests\App\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\App\Fixture\LoadCurriculumInventoryExportData',
+            'Tests\App\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'Tests\App\Fixture\LoadProgramData',
         ];
     }
 

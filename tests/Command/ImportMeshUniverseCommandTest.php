@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ImportMeshUniverseCommandTest
- * @package Tests\AppBundle\Command
+ * @package Tests\App\Command
  */
 class ImportMeshUniverseCommandTest extends TestCase
 {

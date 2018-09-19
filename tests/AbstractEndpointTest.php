@@ -51,7 +51,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->client->followRedirects();
 
         $authFixtures = [
-            'Tests\AppBundle\Fixture\LoadAuthenticationData',
+            'Tests\App\Fixture\LoadAuthenticationData',
         ];
         $testFixtures = $this->getFixtures();
         $fixtures = array_merge($authFixtures, $testFixtures);

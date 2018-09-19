@@ -26,7 +26,7 @@ class LoadCompetencyData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\CompetencyData')
+            ->get('Tests\App\DataLoader\CompetencyData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Competency();
@@ -52,8 +52,8 @@ class LoadCompetencyData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadAamcPcrsData',
-            'Tests\AppBundle\Fixture\LoadSchoolData',
+            'Tests\App\Fixture\LoadAamcPcrsData',
+            'Tests\App\Fixture\LoadSchoolData',
         );
     }
 }

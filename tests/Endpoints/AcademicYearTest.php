@@ -20,7 +20,7 @@ class AcademicYearTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'Tests\AppBundle\Fixture\LoadCourseData',
+            'Tests\App\Fixture\LoadCourseData',
         ];
     }
 

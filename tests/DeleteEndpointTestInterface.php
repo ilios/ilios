@@ -4,7 +4,7 @@ namespace Tests\App;
 
 /**
  * Interface DeleteEndpointTestInterface
- * @package Tests\AppBundle
+ * @package Tests\App
  */
 interface DeleteEndpointTestInterface
 {

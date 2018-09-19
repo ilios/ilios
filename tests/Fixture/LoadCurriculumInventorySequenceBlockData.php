@@ -26,7 +26,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\CurriculumInventorySequenceBlockData')
+            ->get('Tests\App\DataLoader\CurriculumInventorySequenceBlockData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequenceBlock();
@@ -68,9 +68,9 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryReportData',
-            'Tests\AppBundle\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'Tests\AppBundle\Fixture\LoadSessionData',
+            'Tests\App\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\App\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'Tests\App\Fixture\LoadSessionData',
         );
     }
 }

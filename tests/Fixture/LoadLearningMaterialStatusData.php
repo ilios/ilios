@@ -24,7 +24,7 @@ class LoadLearningMaterialStatusData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\LearningMaterialStatusData')
+            ->get('Tests\App\DataLoader\LearningMaterialStatusData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new LearningMaterialStatus();

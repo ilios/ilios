@@ -4,7 +4,7 @@ namespace Tests\App;
 
 /**
  * Trait PostEndpointTestable
- * @package Tests\AppBundle
+ * @package Tests\App
  */
 trait PostEndpointTestable
 {

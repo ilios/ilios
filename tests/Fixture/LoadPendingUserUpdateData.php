@@ -29,7 +29,7 @@ class LoadPendingUserUpdateData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\AppBundle\DataLoader\PendingUserUpdateData')
+            ->get('Tests\App\DataLoader\PendingUserUpdateData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new PendingUserUpdate();
@@ -49,7 +49,7 @@ class LoadPendingUserUpdateData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Tests\AppBundle\Fixture\LoadUserData'
+            'Tests\App\Fixture\LoadUserData'
         );
     }
 }
