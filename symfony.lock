@@ -341,6 +341,9 @@
     "symfony/inflector": {
         "version": "v4.1.4"
     },
+    "symfony/lock": {
+        "version": "v4.1.4"
+    },
     "symfony/monolog-bridge": {
         "version": "v4.1.4"
     },
