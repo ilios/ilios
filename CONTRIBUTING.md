@@ -27,7 +27,7 @@ In order to get your changes accepted you will need do:
 
 ### Running Tests
 1. vendor/bin/phpunit
-2. vendor/bin/phpcs --standard=app/phpcs.xml src
+2. vendor/bin/phpcs
 
 ### Commit Message
 

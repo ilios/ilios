@@ -15,5 +15,7 @@
     <file>public/</file>
     <file>src/</file>
     <file>tests/</file>
+    <exclude-pattern>src/Migrations/*</exclude-pattern>
+    <exclude-pattern>public/index.php</exclude-pattern>
 
 </ruleset>
