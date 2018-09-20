@@ -222,6 +222,8 @@ services:
       public: true
 
     App\Service\DataimportFileLocator:
+      arguments:
+        $kernelRootDirectory: '%kernel.root_dir%'
       public: true
 
     App\Service\Filesystem:

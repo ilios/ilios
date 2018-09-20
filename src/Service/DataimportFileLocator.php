@@ -20,15 +20,11 @@ class DataimportFileLocator
      */
     protected $fileLocator;
 
-    /**
-     * @var string Default data-files directory path.
-     */
-    const DATAIMPORT_FILE_DIR = __DIR__ . '/../Resources/dataimport';
-
-    public function __construct()
+    public function __construct($kernelRootDirectory)
     {
+        $path = realpath($kernelRootDirectory . '/../config/dataimport');
         $this->fileLocator = new FileLocator();
-        $this->setDirectoryPath(self::DATAIMPORT_FILE_DIR);
+        $this->setDirectoryPath($path);
     }
 
     /**
