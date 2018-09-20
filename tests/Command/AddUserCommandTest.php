@@ -10,16 +10,16 @@ use App\Entity\Manager\AuthenticationManager;
 use App\Entity\Manager\SchoolManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\SchoolInterface;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class AddUserCommandTest
  */
-class AddUserCommandTest extends TestCase
+class AddUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:add-user';
@@ -48,7 +48,8 @@ class AddUserCommandTest extends TestCase
             $this->encoder,
             $this->sessionUserProvider
         );
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

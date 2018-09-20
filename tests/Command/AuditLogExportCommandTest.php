@@ -5,9 +5,9 @@ namespace App\Tests\Command;
 use App\Command\AuditLogExportCommand;
 use App\Entity\Manager\AuditLogManager;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @link http://symfony.com/doc/current/cookbook/console/console_command.html#testing-commands
  * @link http://www.ardianys.com/2013/04/symfony2-test-console-command-which-use.html
  */
-class AuditLogExportCommandTest extends TestCase
+class AuditLogExportCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
@@ -37,7 +37,8 @@ class AuditLogExportCommandTest extends TestCase
     {
         $this->logger = m::mock(LoggerInterface::class);
         $this->auditLogManager = m::mock(AuditLogManager::class);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $command = new AuditLogExportCommand($this->logger, $this->auditLogManager);
         $application->add($command);
 

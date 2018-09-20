@@ -4,12 +4,13 @@ namespace App\Tests\Command;
 use App\Command\SetConfigValueCommand;
 use App\Entity\ApplicationConfig;
 use App\Entity\Manager\ApplicationConfigManager;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 
-class SetConfigValueCommandTest extends TestCase
+class SetConfigValueCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:set-config-value';
@@ -21,7 +22,8 @@ class SetConfigValueCommandTest extends TestCase
     {
         $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
         $command = new SetConfigValueCommand($this->applicationConfigManager);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

@@ -9,7 +9,7 @@ use App\Entity\Manager\SchoolManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
@@ -53,8 +53,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
             $this->encoder,
             $this->sessionUserProvider
         );
-        $kernel = $this->createKernel();
-        $kernel->boot();
+        $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);

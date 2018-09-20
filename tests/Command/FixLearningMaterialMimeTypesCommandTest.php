@@ -4,14 +4,14 @@ namespace App\Tests\Command;
 use App\Command\FixLearningMaterialMimeTypesCommand;
 use App\Entity\LearningMaterialInterface;
 use App\Entity\Manager\LearningMaterialManager;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 use App\Service\IliosFileSystem;
 use Symfony\Component\HttpFoundation\File\File;
 
-class FixLearningMaterialMimeTypesCommandTest extends TestCase
+class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:fix-mime-types';
@@ -29,7 +29,8 @@ class FixLearningMaterialMimeTypesCommandTest extends TestCase
             $this->iliosFileSystem,
             $this->learningMaterialManager
         );
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

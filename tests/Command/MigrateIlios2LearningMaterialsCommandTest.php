@@ -3,12 +3,12 @@ namespace App\Tests\Command;
 
 use App\Command\MigrateIlios2LearningMaterialsCommand;
 use App\Service\IliosFileSystem;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
-class MigrateIlios2LearningMaterialsCommandTest extends TestCase
+class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:setup:migrate-learning-materials';
@@ -28,7 +28,8 @@ class MigrateIlios2LearningMaterialsCommandTest extends TestCase
             $this->iliosFileSystem,
             $this->learningMaterialManager
         );
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

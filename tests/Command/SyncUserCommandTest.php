@@ -9,15 +9,15 @@ use App\Entity\Manager\UserManager;
 use App\Entity\PendingUserUpdateInterface;
 use App\Entity\UserInterface;
 use App\Service\Directory;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class SyncUserCommandTest
  */
-class SyncUserCommandTest extends TestCase
+class SyncUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:sync-user';
@@ -42,7 +42,8 @@ class SyncUserCommandTest extends TestCase
             $this->pendingUserUpdateManager,
             $this->directory
         );
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

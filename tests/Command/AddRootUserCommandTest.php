@@ -2,17 +2,17 @@
 namespace App\Tests\Command;
 
 use App\Command\AddRootUserCommand;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Add Root User command.
  *
  * Class AddRootUserCommandTest
  */
-class AddRootUserCommandTest extends TestCase
+class AddRootUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     /**
@@ -33,7 +33,8 @@ class AddRootUserCommandTest extends TestCase
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
 
         $command = new AddRootUserCommand($this->userManager);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(AddRootUserCommand::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

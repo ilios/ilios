@@ -4,16 +4,16 @@ namespace App\Tests\Command;
 use App\Command\RolloverCurriculumInventoryReportCommand;
 use App\Entity\CurriculumInventoryReport;
 use App\Service\CurriculumInventory\ReportRollover;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class RolloverCurriculumInventoryReportCommandTest
  */
-class RolloverCurriculumInventoryReportCommandTest extends TestCase
+class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:rollover-ci-report';
@@ -42,7 +42,8 @@ class RolloverCurriculumInventoryReportCommandTest extends TestCase
         $this->service = m::mock(ReportRollover::class);
         $this->reportManager = m::mock('App\Entity\Manager\CurriculumInventoryReportManager');
         $command = new RolloverCurriculumInventoryReportCommand($this->reportManager, $this->service);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

@@ -5,14 +5,14 @@ use App\Command\SyncFormerStudentsCommand;
 use App\Entity\Manager\UserManager;
 use App\Entity\Manager\UserRoleManager;
 use App\Service\Directory;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
-class SyncFormerStudentsCommandTest extends TestCase
+class SyncFormerStudentsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:sync-former-students';
@@ -30,7 +30,8 @@ class SyncFormerStudentsCommandTest extends TestCase
         $this->directory = m::mock(Directory::class);
         
         $command = new SyncFormerStudentsCommand($this->userManager, $this->userRoleManager, $this->directory);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

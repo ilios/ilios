@@ -3,15 +3,15 @@ namespace App\Tests\Command;
 
 use App\Command\AddDirectoryUserCommand;
 use App\Service\Directory;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class AddDirectoryUserCommandTest
  */
-class AddDirectoryUserCommandTest extends TestCase
+class AddDirectoryUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
@@ -37,7 +37,8 @@ class AddDirectoryUserCommandTest extends TestCase
             $this->schoolManager,
             $this->directory
         );
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

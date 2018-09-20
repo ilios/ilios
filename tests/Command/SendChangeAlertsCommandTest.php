@@ -25,7 +25,7 @@ use App\Entity\User;
 use App\Entity\UserInterface;
 use App\Service\Config;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
@@ -73,8 +73,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $config = m::mock(Config::class);
         $config->shouldReceive('get')->with('timezone')->andReturn($this->timezone);
 
-        $kernel = $this->createKernel();
-        $kernel->boot();
+        $kernel = self::bootKernel();
         $application = new Application($kernel);
 
         $command = new SendChangeAlertsCommand(

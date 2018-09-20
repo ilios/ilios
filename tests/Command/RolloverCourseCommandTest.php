@@ -4,16 +4,16 @@ namespace App\Tests\Command;
 use App\Command\RolloverCourseCommand;
 use App\Entity\Course;
 use App\Service\CourseRollover;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class RolloverCourseCommandTest
  */
-class RolloverCourseCommandTest extends TestCase
+class RolloverCourseCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:rollover-course';
@@ -37,7 +37,8 @@ class RolloverCourseCommandTest extends TestCase
         $this->service = m::mock(CourseRollover::class);
 
         $command = new RolloverCourseCommand($this->service);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

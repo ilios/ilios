@@ -6,16 +6,16 @@ use App\Service\Directory;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class SyncAllUsersCommandTest
  */
-class SyncAllUsersCommandTest extends TestCase
+class SyncAllUsersCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:sync-users';
@@ -43,7 +43,8 @@ class SyncAllUsersCommandTest extends TestCase
             $this->directory,
             $this->em
         );
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

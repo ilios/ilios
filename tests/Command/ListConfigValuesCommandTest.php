@@ -4,12 +4,12 @@ namespace App\Tests\Command;
 use App\Command\ListConfigValuesCommand;
 use App\Entity\ApplicationConfig;
 use App\Entity\Manager\ApplicationConfigManager;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
-class ListConfigValuesCommandTest extends TestCase
+class ListConfigValuesCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:list-config-values';
@@ -21,7 +21,8 @@ class ListConfigValuesCommandTest extends TestCase
     {
         $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
         $command = new ListConfigValuesCommand($this->applicationConfigManager);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

@@ -8,14 +8,15 @@ use App\Service\Config;
 use App\Service\Fetch;
 use App\Service\Filesystem;
 use App\Service\FinderFactory;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 
-class UpdateFrontendCommandTest extends TestCase
+class UpdateFrontendCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:update-frontend';
@@ -58,7 +59,8 @@ class UpdateFrontendCommandTest extends TestCase
             self::TEST_API_VERSION,
             'prod'
         );
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

@@ -3,16 +3,16 @@
 namespace App\Tests\Command;
 
 use App\Command\InvalidateUserTokenCommand;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use \DateTime;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class InvalidateUserTokenCommandTest
  */
-class InvalidateUserTokenCommandTest extends TestCase
+class InvalidateUserTokenCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:invalidate-user-tokens';
@@ -27,7 +27,8 @@ class InvalidateUserTokenCommandTest extends TestCase
         $this->authenticationManager = m::mock('App\Entity\Manager\AuthenticationManager');
         
         $command = new InvalidateUserTokenCommand($this->userManager, $this->authenticationManager);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

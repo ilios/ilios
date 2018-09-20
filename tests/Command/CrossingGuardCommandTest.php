@@ -3,15 +3,15 @@ namespace App\Tests\Command;
 
 use App\Command\CrossingGuardCommand;
 use App\Service\CrossingGuard;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class CrossingGuardCommandTest
  */
-class CrossingGuardCommandTest extends TestCase
+class CrossingGuardCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:crossing-guard';
@@ -26,7 +26,8 @@ class CrossingGuardCommandTest extends TestCase
         $command = new CrossingGuardCommand(
             $this->crossingGuard
         );
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

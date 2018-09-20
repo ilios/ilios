@@ -7,16 +7,16 @@ use App\Entity\Manager\SchoolManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\Manager\UserRoleManager;
 use App\Service\Directory;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class AddNewStudentsToSchoolCommandTest
  */
-class AddNewStudentsToSchoolCommandTest extends TestCase
+class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:add-students';
@@ -44,7 +44,8 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
             $this->userRoleManager,
             $this->directory
         );
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

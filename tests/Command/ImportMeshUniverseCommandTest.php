@@ -6,16 +6,16 @@ use App\Command\ImportMeshUniverseCommand;
 use App\Entity\Manager\MeshDescriptorManager;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Parser;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class ImportMeshUniverseCommandTest
  * @package App\Tests\Command
  */
-class ImportMeshUniverseCommandTest extends TestCase
+class ImportMeshUniverseCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
@@ -49,7 +49,8 @@ class ImportMeshUniverseCommandTest extends TestCase
         $this->descriptorManager = m::mock(MeshDescriptorManager::class);
 
         $command = new ImportMeshUniverseCommand($this->meshParser, $this->descriptorManager);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

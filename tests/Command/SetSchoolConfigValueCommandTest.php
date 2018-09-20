@@ -6,12 +6,12 @@ use App\Entity\Manager\SchoolManager;
 use App\Entity\SchoolConfig;
 use App\Entity\Manager\SchoolConfigManager;
 use App\Entity\SchoolInterface;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
-class SetSchoolConfigValueCommandTest extends TestCase
+class SetSchoolConfigValueCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:set-school-config-value';
@@ -25,7 +25,8 @@ class SetSchoolConfigValueCommandTest extends TestCase
         $this->schoolManager = m::mock(SchoolManager::class);
         $this->schoolConfigManager = m::mock(SchoolConfigManager::class);
         $command = new SetSchoolConfigValueCommand($this->schoolManager, $this->schoolConfigManager);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

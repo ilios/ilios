@@ -2,17 +2,17 @@
 namespace App\Tests\Command;
 
 use App\Command\RemoveRootUserCommand;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Remove Root User command.
  *
  * Class RemoveRootUserCommandTest
  */
-class RemoveRootUserCommandTest extends TestCase
+class RemoveRootUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     /**
@@ -33,7 +33,8 @@ class RemoveRootUserCommandTest extends TestCase
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
 
         $command = new RemoveRootUserCommand($this->userManager);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(RemoveRootUserCommand::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);

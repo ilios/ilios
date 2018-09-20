@@ -5,7 +5,7 @@ use App\Command\SetupAuthenticationCommand;
 use App\Entity\ApplicationConfigInterface;
 use App\Entity\Manager\ApplicationConfigManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
@@ -36,8 +36,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $command = new SetupAuthenticationCommand(
             $this->applicationConfigManager
         );
-        $kernel = $this->createKernel();
-        $kernel->boot();
+        $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);

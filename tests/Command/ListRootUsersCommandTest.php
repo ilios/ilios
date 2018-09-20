@@ -3,17 +3,17 @@ namespace App\Tests\Command;
 
 use App\Command\ListRootUsersCommand;
 use App\Entity\DTO\UserDTO;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the List Root Users command.
  *
  * Class ListRootUsersCommandTest
  */
-class ListRootUsersCommandTest extends TestCase
+class ListRootUsersCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     /**
@@ -34,7 +34,8 @@ class ListRootUsersCommandTest extends TestCase
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
 
         $command = new ListRootUsersCommand($this->userManager);
-        $application = new Application();
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(ListRootUsersCommand::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
