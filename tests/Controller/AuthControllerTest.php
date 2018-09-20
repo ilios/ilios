@@ -291,7 +291,7 @@ class AuthControllerTest extends WebTestCase
             $client,
             'get',
             $this->getUrl('ilios_authentication.token') . '?ttl=P2W',
-            [],
+            null,
             $jwt
         );
         
