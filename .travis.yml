@@ -69,7 +69,7 @@ script:
 - if [ "$TEST_PHPUNIT_API5" = true ]; then (vendor/bin/simple-phpunit -c phpunit.xml.dist --group api_5); fi
 - if [ "$TEST_EVERYTHING_ELSE" = true ]; then (bin/console doctrine:schema:validate --env=dev) fi
 - if [ "$TEST_EVERYTHING_ELSE" = true ]; then (vendor/bin/phpcs) fi
-- if [ "$TEST_EVERYTHING_ELSE" = true ]; then (bin/console security:check --end-point=http://security.sensiolabs.org/check_lock) fi
+- if [ "$TEST_EVERYTHING_ELSE" = true ]; then (bin/console security:check) fi
 - if [ "$TEST_EVERYTHING_ELSE" = true ]; then (vendor/bin/simple-phpunit -c phpunit.xml.dist --exclude-group api_1,api_2,api_3,api_4,api_5) fi
 - if [ "$TEST_CONTAINER_BUILD" = true ]; then (docker build -t ilios-php-apache-test .) fi
 - if [ "$TEST_CONTAINER_BUILD" = true ]; then (docker run -d --name ilios-php-apache-test ilios-php-apache-test) fi

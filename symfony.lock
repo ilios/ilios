@@ -14,6 +14,9 @@
     "clue/stream-filter": {
         "version": "v1.4.0"
     },
+    "composer/ca-bundle": {
+        "version": "1.1.2"
+    },
     "danielstjules/stringy": {
         "version": "3.1.0"
     },
@@ -250,6 +253,15 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "sensiolabs/security-checker": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "421933bf8f0e75546ac8e00cb3eb12904fa2ac1a"
+        }
     },
     "squizlabs/php_codesniffer": {
         "version": "3.0",
