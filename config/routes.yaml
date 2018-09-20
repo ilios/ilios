@@ -1,3 +1,600 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+ilios_authentication.login:
+  path:     /auth/login
+  defaults: { _controller: App\Controller\Auth::login }
+ilios_authentication.logout:
+  path:     /auth/logout
+  defaults: { _controller: App\Controller\Auth::logout }
+ilios_authentication.whoami:
+  path:     /auth/whoami
+  defaults: { _controller: App\Controller\Auth::whoami }
+ilios_authentication.token:
+  path:     /auth/token
+  defaults: { _controller: App\Controller\Auth::token }
+ilios_authentication.invalidate_tokens:
+  path:     /auth/invalidatetokens
+  defaults: { _controller: App\Controller\Auth::invalidateTokens }
+
+ilios_apiinfo:
+  path: /api
+  defaults:
+    _controller: FrameworkBundle:Template:template
+    template:    'apiinfo.html.twig'
+    _format:     'html'
+
+ilios_uploadfile:
+  path: /upload
+  defaults:  { _controller: App\Controller\Upload::upload }
+
+ilios_downloadlearningmaterial:
+  path:     /lm/{token}
+  defaults:
+    _controller: App\Controller\Download::learningMaterial
+  requirements:
+    token: '^[a-zA-Z0-9]{64}$'
+
+ilios_downloadcurriculuminventoryreport:
+  path:     /ci-report-dl/{token}
+  defaults:
+    _controller: App\Controller\CurriculumInventoryDownload::get
+  requirements:
+    token: '^[a-zA-Z0-9]{64}$'
+
+_monitor:
+  resource: "@LiipMonitorBundle/Resources/config/routing.xml"
+  prefix: /ilios/health
+
+ilios_swagger_index:
+  path:     /api/doc/
+  defaults: { _controller: App\Controller\SwaggerDocs::index }
+  methods:  [GET]
+
+ilios_swagger_file:
+  path:     /api/doc/swagger.yml
+  defaults: { _controller: App\Controller\SwaggerDocs::yaml }
+  methods:  [GET]
+
+ilios_swagger_ui:
+  path:     /api/doc/{fileName}
+  requirements:
+    fileName: .*
+  defaults: { _controller: App\Controller\SwaggerDocs::ui }
+  methods:  [GET]
+
+ilios_api_currentsession:
+  path:     /api/{version}/currentsession
+  defaults: { _controller: App\Controller\CurrentSession::get }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+
+ilios_api_academicyear_get:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\AcademicYear::get }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'academicyears'
+    id: '\d+'
+
+ilios_api_getallacademicyears:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\AcademicYear::getAll }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'academicyears'
+
+ilios_api_academicyear_404:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\AcademicYear::fourOhFour, id: 0 }
+  methods:  [POST, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'academicyears'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_schoolevents:
+  path:     /api/{version}/schoolevents/{id}
+  defaults: { _controller: App\Controller\Schoolevent::get }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    id: '\d+'
+
+ilios_api_userevents:
+  path:     /api/{version}/userevents/{id}
+  defaults: { _controller: App\Controller\Userevent::get }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    id: '\d+'
+
+ilios_api_usermaterials:
+  path:     /api/{version}/usermaterials/{id}
+  defaults: { _controller: App\Controller\Usermaterial::get }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    id: '\d+'
+
+ilios_api_learningmaterial_get:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\LearningMaterial::get }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'learningmaterials'
+    id: '\d+'
+
+ilios_api_learningmaterials_getall:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\LearningMaterial::getAll }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'learningmaterials'
+
+ilios_api_learningmaterials_post:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\LearningMaterial::post }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'learningmaterials'
+
+ilios_api_learningmaterial_put:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\LearningMaterial::put }
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'learningmaterials'
+    id: '\d+'
+
+ilios_api_getallsessions:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\Sessions::getAll }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'sessions'
+
+ilios_api_getallcourses:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\Courses::getAll }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'courses'
+
+ilios_api_courses_put:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\Courses::put }
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: "courses"
+    id: '\d+'
+
+ilios_api_courserollover:
+  path:     /api/{version}/{object}/{id}/rollover
+  defaults: { _controller: App\Controller\Courses::rollover }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'courses'
+    id: '\d+'
+
+ilios_api_getallusers:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\Users::getAll }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'users'
+
+ilios_api_user_put:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\Users::put }
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'users'
+    id: '\d+'
+
+ilios_api_user_post:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\Users::post }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'users'
+
+ilios_api_authentication_get:
+  path:     /api/{version}/{object}/{userId}
+  defaults: { _controller: App\Controller\Authentication::get }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'authentications'
+    userId: '\d+'
+
+ilios_api_authentication_put:
+  path:     /api/{version}/{object}/{userId}
+  defaults: { _controller: App\Controller\Authentication::put }
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'authentications'
+    userId: '\d+'
+
+ilios_api_authentication_post:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\Authentication::post }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'authentications'
+
+ilios_api_authentication_delete:
+  path:     /api/{version}/{object}/{userId}
+  defaults: { _controller: App\Controller\Authentication::delete }
+  methods:  [DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'authentications'
+    userId: '\d+'
+
+ilios_api_curriculuminventoryexport_post:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\CurriculumInventoryExport::post }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventoryexports'
+
+ilios_api_curriculuminventoryexport_404:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\CurriculumInventoryExport::fourOhFour, id: 0 }
+  methods:  [GET, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventoryexports'
+
+ilios_api_curriculuminventoryreport_getall:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\CurriculumInventoryReport::getAll }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventoryreports'
+
+ilios_api_curriculuminventoryreport_get:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\CurriculumInventoryReport::get }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventoryreports'
+    id: '\d+'
+
+ilios_api_curriculuminventoryreport_post:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\CurriculumInventoryReport::post }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventoryreports'
+
+ilios_api_curriculuminventoryreport_put:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\CurriculumInventoryReport::put }
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventoryreports'
+    id: '\d+'
+
+ilios_api_curriculuminventoryreport_rollover:
+  path:     /api/{version}/{object}/{id}/rollover
+  defaults: { _controller: App\Controller\CurriculumInventoryReport::rollover }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventoryreports'
+    id: '\d+'
+
+ilios_api_curriculuminventorysequenceblock_post:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\CurriculumInventorySequenceBlock::post }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventorysequenceblocks'
+
+ilios_api_curriculuminventorysequenceblock_put:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\CurriculumInventorySequenceBlock::put }
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventorysequenceblocks'
+    id: '\d+'
+
+ilios_api_curriculuminventorysequenceblock_delete:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\CurriculumInventorySequenceBlock::delete }
+  methods:  [DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventorysequenceblocks'
+    id: '\d+'
+
+ilios_api_cohort_put:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\Cohort::put }
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'cohorts'
+    id: '\d+'
+
+ilios_api_cohort_410:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\Cohort::fourTen, id: 0 }
+  methods:  [POST, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'cohorts'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_ingestionexception_getall:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\IngestionException::getAll }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'ingestionExceptions'
+
+ilios_ingestionexception_api_get:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\IngestionException::get }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: "ingestionexceptions"
+    id: '\d+'
+
+ilios_api_ingestionexception_404:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\IngestionException::fourOhFour, id: 0 }
+  methods:  [POST, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'ingestionexceptions'
+    id: '\d+'
+
+ilios_api_meshconcepts_410:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\MeshConcept::fourTen, id: 0 }
+  methods:  [POST, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'meshconcepts'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_meshdescriptors_getall:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\MeshDescriptor::getAll }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'meshdescriptors'
+
+ilios_api_meshdescriptors_410:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\MeshDescriptor::fourTen, id: 0 }
+  methods:  [POST, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'meshdescriptors'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_meshpreviousindexings_410:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\MeshPreviousIndexing::fourTen, id: 0 }
+  methods:  [POST, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'meshpreviousindexings'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_meshqualifiers_410:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\MeshQualifier::fourTen, id: 0 }
+  methods:  [POST, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'meshqualifiers'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_meshterms_410:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\MeshTerm::fourTen, id: 0 }
+  methods:  [POST, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'meshterms'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_meshtrees_410:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\MeshTree::fourTen, id: 0 }
+  methods:  [POST, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'meshtrees'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_permissions_410:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\Permission::fourTen, id: 0 }
+  methods:  [GET, POST, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'permissions'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_programyears_post:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\ProgramYear::post }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'programyears'
+
+ilios_api_offerings_put:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\Offering::put }
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: "offerings"
+    id: '\d+'
+
+ilios_api_offerings_post:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\Offering::post }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'offerings'
+
+ilios_api_programyears_put:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\ProgramYear::put }
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: "programyears"
+    id: '\d+'
+
+ilios_api_programyears_downloadobjectivesmapping:
+  path: /{version}/{object}/{id}/downloadobjectivesmapping
+  defaults: { _controller: App\Controller\ProgramYear::downloadCourseObjectivesReport, id: 0 }
+  methods: [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'programyears'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_usermadereminders_410:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\UserMadeReminder::fourTen, id: 0 }
+  methods:  [GET, POST, PUT, DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'usermadereminders'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_get:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\Api::get }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: '[a-z]+'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_getall:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\Api::getAll }
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: '[a-z]+'
+
+ilios_api_post:
+  path:     /api/{version}/{object}
+  defaults: { _controller: App\Controller\Api::post }
+  methods:  [POST]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: '[a-z]+'
+
+ilios_api_put:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\Api::put }
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: '[a-z]+'
+    id: '(?i)[a-z0-9\-]+'
+
+ilios_api_delete:
+  path:     /api/{version}/{object}/{id}
+  defaults: { _controller: App\Controller\Api::delete }
+  methods:  [DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: '[a-z]+'
+    id: '(?i)[a-z0-9\-]+'
+
+api_bad_request:
+  path:     /api/{url}
+  defaults:
+    url: null
+    _controller: App\Controller\BadRequest::index
+  requirements:
+    url: ".+"
+
+ilios_web_ics:
+  path:     /ics/{key}
+  defaults:
+    _controller: App\Controller\Ics::index
+  requirements:
+    key: "^[a-zA-Z0-9]{64}$"
+ilios_web_config:
+  path:     /application/config
+  defaults:
+    _controller: App\Controller\Config::index
+  methods: [GET]
+ilios_web_errors:
+  path:     /errors
+  defaults:
+    _controller: App\Controller\Error::error
+  methods:  [POST]
+ilios_web_directory_search:
+  path:     /application/directory/search
+  defaults:
+    _controller: App\Controller\Directory::search
+  methods: [GET]
+ilios_web_directory_find:
+  path:     /application/directory/find/{id}
+  defaults:
+    _controller: App\Controller\Directory::find
+  methods: [GET]
+  requirements:
+    key: '\d+'
+ilios_web_sw_registraton_js:
+  path:     /sw-registration.js
+  defaults:
+    fileName: sw-registration.js
+    _controller: App\Controller\Index::get
+  requirements:
+    fileName: ".+"
+ilios_web_sw_js:
+  path:     /sw.js
+  defaults:
+    fileName: sw.js
+    _controller: App\Controller\Index::get
+  requirements:
+    fileName: ".+"
+ilios_web_assets:
+  path:     /{fileName}
+  defaults:
+    fileName: null
+    versionedStaticFile: true
+    _controller: App\Controller\Index::get
+  requirements:
+    fileName: ".+"
