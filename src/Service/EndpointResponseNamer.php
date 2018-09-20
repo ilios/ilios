@@ -28,7 +28,7 @@ class EndpointResponseNamer
      */
     public function __construct(KernelInterface $kernel)
     {
-        $this->pathToEntities = $kernel->locateResource('App/Entity');
+        $this->pathToEntities = $kernel->getRootDir() . '/Entity';
     }
 
     /**
