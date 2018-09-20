@@ -1,9 +1,8 @@
 <?php
 namespace App\Tests\Command;
 
-use Alchemy\Zippy\Archive\ArchiveInterface;
-use Alchemy\Zippy\Zippy;
 use App\Command\UpdateFrontendCommand;
+use App\Service\Archive;
 use App\Service\Config;
 use App\Service\Fetch;
 use App\Service\Filesystem;
@@ -13,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 
 class UpdateFrontendCommandTest extends KernelTestCase
@@ -26,7 +24,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
     protected $fetch;
     protected $fs;
     protected $config;
-    protected $zippy;
+    protected $archive;
     protected $finder;
     protected $fakeCacheFileDir;
     protected $fakeProjectFileDir;
@@ -45,15 +43,15 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $this->fetch = m::mock(Fetch::class);
         $this->fs = m::mock(Filesystem::class);
         $this->config = m::mock(Config::class);
+        $this->archive = m::mock(Archive::class);
         $this->fs->shouldReceive('mkdir')->times(3)->andReturn(true);
-        $this->zippy = m::mock(Zippy::class);
         $this->finderFactory = m::mock(FinderFactory::class);
         $this->finder = m::mock(Finder::class);
         $command = new UpdateFrontendCommand(
             $this->fetch,
             $this->fs,
             $this->config,
-            $this->zippy,
+            $this->archive,
             $this->fakeCacheFileDir,
             $this->fakeProjectFileDir,
             self::TEST_API_VERSION,
@@ -78,7 +76,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         unset($this->fetch);
         unset($this->fs);
         unset($this->config);
-        unset($this->zippy);
+        unset($this->archive);
         unset($this->finder);
     }
     
@@ -98,9 +96,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $archivePath = join(DIRECTORY_SEPARATOR, $parts);
 
         $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
-        $archive = m::mock(ArchiveInterface::class);
-        $archive->shouldReceive('extract')->once()->with($archiveDir);
-        $this->zippy->shouldReceive('open')->once()->with($archivePath)->andReturn($archive);
+        $this->archive->shouldReceive('extract')->once()->with($archivePath, $archiveDir);
 
         $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
         $this->fs->shouldReceive('remove')->once()->with($frontendPath);
@@ -134,9 +130,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $archivePath = join(DIRECTORY_SEPARATOR, $parts);
 
         $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
-        $archive = m::mock(ArchiveInterface::class);
-        $archive->shouldReceive('extract')->once()->with($archiveDir);
-        $this->zippy->shouldReceive('open')->once()->with($archivePath)->andReturn($archive);
+        $this->archive->shouldReceive('extract')->once()->with($archivePath, $archiveDir);
 
         $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
         $this->fs->shouldReceive('remove')->once()->with($frontendPath);
@@ -172,9 +166,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $archivePath = join(DIRECTORY_SEPARATOR, $parts);
 
         $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
-        $archive = m::mock(ArchiveInterface::class);
-        $archive->shouldReceive('extract')->once()->with($archiveDir);
-        $this->zippy->shouldReceive('open')->once()->with($archivePath)->andReturn($archive);
+        $this->archive->shouldReceive('extract')->once()->with($archivePath, $archiveDir);
 
         $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
         $this->fs->shouldReceive('remove')->once()->with($frontendPath);

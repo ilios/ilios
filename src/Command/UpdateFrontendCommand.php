@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Service\Archive;
 use App\Service\Config;
 use App\Service\Fetch;
 use Symfony\Component\Console\Command\Command;
@@ -55,6 +56,11 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     protected $cacheDir;
 
     /**
+     * @var Archive
+     */
+    private $archive;
+
+    /**
      * @var string
      */
     protected $productionTemporaryFileStore;
@@ -78,6 +84,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         Fetch $fetch,
         Filesystem $fs,
         Config $config,
+        Archive $archive,
         $kernelCacheDir,
         $kernelProjectDir,
         $apiVersion,
@@ -86,6 +93,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->fetch = $fetch;
         $this->fs = $fs;
         $this->config = $config;
+        $this->archive = $archive;
         $this->cacheDir = $kernelCacheDir;
         $this->apiVersion = $apiVersion;
         $this->environment = $environment;
@@ -200,8 +208,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 
         $this->fs->dumpFile($archivePath, $string);
 
-        $phar = new \PharData($archivePath);
-        $phar->extractTo($archiveDir);
+        $this->archive::extract($archivePath, $archiveDir);
         $frontendPath = $this->cacheDir . self::FRONTEND_DIRECTORY;
         $this->fs->remove($frontendPath);
         $this->fs->rename($archiveDir . self::UNPACKED_DIRECTORY, $frontendPath);
