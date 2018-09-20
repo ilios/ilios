@@ -102,6 +102,8 @@ class RolloverCourseCommandTest extends KernelTestCase
             'ansi' => false,
             'no-ansi' => false,
             'no-interaction' => false,
+            'env' => 'test',
+            'no-debug' => false,
         );
 
         $this->service
@@ -135,6 +137,8 @@ class RolloverCourseCommandTest extends KernelTestCase
             'ansi' => false,
             'no-ansi' => false,
             'no-interaction' => false,
+            'env' => 'test',
+            'no-debug' => false,
         );
 
         $courseId  = '1';
