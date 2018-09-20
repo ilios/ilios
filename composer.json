@@ -42,6 +42,7 @@
     "symfony/templating": "*",
     "symfony/twig-bundle": "*",
     "symfony/validator": "*",
+    "symfony/web-link": "*",
     "symfony/yaml": "*"
   },
   "require-dev": {

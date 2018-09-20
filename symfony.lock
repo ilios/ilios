@@ -125,6 +125,9 @@
     "ezyang/htmlpurifier": {
         "version": "v4.10.0"
     },
+    "fig/link-util": {
+        "version": "1.0.0"
+    },
     "firebase/php-jwt": {
         "version": "v5.0.0"
     },
@@ -238,6 +241,9 @@
     },
     "psr/http-message": {
         "version": "1.0.1"
+    },
+    "psr/link": {
+        "version": "1.0.0"
     },
     "psr/log": {
         "version": "1.0.0"
@@ -468,6 +474,9 @@
         }
     },
     "symfony/var-dumper": {
+        "version": "v4.1.4"
+    },
+    "symfony/web-link": {
         "version": "v4.1.4"
     },
     "symfony/web-profiler-bundle": {
