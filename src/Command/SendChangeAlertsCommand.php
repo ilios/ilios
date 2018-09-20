@@ -185,8 +185,7 @@ class SendChangeAlertsCommand extends Command
                 'timezone' => $timezone,
             ]);
 
-            $message = \Swift_Message::newInstance()
-                ->setSubject($subject)
+            $message = (new \Swift_Message($subject))
                 ->setTo($recipients)
                 ->setFrom($school->getIliosAdministratorEmail())
                 ->setContentType('text/plain')
