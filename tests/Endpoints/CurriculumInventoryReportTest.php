@@ -382,7 +382,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
                 [
                     'version' => 'v1',
                     'object' => 'curriculuminventoryreports',
-                    'id' => '-1',
+                    'id' => '100',
                 ]
             ),
             null,
