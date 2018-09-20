@@ -154,10 +154,10 @@ RUN \
     /var/www/ilios/var/tmp \
     /var/www/ilios/vendor \
     # set up logging to STDOUT for production
-    && sed -i -e 's|type:.*fingers_crossed|type:         error_log|g' /var/www/ilios/app/config/config_prod.yml \
-    && sed -i -e 's|action_level:.*error|action_level: debug|g' /var/www/ilios/app/config/config_prod.yml \
+    && sed -i -e 's|type:.*fingers_crossed|type:         error_log|g' /var/www/ilios/config/packages/prod/monolog.yaml \
+    && sed -i -e 's|action_level:.*error|action_level: debug|g' /var/www/ilios/config/packages/prod/monolog.yaml \
     && sed -i -e "s|path:.*'%kernel.logs_dir%/%kernel.environment%.log'|path:  \"php://stdout\"|g" \
-        /var/www/ilios/app/config/config_prod.yml \
+        /var/www/ilios/config/packages/prod/monolog.yaml \
     # recursively change user/group ownership of the app root to 'www-data'
     && chown -R www-data:www-data /var/www/ilios \
     # give the www-data user a temporary shell in order to build the Ilios app
