@@ -9,8 +9,6 @@ liip_monitor:
             "7.2": ">="
         readable_directory: ["%kernel.cache_dir%"]
         writable_directory: ["%kernel.cache_dir%"]
-        disk_usage:
-            path: '%env(ILIOS_FILE_SYSTEM_STORAGE_PATH)%'
         security_advisory:
       production:
         doctrine_dbal: [default]
