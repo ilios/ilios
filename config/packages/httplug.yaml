@@ -1,0 +1,10 @@
+httplug:
+  plugins:
+    logger: ~
+  clients:
+    ga:
+      factory: 'httplug.factory.guzzle6'
+      plugins: ['httplug.plugin.logger']
+      config:
+        verify: true
+        timeout: 10

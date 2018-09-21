@@ -19,3 +19,24 @@
 sauce_connect.log
 FakeTestFiles
 .env
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/framework-bundle ###
+/.env
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###

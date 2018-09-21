@@ -5,8 +5,8 @@ services:
     web:
         image: ilios/php-apache-dev
         environment:
-            - ILIOS_API_ENVIRONMENT=dev
-            - ILIOS_API_DEBUG=true
+            - AP_ENV=dev
+            - APP_DEBUG=true
             - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios
             - ILIOS_REQUIRE_SECURE_CONNECTION=false
         ports:

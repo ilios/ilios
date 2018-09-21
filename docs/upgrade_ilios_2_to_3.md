@@ -23,7 +23,7 @@ mysqldump -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_HOSTNAME -R -p YOUR_ILIO
 3. Backup your current database completely! (Yes, this was just mentioned, but it's extremely important that you do not run this update on your production database without a backup!) 
 4. Check your current Ilios installation's 'version.php' file to verify that you are currently running version 2.4.8 of the Ilios software.  If you are not running version *2.4.8* specifically , you will need to upgrade to 2.4.8 *BEFORE* continuing with these steps!
 5. Checkout the most current release of the Ilios 3 codebase from https://github.com/ilios/ilios/releases (using '/web/ilios3/ilios' for this example)
-6. In the newly-checked out directory, navigate to the 'app/Resources' folder where you will find the [updateSchemaFromIlios2toIlios3.sql](https://github.com/ilios/ilios/blob/master/app/Resources/updateSchemaFromIlios2toIlios3.sql) file.
+6. In the newly-checked out directory, navigate to the 'app/Resources' folder where you will find the [updateSchemaFromIlios2toIlios3.sql](https://github.com/ilios/ilios/blob/master/sql/updateSchemaFromIlios2toIlios3.sql) file.
 7. Backup your current database completely! (<= That's the 3rd time we've said it! It's probably pretty important!)
 8. Apply the sql changes from updateSchemaFromIlios2toIlios3.sql to your database by using the mysql command line client as follows:
 

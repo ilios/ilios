@@ -1,0 +1,24 @@
+parameters:
+    # Fallback Values
+    env(ILIOS_DATABASE_URL):
+    env(ILIOS_DATABASE_MYSQL_VERSION): '5.7'
+
+doctrine:
+    dbal:
+        # configure these for your database server
+        driver: 'pdo_mysql'
+        charset: utf8mb4
+        default_table_options:
+            charset: utf8mb4
+            collate: utf8mb4_unicode_ci
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.default
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App

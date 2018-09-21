@@ -1,0 +1,35 @@
+doctrine:
+    dbal:
+        url: '%env(ILIOS_DATABASE_URL)%'
+        driver:   'pdo_mysql'
+        server_version: '%env(ILIOS_DATABASE_MYSQL_VERSION)%'
+    orm:
+        metadata_cache_driver:
+            type: service
+            id: ilios.cache
+        query_cache_driver:
+            type: service
+            id: ilios.cache
+        result_cache_driver:
+            type: service
+            id: ilios.cache
+
+services:
+    doctrine.result_cache_provider:
+        class: Symfony\Component\Cache\DoctrineProvider
+        public: false
+        arguments:
+            - '@doctrine.result_cache_pool'
+    doctrine.system_cache_provider:
+        class: Symfony\Component\Cache\DoctrineProvider
+        public: false
+        arguments:
+            - '@doctrine.system_cache_pool'
+
+framework:
+    cache:
+        pools:
+            doctrine.result_cache_pool:
+                adapter: cache.app
+            doctrine.system_cache_pool:
+                adapter: cache.system

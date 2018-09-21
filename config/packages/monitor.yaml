@@ -1,0 +1,17 @@
+liip_monitor:
+  enable_controller: true
+  default_group: default
+  checks:
+    groups:
+      default:
+        php_extensions: [apcu, mbstring, ldap, xml, dom, mysqlnd, pdo, zip, json, zlib]
+        php_version:
+            "7.2": ">="
+        readable_directory: ["%kernel.cache_dir%"]
+        writable_directory: ["%kernel.cache_dir%"]
+        security_advisory:
+      production:
+        doctrine_dbal: [default]
+        doctrine_migrations:
+            migrations_with_doctrine_bundle:
+              connection: default

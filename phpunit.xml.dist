@@ -2,18 +2,35 @@
 
 <!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.5/phpunit.xsd"
          backupGlobals="false"
          colors="true"
          bootstrap="vendor/autoload.php"
 >
     <php>
         <ini name="error_reporting" value="-1" />
-        <server name="KERNEL_CLASS" value="AppKernel" />
+        <env name="KERNEL_CLASS" value="App\Kernel" />
+        <env name="APP_DEBUG" value="1" />
+        <env name="SHELL_VERBOSITY" value="-1" />
         <server name="ILIOS_ENABLE_TRACKING" value="0" />
         <server name="ILIOS_FILE_SYSTEM_STORAGE_PATH" value="/tmp" />
         <server name="ILIOS_AUTHENTICATION_TYPE" value="form" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak_vendors" />
+
+
+        <!-- ###+ nelmio/cors-bundle ### -->
+        <env name="CORS_ALLOW_ORIGIN" value="^https?://localhost(:[0-9]+)?$"/>
+        <!-- ###- nelmio/cors-bundle ### -->
+
+        <!-- ###+ symfony/swiftmailer-bundle ### -->
+        <!-- Delivery is disabled by default via "null://localhost" -->
+        <env name="MAILER_URL" value="null://localhost"/>
+        <!-- ###- symfony/swiftmailer-bundle ### -->
+
+        <!-- ###+ symfony/framework-bundle ### -->
+        <env name="APP_ENV" value="test"/>
+        <env name="ILIOS_SECRET" value="thereAreNoSecretsHere"/>
+        <!-- ###- symfony/framework-bundle ### -->
     </php>
 
     <testsuites>
@@ -31,11 +48,10 @@
     <filter>
         <whitelist>
             <directory>src</directory>
-            <exclude>
-                <directory>src/*Bundle/Resources</directory>
-                <directory>src/*/*Bundle/Resources</directory>
-                <directory>src/*/Bundle/*Bundle/Resources</directory>
-            </exclude>
         </whitelist>
     </filter>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
 </phpunit>

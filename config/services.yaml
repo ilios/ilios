@@ -1,0 +1,287 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+imports:
+- { resource: services/virtual-managers.yaml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    ilios_api_version: v1.34
+    ilios_api_valid_endpoints: >-
+      aamcmethods,aamcpcrses,aamcresourcetypes,academicyears,applicationconfigs,assessmentoptions,authentications,
+      cohorts,competencies,courses,courseclerkshiptypes,courselearningmaterials,curriculuminventoryacademiclevels,curriculuminventoryexports,
+      curriculuminventoryinstitutions,curriculuminventorysequenceblocks,curriculuminventorysequences,curriculuminventoryreports,
+      departments,ilmsessions,ingestionexceptions,instructorgroups,learnergroups,learningmaterials,learningmaterialstatuses,learningmaterialuserroles,
+      meshconcepts,meshdescriptors,meshterms,meshpreviousindexings,meshqualifiers,meshterms,meshtrees,
+      objectives,offerings,pendinguserupdates,permissions,programs,programyears,programyearstewards,reports,
+      sessionlearningmaterials,sessiondescriptions,sessionlearningmaterials,sessions,sessiontypes,schoolconfigs,schools,
+      terms,usermadereminders,userroles,users,vocabularies
+    ilios_api_valid_api_versions: 'v1'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,App}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    Ilios\MeSH\Parser:
+
+    Alchemy\Zippy\Zippy:
+        factory: ['Alchemy\Zippy\Zippy', 'load']
+
+    App\Entity\Manager\:
+      resource: '../src/Entity/Manager'
+
+    App\Controller\ExceptionController:
+      public: true
+      arguments:
+        $environment: '%kernel.environment%'
+
+    App\Controller\SwaggerDocsController:
+      public: true
+      arguments:
+        $kernelRootDir: '%kernel.root_dir%'
+
+    App\Command\UpdateFrontendCommand:
+      arguments:
+        $kernelCacheDir: '%kernel.cache_dir%'
+        $kernelProjectDir: '%kernel.project_dir%'
+        $apiVersion: '%ilios_api_version%'
+        $environment: '%kernel.environment%'
+
+    App\Entity\Manager\AlertManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\Alert'
+    App\Entity\Manager\AlertChangeTypeManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\AlertChangeType'
+    App\Entity\Manager\ApplicationConfigManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\ApplicationConfig'
+    App\Entity\Manager\AuditLogManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\AuditLog'
+    App\Entity\Manager\AuthenticationManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\Authentication'
+    App\Entity\Manager\CohortManager:
+      public: true
+      class: App\Entity\Manager\CohortManager
+      arguments:
+        $class: 'App\Entity\Cohort'
+    App\Entity\Manager\CourseManager:
+      public: true
+      class: App\Entity\Manager\CourseManager
+      arguments:
+        $class: 'App\Entity\Course'
+    App\Entity\Manager\CourseLearningMaterialManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\CourseLearningMaterial'
+    App\Entity\Manager\CurriculumInventoryAcademicLevelManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\CurriculumInventoryAcademicLevel'
+    App\Entity\Manager\CurriculumInventoryExportManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\CurriculumInventoryExport'
+    App\Entity\Manager\CurriculumInventoryInstitutionManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\CurriculumInventoryInstitution'
+    App\Entity\Manager\CurriculumInventoryReportManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\CurriculumInventoryReport'
+    App\Entity\Manager\CurriculumInventorySequenceBlockManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\CurriculumInventorySequenceBlock'
+    App\Entity\Manager\CurriculumInventorySequenceManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\CurriculumInventorySequence'
+    App\Entity\Manager\IlmSessionManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\IlmSession'
+    App\Entity\Manager\LearningMaterialManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\LearningMaterial'
+    App\Entity\Manager\MeshDescriptorManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\MeshDescriptor'
+    App\Entity\Manager\ObjectiveManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\Objective'
+    App\Entity\Manager\OfferingManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\Offering'
+    App\Entity\Manager\PendingUserUpdateManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\PendingUserUpdate'
+    App\Entity\Manager\ProgramYearManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\ProgramYear'
+    App\Entity\Manager\ProgramYearStewardManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\ProgramYearSteward'
+    App\Entity\Manager\SchoolConfigManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\SchoolConfig'
+    App\Entity\Manager\SchoolManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\School'
+    App\Entity\Manager\SessionManager:
+      public: true
+      class: App\Entity\Manager\SessionManager
+      arguments:
+        $class: 'App\Entity\Session'
+    App\Entity\Manager\SessionDescriptionManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\SessionDescription'
+    App\Entity\Manager\SessionLearningMaterialManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\SessionLearningMaterial'
+    App\Entity\Manager\UserManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\User'
+    App\Entity\Manager\UserRoleManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\UserRole'
+
+    App\EventListener\LogEntityChanges:
+      tags:
+      - { name: doctrine.event_listener, event: onFlush }
+      calls:
+      - [ setContainer, ['@service_container'] ]
+
+    App\EventListener\TrackApiUsageListener:
+      tags:
+      - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    App\EventListener\TimestampEntityChanges:
+      tags:
+      - { name: doctrine.event_listener, event: onFlush }
+
+    App\EventListener\RemoveOrphanedObjectives:
+      tags:
+      - { name: doctrine.event_listener, event: onFlush }
+
+    App\EventListener\ValidApiObjectListener:
+      arguments:
+        $validApiObjects: '%ilios_api_valid_endpoints%'
+      tags: [{ name: kernel.event_listener, event: kernel.controller, method: onKernelController }]
+
+    ilios.cache:
+      class: 'Doctrine\Common\Cache\Cache'
+      factory: ['App\Service\CacheFactory', 'createCache']
+      arguments:
+        $environment: '%kernel.environment%'
+
+    App\Service\EntityMetadata:
+      arguments:
+        $cache: '@ilios.cache'
+
+    App\Service\Config:
+      public: true
+
+    App\Service\DataimportFileLocator:
+      arguments:
+        $kernelRootDirectory: '%kernel.root_dir%'
+      public: true
+
+    App\Service\Filesystem:
+      public: true
+
+    App\Service\Directory:
+      public: true
+
+    App\Service\TemporaryFileSystem:
+      arguments:
+        $kernelRootDirectory: '%kernel.root_dir%'
+
+    App\Service\LoggerQueue:
+      public: true
+      tags:
+      - { name: kernel.event_listener, event: kernel.response, method: flush }
+      - { name: kernel.event_listener, event: console.terminate, method: flush }
+
+    App\Service\CurriculumInventoryReportDecoratorFactory:
+      arguments:
+        $decoratorClassName: '\App\Classes\CurriculumInventoryReportDecorator'
+
+    App\Service\Timestamper:
+      tags:
+      - { name: kernel.event_listener, event: kernel.response, method: flush }
+      - { name: kernel.event_listener, event: console.terminate, method: flush }
+
+    App\Service\UserMaterialFactory:
+      arguments:
+        $decoratorClassName: '\App\Classes\UserMaterial'
+
+    App\Service\CrossingGuard:
+      tags:
+      - { name: kernel.event_listener, event: kernel.request, priority: 256 }
+
+    App\Service\SwaggerDocBuilder:
+      arguments:
+        $apiVersion: '%ilios_api_version%'
+
+    App\Service\JsonWebTokenManager:
+      public: true
+      arguments:
+        $secretKey: '%kernel.secret%'
+
+    App\Service\AuthenticationFactory:
+      public: true
+
+    App\Service\AuthenticationInterface:
+      factory: ['@App\Service\AuthenticationFactory', createAuthenticationService]
+
+    App\Service\CasManager:
+      public: true
+
+    App\Service\PermissionChecker:
+      public: true
+
+    App\Service\DefaultPermissionMatrix: ~
+
+    App\Classes\PermissionMatrixInterface: '@App\Service\DefaultPermissionMatrix'
+
+    Symfony\Component\Serializer\SerializerInterface:
+      factory:   ['App\Service\SerializerFactory', createSerializer]

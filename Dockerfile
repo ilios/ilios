@@ -19,13 +19,10 @@ MAINTAINER Ilios Project Team <support@iliosproject.org>
 
 ENV \
 COMPOSER_HOME=/tmp \
-SYMFONY_ENV=prod \
+APP_ENV=prod \
 ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios \
 ILIOS_DATABASE_MYSQL_VERSION=5.7 \
-ILIOS_MAILER_TRANSPORT=smtp \
-ILIOS_MAILER_HOST=127.0.0.1 \
-ILIOS_MAILER_USER=~ \
-ILIOS_MAILER_PASSWORD=~ \
+ILIOS_MAILER_URL=null://localhost \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_AUTHENTICATION_TYPE=form \
@@ -154,10 +151,10 @@ RUN \
     /var/www/ilios/var/tmp \
     /var/www/ilios/vendor \
     # set up logging to STDOUT for production
-    && sed -i -e 's|type:.*fingers_crossed|type:         error_log|g' /var/www/ilios/app/config/config_prod.yml \
-    && sed -i -e 's|action_level:.*error|action_level: debug|g' /var/www/ilios/app/config/config_prod.yml \
+    && sed -i -e 's|type:.*fingers_crossed|type:         error_log|g' /var/www/ilios/config/packages/prod/monolog.yaml \
+    && sed -i -e 's|action_level:.*error|action_level: debug|g' /var/www/ilios/config/packages/prod/monolog.yaml \
     && sed -i -e "s|path:.*'%kernel.logs_dir%/%kernel.environment%.log'|path:  \"php://stdout\"|g" \
-        /var/www/ilios/app/config/config_prod.yml \
+        /var/www/ilios/config/packages/prod/monolog.yaml \
     # recursively change user/group ownership of the app root to 'www-data'
     && chown -R www-data:www-data /var/www/ilios \
     # give the www-data user a temporary shell in order to build the Ilios app
@@ -179,8 +176,8 @@ RUN \
     --no-suggest \
     --classmap-authoritative \
     && /usr/bin/composer clear-cache \
-    && /var/www/ilios/bin/console cache:clear --env=prod \
-    && /var/www/ilios/bin/console cache:warmup --env=prod
+    && /var/www/ilios/bin/console cache:clear \
+    && /var/www/ilios/bin/console cache:warmup
 
 # switch back to the root user to finish up
 USER root

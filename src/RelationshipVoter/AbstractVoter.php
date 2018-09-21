@@ -1,0 +1,62 @@
+<?php
+
+namespace App\RelationshipVoter;
+
+use App\Service\PermissionChecker;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter as SymfonyVoter;
+
+abstract class AbstractVoter extends SymfonyVoter
+{
+    /**
+     * @var string
+     */
+    const VIEW = 'view';
+
+    /**
+     * @var string
+     */
+    const EDIT = 'edit';
+
+    /**
+     * @var string
+     */
+    const DELETE = 'delete';
+
+    /**
+     * @var string
+     */
+    const CREATE = 'create';
+
+    /**
+     * @var string
+     */
+    const UNLOCK = 'unlock';
+
+    /**
+     * @var string
+     */
+    const LOCK = 'lock';
+
+    /**
+     * @var string
+     */
+    const ARCHIVE = 'archive';
+
+    /**
+     * @var string
+     */
+    const ROLLOVER = 'rollover';
+
+    /**
+     * @var PermissionChecker
+     */
+    protected $permissionChecker;
+
+    /**
+     * @param PermissionChecker $permissionChecker
+     */
+    public function __construct(PermissionChecker $permissionChecker)
+    {
+        $this->permissionChecker = $permissionChecker;
+    }
+}

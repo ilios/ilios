@@ -1,0 +1,19 @@
+parameters:
+  locale: 'en'
+  app.dataloader.auditlog.class: Tests\CliBundle\DataLoader\AuditLogData
+
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  App\Tests\DataLoader\:
+    resource: '%kernel.project_dir%/tests/DataLoader'
+
+  App\Tests\Fixture\:
+    resource: '%kernel.project_dir%/tests/Fixture'
+
+  app.dataloader.auditlog:
+    class: "%app.dataloader.auditlog.class%"
