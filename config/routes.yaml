@@ -16,7 +16,7 @@ ilios_authentication.invalidate_tokens:
 
 ilios_apiinfo:
   path: /api
-  controller: FrameworkBundle:Template:template
+  controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
   defaults:
     template:    'apiinfo.html.twig'
     _format:     'html'
