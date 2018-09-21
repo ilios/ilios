@@ -7,7 +7,6 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     ilios_api_version: v1.34
-    locale: '%env(ILIOS_LOCALE)%'
     ilios_api_valid_endpoints: >-
       aamcmethods,aamcpcrses,aamcresourcetypes,academicyears,applicationconfigs,assessmentoptions,authentications,
       cohorts,competencies,courses,courseclerkshiptypes,courselearningmaterials,curriculuminventoryacademiclevels,curriculuminventoryexports,

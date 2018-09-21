@@ -1,3 +1,6 @@
+parameters:
+  env(ILIOS_SECRET):
+
 framework:
   secret: '%env(ILIOS_SECRET)%'
   http_method_override: true
