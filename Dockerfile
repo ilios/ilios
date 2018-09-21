@@ -19,7 +19,7 @@ MAINTAINER Ilios Project Team <support@iliosproject.org>
 
 ENV \
 COMPOSER_HOME=/tmp \
-SYMFONY_ENV=prod \
+APP_ENV=prod \
 ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios \
 ILIOS_DATABASE_MYSQL_VERSION=5.7 \
 ILIOS_MAILER_TRANSPORT=smtp \

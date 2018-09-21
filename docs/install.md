@@ -66,7 +66,7 @@ sudo -u apache git checkout tags/$(git fetch --tags; git describe --tags `git re
 ```
 5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 7.2+ and Composer installed on your system:
 ```bash
-sudo -u apache SYMFONY_ENV=prod composer install --no-dev --optimize-autoloader
+sudo -u apache APP_ENV=prod composer install --no-dev --optimize-autoloader
 ```  
 This will install the required PHP Symfony packages and their dependencies.  When the process nears completion, you will be prompted with the following configuration setting options.  You should set them as noted:
 ```bash
@@ -112,7 +112,7 @@ sudo -u apache bin/console cache:clear --env=prod
 
 6. Lastly, update the auto-loader to account for any new classes/classmap packages:
 ```
-sudo -u apache SYMFONY_ENV=prod composer dump-autoload --no-dev --classmap-authoritative
+sudo -u apache APP_ENV=prod composer dump-autoload --no-dev --classmap-authoritative
 ```
 
 Congratulations! Once you've the completed the above steps, the latest codebase will have been built and deployed!

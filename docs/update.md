@@ -38,7 +38,7 @@ If you use git to manage your Ilios you can update the code by checking it out u
 
  ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
-sudo -u apache SYMFONY_ENV=prod composer install --no-dev --optimize-autoloader
+sudo -u apache APP_ENV=prod composer install --no-dev --optimize-autoloader
 ```
 
 4. Execute any pending database migrations.
