@@ -51,11 +51,11 @@ before_install:
 install:
 - composer install --no-interaction --prefer-dist -d ${TRAVIS_BUILD_DIR}
 before_script:
-- bin/console doctrine:database:drop --force --env=dev
-- bin/console doctrine:database:create --env=dev
-- bin/console doctrine:migrations:migrate  --env=dev --no-interaction
-- bin/console cache:clear --env=test --no-interaction
-- bin/console cache:warmup --env=test --no-interaction
+- APP_ENV=dev bin/console doctrine:database:drop --force
+- APP_ENV=dev bin/console doctrine:database:create
+- APP_ENV=dev bin/console doctrine:migrations:migrate  --no-interaction
+- APP_ENV=test bin/console cache:clear --no-interaction
+- APP_ENV=test bin/console cache:warmup --no-interaction
 - phpenv config-rm xdebug.ini
 
 script:
@@ -64,7 +64,7 @@ script:
 - if [ "$TEST_PHPUNIT_API3" = true ]; then (vendor/bin/simple-phpunit -c phpunit.xml.dist --group api_3); fi
 - if [ "$TEST_PHPUNIT_API4" = true ]; then (vendor/bin/simple-phpunit -c phpunit.xml.dist --group api_4); fi
 - if [ "$TEST_PHPUNIT_API5" = true ]; then (vendor/bin/simple-phpunit -c phpunit.xml.dist --group api_5); fi
-- if [ "$TEST_EVERYTHING_ELSE" = true ]; then (bin/console doctrine:schema:validate --env=dev) fi
+- if [ "$TEST_EVERYTHING_ELSE" = true ]; then (APP_ENV=dev bin/console doctrine:schema:validate) fi
 - if [ "$TEST_EVERYTHING_ELSE" = true ]; then (vendor/bin/phpcs) fi
 - if [ "$TEST_EVERYTHING_ELSE" = true ]; then (bin/console security:check) fi
 - if [ "$TEST_EVERYTHING_ELSE" = true ]; then (vendor/bin/simple-phpunit -c phpunit.xml.dist --exclude-group api_1,api_2,api_3,api_4,api_5) fi
