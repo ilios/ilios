@@ -22,13 +22,15 @@ class CheckRequiredENV
     const INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
     public static function check(Event $event)
     {
-        $dotEnv = new Dotenv();
         $io = $event->getIO();
         $hasError = false;
         $data = [];
-        $path = __DIR__ . '/../../../.env';
-        if (is_readable($path)) {
-            $data = $dotEnv->parse(file_get_contents($path), $path);
+        if (!isset($_SERVER['APP_ENV']) || in_array($_SERVER['APP_ENV'], ['dev', 'test'])) {
+            $dotEnv = new Dotenv();
+            $path = __DIR__ . '/../../.env';
+            if (is_readable($path)) {
+                $data = $dotEnv->parse(file_get_contents($path), $path);
+            }
         }
 
         foreach (self::REQUIRED_ENV as $name) {
