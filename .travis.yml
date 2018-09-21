@@ -28,10 +28,7 @@ env:
   global:
   - ILIOS_DATABASE_URL=mysql://travis@127.0.0.1/ilios
   - ILIOS_DATABASE_MYSQL_VERSION=5.5
-  - ILIOS_MAILER_TRANSPORT=smtp
-  - ILIOS_MAILER_HOST=127.0.0.1
-  - ILIOS_MAILER_USER=null
-  - ILIOS_MAILER_PASSWORD=null
+  - ILIOS_MAILER_URL=null://localhost
   - ILIOS_LOCALE=en
   - ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
   matrix:

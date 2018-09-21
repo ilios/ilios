@@ -15,10 +15,7 @@ class CheckRequiredENV
     const REQUIRED_ENV = [
         'ILIOS_DATABASE_URL',
         'ILIOS_DATABASE_MYSQL_VERSION',
-        'ILIOS_MAILER_TRANSPORT',
-        'ILIOS_MAILER_HOST',
-        'ILIOS_MAILER_USER',
-        'ILIOS_MAILER_PASSWORD',
+        'ILIOS_MAILER_URL',
         'ILIOS_LOCALE',
         'ILIOS_SECRET'
     ];
