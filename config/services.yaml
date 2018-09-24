@@ -285,3 +285,7 @@ services:
 
     Symfony\Component\Serializer\SerializerInterface:
       factory:   ['App\Service\SerializerFactory', createSerializer]
+
+    App\Monitor\Timezone:
+      tags:
+      - { name: liip_monitor.check, group: default }
