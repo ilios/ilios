@@ -207,15 +207,14 @@ services:
         $validApiObjects: '%ilios_api_valid_endpoints%'
       tags: [{ name: kernel.event_listener, event: kernel.controller, method: onKernelController }]
 
-    ilios.cache:
-      class: 'Doctrine\Common\Cache\Cache'
-      factory: ['App\Service\CacheFactory', 'createCache']
+    doctrine.annotation_cache_provider:
+      class: Symfony\Component\Cache\DoctrineProvider
       arguments:
-        $environment: '%kernel.environment%'
+      - '@doctrine.annotation_cache_pool'
 
     App\Service\EntityMetadata:
       arguments:
-        $cache: '@ilios.cache'
+        $cache: '@doctrine.annotation_cache_provider'
 
     App\Service\Config:
       public: true

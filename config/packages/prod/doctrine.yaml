@@ -6,13 +6,13 @@ doctrine:
     orm:
         metadata_cache_driver:
             type: service
-            id: ilios.cache
+            id: doctrine.system_cache_provider
         query_cache_driver:
             type: service
-            id: ilios.cache
+            id: doctrine.system_cache_provider
         result_cache_driver:
             type: service
-            id: ilios.cache
+            id: doctrine.result_cache_provider
 
 services:
     doctrine.result_cache_provider:
