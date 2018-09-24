@@ -128,6 +128,9 @@
     "ezyang/htmlpurifier": {
         "version": "v4.10.0"
     },
+    "facebook/webdriver": {
+        "version": "1.6.0"
+    },
     "fig/link-util": {
         "version": "1.0.0"
     },
@@ -308,8 +311,23 @@
             "ref": "e3868d2f4a5104f19f844fe551099a00c6562527"
         }
     },
+    "symfony/css-selector": {
+        "version": "v4.1.4"
+    },
     "symfony/debug": {
         "version": "v4.1.4"
+    },
+    "symfony/debug-bundle": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "f8863cbad2f2e58c4b65fa1eac892ab189971bea"
+        }
+    },
+    "symfony/debug-pack": {
+        "version": "v1.0.6"
     },
     "symfony/dependency-injection": {
         "version": "v4.1.4"
@@ -376,6 +394,12 @@
     },
     "symfony/options-resolver": {
         "version": "v4.1.4"
+    },
+    "symfony/orm-pack": {
+        "version": "v1.0.5"
+    },
+    "symfony/panther": {
+        "version": "v0.1.0"
     },
     "symfony/phpunit-bridge": {
         "version": "4.1",
@@ -454,6 +478,9 @@
     },
     "symfony/templating": {
         "version": "v4.1.4"
+    },
+    "symfony/test-pack": {
+        "version": "v1.0.3"
     },
     "symfony/translation": {
         "version": "3.3",
