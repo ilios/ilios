@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd49ec74fe62f26bffee681109b27996",
+    "content-hash": "41aff411cbf23eb5389bb9661a6c45ea",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -1860,16 +1860,16 @@
         },
         {
             "name": "eluceo/ical",
-            "version": "0.12.1",
+            "version": "0.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markuspoerschke/iCal.git",
-                "reference": "106862fc666b089cc83d196ebd113fb90659b1db"
+                "reference": "5db245d5521a060129d0f14d154d65f32b804883"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/106862fc666b089cc83d196ebd113fb90659b1db",
-                "reference": "106862fc666b089cc83d196ebd113fb90659b1db",
+                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/5db245d5521a060129d0f14d154d65f32b804883",
+                "reference": "5db245d5521a060129d0f14d154d65f32b804883",
                 "shasum": ""
             },
             "require": {
@@ -1877,6 +1877,9 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^6.0"
+            },
+            "suggest": {
+                "ext-mbstring": "Massive performance enhancement of line folding"
             },
             "type": "library",
             "autoload": {
@@ -1904,7 +1907,7 @@
                 "ics",
                 "php calendar"
             ],
-            "time": "2017-06-07T14:15:12+00:00"
+            "time": "2018-03-13T19:39:55+00:00"
         },
         {
             "name": "exercise/htmlpurifier-bundle",
@@ -3803,22 +3806,30 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.0",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
                 "shasum": ""
             },
+            "require": {
+                "php": ">=5.3.0"
+            },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
-                "psr-0": {
-                    "Psr\\Log\\": ""
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3832,12 +3843,13 @@
                 }
             ],
             "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
             "keywords": [
                 "log",
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21T11:40:51+00:00"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "psr/simple-cache",
