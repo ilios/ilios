@@ -300,3 +300,10 @@ services:
       autoconfigure: false
       tags:
       - { name: liip_monitor.check, group: production }
+
+    App\Monitor\Frontend:
+      autoconfigure: false
+      arguments:
+        $kernelCacheDir: '%kernel.cache_dir%'
+      tags:
+      - { name: liip_monitor.check, group: production }
