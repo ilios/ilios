@@ -307,3 +307,8 @@ services:
         $kernelCacheDir: '%kernel.cache_dir%'
       tags:
       - { name: liip_monitor.check, group: production }
+
+    App\Monitor\PhpConfiguration:
+      autoconfigure: false
+      tags:
+      - { name: liip_monitor.check, group: production }
