@@ -93,10 +93,10 @@ RUN \
     && docker-php-ext-enable apcu \
     && mv /etc/apache2/sites-enabled/000-default.conf /etc/apache2/sites-enabled/ilios.conf \
     && mv /etc/apache2/conf-available/docker-php.conf /etc/apache2/conf-enabled/ \
-    # allow httpd overrides in the /var/www/ilios/web directory
-    && sed -i -e 's|/var/www|/var/www/ilios/web|g' /etc/apache2/conf-enabled/docker-php.conf \
-    # update the DocumentRoot to point to the '/var/www/ilios/web' directory
-    && sed -i -e 's|/var/www/html|/var/www/ilios/web|g' /etc/apache2/sites-enabled/ilios.conf \
+    # allow httpd overrides in the /var/www/ilios/public directory
+    && sed -i -e 's|/var/www|/var/www/ilios/public|g' /etc/apache2/conf-enabled/docker-php.conf \
+    # update the DocumentRoot to point to the '/var/www/ilios/public' directory
+    && sed -i -e 's|/var/www/html|/var/www/ilios/public|g' /etc/apache2/sites-enabled/ilios.conf \
     # and finally, create the php.ini file...
     && echo "\
 [PHP]\n\
