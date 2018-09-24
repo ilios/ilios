@@ -289,3 +289,6 @@ services:
     App\Monitor\Timezone:
       tags:
       - { name: liip_monitor.check, group: default }
+    App\Monitor\RequiredENV:
+      tags:
+      - { name: liip_monitor.check, group: default }
