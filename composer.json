@@ -51,8 +51,8 @@
     "squizlabs/php_codesniffer": "@stable",
     "symfony/debug-pack": "^1.0",
     "symfony/dotenv": "*",
-    "symfony/phpunit-bridge": "@stable",
     "symfony/profiler-pack": "^1.0",
+    "symfony/test-pack": "^1.0",
     "symfony/web-server-bundle": "*"
   },
   "config": {
