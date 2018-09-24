@@ -15,3 +15,9 @@ liip_monitor:
         doctrine_migrations:
             migrations_with_doctrine_bundle:
               connection: default
+        apc_memory:
+          warning:              70
+          critical:             90
+        apc_fragmentation:
+          warning:              70
+          critical:             90
