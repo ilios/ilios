@@ -31,7 +31,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,App}'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -285,3 +285,30 @@ services:
 
     Symfony\Component\Serializer\SerializerInterface:
       factory:   ['App\Service\SerializerFactory', createSerializer]
+
+    App\Monitor\Timezone:
+      autoconfigure: false
+      tags:
+      - { name: liip_monitor.check, group: default }
+
+    App\Monitor\RequiredENV:
+      autoconfigure: false
+      tags:
+      - { name: liip_monitor.check, group: default }
+
+    App\Monitor\IliosFileSystem:
+      autoconfigure: false
+      tags:
+      - { name: liip_monitor.check, group: production }
+
+    App\Monitor\Frontend:
+      autoconfigure: false
+      arguments:
+        $kernelCacheDir: '%kernel.cache_dir%'
+      tags:
+      - { name: liip_monitor.check, group: production }
+
+    App\Monitor\PhpConfiguration:
+      autoconfigure: false
+      tags:
+      - { name: liip_monitor.check, group: production }

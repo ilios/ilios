@@ -4,7 +4,7 @@ liip_monitor:
   checks:
     groups:
       default:
-        php_extensions: [apcu, mbstring, ldap, xml, dom, mysqlnd, pdo, zip, json, zlib]
+        php_extensions: [apcu, mbstring, ldap, xml, dom, mysqlnd, pdo, zip, json, zlib, ctype, iconv]
         php_version:
             "7.2": ">="
         readable_directory: ["%kernel.cache_dir%"]
@@ -15,3 +15,9 @@ liip_monitor:
         doctrine_migrations:
             migrations_with_doctrine_bundle:
               connection: default
+        apc_memory:
+          warning:              70
+          critical:             90
+        apc_fragmentation:
+          warning:              70
+          critical:             90
