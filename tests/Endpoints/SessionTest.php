@@ -143,7 +143,7 @@ class SessionTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
-        $data['instructors'] = ["1", "2"];
+        $data['hours'] += 5;
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
     }
 
