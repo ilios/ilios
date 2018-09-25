@@ -311,3 +311,8 @@ services:
       autoconfigure: false
       tags:
       - { name: liip_monitor.check, group: production }
+
+    App\Monitor\Composer:
+      autoconfigure: false
+      tags:
+      - { name: liip_monitor.check, group: production }
