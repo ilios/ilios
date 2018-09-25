@@ -3,6 +3,7 @@
 namespace App\Monitor;
 
 use ZendDiagnostics\Check\CheckInterface;
+use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
 
@@ -23,7 +24,7 @@ class PhpConfiguration implements CheckInterface
             $value = (int) ini_get($option);
             if ($value < $required) {
                 return new Warning(
-                    "${option} setting is too low, should be at least ${required}"
+                    "`${option}` setting is too low, should be at least `${required}`"
                 );
             }
         }
@@ -31,11 +32,18 @@ class PhpConfiguration implements CheckInterface
         $value = $this->valueToBytes($realPathCacheSizeConfig);
         if ($value < 4194304) {
             return new Warning(
-                "realpath_cache_size setting is too low, should be at least 4096K"
+                "`realpath_cache_size` setting is too low, should be at least `4096K`"
             );
         }
 
-        return new Success('has been loaded');
+        $variablesOrder = ini_get('variables_order');
+        if ($variablesOrder !== 'EGPCS') {
+            return new Failure(
+                "`variables_order` setting is wrong, it should be `EGPCS`"
+            );
+        }
+
+        return new Success('is correct');
     }
 
     /**
