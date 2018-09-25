@@ -3,9 +3,9 @@ services:
     db:
         image: ilios/mysql-demo
     web:
-        image: ilios/php-apache-dev
+        build: ./
         environment:
-            - AP_ENV=dev
+            - APP_ENV=prod
             - APP_DEBUG=true
             - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios
             - ILIOS_REQUIRE_SECURE_CONNECTION=false
