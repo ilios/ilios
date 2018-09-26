@@ -60,7 +60,8 @@ RUN \
     && pecl channel-update pecl.php.net \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
-      # enable modules
+    && docker-php-ext-enable opcache \
+    # enable modules
     && a2enmod rewrite socache_shmcb mpm_prefork
 
 # copy configuration into the default locations
