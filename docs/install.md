@@ -66,54 +66,9 @@ sudo -u apache git checkout tags/$(git fetch --tags; git describe --tags `git re
 ```
 5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 7.2+ and Composer installed on your system:
 ```bash
-sudo -u apache APP_ENV=prod composer install --no-dev --optimize-autoloader
-```  
-This will install the required PHP Symfony packages and their dependencies.  When the process nears completion, you will be prompted with the following configuration setting options.  You should set them as noted:
-```bash
-#Set this to your database host's IP address or hostname
-database_host: 127.0.0.1
- 
-#3306 is the default for MySQL but your db port may be different
-database_port: 3306
- 
-#enter the name of your database where your Ilios data resides 
-database_name: ilios
- 
-#enter the name of the user login name you use for accessing the database 
-database_user: ilios_user
- 
-#this should be set to YOUR database password
-database_password: 3x@mp73P@$$w0rd
- 
-# Set the version of your MySQL database server software
-database_mysql_version: 5.6
- 
-#default values, set to your values if different
-mailer_transport: smtp
-mailer_host: 127.0.0.1
-mailer_user: null
-mailer_password: null
- 
-#en = 'english', enter your desired language ISO abbreviation, if different
-locale: en
- 
-#The value for 'secret' should be a long string of random characters and letters of your choosing.  If you are 
-#running in a load-balanced environment, these need to be the same on all the webservers in
-#the group. IMPORTANT:  You MUST change this to your own value as using the default value would
-#be EXTREMELY dangerous in a production enviroment!
-secret: ThisCanBeWhateverYouLike,JustMakeSureYouChangeIt!
+sudo -u apache bin/setup
 ```
-
-That should complete the first-time configuration of the parameters.yml file.  If you need to update these values, you can do so at anytime by editing the file directly, but you will need to clear the Symfony cache after making any changes by running the following console command from the root of the Ilios application:
-```
-sudo -u apache bin/console cache:clear --env=prod
-```
-
-
-6. Lastly, update the auto-loader to account for any new classes/classmap packages:
-```
-sudo -u apache APP_ENV=prod composer dump-autoload --no-dev --classmap-authoritative
-```
+This will install the required PHP Symfony packages and their dependencies and check your system for any issues.
 
 Congratulations! Once you've the completed the above steps, the latest codebase will have been built and deployed!
 
