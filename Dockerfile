@@ -12,6 +12,7 @@ MAINTAINER Ilios Project Team <support@iliosproject.org>
 
 ENV \
 COMPOSER_HOME=/tmp \
+COMPOSER_ALLOW_SUPERUSER=true \
 APP_ENV=prod \
 ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios \
 ILIOS_DATABASE_MYSQL_VERSION=5.7 \
@@ -79,22 +80,8 @@ COPY . /var/www/ilios
 # Override monolog to send errors to stdout
 COPY ./docker/monolog.yaml /var/www/ilios/config/packages/prod
 
-# add all the extra directories necessary for the application
-RUN \
-    mkdir -p \
-    /var/www/ilios/var/cache \
-    /var/www/ilios/var/log \
-    # recursively change user/group ownership of the app root to 'www-data'
-    && chown -R www-data:www-data /var/www/ilios \
-    # give the www-data user a temporary shell in order to build the Ilios app
-    && chsh -s /bin/bash www-data
-
-# change to the context of the 'www-data' user
-USER www-data
-
 WORKDIR /var/www/ilios
 
-# as the 'www-data' user, build the app using composer and then remove it
 RUN \
     /usr/bin/composer install \
     --working-dir /var/www/ilios \
@@ -104,15 +91,9 @@ RUN \
     --no-interaction \
     --no-suggest \
     --classmap-authoritative \
-    && /usr/bin/composer clear-cache \
-    && /var/www/ilios/bin/console cache:warmup
+    && /usr/bin/composer clear-cache
 
-# switch back to the root user to finish up
-USER root
-
-# revert the 'www-data' user's shell to its default
-RUN \
-    chsh -s /usr/sbin/nologin www-data
+RUN chown -R www-data:www-data /var/www/ilios
 
 # launch apache httpd as a foreground service
 CMD ["apache2-foreground"]
