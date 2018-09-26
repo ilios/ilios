@@ -5,6 +5,7 @@ Commands::checkForAppENV();
 Commands::isComposerInstalled();
 Commands::install();
 Commands::clearAndWarmUpCache();
+Commands::assetsInstall();
 Commands::checkRequirements();
 
 class Commands
@@ -71,6 +72,12 @@ class Commands
         self::output('Clearing and warming up the cache');
         self::runSymfonyCommand('cache:clear --no-warmup', 'Cache Cleared Successfully', 'Error clearing cache');
         self::runSymfonyCommand('cache:warmup', 'Cache Warmed Up Successfully', 'Error warming up cache');
+    }
+
+    public static function assetsInstall()
+    {
+        self::output('Installing Web Assets');
+        self::runSymfonyCommand('assets:install', 'Assets Successfully', 'Error Installing Assets');
     }
 
     public static function runSymfonyCommand($cmd, $successMessage, $errorMessage)
