@@ -4,6 +4,7 @@
 Commands::checkForAppENV();
 Commands::isComposerInstalled();
 Commands::install();
+Commands::clearAndWarmUpCache();
 
 class Commands
 {
@@ -64,6 +65,30 @@ class Commands
         }
     }
 
+    public static function clearAndWarmUpCache()
+    {
+        self::output('Clearing and warming up the cache');
+        self::runSymfonyCommand('cache:clear --no-warmup', 'Cache Cleared Successfully');
+        self::runSymfonyCommand('cache:warmup', 'Cache Warmed Up Successfully');
+    }
+
+    public static function runSymfonyCommand($cmd, $successMessage)
+    {
+        exec(__DIR__ . "/console ${cmd}  2>&1", $output, $returnValue);
+        switch ($returnValue) {
+            case 0:
+                self::writeSuccess($successMessage);
+                break;
+            default:
+                self::writeError("There was an error:");
+                foreach($output as $message) {
+                    self::output($message);
+                }
+                exit(1);
+                break;
+        }
+    }
+
     private static function output($message)
     {
         fwrite(STDOUT, "${message} \n");
@@ -71,7 +96,7 @@ class Commands
 
     private static function writeError($message)
     {
-        fwrite(STDERR, "\n\033[31m Error: \033[0m ${message} \n\n");
+        fwrite(STDERR, "\n\033[31m Error: \033[0m ${message} \n");
     }
 
     private static function writeSuccess($message)
