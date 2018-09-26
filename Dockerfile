@@ -96,44 +96,10 @@ RUN \
     # allow httpd overrides in the /var/www/ilios/public directory
     && sed -i -e 's|/var/www|/var/www/ilios/public|g' /etc/apache2/conf-enabled/docker-php.conf \
     # update the DocumentRoot to point to the '/var/www/ilios/public' directory
-    && sed -i -e 's|/var/www/html|/var/www/ilios/public|g' /etc/apache2/sites-enabled/ilios.conf \
-    # and finally, create the php.ini file...
-    && echo "\
-[PHP]\n\
-engine = On\n\
-short_open_tag = Off\n\
-precision = 14\n\
-output_buffering = 4096\n\
-zlib.output_compression = Off\n\
-implicit_flush = Off\n\
-serialize_precision = -1\n\
-zend.enable_gc = On\n\
-expose_php = Off\n\
-max_execution_time = 300\n\
-max_input_time = 60\n\
-memory_limit = 1G\n\
-error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT\n\
-display_errors = Off\n\
-display_startup_errors = Off\n\
-log_errors = On\n\
-log_errors_max_len = 1024\n\
-ignore_repeated_errors = Off\n\
-ignore_repeated_source = Off\n\
-report_memleaks = On\n\
-html_errors = On\n\
-variables_order = \"EGPCS\"\n\
-request_order = \"GP\"\n\
-register_argc_argv = Off\n\
-auto_globals_jit = On\n\
-post_max_size = 105M\n\
-default_mimetype = \"text/html\"\n\
-default_charset = \"UTF-8\"\n\
-file_uploads = On\n\
-upload_max_filesize = 105M\n\
-max_file_uploads = 20\n\
-allow_url_fopen = On\n\
-allow_url_include = Off\n\
-default_socket_timeout = 60\n" > /usr/local/etc/php/php.ini
+    && sed -i -e 's|/var/www/html|/var/www/ilios/public|g' /etc/apache2/sites-enabled/ilios.conf
+
+# copy the PHP configuration into the default location
+COPY ./docker/php.ini $PHP_INI_DIR
 
 # create the volume that will store the learning materials
 VOLUME /data
