@@ -4,13 +4,6 @@ FROM composer AS composer
 # get the proper 'PHP' image from the official PHP repo at
 FROM php:7.2-apache-stretch
 
-# set the default values for mpm_prefork apache settings, overrideable through build arguments
-ARG MPM_STARTSERVERS=5
-ARG MPM_MINSPARESERVERS=5
-ARG MPM_MAXSPARESERVERS=10
-ARG MPM_MAXREQUESTWORKERS=150
-ARG MPM_MAXCONNECTIONSPERCHILD=0
-
 # copy the Composer PHAR from the Composer image into the apache-php image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
@@ -52,54 +45,28 @@ ILIOS_CAS_AUTHENTICATION_VERSION=3 \
 ILIOS_CAS_AUTHENTICATION_VERIFY_SSL=false \
 ILIOS_CAS_AUTHENTICATION_CERTIFICATE_PATH=null \
 ILIOS_ENABLE_TRACKING=false \
-ILIOS_TRACKING_CODE=UA-XXXXXXXX-1 \
-# Apache mpm_prefork modules are set as arguments above and can be overridden at build-time with command line arguments
-# (eg, `docker build --build-arg "MPM_STARTSERVERS=20" --build-arg "MPM_MAXCONNECTIONSPERCHILD=4500")
-MPM_STARTSERVERS=${MPM_STARTSERVERS} \
-MPM_MINSPARESERVERS=${MPM_MINSPARESERVERS} \
-MPM_MAXSPARESERVERS=${MPM_MAXSPARESERVERS} \
-MPM_MAXREQUESTWORKERS=${MPM_MAXREQUESTWORKERS} \
-MPM_MAXCONNECTIONSPERCHILD=${MPM_MAXCONNECTIONSPERCHILD}
+ILIOS_TRACKING_CODE=UA-XXXXXXXX-1
 
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
     apt-get update \
-    && apt-get install -y \
     && apt-get install libldap2-dev -y \
     && apt-get install zlib1g-dev \
+    # remove the apt source files to save space
+    && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
     && docker-php-ext-install pdo_mysql \
-    # enable mod_rewrite
-    && mv /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/ \
-    && mv /etc/apache2/mods-available/socache_shmcb.load /etc/apache2/mods-enabled/ \
-    # set up the mpm prefork module
-    && mv /etc/apache2/mods-available/mpm_prefork.* /etc/apache2/mods-enabled/ \
-    && sed -i -e 's|StartServers\s.*[0-9].*$|StartServers\t\t'"$MPM_STARTSERVERS"'|g' \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && sed -i -e 's|MinSpareServers\s.*[0-9].*$|MinSpareServers\t\t'"$MPM_MINSPARESERVERS"'|g' \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && sed -i -e 's|MaxSpareServers\s.*[0-9].*$|MaxSpareServers\t\t'"$MPM_MAXSPARESERVERS"'|g' \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && sed -i -e 's|MaxRequestWorkers\s.*[0-9].*$|MaxRequestWorkers\t'"$MPM_MAXREQUESTWORKERS"'|g' \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && sed -i -e 's|MaxConnectionsPerChild\s.*[0-9].*$|MaxConnectionsPerChild\t'"$MPM_MAXCONNECTIONSPERCHILD"'|g' \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    # remove the apt source files to save space
-    && rm -rf /var/lib/apt/lists/* \
     && pecl channel-update pecl.php.net \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
-    && mv /etc/apache2/sites-enabled/000-default.conf /etc/apache2/sites-enabled/ilios.conf \
-    && mv /etc/apache2/conf-available/docker-php.conf /etc/apache2/conf-enabled/ \
-    # allow httpd overrides in the /var/www/ilios/public directory
-    && sed -i -e 's|/var/www|/var/www/ilios/public|g' /etc/apache2/conf-enabled/docker-php.conf \
-    # update the DocumentRoot to point to the '/var/www/ilios/public' directory
-    && sed -i -e 's|/var/www/html|/var/www/ilios/public|g' /etc/apache2/sites-enabled/ilios.conf
+      # enable modules
+    && a2enmod rewrite socache_shmcb mpm_prefork
 
-# copy the PHP configuration into the default location
+# copy configuration into the default locations
 COPY ./docker/php.ini $PHP_INI_DIR
+COPY ./docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
 
 # create the volume that will store the learning materials
 VOLUME /data
