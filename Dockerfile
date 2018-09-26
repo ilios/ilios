@@ -69,7 +69,7 @@ COPY ./docker/php.ini $PHP_INI_DIR
 COPY ./docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
 
 # create the volume that will store the learning materials
-VOLUME /data
+VOLUME $ILIOS_FILE_SYSTEM_STORAGE_PATH
 
 # copy the contents of the current directory to the /var/www/ilios directory
 COPY . /var/www/ilios
