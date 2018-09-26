@@ -4,13 +4,6 @@ FROM composer AS composer
 # get the proper 'PHP' image from the official PHP repo at
 FROM php:7.2-apache-stretch
 
-# set the default values for mpm_prefork apache settings, overrideable through build arguments
-ARG MPM_STARTSERVERS=5
-ARG MPM_MINSPARESERVERS=5
-ARG MPM_MAXSPARESERVERS=10
-ARG MPM_MAXREQUESTWORKERS=150
-ARG MPM_MAXCONNECTIONSPERCHILD=0
-
 # copy the Composer PHAR from the Composer image into the apache-php image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
@@ -43,8 +36,7 @@ ILIOS_SHIBBOLETH_AUTHENTICATION_LOGIN_PATH=null \
 ILIOS_SHIBBOLETH_AUTHENTICATION_LOGOUT_PATH=null \
 ILIOS_SHIBBOLETH_AUTHENTICATION_USER_ID_ATTRIBUTE=null \
 ILIOS_TIMEZONE='America/Los_Angeles' \
-# This is for development, so SSL should be set to false by default \
-ILIOS_REQUIRE_SECURE_CONNECTION=false \
+ILIOS_REQUIRE_SECURE_CONNECTION=true \
 ILIOS_KEEP_FRONTEND_UPDATED=true \
 ILIOS_FRONTEND_RELEASE_VERSION=null \
 ILIOS_CAS_AUTHENTICATION_SERVER=null \
@@ -52,109 +44,46 @@ ILIOS_CAS_AUTHENTICATION_VERSION=3 \
 ILIOS_CAS_AUTHENTICATION_VERIFY_SSL=false \
 ILIOS_CAS_AUTHENTICATION_CERTIFICATE_PATH=null \
 ILIOS_ENABLE_TRACKING=false \
-ILIOS_TRACKING_CODE=UA-XXXXXXXX-1 \
-# Apache mpm_prefork modules are set as arguments above and can be overridden at build-time with command line arguments
-# (eg, `docker build --build-arg "MPM_STARTSERVERS=20" --build-arg "MPM_MAXCONNECTIONSPERCHILD=4500")
-MPM_STARTSERVERS=${MPM_STARTSERVERS} \
-MPM_MINSPARESERVERS=${MPM_MINSPARESERVERS} \
-MPM_MAXSPARESERVERS=${MPM_MAXSPARESERVERS} \
-MPM_MAXREQUESTWORKERS=${MPM_MAXREQUESTWORKERS} \
-MPM_MAXCONNECTIONSPERCHILD=${MPM_MAXCONNECTIONSPERCHILD}
+ILIOS_TRACKING_CODE=UA-XXXXXXXX-1
 
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
     apt-get update \
-    && apt-get install -y \
-    && apt-get install libldap2-dev -y \
-    && apt-get install zlib1g-dev \
+    && apt-get install libldap2-dev zlib1g-dev libicu-dev -y \
+    # remove the apt source files to save space
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
     && docker-php-ext-install pdo_mysql \
-    # enable mod_rewrite
-    && mv /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/ \
-    && mv /etc/apache2/mods-available/socache_shmcb.load /etc/apache2/mods-enabled/ \
-    # set up the mpm prefork module
-    && mv /etc/apache2/mods-available/mpm_prefork.* /etc/apache2/mods-enabled/ \
-    && sed -i -e 's|StartServers\s.*[0-9].*$|StartServers\t\t'"$MPM_STARTSERVERS"'|g' \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && sed -i -e 's|MinSpareServers\s.*[0-9].*$|MinSpareServers\t\t'"$MPM_MINSPARESERVERS"'|g' \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && sed -i -e 's|MaxSpareServers\s.*[0-9].*$|MaxSpareServers\t\t'"$MPM_MAXSPARESERVERS"'|g' \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && sed -i -e 's|MaxRequestWorkers\s.*[0-9].*$|MaxRequestWorkers\t'"$MPM_MAXREQUESTWORKERS"'|g' \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && sed -i -e 's|MaxConnectionsPerChild\s.*[0-9].*$|MaxConnectionsPerChild\t'"$MPM_MAXCONNECTIONSPERCHILD"'|g' \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    # remove the apt source files to save space
-    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install intl \
     && pecl channel-update pecl.php.net \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
-    && mv /etc/apache2/sites-enabled/000-default.conf /etc/apache2/sites-enabled/ilios.conf \
-    && mv /etc/apache2/conf-available/docker-php.conf /etc/apache2/conf-enabled/ \
-    # allow httpd overrides in the /var/www/ilios/public directory
-    && sed -i -e 's|/var/www|/var/www/ilios/public|g' /etc/apache2/conf-enabled/docker-php.conf \
-    # update the DocumentRoot to point to the '/var/www/ilios/public' directory
-    && sed -i -e 's|/var/www/html|/var/www/ilios/public|g' /etc/apache2/sites-enabled/ilios.conf \
-    # and finally, create the php.ini file...
-    && echo "\
-[PHP]\n\
-engine = On\n\
-short_open_tag = Off\n\
-precision = 14\n\
-output_buffering = 4096\n\
-zlib.output_compression = Off\n\
-implicit_flush = Off\n\
-serialize_precision = -1\n\
-zend.enable_gc = On\n\
-expose_php = Off\n\
-max_execution_time = 300\n\
-max_input_time = 60\n\
-memory_limit = 1G\n\
-error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT\n\
-display_errors = Off\n\
-display_startup_errors = Off\n\
-log_errors = On\n\
-log_errors_max_len = 1024\n\
-ignore_repeated_errors = Off\n\
-ignore_repeated_source = Off\n\
-report_memleaks = On\n\
-html_errors = On\n\
-variables_order = \"EGPCS\"\n\
-request_order = \"GP\"\n\
-register_argc_argv = Off\n\
-auto_globals_jit = On\n\
-post_max_size = 105M\n\
-default_mimetype = \"text/html\"\n\
-default_charset = \"UTF-8\"\n\
-file_uploads = On\n\
-upload_max_filesize = 105M\n\
-max_file_uploads = 20\n\
-allow_url_fopen = On\n\
-allow_url_include = Off\n\
-default_socket_timeout = 60\n" > /usr/local/etc/php/php.ini
+    && docker-php-ext-enable opcache \
+    # enable modules
+    && a2enmod rewrite socache_shmcb mpm_prefork \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge libldap2-dev zlib1g-dev libicu-dev -y \
+    && apt-get autoremove -y
+
+# copy configuration into the default locations
+COPY ./docker/php.ini $PHP_INI_DIR
+COPY ./docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
 
 # create the volume that will store the learning materials
-VOLUME /data
+VOLUME $ILIOS_FILE_SYSTEM_STORAGE_PATH
 
 # copy the contents of the current directory to the /var/www/ilios directory
 COPY . /var/www/ilios
 
+# Override monolog to send errors to stdout
+COPY ./docker/monolog.yaml /var/www/ilios/config/packages/prod
+
 # add all the extra directories necessary for the application
 RUN \
     mkdir -p \
-    /var/www/ilios/var \
     /var/www/ilios/var/cache \
-    /var/www/ilios/var/logs \
-    /var/www/ilios/var/session \
-    /var/www/ilios/var/tmp \
-    /var/www/ilios/vendor \
-    # set up logging to STDOUT for production
-    && sed -i -e 's|type:.*fingers_crossed|type:         error_log|g' /var/www/ilios/config/packages/prod/monolog.yaml \
-    && sed -i -e 's|action_level:.*error|action_level: debug|g' /var/www/ilios/config/packages/prod/monolog.yaml \
-    && sed -i -e "s|path:.*'%kernel.logs_dir%/%kernel.environment%.log'|path:  \"php://stdout\"|g" \
-        /var/www/ilios/config/packages/prod/monolog.yaml \
+    /var/www/ilios/var/log \
     # recursively change user/group ownership of the app root to 'www-data'
     && chown -R www-data:www-data /var/www/ilios \
     # give the www-data user a temporary shell in order to build the Ilios app
@@ -176,7 +105,6 @@ RUN \
     --no-suggest \
     --classmap-authoritative \
     && /usr/bin/composer clear-cache \
-    && /var/www/ilios/bin/console cache:clear \
     && /var/www/ilios/bin/console cache:warmup
 
 # switch back to the root user to finish up
