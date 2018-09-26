@@ -85,11 +85,6 @@
   },
   "scripts": {
     "auto-scripts": {
-      "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd",
-      "monitor:health": "symfony-cmd",
-      "requirements-checker": "script",
-      "security-checker security:check": "script"
     },
     "ilios-scripts": [
       "App\\Composer\\MigrateParameters::migrate"

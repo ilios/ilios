@@ -1,0 +1,130 @@
+#!/usr/bin/env php
+<?php
+
+Commands::checkForAppENV();
+Commands::isComposerInstalled();
+Commands::install();
+Commands::clearAndWarmUpCache();
+Commands::assetsInstall();
+Commands::checkRequirements();
+
+class Commands
+{
+
+    public static function checkForAppENV()
+    {
+        if (!isset($_SERVER['APP_ENV']) && !isset($_ENV['APP_ENV'])) {
+            self::writeError("Missing `APP_ENV` environmental variable. Please see <docs>");
+            exit(1);
+        }
+        $env = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'];
+        if ($env !== 'prod') {
+            self::writeError("`APP_ENV` should be set to 'prod' it is set to ${env}");
+            exit(1);
+        }
+    }
+    public static function isComposerInstalled()
+    {
+        exec('composer --version  2>&1', $output, $returnValue);
+        switch ($returnValue) {
+            case 0:
+                self::writeSuccess('Composer is installed');
+                break;
+            case 127:
+                self::writeError("Unable to find `composer` command. See https://getcomposer.org/ for help installing it.");
+                exit(1);
+                break;
+        }
+    }
+
+    public static function install()
+    {
+        $workingDir = realpath(__DIR__ . '/../');
+        $options = [
+            "--working-dir ${workingDir}",
+            '--prefer-dist',
+            '--no-dev',
+            '--no-progress',
+            '--no-interaction',
+            '--no-suggest',
+            '--classmap-authoritative'
+        ];
+        $flags = implode(' ', $options);
+        self::output('Installing Dependencies');
+
+        exec("composer install ${flags}  2>&1", $output, $returnValue);
+        switch ($returnValue) {
+            case 0:
+                self::writeSuccess('Dependencies Installed');
+                break;
+            default:
+                self::writeError("There was a problem installing dependencies.");
+                foreach($output as $message) {
+                    self::output($message);
+                }
+                exit(1);
+                break;
+        }
+    }
+
+    public static function clearAndWarmUpCache()
+    {
+        self::output('Clearing and warming up the cache');
+        self::runSymfonyCommand('cache:clear --no-warmup', 'Cache Cleared Successfully', 'Error clearing cache');
+        self::runSymfonyCommand('cache:warmup', 'Cache Warmed Up Successfully', 'Error warming up cache');
+    }
+
+    public static function assetsInstall()
+    {
+        self::output('Installing Web Assets');
+        self::runSymfonyCommand('assets:install', 'Assets Successfully', 'Error Installing Assets');
+    }
+
+    public static function runSymfonyCommand($cmd, $successMessage, $errorMessage)
+    {
+        $path = __DIR__ . "/console ${cmd}";
+        exec("${path}  2>&1", $output, $returnValue);
+        switch ($returnValue) {
+            case 0:
+                self::writeSuccess($successMessage);
+                break;
+            default:
+                self::writeError($errorMessage);
+                self::output("Run\n `${path}`\nto see what went wrong");
+                exit(1);
+                break;
+        }
+    }
+
+    public static function checkRequirements()
+    {
+        self::output("Checking system requirements");
+        $path = realpath(__DIR__ . '/../vendor/bin/requirements-checker');
+        exec("${path}  2>&1", $output, $returnValue);
+        if ($returnValue !== 0) {
+            self::writeError("System does not meet requirements");
+            self::output("Run\n${path}\nto see why");
+            exit(1);
+        }
+        self::runSymfonyCommand(
+            'monitor:health  --group=default --group=production',
+            'Health Check Passed',
+            'Health Check Failed.'
+        );
+    }
+
+    private static function output($message)
+    {
+        fwrite(STDOUT, "${message} \n");
+    }
+
+    private static function writeError($message)
+    {
+        fwrite(STDERR, "\n\033[31m Error: \033[0m ${message} \n");
+    }
+
+    private static function writeSuccess($message)
+    {
+        self::output("\033[32m Success: \033[0m ${message}");
+    }
+}
