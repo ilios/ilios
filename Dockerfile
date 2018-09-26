@@ -73,20 +73,14 @@ VOLUME $ILIOS_FILE_SYSTEM_STORAGE_PATH
 # copy the contents of the current directory to the /var/www/ilios directory
 COPY . /var/www/ilios
 
+# Override monolog to send errors to stdout
+COPY ./docker/monolog.yaml /var/www/ilios/config/packages/prod
+
 # add all the extra directories necessary for the application
 RUN \
     mkdir -p \
-    /var/www/ilios/var \
     /var/www/ilios/var/cache \
-    /var/www/ilios/var/logs \
-    /var/www/ilios/var/session \
-    /var/www/ilios/var/tmp \
-    /var/www/ilios/vendor \
-    # set up logging to STDOUT for production
-    && sed -i -e 's|type:.*fingers_crossed|type:         error_log|g' /var/www/ilios/config/packages/prod/monolog.yaml \
-    && sed -i -e 's|action_level:.*error|action_level: debug|g' /var/www/ilios/config/packages/prod/monolog.yaml \
-    && sed -i -e "s|path:.*'%kernel.logs_dir%/%kernel.environment%.log'|path:  \"php://stdout\"|g" \
-        /var/www/ilios/config/packages/prod/monolog.yaml \
+    /var/www/ilios/var/log \
     # recursively change user/group ownership of the app root to 'www-data'
     && chown -R www-data:www-data /var/www/ilios \
     # give the www-data user a temporary shell in order to build the Ilios app
