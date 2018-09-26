@@ -1,12 +1,25 @@
 #!/usr/bin/env php
 <?php
 
+Commands::checkForAppENV();
 Commands::isComposerInstalled();
 Commands::install();
 
 class Commands
 {
 
+    public static function checkForAppENV()
+    {
+        if (!isset($_SERVER['APP_ENV']) && !isset($_ENV['APP_ENV'])) {
+            self::writeError("Missing `APP_ENV` environmental variable. Please see <docs>");
+            exit(1);
+        }
+        $env = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'];
+        if ($env !== 'prod') {
+            self::writeError("`APP_ENV` should be set to 'prod' it is set to ${env}");
+            exit(1);
+        }
+    }
     public static function isComposerInstalled()
     {
         exec('composer --version  2>&1', $output, $returnValue);
@@ -16,6 +29,7 @@ class Commands
                 break;
             case 127:
                 self::writeError("Unable to find `composer` command. See https://getcomposer.org/ for help installing it.");
+                exit(1);
                 break;
         }
     }
@@ -45,22 +59,23 @@ class Commands
                 foreach($output as $message) {
                     self::output($message);
                 }
+                exit(1);
                 break;
         }
     }
 
     private static function output($message)
     {
-        fwrite(STDOUT, "\n${message} \n");
+        fwrite(STDOUT, "${message} \n");
     }
 
     private static function writeError($message)
     {
-        fwrite(STDERR, "\n\033[31m Error: \033[0m ${message} \n");
+        fwrite(STDERR, "\n\033[31m Error: \033[0m ${message} \n\n");
     }
 
     private static function writeSuccess($message)
     {
-        fwrite(STDOUT, "\n\033[32m Success: \033[0m ${message} \n");
+        self::output("\033[32m Success: \033[0m ${message}");
     }
 }
