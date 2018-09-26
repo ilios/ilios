@@ -49,11 +49,8 @@ ILIOS_TRACKING_CODE=UA-XXXXXXXX-1
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
     apt-get update \
-    && apt-get install libldap2-dev -y \
-    && apt-get install zlib1g-dev -y \
-    && apt-get install libicu-dev -y \
+    && apt-get install libldap2-dev zlib1g-dev libicu-dev -y \
     # remove the apt source files to save space
-    && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
@@ -65,7 +62,9 @@ RUN \
     && docker-php-ext-enable opcache \
     # enable modules
     && a2enmod rewrite socache_shmcb mpm_prefork \
-    && apt-get purge
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge libldap2-dev zlib1g-dev libicu-dev -y \
+    && apt-get autoremove -y
 
 # copy configuration into the default locations
 COPY ./docker/php.ini $PHP_INI_DIR
