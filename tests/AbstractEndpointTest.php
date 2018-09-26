@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Service\Timestamper;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use DateTime;
@@ -57,6 +58,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $fixtures = array_merge($authFixtures, $testFixtures);
         $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
         ClockMock::register(__CLASS__);
+        ClockMock::register(Timestamper::class);
     }
 
     public function tearDown()
