@@ -48,7 +48,7 @@ class Timestamper
     {
         if (count($this->entities)) {
             $om = $this->registry->getManager();
-            $now = new \DateTime();
+            $now = \DateTime::createFromFormat('U', time());
             foreach ($this->entities as $class => $ids) {
                 $qb = $om->createQueryBuilder();
                 $qb->update($class, 'c')
