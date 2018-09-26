@@ -95,7 +95,12 @@ RUN \
 
 RUN chown -R www-data:www-data /var/www/ilios
 
-# launch apache httpd as a foreground service
+RUN su - www-data -s /bin/sh -c "/var/www/ilios/bin/console assets:install"
+
+# add our own entrypoint scripts
+COPY ./docker/ilios-entrypoint /usr/local/bin/
+ENTRYPOINT ["ilios-entrypoint"]
+
 CMD ["apache2-foreground"]
 
 # http is typically port 80
