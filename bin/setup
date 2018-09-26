@@ -1,0 +1,66 @@
+#!/usr/bin/env php
+<?php
+
+Commands::isComposerInstalled();
+Commands::install();
+
+class Commands
+{
+
+    public static function isComposerInstalled()
+    {
+        exec('composer --version  2>&1', $output, $returnValue);
+        switch ($returnValue) {
+            case 0:
+                self::writeSuccess('Composer is installed');
+                break;
+            case 127:
+                self::writeError("Unable to find `composer` command. See https://getcomposer.org/ for help installing it.");
+                break;
+        }
+    }
+
+    public static function install()
+    {
+        $workingDir = realpath(__DIR__ . '/../');
+        $options = [
+            "--working-dir ${workingDir}",
+            '--prefer-dist',
+            '--no-dev',
+            '--no-progress',
+            '--no-interaction',
+            '--no-suggest',
+            '--classmap-authoritative'
+        ];
+        $flags = implode(' ', $options);
+        self::output('Installing Dependencies');
+
+        exec("composer install ${flags}  2>&1", $output, $returnValue);
+        switch ($returnValue) {
+            case 0:
+                self::writeSuccess('Dependencies Installed');
+                break;
+            default:
+                self::writeError("There was a problem installing dependencies.");
+                foreach($output as $message) {
+                    self::output($message);
+                }
+                break;
+        }
+    }
+
+    private static function output($message)
+    {
+        fwrite(STDOUT, "\n${message} \n");
+    }
+
+    private static function writeError($message)
+    {
+        fwrite(STDERR, "\n\033[31m Error: \033[0m ${message} \n");
+    }
+
+    private static function writeSuccess($message)
+    {
+        fwrite(STDOUT, "\n\033[32m Success: \033[0m ${message} \n");
+    }
+}
