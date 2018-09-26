@@ -50,19 +50,22 @@ ILIOS_TRACKING_CODE=UA-XXXXXXXX-1
 RUN \
     apt-get update \
     && apt-get install libldap2-dev -y \
-    && apt-get install zlib1g-dev \
+    && apt-get install zlib1g-dev -y \
+    && apt-get install libicu-dev -y \
     # remove the apt source files to save space
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
     && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install intl \
     && pecl channel-update pecl.php.net \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && docker-php-ext-enable opcache \
     # enable modules
-    && a2enmod rewrite socache_shmcb mpm_prefork
+    && a2enmod rewrite socache_shmcb mpm_prefork \
+    && apt-get purge
 
 # copy configuration into the default locations
 COPY ./docker/php.ini $PHP_INI_DIR
