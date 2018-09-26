@@ -14,6 +14,12 @@ class PhpConfiguration implements CheckInterface
      */
     public function check()
     {
+        $opcacheEnabled = (extension_loaded('Zend OPcache') && ini_get('opcache.enable'));
+        if (!$opcacheEnabled) {
+            return new Failure(
+                "Install or enable `opcache` a PHP accelerator."
+            );
+        }
         $gtOptions = [
             'opcache.memory_consumption' => 256,
             'opcache.max_accelerated_files' => 20000,
