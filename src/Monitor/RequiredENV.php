@@ -10,7 +10,6 @@ use ZendDiagnostics\Result\Success;
 class RequiredENV implements CheckInterface
 {
     const REQUIRED_ENV = [
-        'APP_ENV',
         'ILIOS_DATABASE_URL',
         'ILIOS_DATABASE_MYSQL_VERSION',
         'ILIOS_MAILER_URL',
