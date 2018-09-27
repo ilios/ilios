@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Http\Discovery\Exception\NotFoundException;
 use App\Service\Filesystem;
 use App\Service\AuthenticationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -173,7 +172,7 @@ class IndexController extends Controller
      * @param string $path
      * @return array
      */
-    public function extractOptions($path)
+    protected function extractOptions($path)
     {
         $contents = $this->fs->readFile($path);
         $json = json_decode($contents);
@@ -194,7 +193,8 @@ class IndexController extends Controller
         $links = array_map(function ($obj) {
             return [
                 'rel' => $obj->rel,
-                'preload' => $obj->rel === 'stylesheet',
+                'isStyleSheet' => $obj->rel === 'stylesheet',
+                'isNotStyleSheet' => $obj->rel !== 'stylesheet',
                 'href' => ltrim($obj->href, '/'),
                 'sizes' => property_exists($obj, 'sizes')?$obj->sizes:null,
                 'type' => property_exists($obj, 'type')?$obj->type:null,
