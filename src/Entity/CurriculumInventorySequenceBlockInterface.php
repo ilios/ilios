@@ -191,7 +191,7 @@ interface CurriculumInventorySequenceBlockInterface extends
     /**
      * @param CurriculumInventorySequenceBlockInterface $parent
      */
-    public function setParent(CurriculumInventorySequenceBlockInterface $parent);
+    public function setParent(CurriculumInventorySequenceBlockInterface $parent = null);
 
     /**
      * @return CurriculumInventorySequenceBlockInterface

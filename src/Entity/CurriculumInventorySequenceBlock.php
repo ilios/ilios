@@ -494,7 +494,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @param CurriculumInventorySequenceBlockInterface $parent
      */
-    public function setParent(CurriculumInventorySequenceBlockInterface $parent)
+    public function setParent(CurriculumInventorySequenceBlockInterface $parent = null)
     {
         $this->parent = $parent;
     }
