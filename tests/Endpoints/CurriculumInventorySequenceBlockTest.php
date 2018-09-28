@@ -135,9 +135,6 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
         }
     }
 
-
-
-
     public function testDeleteBlockFromEndOfOrderedSequence()
     {
         $dataLoader = $this->getDataLoader();
@@ -228,6 +225,21 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
                 );
             }
         }
+    }
+
+    public function testCreateTopLevelSequenceBlockSucceeds()
+    {
+        $dataLoader = $this->getDataLoader();
+        $parent = $dataLoader->getOne();
+
+        $postData = $dataLoader->create();
+        $postData['parent'] = null;
+        $newBlock = $this->postOne(
+            'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlock',
+            'curriculumInventorySequenceBlocks',
+            $postData
+        );
     }
 
     public function testAddBlockToStartOfOrderedSequence()
@@ -667,8 +679,6 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             $this->assertEquals(0, $block['orderInSequence'], 'Blocks in a parallel sequence hold a 0 position.');
         }
     }
-
-
 
     /**
      * Sorts the blocks in a given sequence by their 'order in sequence' values.
