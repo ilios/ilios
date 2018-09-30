@@ -185,6 +185,15 @@ class ProgramYearTest extends ReadWriteEndpointTest
         );
     }
 
+    public function testPostWithNullCohort()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $dataLoader->create();
+        $postData['cohort'] = null;
+        $this->postTest($data, $postData);
+    }
+
     public function testRejectUnprivilegedPut()
     {
         $dataLoader = $this->getDataLoader();
