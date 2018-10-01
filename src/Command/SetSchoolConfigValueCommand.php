@@ -88,6 +88,7 @@ class SetSchoolConfigValueCommand extends Command
         if (!$config) {
             $config = $this->schoolConfigManager->create();
             $config->setName($name);
+            $config->setSchool($school);
         }
         $config->setValue($value);
 

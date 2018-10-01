@@ -70,6 +70,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         $this->schoolManager->shouldReceive('findOneBy')->once()->with(['id' => '1'])->andReturn($mockSchool);
         $mockConfig = m::mock(SchoolConfig::class);
         $mockConfig->shouldReceive('setValue')->with('bar')->once();
+        $mockConfig->shouldReceive('setSchool')->with($mockSchool)->once();
         $mockConfig->shouldReceive('setName')->with('foo')->once();
         $this->schoolConfigManager
             ->shouldReceive('findOneBy')
