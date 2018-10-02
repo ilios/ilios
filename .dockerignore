@@ -13,5 +13,6 @@ phpunit.xml.dist
 .travis.yml
 docker-composer.yml
 Dockerfile
-app/config/parameters.yml
+docs
+*.xml.dist
 .env
