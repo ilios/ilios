@@ -33,6 +33,18 @@ class ProgramYearController extends ApiController
         $class = $manager->getClass() . '[]';
 
         $json = $this->extractJsonFromRequest($request, $object, 'POST');
+        $obj = json_decode($json);
+        $arr = is_array($obj) ? $obj : [$obj];
+        // remove empty cohorts since we will be creating them later
+        $cleanData = array_map(function ($obj) {
+            if (empty($obj->cohort)) {
+                unset($obj->cohort);
+            }
+
+            return $obj;
+        }, $arr);
+        $json = json_encode($cleanData);
+
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
         $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE);
