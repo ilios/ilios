@@ -68,7 +68,8 @@ class SyncAllUsersCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:directory:sync-users')
+            ->setName('ilios:sync-users')
+            ->setAliases(['ilios:directory:sync-users'])
             ->setDescription('Sync all users against the directory by their campus ID.');
     }
 

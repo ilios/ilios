@@ -48,7 +48,8 @@ class ListSchoolConfigValuesCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:list-school-config-values')
+            ->setName('ilios:list-school-config-values')
+            ->setAliases(['ilios:maintenance:list-school-config-values'])
             ->setDescription('Read school configuration values from the DB')
             //required arguments
             ->addArgument(

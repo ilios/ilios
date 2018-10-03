@@ -53,7 +53,9 @@ class MigrateIlios2LearningMaterialsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:setup:migrate-learning-materials')
+            ->setName('ilios:migrate-learning-materials')
+            ->setAliases(['ilios:setup:migrate-learning-materials'])
+            ->setHidden(true)
             ->setDescription('Migrate Ilios2 Learning Materials to Ilios3 Structure')
             ->addArgument(
                 'pathToIlios2',

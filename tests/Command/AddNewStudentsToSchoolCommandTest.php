@@ -19,7 +19,7 @@ use Mockery as m;
 class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:directory:add-students';
+    const COMMAND_NAME = 'ilios:add-students';
     
     protected $userManager;
     protected $userRoleManager;

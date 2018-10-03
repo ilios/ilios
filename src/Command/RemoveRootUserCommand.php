@@ -18,7 +18,7 @@ class RemoveRootUserCommand extends Command
     /**
      * @var string
      */
-    const COMMAND_NAME = 'ilios:maintenance:remove-root-user';
+    const COMMAND_NAME = 'ilios:remove-root-user';
 
     /**
      * @var UserManager
@@ -38,6 +38,7 @@ class RemoveRootUserCommand extends Command
     {
         $this
             ->setName(self::COMMAND_NAME)
+            ->setAliases(['ilios:maintenance:remove-root-user'])
             ->setDescription('Revokes root-level privileges from a given user.')
             ->addArgument(
                 'userId',

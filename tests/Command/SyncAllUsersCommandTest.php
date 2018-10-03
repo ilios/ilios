@@ -18,7 +18,7 @@ use Mockery as m;
 class SyncAllUsersCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:directory:sync-users';
+    const COMMAND_NAME = 'ilios:sync-users';
     
     protected $userManager;
     protected $authenticationManager;

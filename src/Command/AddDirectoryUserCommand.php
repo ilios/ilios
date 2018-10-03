@@ -61,7 +61,8 @@ class AddDirectoryUserCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:directory:add-user')
+            ->setName('ilios:add-directory-user')
+            ->setAliases(['ilios:directory:add-user'])
             ->setDescription('Add a user to ilios.')
             ->addArgument(
                 'campusId',

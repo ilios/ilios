@@ -91,7 +91,8 @@ class CleanupStringsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:cleanup-strings')
+            ->setName('ilios:cleanup-strings')
+            ->setAliases(['ilios:maintenance:cleanup-strings'])
             ->setDescription('Purify HTML strings in the database to only contain allowed elements')
             ->addOption(
                 'objective-title',

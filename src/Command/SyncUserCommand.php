@@ -61,7 +61,8 @@ class SyncUserCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:directory:sync-user')
+            ->setName('ilios:sync-user')
+            ->setAliases(['ilios:directory:sync-user'])
             ->setDescription('Sync a user from the directory.')
             ->addArgument(
                 'userId',

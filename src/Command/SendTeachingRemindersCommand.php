@@ -76,7 +76,8 @@ class SendTeachingRemindersCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:messaging:send-teaching-reminders')
+            ->setName('ilios:send-teaching-reminders')
+            ->setAliases(['ilios:messaging:send-teaching-reminders'])
             ->setDescription('Sends teaching reminders to educators.')
             ->addArgument(
                 'sender',

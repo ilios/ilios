@@ -36,7 +36,8 @@ class FindUserCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:directory:find-user')
+            ->setName('ilios:find-user')
+            ->setAliases(['ilios:directory:find-user'])
             ->setDescription('Find a user in the directory.')
             ->addArgument(
                 'searchTerms',

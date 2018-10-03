@@ -16,7 +16,7 @@ use Mockery as m;
 class RolloverCourseCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:maintenance:rollover-course';
+    const COMMAND_NAME = 'ilios:rollover-course';
 
     /**
      * @var m\MockInterface

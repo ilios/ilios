@@ -38,6 +38,7 @@ class GenerateSwaggerApiPathYamlCommand extends Command
     {
         $this
             ->setName('ilios:generate:swagger-path')
+            ->setHidden(true)
             ->setDescription('Creates standard swagger path yaml file for an endpoint.')
             ->addArgument(
                 'endpointName',

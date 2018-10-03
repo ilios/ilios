@@ -114,7 +114,8 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:update-frontend')
+            ->setName('ilios:update-frontend')
+            ->setAliases(['ilios:maintenance:update-frontend'])
             ->setDescription('Updates the frontend to the latest version.')
             ->addOption(
                 'staging-build',

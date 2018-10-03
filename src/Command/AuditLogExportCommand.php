@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Entity\Manager\AuditLogManager;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -49,7 +48,8 @@ class AuditLogExportCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:export-audit-log')
+            ->setName('ilios:export-audit-log')
+            ->setAliases(['ilios:maintenance:export-audit-log'])
             ->setDescription('Exports audit log entries in a given time range and, optionally, deletes them.')
             ->addOption(
                 'delete',

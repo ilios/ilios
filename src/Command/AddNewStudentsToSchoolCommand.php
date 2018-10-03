@@ -69,7 +69,8 @@ class AddNewStudentsToSchoolCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:directory:add-students')
+            ->setName('ilios:add-students')
+            ->setAliases(['ilios:directory:add-students'])
             ->setDescription('Add students found by a directory filter into a school.')
             ->addArgument(
                 'schoolId',

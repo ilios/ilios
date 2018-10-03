@@ -88,7 +88,8 @@ class SendChangeAlertsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:messaging:send-change-alerts')
+            ->setName('ilios:send-change-alerts')
+            ->setAliases(['ilios:messaging:send-change-alerts'])
             ->setDescription('Sends out change alert message to configured email recipients.')
             ->addOption(
                 'dry-run',

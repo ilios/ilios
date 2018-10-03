@@ -11,7 +11,7 @@ use Mockery as m;
 class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:maintenance:validate-learning-materials';
+    const COMMAND_NAME = 'ilios:validate-learning-materials';
     
     protected $iliosFileSystem;
     protected $learningMaterialManager;

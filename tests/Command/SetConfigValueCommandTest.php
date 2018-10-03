@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 class SetConfigValueCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:maintenance:set-config-value';
+    const COMMAND_NAME = 'ilios:set-config-value';
     
     protected $commandTester;
     protected $applicationConfigManager;

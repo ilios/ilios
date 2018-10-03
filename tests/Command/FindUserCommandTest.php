@@ -11,7 +11,7 @@ use Mockery as m;
 class FindUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:directory:find-user';
+    const COMMAND_NAME = 'ilios:find-user';
     
     protected $commandTester;
     protected $directory;

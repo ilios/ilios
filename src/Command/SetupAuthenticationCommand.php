@@ -39,7 +39,8 @@ class SetupAuthenticationCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:setup:authentication')
+            ->setName('ilios:setup-authentication')
+            ->setAliases(['ilios:setup:authentication'])
             ->setDescription('Sets up authentication.');
     }
 

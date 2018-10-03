@@ -35,7 +35,9 @@ class CrossingGuardCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('ilios:maintenance:crossing-guard')
+        $this
+            ->setName('ilios:crossing-guard')
+            ->setAliases(['ilios:maintenance:crossing-guard'])
             ->setDescription('Enable, disable, and check the status of the crossing guard.')
             ->addArgument(
                 'action',

@@ -57,6 +57,7 @@ class GenerateEndpointTestCommand extends Command
     {
         $this
             ->setName('ilios:generate:endpoint-test')
+            ->setHidden(true)
             ->setDescription('Creates basic test for an endpoint.')
             ->addArgument(
                 'entityShortcut',

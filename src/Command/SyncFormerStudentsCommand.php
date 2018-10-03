@@ -55,7 +55,8 @@ class SyncFormerStudentsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:directory:sync-former-students')
+            ->setName('ilios:sync-former-students')
+            ->setAliases(['ilios:directory:sync-former-students'])
             ->setDescription('Sync former students from the directory.')
             ->addArgument(
                 'filter',

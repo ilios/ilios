@@ -11,7 +11,7 @@ use Mockery as m;
 class CleanupStringsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:maintenance:cleanup-strings';
+    const COMMAND_NAME = 'ilios:cleanup-strings';
     
     protected $purifier;
     protected $em;

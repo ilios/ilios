@@ -11,7 +11,7 @@ use Mockery as m;
 class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:setup:migrate-learning-materials';
+    const COMMAND_NAME = 'ilios:migrate-learning-materials';
     
     protected $symfonyFileSystem;
     protected $iliosFileSystem;

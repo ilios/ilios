@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class InstallFirstUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:setup:first-user';
+    const COMMAND_NAME = 'ilios:setup-first-user';
 
     protected $userManager;
     protected $authenticationManager;
