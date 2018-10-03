@@ -39,7 +39,8 @@ class ListConfigValuesCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:list-config-values')
+            ->setName('ilios:list-config-values')
+            ->setAliases(['ilios:maintenance:list-config-values'])
             ->setDescription('Read configuration values from the DB');
     }
 

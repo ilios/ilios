@@ -56,6 +56,7 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
     {
         $this
             ->setName('ilios:generate:swagger-definition')
+            ->setHidden(true)
             ->setDescription('Creates standard swagger definition yaml file for an entity.')
             ->addArgument(
                 'entityShortcut',

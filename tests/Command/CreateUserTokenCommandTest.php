@@ -11,7 +11,7 @@ use Mockery as m;
 class CreateUserTokenCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:maintenance:create-user-token';
+    const COMMAND_NAME = 'ilios:create-user-token';
     
     protected $userManager;
     protected $commandTester;

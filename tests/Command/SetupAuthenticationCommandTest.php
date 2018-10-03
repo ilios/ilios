@@ -16,7 +16,7 @@ use Mockery as m;
 class SetupAuthenticationCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:setup:authentication';
+    const COMMAND_NAME = 'ilios:setup-authentication';
 
     protected $applicationConfigManager;
     protected $questionHelper;

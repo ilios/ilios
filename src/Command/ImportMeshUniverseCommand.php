@@ -54,7 +54,8 @@ class ImportMeshUniverseCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:import-mesh-universe')
+            ->setName('ilios:import-mesh-universe')
+            ->setAliases(['ilios:maintenance:import-mesh-universe'])
             ->setDescription('Imports the MeSH universe into Ilios.')
             ->addOption(
                 'url',

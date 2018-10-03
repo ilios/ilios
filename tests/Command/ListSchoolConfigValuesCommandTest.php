@@ -13,7 +13,7 @@ use Mockery as m;
 class ListSchoolConfigValuesCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:maintenance:list-school-config-values';
+    const COMMAND_NAME = 'ilios:list-school-config-values';
     
     protected $commandTester;
     protected $schoolManager;

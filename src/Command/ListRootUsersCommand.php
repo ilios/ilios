@@ -17,7 +17,7 @@ class ListRootUsersCommand extends Command
     /**
      * @var string
      */
-    const COMMAND_NAME = 'ilios:maintenance:list-root-users';
+    const COMMAND_NAME = 'ilios:list-root-users';
 
     /**
      * @var UserManager
@@ -37,6 +37,7 @@ class ListRootUsersCommand extends Command
     {
         $this
             ->setName(self::COMMAND_NAME)
+            ->setAliases(['ilios:maintenance:list-root-users'])
             ->setDescription('Lists all users with root-level privileges.');
     }
 

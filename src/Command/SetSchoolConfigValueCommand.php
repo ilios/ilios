@@ -47,7 +47,8 @@ class SetSchoolConfigValueCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:set-school-config-value')
+            ->setName('ilios:set-school-config-value')
+            ->setAliases(['ilios:maintenance:set-school-config-value'])
             ->setDescription('Set a configuration value in the DB')
             //required arguments
             ->addArgument(

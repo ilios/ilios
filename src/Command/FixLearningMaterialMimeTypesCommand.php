@@ -11,7 +11,6 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 use App\Entity\Manager\LearningMaterialManager;
 use App\Service\IliosFileSystem;
-use Symfony\Component\Debug\Exception\ContextErrorException;
 
 /**
  * Cleanup incorrectly stored mime types for learning materials.
@@ -44,7 +43,8 @@ class FixLearningMaterialMimeTypesCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:fix-mime-types')
+            ->setName('ilios:fix-mime-types')
+            ->setAliases(['ilios:maintenance:fix-mime-types'])
             ->setDescription('Cleanup incorrectly stored mime types for learning materials.');
     }
 

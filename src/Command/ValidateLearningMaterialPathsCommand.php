@@ -45,7 +45,8 @@ class ValidateLearningMaterialPathsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:validate-learning-materials')
+            ->setName('ilios:validate-learning-materials')
+            ->setAliases(['ilios:maintenance:validate-learning-materials'])
             ->setDescription('Validate file paths for learning materials');
     }
 

@@ -18,7 +18,7 @@ class AddRootUserCommand extends Command
     /**
      * @var string
      */
-    const COMMAND_NAME = 'ilios:maintenance:add-root-user';
+    const COMMAND_NAME = 'ilios:add-root-user';
 
     /**
      * @var UserManager
@@ -38,6 +38,7 @@ class AddRootUserCommand extends Command
     {
         $this
             ->setName(self::COMMAND_NAME)
+            ->setAliases(['ilios:maintenance:add-root-user'])
             ->setDescription('Grants root-level privileges to a given user.')
             ->addArgument(
                 'userId',

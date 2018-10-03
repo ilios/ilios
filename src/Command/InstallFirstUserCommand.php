@@ -99,7 +99,8 @@ class InstallFirstUserCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:setup:first-user')
+            ->setName('ilios:setup-first-user')
+            ->setAliases(['ilios:setup:first-user'])
             ->setDescription('Creates a first user account with root privileges.')
             ->addOption(
                 'school',

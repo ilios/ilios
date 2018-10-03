@@ -71,7 +71,10 @@ class AddUserCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('ilios:maintenance:add-user')->setDescription('Add a user to ilios.');
+        $this
+            ->setName('ilios:add-user')
+            ->setAliases(['ilios:maintenance:add-user'])
+            ->setDescription('Add a user to ilios.');
         $userOptions = [
             'schoolId',
             'firstName',

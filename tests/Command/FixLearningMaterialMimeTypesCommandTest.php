@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\File;
 class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:maintenance:fix-mime-types';
+    const COMMAND_NAME = 'ilios:fix-mime-types';
     
     protected $iliosFileSystem;
     protected $learningMaterialManager;

@@ -46,7 +46,8 @@ class CreateUserTokenCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:create-user-token')
+            ->setName('ilios:create-user-token')
+            ->setAliases(['ilios:maintenance:create-user-token'])
             ->setDescription('Create a new API token for a user.')
             ->addArgument(
                 'userId',

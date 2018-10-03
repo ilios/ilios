@@ -44,7 +44,8 @@ class RolloverCurriculumInventoryReportCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:rollover-ci-report')
+            ->setName('ilios:rollover-ci-report')
+            ->setAliases(['ilios:maintenance:rollover-ci-report'])
             ->setDescription('Rolls over (copies) a given curriculum inventory report.')
             //required arguments
             ->addArgument(

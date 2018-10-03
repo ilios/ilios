@@ -37,7 +37,7 @@ use Mockery as m;
 class SendChangeAlertsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:messaging:send-change-alerts';
+    const COMMAND_NAME = 'ilios:send-change-alerts';
 
     /**
      * @var m\MockInterface

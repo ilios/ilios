@@ -37,7 +37,8 @@ class RolloverCourseCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:rollover-course')
+            ->setName('ilios:rollover-course')
+            ->setAliases(['ilios:maintenance:rollover-course'])
             ->setDescription('Roll over a course to a new year using its course_id')
             //required arguments
             ->addArgument(

@@ -38,7 +38,8 @@ class SetConfigValueCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:maintenance:set-config-value')
+            ->setName('ilios:set-config-value')
+            ->setAliases(['ilios:maintenance:set-config-value'])
             ->setDescription('Set a configuration value in the DB')
             //required arguments
             ->addArgument(
