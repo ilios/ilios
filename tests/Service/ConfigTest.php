@@ -115,7 +115,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testLooksInServerIfNotInEnv()
+    public function testDoesnOverwriteEnvWithServer()
     {
         $manager = m::mock(ApplicationConfigManager::class);
         $config = new Config($manager);
@@ -128,5 +128,33 @@ class ConfigTest extends TestCase
         $this->assertEquals($value, $result);
         unset($_SERVER[$envKey]);
         unset($_ENV[$envKey]);
+    }
+
+    public function testLooksInServerIfEnvIsNull()
+    {
+        $manager = m::mock(ApplicationConfigManager::class);
+        $config = new Config($manager);
+        $value = '123Test';
+        $key = 'random-key-99';
+        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $_ENV[$envKey] = null;
+        $_SERVER[$envKey] = $value;
+        $result = $config->get($key);
+        $this->assertEquals($value, $result);
+        unset($_SERVER[$envKey]);
+        unset($_ENV[$envKey]);
+    }
+
+    public function testLooksInServerIfEnvIsNotSet()
+    {
+        $manager = m::mock(ApplicationConfigManager::class);
+        $config = new Config($manager);
+        $value = '123Test';
+        $key = 'random-key-99';
+        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $_SERVER[$envKey] = $value;
+        $result = $config->get($key);
+        $this->assertEquals($value, $result);
+        unset($_SERVER[$envKey]);
     }
 }
