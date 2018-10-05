@@ -159,7 +159,7 @@ SetEnv ILIOS_SECRET ThisTokenIsNotSoSecretChangeIt
 ```
 
 #### Multiple Ilios instances on single Apache httpd server:
-If you are running more than Ilios instance (eg, production and staging instances) on a single Apache httpd server using multiple VirtualHost configurations, certain variables will collide (eg, `ILIOS_DATABASE_NAME`), so these will need to be set conditionally.  In order to do this, you will need to install/enable the `mod_setenvif` Apache module and set the 'SetEnvIf' directives in the appropriate section(s) of your httpd configuration files as shown.  Note that the values shared between the two instances are set using `SetEnv`, while the conditional values are set with `SetEnvIf` and require a specific condition to be true in order to be set.  
+If you are running more than one Ilios instance (eg, production and staging instances) on a single Apache httpd server using multiple VirtualHost configurations, certain variables will collide (eg, `ILIOS_DATABASE_URL`), so these will need to be set conditionally.  In order to do this, you will need to install/enable the `mod_setenvif` Apache module and set the 'SetEnvIf' directives in the appropriate section(s) of your httpd configuration files as shown.  Note that the values shared between the two instances are set using `SetEnv`, while the conditional values are set with `SetEnvIf` and require a specific condition to be true in order to be set.  
 
 ```
 SetEnv ILIOS_DATABASE_MYSQL_VERSION 5.7
@@ -170,7 +170,6 @@ SetEnv ILIOS_MAILER_PASSWORD null
 SetEnv ILIOS_LOCALE en
 
 SetEnvIf Host "ilios-staging\.example\.com" ILIOS_DATABASE_URL=SetEnv ILIOS_DATABASE_URL mysql://ilios_staging_db_user:Stag1ngPassw0rd@db-host1/ilios_stage_db
-SetEnvIf Host "ilios-staging\.example\.com" ILIOS_DATABASE_USER=ilios_staging_db_user
 SetEnvIf Host "ilios-staging\.example\.com ILIOS_SECRET=ST@G1nGS3CRET12345
 
 SetEnvIf Host "ilios-production\.example\.com" ILIOS_DATABASE_URL=mysql://ilios_production_db_user:Pr0duct10nPassw0rd@/db-host1/ilios_production_db
