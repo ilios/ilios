@@ -1,8 +1,6 @@
 # Using Environmental Variables for Ilios Configuration Settings
 
-If you are familiar with versions of Ilios prior to v3.56.0, you have probably already noticed that there is no longer a `parameters.yml` file for managing the configuration settings of an Ilios instance, including its database connection settings and credentials.  As of Ilios v3.56.0, the parameters.yml file has been removed in favor of setting the configuration variables as 'Runtime Environment Variables' within the context of the user that runs your web service processes on the system (typically 'apache', 'www', 'nginx', etc).
-
-Prior to October 2017, most of the Ilios configuration options could be found in a 'parameters.yml' YAML file located in the `config/` folder of the Ilios application but, over the past year, we have deprecated this method in favor of storing these values in the database or, where that is not possible (eg, database settings and credentials), setting them as user runtime environment variables instead.
+If you are familiar with versions of Ilios prior to v3.56.0, you have probably already noticed that there is no longer a `parameters.yml` file for managing the configuration settings of an Ilios instance, including its database connection settings and credentials.  As of Ilios v3.56.0, the parameters.yml file has been removed in favor of storing these values in the database or, where that is not possible (eg, database settings and credentials), setting the configuration variables as 'Runtime Environment Variables' within the context of the user that runs your web service processes on the system (typically 'apache', 'www', 'nginx', etc) instead.
 
 Currently, almost all of the configuration settings for Ilios are stored within the `application_config` table of the Ilios database, except as noted below. The values listed here must be set in the local user's environment for initial installation and when running console commands on the command line and, for the actual web-server processes, these variables must also be set in the context of the user/daemon that runs the web services while the services are running (eg, `apache`, etc).
 
@@ -30,8 +28,8 @@ ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 # the location of the learning materials on your system
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/ilios/learning_materials
 
-# the mailer url
-ILIOS_MAILER_URL=null
+# the mailer url, in url format (eg, smtp://[mailer-hostname]:[port]/?[attibute]=[value][?[attribute]=[value]]
+ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 ```
 
 To see which environment variables are set for your respective user, you can run the `env` command like so:
@@ -53,7 +51,7 @@ HISTSIZE=1000
 MAIL=/var/spool/mail/ilios_user
 PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ilios_user/.local/bin:/home/ilios_user/bin
 HOME=/home/ilios_user
-ILIOS_MAILER_URL=null
+ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
@@ -79,7 +77,7 @@ You can set these runtime variables in one of 3 ways:
 # they will be set and ready to be used upon login to the terminal and throughout the entirety of your user session
 
 export APP_ENV=prod
-export ILIOS_MAILER_URL=null
+export ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 export ILIOS_AUTHENTICATION_TYPE=form
 export ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 export ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
@@ -98,7 +96,7 @@ Let's say that you are going to run the `/bin/setup` command to install a comple
 # set the environment variables
 ILIOS_APP_DIR=/var/www/ilios
 APP_ENV=prod
-ILIOS_MAILER_URL=null
+ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
@@ -114,12 +112,12 @@ Note that doing it this way will only set the ENV variables for the duration of 
 
 #### Example #3 - Setting ENV vars at the command line directly
 
-Technically, you can set all of the ENV vars at the command line on the same line and at the same time that you run the `bin/setup` command, like so:
+While it is technically possible to set all of the ENV vars at the command line on the same line when you run the `bin/setup` command, we do not recommend this approach.  However, if you choose to do so, it would look something like this:
 
 ```bash
-APP_ENV=prod ILIOS_MAILER_URL=null ILIOS_AUTHENTICATION_TYPE=form ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db ILIOS_DATABASE_MYSQL_VERSION=5.7 ILIOS_LOCALE=en ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt bin/setup
+APP_ENV=prod ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd ILIOS_AUTHENTICATION_TYPE=form ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db ILIOS_DATABASE_MYSQL_VERSION=5.7 ILIOS_LOCALE=en ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt bin/setup
 ```
-Doing it this way is not recommended, however, as it would require you to set the ENV vars ANY and EVERY time you ran any command from the command line.  As in example 2, the ENV vars set in this way only persist for the duration of the execution of the command being run.
+Furthermore, as was the case in Example #2, the ENV vars set in this way only persist for the duration of the execution of the command being run.
   
 ## Setting Environment Variables for the Web-Services user
 
@@ -133,7 +131,7 @@ By populating one of these web service user-specific initialization scripts with
 
 ```
 APP_ENV=prod
-ILIOS_MAILER_URL=null
+ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
@@ -150,10 +148,7 @@ In order to set runtime environment variables within the Apache httpd web servic
 SetEnv ILIOS_DATABASE_URL mysql://ilios_db_user:Pa$$w0rd@db-host1/ilios_db
 SetEnv ILIOS_DATABASE_MYSQL_VERSION 5.7
 SetEnv ILIOS_DATABASE_PORT 3306
-SetEnv ILIOS_MAILER_TRANSPORT smtp
-SetEnv ILIOS_MAILER_HOST 127.0.0.1
-SetEnv ILIOS_MAILER_USER null
-SetEnv ILIOS_MAILER_PASSWORD null
+SetEnv ILIOS_MAILER_URL smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 SetEnv ILIOS_LOCALE en
 SetEnv ILIOS_SECRET ThisTokenIsNotSoSecretChangeIt
 ```
@@ -163,10 +158,7 @@ If you are running more than one Ilios instance (eg, production and staging inst
 
 ```
 SetEnv ILIOS_DATABASE_MYSQL_VERSION 5.7
-SetEnv ILIOS_MAILER_TRANSPORT smtp
-SetEnv ILIOS_MAILER_HOST 127.0.0.1
-SetEnv ILIOS_MAILER_USER null
-SetEnv ILIOS_MAILER_PASSWORD null
+SetEnv ILIOS_MAILER_URL smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 SetEnv ILIOS_LOCALE en
 
 SetEnvIf Host "ilios-staging\.example\.com" ILIOS_DATABASE_URL=SetEnv ILIOS_DATABASE_URL mysql://ilios_staging_db_user:Stag1ngPassw0rd@db-host1/ilios_stage_db
@@ -216,7 +208,7 @@ We populate the `apache` web service user's init script at `/etc/sysconfig/httpd
 
 ```bash
 APP_ENV=prod
-ILIOS_MAILER_URL=null
+ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
