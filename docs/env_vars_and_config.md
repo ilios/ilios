@@ -127,7 +127,7 @@ The user running the web server processes on your system will most likely NOT ha
 
 ##### (NOTE: At this time, we only have instructions for configuring ENV variables on an Apache 2.4.x web server. Documentation for Nginx servers is forthcoming...)
 
-#### Setting Web Service ENV vars via Web Service User Initialization Scripts (Apache httpd)
+#### Option #1: Setting Web Service ENV vars via Web Service User Initialization Scripts (Apache httpd)
 
 By populating one of these web service user-specific initialization scripts with the ENV vars in the same way as shown for a shell script (see Example #2 above), the variables will be accessible by the web daemon/service while the service remains running.  For example, on a RHEL system (RedHat, CentOS, or Fedora), we would populate the `/etc/sysconfig/http` file with following content:
 
@@ -142,7 +142,7 @@ ILIOS_LOCALE=en
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 ``` 
 
-#### Setting Web Service ENV vars via the Web Service Configuration Files (Apache httpd)
+#### Option #2: Setting Web Service ENV vars via the Web Service Configuration Files (Apache httpd)
 
 In order to set runtime environment variables within the Apache httpd web service configuration itself, you will need to enable the `mod_env` Apache module and set the `SetEnv` directives in the appropriate section(s) of your httpd configuration files as shown:
 
