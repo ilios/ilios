@@ -63,7 +63,7 @@ ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 APP_ENV=prod
 ```
 
-You'll want to verify that the `APP_ENV` variable is set (typically to `prod`) and that the other variables shown above, and prefixed by `ILIOS_` are also present.
+You'll want to verify that the `APP_ENV` variable is set (typically to `prod`) and that the other variables shown above, prefixed by `ILIOS_`, are also present.
 
 # Setting ENV vars
 
