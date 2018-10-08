@@ -193,7 +193,7 @@ ILIOS_SECRET
 OK Default Timezone: Default timezone is UTC
 OK Extension Loaded: apcu,mbstring,ldap,xml,dom,mysqlnd,pdo,zip,json,zlib,ctype,iconv extensions are loaded.
 OK Dir Readable: The path is a readable directory.
-FAIL Dir Writable: /Users/hedrick/Documents/projects/ilios_CLEAN/var/cache/prod directory is not writable.
+FAIL Dir Writable: /var/www/ilios/var/cache/prod directory is not writable.
 OK Security Advisory: There are currently no security advisories for packages specified in /var/www/ilios/src/../composer.lock
 OK PHP version ">=" "7.2": Current PHP version is 7.2.10
 ```
