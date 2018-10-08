@@ -123,8 +123,6 @@ Furthermore, as was the case in Example #2, the ENV vars set in this way only pe
 
 The user running the web server processes on your system will most likely NOT have an environment with a typical login shell like `BASH` or `csh`, so setting the ENV vars cannot be done with the usual method (eg, prefixing the command with `APP_ENV=prod ILIOS_SECRET='SomethingSecret'` vars at the command line). In these cases, the web service user's ENV variable values need to be set in the web server configuration directly (eg, within the `httpd.conf` file on Apache) or within the web service user's initialization script (eg, `/etc/sysconfig/httpd` or `/etc/apache/envvars`, depending on your flavor of Linux).
 
-##### (NOTE: At this time, we only have instructions for configuring ENV variables on an Apache 2.4.x web server. Documentation for Nginx servers is forthcoming...)
-
 #### Option #1: Setting Web Service ENV vars via Web Service User Initialization Scripts (Apache httpd)
 
 By populating one of these web service user-specific initialization scripts with the ENV vars in the same way as shown for a shell script (see Example #2 above), the variables will be accessible by the web daemon/service while the service remains running.  For example, on a RHEL system (RedHat, CentOS, or Fedora), we would populate the `/etc/sysconfig/http` file with following content:
@@ -172,9 +170,47 @@ For more information on Apache Environments, `SetEnv`, and `SetEnvIf`, please re
 
 ## Verifying your Environment Variables
 
-#### Verifying the Environment at the Command Line
+#### Verifying the user Environment at the Command Line
 
-If you would like to verify the env variables for yourself or a different user on command line, run the following commands:
+If you would like to verify that you have set all of the ENV variables required to install Ilios or use its command-line tools, you can run the following console command to do and Ilios-readiness health check (example shown being run in the context of the `apache` command-line user):
+
+```bash
+sudo -u apache bin/console monitor:list
+```
+
+If you are missing anything, the output will let you know by returning a message with the missing items and/or system that are incorrectly configured, like this:
+
+```bash
+FAIL ENV variables:
+Missing:
+ILIOS_DATABASE_URL
+ILIOS_DATABASE_MYSQL_VERSION
+ILIOS_MAILER_URL
+ILIOS_LOCALE
+ILIOS_SECRET
+ For help see:
+ https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md
+OK Default Timezone: Default timezone is UTC
+OK Extension Loaded: apcu,mbstring,ldap,xml,dom,mysqlnd,pdo,zip,json,zlib,ctype,iconv extensions are loaded.
+OK Dir Readable: The path is a readable directory.
+FAIL Dir Writable: /Users/hedrick/Documents/projects/ilios_CLEAN/var/cache/prod directory is not writable.
+OK Security Advisory: There are currently no security advisories for packages specified in /var/www/ilios/src/../composer.lock
+OK PHP version ">=" "7.2": Current PHP version is 7.2.10
+```
+
+If your setup is ready for Ilios to be installed, the health check console command should return an output message like this:
+
+```bash
+OK ENV variables: All required ENV variables are setup
+OK Default Timezone: Default timezone is UTC
+OK Extension Loaded: apcu,mbstring,ldap,xml,dom,mysqlnd,pdo,zip,json,zlib,ctype,iconv extensions are loaded.
+OK Dir Readable: The path is a readable directory.
+OK Dir Writable: The path is a writable directory.
+OK Security Advisory: There are currently no security advisories for packages specified in /var/www/ilios/src/../composer.lock
+OK PHP version ">=" "7.2": Current PHP version is 7.2.10
+```
+
+If you would like to verify ALL of the ENV variables for yourself or a different user on command line, and not just the ENV vars needed for Ilios, you can run the following commands:
 
 ```bash
 # for yourself
@@ -187,7 +223,13 @@ sudo -u [USER_NAME] env
 ```
 
 #### Verifying the Environment on the Web Server
-To verify which ENV vars, if any, are set for within your web service, create a php file on your webserver with the following content and then view the file in your browser:
+To verify that the web-service user has all of the required ENV vars set for your Ilios instance, you can launch the Ilios health check by visiting the health-check URL of your Ilios system in your browser by going to https://[YOUR ILIOS FQDN]/ilios/health
+
+If all of the settings are correct, all of the boxes of the 'System Health Status' grid shown at the top page should be displayed in green as shown here:
+
+![ilios_system_health_status_all_green.png](images/ilios_system_health_status_all_green.png)
+
+If you would like to verify/review all of the ENV vars are set for within your web service, and not just those necessary for running Ilios, create a php file on your webserver with the following content and then view the file in your browser:
 
 ```php
 <?php
