@@ -67,9 +67,6 @@ abstract class AbstractEndpointTest extends WebTestCase
         unset($this->client);
         unset($this->fixtures);
         unset($this->faker);
-        // Until https://github.com/doctrine/annotations/pull/135
-        // is merged we need to keep the registry clean ourselves
-        AnnotationRegistry::reset();
     }
 
     /**
