@@ -41,6 +41,13 @@ _monitor:
   resource: "@LiipMonitorBundle/Resources/config/routing.xml"
   prefix: /ilios/health
 
+ilios_swagger_redirect_docs:
+  path: /api/docs/
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+  defaults:
+    path: /api/doc/
+    permanent: true
+
 ilios_swagger_index:
   path:     /api/doc/
   controller: App\Controller\SwaggerDocsController::indexAction
@@ -568,7 +575,7 @@ api_bad_request:
   defaults:
     url: null
   requirements:
-    url: ".+"
+    url: "(?!doc).+"
 
 ilios_web_ics:
   path:     /ics/{key}
@@ -614,4 +621,4 @@ ilios_web_assets:
     fileName: null
     versionedStaticFile: true
   requirements:
-    fileName: ".+"
+    fileName: "(?!api).+"
