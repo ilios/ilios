@@ -28,13 +28,11 @@ ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 # The location of the learning materials on your system:
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/ilios/learning_materials
 
-# The mailer url, in url format with extra settings passed
-# as 'GET' vars in the query string as shown here:
+# The mailer url, in url format with extra settings passed as 'GET' vars in the query string as shown here:
 # smtp://{mailer-hostname:port}[[/?attibute][=value][&attribute][=value]]
 #
-# If you initially relay SMTP through your localhost without
-# authentication over port 25 (SMTP default), use the following
-# simplified URL without a trailing slash or query string:
+# If you initially relay SMTP through your localhost over port 25 (smtp default), and without authentication,
+# use the following simplified URL without a trailing slash or query string:
 ILIOS_MAILER_URL=smtp://localhost:25
 ```
 
