@@ -13,19 +13,19 @@ APP_ENV=prod
 # The authentication should be set to whichever type of user authentication you use (`form`,`cas`,`shibboleth`,`ldap`):
 ILIOS_AUTHENTICATION_TYPE=form
 
-# The database connection settings, in url format (eg, mysql://{username}:{password}@{database-hostname}/{database_name}
+# The database connection settings, in url format (eg, mysql://{username}:{password}@{database-hostname}/{database_name}:
 ILIOS_DATABASE_URL="mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db"
 
-# The version of the MySQL database you are using
+# The version of the MySQL database server you are using:
 ILIOS_DATABASE_MYSQL_VERSION=5.7
 
-# The locale of the Ilios instance (which language to use: `en`,`fr`,`es`)
+# The locale of the Ilios instance (which language to use: `en`,`fr`,`es`):
 ILIOS_LOCALE=en
 
-# The hash secret for encrypting strings within the Ilios Application
+# The hash secret for encrypting strings within the Ilios Application:
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 
-# The location of the learning materials on your system
+# The location of the learning materials on your system:
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/ilios/learning_materials
 
 # The mailer url, in url format with extra settings passed
