@@ -7,29 +7,35 @@ Currently, almost all of the configuration settings for Ilios are stored within 
 Before attempting to install or update an Ilios instance, please make sure the following values are set and present in your user's system environment as well as the system environment of the user that runs the web services on your system:
 
 ```bash
-# the application environment variable 'APP_ENV' should always be set, and it will almost always be set to `prod` 
+# The application environment variable 'APP_ENV' should always be set, and it will almost always be set to `prod`:
 APP_ENV=prod
 
-# the authentication should be set to whichever type of user authentication you use (`form`,`cas`,`shibboleth`,`ldap`)
+# The authentication should be set to whichever type of user authentication you use (`form`,`cas`,`shibboleth`,`ldap`):
 ILIOS_AUTHENTICATION_TYPE=form
 
-# the database connection settings, in url format (eg, mysql://[username]:[password]@[database-hostname]/[database_name]
+# The database connection settings, in url format (eg, mysql://{username}:{password}@{database-hostname}/{database_name}
 ILIOS_DATABASE_URL="mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db"
 
-# the version of the MySQL database you are using
+# The version of the MySQL database you are using
 ILIOS_DATABASE_MYSQL_VERSION=5.7
 
-# the locale of the Ilios instance (which language to use: `en`,`fr`,`es`)
+# The locale of the Ilios instance (which language to use: `en`,`fr`,`es`)
 ILIOS_LOCALE=en
 
-# the hash secret for encrypting strings within the Ilios Application
+# The hash secret for encrypting strings within the Ilios Application
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 
-# the location of the learning materials on your system
+# The location of the learning materials on your system
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/ilios/learning_materials
 
-# the mailer url, in url format (eg, smtp://[mailer-hostname]:[port]/?[attibute]=[value][?[attribute]=[value]]
-ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
+# The mailer url, in url format with extra settings passed
+# as 'GET' vars in the query string as shown here:
+# smtp://{mailer-hostname:port}[[/?attibute][=value][&attribute][=value]]
+#
+# If you initially relay SMTP through your localhost without
+# authentication over port 25 (SMTP default), use the following
+# simplified URL without a trailing slash or query string:
+ILIOS_MAILER_URL=smtp://localhost:25
 ```
 
 To see which environment variables are set for your respective user, you can run the `env` command like so:
@@ -250,7 +256,7 @@ We populate the `apache` web service user's init script at `/etc/sysconfig/httpd
 
 ```bash
 APP_ENV=prod
-ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
+ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
