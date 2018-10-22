@@ -210,7 +210,7 @@ class IliosFileSystemTest extends TestCase
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
         $lockFileDir = dirname($lockFilePath);
-        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(true);
+        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(false);
         $this->mockFileSystem->shouldReceive('touch')->with($lockFilePath);
         $this->mockFileSystem->shouldReceive('mkdir')->with($lockFileDir);
         $this->iliosFileSystem->createLock($name);
@@ -241,6 +241,17 @@ class IliosFileSystemTest extends TestCase
         $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(false);
         $status = $this->iliosFileSystem->hasLock($name);
         $this->assertFalse($status);
+    }
+
+    public function testWaitForLock()
+    {
+        $name = 'test.lock';
+        $lockFilePath = $this->getTestFileLock($name);
+        $lockFileDir = dirname($lockFilePath);
+        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(false);
+        $this->mockFileSystem->shouldReceive('touch')->with($lockFilePath);
+        $this->mockFileSystem->shouldReceive('mkdir')->with($lockFileDir);
+        $this->iliosFileSystem->waitForLock($name);
     }
 
     public function testConvertsUnsafeFileNames()
