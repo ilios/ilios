@@ -297,7 +297,7 @@ class Term implements TermInterface
     /**
      * @inheritdoc
      */
-    public function setParent(TermInterface $parent)
+    public function setParent(TermInterface $parent = null)
     {
         $this->parent = $parent;
     }
