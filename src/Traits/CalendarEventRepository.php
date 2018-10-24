@@ -46,6 +46,12 @@ trait CalendarEventRepository
             $event->equipmentRequired = $arr['equipmentRequired'];
             $event->supplemental = $arr['supplemental'];
             $event->attendanceRequired = $arr['attendanceRequired'];
+            if ($arr['postrequisiteSessionId']) {
+                $event->postrequisiteSession = [
+                    'id' => $arr['postrequisiteSessionId'],
+                    'title' => $arr['postrequisiteSessionTitle'],
+                ];
+            }
             return $event;
         }, $results);
     }
@@ -81,6 +87,12 @@ trait CalendarEventRepository
             $event->equipmentRequired = $arr['equipmentRequired'];
             $event->supplemental = $arr['supplemental'];
             $event->attendanceRequired = $arr['attendanceRequired'];
+            if ($arr['postrequisiteSessionId']) {
+                $event->postrequisiteSession = [
+                    'id' => $arr['postrequisiteSessionId'],
+                    'title' => $arr['postrequisiteSessionTitle'],
+                ];
+            }
             return $event;
         }, $results);
     }
@@ -224,7 +236,7 @@ trait CalendarEventRepository
      * @param EntityManager $em
      * @return array The events list with objectives and competencies added.
      */
-    public function attachObjectivesAndCompetenciesToEvents(array $events, EntityManager $em)
+    public function attachSessionDataToEvents(array $events, EntityManager $em)
     {
         $sessionIds = array_unique(array_column($events, 'session'));
         $courseIds = array_unique(array_column($events, 'courseId'));
@@ -340,7 +352,33 @@ trait CalendarEventRepository
             }
         }
 
+        $qb = $em->createQueryBuilder();
+        $qb->select('s.id AS session_id, pre.id AS id, pre.title AS title')
+            ->distinct()
+            ->from('App\Entity\Session', 's')
+            ->join('s.prerequisites', 'pre')
+            ->where($qb->expr()->in('s.id', ':ids'))
+            ->setParameter(':ids', $sessionIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        $prerequisiteSessions = [];
+
+        foreach ($results as $result) {
+            $sessionId = $result['session_id'];
+
+            if (! array_key_exists($sessionId, $prerequisiteSessions)) {
+                $prerequisiteSessions[$sessionId] = [];
+            }
+
+            $prerequisiteSessions[$sessionId][] = [
+                'id' => $result['id'],
+                'title' => $result['title']
+            ];
+        }
+
         for ($i = 0, $n = count($events); $i < $n; $i++) {
+            /** @var CalendarEvent $event */
             $event = $events[$i];
             if (array_key_exists($event->session, $sessionObjectives)) {
                 $event->sessionObjectives = array_values($sessionObjectives[$event->session]);
@@ -371,6 +409,9 @@ trait CalendarEventRepository
                 }
             }
             $event->competencies = array_values($tmp);
+            if (array_key_exists($event->session, $prerequisiteSessions)) {
+                $event->prerequisiteSessions = array_values($prerequisiteSessions[$event->session]);
+            }
         }
 
         return $events;

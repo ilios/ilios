@@ -121,11 +121,11 @@ class UserManager extends BaseManager
      * @return CalendarEvent[]
      * @throws \Exception
      */
-    public function addObjectivesAndCompetenciesToEvents(array $events)
+    public function addSessionDataToEvents(array $events)
     {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
-        return $repository->addObjectivesAndCompetenciesToEvents($events);
+        return $repository->addSessionDataToEvents($events);
     }
 
     /**

@@ -211,6 +211,20 @@ class CalendarEvent
     public $competencies = array();
 
     /**
+     * @var []
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $postrequisiteSession;
+
+    /**
+     * @var []
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $prerequisiteSessions = array();
+
+    /**
      * Clean out all the data for draft or scheduled events
      *
      * This information is not available to un-privileged users
@@ -252,6 +266,7 @@ class CalendarEvent
             $this->sessionObjectives = [];
             $this->courseObjectives = [];
             $this->competencies = [];
+            $this->prerequisiteSessions = [];
         }
     }
 

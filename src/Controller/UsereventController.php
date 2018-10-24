@@ -90,7 +90,7 @@ class UsereventController extends AbstractController
 
         $result = $manager->addInstructorsToEvents($events);
         $result = $manager->addMaterialsToEvents($result);
-        $result = $manager->addObjectivesAndCompetenciesToEvents($result);
+        $result = $manager->addSessionDataToEvents($result);
 
         // Remove all draft data when not viewing your own events
         // or if the requesting user does not have elevated privileges
