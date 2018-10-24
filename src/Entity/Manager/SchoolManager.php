@@ -44,6 +44,19 @@ class SchoolManager extends BaseManager
     }
 
     /**
+     * @param int $schoolId
+     * @param int $sessionId
+     * @return SchoolEvent[]
+     * @throws \Exception
+     */
+    public function findSessionEventsForSchool(int $schoolId, int $sessionId) : array
+    {
+        /** @var SchoolRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findSessionEventsForSchool($schoolId, $sessionId);
+    }
+
+    /**
      * Finds and adds instructors to a given list of calendar events.
      *
      * @param CalendarEvent[] $events

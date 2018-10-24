@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Classes\SessionUserInterface;
+use App\Entity\Manager\SessionManager;
+use App\Entity\SessionInterface;
 use App\RelationshipVoter\AbstractVoter;
 use App\Classes\UserEvent;
 use App\Entity\Manager\UserManager;
@@ -30,11 +32,11 @@ class UsereventController extends AbstractController
      * @param Request $request
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param UserManager $manager
+     * @param SessionManager $sessionManager
      * @param SerializerInterface $serializer
      * @param TokenStorageInterface $tokenStorage
      *
      * @return Response
-     * @throws \Exception
      */
     public function getAction(
         $version,
@@ -42,6 +44,7 @@ class UsereventController extends AbstractController
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
         UserManager $manager,
+        SessionManager $sessionManager,
         SerializerInterface $serializer,
         TokenStorageInterface $tokenStorage
     ) {
@@ -56,21 +59,31 @@ class UsereventController extends AbstractController
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        $fromTimestamp = $request->get('from');
-        $toTimestamp = $request->get('to');
-        $from = DateTime::createFromFormat('U', $fromTimestamp);
-        $to = DateTime::createFromFormat('U', $toTimestamp);
+        if ($sessionId = $request->get('session')) {
+            /** @var SessionInterface $session */
+            $session = $sessionManager->findOneBy(['id' => $sessionId]);
 
-        if (!$from) {
-            throw new InvalidInputWithSafeUserMessageException("?from is missing or is not a valid timestamp");
-        }
-        if (!$to) {
-            throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
-        }
-        $events = $manager->findEventsForUser($user->getId(), $from, $to);
+            if (!$session) {
+                throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));
+            }
+            $events = $manager->findSessionEventsForUser($user->getId(), $sessionId);
+        } else {
+            $fromTimestamp = $request->get('from');
+            $toTimestamp = $request->get('to');
+            $from = DateTime::createFromFormat('U', $fromTimestamp);
+            $to = DateTime::createFromFormat('U', $toTimestamp);
 
-        $events = array_filter($events, function ($entity) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
+            if (!$from) {
+                throw new InvalidInputWithSafeUserMessageException("?from is missing or is not a valid timestamp");
+            }
+            if (!$to) {
+                throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
+            }
+            $events = $manager->findEventsForUser($user->getId(), $from, $to);
+        }
+
+        $events = array_filter($events, function ($event) use ($authorizationChecker) {
+            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
         });
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();

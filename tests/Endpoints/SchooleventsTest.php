@@ -374,6 +374,29 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals('8', $lms[6]['sessionLearningMaterial']);
     }
 
+    public function testGetEventsBySession()
+    {
+        $school = $this->getContainer()->get(SchoolData::class)->getOne();
+        $userId = 2;
+        $sessionId = 1;
+
+        $events = $this->getEventsForSessionId(
+            $school['id'],
+            $sessionId,
+            $userId
+        );
+
+        $this->assertEquals(2, count($events), 'Expected events returned');
+        $this->assertEquals(
+            $sessionId,
+            $events[0]['session']
+        );
+        $this->assertEquals(1, $events[0]['offering']);
+        $this->assertEquals($sessionId, $events[0]['session']);
+        $this->assertEquals(2, $events[1]['offering']);
+        $this->assertEquals($sessionId, $events[1]['session']);
+    }
+
     protected function getEvents($schoolId, $from, $to, $userId = null)
     {
         $parameters = [
@@ -381,6 +404,36 @@ class SchooleventsTest extends AbstractEndpointTest
             'id' => $schoolId,
             'from' => $from,
             'to' => $to
+        ];
+        $url = $this->getUrl(
+            'ilios_api_schoolevents',
+            $parameters
+        );
+
+        $userToken = isset($userId) ? $this->getTokenForUser($userId) : $this->getAuthenticatedUserToken();
+        $this->createJsonRequest(
+            'GET',
+            $url,
+            null,
+            $userToken
+        );
+
+        $response = $this->client->getResponse();
+
+        if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
+            $this->fail("Unable to load url: {$url}");
+        }
+
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+        return json_decode($response->getContent(), true)['events'];
+    }
+
+    protected function getEventsForSessionId($schoolId, $sessionId, $userId = null)
+    {
+        $parameters = [
+            'version' => 'v1',
+            'id' => $schoolId,
+            'session' => $sessionId
         ];
         $url = $this->getUrl(
             'ilios_api_schoolevents',

@@ -673,6 +673,52 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals('8', $lms[6]['sessionLearningMaterial']);
     }
 
+    public function testGetEventsBySessionForCourseDirector()
+    {
+        $userId = 2;
+        $sessionId = 3;
+
+        $events = $this->getEventsForSessionId(
+            $userId,
+            $sessionId,
+            $this->getTokenForUser($userId)
+        );
+
+        $this->assertEquals(3, count($events), 'Expected events returned');
+        $this->assertEquals(
+            $sessionId,
+            $events[0]['session']
+        );
+        $this->assertEquals(6, $events[0]['offering']);
+        $this->assertEquals($sessionId, $events[0]['session']);
+        $this->assertEquals(7, $events[1]['offering']);
+        $this->assertEquals($sessionId, $events[1]['session']);
+        $this->assertEquals(8, $events[2]['offering']);
+        $this->assertEquals($sessionId, $events[2]['session']);
+    }
+
+    public function testGetEventsBySessionForLearner()
+    {
+        $userId = 5;
+        $sessionId = 1;
+
+        $events = $this->getEventsForSessionId(
+            $userId,
+            $sessionId,
+            $this->getTokenForUser($userId)
+        );
+
+        $this->assertEquals(2, count($events), 'Expected events returned');
+        $this->assertEquals(
+            $sessionId,
+            $events[0]['session']
+        );
+        $this->assertEquals(1, $events[0]['offering']);
+        $this->assertEquals($sessionId, $events[0]['session']);
+        $this->assertEquals(2, $events[1]['offering']);
+        $this->assertEquals($sessionId, $events[1]['session']);
+    }
+
     /**
      * @param int $userId
      * @param int $from
@@ -687,6 +733,42 @@ class UsereventTest extends AbstractEndpointTest
             'id' => $userId,
             'from' => $from,
             'to' => $to,
+        ];
+        $url = $this->getUrl(
+            'ilios_api_userevents',
+            $parameters
+        );
+        $this->createJsonRequest(
+            'GET',
+            $url,
+            null,
+            $userToken
+        );
+
+        $response = $this->client->getResponse();
+
+        if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
+            $this->fail("Unable to load url: {$url}");
+        }
+
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+
+        return json_decode($response->getContent(), true)['userEvents'];
+    }
+
+    /**
+     * @param int $userId
+     * @param int $from
+     * @param int $to
+     * @param string|null $userToken
+     * @return array
+     */
+    protected function getEventsForSessionId($userId, $sessionId, $userToken)
+    {
+        $parameters = [
+            'version' => 'v1',
+            'id' => $userId,
+            'session' => $sessionId,
         ];
         $url = $this->getUrl(
             'ilios_api_userevents',

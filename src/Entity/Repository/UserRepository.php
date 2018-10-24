@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity\Repository;
 
+use App\Entity\Session;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -211,6 +212,34 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         });
 
         return $userEvents;
+    }
+
+    /**
+     * Find all of the events for a user in a session
+     * @param integer $userId
+     * @param integer $sessionId
+     * @return UserEvent[]
+     */
+    public function findSessionEventsForUser(int $userId, int $sessionId) : array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $dates = $qb->select('o.startDate, o.endDate')
+            ->from(Session::class, 's')
+            ->leftJoin('s.offerings', 'o')
+            ->where($qb->expr()->eq('s.id', ':session_id'))
+            ->setParameter('session_id', $sessionId)
+            ->getQuery()
+            ->getArrayResult();
+        $startDates = array_column($dates, 'startDate');
+        $endDates = array_column($dates, 'endDate');
+        sort($startDates);
+        sort($endDates);
+        $from = array_shift($startDates);
+        $to = array_pop($endDates);
+        $events = $this->findEventsForUser($userId, $from, $to);
+        return array_filter($events, function (UserEvent $event) use ($sessionId) {
+            return $event->session === $sessionId;
+        });
     }
 
     /**
