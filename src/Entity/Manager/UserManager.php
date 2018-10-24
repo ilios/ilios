@@ -86,6 +86,21 @@ class UserManager extends BaseManager
     }
 
     /**
+     * Find all of the events for a user in a session
+     *
+     * @param integer $userId
+     * @param integer $sessionId
+     * @return UserEvent[]
+     * @throws \Exception
+     */
+    public function findSessionEventsForUser(int $userId, int $sessionId) : array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findSessionEventsForUser($userId, $sessionId);
+    }
+
+    /**
      * Finds and adds instructors to a given list of calendar events.
      *
      * @param CalendarEvent[] $events
