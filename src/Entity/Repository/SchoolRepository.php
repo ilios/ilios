@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity\Repository;
 
+use App\Entity\Session;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\DBAL\Types\Type as DoctrineType;
 use Doctrine\ORM\AbstractQuery;
@@ -104,6 +105,35 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         }
 
         return array_values($schoolDTOs);
+    }
+
+
+    /**
+     * Find all of the events for a school by session
+     * @param integer $schoolId
+     * @param integer $sessionId
+     * @return SchoolEvent[]
+     */
+    public function findSessionEventsForSchool(int $schoolId, int $sessionId) : array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $dates = $qb->select('o.startDate, o.endDate')
+            ->from(Session::class, 's')
+            ->leftJoin('s.offerings', 'o')
+            ->where($qb->expr()->eq('s.id', ':session_id'))
+            ->setParameter('session_id', $sessionId)
+            ->getQuery()
+            ->getArrayResult();
+        $startDates = array_column($dates, 'startDate');
+        $endDates = array_column($dates, 'endDate');
+        sort($startDates);
+        sort($endDates);
+        $from = array_shift($startDates);
+        $to = array_pop($endDates);
+        $events = $this->findEventsForSchool($schoolId, $from, $to);
+        return array_filter($events, function (SchoolEvent $event) use ($sessionId) {
+            return $event->session === $sessionId;
+        });
     }
 
     /**
