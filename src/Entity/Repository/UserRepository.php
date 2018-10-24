@@ -339,7 +339,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
-            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId, ' .
+            'ps.id as postrequisiteSessionId, ps.title as postrequisiteSessionTitle';
         $qb->addSelect($what)->from('App\Entity\User', 'u');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
@@ -348,6 +349,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->leftJoin('s.course', 'c');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.sessionDescription', 'sd');
+        $qb->leftJoin('s.postrequisite', 'ps');
 
 
         $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
@@ -385,7 +387,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
-            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId, ' .
+            'ps.id as postrequisiteSessionId, ps.title as postrequisiteSessionTitle';
 
         $qb->addSelect($what)->from('App\Entity\User', 'u');
 
@@ -396,6 +399,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->leftJoin('s.course', 'c');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.sessionDescription', 'sd');
+        $qb->leftJoin('s.postrequisite', 'ps');
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('u.id', ':user_id'),
@@ -891,9 +895,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      * @param CalendarEvent[] $events
      * @return CalendarEvent[]
      */
-    public function addObjectivesAndCompetenciesToEvents(array $events)
+    public function addSessionDataToEvents(array $events)
     {
-        return $this->attachObjectivesAndCompetenciesToEvents($events, $this->_em);
+        return $this->attachSessionDataToEvents($events, $this->_em);
     }
 
     /**

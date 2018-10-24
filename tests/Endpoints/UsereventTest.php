@@ -196,6 +196,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[0]['attendanceRequired'],
             'attendanceRequired is correct for event 0'
         );
+        $this->assertEquals([
+            'id' => 4,
+            'title' => $sessions[3]['title']
+        ], $events[0]['postrequisiteSession']);
+        $this->assertEmpty($events[0]['prerequisiteSessions']);
 
         $this->assertEquals($events[1]['offering'], 4, 'offering is correct for event 1');
         $this->assertEquals(
@@ -246,6 +251,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[1]['attendanceRequired'],
             'attendanceRequired is correct for event 1'
         );
+        $this->assertEquals($events[2]['postrequisiteSession'], [
+            'id' => 4,
+            'title' => $sessions[3]['title']
+        ]);
+        $this->assertEmpty($events[2]['prerequisiteSessions']);
 
         $this->assertEquals($events[2]['offering'], 5, 'offering is correct for event 2');
         $this->assertEquals(
@@ -296,6 +306,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[2]['attendanceRequired'],
             'attendanceRequired is correct for event 2'
         );
+        $this->assertEquals($events[2]['postrequisiteSession'], [
+            'id' => 4,
+            'title' => $sessions[3]['title']
+        ]);
+        $this->assertEmpty($events[2]['prerequisiteSessions']);
 
         $this->assertEquals($events[3]['offering'], 6, 'offering is correct for event 3');
         $this->assertEquals($events[3]['startDate'], $offerings[5]['startDate'], 'startDate is correct for event 3');
@@ -339,6 +354,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[3],
             'attendanceRequired is correct for event 3'
         );
+        $this->assertEquals($events[3]['postrequisiteSession'], [
+            'id' => 4,
+            'title' => $sessions[3]['title']
+        ]);
+        $this->assertEmpty($events[3]['prerequisiteSessions']);
 
         $this->assertEquals($events[4]['offering'], 7, 'offering is correct for event 4');
         $this->assertEquals($events[4]['startDate'], $offerings[6]['startDate'], 'startDate is correct for event 4');
@@ -382,6 +402,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[4],
             'attendanceRequired is correct for event 4'
         );
+        $this->assertEquals($events[4]['postrequisiteSession'], [
+            'id' => 4,
+            'title' => $sessions[3]['title']
+        ]);
+        $this->assertEmpty($events[4]['prerequisiteSessions']);
 
         $this->assertEquals($events[5]['ilmSession'], 1, 'ilmSession is correct for 5');
         $this->assertEquals($events[5]['startDate'], $ilmSessions[0]['dueDate'], 'dueDate is correct for 5');
@@ -420,6 +445,8 @@ class UsereventTest extends AbstractEndpointTest
             $events[5],
             'attendanceRequired is correct for event 5'
         );
+        $this->assertArrayNotHasKey('postrequisiteSession', $events[5]);
+        $this->assertEmpty($events[5]['prerequisiteSessions']);
 
         $this->assertEquals($events[6]['ilmSession'], 2, 'ilmSession is correct for event 6');
         $this->assertEquals($events[6]['startDate'], $ilmSessions[1]['dueDate'], 'dueDate is correct for event 6');
@@ -457,6 +484,8 @@ class UsereventTest extends AbstractEndpointTest
             $events[6],
             'attendanceRequired is correct for event 6'
         );
+        $this->assertArrayNotHasKey('postrequisiteSession', $events[6]);
+        $this->assertEmpty($events[6]['prerequisiteSessions']);
 
         $this->assertEquals($events[7]['ilmSession'], 3, 'ilmSession is correct for event 7');
         $this->assertEquals($events[7]['startDate'], $ilmSessions[2]['dueDate'], 'dueDate is correct for event 7');
@@ -494,6 +523,8 @@ class UsereventTest extends AbstractEndpointTest
             $events[7],
             'attendanceRequired is correct for event 7'
         );
+        $this->assertArrayNotHasKey('postrequisiteSession', $events[7]);
+        $this->assertEmpty($events[7]['prerequisiteSessions']);
 
         $this->assertEquals($events[8]['ilmSession'], 4, 'ilmSession is correct for event 8');
         $this->assertEquals($events[8]['startDate'], $ilmSessions[3]['dueDate'], 'dueDate is correct for event 8');
@@ -531,6 +562,8 @@ class UsereventTest extends AbstractEndpointTest
             $events[8],
             'attendanceRequired is correct for event 8'
         );
+        $this->assertArrayNotHasKey('postrequisiteSession', $events[8]);
+        $this->assertEmpty($events[8]['prerequisiteSessions']);
 
         $this->assertEquals($events[9]['startDate'], $offerings[0]['startDate'], 'startDate is correct for event 9');
         $this->assertEquals($events[9]['endDate'], $offerings[0]['endDate'], 'endDate is correct for event 9');
@@ -577,6 +610,8 @@ class UsereventTest extends AbstractEndpointTest
             $events[9],
             'attendanceRequired is correct for event 9'
         );
+        $this->assertArrayNotHasKey('postrequisiteSession', $events[9]);
+        $this->assertEmpty($events[9]['prerequisiteSessions']);
 
         /** @var OfferingInterface $offering */
         $offering = $this->fixtures->getReference('offerings8');
@@ -623,6 +658,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[10],
             'attendanceRequired is correct for event 10'
         );
+        $this->assertEquals($events[10]['postrequisiteSession'], [
+            'id' => 4,
+            'title' => $sessions[3]['title']
+        ]);
+        $this->assertEmpty($events[10]['prerequisiteSessions']);
 
         foreach ($events as $event) {
             $this->assertEquals($userId, $event['user']);

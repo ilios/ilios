@@ -214,18 +214,21 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     ) {
         $qb = $this->_em->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, ' .
-          'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
-          's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
-          's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
-          's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
-          'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
-          'c.externalId as courseExternalId, sd.description AS sessionDescription';
+            'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
+            's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
+            's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+            's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.externalId as courseExternalId, sd.description AS sessionDescription, ' .
+            'ps.id as postrequisiteSessionId, ps.title as postrequisiteSessionTitle';
+
         $qb->addSelect($what)->from('App\Entity\School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.offerings', 'o');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.sessionDescription', 'sd');
+        $qb->leftJoin('s.postrequisite', 'ps');
 
         $qb->andWhere($qb->expr()->eq('school.id', ':school_id'));
         $qb->andWhere($qb->expr()->orX(
@@ -267,7 +270,9 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
-            'c.externalId as courseExternalId, sd.description AS sessionDescription';
+            'c.externalId as courseExternalId, sd.description AS sessionDescription, ' .
+            'ps.id as postrequisiteSessionId, ps.title as postrequisiteSessionTitle';
+
         $qb->addSelect($what)->from('App\Entity\School', 'school');
 
         $qb->join('school.courses', 'c');
@@ -275,6 +280,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         $qb->join('s.ilmSession', 'ilm');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.sessionDescription', 'sd');
+        $qb->leftJoin('s.postrequisite', 'ps');
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('school.id', ':school_id'),
@@ -318,9 +324,9 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
      * @param CalendarEvent[] $events
      * @return CalendarEvent[]
      */
-    public function addObjectivesAndCompetenciesToEvents(array $events)
+    public function addSessionDataToEvents(array $events)
     {
-        return $this->attachObjectivesAndCompetenciesToEvents($events, $this->_em);
+        return $this->attachSessionDataToEvents($events, $this->_em);
     }
 
     /**

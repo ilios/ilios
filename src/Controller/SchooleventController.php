@@ -83,7 +83,7 @@ class SchooleventController extends AbstractController
 
         $result = $schoolManager->addInstructorsToEvents($events);
         $result = $schoolManager->addMaterialsToEvents($result);
-        $result = $schoolManager->addObjectivesAndCompetenciesToEvents($result);
+        $result = $schoolManager->addSessionDataToEvents($result);
 
         $sessionUser = $tokenStorage->getToken()->getUser();
 
