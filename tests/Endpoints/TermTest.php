@@ -93,4 +93,18 @@ class TermTest extends ReadWriteEndpointTest
             'schools' => [[0, 1, 2], ['schools' => [1]]],
         ];
     }
+
+    public function testCreateTopLevelTerm()
+    {
+        $dataLoader = $this->getDataLoader();
+
+        $postData = $dataLoader->create();
+        $postData['parent'] = null;
+        $this->postOne(
+            'terms',
+            'term',
+            'terms',
+            $postData
+        );
+    }
 }

@@ -40,7 +40,7 @@ interface TermInterface extends
     /**
      * @param TermInterface $parent
      */
-    public function setParent(TermInterface $parent);
+    public function setParent(TermInterface $parent = null);
 
     /**
      * @return TermInterface
