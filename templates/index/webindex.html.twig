@@ -11,6 +11,7 @@
  * - $styles:  Array of style tags to create
  * - $noScripts:  Array of noscript tags to create
  * - $divs:  Array of divs to create
+ * - $errorCaptureEnabled:  Boolean global errorCaptureEnabled option
  */
 #}
 
@@ -20,8 +21,9 @@
     {% for m in metas %}
         <meta {% if m.httpequiv %} http-equiv="{{ m.httpequiv }}" {% endif %} {% if m.charset %} charset="{{ m.charset }}" {% endif %} {% if m.name %} name="{{ m.name }}" {% endif %} {% if m.content %} content="{{ m.content }}" {% endif %} />
     {% endfor %}
-    <meta name='iliosconfig-api-name-space'content='api/v1'>
-    <meta name='iliosconfig-api-host'content=''>
+    <meta name='iliosconfig-api-name-space' content='api/v1'>
+    <meta name='iliosconfig-api-host' content=''>
+    <meta name='iliosconfig-error-capture-enabled' content="{{ errorCaptureEnabled ? 'true':'false' }}">
     <title>Ilios</title>
 
     {% for s in styles %}

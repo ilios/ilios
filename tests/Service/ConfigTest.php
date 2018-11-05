@@ -77,7 +77,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testConvertsUpercaseStringFalseToBooleanFalse()
+    public function testConvertsUppercaseStringFalseToBooleanFalse()
     {
         $manager = m::mock(ApplicationConfigManager::class);
         $config = new Config($manager);
@@ -90,7 +90,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testConvertsUpercaseStringTrueToBooleanTrue()
+    public function testConvertsUppercaseStringTrueToBooleanTrue()
     {
         $manager = m::mock(ApplicationConfigManager::class);
         $config = new Config($manager);
@@ -103,7 +103,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testConvertsUpercaseStringNullToNullNull()
+    public function testConvertsUppercaseStringNullToNullNull()
     {
         $manager = m::mock(ApplicationConfigManager::class);
         $config = new Config($manager);
@@ -115,7 +115,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testDoesnOverwriteEnvWithServer()
+    public function testDoesNotOverwriteEnvWithServer()
     {
         $manager = m::mock(ApplicationConfigManager::class);
         $config = new Config($manager);
