@@ -198,4 +198,16 @@ class IliosFileSystem
 
         return $this->fileSystem->exists($fullPath);
     }
+
+    /**
+     * Wait for and then acquire a lock
+     * @param string $name
+     */
+    public function waitForLock($name)
+    {
+        while ($this->hasLock($name)) {
+            usleep(250);
+        }
+        $this->createLock($name);
+    }
 }
