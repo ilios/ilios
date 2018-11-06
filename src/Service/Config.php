@@ -13,6 +13,7 @@ class Config
         'cas_authentication_verify_ssl',
         'enable_tracking',
         'requireSecureConnection',
+        'errorCaptureEnabled',
     ];
 
     /**

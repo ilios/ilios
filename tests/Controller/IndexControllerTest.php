@@ -3,7 +3,8 @@
 namespace App\Tests\Controller;
 
 use App\Command\UpdateFrontendCommand;
-use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
+use App\Entity\Manager\ApplicationConfigManager;
+use Doctrine\DBAL\Exception\ServerException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Mockery as m;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -39,7 +40,6 @@ class IndexControllerTest extends WebTestCase
     public function setUp()
     {
         $this->client = static::createClient();
-        /** @var MockerContainer $container */
         $container = $this->client->getContainer();
         $cacheDir = $container->getParameter('kernel.cache_dir');
         $this->assetsPath =  $cacheDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
@@ -76,6 +76,10 @@ class IndexControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertContains('<title>Ilios</title>', $response->getContent());
+        $this->assertContains(
+            '<meta name=\'iliosconfig-error-capture-enabled\' content="false">',
+            $response->getContent()
+        );
 
         $this->assertTrue(
             $response->headers->getCacheControlDirective('no-cache'),
@@ -324,6 +328,32 @@ class IndexControllerTest extends WebTestCase
         $this->assertFalse($response->headers->has('Content-Encoding'));
         $content = $response->getContent();
         $this->assertEquals($string, $content);
+    }
+
+    public function testErrorCaptureConfiguration()
+    {
+        $jsonPath = $this->assetsPath . 'index.json';
+        $json = json_encode([
+            'meta' => [],
+            'link' => [],
+            'script' => [],
+            'style' => [],
+            'noScript' => [],
+            'div' => [],
+        ]);
+        $mockException = m::mock(ServerException::class);
+        $mockConfig = m::mock(ApplicationConfigManager::class);
+        $mockConfig->shouldReceive('getValue')->with('errorCaptureEnabled')->once()->andReturn(true);
+        $mockConfig->shouldReceive('getValue')->andThrow($mockException);
+        self::$container->set(ApplicationConfigManager::class, $mockConfig);
+        $this->setupTestFile($jsonPath, $json, false);
+        $this->client->request('GET', '/');
+        $response = $this->client->getResponse();
+
+        $this->assertContains(
+            '<meta name=\'iliosconfig-error-capture-enabled\' content="true">',
+            $response->getContent()
+        );
     }
 
     protected function setupTestFile(string $path, string $contents, bool $compressContents)

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Config;
 use App\Service\Filesystem;
 use App\Service\AuthenticationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -32,19 +33,27 @@ class IndexController extends Controller
     private $authentication;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * IndexController constructor.
      * @param Filesystem $fs
      * @param EngineInterface $templatingEngine
      * @param AuthenticationInterface $authentication
+     * @param Config $config
      */
     public function __construct(
         Filesystem $fs,
         EngineInterface $templatingEngine,
-        AuthenticationInterface $authentication
+        AuthenticationInterface $authentication,
+        Config $config
     ) {
         $this->fs = $fs;
         $this->templatingEngine = $templatingEngine;
         $this->authentication = $authentication;
+        $this->config = $config;
     }
 
     /**
@@ -236,6 +245,7 @@ class IndexController extends Controller
             'styles' => $styles,
             'noScripts' => $noScripts,
             'divs' => $divs,
+            'errorCaptureEnabled' => $this->config->get('errorCaptureEnabled')
         ];
 
         return $options;
