@@ -1,4 +1,4 @@
-#Error Capturing and Reporting in Ilios
+# Error Capturing and Reporting in Ilios
 
 Would you like to help with Ilios development without having to do any extra work?  How about sending us your error logs in real-time so we can review them and pre-emptively fix them in the next release before they have the chance to become something larger?!
 
