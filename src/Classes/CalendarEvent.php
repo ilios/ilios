@@ -215,7 +215,7 @@ class CalendarEvent
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    public $postrequisiteSession;
+    public $postrequisiteSessions = array();
 
     /**
      * @var []
@@ -266,7 +266,6 @@ class CalendarEvent
             $this->sessionObjectives = [];
             $this->courseObjectives = [];
             $this->competencies = [];
-            $this->prerequisiteSessions = [];
         }
     }
 

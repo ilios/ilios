@@ -6,6 +6,7 @@ use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent;
 use App\Entity\Repository\SchoolRepository;
 use App\Service\UserMaterialFactory;
+use App\Traits\CalendarEventRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -96,5 +97,17 @@ class SchoolManager extends BaseManager
         /** @var SchoolRepository $repository */
         $repository = $this->getRepository();
         return $repository->addSessionDataToEvents($events);
+    }
+
+    /**
+     * @param array $events
+     * @return array
+     * @throws \Exception
+     * @see CalendarEventRepository::addPreAndPostRequisites()
+     */
+    public function addPreAndPostRequisites(array $events): array {
+        /** @var SchoolRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->addPreAndPostRequisites($events);
     }
 }

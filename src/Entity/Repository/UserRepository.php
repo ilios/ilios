@@ -315,7 +315,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->getQuery()->execute();
     }
 
-
     /**
      * Use the query builder and the $joins to get a set of
      * offering based user events
@@ -339,8 +338,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
-            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId, ' .
-            'ps.id as postrequisiteSessionId, ps.title as postrequisiteSessionTitle';
+            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+
         $qb->addSelect($what)->from('App\Entity\User', 'u');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
@@ -349,8 +348,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->leftJoin('s.course', 'c');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.sessionDescription', 'sd');
-        $qb->leftJoin('s.postrequisite', 'ps');
-
 
         $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
         $qb->andWhere($qb->expr()->orX(
@@ -387,8 +384,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
-            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId, ' .
-            'ps.id as postrequisiteSessionId, ps.title as postrequisiteSessionTitle';
+            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
 
         $qb->addSelect($what)->from('App\Entity\User', 'u');
 
@@ -399,7 +395,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->leftJoin('s.course', 'c');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.sessionDescription', 'sd');
-        $qb->leftJoin('s.postrequisite', 'ps');
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('u.id', ':user_id'),
@@ -422,6 +417,17 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     public function addInstructorsToEvents(array $events)
     {
         return $this->attachInstructorsToEvents($events, $this->_em);
+    }
+
+    /**
+     * Adds pre- and post-requisites to a given list of events.
+     * @param UserEvent[] $events A list of events
+     * @return UserEvent[] The events list with pre- and post-requisites added.
+     */
+    public function addPreAndPostRequisitesToEvents(array $events)
+    {
+        $events = $this->attachPreRequisitesToEvents($events, $this->_em);
+        return $this->attachPostRequisitesToEvents($events, $this->_em);
     }
 
     /**

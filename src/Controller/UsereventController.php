@@ -88,7 +88,8 @@ class UsereventController extends AbstractController
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
-        $result = $manager->addInstructorsToEvents($events);
+        $result = $manager->addPreAndPostRequisites($events);
+        $result = $manager->addInstructorsToEvents($result);
         $result = $manager->addMaterialsToEvents($result);
         $result = $manager->addSessionDataToEvents($result);
 

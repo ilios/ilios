@@ -25,35 +25,39 @@ trait CalendarEventRepository
     protected function createEventObjectsForOfferings($userId, array $results)
     {
         return array_map(function ($arr) use ($userId) {
-            $event = new CalendarEvent();
-            $event->name = $arr['title'];
-            $event->startDate = $arr['startDate'];
-            $event->endDate = $arr['endDate'];
-            $event->offering = $arr['id'];
-            $event->location = $arr['room'];
-            $event->color = $arr['calendarColor'];
-            $event->lastModified = max($arr['offeringUpdatedAt'], $arr['sessionUpdatedAt']);
-            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
-            $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
-            $event->courseTitle = $arr['courseTitle'];
-            $event->sessionTypeTitle = $arr['sessionTypeTitle'];
-            $event->courseExternalId = $arr['courseExternalId'];
-            $event->sessionDescription = $arr['sessionDescription'];
-            $event->instructionalNotes = $arr['instructionalNotes'];
-            $event->session = $arr['sessionId'];
-            $event->courseId = $arr['courseId'];
-            $event->attireRequired = $arr['attireRequired'];
-            $event->equipmentRequired = $arr['equipmentRequired'];
-            $event->supplemental = $arr['supplemental'];
-            $event->attendanceRequired = $arr['attendanceRequired'];
-            if ($arr['postrequisiteSessionId']) {
-                $event->postrequisiteSession = [
-                    'id' => $arr['postrequisiteSessionId'],
-                    'title' => $arr['postrequisiteSessionTitle'],
-                ];
-            }
-            return $event;
+            return $this->createEventObjectForOffering($userId, $arr);
         }, $results);
+    }
+
+    /**
+     * @param $userId
+     * @param array $arr
+     * @return CalendarEvent
+     */
+    protected function createEventObjectForOffering($userId, array $arr)
+    {
+        $event = new CalendarEvent();
+        $event->name = $arr['title'];
+        $event->startDate = $arr['startDate'];
+        $event->endDate = $arr['endDate'];
+        $event->offering = $arr['id'];
+        $event->location = $arr['room'];
+        $event->color = $arr['calendarColor'];
+        $event->lastModified = max($arr['offeringUpdatedAt'], $arr['sessionUpdatedAt']);
+        $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
+        $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
+        $event->courseTitle = $arr['courseTitle'];
+        $event->sessionTypeTitle = $arr['sessionTypeTitle'];
+        $event->courseExternalId = $arr['courseExternalId'];
+        $event->sessionDescription = $arr['sessionDescription'];
+        $event->instructionalNotes = $arr['instructionalNotes'];
+        $event->session = $arr['sessionId'];
+        $event->courseId = $arr['courseId'];
+        $event->attireRequired = $arr['attireRequired'];
+        $event->equipmentRequired = $arr['equipmentRequired'];
+        $event->supplemental = $arr['supplemental'];
+        $event->attendanceRequired = $arr['attendanceRequired'];
+        return $event;
     }
 
     /**
@@ -65,36 +69,40 @@ trait CalendarEventRepository
     protected function createEventObjectsForIlmSessions($userId, array $results)
     {
         return array_map(function ($arr) use ($userId) {
-            $event = new CalendarEvent();
-            $event->user = $userId;
-            $event->name = $arr['title'];
-            $event->startDate = $arr['dueDate'];
-            $endDate = new \DateTime();
-            $endDate->setTimestamp($event->startDate->getTimestamp());
-            $event->endDate = $endDate->modify('+15 minutes');
-            $event->ilmSession = $arr['id'];
-            $event->color = $arr['calendarColor'];
-            $event->lastModified = $arr['updatedAt'];
-            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
-            $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
-            $event->courseTitle = $arr['courseTitle'];
-            $event->sessionTypeTitle = $arr['sessionTypeTitle'];
-            $event->courseExternalId = $arr['courseExternalId'];
-            $event->sessionDescription = $arr['sessionDescription'];
-            $event->session = $arr['sessionId'];
-            $event->courseId = $arr['courseId'];
-            $event->attireRequired = $arr['attireRequired'];
-            $event->equipmentRequired = $arr['equipmentRequired'];
-            $event->supplemental = $arr['supplemental'];
-            $event->attendanceRequired = $arr['attendanceRequired'];
-            if ($arr['postrequisiteSessionId']) {
-                $event->postrequisiteSession = [
-                    'id' => $arr['postrequisiteSessionId'],
-                    'title' => $arr['postrequisiteSessionTitle'],
-                ];
-            }
-            return $event;
+            return $this->createEventObjectForIlmSession($userId, $arr);
         }, $results);
+    }
+
+    /**
+     * @param $userId
+     * @param array $arr
+     * @return CalendarEvent
+     */
+    protected function createEventObjectForIlmSession($userId, array $arr)
+    {
+        $event = new CalendarEvent();
+        $event->user = $userId;
+        $event->name = $arr['title'];
+        $event->startDate = $arr['dueDate'];
+        $endDate = new \DateTime();
+        $endDate->setTimestamp($event->startDate->getTimestamp());
+        $event->endDate = $endDate->modify('+15 minutes');
+        $event->ilmSession = $arr['id'];
+        $event->color = $arr['calendarColor'];
+        $event->lastModified = $arr['updatedAt'];
+        $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
+        $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
+        $event->courseTitle = $arr['courseTitle'];
+        $event->sessionTypeTitle = $arr['sessionTypeTitle'];
+        $event->courseExternalId = $arr['courseExternalId'];
+        $event->sessionDescription = $arr['sessionDescription'];
+        $event->session = $arr['sessionId'];
+        $event->courseId = $arr['courseId'];
+        $event->attireRequired = $arr['attireRequired'];
+        $event->equipmentRequired = $arr['equipmentRequired'];
+        $event->supplemental = $arr['supplemental'];
+        $event->attendanceRequired = $arr['attendanceRequired'];
+        return $event;
     }
 
     /**
@@ -231,6 +239,186 @@ trait CalendarEventRepository
     }
 
     /**
+     * Attaches pre-requisites to a given list of events.
+     * @param array $events A list of events
+     * @param EntityManager $em
+     * @return array The events list with pre-requisites attached.
+     */
+    public function attachPreRequisitesToEvents(array $events, EntityManager $em)
+    {
+        if (empty($events)) {
+            return $events;
+        }
+
+        $sessionsMap = [];
+        foreach ($events as $event) {
+            $sessionId = $event->session;
+            if (! array_key_exists($sessionId, $sessionsMap)) {
+                $sessionsMap[$sessionId] = [];
+            }
+            $sessionsMap[$sessionId][] = $event;
+        }
+        $sessionIds = array_unique(array_column($events, 'session'));
+
+        $qb = $em->createQueryBuilder();
+
+        $what = 's.id AS postRequisiteSessionId, c.id as courseId, p.id AS sessionId, ' .
+            'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
+            'p.updatedAt AS sessionUpdatedAt, p.title, st.calendarColor, st.title as sessionTypeTitle, ' .
+            'p.publishedAsTbd as sessionPublishedAsTbd, p.published as sessionPublished, ' .
+            'p.attireRequired, p.equipmentRequired, p.supplemental, p.attendanceRequired, p.instructionalNotes, ' .
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.externalId as courseExternalId, sd.description AS sessionDescription';
+
+        $qb->addSelect($what)->from('App\Entity\Session', 's');
+        $qb->join('s.prerequisites', 'p');
+        $qb->join('p.course', 'c');
+        $qb->join('p.offerings', 'o');
+        $qb->leftJoin('p.sessionType', 'st');
+        $qb->leftJoin('p.sessionDescription', 'sd');
+
+        $qb->where($qb->expr()->in('s.id', ':sessions'));
+        $qb->setParameter('sessions', $sessionIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        foreach ($results as $result) {
+            $prerequisite = $this->createEventObjectForOffering(null, $result);
+            $sessionId = $result['postRequisiteSessionId'];
+            if (array_key_exists($sessionId, $sessionsMap)) {
+                /** @var CalendarEvent $event */
+                foreach ($sessionsMap[$sessionId] as $event) {
+                    $event->prerequisiteSessions[] = $prerequisite;
+                }
+            }
+        }
+
+        $qb = $em->createQueryBuilder();
+
+        $what = 's.id AS postRequisiteSessionId, c.id as courseId, p.id AS sessionId, ilm.id, ilm.dueDate, ' .
+            'p.updatedAt, p.title, st.calendarColor, ' .
+            'p.publishedAsTbd as sessionPublishedAsTbd, p.published as sessionPublished, ' .
+            'p.attireRequired, p.equipmentRequired, p.supplemental, p.attendanceRequired, p.instructionalNotes, ' .
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
+            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+
+        $qb->addSelect($what)->from('App\Entity\Session', 's');
+        $qb->join('s.prerequisites', 'p');
+        $qb->join('p.course', 'c');
+        $qb->join('p.ilmSession', 'ilm');
+        $qb->leftJoin('p.sessionType', 'st');
+        $qb->leftJoin('p.sessionDescription', 'sd');
+
+        $qb->where($qb->expr()->in('s.id', ':sessions'));
+        $qb->setParameter('sessions', $sessionIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        foreach ($results as $result) {
+            $prerequisite = $this->createEventObjectForIlmSession(null, $result);
+            $sessionId = $result['postRequisiteSessionId'];
+            if (array_key_exists($sessionId, $sessionsMap)) {
+                /** @var CalendarEvent $event */
+                foreach ($sessionsMap[$sessionId] as $event) {
+                    $event->prerequisiteSessions[] = $prerequisite;
+                }
+            }
+        }
+
+        return $events;
+    }
+
+    /**
+     * Attaches post-requisites to a given list of events.
+     * @param array $events A list of events
+     * @param EntityManager $em
+     * @return array The events list with post-requisites attached.
+     */
+    public function attachPostRequisitesToEvents(array $events, EntityManager $em)
+    {
+        if (empty($events)) {
+            return $events;
+        }
+
+        $sessionsMap = [];
+        foreach ($events as $event) {
+            $sessionId = $event->session;
+            if (! array_key_exists($sessionId, $sessionsMap)) {
+                $sessionsMap[$sessionId] = [];
+            }
+            $sessionsMap[$sessionId][] = $event;
+        }
+        $sessionIds = array_unique(array_column($events, 'session'));
+
+        $qb = $em->createQueryBuilder();
+
+        $what = 's.id AS preRequisiteSessionId, c.id as courseId, p.id AS sessionId, ' .
+            'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
+            'p.updatedAt AS sessionUpdatedAt, p.title, st.calendarColor, st.title as sessionTypeTitle, ' .
+            'p.publishedAsTbd as sessionPublishedAsTbd, p.published as sessionPublished, ' .
+            'p.attireRequired, p.equipmentRequired, p.supplemental, p.attendanceRequired, p.instructionalNotes, ' .
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.externalId as courseExternalId, sd.description AS sessionDescription';
+
+        $qb->addSelect($what)->from('App\Entity\Session', 's');
+        $qb->join('s.postrequisite', 'p');
+        $qb->join('p.course', 'c');
+        $qb->join('p.offerings', 'o');
+        $qb->leftJoin('p.sessionType', 'st');
+        $qb->leftJoin('p.sessionDescription', 'sd');
+
+        $qb->where($qb->expr()->in('s.id', ':sessions'));
+        $qb->setParameter('sessions', $sessionIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        foreach ($results as $result) {
+            $prerequisite = $this->createEventObjectForOffering(null, $result);
+            $sessionId = $result['preRequisiteSessionId'];
+            if (array_key_exists($sessionId, $sessionsMap)) {
+                /** @var CalendarEvent $event */
+                foreach ($sessionsMap[$sessionId] as $event) {
+                    $event->postrequisiteSessions[] = $prerequisite;
+                }
+            }
+        }
+
+        $qb = $em->createQueryBuilder();
+
+        $what = 's.id AS preRequisiteSessionId, c.id as courseId, p.id AS sessionId, ilm.id, ilm.dueDate, ' .
+            'p.updatedAt, p.title, st.calendarColor, ' .
+            'p.publishedAsTbd as sessionPublishedAsTbd, p.published as sessionPublished, ' .
+            'p.attireRequired, p.equipmentRequired, p.supplemental, p.attendanceRequired, p.instructionalNotes, ' .
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
+            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+
+        $qb->addSelect($what)->from('App\Entity\Session', 's');
+        $qb->join('s.postrequisite', 'p');
+        $qb->join('p.course', 'c');
+        $qb->join('p.ilmSession', 'ilm');
+        $qb->leftJoin('p.sessionType', 'st');
+        $qb->leftJoin('p.sessionDescription', 'sd');
+
+        $qb->where($qb->expr()->in('s.id', ':sessions'));
+        $qb->setParameter('sessions', $sessionIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        foreach ($results as $result) {
+            $prerequisite = $this->createEventObjectForIlmSession(null, $result);
+            $sessionId = $result['preRequisiteSessionId'];
+            if (array_key_exists($sessionId, $sessionsMap)) {
+                /** @var CalendarEvent $event */
+                foreach ($sessionsMap[$sessionId] as $event) {
+                    $event->postrequisiteSessions[] = $prerequisite;
+                }
+            }
+        }
+
+        return $events;
+    }
+
+    /**
      * Adds course- and session-objectives and their competencies to a given list of events.
      * @param array $events A list of events
      * @param EntityManager $em
@@ -270,7 +458,7 @@ trait CalendarEventRepository
                     'id' => $objectiveId,
                     'title' => $result['title'],
                     'position' => $result['position'],
-                    'competencies' => []
+                    'competencies' => [],
                 ];
             }
 
@@ -310,7 +498,7 @@ trait CalendarEventRepository
                     'id' => $objectiveId,
                     'title' => $result['title'],
                     'position' => $result['position'],
-                    'competencies' => []
+                    'competencies' => [],
                 ];
             }
 
@@ -340,7 +528,7 @@ trait CalendarEventRepository
                 $competencies[$result['id']] = [
                     'id' => $result['id'],
                     'title' => $result['title'],
-                    'parent' => $result['parent_id']
+                    'parent' => $result['parent_id'],
                 ];
             }
             if (! empty($result['parent_id']) && ! array_key_exists($result['parent_id'], $competencies)) {
@@ -350,31 +538,6 @@ trait CalendarEventRepository
                     'parent' => null,
                 ];
             }
-        }
-
-        $qb = $em->createQueryBuilder();
-        $qb->select('s.id AS session_id, pre.id AS id, pre.title AS title')
-            ->distinct()
-            ->from('App\Entity\Session', 's')
-            ->join('s.prerequisites', 'pre')
-            ->where($qb->expr()->in('s.id', ':ids'))
-            ->setParameter(':ids', $sessionIds);
-
-        $results = $qb->getQuery()->getArrayResult();
-
-        $prerequisiteSessions = [];
-
-        foreach ($results as $result) {
-            $sessionId = $result['session_id'];
-
-            if (! array_key_exists($sessionId, $prerequisiteSessions)) {
-                $prerequisiteSessions[$sessionId] = [];
-            }
-
-            $prerequisiteSessions[$sessionId][] = [
-                'id' => $result['id'],
-                'title' => $result['title']
-            ];
         }
 
         for ($i = 0, $n = count($events); $i < $n; $i++) {
@@ -409,9 +572,6 @@ trait CalendarEventRepository
                 }
             }
             $event->competencies = array_values($tmp);
-            if (array_key_exists($event->session, $prerequisiteSessions)) {
-                $event->prerequisiteSessions = array_values($prerequisiteSessions[$event->session]);
-            }
         }
 
         return $events;
@@ -485,6 +645,16 @@ trait CalendarEventRepository
             $event->learningMaterials = $lms;
         }
         return $events;
+    }
+
+    /**
+     * @param CalendarEvent[] $events
+     * @return CalendarEvent[]
+     */
+    public function addPreAndPostRequisites(array $events) : array
+    {
+        $events = $this->attachPreRequisitesToEvents($events, $this->_em);
+        return $this->attachPostRequisitesToEvents($events, $this->_em);
     }
 
     /**

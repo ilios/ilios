@@ -2,6 +2,7 @@
 
 namespace App\Entity\Manager;
 
+use App\Traits\CalendarEventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
@@ -352,17 +353,28 @@ class UserManager extends BaseManager
         return $repository->getLearnerGroupIds($userId);
     }
 
-
     /**
      * @param $userId
      * @return array
      * @throws \Exception
-     * @see UserRepository::getInstructorGroupIds()
+     * @see CalendarEventRepository::getInstructorGroupIds()
      */
     public function getInstructorGroupIds($userId): array
     {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
         return $repository->getInstructorGroupIds($userId);
+    }
+
+    /**
+     * @param array $events
+     * @return array
+     * @throws \Exception
+     * @see UserRepository::addPreAndPostRequisites()
+     */
+    public function addPreAndPostRequisites(array $events): array {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->addPreAndPostRequisites($events);
     }
 }

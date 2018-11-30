@@ -81,7 +81,8 @@ class SchooleventController extends AbstractController
             return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
         });
 
-        $result = $schoolManager->addInstructorsToEvents($events);
+        $result = $schoolManager->addPreAndPostRequisites($events);
+        $result = $schoolManager->addInstructorsToEvents($result);
         $result = $schoolManager->addMaterialsToEvents($result);
         $result = $schoolManager->addSessionDataToEvents($result);
 
