@@ -3,26 +3,20 @@
 namespace App\Controller;
 
 use App\Classes\UserEvent;
-use App\Entity\CourseLearningMaterialInterface;
-use App\Entity\LearningMaterialInterface;
-use App\Entity\LearningMaterialRelationshipInterface;
-use App\Entity\LearningMaterialStatusInterface;
 use App\Entity\Manager\IlmSessionManager;
 use App\Entity\Manager\OfferingManager;
 use App\Entity\Manager\UserManager;
-use App\Entity\ObjectiveInterface;
 use App\Entity\SessionInterface;
-use App\Entity\SessionLearningMaterialInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use \Eluceo\iCal\Component as ICS;
 use Symfony\Component\Routing\RouterInterface;
 
-class IcsController extends Controller
+class IcsController extends AbstractController
 {
     const LOOK_BACK = '-4 months';
     const LOOK_FORWARD = '+2 months';
@@ -44,6 +38,7 @@ class IcsController extends Controller
     public function indexAction(Request $request, $key)
     {
         $manager = $this->container->get(UserManager::class);
+        /** @var User $user */
         $user = $manager->findOneBy(array('icsFeedKey' => $key));
 
         if (!$user) {
@@ -106,6 +101,7 @@ class IcsController extends Controller
         $slug = 'U' . $event->startDate->format('Ymd');
 
         if ($event->offering) {
+            /** @var OfferingManager $offeringManager */
             $offeringManager = $this->container->get(OfferingManager::class);
             $offering = $offeringManager->findOneBy(['id' => $event->offering]);
             /* @var SessionInterface $session */
@@ -113,6 +109,7 @@ class IcsController extends Controller
             $slug .= 'O' . $event->offering;
         }
         if ($event->ilmSession) {
+            /** @var IlmSessionManager $ilmSessionManager */
             $ilmSessionManager = $this->container->get(IlmSessionManager::class);
             $ilmSession = $ilmSessionManager->findOneBy(['id' => $event->ilmSession]);
             $session = $ilmSession->getSession();

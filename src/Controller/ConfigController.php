@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Service\AuthenticationInterface;
 use App\Service\Config;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * Class ConfigController
  */
-class ConfigController extends Controller
+class ConfigController extends AbstractController
 {
     public function indexAction(
         Request $request,
@@ -20,7 +20,7 @@ class ConfigController extends Controller
         AuthenticationInterface $authenticationSystem
     ) {
         $configuration = $authenticationSystem->getPublicConfigurationInformation($request);
-        $configuration['locale'] = $this->container->getParameter('kernel.default_locale');
+        $configuration['locale'] = $this->getParameter('kernel.default_locale');
 
         $ldapUrl = $config->get('ldap_directory_url');
         if (!empty($ldapUrl)) {
@@ -29,7 +29,7 @@ class ConfigController extends Controller
             $configuration['userSearchType'] = 'local';
         }
         $configuration['maxUploadSize'] = UploadedFile::getMaxFilesize();
-        $configuration['apiVersion'] = $this->container->getParameter('ilios_api_version');
+        $configuration['apiVersion'] = $this->getParameter('ilios_api_version');
 
         $configuration['trackingEnabled'] = $config->get('enable_tracking');
         if ($configuration['trackingEnabled']) {

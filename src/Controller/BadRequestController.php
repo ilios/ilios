@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Class BadRequestController
  */
-class BadRequestController extends Controller
+class BadRequestController extends AbstractController
 {
     /**
      * This is the catch-all action for the api.

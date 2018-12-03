@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Service\EndpointResponseNamer;
 use App\RelationshipVoter\AbstractVoter;
 use App\Entity\Manager\ManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  *
  * Default Controller for all API endpoints.
  */
-class ApiController extends Controller implements ApiControllerInterface
+class ApiController extends AbstractController implements ApiControllerInterface
 {
     /**
      * @var AuthorizationCheckerInterface

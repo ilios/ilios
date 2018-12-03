@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ErrorController extends Controller
+class ErrorController extends AbstractController
 {
     /**
      * @param Request $request
