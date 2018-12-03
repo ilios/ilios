@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classes\CalendarEvent;
 use App\Classes\SessionUserInterface;
 use App\Entity\Manager\SessionManager;
 use App\Entity\SessionInterface;
@@ -88,23 +89,30 @@ class UsereventController extends AbstractController
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
-        $result = $manager->addPreAndPostRequisites($events);
-        $result = $manager->addInstructorsToEvents($result);
-        $result = $manager->addMaterialsToEvents($result);
-        $result = $manager->addSessionDataToEvents($result);
+        $events = $manager->addPreAndPostRequisites($events);
+        $allEvents = [];
+        /** @var CalendarEvent $event */
+        foreach ($events as $event) {
+            $allEvents[] = $event;
+            $allEvents = array_merge($allEvents, $event->prerequisiteSessions);
+            $allEvents = array_merge($allEvents, $event->postrequisiteSessions);
+        }
+        $allEvents = $manager->addInstructorsToEvents($allEvents);
+        $allEvents = $manager->addMaterialsToEvents($allEvents);
+        $allEvents = $manager->addSessionDataToEvents($allEvents);
 
         // Remove all draft data when not viewing your own events
         // or if the requesting user does not have elevated privileges
         $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
         if ($sessionUser->getId() !== $user->getId() || ! $hasElevatedPrivileges) {
             $now = new \DateTime();
-            /* @var UserEvent $event */
-            foreach ($events as $event) {
+            /* @var CalendarEvent $event */
+            foreach ($allEvents as $event) {
                 $event->clearDataForUnprivilegedUsers($now);
             }
         }
 
-        $response['userEvents'] = $result ? array_values($result) : [];
+        $response['userEvents'] = $events ? array_values($events) : [];
         return new Response(
             $serializer->serialize($response, 'json'),
             Response::HTTP_OK,

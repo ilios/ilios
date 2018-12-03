@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classes\CalendarEvent;
 use App\Entity\Manager\SessionManager;
 use App\Entity\SessionInterface;
 use App\RelationshipVoter\AbstractVoter;
@@ -81,10 +82,17 @@ class SchooleventController extends AbstractController
             return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
         });
 
-        $result = $schoolManager->addPreAndPostRequisites($events);
-        $result = $schoolManager->addInstructorsToEvents($result);
-        $result = $schoolManager->addMaterialsToEvents($result);
-        $result = $schoolManager->addSessionDataToEvents($result);
+        $events = $schoolManager->addPreAndPostRequisites($events);
+        $allEvents = [];
+        /** @var CalendarEvent $event */
+        foreach ($events as $event) {
+            $allEvents[] = $event;
+            $allEvents = array_merge($allEvents, $event->prerequisiteSessions);
+            $allEvents = array_merge($allEvents, $event->postrequisiteSessions);
+        }
+        $allEvents = $schoolManager->addInstructorsToEvents($allEvents);
+        $allEvents = $schoolManager->addMaterialsToEvents($allEvents);
+        $allEvents = $schoolManager->addSessionDataToEvents($allEvents);
 
         $sessionUser = $tokenStorage->getToken()->getUser();
 
@@ -93,12 +101,12 @@ class SchooleventController extends AbstractController
         if (! $hasElevatedPrivileges) {
             /** @var SchoolEvent $event */
             $now = new \DateTime();
-            foreach ($events as $event) {
+            foreach ($allEvents as $event) {
                 $event->clearDataForUnprivilegedUsers($now);
             }
         }
 
-        $response['events'] = $result ? array_values($result) : [];
+        $response['events'] = $events ? array_values($events) : [];
         return new Response(
             $serializer->serialize($response, 'json'),
             Response::HTTP_OK,
