@@ -7,6 +7,8 @@ use App\Service\JsonWebTokenManager;
 use App\Service\SessionUserProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -22,12 +24,19 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
     protected $jwtManager;
 
     /**
+     * @var RouterInterface
+     */
+    protected $router;
+
+    /**
      * Constructor
      * @param JsonWebTokenManager $jwtManager
+     * @param RouterInterface $router
      */
-    public function __construct(JsonWebTokenManager $jwtManager)
+    public function __construct(JsonWebTokenManager $jwtManager, RouterInterface $router)
     {
         $this->jwtManager = $jwtManager;
+        $this->router = $router;
     }
 
     /**
@@ -35,7 +44,16 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        return new Response('Auth header required', 401);
+        $apiDocsUrl = $this->router->generate(
+            'ilios_swagger_index',
+            [],
+            UrlGenerator::ABSOLUTE_URL
+        );
+        return new Response(
+            'X-JWT-Authorization header required with JWT token. See ' .
+            "<a href='${apiDocsUrl}'>${apiDocsUrl}</a>",
+            401
+        );
     }
 
     /**
