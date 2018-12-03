@@ -28,7 +28,6 @@ class SerializerFactory
         $jsonEncoder = new JsonEncoder();
         $array = new ArrayDenormalizer();
         $dateTime = new DateTimeNormalizer();
-        $processors = [$array, $dateTime, $jsonEncoder, $entityNormalizer, $dtoNormalizer];
-        return new Serializer($processors, $processors);
+        return new Serializer([$array, $dateTime, $entityNormalizer, $dtoNormalizer], [$jsonEncoder]);
     }
 }
