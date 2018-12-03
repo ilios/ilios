@@ -87,8 +87,8 @@ class SchooleventController extends AbstractController
         /** @var CalendarEvent $event */
         foreach ($events as $event) {
             $allEvents[] = $event;
-            $allEvents = array_merge($allEvents, $event->prerequisiteSessions);
-            $allEvents = array_merge($allEvents, $event->postrequisiteSessions);
+            $allEvents = array_merge($allEvents, $event->prerequisites);
+            $allEvents = array_merge($allEvents, $event->postrequisites);
         }
         $allEvents = $schoolManager->addInstructorsToEvents($allEvents);
         $allEvents = $schoolManager->addMaterialsToEvents($allEvents);

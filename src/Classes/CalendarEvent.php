@@ -215,14 +215,14 @@ class CalendarEvent
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    public $postrequisiteSessions = array();
+    public $postrequisites = array();
 
     /**
      * @var []
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    public $prerequisiteSessions = array();
+    public $prerequisites = array();
 
     /**
      * Clean out all the data for draft or scheduled events

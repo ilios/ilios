@@ -288,7 +288,7 @@ trait CalendarEventRepository
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
-                    $event->prerequisiteSessions[] = $prerequisite;
+                    $event->prerequisites[] = $prerequisite;
                 }
             }
         }
@@ -320,7 +320,7 @@ trait CalendarEventRepository
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
-                    $event->prerequisiteSessions[] = $prerequisite;
+                    $event->prerequisites[] = $prerequisite;
                 }
             }
         }
@@ -378,7 +378,7 @@ trait CalendarEventRepository
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
-                    $event->postrequisiteSessions[] = $prerequisite;
+                    $event->postrequisites[] = $prerequisite;
                 }
             }
         }
@@ -410,7 +410,7 @@ trait CalendarEventRepository
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
-                    $event->postrequisiteSessions[] = $prerequisite;
+                    $event->postrequisites[] = $prerequisite;
                 }
             }
         }
