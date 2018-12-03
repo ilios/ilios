@@ -372,7 +372,8 @@ class UserManager extends BaseManager
      * @throws \Exception
      * @see UserRepository::addPreAndPostRequisites()
      */
-    public function addPreAndPostRequisites(array $events): array {
+    public function addPreAndPostRequisites(array $events): array
+    {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
         return $repository->addPreAndPostRequisites($events);

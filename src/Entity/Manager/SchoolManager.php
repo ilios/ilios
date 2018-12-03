@@ -105,7 +105,8 @@ class SchoolManager extends BaseManager
      * @throws \Exception
      * @see CalendarEventRepository::addPreAndPostRequisites()
      */
-    public function addPreAndPostRequisites(array $events): array {
+    public function addPreAndPostRequisites(array $events): array
+    {
         /** @var SchoolRepository $repository */
         $repository = $this->getRepository();
         return $repository->addPreAndPostRequisites($events);
