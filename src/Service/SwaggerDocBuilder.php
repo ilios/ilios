@@ -46,7 +46,7 @@ class SwaggerDocBuilder
         RouterInterface $router,
         $apiVersion
     ) {
-        $this->swaggerDir = realpath($kernel->getRootDir() . '/../config/swagger');
+        $this->swaggerDir = realpath($kernel->getProjectDir() . '/config/swagger');
         $this->environment = $kernel->getEnvironment();
         $this->templatingEngine = $templatingEngine;
         $this->router = $router;
