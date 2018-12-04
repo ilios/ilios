@@ -38,7 +38,7 @@ class MeshConceptTest extends EntityBase
      */
     public function testConstructor()
     {
-        $now = new \DateTime();
+        $now = \DateTime::createFromFormat('U', time());
         $createdAt = $this->object->getCreatedAt();
         $this->assertTrue($createdAt instanceof \DateTime);
         $diff = $now->diff($createdAt);
