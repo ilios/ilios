@@ -69,7 +69,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => ['2', '3', '4', '5', '6', '7', '8'],
             'offerings' => ['6', '7', '8'],
             'administrators' => [],
-            'prerequisites' => [],
+            'prerequisites' => ['1', '2'],
         );
 
         $arr[] = array(
@@ -89,7 +89,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => [],
             'offerings' => [],
             'administrators' => [],
-            'prerequisites' => ['2', '3'],
+            'prerequisites' => [],
         );
 
         for ($i = 5; $i <= 8; $i++) {
