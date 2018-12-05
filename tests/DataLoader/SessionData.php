@@ -26,6 +26,8 @@ class SessionData extends AbstractDataLoader
             'offerings' => ['1', '2'],
             'administrators' => ['1'],
             'prerequisites' => [],
+            'postrequisite' => '3',
+
         );
 
         $arr[] = array(
@@ -40,7 +42,6 @@ class SessionData extends AbstractDataLoader
             'instructionalNotes' => $this->faker->text(100),
             'sessionType' => '2',
             'course' => '1',
-            'postrequisite' => '4',
             'sessionDescription' => '2',
             'terms' => ['1', '4'],
             'objectives' => [],
@@ -49,6 +50,8 @@ class SessionData extends AbstractDataLoader
             'offerings' => ['3', '4', '5'],
             'administrators' => [],
             'prerequisites' => [],
+            'postrequisite' => '3',
+
         );
 
         $arr[] = array(
@@ -62,7 +65,6 @@ class SessionData extends AbstractDataLoader
             'instructionalNotes' => $this->faker->text(100),
             'sessionType' => '2',
             'course' => '2',
-            'postrequisite' => '4',
             'terms' => ['3', '6'],
             'objectives' => [],
             'meshDescriptors' => ["abc2"],
