@@ -8,3 +8,5 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     exception_controller:  App\Controller\ExceptionController::showAction
+    paths:
+        '%kernel.project_dir%/custom/email_templates': custom_email_templates
