@@ -25,21 +25,42 @@ class IcsController extends AbstractController
      * @var RouterInterface
      */
     private $router;
+    /**
+     * @var UserManager
+     */
+    private $userManager;
+    /**
+     * @var OfferingManager
+     */
+    private $offeringManager;
+    /**
+     * @var IlmSessionManager
+     */
+    private $ilmSessionManager;
 
     /**
      * IcsController constructor.
      * @param RouterInterface $router
+     * @param UserManager $userManager
+     * @param OfferingManager $offeringManager
+     * @param IlmSessionManager $ilmSessionManager
      */
-    public function __construct(RouterInterface $router)
-    {
+    public function __construct(
+        RouterInterface $router,
+        UserManager $userManager,
+        OfferingManager $offeringManager,
+        IlmSessionManager $ilmSessionManager
+    ) {
         $this->router = $router;
+        $this->userManager = $userManager;
+        $this->offeringManager = $offeringManager;
+        $this->ilmSessionManager = $ilmSessionManager;
     }
 
     public function indexAction(Request $request, $key)
     {
-        $manager = $this->container->get(UserManager::class);
         /** @var User $user */
-        $user = $manager->findOneBy(array('icsFeedKey' => $key));
+        $user = $this->userManager->findOneBy(array('icsFeedKey' => $key));
 
         if (!$user) {
             throw new NotFoundHttpException();
@@ -51,7 +72,7 @@ class IcsController extends AbstractController
         $from = new \DateTime(self::LOOK_BACK);
         $to =  new \DateTime(self::LOOK_FORWARD);
 
-        $events = $manager->findEventsForUser($user->getId(), $from, $to);
+        $events = $this->userManager->findEventsForUser($user->getId(), $from, $to);
 
         $publishedEvents = array_filter($events, function (UserEvent $event) {
             return $event->isPublished && !$event->isScheduled;
@@ -101,17 +122,13 @@ class IcsController extends AbstractController
         $slug = 'U' . $event->startDate->format('Ymd');
 
         if ($event->offering) {
-            /** @var OfferingManager $offeringManager */
-            $offeringManager = $this->container->get(OfferingManager::class);
-            $offering = $offeringManager->findOneBy(['id' => $event->offering]);
+            $offering = $this->offeringManager->findOneBy(['id' => $event->offering]);
             /* @var SessionInterface $session */
             $session = $offering->getSession();
             $slug .= 'O' . $event->offering;
         }
         if ($event->ilmSession) {
-            /** @var IlmSessionManager $ilmSessionManager */
-            $ilmSessionManager = $this->container->get(IlmSessionManager::class);
-            $ilmSession = $ilmSessionManager->findOneBy(['id' => $event->ilmSession]);
+            $ilmSession = $this->ilmSessionManager->findOneBy(['id' => $event->ilmSession]);
             $session = $ilmSession->getSession();
             $slug .= 'I' . $event->ilmSession;
         }
