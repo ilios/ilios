@@ -7,7 +7,6 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Entity\Manager\ManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -15,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -540,5 +540,16 @@ class ApiController implements ApiControllerInterface, ContainerAwareInterface
     protected function getSerializer()
     {
         return $this->serializer;
+    }
+
+    /**
+     * Utility method for creating this exception
+     *
+     * @param string $message
+     * @return AccessDeniedException
+     */
+    protected function createAccessDeniedException(string $message): AccessDeniedException
+    {
+        return new AccessDeniedException($message);
     }
 }
