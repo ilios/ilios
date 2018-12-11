@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Service\Config;
 use App\Service\Filesystem;
 use App\Service\AuthenticationInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Command\UpdateFrontendCommand;
 use Symfony\Component\Templating\EngineInterface;
 
-class IndexController extends Controller
+class IndexController extends AbstractController
 {
     const DEFAULT_TEMPLATE_NAME = 'webindex.html.twig';
 

@@ -3,26 +3,20 @@
 namespace App\Controller;
 
 use App\Classes\UserEvent;
-use App\Entity\CourseLearningMaterialInterface;
-use App\Entity\LearningMaterialInterface;
-use App\Entity\LearningMaterialRelationshipInterface;
-use App\Entity\LearningMaterialStatusInterface;
 use App\Entity\Manager\IlmSessionManager;
 use App\Entity\Manager\OfferingManager;
 use App\Entity\Manager\UserManager;
-use App\Entity\ObjectiveInterface;
 use App\Entity\SessionInterface;
-use App\Entity\SessionLearningMaterialInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use \Eluceo\iCal\Component as ICS;
 use Symfony\Component\Routing\RouterInterface;
 
-class IcsController extends Controller
+class IcsController extends AbstractController
 {
     const LOOK_BACK = '-4 months';
     const LOOK_FORWARD = '+2 months';
@@ -31,20 +25,42 @@ class IcsController extends Controller
      * @var RouterInterface
      */
     private $router;
+    /**
+     * @var UserManager
+     */
+    private $userManager;
+    /**
+     * @var OfferingManager
+     */
+    private $offeringManager;
+    /**
+     * @var IlmSessionManager
+     */
+    private $ilmSessionManager;
 
     /**
      * IcsController constructor.
      * @param RouterInterface $router
+     * @param UserManager $userManager
+     * @param OfferingManager $offeringManager
+     * @param IlmSessionManager $ilmSessionManager
      */
-    public function __construct(RouterInterface $router)
-    {
+    public function __construct(
+        RouterInterface $router,
+        UserManager $userManager,
+        OfferingManager $offeringManager,
+        IlmSessionManager $ilmSessionManager
+    ) {
         $this->router = $router;
+        $this->userManager = $userManager;
+        $this->offeringManager = $offeringManager;
+        $this->ilmSessionManager = $ilmSessionManager;
     }
 
     public function indexAction(Request $request, $key)
     {
-        $manager = $this->container->get(UserManager::class);
-        $user = $manager->findOneBy(array('icsFeedKey' => $key));
+        /** @var User $user */
+        $user = $this->userManager->findOneBy(array('icsFeedKey' => $key));
 
         if (!$user) {
             throw new NotFoundHttpException();
@@ -56,7 +72,7 @@ class IcsController extends Controller
         $from = new \DateTime(self::LOOK_BACK);
         $to =  new \DateTime(self::LOOK_FORWARD);
 
-        $events = $manager->findEventsForUser($user->getId(), $from, $to);
+        $events = $this->userManager->findEventsForUser($user->getId(), $from, $to);
 
         $publishedEvents = array_filter($events, function (UserEvent $event) {
             return $event->isPublished && !$event->isScheduled;
@@ -106,15 +122,13 @@ class IcsController extends Controller
         $slug = 'U' . $event->startDate->format('Ymd');
 
         if ($event->offering) {
-            $offeringManager = $this->container->get(OfferingManager::class);
-            $offering = $offeringManager->findOneBy(['id' => $event->offering]);
+            $offering = $this->offeringManager->findOneBy(['id' => $event->offering]);
             /* @var SessionInterface $session */
             $session = $offering->getSession();
             $slug .= 'O' . $event->offering;
         }
         if ($event->ilmSession) {
-            $ilmSessionManager = $this->container->get(IlmSessionManager::class);
-            $ilmSession = $ilmSessionManager->findOneBy(['id' => $event->ilmSession]);
+            $ilmSession = $this->ilmSessionManager->findOneBy(['id' => $event->ilmSession]);
             $session = $ilmSession->getSession();
             $slug .= 'I' . $event->ilmSession;
         }

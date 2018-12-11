@@ -1,9 +1,0 @@
-parameters:
-    env(ILIOS_LOCALE): 'en'
-
-framework:
-    default_locale: '%env(ILIOS_LOCALE)%'
-    translator:
-        default_path: '%kernel.project_dir%/translations'
-        fallbacks:
-            - '%env(ILIOS_LOCALE)%'

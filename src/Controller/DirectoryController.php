@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Classes\PermissionMatrixInterface;
-use App\Classes\SessionUserInterface;
 use App\Service\PermissionChecker;
 use App\Entity\Manager\UserManager;
 use App\Service\Directory;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -17,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Class DirectoryController
  */
-class DirectoryController extends Controller
+class DirectoryController extends AbstractController
 {
 
     /**

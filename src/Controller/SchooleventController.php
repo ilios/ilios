@@ -7,9 +7,8 @@ use App\Entity\SessionInterface;
 use App\RelationshipVoter\AbstractVoter;
 use App\Classes\SchoolEvent;
 use App\Entity\Manager\SchoolManager;
-use App\Entity\Manager\UserManager;
 use App\Exception\InvalidInputWithSafeUserMessageException;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -23,7 +22,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  *
  * Search for events happening in a school
  */
-class SchooleventController extends Controller
+class SchooleventController extends AbstractController
 {
     /**
      * @param string $version of the API requested
