@@ -144,8 +144,7 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals(1, $events[0]['competencies'][1]['id']);
         $this->assertEquals('first competency', $events[0]['competencies'][1]['title']);
         $this->assertEquals(null, $events[0]['competencies'][1]['parent']);
-        $this->assertEquals(3, count($events[0]['postrequisites']));
-        $this->assertEquals([3], array_unique(array_column($events[0]['postrequisites'], 'session')));
+        $this->assertEmpty($events[0]['postrequisites']);
         $this->assertEmpty($events[0]['prerequisites']);
 
         $this->assertEquals($events[1]['offering'], 4);
@@ -167,8 +166,7 @@ class SchooleventsTest extends AbstractEndpointTest
             $sessions[1]['instructionalNotes'],
             'instructional notes is correct for event 1'
         );
-        $this->assertEquals(3, count($events[1]['postrequisites']));
-        $this->assertEquals([3], array_unique(array_column($events[1]['postrequisites'], 'session')));
+        $this->assertEmpty($events[1]['postrequisites']);
         $this->assertEmpty($events[1]['prerequisites']);
 
         $this->assertEquals($events[2]['offering'], 5);
@@ -189,8 +187,7 @@ class SchooleventsTest extends AbstractEndpointTest
             $sessions[1]['instructionalNotes'],
             'instructional notes is correct for event 2'
         );
-        $this->assertEquals(3, count($events[2]['postrequisites']));
-        $this->assertEquals([3], array_unique(array_column($events[2]['postrequisites'], 'session')));
+        $this->assertEmpty($events[2]['postrequisites']);
         $this->assertEmpty($events[2]['prerequisites']);
 
         $this->assertEquals($events[3]['offering'], 6);
@@ -212,9 +209,7 @@ class SchooleventsTest extends AbstractEndpointTest
             'instructional notes is correct for event 3'
         );
         $this->assertEmpty($events[3]['postrequisites']);
-        $sessionIds = array_unique(array_column($events[3]['prerequisites'], 'session'));
-        sort($sessionIds);
-        $this->assertEquals([1, 2], $sessionIds);
+        $this->assertEmpty($events[3]['prerequisites']);
 
         $this->assertEquals($events[4]['offering'], 7);
         $this->assertEquals($events[4]['startDate'], $offerings[6]['startDate']);
@@ -235,9 +230,7 @@ class SchooleventsTest extends AbstractEndpointTest
             'instructional notes is correct for event 4'
         );
         $this->assertEmpty($events[4]['postrequisites']);
-        $sessionIds = array_unique(array_column($events[4]['prerequisites'], 'session'));
-        sort($sessionIds);
-        $this->assertEquals([1, 2], $sessionIds);
+        $this->assertEmpty($events[4]['prerequisites']);
 
         $this->assertEquals($events[5]['ilmSession'], 1);
         $this->assertEquals($events[5]['startDate'], $ilmSessions[0]['dueDate']);
@@ -341,8 +334,7 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals(1, $events[9]['competencies'][1]['id']);
         $this->assertEquals('first competency', $events[9]['competencies'][1]['title']);
         $this->assertEquals(null, $events[9]['competencies'][1]['parent']);
-        $this->assertEquals(3, count($events[9]['postrequisites']));
-        $this->assertEquals([3], array_unique(array_column($events[9]['postrequisites'], 'session')));
+        $this->assertEmpty($events[9]['postrequisites']);
         $this->assertEmpty($events[9]['prerequisites']);
 
         /** @var OfferingInterface $offering */
@@ -360,9 +352,7 @@ class SchooleventsTest extends AbstractEndpointTest
             'Event 10 has the correct number of learning materials'
         );
         $this->assertEmpty($events[10]['postrequisites']);
-        $sessionIds = array_unique(array_column($events[10]['prerequisites'], 'session'));
-        sort($sessionIds);
-        $this->assertEquals([1, 2], $sessionIds);
+        $this->assertEmpty($events[10]['prerequisites']);
 
         foreach ($events as $event) {
             $this->assertEquals($school['id'], $event['school']);

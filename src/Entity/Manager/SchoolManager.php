@@ -98,17 +98,4 @@ class SchoolManager extends BaseManager
         $repository = $this->getRepository();
         return $repository->addSessionDataToEvents($events);
     }
-
-    /**
-     * @param array $events
-     * @return array
-     * @throws \Exception
-     * @see CalendarEventRepository::addPreAndPostRequisites()
-     */
-    public function addPreAndPostRequisites(array $events): array
-    {
-        /** @var SchoolRepository $repository */
-        $repository = $this->getRepository();
-        return $repository->addPreAndPostRequisites($events);
-    }
 }

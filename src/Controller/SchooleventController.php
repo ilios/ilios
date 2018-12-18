@@ -82,17 +82,9 @@ class SchooleventController extends AbstractController
             return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
         });
 
-        $events = $schoolManager->addPreAndPostRequisites($events);
-        $allEvents = [];
-        /** @var CalendarEvent $event */
-        foreach ($events as $event) {
-            $allEvents[] = $event;
-            $allEvents = array_merge($allEvents, $event->prerequisites);
-            $allEvents = array_merge($allEvents, $event->postrequisites);
-        }
-        $allEvents = $schoolManager->addInstructorsToEvents($allEvents);
-        $allEvents = $schoolManager->addMaterialsToEvents($allEvents);
-        $allEvents = $schoolManager->addSessionDataToEvents($allEvents);
+        $events = $schoolManager->addInstructorsToEvents($events);
+        $events = $schoolManager->addMaterialsToEvents($events);
+        $events = $schoolManager->addSessionDataToEvents($events);
 
         $sessionUser = $tokenStorage->getToken()->getUser();
 
@@ -101,7 +93,7 @@ class SchooleventController extends AbstractController
         if (! $hasElevatedPrivileges) {
             /** @var SchoolEvent $event */
             $now = new \DateTime();
-            foreach ($allEvents as $event) {
+            foreach ($events as $event) {
                 $event->clearDataForUnprivilegedUsers($now);
             }
         }
