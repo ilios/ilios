@@ -73,7 +73,8 @@ class ImportMeshUniverseCommand extends Command
                 'year',
                 'y',
                 InputOption::VALUE_REQUIRED,
-                'The MeSH descriptors publication year. Acceptable values are '.implode(', ', self::YEARS)
+                'The MeSH descriptors publication year. Acceptable values are '
+                . implode(', ', array_keys(self::YEARS)) . '.'
             );
     }
 
