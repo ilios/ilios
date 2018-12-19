@@ -468,16 +468,6 @@ trait CalendarEventRepository
     }
 
     /**
-     * @param CalendarEvent[] $events
-     * @return CalendarEvent[]
-     */
-    public function addPreAndPostRequisites(array $events) : array
-    {
-        $events = $this->attachPreRequisitesToEvents($events, $this->_em);
-        return $this->attachPostRequisitesToEvents($events, $this->_em);
-    }
-
-    /**
      * Get a set of learning materials based on published session
      *
      * @param array $sessionIds

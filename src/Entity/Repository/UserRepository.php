@@ -420,22 +420,23 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     }
 
     /**
-     * Adds pre- and post-requisites to a given list of events.
-     * @param UserEvent[] $events A list of events
+     * Adds pre- and post-requisites for a given user to a given list of events.
+     * @param int $id The user id.
+     * @param UserEvent[] $events A list of events.
      * @return UserEvent[] The events list with pre- and post-requisites added.
      */
-    public function addPreAndPostRequisitesToEvents(array $events)
+    public function addPreAndPostRequisites($id, array $events)
     {
-        $events = $this->attachPreRequisitesToEvents($events);
-        return $this->attachPostRequisitesToEvents($events);
+        $events = $this->attachPreRequisitesToEvents($id, $events);
+        return $this->attachPostRequisitesToEvents($id, $events);
     }
 
     /**
-     * Attaches pre-requisites to a given list of events.
-     * @param array $events A list of events
+     * Attaches user-events for a given user as pre-requisites to a given list of given events.
+     * @param int $id The user id.
      * @return array The events list with pre-requisites attached.
      */
-    protected function attachPreRequisitesToEvents(array $events)
+    protected function attachPreRequisitesToEvents($id, array $events)
     {
         if (empty($events)) {
             return $events;
@@ -506,7 +507,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $results = $qb->getQuery()->getArrayResult();
 
         foreach ($results as $result) {
-            $prerequisite = $this->createEventObjectForIlmSession(null, $result);
+            $prerequisite = $this->createEventObjectForIlmSession($id, $result);
             $sessionId = $result['postRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
@@ -520,11 +521,12 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     }
 
     /**
-     * Attaches post-requisites to a given list of events.
-     * @param array $events A list of events
+     * Attaches user-events for a given user as post-requisites to a given list of given events.
+     * @param int $id The user id.
+     * @param array $events A list of events.
      * @return array The events list with post-requisites attached.
      */
-    protected function attachPostRequisitesToEvents(array $events)
+    protected function attachPostRequisitesToEvents($id, array $events)
     {
         if (empty($events)) {
             return $events;
@@ -563,7 +565,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $results = $qb->getQuery()->getArrayResult();
 
         foreach ($results as $result) {
-            $prerequisite = $this->createEventObjectForOffering(null, $result);
+            $prerequisite = $this->createEventObjectForOffering($id, $result);
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
