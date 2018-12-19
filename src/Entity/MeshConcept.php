@@ -46,13 +46,13 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=192)
+     * @ORM\Column(type="string", length=255)
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 192
+     *      max = 255
      * )
      *
      * @IS\Expose
