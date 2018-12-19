@@ -73,7 +73,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     {
         $this->mockHappyPath();
 
-        $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2018.xml';
+        $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2019.xml';
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
