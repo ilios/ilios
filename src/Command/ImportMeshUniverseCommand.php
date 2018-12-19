@@ -23,8 +23,8 @@ class ImportMeshUniverseCommand extends Command
      * @var array
      */
     const YEARS = [
-        2017 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/.xmlmesh/desc2017.xml',
         2018 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2018.xml',
+        2019 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2019.xml',
     ];
 
     /**
