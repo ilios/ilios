@@ -427,6 +427,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     /**
      * Attaches user-events for a given user as pre-requisites to a given list of given events.
      * @param int $id The user id.
+     * @param UserEvent[] $events A list of events.
      * @return array The events list with pre-requisites attached.
      */
     protected function attachPreRequisitesToEvents($id, array $events)
@@ -468,7 +469,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $results = $qb->getQuery()->getArrayResult();
 
         foreach ($results as $result) {
-            $prerequisite = $this->createEventObjectForOffering($result);
+            $prerequisite = UserEvent::createFromCalendarEvent($id, $this->createEventObjectForOffering($result));
             $sessionId = $result['postRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
@@ -500,7 +501,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $results = $qb->getQuery()->getArrayResult();
 
         foreach ($results as $result) {
-            $prerequisite = $this->createEventObjectForIlmSession($id, $result);
+            $prerequisite = UserEvent::createFromCalendarEvent(
+                $id,
+                $this->createEventObjectForIlmSession($id, $result)
+            );
             $sessionId = $result['postRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
@@ -558,12 +562,12 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $results = $qb->getQuery()->getArrayResult();
 
         foreach ($results as $result) {
-            $prerequisite = $this->createEventObjectForOffering($result);
+            $postrequisite = UserEvent::createFromCalendarEvent($id, $this->createEventObjectForOffering($result));
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
-                    $event->postrequisites[] = $prerequisite;
+                    $event->postrequisites[] = $postrequisite;
                 }
             }
         }
@@ -590,12 +594,15 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $results = $qb->getQuery()->getArrayResult();
 
         foreach ($results as $result) {
-            $prerequisite = $this->createEventObjectForIlmSession(null, $result);
+            $postrequisite = UserEvent::createFromCalendarEvent(
+                $id,
+                $this->createEventObjectForIlmSession(null, $result)
+            );
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
-                    $event->postrequisites[] = $prerequisite;
+                    $event->postrequisites[] = $postrequisite;
                 }
             }
         }
