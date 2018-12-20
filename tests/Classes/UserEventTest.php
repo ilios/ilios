@@ -55,4 +55,37 @@ class UserEventTest extends TestCase
         $this->assertTrue(in_array($finalizedMaterial, $this->userEvent->learningMaterials));
         $this->assertTrue(in_array($revisedMaterial, $this->userEvent->learningMaterials));
     }
+
+    /**
+     * @covers UserEvent::createFromCalendarEvent
+     */
+    public function testCreateFromCalendarEvent()
+    {
+        $userId = 100;
+        $calendarEvent = new CalendarEvent();
+        $calendarEvent->attendanceRequired = false;
+        $calendarEvent->attireRequired = true;
+        $calendarEvent->color = '#fff';
+        $calendarEvent->courseExternalId = 12;
+        $calendarEvent->courseId = 17;
+        $calendarEvent->courseTitle = 'Test Event';
+        $calendarEvent->endDate = new \DateTime();
+        $calendarEvent->equipmentRequired = true;
+        $calendarEvent->startDate = new \DateTime();
+        $calendarEvent->instructionalNotes = 'lorem ipsum';
+        $calendarEvent->sessionDescription = 'something';
+
+        $userEvent = UserEvent::createFromCalendarEvent($userId, $calendarEvent);
+        $this->assertSame($userId, $userEvent->user);
+        $this->assertSame($calendarEvent->attendanceRequired, $userEvent->attendanceRequired);
+        $this->assertSame($calendarEvent->attireRequired, $userEvent->attireRequired);
+        $this->assertSame($calendarEvent->color, $userEvent->color);
+        $this->assertSame($calendarEvent->courseExternalId, $userEvent->courseExternalId);
+        $this->assertSame($calendarEvent->courseTitle, $userEvent->courseTitle);
+        $this->assertSame($calendarEvent->endDate, $userEvent->endDate);
+        $this->assertSame($calendarEvent->equipmentRequired, $userEvent->equipmentRequired);
+        $this->assertSame($calendarEvent->instructionalNotes, $userEvent->instructionalNotes);
+        $this->assertSame($calendarEvent->startDate, $userEvent->startDate);
+        $this->assertSame($calendarEvent->sessionDescription, $userEvent->sessionDescription);
+    }
 }

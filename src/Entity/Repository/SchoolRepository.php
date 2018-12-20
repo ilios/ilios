@@ -176,14 +176,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         //cast calendar events into school events
         $schoolEvents = array_map(function (CalendarEvent $event) use ($id) {
-            $schoolEvent = new SchoolEvent();
-            $schoolEvent->school = $id;
-
-            foreach (get_object_vars($event) as $key => $name) {
-                $schoolEvent->$key = $name;
-            }
-
-            return $schoolEvent;
+            return SchoolEvent::createFromCalendarEvent($id, $event);
         }, $events);
 
         //sort events by startDate and endDate for consistency

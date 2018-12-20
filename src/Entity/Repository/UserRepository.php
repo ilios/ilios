@@ -190,16 +190,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
         $events = array_merge($events, $uniqueIlmEvents);
 
-        //cast calendar events into user events
+        //turn calendar events into user events
         $userEvents = array_map(function (CalendarEvent $event) use ($id) {
-            $userEvent = new UserEvent();
-            $userEvent->user = $id;
-
-            foreach (get_object_vars($event) as $key => $name) {
-                $userEvent->$key = $name;
-            }
-
-            return $userEvent;
+            return UserEvent::createFromCalendarEvent($id, $event);
         }, $events);
 
         //sort events by startDate and endDate for consistency
