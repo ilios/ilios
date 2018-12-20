@@ -356,7 +356,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 
         $results = $qb->getQuery()->getArrayResult();
-        return $this->createEventObjectsForOfferings($id, $results);
+        return $this->createEventObjectsForOfferings($results);
     }
 
     /**
@@ -468,7 +468,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $results = $qb->getQuery()->getArrayResult();
 
         foreach ($results as $result) {
-            $prerequisite = $this->createEventObjectForOffering(null, $result);
+            $prerequisite = $this->createEventObjectForOffering($result);
             $sessionId = $result['postRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
@@ -558,7 +558,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $results = $qb->getQuery()->getArrayResult();
 
         foreach ($results as $result) {
-            $prerequisite = $this->createEventObjectForOffering($id, $result);
+            $prerequisite = $this->createEventObjectForOffering($result);
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */

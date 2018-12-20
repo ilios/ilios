@@ -17,24 +17,22 @@ trait CalendarEventRepository
 {
     /**
      * Convert offerings into CalendarEvent() objects
-     * @param integer $userId
      * @param array $results
      *
      * @return CalendarEvent[]
      */
-    protected function createEventObjectsForOfferings($userId, array $results)
+    protected function createEventObjectsForOfferings(array $results)
     {
-        return array_map(function ($arr) use ($userId) {
-            return $this->createEventObjectForOffering($userId, $arr);
+        return array_map(function ($arr) {
+            return $this->createEventObjectForOffering($arr);
         }, $results);
     }
 
     /**
-     * @param $userId
      * @param array $arr
      * @return CalendarEvent
      */
-    protected function createEventObjectForOffering($userId, array $arr)
+    protected function createEventObjectForOffering(array $arr)
     {
         $event = new CalendarEvent();
         $event->name = $arr['title'];

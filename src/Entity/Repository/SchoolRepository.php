@@ -235,7 +235,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 
         $results = $qb->getQuery()->getArrayResult();
-        return $this->createEventObjectsForOfferings($id, $results);
+        return $this->createEventObjectsForOfferings($results);
     }
 
     /**
