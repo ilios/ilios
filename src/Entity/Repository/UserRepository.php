@@ -565,31 +565,50 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
         $sessionIds = array_unique(array_column($events, 'session'));
 
-        $qb = $this->_em->createQueryBuilder();
-
-        $what = 's.id AS preRequisiteSessionId, c.id as courseId, p.id AS sessionId, ' .
+        // get post-requisites from offerings that a the user is associated with (as learner, instructor, etc.)
+        $results = [];
+        $joins = $this->getUserToOfferingJoins();
+        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, ' .
             'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
-            'p.updatedAt AS sessionUpdatedAt, p.title, st.calendarColor, st.title as sessionTypeTitle, ' .
-            'p.publishedAsTbd as sessionPublishedAsTbd, p.published as sessionPublished, ' .
-            'p.attireRequired, p.equipmentRequired, p.supplemental, p.attendanceRequired, p.instructionalNotes, ' .
+            's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
+            's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+            's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
+        foreach ($joins as $join) {
+            $qb = $this->_em->createQueryBuilder();
+            $qb->addSelect($what)->from('App\Entity\User', 'u');
+            foreach ($join as $key => $statement) {
+                $qb->leftJoin($statement, $key);
+            }
+            $qb->leftJoin('o.session', 's');
+            $qb->leftJoin('s.course', 'c');
+            $qb->leftJoin('s.sessionType', 'st');
+            $qb->leftJoin('s.sessionDescription', 'sd');
+            $qb->leftJoin('s.prerequisites', 'ps');
+            $qb->where($qb->expr()->isNotNull('o.id'));
+            $qb->andWhere($qb->expr()->in('ps.id', ':sessions'));
+            $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
+            $qb->setParameter('user_id', $id);
+            $qb->setParameter('sessions', $sessionIds);
 
-        $qb->addSelect($what)->from('App\Entity\Session', 's');
-        $qb->join('s.postrequisite', 'p');
-        $qb->join('p.course', 'c');
-        $qb->join('p.offerings', 'o');
-        $qb->leftJoin('p.sessionType', 'st');
-        $qb->leftJoin('p.sessionDescription', 'sd');
+            $results = array_merge($results, $qb->getQuery()->getArrayResult());
+        }
 
-        $qb->where($qb->expr()->in('s.id', ':sessions'));
-        $qb->setParameter('sessions', $sessionIds);
+        // dedupe results by offering id
+        $dedupedResults = [];
+        foreach($results as $result) {
+            if (array_key_exists($dedupedResults['id'], $result)) {
+                continue;
+            }
+            $dedupedResults[$result['id']] = $result;
+        }
+        $dedupedResults = array_values($dedupedResults);
 
-        $results = $qb->getQuery()->getArrayResult();
-
-        foreach ($results as $result) {
+        // create post-requisites events and attach them to their proper events
+        foreach ($dedupedResults as $result) {
             $postrequisite = UserEvent::createFromCalendarEvent($id, $this->createEventObjectForOffering($result));
-            $sessionId = $result['preRequisiteSessionId'];
+            $sessionId = $result['postRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
@@ -598,33 +617,52 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             }
         }
 
-        $qb = $this->_em->createQueryBuilder();
-
-        $what = 's.id AS preRequisiteSessionId, c.id as courseId, p.id AS sessionId, ilm.id, ilm.dueDate, ' .
-            'p.updatedAt, p.title, st.calendarColor, ' .
-            'p.publishedAsTbd as sessionPublishedAsTbd, p.published as sessionPublished, ' .
-            'p.attireRequired, p.equipmentRequired, p.supplemental, p.attendanceRequired, p.instructionalNotes, ' .
+        // get post-requisites from ILMs that a the user is associated with (as learner, instructor, etc.)
+        $results = [];
+        $joins = $this->getUserToIlmJoins();
+        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, ilm.id, ilm.dueDate, ' .
+            's.updatedAt, s.title, st.calendarColor, ' .
+            's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+            's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+        foreach ($joins as $join) {
+            $qb = $this->_em->createQueryBuilder();
+            $qb->addSelect($what)->from('App\Entity\User', 'u');
+            foreach ($join as $key => $statement) {
+                $qb->leftJoin($statement, $key);
+            }
+            $qb->leftJoin('ilm.session', 's');
+            $qb->leftJoin('s.course', 'c');
+            $qb->leftJoin('s.sessionType', 'st');
+            $qb->leftJoin('s.sessionDescription', 'sd');
+            $qb->leftJoin('s.prerequisites', 'ps');
+            $qb->where($qb->expr()->isNotNull('ilm.id'));
+            $qb->andWhere($qb->expr()->in('ps.id', ':sessions'));
+            $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
+            $qb->setParameter('user_id', $id);
+            $qb->setParameter('sessions', $sessionIds);
 
-        $qb->addSelect($what)->from('App\Entity\Session', 's');
-        $qb->join('s.postrequisite', 'p');
-        $qb->join('p.course', 'c');
-        $qb->join('p.ilmSession', 'ilm');
-        $qb->leftJoin('p.sessionType', 'st');
-        $qb->leftJoin('p.sessionDescription', 'sd');
+            $results = array_merge($results, $qb->getQuery()->getArrayResult());
+        }
 
-        $qb->where($qb->expr()->in('s.id', ':sessions'));
-        $qb->setParameter('sessions', $sessionIds);
+        // dedupe results by ILM id
+        $dedupedResults = [];
+        foreach($results as $result) {
+            if (array_key_exists($dedupedResults['id'], $result)) {
+                continue;
+            }
+            $dedupedResults[$result['id']] = $result;
+        }
+        $dedupedResults = array_values($dedupedResults);
 
-        $results = $qb->getQuery()->getArrayResult();
-
-        foreach ($results as $result) {
+        // create post-requisites events and attach them to their proper events
+        foreach ($dedupedResults as $result) {
             $postrequisite = UserEvent::createFromCalendarEvent(
                 $id,
                 $this->createEventObjectForIlmSession(null, $result)
             );
-            $sessionId = $result['preRequisiteSessionId'];
+            $sessionId = $result['postRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
