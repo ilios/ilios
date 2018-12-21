@@ -141,13 +141,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     public function findEventsForUser($id, \DateTime $from, \DateTime $to)
     {
         //These joins are DQL representations to go from a user to an offerings
-        $joins = [
-            ['g' => 'u.learnerGroups', 'o' => 'g.offerings'],
-            ['g' => 'u.instructorGroups', 'o' => 'g.offerings'],
-            ['o' => 'u.offerings'],
-            ['o' => 'u.instructedOfferings'],
-            ['dc' => 'u.directedCourses', 'dcs' => 'dc.sessions', 'o' => 'dcs.offerings'],
-        ];
+        $joins = $this->getUserToOfferingJoins();
 
         $offeringEvents = [];
         //using each of the joins above create a query to get events
@@ -165,13 +159,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
 
         //These joins are DQL representations to go from a user to an ILMSession
-        $joins = [
-            ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions'],
-            ['g' => 'u.instructorGroups', 'ilm' => 'g.ilmSessions'],
-            ['ilm' => 'u.learnerIlmSessions'],
-            ['ilm' => 'u.instructorIlmSessions'],
-            ['dc' => 'u.directedCourses', 'sess' => 'dc.sessions', 'ilm' => 'sess.ilmSession']
-        ];
+        $joins = $this->getUserToIlmJoins();
 
         $ilmEvents = [];
         //using each of the joins above create a query to get events
@@ -1462,5 +1450,33 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
 
         return $rhett;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getUserToIlmJoins() : array
+    {
+        return [
+            ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions'],
+            ['g' => 'u.instructorGroups', 'ilm' => 'g.ilmSessions'],
+            ['ilm' => 'u.learnerIlmSessions'],
+            ['ilm' => 'u.instructorIlmSessions'],
+            ['dc' => 'u.directedCourses', 'sess' => 'dc.sessions', 'ilm' => 'sess.ilmSession']
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getUserToOfferingJoins(): array
+    {
+        return [
+            ['g' => 'u.learnerGroups', 'o' => 'g.offerings'],
+            ['g' => 'u.instructorGroups', 'o' => 'g.offerings'],
+            ['o' => 'u.offerings'],
+            ['o' => 'u.instructedOfferings'],
+            ['dc' => 'u.directedCourses', 'dcs' => 'dc.sessions', 'o' => 'dcs.offerings'],
+        ];
     }
 }
