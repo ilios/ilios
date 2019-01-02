@@ -84,12 +84,12 @@ class UsereventController extends AbstractController
             $events = $manager->findEventsForUser($user->getId(), $from, $to);
         }
 
-        $events = array_filter(
+        $events = array_values(array_filter(
             $events,
             function ($event) use ($authorizationChecker) {
                 return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
             }
-        );
+        ));
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
@@ -140,7 +140,7 @@ class UsereventController extends AbstractController
             }
         }
 
-        $response['userEvents'] = $events ? array_values($events) : [];
+        $response['userEvents'] = $events ? $events : [];
 
         return new Response(
             $serializer->serialize($response, 'json'),
