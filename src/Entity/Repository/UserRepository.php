@@ -477,7 +477,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // create pre-requisites events and attach them to their proper events
         foreach ($dedupedResults as $result) {
             $prerequisite = UserEvent::createFromCalendarEvent($id, $this->createEventObjectForOffering($result));
-            $sessionId = $result['postRequisiteSessionId'];
+            $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
@@ -489,7 +489,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // get pre-requisites from ILMs that a the user is associated with (as learner, instructor, etc.)
         $results = [];
         $joins = $this->getUserToIlmJoins();
-        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, ilm.id, ilm.dueDate, ' .
+        $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
@@ -531,7 +531,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
                 $id,
                 $this->createEventObjectForIlmSession(null, $result)
             );
-            $sessionId = $result['postRequisiteSessionId'];
+            $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
