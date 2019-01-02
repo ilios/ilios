@@ -467,7 +467,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // dedupe results by offering id
         $dedupedResults = [];
         foreach ($results as $result) {
-            if (array_key_exists($dedupedResults['id'], $result)) {
+            if (array_key_exists($result['id'], $dedupedResults)) {
                 continue;
             }
             $dedupedResults[$result['id']] = $result;
@@ -518,7 +518,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // dedupe results by ILM id
         $dedupedResults = [];
         foreach ($results as $result) {
-            if (array_key_exists($dedupedResults['id'], $result)) {
+            if (array_key_exists($result['id'], $dedupedResults)) {
                 continue;
             }
             $dedupedResults[$result['id']] = $result;
@@ -598,7 +598,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // dedupe results by offering id
         $dedupedResults = [];
         foreach ($results as $result) {
-            if (array_key_exists($dedupedResults['id'], $result)) {
+            if (array_key_exists($result['id'], $dedupedResults)) {
                 continue;
             }
             $dedupedResults[$result['id']] = $result;
@@ -649,7 +649,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // dedupe results by ILM id
         $dedupedResults = [];
         foreach ($results as $result) {
-            if (array_key_exists($dedupedResults['id'], $result)) {
+            if (array_key_exists($result['id'], $dedupedResults)) {
                 continue;
             }
             $dedupedResults[$result['id']] = $result;
