@@ -292,13 +292,13 @@ class CourseTest extends ReadWriteEndpointTest
 
         $newCourse = $this->rolloverCourse([
             'id' => $course['id'],
-            'year' => 2017,
-            'newStartDate' => '2017-02-05'
+            'year' => 2018,
+            'newStartDate' => '2018-02-04'
         ]);
 
-        $this->assertSame(2017, $newCourse['year']);
-        $this->assertSame('2017-02-05T00:00:00+00:00', $newCourse['startDate'], 'start date is correct');
-        $this->assertSame('2017-06-04T00:00:00+00:00', $newCourse['endDate'], 'end date is correct');
+        $this->assertSame(2018, $newCourse['year']);
+        $this->assertSame('2018-02-04T00:00:00+00:00', $newCourse['startDate'], 'start date is correct');
+        $this->assertSame('2018-06-03T00:00:00+00:00', $newCourse['endDate'], 'end date is correct');
 
         $newSessions = $newCourse['sessions'];
         $this->assertEquals(count($newSessions), 2);
@@ -308,7 +308,7 @@ class CourseTest extends ReadWriteEndpointTest
         $session1Offerings = $newSessionsData[0]['offerings'];
         $session1OfferingData = $this->getFiltered('offerings', 'offerings', ['filters[id]' => $session1Offerings]);
 
-        $this->assertEquals('2017-02-09T15:00:00+00:00', $session1OfferingData[0]['startDate']);
+        $this->assertEquals('2018-02-08T15:00:00+00:00', $session1OfferingData[0]['startDate']);
     }
 
     public function testRolloverCourseWithNoOfferings()
