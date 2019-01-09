@@ -24,7 +24,7 @@
     "php-http/guzzle6-adapter": "^1.1",
     "php-http/httplug-bundle": "^1.3",
     "psr/log": "^1.0.0",
-    "sensiolabs/security-checker": "^4.1",
+    "sensiolabs/security-checker": "*",
     "swagger-api/swagger-ui": "^3.0",
     "symfony/apache-pack": "^1.0",
     "symfony/asset": "*",
