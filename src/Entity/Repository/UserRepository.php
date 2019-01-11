@@ -529,7 +529,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         foreach ($dedupedResults as $result) {
             $prerequisite = UserEvent::createFromCalendarEvent(
                 $id,
-                $this->createEventObjectForIlmSession(null, $result)
+                $this->createEventObjectForIlmSession($id, $result)
             );
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
@@ -598,10 +598,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // dedupe results by offering id
         $dedupedResults = [];
         foreach ($results as $result) {
-            if (array_key_exists($result['id'], $dedupedResults)) {
+            if (array_key_exists($result['postRequisiteSessionId'], $dedupedResults)) {
                 continue;
             }
-            $dedupedResults[$result['id']] = $result;
+            $dedupedResults[$result['postRequisiteSessionId']] = $result;
         }
         $dedupedResults = array_values($dedupedResults);
 
@@ -649,10 +649,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // dedupe results by ILM id
         $dedupedResults = [];
         foreach ($results as $result) {
-            if (array_key_exists($result['id'], $dedupedResults)) {
+            if (array_key_exists($result['postRequisiteSessionId'], $dedupedResults)) {
                 continue;
             }
-            $dedupedResults[$result['id']] = $result;
+            $dedupedResults[$result['postRequisiteSessionId']] = $result;
         }
         $dedupedResults = array_values($dedupedResults);
 
