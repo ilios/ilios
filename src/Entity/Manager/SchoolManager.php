@@ -6,6 +6,7 @@ use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent;
 use App\Entity\Repository\SchoolRepository;
 use App\Service\UserMaterialFactory;
+use App\Traits\CalendarEventRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -91,10 +92,10 @@ class SchoolManager extends BaseManager
      * @return CalendarEvent[]
      * @throws \Exception
      */
-    public function addObjectivesAndCompetenciesToEvents(array $events)
+    public function addSessionDataToEvents(array $events)
     {
         /** @var SchoolRepository $repository */
         $repository = $this->getRepository();
-        return $repository->addObjectivesAndCompetenciesToEvents($events);
+        return $repository->addSessionDataToEvents($events);
     }
 }

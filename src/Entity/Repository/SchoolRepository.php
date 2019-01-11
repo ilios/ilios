@@ -176,14 +176,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         //cast calendar events into school events
         $schoolEvents = array_map(function (CalendarEvent $event) use ($id) {
-            $schoolEvent = new SchoolEvent();
-            $schoolEvent->school = $id;
-
-            foreach (get_object_vars($event) as $key => $name) {
-                $schoolEvent->$key = $name;
-            }
-
-            return $schoolEvent;
+            return SchoolEvent::createFromCalendarEvent($id, $event);
         }, $events);
 
         //sort events by startDate and endDate for consistency
@@ -214,12 +207,13 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     ) {
         $qb = $this->_em->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, ' .
-          'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
-          's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
-          's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
-          's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
-          'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
-          'c.externalId as courseExternalId, sd.description AS sessionDescription';
+            'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
+            's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
+            's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+            's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.externalId as courseExternalId, sd.description AS sessionDescription';
+
         $qb->addSelect($what)->from('App\Entity\School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
@@ -241,7 +235,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 
         $results = $qb->getQuery()->getArrayResult();
-        return $this->createEventObjectsForOfferings($id, $results);
+        return $this->createEventObjectsForOfferings($results);
     }
 
     /**
@@ -268,6 +262,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
+
         $qb->addSelect($what)->from('App\Entity\School', 'school');
 
         $qb->join('school.courses', 'c');
@@ -318,9 +313,9 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
      * @param CalendarEvent[] $events
      * @return CalendarEvent[]
      */
-    public function addObjectivesAndCompetenciesToEvents(array $events)
+    public function addSessionDataToEvents(array $events)
     {
-        return $this->attachObjectivesAndCompetenciesToEvents($events, $this->_em);
+        return $this->attachSessionDataToEvents($events, $this->_em);
     }
 
     /**

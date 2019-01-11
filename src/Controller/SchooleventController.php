@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classes\CalendarEvent;
 use App\Entity\Manager\SessionManager;
 use App\Entity\SessionInterface;
 use App\RelationshipVoter\AbstractVoter;
@@ -81,9 +82,9 @@ class SchooleventController extends AbstractController
             return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
         });
 
-        $result = $schoolManager->addInstructorsToEvents($events);
-        $result = $schoolManager->addMaterialsToEvents($result);
-        $result = $schoolManager->addObjectivesAndCompetenciesToEvents($result);
+        $events = $schoolManager->addInstructorsToEvents($events);
+        $events = $schoolManager->addMaterialsToEvents($events);
+        $events = $schoolManager->addSessionDataToEvents($events);
 
         $sessionUser = $tokenStorage->getToken()->getUser();
 
@@ -97,7 +98,7 @@ class SchooleventController extends AbstractController
             }
         }
 
-        $response['events'] = $result ? array_values($result) : [];
+        $response['events'] = $events ? array_values($events) : [];
         return new Response(
             $serializer->serialize($response, 'json'),
             Response::HTTP_OK,

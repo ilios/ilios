@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classes\CalendarEvent;
 use App\Classes\SessionUserInterface;
 use App\Entity\Manager\SessionManager;
 use App\Entity\SessionInterface;
@@ -37,6 +38,7 @@ class UsereventController extends AbstractController
      * @param TokenStorageInterface $tokenStorage
      *
      * @return Response
+     * @throws \Exception
      */
     public function getAction(
         $version,
@@ -55,7 +57,7 @@ class UsereventController extends AbstractController
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted(AbstractVoter::VIEW, $user)) {
+        if (!$authorizationChecker->isGranted(AbstractVoter::VIEW, $user)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -82,28 +84,64 @@ class UsereventController extends AbstractController
             $events = $manager->findEventsForUser($user->getId(), $from, $to);
         }
 
-        $events = array_filter($events, function ($event) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
-        });
+        $events = array_values(array_filter(
+            $events,
+            function ($event) use ($authorizationChecker) {
+                return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
+            }
+        ));
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
-        $result = $manager->addInstructorsToEvents($events);
-        $result = $manager->addMaterialsToEvents($result);
-        $result = $manager->addObjectivesAndCompetenciesToEvents($result);
+        $events = $manager->addPreAndPostRequisites($user->getId(), $events);
+
+        // run pre-/post-requisite user events through the permissions checker
+        for ($i = 0, $n = count($events); $i < $n; $i++) {
+            /** @var UserEvent $event */
+            $event = $events[$i];
+            $event->prerequisites = array_values(
+                array_filter(
+                    $event->prerequisites,
+                    function ($event) use ($authorizationChecker) {
+                        return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
+                    }
+                )
+            );
+            $event->postrequisites = array_values(
+                array_filter(
+                    $event->postrequisites,
+                    function ($event) use ($authorizationChecker) {
+                        return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
+                    }
+                )
+            );
+        }
+
+        // flatten out nested events, so that we can attach additional data points, and blank out data, in one go.
+        $allEvents = [];
+        /** @var UserEvent $event */
+        foreach ($events as $event) {
+            $allEvents[] = $event;
+            $allEvents = array_merge($allEvents, $event->prerequisites);
+            $allEvents = array_merge($allEvents, $event->postrequisites);
+        }
+        $allEvents = $manager->addInstructorsToEvents($allEvents);
+        $allEvents = $manager->addMaterialsToEvents($allEvents);
+        $allEvents = $manager->addSessionDataToEvents($allEvents);
 
         // Remove all draft data when not viewing your own events
         // or if the requesting user does not have elevated privileges
         $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
-        if ($sessionUser->getId() !== $user->getId() || ! $hasElevatedPrivileges) {
+        if ($sessionUser->getId() !== $user->getId() || !$hasElevatedPrivileges) {
             $now = new \DateTime();
-            /* @var UserEvent $event */
-            foreach ($events as $event) {
+            /* @var CalendarEvent $event */
+            foreach ($allEvents as $event) {
                 $event->clearDataForUnprivilegedUsers($now);
             }
         }
 
-        $response['userEvents'] = $result ? array_values($result) : [];
+        $response['userEvents'] = $events ? $events : [];
+
         return new Response(
             $serializer->serialize($response, 'json'),
             Response::HTTP_OK,

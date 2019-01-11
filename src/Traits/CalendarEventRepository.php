@@ -17,37 +17,45 @@ trait CalendarEventRepository
 {
     /**
      * Convert offerings into CalendarEvent() objects
-     * @param integer $userId
      * @param array $results
      *
      * @return CalendarEvent[]
      */
-    protected function createEventObjectsForOfferings($userId, array $results)
+    protected function createEventObjectsForOfferings(array $results)
     {
-        return array_map(function ($arr) use ($userId) {
-            $event = new CalendarEvent();
-            $event->name = $arr['title'];
-            $event->startDate = $arr['startDate'];
-            $event->endDate = $arr['endDate'];
-            $event->offering = $arr['id'];
-            $event->location = $arr['room'];
-            $event->color = $arr['calendarColor'];
-            $event->lastModified = max($arr['offeringUpdatedAt'], $arr['sessionUpdatedAt']);
-            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
-            $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
-            $event->courseTitle = $arr['courseTitle'];
-            $event->sessionTypeTitle = $arr['sessionTypeTitle'];
-            $event->courseExternalId = $arr['courseExternalId'];
-            $event->sessionDescription = $arr['sessionDescription'];
-            $event->instructionalNotes = $arr['instructionalNotes'];
-            $event->session = $arr['sessionId'];
-            $event->courseId = $arr['courseId'];
-            $event->attireRequired = $arr['attireRequired'];
-            $event->equipmentRequired = $arr['equipmentRequired'];
-            $event->supplemental = $arr['supplemental'];
-            $event->attendanceRequired = $arr['attendanceRequired'];
-            return $event;
+        return array_map(function ($arr) {
+            return $this->createEventObjectForOffering($arr);
         }, $results);
+    }
+
+    /**
+     * @param array $arr
+     * @return CalendarEvent
+     */
+    protected function createEventObjectForOffering(array $arr)
+    {
+        $event = new CalendarEvent();
+        $event->name = $arr['title'];
+        $event->startDate = $arr['startDate'];
+        $event->endDate = $arr['endDate'];
+        $event->offering = $arr['id'];
+        $event->location = $arr['room'];
+        $event->color = $arr['calendarColor'];
+        $event->lastModified = max($arr['offeringUpdatedAt'], $arr['sessionUpdatedAt']);
+        $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
+        $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
+        $event->courseTitle = $arr['courseTitle'];
+        $event->sessionTypeTitle = $arr['sessionTypeTitle'];
+        $event->courseExternalId = $arr['courseExternalId'];
+        $event->sessionDescription = $arr['sessionDescription'];
+        $event->instructionalNotes = $arr['instructionalNotes'];
+        $event->session = $arr['sessionId'];
+        $event->courseId = $arr['courseId'];
+        $event->attireRequired = $arr['attireRequired'];
+        $event->equipmentRequired = $arr['equipmentRequired'];
+        $event->supplemental = $arr['supplemental'];
+        $event->attendanceRequired = $arr['attendanceRequired'];
+        return $event;
     }
 
     /**
@@ -59,30 +67,40 @@ trait CalendarEventRepository
     protected function createEventObjectsForIlmSessions($userId, array $results)
     {
         return array_map(function ($arr) use ($userId) {
-            $event = new CalendarEvent();
-            $event->user = $userId;
-            $event->name = $arr['title'];
-            $event->startDate = $arr['dueDate'];
-            $endDate = new \DateTime();
-            $endDate->setTimestamp($event->startDate->getTimestamp());
-            $event->endDate = $endDate->modify('+15 minutes');
-            $event->ilmSession = $arr['id'];
-            $event->color = $arr['calendarColor'];
-            $event->lastModified = $arr['updatedAt'];
-            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
-            $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
-            $event->courseTitle = $arr['courseTitle'];
-            $event->sessionTypeTitle = $arr['sessionTypeTitle'];
-            $event->courseExternalId = $arr['courseExternalId'];
-            $event->sessionDescription = $arr['sessionDescription'];
-            $event->session = $arr['sessionId'];
-            $event->courseId = $arr['courseId'];
-            $event->attireRequired = $arr['attireRequired'];
-            $event->equipmentRequired = $arr['equipmentRequired'];
-            $event->supplemental = $arr['supplemental'];
-            $event->attendanceRequired = $arr['attendanceRequired'];
-            return $event;
+            return $this->createEventObjectForIlmSession($userId, $arr);
         }, $results);
+    }
+
+    /**
+     * @param $userId
+     * @param array $arr
+     * @return CalendarEvent
+     */
+    protected function createEventObjectForIlmSession($userId, array $arr)
+    {
+        $event = new CalendarEvent();
+        $event->user = $userId;
+        $event->name = $arr['title'];
+        $event->startDate = $arr['dueDate'];
+        $endDate = new \DateTime();
+        $endDate->setTimestamp($event->startDate->getTimestamp());
+        $event->endDate = $endDate->modify('+15 minutes');
+        $event->ilmSession = $arr['id'];
+        $event->color = $arr['calendarColor'];
+        $event->lastModified = $arr['updatedAt'];
+        $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
+        $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
+        $event->courseTitle = $arr['courseTitle'];
+        $event->sessionTypeTitle = $arr['sessionTypeTitle'];
+        $event->courseExternalId = $arr['courseExternalId'];
+        $event->sessionDescription = $arr['sessionDescription'];
+        $event->session = $arr['sessionId'];
+        $event->courseId = $arr['courseId'];
+        $event->attireRequired = $arr['attireRequired'];
+        $event->equipmentRequired = $arr['equipmentRequired'];
+        $event->supplemental = $arr['supplemental'];
+        $event->attendanceRequired = $arr['attendanceRequired'];
+        return $event;
     }
 
     /**
@@ -224,7 +242,7 @@ trait CalendarEventRepository
      * @param EntityManager $em
      * @return array The events list with objectives and competencies added.
      */
-    public function attachObjectivesAndCompetenciesToEvents(array $events, EntityManager $em)
+    public function attachSessionDataToEvents(array $events, EntityManager $em)
     {
         $sessionIds = array_unique(array_column($events, 'session'));
         $courseIds = array_unique(array_column($events, 'courseId'));
@@ -258,7 +276,7 @@ trait CalendarEventRepository
                     'id' => $objectiveId,
                     'title' => $result['title'],
                     'position' => $result['position'],
-                    'competencies' => []
+                    'competencies' => [],
                 ];
             }
 
@@ -298,7 +316,7 @@ trait CalendarEventRepository
                     'id' => $objectiveId,
                     'title' => $result['title'],
                     'position' => $result['position'],
-                    'competencies' => []
+                    'competencies' => [],
                 ];
             }
 
@@ -328,7 +346,7 @@ trait CalendarEventRepository
                 $competencies[$result['id']] = [
                     'id' => $result['id'],
                     'title' => $result['title'],
-                    'parent' => $result['parent_id']
+                    'parent' => $result['parent_id'],
                 ];
             }
             if (! empty($result['parent_id']) && ! array_key_exists($result['parent_id'], $competencies)) {
@@ -341,6 +359,7 @@ trait CalendarEventRepository
         }
 
         for ($i = 0, $n = count($events); $i < $n; $i++) {
+            /** @var CalendarEvent $event */
             $event = $events[$i];
             if (array_key_exists($event->session, $sessionObjectives)) {
                 $event->sessionObjectives = array_values($sessionObjectives[$event->session]);
