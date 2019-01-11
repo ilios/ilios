@@ -197,7 +197,9 @@ class UsereventTest extends AbstractEndpointTest
             'attendanceRequired is correct for event 0'
         );
 
-        $this->assertEmpty($events[0]['postrequisites']);
+        $this->assertEquals(1, count($events[0]['postrequisites']));
+        $this->assertEquals(6, $events[0]['postrequisites'][0]['offering']);
+        $this->assertEquals(3, $events[0]['postrequisites'][0]['session']);
         $this->assertEmpty($events[0]['prerequisites']);
 
         $this->assertEquals($events[1]['offering'], 4, 'offering is correct for event 1');
@@ -249,7 +251,9 @@ class UsereventTest extends AbstractEndpointTest
             $events[1]['attendanceRequired'],
             'attendanceRequired is correct for event 1'
         );
-        $this->assertEmpty($events[1]['postrequisites']);
+        $this->assertEquals(1, count($events[1]['postrequisites']));
+        $this->assertEquals(6, $events[1]['postrequisites'][0]['offering']);
+        $this->assertEquals(3, $events[1]['postrequisites'][0]['session']);
         $this->assertEmpty($events[1]['prerequisites']);
 
         $this->assertEquals($events[2]['offering'], 5, 'offering is correct for event 2');
@@ -301,7 +305,9 @@ class UsereventTest extends AbstractEndpointTest
             $events[2]['attendanceRequired'],
             'attendanceRequired is correct for event 2'
         );
-        $this->assertEmpty($events[2]['postrequisites']);
+        $this->assertEquals(1, count($events[2]['postrequisites']));
+        $this->assertEquals(6, $events[2]['postrequisites'][0]['offering']);
+        $this->assertEquals(3, $events[2]['postrequisites'][0]['session']);
         $this->assertEmpty($events[2]['prerequisites']);
 
         $this->assertEquals($events[3]['offering'], 6, 'offering is correct for event 3');
@@ -602,8 +608,9 @@ class UsereventTest extends AbstractEndpointTest
             $events[9],
             'attendanceRequired is correct for event 9'
         );
-        $this->assertEquals(3, count($events[9]['postrequisites']));
-        $this->assertEquals([3], array_unique(array_column($events[9]['postrequisites'], 'session')));
+        $this->assertEquals(1, count($events[9]['postrequisites']));
+        $this->assertEquals(6, $events[9]['postrequisites'][0]['offering']);
+        $this->assertEquals(3, $events[9]['postrequisites'][0]['session']);
         $this->assertEmpty($events[9]['prerequisites']);
 
         /** @var OfferingInterface $offering */
