@@ -5,6 +5,7 @@ namespace App\Tests\Service\CurriculumInventory\Export;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\Manager\CurriculumInventoryInstitutionManager;
 use App\Entity\Manager\CurriculumInventoryReportManager;
+use App\Entity\Program;
 use App\Service\Config;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
@@ -166,13 +167,11 @@ class AggregatorTest extends TestCase
     public function testGetFailsIfReportHasNoProgram()
     {
         $this->expectExceptionMessage('No program found for report with id = 1.');
-        $report = m::mock(CurriculumInventoryReport::class)
-            ->shouldReceive('getProgram')
-            ->andReturn(null)
-            ->shouldReceive('getId')
-            ->andReturn(1)
-            ->getMock();
-
+        $report = m::mock(CurriculumInventoryReport::class);
+        $report->shouldReceive('getProgram')
+            ->andReturn(null);
+        $report->shouldReceive('getId')
+            ->andReturn(1);
         $this->aggregator->getData($report);
     }
 
@@ -182,17 +181,14 @@ class AggregatorTest extends TestCase
     public function testGetFailsIfProgramHasNoSchool()
     {
         $this->expectExceptionMessage('No school found for program with id = 1.');
-        $program = m::mock(Program::class)
-            ->shouldReceive('getSchool')
-            ->andReturn(null)
-            ->shouldReceive('getId')
-            ->andReturn(1)
-            ->getMock();
-        $report = m::mock(CurriculumInventoryReport::class)
-            ->shouldReceive('getProgram')
-            ->andReturn($program)
-            ->getMock();
-
+        $program = m::mock(Program::class);
+        $program->shouldReceive('getSchool')
+            ->andReturn(null);
+        $program->shouldReceive('getId')
+            ->andReturn(1);
+        $report = m::mock(CurriculumInventoryReport::class);
+        $report->shouldReceive('getProgram')
+            ->andReturn($program);
         $this->aggregator->getData($report);
     }
 
