@@ -13,7 +13,7 @@ class Version20170210175148 extends AbstractMigration
     /**
      * @inheritdoc
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema) : void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('ALTER TABLE course_learning_material ADD position INT NOT NULL');
@@ -23,7 +23,7 @@ class Version20170210175148 extends AbstractMigration
     /**
      * @inheritdoc
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema) : void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('ALTER TABLE course_learning_material DROP position');
