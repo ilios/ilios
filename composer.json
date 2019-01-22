@@ -15,7 +15,7 @@
     "doctrine/doctrine-fixtures-bundle": "^3.0",
     "dreamscapes/ldap-core": "^3.1",
     "easycorp/easy-log-handler": "^1.0",
-    "eluceo/ical": "^0.14.0",
+    "eluceo/ical": "^0.15.0",
     "exercise/htmlpurifier-bundle": "^2.0",
     "firebase/php-jwt": "@stable",
     "happyr/google-analytics-bundle": "^4.0",

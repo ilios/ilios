@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b4e64e672d0cbfce26173cf0317fb6c9",
+    "content-hash": "039bcf856cc3e91976a7f0691eeb93b4",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -1870,16 +1870,16 @@
         },
         {
             "name": "eluceo/ical",
-            "version": "0.14.0",
+            "version": "0.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markuspoerschke/iCal.git",
-                "reference": "5db245d5521a060129d0f14d154d65f32b804883"
+                "reference": "add0ca99aa1f77f134a2e8b071f2ebc22b115139"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/5db245d5521a060129d0f14d154d65f32b804883",
-                "reference": "5db245d5521a060129d0f14d154d65f32b804883",
+                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/add0ca99aa1f77f134a2e8b071f2ebc22b115139",
+                "reference": "add0ca99aa1f77f134a2e8b071f2ebc22b115139",
                 "shasum": ""
             },
             "require": {
@@ -1917,7 +1917,7 @@
                 "ics",
                 "php calendar"
             ],
-            "time": "2018-03-13T19:39:55+00:00"
+            "time": "2019-01-13T22:00:58+00:00"
         },
         {
             "name": "exercise/htmlpurifier-bundle",
