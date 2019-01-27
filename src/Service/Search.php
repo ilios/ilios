@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 
@@ -11,6 +12,11 @@ class Search
      * @var Client
      */
     protected $client;
+
+    /**
+     * @var boolean
+     */
+    protected $enabled = false;
 
     const PUBLIC_INDEX = 'ilios-public';
     const PRIVATE_INDEX = 'ilios-private';
@@ -22,8 +28,16 @@ class Search
     public function __construct(Config $config)
     {
         $elasticSearchHosts = $config->get('elasticsearch_hosts');
-        $hosts = explode(';', $elasticSearchHosts);
-        $this->client = ClientBuilder::create()->setHosts($hosts)->build();
+        if ($elasticSearchHosts) {
+            $this->enabled = true;
+            $hosts = explode(';', $elasticSearchHosts);
+            $this->client = ClientBuilder::create()->setHosts($hosts)->build();
+        }
+    }
+
+    public function isEnabled()
+    {
+        return (bool) $this->enabled;
     }
 
     public function index(array $params) : array
@@ -74,5 +88,27 @@ class Search
         }
         $this->client->indices()->create(['index' => self::PUBLIC_INDEX]);
         $this->client->indices()->create(['index' => self::PRIVATE_INDEX]);
+    }
+
+    public function userIdsQuery(string $query)
+    {
+        $params = [
+            'type' => User::class,
+            'index' => self::PRIVATE_INDEX,
+            'body' => [
+                'query' => [
+                    'query_string' => [
+                        'query' => "*${query}*",
+                    ]
+                ],
+                "_source" => [
+                    '_id'
+                ]
+            ]
+        ];
+        $results = $this->search($params);
+        return array_map(function (array $arr) {
+            return $arr['_id'];
+        }, $results['hits']['hits']);
     }
 }

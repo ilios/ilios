@@ -6,18 +6,14 @@ use App\Entity\Course;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
 use App\Entity\Manager\CourseManager;
+use App\Entity\Manager\UserManager;
 use App\Entity\User;
 use App\Service\Search;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-use App\Entity\Manager\UserManager;
-use App\Entity\Manager\AuthenticationManager;
 
 /**
  * Populates the search index with documents
