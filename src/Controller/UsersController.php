@@ -28,7 +28,7 @@ class UsersController extends ApiController
         $manager = $this->getManager($object);
 
         if (null !== $q && '' !== $q) {
-            $result = $manager->findUsersByQ(
+            $result = $manager->findUserDTOsByQ(
                 $q,
                 $parameters['orderBy'],
                 $parameters['limit'],

@@ -55,10 +55,10 @@ class UserManager extends BaseManager
      * @param integer $offset
      * @param array $criteria
      *
-     * @return UserInterface[]
+     * @return UserDTO[]
      * @throws \Exception
      */
-    public function findUsersByQ(
+    public function findUserDTOsByQ(
         $q,
         array $orderBy = null,
         $limit = null,
@@ -67,7 +67,7 @@ class UserManager extends BaseManager
     ) {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
-        return $repository->findByQ($q, $orderBy, $limit, $offset, $criteria);
+        return $repository->findDTOsByQ($q, $orderBy, $limit, $offset, $criteria);
     }
 
     /**
