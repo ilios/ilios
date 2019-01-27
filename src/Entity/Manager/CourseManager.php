@@ -44,6 +44,19 @@ class CourseManager extends BaseManager
     }
 
     /**
+     * Get all the IDs for every course
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getIds()
+    {
+        /** @var CourseRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getIds();
+    }
+
+    /**
      * Checks if a given user is assigned as instructor to ILMs or offerings in a given course.
      *
      * @param int $userId

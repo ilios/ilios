@@ -2,7 +2,10 @@
 
 namespace App\Command;
 
+use App\Entity\Course;
+use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
+use App\Entity\Manager\CourseManager;
 use App\Entity\User;
 use App\Service\Search;
 use Symfony\Component\Console\Command\Command;
@@ -33,15 +36,22 @@ class PopulateIndexCommand extends Command
      */
     protected $userManager;
 
-    
+    /**
+     * @var CourseManager
+     */
+    private $courseManager;
+
+
     public function __construct(
         Search $search,
-        UserManager $userManager
+        UserManager $userManager,
+        CourseManager $courseManager
     ) {
         parent::__construct();
 
         $this->search = $search;
         $this->userManager = $userManager;
+        $this->courseManager = $courseManager;
     }
     
     /**
@@ -62,11 +72,22 @@ class PopulateIndexCommand extends Command
         $output->writeln("<info>Clearing the index and preparing to insert data.</info>");
         $this->search->clear();
         $output->writeln("<info>Ok.</info>");
+        $progressBar = new ProgressBar($output);
+        ProgressBar::setFormatDefinition(
+            'normal',
+            "<info>%message%</info>\n%current%/%max% [%bar%]"
+        );
+        $this->populateUsers($output);
+        $this->populateCourses($output);
+        $output->writeln("");
+        $output->writeln("Index Populated!");
+    }
 
-        $output->writeln("<info>Clearing the index and preparing to insert data.</info>");
-        $output->writeln("<info>Adding Users...</info>");
-        $allIds = $this->userManager->getAllIds();
+    protected function populateUsers(OutputInterface $output)
+    {
+        $allIds = $this->userManager->getIds();
         $progressBar = new ProgressBar($output, count($allIds));
+        $progressBar->setMessage('Adding Users...');
         $progressBar->start();
         $chunks = array_chunk($allIds, 500);
         foreach ($chunks as $ids) {
@@ -86,7 +107,30 @@ class PopulateIndexCommand extends Command
             $this->search->bulkIndex(Search::PRIVATE_INDEX, User::class, $users);
             $progressBar->advance(count($ids));
         }
+        $progressBar->setMessage(count($allIds) . " Users Added!");
         $progressBar->finish();
-        $output->writeln("<info>done!</info>");
+    }
+
+    protected function populateCourses(OutputInterface $output)
+    {
+        $allIds = $this->courseManager->getIds();
+        $progressBar = new ProgressBar($output, count($allIds));
+        $progressBar->setMessage('Adding Courses...');
+        $progressBar->start();
+        $chunks = array_chunk($allIds, 500);
+        foreach ($chunks as $ids) {
+            $dtos = $this->courseManager->findDTOsBy(['id' => $ids]);
+            $users = array_map(function (CourseDTO $course) {
+                return [
+                    'id' => $course->id,
+                    'title' => $course->title,
+                ];
+            }, $dtos);
+
+            $this->search->bulkIndex(Search::PUBLIC_INDEX, Course::class, $users);
+            $progressBar->advance(count($ids));
+        }
+        $progressBar->setMessage(count($allIds) . " Courses Added!");
+        $progressBar->finish();
     }
 }

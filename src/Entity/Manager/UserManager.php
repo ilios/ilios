@@ -150,11 +150,11 @@ class UserManager extends BaseManager
      * @return array
      * @throws \Exception
      */
-    public function getAllIds($includeDisabled = true, $includeSyncIgnore = true)
+    public function getIds($includeDisabled = true, $includeSyncIgnore = true)
     {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
-        return $repository->getAllIds($includeDisabled, $includeSyncIgnore);
+        return $repository->getIds($includeDisabled, $includeSyncIgnore);
     }
 
     /**

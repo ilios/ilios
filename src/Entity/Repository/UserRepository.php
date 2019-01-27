@@ -265,11 +265,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      *
      * @return array
      */
-    public function getAllIds($includeDisabled, $includeSyncIgnore)
+    public function getIds($includeDisabled, $includeSyncIgnore)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('u.id')->from('App\Entity\User', 'u');
-        $qb->andWhere('u.id=1000');
         if (!$includeDisabled) {
             $qb->andWhere('u.enabled=1');
         }
