@@ -143,6 +143,21 @@ class UserManager extends BaseManager
     }
 
     /**
+     * Get all the IDs for every user
+     * @param $includeDisabled
+     * @param $includeSyncIgnore
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getAllIds($includeDisabled = true, $includeSyncIgnore = true)
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getAllIds($includeDisabled, $includeSyncIgnore);
+    }
+
+    /**
      * Get all the campus IDs for every user
      * @param $includeDisabled
      * @param $includeSyncIgnore

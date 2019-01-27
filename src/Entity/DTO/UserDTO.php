@@ -264,6 +264,12 @@ class UserDTO
      */
     public $administeredCurriculumInventoryReports;
 
+    /**
+     * For index use, not public
+     * @var string
+     */
+    public $username;
+
     public function __construct(
         $id,
         $firstName,
