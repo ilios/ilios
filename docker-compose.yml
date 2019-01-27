@@ -5,12 +5,17 @@ services:
     web:
         build: ./
         environment:
-            - APP_ENV=prod
+            - APP_ENV=dev
             - APP_DEBUG=true
             - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios
             - ILIOS_REQUIRE_SECURE_CONNECTION=false
             - ILIOS_ERROR_CAPTURE_ENABLED=false
+            - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
         ports:
             - "8000:80"
         volumes:
             - ./:/var/www/ilios:delegated
+    elasticsearch:
+        image: elasticsearch:6.5.4
+        ports:
+            - "9200:9200"
