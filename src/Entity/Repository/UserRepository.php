@@ -42,9 +42,9 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      * @param integer $limit
      * @param integer $offset
      * @param array $criteria
-     * @return UserInterface[]
+     * @return UserDTO[]
      */
-    public function findByQ($q, $orderBy, $limit, $offset, array $criteria = array())
+    public function findDTOsByQ($q, $orderBy, $limit, $offset, array $criteria = array())
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('u')->from('App\Entity\User', 'u');
@@ -92,7 +92,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $qb->setMaxResults($limit);
         }
 
-        return $qb->getQuery()->getResult();
+        return $this->createUserDTOs($qb->getQuery());
     }
 
     /**
