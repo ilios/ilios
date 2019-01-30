@@ -45,6 +45,11 @@ class Search
         return $this->client->index($params);
     }
 
+    public function delete(array $params) : array
+    {
+        return $this->client->delete($params);
+    }
+
     public function bulk(array $params) : array
     {
         return $this->client->bulk($params);
