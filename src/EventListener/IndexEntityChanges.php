@@ -1,6 +1,8 @@
 <?php
 namespace App\EventListener;
 
+use App\Entity\Course;
+use App\Entity\CourseInterface;
 use App\Entity\User;
 use App\Entity\UserInterface;
 use App\Service\Search;
@@ -26,16 +28,22 @@ class IndexEntityChanges
     {
         $entity = $args->getObject();
 
-        if ($entity instanceof User) {
+        if ($entity instanceof UserInterface) {
             $this->indexUser($entity);
+        }
+        if ($entity instanceof CourseInterface) {
+            $this->indexCourse($entity);
         }
     }
     public function postUpdate(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
 
-        if ($entity instanceof User) {
+        if ($entity instanceof UserInterface) {
             $this->indexUser($entity);
+        }
+        if ($entity instanceof CourseInterface) {
+            $this->indexCourse($entity);
         }
     }
 
@@ -48,10 +56,18 @@ class IndexEntityChanges
     {
         $entity = $args->getObject();
 
-        if ($entity instanceof User) {
+        if ($entity instanceof UserInterface) {
             $this->search->delete([
                 'index' => Search::PRIVATE_INDEX,
                 'type' => User::class,
+                'id' => $entity->getId(),
+            ]);
+        }
+
+        if ($entity instanceof CourseInterface) {
+            $this->search->delete([
+                'index' => Search::PUBLIC_INDEX,
+                'type' => Course::class,
                 'id' => $entity->getId(),
             ]);
         }
@@ -74,6 +90,19 @@ class IndexEntityChanges
         $this->search->index([
             'index' => Search::PRIVATE_INDEX,
             'type' => User::class,
+            'id' => $data['id'],
+            'body' => $data
+        ]);
+    }
+    protected function indexCourse(CourseInterface $course)
+    {
+        $data = [
+            'id' => $course->getId(),
+            'title' => $course->getTitle(),
+        ];
+        $this->search->index([
+            'index' => Search::PUBLIC_INDEX,
+            'type' => Course::class,
             'id' => $data['id'],
             'body' => $data
         ]);
