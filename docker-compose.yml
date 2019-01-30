@@ -9,6 +9,7 @@ services:
             - APP_DEBUG=true
             - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios
             - ILIOS_REQUIRE_SECURE_CONNECTION=false
+            - ILIOS_ERROR_CAPTURE_ENABLED=false
         ports:
             - "8000:80"
         volumes:
