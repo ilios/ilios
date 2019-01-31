@@ -42,16 +42,25 @@ class Search
 
     public function index(array $params) : array
     {
+        if (!$this->enabled) {
+            return [];
+        }
         return $this->client->index($params);
     }
 
     public function delete(array $params) : array
     {
+        if (!$this->enabled) {
+            return [];
+        }
         return $this->client->delete($params);
     }
 
     public function bulk(array $params) : array
     {
+        if (!$this->enabled) {
+            return [];
+        }
         return $this->client->bulk($params);
     }
 
@@ -66,6 +75,9 @@ class Search
      */
     public function bulkIndex(string $index, string $type, array $items) : array
     {
+        if (!$this->enabled) {
+            return [];
+        }
         $body = [];
         foreach ($items as $item) {
             $body[] = ['index' => [
@@ -78,13 +90,29 @@ class Search
         return $this->bulk(['body' => $body]);
     }
 
+    /**
+     * @param array $params
+     * @return array
+     * @throws \Exception when the search service isn't setup
+     */
     public function search(array $params) : array
     {
+        if (!$this->enabled) {
+            throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
+        }
         return $this->client->search($params);
     }
 
+    /**
+     * @param string $query
+     * @return array
+     * @throws \Exception when search is not configured
+     */
     public function clear()
     {
+        if (!$this->enabled) {
+            throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
+        }
         if ($this->client->indices()->exists(['index' => self::PUBLIC_INDEX])) {
             $this->client->indices()->delete(['index' => self::PUBLIC_INDEX]);
         }
@@ -95,8 +123,16 @@ class Search
         $this->client->indices()->create(['index' => self::PRIVATE_INDEX]);
     }
 
+    /**
+     * @param string $query
+     * @return array
+     * @throws \Exception when search is not configured
+     */
     public function userIdsQuery(string $query)
     {
+        if (!$this->enabled) {
+            throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
+        }
         $params = [
             'type' => User::class,
             'index' => self::PRIVATE_INDEX,
