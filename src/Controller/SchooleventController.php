@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Classes\CalendarEvent;
+use App\Classes\SessionUserInterface;
 use App\Entity\Manager\SessionManager;
 use App\Entity\SessionInterface;
 use App\RelationshipVoter\AbstractVoter;
@@ -36,6 +37,7 @@ class SchooleventController extends AbstractController
      * @param SerializerInterface $serializer
      *
      * @return Response
+     * @throws \Exception
      */
     public function getAction(
         $version,
@@ -78,22 +80,58 @@ class SchooleventController extends AbstractController
 
 
 
-        $events = array_filter($events, function ($entity) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
-        });
+        $events = array_values(array_filter(
+            $events,
+            function ($event) use ($authorizationChecker) {
+                return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
+            }
+        ));
 
-        $events = $schoolManager->addInstructorsToEvents($events);
-        $events = $schoolManager->addMaterialsToEvents($events);
-        $events = $schoolManager->addSessionDataToEvents($events);
-
+        /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
+
+        $events = $schoolManager->addPreAndPostRequisites($id, $events);
+
+        // run pre-/post-requisite user events through the permissions checker
+        for ($i = 0, $n = count($events); $i < $n; $i++) {
+            /** @var SchoolEvent $event */
+            $event = $events[$i];
+            $event->prerequisites = array_values(
+                array_filter(
+                    $event->prerequisites,
+                    function ($event) use ($authorizationChecker) {
+                        return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
+                    }
+                )
+            );
+            $event->postrequisites = array_values(
+                array_filter(
+                    $event->postrequisites,
+                    function ($event) use ($authorizationChecker) {
+                        return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
+                    }
+                )
+            );
+        }
+
+        // flatten out nested events, so that we can attach additional data points, and blank out data, in one go.
+        $allEvents = [];
+        /** @var SchoolEvent $event */
+        foreach ($events as $event) {
+            $allEvents[] = $event;
+            $allEvents = array_merge($allEvents, $event->prerequisites);
+            $allEvents = array_merge($allEvents, $event->postrequisites);
+        }
+        $allEvents = $schoolManager->addInstructorsToEvents($allEvents);
+        $allEvents = $schoolManager->addMaterialsToEvents($allEvents);
+        $allEvents = $schoolManager->addSessionDataToEvents($allEvents);
 
         //Un-privileged users get less data
         $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
         if (! $hasElevatedPrivileges) {
             /** @var SchoolEvent $event */
             $now = new \DateTime();
-            foreach ($events as $event) {
+            foreach ($allEvents as $event) {
                 $event->clearDataForUnprivilegedUsers($now);
             }
         }
