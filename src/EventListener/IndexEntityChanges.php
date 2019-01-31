@@ -107,5 +107,4 @@ class IndexEntityChanges
             'body' => $data
         ]);
     }
-
 }
