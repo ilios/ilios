@@ -63,18 +63,35 @@ class VocabularyTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function testCannotSaveVocabularyWithEmptyTitle()
+    public function testCannotCreateWithEmptyTitle()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['title'] = '';
-        $this->createJsonRequest(
-            'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'vocabularies']),
-            json_encode(['vocabulary' => $data]),
-            $this->getAuthenticatedUserToken()
-        );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
+        $this->badPostTest($data);
+    }
+
+    public function testCannotCreateWithNoTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        unset($data['title']);
+        $this->badPostTest($data);
+    }
+
+    public function testCannotSaveWithEmptyTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $data['title'] = '';
+        $this->badPutTest($data, $data['id']);
+    }
+
+    public function testCannotSaveWithNoTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        unset($data['title']);
+        $this->badPutTest($data, $data['id']);
     }
 }

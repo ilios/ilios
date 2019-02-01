@@ -131,7 +131,7 @@ class Term implements TermInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=200, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=false)
      *
      * @Assert\NotBlank
      * @Assert\Type(type="string")

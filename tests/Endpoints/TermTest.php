@@ -109,18 +109,35 @@ class TermTest extends ReadWriteEndpointTest
         );
     }
 
-    public function testCannotSaveTermWithEmptyTitle()
+    public function testCannotCreateTermWithEmptyTitle()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['title'] = '';
-        $this->createJsonRequest(
-            'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'terms']),
-            json_encode(['term' => $data]),
-            $this->getAuthenticatedUserToken()
-        );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
+        $this->badPostTest($data);
+    }
+
+    public function testCannotCreateTermWithNoTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        unset($data['title']);
+        $this->badPostTest($data);
+    }
+
+    public function testCannotSaveTermWithEmptyTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $data['title'] = '';
+        $this->badPutTest($data, $data['id']);
+    }
+
+    public function testCannotSaveTermWithNoTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        unset($data['title']);
+        $this->badPutTest($data, $data['id']);
     }
 }
