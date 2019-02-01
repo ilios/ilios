@@ -3,6 +3,7 @@
 namespace App\Tests\Endpoints;
 
 use App\Tests\ReadWriteEndpointTest;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Vocabulary API endpoint Test.
@@ -60,5 +61,20 @@ class VocabularyTest extends ReadWriteEndpointTest
             'active' => [[0], ['active' => true]],
             'notActive' => [[1], ['active' => false]],
         ];
+    }
+
+    public function testCannotSaveVocabularyWithEmptyTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['title'] = '';
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'vocabularies']),
+            json_encode(['vocabulary' => $data]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 }

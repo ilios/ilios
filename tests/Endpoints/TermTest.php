@@ -3,6 +3,7 @@
 namespace App\Tests\Endpoints;
 
 use App\Tests\ReadWriteEndpointTest;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Term API endpoint Test.
@@ -106,5 +107,20 @@ class TermTest extends ReadWriteEndpointTest
             'terms',
             $postData
         );
+    }
+
+    public function testCannotSaveTermWithEmptyTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['title'] = '';
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'terms']),
+            json_encode(['term' => $data]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 }
