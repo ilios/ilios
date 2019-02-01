@@ -1079,6 +1079,46 @@ class CourseRolloverTest extends TestCase
         $this->assertSame($newCourse, $rhett);
     }
 
+    public function testRolloverLinkedSessions()
+    {
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+
+        $session1 = new Session();
+        $session1->setId(1);
+        $session1->setSessionType(new SessionType());
+        $course->addSession($session1);
+
+        $session2 = new Session();
+        $session2->setId(2);
+        $session2->setSessionType(new SessionType());
+        $session2->setPostrequisite($session1);
+
+        $course->addSession($session2);
+
+        $newCourse = m::mock(CourseInterface::class);
+        $newCourse->shouldIgnoreMissing();
+        $newYear = $this->setupCourseManager($course, $newCourse);
+
+        $firstNewSession = m::mock(SessionInterface::class);
+        $firstNewSession->shouldIgnoreMissing();
+        $this->sessionManager
+            ->shouldReceive('create')->once()
+            ->andReturn($firstNewSession);
+        $this->sessionManager->shouldReceive('update')->withArgs([$firstNewSession, false, false])->once();
+
+        $secondNewSession = m::mock(SessionInterface::class);
+        $secondNewSession->shouldIgnoreMissing();
+        $this->sessionManager
+            ->shouldReceive('create')->once()
+            ->andReturn($secondNewSession);
+        $this->sessionManager->shouldReceive('update')->withArgs([$secondNewSession, false, false])->twice();
+        $secondNewSession->shouldReceive('setPostrequisite')->with($firstNewSession)->once();
+
+        $rhett = $this->service->rolloverCourse($course->getId(), $newYear, [], []);
+        $this->assertSame($newCourse, $rhett);
+    }
+
     /**
      * Gets a basic filled out course
      *

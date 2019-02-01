@@ -272,6 +272,8 @@ class CourseRollover
         /* @var SessionInterface[] $origCourseSessions */
         $origCourseSessions = $origCourse->getSessions();
 
+        $sessionMap = [];
+
         foreach ($origCourseSessions as $origCourseSession) {
             /* @var SessionInterface $newSession */
             $newSession = $this->sessionManager->create();
@@ -327,6 +329,18 @@ class CourseRollover
             $this->rolloverIlmSession($newSession, $origCourseSession, $daysOffset);
 
             $this->sessionManager->update($newSession, false, false);
+            $sessionMap[$origCourseSession->getId()] = $newSession;
+        }
+
+        // Handle postrequisites once all sessions have been rolled over
+        // This was we can be sure we have the new session to refer to
+        foreach ($origCourseSessions as $origCourseSession) {
+            $originalPostrequisite = $origCourseSession->getPostrequisite();
+            if ($originalPostrequisite && array_key_exists($originalPostrequisite->getId(), $sessionMap)) {
+                $newSession = $sessionMap[$origCourseSession->getId()];
+                $newSession->setPostrequisite($sessionMap[$originalPostrequisite->getId()]);
+                $this->sessionManager->update($newSession, false, false);
+            }
         }
     }
 
