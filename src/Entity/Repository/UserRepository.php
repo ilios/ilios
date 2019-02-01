@@ -1540,6 +1540,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             ['ilm' => 'u.instructorIlmSessions'],
             ['dc' => 'u.directedCourses', 'sess' => 'dc.sessions', 'ilm' => 'sess.ilmSession'],
             ['ac' => 'u.administeredCourses', 'sess' => 'ac.sessions', 'ilm' => 'sess.ilmSession'],
+            ['sess' => 'u.administeredSessions', 'ilm' => 'sess.ilmSession'],
         ];
     }
 
@@ -1555,6 +1556,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             ['o' => 'u.instructedOfferings'],
             ['dc' => 'u.directedCourses', 'dcs' => 'dc.sessions', 'o' => 'dcs.offerings'],
             ['ac' => 'u.administeredCourses', 'acs' => 'ac.sessions', 'o' => 'acs.offerings'],
+            ['sess' => 'u.administeredSessions', 'o' => 'sess.offerings'],
 
         ];
     }
