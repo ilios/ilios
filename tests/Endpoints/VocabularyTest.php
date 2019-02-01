@@ -3,6 +3,7 @@
 namespace App\Tests\Endpoints;
 
 use App\Tests\ReadWriteEndpointTest;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Vocabulary API endpoint Test.
@@ -60,5 +61,37 @@ class VocabularyTest extends ReadWriteEndpointTest
             'active' => [[0], ['active' => true]],
             'notActive' => [[1], ['active' => false]],
         ];
+    }
+
+    public function testCannotCreateWithEmptyTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['title'] = '';
+        $this->badPostTest($data);
+    }
+
+    public function testCannotCreateWithNoTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        unset($data['title']);
+        $this->badPostTest($data);
+    }
+
+    public function testCannotSaveWithEmptyTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $data['title'] = '';
+        $this->badPutTest($data, $data['id']);
+    }
+
+    public function testCannotSaveWithNoTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        unset($data['title']);
+        $this->badPutTest($data, $data['id']);
     }
 }

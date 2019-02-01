@@ -408,6 +408,27 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
+     * Test POSTing bad data to the API
+     * @param array $data
+     * @param int $code
+     */
+    protected function badPutTest(array $data, $id, $code = Response::HTTP_BAD_REQUEST)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => $endpoint, 'id' => $id]),
+            json_encode([$responseKey => [$data]]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, $code);
+    }
+
+    /**
      * When relational data is sent to the API ensure it
      * is recorded on the non-owning side of the relationship
      *

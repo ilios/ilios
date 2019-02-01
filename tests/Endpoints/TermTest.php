@@ -3,6 +3,7 @@
 namespace App\Tests\Endpoints;
 
 use App\Tests\ReadWriteEndpointTest;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Term API endpoint Test.
@@ -106,5 +107,37 @@ class TermTest extends ReadWriteEndpointTest
             'terms',
             $postData
         );
+    }
+
+    public function testCannotCreateTermWithEmptyTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['title'] = '';
+        $this->badPostTest($data);
+    }
+
+    public function testCannotCreateTermWithNoTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        unset($data['title']);
+        $this->badPostTest($data);
+    }
+
+    public function testCannotSaveTermWithEmptyTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $data['title'] = '';
+        $this->badPutTest($data, $data['id']);
+    }
+
+    public function testCannotSaveTermWithNoTitle()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        unset($data['title']);
+        $this->badPutTest($data, $data['id']);
     }
 }
