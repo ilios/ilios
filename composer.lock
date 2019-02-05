@@ -5218,16 +5218,16 @@
         },
         {
             "name": "symfony/lock",
-            "version": "v4.2.2",
+            "version": "v4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/lock.git",
-                "reference": "d95ea5cc680c8b4aa203339b15ee787d57543640"
+                "reference": "45a350f08fcdf8f1dbbe2cfae1b869cb359ee6fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/lock/zipball/d95ea5cc680c8b4aa203339b15ee787d57543640",
-                "reference": "d95ea5cc680c8b4aa203339b15ee787d57543640",
+                "url": "https://api.github.com/repos/symfony/lock/zipball/45a350f08fcdf8f1dbbe2cfae1b869cb359ee6fe",
+                "reference": "45a350f08fcdf8f1dbbe2cfae1b869cb359ee6fe",
                 "shasum": ""
             },
             "require": {
@@ -5276,7 +5276,7 @@
                 "redlock",
                 "semaphore"
             ],
-            "time": "2019-01-03T09:07:35+00:00"
+            "time": "2019-01-16T21:31:25+00:00"
         },
         {
             "name": "symfony/monolog-bridge",
