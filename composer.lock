@@ -6377,16 +6377,16 @@
         },
         {
             "name": "symfony/templating",
-            "version": "v4.2.2",
+            "version": "v4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/templating.git",
-                "reference": "61d5e24def14197599eeb94658e1432c47a573a2"
+                "reference": "e1de3b189a2eb94b963cd2ee807f815777340fe0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/templating/zipball/61d5e24def14197599eeb94658e1432c47a573a2",
-                "reference": "61d5e24def14197599eeb94658e1432c47a573a2",
+                "url": "https://api.github.com/repos/symfony/templating/zipball/e1de3b189a2eb94b963cd2ee807f815777340fe0",
+                "reference": "e1de3b189a2eb94b963cd2ee807f815777340fe0",
                 "shasum": ""
             },
             "require": {
@@ -6429,7 +6429,7 @@
             ],
             "description": "Symfony Templating Component",
             "homepage": "https://symfony.com",
-            "time": "2019-01-03T09:07:35+00:00"
+            "time": "2019-01-16T20:31:39+00:00"
         },
         {
             "name": "symfony/twig-bridge",
