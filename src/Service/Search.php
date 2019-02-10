@@ -104,8 +104,6 @@ class Search
     }
 
     /**
-     * @param string $query
-     * @return array
      * @throws \Exception when search is not configured
      */
     public function clear()
