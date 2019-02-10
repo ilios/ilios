@@ -67,7 +67,6 @@ class PopulateIndexCommand extends Command
         $output->writeln("<info>Clearing the index and preparing to insert data.</info>");
         $this->search->clear();
         $output->writeln("<info>Ok.</info>");
-        $progressBar = new ProgressBar($output);
         ProgressBar::setFormatDefinition(
             'normal',
             "<info>%message%</info>\n%current%/%max% [%bar%]"
