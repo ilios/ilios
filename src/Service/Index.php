@@ -39,6 +39,21 @@ class Index extends ElasticSearchBase
     }
 
     /**
+     * @param int $id
+     * @return bool
+     */
+    public function deleteUser(int $id) : bool
+    {
+        $result = $this->delete([
+            'index' => Search::PRIVATE_INDEX,
+            'type' => UserDTO::class,
+            'id' => $id,
+        ]);
+
+        return !$result['errors'];
+    }
+
+    /**
      * @param CourseDTO[] $courses
      * @return bool
      */
@@ -59,6 +74,21 @@ class Index extends ElasticSearchBase
         }, $courses);
 
         $result = $this->bulkIndex(Search::PUBLIC_INDEX, CourseDTO::class, $input);
+
+        return !$result['errors'];
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function deleteCourse(int $id) : bool
+    {
+        $result = $this->delete([
+            'index' => Search::PUBLIC_INDEX,
+            'type' => CourseDTO::class,
+            'id' => $id,
+        ]);
 
         return !$result['errors'];
     }

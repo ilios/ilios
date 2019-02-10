@@ -3,6 +3,7 @@
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use App\Entity\CourseInterface;
 
 /**
  * Class CourseDTO
@@ -207,5 +208,24 @@ class CourseDTO
         $this->learningMaterials = [];
         $this->sessions = [];
         $this->descendants = [];
+    }
+
+    public static function createSearchIndexDTOFromEntity(CourseInterface $course) : CourseDTO
+    {
+        $dto = new CourseDTO(
+            $course->getId(),
+            $course->getTitle(),
+            $course->getLevel(),
+            $course->getYear(),
+            $course->getStartDate(),
+            $course->getEndDate(),
+            $course->getExternalId(),
+            $course->isLocked(),
+            $course->isArchived(),
+            $course->isPublishedAsTbd(),
+            $course->isPublished()
+        );
+
+        return $dto;
     }
 }

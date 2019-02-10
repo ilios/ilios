@@ -1,11 +1,11 @@
 <?php
 namespace App\EventListener;
 
-use App\Entity\Course;
 use App\Entity\CourseInterface;
-use App\Entity\User;
+use App\Entity\DTO\CourseDTO;
+use App\Entity\DTO\UserDTO;
 use App\Entity\UserInterface;
-use App\Service\Search;
+use App\Service\Index;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
@@ -15,13 +15,13 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 class IndexEntityChanges
 {
     /**
-     * @var Search
+     * @var Index
      */
-    private $search;
+    private $index;
 
-    public function __construct(Search $search)
+    public function __construct(Index $index)
     {
-        $this->search = $search;
+        $this->index = $index;
     }
 
     public function postPersist(LifecycleEventArgs $args)
@@ -57,54 +57,27 @@ class IndexEntityChanges
         $entity = $args->getObject();
 
         if ($entity instanceof UserInterface) {
-            $this->search->delete([
-                'index' => Search::PRIVATE_INDEX,
-                'type' => User::class,
-                'id' => $entity->getId(),
-            ]);
+            $this->index->deleteUser($entity->getId());
         }
 
         if ($entity instanceof CourseInterface) {
-            $this->search->delete([
-                'index' => Search::PUBLIC_INDEX,
-                'type' => Course::class,
-                'id' => $entity->getId(),
-            ]);
+            $this->index->deleteCourse($entity->getId());
         }
     }
 
     protected function indexUser(UserInterface $user)
     {
-        $data = [
-            'id' => $user->getId(),
-            'firstName' => $user->getFirstName(),
-            'lastName' => $user->getLastName(),
-            'middleName' => $user->getMiddleName(),
-            'email' => $user->getEmail(),
-            'campusId' => $user->getCampusId(),
-            'username' => null,
-        ];
-        if ($authentication = $user->getAuthentication()) {
-            $data['username'] = $authentication->getUsername();
+        if ($this->index->isEnabled()) {
+            $dto = UserDTO::createSearchIndexDTOFromEntity($user);
+            $this->index->indexUsers([$dto]);
         }
-        $this->search->index([
-            'index' => Search::PRIVATE_INDEX,
-            'type' => User::class,
-            'id' => $data['id'],
-            'body' => $data
-        ]);
     }
+
     protected function indexCourse(CourseInterface $course)
     {
-        $data = [
-            'id' => $course->getId(),
-            'title' => $course->getTitle(),
-        ];
-        $this->search->index([
-            'index' => Search::PUBLIC_INDEX,
-            'type' => Course::class,
-            'id' => $data['id'],
-            'body' => $data
-        ]);
+        if ($this->index->isEnabled()) {
+            $dto = CourseDTO::createSearchIndexDTOFromEntity($course);
+             $this->index->indexCourses([$dto]);
+        }
     }
 }
