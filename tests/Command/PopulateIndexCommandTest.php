@@ -1,16 +1,14 @@
 <?php
 namespace App\Tests\Command;
 
-use App\Command\ListConfigValuesCommand;
 use App\Command\PopulateIndexCommand;
-use App\Entity\ApplicationConfig;
 use App\Entity\Course;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
 use App\Entity\Manager\CourseManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\User;
-use App\Service\Search;
+use App\Service\Index;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -25,7 +23,7 @@ class PopulateIndexCommandTest extends KernelTestCase
     protected $commandTester;
 
     /** @var m\Mock */
-    private $search;
+    private $index;
 
     /** @var m\Mock */
     private $userManager;
@@ -35,11 +33,11 @@ class PopulateIndexCommandTest extends KernelTestCase
 
     public function setUp()
     {
-        $this->search = m::mock(Search::class);
+        $this->index = m::mock(Index::class);
         $this->userManager = m::mock(UserManager::class);
         $this->courseManager = m::mock(CourseManager::class);
         $command = new PopulateIndexCommand(
-            $this->search,
+            $this->index,
             $this->userManager,
             $this->courseManager
         );
@@ -63,7 +61,7 @@ class PopulateIndexCommandTest extends KernelTestCase
     
     public function testExecute()
     {
-        $this->search->shouldReceive('clear');
+        $this->index->shouldReceive('clear');
 
         $this->userManager->shouldReceive('getIds')->andReturn([11]);
         $mockUserDto = m::mock(UserDTO::class);
@@ -77,19 +75,7 @@ class PopulateIndexCommandTest extends KernelTestCase
 
         $this->userManager->shouldReceive('findDTOsBy')
             ->with(['id' => [11]])->andReturn([$mockUserDto]);
-        $this->search->shouldReceive('bulkIndex')->with(
-            Search::PRIVATE_INDEX,
-            User::class,
-            [[
-                'id' => $mockUserDto->id,
-                'firstName' => $mockUserDto->firstName,
-                'lastName' => $mockUserDto->lastName,
-                'middleName' => $mockUserDto->middleName,
-                'email' => $mockUserDto->email,
-                'campusId' => $mockUserDto->campusId,
-                'username' => $mockUserDto->username,
-            ]]
-        );
+        $this->index->shouldReceive('indexUsers')->with([$mockUserDto]);
 
 
         $this->courseManager->shouldReceive('getIds')->andReturn([89]);
@@ -99,15 +85,7 @@ class PopulateIndexCommandTest extends KernelTestCase
 
         $this->courseManager->shouldReceive('findDTOsBy')
             ->with(['id' => [89]])->andReturn([$mockCourseDTO]);
-        $this->search->shouldReceive('bulkIndex')->with(
-            Search::PUBLIC_INDEX,
-            Course::class,
-            [[
-                'id' => $mockCourseDTO->id,
-                'title' => $mockCourseDTO->title,
-            ]]
-        );
-
+        $this->index->shouldReceive('indexCourses')->with([$mockCourseDTO]);
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME

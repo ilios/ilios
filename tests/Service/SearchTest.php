@@ -12,70 +12,18 @@ class SearchTest extends TestCase
 
     public function testSetup()
     {
-        $obj1 = $this->createWithSearch();
+        $obj1 = $this->createWithHost();
         $this->assertTrue($obj1 instanceof Search);
         $this->assertTrue($obj1->isEnabled());
 
-        $obj2 = $this->createWithoutSearch();
+        $obj2 = $this->createWithoutHost();
         $this->assertTrue($obj2 instanceof Search);
         $this->assertFalse($obj2->isEnabled());
     }
 
-    public function testIndexReturnsEmptyWhenNotConfigured()
-    {
-        $obj = $this->createWithoutSearch();
-        $result = $obj->index([]);
-        $this->assertTrue(is_array($result));
-        $this->assertEmpty($result);
-    }
-
-    public function testDeleteReturnsEmptyWhenNotConfigured()
-    {
-        $obj = $this->createWithoutSearch();
-        $result = $obj->delete([]);
-        $this->assertTrue(is_array($result));
-        $this->assertEmpty($result);
-    }
-
-    public function testBulkReturnsEmptyWhenNotConfigured()
-    {
-        $obj = $this->createWithoutSearch();
-        $result = $obj->bulk([]);
-        $this->assertTrue(is_array($result));
-        $this->assertEmpty($result);
-    }
-
-    public function testBulkIndexReturnsEmptyWhenNotConfigured()
-    {
-        $obj = $this->createWithoutSearch();
-        $result = $obj->bulkIndex('nothing', 'nothing', []);
-        $this->assertTrue(is_array($result));
-        $this->assertEmpty($result);
-    }
-
-    public function testSearchThrowsExceptionWhenNotConfigured()
-    {
-        $obj = $this->createWithoutSearch();
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage(
-            'Search is not configured, isEnabled() should be called before calling this method'
-        );
-        $obj->search([]);
-    }
-
-    public function testClearThrowsExceptionWhenNotConfigured()
-    {
-        $obj = $this->createWithoutSearch();
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage(
-            'Search is not configured, isEnabled() should be called before calling this method'
-        );
-        $obj->clear();
-    }
-
     public function testUserIdsQueryThrowsExceptionWhenNotConfigured()
     {
-        $obj = $this->createWithoutSearch();
+        $obj = $this->createWithoutHost();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage(
             'Search is not configured, isEnabled() should be called before calling this method'
@@ -83,14 +31,14 @@ class SearchTest extends TestCase
         $obj->userIdsQuery('');
     }
 
-    protected function createWithSearch()
+    protected function createWithHost()
     {
         $config = m::mock(Config::class);
         $config->shouldReceive('get')->with('elasticsearch_hosts')->once()->andReturn('host');
         return new Search($config);
     }
 
-    protected function createWithoutSearch()
+    protected function createWithoutHost()
     {
         $config = m::mock(Config::class);
         $config->shouldReceive('get')->with('elasticsearch_hosts')->once()->andReturn(false);

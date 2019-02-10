@@ -4,11 +4,9 @@ namespace App\Command;
 
 use App\Entity\Course;
 use App\Entity\DTO\CourseDTO;
-use App\Entity\DTO\UserDTO;
 use App\Entity\Manager\CourseManager;
 use App\Entity\Manager\UserManager;
-use App\Entity\User;
-use App\Service\Search;
+use App\Service\Index;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,9 +20,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PopulateIndexCommand extends Command
 {
     /**
-     * @var Search
+     * @var Index
      */
-    protected $search;
+    protected $index;
 
     /**
      * @var UserManager
@@ -38,13 +36,13 @@ class PopulateIndexCommand extends Command
 
 
     public function __construct(
-        Search $search,
+        Index $index,
         UserManager $userManager,
         CourseManager $courseManager
     ) {
         parent::__construct();
 
-        $this->search = $search;
+        $this->index = $index;
         $this->userManager = $userManager;
         $this->courseManager = $courseManager;
     }
@@ -65,7 +63,7 @@ class PopulateIndexCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln("<info>Clearing the index and preparing to insert data.</info>");
-        $this->search->clear();
+        $this->index->clear();
         $output->writeln("<info>Ok.</info>");
         ProgressBar::setFormatDefinition(
             'normal',
@@ -86,19 +84,7 @@ class PopulateIndexCommand extends Command
         $chunks = array_chunk($allIds, 500);
         foreach ($chunks as $ids) {
             $dtos = $this->userManager->findDTOsBy(['id' => $ids]);
-            $users = array_map(function (UserDTO $user) {
-                return [
-                    'id' => $user->id,
-                    'firstName' => $user->firstName,
-                    'lastName' => $user->lastName,
-                    'middleName' => $user->middleName,
-                    'email' => $user->email,
-                    'campusId' => $user->campusId,
-                    'username' => $user->username,
-                ];
-            }, $dtos);
-
-            $this->search->bulkIndex(Search::PRIVATE_INDEX, User::class, $users);
+            $this->index->indexUsers($dtos);
             $progressBar->advance(count($ids));
         }
         $progressBar->setMessage(count($allIds) . " Users Added!");
@@ -114,14 +100,7 @@ class PopulateIndexCommand extends Command
         $chunks = array_chunk($allIds, 500);
         foreach ($chunks as $ids) {
             $dtos = $this->courseManager->findDTOsBy(['id' => $ids]);
-            $users = array_map(function (CourseDTO $course) {
-                return [
-                    'id' => $course->id,
-                    'title' => $course->title,
-                ];
-            }, $dtos);
-
-            $this->search->bulkIndex(Search::PUBLIC_INDEX, Course::class, $users);
+            $this->index->indexCourses($dtos);
             $progressBar->advance(count($ids));
         }
         $progressBar->setMessage(count($allIds) . " Courses Added!");
