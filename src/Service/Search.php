@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Classes\ElasticSearchBase;
-use App\Entity\User;
+use App\Entity\DTO\UserDTO;
 
 class Search extends ElasticSearchBase
 {
@@ -31,7 +31,7 @@ class Search extends ElasticSearchBase
             throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
         $params = [
-            'type' => User::class,
+            'type' => UserDTO::class,
             'index' => self::PRIVATE_INDEX,
             'body' => [
                 'query' => [
