@@ -2364,25 +2364,25 @@
         },
         {
             "name": "ilios/mesh-parser",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ilios/mesh-parser.git",
-                "reference": "dabe801cf25b0735645e818d02680d8921e4d7d1"
+                "reference": "387df63c6d4c6703e5dbcf28099f74a1d9c73c3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ilios/mesh-parser/zipball/dabe801cf25b0735645e818d02680d8921e4d7d1",
-                "reference": "dabe801cf25b0735645e818d02680d8921e4d7d1",
+                "url": "https://api.github.com/repos/ilios/mesh-parser/zipball/387df63c6d4c6703e5dbcf28099f74a1d9c73c3c",
+                "reference": "387df63c6d4c6703e5dbcf28099f74a1d9c73c3c",
                 "shasum": ""
             },
             "require": {
-                "php": "~5.6|~7.0"
+                "php": "~7.1|~7.2"
             },
             "require-dev": {
                 "fzaninotto/faker": "^1.5",
                 "mockery/mockery": "@stable",
-                "phpunit/phpunit": "5.6.*",
+                "phpunit/phpunit": "6.*",
                 "squizlabs/php_codesniffer": "@stable"
             },
             "type": "library",
@@ -2408,7 +2408,7 @@
                 "Ilios",
                 "mesh"
             ],
-            "time": "2016-12-10T06:49:45+00:00"
+            "time": "2019-02-05T19:18:47+00:00"
         },
         {
             "name": "jdorn/sql-formatter",
