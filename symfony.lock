@@ -113,6 +113,9 @@
     "egulias/email-validator": {
         "version": "2.1.5"
     },
+    "elasticsearch/elasticsearch": {
+        "version": "v6.1.0"
+    },
     "eluceo/ical": {
         "version": "0.12.1"
     },
@@ -148,6 +151,12 @@
     },
     "guzzlehttp/psr7": {
         "version": "1.4.2"
+    },
+    "guzzlehttp/ringphp": {
+        "version": "1.1.1"
+    },
+    "guzzlehttp/streams": {
+        "version": "3.0.0"
     },
     "hamcrest/hamcrest-php": {
         "version": "v2.0.0"
@@ -259,6 +268,9 @@
     },
     "ralouphie/getallheaders": {
         "version": "2.0.5"
+    },
+    "react/promise": {
+        "version": "v2.7.1"
     },
     "sensiolabs/security-checker": {
         "version": "4.0",

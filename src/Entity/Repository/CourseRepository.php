@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity\Repository;
 
+use App\Entity\Course;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
@@ -122,6 +123,21 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
         }
 
         return $return;
+    }
+
+    /**
+     * Get all the IDs
+     *
+     * @return array
+     */
+    public function getIds()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->addSelect('x.id')->from(Course::class, 'x');
+
+        return array_map(function (array $arr) {
+            return $arr['id'];
+        }, $qb->getQuery()->getScalarResult());
     }
 
     /**

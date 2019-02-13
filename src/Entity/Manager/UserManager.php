@@ -2,6 +2,7 @@
 
 namespace App\Entity\Manager;
 
+use App\Service\Search;
 use App\Traits\CalendarEventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Classes\CalendarEvent;
@@ -24,14 +25,20 @@ class UserManager extends BaseManager
     protected $factory;
 
     /**
+     * @var Search
+     */
+    protected $search;
+
+    /**
      * @param RegistryInterface $registry
      * @param string $class
      * @param UserMaterialFactory $factory
      */
-    public function __construct(RegistryInterface $registry, $class, UserMaterialFactory $factory)
+    public function __construct(RegistryInterface $registry, $class, UserMaterialFactory $factory, Search $search)
     {
         parent::__construct($registry, $class);
         $this->factory = $factory;
+        $this->search = $search;
     }
 
     /**
@@ -67,7 +74,13 @@ class UserManager extends BaseManager
     ) {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
-        return $repository->findDTOsByQ($q, $orderBy, $limit, $offset, $criteria);
+        if ($this->search->isEnabled()) {
+            $ids = $this->search->userIdsQuery($q);
+            $criteria['id'] = $ids;
+            return $repository->findDTOsBy($criteria, $orderBy, $limit, $offset);
+        } else {
+            return $repository->findDTOsByQ($q, $orderBy, $limit, $offset, $criteria);
+        }
     }
 
     /**
@@ -140,6 +153,21 @@ class UserManager extends BaseManager
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
         return $repository->findUsersWhoAreNotFormerStudents($campusIdFilter);
+    }
+
+    /**
+     * Get all the IDs for every user
+     * @param $includeDisabled
+     * @param $includeSyncIgnore
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getIds($includeDisabled = true, $includeSyncIgnore = true)
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getIds($includeDisabled, $includeSyncIgnore);
     }
 
     /**

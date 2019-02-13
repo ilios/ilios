@@ -258,6 +258,30 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     }
 
     /**
+     * Get all the IDs for all users
+     *
+     * @param boolean $includeDisabled
+     * @param boolean $includeSyncIgnore
+     *
+     * @return array
+     */
+    public function getIds($includeDisabled, $includeSyncIgnore)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->addSelect('u.id')->from('App\Entity\User', 'u');
+        if (!$includeDisabled) {
+            $qb->andWhere('u.enabled=1');
+        }
+        if (!$includeSyncIgnore) {
+            $qb->andWhere('u.userSyncIgnore=0');
+        }
+
+        return array_map(function (array $arr) {
+            return $arr['id'];
+        }, $qb->getQuery()->getScalarResult());
+    }
+
+    /**
      * Get all the campus IDs for all users
      *
      * @param boolean $includeDisabled
@@ -937,7 +961,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $userIds = array_keys($userDTOs);
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('u.id AS userId, c.id AS primaryCohortId, s.id AS schoolId, auser.id as authenticationId')
+        $qb->select(
+            'u.id AS userId, c.id AS primaryCohortId, s.id AS schoolId, '
+            . 'auser.id as authenticationId, a.username as username'
+        )
             ->from('App\Entity\User', 'u')
             ->join('u.school', 's')
             ->leftJoin('u.primaryCohort', 'c')
@@ -950,6 +977,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $userDTOs[$arr['userId']]->primaryCohort = $arr['primaryCohortId'] ? $arr['primaryCohortId'] : null;
             $userDTOs[$arr['userId']]->school = $arr['schoolId'];
             $userDTOs[$arr['userId']]->authentication = $arr['authenticationId'] ? $arr['authenticationId'] : null;
+            $userDTOs[$arr['userId']]->username = $arr['username'] ? $arr['username'] : null;
         }
 
         $related = [
