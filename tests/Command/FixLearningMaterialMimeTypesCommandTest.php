@@ -4,6 +4,7 @@ namespace App\Tests\Command;
 use App\Command\FixLearningMaterialMimeTypesCommand;
 use App\Entity\LearningMaterialInterface;
 use App\Entity\Manager\LearningMaterialManager;
+use App\Service\TemporaryFileSystem;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -17,16 +18,19 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
     const COMMAND_NAME = 'ilios:fix-mime-types';
     
     protected $iliosFileSystem;
+    protected $temporaryFileSystem;
     protected $learningMaterialManager;
     protected $commandTester;
 
     public function setUp()
     {
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
+        $this->temporaryFileSystem = m::mock(TemporaryFileSystem::class);
         $this->learningMaterialManager = m::mock(LearningMaterialManager::class);
 
         $command = new FixLearningMaterialMimeTypesCommand(
             $this->iliosFileSystem,
+            $this->temporaryFileSystem,
             $this->learningMaterialManager
         );
         $kernel = self::bootKernel();
@@ -178,7 +182,9 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         $mockLm->shouldReceive('setMimetype')->with('pdf-type-file')->once();
 
         $mockFile = m::mock(File::class)->shouldReceive('getMimeType')->once()->andReturn('pdf-type-file')->mock();
-        $this->iliosFileSystem->shouldReceive('getFile')->once()->with('/tmp/somewhere')->andReturn($mockFile);
+        $this->iliosFileSystem->shouldReceive('getFileContents')
+            ->once()->with('/tmp/somewhere')->andReturn('some contents');
+        $this->temporaryFileSystem->shouldReceive('createFile')->once()->with('some contents')->andReturn($mockFile);
 
         $this->learningMaterialManager->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
             ->once()->andReturn([$mockLm]);
@@ -214,7 +220,9 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 
         $mockFile = m::mock(File::class)->shouldReceive('getMimeType')
             ->once()->andThrow(\ErrorException::class)->mock();
-        $this->iliosFileSystem->shouldReceive('getFile')->once()->with('/tmp/somewhere')->andReturn($mockFile);
+        $this->iliosFileSystem->shouldReceive('getFileContents')
+            ->once()->with('/tmp/somewhere')->andReturn('some contents');
+        $this->temporaryFileSystem->shouldReceive('createFile')->once()->with('some contents')->andReturn($mockFile);
 
         $this->learningMaterialManager->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
             ->once()->andReturn([$mockLm]);

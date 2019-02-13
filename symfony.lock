@@ -155,6 +155,12 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "jean85/pretty-package-versions": {
+        "version": "1.2"
+    },
+    "league/flysystem": {
+        "version": "1.0.50"
+    },
     "liip/functional-test-bundle": {
         "version": "2.0.0-alpha6"
     },
@@ -274,6 +280,9 @@
             "version": "4.0",
             "ref": "421933bf8f0e75546ac8e00cb3eb12904fa2ac1a"
         }
+    },
+    "sentry/sentry": {
+        "version": "2.0.0-beta2"
     },
     "squizlabs/php_codesniffer": {
         "version": "3.0",

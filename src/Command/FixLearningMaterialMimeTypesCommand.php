@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\LearningMaterialInterface;
+use App\Service\TemporaryFileSystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,14 +27,21 @@ class FixLearningMaterialMimeTypesCommand extends Command
      * @var LearningMaterialManager
      */
     protected $learningMaterialManager;
-    
+
+    /**
+     * @var TemporaryFileSystem
+     */
+    private $temporaryFileSystem;
+
     public function __construct(
         IliosFileSystem $iliosFileSystem,
+        TemporaryFileSystem $temporaryFileSystem,
         LearningMaterialManager $learningMaterialManager
     ) {
         $this->iliosFileSystem = $iliosFileSystem;
+        $this->temporaryFileSystem = $temporaryFileSystem;
         $this->learningMaterialManager = $learningMaterialManager;
-        
+
         parent::__construct();
     }
     
@@ -82,7 +90,8 @@ class FixLearningMaterialMimeTypesCommand extends Command
                     $mimetype = $lm->getMimetype();
                     if ($path = $lm->getRelativePath()) {
                         if (in_array($mimetype, ['link', 'citation'])) {
-                            $file = $this->iliosFileSystem->getFile($path);
+                            $contents = $this->iliosFileSystem->getFileContents($path);
+                            $file = $this->temporaryFileSystem->createFile($contents);
                             if (false === $file) {
                                 $errors[] = 'File not found for learning material # ' . $lm->getId();
                                 $skipped++;

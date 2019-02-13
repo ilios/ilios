@@ -307,3 +307,6 @@ services:
       autoconfigure: false
       tags:
       - { name: liip_monitor.check, group: production }
+
+    League\Flysystem\Filesystem:
+      factory: ['@App\Service\FilesystemFactory', getFilesystem]

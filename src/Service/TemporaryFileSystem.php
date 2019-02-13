@@ -32,7 +32,7 @@ class TemporaryFileSystem
         }
         $this->fileSystem = $fs;
     }
-    
+
     /**
      * Store a file and return the hash
      * @param  File $file
@@ -47,9 +47,24 @@ class TemporaryFileSystem
                 $this->getPath($hash)
             );
         }
-        
 
         return $hash;
+    }
+
+    /**
+     * Create a temporary file from a string
+     * @param  string $contents
+     * @return File
+     */
+    public function createFile(string $contents)
+    {
+        $hash = md5($contents);
+        $path = $this->getPath($hash);
+        if (!$this->fileSystem->exists($path)) {
+            $this->fileSystem->dumpFile($path, $contents);
+        }
+
+        return $this->getFile($hash);
     }
     
     /**
