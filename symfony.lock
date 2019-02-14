@@ -1,4 +1,19 @@
 {
+    "aws/aws-sdk-php": {
+        "version": "3.87.10"
+    },
+    "cache/adapter-common": {
+        "version": "1.1.0"
+    },
+    "cache/hierarchical-cache": {
+        "version": "1.0.0"
+    },
+    "cache/tag-interop": {
+        "version": "1.0.0"
+    },
+    "cache/void-adapter": {
+        "version": "1.0.0"
+    },
     "clue/stream-filter": {
         "version": "v1.4.0"
     },
@@ -161,6 +176,9 @@
     "league/flysystem": {
         "version": "1.0.50"
     },
+    "league/flysystem-aws-s3-v3": {
+        "version": "1.0.22"
+    },
     "liip/functional-test-bundle": {
         "version": "2.0.0-alpha6"
     },
@@ -178,6 +196,9 @@
     },
     "monolog/monolog": {
         "version": "1.23.0"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.4.0"
     },
     "nelmio/cors-bundle": {
         "version": "1.5",
