@@ -179,6 +179,9 @@
     "league/flysystem-aws-s3-v3": {
         "version": "1.0.22"
     },
+    "league/flysystem-cached-adapter": {
+        "version": "1.0.9"
+    },
     "liip/functional-test-bundle": {
         "version": "2.0.0-alpha6"
     },

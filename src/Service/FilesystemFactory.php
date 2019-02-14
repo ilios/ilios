@@ -5,6 +5,8 @@ namespace App\Service;
 use Aws\S3\S3Client;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\Cached\CachedAdapter;
+use League\Flysystem\Cached\Storage\Adapter;
 use League\Flysystem\Filesystem as LeagueFilesystem;
 
 class FilesystemFactory
@@ -23,6 +25,9 @@ class FilesystemFactory
     public function getFilesystem() : LeagueFilesystem
     {
         $s3Url = $this->config->get('storage_s3_url');
+        $path = $this->config->get('file_system_storage_path');
+
+        $local = new Local($path);
 
         if ($s3Url) {
             $configuration = $this->parseS3URL($s3Url);
@@ -31,12 +36,14 @@ class FilesystemFactory
             unset($configuration['bucket']);
 
             $client = new S3Client($configuration);
-            $adapter = new AwsS3Adapter($client, $bucket);
-            return new LeagueFilesystem($adapter);
+            $s3 = new AwsS3Adapter($client, $bucket);
+
+            $cache = new Adapter($local, 'ilios-s3-cache');
+            $adapter = new CachedAdapter($s3, $cache);
+            return new LeagueFilesystem($adapter, ['visibility' => 'private']);
         }
-        $path = $this->config->get('file_system_storage_path');
-        $adapter = new Local($path);
-        return new LeagueFilesystem($adapter, ['visibility' => 'private']);
+
+        return new LeagueFilesystem($local, ['visibility' => 'private']);
     }
 
     protected function parseS3URL(string $url) : array

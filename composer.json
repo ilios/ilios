@@ -23,6 +23,7 @@
     "ilios/mesh-parser": "^2.0",
     "league/flysystem": "^1.0",
     "league/flysystem-aws-s3-v3": "^1.0",
+    "league/flysystem-cached-adapter": "^1.0",
     "liip/monitor-bundle": "^2.6",
     "nelmio/cors-bundle": "^1.5",
     "php-http/curl-client": "^1.7",
