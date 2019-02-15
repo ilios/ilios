@@ -2,10 +2,11 @@
 
 namespace App\Tests\Service;
 
+use App\Classes\LocalCachingFilesystemDecorator;
 use App\Service\Config;
 use App\Service\FilesystemFactory;
 use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
@@ -22,7 +23,7 @@ class FilesystemFactoryTest extends TestCase
     public function setUp()
     {
         $this->config = m::mock(Config::class);
-        $this->filesystemFactory = new FilesystemFactory($this->config);
+        $this->filesystemFactory = new FilesystemFactory($this->config, '/tmp');
     }
 
     /**
@@ -39,8 +40,8 @@ class FilesystemFactoryTest extends TestCase
         $this->config->shouldReceive('get')->with('storage_s3_url')->andReturn(null);
         $this->config->shouldReceive('get')->with('file_system_storage_path')->andReturn('/tmp');
         $result = $this->filesystemFactory->getFilesystem();
-        $this->assertInstanceOf(Filesystem::class, $result);
-        $this->assertInstanceOf(Local::class, $result->getAdapter());
+        $this->assertInstanceOf(FilesystemInterface::class, $result);
+        $this->assertNotInstanceOf(LocalCachingFilesystemDecorator::class, $result);
     }
 
     public function testGetFilesystemFailsFromBadS3Url()

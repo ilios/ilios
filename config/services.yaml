@@ -308,5 +308,5 @@ services:
       tags:
       - { name: liip_monitor.check, group: production }
 
-    League\Flysystem\Filesystem:
+    League\Flysystem\FilesystemInterface:
       factory: ['@App\Service\FilesystemFactory', getFilesystem]

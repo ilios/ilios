@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
 use App\Entity\LearningMaterialInterface;
@@ -29,11 +29,11 @@ class IliosFileSystem
     
     /**
      * A filesystem object to work with
-     * @var FileSystem
+     * @var FilesystemInterface
      */
     protected $fileSystem;
     
-    public function __construct(Filesystem $fileSystem)
+    public function __construct(FilesystemInterface $fileSystem)
     {
         $this->fileSystem = $fileSystem;
     }
