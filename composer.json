@@ -49,7 +49,7 @@
   "require-dev": {
     "fzaninotto/faker": "@stable",
     "liip/functional-test-bundle": "2.0.0-alpha6",
-    "mockery/mockery": "@stable",
+    "mockery/mockery": "1.2.0",
     "squizlabs/php_codesniffer": "@stable",
     "symfony/debug-pack": "*",
     "symfony/dotenv": "*",
