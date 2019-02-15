@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "260670130ba34513177f3a39117df6a2",
+    "content-hash": "8703e08fea1bce4b11e98d2df446351b",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -7534,23 +7534,23 @@
         },
         {
             "name": "liip/functional-test-bundle",
-            "version": "2.0.0-alpha6",
+            "version": "2.0.0-alpha12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "15ec5ab579a604e2b69bc468263db1412ce92c1d"
+                "reference": "c65cf21d4cbdb52e69298c1855f5130b0e3d6b70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/15ec5ab579a604e2b69bc468263db1412ce92c1d",
-                "reference": "15ec5ab579a604e2b69bc468263db1412ce92c1d",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/c65cf21d4cbdb52e69298c1855f5130b0e3d6b70",
+                "reference": "c65cf21d4cbdb52e69298c1855f5130b0e3d6b70",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "^2.0",
                 "php": "^7.1",
-                "symfony/browser-kit": "^3.4 || ^4.0",
-                "symfony/framework-bundle": "^3.4 || ^4.0"
+                "symfony/browser-kit": "^3.4 || ^4.1",
+                "symfony/framework-bundle": "^3.4 || ^4.1"
             },
             "require-dev": {
                 "doctrine/data-fixtures": "^1.3",
@@ -7560,8 +7560,8 @@
                 "jackalope/jackalope-doctrine-dbal": "^1.3",
                 "phpunit/phpunit": "^6.1 || ^7.0",
                 "symfony/monolog-bundle": "^3.1",
-                "symfony/phpunit-bridge": "^3.4 || ^4.0",
-                "symfony/symfony": "^3.4 || ^4.0",
+                "symfony/phpunit-bridge": "^3.4 || ^4.1",
+                "symfony/symfony": "^3.4 || ^4.1",
                 "theofidry/alice-data-fixtures": "^1.0.1",
                 "twig/twig": "^2.0"
             },
@@ -7598,11 +7598,13 @@
                     "homepage": "https://github.com/liip/LiipFunctionalTestBundle/contributors"
                 }
             ],
-            "description": "This bundles provides additional functional test-cases for Symfony2 applications",
+            "description": "This bundles provides additional functional test-cases for Symfony applications",
             "keywords": [
-                "Symfony2"
+                "fixtures",
+                "symfony",
+                "testing"
             ],
-            "time": "2018-07-17T21:10:38+00:00"
+            "time": "2018-12-27T14:07:22+00:00"
         },
         {
             "name": "mockery/mockery",
