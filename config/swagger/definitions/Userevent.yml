@@ -1,4 +1,16 @@
 Userevent:
- type: object
- allOf:
-   - $ref: '#/definitions/CalendarEvent'
+  type: object
+  allOf:
+    - $ref: '#/definitions/CalendarEvent'
+  postrequisites:
+    description: Postrequisites of this event.
+    type: array
+    readOnly: true
+    items:
+      $ref: '#/definitions/Userevent'
+  prerequisites:
+    description: Prerequisites to this event.
+    type: array
+    readOnly: true
+    items:
+      $ref: '#/definitions/Userevent'
