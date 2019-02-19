@@ -6,7 +6,6 @@ use App\Exception\IliosFilesystemException;
 use App\Service\Config;
 use App\Service\IliosFileSystem;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
