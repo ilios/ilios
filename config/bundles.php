@@ -6,7 +6,6 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
     Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle::class => ['all' => true],
-    Happyr\GoogleAnalyticsBundle\HappyrGoogleAnalyticsBundle::class => ['all' => true],
     Liip\MonitorBundle\LiipMonitorBundle::class => ['all' => true],
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     Http\HttplugBundle\HttplugBundle::class => ['all' => true],
