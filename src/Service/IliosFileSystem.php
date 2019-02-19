@@ -2,6 +2,9 @@
 
 namespace App\Service;
 
+use App\Exception\IliosFilesystemException;
+use Aws\S3\Exception\S3Exception;
+use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -26,18 +29,24 @@ class IliosFileSystem
      * @var string
      */
     const LOCK_FILE_DIRECTORY = 'locks';
-    
+
+    /**
+     * Testing files are stored in this directory
+     * @var string
+     */
+    const TEST_FILE_DIR = 'crud_tests';
+
     /**
      * A filesystem object to work with
      * @var FilesystemInterface
      */
     protected $fileSystem;
-    
+
     public function __construct(FilesystemInterface $fileSystem)
     {
         $this->fileSystem = $fileSystem;
     }
-    
+
     /**
      *
      * Store a learning material file and return the relativePath
@@ -165,5 +174,37 @@ class IliosFileSystem
             usleep(250);
         }
         $this->createLock($name);
+    }
+
+    /**
+     * Test Create, Read, Update, Delete on our filesystem
+     * @throws IliosFilesystemException
+     */
+    public function testCRUD() : void
+    {
+        $path = self::TEST_FILE_DIR . '/test-file';
+        $contents = md5_file(__FILE__);
+
+        try {
+            //cleanup any existing test file
+            $this->fileSystem->delete($path);
+        } catch (FileNotFoundException $e) {
+            //ignore this one
+        }
+        try {
+            $this->fileSystem->write($path, $contents);
+            $result = $this->fileSystem->read($path);
+            if (!$result || $result != $contents) {
+                throw new IliosFilesystemException('Unable to Read from Filesystem');
+            }
+            $putResult = $this->fileSystem->put($path, $contents . $contents);
+            $result = $this->fileSystem->read($path);
+            if (!$putResult || !$result || $result !=  $contents . $contents) {
+                throw new IliosFilesystemException('Unable to Update Filesystem');
+            }
+            $this->fileSystem->delete($path);
+        } catch (S3Exception $e) {
+            throw new IliosFilesystemException('Error from AWS: ' . $e->getAwsErrorMessage());
+        }
     }
 }
