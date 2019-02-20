@@ -17,6 +17,7 @@ parameters:
       sessionlearningmaterials,sessiondescriptions,sessionlearningmaterials,sessions,sessiontypes,schoolconfigs,schools,
       terms,usermadereminders,userroles,users,vocabularies
     ilios_api_valid_api_versions: 'v1'
+    sentry_dsn: https://c70286fb157048be9ebc6e918e8c2b79@sentry.io/1323198
 
 services:
     # default configuration for services in *this* file
@@ -267,6 +268,12 @@ services:
     App\Service\DefaultPermissionMatrix: ~
 
     App\Classes\PermissionMatrixInterface: '@App\Service\DefaultPermissionMatrix'
+
+    App\EventListener\SentryCaptureListener:
+      arguments:
+        $sentryDSN: '%sentry_dsn%'
+      tags:
+        - { name: kernel.event_listener, event: kernel.exception }
 
     Symfony\Component\Serializer\SerializerInterface:
       factory:   ['App\Service\SerializerFactory', createSerializer]
