@@ -2,6 +2,7 @@
 
 namespace App\Classes;
 
+use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Handler;
@@ -25,10 +26,60 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     private $remoteFileSystem;
 
+    /**
+     * @var bool
+     */
+    protected $cacheEnabled;
+
     public function __construct(Filesystem $cacheFileSystem, Filesystem $remoteFileSystem)
     {
         $this->cacheFileSystem = $cacheFileSystem;
         $this->remoteFileSystem = $remoteFileSystem;
+        $this->cacheEnabled = true;
+    }
+
+    /**
+     * Temporarily disable the cache
+     */
+    public function disableCache() : void
+    {
+        $this->cacheEnabled = false;
+    }
+
+    /**
+     * Re enable the cache
+     */
+    public function enableCache() : void
+    {
+        $this->cacheEnabled = true;
+    }
+
+    /**
+     * Wrapped delete for removing possibly missing files from the local cache
+     * @param $path
+     */
+    protected function deleteFromCache(string $path) : void
+    {
+        try {
+            //cleanup any existing test file
+            $this->cacheFileSystem->delete($path);
+        } catch (FileNotFoundException $e) {
+            //ignore this one we don't always have files in the cache
+        }
+    }
+
+    /**
+     * Wrapped deleteFromDir for removing possibly missing files from the local cache
+     * @param $dirname
+     */
+    protected function deleteDirFromCache(string $dirname) : void
+    {
+        try {
+            //cleanup any existing test file
+            $this->cacheFileSystem->deleteDir($dirname);
+        } catch (FileNotFoundException $e) {
+            //ignore this one we don't always have files in the cache
+        }
     }
 
     /**
@@ -44,11 +95,11 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     public function read($path)
     {
-        if ($this->cacheFileSystem->has($path)) {
+        if ($this->cacheEnabled && $this->cacheFileSystem->has($path)) {
             return $this->cacheFileSystem->read($path);
         }
         $string = $this->remoteFileSystem->read($path);
-        $this->cacheFileSystem->write($path, $string);
+        $this->cacheFileSystem->put($path, $string);
 
         return $string;
     }
@@ -58,11 +109,11 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     public function readStream($path)
     {
-        if ($this->cacheFileSystem->has($path)) {
+        if ($this->cacheEnabled && $this->cacheFileSystem->has($path)) {
             return $this->cacheFileSystem->readStream($path);
         }
         $resource = $this->remoteFileSystem->readStream($path);
-        $this->cacheFileSystem->writeStream($path, $resource);
+        $this->cacheFileSystem->putStream($path, $resource);
 
         return $resource;
     }
@@ -121,7 +172,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
     public function write($path, $contents, array $config = [])
     {
         $this->remoteFileSystem->write($path, $contents, $config);
-        return $this->cacheFileSystem->write($path, $contents, $config);
+        return $this->cacheFileSystem->put($path, $contents, $config);
     }
 
     /**
@@ -130,7 +181,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
     public function writeStream($path, $resource, array $config = [])
     {
         $this->remoteFileSystem->writeStream($path, $resource, $config);
-        return $this->cacheFileSystem->writeStream($path, $resource, $config);
+        return $this->cacheFileSystem->putStream($path, $resource, $config);
     }
 
     /**
@@ -138,7 +189,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     public function update($path, $contents, array $config = [])
     {
-        $this->cacheFileSystem->delete($path);
+        $this->deleteFromCache($path);
         return $this->remoteFileSystem->update($path, $contents, $config);
     }
 
@@ -147,7 +198,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     public function updateStream($path, $resource, array $config = [])
     {
-        $this->cacheFileSystem->delete($path);
+        $this->deleteFromCache($path);
         return $this->remoteFileSystem->updateStream($path, $resource, $config);
     }
 
@@ -156,7 +207,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     public function rename($path, $newpath)
     {
-        $this->cacheFileSystem->delete($path);
+        $this->deleteFromCache($path);
         return $this->remoteFileSystem->rename($path, $newpath);
     }
 
@@ -165,7 +216,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     public function copy($path, $newpath)
     {
-        $this->cacheFileSystem->delete($path);
+        $this->deleteFromCache($path);
         return $this->remoteFileSystem->copy($path, $newpath);
     }
 
@@ -174,7 +225,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     public function delete($path)
     {
-        $this->cacheFileSystem->delete($path);
+        $this->deleteFromCache($path);
         return $this->remoteFileSystem->delete($path);
     }
 
@@ -183,7 +234,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     public function deleteDir($dirname)
     {
-        $this->cacheFileSystem->deleteDir($dirname);
+        $this->deleteDirFromCache($dirname);
         return $this->remoteFileSystem->deleteDir($dirname);
     }
 
@@ -226,7 +277,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     public function readAndDelete($path)
     {
-        $this->cacheFileSystem->delete($path);
+        $this->deleteFromCache($path);
         return $this->remoteFileSystem->readAndDelete($path);
     }
 

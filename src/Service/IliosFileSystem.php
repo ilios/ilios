@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Classes\LocalCachingFilesystemDecorator;
 use App\Exception\IliosFilesystemException;
 use Aws\S3\Exception\S3Exception;
 use League\Flysystem\FileNotFoundException;
@@ -34,7 +35,7 @@ class IliosFileSystem
      * Testing files are stored in this directory
      * @var string
      */
-    const TEST_FILE_DIR = 'crud_tests';
+    const TEST_FILE_ROOT = 'crud_tests';
 
     /**
      * A filesystem object to work with
@@ -182,24 +183,28 @@ class IliosFileSystem
      */
     public function testCRUD() : void
     {
-        $path = self::TEST_FILE_DIR . '/test-file';
+
+        $path = self::TEST_FILE_ROOT . '/test-file-' . uniqid();
         $contents = md5_file(__FILE__);
 
         try {
-            //cleanup any existing test file
-            $this->fileSystem->delete($path);
+            //cleanup any existing test files
+            $this->fileSystem->deleteDir(self::TEST_FILE_ROOT);
         } catch (FileNotFoundException $e) {
             //ignore this one
+        }
+        if ($this->fileSystem instanceof LocalCachingFilesystemDecorator) {
+            $this->fileSystem->disableCache();
         }
         try {
             $this->fileSystem->write($path, $contents);
             $result = $this->fileSystem->read($path);
-            if (!$result || $result != $contents) {
+            if (!$result || $result !== $contents) {
                 throw new IliosFilesystemException('Unable to Read from Filesystem');
             }
             $putResult = $this->fileSystem->put($path, $contents . $contents);
             $result = $this->fileSystem->read($path);
-            if (!$putResult || !$result || $result !=  $contents . $contents) {
+            if (!$putResult || !$result || $result !==  $contents . $contents) {
                 throw new IliosFilesystemException('Unable to Update Filesystem');
             }
             $this->fileSystem->delete($path);
