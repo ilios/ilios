@@ -190,11 +190,6 @@ services:
         - { name: doctrine.event_listener, event: postPersist }
         - { name: doctrine.event_listener, event: postUpdate }
         - { name: doctrine.event_listener, event: preRemove }
-
-    App\EventListener\TrackApiUsageListener:
-      tags:
-      - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-
     App\EventListener\TimestampEntityChanges:
       tags:
       - { name: doctrine.event_listener, event: onFlush }

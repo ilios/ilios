@@ -1,3 +1,0 @@
-happyr_google_analytics:
-  tracking_id: 'INJECTED FROM Config IN TrackApiUsageListener'
-  http_message_factory: 'httplug.message_factory'
