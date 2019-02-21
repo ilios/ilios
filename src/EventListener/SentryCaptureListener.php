@@ -22,15 +22,15 @@ class SentryCaptureListener
         string $sentryDSN
     ) {
         $this->errorCaptureEnabled = $config->get('errorCaptureEnabled');
-        sentryInit(['dsn' => $sentryDSN]);
+        if ($this->errorCaptureEnabled) {
+            sentryInit(['dsn' => $sentryDSN]);
+        }
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        if (!$this->errorCaptureEnabled) {
-            return;
+        if ($this->errorCaptureEnabled) {
+            sentryCaptureException($event->getException());
         }
-
-        sentryCaptureException($event->getException());
     }
 }
