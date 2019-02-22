@@ -15,6 +15,8 @@ use League\Flysystem\FilesystemInterface;
 
 class FilesystemFactory
 {
+    const LOCAL_S3_CACHE_DIR = '/ilios/s3-cache';
+
     /**
      * @var Config
      */
@@ -44,6 +46,25 @@ class FilesystemFactory
         return $this->getLocalFilesystem();
     }
 
+    /**
+     * Get the path to the S3 cache
+     * @return string path
+     */
+    public function getLocalS3CacheDirectory() : string
+    {
+        return $this->kernelCacheDir . self::LOCAL_S3_CACHE_DIR;
+    }
+
+    /**
+     * Get a filesystem for the local S3 cache
+     * @return FilesystemInterface
+     */
+    public function getS3LocalFilesystemCache() : FilesystemInterface
+    {
+        $localAdapter = $this->getLocalAdapter($this->getLocalS3CacheDirectory());
+        return new LeagueFilesystem($localAdapter, ['visibility' => 'private']);
+    }
+
     protected function getS3Filesystem(string $s3Url) : FilesystemInterface
     {
         $configuration = $this->parseS3URL($s3Url);
@@ -53,12 +74,12 @@ class FilesystemFactory
 
         $client = new S3Client($configuration);
         $s3 = new AwsS3Adapter($client, $bucket);
-        $localAdapter = $this->getLocalAdapter($this->kernelCacheDir . '/ilios/s3-cache');
+        $localAdapter = $this->getLocalAdapter($this->getLocalS3CacheDirectory());
 
         $cache = new Adapter($localAdapter, 'file');
         $s3Adapter = new CachedAdapter($s3, $cache);
         $remoteFileSystem = new LeagueFilesystem($s3Adapter, ['visibility' => 'private']);
-        $localCache = new LeagueFilesystem($localAdapter, ['visibility' => 'private']);
+        $localCache = $this->getS3LocalFilesystemCache();
 
         return new LocalCachingFilesystemDecorator($localCache, $remoteFileSystem);
     }

@@ -3,7 +3,6 @@
 namespace App\Classes;
 
 use League\Flysystem\FileNotFoundException;
-use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Handler;
 use League\Flysystem\PluginInterface;
@@ -17,12 +16,12 @@ use League\Flysystem\PluginInterface;
 class LocalCachingFilesystemDecorator implements FilesystemInterface
 {
     /**
-     * @var Filesystem
+     * @var FilesystemInterface
      */
     private $cacheFileSystem;
 
     /**
-     * @var Filesystem
+     * @var FilesystemInterface
      */
     private $remoteFileSystem;
 
@@ -31,7 +30,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      */
     protected $cacheEnabled;
 
-    public function __construct(Filesystem $cacheFileSystem, Filesystem $remoteFileSystem)
+    public function __construct(FilesystemInterface $cacheFileSystem, FilesystemInterface $remoteFileSystem)
     {
         $this->cacheFileSystem = $cacheFileSystem;
         $this->remoteFileSystem = $remoteFileSystem;
