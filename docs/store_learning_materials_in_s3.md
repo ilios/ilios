@@ -3,7 +3,7 @@
 By default Ilios will store all of your learning materials in the location
 configured by `file_system_storage_path`. For most environments this is a
 good default. If you wish to run Ilios inside a docker container, in a
-non-traditional hosting environment, or not worry about backing up this data
+non-traditional hosting environment, or not worry about backing up this data,
 it may make sense to move your learning materials to AWS's S3 service. 
 
 ## AWS Configuration
