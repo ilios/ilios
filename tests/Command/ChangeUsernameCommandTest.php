@@ -177,6 +177,34 @@ class ChangeUsernameCommandTest extends KernelTestCase
         );
     }
 
+    public function testWhitespaceIsTrimmed()
+    {
+        $user = m::mock(UserInterface::class);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->commandTester->setInputs(['  username  ']);
+
+        $authentication = m::mock(AuthenticationInterface::class);
+        $user->shouldReceive('getAuthentication')->once()->andReturn(null);
+        $this->authenticationManager->shouldReceive('create')->once()->andReturn($authentication);
+        $user->shouldReceive('setAuthentication')->once()->with($authentication);
+        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn([]);
+
+        $authentication->shouldReceive('setUsername')->with('username')->once();
+        $this->authenticationManager->shouldReceive('update')->with($authentication);
+
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME,
+            'userId'         => '1'
+        ));
+
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/Username Changed/',
+            $output
+        );
+    }
+
     public function testBadUserId()
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
