@@ -119,6 +119,64 @@ class ChangeUsernameCommandTest extends KernelTestCase
         ));
     }
 
+    public function testDuplicateUsernameCase()
+    {
+        $user = m::mock(UserInterface::class);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->commandTester->setInputs(['newName']);
+
+        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn(['newname']);
+
+        $this->expectException(\RuntimeException::class);
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME,
+            'userId'         => '1'
+        ));
+    }
+
+    public function testDuplicateUsernameCaseInDB()
+    {
+        $user = m::mock(UserInterface::class);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->commandTester->setInputs(['newname']);
+
+        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn(['newName']);
+
+        $this->expectException(\RuntimeException::class);
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME,
+            'userId'         => '1'
+        ));
+    }
+
+    public function testCaseIsPreserved()
+    {
+        $user = m::mock(UserInterface::class);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->commandTester->setInputs(['NewName']);
+
+        $authentication = m::mock(AuthenticationInterface::class);
+        $user->shouldReceive('getAuthentication')->once()->andReturn(null);
+        $this->authenticationManager->shouldReceive('create')->once()->andReturn($authentication);
+        $user->shouldReceive('setAuthentication')->once()->with($authentication);
+        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn([]);
+
+        $authentication->shouldReceive('setUsername')->with('NewName')->once();
+        $this->authenticationManager->shouldReceive('update')->with($authentication);
+
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME,
+            'userId'         => '1'
+        ));
+
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/Username Changed/',
+            $output
+        );
+    }
+
     public function testBadUserId()
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);

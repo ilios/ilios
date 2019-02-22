@@ -66,11 +66,13 @@ class ChangeUsernameCommand extends Command
                 "No user with id #{$userId} was found."
             );
         }
-        $allUsernames = $this->authenticationManager->getUsernames();
+        $allUsernames = array_map(function (string $username) {
+            return strtolower($username);
+        }, $this->authenticationManager->getUsernames());
 
         $question = new Question("New Username: ");
         $question->setValidator(function ($answer) use ($allUsernames) {
-            if (in_array($answer, $allUsernames)) {
+            if (in_array(strtolower($answer), $allUsernames)) {
                 throw new \RuntimeException(
                     "Username already in use"
                 );
