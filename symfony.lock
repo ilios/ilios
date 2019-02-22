@@ -1,4 +1,7 @@
 {
+    "aws/aws-sdk-php": {
+        "version": "3.87.10"
+    },
     "clue/stream-filter": {
         "version": "v1.4.0"
     },
@@ -155,6 +158,18 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "jean85/pretty-package-versions": {
+        "version": "1.2"
+    },
+    "league/flysystem": {
+        "version": "1.0.50"
+    },
+    "league/flysystem-aws-s3-v3": {
+        "version": "1.0.22"
+    },
+    "league/flysystem-cached-adapter": {
+        "version": "1.0.9"
+    },
     "liip/functional-test-bundle": {
         "version": "2.0.0-alpha6"
     },
@@ -172,6 +187,9 @@
     },
     "monolog/monolog": {
         "version": "1.23.0"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.4.0"
     },
     "nelmio/cors-bundle": {
         "version": "1.5",
@@ -274,6 +292,9 @@
             "version": "4.0",
             "ref": "421933bf8f0e75546ac8e00cb3eb12904fa2ac1a"
         }
+    },
+    "sentry/sentry": {
+        "version": "2.0.0-beta2"
     },
     "squizlabs/php_codesniffer": {
         "version": "3.0",

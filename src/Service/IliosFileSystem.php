@@ -2,8 +2,12 @@
 
 namespace App\Service;
 
+use App\Classes\LocalCachingFilesystemDecorator;
+use App\Exception\IliosFilesystemException;
+use Aws\S3\Exception\S3Exception;
+use League\Flysystem\FileNotFoundException;
+use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
 use App\Entity\LearningMaterialInterface;
 
@@ -14,7 +18,7 @@ use App\Entity\LearningMaterialInterface;
 class IliosFileSystem
 {
     /**
-     * New learning materials whos path is based on their
+     * New learning materials who's path is based on their
      * file hash are stored in this subdirectory of the
      * learning_material directory
      * @var string
@@ -28,45 +32,34 @@ class IliosFileSystem
     const LOCK_FILE_DIRECTORY = 'locks';
 
     /**
-     * @var Config
+     * Testing files are stored in this directory
+     * @var string
      */
-    protected $config;
-    
+    const TEST_FILE_ROOT = 'crud_tests';
+
     /**
      * A filesystem object to work with
-     * @var FileSystem
+     * @var FilesystemInterface
      */
     protected $fileSystem;
-    
-    public function __construct(SymfonyFileSystem $fs, Config $config)
+
+    public function __construct(FilesystemInterface $fileSystem)
     {
-        $this->fileSystem = $fs;
-        $this->config = $config;
+        $this->fileSystem = $fileSystem;
     }
-    
+
     /**
+     *
      * Store a learning material file and return the relativePath
      * @param File $file
-     * @param boolean $preserveOriginalFile
      * @return string $relativePath
      */
-    public function storeLearningMaterialFile(File $file, $preserveOriginalFile = true)
+    public function storeLearningMaterialFile(File $file) : string
     {
         $relativePath = $this->getLearningMaterialFilePath($file);
-        $fullPath = $this->getPath($relativePath);
-        $dir = dirname($fullPath);
-        $this->fileSystem->mkdir($dir);
-        if ($preserveOriginalFile) {
-            $this->fileSystem->copy(
-                $file->getPathname(),
-                $fullPath,
-                false
-            );
-        } else {
-            if (!$this->fileSystem->exists($fullPath)) {
-                $this->fileSystem->rename($file->getPathname(), $fullPath);
-            }
-        }
+        $stream = fopen($file->getPathname(), 'r+');
+        $this->fileSystem->writeStream($relativePath, $stream);
+        fclose($stream);
 
         return $relativePath;
     }
@@ -76,7 +69,7 @@ class IliosFileSystem
      * @param File $file
      * @return string $relativePath
      */
-    public function getLearningMaterialFilePath(File $file)
+    public function getLearningMaterialFilePath(File $file) : string
     {
         $hash = md5_file($file->getPathname());
 
@@ -85,35 +78,26 @@ class IliosFileSystem
     
     /**
      * Remove a file from the filesystem by hash
-     * @param  [string] $relativePath
+     * @param  string $relativePath
      */
-    public function removeFile($relativePath)
+    public function removeFile(string $relativePath) : void
     {
-        $this->fileSystem->remove($this->getPath($relativePath));
+        $this->fileSystem->delete($relativePath);
     }
-    
+
+
     /**
      * Get a File from a hash
-     * @param  [string] $relativePath
-     * @return File|boolean
+     * @param  string $relativePath
+     * @return string | bool
      */
-    public function getFile($relativePath)
+    public function getFileContents(string $relativePath)
     {
-        if ($this->fileSystem->exists($this->getPath($relativePath))) {
-            return new File($this->getPath($relativePath));
+        if ($this->fileSystem->has($relativePath)) {
+            return $this->fileSystem->read($relativePath);
         }
-        
+
         return false;
-    }
-    
-    /**
-     * Get a symfony FIle for a path
-     * @param  string $path
-     * @return File
-     */
-    public function getSymfonyFileForPath($path)
-    {
-        return new File($path);
     }
 
     /**
@@ -122,23 +106,10 @@ class IliosFileSystem
      *
      * @return boolean
      */
-    public function checkLearningMaterialFilePath(LearningMaterialInterface $lm)
+    public function checkLearningMaterialFilePath(LearningMaterialInterface $lm) : bool
     {
         $relativePath = $lm->getRelativePath();
-        $fullPath = $this->getPath($relativePath);
-
-        return $this->fileSystem->exists($fullPath);
-    }
-    
-    /**
-     * Turns a relative path into an Ilios file store path.
-     * @param  string $relativePath
-     * @return string
-     */
-    protected function getPath($relativePath)
-    {
-        $iliosFileStorePath = $this->config->get('file_system_storage_path');
-        return $iliosFileStorePath . '/' . $relativePath;
+        return $this->fileSystem->has($relativePath);
     }
 
     /**
@@ -146,7 +117,7 @@ class IliosFileSystem
      * @param string $name
      * @return string $relativePath
      */
-    protected function getLockFilePath($name)
+    protected function getLockFilePath(string $name) : string
     {
         $safeName = preg_replace('/[^a-z0-9\._-]+/i', '-', $name);
         return self::LOCK_FILE_DIRECTORY . '/' . $safeName;
@@ -156,17 +127,14 @@ class IliosFileSystem
      * Create a lock file
      * @param string $name
      */
-    public function createLock($name)
+    public function createLock(string $name) : void
     {
         if ($this->hasLock($name)) {
             return;
         }
         $relativePath = $this->getLockFilePath($name);
-        $fullPath = $this->getPath($relativePath);
-        $dir = dirname($fullPath);
-        $this->fileSystem->mkdir($dir);
-        if (!$this->fileSystem->exists($fullPath)) {
-            $this->fileSystem->touch($fullPath);
+        if (!$this->fileSystem->has($relativePath)) {
+            $this->fileSystem->put($relativePath, 'LOCK');
         }
     }
 
@@ -174,15 +142,14 @@ class IliosFileSystem
      * Remove a lock file
      * @param string $name
      */
-    public function releaseLock($name)
+    public function releaseLock(string $name) : void
     {
         if (!$this->hasLock($name)) {
             return;
         }
         $relativePath = $this->getLockFilePath($name);
-        $fullPath = $this->getPath($relativePath);
-        if ($this->fileSystem->exists($fullPath)) {
-            $this->fileSystem->remove($fullPath);
+        if ($this->fileSystem->has($relativePath)) {
+            $this->fileSystem->delete($relativePath);
         }
     }
 
@@ -191,23 +158,58 @@ class IliosFileSystem
      * @param string $name
      * @return boolean
      */
-    public function hasLock($name)
+    public function hasLock(string $name) : bool
     {
         $relativePath = $this->getLockFilePath($name);
-        $fullPath = $this->getPath($relativePath);
 
-        return $this->fileSystem->exists($fullPath);
+        return $this->fileSystem->has($relativePath);
     }
 
     /**
      * Wait for and then acquire a lock
      * @param string $name
      */
-    public function waitForLock($name)
+    public function waitForLock(string $name) : void
     {
         while ($this->hasLock($name)) {
             usleep(250);
         }
         $this->createLock($name);
+    }
+
+    /**
+     * Test Create, Read, Update, Delete on our filesystem
+     * @throws IliosFilesystemException
+     */
+    public function testCRUD() : void
+    {
+
+        $path = self::TEST_FILE_ROOT . '/test-file-' . uniqid();
+        $contents = md5_file(__FILE__);
+
+        try {
+            //cleanup any existing test files
+            $this->fileSystem->deleteDir(self::TEST_FILE_ROOT);
+        } catch (FileNotFoundException $e) {
+            //ignore this one
+        }
+        if ($this->fileSystem instanceof LocalCachingFilesystemDecorator) {
+            $this->fileSystem->disableCache();
+        }
+        try {
+            $this->fileSystem->write($path, $contents);
+            $result = $this->fileSystem->read($path);
+            if (!$result || $result !== $contents) {
+                throw new IliosFilesystemException('Unable to Read from Filesystem');
+            }
+            $putResult = $this->fileSystem->put($path, $contents . $contents);
+            $result = $this->fileSystem->read($path);
+            if (!$putResult || !$result || $result !==  $contents . $contents) {
+                throw new IliosFilesystemException('Unable to Update Filesystem');
+            }
+            $this->fileSystem->delete($path);
+        } catch (S3Exception $e) {
+            throw new IliosFilesystemException('Error from AWS: ' . $e->getAwsErrorMessage());
+        }
     }
 }

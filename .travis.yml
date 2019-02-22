@@ -47,6 +47,7 @@ env:
   - ILIOS_MAILER_URL=null://localhost
   - ILIOS_LOCALE=en
   - ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
+  - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
   matrix:
   - TEST_PHPUNIT_API1=false
   - TEST_PHPUNIT_API2=false

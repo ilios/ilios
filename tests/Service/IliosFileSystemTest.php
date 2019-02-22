@@ -1,7 +1,9 @@
 <?php
 namespace App\Tests\Service;
 
+use App\Entity\LearningMaterialInterface;
 use App\Service\Config;
+use League\Flysystem\Filesystem;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use \Symfony\Component\HttpFoundation\File\File;
@@ -17,18 +19,12 @@ class IliosFileSystemTest extends TestCase
      * @var IliosFileSystem
      */
     private $iliosFileSystem;
-    
-    /**
-     * Mock File System
-     * @var SymfonyFileSystem
-     */
-    private $mockFileSystem;
 
     /**
-     * @var Config
+     * @var m\Mock
      */
-    private $config;
-    
+    private $fileSystem;
+
     /**
      * @var string
      */
@@ -42,17 +38,13 @@ class IliosFileSystemTest extends TestCase
             $fs->mkdir($this->fakeTestFileDir);
         }
 
-        $this->mockFileSystem = m::mock(SymfonyFileSystem::class);
-        $this->mockFileSystem->shouldReceive('exists')->with($this->fakeTestFileDir)->andReturn(true);
-
-        $this->config = m::mock(Config::class);
-        $this->config->shouldReceive('get')->with('file_system_storage_path')->andReturn($this->fakeTestFileDir);
-        $this->iliosFileSystem = new IliosFileSystem($this->mockFileSystem, $this->config);
+        $this->fileSystem = m::mock(Filesystem::class);
+        $this->iliosFileSystem = new IliosFileSystem($this->fileSystem);
     }
 
     public function tearDown()
     {
-        unset($this->mockFileSystem);
+        unset($this->fileSystem);
         unset($this->iliosFileSystem);
         unset($this->fakeTestFileDir);
     }
@@ -60,45 +52,16 @@ class IliosFileSystemTest extends TestCase
     public function testStoreLeaningMaterialFile()
     {
         $path = __FILE__;
-        $newFilePath = $this->getTestFilePath($path);
-        $file = m::mock('Symfony\Component\HttpFoundation\File\File')
+        $file = m::mock(File::class)
             ->shouldReceive('getPathname')->andReturn($path)->getMock();
-        $this->mockFileSystem->shouldReceive('copy')
-            ->with($path, $newFilePath, false);
-        $this->mockFileSystem->shouldReceive('mkdir');
+        $this->fileSystem->shouldReceive('writeStream');
         $this->iliosFileSystem->storeLearningMaterialFile($file);
-    }
-
-    public function testStoreLeaningMaterialFileReplaceFile()
-    {
-        $path = __FILE__;
-        $newFilePath = $this->getTestFilePath($path);
-        $file = m::mock('Symfony\Component\HttpFoundation\File\File')
-            ->shouldReceive('getPathname')->andReturn($path)->getMock();
-        $this->mockFileSystem->shouldReceive('exists')
-            ->with($newFilePath)->andReturn(false);
-        $this->mockFileSystem->shouldReceive('rename')
-            ->with($path, $newFilePath);
-        $this->mockFileSystem->shouldReceive('mkdir');
-        $this->iliosFileSystem->storeLearningMaterialFile($file, false);
-    }
-
-    public function testStoreLeaningMaterialFileDontReplaceFileIfExists()
-    {
-        $path = __FILE__;
-        $newFilePath = $this->getTestFilePath($path);
-        $file = m::mock('Symfony\Component\HttpFoundation\File\File')
-            ->shouldReceive('getPathname')->andReturn($path)->getMock();
-        $this->mockFileSystem->shouldReceive('exists')
-            ->with($newFilePath)->andReturn(true);
-        $this->mockFileSystem->shouldReceive('mkdir');
-        $this->iliosFileSystem->storeLearningMaterialFile($file, false);
     }
 
     public function testGetLearningMaterialFilePath()
     {
         $path = __FILE__;
-        $file = m::mock('Symfony\Component\HttpFoundation\File\File')
+        $file = m::mock(File::class)
             ->shouldReceive('getPathname')->andReturn($path)->getMock();
         $newPath = $this->iliosFileSystem->getLearningMaterialFilePath($file);
         $this->assertSame($this->fakeTestFileDir . '/' . $newPath, $this->getTestFilePath($path));
@@ -107,51 +70,40 @@ class IliosFileSystemTest extends TestCase
     public function testRemoveFile()
     {
         $file = 'foojunk';
-        $this->mockFileSystem->shouldReceive('remove')->with($this->fakeTestFileDir . '/' . $file);
+        $this->fileSystem->shouldReceive('delete')->with($file);
         $this->iliosFileSystem->removeFile($file);
     }
 
-    public function testGetFile()
+    public function testGetFileContents()
     {
-        $fs = new SymfonyFileSystem();
-        $someJunk = 'whatever dude';
-        $hash = md5($someJunk);
-        $hashDirectory = substr($hash, 0, 2);
-        $parts = [
-            $this->fakeTestFileDir,
-            'learning_materials',
-            'lm',
-            $hashDirectory
-        ];
-        $dir = implode($parts, '/');
-        $fs->mkdir($dir);
-        $testFilePath = $dir . '/' . $hash;
-        file_put_contents($testFilePath, $someJunk);
-        $file = m::mock('Symfony\Component\HttpFoundation\File\File')
-            ->shouldReceive('getPathname')->andReturn($testFilePath)->getMock();
-        $this->mockFileSystem->shouldReceive('exists')
-            ->with($testFilePath)->andReturn(true);
-        $this->mockFileSystem->shouldReceive('mkdir');
-        $newPath = $this->iliosFileSystem->storeLearningMaterialFile($file, false);
-        
-        $newFile = $this->iliosFileSystem->getFile($newPath);
-        $this->assertSame($newFile->getPathname(), $testFilePath);
-        $this->assertSame(file_get_contents($newFile->getPathname()), $someJunk);
-        $fs->remove($this->fakeTestFileDir . '/learning_materials');
+        $filename = 'test/file/name';
+        $value = 'something something word word';
+        $this->fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(true);
+        $this->fileSystem->shouldReceive('read')->with($filename)->once()->andReturn($value);
+        $result = $this->iliosFileSystem->getFileContents($filename);
+        $this->assertEquals($value, $result);
+    }
+
+    public function testMissingGetFileContents()
+    {
+        $filename = 'test/file/name';
+        $this->fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(false);
+        $result = $this->iliosFileSystem->getFileContents($filename);
+        $this->assertFalse($result);
     }
 
     public function testCheckLearningMaterialFilePath()
     {
-        $goodLm = m::mock('App\Entity\LearningMaterial')
+        $goodLm = m::mock(LearningMaterialInterface::class)
             ->shouldReceive('getRelativePath')->andReturn('goodfile')
             ->mock();
-        $badLm = m::mock('App\Entity\LearningMaterial')
+        $badLm = m::mock(LearningMaterialInterface::class)
             ->shouldReceive('getRelativePath')->andReturn('badfile')
             ->mock();
-        $this->mockFileSystem->shouldReceive('exists')
-            ->with($this->fakeTestFileDir . '/goodfile')->andReturn(true)->once();
-        $this->mockFileSystem->shouldReceive('exists')
-            ->with($this->fakeTestFileDir . '/badfile')->andReturn(false)->once();
+        $this->fileSystem->shouldReceive('has')
+            ->with('goodfile')->andReturn(true)->once();
+        $this->fileSystem->shouldReceive('has')
+            ->with('badfile')->andReturn(false)->once();
         $this->assertTrue($this->iliosFileSystem->checkLearningMaterialFilePath($goodLm));
         $this->assertFalse($this->iliosFileSystem->checkLearningMaterialFilePath($badLm));
     }
@@ -170,35 +122,9 @@ class IliosFileSystemTest extends TestCase
         return implode($parts, '/');
     }
 
-    public function testGetSymfonyFileForPath()
-    {
-        $fs = new SymfonyFileSystem();
-        $someJunk = 'whatever dude';
-        $hash = md5($someJunk);
-        $hashDirectory = substr($hash, 0, 2);
-        $parts = [
-            $this->fakeTestFileDir,
-            'learning_materials',
-            'lm',
-            $hashDirectory
-        ];
-        $dir = implode($parts, '/');
-        $fs->mkdir($dir);
-        $testFilePath = $dir . '/' . $hash;
-        file_put_contents($testFilePath, $someJunk);
-        $file = $this->iliosFileSystem->getSymfonyFileForPath($testFilePath);
-        
-        $this->assertTrue($file instanceof File);
-        $this->assertSame($testFilePath, $file->getPathname());
-        $this->assertSame(file_get_contents($file->getPathname()), $someJunk);
-
-        $fs->remove($this->fakeTestFileDir . '/learning_materials');
-    }
-
     protected function getTestFileLock($name)
     {
         $parts = [
-            $this->fakeTestFileDir,
             IliosFileSystem::LOCK_FILE_DIRECTORY,
             $name
         ];
@@ -209,10 +135,8 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $lockFileDir = dirname($lockFilePath);
-        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(false);
-        $this->mockFileSystem->shouldReceive('touch')->with($lockFilePath);
-        $this->mockFileSystem->shouldReceive('mkdir')->with($lockFileDir);
+        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(false);
+        $this->fileSystem->shouldReceive('put')->with($lockFilePath, 'LOCK');
         $this->iliosFileSystem->createLock($name);
     }
 
@@ -220,8 +144,16 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(true);
-        $this->mockFileSystem->shouldReceive('remove')->with($lockFilePath);
+        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(true);
+        $this->fileSystem->shouldReceive('delete')->with($lockFilePath);
+        $this->iliosFileSystem->releaseLock($name);
+    }
+
+    public function testReleaseLockWithNoLock()
+    {
+        $name = 'test.lock';
+        $lockFilePath = $this->getTestFileLock($name);
+        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(false);
         $this->iliosFileSystem->releaseLock($name);
     }
 
@@ -229,7 +161,7 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(true);
+        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(true);
         $status = $this->iliosFileSystem->hasLock($name);
         $this->assertTrue($status);
     }
@@ -238,7 +170,7 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(false);
+        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(false);
         $status = $this->iliosFileSystem->hasLock($name);
         $this->assertFalse($status);
     }
@@ -247,10 +179,8 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $lockFileDir = dirname($lockFilePath);
-        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(false);
-        $this->mockFileSystem->shouldReceive('touch')->with($lockFilePath);
-        $this->mockFileSystem->shouldReceive('mkdir')->with($lockFileDir);
+        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(false);
+        $this->fileSystem->shouldReceive('put')->with($lockFilePath, 'LOCK');
         $this->iliosFileSystem->waitForLock($name);
     }
 
@@ -258,10 +188,8 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test && file .lock';
         $lockFilePath = $this->getTestFileLock('test-file-.lock');
-        $lockFileDir = dirname($lockFilePath);
-        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(true);
-        $this->mockFileSystem->shouldReceive('touch')->with($lockFilePath);
-        $this->mockFileSystem->shouldReceive('mkdir')->with($lockFileDir);
+        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(true);
+        $this->fileSystem->shouldReceive('put')->with($lockFilePath, 'LOCK');
         $this->iliosFileSystem->createLock($name);
     }
 }

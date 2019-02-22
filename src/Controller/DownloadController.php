@@ -34,9 +34,9 @@ class DownloadController extends AbstractController
             );
         }
 
-        $file = $iliosFileSystem->getFile($learningMaterial->getRelativePath());
+        $fileContents = $iliosFileSystem->getFileContents($learningMaterial->getRelativePath());
 
-        if (false === $file) {
+        if (false === $fileContents) {
             throw new Exception('File not found for learning material #' . $learningMaterial->getId());
         }
 
@@ -50,6 +50,6 @@ class DownloadController extends AbstractController
             $headers['Content-Disposition'] = 'inline';
         }
 
-        return new Response(file_get_contents($file->getPathname()), 200, $headers);
+        return new Response($fileContents, 200, $headers);
     }
 }

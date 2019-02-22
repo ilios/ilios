@@ -11,6 +11,7 @@ services:
             - ILIOS_REQUIRE_SECURE_CONNECTION=false
             - ILIOS_ERROR_CAPTURE_ENABLED=false
             - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
+            - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
         ports:
             - "8000:80"
         volumes:

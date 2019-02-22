@@ -2,10 +2,12 @@
 
 namespace App\Monitor;
 
+use App\Exception\IliosFilesystemException;
 use App\Service\Config;
+use App\Service\FilesystemFactory;
+use League\Flysystem\FilesystemInterface;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\ResultInterface;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
 
@@ -14,17 +16,23 @@ class IliosFileSystem implements CheckInterface
     /**
      * @var Config
      */
-    private $config;
+    protected $config;
 
-    public function __construct(Config $config)
-    {
+    /**
+     * @var FilesystemInterface
+     */
+    private $filesystem;
+
+    public function __construct(
+        Config $config,
+        FilesystemFactory $filesystemFactory
+    ) {
         $this->config = $config;
+        $this->filesystem = $filesystemFactory->getFilesystem();
     }
 
     /**
-     * Perform the actual check and return a ResultInterface
-     *
-     * @return ResultInterface
+     * @inheritdoc
      */
     public function check()
     {
@@ -44,13 +52,17 @@ class IliosFileSystem implements CheckInterface
             return new Warning(sprintf('Disk usage high: %2d percent.', $percentUsed));
         }
 
+        try {
+            $this->filesystem->testCRUD();
+        } catch (IliosFilesystemException $e) {
+            return new Failure("Problem accessing the filesystem " . $e->getMessage());
+        }
+
         return new Success('is writable and has enough free space');
     }
 
     /**
-     * Return a label describing this test instance.
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getLabel()
     {

@@ -12,6 +12,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 use App\Entity\Manager\LearningMaterialManager;
 use App\Service\IliosFileSystem;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Migrate Learning materials from Ilios2 location to Ilios3 location
@@ -104,7 +105,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
                     if (!$this->symfonyFileSystem->exists($fullPath)) {
                         $skipped++;
                     } else {
-                        $file = $this->iliosFileSystem->getSymfonyFileForPath($fullPath);
+                        $file = new File($fullPath);
                         $newPath = $this->iliosFileSystem->storeLearningMaterialFile($file);
                         $lm->setRelativePath($newPath);
                         $this->learningMaterialManager->update($lm, false);
