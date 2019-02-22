@@ -21,4 +21,13 @@ class AuthenticationManager extends BaseManager
         $repository = $this->getRepository();
         return $repository->findOneByUsername($username);
     }
+    /**
+     * @return string[]
+     */
+    public function getUsernames()
+    {
+        /** @var AuthenticationRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getUsernames();
+    }
 }

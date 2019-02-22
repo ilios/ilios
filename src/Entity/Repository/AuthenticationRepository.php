@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity\Repository;
 
+use App\Entity\Authentication;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -32,6 +33,21 @@ class AuthenticationRepository extends EntityRepository implements DTORepository
             // do nothing.
         }
         return $result;
+    }
+
+    /**
+     * Get all the usernames
+     *
+     * @return string[]
+     */
+    public function getUsernames()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->addSelect('a.username')->from(Authentication::class, 'a');
+
+        return array_map(function (array $arr) {
+            return $arr['username'];
+        }, $qb->getQuery()->getScalarResult());
     }
 
     /**
