@@ -3,7 +3,47 @@
 # Add steps that run tests, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/php
 
+resources:
+  containers:
+    - container: mysql
+      image: ilios/mysql
+      ports:
+        - 33060:3306
+      env:
+        MYSQL_RANDOM_ROOT_PASSWORD: yes
+        MYSQL_USER: "ilios_user"
+        MYSQL_PASSWORD: "ilios_password"
+        MYSQL_DATABASE: ilios
+
+variables:
+  ILIOS_MAILER_URL: null://localhost
+  ILIOS_LOCALE: en
+  ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
+  ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
+  IMAGE: 'Ubuntu-16.04'
+  PHP_VERSION: '7.3'
+
 jobs:
+- job: test_migrations_against_mysql
+  services:
+    mysql: mysql
+  pool:
+    vmImage: $(IMAGE)
+  variables:
+    ILIOS_DATABASE_URL: mysql://ilios_user:ilios_password@127.0.0.1:33060/ilios
+    ILIOS_DATABASE_MYSQL_VERSION: 5.7
+  steps:
+  - script: |
+      sudo update-alternatives --set php /usr/bin/php$(PHP_VERSION)
+      php -version
+    displayName: Use PHP version $(PHP_VERSION)
+  - script: composer install --no-interaction --prefer-dist
+    displayName: composer install
+  - script: bin/console doctrine:database:drop --force
+  - script: bin/console doctrine:database:create
+  - script: bin/console doctrine:migrations:migrate  --no-interaction
+  - script: bin/console doctrine:schema:validate
+
 - template: .azure/api-test-job-template.yaml
   parameters:
     testGroup: api_1
