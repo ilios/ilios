@@ -4,6 +4,7 @@ doctrine:
         driver:   'pdo_mysql'
         server_version: '%env(ILIOS_DATABASE_MYSQL_VERSION)%'
     orm:
+        auto_generate_proxy_classes: false
         metadata_cache_driver:
             type: service
             id: doctrine.system_cache_provider
