@@ -24,3 +24,6 @@ steps:
 
 - script: composer install --no-interaction --prefer-dist
   displayName: 'composer install'
+
+- script: vendor/bin/simple-phpunit -c phpunit.xml.dist
+  displayName: 'Run tests with phpunit'
