@@ -50,7 +50,7 @@ ILIOS_TRACKING_CODE=UA-XXXXXXXX-1
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
     apt-get update \
-    && apt-get install libldap2-dev zlib1g-dev libicu-dev -y \
+    && apt-get install sudo libldap2-dev zlib1g-dev libicu-dev -y \
     # remove the apt source files to save space
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
@@ -80,7 +80,15 @@ COPY . /var/www/ilios
 # Override monolog to send errors to stdout
 COPY ./docker/monolog.yaml /var/www/ilios/config/packages/prod
 
+# add our own entrypoint scripts
+COPY ./docker/ilios-entrypoint /usr/local/bin/
+
 WORKDIR /var/www/ilios
+
+RUN chown -R www-data:www-data /var/www/ilios
+
+# Switch to the www-data user so everything installed after this can be read by apache
+USER www-data
 
 RUN \
     /usr/bin/composer install \
@@ -92,17 +100,10 @@ RUN \
     --no-suggest \
     --classmap-authoritative \
     && /usr/bin/composer dump-env $APP_ENV \
-    && /usr/bin/composer clear-cache
+    && /usr/bin/composer clear-cache \
+    && /var/www/ilios/bin/console assets:install
 
-RUN chown -R www-data:www-data /var/www/ilios
-
-RUN su - www-data -s /bin/sh -c "/var/www/ilios/bin/console assets:install"
-
-# add our own entrypoint scripts
-COPY ./docker/ilios-entrypoint /usr/local/bin/
+USER root
 ENTRYPOINT ["ilios-entrypoint"]
-
 CMD ["apache2-foreground"]
-
-# http is typically port 80
 EXPOSE 80
