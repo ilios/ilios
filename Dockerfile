@@ -91,6 +91,7 @@ RUN \
     --no-interaction \
     --no-suggest \
     --classmap-authoritative \
+    && /usr/bin/composer dump-env $APP_ENV \
     && /usr/bin/composer clear-cache
 
 RUN chown -R www-data:www-data /var/www/ilios
