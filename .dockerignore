@@ -15,4 +15,7 @@ docker-composer.yml
 Dockerfile
 docs
 *.xml.dist
-.env
+
+/.env.local
+/.env.local.php
+/.env.*.local

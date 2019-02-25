@@ -3,10 +3,8 @@
 namespace App\Tests\Controller;
 
 use App\Command\UpdateFrontendCommand;
-use App\Entity\Manager\ApplicationConfigManager;
-use Doctrine\DBAL\Exception\ServerException;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Mockery as m;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpKernel\Client;
 use Symfony\Component\Filesystem\Filesystem;
@@ -341,11 +339,8 @@ class IndexControllerTest extends WebTestCase
             'noScript' => [],
             'div' => [],
         ]);
-        $mockException = m::mock(ServerException::class);
-        $mockConfig = m::mock(ApplicationConfigManager::class);
-        $mockConfig->shouldReceive('getValue')->with('errorCaptureEnabled')->once()->andReturn(true);
-        $mockConfig->shouldReceive('getValue')->andThrow($mockException);
-        self::$container->set(ApplicationConfigManager::class, $mockConfig);
+        $orig = $_ENV['ILIOS_ERROR_CAPTURE_ENABLED'];
+        $_ENV['ILIOS_ERROR_CAPTURE_ENABLED'] = true;
         $this->setupTestFile($jsonPath, $json, false);
         $this->client->request('GET', '/');
         $response = $this->client->getResponse();
@@ -354,6 +349,7 @@ class IndexControllerTest extends WebTestCase
             '<meta name=\'iliosconfig-error-capture-enabled\' content="true">',
             $response->getContent()
         );
+        $_ENV['ILIOS_ERROR_CAPTURE_ENABLED'] = $orig;
     }
 
     protected function setupTestFile(string $path, string $contents, bool $compressContents)

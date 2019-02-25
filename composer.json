@@ -36,6 +36,7 @@
     "symfony/apache-pack": "^1.0",
     "symfony/asset": "*",
     "symfony/console": "*",
+    "symfony/dotenv": "*",
     "symfony/flex": "^1.1",
     "symfony/framework-bundle": "*",
     "symfony/lock": "*",
@@ -57,7 +58,6 @@
     "mockery/mockery": "1.2.0",
     "squizlabs/php_codesniffer": "@stable",
     "symfony/debug-pack": "*",
-    "symfony/dotenv": "*",
     "symfony/profiler-pack": "*",
     "symfony/test-pack": "*",
     "symfony/web-server-bundle": "*"

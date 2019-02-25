@@ -1,6 +1,9 @@
 #!/usr/bin/env php
 <?php
 
+//Parse .env files and load them into the environment
+require dirname(__DIR__).'/config/bootstrap.php';
+
 Commands::checkForAppENV();
 Commands::isComposerInstalled();
 Commands::install();
