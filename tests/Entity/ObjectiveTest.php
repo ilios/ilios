@@ -279,4 +279,13 @@ class ObjectiveTest extends EntityBase
     {
         $this->basicSetTest('position', 'integer');
     }
+
+    /**
+     * @covers \App\Entity\Objective::setActive
+     * @covers \App\Entity\Objective::isActive
+     */
+    public function testSetActive()
+    {
+        $this->booleanSetTest('active');
+    }
 }

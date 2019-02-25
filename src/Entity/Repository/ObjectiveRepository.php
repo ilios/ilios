@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity\Repository;
 
+use App\Entity\Objective;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -41,14 +42,15 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('o')->distinct()->from('App\Entity\Objective', 'o');
+        $qb = $this->_em->createQueryBuilder()->select('o')->distinct()->from(Objective::class, 'o');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $objectiveDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $objectiveDTOs[$arr['id']] = new ObjectiveDTO(
                 $arr['id'],
                 $arr['title'],
-                $arr['position']
+                $arr['position'],
+                $arr['active']
             );
         }
         $objectiveIds = array_keys($objectiveDTOs);

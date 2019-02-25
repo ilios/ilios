@@ -37,6 +37,7 @@ class ObjectiveTest extends ReadWriteEndpointTest
         return [
             'title' => ['title', $this->getFaker()->text],
             'position' => ['position', $this->getFaker()->randomDigit],
+            'notActive' => ['active', false],
             'competency' => ['competency', 1],
             'courses' => ['courses', [3]],
             'programYears' => ['programYears', [2]],
@@ -68,6 +69,8 @@ class ObjectiveTest extends ReadWriteEndpointTest
             'id' => [[0], ['id' => 1]],
             'title' => [[1], ['title' => 'second objective']],
             'position' => [[0, 1, 2, 3, 4, 5, 6, 7], ['position' => 0]],
+            'active' => [[0, 1, 2, 3, 5, 7], ['active' => 1]],
+            'inactive' => [[4, 6], ['active' => 0]],
             'competency' => [[0], ['competency' => 3]],
             'courses' => [[1, 3], ['courses' => [2]]],
             'programYears' => [[0, 1], ['programYears' => [1]]],

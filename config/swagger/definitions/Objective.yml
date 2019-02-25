@@ -11,6 +11,9 @@ Objective:
   position:
    description: Sort order position
    type: integer
+  active:
+   description: Active
+   type: boolean
   competency:
    description: Competency
    type: string
