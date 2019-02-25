@@ -10,6 +10,12 @@
     <php>
         <ini name="error_reporting" value="-1" />
         <env name="APP_ENV" value="test" />
+        <!--
+            temporarily add SYMFONY_DEPRECATIONS_HELPER here
+            until Symfony 4.3 is released which should have have fixed
+            issues with ENV loading and this can be read from .env.test again
+        -->
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="99999" />
         <env name="SHELL_VERBOSITY" value="-1" />
     </php>
 
