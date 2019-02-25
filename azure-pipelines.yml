@@ -33,12 +33,7 @@ jobs:
     ILIOS_DATABASE_URL: mysql://ilios_user:ilios_password@127.0.0.1:33060/ilios
     ILIOS_DATABASE_MYSQL_VERSION: 5.7
   steps:
-  - script: |
-      sudo update-alternatives --set php /usr/bin/php$(PHP_VERSION)
-      php -version
-    displayName: Use PHP version $(PHP_VERSION)
-  - script: composer install --no-interaction --prefer-dist
-    displayName: composer install
+  - template: .azure/install-steps-template.yaml
   - script: bin/console doctrine:database:drop --force
   - script: bin/console doctrine:database:create
   - script: bin/console doctrine:migrations:migrate  --no-interaction
