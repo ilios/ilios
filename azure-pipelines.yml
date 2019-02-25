@@ -76,3 +76,9 @@ jobs:
 - template: .azure/api-test-job-template.yaml
   parameters:
     testGroup: api_5
+- job: build_and_run_container
+  steps:
+    - script: docker build -t ilios-php-apache-test .
+    - script: docker run -d --name ilios-php-apache-test ilios-php-apache-test
+    - script: docker ps | grep -q ilios-php-apache-test
+    - script: docker exec ilios-php-apache-test php /var/www/ilios/bin/console monitor:health
