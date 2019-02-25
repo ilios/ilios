@@ -54,3 +54,26 @@ jobs:
 - template: .azure/api-test-job-template.yaml
   parameters:
     testGroup: api_5
+- job: code_style_and_security
+  pool:
+    vmImage: $(IMAGE)
+  steps:
+    - template: .azure/install-steps-template.yaml
+    - script: vendor/bin/phpcs
+    - script: bin/console security:check
+
+- job: not_api_tests
+  pool:
+    vmImage: $(IMAGE)
+  strategy:
+   matrix:
+     PHP72:
+       PHP_VERSION: '7.2'
+     PHP73:
+       PHP_VERSION: '7.3'
+  steps:
+   - template: .azure/install-steps-template.yaml
+     parameters:
+       phpVersion: $(PHP_VERSION)
+   - script: vendor/bin/simple-phpunit -c phpunit.xml.dist --exclude-group api_1,api_2,api_3,api_4,api_5
+     displayName: PHPUnit $(PHP_VERSION)
