@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f6e619fb471f802af4540de6ddf8e37",
+    "content-hash": "9923081a45eb4c199bd2be9861fa6965",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -3193,16 +3193,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "02b7ea21eafa0757af04140890a67d8ed45f83b2"
+                "reference": "684855f2c2e9d0a61868b8f8d6bd0295c8a4b651"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/02b7ea21eafa0757af04140890a67d8ed45f83b2",
-                "reference": "02b7ea21eafa0757af04140890a67d8ed45f83b2",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/684855f2c2e9d0a61868b8f8d6bd0295c8a4b651",
+                "reference": "684855f2c2e9d0a61868b8f8d6bd0295c8a4b651",
                 "shasum": ""
             },
             "require": {
@@ -3253,7 +3253,7 @@
                 "message",
                 "psr7"
             ],
-            "time": "2019-01-23T12:41:22+00:00"
+            "time": "2019-02-23T07:42:53+00:00"
         },
         {
             "name": "php-http/guzzle6-adapter",
@@ -4459,16 +4459,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "2.0.0-beta2",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "70982d9af060c89228bc6d3e8230633673f81481"
+                "reference": "478d0a21ad55665db5702e9c385e9e22dfb2aba5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/70982d9af060c89228bc6d3e8230633673f81481",
-                "reference": "70982d9af060c89228bc6d3e8230633673f81481",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/478d0a21ad55665db5702e9c385e9e22dfb2aba5",
+                "reference": "478d0a21ad55665db5702e9c385e9e22dfb2aba5",
                 "shasum": ""
             },
             "require": {
@@ -4477,9 +4477,10 @@
                 "jean85/pretty-package-versions": "^1.2",
                 "php": "^7.1",
                 "php-http/async-client-implementation": "^1.0",
-                "php-http/client-common": "^1.5",
-                "php-http/discovery": "^1.2",
-                "php-http/httplug": "^1.1",
+                "php-http/client-common": "^1.5|^2.0",
+                "php-http/discovery": "^1.6.1",
+                "php-http/httplug": "^1.1|^2.0",
+                "php-http/message": "^1.5",
                 "psr/http-message-implementation": "^1.0",
                 "ramsey/uuid": "^3.3",
                 "symfony/options-resolver": "^2.7|^3.0|^4.0",
@@ -4492,8 +4493,6 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.13",
                 "monolog/monolog": "^1.3",
-                "php-http/curl-client": "^1.7.1",
-                "php-http/message": "^1.5",
                 "php-http/mock-client": "^1.0",
                 "phpstan/phpstan": "^0.10.3",
                 "phpstan/phpstan-phpunit": "^0.10",
@@ -4520,7 +4519,12 @@
             ],
             "authors": [
                 {
-                    "name": "Sentry"
+                    "name": "David Cramer",
+                    "email": "dcramer@gmail.com"
+                },
+                {
+                    "name": "Daniel Griesser",
+                    "email": "daniel.griesser.86@gmail.com"
                 }
             ],
             "description": "A PHP SDK for Sentry (http://sentry.io)",
@@ -4534,7 +4538,7 @@
                 "logging",
                 "sentry"
             ],
-            "time": "2019-02-11T10:22:02+00:00"
+            "time": "2019-02-25T08:33:57+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
@@ -8946,7 +8950,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
-        "sentry/sentry": 10,
         "fzaninotto/faker": 0,
         "liip/functional-test-bundle": 15,
         "squizlabs/php_codesniffer": 0
