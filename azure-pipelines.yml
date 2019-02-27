@@ -31,22 +31,12 @@ jobs:
     - template: .azure/install-steps-template.yaml
     - script: vendor/bin/phpcs
     - script: bin/console security:check
-- job: not_api_tests
-  dependsOn: code_style_and_security
-  pool:
-    vmImage: $(IMAGE)
-  strategy:
-    matrix:
-      PHP72:
-        PHP_VERSION: '7.2'
-      PHP73:
-        PHP_VERSION: '7.3'
-  steps:
-    - template: .azure/install-steps-template.yaml
-      parameters:
-        phpVersion: $(PHP_VERSION)
-    - script: vendor/bin/simple-phpunit -c phpunit.xml.dist --exclude-group api_1,api_2,api_3,api_4,api_5
-      displayName: PHPUnit $(PHP_VERSION)
+- template: .azure/phpunit-job-template.yaml
+  parameters:
+    name: not_api_tests
+    testCommand: " --exclude-group api_1,api_2,api_3,api_4,api_5"
+    image: $(IMAGE)
+    dependsOn: code_style_and_security
 - job: test_migrations_against_mysql
   dependsOn: code_style_and_security
   services:
@@ -63,43 +53,53 @@ jobs:
   - script: bin/console doctrine:migrations:migrate  --no-interaction
   - script: bin/console doctrine:schema:validate
 
-- template: .azure/api-test-job-template.yaml
+- template: .azure/phpunit-job-template.yaml
   parameters:
-    testGroup: api_1
+    name: api_1
+    testCommand: "--group api_1"
+    image: $(IMAGE)
     dependsOn:
-      - not_api_tests
-      - test_migrations_against_mysql
-- template: .azure/api-test-job-template.yaml
+    - PHPUnit_not_api_tests
+    - test_migrations_against_mysql
+- template: .azure/phpunit-job-template.yaml
   parameters:
-    testGroup: api_2
+    name: api_2
+    testCommand: "--group api_2"
+    image: $(IMAGE)
     dependsOn:
-      - not_api_tests
-      - test_migrations_against_mysql
-- template: .azure/api-test-job-template.yaml
+    - PHPUnit_not_api_tests
+    - test_migrations_against_mysql
+- template: .azure/phpunit-job-template.yaml
   parameters:
-    testGroup: api_3
+    name: api_3
+    testCommand: "--group api_3"
+    image: $(IMAGE)
     dependsOn:
-      - not_api_tests
-      - test_migrations_against_mysql
-- template: .azure/api-test-job-template.yaml
+    - PHPUnit_not_api_tests
+    - test_migrations_against_mysql
+- template: .azure/phpunit-job-template.yaml
   parameters:
-    testGroup: api_4
+    name: api_4
+    testCommand: "--group api_4"
+    image: $(IMAGE)
     dependsOn:
-      - not_api_tests
-      - test_migrations_against_mysql
-- template: .azure/api-test-job-template.yaml
+    - PHPUnit_not_api_tests
+    - test_migrations_against_mysql
+- template: .azure/phpunit-job-template.yaml
   parameters:
-    testGroup: api_5
+    name: api_5
+    testCommand: "--group api_5"
+    image: $(IMAGE)
     dependsOn:
-      - not_api_tests
-      - test_migrations_against_mysql
+    - PHPUnit_not_api_tests
+    - test_migrations_against_mysql
 - job: build_and_run_container
   dependsOn:
-  - TestAPIGroup_api_1
-  - TestAPIGroup_api_2
-  - TestAPIGroup_api_3
-  - TestAPIGroup_api_4
-  - TestAPIGroup_api_5
+  - PHPUnit_api_1
+  - PHPUnit_api_2
+  - PHPUnit_api_3
+  - PHPUnit_api_4
+  - PHPUnit_api_5
   steps:
     - script: docker build -t ilios-php-apache-test .
     - script: docker run -d --name ilios-php-apache-test ilios-php-apache-test
