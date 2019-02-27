@@ -93,6 +93,28 @@ jobs:
     dependsOn:
     - PHPUnit_not_api_tests
     - test_migrations_against_mysql
+- job: publish_test_results
+  dependsOn:
+  - PHPUnit_not_api_tests
+  - PHPUnit_api_1
+  - PHPUnit_api_2
+  - PHPUnit_api_3
+  - PHPUnit_api_4
+  - PHPUnit_api_5
+  steps:
+    - checkout: none #skip checking out the default repository resource
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download Test Reports'
+      inputs:
+        artifactName: BuildOutput
+        downloadPath: $(System.DefaultWorkingDirectory)
+    - task: PublishTestResults@2
+      displayName: 'Publish Test Results'
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/*.xml' 
+        searchFolder: "$(System.DefaultWorkingDirectory)/"
+        mergeTestResults: true
 - job: build_and_run_container
   pool:
     vmImage: $(IMAGE)
