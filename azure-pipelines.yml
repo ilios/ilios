@@ -94,6 +94,8 @@ jobs:
     - PHPUnit_not_api_tests
     - test_migrations_against_mysql
 - job: build_and_run_container
+  pool:
+    vmImage: $(IMAGE)
   dependsOn:
   - PHPUnit_api_1
   - PHPUnit_api_2
