@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\ActivatableEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\IdentifiableEntity;
 use App\Traits\MeshDescriptorsEntity;
@@ -35,6 +36,7 @@ class Objective implements ObjectiveInterface
     use StringableIdEntity;
     use MeshDescriptorsEntity;
     use SortableEntity;
+    use ActivatableEntity;
 
 
     /**
@@ -199,11 +201,25 @@ class Objective implements ObjectiveInterface
     protected $position;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    protected $active;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->position = 0;
+        $this->active = true;
         $this->courses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->sessions = new ArrayCollection();

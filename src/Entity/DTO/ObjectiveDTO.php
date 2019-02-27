@@ -107,15 +107,25 @@ class ObjectiveDTO
      */
     public $position;
 
+    /**
+     * @var boolean
+     * @IS\Expose
+     * @IS\Type("integer")
+     *
+     */
+    public $active;
+
 
     public function __construct(
         $id,
         $title,
-        $position
+        $position,
+        $active
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->position = $position;
+        $this->active = $active;
 
         $this->courses = [];
         $this->programYears = [];

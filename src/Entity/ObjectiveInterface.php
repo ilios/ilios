@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\ActivatableEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -24,7 +25,8 @@ interface ObjectiveInterface extends
     ProgramYearsEntityInterface,
     LoggableEntityInterface,
     MeshDescriptorsEntityInterface,
-    SortableEntityInterface
+    SortableEntityInterface,
+    ActivatableEntityInterface
 {
     /**
      * @param CompetencyInterface $competency

@@ -33,6 +33,7 @@ class LoadObjectiveData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
             $entity->setPosition($arr['position']);
+            $entity->setActive($arr['active']);
             if (array_key_exists('competency', $arr)) {
                 $entity->setCompetency($this->getReference('competencies' . $arr['competency']));
             }
