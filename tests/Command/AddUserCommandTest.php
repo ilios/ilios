@@ -10,6 +10,7 @@ use App\Entity\Manager\AuthenticationManager;
 use App\Entity\Manager\SchoolManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\SchoolInterface;
+use App\Tests\Helper\TestQuestionHelper;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -48,10 +49,15 @@ class AddUserCommandTest extends KernelTestCase
             $this->encoder,
             $this->sessionUserProvider
         );
+
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
+
+        // Override the question helper to fix testing issue with hidden password input
+        $helper = new TestQuestionHelper();
+        $commandInApp->getHelperSet()->set($helper, 'question');
         $this->commandTester = new CommandTester($commandInApp);
         $this->questionHelper = $command->getHelper('question');
     }

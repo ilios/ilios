@@ -8,6 +8,7 @@ use App\Entity\Manager\AuthenticationManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
 use App\Service\SessionUserProvider;
+use App\Tests\Helper\TestQuestionHelper;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -48,6 +49,10 @@ class ChangePasswordCommandTest extends KernelTestCase
         $application = new Application($kernel);
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
+
+        // Override the question helper to fix testing issue with hidden password input
+        $helper = new TestQuestionHelper();
+        $commandInApp->getHelperSet()->set($helper, 'question');
         $this->commandTester = new CommandTester($commandInApp);
     }
 

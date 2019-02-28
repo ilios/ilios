@@ -1,0 +1,131 @@
+# PHP
+# Test and package your PHP project.
+# Add steps that run tests, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/php
+
+resources:
+  containers:
+    - container: mysql
+      image: ilios/mysql
+      ports:
+        - 33060:3306
+      env:
+        MYSQL_RANDOM_ROOT_PASSWORD: yes
+        MYSQL_USER: "ilios_user"
+        MYSQL_PASSWORD: "ilios_password"
+        MYSQL_DATABASE: ilios
+
+variables:
+  ILIOS_MAILER_URL: null://localhost
+  ILIOS_LOCALE: en
+  ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
+  ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
+  IMAGE: 'Ubuntu-16.04'
+  PHP_VERSION: '7.3'
+
+jobs:
+- job: code_style_and_security
+  pool:
+    vmImage: $(IMAGE)
+  steps:
+    - template: .azure/install-steps-template.yaml
+    - script: vendor/bin/phpcs
+    - script: bin/console security:check
+- template: .azure/phpunit-job-template.yaml
+  parameters:
+    name: not_api_tests
+    testCommand: " --exclude-group api_1,api_2,api_3,api_4,api_5"
+    image: $(IMAGE)
+    dependsOn: code_style_and_security
+- job: test_migrations_against_mysql
+  dependsOn: code_style_and_security
+  services:
+    mysql: mysql
+  pool:
+    vmImage: $(IMAGE)
+  variables:
+    ILIOS_DATABASE_URL: mysql://ilios_user:ilios_password@127.0.0.1:33060/ilios
+    ILIOS_DATABASE_MYSQL_VERSION: 5.7
+  steps:
+  - template: .azure/install-steps-template.yaml
+  - script: bin/console doctrine:database:drop --force
+  - script: bin/console doctrine:database:create
+  - script: bin/console doctrine:migrations:migrate  --no-interaction
+  - script: bin/console doctrine:schema:validate
+
+- template: .azure/phpunit-job-template.yaml
+  parameters:
+    name: api_1
+    testCommand: "--group api_1"
+    image: $(IMAGE)
+    dependsOn:
+    - PHPUnit_not_api_tests
+    - test_migrations_against_mysql
+- template: .azure/phpunit-job-template.yaml
+  parameters:
+    name: api_2
+    testCommand: "--group api_2"
+    image: $(IMAGE)
+    dependsOn:
+    - PHPUnit_not_api_tests
+    - test_migrations_against_mysql
+- template: .azure/phpunit-job-template.yaml
+  parameters:
+    name: api_3
+    testCommand: "--group api_3"
+    image: $(IMAGE)
+    dependsOn:
+    - PHPUnit_not_api_tests
+    - test_migrations_against_mysql
+- template: .azure/phpunit-job-template.yaml
+  parameters:
+    name: api_4
+    testCommand: "--group api_4"
+    image: $(IMAGE)
+    dependsOn:
+    - PHPUnit_not_api_tests
+    - test_migrations_against_mysql
+- template: .azure/phpunit-job-template.yaml
+  parameters:
+    name: api_5
+    testCommand: "--group api_5"
+    image: $(IMAGE)
+    dependsOn:
+    - PHPUnit_not_api_tests
+    - test_migrations_against_mysql
+- job: publish_test_results
+  dependsOn:
+  - PHPUnit_not_api_tests
+  - PHPUnit_api_1
+  - PHPUnit_api_2
+  - PHPUnit_api_3
+  - PHPUnit_api_4
+  - PHPUnit_api_5
+  steps:
+    - checkout: none #skip checking out the default repository resource
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download Test Reports'
+      inputs:
+        artifactName: BuildOutput
+        downloadPath: $(System.DefaultWorkingDirectory)
+    - task: PublishTestResults@2
+      displayName: 'Publish Test Results'
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/*.xml' 
+        searchFolder: "$(System.DefaultWorkingDirectory)/"
+        mergeTestResults: true
+- job: build_and_run_container
+  pool:
+    vmImage: $(IMAGE)
+  dependsOn:
+  - PHPUnit_api_1
+  - PHPUnit_api_2
+  - PHPUnit_api_3
+  - PHPUnit_api_4
+  - PHPUnit_api_5
+  steps:
+    - script: docker build -t ilios-php-apache-test .
+    - script: docker run -d --name ilios-php-apache-test ilios-php-apache-test
+    - script: docker ps | grep -q ilios-php-apache-test
+    - script: docker exec ilios-php-apache-test php /var/www/ilios/bin/console monitor:health
