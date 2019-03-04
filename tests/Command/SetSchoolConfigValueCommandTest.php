@@ -35,7 +35,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->schoolManager);
         unset($this->schoolConfigManager);

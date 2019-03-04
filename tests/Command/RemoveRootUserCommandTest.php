@@ -43,7 +43,7 @@ class RemoveRootUserCommandTest extends KernelTestCase
     /**
      * @inheritdoc
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->userManager);
         unset($this->commandTester);

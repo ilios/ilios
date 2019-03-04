@@ -61,7 +61,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         ClockMock::register(Timestamper::class);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         parent::tearDown();
         unset($this->client);

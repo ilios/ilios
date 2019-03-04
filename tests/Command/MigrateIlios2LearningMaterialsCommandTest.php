@@ -41,7 +41,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->symfonyFileSystem);
         unset($this->iliosFileSystem);

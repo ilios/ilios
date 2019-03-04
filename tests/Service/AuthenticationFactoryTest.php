@@ -40,7 +40,7 @@ class AuthenticationFactoryTest extends TestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->obj);
         unset($this->config);

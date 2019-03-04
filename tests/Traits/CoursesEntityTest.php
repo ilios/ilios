@@ -23,7 +23,7 @@ class CoursesEntityTest extends TestCase
         $this->traitObject = $this->getObjectForTrait($traitName);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->object);
     }

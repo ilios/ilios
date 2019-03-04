@@ -38,7 +38,7 @@ class IcsControllerTest extends WebTestCase
         ])->getReferenceRepository();
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         parent::tearDown();
         unset($this->client);

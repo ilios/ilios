@@ -54,7 +54,7 @@ class AggregatorTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown()
+    protected function tearDown() : void
     {
         unset($this->aggregator);
         unset($this->reportManager);

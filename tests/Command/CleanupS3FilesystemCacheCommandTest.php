@@ -46,7 +46,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->filesystem);
         unset($this->diskSpace);

@@ -67,7 +67,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         $fs = new SymfonyFileSystem();
         $fs->remove($this->fakeCacheFileDir);

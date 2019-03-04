@@ -26,7 +26,7 @@ class DirectoryTest extends TestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->obj);
         unset($this->ldapManager);

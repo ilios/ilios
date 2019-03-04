@@ -36,7 +36,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->iliosFileSystem);
         unset($this->learningMaterialManager);

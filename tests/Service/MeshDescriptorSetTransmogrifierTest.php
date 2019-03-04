@@ -29,7 +29,7 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->transmogrifier);
     }

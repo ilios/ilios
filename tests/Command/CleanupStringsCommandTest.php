@@ -57,7 +57,7 @@ class CleanupStringsCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->purifier);
         unset($this->em);

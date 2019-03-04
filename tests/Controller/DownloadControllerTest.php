@@ -37,7 +37,7 @@ class DownloadControllerTest extends WebTestCase
     /**
      * @inheritdoc
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->fixtures);
     }

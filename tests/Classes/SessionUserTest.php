@@ -55,7 +55,7 @@ class SessionUserTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->sessionUser);
         unset($this->iliosUser);

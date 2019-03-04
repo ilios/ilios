@@ -92,7 +92,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * {@inheritdoc}
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->offeringManager);
         unset($this->alertManager);

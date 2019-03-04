@@ -138,7 +138,7 @@ class CourseRolloverTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->courseManager);
         unset($this->learningMaterialManager);
