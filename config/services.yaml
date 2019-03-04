@@ -306,5 +306,10 @@ services:
       tags:
       - { name: liip_monitor.check, group: production }
 
+    App\Monitor\NoDefaultSecret:
+      autoconfigure: false
+      tags:
+        - { name: liip_monitor.check, group: default }
+
     League\Flysystem\FilesystemInterface:
       factory: ['@App\Service\FilesystemFactory', getFilesystem]

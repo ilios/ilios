@@ -129,6 +129,6 @@ jobs:
   - PHPUnit_api_5
   steps:
     - script: docker build -t ilios-php-apache-test .
-    - script: docker run -d --name ilios-php-apache-test ilios-php-apache-test
+    - script: docker run -d --name ilios-php-apache-test -e "ILIOS_SECRET=TravisSecret" ilios-php-apache-test
     - script: docker ps | grep -q ilios-php-apache-test
     - script: docker exec ilios-php-apache-test php /var/www/ilios/bin/console monitor:health
