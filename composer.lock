@@ -7198,16 +7198,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v4.2.3",
+            "version": "v4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "f051f6bdc89b414a899c4652570352a4cdf5a868"
+                "reference": "ba50866242d992f0dd818e2c34c5088f163c974d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/f051f6bdc89b414a899c4652570352a4cdf5a868",
-                "reference": "f051f6bdc89b414a899c4652570352a4cdf5a868",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/ba50866242d992f0dd818e2c34c5088f163c974d",
+                "reference": "ba50866242d992f0dd818e2c34c5088f163c974d",
                 "shasum": ""
             },
             "require": {
@@ -7283,7 +7283,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2019-01-30T11:44:30+00:00"
+            "time": "2019-03-03T18:11:24+00:00"
         },
         {
             "name": "symfony/var-exporter",
