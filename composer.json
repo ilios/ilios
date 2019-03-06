@@ -55,7 +55,7 @@
   "require-dev": {
     "fzaninotto/faker": "@stable",
     "liip/functional-test-bundle": "~2.0@alpha",
-    "mockery/mockery": "1.2.0",
+    "mockery/mockery": "1.2.2",
     "squizlabs/php_codesniffer": "@stable",
     "symfony/debug-pack": "*",
     "symfony/profiler-pack": "*",
