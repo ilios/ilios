@@ -42,7 +42,7 @@ class IliosFileSystemTest extends TestCase
         $this->iliosFileSystem = new IliosFileSystem($this->fileSystem);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->fileSystem);
         unset($this->iliosFileSystem);

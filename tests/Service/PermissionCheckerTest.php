@@ -46,7 +46,7 @@ class PermissionCheckerTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->permissionChecker);
         unset($this->permissionMatrix);

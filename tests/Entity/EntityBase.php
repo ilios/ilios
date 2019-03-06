@@ -17,7 +17,7 @@ class EntityBase extends TestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->object);
     }

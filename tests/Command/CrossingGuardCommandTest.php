@@ -36,7 +36,7 @@ class CrossingGuardCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->crossingGuard);
         unset($this->commandTester);

@@ -55,7 +55,7 @@ class FormAuthenticationTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown()
+    protected function tearDown() : void
     {
         unset($this->authManager);
         unset($this->userManager);

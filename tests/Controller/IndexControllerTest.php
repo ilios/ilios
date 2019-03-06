@@ -48,7 +48,7 @@ class IndexControllerTest extends WebTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         foreach ($this->testFiles as $path) {
             $this->fileSystem->remove($path);

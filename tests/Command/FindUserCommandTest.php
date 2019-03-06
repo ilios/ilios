@@ -30,7 +30,7 @@ class FindUserCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->directory);
         unset($this->commandTester);

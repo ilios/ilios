@@ -35,7 +35,7 @@ class UploadControllerTest extends WebTestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         $this->fs->remove($this->fakeTestFileDir);
         unset($this->fs);

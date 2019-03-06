@@ -59,7 +59,7 @@ class ChangePasswordCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->userManager);
         unset($this->authenticationManager);

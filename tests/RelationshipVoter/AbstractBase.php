@@ -21,7 +21,7 @@ class AbstractBase extends TestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->voter);
         unset($this->permissionChecker);

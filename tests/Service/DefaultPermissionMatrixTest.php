@@ -49,7 +49,7 @@ class DefaultPermissionMatrixTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->schoolDTO);
         unset($this->permissionMatrix);

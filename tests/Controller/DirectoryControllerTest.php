@@ -69,7 +69,7 @@ class DirectoryControllerTest extends TestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->directoryController);
         unset($this->tokenStorageMock);

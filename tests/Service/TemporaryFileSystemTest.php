@@ -46,7 +46,7 @@ class TemporaryFileSystemTest extends TestCase
         $this->tempFileSystem = new TemporaryFileSystem($this->mockFileSystem, $kernelRootDirectory);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->mockFileSystem);
         unset($this->iliosFileSystem);

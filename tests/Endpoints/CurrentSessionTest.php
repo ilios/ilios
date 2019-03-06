@@ -38,7 +38,7 @@ class CurrentSessionTest extends WebTestCase
         $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->client);
         unset($this->fixtures);

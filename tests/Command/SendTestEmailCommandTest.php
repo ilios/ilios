@@ -39,7 +39,7 @@ class SendTestEmailCommandTest extends KernelTestCase
     /**
      * {@inheritdoc}
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         unset($this->mailer);
     }
