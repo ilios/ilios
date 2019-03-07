@@ -99,6 +99,16 @@ interface UserInterface extends
     public function getEmail();
 
     /**
+     * @param string $email
+     */
+    public function setPreferredEmail($email);
+
+    /**
+     * @return string
+     */
+    public function getPreferredEmail();
+
+    /**
      * @param boolean $addedViaIlios
      */
     public function setAddedViaIlios($addedViaIlios);

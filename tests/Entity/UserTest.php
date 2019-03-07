@@ -111,6 +111,15 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers \App\Entity\User::setPreferredEmail
+     * @covers \App\Entity\User::getPreferredEmail
+     */
+    public function testSetPreferredEmail()
+    {
+        $this->basicSetTest('preferredEmail', 'email');
+    }
+
+    /**
      * @covers \App\Entity\User::setAddedViaIlios
      * @covers \App\Entity\User::isAddedViaIlios
      */

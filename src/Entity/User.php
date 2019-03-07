@@ -140,6 +140,23 @@ class User implements UserInterface
     protected $email;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="preferred_email", type="string", length=100)
+     *
+     * @Assert\Email
+     *
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    protected $preferredEmail;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="added_via_ilios", type="boolean")
@@ -664,6 +681,22 @@ class User implements UserInterface
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setPreferredEmail($email)
+    {
+        $this->preferredEmail = $email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPreferredEmail()
+    {
+        return $this->preferredEmail;
     }
 
     /**

@@ -55,6 +55,13 @@ class UserDTO
     public $email;
 
     /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $preferredEmail;
+
+    /**
      * @var boolean
      * @IS\Expose
      * @IS\Type("boolean")
@@ -278,6 +285,7 @@ class UserDTO
         $middleName,
         $phone,
         $email,
+        $preferredEmail,
         $addedViaIlios,
         $enabled,
         $campusId,
@@ -293,6 +301,7 @@ class UserDTO
         $this->middleName = $middleName;
         $this->phone = $phone;
         $this->email = $email;
+        $this->preferredEmail = $preferredEmail;
         $this->addedViaIlios = $addedViaIlios;
         $this->enabled = $enabled;
         $this->campusId = $campusId;
@@ -333,6 +342,7 @@ class UserDTO
             $user->getMiddleName(),
             $user->getPhone(),
             $user->getEmail(),
+            $user->getPreferredEmail(),
             $user->isAddedViaIlios(),
             $user->isEnabled(),
             $user->getCampusId(),
