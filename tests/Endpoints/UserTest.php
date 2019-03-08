@@ -103,7 +103,7 @@ class UserTest extends ReadWriteEndpointTest
             'middleName' => [[1], ['middleName' => 'first']],
             'phone' => [[1], ['phone' => '415-555-0123']],
             'email' => [[1], ['email' => 'first@example.com']],
-            'preferredEmail' => [2, ['preferredEmail' => 'zweite@example.de']],
+            'preferredEmail' => [[2], ['preferredEmail' => 'zweite@example.de']],
             'enabled' => [[0, 1, 2, 3, 4], ['enabled' => true]],
             'notEnabled' => [[], ['enabled' => false]],
             'campusId' => [[0], ['campusId' => '1111@school.edu']],
