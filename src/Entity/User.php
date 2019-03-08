@@ -142,7 +142,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="preferred_email", type="string", length=100)
+     * @ORM\Column(name="preferred_email", type="string", length=100, nullable=true)
      *
      * @Assert\Email
      *
