@@ -62,6 +62,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
                 $qb->expr()->like('u.lastName', "?{$key}"),
                 $qb->expr()->like('u.middleName', "?{$key}"),
                 $qb->expr()->like('u.email', "?{$key}"),
+                $qb->expr()->like('u.preferredEmail', "?{$key}"),
                 $qb->expr()->like('u.campusId', "?{$key}"),
                 $qb->expr()->like('auth.username', "?{$key}")
             ))
@@ -947,6 +948,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
                 $arr['middleName'],
                 $arr['phone'],
                 $arr['email'],
+                $arr['preferredEmail'],
                 $arr['addedViaIlios'],
                 $arr['enabled'],
                 $arr['campusId'],

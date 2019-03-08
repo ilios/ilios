@@ -20,6 +20,9 @@ User:
   email:
    description: Email
    type: string
+  preferredEmail:
+   description: Preferred Email
+   type: string
   enabled:
    description: Enabled
    type: boolean

@@ -35,6 +35,7 @@ class LoadUserData extends AbstractFixture implements
             $entity->setLastName($arr['lastName']);
             $entity->setMiddleName($arr['middleName']);
             $entity->setEmail($arr['email']);
+            $entity->setPreferredEmail($arr['preferredEmail']);
             $entity->setEnabled($arr['enabled']);
             $entity->setRoot($arr['root']);
             $entity->setIcsFeedKey($arr['icsFeedKey']);
