@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Classes\ElasticSearchBase;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
+use Ilios\MeSH\Model\Concept;
+use Ilios\MeSH\Model\Descriptor;
 
 class Index extends ElasticSearchBase
 {
@@ -33,7 +35,7 @@ class Index extends ElasticSearchBase
             ];
         }, $users);
 
-        $result = $this->bulkIndex(Search::PRIVATE_INDEX, UserDTO::class, $input);
+        $result = $this->bulkIndex(Search::USER_INDEX, UserDTO::class, $input);
 
         return !$result['errors'];
     }
@@ -45,7 +47,7 @@ class Index extends ElasticSearchBase
     public function deleteUser(int $id) : bool
     {
         $result = $this->delete([
-            'index' => Search::PRIVATE_INDEX,
+            'index' => Search::USER_INDEX,
             'type' => UserDTO::class,
             'id' => $id,
         ]);
@@ -66,14 +68,14 @@ class Index extends ElasticSearchBase
                 );
             }
         }
-        $input = array_map(function (CourseDTO $user) {
+        $input = array_map(function (CourseDTO $course) {
             return [
-                'id' => $user->id,
-                'title' => $user->title,
+                'id' => $course->id,
+                'title' => $course->title,
             ];
         }, $courses);
 
-        $result = $this->bulkIndex(Search::PUBLIC_INDEX, CourseDTO::class, $input);
+        $result = $this->bulkIndex(Search::COURSE_INDEX, CourseDTO::class, $input);
 
         return !$result['errors'];
     }
@@ -85,11 +87,58 @@ class Index extends ElasticSearchBase
     public function deleteCourse(int $id) : bool
     {
         $result = $this->delete([
-            'index' => Search::PUBLIC_INDEX,
+            'index' => Search::COURSE_INDEX,
             'type' => CourseDTO::class,
             'id' => $id,
         ]);
 
+        return !$result['errors'];
+    }
+
+    /**
+     * @param Descriptor[] $descriptors
+     * @return bool
+     */
+    public function indexMeshDescriptors(array $descriptors) : bool
+    {
+        foreach ($descriptors as $descriptor) {
+            if (!$descriptor instanceof Descriptor) {
+                throw new \InvalidArgumentException(
+                    '$descriptors must be an array of ' . Descriptor::class . ' ' . get_class($descriptor) . ' found'
+                );
+            }
+        }
+
+        $input = array_map(function (Descriptor $descriptor) {
+            $conceptMap = array_reduce($descriptor->getConcepts(), function (array $carry, Concept $concept) {
+                $carry['conceptNames'][] = $concept->getName();
+                $carry['scopeNotes'][] = $concept->getScopeNote();
+                $carry['casn1Names'][] = $concept->getCasn1Name();
+                foreach ($concept->getTerms() as $term) {
+                    $carry['termNames'][] = $term->getName();
+                }
+
+                return $carry;
+            }, [
+                'conceptNames' => [],
+                'termNames' => [],
+                'scopeNotes' => [],
+                'casn1Names' => [],
+            ]);
+
+            return [
+                'id' => $descriptor->getUi(),
+                'name' => $descriptor->getName(),
+                'annotation' => $descriptor->getAnnotation(),
+                'previousIndexing' => join(' ', $descriptor->getPreviousIndexing()),
+                'terms' => join(' ', $conceptMap['termNames']),
+                'concepts' => join(' ', $conceptMap['conceptNames']),
+                'scopeNotes' => join(' ', $conceptMap['scopeNotes']),
+                'casn1Names' => join(' ', $conceptMap['casn1Names']),
+            ];
+        }, $descriptors);
+
+        $result = $this->bulkIndex(Search::MESH_INDEX, Descriptor::class, $input);
         return !$result['errors'];
     }
 
@@ -148,13 +197,16 @@ class Index extends ElasticSearchBase
         if (!$this->enabled) {
             return;
         }
-        if ($this->client->indices()->exists(['index' => self::PUBLIC_INDEX])) {
-            $this->client->indices()->delete(['index' => self::PUBLIC_INDEX]);
+        $indexes = [
+            self::COURSE_INDEX,
+            self::MESH_INDEX,
+            self::USER_INDEX,
+        ];
+        foreach ($indexes as $index) {
+            if ($this->client->indices()->exists(['index' => $index])) {
+                $this->client->indices()->delete(['index' => $index]);
+            }
+            $this->client->indices()->create(['index' => $index]);
         }
-        if ($this->client->indices()->exists(['index' => self::PRIVATE_INDEX])) {
-            $this->client->indices()->delete(['index' => self::PRIVATE_INDEX]);
-        }
-        $this->client->indices()->create(['index' => self::PUBLIC_INDEX]);
-        $this->client->indices()->create(['index' => self::PRIVATE_INDEX]);
     }
 }

@@ -6,9 +6,11 @@ use App\Entity\Course;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
 use App\Entity\Manager\CourseManager;
+use App\Entity\Manager\MeshDescriptorManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\User;
 use App\Service\Index;
+use Ilios\MeSH\Model\Descriptor;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -31,15 +33,20 @@ class PopulateIndexCommandTest extends KernelTestCase
     /** @var m\Mock */
     private $courseManager;
 
+    /** @var m\Mock */
+    private $meshDescrriptorManager;
+
     public function setUp()
     {
         $this->index = m::mock(Index::class);
         $this->userManager = m::mock(UserManager::class);
         $this->courseManager = m::mock(CourseManager::class);
+        $this->meshDescrriptorManager = m::mock(MeshDescriptorManager::class);
         $command = new PopulateIndexCommand(
             $this->index,
             $this->userManager,
-            $this->courseManager
+            $this->courseManager,
+            $this->meshDescrriptorManager
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -56,6 +63,7 @@ class PopulateIndexCommandTest extends KernelTestCase
         unset($this->search);
         unset($this->userManager);
         unset($this->courseManager);
+        unset($this->meshDescrriptorManager);
         unset($this->commandTester);
     }
     
@@ -86,6 +94,14 @@ class PopulateIndexCommandTest extends KernelTestCase
         $this->courseManager->shouldReceive('findDTOsBy')
             ->with(['id' => [89]])->andReturn([$mockCourseDTO]);
         $this->index->shouldReceive('indexCourses')->with([$mockCourseDTO]);
+
+
+        $this->meshDescrriptorManager->shouldReceive('getIds')->andReturn([99]);
+        $mockDescriptor = m::mock(Descriptor::class);
+
+        $this->meshDescrriptorManager->shouldReceive('getIliosMeshDescriptorsById')
+            ->with([99])->andReturn([$mockDescriptor]);
+        $this->index->shouldReceive('indexMeshDescriptors')->with([$mockDescriptor]);
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME

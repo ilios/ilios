@@ -18,8 +18,9 @@ class ElasticSearchBase
      */
     protected $enabled = false;
 
-    const PUBLIC_INDEX = 'ilios-public';
-    const PRIVATE_INDEX = 'ilios-private';
+    const COURSE_INDEX = 'ilios-public-courses';
+    const MESH_INDEX = 'ilios-public-mesh';
+    const USER_INDEX = 'ilios-private-users';
 
     /**
      * Search constructor.

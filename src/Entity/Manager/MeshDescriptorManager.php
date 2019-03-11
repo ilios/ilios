@@ -5,6 +5,7 @@ namespace App\Entity\Manager;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Entity\MeshDescriptorInterface;
 use App\Entity\Repository\MeshDescriptorRepository;
+use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -123,5 +124,32 @@ class MeshDescriptorManager extends BaseManager
     public function flagDescriptorsAsDeleted(array $meshDescriptors)
     {
         $this->getRepository()->flagDescriptorsAsDeleted($meshDescriptors);
+    }
+
+    /**
+     * Get all the IDs for every descriptor
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getIds() : array
+    {
+        /** @var MeshDescriptorRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getIds();
+    }
+
+    /**
+     * Get Descriptors
+     *
+     * @param array $ids
+     * @return Descriptor[]
+     * @throws \Exception
+     */
+    public function getIliosMeshDescriptorsById(array $ids) : array
+    {
+        /** @var MeshDescriptorRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getIliosMeshDescriptorsById($ids);
     }
 }

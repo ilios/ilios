@@ -32,7 +32,7 @@ class Search extends ElasticSearchBase
         }
         $params = [
             'type' => UserDTO::class,
-            'index' => self::PRIVATE_INDEX,
+            'index' => self::USER_INDEX,
             'body' => [
                 'query' => [
                     'query_string' => [
