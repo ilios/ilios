@@ -162,6 +162,7 @@ class ImportMeshUniverseCommand extends Command
         if ('' !== $year) {
             $year = (int)$year;
             if (!in_array($year, $supportedYears)) {
+                $this->release();
                 throw new \RuntimeException('Given year must be one of: '.implode(', ', $supportedYears));
             }
 
