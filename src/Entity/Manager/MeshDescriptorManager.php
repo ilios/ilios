@@ -5,6 +5,7 @@ namespace App\Entity\Manager;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Entity\MeshDescriptorInterface;
 use App\Entity\Repository\MeshDescriptorRepository;
+use App\Service\Search;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -20,15 +21,27 @@ class MeshDescriptorManager extends BaseManager
     protected $transmogrifier;
 
     /**
+     * @var Search
+     */
+    protected $search;
+
+    /**
      * @param RegistryInterface $registry
      * @param string $class
      * @param MeshDescriptorSetTransmogrifier $transmogrifier
+     * @param Search $search
      */
-    public function __construct(RegistryInterface $registry, $class, MeshDescriptorSetTransmogrifier $transmogrifier)
-    {
-        $this->transmogrifier = $transmogrifier;
+    public function __construct(
+        RegistryInterface $registry,
+        $class,
+        MeshDescriptorSetTransmogrifier $transmogrifier,
+        Search $search
+    ) {
         parent::__construct($registry, $class);
+        $this->transmogrifier = $transmogrifier;
+        $this->search = $search;
     }
+
     /**
      * @param string $q
      * @param array $orderBy
@@ -43,7 +56,15 @@ class MeshDescriptorManager extends BaseManager
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset);
+        /** @var MeshDescriptorRepository $repository */
+        $repository = $this->getRepository();
+        if ($this->search->isEnabled()) {
+            $ids = $this->search->meshDescriptorIdsQuery($q);
+            $criteria['id'] = $ids;
+            return $repository->findDTOsBy($criteria, $orderBy, $limit, $offset);
+        } else {
+            return $repository->findByQ($q, $orderBy, $limit, $offset);
+        }
     }
 
     /**
