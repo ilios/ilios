@@ -3,9 +3,11 @@
 namespace App\Command;
 
 use App\Entity\Manager\MeshDescriptorManager;
+use App\Service\Index;
 use Ilios\MeSH\Parser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,14 +40,24 @@ class ImportMeshUniverseCommand extends Command
     protected $parser;
 
     /**
+     * @var Index
+     */
+    protected $index;
+
+    /**
      * @param Parser $parser
      * @param MeshDescriptorManager $manager
+     * @param Index $index
      */
-    public function __construct(Parser $parser, MeshDescriptorManager $manager)
-    {
+    public function __construct(
+        Parser $parser,
+        MeshDescriptorManager $manager,
+        Index $index
+    ) {
+        parent::__construct();
         $this->parser = $parser;
         $this->manager = $manager;
-        parent::__construct();
+        $this->index = $index;
     }
 
     /**
@@ -87,24 +99,42 @@ class ImportMeshUniverseCommand extends Command
             $output->writeln('The command is already running in another process.');
             return 0;
         }
+        $steps = $this->index->isEnabled()?5:4;
         $startTime = time();
         $output->writeln('Started MeSH universe import, this will take a while...');
         $uri = $this->getUri($input);
-        $output->writeln("1/4: Parsing MeSH XML retrieved from ${uri}.");
+        $output->writeln("1/${steps}: Parsing MeSH XML retrieved from ${uri}.");
         $descriptorSet = $this->parser->parse($uri);
         $descriptorIds = $descriptorSet->getDescriptorUis();
-        $output->writeln("2/4: Clearing database of existing MeSH data.");
+        $output->writeln("2/${steps}: Clearing database of existing MeSH data.");
         $this->manager->clearExistingData();
         $existingDescriptors = $this->manager->findDTOsBy(array());
         $existingDescriptorIds = array_column($existingDescriptors, 'id');
         $updateDescriptorIds = array_intersect($existingDescriptorIds, $descriptorIds);
         $deletedDescriptorIds = array_diff($existingDescriptorIds, $descriptorIds);
-        $output->writeln("3/4: Importing MeSH data into database.");
+        $output->writeln("3/${steps}: Importing MeSH data into database.");
         $this->manager->upsertMeshUniverse($descriptorSet, $updateDescriptorIds);
-        $output->writeln("4/4: Flagging orphaned MeSH descriptors as deleted.");
+        $output->writeln("4/${steps}: Flagging orphaned MeSH descriptors as deleted.");
         $this->manager->flagDescriptorsAsDeleted($deletedDescriptorIds);
+
+        if ($this->index->isEnabled()) {
+            $output->writeln("5/${steps}: Adding MeSH data to the search index.");
+            $allDescriptors = $descriptorSet->getDescriptors();
+            $progressBar = new ProgressBar($output, count($allDescriptors));
+            $progressBar->setMessage('Adding MeSH...');
+            $progressBar->start();
+            $chunks = array_chunk($allDescriptors, 500);
+            foreach ($chunks as $descriptors) {
+                $this->index->indexMeshDescriptors($descriptors);
+                $progressBar->advance(count($descriptors));
+            }
+            $progressBar->setMessage(count($allDescriptors) . " Descriptors Indexed for Search!");
+            $progressBar->finish();
+        }
+
         $endTime = time();
         $duration = $endTime - $startTime;
+        $output->writeln('');
         $output->writeln("Finished MeSH universe import in ${duration} seconds.");
         $this->release();
     }
