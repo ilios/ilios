@@ -34,19 +34,19 @@ class PopulateIndexCommandTest extends KernelTestCase
     private $courseManager;
 
     /** @var m\Mock */
-    private $meshDescrriptorManager;
+    private $meshDescriptorManager;
 
     public function setUp()
     {
         $this->index = m::mock(Index::class);
         $this->userManager = m::mock(UserManager::class);
         $this->courseManager = m::mock(CourseManager::class);
-        $this->meshDescrriptorManager = m::mock(MeshDescriptorManager::class);
+        $this->meshDescriptorManager = m::mock(MeshDescriptorManager::class);
         $command = new PopulateIndexCommand(
             $this->index,
             $this->userManager,
             $this->courseManager,
-            $this->meshDescrriptorManager
+            $this->meshDescriptorManager
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -63,7 +63,7 @@ class PopulateIndexCommandTest extends KernelTestCase
         unset($this->search);
         unset($this->userManager);
         unset($this->courseManager);
-        unset($this->meshDescrriptorManager);
+        unset($this->meshDescriptorManager);
         unset($this->commandTester);
     }
     
@@ -96,10 +96,10 @@ class PopulateIndexCommandTest extends KernelTestCase
         $this->index->shouldReceive('indexCourses')->with([$mockCourseDTO]);
 
 
-        $this->meshDescrriptorManager->shouldReceive('getIds')->andReturn([99]);
+        $this->meshDescriptorManager->shouldReceive('getIds')->andReturn([99]);
         $mockDescriptor = m::mock(Descriptor::class);
 
-        $this->meshDescrriptorManager->shouldReceive('getIliosMeshDescriptorsById')
+        $this->meshDescriptorManager->shouldReceive('getIliosMeshDescriptorsById')
             ->with([99])->andReturn([$mockDescriptor]);
         $this->index->shouldReceive('indexMeshDescriptors')->with([$mockDescriptor]);
 
