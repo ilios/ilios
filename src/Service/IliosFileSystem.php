@@ -58,7 +58,7 @@ class IliosFileSystem
     {
         $relativePath = $this->getLearningMaterialFilePath($file);
         $stream = fopen($file->getPathname(), 'r+');
-        $this->fileSystem->writeStream($relativePath, $stream);
+        $this->fileSystem->putStream($relativePath, $stream);
         fclose($stream);
 
         return $relativePath;

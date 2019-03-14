@@ -54,7 +54,7 @@ class IliosFileSystemTest extends TestCase
         $path = __FILE__;
         $file = m::mock(File::class)
             ->shouldReceive('getPathname')->andReturn($path)->getMock();
-        $this->fileSystem->shouldReceive('writeStream');
+        $this->fileSystem->shouldReceive('putStream');
         $this->iliosFileSystem->storeLearningMaterialFile($file);
     }
 
