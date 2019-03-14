@@ -7,6 +7,7 @@ use App\Entity\DTO\UserDTO;
 use App\Entity\User;
 use App\Service\Config;
 use App\Service\Index;
+use Ilios\MeSH\Model\Descriptor;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 
@@ -67,6 +68,43 @@ class IndexTest extends TestCase
             m::mock(CourseDTO::class)
         ];
         $this->assertTrue($obj->indexCourses($courses));
+    }
+
+    public function testIndexMeshDescriptorsThrowsWhenNotDescriptor()
+    {
+        $obj = $this->createWithoutHost();
+        $this->expectException(\InvalidArgumentException::class);
+        $arr = [
+            m::mock(Descriptor::class),
+            m::mock(Course::class),
+            m::mock(Descriptor::class)
+        ];
+        $obj->indexMeshDescriptors($arr);
+    }
+
+    public function testIndexMeshDescriptorsWorksWithoutSearch()
+    {
+        $desc1 = m::mock(Descriptor::class)
+            ->shouldReceive('getConcepts')->once()->andReturn([])
+            ->shouldReceive('getUi')->once()->andReturn('id')
+            ->shouldReceive('getName')->once()->andReturn('name')
+            ->shouldReceive('getAnnotation')->once()->andReturn('annt')
+            ->shouldReceive('getPreviousIndexing')->once()->andReturn(['pi'])
+            ->getMock();
+        $obj = $this->createWithoutHost();
+        $desc2 = m::mock(Descriptor::class)
+            ->shouldReceive('getConcepts')->once()->andReturn([])
+            ->shouldReceive('getUi')->once()->andReturn('id')
+            ->shouldReceive('getName')->once()->andReturn('name')
+            ->shouldReceive('getAnnotation')->once()->andReturn('annt')
+            ->shouldReceive('getPreviousIndexing')->once()->andReturn(['pi'])
+            ->getMock();
+        $obj = $this->createWithoutHost();
+        $arr = [
+            $desc1,
+            $desc2,
+        ];
+        $this->assertTrue($obj->indexMeshDescriptors($arr));
     }
 
     public function testClearWorksWhenNotConfigured()

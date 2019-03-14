@@ -1,6 +1,9 @@
 <?php
 namespace App\Entity\Repository;
 
+use App\Entity\MeshConcept;
+use App\Entity\MeshDescriptor;
+use App\Entity\MeshTerm;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -668,5 +671,103 @@ EOL;
         $qb->setParameter(':ids', $ids);
         $query = $qb->getQuery();
         $query->execute();
+    }
+
+    /**
+     * Get all the IDs
+     *
+     * @return array
+     */
+    public function getIds() : array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->addSelect('x.id')->from(MeshDescriptor::class, 'x');
+
+        return array_map(function (array $arr) {
+            return $arr['id'];
+        }, $qb->getQuery()->getScalarResult());
+    }
+
+    /**
+     * Create Descriptor objects for a set of Ids
+     *
+     * @todo these are not complete, they only have the information needed for the search Index
+     *
+     * @param array $ids
+     * @return Descriptor[]
+     */
+    public function getIliosMeshDescriptorsById(array $ids) : array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('d.id, d.name, d.annotation, pi.previousIndexing')
+            ->from(MeshDescriptor::class, 'd')
+            ->leftJoin('d.previousIndexing', 'pi')
+            ->where('d.deleted = false')
+            ->andWhere($qb->expr()->in('d.id', ':ids'))
+            ->setParameter('ids', $ids);
+        $descriptors = $qb->getQuery()->getArrayResult();
+        $unDeletedIds = array_map(function (array $arr) {
+            return $arr['id'];
+        }, $descriptors);
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('d.id as descriptorId, c.id, c.name, c.scopeNote, c.casn1Name')
+            ->from(MeshConcept::class, 'c')
+            ->join('c.descriptors', 'd')
+            ->andWhere($qb->expr()->in('d.id', ':ids'))
+            ->setParameter('ids', $unDeletedIds);
+        $concepts = $qb->getQuery()->getArrayResult();
+        $conceptIds = array_map(function (array $arr) {
+            return $arr['id'];
+        }, $concepts);
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('c.id as conceptId, t.id, t.name')
+            ->from(MeshTerm::class, 't')
+            ->join('t.concepts', 'c')
+            ->andWhere($qb->expr()->in('c.id', ':ids'))
+            ->setParameter('ids', $conceptIds);
+        $terms = $qb->getQuery()->getArrayResult();
+
+        $fullConcepts = array_map(function (array $concept) use ($terms) {
+            $conceptId = $concept['id'];
+            $concept['terms'] = array_filter($terms, function (array $term) use ($conceptId) {
+                return $term['conceptId'] == $conceptId;
+            });
+
+            return $concept;
+        }, $concepts);
+
+        $fullDescriptors = array_map(function (array $descriptor) use ($fullConcepts) {
+            $descriptorId = $descriptor['id'];
+            $descriptor['concepts'] = array_filter($fullConcepts, function (array $concept) use ($descriptorId) {
+                return $concept['descriptorId'] == $descriptorId;
+            });
+
+            return $descriptor;
+        }, $descriptors);
+
+        return array_map(function (array $arr) {
+            $descriptor = new Descriptor();
+            $descriptor->setUi($arr['id']);
+            $descriptor->setName($arr['name']);
+            $descriptor->setAnnotation($arr['annotation']);
+            $descriptor->addPreviousIndexing($arr['previousIndexing']);
+            foreach ($arr['concepts'] as $arr) {
+                $concept = new Concept();
+                $concept->setUi($arr['id']);
+                $concept->setName($arr['name']);
+                $concept->setCasn1Name($arr['casn1Name']);
+                $concept->setScopeNote($arr['scopeNote']);
+                foreach ($arr['terms'] as $arr) {
+                    $term = new Term();
+                    $term->setName($arr['name']);
+                    $concept->addTerm($term);
+                }
+                $descriptor->addConcept($concept);
+            }
+
+            return $descriptor;
+        }, $fullDescriptors);
     }
 }

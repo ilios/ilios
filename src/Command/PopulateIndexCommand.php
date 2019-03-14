@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Course;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\Manager\CourseManager;
+use App\Entity\Manager\MeshDescriptorManager;
 use App\Entity\Manager\UserManager;
 use App\Service\Index;
 use Symfony\Component\Console\Command\Command;
@@ -32,19 +33,26 @@ class PopulateIndexCommand extends Command
     /**
      * @var CourseManager
      */
-    private $courseManager;
+    protected $courseManager;
+
+    /**
+     * @var MeshDescriptorManager
+     */
+    protected $descriptorManager;
 
 
     public function __construct(
         Index $index,
         UserManager $userManager,
-        CourseManager $courseManager
+        CourseManager $courseManager,
+        MeshDescriptorManager $descriptorManager
     ) {
         parent::__construct();
 
         $this->index = $index;
         $this->userManager = $userManager;
         $this->courseManager = $courseManager;
+        $this->descriptorManager = $descriptorManager;
     }
     
     /**
@@ -71,6 +79,7 @@ class PopulateIndexCommand extends Command
         );
         $this->populateUsers($output);
         $this->populateCourses($output);
+        $this->populateMesh($output);
         $output->writeln("");
         $output->writeln("Index Populated!");
     }
@@ -104,6 +113,22 @@ class PopulateIndexCommand extends Command
             $progressBar->advance(count($ids));
         }
         $progressBar->setMessage(count($allIds) . " Courses Added!");
+        $progressBar->finish();
+    }
+
+    protected function populateMesh(OutputInterface $output)
+    {
+        $allIds = $this->descriptorManager->getIds();
+        $progressBar = new ProgressBar($output, count($allIds));
+        $progressBar->setMessage('Adding MeSH...');
+        $progressBar->start();
+        $chunks = array_chunk($allIds, 500);
+        foreach ($chunks as $ids) {
+            $descriptors = $this->descriptorManager->getIliosMeshDescriptorsById($ids);
+            $this->index->indexMeshDescriptors($descriptors);
+            $progressBar->advance(count($ids));
+        }
+        $progressBar->setMessage(count($allIds) . " Descriptors Added!");
         $progressBar->finish();
     }
 }

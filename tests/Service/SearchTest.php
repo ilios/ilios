@@ -31,6 +31,16 @@ class SearchTest extends TestCase
         $obj->userIdsQuery('');
     }
 
+    public function testMeshDescriptorIdsQueryThrowsExceptionWhenNotConfigured()
+    {
+        $obj = $this->createWithoutHost();
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(
+            'Search is not configured, isEnabled() should be called before calling this method'
+        );
+        $obj->meshDescriptorIdsQuery('');
+    }
+
     protected function createWithHost()
     {
         $config = m::mock(Config::class);
