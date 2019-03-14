@@ -97,10 +97,13 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
         if ($this->cacheEnabled && $this->cacheFileSystem->has($path)) {
             return $this->cacheFileSystem->read($path);
         }
-        $string = $this->remoteFileSystem->read($path);
-        $this->cacheFileSystem->put($path, $string);
+        $result = $this->remoteFileSystem->read($path);
 
-        return $string;
+        if ($result !== false) {
+            $this->cacheFileSystem->put($path, $result);
+        }
+
+        return $result;
     }
 
     /**
@@ -112,7 +115,11 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
             return $this->cacheFileSystem->readStream($path);
         }
         $resource = $this->remoteFileSystem->readStream($path);
-        $this->cacheFileSystem->putStream($path, $resource);
+
+        if ($resource !== false) {
+            $this->cacheFileSystem->putStream($path, $resource);
+        }
+
 
         return $resource;
     }
