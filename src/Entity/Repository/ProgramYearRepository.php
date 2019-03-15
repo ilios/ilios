@@ -53,7 +53,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
                 $arr['startYear'],
                 $arr['locked'],
                 $arr['archived']
-             );
+            );
         }
         $programYearIds = array_keys($programYearDTOs);
 
