@@ -14,12 +14,6 @@ Program:
   duration:
    description: Duration
    type: integer
-  publishedAsTbd:
-   description: Publishedastbd
-   type: boolean
-  published:
-   description: Published
-   type: boolean
   school:
    description: School
    type: string

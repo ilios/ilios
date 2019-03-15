@@ -45,20 +45,6 @@ class ProgramYearDTO
     public $archived;
 
     /**
-     * @var boolean
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $publishedAsTbd;
-
-    /**
-     * @var boolean
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $published;
-
-    /**
      * @var int
      * @IS\Expose
      * @IS\Type("string")
@@ -117,16 +103,12 @@ class ProgramYearDTO
         $id,
         $startYear,
         $locked,
-        $archived,
-        $publishedAsTbd,
-        $published
+        $archived
     ) {
         $this->id = $id;
         $this->startYear = $startYear;
         $this->locked = $locked;
         $this->archived = $archived;
-        $this->publishedAsTbd = $publishedAsTbd;
-        $this->published = $published;
 
         $this->directors = [];
         $this->competencies = [];

@@ -34,7 +34,6 @@ class ProgramYear implements ProgramYearInterface
     use ArchivableEntity;
     use StewardedEntity;
     use ObjectivesEntity;
-    use PublishableEntity;
     use CategorizableEntity;
     use StringableIdEntity;
     use DirectorsEntity;
@@ -93,32 +92,6 @@ class ProgramYear implements ProgramYearInterface
      * @ORM\Column(name="archived", type="boolean")
      */
     protected $archived;
-
-    /**
-     * @var boolean
-     *
-     * @IS\Expose
-     * @IS\Type("boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @ORM\Column(name="published_as_tbd", type="boolean")
-     */
-    protected $publishedAsTbd;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    protected $published;
 
     /**
      * @var ProgramInterface

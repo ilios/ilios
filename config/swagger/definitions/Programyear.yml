@@ -14,12 +14,6 @@ Programyear:
   archived:
    description: Archived
    type: boolean
-  publishedAsTbd:
-   description: Publishedastbd
-   type: boolean
-  published:
-   description: Published
-   type: boolean
   program:
    description: Program
    type: string

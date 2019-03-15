@@ -32,7 +32,6 @@ class Program implements ProgramInterface
     use StringableIdEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
-    use PublishableEntity;
     use DirectorsEntity;
 
     /**
@@ -94,32 +93,6 @@ class Program implements ProgramInterface
      * @IS\Type("integer")
      */
     protected $duration;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="published_as_tbd", type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    protected $publishedAsTbd;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    protected $published;
 
     /**
      * @var SchoolInterface

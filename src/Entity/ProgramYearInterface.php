@@ -25,7 +25,6 @@ interface ProgramYearInterface extends
     LoggableEntityInterface,
     StewardedEntityInterface,
     ObjectivesEntityInterface,
-    PublishableEntityInterface,
     CategorizableEntityInterface,
     DirectorsEntityInterface,
     CompetenciesEntityInterface

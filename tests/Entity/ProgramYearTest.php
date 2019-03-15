@@ -91,24 +91,6 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\ProgramYear::setPublishedAsTbd
-     * @covers \App\Entity\ProgramYear::isPublishedAsTbd
-     */
-    public function testSetPublishedAsTbd()
-    {
-        $this->booleanSetTest('publishedAsTbd');
-    }
-
-    /**
-     * @covers \App\Entity\ProgramYear::setPublished
-     * @covers \App\Entity\ProgramYear::isPublished
-     */
-    public function testSetPublished()
-    {
-        $this->booleanSetTest('published');
-    }
-
-    /**
      * @covers \App\Entity\ProgramYear::setProgram
      * @covers \App\Entity\ProgramYear::getProgram
      */

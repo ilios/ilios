@@ -49,9 +49,7 @@ class ProgramRepository extends EntityRepository implements DTORepositoryInterfa
                 $arr['id'],
                 $arr['title'],
                 $arr['shortTitle'],
-                $arr['duration'],
-                $arr['publishedAsTbd'],
-                $arr['published']
+                $arr['duration']
             );
         }
         $programIds = array_keys($programDTOs);

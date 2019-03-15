@@ -44,20 +44,6 @@ class ProgramDTO
     public $duration;
 
     /**
-     * @var boolean
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $publishedAsTbd;
-
-    /**
-     * @var boolean
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $published;
-
-    /**
      * @var integer
      * @IS\Expose
      * @IS\Type("string")
@@ -93,16 +79,12 @@ class ProgramDTO
         $id,
         $title,
         $shortTitle,
-        $duration,
-        $publishedAsTbd,
-        $published
+        $duration
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->shortTitle = $shortTitle;
         $this->duration = $duration;
-        $this->publishedAsTbd = $publishedAsTbd;
-        $this->published = $published;
 
         $this->programYears = [];
         $this->curriculumInventoryReports = [];

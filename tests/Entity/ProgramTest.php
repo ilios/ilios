@@ -90,24 +90,6 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Program::setPublishedAsTbd
-     * @covers \App\Entity\Program::isPublishedAsTbd
-     */
-    public function testSetPublishedAsTbd()
-    {
-        $this->booleanSetTest('publishedAsTbd');
-    }
-
-    /**
-     * @covers \App\Entity\Program::setPublished
-     * @covers \App\Entity\Program::isPublished
-     */
-    public function testSetPublished()
-    {
-        $this->booleanSetTest('published');
-    }
-
-    /**
      * @covers \App\Entity\Program::setSchool
      * @covers \App\Entity\Program::getSchool
      */
