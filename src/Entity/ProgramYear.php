@@ -104,6 +104,8 @@ class ProgramYear implements ProgramYearInterface
      * @Assert\Type(type="bool")
      *
      * @ORM\Column(name="published_as_tbd", type="boolean")
+     *
+     * @deprecated
      */
     protected $publishedAsTbd;
 
@@ -117,6 +119,8 @@ class ProgramYear implements ProgramYearInterface
      *
      * @IS\Expose
      * @IS\Type("boolean")
+     *
+     * @deprecated
      */
     protected $published;
 

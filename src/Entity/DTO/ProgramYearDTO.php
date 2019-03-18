@@ -48,6 +48,7 @@ class ProgramYearDTO
      * @var boolean
      * @IS\Expose
      * @IS\Type("boolean")
+     * @deprecated
      */
     public $publishedAsTbd;
 
@@ -55,6 +56,7 @@ class ProgramYearDTO
      * @var boolean
      * @IS\Expose
      * @IS\Type("boolean")
+     * @deprecated
      */
     public $published;
 

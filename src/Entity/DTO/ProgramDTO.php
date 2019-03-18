@@ -47,6 +47,7 @@ class ProgramDTO
      * @var boolean
      * @IS\Expose
      * @IS\Type("boolean")
+     * @deprecated
      */
     public $publishedAsTbd;
 
@@ -54,6 +55,7 @@ class ProgramDTO
      * @var boolean
      * @IS\Expose
      * @IS\Type("boolean")
+     * @deprecated
      */
     public $published;
 

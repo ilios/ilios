@@ -105,6 +105,8 @@ class Program implements ProgramInterface
      *
      * @IS\Expose
      * @IS\Type("boolean")
+     *
+     * @deprecated
      */
     protected $publishedAsTbd;
 
@@ -118,6 +120,8 @@ class Program implements ProgramInterface
      *
      * @IS\Expose
      * @IS\Type("boolean")
+     *
+     * @deprecated
      */
     protected $published;
 

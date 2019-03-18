@@ -17,9 +17,11 @@ Program:
   publishedAsTbd:
    description: Publishedastbd
    type: boolean
+   deprecated: true
   published:
    description: Published
    type: boolean
+   deprecated: true
   school:
    description: School
    type: string
