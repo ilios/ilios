@@ -23,10 +23,11 @@ class Search extends ElasticSearchBase
 
     /**
      * @param string $query
+     * @param int $size
      * @return array
      * @throws \Exception when search is not configured
      */
-    public function userIdsQuery(string $query)
+    public function userIdsQuery(string $query, int $size = 1000)
     {
         if (!$this->enabled) {
             throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
@@ -34,6 +35,7 @@ class Search extends ElasticSearchBase
         $params = [
             'type' => UserDTO::class,
             'index' => self::USER_INDEX,
+            "size" => $size,
             'body' => [
                 'query' => [
                     'query_string' => [

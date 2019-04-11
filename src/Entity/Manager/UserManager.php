@@ -75,7 +75,7 @@ class UserManager extends BaseManager
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
         if ($this->search->isEnabled()) {
-            $ids = $this->search->userIdsQuery($q);
+            $ids = $this->search->userIdsQuery($q, $limit);
             $criteria['id'] = $ids;
             return $repository->findDTOsBy($criteria, $orderBy, $limit, $offset);
         } else {
