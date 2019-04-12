@@ -34,7 +34,7 @@ interface LearningMaterialInterface extends
      * @return string
      */
     public function getToken();
-    
+
     /**
      * Generate a random token for use in downloading
      */
@@ -69,9 +69,9 @@ interface LearningMaterialInterface extends
      * @return UserInterface|null
      */
     public function getOwningUser();
-    
+
     /**
-     * @param string $text
+     * @param string $citation
      */
     public function setCitation($citation);
 
@@ -79,7 +79,7 @@ interface LearningMaterialInterface extends
      * @return string
      */
     public function getCitation();
-    
+
     /**
      * @param string $link
      */
@@ -89,7 +89,7 @@ interface LearningMaterialInterface extends
      * @return string
      */
     public function getLink();
-    
+
     /**
      * @param string $path
      */
