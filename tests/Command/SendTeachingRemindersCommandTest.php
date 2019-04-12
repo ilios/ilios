@@ -212,6 +212,43 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\SendTeachingRemindersCommand::execute
      */
+    public function testExecuteDryRunWithPreferredEmail()
+    {
+        $sender = 'foo@bar.edu';
+        $name = 'Horst Krause';
+        $subject = "Custom email subject";
+        $baseUrl = 'https://ilios.bar.edu';
+
+        /* @var OfferingInterface $offering */
+        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7)->toArray()[0];
+
+        /** @var UserInterface $instructor */
+        foreach ($offering->getAllInstructors()->toArray() as $instructor) {
+            $instructor->setPreferredEmail(strrev($instructor->getEmail()));
+        }
+
+        $this->commandTester->execute([
+            'sender' => $sender,
+            'base_url' => $baseUrl,
+            '--dry-run' => true,
+            '--subject' => $subject,
+            '--sender_name' => $name,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+
+        $this->assertContains("From: {$name} <{$sender}>", $output);
+
+        /** @var UserInterface $instructor */
+        foreach ($offering->getAllInstructors()->toArray() as $instructor) {
+            $this->assertContains("To: {$instructor->getPreferredEmail()}", $output);
+            $this->assertNotContains("To: {$instructor->getEmail()}", $output);
+        }
+    }
+
+    /**
+     * @covers \App\Command\SendTeachingRemindersCommand::execute
+     */
     public function testExecuteDryRunWithCustomSubject()
     {
         $sender = 'foo@bar.edu';
