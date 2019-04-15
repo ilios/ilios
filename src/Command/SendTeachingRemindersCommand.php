@@ -185,9 +185,13 @@ class SendTeachingRemindersCommand extends Command
                     'offering' => $offering,
                     'timezone' => $timezone
                 ]);
+                $email = $instructor->getPreferredEmail();
+                if (empty($email)) {
+                    $email = $instructor->getEmail();
+                }
                 $message = (new \Swift_Message($subject))
                     ->setFrom($from)
-                    ->setTo($instructor->getEmail())
+                    ->setTo($email)
                     ->setCharset('UTF-8')
                     ->setContentType('text/plain')
                     ->setBody($messageBody)
