@@ -44,7 +44,8 @@ class Search extends ElasticSearchBase
                 ],
                 "_source" => [
                     '_id'
-                ]
+                ],
+                'sort' => '_score'
             ]
         ];
         $results = $this->search($params);

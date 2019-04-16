@@ -4,12 +4,12 @@ namespace App\Entity\Manager;
 
 use App\Service\Search;
 use App\Traits\CalendarEventRepository;
+use App\Traits\IdentifiableEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
 use App\Classes\UserMaterial;
 use App\Entity\Repository\UserRepository;
-use App\Entity\UserInterface;
 use App\Entity\DTO\UserDTO;
 use App\Service\UserMaterialFactory;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -77,7 +77,17 @@ class UserManager extends BaseManager
         if ($this->search->isEnabled()) {
             $ids = $this->search->userIdsQuery($q, $limit);
             $criteria['id'] = $ids;
-            return $repository->findDTOsBy($criteria, $orderBy, $limit, $offset);
+            $dtos = $repository->findDTOsBy($criteria, $orderBy, $limit, $offset);
+
+            if (empty($orderBy)) {
+                // resort results by their original search score
+                $keys = array_flip($ids);
+                usort($dtos, function (IdentifiableEntityInterface $a, IdentifiableEntityInterface $b) use ($keys) {
+                    return $keys[$a->id] - $keys[$b->id];
+                });
+            }
+
+            return $dtos;
         } else {
             return $repository->findDTOsByQ($q, $orderBy, $limit, $offset, $criteria);
         }
