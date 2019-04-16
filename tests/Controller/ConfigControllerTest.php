@@ -44,6 +44,7 @@ class ConfigControllerTest extends WebTestCase
                 'userSearchType' => 'local',
                 'apiVersion' => $container->getParameter('ilios_api_version'),
                 'trackingEnabled' => false,
+                'searchEnabled' => false,
             ),
             $data
         );
@@ -76,6 +77,7 @@ class ConfigControllerTest extends WebTestCase
                 'apiVersion' => $container->getParameter('ilios_api_version'),
                 'trackingEnabled' => true,
                 'trackingCode' => '123-code!',
+                'searchEnabled' => false,
             ),
             $data
         );
