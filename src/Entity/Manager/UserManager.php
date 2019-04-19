@@ -4,7 +4,6 @@ namespace App\Entity\Manager;
 
 use App\Service\Search;
 use App\Traits\CalendarEventRepository;
-use App\Traits\IdentifiableEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
@@ -82,7 +81,7 @@ class UserManager extends BaseManager
             if (empty($orderBy)) {
                 // resort results by their original search score
                 $keys = array_flip($ids);
-                usort($dtos, function (IdentifiableEntityInterface $a, IdentifiableEntityInterface $b) use ($keys) {
+                usort($dtos, function (UserDTO $a, UserDTO $b) use ($keys) {
                     return $keys[$a->id] - $keys[$b->id];
                 });
             }
