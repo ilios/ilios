@@ -31,6 +31,7 @@ services:
           $apiVersion: '%ilios_api_version%'
           $kernelRootDirectory: '%kernel.root_dir%'
           $kernelProjectDir: '%kernel.project_dir%'
+          $kernelSecret: '%kernel.secret%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -51,6 +52,10 @@ services:
 
     App\Entity\Manager\:
       resource: '../src/Entity/Manager'
+
+    App\Command\ListConfigValuesCommand:
+      arguments:
+        $databaseUrl: '%env(ILIOS_DATABASE_URL)%'
 
     App\Controller\ExceptionController:
       public: true
@@ -245,11 +250,6 @@ services:
     App\Service\CrossingGuard:
       tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 256 }
-
-    App\Service\JsonWebTokenManager:
-      public: true
-      arguments:
-        $secretKey: '%kernel.secret%'
 
     App\Service\AuthenticationFactory:
       public: true

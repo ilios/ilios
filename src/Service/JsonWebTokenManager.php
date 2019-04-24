@@ -35,16 +35,16 @@ class JsonWebTokenManager
      * Constructor
      * @param PermissionChecker $permissionChecker
      * @param SessionUserProvider $sessionUserProvider
-     * @param string $secretKey injected kernel secret key
+     * @param string $kernelSecret injected kernel secret key
      */
     public function __construct(
         PermissionChecker $permissionChecker,
         SessionUserProvider $sessionUserProvider,
-        $secretKey
+        $kernelSecret
     ) {
         $this->permissionChecker = $permissionChecker;
         $this->sessionUserProvider = $sessionUserProvider;
-        $this->jwtKey = self::PREPEND_KEY . $secretKey;
+        $this->jwtKey = self::PREPEND_KEY . $kernelSecret;
         JWT::$leeway = 5;
     }
     

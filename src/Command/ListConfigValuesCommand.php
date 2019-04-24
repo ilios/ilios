@@ -22,14 +22,28 @@ class ListConfigValuesCommand extends Command
      * @var ApplicationConfigManager
      */
     protected $applicationConfigManager;
+    protected $kernelSecret;
+    protected $databaseUrl;
+    protected $environment;
 
     /**
      * RolloverCourseCommand constructor.
      * @param ApplicationConfigManager $applicationConfigManager
+     * @param $environment
+     * @param $kernelSecret
+     * @param $databaseUrl
      */
-    public function __construct(ApplicationConfigManager $applicationConfigManager)
-    {
+    public function __construct(
+        ApplicationConfigManager $applicationConfigManager,
+        $environment,
+        $kernelSecret,
+        $databaseUrl
+    ) {
         $this->applicationConfigManager = $applicationConfigManager;
+        $this->environment = $environment;
+        $this->kernelSecret = $kernelSecret;
+        $this->databaseUrl = $databaseUrl;
+
         parent::__construct();
     }
 
@@ -55,11 +69,23 @@ class ListConfigValuesCommand extends Command
             $output->writeln('<error>There are no configuration values in the database.</error>');
         } else {
             $table = new Table($output);
+            $table->setHeaderTitle('Database Values');
             $table->setHeaders(array('Name', 'Value'))
                 ->setRows(array_map(function (ApplicationConfig $config) {
                     return [$config->getName(), $config->getValue()];
                 }, $configs));
             $table->render();
         }
+
+        $rows = [
+          ['Environment', $this->environment],
+          ['Kernel Secret', $this->kernelSecret],
+          ['Database URL', $this->databaseUrl],
+        ];
+        $table = new Table($output);
+        $table->setHeaderTitle('Environment Values');
+        $table->setHeaders(array('Name', 'Value'));
+        $table->setRows($rows);
+        $table->render();
     }
 }

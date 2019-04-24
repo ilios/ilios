@@ -17,3 +17,9 @@ services:
 
   app.dataloader.auditlog:
     class: "%app.dataloader.auditlog.class%"
+
+  # public in tests only for JsonControllerTest access
+  App\Service\JsonWebTokenManager:
+    public: true
+    arguments:
+      $kernelSecret: '%kernel.secret%'
