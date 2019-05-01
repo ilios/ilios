@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "078bc09193466c08c193e3d48cfa92c1",
+    "content-hash": "0ad85bcfa9dff4e8f312106fdefda8fe",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -5456,16 +5456,16 @@
         },
         {
             "name": "symfony/framework-bundle",
-            "version": "v4.2.6",
+            "version": "v4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "517e41b08af186c71f2a80fd07e1c80b8b0fc223"
+                "reference": "2748b12d8c456dbfeae149fc88b3012a333d817b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/517e41b08af186c71f2a80fd07e1c80b8b0fc223",
-                "reference": "517e41b08af186c71f2a80fd07e1c80b8b0fc223",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/2748b12d8c456dbfeae149fc88b3012a333d817b",
+                "reference": "2748b12d8c456dbfeae149fc88b3012a333d817b",
                 "shasum": ""
             },
             "require": {
@@ -5481,7 +5481,7 @@
                 "symfony/http-foundation": "^4.2.5",
                 "symfony/http-kernel": "^4.2",
                 "symfony/polyfill-mbstring": "~1.0",
-                "symfony/routing": "^4.1"
+                "symfony/routing": "^4.2.8"
             },
             "conflict": {
                 "phpdocumentor/reflection-docblock": "<3.0",
@@ -5571,7 +5571,7 @@
             ],
             "description": "Symfony FrameworkBundle",
             "homepage": "https://symfony.com",
-            "time": "2019-04-08T07:19:48+00:00"
+            "time": "2019-05-01T08:36:31+00:00"
         },
         {
             "name": "symfony/http-foundation",
