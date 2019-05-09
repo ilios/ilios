@@ -155,6 +155,7 @@ class UsereventTest extends AbstractEndpointTest
             'endDate is correct for event 0'
         );
         $this->assertEquals($events[0]['courseTitle'], $courses[0]['title'], 'title is correct for event 0');
+        $this->assertEquals($events[0]['course'], $courses[0]['id'], 'id is correct for event 0');
         $this->assertEquals(
             $events[0]['courseExternalId'],
             $courses[0]['externalId'],
@@ -210,6 +211,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals($events[1]['endDate'], $offerings[3]['endDate'], 'endDate is correct for event 1');
         $this->assertEquals($events[1]['courseTitle'], $courses[0]['title'], 'title is correct for event 1');
+        $this->assertEquals($events[1]['course'], $courses[0]['id'], 'id is correct for event 1');
         $this->assertEquals(
             $events[1]['courseExternalId'],
             $courses[0]['externalId'],
@@ -264,6 +266,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals($events[2]['endDate'], $offerings[4]['endDate'], 'endDate is correct for event 2');
         $this->assertEquals($events[2]['courseTitle'], $courses[0]['title'], 'title is correct for event 2');
+        $this->assertEquals($events[2]['course'], $courses[0]['id'], 'id is correct for event 2');
         $this->assertEquals(
             $events[2]['courseExternalId'],
             $courses[0]['externalId'],
@@ -314,6 +317,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[3]['startDate'], $offerings[5]['startDate'], 'startDate is correct for event 3');
         $this->assertEquals($events[3]['endDate'], $offerings[5]['endDate'], 'endDate is correct for event 3');
         $this->assertEquals($events[3]['courseTitle'], $courses[1]['title'], 'title is correct for event 3');
+        $this->assertEquals($events[3]['course'], $courses[1]['id'], 'id is correct for event 3');
         $this->assertEquals(
             $events[3]['courseExternalId'],
             $courses[1]['externalId'],
@@ -362,6 +366,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[4]['startDate'], $offerings[6]['startDate'], 'startDate is correct for event 4');
         $this->assertEquals($events[4]['endDate'], $offerings[6]['endDate'], 'endDate is correct for event 4');
         $this->assertEquals($events[4]['courseTitle'], $courses[1]['title'], 'title is correct for event 4');
+        $this->assertEquals($events[4]['course'], $courses[1]['id'], 'id is correct for event 4');
         $this->assertEquals(
             $events[4]['courseExternalId'],
             $courses[1]['externalId'],
@@ -409,6 +414,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[5]['ilmSession'], 1, 'ilmSession is correct for 5');
         $this->assertEquals($events[5]['startDate'], $ilmSessions[0]['dueDate'], 'dueDate is correct for 5');
         $this->assertEquals($events[5]['courseTitle'], $courses[1]['title'], 'title is correct for 5');
+        $this->assertEquals($events[5]['course'], $courses[1]['id'], 'id is correct for 5');
         $this->assertEquals(
             $events[5]['courseExternalId'],
             $courses[1]['externalId'],
@@ -448,7 +454,8 @@ class UsereventTest extends AbstractEndpointTest
 
         $this->assertEquals($events[6]['ilmSession'], 2, 'ilmSession is correct for event 6');
         $this->assertEquals($events[6]['startDate'], $ilmSessions[1]['dueDate'], 'dueDate is correct for event 6');
-        $this->assertEquals($events[6]['courseTitle'], $courses[1]['title'], 'ilmSession is correct for event 6');
+        $this->assertEquals($events[6]['courseTitle'], $courses[1]['title'], 'title is correct for event 6');
+        $this->assertEquals($events[6]['course'], $courses[1]['id'], 'id is correct for event 6');
         $this->assertEquals(
             $events[6]['courseExternalId'],
             $courses[1]['externalId'],
@@ -488,6 +495,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[7]['ilmSession'], 3, 'ilmSession is correct for event 7');
         $this->assertEquals($events[7]['startDate'], $ilmSessions[2]['dueDate'], 'dueDate is correct for event 7');
         $this->assertEquals($events[7]['courseTitle'], $courses[1]['title'], 'title is correct for event 7');
+        $this->assertEquals($events[7]['course'], $courses[1]['id'], 'id is correct for event 7');
         $this->assertEquals(
             $events[7]['courseExternalId'],
             $courses[1]['externalId'],
@@ -527,6 +535,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[8]['ilmSession'], 4, 'ilmSession is correct for event 8');
         $this->assertEquals($events[8]['startDate'], $ilmSessions[3]['dueDate'], 'dueDate is correct for event 8');
         $this->assertEquals($events[8]['courseTitle'], $courses[1]['title'], 'title is correct for event 8');
+        $this->assertEquals($events[8]['course'], $courses[1]['id'], 'id is correct for event 8');
         $this->assertEquals(
             $events[8]['courseExternalId'],
             $courses[1]['externalId'],
@@ -569,6 +578,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[9]['sessionTypeTitle'],
             $sessionTypes[0]['title'],
             'session type title is correct for event 9'
+        );
+        $this->assertEquals(
+            $events[9]['course'],
+            $courses[0]['id'],
+            'course id correct for event 9'
         );
         $this->assertEquals(
             $events[9]['courseExternalId'],
@@ -635,6 +649,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[10]['instructionalNotes'],
             $sessions[2]['instructionalNotes'],
             'instructional notes is correct for event 10'
+        );
+        $this->assertEquals(
+            $events[10]['course'],
+            $courses[1]['id'],
+            'course id correct for event 10'
         );
         $this->assertEquals(
             $events[10]['courseExternalId'],

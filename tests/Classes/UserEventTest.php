@@ -67,7 +67,7 @@ class UserEventTest extends TestCase
         $calendarEvent->attireRequired = true;
         $calendarEvent->color = '#fff';
         $calendarEvent->courseExternalId = 12;
-        $calendarEvent->courseId = 17;
+        $calendarEvent->course = 17;
         $calendarEvent->courseTitle = 'Test Event';
         $calendarEvent->endDate = new \DateTime();
         $calendarEvent->equipmentRequired = true;
@@ -82,6 +82,7 @@ class UserEventTest extends TestCase
         $this->assertSame($calendarEvent->color, $userEvent->color);
         $this->assertSame($calendarEvent->courseExternalId, $userEvent->courseExternalId);
         $this->assertSame($calendarEvent->courseTitle, $userEvent->courseTitle);
+        $this->assertSame($calendarEvent->course, $userEvent->course);
         $this->assertSame($calendarEvent->endDate, $userEvent->endDate);
         $this->assertSame($calendarEvent->equipmentRequired, $userEvent->equipmentRequired);
         $this->assertSame($calendarEvent->instructionalNotes, $userEvent->instructionalNotes);
