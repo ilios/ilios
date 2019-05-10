@@ -50,7 +50,7 @@ trait CalendarEventRepository
         $event->sessionDescription = $arr['sessionDescription'];
         $event->instructionalNotes = $arr['instructionalNotes'];
         $event->session = $arr['sessionId'];
-        $event->courseId = $arr['courseId'];
+        $event->course = $arr['courseId'];
         $event->attireRequired = $arr['attireRequired'];
         $event->equipmentRequired = $arr['equipmentRequired'];
         $event->supplemental = $arr['supplemental'];
@@ -95,7 +95,7 @@ trait CalendarEventRepository
         $event->courseExternalId = $arr['courseExternalId'];
         $event->sessionDescription = $arr['sessionDescription'];
         $event->session = $arr['sessionId'];
-        $event->courseId = $arr['courseId'];
+        $event->course = $arr['courseId'];
         $event->attireRequired = $arr['attireRequired'];
         $event->equipmentRequired = $arr['equipmentRequired'];
         $event->supplemental = $arr['supplemental'];
@@ -245,7 +245,7 @@ trait CalendarEventRepository
     public function attachSessionDataToEvents(array $events, EntityManager $em)
     {
         $sessionIds = array_unique(array_column($events, 'session'));
-        $courseIds = array_unique(array_column($events, 'courseId'));
+        $courseIds = array_unique(array_column($events, 'course'));
         $competencyIds = [];
 
         $qb = $em->createQueryBuilder();
@@ -364,8 +364,8 @@ trait CalendarEventRepository
             if (array_key_exists($event->session, $sessionObjectives)) {
                 $event->sessionObjectives = array_values($sessionObjectives[$event->session]);
             }
-            if (array_key_exists($event->courseId, $courseObjectives)) {
-                $event->courseObjectives = array_values($courseObjectives[$event->courseId]);
+            if (array_key_exists($event->course, $courseObjectives)) {
+                $event->courseObjectives = array_values($courseObjectives[$event->course]);
             }
 
             $listsOfCompetencyIds = array_merge(
@@ -456,7 +456,7 @@ trait CalendarEventRepository
         for ($i =0, $n = count($events); $i < $n; $i++) {
             $event = $events[$i];
             $sessionId = $event->session;
-            $courseId = $event->courseId;
+            $courseId = $event->course;
             $sessionLms = array_key_exists($sessionId, $groupedSessionLms) ? $groupedSessionLms[$sessionId] : [];
             $courseLms = array_key_exists($courseId, $groupedCourseLms) ? $groupedCourseLms[$courseId] : [];
             $lms = array_merge($sessionLms, $courseLms);
