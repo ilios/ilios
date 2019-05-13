@@ -95,6 +95,7 @@ class LdapManager
         $ldapSearchBase = $this->config->get('ldap_directory_search_base');
         $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
         $ldapUsernameProperty = $this->config->get('ldap_directory_username_property');
+        $ldapDisplayNameProperty = $this->config->get('ldap_directory_display_name_property');
 
         $rhett = [];
         $attributes = [
@@ -103,7 +104,8 @@ class LdapManager
             'givenName',
             'telephoneNumber',
             $ldapCampusIdProperty,
-            $ldapUsernameProperty
+            $ldapUsernameProperty,
+            $ldapDisplayNameProperty,
         ];
         try {
             $ldap = $this->getLdap();
@@ -122,14 +124,16 @@ class LdapManager
             if (count($results)) {
                 $campusIdKey = strtolower($ldapCampusIdProperty);
                 $usernameKey = strtolower($ldapUsernameProperty);
-                $rhett = array_map(function ($userData) use ($campusIdKey, $usernameKey) {
+                $displayNameKey = strtolower($ldapDisplayNameProperty);
+                $rhett = array_map(function ($userData) use ($campusIdKey, $usernameKey, $displayNameKey) {
                     $keys = [
                         'givenname',
                         'sn',
                         'mail',
                         'telephonenumber',
                         $campusIdKey,
-                        $usernameKey
+                        $usernameKey,
+                        $displayNameKey,
                     ];
                     $values = [];
                     foreach ($keys as $key) {
@@ -143,6 +147,7 @@ class LdapManager
                         'telephoneNumber' => $values['telephonenumber'],
                         'campusId' => $values[$campusIdKey],
                         'username' => $values[$usernameKey],
+                        'displayName' => $values[$displayNameKey],
                     ];
                 }, $results);
                 

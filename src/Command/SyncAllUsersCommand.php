@@ -181,6 +181,14 @@ class SyncAllUsersCommand extends Command
                     );
                     $user->setLastName($recordArray['lastName']);
                 }
+                if ($fixSmallThings && $user->getDisplayName() != $recordArray['displayName']) {
+                    $update = true;
+                    $output->writeln(
+                        '  <comment>[I] Updating display name from "' . $user->getDisplayName() .
+                        '" to "' . $recordArray['displayName'] . '".</comment>'
+                    );
+                    $user->setDisplayName($recordArray['displayName']);
+                }
                 if ($fixSmallThings && $user->getPhone() != $recordArray['telephoneNumber']) {
                     $update = true;
                     $output->writeln(
