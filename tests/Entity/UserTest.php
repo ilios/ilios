@@ -93,6 +93,15 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers \App\Entity\User::setDisplayName
+     * @covers \App\Entity\User::getDisplayName
+     */
+    public function testSetDisplayName()
+    {
+        $this->basicSetTest('displayName', 'string');
+    }
+
+    /**
      * @covers \App\Entity\User::setPhone
      * @covers \App\Entity\User::getPhone
      */

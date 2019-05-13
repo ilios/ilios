@@ -45,6 +45,13 @@ class UserDTO
      * @IS\Expose
      * @IS\Type("string")
      */
+    public $displayName;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
     public $phone;
 
     /**
@@ -283,6 +290,7 @@ class UserDTO
         $firstName,
         $lastName,
         $middleName,
+        $displayName,
         $phone,
         $email,
         $preferredEmail,
@@ -299,6 +307,7 @@ class UserDTO
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->middleName = $middleName;
+        $this->displayName = $displayName;
         $this->phone = $phone;
         $this->email = $email;
         $this->preferredEmail = $preferredEmail;
@@ -340,6 +349,7 @@ class UserDTO
             $user->getFirstName(),
             $user->getLastName(),
             $user->getMiddleName(),
+            $user->getDisplayName(),
             $user->getPhone(),
             $user->getEmail(),
             $user->getPreferredEmail(),

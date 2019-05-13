@@ -47,6 +47,9 @@ class LoadUserData extends AbstractFixture implements
             if (array_key_exists('otherId', $arr)) {
                 $entity->setOtherId($arr['otherId']);
             }
+            if (array_key_exists('displayName', $arr)) {
+                $entity->setDisplayName($arr['displayName']);
+            }
             foreach ($arr['roles'] as $id) {
                 $entity->addRole($this->getReference('userRoles' . $id));
             }
