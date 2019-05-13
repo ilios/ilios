@@ -20,7 +20,12 @@ class ListConfigValuesCommandTest extends KernelTestCase
     public function setUp()
     {
         $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
-        $command = new ListConfigValuesCommand($this->applicationConfigManager);
+        $command = new ListConfigValuesCommand(
+            $this->applicationConfigManager,
+            'TESTING123',
+            'SECRET',
+            'mysql'
+        );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -53,6 +58,18 @@ class ListConfigValuesCommandTest extends KernelTestCase
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/\sthe-name\s|\sthe-value\s/',
+            $output
+        );
+        $this->assertRegExp(
+            '/\sEnvironment\s|\sTESTING123\s/',
+            $output
+        );
+        $this->assertRegExp(
+            '/\sKernel Secret\s|\sSECRET\s/',
+            $output
+        );
+        $this->assertRegExp(
+            '/\sDatabase URL\s|\smysql\s/',
             $output
         );
     }
