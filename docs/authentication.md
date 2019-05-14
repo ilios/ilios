@@ -1,41 +1,44 @@
 # Authentication
 
 ## Authentication Types
-Ilios supports several different authentcation types which you can use depending on your needs (form, CAS, LDAP, Shibboleth).
+Ilios supports several different authentcation types which you can use depending on your needs (form, LDAP, CAS, Shibboleth).
 
- **Form:** Username and password are stored in the Ilios database, users login with a simple form
- 
- **CAS** Support for campus Central Authentication Service Installations, username in Ilios is linked to a campus account, users sign in through that system
+**Form:** Username and password are stored in the Ilios database, users login with a simple form - this is the default authentication type for a new Ilios installation.
 
-**LDAP** Username and password are checked against an LDAP directory, only the username is stored in ilios
+**LDAP** Username and password are authenticated against an LDAP directory connection, only the username is stored in ilios
 
-**Shibboleth** Support for campus Shibboleth Installations, username in Ilios is linked to a campus account, users sign in through that system
+**CAS** Support for campus Central Authentication Service Installations, username in Ilios is linked to a campus account, users sign in through that system (supports SAML)
 
-### Setup Ilios for your Authentication type
+**Shibboleth** Support for campus SAML Shibboleth Installations, username in Ilios is linked to a campus account, users sign in through that system
+
+### Initial Setup Ilios for your Authentication type
 
 Change to your ilios install directory e.g. `/web/ilios3/ilios` and run the setup authentication command.
 ```bash
 sudo -u apache bin/console ilios:setup:authentication --env=prod 
 ```
 
-# Directory
+# Using and LDAP Directory for User Population
 
-If you are using CAS, LDAP, or Shibboleth authentication you will probably want to connect Ilios to your
-campus directory. This allows users to be added to Ilios with all of the details they need to login. If you
-do not setup a directory then you must ensure that each user has their `username` correctly populated
-to match your authentication type. 
+If you are using CAS, LDAP, or Shibboleth authentication, you will probably want to also connect Ilios to your
+campus directory in order for users to be programmatically added to Ilios with all of the details they will need to successfully login. If you do not connect Ilios to your campus directory, you will need to ensure that each user has their respective `username` correctly entered to match the necessary attribute(s) of your chosen authentication type. 
 
 Ilios supports the **ldap** protocol for connecting to a campus directory. Unlike the **ldap** authentication
-type, our directory will only use a single account to make all queries instead of users' individual accounts.
+type, our directory will only use a single account to make all queries instead of users' individual accounts. This is typically a 'service' account created by LDAP administrators expressly for use by Ilios to make directory lookups.
 
 To setup the directory you must set some configuration options:
 
 ```bash
 sudo -u apache bin/console --env=prod ilios:maintenance:set-config-value ldap_directory_url <your campus value>
+
 sudo -u apache bin/console --env=prod ilios:maintenance:set-config-value ldap_directory_user <your campus value>
+
 sudo -u apache bin/console --env=prod ilios:maintenance:set-config-value ldap_directory_password <your campus value>
+
 sudo -u apache bin/console --env=prod ilios:maintenance:set-config-value ldap_directory_search_base <your campus value>
+
 sudo -u apache bin/console --env=prod ilios:maintenance:set-config-value ldap_directory_campus_id_property <your campus value>
+
 sudo -u apache bin/console --env=prod ilios:maintenance:set-config-value ldap_directory_username_property <your campus value>
 ```
 
