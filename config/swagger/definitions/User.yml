@@ -14,6 +14,9 @@ User:
   middleName:
    description: Middlename
    type: string
+  displayName:
+   description: Display Name
+   type: string
   phone:
    description: Phone
    type: string

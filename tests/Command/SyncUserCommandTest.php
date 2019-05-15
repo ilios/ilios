@@ -73,12 +73,14 @@ class SyncUserCommandTest extends KernelTestCase
             ->shouldReceive('getPendingUserUpdates')->andReturn([$pendingUpdate])
             ->shouldReceive('getLastName')->andReturn('old-last')
             ->shouldReceive('getEmail')->andReturn('old-email')
+            ->shouldReceive('getDisplayName')->andReturn('old-display')
             ->shouldReceive('getPhone')->andReturn('old-phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
             ->shouldReceive('setFirstName')->with('first')
             ->shouldReceive('setLastName')->with('last')
             ->shouldReceive('setEmail')->with('email')
+            ->shouldReceive('setDisplayName')->with('display')
             ->shouldReceive('setPhone')->with('phone')
             ->mock();
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
@@ -89,6 +91,7 @@ class SyncUserCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'username'
@@ -104,11 +107,11 @@ class SyncUserCommandTest extends KernelTestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Ilios User\s+\| abc\s+\| old-first\s+\| old-last\s+\| old-email\s+\| old-phone/',
+            '/Ilios User\s+\| abc\s+\| old-first\s+\| old-last\s+\| old-display\s+\| old-email\s+\| old-phone/',
             $output
         );
         $this->assertRegExp(
-            '/Directory User\s+\| abc\s+\| first\s+\| last\s+\| email\s+\| phone/',
+            '/Directory User\s+\| abc\s+\| first\s+\| last\s+\| display\s+\| email\s+\| phone/',
             $output
         );
     }

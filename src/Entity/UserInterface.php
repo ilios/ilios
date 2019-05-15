@@ -79,6 +79,16 @@ interface UserInterface extends
     public function getFirstAndLastName();
 
     /**
+     * @param string $displayName
+     */
+    public function setDisplayName($displayName);
+
+    /**
+     * @return string
+     */
+    public function getDisplayName();
+
+    /**
      * @param string $phone
      */
     public function setPhone($phone);

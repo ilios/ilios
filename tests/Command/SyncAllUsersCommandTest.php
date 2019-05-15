@@ -19,13 +19,32 @@ class SyncAllUsersCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:sync-users';
-    
+
+    /**
+     * @var m\Mock
+     */
     protected $userManager;
+
+    /**
+     * @var m\Mock
+     */
     protected $authenticationManager;
+
+    /**
+     * @var m\Mock
+     */
     protected $pendingUserUpdateManager;
     protected $commandTester;
     protected $questionHelper;
+
+    /**
+     * @var m\Mock
+     */
     protected $directory;
+
+    /**
+     * @var m\Mock
+     */
     protected $em;
     
     public function setUp()
@@ -75,6 +94,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'username',
@@ -92,6 +112,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
@@ -134,6 +156,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'new-first',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -151,6 +174,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
@@ -195,6 +219,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'new-last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -212,6 +237,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
@@ -256,6 +282,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'new-phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -273,6 +300,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
@@ -317,6 +345,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'new-email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -334,6 +363,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
@@ -385,6 +415,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'EMAIL',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -402,6 +433,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
@@ -437,6 +469,69 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
+
+    public function testExecuteWithDisplayNameChange()
+    {
+        $this->userManager->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(['abc']);
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'displayName' => 'new display',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $authentication = m::mock(AuthenticationInterface::class)
+            ->shouldReceive('getUsername')->andReturn('abc123')
+            ->mock();
+        $user = m::mock(UserInterface::class)
+            ->shouldReceive('getId')->andReturn(42)
+            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
+            ->shouldReceive('getFirstName')->andReturn('first')
+            ->shouldReceive('getLastName')->andReturn('last')
+            ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
+            ->shouldReceive('getPhone')->andReturn('phone')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('getAuthentication')->andReturn($authentication)
+            ->shouldReceive('setExamined')->with(true)
+            ->shouldReceive('setDisplayName')->with('new display')
+            ->mock();
+        $this->userManager
+            ->shouldReceive('findBy')
+            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->andReturn([$user])
+            ->once();
+        $this->userManager
+            ->shouldReceive('findBy')
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
+            ->andReturn([])
+            ->once();
+        $this->userManager->shouldReceive('update')->with($user, false)->once();
+
+        $this->em->shouldReceive('flush')->twice();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME
+        ));
+
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/Updating display name from "display" to "new display"./',
+            $output
+        );
+        $this->assertRegExp(
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
+            $output
+        );
+    }
     
     public function testExecuteWithUsernameChange()
     {
@@ -446,6 +541,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'new-abc123',
@@ -464,6 +560,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
@@ -509,6 +606,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -523,6 +621,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn(null)
@@ -579,6 +678,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -593,6 +693,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn(null)
@@ -648,6 +749,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => '',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -660,6 +762,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('setExamined')->with(true)
             ->mock();
@@ -701,6 +804,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => '',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -713,6 +817,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('setExamined')->with(true)
             ->mock();
@@ -746,7 +851,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
     
-    public function testExecuteWithEmptyEmailName()
+    public function testExecuteWithEmptyEmail()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -754,6 +859,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => '',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -766,6 +872,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('setExamined')->with(true)
             ->mock();
@@ -807,6 +914,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => '',
@@ -819,6 +927,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('setExamined')->with(true)
             ->mock();
@@ -860,6 +969,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -872,6 +982,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getId')->andReturn(42)
             ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->mock();
         $this->userManager
@@ -912,6 +1023,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'new-first',
             'lastName' => 'new-last',
             'email' => 'new-email',
+            'displayName' => 'new-display',
             'telephoneNumber' => 'new-phone',
             'campusId' => 'abc',
             'username' => 'new-abc123',
@@ -929,6 +1041,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
@@ -975,6 +1088,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
+            'displayName' => 'display',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'abc123',
@@ -989,6 +1103,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getFirstName')->andReturn('first')
             ->shouldReceive('getLastName')->andReturn('last')
             ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getPhone')->andReturn('phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn(null)

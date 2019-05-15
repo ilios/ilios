@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\User;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -77,6 +78,7 @@ class SyncUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $userId = $input->getArgument('userId');
+        /** @var User $user */
         $user = $this->userManager->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(
@@ -93,13 +95,22 @@ class SyncUserCommand extends Command
         
         $table = new Table($output);
         $table
-            ->setHeaders(array('Record', 'Campus ID', 'First', 'Last', 'Email', 'Phone Number'))
+            ->setHeaders([
+                'Record',
+                'Campus ID',
+                'First',
+                'Last',
+                'Display Name',
+                'Email',
+                'Phone Number'
+            ])
             ->setRows(array(
                 [
                     'Ilios User',
                     $user->getCampusId(),
                     $user->getFirstName(),
                     $user->getLastName(),
+                    $user->getDisplayName(),
                     $user->getEmail(),
                     $user->getPhone()
                 ],
@@ -108,6 +119,7 @@ class SyncUserCommand extends Command
                     $userRecord['campusId'],
                     $userRecord['firstName'],
                     $userRecord['lastName'],
+                    $userRecord['displayName'],
                     $userRecord['email'],
                     $userRecord['telephoneNumber']
                 ]
@@ -126,6 +138,7 @@ class SyncUserCommand extends Command
         if ($helper->ask($input, $output, $question)) {
             $user->setFirstName($userRecord['firstName']);
             $user->setLastName($userRecord['lastName']);
+            $user->setDisplayName($userRecord['displayName']);
             $user->setEmail($userRecord['email']);
             $user->setPhone($userRecord['telephoneNumber']);
             $authentication = $user->getAuthentication();

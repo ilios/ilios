@@ -45,6 +45,7 @@ class UserTest extends ReadWriteEndpointTest
             'lastName' => ['lastName', $this->getFaker()->text(30)],
             'firstName' => ['firstName', $this->getFaker()->text(20)],
             'middleName' => ['middleName', $this->getFaker()->text(20)],
+            'displayName' => ['displayName', $this->getFaker()->text(200)],
             'phone' => ['phone', $this->getFaker()->phoneNumber],
             'email' => ['email', $this->getFaker()->email],
             'preferredEmail' => ['preferredEmail', $this->getFaker()->email],

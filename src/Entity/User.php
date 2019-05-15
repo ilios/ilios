@@ -107,6 +107,22 @@ class User implements UserInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="display_name", type="string", length=200, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    protected $displayName;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="phone", type="string", length=30, nullable=true)
      *
      * @Assert\Type(type="string")
@@ -649,6 +665,22 @@ class User implements UserInterface
     public function getFirstAndLastName()
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDisplayName()
+    {
+        return $this->displayName;
     }
 
     /**

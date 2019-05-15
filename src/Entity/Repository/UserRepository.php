@@ -946,6 +946,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
                 $arr['firstName'],
                 $arr['lastName'],
                 $arr['middleName'],
+                $arr['displayName'],
                 $arr['phone'],
                 $arr['email'],
                 $arr['preferredEmail'],
