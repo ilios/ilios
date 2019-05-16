@@ -23,14 +23,13 @@ For an Ilios instance, the `<Location></Location>` container in the shibd.conf s
 
 ## Ilios Configuration Settings
 
-After configuring your Ilios application server as a Shibboleth SP and verifying its functionality with your institution's Shibboleth Identity Provider (or "IDp"), you will need to set "shibboleth" as the authentication method within the Ilios configuration settings:
+After configuring your Ilios application server as a Shibboleth SP and verifying its functionality with your institution's Shibboleth Identity Provider (or "IDp"), you will need to set `shibboleth` as the authentication method within the Ilios configuration settings:
 
-First, make sure that you set any `ILIOS_AUTHENTICATION_TYPE` environment variables to `shibboleth`.  Environment variables in Ilios can be set in several places, but are typically found in the `.env.local` dotfile in your Ilios application root.  Please see our [documentation on ENV vars and Configuration](env_vars_and_config.md) for more information on where environment variables can be set for an Ilios install.
+First, make sure that you set any `ILIOS_AUTHENTICATION_TYPE` environment variables on the system to `shibboleth`.  Environment variables in Ilios can be set in several places, but are typically found in the `.env.local` dotfile in your Ilios application root.  Please see our [documentation on ENV vars and Configuration](env_vars_and_config.md) for more information on where environment variables can be set for an Ilios installation.
 
 Second, you will need to set/update the following settings to reflect their proper values in the `application_config` table of the Ilios application's database:
 
-`application_config`
-
+|Database Table: `application_config`|
 |`name`|`value`|
 |---|---|
 |`authentication_type`|`shibboleth`|
