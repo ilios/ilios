@@ -47,4 +47,4 @@ sudo -u apache bin/console --env=prod ilios:maintenance:set-config-value shibbol
 sudo -u apache bin/console --env=prod ilios:maintenance:set-config-value shibboleth_authentication_logout_path <your campus value>
 ```
 
-Finally, you sould rebuild your Ilios instance after making these changes by re-running the `composer install` process as you outlined in the Ilios installation documentation at [install.md](install.md).
+Finally, you should rebuild your Ilios instance after making these changes by re-running the `composer install` process as outlined in the Ilios installation documentation at [install.md](install.md).
