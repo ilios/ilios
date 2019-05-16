@@ -29,7 +29,8 @@ First, make sure that you set any `ILIOS_AUTHENTICATION_TYPE` environment variab
 
 Second, you will need to set/update the following settings to reflect their proper values in the `application_config` table of the Ilios application's database:
 
-|Database Table: `application_config`|
+Ilios Database Table: `application_config`
+
 |`name`|`value`|
 |---|---|
 |`authentication_type`|`shibboleth`|
