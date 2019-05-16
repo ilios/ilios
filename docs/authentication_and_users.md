@@ -11,7 +11,7 @@ Ilios supports several different authentcation types to choose from, depending o
 
 **CAS** Support for campus Central Authentication Service Installations, username in Ilios is linked to a campus account, users sign in through that system (supports SAML)
 
-**Shibboleth** Support for campus SAML Shibboleth installations, username in Ilios is linked to a campus account, users sign in through that system
+**Shibboleth** Support for campus SAML Shibboleth installations, username in Ilios is linked to a campus account, users sign in through that system. For information on the specifics of configuring Ilios to use Shibboleth, please see our docs on [Shibboleth Authentication](shibboleth_authenticaion.md) specifically.
 
 ### Initial Setup Ilios for your Authentication type
 
