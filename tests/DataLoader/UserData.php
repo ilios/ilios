@@ -53,7 +53,7 @@ class UserData extends AbstractDataLoader
             'lastName' => 'first',
             'middleName' => 'first',
             'firstName' => 'first',
-            'displayName' => $this->faker->name,
+            'displayName' => 'disnom',
             'email' => 'first@example.com',
             'preferredEmail' => $this->faker->email,
             'phone' => '415-555-0123',
