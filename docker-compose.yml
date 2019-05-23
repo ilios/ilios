@@ -17,7 +17,7 @@ services:
         volumes:
             - ./:/var/www/ilios:delegated
     elasticsearch:
-        image: elasticsearch:6.5.4
+        image: elasticsearch:6.7.1
         environment:
             - http.cors.enabled=true
             - http.cors.allow-origin=http://localhost:1358

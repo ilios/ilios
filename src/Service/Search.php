@@ -33,13 +33,32 @@ class Search extends ElasticSearchBase
             throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
         $params = [
-            'type' => UserDTO::class,
-            'index' => self::USER_INDEX,
+            'type' => '_doc',
+            'index' => self::PRIVATE_USER_INDEX,
             "size" => $size,
             'body' => [
                 'query' => [
-                    'query_string' => [
-                        'query' => "*${query}*",
+                    'bool' => [
+                        'must' => [
+                            'multi_match' => [
+                                'query' => $query,
+                                'type' => "cross_fields",
+                                'fields' => [
+                                    'user.fullName^2',
+                                    'user.email',
+                                    'user.campusId',
+                                    'user.username'
+                                ]
+                            ]
+                        ],
+                        'should' => [
+                            'match_phrase' => [
+                                'fullName' => [
+                                    'query' => $query,
+                                    'slop'  => 100
+                                ],
+                            ]
+                        ]
                     ]
                 ],
                 "_source" => [
@@ -66,7 +85,7 @@ class Search extends ElasticSearchBase
         }
         $params = [
             'type' => Descriptor::class,
-            'index' => self::MESH_INDEX,
+            'index' => self::PUBLIC_MESH_INDEX,
             'body' => [
                 'query' => [
                     'query_string' => [
