@@ -79,7 +79,8 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $courseDTOs[$arr['courseId']]->school = (int)$arr['schoolId'];
-            $courseDTOs[$arr['courseId']]->clerkshipType = $arr['clerkshipTypeId'] ? (int)$arr['clerkshipTypeId'] : null;
+            $courseDTOs[$arr['courseId']]->clerkshipType =
+                $arr['clerkshipTypeId'] ? (int)$arr['clerkshipTypeId'] : null;
             $courseDTOs[$arr['courseId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
         }
 
@@ -217,7 +218,7 @@ EOL;
      * Finds all courses associated with a given user.
      * A user can be associated as either course director, learner or instructor with a given course.
      *
-     * @param integer $user
+     * @param integer $userId
      * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
@@ -231,9 +232,7 @@ EOL;
         array $orderBy = null,
         $limit = null,
         $offset = null
-    )
-    {
-
+    ) {
         $rsm = new ResultSetMappingBuilder($this->_em);
         $rsm->addRootEntityFromClassMetadata('App\Entity\Course', 'c');
         $meta = $this->_em->getClassMetadata('App\Entity\Course');
