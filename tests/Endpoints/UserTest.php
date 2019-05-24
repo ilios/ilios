@@ -162,6 +162,7 @@ class UserTest extends ReadWriteEndpointTest
             ['newuser', [1]],
             ['1111@school', [0]],
             ['', [0, 1, 2, 3, 4]],
+            ['disnom', [1]],
         ];
     }
 

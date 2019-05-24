@@ -29,6 +29,7 @@ class Index extends ElasticSearchBase
                 'firstName' => $user->firstName,
                 'lastName' => $user->lastName,
                 'middleName' => $user->middleName,
+                'displayName' => $user->displayName,
                 'email' => $user->email,
                 'campusId' => $user->campusId,
                 'username' => $user->username,
