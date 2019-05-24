@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Classes\ElasticSearchBase;
 use App\Classes\IndexableCourse;
-use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
@@ -49,7 +48,6 @@ class Index extends ElasticSearchBase
     {
         $result = $this->delete([
             'index' => Search::PRIVATE_USER_INDEX,
-            'type' => UserDTO::class,
             'id' => $id,
         ]);
 
@@ -112,17 +110,21 @@ class Index extends ElasticSearchBase
 
     /**
      * @param int $id
+     *
      * @return bool
      */
     public function deleteCourse(int $id) : bool
     {
-        $result = $this->delete([
+        $result = $this->deleteByQuery([
             'index' => Search::PUBLIC_CURRICULUM_INDEX,
-            'type' => CourseDTO::class,
-            'courseId' => $id,
+            'body' => [
+                'query' => [
+                    'term' => ['courseId' => $id]
+                ]
+            ]
         ]);
 
-        return !$result['errors'];
+        return !count($result['failures']);
     }
 
     /**
@@ -186,6 +188,14 @@ class Index extends ElasticSearchBase
             return ['errors' => false];
         }
         return $this->client->delete($params);
+    }
+
+    protected function deleteByQuery(array $params) : array
+    {
+        if (!$this->enabled) {
+            return ['failures' => []];
+        }
+        return $this->client->deleteByQuery($params);
     }
 
     protected function bulk(array $params) : array
