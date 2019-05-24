@@ -1,6 +1,7 @@
 <?php
 namespace App\Tests\Service;
 
+use App\Classes\IndexableCourse;
 use App\Entity\Course;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
@@ -48,14 +49,14 @@ class IndexTest extends TestCase
         $this->assertTrue($obj->indexUsers($users));
     }
 
-    public function testIndexCoursesThrowsWhenNotDTO()
+    public function testIndexCoursesThrowsWhenNotIndexableCorurse()
     {
         $obj = $this->createWithoutHost();
         $this->expectException(\InvalidArgumentException::class);
         $courses = [
+            m::mock(IndexableCourse::class),
             m::mock(CourseDTO::class),
-            m::mock(Course::class),
-            m::mock(CourseDTO::class)
+            m::mock(IndexableCourse::class)
         ];
         $obj->indexCourses($courses);
     }
@@ -63,11 +64,10 @@ class IndexTest extends TestCase
     public function testIndexCoursesWorksWithoutSearch()
     {
         $obj = $this->createWithoutHost();
-        $courses = [
-            m::mock(CourseDTO::class),
-            m::mock(CourseDTO::class)
-        ];
-        $this->assertTrue($obj->indexCourses($courses));
+        $mockCourse = m::mock(IndexableCourse::class);
+        $mockDto = m::mock(CourseDTO::class);
+        $mockCourse->courseDTO = $mockDto;
+        $this->assertTrue($obj->indexCourses([$mockCourse]));
     }
 
     public function testIndexMeshDescriptorsThrowsWhenNotDescriptor()

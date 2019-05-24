@@ -1,7 +1,10 @@
 <?php
+
 namespace App\Entity\Repository;
 
+use App\Classes\IndexableCourse;
 use App\Entity\Course;
+use App\Entity\Session;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
@@ -75,9 +78,10 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
             ->setParameter('courseIds', $courseIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $courseDTOs[$arr['courseId']]->school = (int) $arr['schoolId'];
-            $courseDTOs[$arr['courseId']]->clerkshipType = $arr['clerkshipTypeId']?(int)$arr['clerkshipTypeId']:null;
-            $courseDTOs[$arr['courseId']]->ancestor = $arr['ancestorId']?(int)$arr['ancestorId']:null;
+            $courseDTOs[$arr['courseId']]->school = (int)$arr['schoolId'];
+            $courseDTOs[$arr['courseId']]->clerkshipType =
+                $arr['clerkshipTypeId'] ? (int)$arr['clerkshipTypeId'] : null;
+            $courseDTOs[$arr['courseId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
         }
 
         $related = [
@@ -149,7 +153,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function isUserInstructingInCourse($userId, $courseId)
     {
-        $sql =<<<EOL
+        $sql = <<<EOL
 SELECT
   oxi.user_id
 FROM
@@ -204,8 +208,8 @@ EOL;
         $stmt->bindValue("user_id", $userId);
         $stmt->bindValue("course_id", $courseId);
         $stmt->execute();
-        $rows =  $stmt->fetchAll();
-        $isInstructing = ! empty($rows);
+        $rows = $stmt->fetchAll();
+        $isInstructing = !empty($rows);
         $stmt->closeCursor();
         return $isInstructing;
     }
@@ -214,7 +218,7 @@ EOL;
      * Finds all courses associated with a given user.
      * A user can be associated as either course director, learner or instructor with a given course.
      *
-     * @param integer $user
+     * @param integer $userId
      * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
@@ -229,7 +233,6 @@ EOL;
         $limit = null,
         $offset = null
     ) {
-
         $rsm = new ResultSetMappingBuilder($this->_em);
         $rsm->addRootEntityFromClassMetadata('App\Entity\Course', 'c');
         $meta = $this->_em->getClassMetadata('App\Entity\Course');
@@ -238,7 +241,7 @@ EOL;
             $orderBy = ['id' => 'ASC'];
         }
 
-        $sql =<<<EOL
+        $sql = <<<EOL
 SELECT * FROM (
   SELECT c.* FROM course c
     JOIN course_director cd ON cd.course_id = c.course_id
@@ -321,7 +324,7 @@ EOL;
         $sqlFragments = [];
         foreach ($criteria as $name => $value) {
             $i++;
-            if (! $meta->hasField($name)) {
+            if (!$meta->hasField($name)) {
                 throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $name));
             }
 
@@ -341,7 +344,7 @@ EOL;
         if (is_array($orderBy)) {
             $sqlFragments = [];
             foreach ($orderBy as $sort => $order) {
-                if (! $meta->hasField($sort)) {
+                if (!$meta->hasField($sort)) {
                     throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $sort));
                 }
                 $column = $meta->getColumnName($sort);
@@ -367,10 +370,10 @@ EOL;
         }
 
         if (isset($limit)) {
-            $query->setParameter('limit', (int) $limit);
+            $query->setParameter('limit', (int)$limit);
         }
         if (isset($offset)) {
-            $query->setParameter('offset', (int) $offset);
+            $query->setParameter('offset', (int)$offset);
         }
         return $query->getResult();
     }
@@ -566,5 +569,242 @@ EOL;
         }
 
         return $qb;
+    }
+
+    /**
+     * Create course index objects for a set of courses
+     *
+     * @param array $courseIds
+     *
+     * @return IndexableCourse[]
+     */
+    public function getCourseIndexesFor(array $courseIds)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
+            'c.id AS id, c.title AS title, c.level AS level, c.year AS year, ' .
+            'c.startDate AS startDate, c.endDate AS endDate, c.externalId AS externalId, ' .
+            'c.locked AS locked, c.archived AS archived, c.publishedAsTbd AS publishedAsTbd, ' .
+            'c.published AS published, s.title as school, cl.title as clerkshipType'
+        )
+            ->from(Course::class, 'c')
+            ->join('c.school', 's')
+            ->leftJoin('c.clerkshipType', 'cl')
+            ->where($qb->expr()->in('c.id', ':courseIds'))
+            ->setParameter('courseIds', $courseIds);
+
+        /** @var IndexableCourse[] $indexableCourses */
+        $indexableCourses = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $index = new IndexableCourse();
+            $index->courseDTO = new CourseDTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['level'],
+                $arr['year'],
+                $arr['startDate'],
+                $arr['endDate'],
+                $arr['externalId'],
+                $arr['locked'],
+                $arr['archived'],
+                $arr['publishedAsTbd'],
+                $arr['published']
+            );
+            $index->school = $arr['school'];
+            $index->clerkshipType = $arr['clerkshipType'] ? $arr['clerkshipType'] : null;
+
+            $indexableCourses[$arr['id']] = $index;
+        }
+
+        $directors = $this->joinResults(
+            Course::class,
+            'directors',
+            "CONCAT(r.firstName, ' ', r.lastName, ' ', r.displayName) AS name",
+            $courseIds
+        );
+        foreach ($directors as $courseId => $arr) {
+            $indexableCourses[$courseId]->courseDirectors[] = $arr[0]['name'];
+        }
+
+        $administrators = $this->joinResults(
+            Course::class,
+            'administrators',
+            "CONCAT(r.firstName, ' ', r.lastName, ' ', r.displayName) AS name",
+            $courseIds
+        );
+        foreach ($administrators as $courseId => $arr) {
+            $indexableCourses[$courseId]->courseAdministrators[] = $arr[0]['name'];
+        }
+
+        $terms = $this->joinResults(
+            Course::class,
+            'terms',
+            "r.title",
+            $courseIds
+        );
+        foreach ($terms as $courseId => $arr) {
+            $indexableCourses[$courseId]->courseTerms[] = $arr[0]['title'];
+        }
+
+        $objectives = $this->joinResults(
+            Course::class,
+            'objectives',
+            "r.title",
+            $courseIds
+        );
+        foreach ($objectives as $courseId => $arr) {
+            $indexableCourses[$courseId]->courseObjectives[] = $arr[0]['title'];
+        }
+
+        $meshDescriptors = $this->joinResults(
+            Course::class,
+            'meshDescriptors',
+            "r.id, r.name, r.annotation",
+            $courseIds
+        );
+        foreach ($meshDescriptors as $courseId => $arr) {
+            $indexableCourses[$courseId]->courseMeshDescriptors[] = $arr[0]['id'];
+        }
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select("c.id AS courseId, CONCAT(l.title, ' ', l.description) AS txt")
+            ->from(Course::class, 'c')
+            ->join("c.learningMaterials", 'clm')
+            ->join("clm.learningMaterial", 'l')
+            ->where($qb->expr()->in('c.id', ':courseIds'))
+            ->setParameter('courseIds', $courseIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $indexableCourses[$arr['courseId']]->courseLearningMaterials[] = $arr['txt'];
+        }
+
+        $arr = $this->joinResults(
+            Course::class,
+            'sessions',
+            "r.id AS sessionId",
+            $courseIds
+        );
+
+        $sessionIds = array_reduce($arr, function (array $carry, array $item) {
+            return array_merge($carry, array_column($item, 'sessionId'));
+        }, []);
+
+        $chunks = array_chunk(array_unique($sessionIds), 500);
+        foreach ($chunks as $ids) {
+            $sessionBlocks = $this->sessionDataForIndex($ids);
+            foreach ($sessionBlocks as $arr) {
+                $indexableCourses[$arr['courseId']]->sessions[] = $arr;
+            }
+        }
+
+        return array_values($indexableCourses);
+    }
+
+    /**
+     * @param string $from
+     * @param string $rel
+     * @param string $select
+     * @param array $ids
+     *
+     * @return array
+     */
+    protected function joinResults(string $from, string $rel, string $select, array $ids)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("f.id AS fromId, ${select}")->from($from, 'f')
+            ->join("f.{$rel}", 'r')
+            ->where($qb->expr()->in('f.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        $rhett = [];
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $rhett[$arr['fromId']][] = $arr;
+        }
+
+        return $rhett;
+    }
+
+    /**
+     * @param array $sessionIds
+     *
+     * @return array
+     */
+    protected function sessionDataForIndex(array $sessionIds)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
+            's.id AS sessionId, s.title AS title, sd.description AS description, c.id as courseId, ' .
+            'st.title AS sessionType'
+        )
+            ->from(Session::class, 's')
+            ->join('s.course', 'c')
+            ->leftJoin('s.sessionType', 'st')
+            ->leftJoin('s.sessionDescription', 'sd')
+            ->where($qb->expr()->in('s.id', ':ids'))
+            ->setParameter('ids', $sessionIds);
+
+        $sessions = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $sessions[$arr['sessionId']] = $arr;
+            $sessions[$arr['sessionId']]['administrators'] = [];
+            $sessions[$arr['sessionId']]['terms'] = [];
+            $sessions[$arr['sessionId']]['objectives'] = [];
+            $sessions[$arr['sessionId']]['meshDescriptors'] = [];
+            $sessions[$arr['sessionId']]['learningMaterials'] = [];
+        }
+
+        $administrators = $this->joinResults(
+            Session::class,
+            'administrators',
+            "CONCAT(r.firstName, ' ', r.lastName, ' ', r.displayName) AS name",
+            $sessionIds
+        );
+        foreach ($administrators as $sessionId => $arr) {
+            $sessions[$sessionId]['administrators'][] = $arr[0]['name'];
+        }
+
+        $terms = $this->joinResults(
+            Session::class,
+            'terms',
+            "r.title",
+            $sessionIds
+        );
+        foreach ($terms as $sessionId => $arr) {
+            $sessions[$sessionId]['terms'][] = $arr[0]['title'];
+        }
+
+        $objectives = $this->joinResults(
+            Session::class,
+            'objectives',
+            "r.title",
+            $sessionIds
+        );
+        foreach ($objectives as $sessionId => $arr) {
+            $sessions[$sessionId]['objectives'][] = $arr[0]['title'];
+        }
+
+        $meshDescriptors = $this->joinResults(
+            Session::class,
+            'meshDescriptors',
+            "r.id, r.name, r.annotation",
+            $sessionIds
+        );
+        foreach ($meshDescriptors as $sessionId => $arr) {
+            $sessions[$sessionId]['meshDescriptors'][] = $arr[0]['id'];
+        }
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select("s.id AS sessionId, CONCAT(l.title, ' ', l.description) AS txt")
+            ->from(Session::class, 's')
+            ->join("s.learningMaterials", 'slm')
+            ->join("slm.learningMaterial", 'l')
+            ->where($qb->expr()->in('s.id', ':ids'))
+            ->setParameter('ids', $sessionIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $sessions[$arr['sessionId']]['learningMaterials'][] = $arr['txt'];
+        }
+
+        return array_values($sessions);
     }
 }

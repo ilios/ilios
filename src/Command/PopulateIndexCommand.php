@@ -106,10 +106,10 @@ class PopulateIndexCommand extends Command
         $progressBar = new ProgressBar($output, count($allIds));
         $progressBar->setMessage('Adding Courses...');
         $progressBar->start();
-        $chunks = array_chunk($allIds, 500);
+        $chunks = array_chunk($allIds, 100);
         foreach ($chunks as $ids) {
-            $dtos = $this->courseManager->findDTOsBy(['id' => $ids]);
-            $this->index->indexCourses($dtos);
+            $indexes = $this->courseManager->getCourseIndexesFor($ids);
+            $this->index->indexCourses($indexes);
             $progressBar->advance(count($ids));
         }
         $progressBar->setMessage(count($allIds) . " Courses Added!");

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Manager;
 
+use App\Classes\IndexableCourse;
 use App\Entity\CourseInterface;
 use App\Entity\Repository\CourseRepository;
 use App\Entity\UserInterface;
@@ -68,5 +69,19 @@ class CourseManager extends BaseManager
         /** @var CourseRepository $repository */
         $repository = $this->getRepository();
         return $repository->isUserInstructingInCourse($userId, $courseId);
+    }
+
+    /**
+     * Create course index objects for a set of courses
+     *
+     * @param array $courseIds
+     *
+     * @return IndexableCourse[]
+     */
+    public function getCourseIndexesFor(array $courseIds)
+    {
+        /** @var CourseRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getCourseIndexesFor($courseIds);
     }
 }

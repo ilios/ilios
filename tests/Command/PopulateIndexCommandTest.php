@@ -1,6 +1,7 @@
 <?php
 namespace App\Tests\Command;
 
+use App\Classes\IndexableCourse;
 use App\Command\PopulateIndexCommand;
 use App\Entity\Course;
 use App\Entity\DTO\CourseDTO;
@@ -87,13 +88,11 @@ class PopulateIndexCommandTest extends KernelTestCase
 
 
         $this->courseManager->shouldReceive('getIds')->andReturn([89]);
-        $mockCourseDTO = m::mock(CourseDTO::class);
-        $mockCourseDTO->id = 11;
-        $mockCourseDTO->title = 'course title';
+        $mockIndexableCourse = m::mock(IndexableCourse::class);
 
-        $this->courseManager->shouldReceive('findDTOsBy')
-            ->with(['id' => [89]])->andReturn([$mockCourseDTO]);
-        $this->index->shouldReceive('indexCourses')->with([$mockCourseDTO]);
+        $this->courseManager->shouldReceive('getCourseIndexesFor')
+            ->with([89])->andReturn([$mockIndexableCourse]);
+        $this->index->shouldReceive('indexCourses')->with([$mockIndexableCourse]);
 
 
         $this->meshDescriptorManager->shouldReceive('getIds')->andReturn([99]);
