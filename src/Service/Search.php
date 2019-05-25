@@ -77,11 +77,12 @@ class Search extends ElasticSearchBase
             $sessionMatches = array_filter($arr['matched_queries'], function (string $match) {
                 return strpos($match, 'session') === 0;
             });
-            $source = $arr['_source'];
-            $source['courseMatches'] = $courseMatches;
-            $source['sessionMatches'] = $sessionMatches;
+            $rhett = $arr['_source'];
+            $rhett['score'] = $arr['_score'];
+            $rhett['courseMatches'] = $courseMatches;
+            $rhett['sessionMatches'] = $sessionMatches;
 
-            return $source;
+            return $rhett;
         }, $results['hits']['hits']);
 
         $courses = array_reduce($mappedResults, function (array $carry, array $item) {
@@ -91,6 +92,7 @@ class Search extends ElasticSearchBase
                     'id' => $id,
                     'title' => $item['courseTitle'],
                     'year' => $item['courseTitle'],
+                    'bestScore' => 0,
                     'sessions' => [],
                     'matchedIn' => [],
                 ];
@@ -102,16 +104,24 @@ class Search extends ElasticSearchBase
                 return substr($match, strlen('session'));
             }, $item['sessionMatches']);
             $carry[$id]['matchedIn'] += array_diff($courseMatches, $carry[$id]['matchedIn']);
+            if ($item['score'] > $carry[$id]['bestScore']) {
+                $carry[$id]['bestScore'] = $item['score'];
+            }
             $carry[$id]['sessions'][] = [
                 'id' => $item['sessionId'],
                 'title' => $item['sessionTitle'],
+                'score' => $item['score'],
                 'matchedIn' => $sessionMatches,
             ];
 
             return $carry;
         }, []);
 
-        return array_values($courses);
+        usort($courses, function ($a, $b) {
+            return $b['bestScore'] <=> $a['bestScore'];
+        });
+
+        return $courses;
     }
 
     /**
