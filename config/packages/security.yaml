@@ -23,6 +23,13 @@ security:
         authenticators:
           - App\Security\JsonWebTokenAuthenticator
       provider: session_user
+    authenticated_search:
+      pattern:    ^/experimental_search
+      stateless: true
+      guard:
+        authenticators:
+          - App\Security\JsonWebTokenAuthenticator
+      provider: session_user
     upload:
       pattern:    ^/upload
       stateless: true
