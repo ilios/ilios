@@ -73,7 +73,23 @@ class SearchControllerTest extends TestCase
     public function testSearch()
     {
         $searchTerm = 'jasper & jackson';
-        $result = [];
+        $result = [
+            'courses' => [
+                [
+                    'id' => 1,
+                    'title' => 'This Course',
+                    'year' => 2019,
+                    'matchedIn' => [],
+                    'sessions' => [
+                        [
+                            'id' => 11,
+                            'title' => 'This Session',
+                            'matchedIn' => []
+                        ]
+                    ]
+                ]
+            ]
+        ];
 
         $this->mockSearch
             ->shouldReceive('curriculumSearch')

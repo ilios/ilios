@@ -53,6 +53,6 @@ class Search extends AbstractController
 
         $result = $this->search->curriculumSearch($query);
 
-        return new JsonResponse(array('results' => $result));
+        return new JsonResponse(['results' => $result]);
     }
 }

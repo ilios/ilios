@@ -30,7 +30,88 @@ class Search extends ElasticSearchBase
         if (!$this->enabled) {
             throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
-        return [];
+        $fields = [
+            'courseTitle',
+            'courseTerms',
+            'courseObjectives',
+            'courseLearningMaterials',
+            'courseMeshDescriptors',
+            'sessionTitle',
+            'sessionDescription',
+            'sessionType',
+            'sessionTerms',
+            'sessionObjectives',
+            'sessionLearningMaterials',
+            'sessionMeshDescriptors',
+        ];
+        $should = array_map(function ($field) use ($query) {
+            return [ 'match' => [ $field => ['query' => $query, '_name' => $field] ] ];
+        }, $fields);
+        $params = [
+            'type' => '_doc',
+            'index' => self::PUBLIC_CURRICULUM_INDEX,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'should' => $should,
+                    ]
+                ],
+                "_source" => [
+                    'courseId',
+                    'courseTitle',
+                    'courseYear',
+                    'sessionId',
+                    'sessionTitle'
+                ],
+                'sort' => '_score',
+                'size' => 1000
+            ]
+        ];
+
+        $results = $this->search($params);
+
+        $mappedResults = array_map(function (array $arr) {
+            $courseMatches = array_filter($arr['matched_queries'], function (string $match) {
+                return strpos($match, 'course') === 0;
+            });
+            $sessionMatches = array_filter($arr['matched_queries'], function (string $match) {
+                return strpos($match, 'session') === 0;
+            });
+            $source = $arr['_source'];
+            $source['courseMatches'] = $courseMatches;
+            $source['sessionMatches'] = $sessionMatches;
+
+            return $source;
+        }, $results['hits']['hits']);
+
+        $courses = array_reduce($mappedResults, function (array $carry, array $item) {
+            $id = $item['courseId'];
+            if (!array_key_exists($id, $carry)) {
+                $carry[$id] = [
+                    'id' => $id,
+                    'title' => $item['courseTitle'],
+                    'year' => $item['courseTitle'],
+                    'sessions' => [],
+                    'matchedIn' => [],
+                ];
+            }
+            $courseMatches = array_map(function (string $match) {
+                return substr($match, strlen('course'));
+            }, $item['courseMatches']);
+            $sessionMatches = array_map(function (string $match) {
+                return substr($match, strlen('session'));
+            }, $item['sessionMatches']);
+            $carry[$id]['matchedIn'] += array_diff($courseMatches, $carry[$id]['matchedIn']);
+            $carry[$id]['sessions'][] = [
+                'id' => $item['sessionId'],
+                'title' => $item['sessionTitle'],
+                'matchedIn' => $sessionMatches,
+            ];
+
+            return $carry;
+        }, []);
+
+        return array_values($courses);
     }
 
     /**
