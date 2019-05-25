@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Classes\ElasticSearchBase;
-use App\Entity\DTO\UserDTO;
 use Ilios\MeSH\Model\Descriptor;
 
 class Search extends ElasticSearchBase
@@ -19,6 +18,19 @@ class Search extends ElasticSearchBase
             throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
         return $this->client->search($params);
+    }
+
+    /**
+     * @param string $query
+     * @return array
+     * @throws \Exception when search is not configured
+     */
+    public function curriculumSearch(string $query)
+    {
+        if (!$this->enabled) {
+            throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
+        }
+        return [];
     }
 
     /**

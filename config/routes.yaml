@@ -41,6 +41,11 @@ _monitor:
   resource: "@LiipMonitorBundle/Resources/config/routing.xml"
   prefix: /ilios/health
 
+ilios_search:
+  path: /experimental_search
+  controller: App\Controller\Search:search
+  methods:  [GET]
+
 ilios_swagger_redirect_docs:
   path: /api/docs/
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
