@@ -3,6 +3,7 @@
 namespace App\Entity\Repository;
 
 use App\Classes\IndexableCourse;
+use App\Classes\IndexableSession;
 use App\Entity\Course;
 use App\Entity\Session;
 use Doctrine\ORM\AbstractQuery;
@@ -623,7 +624,7 @@ EOL;
             $courseIds
         );
         foreach ($directors as $courseId => $arr) {
-            $indexableCourses[$courseId]->courseDirectors[] = $arr[0]['name'];
+            $indexableCourses[$courseId]->directors[] = $arr[0]['name'];
         }
 
         $administrators = $this->joinResults(
@@ -633,7 +634,7 @@ EOL;
             $courseIds
         );
         foreach ($administrators as $courseId => $arr) {
-            $indexableCourses[$courseId]->courseAdministrators[] = $arr[0]['name'];
+            $indexableCourses[$courseId]->administrators[] = $arr[0]['name'];
         }
 
         $terms = $this->joinResults(
@@ -643,7 +644,7 @@ EOL;
             $courseIds
         );
         foreach ($terms as $courseId => $arr) {
-            $indexableCourses[$courseId]->courseTerms[] = $arr[0]['title'];
+            $indexableCourses[$courseId]->terms[] = $arr[0]['title'];
         }
 
         $objectives = $this->joinResults(
@@ -653,7 +654,7 @@ EOL;
             $courseIds
         );
         foreach ($objectives as $courseId => $arr) {
-            $indexableCourses[$courseId]->courseObjectives[] = $arr[0]['title'];
+            $indexableCourses[$courseId]->objectives[] = $arr[0]['title'];
         }
 
         $meshDescriptors = $this->joinResults(
@@ -663,7 +664,7 @@ EOL;
             $courseIds
         );
         foreach ($meshDescriptors as $courseId => $arr) {
-            $indexableCourses[$courseId]->courseMeshDescriptors[] = $arr[0]['id'];
+            $indexableCourses[$courseId]->meshDescriptors[] = $arr[0]['id'];
         }
 
         $qb = $this->_em->createQueryBuilder()
@@ -675,7 +676,7 @@ EOL;
             ->setParameter('courseIds', $courseIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $indexableCourses[$arr['courseId']]->courseLearningMaterials[] = $arr['txt'];
+            $indexableCourses[$arr['courseId']]->learningMaterials[] = $arr['txt'];
         }
 
         $arr = $this->joinResults(
@@ -691,9 +692,9 @@ EOL;
 
         $chunks = array_chunk(array_unique($sessionIds), 500);
         foreach ($chunks as $ids) {
-            $sessionBlocks = $this->sessionDataForIndex($ids);
-            foreach ($sessionBlocks as $arr) {
-                $indexableCourses[$arr['courseId']]->sessions[] = $arr;
+            $indexableSessions = $this->sessionDataForIndex($ids);
+            foreach ($indexableSessions as $session) {
+                $indexableCourses[$session->courseId]->sessions[] = $session;
             }
         }
 
@@ -727,7 +728,7 @@ EOL;
     /**
      * @param array $sessionIds
      *
-     * @return array
+     * @return IndexableSession[]
      */
     protected function sessionDataForIndex(array $sessionIds)
     {
@@ -743,14 +744,16 @@ EOL;
             ->where($qb->expr()->in('s.id', ':ids'))
             ->setParameter('ids', $sessionIds);
 
+        /** @var IndexableSession[] $sessions */
         $sessions = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $sessions[$arr['sessionId']] = $arr;
-            $sessions[$arr['sessionId']]['administrators'] = [];
-            $sessions[$arr['sessionId']]['terms'] = [];
-            $sessions[$arr['sessionId']]['objectives'] = [];
-            $sessions[$arr['sessionId']]['meshDescriptors'] = [];
-            $sessions[$arr['sessionId']]['learningMaterials'] = [];
+            $session = new IndexableSession();
+            $session->courseId = $arr['courseId'];
+            $session->sessionId = $arr['sessionId'];
+            $session->sessionType = $arr['sessionType'];
+            $session->description = $arr['description'];
+
+            $sessions[$arr['sessionId']] = $session;
         }
 
         $administrators = $this->joinResults(
@@ -760,7 +763,7 @@ EOL;
             $sessionIds
         );
         foreach ($administrators as $sessionId => $arr) {
-            $sessions[$sessionId]['administrators'][] = $arr[0]['name'];
+            $sessions[$sessionId]->administrators[] = $arr[0]['name'];
         }
 
         $terms = $this->joinResults(
@@ -770,7 +773,7 @@ EOL;
             $sessionIds
         );
         foreach ($terms as $sessionId => $arr) {
-            $sessions[$sessionId]['terms'][] = $arr[0]['title'];
+            $sessions[$sessionId]->terms[] = $arr[0]['title'];
         }
 
         $objectives = $this->joinResults(
@@ -780,7 +783,7 @@ EOL;
             $sessionIds
         );
         foreach ($objectives as $sessionId => $arr) {
-            $sessions[$sessionId]['objectives'][] = $arr[0]['title'];
+            $sessions[$sessionId]->objectives[] = $arr[0]['title'];
         }
 
         $meshDescriptors = $this->joinResults(
@@ -790,7 +793,7 @@ EOL;
             $sessionIds
         );
         foreach ($meshDescriptors as $sessionId => $arr) {
-            $sessions[$sessionId]['meshDescriptors'][] = $arr[0]['id'];
+            $sessions[$sessionId]->meshDescriptors[] = $arr[0]['id'];
         }
 
         $qb = $this->_em->createQueryBuilder()
@@ -802,7 +805,7 @@ EOL;
             ->setParameter('ids', $sessionIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $sessions[$arr['sessionId']]['learningMaterials'][] = $arr['txt'];
+            $sessions[$arr['sessionId']]->learningMaterials[] = $arr['txt'];
         }
 
         return array_values($sessions);

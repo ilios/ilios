@@ -49,7 +49,7 @@ class IndexTest extends TestCase
         $this->assertTrue($obj->indexUsers($users));
     }
 
-    public function testIndexCoursesThrowsWhenNotIndexableCorurse()
+    public function testIndexCoursesThrowsWhenNotIndexableCourse()
     {
         $obj = $this->createWithoutHost();
         $this->expectException(\InvalidArgumentException::class);
@@ -67,6 +67,7 @@ class IndexTest extends TestCase
         $mockCourse = m::mock(IndexableCourse::class);
         $mockDto = m::mock(CourseDTO::class);
         $mockCourse->courseDTO = $mockDto;
+        $mockCourse->shouldReceive('createIndexObjects')->andReturn([]);
         $this->assertTrue($obj->indexCourses([$mockCourse]));
     }
 

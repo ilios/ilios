@@ -68,41 +68,10 @@ class Index extends ElasticSearchBase
                 );
             }
         }
-        $input = [];
-
-        foreach ($courses as $course) {
-            $courseData = [
-                'courseId' => $course->courseDTO->id,
-                'school' => $course->school,
-                'courseYear' => $course->courseDTO->year,
-                'courseTitle' => $course->courseDTO->title,
-                'courseExternalId' => $course->courseDTO->externalId,
-                'clerkshipType' => $course->clerkshipType,
-                'courseDirectors' => implode(' ', $course->courseDirectors),
-                'courseAdministrators' => implode(' ', $course->courseAdministrators),
-                'courseObjectives' => implode(' ', $course->courseObjectives),
-                'courseTerms' => implode(' ', $course->courseTerms),
-                'courseMeshDescriptors' => implode(' ', $course->courseMeshDescriptors),
-                'courseLearningMaterials' => implode(' ', $course->courseLearningMaterials),
-            ];
-
-            foreach ($course->sessions as $session) {
-                $sessionData = [
-                    'id' => self::SESSION_ID_PREFIX . $session['sessionId'],
-                    'sessionId' => $session['sessionId'],
-                    'sessionTitle' => $session['title'],
-                    'sessionType' => $session['sessionType'],
-                    'sessionDescription' => $session['description'],
-                    'sessionAdministrators' => implode(' ', $session['administrators']),
-                    'sessionObjectives' => implode(' ', $session['objectives']),
-                    'sessionTerms' => implode(' ', $session['terms']),
-                    'sessionMeshDescriptors' => implode(' ', $session['meshDescriptors']),
-                    'sessionLearningMaterials' => implode(' ', $session['learningMaterials']),
-                ];
-
-                $input[] = array_merge($courseData, $sessionData);
-            }
-        }
+        $input = array_reduce($courses, function (array $carry, IndexableCourse $item) {
+            $sessions = $item->createIndexObjects();
+            return $carry + $sessions;
+        }, []);
 
         $result = $this->bulkIndex(Search::PUBLIC_CURRICULUM_INDEX, $input);
 
