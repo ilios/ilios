@@ -1339,4 +1339,14 @@ class PermissionChecker
     {
         return $sessionUser->isInLearnerGroup($learnerGroupId) || $sessionUser->performsNonLearnerFunction();
     }
+
+    /**
+     * Checks if the given user can search the curriculum
+     * @param SessionUserInterface $sessionUser
+     * @return bool
+     */
+    public function canSearchCurriculum(SessionUserInterface $sessionUser): bool
+    {
+        return $sessionUser->performsNonLearnerFunction();
+    }
 }
