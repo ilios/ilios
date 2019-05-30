@@ -386,7 +386,7 @@ class CourseTest extends ReadWriteEndpointTest
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
         $data = json_decode($response->getContent(), true);
         $this->assertContains('Courses cannot be rolled over to a new year before', $data['message']);
@@ -473,7 +473,7 @@ class CourseTest extends ReadWriteEndpointTest
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $data = json_decode($response->getContent(), true)['courses'];
 

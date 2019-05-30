@@ -803,7 +803,7 @@ class UsereventTest extends AbstractEndpointTest
             $userToken
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");
@@ -839,7 +839,7 @@ class UsereventTest extends AbstractEndpointTest
             $userToken
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");

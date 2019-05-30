@@ -23,7 +23,7 @@ abstract class AbstractMeshTest extends ReadEndpointTest
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
@@ -39,7 +39,7 @@ abstract class AbstractMeshTest extends ReadEndpointTest
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
@@ -55,7 +55,7 @@ abstract class AbstractMeshTest extends ReadEndpointTest
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 }

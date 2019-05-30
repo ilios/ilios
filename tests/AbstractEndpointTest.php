@@ -29,15 +29,9 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected $testName = null;
 
     /**
-     * @var Client
-     */
-    protected $client;
-
-    /**
      * @var ProxyReferenceRepository
      */
     protected $fixtures;
-
 
     /**
      * @var FakerGenerator
@@ -48,8 +42,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->client = $this->makeClient();
-        $this->client->followRedirects();
+        $this->makeClient();
 
         $authFixtures = [
             'App\Tests\Fixture\LoadAuthenticationData',
@@ -64,7 +57,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     public function tearDown() : void
     {
         parent::tearDown();
-        unset($this->client);
+        self::$client = null;
         unset($this->fixtures);
         unset($this->faker);
     }
@@ -172,7 +165,7 @@ abstract class AbstractEndpointTest extends WebTestCase
      */
     protected function createJsonRequest($method, $url, $content = null, $token = null, $files = [])
     {
-        $this->makeJsonRequest($this->client, $method, $url, $content, $token, $files);
+        $this->makeJsonRequest(self::$client, $method, $url, $content, $token, $files);
     }
 
     /**
@@ -221,7 +214,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");
@@ -253,7 +246,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             null,
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $responses = json_decode($response->getContent(), true)[$responseKey];
@@ -359,7 +352,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             json_encode([$postKey => $postData]),
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
         return json_decode($response->getContent(), true)[$responseKey][0];
@@ -380,7 +373,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             json_encode([$responseKey => $postData]),
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
         return json_decode($response->getContent(), true)[$responseKey];
@@ -402,7 +395,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertJsonResponse($response, $code);
     }
@@ -423,7 +416,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertJsonResponse($response, $code);
     }
@@ -503,7 +496,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             json_encode([$responseKey => $data]),
             $this->getTokenForUser($userId)
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $expectedHeader = $new?Response::HTTP_CREATED:Response::HTTP_OK;
         $this->assertJsonResponse($response, $expectedHeader);
 
@@ -537,7 +530,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             null,
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
 
         $this->assertJsonResponse($response, Response::HTTP_NO_CONTENT, false);
@@ -563,7 +556,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
@@ -622,7 +615,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getTokenForUser($userId)
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
@@ -651,7 +644,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
     }

@@ -116,7 +116,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             null,
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $responses = json_decode($response->getContent(), true)[$responseKey];
@@ -258,7 +258,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             null,
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $data = json_decode($response->getContent(), true)['curriculumInventoryReports'];
         $newReport = $data[0];
@@ -388,7 +388,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             null,
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
@@ -415,7 +415,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             null,
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $data = json_decode($response->getContent(), true)['curriculumInventoryReports'];
         $newReport = $data[0];
@@ -449,7 +449,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             null,
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $data = json_decode($response->getContent(), true)['curriculumInventoryReports'];
         $newReport = $data[0];

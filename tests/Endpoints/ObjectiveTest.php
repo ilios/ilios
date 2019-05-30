@@ -142,7 +142,7 @@ class ObjectiveTest extends ReadWriteEndpointTest
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $this->assertEquals(
@@ -192,7 +192,7 @@ class ObjectiveTest extends ReadWriteEndpointTest
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 }

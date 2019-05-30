@@ -302,7 +302,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
             $this->getTokenForUser(2)
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $expected = [
             [
