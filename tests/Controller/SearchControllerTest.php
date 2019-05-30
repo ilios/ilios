@@ -74,6 +74,10 @@ class SearchControllerTest extends TestCase
     {
         $searchTerm = 'jasper & jackson';
         $result = [
+            'autocomplete' => [
+              'one',
+              'two',
+            ],
             'courses' => [
                 [
                     'id' => 1,
@@ -93,7 +97,7 @@ class SearchControllerTest extends TestCase
 
         $this->mockSearch
             ->shouldReceive('curriculumSearch')
-            ->with($searchTerm)
+            ->with($searchTerm, false)
             ->once()
             ->andReturn([$result]);
 
@@ -103,6 +107,41 @@ class SearchControllerTest extends TestCase
 
         $request = new Request();
         $request->query->add(['q' => $searchTerm]);
+
+        $response = $this->controller->search($request);
+        $content = $response->getContent();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+
+        $this->assertEquals(
+            array('results' => array($result)),
+            json_decode($content, true),
+            var_export($content, true)
+        );
+    }
+
+    public function testSuggestionsOnly()
+    {
+        $searchTerm = 'jasper & jackson';
+        $result = [
+            'autocomplete' => [
+              'one',
+              'two',
+            ],
+            'courses' => []
+        ];
+
+        $this->mockSearch
+            ->shouldReceive('curriculumSearch')
+            ->with($searchTerm, true)
+            ->once()
+            ->andReturn([$result]);
+
+        $this->mockPermissionChecker
+            ->shouldReceive('canSearchCurriculum')
+            ->andReturn(true);
+
+        $request = new Request();
+        $request->query->add(['q' => $searchTerm, 'onlySuggest' => true]);
 
         $response = $this->controller->search($request);
         $content = $response->getContent();

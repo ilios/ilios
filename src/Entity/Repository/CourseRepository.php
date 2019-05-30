@@ -750,6 +750,7 @@ EOL;
             $session = new IndexableSession();
             $session->courseId = $arr['courseId'];
             $session->sessionId = $arr['sessionId'];
+            $session->title = $arr['title'];
             $session->sessionType = $arr['sessionType'];
             $session->description = $arr['description'];
 

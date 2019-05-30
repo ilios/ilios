@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classes\SessionUserInterface;
 use App\Service\PermissionChecker;
 use App\Service\Search as SearchService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,6 +45,7 @@ class Search extends AbstractController
 
     public function search(Request $request)
     {
+        /** @var SessionUserInterface $sessionUser */
         $sessionUser = $this->tokenStorage->getToken()->getUser();
         if (! $this->permissionChecker->canSearchCurriculum($sessionUser)) {
             throw new AccessDeniedException();
@@ -51,7 +53,9 @@ class Search extends AbstractController
 
         $query = $request->get('q');
 
-        $result = $this->search->curriculumSearch($query);
+        $onlySuggest = (bool) $request->get('onlySuggest');
+
+        $result = $this->search->curriculumSearch($query, $onlySuggest);
 
         return new JsonResponse(['results' => $result]);
     }
