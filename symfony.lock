@@ -5,9 +5,6 @@
     "clue/stream-filter": {
         "version": "v1.4.0"
     },
-    "composer/ca-bundle": {
-        "version": "1.1.4"
-    },
     "danielstjules/stringy": {
         "version": "3.1.0"
     },
@@ -284,9 +281,6 @@
     "psr/log": {
         "version": "1.1.0"
     },
-    "psr/simple-cache": {
-        "version": "1.0.1"
-    },
     "ralouphie/getallheaders": {
         "version": "2.0.5"
     },
@@ -344,6 +338,9 @@
     "symfony/cache": {
         "version": "v4.2.3"
     },
+    "symfony/cache-contracts": {
+        "version": "v1.1.1"
+    },
     "symfony/config": {
         "version": "v4.2.3"
     },
@@ -361,7 +358,7 @@
         ]
     },
     "symfony/contracts": {
-        "version": "v1.0.2"
+        "version": "v1.1.0"
     },
     "symfony/css-selector": {
         "version": "v4.2.3"
@@ -395,6 +392,9 @@
     },
     "symfony/event-dispatcher": {
         "version": "v4.2.3"
+    },
+    "symfony/event-dispatcher-contracts": {
+        "version": "v1.1.1"
     },
     "symfony/filesystem": {
         "version": "v4.2.3"
@@ -433,6 +433,12 @@
             "src/Kernel.php"
         ]
     },
+    "symfony/http-client": {
+        "version": "v4.3.0"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v1.1.1"
+    },
     "symfony/http-foundation": {
         "version": "v4.2.3"
     },
@@ -444,6 +450,9 @@
     },
     "symfony/lock": {
         "version": "v4.2.3"
+    },
+    "symfony/mime": {
+        "version": "v4.3.0"
     },
     "symfony/monolog-bridge": {
         "version": "v4.2.3"
@@ -490,6 +499,9 @@
     },
     "symfony/polyfill-php72": {
         "version": "v1.10.0"
+    },
+    "symfony/polyfill-php73": {
+        "version": "v1.11.0"
     },
     "symfony/process": {
         "version": "v4.2.3"
@@ -554,6 +566,9 @@
     "symfony/serializer-pack": {
         "version": "v1.0.2"
     },
+    "symfony/service-contracts": {
+        "version": "v1.1.2"
+    },
     "symfony/stopwatch": {
         "version": "v4.2.3"
     },
@@ -571,6 +586,9 @@
     },
     "symfony/test-pack": {
         "version": "v1.0.5"
+    },
+    "symfony/translation-contracts": {
+        "version": "v1.1.2"
     },
     "symfony/twig-bridge": {
         "version": "v4.2.3"
