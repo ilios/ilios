@@ -188,6 +188,9 @@
             "ref": "02ad65038eceb5231c73a530b67beedd955c40ed"
         }
     },
+    "liip/test-fixtures-bundle": {
+        "version": "0.1.0-alpha1"
+    },
     "mockery/mockery": {
         "version": "1.2.0"
     },

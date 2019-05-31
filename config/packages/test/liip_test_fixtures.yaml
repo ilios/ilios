@@ -1,0 +1,3 @@
+liip_test_fixtures:
+  cache_db:
+    sqlite: liip_test_fixtures.services_database_backup.sqlite

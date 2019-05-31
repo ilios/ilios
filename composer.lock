@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "03f7f7f554317881c9807e08da3ab119",
+    "content-hash": "3c180083242efb32811c2be77517e37a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -8408,16 +8408,16 @@
         },
         {
             "name": "liip/functional-test-bundle",
-            "version": "2.0.0-alpha15",
+            "version": "3.0.0-RC1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "76c3fd3fef5bd149eaa4b00399194a41350223af"
+                "reference": "c9c9f473d82b6b428d6edfa86e6b26ce047c1e51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/76c3fd3fef5bd149eaa4b00399194a41350223af",
-                "reference": "76c3fd3fef5bd149eaa4b00399194a41350223af",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/c9c9f473d82b6b428d6edfa86e6b26ce047c1e51",
+                "reference": "c9c9f473d82b6b428d6edfa86e6b26ce047c1e51",
                 "shasum": ""
             },
             "require": {
@@ -8427,25 +8427,19 @@
                 "symfony/framework-bundle": "^3.4 || ^4.1"
             },
             "require-dev": {
-                "doctrine/data-fixtures": "^1.3",
                 "doctrine/doctrine-bundle": "^1.8",
                 "doctrine/doctrine-fixtures-bundle": "^3.0.2",
                 "doctrine/orm": "^2.6",
-                "jackalope/jackalope-doctrine-dbal": "^1.3",
                 "phpunit/phpunit": "^6.1 || ^7.0",
                 "symfony/monolog-bundle": "^3.1",
                 "symfony/phpunit-bridge": "^3.4 || ^4.1",
                 "symfony/symfony": "^3.4 || ^4.1",
-                "theofidry/alice-data-fixtures": "^1.0.1",
                 "twig/twig": "^2.0"
             },
             "suggest": {
                 "brianium/paratest": "Required when using paratest to parallelize tests",
                 "doctrine/dbal": "Required when using the fixture loading functionality with an ORM and SQLite",
-                "doctrine/doctrine-fixtures-bundle": "Required when using the fixture loading functionality",
-                "doctrine/orm": "Required when using the fixture loading functionality with an ORM and SQLite",
-                "hautelook/alice-bundle": "Required when using loadFixtureFiles functionality with custom providers",
-                "theofidry/alice-data-fixtures": "Required when using loadFixtureFiles functionality"
+                "doctrine/orm": "Required when using the fixture loading functionality with an ORM and SQLite"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -8474,11 +8468,82 @@
             ],
             "description": "This bundles provides additional functional test-cases for Symfony applications",
             "keywords": [
+                "symfony",
+                "testing"
+            ],
+            "time": "2019-06-02T20:48:55+00:00"
+        },
+        {
+            "name": "liip/test-fixtures-bundle",
+            "version": "1.0.0-RC1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/liip/LiipTestFixturesBundle.git",
+                "reference": "e7ba73822e0b17f781707be437512588757b706e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/e7ba73822e0b17f781707be437512588757b706e",
+                "reference": "e7ba73822e0b17f781707be437512588757b706e",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "^2.0",
+                "php": "^7.1",
+                "symfony/browser-kit": "^3.4 || ^4.1",
+                "symfony/framework-bundle": "^3.4 || ^4.1"
+            },
+            "require-dev": {
+                "doctrine/data-fixtures": "^1.3",
+                "doctrine/doctrine-bundle": "^1.8",
+                "doctrine/doctrine-fixtures-bundle": "^3.0.2",
+                "doctrine/orm": "^2.6",
+                "jackalope/jackalope-doctrine-dbal": "^1.3",
+                "phpunit/phpunit": "^6.1 || ^7.0",
+                "symfony/monolog-bundle": "^3.1",
+                "symfony/phpunit-bridge": "^3.4 || ^4.1",
+                "symfony/symfony": "^3.4 || ^4.1",
+                "theofidry/alice-data-fixtures": "^1.0.1"
+            },
+            "suggest": {
+                "doctrine/dbal": "Required when using the fixture loading functionality with an ORM and SQLite",
+                "doctrine/doctrine-fixtures-bundle": "Required when using the fixture loading functionality",
+                "doctrine/orm": "Required when using the fixture loading functionality with an ORM and SQLite",
+                "hautelook/alice-bundle": "Required when using loadFixtureFiles functionality with custom providers",
+                "theofidry/alice-data-fixtures": "Required when using loadFixtureFiles functionality"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Liip\\TestFixturesBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Liip AG",
+                    "homepage": "http://www.liip.ch/"
+                },
+                {
+                    "name": "Community contributions",
+                    "homepage": "https://github.com/liip/LiipTestFixturesBundle/contributors"
+                }
+            ],
+            "description": "This bundles enables efficient loading of Doctrine fixtures in functional test-cases for Symfony applications",
+            "keywords": [
                 "fixtures",
                 "symfony",
                 "testing"
             ],
-            "time": "2019-03-24T23:03:32+00:00"
+            "time": "2019-06-02T20:05:09+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -9386,6 +9451,7 @@
         "firebase/php-jwt": 0,
         "fzaninotto/faker": 0,
         "liip/functional-test-bundle": 15,
+        "liip/test-fixtures-bundle": 5,
         "squizlabs/php_codesniffer": 0
     },
     "prefer-stable": false,

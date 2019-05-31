@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller;
 
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -12,6 +13,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 class CurriculumInventoryDownloadControllerTest extends WebTestCase
 {
     use JsonControllerTest;
+    use FixturesTrait;
 
     /**
      * @inheritdoc

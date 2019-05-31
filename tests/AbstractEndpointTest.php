@@ -7,6 +7,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use DateTime;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Bundle\FrameworkBundle\Client;
 use App\Tests\DataLoader\DataLoaderInterface;
@@ -22,6 +23,7 @@ use Faker\Generator as FakerGenerator;
 abstract class AbstractEndpointTest extends WebTestCase
 {
     use JsonControllerTest;
+    use FixturesTrait;
 
     /**
      * @var string|null the name of this endpoint (plural)

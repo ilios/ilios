@@ -3,6 +3,7 @@ namespace App\Tests\Controller;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\Traits\JsonControllerTest;
@@ -13,6 +14,7 @@ use App\Tests\Traits\JsonControllerTest;
 class IcsControllerTest extends WebTestCase
 {
     use JsonControllerTest;
+    use FixturesTrait;
 
     /**
      * @var ProxyReferenceRepository
