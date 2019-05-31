@@ -216,9 +216,15 @@ class Index extends ElasticSearchBase
                             'properties' => [
                                 'school' => [
                                     'type' => 'keyword',
+                                    'fields' => [
+                                        'cmp' => [
+                                            'type' => 'completion'
+                                        ]
+                                    ],
                                 ],
                                 'courseYear' => [
                                     'type' => 'integer',
+
                                 ],
                                 'courseTitle' => [
                                     'type' => 'text',
@@ -227,6 +233,9 @@ class Index extends ElasticSearchBase
                                         'std' => [
                                             'type' => 'text',
                                             'analyzer' => 'standard',
+                                        ],
+                                        'cmp' => [
+                                            'type' => 'completion'
                                         ]
                                     ],
                                 ],
@@ -237,6 +246,9 @@ class Index extends ElasticSearchBase
                                         'std' => [
                                             'type' => 'text',
                                             'analyzer' => 'standard',
+                                        ],
+                                        'cmp' => [
+                                            'type' => 'completion'
                                         ]
                                     ],
                                 ],
@@ -262,6 +274,11 @@ class Index extends ElasticSearchBase
                                 ],
                                 'courseMeshDescriptors' => [
                                     'type' => 'keyword',
+                                    'fields' => [
+                                        'cmp' => [
+                                            'type' => 'completion'
+                                        ]
+                                    ],
                                 ],
                                 'sessionTitle' => [
                                     'type' => 'text',
@@ -270,6 +287,9 @@ class Index extends ElasticSearchBase
                                         'std' => [
                                             'type' => 'text',
                                             'analyzer' => 'standard',
+                                        ],
+                                        'cmp' => [
+                                            'type' => 'completion'
                                         ]
                                     ],
                                 ],
@@ -285,6 +305,11 @@ class Index extends ElasticSearchBase
                                 ],
                                 'sessionType' => [
                                     'type' => 'keyword',
+                                    'fields' => [
+                                        'cmp' => [
+                                            'type' => 'completion'
+                                        ]
+                                    ],
                                 ],
                                 'sessionTerms' => [
                                     'type' => 'text',
@@ -293,6 +318,9 @@ class Index extends ElasticSearchBase
                                         'std' => [
                                             'type' => 'text',
                                             'analyzer' => 'standard',
+                                        ],
+                                        'cmp' => [
+                                            'type' => 'completion'
                                         ]
                                     ],
                                 ],
@@ -318,6 +346,11 @@ class Index extends ElasticSearchBase
                                 ],
                                 'sessionMeshDescriptors' => [
                                     'type' => 'keyword',
+                                    'fields' => [
+                                        'cmp' => [
+                                            'type' => 'completion'
+                                        ]
+                                    ],
                                 ],
                             ]
                         ]

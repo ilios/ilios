@@ -22,10 +22,11 @@ class Search extends ElasticSearchBase
 
     /**
      * @param string $query
+     * @param boolean $onlySuggest should the search return only suggestions
      * @return array
      * @throws \Exception when search is not configured
      */
-    public function curriculumSearch(string $query)
+    public function curriculumSearch(string $query, $onlySuggest)
     {
         if (!$this->enabled) {
             throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
@@ -44,18 +45,33 @@ class Search extends ElasticSearchBase
             'sessionLearningMaterials',
             'sessionMeshDescriptors',
         ];
-        $should = array_map(function ($field) use ($query) {
-            return [ 'match' => [ $field => ['query' => $query, '_name' => $field] ] ];
-        }, $fields);
+
+        $suggestFields = [
+            'courseTitle',
+            'courseTerms',
+            'courseMeshDescriptors',
+            'sessionTitle',
+            'sessionType',
+            'sessionTerms',
+            'sessionMeshDescriptors',
+        ];
+        $suggest = array_reduce($suggestFields, function ($carry, $field) use ($query) {
+            $carry[$field] = [
+                'prefix' => $query,
+                'completion' => [
+                    'field' => "${field}.cmp",
+                    'skip_duplicates' => true,
+                ]
+            ];
+
+            return $carry;
+        }, []);
+
         $params = [
             'type' => '_doc',
             'index' => self::PUBLIC_CURRICULUM_INDEX,
             'body' => [
-                'query' => [
-                    'bool' => [
-                        'should' => $should,
-                    ]
-                ],
+                'suggest' => $suggest,
                 "_source" => [
                     'courseId',
                     'courseTitle',
@@ -68,7 +84,30 @@ class Search extends ElasticSearchBase
             ]
         ];
 
+        if (!$onlySuggest) {
+            $should = array_map(function ($field) use ($query) {
+                return [ 'match' => [ $field => ['query' => $query, '_name' => $field] ] ];
+            }, $fields);
+            $params['body']['query'] = [
+                'bool' => [
+                    'should' => $should,
+                ]
+            ];
+        }
+
         $results = $this->search($params);
+
+        $autocompleteSuggestions = array_reduce(
+            $results['suggest'],
+            function (array $carry, array $item) {
+                $options = array_map(function (array $arr) {
+                    return $arr['text'];
+                }, $item[0]['options']);
+
+                return array_unique(array_merge($carry, $options));
+            },
+            []
+        );
 
         $mappedResults = array_map(function (array $arr) {
             $courseMatches = array_filter($arr['matched_queries'], function (string $match) {
@@ -121,7 +160,10 @@ class Search extends ElasticSearchBase
             return $b['bestScore'] <=> $a['bestScore'];
         });
 
-        return $courses;
+        return [
+            'autocomplete' => $autocompleteSuggestions,
+            'courses' => $courses
+        ];
     }
 
     /**
