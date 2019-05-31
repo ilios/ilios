@@ -6861,16 +6861,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v4.2.9",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "9b9ee567109c3d1196b5a2fe095a506c3b8125f7"
+                "reference": "4bb37f32833c7fc72a6b2dc2abf545918c77fb6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/9b9ee567109c3d1196b5a2fe095a506c3b8125f7",
-                "reference": "9b9ee567109c3d1196b5a2fe095a506c3b8125f7",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/4bb37f32833c7fc72a6b2dc2abf545918c77fb6e",
+                "reference": "4bb37f32833c7fc72a6b2dc2abf545918c77fb6e",
                 "shasum": ""
             },
             "require": {
@@ -6910,7 +6910,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "4.3-dev"
                 }
             },
             "autoload": {
@@ -6937,7 +6937,7 @@
             ],
             "description": "Symfony Serializer Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-20T16:15:26+00:00"
+            "time": "2019-05-20T16:16:12+00:00"
         },
         {
             "name": "symfony/serializer-pack",
