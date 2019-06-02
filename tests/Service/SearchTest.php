@@ -3,6 +3,7 @@ namespace App\Tests\Service;
 
 use App\Service\Config;
 use App\Service\Search;
+use Elasticsearch\Client;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 
@@ -43,15 +44,12 @@ class SearchTest extends TestCase
 
     protected function createWithHost()
     {
-        $config = m::mock(Config::class);
-        $config->shouldReceive('get')->with('elasticsearch_hosts')->once()->andReturn('host');
-        return new Search($config);
+        $client = m::mock(Client::class);
+        return new Search($client);
     }
 
     protected function createWithoutHost()
     {
-        $config = m::mock(Config::class);
-        $config->shouldReceive('get')->with('elasticsearch_hosts')->once()->andReturn(false);
-        return new Search($config);
+        return new Search(null);
     }
 }

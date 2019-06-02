@@ -70,7 +70,7 @@ class Index extends ElasticSearchBase
         }
         $input = array_reduce($courses, function (array $carry, IndexableCourse $item) {
             $sessions = $item->createIndexObjects();
-            return $carry + $sessions;
+            return array_merge($carry, $sessions);
         }, []);
 
         $result = $this->bulkIndex(Search::PUBLIC_CURRICULUM_INDEX, $input);
