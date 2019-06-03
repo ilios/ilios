@@ -32,11 +32,14 @@ class Search extends ElasticSearchBase
             throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
         $fields = [
+            'courseId',
+            'courseYear',
             'courseTitle',
             'courseTerms',
             'courseObjectives',
             'courseLearningMaterials',
             'courseMeshDescriptors',
+            'sessionId',
             'sessionTitle',
             'sessionDescription',
             'sessionType',
@@ -130,17 +133,17 @@ class Search extends ElasticSearchBase
                 $carry[$id] = [
                     'id' => $id,
                     'title' => $item['courseTitle'],
-                    'year' => $item['courseTitle'],
+                    'year' => $item['courseYear'],
                     'bestScore' => 0,
                     'sessions' => [],
                     'matchedIn' => [],
                 ];
             }
             $courseMatches = array_map(function (string $match) {
-                return substr($match, strlen('course'));
+                return strtolower(substr($match, strlen('course')));
             }, $item['courseMatches']);
             $sessionMatches = array_map(function (string $match) {
-                return substr($match, strlen('session'));
+                return strtolower(substr($match, strlen('session')));
             }, $item['sessionMatches']);
             $carry[$id]['matchedIn'] += array_diff($courseMatches, $carry[$id]['matchedIn']);
             if ($item['score'] > $carry[$id]['bestScore']) {

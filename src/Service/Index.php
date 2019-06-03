@@ -224,7 +224,6 @@ class Index extends ElasticSearchBase
                                 ],
                                 'courseYear' => [
                                     'type' => 'integer',
-
                                 ],
                                 'courseTitle' => [
                                     'type' => 'text',
