@@ -6,6 +6,7 @@ use App\Entity\Manager\ManagerInterface;
 
 use App\Service\DataimportFileLocator;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 
 /**
  * Base class for data loader tests.
@@ -14,6 +15,8 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
  */
 abstract class AbstractDataFixtureTest extends WebTestCase
 {
+    use FixturesTrait;
+
     /**
      * @var ManagerInterface
      */

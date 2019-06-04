@@ -3,7 +3,7 @@ namespace App\Tests\Controller;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\Traits\JsonControllerTest;
@@ -14,21 +14,16 @@ use App\Tests\Traits\JsonControllerTest;
 class IcsControllerTest extends WebTestCase
 {
     use JsonControllerTest;
+    use FixturesTrait;
 
     /**
      * @var ProxyReferenceRepository
      */
     protected $fixtures;
 
-    /**
-     * @var Client
-     */
-    protected $client;
-
     public function setUp()
     {
         parent::setUp();
-        $this->client = $this->makeClient();
         $this->fixtures = $this->loadFixtures([
             'App\Tests\Fixture\LoadAuthenticationData',
             'App\Tests\Fixture\LoadOfferingData',
@@ -41,31 +36,32 @@ class IcsControllerTest extends WebTestCase
     public function tearDown() : void
     {
         parent::tearDown();
-        unset($this->client);
+        $client = null;
         unset($this->fixtures);
     }
 
     public function testSessionAttributesShowUp()
     {
-        $container = $this->client->getContainer();
+        $client = static::createClient();
+        $container = $client->getContainer();
         $session = $container->get(SessionData::class)->getOne();
         $session['attireRequired'] = true;
         $session['equipmentRequired'] = true;
         $session['attendanceRequired'] = true;
         $id = $session['id'];
         $this->makeJsonRequest(
-            $this->client,
+            $client,
             'PUT',
             $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'sessions', 'id' => $id]),
             json_encode(['session' => $session]),
             $this->getTokenForUser(2)
         );
-        $response = $this->client->getResponse();
+        $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
         $url = '/ics/' . hash('sha256', '1');
-        $this->client->request('GET', $url);
-        $response = $this->client->getResponse();
+        $client->request('GET', $url);
+        $response = $client->getResponse();
 
         $content = $response->getContent();
 
@@ -112,25 +108,26 @@ class IcsControllerTest extends WebTestCase
 
     public function testSessionAttributesAreHidden()
     {
-        $container = $this->client->getContainer();
+        $client = static::createClient();
+        $container = $client->getContainer();
         $session = $container->get(SessionData::class)->getOne();
         $session['attireRequired'] = false;
         $session['equipmentRequired'] = false;
         $session['attendanceRequired'] = false;
         $id = $session['id'];
         $this->makeJsonRequest(
-            $this->client,
+            $client,
             'PUT',
             $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'sessions', 'id' => $id]),
             json_encode(['session' => $session]),
             $this->getTokenForUser(2)
         );
-        $response = $this->client->getResponse();
+        $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
         $url = '/ics/' . hash('sha256', '1');
-        $this->client->request('GET', $url);
-        $response = $this->client->getResponse();
+        $client->request('GET', $url);
+        $response = $client->getResponse();
 
         $content = $response->getContent();
 
@@ -177,9 +174,10 @@ class IcsControllerTest extends WebTestCase
 
     public function testAbsolutePathsToEvents()
     {
+        $client = static::createClient();
         $url = '/ics/' . hash('sha256', '1');
-        $this->client->request('GET', $url);
-        $response = $this->client->getResponse();
+        $client->request('GET', $url);
+        $response = $client->getResponse();
 
         $content = $response->getContent();
 

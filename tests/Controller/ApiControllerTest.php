@@ -3,12 +3,14 @@
 namespace App\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 
 class ApiControllerTest extends WebTestCase
 {
     use JsonControllerTest;
+    use FixturesTrait;
 
     public function setUp()
     {

@@ -7,6 +7,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Firebase\JWT\JWT;
 use DateTime;
 
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 use App\Service\JsonWebTokenManager;
@@ -14,6 +15,7 @@ use App\Service\JsonWebTokenManager;
 class AuthControllerTest extends WebTestCase
 {
     use JsonControllerTest;
+    use FixturesTrait;
 
     /**
      * @var string

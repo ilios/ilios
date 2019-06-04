@@ -318,7 +318,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");

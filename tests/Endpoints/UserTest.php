@@ -258,7 +258,7 @@ class UserTest extends ReadWriteEndpointTest
         );
 
         // 3.
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
     }
 

@@ -17,5 +17,6 @@
     <file>tests/</file>
     <exclude-pattern>src/Migrations/*</exclude-pattern>
     <exclude-pattern>public/index.php</exclude-pattern>
+    <exclude-pattern>bin/.phpunit</exclude-pattern>
 
 </ruleset>

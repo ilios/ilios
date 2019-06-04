@@ -1,8 +1,8 @@
 <?php
 namespace App\Tests\Traits;
 
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Service\JsonWebTokenManager;
 
@@ -91,14 +91,21 @@ trait JsonControllerTest
     /**
      * Create a JSON request
      *
-     * @param Client $client
+     * @param KernelBrowser $client
      * @param string $method
      * @param string $url
      * @param string $content
      * @param string $token
+     * @param array $files
      */
-    public function makeJsonRequest(Client $client, $method, $url, $content = null, $token = null, $files = array())
-    {
+    public function makeJsonRequest(
+        KernelBrowser $client,
+        $method,
+        $url,
+        $content = null,
+        $token = null,
+        $files = array()
+    ) {
         $headers = [
             'HTTP_ACCEPT' => 'application/json',
             'CONTENT_TYPE' => 'application/json'

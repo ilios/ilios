@@ -3,6 +3,9 @@ security:
     allow_if_all_abstain: false
     strategy: unanimous
   firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
     api_docs:
       pattern:   ^/api/doc
       anonymous: ~

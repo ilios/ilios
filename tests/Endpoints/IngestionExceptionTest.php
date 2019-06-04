@@ -77,7 +77,7 @@ class IngestionExceptionTest extends ReadEndpointTest
             $this->getAuthenticatedUserToken()
         );
 
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 }

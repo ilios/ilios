@@ -4,8 +4,8 @@ namespace App\Tests\Endpoints;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Client;
 use App\Tests\Traits\JsonControllerTest;
 
 /**
@@ -15,11 +15,7 @@ use App\Tests\Traits\JsonControllerTest;
 class CurrentSessionTest extends WebTestCase
 {
     use JsonControllerTest;
-
-    /**
-     * @var Client
-     */
-    protected $client;
+    use FixturesTrait;
 
     /**
      * @var ProxyReferenceRepository
@@ -29,8 +25,6 @@ class CurrentSessionTest extends WebTestCase
 
     public function setUp()
     {
-        $this->client = $this->makeClient();
-
         $fixtures = [
             'App\Tests\Fixture\LoadAuthenticationData',
             'App\Tests\Fixture\LoadUserData',
@@ -40,19 +34,19 @@ class CurrentSessionTest extends WebTestCase
 
     public function tearDown() : void
     {
-        unset($this->client);
         unset($this->fixtures);
     }
 
     public function testGetGetCurrentSession()
     {
+        $client = static::createClient();
         $url = $this->getUrl(
             'ilios_api_currentsession',
             ['version' => 'v1']
         );
-        $this->makeJsonRequest($this->client, 'GET', $url, null, $this->getAuthenticatedUserToken());
+        $this->makeJsonRequest($client, 'GET', $url, null, $this->getAuthenticatedUserToken());
 
-        $response = $this->client->getResponse();
+        $response = $client->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");

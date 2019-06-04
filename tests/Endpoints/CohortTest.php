@@ -84,7 +84,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
             json_encode(['cohort' => $data]),
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
@@ -102,7 +102,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
             json_encode(['cohort' => $data]),
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
@@ -116,7 +116,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
             null,
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 

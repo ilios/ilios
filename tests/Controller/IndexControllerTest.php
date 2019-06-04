@@ -26,19 +26,14 @@ class IndexControllerTest extends WebTestCase
     protected $fileSystem;
 
     /**
-     * @var Client
-     */
-    protected $client;
-
-    /**
      * @var array
      */
     protected $testFiles;
 
     public function setUp()
     {
-        $this->client = static::createClient();
-        $container = $this->client->getContainer();
+        static::createClient();
+        $container = self::$client->getContainer();
         $cacheDir = $container->getParameter('kernel.cache_dir');
         $this->assetsPath =  $cacheDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
         $this->fileSystem = new Filesystem();
@@ -50,11 +45,12 @@ class IndexControllerTest extends WebTestCase
      */
     public function tearDown() : void
     {
+        parent::tearDown();
+        self::$client = null;
         foreach ($this->testFiles as $path) {
             $this->fileSystem->remove($path);
         }
         unset($this->fs);
-        unset($this->client);
         unset($this->fileSystem);
     }
 
@@ -70,8 +66,8 @@ class IndexControllerTest extends WebTestCase
             'div' => [],
         ]);
         $this->setupTestFile($jsonPath, $json, false);
-        $this->client->request('GET', '/');
-        $response = $this->client->getResponse();
+        self::$client->request('GET', '/');
+        $response = self::$client->getResponse();
 
         $this->assertContains('<title>Ilios</title>', $response->getContent());
         $this->assertContains(
@@ -96,8 +92,8 @@ class IndexControllerTest extends WebTestCase
         $string = file_get_contents(__FILE__);
         $this->setupTestFile($path, $string, true);
 
-        $this->client->request('GET', '/fakeTestFile');
-        $response = $this->client->getResponse();
+        self::$client->request('GET', '/fakeTestFile');
+        $response = self::$client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode(), 'Wrong Status Code');
         $lastModified = \DateTime::createFromFormat('U', filemtime($path));
@@ -118,11 +114,11 @@ class IndexControllerTest extends WebTestCase
         $string = file_get_contents(__FILE__);
         $this->setupTestFile($path, $string, true);
         $now = new \DateTime();
-        $this->client->request('GET', '/fakeTestFile', [], [], [
+        self::$client->request('GET', '/fakeTestFile', [], [], [
             'HTTP_If-Modified-Since' => $now->format('r')
         ]);
         /** @var BinaryFileResponse $response */
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertEquals(304, $response->getStatusCode(), 'Wrong Status Code');
     }
@@ -139,14 +135,14 @@ class IndexControllerTest extends WebTestCase
             'div' => [],
         ]);
         $this->setupTestFile($jsonPath, $json, false);
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/',
             [],
             [],
             ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br']
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
 
         $this->assertTrue(
@@ -169,14 +165,14 @@ class IndexControllerTest extends WebTestCase
         $string = file_get_contents(__FILE__);
         $this->setupTestFile($path, $string, true);
 
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/fakeTestFile',
             [],
             [],
             ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br']
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode(), 'Wrong Status Code');
         $lastModified = \DateTime::createFromFormat('U', filemtime($path));
@@ -206,45 +202,45 @@ class IndexControllerTest extends WebTestCase
         ]);
         $this->setupTestFile($jsonPath, $json, false);
 
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/',
             [],
             [],
             ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br']
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $gzipEtag = $response->getEtag();
 
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/'
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $uncompressedEtag = $response->getEtag();
 
         $this->assertEquals($gzipEtag, $uncompressedEtag);
 
 
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/',
             [],
             [],
             ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br', 'HTTP_IF_NONE_MATCH' => $uncompressedEtag]
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertEquals(304, $response->getStatusCode(), 'Wrong Status Code');
         $this->assertEmpty($response->getContent());
 
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/',
             [],
             [],
             ['HTTP_IF_NONE_MATCH' => $gzipEtag]
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertEquals(304, $response->getStatusCode(), 'Wrong Status Code');
         $this->assertEmpty($response->getContent());
     }
@@ -255,45 +251,45 @@ class IndexControllerTest extends WebTestCase
         $string = file_get_contents(__FILE__);
         $this->setupTestFile($path, $string, true);
 
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/fakeTestFile',
             [],
             [],
             ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br']
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $gzipEtag = $response->getEtag();
 
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/fakeTestFile'
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $uncompressedEtag = $response->getEtag();
 
         $this->assertEquals($gzipEtag, $uncompressedEtag);
 
 
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/fakeTestFile',
             [],
             [],
             ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br', 'HTTP_IF_NONE_MATCH' => $uncompressedEtag]
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertEquals(304, $response->getStatusCode(), 'Wrong Status Code');
         $this->assertEmpty($response->getContent());
 
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/fakeTestFile',
             [],
             [],
             ['HTTP_IF_NONE_MATCH' => $gzipEtag]
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         $this->assertEquals(304, $response->getStatusCode(), 'Wrong Status Code');
         $this->assertEmpty($response->getContent());
     }
@@ -304,14 +300,14 @@ class IndexControllerTest extends WebTestCase
         $string = file_get_contents(__FILE__);
         $this->setupTestFile($path, $string, false);
 
-        $this->client->request(
+        self::$client->request(
             'GET',
             '/fakeTestFile.png',
             [],
             [],
             ['HTTP_ACCEPT_ENCODING' => 'deflate, gzip, br']
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode(), 'Wrong Status Code');
         $lastModified = \DateTime::createFromFormat('U', filemtime($path));
@@ -342,8 +338,8 @@ class IndexControllerTest extends WebTestCase
         $orig = $_ENV['ILIOS_ERROR_CAPTURE_ENABLED'];
         $_ENV['ILIOS_ERROR_CAPTURE_ENABLED'] = true;
         $this->setupTestFile($jsonPath, $json, false);
-        $this->client->request('GET', '/');
-        $response = $this->client->getResponse();
+        self::$client->request('GET', '/');
+        $response = self::$client->getResponse();
 
         $this->assertContains(
             '<meta name=\'iliosconfig-error-capture-enabled\' content="true">',

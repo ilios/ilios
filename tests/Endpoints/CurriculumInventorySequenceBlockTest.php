@@ -557,7 +557,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         //Fails on lower boundary
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
         $block['orderInSequence'] = count($parent['children']) + 2; // out of bounds on upper boundary
@@ -568,7 +568,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         //Fails on upper boundary
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
 
@@ -608,7 +608,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             json_encode(['curriculumInventorySequenceBlock' => $block]),
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         //Fails on lower boundary
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
         $block['orderInSequence'] = count($parent['children']) + 2; // out of bounds on upper boundary
@@ -623,7 +623,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             json_encode(['curriculumInventorySequenceBlock' => $block]),
             $this->getAuthenticatedUserToken()
         );
-        $response = $this->client->getResponse();
+        $response = self::$client->getResponse();
         //Fails on upper boundary
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
 

@@ -1,3 +1,0 @@
-liip_functional_test:
-  cache_db:
-    sqlite: liip_functional_test.services_database_backup.sqlite

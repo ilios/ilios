@@ -2,6 +2,7 @@
 namespace App\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\Traits\JsonControllerTest;
@@ -12,6 +13,7 @@ use App\Tests\Traits\JsonControllerTest;
 class ConfigControllerTest extends WebTestCase
 {
     use JsonControllerTest;
+    use FixturesTrait;
 
     public function setUp()
     {

@@ -54,7 +54,8 @@
   },
   "require-dev": {
     "fzaninotto/faker": "@stable",
-    "liip/functional-test-bundle": "~2.0@alpha",
+    "liip/functional-test-bundle": "~3.0@alpha",
+    "liip/test-fixtures-bundle": "~1.0.0-RC1",
     "mockery/mockery": "1.2.0",
     "squizlabs/php_codesniffer": "@stable",
     "symfony/debug-pack": "*",
@@ -111,7 +112,7 @@
   "extra": {
     "symfony": {
       "allow-contrib": true,
-      "require": "4.2.*"
+      "require": "4.3.*"
     }
   }
 }
