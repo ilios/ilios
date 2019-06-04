@@ -23,6 +23,7 @@ variables:
   ILIOS_LOCALE: en
   ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
+  SYMFONY_DEPRECATIONS_HELPER: disabled
   IMAGE: 'Ubuntu-16.04'
   PHP_VERSION: '7.3'
 
