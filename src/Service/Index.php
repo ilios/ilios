@@ -68,10 +68,12 @@ class Index extends ElasticSearchBase
                 );
             }
         }
+
         $input = array_reduce($courses, function (array $carry, IndexableCourse $item) {
             $sessions = $item->createIndexObjects();
             return array_merge($carry, $sessions);
         }, []);
+
 
         $result = $this->bulkIndex(Search::PUBLIC_CURRICULUM_INDEX, $input);
 
@@ -186,7 +188,7 @@ class Index extends ElasticSearchBase
      */
     protected function bulkIndex(string $index, array $items) : array
     {
-        if (!$this->enabled) {
+        if (!$this->enabled || empty($items)) {
             return ['errors' => false];
         }
         $body = [];
