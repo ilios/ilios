@@ -6329,16 +6329,16 @@
         },
         {
             "name": "symfony/property-info",
-            "version": "v4.2.9",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-info.git",
-                "reference": "2d9a4c11bb759e6a9827e2fc7be6c790d6ba0ea1"
+                "reference": "9a3d5ba14694017a29cada773ce770845224d9e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-info/zipball/2d9a4c11bb759e6a9827e2fc7be6c790d6ba0ea1",
-                "reference": "2d9a4c11bb759e6a9827e2fc7be6c790d6ba0ea1",
+                "url": "https://api.github.com/repos/symfony/property-info/zipball/9a3d5ba14694017a29cada773ce770845224d9e4",
+                "reference": "9a3d5ba14694017a29cada773ce770845224d9e4",
                 "shasum": ""
             },
             "require": {
@@ -6366,7 +6366,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "4.3-dev"
                 }
             },
             "autoload": {
@@ -6401,7 +6401,7 @@
                 "type",
                 "validator"
             ],
-            "time": "2019-05-20T16:15:26+00:00"
+            "time": "2019-05-20T16:16:12+00:00"
         },
         {
             "name": "symfony/requirements-checker",
