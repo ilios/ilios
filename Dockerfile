@@ -2,7 +2,7 @@
 FROM composer AS composer
 
 # get the proper 'PHP' image from the official PHP repo at
-FROM php:7.2-apache-stretch
+FROM php:7.3-apache-stretch
 
 # copy the Composer PHAR from the Composer image into the apache-php image
 COPY --from=composer /usr/bin/composer /usr/bin/composer

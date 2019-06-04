@@ -25,7 +25,6 @@ variables:
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled
   IMAGE: 'Ubuntu-16.04'
-  PHP_VERSION: '7.3'
 
 jobs:
 - job: code_style_and_security
