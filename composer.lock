@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.98.0",
+            "version": "3.99.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "00c4963e491b075aca6722ff3f302048c1488e0d"
+                "reference": "0a212802416698b1a452ca317c16cb909a2dd1ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/00c4963e491b075aca6722ff3f302048c1488e0d",
-                "reference": "00c4963e491b075aca6722ff3f302048c1488e0d",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0a212802416698b1a452ca317c16cb909a2dd1ca",
+                "reference": "0a212802416698b1a452ca317c16cb909a2dd1ca",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-05-30T18:59:53+00:00"
+            "time": "2019-06-03T18:16:19+00:00"
         },
         {
             "name": "clue/stream-filter",
