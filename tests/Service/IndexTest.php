@@ -1,13 +1,14 @@
 <?php
 namespace App\Tests\Service;
 
+use App\Classes\ElasticSearchBase;
 use App\Classes\IndexableCourse;
 use App\Entity\Course;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
 use App\Entity\User;
-use App\Service\Config;
 use App\Service\Index;
+use Elasticsearch\Client;
 use Ilios\MeSH\Model\Descriptor;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
@@ -71,6 +72,53 @@ class IndexTest extends TestCase
         $this->assertTrue($obj->indexCourses([$mockCourse]));
     }
 
+    public function testIndexCourses()
+    {
+        $client = m::mock(Client::class);
+        $obj = new Index($client);
+        $course1 = m::mock(IndexableCourse::class);
+        $course1->shouldReceive('createIndexObjects')->once()->andReturn([['id' => 1]]);
+
+        $course2 = m::mock(IndexableCourse::class);
+        $course2->shouldReceive('createIndexObjects')->once()->andReturn([['id' => 2], ['id' => 3]]);
+
+        $client->shouldReceive('bulk')->once()->with([
+            'body' => [
+                [
+                    'index' => [
+                        '_index' => ElasticSearchBase::PUBLIC_CURRICULUM_INDEX,
+                        '_type' => '_doc',
+                        '_id' => 1
+                    ]
+                ],
+                [
+                    'id' => 1,
+                ],
+                [
+                    'index' => [
+                        '_index' => ElasticSearchBase::PUBLIC_CURRICULUM_INDEX,
+                        '_type' => '_doc',
+                        '_id' => 2
+                    ]
+                ],
+                [
+                    'id' => 2,
+                ],
+                [
+                    'index' => [
+                        '_index' => ElasticSearchBase::PUBLIC_CURRICULUM_INDEX,
+                        '_type' => '_doc',
+                        '_id' => 3
+                    ]
+                ],
+                [
+                    'id' => 3,
+                ],
+            ]
+        ])->andReturn(['errors' => false]);
+        $obj->indexCourses([$course1, $course2]);
+    }
+
     public function testIndexMeshDescriptorsThrowsWhenNotDescriptor()
     {
         $obj = $this->createWithoutHost();
@@ -112,19 +160,17 @@ class IndexTest extends TestCase
     {
         $obj = $this->createWithoutHost();
         $obj->clear();
+        $this->assertTrue(true);
     }
 
     protected function createWithHost()
     {
-        $config = m::mock(Config::class);
-        $config->shouldReceive('get')->with('elasticsearch_hosts')->once()->andReturn('host');
-        return new Index($config);
+        $client = m::mock(Client::class);
+        return new Index($client);
     }
 
     protected function createWithoutHost()
     {
-        $config = m::mock(Config::class);
-        $config->shouldReceive('get')->with('elasticsearch_hosts')->once()->andReturn(false);
-        return new Index($config);
+        return new Index(null);
     }
 }

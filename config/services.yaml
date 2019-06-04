@@ -313,3 +313,7 @@ services:
 
     League\Flysystem\FilesystemInterface:
       factory: ['@App\Service\FilesystemFactory', getFilesystem]
+
+    Elasticsearch\Client:
+      factory: ['App\Service\ElasticSearchFactory', 'getClient']
+      arguments: ['@App\Service\Config']

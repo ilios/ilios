@@ -2,9 +2,7 @@
 
 namespace App\Classes;
 
-use App\Service\Config;
 use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
 
 class ElasticSearchBase
 {
@@ -25,15 +23,13 @@ class ElasticSearchBase
 
     /**
      * Search constructor.
-     * @param Config $config
+     * @param Client $client
      */
-    public function __construct(Config $config)
+    public function __construct(Client $client = null)
     {
-        $elasticSearchHosts = $config->get('elasticsearch_hosts');
-        if ($elasticSearchHosts) {
+        if ($client) {
             $this->enabled = true;
-            $hosts = explode(';', $elasticSearchHosts);
-            $this->client = ClientBuilder::create()->setHosts($hosts)->build();
+            $this->client = $client;
         }
     }
 
