@@ -119,6 +119,17 @@ class IndexTest extends TestCase
         $obj->indexCourses([$course1, $course2]);
     }
 
+    public function testIndexCourseWithNoSessions()
+    {
+        $client = m::mock(Client::class);
+        $obj = new Index($client);
+        $course1 = m::mock(IndexableCourse::class);
+        $course1->shouldReceive('createIndexObjects')->once()->andReturn([]);
+
+        $client->shouldNotReceive('bulk');
+        $obj->indexCourses([$course1]);
+    }
+
     public function testIndexMeshDescriptorsThrowsWhenNotDescriptor()
     {
         $obj = $this->createWithoutHost();
