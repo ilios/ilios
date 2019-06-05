@@ -216,6 +216,9 @@ class Index extends ElasticSearchBase
                     'mappings' => [
                         '_doc' => [
                             'properties' => [
+                                'courseId' => [
+                                    'type' => 'keyword',
+                                ],
                                 'school' => [
                                     'type' => 'keyword',
                                     'fields' => [
@@ -225,7 +228,7 @@ class Index extends ElasticSearchBase
                                     ],
                                 ],
                                 'courseYear' => [
-                                    'type' => 'integer',
+                                    'type' => 'keyword',
                                 ],
                                 'courseTitle' => [
                                     'type' => 'text',
@@ -280,6 +283,9 @@ class Index extends ElasticSearchBase
                                             'type' => 'completion'
                                         ]
                                     ],
+                                ],
+                                'sessionId' => [
+                                    'type' => 'keyword',
                                 ],
                                 'sessionTitle' => [
                                     'type' => 'text',
