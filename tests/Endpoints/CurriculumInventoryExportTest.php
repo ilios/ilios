@@ -97,6 +97,7 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
         );
 
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_curriculuminventoryexport_404',
             $parameters
         );
@@ -104,10 +105,10 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
             $type,
             $url,
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }

@@ -80,11 +80,11 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'cohorts']),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => 'cohorts']),
             json_encode(['cohort' => $data]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
@@ -94,15 +94,15 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl('ilios_api_put', [
+            $this->getUrl($this->kernelBrowser, 'ilios_api_put', [
                 'version' => 'v1',
                 'object' => 'cohorts',
                 'id' => $data['id']
             ]),
             json_encode(['cohort' => $data]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
@@ -112,11 +112,15 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'DELETE',
-            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => 'cohorts', 'id' => $data['id']]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_delete',
+                ['version' => 'v1', 'object' => 'cohorts', 'id' => $data['id']]
+            ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 

@@ -110,13 +110,14 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_getall',
                 ['version' => 'v1', 'object' => $endpoint]
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $responses = json_decode($response->getContent(), true)[$responseKey];
@@ -248,6 +249,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_curriculuminventoryreport_rollover',
                 [
                     'version' => 'v1',
@@ -256,9 +258,9 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
                 ]
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $data = json_decode($response->getContent(), true)['curriculumInventoryReports'];
         $newReport = $data[0];
@@ -378,6 +380,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_curriculuminventoryreport_rollover',
                 [
                     'version' => 'v1',
@@ -386,9 +389,9 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
                 ]
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
@@ -409,13 +412,14 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_curriculuminventoryreport_rollover',
                 $parameters
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $data = json_decode($response->getContent(), true)['curriculumInventoryReports'];
         $newReport = $data[0];
@@ -439,6 +443,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_curriculuminventoryreport_rollover',
                 [
                     'version' => 'v1',
@@ -447,9 +452,9 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
                 ]
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $data = json_decode($response->getContent(), true)['curriculumInventoryReports'];
         $newReport = $data[0];

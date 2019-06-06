@@ -1,9 +1,10 @@
 <?php
 namespace App\Tests\Controller;
 
+use App\Tests\GetUrlTrait;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\Traits\JsonControllerTest;
@@ -15,6 +16,7 @@ class IcsControllerTest extends WebTestCase
 {
     use JsonControllerTest;
     use FixturesTrait;
+    use GetUrlTrait;
 
     /**
      * @var ProxyReferenceRepository
@@ -36,7 +38,6 @@ class IcsControllerTest extends WebTestCase
     public function tearDown() : void
     {
         parent::tearDown();
-        $client = null;
         unset($this->fixtures);
     }
 
@@ -52,9 +53,9 @@ class IcsControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $client,
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'sessions', 'id' => $id]),
+            $this->getUrl($client, 'ilios_api_put', ['version' => 'v1', 'object' => 'sessions', 'id' => $id]),
             json_encode(['session' => $session]),
-            $this->getTokenForUser(2)
+            $this->getTokenForUser($client, 2)
         );
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
@@ -118,9 +119,9 @@ class IcsControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $client,
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'sessions', 'id' => $id]),
+            $this->getUrl($client, 'ilios_api_put', ['version' => 'v1', 'object' => 'sessions', 'id' => $id]),
             json_encode(['session' => $session]),
-            $this->getTokenForUser(2)
+            $this->getTokenForUser($client, 2)
         );
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);

@@ -67,6 +67,7 @@ class IngestionExceptionTest extends ReadEndpointTest
         );
 
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_ingestionexception_404',
             $parameters
         );
@@ -74,10 +75,10 @@ class IngestionExceptionTest extends ReadEndpointTest
             $type,
             $url,
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 }

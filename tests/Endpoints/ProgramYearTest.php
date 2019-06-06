@@ -178,9 +178,10 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $userId = 3;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'programyears']),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => 'programyears']),
             json_encode(['programYears' => [$data]])
         );
     }
@@ -201,9 +202,14 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $userId = 3;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'programyears', 'id' => $data['id']]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'programyears', 'id' => $data['id']]
+            ),
             json_encode(['programYear' => $data])
         );
     }
@@ -215,9 +221,14 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $userId = 3;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'DELETE',
-            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => 'programyears', 'id' => $data['id']])
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_delete',
+                ['version' => 'v1', 'object' => 'programyears', 'id' => $data['id']]
+            )
         );
     }
 
@@ -295,14 +306,15 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_programyears_downloadobjectivesmapping',
                 $parameters
             ),
             null,
-            $this->getTokenForUser(2)
+            $this->getTokenForUser($this->kernelBrowser, 2)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $expected = [
             [

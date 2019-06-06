@@ -18,12 +18,12 @@ abstract class AbstractMeshTest extends ReadEndpointTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
             json_encode([$responseKey => []]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
@@ -34,12 +34,12 @@ abstract class AbstractMeshTest extends ReadEndpointTest
 
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => $endpoint, 'id' => 1]),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_put', ['version' => 'v1', 'object' => $endpoint, 'id' => 1]),
             json_encode([$responseKey => []]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
@@ -50,12 +50,16 @@ abstract class AbstractMeshTest extends ReadEndpointTest
 
         $this->createJsonRequest(
             'DELETE',
-            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => $endpoint, 'id' => 1]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_delete',
+                ['version' => 'v1', 'object' => $endpoint, 'id' => 1]
+            ),
             json_encode([$responseKey => []]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 }

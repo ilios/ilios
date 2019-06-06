@@ -1,10 +1,11 @@
 <?php
 namespace App\Tests\Controller;
 
+use App\Tests\GetUrlTrait;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 
@@ -16,6 +17,7 @@ class DownloadControllerTest extends WebTestCase
 {
     use JsonControllerTest;
     use FixturesTrait;
+    use GetUrlTrait;
 
     /**
      * @var ProxyReferenceRepository
@@ -46,7 +48,7 @@ class DownloadControllerTest extends WebTestCase
 
     public function testDownloadLearningMaterial()
     {
-        $client = $this->createClient();
+        $client = static::createClient();
         $learningMaterials = $client->getContainer()
             ->get('App\Tests\DataLoader\LearningMaterialData')
             ->getAll();
@@ -58,11 +60,12 @@ class DownloadControllerTest extends WebTestCase
             $client,
             'GET',
             $this->getUrl(
+                $client,
                 'ilios_api_learningmaterial_get',
                 ['version' => 'v1', 'object' => 'learningmaterials', 'id' => $learningMaterial['id']]
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($client)
         );
         $response = $client->getResponse();
 
@@ -87,18 +90,19 @@ class DownloadControllerTest extends WebTestCase
 
     public function testPdfInlineDownload()
     {
-        $client = $this->createClient();
+        $client = static::createClient();
         $learningMaterial = $this->fixtures->getReference('learningMaterials4');
 
         $this->makeJsonRequest(
             $client,
             'GET',
             $this->getUrl(
+                $client,
                 'ilios_api_learningmaterial_get',
                 ['version' => 'v1', 'object' => 'learningmaterials', 'id' => $learningMaterial->getId()]
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($client)
         );
         $response = $client->getResponse();
 
@@ -120,7 +124,7 @@ class DownloadControllerTest extends WebTestCase
 
     public function testBadLearningMaterialToken()
     {
-        $client = $this->createClient();
+        $client = static::createClient();
         //sending bad hash
         $client->request(
             'GET',

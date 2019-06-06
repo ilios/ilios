@@ -3,15 +3,14 @@
 namespace App\Tests;
 
 use App\Service\Timestamper;
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use DateTime;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bridge\PhpUnit\ClockMock;
-use Symfony\Bundle\FrameworkBundle\Client;
 use App\Tests\DataLoader\DataLoaderInterface;
 use App\Tests\Traits\JsonControllerTest;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Inflector\Inflector;
 use Faker\Factory as FakerFactory;
@@ -24,11 +23,17 @@ abstract class AbstractEndpointTest extends WebTestCase
 {
     use JsonControllerTest;
     use FixturesTrait;
+    use GetUrlTrait;
 
     /**
      * @var string|null the name of this endpoint (plural)
      */
     protected $testName = null;
+
+    /**
+     * @var KernelBrowser
+     */
+    protected $kernelBrowser;
 
     /**
      * @var ProxyReferenceRepository
@@ -44,7 +49,8 @@ abstract class AbstractEndpointTest extends WebTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->makeClient();
+        $this->kernelBrowser = self::createClient();
+        $this->kernelBrowser->followRedirects();
 
         $authFixtures = [
             'App\Tests\Fixture\LoadAuthenticationData',
@@ -59,7 +65,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     public function tearDown() : void
     {
         parent::tearDown();
-        self::$client = null;
+        unset($this->kernelBrowser);
         unset($this->fixtures);
         unset($this->faker);
     }
@@ -167,7 +173,7 @@ abstract class AbstractEndpointTest extends WebTestCase
      */
     protected function createJsonRequest($method, $url, $content = null, $token = null, $files = [])
     {
-        $this->makeJsonRequest(self::$client, $method, $url, $content, $token, $files);
+        $this->makeJsonRequest($this->kernelBrowser, $method, $url, $content, $token, $files);
     }
 
     /**
@@ -206,6 +212,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function getOne($endpoint, $responseKey, $id)
     {
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_get',
             ['version' => 'v1', 'object' => $endpoint, 'id' => $id]
         );
@@ -213,10 +220,10 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $url,
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");
@@ -242,13 +249,14 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_getall',
                 ['version' => 'v1', 'object' => $endpoint]
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $responses = json_decode($response->getContent(), true)[$responseKey];
@@ -350,11 +358,11 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
             json_encode([$postKey => $postData]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
         return json_decode($response->getContent(), true)[$responseKey][0];
@@ -371,11 +379,11 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
             json_encode([$responseKey => $postData]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
         return json_decode($response->getContent(), true)[$responseKey];
@@ -392,12 +400,12 @@ abstract class AbstractEndpointTest extends WebTestCase
         $responseKey = $this->getCamelCasedPluralName();
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
             json_encode([$responseKey => [$data]]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, $code);
     }
@@ -413,12 +421,16 @@ abstract class AbstractEndpointTest extends WebTestCase
         $responseKey = $this->getCamelCasedPluralName();
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => $endpoint, 'id' => $id]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => $endpoint, 'id' => $id]
+            ),
             json_encode([$responseKey => [$data]]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, $code);
     }
@@ -494,11 +506,15 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => $endpoint, 'id' => $id]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => $endpoint, 'id' => $id]
+            ),
             json_encode([$responseKey => $data]),
-            $this->getTokenForUser($userId)
+            $this->getTokenForUser($this->kernelBrowser, $userId)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $expectedHeader = $new?Response::HTTP_CREATED:Response::HTTP_OK;
         $this->assertJsonResponse($response, $expectedHeader);
 
@@ -528,11 +544,15 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $this->createJsonRequest(
             'DELETE',
-            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => $endpoint, 'id' => $id]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_delete',
+                ['version' => 'v1', 'object' => $endpoint, 'id' => $id]
+            ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
 
         $this->assertJsonResponse($response, Response::HTTP_NO_CONTENT, false);
@@ -551,14 +571,15 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_get',
                 ['version' => 'v1', 'object' => $endpoint, 'id' => $badId]
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
@@ -610,14 +631,15 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_getall',
                 $parameters
             ),
             null,
-            $this->getTokenForUser($userId)
+            $this->getTokenForUser($this->kernelBrowser, $userId)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
@@ -639,14 +661,15 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_getall',
                 $parameters
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
     }

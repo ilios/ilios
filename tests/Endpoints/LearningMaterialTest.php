@@ -137,12 +137,12 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         foreach ($responses as $response) {
             $uri = array_key_exists('absoluteFileUri', $response)?$response['absoluteFileUri']:null;
             if ($uri) {
-                self::$client->request(
+                $this->kernelBrowser->request(
                     'GET',
                     $uri
                 );
 
-                $response = self::$client->getResponse();
+                $response = $this->kernelBrowser->getResponse();
 
                 $this->assertJsonResponse($response, Response::HTTP_OK, false);
             }
@@ -199,14 +199,14 @@ class LearningMaterialTest extends ReadWriteEndpointTest
             $filesize
         );
         $this->makeJsonRequest(
-            self::$client,
+            $this->kernelBrowser,
             'POST',
             '/upload',
             null,
-            $this->getAuthenticatedUserToken(),
+            $this->getAuthenticatedUserToken($this->kernelBrowser),
             ['file' => $fakeTestFile]
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $responseData = json_decode($response->getContent(), true);
 
@@ -223,12 +223,12 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         $response = $this->postTest($data, $postData);
 
         $uri = array_key_exists('absoluteFileUri', $response)?$response['absoluteFileUri']:null;
-        self::$client->request(
+        $this->kernelBrowser->request(
             'GET',
             $uri
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
 
         $this->assertJsonResponse($response, Response::HTTP_OK, false);

@@ -2,10 +2,11 @@
 
 namespace App\Tests\Controller;
 
+use App\Tests\GetUrlTrait;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**
  * Class CurriculumInventoryDownloadControllerTest
@@ -14,6 +15,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
 {
     use JsonControllerTest;
     use FixturesTrait;
+    use GetUrlTrait;
 
     /**
      * @inheritdoc
@@ -37,7 +39,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
      */
     public function testGetCurriculumInventoryDownload()
     {
-        $client = $this->createClient();
+        $client = static::createClient();
         $curriculumInventoryExport = $client->getContainer()
             ->get('App\Tests\DataLoader\CurriculumInventoryExportData')
             ->getOne()
@@ -47,6 +49,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
             $client,
             'GET',
             $this->getUrl(
+                $client,
                 'ilios_api_get',
                 [
                     'version' => 'v1',
@@ -55,7 +58,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
                 ]
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($client)
         );
 
         $response = $client->getResponse();

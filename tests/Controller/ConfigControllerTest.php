@@ -1,8 +1,8 @@
 <?php
 namespace App\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\Traits\JsonControllerTest;

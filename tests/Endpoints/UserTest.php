@@ -220,9 +220,10 @@ class UserTest extends ReadWriteEndpointTest
         $postData['root'] = true;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'users']),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => 'users']),
             json_encode(['users' => [$postData]])
         );
     }
@@ -240,7 +241,7 @@ class UserTest extends ReadWriteEndpointTest
         $data['root'] = true;
         $rootUser = $this->postOne('users', 'user', 'users', $data);
         $this->assertTrue($rootUser['root']);
-        $rootUserToken = $this->getTokenForUser($rootUser['id']);
+        $rootUserToken = $this->getTokenForUser($this->kernelBrowser, $rootUser['id']);
 
         // 2.
         $data = $dataLoader->create();
@@ -249,7 +250,7 @@ class UserTest extends ReadWriteEndpointTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', [
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', [
                 'version' => 'v1',
                 'object' => 'users'
             ]),
@@ -258,7 +259,7 @@ class UserTest extends ReadWriteEndpointTest
         );
 
         // 3.
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
     }
 
@@ -274,9 +275,14 @@ class UserTest extends ReadWriteEndpointTest
         $postData['root'] = true;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]
+            ),
             json_encode(['user' => $postData])
         );
     }
@@ -293,9 +299,14 @@ class UserTest extends ReadWriteEndpointTest
         $postData['roles'] = ['1', '2'];
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'users', 'id' => $userId]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'users', 'id' => $userId]
+            ),
             json_encode(['user' => $postData])
         );
     }
@@ -314,9 +325,14 @@ class UserTest extends ReadWriteEndpointTest
         $postData['root'] = false;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]
+            ),
             json_encode(['user' => $postData])
         );
     }

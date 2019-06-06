@@ -308,6 +308,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     protected function getOne($endpoint, $responseKey, $userId)
     {
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_authentication_get',
             ['version' => 'v1', 'object' => $endpoint, 'userId' => $userId]
         );
@@ -315,10 +316,10 @@ class AuthenticationTest extends ReadWriteEndpointTest
             'GET',
             $url,
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");

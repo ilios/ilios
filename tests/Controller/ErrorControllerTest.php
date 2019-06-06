@@ -2,8 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 use Faker\Factory as FakerFactory;
@@ -34,7 +34,7 @@ class ErrorControllerTest extends WebTestCase
             'POST',
             '/errors',
             json_encode(['data' => json_encode($data)]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($client)
         );
 
         $response = $client->getResponse();

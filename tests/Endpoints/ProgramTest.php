@@ -101,9 +101,10 @@ class ProgramTest extends ReadWriteEndpointTest
         $userId = 3;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'programs']),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => 'programs']),
             json_encode(['programs' => [$program]])
         );
     }
@@ -115,9 +116,14 @@ class ProgramTest extends ReadWriteEndpointTest
         $userId = 3;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'programs', 'id' => $program['id']]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'programs', 'id' => $program['id']]
+            ),
             json_encode(['program' => $program])
         );
     }
@@ -129,9 +135,14 @@ class ProgramTest extends ReadWriteEndpointTest
         $userId = 3;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'programs', 'id' => $program['id'] * 10000]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'programs', 'id' => $program['id'] * 10000]
+            ),
             json_encode(['program' => $program])
         );
     }
@@ -143,9 +154,14 @@ class ProgramTest extends ReadWriteEndpointTest
         $userId = 3;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'DELETE',
-            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => 'programs', 'id' => $program['id']])
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_delete',
+                ['version' => 'v1', 'object' => 'programs', 'id' => $program['id']]
+            )
         );
     }
 }
