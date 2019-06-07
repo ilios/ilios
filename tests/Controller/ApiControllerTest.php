@@ -2,8 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 
@@ -21,13 +21,13 @@ class ApiControllerTest extends WebTestCase
 
     public function testNoEndpoint()
     {
-        $client = $this->createClient();
+        $client = static::createClient();
         $this->makeJsonRequest(
             $client,
             'GET',
             '/api/v1/nothing',
             null,
-            $this->getTokenForUser(1)
+            $this->getTokenForUser($client, 1)
         );
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
@@ -35,13 +35,13 @@ class ApiControllerTest extends WebTestCase
 
     public function testNoVersion()
     {
-        $client = $this->createClient();
+        $client = static::createClient();
         $this->makeJsonRequest(
             $client,
             'GET',
             '/api/nothing',
             null,
-            $this->getTokenForUser(1)
+            $this->getTokenForUser($client, 1)
         );
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
@@ -49,13 +49,13 @@ class ApiControllerTest extends WebTestCase
 
     public function testBadVersion()
     {
-        $client = $this->createClient();
+        $client = static::createClient();
         $this->makeJsonRequest(
             $client,
             'GET',
             '/api/1/courses',
             null,
-            $this->getTokenForUser(1)
+            $this->getTokenForUser($client, 1)
         );
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);

@@ -162,11 +162,14 @@ class UsermaterialsTest extends AbstractEndpointTest
             $parameters['after'] = $after;
         }
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_usermaterials',
             $parameters
         );
 
-        $token = isset($authUser) ? $this->getTokenForUser($authUser) : $this->getAuthenticatedUserToken();
+        $token = isset($authUser) ?
+            $this->getTokenForUser($this->kernelBrowser, $authUser) :
+            $this->getAuthenticatedUserToken($this->kernelBrowser);
         $this->createJsonRequest(
             'GET',
             $url,
@@ -174,7 +177,7 @@ class UsermaterialsTest extends AbstractEndpointTest
             $token
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");

@@ -230,11 +230,10 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     public function testCreateTopLevelSequenceBlockSucceeds()
     {
         $dataLoader = $this->getDataLoader();
-        $parent = $dataLoader->getOne();
 
         $postData = $dataLoader->create();
         $postData['parent'] = null;
-        $newBlock = $this->postOne(
+        $this->postOne(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlock',
             'curriculumInventorySequenceBlocks',
@@ -553,22 +552,30 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'curriculuminventorysequenceblocks']),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_post',
+                ['version' => 'v1', 'object' => 'curriculuminventorysequenceblocks']
+            ),
             json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         //Fails on lower boundary
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
         $block['orderInSequence'] = count($parent['children']) + 2; // out of bounds on upper boundary
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'curriculuminventorysequenceblocks']),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_post',
+                ['version' => 'v1', 'object' => 'curriculuminventorysequenceblocks']
+            ),
             json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         //Fails on upper boundary
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
 
@@ -600,30 +607,30 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
 
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl('ilios_api_put', [
+            $this->getUrl($this->kernelBrowser, 'ilios_api_put', [
                 'version' => 'v1',
                 'object' => 'curriculuminventorysequenceblocks',
                 'id' => $blockId
             ]),
             json_encode(['curriculumInventorySequenceBlock' => $block]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         //Fails on lower boundary
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
         $block['orderInSequence'] = count($parent['children']) + 2; // out of bounds on upper boundary
 
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl('ilios_api_put', [
+            $this->getUrl($this->kernelBrowser, 'ilios_api_put', [
                 'version' => 'v1',
                 'object' => 'curriculuminventorysequenceblocks',
                 'id' => $blockId
             ]),
             json_encode(['curriculumInventorySequenceBlock' => $block]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         //Fails on upper boundary
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
 

@@ -455,11 +455,14 @@ class SchooleventsTest extends AbstractEndpointTest
             'to' => $to
         ];
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_schoolevents',
             $parameters
         );
 
-        $userToken = isset($userId) ? $this->getTokenForUser($userId) : $this->getAuthenticatedUserToken();
+        $userToken = isset($userId) ?
+            $this->getTokenForUser($this->kernelBrowser, $userId) :
+            $this->getAuthenticatedUserToken($this->kernelBrowser);
         $this->createJsonRequest(
             'GET',
             $url,
@@ -467,7 +470,7 @@ class SchooleventsTest extends AbstractEndpointTest
             $userToken
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");
@@ -485,11 +488,14 @@ class SchooleventsTest extends AbstractEndpointTest
             'session' => $sessionId
         ];
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_schoolevents',
             $parameters
         );
 
-        $userToken = isset($userId) ? $this->getTokenForUser($userId) : $this->getAuthenticatedUserToken();
+        $userToken = isset($userId) ?
+            $this->getTokenForUser($this->kernelBrowser, $userId) :
+            $this->getAuthenticatedUserToken($this->kernelBrowser);
         $this->createJsonRequest(
             'GET',
             $url,
@@ -497,7 +503,7 @@ class SchooleventsTest extends AbstractEndpointTest
             $userToken
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");

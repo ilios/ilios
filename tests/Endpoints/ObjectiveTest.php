@@ -134,15 +134,15 @@ class ObjectiveTest extends ReadWriteEndpointTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', [
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', [
                 'version' => 'v1',
                 'object' => 'objectives'
             ]),
             json_encode(['objectives' => [$postData]]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $this->assertEquals(
@@ -184,15 +184,15 @@ class ObjectiveTest extends ReadWriteEndpointTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', [
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', [
                 'version' => 'v1',
                 'object' => 'objectives'
             ]),
             json_encode(['objectives' => [$postData]]),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 }

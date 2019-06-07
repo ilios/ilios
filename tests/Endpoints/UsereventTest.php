@@ -43,7 +43,7 @@ class UsereventTest extends AbstractEndpointTest
             $userId,
             0,
             100000000000,
-            $this->getTokenForUser(5)
+            $this->getTokenForUser($this->kernelBrowser, 5)
         );
         $lms = $events[0]['learningMaterials'];
 
@@ -113,7 +113,7 @@ class UsereventTest extends AbstractEndpointTest
             $userId,
             0,
             100000000000,
-            $this->getTokenForUser(2)
+            $this->getTokenForUser($this->kernelBrowser, 2)
         );
         $lms = $events[0]['learningMaterials'];
 
@@ -135,7 +135,7 @@ class UsereventTest extends AbstractEndpointTest
             $userId,
             0,
             100000000000,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
         $this->assertEquals(12, count($events), 'Expected events returned');
@@ -698,7 +698,7 @@ class UsereventTest extends AbstractEndpointTest
             $userId,
             $from->getTimestamp(),
             $to->getTimestamp(),
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
         $this->assertEquals(1, count($events), 'Expected events returned');
 
@@ -714,7 +714,7 @@ class UsereventTest extends AbstractEndpointTest
             $userId,
             0,
             100000000000,
-            $this->getTokenForUser($userId)
+            $this->getTokenForUser($this->kernelBrowser, $userId)
         );
         $event = $events[3];
         $this->assertFalse($event['isPublished']);
@@ -739,7 +739,7 @@ class UsereventTest extends AbstractEndpointTest
         $events = $this->getEventsForSessionId(
             $userId,
             $sessionId,
-            $this->getTokenForUser($userId)
+            $this->getTokenForUser($this->kernelBrowser, $userId)
         );
 
         $this->assertEquals(3, count($events), 'Expected events returned');
@@ -763,7 +763,7 @@ class UsereventTest extends AbstractEndpointTest
         $events = $this->getEventsForSessionId(
             $userId,
             $sessionId,
-            $this->getTokenForUser($userId)
+            $this->getTokenForUser($this->kernelBrowser, $userId)
         );
 
         $this->assertEquals(2, count($events), 'Expected events returned');
@@ -793,6 +793,7 @@ class UsereventTest extends AbstractEndpointTest
             'to' => $to,
         ];
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_userevents',
             $parameters
         );
@@ -803,7 +804,7 @@ class UsereventTest extends AbstractEndpointTest
             $userToken
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");
@@ -816,8 +817,7 @@ class UsereventTest extends AbstractEndpointTest
 
     /**
      * @param int $userId
-     * @param int $from
-     * @param int $to
+     * @param int $sessionId
      * @param string|null $userToken
      * @return array
      */
@@ -829,6 +829,7 @@ class UsereventTest extends AbstractEndpointTest
             'session' => $sessionId,
         ];
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_userevents',
             $parameters
         );
@@ -839,7 +840,7 @@ class UsereventTest extends AbstractEndpointTest
             $userToken
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");

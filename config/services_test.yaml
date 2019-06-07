@@ -10,6 +10,7 @@ services:
     public: true
 
   App\Tests\DataLoader\:
+    public: true
     resource: '%kernel.project_dir%/tests/DataLoader'
 
   App\Tests\Fixture\:

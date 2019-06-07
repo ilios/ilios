@@ -2,9 +2,11 @@
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\GetUrlTrait;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 
@@ -16,15 +18,22 @@ class CurrentSessionTest extends WebTestCase
 {
     use JsonControllerTest;
     use FixturesTrait;
+    use GetUrlTrait;
 
     /**
      * @var ProxyReferenceRepository
      */
     protected $fixtures;
 
+    /**
+     * @var KernelBrowser
+     */
+    protected $kernelBrowser;
+
 
     public function setUp()
     {
+        $this->kernelBrowser = self::createClient();
         $fixtures = [
             'App\Tests\Fixture\LoadAuthenticationData',
             'App\Tests\Fixture\LoadUserData',
@@ -39,14 +48,20 @@ class CurrentSessionTest extends WebTestCase
 
     public function testGetGetCurrentSession()
     {
-        $client = static::createClient();
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_currentsession',
             ['version' => 'v1']
         );
-        $this->makeJsonRequest($client, 'GET', $url, null, $this->getAuthenticatedUserToken());
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'GET',
+            $url,
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
             $this->fail("Unable to load url: {$url}");

@@ -44,14 +44,14 @@ class UploadControllerTest extends WebTestCase
 
     public function testUploadFile()
     {
-        $client = $this->createClient();
+        $client = static::createClient();
         
         $this->makeJsonRequest(
             $client,
             'POST',
             '/upload',
             null,
-            $this->getAuthenticatedUserToken(),
+            $this->getAuthenticatedUserToken($client),
             array('file' => $this->fakeTestFile)
         );
         
@@ -65,14 +65,14 @@ class UploadControllerTest extends WebTestCase
 
     public function testBadUpload()
     {
-        $client = $this->createClient();
+        $client = static::createClient();
         
         $this->makeJsonRequest(
             $client,
             'POST',
             '/upload',
             null,
-            $this->getAuthenticatedUserToken(),
+            $this->getAuthenticatedUserToken($client),
             array('nofile' => $this->fakeTestFile)
         );
         

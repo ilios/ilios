@@ -379,14 +379,15 @@ class CourseTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_courserollover',
                 $parameters
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
         $data = json_decode($response->getContent(), true);
         $this->assertContains('Courses cannot be rolled over to a new year before', $data['message']);
@@ -466,14 +467,15 @@ class CourseTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_courserollover',
                 $parameters
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $data = json_decode($response->getContent(), true)['courses'];
 
@@ -489,9 +491,10 @@ class CourseTest extends ReadWriteEndpointTest
         $userId = 3;
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'courses']),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => 'courses']),
             json_encode(['courses' => [$course]])
         );
     }
@@ -504,9 +507,14 @@ class CourseTest extends ReadWriteEndpointTest
         $id = $course['id'];
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'courses', 'id' => $id]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'courses', 'id' => $id]
+            ),
             json_encode(['course' => $course])
         );
     }
@@ -520,9 +528,14 @@ class CourseTest extends ReadWriteEndpointTest
 
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'courses', 'id' => $id * 10000]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'courses', 'id' => $id * 10000]
+            ),
             json_encode(['course' => $course])
         );
     }
@@ -535,9 +548,14 @@ class CourseTest extends ReadWriteEndpointTest
         $id = $course['id'];
 
         $this->canNot(
+            $this->kernelBrowser,
             $userId,
             'DELETE',
-            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => 'courses', 'id' => $id])
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_delete',
+                ['version' => 'v1', 'object' => 'courses', 'id' => $id]
+            )
         );
     }
 
@@ -556,7 +574,12 @@ class CourseTest extends ReadWriteEndpointTest
             'newStartDate' => 'false',
             'skipOfferings' => 'false',
         ];
-        $this->canNot($userId, 'POST', $this->getUrl('ilios_api_courserollover', $rolloverData));
+        $this->canNot(
+            $this->kernelBrowser,
+            $userId,
+            'POST',
+            $this->getUrl($this->kernelBrowser, 'ilios_api_courserollover', $rolloverData)
+        );
     }
 
     public function testCourseCanBeUnlocked()

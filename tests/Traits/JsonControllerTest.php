@@ -45,25 +45,27 @@ trait JsonControllerTest
             );
         }
     }
-    
+
 
     /**
      * Logs the 'newuser' user in and returns the user's JSON Web Token (JWT).
+     * @param KernelBrowser $browser
      * @return string the JWT
      */
-    protected function getAuthenticatedUserToken()
+    protected function getAuthenticatedUserToken(KernelBrowser $browser)
     {
-        return $this->getTokenForUser(2);
+        return $this->getTokenForUser($browser, 2);
     }
 
 
     /**
      * Logs in a specific user and returns the token for them
      *
+     * @param KernelBrowser $browser
      * @param string $userId
      * @return string the JWT
      */
-    protected function getTokenForUser($userId)
+    protected function getTokenForUser(KernelBrowser $browser, $userId)
     {
         static $tokens;
 
@@ -73,10 +75,8 @@ trait JsonControllerTest
         $userId = (int) $userId;
 
         if (!array_key_exists($userId, $tokens)) {
-            $client = $this->createClient();
-
             /** @var ContainerInterface $container **/
-            $container = $client->getContainer();
+            $container = $browser->getContainer();
 
             /** @var JsonWebTokenManager $jwtManager **/
             $jwtManager = $container->get(JsonWebTokenManager::class);
@@ -128,23 +128,23 @@ trait JsonControllerTest
     /**
      * Tests to ensure that a user cannot access a certain function
      *
+     * @param KernelBrowser $browser
      * @param string $userId
      * @param string $method
      * @param string $url
      * @param string $data
      */
-    protected function canNot($userId, $method, $url, $data = null)
+    protected function canNot(KernelBrowser $browser, $userId, $method, $url, $data = null)
     {
-        $client = $this->createClient();
         $this->makeJsonRequest(
-            $client,
+            $browser,
             $method,
             $url,
             $data,
-            $this->getTokenForUser($userId)
+            $this->getTokenForUser($browser, $userId)
         );
 
-        $response = $client->getResponse();
+        $response = $browser->getResponse();
         $this->assertEquals(
             Response::HTTP_FORBIDDEN,
             $response->getStatusCode(),

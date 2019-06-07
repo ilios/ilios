@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c180083242efb32811c2be77517e37a",
+    "content-hash": "c24448c725bf7d274ef5e50a107d496a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -8407,73 +8407,6 @@
             "time": "2016-01-20T08:20:44+00:00"
         },
         {
-            "name": "liip/functional-test-bundle",
-            "version": "3.0.0-RC1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "c9c9f473d82b6b428d6edfa86e6b26ce047c1e51"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/c9c9f473d82b6b428d6edfa86e6b26ce047c1e51",
-                "reference": "c9c9f473d82b6b428d6edfa86e6b26ce047c1e51",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/common": "^2.0",
-                "php": "^7.1",
-                "symfony/browser-kit": "^3.4 || ^4.1",
-                "symfony/framework-bundle": "^3.4 || ^4.1"
-            },
-            "require-dev": {
-                "doctrine/doctrine-bundle": "^1.8",
-                "doctrine/doctrine-fixtures-bundle": "^3.0.2",
-                "doctrine/orm": "^2.6",
-                "phpunit/phpunit": "^6.1 || ^7.0",
-                "symfony/monolog-bundle": "^3.1",
-                "symfony/phpunit-bridge": "^3.4 || ^4.1",
-                "symfony/symfony": "^3.4 || ^4.1",
-                "twig/twig": "^2.0"
-            },
-            "suggest": {
-                "brianium/paratest": "Required when using paratest to parallelize tests",
-                "doctrine/dbal": "Required when using the fixture loading functionality with an ORM and SQLite",
-                "doctrine/orm": "Required when using the fixture loading functionality with an ORM and SQLite"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Liip\\FunctionalTestBundle\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Liip AG",
-                    "homepage": "http://www.liip.ch/"
-                },
-                {
-                    "name": "Community contributions",
-                    "homepage": "https://github.com/liip/LiipFunctionalTestBundle/contributors"
-                }
-            ],
-            "description": "This bundles provides additional functional test-cases for Symfony applications",
-            "keywords": [
-                "symfony",
-                "testing"
-            ],
-            "time": "2019-06-02T20:48:55+00:00"
-        },
-        {
             "name": "liip/test-fixtures-bundle",
             "version": "1.0.0-RC1",
             "source": {
@@ -9450,7 +9383,6 @@
     "stability-flags": {
         "firebase/php-jwt": 0,
         "fzaninotto/faker": 0,
-        "liip/functional-test-bundle": 15,
         "liip/test-fixtures-bundle": 5,
         "squizlabs/php_codesniffer": 0
     },

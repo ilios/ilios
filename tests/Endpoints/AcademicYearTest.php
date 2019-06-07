@@ -54,13 +54,14 @@ class AcademicYearTest extends ReadEndpointTest
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
+                $this->kernelBrowser,
                 'ilios_api_getall',
                 ['version' => 'v1', 'object' => $endpoint]
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $responses = json_decode($response->getContent(), true)[$responseKey];
@@ -101,6 +102,7 @@ class AcademicYearTest extends ReadEndpointTest
         );
 
         $url = $this->getUrl(
+            $this->kernelBrowser,
             'ilios_api_academicyear_404',
             $parameters
         );
@@ -108,10 +110,10 @@ class AcademicYearTest extends ReadEndpointTest
             $type,
             $url,
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = self::$client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
