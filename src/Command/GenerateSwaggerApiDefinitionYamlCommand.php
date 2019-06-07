@@ -8,7 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * Generates the YAML file for the swagger definition docs
@@ -18,9 +18,9 @@ use Symfony\Component\Templating\EngineInterface;
 class GenerateSwaggerApiDefinitionYamlCommand extends Command
 {
     /**
-     * @var EngineInterface
+     * @var Environment
      */
-    protected $templatingEngine;
+    protected $twig;
 
     /**
      * @var RegistryInterface
@@ -34,17 +34,17 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
 
     /**
      *
-     * @param EngineInterface $templatingEngine
+     * @param Environment $twig
      * @param RegistryInterface $registry
      * @param EntityMetadata $entityMetadata
      */
     public function __construct(
-        EngineInterface $templatingEngine,
+        Environment $twig,
         RegistryInterface $registry,
         EntityMetadata $entityMetadata
     ) {
         parent::__construct();
-        $this->templatingEngine = $templatingEngine;
+        $this->twig = $twig;
         $this->registry   = $registry;
         $this->entityMetadata   = $entityMetadata;
     }
@@ -96,7 +96,7 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
 
         $template = 'generate/definition.yml.twig';
 
-        $content = $this->templatingEngine->render($template, [
+        $content = $this->twig->render($template, [
             'entity' => $entity,
             'properties' => $properties,
         ]);

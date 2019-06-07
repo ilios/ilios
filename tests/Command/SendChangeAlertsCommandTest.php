@@ -1,7 +1,7 @@
 <?php
 namespace App\Tests\Command;
 
-use App\Command\SendChangeAlertsCommand;
+use App\Command\SendChangeAlertsCommand as Command;
 use App\Entity\Alert;
 use App\Entity\AlertChangeType;
 use App\Entity\AlertChangeTypeInterface;
@@ -28,6 +28,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use Symfony\Component\Filesystem\Filesystem;
+use Twig\Environment;
 
 /**
  * Send Change Alerts command test.
@@ -55,6 +57,16 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     protected $auditLogManager;
 
     /**
+     * @var m\MockInterface
+     */
+    protected $twig;
+
+    /**
+     * @var m\MockInterface
+     */
+    protected $mailer;
+
+    /**
      * @var CommandTester
      */
     protected $commandTester;
@@ -69,6 +81,11 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->offeringManager = m::mock(OfferingManager::class);
         $this->alertManager = m::mock(AlertManager::class);
         $this->auditLogManager = m::mock(AuditLogManager::class);
+        $this->twig = m::mock(Environment::class);
+        $this->mailer = m::mock(\Swift_Mailer::class);
+        $fs = m::mock(Filesystem::class);
+        $fs->shouldReceive('exists')->with('fish');
+
         $this->timezone = 'UTC';
         $config = m::mock(Config::class);
         $config->shouldReceive('get')->with('timezone')->andReturn($this->timezone);
@@ -76,13 +93,15 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
 
-        $command = new SendChangeAlertsCommand(
+        $command = new Command(
             $this->alertManager,
             $this->auditLogManager,
             $this->offeringManager,
-            $kernel->getContainer()->get('templating'),
+            $kernel->getContainer()->get('twig'),
             $kernel->getContainer()->get('mailer'),
-            $config
+            $config,
+            $fs,
+            sys_get_temp_dir()
         );
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);

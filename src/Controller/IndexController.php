@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Command\UpdateFrontendCommand;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class IndexController extends AbstractController
 {
-    const DEFAULT_TEMPLATE_NAME = 'webindex.html.twig';
+    const DEFAULT_TEMPLATE_NAME = 'index/webindex.html.twig';
 
     /**
      * @var Filesystem
@@ -23,9 +23,9 @@ class IndexController extends AbstractController
     protected $fs;
 
     /**
-     * @var EngineInterface
+     * @var Environment
      */
-    protected $templatingEngine;
+    protected $twig;
 
     /**
      * @var AuthenticationInterface
@@ -38,22 +38,30 @@ class IndexController extends AbstractController
     private $config;
 
     /**
+     * @var string
+     */
+    private $kernelProjectDir;
+
+    /**
      * IndexController constructor.
      * @param Filesystem $fs
-     * @param EngineInterface $templatingEngine
+     * @param Environment $twig
      * @param AuthenticationInterface $authentication
      * @param Config $config
+     * @param string $kernelProjectDir
      */
     public function __construct(
         Filesystem $fs,
-        EngineInterface $templatingEngine,
+        Environment $twig,
         AuthenticationInterface $authentication,
-        Config $config
+        Config $config,
+        string $kernelProjectDir
     ) {
         $this->fs = $fs;
-        $this->templatingEngine = $templatingEngine;
+        $this->twig = $twig;
         $this->authentication = $authentication;
         $this->config = $config;
+        $this->kernelProjectDir = $kernelProjectDir;
     }
 
     /**
@@ -104,9 +112,8 @@ class IndexController extends AbstractController
             $response->setMaxAge(1);
         } else {
             $options = $this->extractOptions($path);
-            $templatePath = $this->getTemplatePath();
 
-            $content = $this->templatingEngine->render($templatePath, $options);
+            $content = $this->twig->render(self::DEFAULT_TEMPLATE_NAME, $options);
             $content = gzencode($content);
             $file = new \SplFileObject($path, 'r');
             $lastModified = \DateTime::createFromFormat('U', $file->getMTime());
@@ -249,24 +256,6 @@ class IndexController extends AbstractController
         ];
 
         return $options;
-    }
-
-
-    /**
-     * Locates the applicable template and returns its path.
-     * @return string The template path.
-     */
-    protected function getTemplatePath()
-    {
-        $paths = [
-            '@custom_webindex_templates/' . self::DEFAULT_TEMPLATE_NAME,
-        ];
-        foreach ($paths as $path) {
-            if ($this->templatingEngine->exists($path)) {
-                return $path;
-            }
-        }
-        return 'index/' .self::DEFAULT_TEMPLATE_NAME;
     }
 
     protected function responseFromString(

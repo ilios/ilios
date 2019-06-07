@@ -9,7 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * Generates the test for an endpoint
@@ -19,9 +19,9 @@ use Symfony\Component\Templating\EngineInterface;
 class GenerateEndpointTestCommand extends Command
 {
     /**
-     * @var EngineInterface
+     * @var Environment
      */
-    protected $templatingEngine;
+    protected $twig;
 
     /**
      * @var RegistryInterface
@@ -35,17 +35,17 @@ class GenerateEndpointTestCommand extends Command
 
     /**
      *
-     * @param EngineInterface $templatingEngine
+     * @param Environment $twig
      * @param RegistryInterface $registry
      * @param EntityMetadata $entityMetadata
      */
     public function __construct(
-        EngineInterface $templatingEngine,
+        Environment $twig,
         RegistryInterface $registry,
         EntityMetadata $entityMetadata
     ) {
         parent::__construct();
-        $this->templatingEngine = $templatingEngine;
+        $this->twig = $twig;
         $this->registry   = $registry;
         $this->entityMetadata   = $entityMetadata;
     }
@@ -103,7 +103,7 @@ class GenerateEndpointTestCommand extends Command
         $template = 'generate/endpointTest.php.twig';
         $groupNumber = rand(1, 2);
 
-        $content = $this->templatingEngine->render($template, [
+        $content = $this->twig->render($template, [
             'entity' => $entity,
             'plural' => $plural,
             'endpoint' => $endpoint,

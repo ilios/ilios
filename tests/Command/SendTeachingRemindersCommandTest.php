@@ -22,6 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Send Teaching Reminder command test.
@@ -48,6 +49,16 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
      */
     protected $timezone;
 
+    /**
+     * @var m\MockInterface
+     */
+    protected $fs;
+
+    /**
+     * @var string
+     */
+    protected $testDir;
+
     public function setUp()
     {
         $offering = $this->createOffering();
@@ -64,6 +75,9 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
                     [ 10, new ArrayCollection() ],
                 ]
             ));
+        $this->testDir = sys_get_temp_dir();
+
+        $this->fs = m::mock(Filesystem::class);
 
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -75,9 +89,11 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $command = new SendTeachingRemindersCommand(
             $this->fakeOfferingManager,
-            $kernel->getContainer()->get('templating'),
+            $kernel->getContainer()->get('twig'),
             $kernel->getContainer()->get('mailer'),
-            $config
+            $config,
+            $this->fs,
+            $this->testDir
         );
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
@@ -90,6 +106,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     public function tearDown() : void
     {
         unset($this->fakeOfferingManager);
+        unset($this->fs);
     }
 
     /**
@@ -99,6 +116,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     {
         $sender = 'foo@bar.edu';
         $baseUrl = 'https://ilios.bar.edu';
+
+        $this->fs->shouldReceive('exists')->with(
+            $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
+        )->once()->andReturn(false);
 
         $this->commandTester->execute([
             'sender' => $sender,
@@ -196,6 +217,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $subject = "Custom email subject";
         $baseUrl = 'https://ilios.bar.edu';
 
+        $this->fs->shouldReceive('exists')->with(
+            $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
+        )->once()->andReturn(false);
+
         $this->commandTester->execute([
             'sender' => $sender,
             'base_url' => $baseUrl,
@@ -227,6 +252,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $instructor->setPreferredEmail(strrev($instructor->getEmail()));
         }
 
+        $this->fs->shouldReceive('exists')->with(
+            $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
+        )->once()->andReturn(false);
+
         $this->commandTester->execute([
             'sender' => $sender,
             'base_url' => $baseUrl,
@@ -255,6 +284,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $subject = "Custom email subject";
         $baseUrl = 'https://ilios.bar.edu';
 
+        $this->fs->shouldReceive('exists')->with(
+            $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
+        )->once()->andReturn(false);
+
         $this->commandTester->execute([
             'sender' => $sender,
             'base_url' => $baseUrl,
@@ -274,6 +307,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     {
         $sender = 'foo@bar.edu';
         $baseUrl = 'https://ilios.bar.edu';
+
+        $this->fs->shouldReceive('exists')->with(
+            $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
+        )->once()->andReturn(false);
 
         $this->commandTester->execute([
             'sender' => $sender,
