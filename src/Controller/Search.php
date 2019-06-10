@@ -43,7 +43,7 @@ class Search extends AbstractController
         $this->permissionChecker = $permissionChecker;
     }
 
-    public function search(Request $request)
+    public function curriculumSearch(Request $request)
     {
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $this->tokenStorage->getToken()->getUser();
@@ -56,6 +56,28 @@ class Search extends AbstractController
         $onlySuggest = (bool) $request->get('onlySuggest');
 
         $result = $this->search->curriculumSearch($query, $onlySuggest);
+
+        return new JsonResponse(['results' => $result]);
+    }
+
+    public function userSearch(Request $request)
+    {
+        /** @var SessionUserInterface $sessionUser */
+        $sessionUser = $this->tokenStorage->getToken()->getUser();
+        if (! $this->permissionChecker->canSearchUsers($sessionUser)) {
+            throw new AccessDeniedException();
+        }
+
+        $query = $request->get('q');
+
+        $onlySuggest = (bool) $request->get('onlySuggest');
+        $size = $request->get('size');
+
+        if ($size === null) {
+            $size = 100;
+        }
+
+        $result = $this->search->userSearch($query, $size, $onlySuggest);
 
         return new JsonResponse(['results' => $result]);
     }

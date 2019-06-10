@@ -1349,4 +1349,14 @@ class PermissionChecker
     {
         return $sessionUser->performsNonLearnerFunction();
     }
+
+    /**
+     * Checks if the given user can search for users
+     * @param SessionUserInterface $sessionUser
+     * @return bool
+     */
+    public function canSearchUsers(SessionUserInterface $sessionUser): bool
+    {
+        return $sessionUser->performsNonLearnerFunction();
+    }
 }

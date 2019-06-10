@@ -50,6 +50,77 @@ class IndexTest extends TestCase
         $this->assertTrue($obj->indexUsers($users));
     }
 
+
+    public function testIndexUsers()
+    {
+        $client = m::mock(Client::class);
+        $obj = new Index($client);
+        $user1 = m::mock(UserDTO::class);
+        $user1->id = 13;
+        $user1->firstName = 'first';
+        $user1->middleName = 'middle';
+        $user1->lastName = 'last';
+        $user1->displayName = 'display name';
+        $user1->email = 'jackson@awesome.com';
+        $user1->campusId = '99';
+        $user1->username = 'thebestone';
+
+        $user2 = m::mock(UserDTO::class);
+        $user2->id = 11;
+        $user2->firstName = 'first2';
+        $user2->middleName = 'middle2';
+        $user2->lastName = 'last2';
+        $user2->displayName = null;
+        $user2->email = 'jasper@awesome.com';
+        $user2->campusId = 'OG';
+        $user2->username = null;
+
+        $client->shouldReceive('bulk')->once()->with([
+            'body' => [
+                [
+                    'index' => [
+                        '_index' => ElasticSearchBase::PRIVATE_USER_INDEX,
+                        '_type' => '_doc',
+                        '_id' => $user1->id
+                    ]
+                ],
+                [
+                    'id' => $user1->id,
+                    'firstName' => $user1->firstName,
+                    'lastName' => $user1->lastName,
+                    'middleName' => $user1->middleName,
+                    'displayName' => $user1->displayName,
+                    'email' => $user1->email,
+                    'campusId' => $user1->campusId,
+                    'username' => $user1->username,
+                    'fullName' => 'first middle last',
+                    'fullNameLastFirst' => 'last, first middle',
+                ],
+                [
+                    'index' => [
+                        '_index' => ElasticSearchBase::PRIVATE_USER_INDEX,
+                        '_type' => '_doc',
+                        '_id' => $user2->id
+                    ]
+                ],
+                [
+                    'id' => $user2->id,
+                    'firstName' => $user2->firstName,
+                    'lastName' => $user2->lastName,
+                    'middleName' => $user2->middleName,
+                    'displayName' => $user2->displayName,
+                    'email' => $user2->email,
+                    'campusId' => $user2->campusId,
+                    'username' => $user2->username,
+                    'fullName' => 'first2 middle2 last2',
+                    'fullNameLastFirst' => 'last2, first2 middle2',
+                ],
+            ]
+        ])->andReturn(['errors' => false]);
+        $obj->indexUsers([$user1, $user2]);
+    }
+
+
     public function testIndexCoursesThrowsWhenNotIndexableCourse()
     {
         $obj = $this->createWithoutHost();
