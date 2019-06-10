@@ -4395,16 +4395,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.22.2",
+            "version": "v3.22.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "54c045fd472a740e7ae3d26148708455fa6358b4"
+                "reference": "57402ecdd8945758a594c8b4b2088b6749852f4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/54c045fd472a740e7ae3d26148708455fa6358b4",
-                "reference": "54c045fd472a740e7ae3d26148708455fa6358b4",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/57402ecdd8945758a594c8b4b2088b6749852f4b",
+                "reference": "57402ecdd8945758a594c8b4b2088b6749852f4b",
                 "shasum": ""
             },
             "type": "library",
@@ -4448,7 +4448,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2019-05-22T01:36:53+00:00"
+            "time": "2019-06-08T18:14:11+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
