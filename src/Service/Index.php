@@ -208,6 +208,26 @@ class Index extends ElasticSearchBase
         if (!$this->enabled) {
             return;
         }
+        $analysis = [
+            'analyzer' => [
+                'ngram_analyzer' => [
+                    'tokenizer' => 'ngram_tokenizer',
+                    'filter' => ['lowercase'],
+                ],
+                'string_search_analyzer' => [
+                    'type' => 'custom',
+                    'tokenizer' => 'keyword',
+                    'filter' => ['lowercase', 'word_delimiter'],
+                ],
+            ],
+            'tokenizer' => [
+                'ngram_tokenizer' => [
+                    'type' => 'edge_ngram',
+                    'min_gram' => 3,
+                    'max_gram' => 10,
+                ],
+            ],
+        ];
 
         $indexes = [
             [
@@ -367,26 +387,60 @@ class Index extends ElasticSearchBase
             [
                 'index' => self::PRIVATE_USER_INDEX,
                 'body' => [
+                    'settings' => [
+                        'analysis' => $analysis,
+                    ],
                     'mappings' => [
                         '_doc' => [
                             'properties' => [
                                 'firstName' => [
                                     'type' => 'text',
-                                    'copy_to' => 'fullName'
-                                ],
-                                'lastName' => [
-                                    'type' => 'text',
-                                    'copy_to' => 'fullName'
+                                    'analyzer' => 'ngram_analyzer',
+                                    'search_analyzer' => 'string_search_analyzer',
+                                    'fields' => [
+                                        'raw' => [
+                                            'type' => 'keyword',
+                                        ]
+                                    ],
                                 ],
                                 'middleName' => [
                                     'type' => 'text',
-                                    'copy_to' => 'fullName'
+                                    'analyzer' => 'ngram_analyzer',
+                                    'search_analyzer' => 'string_search_analyzer',
+                                    'fields' => [
+                                        'raw' => [
+                                            'type' => 'keyword',
+                                        ]
+                                    ],
+                                ],
+                                'lastName' => [
+                                    'type' => 'text',
+                                    'analyzer' => 'ngram_analyzer',
+                                    'search_analyzer' => 'string_search_analyzer',
+                                    'fields' => [
+                                        'raw' => [
+                                            'type' => 'keyword',
+                                        ]
+                                    ],
+                                ],
+                                'displayName' => [
+                                    'type' => 'text',
+                                    'analyzer' => 'ngram_analyzer',
+                                    'search_analyzer' => 'string_search_analyzer',
+                                    'fields' => [
+                                        'raw' => [
+                                            'type' => 'keyword',
+                                        ]
+                                    ],
                                 ],
                                 'username' => [
                                     'type' => 'keyword',
                                 ],
-                                'fullName' => [
-                                    'type' => 'text',
+                                'campusId' => [
+                                    'type' => 'keyword',
+                                ],
+                                'email' => [
+                                    'type' => 'keyword',
                                 ],
                             ]
                         ]

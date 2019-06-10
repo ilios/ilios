@@ -182,32 +182,29 @@ class Search extends ElasticSearchBase
         if (!$this->enabled) {
             throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
+
         $params = [
             'type' => '_doc',
             'index' => self::PRIVATE_USER_INDEX,
-            "size" => $size,
+            'size' => $size,
             'body' => [
+                'explain' => true,
                 'query' => [
-                    'bool' => [
-                        'must' => [
-                            'multi_match' => [
-                                'query' => $query,
-                                'type' => "cross_fields",
-                                'fields' => [
-                                    'user.fullName^2',
-                                    'user.email',
-                                    'user.campusId',
-                                    'user.username'
-                                ]
-                            ]
-                        ],
-                        'should' => [
-                            'match_phrase' => [
-                                'fullName' => [
-                                    'query' => $query,
-                                    'slop'  => 100
-                                ],
-                            ]
+                    'multi_match' => [
+                        'query' => $query,
+                        'type' => 'most_fields',
+                        'fields' => [
+                            'firstName',
+                            'firstName.raw^3',
+                            'middleName',
+                            'middleName.raw^3',
+                            'lastName',
+                            'lastName.raw^3',
+                            'displayName',
+                            'displayName.raw^3',
+                            'userName^5',
+                            'campusId^5',
+                            'email^5',
                         ]
                     ]
                 ],
@@ -217,7 +214,9 @@ class Search extends ElasticSearchBase
                 'sort' => '_score'
             ]
         ];
+
         $results = $this->search($params);
+
         return array_map(function (array $arr) {
             return $arr['_id'];
         }, $results['hits']['hits']);
