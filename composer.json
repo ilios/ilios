@@ -93,7 +93,8 @@
     "auto-scripts": {
     },
     "ilios-scripts": [
-      "App\\Composer\\MigrateParameters::migrate"
+      "App\\Composer\\MigrateParameters::migrate",
+      "App\\Composer\\MigrateCustomTemplates::migrate"
     ],
     "post-install-cmd": [
       "@auto-scripts",
