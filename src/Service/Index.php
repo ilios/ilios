@@ -33,6 +33,7 @@ class Index extends ElasticSearchBase
                 'email' => $user->email,
                 'campusId' => $user->campusId,
                 'username' => $user->username,
+                'enabled' => $user->enabled,
                 'fullName' => $user->firstName . ' ' . $user->middleName . ' ' . $user->lastName,
                 'fullNameLastFirst' => $user->lastName . ', ' . $user->firstName . ' ' . $user->middleName,
             ];
@@ -465,6 +466,9 @@ class Index extends ElasticSearchBase
                                             'type' => 'completion'
                                         ]
                                     ],
+                                ],
+                                'enabled' => [
+                                    'type' => 'boolean',
                                 ],
                             ]
                         ]

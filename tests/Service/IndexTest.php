@@ -62,6 +62,7 @@ class IndexTest extends TestCase
         $user1->lastName = 'last';
         $user1->displayName = 'display name';
         $user1->email = 'jackson@awesome.com';
+        $user1->enabled = false;
         $user1->campusId = '99';
         $user1->username = 'thebestone';
 
@@ -72,6 +73,7 @@ class IndexTest extends TestCase
         $user2->lastName = 'last2';
         $user2->displayName = null;
         $user2->email = 'jasper@awesome.com';
+        $user1->enabled = true;
         $user2->campusId = 'OG';
         $user2->username = null;
 
@@ -93,6 +95,7 @@ class IndexTest extends TestCase
                     'email' => $user1->email,
                     'campusId' => $user1->campusId,
                     'username' => $user1->username,
+                    'enabled' => $user1->enabled,
                     'fullName' => 'first middle last',
                     'fullNameLastFirst' => 'last, first middle',
                 ],
@@ -112,6 +115,7 @@ class IndexTest extends TestCase
                     'email' => $user2->email,
                     'campusId' => $user2->campusId,
                     'username' => $user2->username,
+                    'enabled' => $user2->enabled,
                     'fullName' => 'first2 middle2 last2',
                     'fullNameLastFirst' => 'last2, first2 middle2',
                 ],

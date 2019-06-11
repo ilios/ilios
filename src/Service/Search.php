@@ -221,7 +221,14 @@ class Search extends ElasticSearchBase
             'body' => [
                 'suggest' => $suggest,
                 "_source" => [
-                    'id', 'firstName', 'middleName', 'lastName', 'displayName', 'campusId', 'email'
+                    'id',
+                    'firstName',
+                    'middleName',
+                    'lastName',
+                    'displayName',
+                    'campusId',
+                    'email',
+                    'enabled',
                 ],
                 'sort' => '_score'
             ]
