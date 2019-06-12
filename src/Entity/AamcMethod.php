@@ -3,15 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\SessionTypesEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use App\Entity\SessionTypeInterface;
+use App\Traits\ActivatableEntity;
 use App\Traits\DescribableEntity;
-use App\Traits\NameableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 
@@ -29,6 +27,7 @@ class AamcMethod implements AamcMethodInterface
     use DescribableEntity;
     use StringableIdEntity;
     use SessionTypesEntity;
+    use ActivatableEntity;
 
     /**
      * @var string
@@ -77,11 +76,25 @@ class AamcMethod implements AamcMethodInterface
     protected $sessionTypes;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    protected $active;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->sessionTypes = new ArrayCollection();
+        $this->active = true;
     }
 
     /**

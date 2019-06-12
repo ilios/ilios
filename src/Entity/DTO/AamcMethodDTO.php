@@ -34,12 +34,23 @@ class AamcMethodDTO
      */
     public $sessionTypes;
 
+    /**
+     * @var boolean
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public $active;
+
+
     public function __construct(
         $id,
-        $description
+        $description,
+        $active
+
     ) {
         $this->id = $id;
         $this->description = $description;
+        $this->active = $active;
 
         $this->sessionTypes = [];
     }
