@@ -46,7 +46,6 @@ class AamcMethodDTO
         $id,
         $description,
         $active
-
     ) {
         $this->id = $id;
         $this->description = $description;
