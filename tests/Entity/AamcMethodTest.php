@@ -74,4 +74,13 @@ class AamcMethodTest extends EntityBase
     {
         $this->entityCollectionSetTest('sessionType', 'SessionType', false, false, 'addAamcMethod');
     }
+
+    /**
+     * @covers \App\Entity\AamcMethod::setActive
+     * @covers \App\Entity\AamcMethod::isActive
+     */
+    public function testIsActive()
+    {
+        $this->booleanSetTest('active');
+    }
 }
