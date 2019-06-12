@@ -19,7 +19,7 @@ class AamcMethodData extends AbstractDataLoader
             'id' => "AM002",
             'description' => 'filterable description',
             'sessionTypes' => [],
-            'active' => true,
+            'active' => false,
         );
 
         return $arr;
