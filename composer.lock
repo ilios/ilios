@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ee5451f2ea35deca62505d8433443ff",
+    "content-hash": "61152d6a2da5a8483bf3fae5bd2e8d10",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -4323,16 +4323,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "1f1704806820c16dcefcbf2e80b920024fda2234"
+                "reference": "8e27e6c5fcf6f01fc2e5235dd14cc0b2b347d793"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/1f1704806820c16dcefcbf2e80b920024fda2234",
-                "reference": "1f1704806820c16dcefcbf2e80b920024fda2234",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/8e27e6c5fcf6f01fc2e5235dd14cc0b2b347d793",
+                "reference": "8e27e6c5fcf6f01fc2e5235dd14cc0b2b347d793",
                 "shasum": ""
             },
             "require": {
@@ -4398,7 +4398,7 @@
                 "logging",
                 "sentry"
             ],
-            "time": "2019-05-22T07:44:47+00:00"
+            "time": "2019-06-13T11:27:23+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
