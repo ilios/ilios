@@ -9,6 +9,9 @@ update_configs:
           dependency_name: "symfony/*"
     automerged_updates:
       - match:
+          dependency_name: "elasticsearch/elasticsearch"
+          update_type: "semver:minor"
+      - match:
           dependency_type: all
           update_type: all
 
