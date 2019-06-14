@@ -14,7 +14,7 @@ Ilios 3 uses a Symfony (PHP/SQL) backend to serve its API, so these tools and th
 
 * CentOS 7 - Any modern Linux should work, but we recommend Redhat (RHEL, CentOS, or Fedora) or Ubuntu
 * MySQL using the InnoDB database engine (v5.5 or later required, 5.6+ recommended)
-* PHP v7.2+ REQUIRED - In order to ensure the best security and performance of the application overall, we have adopted a policy of requiring the latest version of PHP for running Ilios. Please see [ilios_php_version_policy.md](docs/ilios_php_version_policy.md) for the latest information about the PHP version requirements for Ilios.
+* PHP v7.3+ REQUIRED - In order to ensure the best security and performance of the application overall, we have adopted a policy of requiring the latest version of PHP for running Ilios. Please see [ilios_php_version_policy.md](docs/ilios_php_version_policy.md) for the latest information about the PHP version requirements for Ilios.
 
 NOTE: Several institutions have successfully deployed Ilios using Microsoft IIS on Windows as their webserver, but we do not recommend it as we do not have alot of experience with it ourselves and we've only ever support Ilios on Linux systems.  That being said, if you MUST use IIS for Windows and are having trouble getting Ilios running properly, please contact the [Ilios Project Support Team](https://iliosproject.org) at support@iliosproject.org if you have any problems and we might be able to help you out!
 
@@ -64,7 +64,7 @@ You should now be in the '/web/ilios3/ilios' directory
 # errors related to git files in your own user's `.config` directory:
 sudo -u apache git checkout tags/$(git fetch --tags; git describe --tags `git rev-list --tags --max-count=1`)
 ```
-5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 7.2+ and Composer installed on your system:
+5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 7.3+ and Composer installed on your system:
 ```bash
 sudo -u apache bin/setup
 ```

@@ -2,7 +2,7 @@
 FROM composer AS composer
 
 # get the proper 'PHP' image from the official PHP repo at
-FROM php:7.2-apache-stretch
+FROM php:7.3-apache-stretch
 
 # copy the Composer PHAR from the Composer image into the apache-php image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
@@ -51,8 +51,7 @@ ILIOS_TRACKING_CODE=UA-XXXXXXXX-1
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
     apt-get update \
-    && apt-get install sudo libldap2-dev zlib1g-dev libicu-dev -y \
-    # remove the apt source files to save space
+    && apt-get install sudo libldap2-dev zlib1g-dev libicu-dev libzip-dev libzip4 -y \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
@@ -65,6 +64,7 @@ RUN \
     # enable modules
     && a2enmod rewrite socache_shmcb mpm_prefork http2 \
     && rm -rf /var/lib/apt/lists/* \
+    # remove the apt source files to save space
     && apt-get purge libldap2-dev zlib1g-dev libicu-dev -y \
     && apt-get autoremove -y
 
