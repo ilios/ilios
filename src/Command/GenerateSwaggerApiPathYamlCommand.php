@@ -7,7 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * Generates the YAML file for the swagger path docs
@@ -17,18 +17,15 @@ use Symfony\Component\Templating\EngineInterface;
 class GenerateSwaggerApiPathYamlCommand extends Command
 {
     /**
-     * @var EngineInterface
+     * @var Environment
      */
-    protected $templatingEngine;
+    protected $twig;
 
-    /**
-     * @param \Symfony\Component\Templating\EngineInterface
-     */
     public function __construct(
-        EngineInterface $templatingEngine
+        Environment $twig
     ) {
         parent::__construct();
-        $this->templatingEngine = $templatingEngine;
+        $this->twig = $twig;
     }
 
     /**
@@ -58,7 +55,7 @@ class GenerateSwaggerApiPathYamlCommand extends Command
         $plural = Inflector::pluralize($singular);
         $template = 'generate/path.yml.twig';
 
-        $content = $this->templatingEngine->render($template, [
+        $content = $this->twig->render($template, [
             'endpoint' => $plural,
             'object' => $singular,
         ]);

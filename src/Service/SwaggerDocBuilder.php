@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class SwaggerDocBuilder
 {
@@ -18,7 +18,7 @@ class SwaggerDocBuilder
     /**
      * @var string
      */
-    protected $swaggerPaths;
+    protected $swaggerDir;
 
     /**
      * @var string
@@ -26,9 +26,9 @@ class SwaggerDocBuilder
     protected $environment;
 
     /**
-     * @var EngineInterface
+     * @var Environment
      */
-    protected $templatingEngine;
+    protected $twig;
 
     /**
      * @var string
@@ -42,13 +42,13 @@ class SwaggerDocBuilder
 
     public function __construct(
         KernelInterface $kernel,
-        EngineInterface $templatingEngine,
+        Environment $twig,
         RouterInterface $router,
         $apiVersion
     ) {
         $this->swaggerDir = realpath($kernel->getProjectDir() . '/config/swagger');
         $this->environment = $kernel->getEnvironment();
-        $this->templatingEngine = $templatingEngine;
+        $this->twig = $twig;
         $this->router = $router;
         $this->apiVersion = $apiVersion;
     }
@@ -150,7 +150,7 @@ class SwaggerDocBuilder
             UrlGenerator::ABSOLUTE_URL
         );
         $template = 'swagger/description.markdown.twig';
-        return $this->templatingEngine->render($template, [
+        return $this->twig->render($template, [
             'apiDocsUrl' => $apiDocsUrl,
             'myprofileUrl' => $myprofileUrl . 'myprofile',
             'userApiUrl' => $userApiUrl,

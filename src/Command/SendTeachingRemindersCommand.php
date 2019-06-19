@@ -12,7 +12,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Twig\Environment;
 
 /**
  * Sends teaching reminders to educators for their upcoming session offerings.
@@ -37,9 +38,9 @@ class SendTeachingRemindersCommand extends Command
     protected $offeringManager;
 
     /**
-     * @var EngineInterface
+     * @var Environment
      */
-    protected $templatingEngine;
+    protected $twig;
 
     /**
      * @var \Swift_Mailer
@@ -52,22 +53,39 @@ class SendTeachingRemindersCommand extends Command
     protected $config;
 
     /**
-     * @param \App\Entity\Manager\OfferingManager $offeringManager
-     * @param \Symfony\Component\Templating\EngineInterface
+     * @var Filesystem
+     */
+    protected $fs;
+
+    /**
+     * @var string
+     */
+    protected $kernelProjectDir;
+
+    /**
+     * SendTeachingRemindersCommand constructor.
+     * @param OfferingManager $offeringManager
+     * @param Environment $twig
      * @param \Swift_Mailer $mailer
      * @param Config $config
+     * @param Filesystem $fs
+     * @param string $kernelProjectDir
      */
     public function __construct(
         OfferingManager $offeringManager,
-        EngineInterface $templatingEngine,
+        Environment $twig,
         \Swift_Mailer $mailer,
-        Config $config
+        Config $config,
+        Filesystem $fs,
+        string $kernelProjectDir
     ) {
         parent::__construct();
         $this->offeringManager = $offeringManager;
-        $this->templatingEngine = $templatingEngine;
+        $this->twig = $twig;
         $this->mailer = $mailer;
         $this->config = $config;
+        $this->fs = $fs;
+        $this->kernelProjectDir = $kernelProjectDir;
     }
 
     /**
@@ -179,7 +197,7 @@ class SendTeachingRemindersCommand extends Command
             /** @var UserInterface $instructor */
             foreach ($instructors as $instructor) {
                 $i++;
-                $messageBody = $this->templatingEngine->render($template, [
+                $messageBody = $this->twig->render($template, [
                     'base_url' => $baseUrl,
                     'instructor' => $instructor,
                     'offering' => $offering,
@@ -215,16 +233,15 @@ class SendTeachingRemindersCommand extends Command
      */
     protected function getTemplatePath(SchoolInterface $school)
     {
-        $paths = [
-            '@custom_email_templates/' . basename($school->getTemplatePrefix() . '_' . self::DEFAULT_TEMPLATE_NAME),
-            '@custom_email_templates/' . self::DEFAULT_TEMPLATE_NAME,
-        ];
-        foreach ($paths as $path) {
-            if ($this->templatingEngine->exists($path)) {
+        $prefix = $school->getTemplatePrefix();
+        if ($prefix) {
+            $path = 'email/' . basename($prefix . '_' . self::DEFAULT_TEMPLATE_NAME);
+            if ($this->fs->exists($this->kernelProjectDir . '/custom/templates/' . $path)) {
                 return $path;
             }
         }
-        return 'email/' .self::DEFAULT_TEMPLATE_NAME;
+
+        return 'email/' . self::DEFAULT_TEMPLATE_NAME;
     }
 
     /**
