@@ -33,6 +33,9 @@ class Index extends ElasticSearchBase
                 'email' => $user->email,
                 'campusId' => $user->campusId,
                 'username' => $user->username,
+                'enabled' => $user->enabled,
+                'fullName' => $user->firstName . ' ' . $user->middleName . ' ' . $user->lastName,
+                'fullNameLastFirst' => $user->lastName . ', ' . $user->firstName . ' ' . $user->middleName,
             ];
         }, $users);
 
@@ -393,6 +396,9 @@ class Index extends ElasticSearchBase
                     'mappings' => [
                         '_doc' => [
                             'properties' => [
+                                'id' => [
+                                    'type' => 'keyword',
+                                ],
                                 'firstName' => [
                                     'type' => 'text',
                                     'analyzer' => 'ngram_analyzer',
@@ -430,17 +436,39 @@ class Index extends ElasticSearchBase
                                     'fields' => [
                                         'raw' => [
                                             'type' => 'keyword',
-                                        ]
+                                        ],
+                                        'cmp' => [
+                                            'type' => 'completion'
+                                        ],
                                     ],
+                                ],
+                                'fullName' => [
+                                    'type' => 'completion'
+                                ],
+                                'fullNameLastFirst' => [
+                                    'type' => 'completion'
                                 ],
                                 'username' => [
                                     'type' => 'keyword',
                                 ],
                                 'campusId' => [
                                     'type' => 'keyword',
+                                    'fields' => [
+                                        'cmp' => [
+                                            'type' => 'completion'
+                                        ]
+                                    ],
                                 ],
                                 'email' => [
                                     'type' => 'keyword',
+                                    'fields' => [
+                                        'cmp' => [
+                                            'type' => 'completion'
+                                        ]
+                                    ],
+                                ],
+                                'enabled' => [
+                                    'type' => 'boolean',
                                 ],
                             ]
                         ]

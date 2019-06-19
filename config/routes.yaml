@@ -41,9 +41,14 @@ _monitor:
   resource: "@LiipMonitorBundle/Resources/config/routing.xml"
   prefix: /ilios/health
 
-ilios_search:
-  path: /experimental_search
-  controller: App\Controller\Search:search
+ilios_curriculum_search:
+  path: /experimental_search/v1/curriculum
+  controller: App\Controller\Search:curriculumSearch
+  methods:  [GET]
+
+ilios_user_search:
+  path: /experimental_search/v1/users
+  controller: App\Controller\Search:userSearch
   methods:  [GET]
 
 ilios_swagger_redirect_docs:

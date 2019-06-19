@@ -175,51 +175,107 @@ class Search extends ElasticSearchBase
      * @param string $query
      * @param int $size
      * @return array
-     * @throws \Exception when search is not configured
      */
     public function userIdsQuery(string $query, int $size = 1000)
+    {
+        $results = $this->userSearch($query, $size, false);
+
+        return array_column($results['users'], 'id');
+    }
+
+    /**
+     * @param string $query
+     * @param int $size
+     * @return array
+     * @throws \Exception when search is not configured
+     */
+    public function userSearch(string $query, int $size, bool $onlySuggest)
     {
         if (!$this->enabled) {
             throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
+
+        $suggestFields = [
+            'fullName',
+            'fullNameLastFirst',
+            'email.cmp',
+            'campusId.cmp',
+        ];
+        $suggest = array_reduce($suggestFields, function ($carry, $field) use ($query) {
+            $carry[$field] = [
+                'prefix' => $query,
+                'completion' => [
+                    'field' => "${field}",
+                    'skip_duplicates' => true,
+                ]
+            ];
+
+            return $carry;
+        }, []);
+
 
         $params = [
             'type' => '_doc',
             'index' => self::PRIVATE_USER_INDEX,
             'size' => $size,
             'body' => [
-                'explain' => true,
-                'query' => [
-                    'multi_match' => [
-                        'query' => $query,
-                        'type' => 'most_fields',
-                        'fields' => [
-                            'firstName',
-                            'firstName.raw^3',
-                            'middleName',
-                            'middleName.raw^3',
-                            'lastName',
-                            'lastName.raw^3',
-                            'displayName',
-                            'displayName.raw^3',
-                            'userName^5',
-                            'campusId^5',
-                            'email^5',
-                        ]
-                    ]
-                ],
+                'suggest' => $suggest,
                 "_source" => [
-                    '_id'
+                    'id',
+                    'firstName',
+                    'middleName',
+                    'lastName',
+                    'displayName',
+                    'campusId',
+                    'email',
+                    'enabled',
                 ],
                 'sort' => '_score'
             ]
         ];
 
+        if (!$onlySuggest) {
+            $params['body']['query'] = [
+                'multi_match' => [
+                    'query' => $query,
+                    'type' => 'most_fields',
+                    'fields' => [
+                        'firstName',
+                        'firstName.raw^3',
+                        'middleName',
+                        'middleName.raw^3',
+                        'lastName',
+                        'lastName.raw^3',
+                        'displayName',
+                        'displayName.raw^3',
+                        'userName^5',
+                        'campusId^5',
+                        'email^5',
+                    ]
+                ]
+            ];
+        }
+
         $results = $this->search($params);
 
-        return array_map(function (array $arr) {
-            return $arr['_id'];
-        }, $results['hits']['hits']);
+        $autocompleteSuggestions = array_reduce(
+            $results['suggest'],
+            function (array $carry, array $item) {
+                $options = array_map(function (array $arr) {
+                    return $arr['text'];
+                }, $item[0]['options']);
+
+                return array_unique(array_merge($carry, $options));
+            },
+            []
+        );
+
+        $users = array_column($results['hits']['hits'], '_source');
+
+        return [
+            'autocomplete' => $autocompleteSuggestions,
+            'users' => $users
+        ];
     }
 
     /**

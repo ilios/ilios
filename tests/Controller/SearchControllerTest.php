@@ -70,7 +70,7 @@ class SearchControllerTest extends TestCase
         parent::tearDown();
     }
 
-    public function testSearch()
+    public function testCurriculumSearch()
     {
         $searchTerm = 'jasper & jackson';
         $result = [
@@ -108,7 +108,7 @@ class SearchControllerTest extends TestCase
         $request = new Request();
         $request->query->add(['q' => $searchTerm]);
 
-        $response = $this->controller->search($request);
+        $response = $this->controller->curriculumSearch($request);
         $content = $response->getContent();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
@@ -119,7 +119,7 @@ class SearchControllerTest extends TestCase
         );
     }
 
-    public function testSuggestionsOnly()
+    public function testCurriculumSearchSuggestionsOnly()
     {
         $searchTerm = 'jasper & jackson';
         $result = [
@@ -143,7 +143,7 @@ class SearchControllerTest extends TestCase
         $request = new Request();
         $request->query->add(['q' => $searchTerm, 'onlySuggest' => true]);
 
-        $response = $this->controller->search($request);
+        $response = $this->controller->curriculumSearch($request);
         $content = $response->getContent();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
@@ -154,12 +154,127 @@ class SearchControllerTest extends TestCase
         );
     }
 
-    public function testSearchFailsIfUserDoesntHaveProperPermissions()
+    public function testCurriculumSearchFailsIfUserDoesntHaveProperPermissions()
     {
         $this->mockPermissionChecker
             ->shouldReceive('canSearchCurriculum')
             ->andReturn(false);
         $this->expectException(AccessDeniedException::class);
-        $this->controller->search(new Request());
+        $this->controller->curriculumSearch(new Request());
+    }
+
+    public function testUserSearch()
+    {
+        $searchTerm = 'jasper & jackson';
+        $result = [
+            'autocomplete' => [
+                'one',
+                'three',
+            ],
+            'users' => [
+                [
+                    'id' => 1,
+                ]
+            ]
+        ];
+
+        $this->mockSearch
+            ->shouldReceive('userSearch')
+            ->with($searchTerm, 100, false)
+            ->once()
+            ->andReturn([$result]);
+
+        $this->mockPermissionChecker
+            ->shouldReceive('canSearchUsers')
+            ->andReturn(true);
+
+        $request = new Request();
+        $request->query->add(['q' => $searchTerm]);
+
+        $response = $this->controller->userSearch($request);
+        $content = $response->getContent();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+
+        $this->assertEquals(
+            array('results' => array($result)),
+            json_decode($content, true),
+            var_export($content, true)
+        );
+    }
+
+    public function testUserSearchSuggestionsOnly()
+    {
+        $searchTerm = 'jasper & jackson';
+        $result = [
+            'autocomplete' => [
+                'one',
+                'two',
+            ],
+            'courses' => []
+        ];
+
+        $this->mockSearch
+            ->shouldReceive('userSearch')
+            ->with($searchTerm, 100, true)
+            ->once()
+            ->andReturn([$result]);
+
+        $this->mockPermissionChecker
+            ->shouldReceive('canSearchUsers')
+            ->andReturn(true);
+
+        $request = new Request();
+        $request->query->add(['q' => $searchTerm, 'onlySuggest' => true]);
+
+        $response = $this->controller->userSearch($request);
+        $content = $response->getContent();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+
+        $this->assertEquals(
+            array('results' => array($result)),
+            json_decode($content, true),
+            var_export($content, true)
+        );
+    }
+
+    public function testUserSearchSize()
+    {
+        $searchTerm = 'jasper & jackson';
+        $result = [
+            'autocomplete' => [],
+            'courses' => []
+        ];
+
+        $this->mockSearch
+            ->shouldReceive('userSearch')
+            ->with($searchTerm, 13, false)
+            ->once()
+            ->andReturn([$result]);
+
+        $this->mockPermissionChecker
+            ->shouldReceive('canSearchUsers')
+            ->andReturn(true);
+
+        $request = new Request();
+        $request->query->add(['q' => $searchTerm, 'size' => 13]);
+
+        $response = $this->controller->userSearch($request);
+        $content = $response->getContent();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+
+        $this->assertEquals(
+            array('results' => array($result)),
+            json_decode($content, true),
+            var_export($content, true)
+        );
+    }
+
+    public function testUserSearchFailsIfUserDoesntHaveProperPermissions()
+    {
+        $this->mockPermissionChecker
+            ->shouldReceive('canSearchUsers')
+            ->andReturn(false);
+        $this->expectException(AccessDeniedException::class);
+        $this->controller->userSearch(new Request());
     }
 }
