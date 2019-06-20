@@ -6,7 +6,7 @@ use App\Classes\SessionUserInterface;
 use App\Controller\Search;
 use App\Service\PermissionChecker;
 use App\Service\Search as SearchService;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Mockery as m;
@@ -16,8 +16,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class SearchControllerTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     /**
      * @var Search
      */

@@ -9,7 +9,7 @@ use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
 use App\Service\Directory;
 use App\Controller\DirectoryController;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Mockery as m;
@@ -19,8 +19,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class DirectoryControllerTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     /**
      * @var DirectoryController
      */

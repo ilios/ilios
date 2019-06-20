@@ -8,7 +8,7 @@ use App\Entity\AuthenticationInterface;
 use App\Entity\Manager\AuthenticationManager;
 use App\Entity\UserInterface;
 use App\Service\Config;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 
@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class LdapAuthenticationTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     protected $authManager;
     protected $jwtManager;
     protected $sessionUserProvider;

@@ -10,8 +10,6 @@ use App\Tests\TestCase;
 
 class DirectoryTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     protected $ldapManager;
     protected $config;
     protected $obj;

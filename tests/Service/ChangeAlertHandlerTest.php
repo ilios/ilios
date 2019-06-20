@@ -4,10 +4,7 @@ namespace App\Tests\Service;
 use App\Entity\Alert;
 use App\Entity\AlertChangeType;
 use App\Entity\AlertChangeTypeInterface;
-use App\Entity\AlertInterface;
 use App\Entity\Course;
-use App\Entity\InstructorGroup;
-use App\Entity\LearnerGroup;
 use App\Entity\Manager\AlertChangeTypeManager;
 use App\Entity\Manager\AlertManager;
 use App\Entity\Manager\UserManager;
@@ -25,8 +22,6 @@ use App\Tests\TestCase;
  */
 class ChangeAlertHandlerTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     /**
      * @var m\MockInterface
      */

@@ -2,7 +2,6 @@
 namespace App\Tests\Service;
 
 use App\Entity\LearningMaterialInterface;
-use App\Service\Config;
 use League\Flysystem\Filesystem;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
@@ -13,7 +12,6 @@ use App\Tests\TestCase;
 
 class IliosFileSystemTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     /**
      *
      * @var IliosFileSystem

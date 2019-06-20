@@ -6,14 +6,13 @@ use App\Service\FormAuthentication;
 use App\Service\LdapAuthentication;
 use App\Service\ShibbolethAuthentication;
 use App\Service\Config;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use App\Tests\TestCase;
 use Mockery as m;
 
 use App\Service\AuthenticationFactory;
 
 class AuthenticationFactoryTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     protected $config;
     protected $cas;
     protected $form;

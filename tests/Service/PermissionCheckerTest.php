@@ -6,15 +6,13 @@ use App\Classes\Capabilities;
 use App\Classes\PermissionMatrixInterface;
 use App\Classes\SessionUserInterface;
 use App\Service\PermissionChecker;
-use App\Entity\CohortInterface;
 use App\Entity\CourseInterface;
 use App\Entity\ProgramInterface;
 use App\Entity\ProgramYearInterface;
-use App\Entity\SchoolConfigInterface;
 use App\Entity\SchoolInterface;
 use App\Entity\SessionInterface;
+use App\Tests\TestCase;
 use Mockery as m;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class PermissionCheckerTest
@@ -22,8 +20,6 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
  */
 class PermissionCheckerTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     /**
      * @var PermissionChecker
      */

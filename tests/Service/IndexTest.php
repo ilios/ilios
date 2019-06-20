@@ -8,15 +8,13 @@ use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
 use App\Entity\User;
 use App\Service\Index;
+use App\Tests\TestCase;
 use Elasticsearch\Client;
 use Ilios\MeSH\Model\Descriptor;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 
 class IndexTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     public function testSetup()
     {
         $obj1 = $this->createWithHost();

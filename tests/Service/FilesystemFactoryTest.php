@@ -5,15 +5,12 @@ namespace App\Tests\Service;
 use App\Classes\LocalCachingFilesystemDecorator;
 use App\Service\Config;
 use App\Service\FilesystemFactory;
-use League\Flysystem\Adapter\Local;
+use App\Tests\TestCase;
 use League\Flysystem\FilesystemInterface;
 use Mockery as m;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 class FilesystemFactoryTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     /** @var m\Mock */
     private $config;
 
