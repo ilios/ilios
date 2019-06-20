@@ -3,15 +3,13 @@ namespace App\Tests\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
 use App\RelationshipVoter\AbstractVoter;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use App\Tests\TestCase;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class AbstractBase extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     /** @var  m\MockInterface */
     protected $permissionChecker;
 

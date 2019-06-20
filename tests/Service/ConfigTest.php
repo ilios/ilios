@@ -13,8 +13,6 @@ use function Stringy\create as s;
  */
 class ConfigTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     public function testPullsFromENVFirst()
     {
         $manager = m::mock(ApplicationConfigManager::class);

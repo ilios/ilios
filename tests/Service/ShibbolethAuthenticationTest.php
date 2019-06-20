@@ -8,8 +8,8 @@ use App\Entity\AuthenticationInterface;
 use App\Entity\Manager\AuthenticationManager;
 use App\Entity\UserInterface;
 use App\Service\Config;
+use App\Tests\TestCase;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 
@@ -21,8 +21,6 @@ use Symfony\Component\HttpFoundation\ServerBag;
 
 class ShibbolethAuthenticationTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     protected $authManager;
     protected $jwtManager;
     protected $logger;

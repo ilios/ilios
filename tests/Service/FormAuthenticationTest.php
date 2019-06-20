@@ -7,7 +7,7 @@ use App\Service\SessionUserProvider;
 use App\Entity\Manager\AuthenticationManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 
@@ -17,8 +17,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class FormAuthenticationTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     protected $authManager;
     protected $userManager;
     protected $encoder;

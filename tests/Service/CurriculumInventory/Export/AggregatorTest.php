@@ -8,7 +8,7 @@ use App\Entity\Manager\CurriculumInventoryReportManager;
 use App\Entity\Program;
 use App\Service\Config;
 use App\Service\CurriculumInventory\Export\Aggregator;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use App\Tests\TestCase;
 use Mockery as m;
 
 /**
@@ -17,8 +17,6 @@ use Mockery as m;
  */
 class AggregatorTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     /**
      * @var m\MockInterface
      */

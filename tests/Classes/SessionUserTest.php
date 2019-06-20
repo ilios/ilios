@@ -6,8 +6,8 @@ use App\Classes\SessionUser;
 use App\Entity\Manager\UserManager;
 use App\Entity\School;
 use App\Entity\UserInterface;
+use App\Tests\TestCase;
 use Mockery as m;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class SessionUserTest
@@ -15,8 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
  */
 class SessionUserTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     /**
      * @var m\MockInterface
      */

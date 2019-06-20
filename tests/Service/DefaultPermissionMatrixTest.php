@@ -7,8 +7,8 @@ use App\Classes\UserRoles;
 use App\Service\DefaultPermissionMatrix;
 use App\Entity\DTO\SchoolDTO;
 use App\Entity\Manager\SchoolManager;
+use App\Tests\TestCase;
 use Mockery as m;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class DefaultPermissionMatrixTest
@@ -17,8 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
  */
 class DefaultPermissionMatrixTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     /**
      * @var DefaultPermissionMatrix
      */

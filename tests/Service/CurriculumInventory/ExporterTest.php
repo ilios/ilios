@@ -4,8 +4,8 @@ namespace App\Tests\Service\CurriculumInventory;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\Export\XmlPrinter;
 use App\Service\CurriculumInventory\Exporter;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
+use App\Tests\TestCase;
 use Mockery as m;
 
 /**
@@ -13,8 +13,6 @@ use Mockery as m;
  */
 class ExporterTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     /**
      * @covers \App\Service\CurriculumInventory\Exporter::__construct
      */

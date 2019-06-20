@@ -1,16 +1,13 @@
 <?php
 namespace App\Tests\Service;
 
-use App\Service\Config;
 use App\Service\Search;
+use App\Tests\TestCase;
 use Elasticsearch\Client;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 
 class SearchTest extends TestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     public function testSetup()
     {
         $obj1 = $this->createWithHost();
