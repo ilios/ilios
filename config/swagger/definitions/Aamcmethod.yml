@@ -12,3 +12,6 @@ Aamcmethod:
    type: array
    items:
     type: string
+  active:
+   description: Active
+   type: boolean

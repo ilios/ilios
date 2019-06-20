@@ -30,7 +30,8 @@ class LoadAamcMethodData extends AbstractFixture implements
             $entity = new AamcMethod();
             $entity->setId($arr['id']);
             $entity->setDescription($arr['description']);
-            
+            $entity->setActive($arr['active']);
+
             $manager->persist($entity);
             $this->addReference('aamcMethods' . $arr['id'], $entity);
         }

@@ -42,7 +42,8 @@ class AamcMethodRepository extends EntityRepository implements DTORepositoryInte
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $aamcMethodDTOs[$arr['id']] = new AamcMethodDTO(
                 $arr['id'],
-                $arr['description']
+                $arr['description'],
+                $arr['active']
             );
         }
         $aamcMethodIds = array_keys($aamcMethodDTOs);

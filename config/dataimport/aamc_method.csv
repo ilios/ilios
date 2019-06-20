@@ -1,49 +1,50 @@
-`method_id`,`description`
-AM001,Clinical Documentation Review
-AM002,Clinical Performance Rating/Checklist
-AM003,"Exam - Institutionally Developed, Clinical Performance"
-AM004,"Exam - Institutionally Developed, Written/ Computer-based"
-AM005,"Exam - Institutionally Developed, Oral"
-AM006,"Exam - Licensure, Clinical Performance"
-AM007,"Exam - Licensure, Written/Computer-based"
-AM008,"Exam - Nationally Normed/Standardized, Subject"
-AM009,Multisource Assessment
-AM010,Narrative Assessment
-AM011,Oral Patient Presentation
-AM012,Participation
-AM013,Peer Assessment
-AM014,Portfolio-Based Assessment
-AM015,Practical (Lab)
-AM016,Research or Project Assessment
-AM017,Self-Assessment
-AM018,Stimulated Recall
-IM001,Case-Based Instruction/Learning
-IM002,Clinical Experience - Ambulatory
-IM003,Clinical Experience - Inpatient
-IM004,Concept Mapping
-IM005,Conference
-IM006,Demonstration
-IM007,"Discussion, Large Group (>12)"
-IM008,"Discussion, Small Group (≤12)"
-IM009,Games
-IM010,Independent Learning
-IM011,Journal Club
-IM012,Laboratory
-IM013,Lecture
-IM014,Mentorship
-IM015,Patient Presentation - Faculty
-IM016,Patient Presentation - Learner
-IM017,Peer Teaching
-IM018,Preceptorship
-IM019,Problem-Based Learning (PBL)
-IM020,Reflection
-IM021,Research
-IM022,Role Play/Dramatization
-IM023,Self-Directed Learning
-IM024,Service Learning Activity
-IM025,Simulation
-IM026,Team-Based Learning (TBL)
-IM027,Team-Building
-IM028,Tutorial
-IM029,Ward Rounds
-IM030,Workshop Assessment
+`method_id`,`description`,`active`
+AM001,Clinical Documentation Review,1
+AM002,Clinical Performance Rating/Checklist,1
+AM003,"Exam - Institutionally Developed, Clinical Performance",1
+AM004,"Exam - Institutionally Developed, Written/ Computer-based",1
+AM005,"Exam - Institutionally Developed, Oral",1
+AM006,"Exam - Licensure, Clinical Performance",1
+AM007,"Exam - Licensure, Written/Computer-based",1
+AM008,"Exam - Nationally Normed/Standardized, Subject",1
+AM009,Multisource Assessment,1
+AM010,Narrative Assessment,1
+AM011,Oral Patient Presentation,1
+AM012,Participation,1
+AM013,Peer Assessment,1
+AM014,Portfolio-Based Assessment,1
+AM015,Practical (Lab),0
+AM016,Research or Project Assessment,1
+AM017,Self-Assessment,1
+AM018,Stimulated Recall,1
+AM019,"Exam – Institutionally Developed, Laboratory Practical (Lab)",1
+IM001,Case-Based Instruction/Learning,1
+IM002,Clinical Experience - Ambulatory,1
+IM003,Clinical Experience - Inpatient,1
+IM004,Concept Mapping,1
+IM005,Conference,1
+IM006,Demonstration,1
+IM007,"Discussion, Large Group (>12)",1
+IM008,"Discussion, Small Group (≤12)",1
+IM009,Games,1
+IM010,Independent Learning,1
+IM011,Journal Club,1
+IM012,Laboratory,1
+IM013,Lecture,1
+IM014,Mentorship,1
+IM015,Patient Presentation - Faculty,1
+IM016,Patient Presentation - Learner,1
+IM017,Peer Teaching,1
+IM018,Preceptorship,1
+IM019,Problem-Based Learning (PBL),1
+IM020,Reflection,1
+IM021,Research,1
+IM022,Role Play/Dramatization,1
+IM023,Self-Directed Learning,1
+IM024,Service Learning Activity,1
+IM025,Simulation,1
+IM026,Team-Based Learning (TBL),1
+IM027,Team-Building,1
+IM028,Tutorial,1
+IM029,Ward Rounds,1
+IM030,Workshop Assessment,1

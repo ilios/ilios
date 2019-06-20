@@ -32,6 +32,8 @@ class AamcMethodTest extends ReadWriteEndpointTest
             'description' => ['description', $this->getFaker()->text],
             'sessionTypes' => ['sessionTypes', [1]],
             'id' => ['id', 'NEW1', $skip = true],
+            'active' => ['active', false],
+
         ];
     }
 
@@ -53,6 +55,8 @@ class AamcMethodTest extends ReadWriteEndpointTest
             'ids' => [[0, 1], ['id' => ['AM001', 'AM002']]],
             'description' => [[1], ['description' => 'filterable description']],
             'sessionTypes' => [[0], ['sessionTypes' => [1]]],
+            'active' => [[0], ['active' => true]],
+            'notActive' => [[1], ['active' => false]],
         ];
     }
 }
