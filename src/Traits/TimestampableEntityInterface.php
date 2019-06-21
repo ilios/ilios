@@ -31,9 +31,4 @@ interface TimestampableEntityInterface
      * @param \DateTime $createdAt
      */
     public function setCreatedAt(\DateTime $createdAt);
-
-    /**
-     * @return string
-     */
-    public function getClassName();
 }

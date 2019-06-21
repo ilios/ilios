@@ -44,12 +44,4 @@ trait TimestampableEntity
     {
         $this->createdAt = $createdAt;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getClassName()
-    {
-        return __CLASS__;
-    }
 }

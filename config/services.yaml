@@ -6,7 +6,7 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    ilios_api_version: v1.38
+    ilios_api_version: v1.37
     ilios_api_valid_endpoints: >-
       aamcmethods,aamcpcrses,aamcresourcetypes,academicyears,applicationconfigs,assessmentoptions,authentications,
       cohorts,competencies,courses,courseclerkshiptypes,courselearningmaterials,curriculuminventoryacademiclevels,curriculuminventoryexports,
@@ -194,9 +194,6 @@ services:
         - { name: doctrine.event_listener, event: postPersist }
         - { name: doctrine.event_listener, event: postUpdate }
         - { name: doctrine.event_listener, event: preRemove }
-    App\EventListener\TimestampEntityChanges:
-      tags:
-      - { name: doctrine.event_listener, event: onFlush }
 
     App\EventListener\RemoveOrphanedObjectives:
       tags:
@@ -237,11 +234,6 @@ services:
     App\Service\CurriculumInventoryReportDecoratorFactory:
       arguments:
         $decoratorClassName: '\App\Classes\CurriculumInventoryReportDecorator'
-
-    App\Service\Timestamper:
-      tags:
-      - { name: kernel.event_listener, event: kernel.response, method: flush }
-      - { name: kernel.event_listener, event: console.terminate, method: flush }
 
     App\Service\UserMaterialFactory:
       arguments:
