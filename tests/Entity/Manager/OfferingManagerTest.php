@@ -31,8 +31,10 @@ class OfferingManagerTest extends TestCase
             ->shouldReceive('getRepository')
             ->andReturn($repository)
             ->mock();
-        
+
+
         $entity = m::mock(Offering::class);
+        $entity->shouldReceive('getSessions')->once()->andReturn([]);
         $manager = new OfferingManager($registry, Offering::class);
         $manager->delete($entity);
     }
