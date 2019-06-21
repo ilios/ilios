@@ -5,6 +5,12 @@ namespace App\Entity\Manager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use App\Entity\Repository\DTORepositoryInterface;
+use App\Entity\Offering;
+use App\Entity\SessionStampableInterface;
+use App\Traits\OfferingsEntityInterface;
+use App\Entity\Session;
+use App\Entity\SessionInterface;
+use App\Traits\TimestampableEntityInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -136,6 +142,7 @@ class BaseManager implements ManagerInterface
         $forceId = false
     ) {
         $this->em->persist($entity);
+        $this->stampOnUpdate($entity);
 
         if ($forceId) {
             $metadata = $this->em->getClassMetaData(get_class($entity));
@@ -153,6 +160,7 @@ class BaseManager implements ManagerInterface
     public function delete(
         $entity
     ) {
+        $this->stampOnDelete($entity);
         $this->em->remove($entity);
         $this->em->flush();
     }
@@ -164,5 +172,40 @@ class BaseManager implements ManagerInterface
     {
         $class = $this->getClass();
         return new $class();
+    }
+
+    protected function stampOnUpdate($entity)
+    {
+        if ($entity instanceof TimestampableEntityInterface) {
+            $entity->stampUpdate();
+        }
+        if ($entity instanceof OfferingsEntityInterface) {
+            $offerings = $entity->getOfferings();
+            $em = $this->registry->getManagerForClass(Offering::class);
+            foreach ($offerings as $offering) {
+                $offering->stampUpdate();
+                $em->persist($offering);
+            }
+        }
+        if ($entity instanceof SessionStampableInterface) {
+            $sessions = $entity->getSessions();
+            $em = $this->registry->getManagerForClass(Session::class);
+            foreach ($sessions as $session) {
+                $session->stampUpdate();
+                $em->persist($session);
+            }
+        }
+    }
+
+    protected function stampOnDelete($entity)
+    {
+        if ($entity instanceof SessionStampableInterface) {
+            $sessions = $entity->getSessions();
+            $em = $this->registry->getManagerForClass(Session::class);
+            foreach ($sessions as $session) {
+                $session->stampUpdate();
+                $em->persist($session);
+            }
+        }
     }
 }
