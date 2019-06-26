@@ -141,9 +141,6 @@
     "ezyang/htmlpurifier": {
         "version": "v4.10.0"
     },
-    "facebook/webdriver": {
-        "version": "1.6.0"
-    },
     "fig/link-util": {
         "version": "1.0.0"
     },
@@ -501,9 +498,6 @@
     },
     "symfony/orm-pack": {
         "version": "v1.0.5"
-    },
-    "symfony/panther": {
-        "version": "v0.4.0"
     },
     "symfony/phpunit-bridge": {
         "version": "4.3",
