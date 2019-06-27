@@ -27,7 +27,7 @@ security:
           - App\Security\JsonWebTokenAuthenticator
       provider: session_user
     authenticated_search:
-      pattern:    ^/experimental_search
+      pattern:    ^/search
       stateless: true
       guard:
         authenticators:
