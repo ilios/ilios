@@ -42,7 +42,6 @@ class Timestamper
         $ts = $timestamp->getTimestamp();
         if (!array_key_exists($ts, $this->entities)) {
             $this->entities[$ts] = [];
-
         }
         if (!array_key_exists($class, $this->entities[$ts])) {
             $this->entities[$ts][$class] = [];

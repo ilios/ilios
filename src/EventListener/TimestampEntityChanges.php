@@ -37,7 +37,8 @@ class TimestampEntityChanges
      *
      * @throws Exception
      */
-    public function postUpdate(LifecycleEventArgs $args) {
+    public function postUpdate(LifecycleEventArgs $args)
+    {
         $this->stamp($args->getObject(), new DateTime());
     }
 
@@ -46,9 +47,9 @@ class TimestampEntityChanges
      *
      * @throws Exception
      */
-    public function postRemove(LifecycleEventArgs $args) {
+    public function postRemove(LifecycleEventArgs $args)
+    {
         $this->stamp($args->getObject(), new DateTime());
-
     }
 
     /**
@@ -56,7 +57,8 @@ class TimestampEntityChanges
      *
      * @throws Exception
      */
-    public function postPersist(LifecycleEventArgs $args) {
+    public function postPersist(LifecycleEventArgs $args)
+    {
         $this->stamp($args->getObject(), new DateTime());
     }
 
