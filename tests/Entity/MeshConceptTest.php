@@ -2,7 +2,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\MeshConcept;
-use Mockery as m;
+use DateTime;
 
 /**
  * Tests for Entity MeshConcept
@@ -38,9 +38,9 @@ class MeshConceptTest extends EntityBase
      */
     public function testConstructor()
     {
-        $now = \DateTime::createFromFormat('U', time());
+        $now = DateTime::createFromFormat('U', time());
         $createdAt = $this->object->getCreatedAt();
-        $this->assertTrue($createdAt instanceof \DateTime);
+        $this->assertTrue($createdAt instanceof DateTime);
         $diff = $now->diff($createdAt);
         $this->assertTrue($diff->s < 2);
     }
@@ -137,18 +137,5 @@ class MeshConceptTest extends EntityBase
     public function testGetDescriptors()
     {
         $this->entityCollectionSetTest('descriptor', 'MeshDescriptor');
-    }
-
-    /**
-     * @covers \App\Entity\MeshConcept::stampUpdate
-     */
-    public function testStampUpdate()
-    {
-        $now = new \DateTime();
-        $this->object->stampUpdate();
-        $updatedAt = $this->object->getUpdatedAt();
-        $this->assertTrue($updatedAt instanceof \DateTime);
-        $diff = $now->diff($updatedAt);
-        $this->assertTrue($diff->s < 2);
     }
 }
