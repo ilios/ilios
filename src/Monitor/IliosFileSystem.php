@@ -4,8 +4,7 @@ namespace App\Monitor;
 
 use App\Exception\IliosFilesystemException;
 use App\Service\Config;
-use App\Service\FilesystemFactory;
-use League\Flysystem\FilesystemInterface;
+use App\Service\IliosFileSystem as Filesystem;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
@@ -19,16 +18,16 @@ class IliosFileSystem implements CheckInterface
     protected $config;
 
     /**
-     * @var FilesystemInterface
+     * @var Filesystem
      */
     private $filesystem;
 
     public function __construct(
         Config $config,
-        FilesystemFactory $filesystemFactory
+        Filesystem $filesystem
     ) {
         $this->config = $config;
-        $this->filesystem = $filesystemFactory->getFilesystem();
+        $this->filesystem = $filesystem;
     }
 
     /**
