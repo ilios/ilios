@@ -17,12 +17,6 @@ trait TimestampableEntity
         return $this->createdAt;
     }
 
-
-    public function stampUpdate()
-    {
-        $this->updatedAt = new DateTime();
-    }
-
     /**
      * @return DateTime
      */

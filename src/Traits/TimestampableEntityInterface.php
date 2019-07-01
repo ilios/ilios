@@ -15,11 +15,6 @@ interface TimestampableEntityInterface
     public function getCreatedAt();
 
     /**
-     * @param DateTime
-     */
-    public function stampUpdate();
-
-    /**
      * @return DateTime
      */
     public function getUpdatedAt();
