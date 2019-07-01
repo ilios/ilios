@@ -1,11 +1,14 @@
 <?php
 namespace App\EventListener;
 
+use DateTime;
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use App\Service\Timestamper;
 use App\Traits\TimestampableEntityInterface;
 use App\Traits\OfferingsEntityInterface;
 use App\Entity\SessionStampableInterface;
+use Exception;
 
 /**
  * Doctrine event listener.
@@ -29,38 +32,62 @@ class TimestampEntityChanges
         $this->timeStamper = $timeStamper;
     }
 
-    public function onFlush(OnFlushEventArgs $eventArgs)
+    /**
+     * @param LifecycleEventArgs $args
+     *
+     * @throws Exception
+     */
+    public function postUpdate(LifecycleEventArgs $args)
     {
-        $entityManager = $eventArgs->getEntityManager();
-        $uow = $entityManager->getUnitOfWork();
-        $entities = array_merge(
-            $uow->getScheduledEntityInsertions(),
-            $uow->getScheduledEntityUpdates(),
-            $uow->getScheduledEntityDeletions()
-        );
-
-        foreach ($entities as $entity) {
-            $this->stamp($entity);
-        }
+        $this->stamp($args->getObject());
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     *
+     * @throws Exception
+     */
+    public function postRemove(LifecycleEventArgs $args)
+    {
+        $this->stamp($args->getObject());
+    }
+
+    /**
+     * @param LifecycleEventArgs $args
+     *
+     * @throws Exception
+     */
+    public function postPersist(LifecycleEventArgs $args)
+    {
+        $this->stamp($args->getObject());
+    }
+
+    /**
+     * @param $entity
+     * @throws Exception
+     */
     protected function stamp($entity)
     {
+        $timestamp = new Datetime();
+
         if ($entity instanceof TimestampableEntityInterface) {
-            $this->timeStamper->add($entity);
+            $this->timeStamper->add($entity, $timestamp);
+            $entity->setUpdatedAt($timestamp);
         }
 
         if ($entity instanceof OfferingsEntityInterface) {
             $offerings = $entity->getOfferings();
             foreach ($offerings as $offering) {
-                $this->timeStamper->add($offering);
+                $this->timeStamper->add($offering, $timestamp);
+                $offering->setUpdatedAt($timestamp);
             }
         }
 
         if ($entity instanceof SessionStampableInterface) {
             $sessions = $entity->getSessions();
             foreach ($sessions as $session) {
-                $this->timeStamper->add($session);
+                $this->timeStamper->add($session, $timestamp);
+                $session->setUpdatedAt($timestamp);
             }
         }
     }

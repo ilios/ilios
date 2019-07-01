@@ -192,19 +192,6 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Session::stampUpdate
-     */
-    public function testStampUpdate()
-    {
-        $now = new \DateTime();
-        $this->object->stampUpdate();
-        $updatedAt = $this->object->getUpdatedAt();
-        $this->assertTrue($updatedAt instanceof \DateTime);
-        $diff = $now->diff($updatedAt);
-        $this->assertTrue($diff->s < 2);
-    }
-
-    /**
      * @covers \App\Entity\Session::getSchool
      */
     public function testGetSchool()

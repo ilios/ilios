@@ -186,17 +186,17 @@ services:
     App\EventListener\LogEntityChanges:
       tags:
       - { name: doctrine.event_listener, event: onFlush }
+
       calls:
       - [ setContainer, ['@service_container'] ]
 
     App\EventListener\IndexEntityChanges:
+
+    App\EventListener\TimestampEntityChanges:
       tags:
         - { name: doctrine.event_listener, event: postPersist }
         - { name: doctrine.event_listener, event: postUpdate }
-        - { name: doctrine.event_listener, event: preRemove }
-    App\EventListener\TimestampEntityChanges:
-      tags:
-      - { name: doctrine.event_listener, event: onFlush }
+        - { name: doctrine.event_listener, event: postRemove }
 
     App\EventListener\RemoveOrphanedObjectives:
       tags:
