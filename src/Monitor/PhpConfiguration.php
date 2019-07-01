@@ -24,13 +24,14 @@ class PhpConfiguration implements CheckInterface
             'opcache.memory_consumption' => 256,
             'opcache.max_accelerated_files' => 20000,
             'realpath_cache_ttl' => 600,
+            'max_execution_time' => 300,
         ];
 
         foreach ($gtOptions as $option => $required) {
             $value = (int) ini_get($option);
             if ($value < $required) {
                 return new Warning(
-                    "`${option}` setting is too low, should be at least `${required}`"
+                    "`${option}` set to `${value}`. That is too low, should be at least `${required}`"
                 );
             }
         }
