@@ -39,7 +39,7 @@ class TimestampEntityChanges
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
-        $this->stamp($args->getObject(), new DateTime());
+        $this->stamp($args->getObject());
     }
 
     /**
@@ -49,7 +49,7 @@ class TimestampEntityChanges
      */
     public function postRemove(LifecycleEventArgs $args)
     {
-        $this->stamp($args->getObject(), new DateTime());
+        $this->stamp($args->getObject());
     }
 
     /**
@@ -59,17 +59,17 @@ class TimestampEntityChanges
      */
     public function postPersist(LifecycleEventArgs $args)
     {
-        $this->stamp($args->getObject(), new DateTime());
+        $this->stamp($args->getObject());
     }
 
     /**
      * @param $entity
-     * @param DateTime $timestamp
-     *
      * @throws Exception
      */
-    protected function stamp($entity, Datetime $timestamp)
+    protected function stamp($entity)
     {
+        $timestamp = new Datetime();
+
         if ($entity instanceof TimestampableEntityInterface) {
             $this->timeStamper->add($entity, $timestamp);
             $entity->setUpdatedAt($timestamp);
