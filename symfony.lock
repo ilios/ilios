@@ -171,6 +171,9 @@
     "ilios/mesh-parser": {
         "version": "v2.0.1"
     },
+    "jaybizzle/crawler-detect": {
+        "version": "v1.2.84"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },

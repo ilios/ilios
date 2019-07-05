@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\Config;
 use App\Service\Filesystem;
 use App\Service\AuthenticationInterface;
+use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -98,7 +99,10 @@ class IndexController extends AbstractController
     {
         $response = $this->authentication->createAuthenticationResponse($request);
         if ($response instanceof RedirectResponse) {
-            return $response;
+            $crawlerDetect = new CrawlerDetect();
+            if (!$crawlerDetect->isCrawler($request->headers->get('User-Agent'))) {
+                return $response;
+            }
         }
 
         $path = $this->getFilePath('index.json');
