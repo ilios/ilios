@@ -58,13 +58,13 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="last_name", type="string", length=30)
+     * @ORM\Column(name="last_name", type="string", length=50)
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 30
+     *      max = 50
      * )
      *
      * @IS\Expose
@@ -75,13 +75,13 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="first_name", type="string", length=20)
+     * @ORM\Column(name="first_name", type="string", length=50)
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 20
+     *      max = 50
      * )
      *
      * @IS\Expose

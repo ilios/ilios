@@ -224,10 +224,10 @@ class AddUserCommand extends Command
     protected function fillUserRecord(array $userRecord, $input, $output)
     {
         if (empty($userRecord['firstName'])) {
-            $userRecord['firstName'] = $this->askForString('First Name', 1, 20, $input, $output);
+            $userRecord['firstName'] = $this->askForString('First Name', 1, 50, $input, $output);
         }
         if (empty($userRecord['lastName'])) {
-            $userRecord['lastName'] = $this->askForString('Last Name', 1, 30, $input, $output);
+            $userRecord['lastName'] = $this->askForString('Last Name', 1, 50, $input, $output);
         }
         if (empty($userRecord['telephoneNumber'])) {
             $userRecord['telephoneNumber'] = $this->askForString('Phone Number', 0, 30, $input, $output);
