@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5486abd65706bd2054f67147ca3a38e4",
+    "content-hash": "3acfca63da2fa6f315a121a50ade1e11",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -8354,16 +8354,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "dcbe5d79d37b5c18ab2bc6febf9251ed3ddecd1a"
+                "reference": "3fd247f2784bf57a7081e96fce3e535943fa5247"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/dcbe5d79d37b5c18ab2bc6febf9251ed3ddecd1a",
-                "reference": "dcbe5d79d37b5c18ab2bc6febf9251ed3ddecd1a",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/3fd247f2784bf57a7081e96fce3e535943fa5247",
+                "reference": "3fd247f2784bf57a7081e96fce3e535943fa5247",
                 "shasum": ""
             },
             "require": {
@@ -8422,7 +8422,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2019-07-04T16:14:50+00:00"
+            "time": "2019-07-15T20:59:11+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -9186,7 +9186,6 @@
     "stability-flags": {
         "firebase/php-jwt": 0,
         "fzaninotto/faker": 0,
-        "liip/test-fixtures-bundle": 5,
         "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0
     },
