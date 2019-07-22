@@ -4,50 +4,49 @@ namespace App\Service;
 
 use App\Classes\ElasticSearchBase;
 use Ilios\MeSH\Model\Descriptor;
+use Exception;
 
 class Search extends ElasticSearchBase
 {
     /**
      * @param array $params
      * @return array
-     * @throws \Exception when the search service isn't setup
+     * @throws Exception when the search service isn't setup
      */
     protected function search(array $params) : array
     {
         if (!$this->enabled) {
-            throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
+            throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
         return $this->client->search($params);
+    }
+
+    /**
+     * @param string $id
+     * @param array $params
+     * @return array
+     * @throws Exception when the search service isn't setup
+     */
+    protected function explain(string $id, array $params) : array
+    {
+        if (!$this->enabled) {
+            throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
+        }
+        $params['id'] = $id;
+        return $this->client->explain($params);
     }
 
     /**
      * @param string $query
      * @param boolean $onlySuggest should the search return only suggestions
      * @return array
-     * @throws \Exception when search is not configured
+     * @throws Exception when search is not configured
      */
     public function curriculumSearch(string $query, $onlySuggest)
     {
         if (!$this->enabled) {
-            throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
+            throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
-        $fields = [
-            'courseId',
-            'courseYear',
-            'courseTitle',
-            'courseTerms',
-            'courseObjectives',
-            'courseLearningMaterials',
-            'courseMeshDescriptors',
-            'sessionId',
-            'sessionTitle',
-            'sessionDescription',
-            'sessionType',
-            'sessionTerms',
-            'sessionObjectives',
-            'sessionLearningMaterials',
-            'sessionMeshDescriptors',
-        ];
 
         $suggestFields = [
             'courseTitle',
@@ -80,7 +79,7 @@ class Search extends ElasticSearchBase
                     'courseTitle',
                     'courseYear',
                     'sessionId',
-                    'sessionTitle'
+                    'sessionTitle',
                 ],
                 'sort' => '_score',
                 'size' => 1000
@@ -88,87 +87,12 @@ class Search extends ElasticSearchBase
         ];
 
         if (!$onlySuggest) {
-            $should = array_map(function ($field) use ($query) {
-                return [ 'match' => [ $field => ['query' => $query, '_name' => $field] ] ];
-            }, $fields);
-            $params['body']['query'] = [
-                'bool' => [
-                    'should' => $should,
-                ]
-            ];
+            $params['body']['query'] = $this->buildCurriculumSearch($query);
         }
 
         $results = $this->search($params);
 
-        $autocompleteSuggestions = array_reduce(
-            $results['suggest'],
-            function (array $carry, array $item) {
-                $options = array_map(function (array $arr) {
-                    return $arr['text'];
-                }, $item[0]['options']);
-
-                return array_unique(array_merge($carry, $options));
-            },
-            []
-        );
-
-        $mappedResults = array_map(function (array $arr) {
-            $courseMatches = array_filter($arr['matched_queries'], function (string $match) {
-                return strpos($match, 'course') === 0;
-            });
-            $sessionMatches = array_filter($arr['matched_queries'], function (string $match) {
-                return strpos($match, 'session') === 0;
-            });
-            $rhett = $arr['_source'];
-            $rhett['score'] = $arr['_score'];
-            $rhett['courseMatches'] = $courseMatches;
-            $rhett['sessionMatches'] = $sessionMatches;
-
-            return $rhett;
-        }, $results['hits']['hits']);
-
-        $courses = array_reduce($mappedResults, function (array $carry, array $item) {
-            $id = $item['courseId'];
-            if (!array_key_exists($id, $carry)) {
-                $carry[$id] = [
-                    'id' => $id,
-                    'title' => $item['courseTitle'],
-                    'year' => $item['courseYear'],
-                    'bestScore' => 0,
-                    'sessions' => [],
-                    'matchedIn' => [],
-                ];
-            }
-            $courseMatches = array_map(function (string $match) {
-                return strtolower(substr($match, strlen('course')));
-            }, $item['courseMatches']);
-            $sessionMatches = array_map(function (string $match) {
-                return strtolower(substr($match, strlen('session')));
-            }, $item['sessionMatches']);
-            $carry[$id]['matchedIn'] = array_unique(
-                array_merge($courseMatches, $carry[$id]['matchedIn'])
-            );
-            if ($item['score'] > $carry[$id]['bestScore']) {
-                $carry[$id]['bestScore'] = $item['score'];
-            }
-            $carry[$id]['sessions'][] = [
-                'id' => $item['sessionId'],
-                'title' => $item['sessionTitle'],
-                'score' => $item['score'],
-                'matchedIn' => array_values($sessionMatches),
-            ];
-
-            return $carry;
-        }, []);
-
-        usort($courses, function ($a, $b) {
-            return $b['bestScore'] <=> $a['bestScore'];
-        });
-
-        return [
-            'autocomplete' => $autocompleteSuggestions,
-            'courses' => $courses
-        ];
+        return $this->parseCurriculumSearchResults($results);
     }
 
     /**
@@ -187,12 +111,12 @@ class Search extends ElasticSearchBase
      * @param string $query
      * @param int $size
      * @return array
-     * @throws \Exception when search is not configured
+     * @throws Exception when search is not configured
      */
     public function userSearch(string $query, int $size, bool $onlySuggest)
     {
         if (!$this->enabled) {
-            throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
+            throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
 
         $suggestFields = [
@@ -281,12 +205,12 @@ class Search extends ElasticSearchBase
     /**
      * @param string $query
      * @return array
-     * @throws \Exception when search is not configured
+     * @throws Exception when search is not configured
      */
     public function meshDescriptorIdsQuery(string $query)
     {
         if (!$this->enabled) {
-            throw new \Exception("Search is not configured, isEnabled() should be called before calling this method");
+            throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
         $params = [
             'type' => Descriptor::class,
@@ -306,5 +230,160 @@ class Search extends ElasticSearchBase
         return array_map(function (array $arr) {
             return $arr['_id'];
         }, $results['hits']['hits']);
+    }
+
+    /**
+     * Construct the query to search the curriculum
+     * @param string $query
+     * @return array
+     */
+    protected function buildCurriculumSearch(string $query) : array
+    {
+        $mustFields = [
+            'courseId',
+            'courseYear',
+            'courseTitle',
+            'courseTerms',
+            'courseObjectives',
+            'courseLearningMaterials',
+            'courseMeshDescriptors',
+            'sessionId',
+            'sessionTitle',
+            'sessionDescription',
+            'sessionType',
+            'sessionTerms',
+            'sessionObjectives',
+            'sessionLearningMaterials',
+            'sessionMeshDescriptors',
+        ];
+
+        $shouldFields = [
+            'courseTitle',
+            'courseTerms',
+            'courseObjectives',
+            'courseLearningMaterials',
+            'sessionTitle',
+            'sessionDescription',
+            'sessionType',
+            'sessionTerms',
+            'sessionObjectives',
+            'sessionLearningMaterials',
+        ];
+
+        $mustMatch = array_map(function ($field) use ($query) {
+            return [ 'match' => [ $field => [
+                'query' => $query,
+                '_name' => $field,
+            ] ] ];
+        }, $mustFields);
+
+        /**
+         * At least one of the mustMatch queries has to be a match
+         * but we wrap it in a should block so they don't all have to match
+         */
+        $must = ['bool' => [
+            'should' => $mustMatch
+        ]];
+
+        /**
+         * The should queries are designed to boost the total score of
+         * results that match more closely than the MUST set above so when
+         * users enter a complete word like move it will score higher than
+         * than a partial match on movement
+         */
+        $should = array_reduce(
+            $shouldFields,
+            function (array $carry, string $field) use ($query) {
+                $matches = array_map(function (string $type) use ($field, $query) {
+                    $fullField = "${field}.${type}";
+                    return [ 'match' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
+                }, ['standard', 'english', 'raw']);
+
+                return array_merge($carry, $matches);
+            },
+            []
+        );
+
+        return [
+            'bool' => [
+                'must' => $must,
+                'should' => $should,
+            ]
+        ];
+    }
+
+    protected function parseCurriculumSearchResults(array $results) : array
+    {
+        $autocompleteSuggestions = array_reduce(
+            $results['suggest'],
+            function (array $carry, array $item) {
+                $options = array_map(function (array $arr) {
+                    return $arr['text'];
+                }, $item[0]['options']);
+
+                return array_unique(array_merge($carry, $options));
+            },
+            []
+        );
+
+        $mappedResults = array_map(function (array $arr) {
+            $courseMatches = array_filter($arr['matched_queries'], function (string $match) {
+                return strpos($match, 'course') === 0;
+            });
+            $sessionMatches = array_filter($arr['matched_queries'], function (string $match) {
+                return strpos($match, 'session') === 0;
+            });
+            $rhett = $arr['_source'];
+            $rhett['score'] = $arr['_score'];
+            $rhett['courseMatches'] = $courseMatches;
+            $rhett['sessionMatches'] = $sessionMatches;
+
+            return $rhett;
+        }, $results['hits']['hits']);
+
+        $courses = array_reduce($mappedResults, function (array $carry, array $item) {
+            $id = $item['courseId'];
+            if (!array_key_exists($id, $carry)) {
+                $carry[$id] = [
+                    'id' => $id,
+                    'title' => $item['courseTitle'],
+                    'year' => $item['courseYear'],
+                    'bestScore' => 0,
+                    'sessions' => [],
+                    'matchedIn' => [],
+                ];
+            }
+            $courseMatches = array_map(function (string $match) {
+                $split = explode('.', $match);
+                return strtolower(substr($split[0], strlen('course')));
+            }, $item['courseMatches']);
+            $sessionMatches = array_map(function (string $match) {
+                $split = explode('.', $match);
+                return strtolower(substr($split[0], strlen('session')));
+            }, $item['sessionMatches']);
+            $carry[$id]['matchedIn'] = array_unique(
+                array_merge($courseMatches, $carry[$id]['matchedIn'])
+            );
+            if ($item['score'] > $carry[$id]['bestScore']) {
+                $carry[$id]['bestScore'] = $item['score'];
+            }
+            $carry[$id]['sessions'][] = [
+                'id' => $item['sessionId'],
+                'title' => $item['sessionTitle'],
+                'score' => $item['score'],
+                'matchedIn' => array_unique(array_values($sessionMatches)),
+            ];
+
+            return $carry;
+        }, []);
+
+        usort($courses, function ($a, $b) {
+            return $b['bestScore'] <=> $a['bestScore'];
+        });
+
+        return [
+            'autocomplete' => $autocompleteSuggestions,
+            'courses' => $courses
+        ];
     }
 }
