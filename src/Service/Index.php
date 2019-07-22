@@ -7,6 +7,7 @@ use App\Classes\IndexableCourse;
 use App\Entity\DTO\UserDTO;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
+use Exception;
 
 class Index extends ElasticSearchBase
 {
@@ -80,7 +81,19 @@ class Index extends ElasticSearchBase
 
         $result = $this->bulkIndex(Search::PUBLIC_CURRICULUM_INDEX, $input);
 
-        return !$result['errors'];
+        if ($result['errors']) {
+            $errors = array_map(function (array $item) {
+                if (array_key_exists('error', $item['index'])) {
+                    return $item['index']['error']['reason'];
+                }
+            }, $result['items']);
+            $clean = array_filter($errors);
+            $str = join(';', array_unique($clean));
+            $count = count($clean);
+            throw new Exception("Failed to index all courses ${count} errors. Error text: ${str}");
+        }
+
+        return true;
     }
 
     /**
@@ -243,11 +256,11 @@ class Index extends ElasticSearchBase
             'analyzer' => [
                 'edge_ngram_analyzer' => [
                     'tokenizer' => 'edge_ngram_tokenizer',
-                    'filter' => ['lowercase', 'word_delimiter'],
+                    'filter' => ['lowercase'],
                 ],
                 'ngram_analyzer' => [
                     'tokenizer' => 'ngram_tokenizer',
-                    'filter' => ['lowercase', 'word_delimiter'],
+                    'filter' => ['lowercase'],
                 ],
                 'string_search_analyzer' => [
                     'type' => 'custom',
