@@ -256,7 +256,7 @@ class Session implements SessionInterface
      *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
      *   }
      * )
-     * @ORM\OrderBy({"id" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -372,7 +372,7 @@ class Session implements SessionInterface
      * @IS\Type("entityCollection")
      */
     protected $prerequisites;
-    
+
     /**
      * Constructor
      */
