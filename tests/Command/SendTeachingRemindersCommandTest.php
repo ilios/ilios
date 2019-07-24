@@ -146,7 +146,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $subject = SendTeachingRemindersCommand::DEFAULT_MESSAGE_SUBJECT;
         $this->assertContains("Subject: {$subject}", $output);
         $this->assertContains("upcoming {$offering->getSession()->getSessionType()->getTitle()}", $output);
-        $this->assertContains("School of {$offering->getSession()->getCourse()->getSchool()->getTitle()}", $output);
+        $this->assertContains("School of {$offering->getSession()->getCourse()->getSchool()->getTitle()}'s ", $output);
         $courseTitle = trim(strip_tags($offering->getSession()->getCourse()->getTitle()));
         $this->assertContains("Course:   {$courseTitle}", $output);
         $sessionTitle = trim(strip_tags($offering->getSession()->getTitle()));
@@ -298,6 +298,35 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $output = $this->commandTester->getDisplay();
 
         $this->assertContains("Subject: {$subject}", $output);
+    }
+
+    /**
+     * @covers \App\Command\SendTeachingRemindersCommand::execute
+     * @link https://github.com/ilios/ilios/issues/1975
+     */
+    public function testExecuteSchoolTitleEndsWithS()
+    {
+        $schoolTitle = 'Global Health Sciences';
+        /** @var OfferingInterface $offering */
+        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7)->toArray()[0];
+        $offering->getSession()->getCourse()->getSchool()->setTitle($schoolTitle);
+
+        $sender = 'foo@bar.edu';
+        $baseUrl = 'https://ilios.bar.edu';
+
+        $this->fs->shouldReceive('exists')->with(
+            $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
+        )->once()->andReturn(false);
+
+        $this->commandTester->execute([
+            'sender' => $sender,
+            'base_url' => $baseUrl,
+            '--dry-run' => true,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+
+        $this->assertContains("School of {$offering->getSession()->getCourse()->getSchool()->getTitle()}' ", $output);
     }
 
     /**
