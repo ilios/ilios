@@ -7,6 +7,7 @@ use App\Classes\IndexableCourse;
 use App\Entity\DTO\UserDTO;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
+use Exception;
 
 class Index extends ElasticSearchBase
 {
@@ -80,7 +81,19 @@ class Index extends ElasticSearchBase
 
         $result = $this->bulkIndex(Search::PUBLIC_CURRICULUM_INDEX, $input);
 
-        return !$result['errors'];
+        if ($result['errors']) {
+            $errors = array_map(function (array $item) {
+                if (array_key_exists('error', $item['index'])) {
+                    return $item['index']['error']['reason'];
+                }
+            }, $result['items']);
+            $clean = array_filter($errors);
+            $str = join(';', array_unique($clean));
+            $count = count($clean);
+            throw new Exception("Failed to index all courses ${count} errors. Error text: ${str}");
+        }
+
+        return true;
     }
 
     /**
@@ -211,8 +224,40 @@ class Index extends ElasticSearchBase
         if (!$this->enabled) {
             return;
         }
-        $analysis = [
+
+        $indexes = [
+            $this->buildCurriculumIndex(),
+            $this->buildUserIndex(),
+            [
+                'index' => self::PUBLIC_MESH_INDEX,
+                'body' => [
+                    'settings' => [
+                        'number_of_shards' => 1,
+                        'number_of_replicas' => 0,
+                    ],
+                ]
+            ],
+        ];
+        foreach ($indexes as $params) {
+            if ($this->client->indices()->exists(['index' => $params['index']])) {
+                $this->client->indices()->delete(['index' => $params['index']]);
+            }
+            $this->client->indices()->create($params);
+        }
+    }
+
+    /**
+     * Create a set of common analyzers we can use in multiple indexes
+     * @return array
+     */
+    protected function buildAnalyzers() : array
+    {
+        return [
             'analyzer' => [
+                'edge_ngram_analyzer' => [
+                    'tokenizer' => 'edge_ngram_tokenizer',
+                    'filter' => ['lowercase'],
+                ],
                 'ngram_analyzer' => [
                     'tokenizer' => 'ngram_tokenizer',
                     'filter' => ['lowercase'],
@@ -224,266 +269,219 @@ class Index extends ElasticSearchBase
                 ],
             ],
             'tokenizer' => [
-                'ngram_tokenizer' => [
+                'edge_ngram_tokenizer' => [
                     'type' => 'edge_ngram',
                     'min_gram' => 3,
-                    'max_gram' => 10,
+                    'max_gram' => 15,
+                    'token_chars' => [
+                        'letter',
+                        'digit'
+                    ],
+                ],
+                'ngram_tokenizer' => [
+                    'type' => 'ngram',
+                    'min_gram' => 3,
+                    'max_gram' => 15,
+                    'token_chars' => [
+                        'letter',
+                        'digit'
+                    ],
                 ],
             ],
         ];
+    }
 
-        $indexes = [
-            [
-                'index' => self::PUBLIC_CURRICULUM_INDEX,
-                'body' => [
-                    'mappings' => [
-                        '_doc' => [
-                            'properties' => [
-                                'courseId' => [
-                                    'type' => 'keyword',
-                                ],
-                                'school' => [
-                                    'type' => 'keyword',
-                                    'fields' => [
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ]
-                                    ],
-                                ],
-                                'courseYear' => [
-                                    'type' => 'keyword',
-                                ],
-                                'courseTitle' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'english',
-                                    'fields' => [
-                                        'std' => [
-                                            'type' => 'text',
-                                            'analyzer' => 'standard',
-                                        ],
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ]
-                                    ],
-                                ],
-                                'courseTerms' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'english',
-                                    'fields' => [
-                                        'std' => [
-                                            'type' => 'text',
-                                            'analyzer' => 'standard',
-                                        ],
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ]
-                                    ],
-                                ],
-                                'courseObjectives' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'english',
-                                    'fields' => [
-                                        'std' => [
-                                            'type' => 'text',
-                                            'analyzer' => 'standard',
-                                        ]
-                                    ],
-                                ],
-                                'courseLearningMaterials' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'english',
-                                    'fields' => [
-                                        'std' => [
-                                            'type' => 'text',
-                                            'analyzer' => 'standard',
-                                        ]
-                                    ],
-                                ],
-                                'courseMeshDescriptors' => [
-                                    'type' => 'keyword',
-                                    'fields' => [
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ]
-                                    ],
-                                ],
-                                'sessionId' => [
-                                    'type' => 'keyword',
-                                ],
-                                'sessionTitle' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'english',
-                                    'fields' => [
-                                        'std' => [
-                                            'type' => 'text',
-                                            'analyzer' => 'standard',
-                                        ],
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ]
-                                    ],
-                                ],
-                                'sessionDescription' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'english',
-                                    'fields' => [
-                                        'std' => [
-                                            'type' => 'text',
-                                            'analyzer' => 'standard',
-                                        ]
-                                    ],
-                                ],
-                                'sessionType' => [
-                                    'type' => 'keyword',
-                                    'fields' => [
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ]
-                                    ],
-                                ],
-                                'sessionTerms' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'english',
-                                    'fields' => [
-                                        'std' => [
-                                            'type' => 'text',
-                                            'analyzer' => 'standard',
-                                        ],
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ]
-                                    ],
-                                ],
-                                'sessionObjectives' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'english',
-                                    'fields' => [
-                                        'std' => [
-                                            'type' => 'text',
-                                            'analyzer' => 'standard',
-                                        ]
-                                    ],
-                                ],
-                                'sessionLearningMaterials' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'english',
-                                    'fields' => [
-                                        'std' => [
-                                            'type' => 'text',
-                                            'analyzer' => 'standard',
-                                        ]
-                                    ],
-                                ],
-                                'sessionMeshDescriptors' => [
-                                    'type' => 'keyword',
-                                    'fields' => [
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ]
-                                    ],
-                                ],
-                            ]
-                        ]
-                    ]
+    /**
+     * Create the index for curriculum
+     * @return array
+     */
+    protected function buildCurriculumIndex() : array
+    {
+        $txtTypeField = [
+            'type' => 'text',
+            'analyzer' => 'ngram_analyzer',
+            'search_analyzer' => 'string_search_analyzer',
+            'fields' => [
+                'std' => [
+                    'type' => 'text',
+                    'analyzer' => 'standard',
+                ],
+                'english' => [
+                    'type' => 'text',
+                    'analyzer' => 'english',
+                ],
+                'raw' => [
+                    'type' => 'text',
+                    'analyzer' => 'keyword',
                 ]
-            ],
-            [
-                'index' => self::PRIVATE_USER_INDEX,
-                'body' => [
-                    'settings' => [
-                        'analysis' => $analysis,
-                    ],
-                    'mappings' => [
-                        '_doc' => [
-                            'properties' => [
-                                'id' => [
-                                    'type' => 'keyword',
-                                ],
-                                'firstName' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'ngram_analyzer',
-                                    'search_analyzer' => 'string_search_analyzer',
-                                    'fields' => [
-                                        'raw' => [
-                                            'type' => 'keyword',
-                                        ]
-                                    ],
-                                ],
-                                'middleName' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'ngram_analyzer',
-                                    'search_analyzer' => 'string_search_analyzer',
-                                    'fields' => [
-                                        'raw' => [
-                                            'type' => 'keyword',
-                                        ]
-                                    ],
-                                ],
-                                'lastName' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'ngram_analyzer',
-                                    'search_analyzer' => 'string_search_analyzer',
-                                    'fields' => [
-                                        'raw' => [
-                                            'type' => 'keyword',
-                                        ]
-                                    ],
-                                ],
-                                'displayName' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'ngram_analyzer',
-                                    'search_analyzer' => 'string_search_analyzer',
-                                    'fields' => [
-                                        'raw' => [
-                                            'type' => 'keyword',
-                                        ],
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ],
-                                    ],
-                                ],
-                                'fullName' => [
-                                    'type' => 'completion'
-                                ],
-                                'fullNameLastFirst' => [
-                                    'type' => 'completion'
-                                ],
-                                'username' => [
-                                    'type' => 'keyword',
-                                ],
-                                'campusId' => [
-                                    'type' => 'keyword',
-                                    'fields' => [
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ]
-                                    ],
-                                ],
-                                'email' => [
-                                    'type' => 'keyword',
-                                    'fields' => [
-                                        'cmp' => [
-                                            'type' => 'completion'
-                                        ]
-                                    ],
-                                ],
-                                'enabled' => [
-                                    'type' => 'boolean',
-                                ],
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            [
-                'index' => self::PUBLIC_MESH_INDEX,
             ],
         ];
-        foreach ($indexes as $params) {
-            if ($this->client->indices()->exists(['index' => $params['index']])) {
-                $this->client->indices()->delete(['index' => $params['index']]);
-            }
-            $this->client->indices()->create($params);
-        }
+        $txtTypeFieldWithCompletion = $txtTypeField;
+        $txtTypeFieldWithCompletion['fields']['cmp'] = ['type' => 'completion'];
+
+        $analysis = $this->buildAnalyzers();
+        return [
+            'index' => self::PUBLIC_CURRICULUM_INDEX,
+            'body' => [
+                'settings' => [
+                    'analysis' => $analysis,
+                    'max_ngram_diff' =>  15,
+                    'number_of_shards' => 1,
+                    'number_of_replicas' => 0,
+                ],
+                'mappings' => [
+                    '_doc' => [
+                        'properties' => [
+                            'courseId' => [
+                                'type' => 'keyword',
+                            ],
+                            'school' => [
+                                'type' => 'keyword',
+                                'fields' => [
+                                    'cmp' => [
+                                        'type' => 'completion'
+                                    ]
+                                ],
+                            ],
+                            'courseYear' => [
+                                'type' => 'keyword',
+                            ],
+                            'courseTitle' => $txtTypeFieldWithCompletion,
+                            'courseTerms' => $txtTypeFieldWithCompletion,
+                            'courseObjectives'  => $txtTypeField,
+                            'courseLearningMaterials'  => $txtTypeField,
+                            'courseMeshDescriptors' => [
+                                'type' => 'keyword',
+                                'fields' => [
+                                    'cmp' => [
+                                        'type' => 'completion'
+                                    ]
+                                ],
+                            ],
+                            'sessionId' => [
+                                'type' => 'keyword',
+                            ],
+                            'sessionTitle' => $txtTypeFieldWithCompletion,
+                            'sessionDescription' => $txtTypeField,
+                            'sessionType' => [
+                                'type' => 'keyword',
+                                'fields' => [
+                                    'cmp' => [
+                                        'type' => 'completion'
+                                    ]
+                                ],
+                            ],
+                            'sessionTerms' => $txtTypeFieldWithCompletion,
+                            'sessionObjectives'  => $txtTypeField,
+                            'sessionLearningMaterials'  => $txtTypeField,
+                            'sessionMeshDescriptors' => [
+                                'type' => 'keyword',
+                                'fields' => [
+                                    'cmp' => [
+                                        'type' => 'completion'
+                                    ]
+                                ],
+                            ],
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    protected function buildUserIndex() : array
+    {
+        $analysis = $this->buildAnalyzers();
+        return [
+            'index' => self::PRIVATE_USER_INDEX,
+            'body' => [
+                'settings' => [
+                    'analysis' => $analysis,
+                    'max_ngram_diff' =>  15,
+                    'number_of_shards' => 1,
+                    'number_of_replicas' => 0,
+                ],
+                'mappings' => [
+                    '_doc' => [
+                        'properties' => [
+                            'id' => [
+                                'type' => 'keyword',
+                            ],
+                            'firstName' => [
+                                'type' => 'text',
+                                'analyzer' => 'edge_ngram_analyzer',
+                                'search_analyzer' => 'string_search_analyzer',
+                                'fields' => [
+                                    'raw' => [
+                                        'type' => 'keyword',
+                                    ]
+                                ],
+                            ],
+                            'middleName' => [
+                                'type' => 'text',
+                                'analyzer' => 'edge_ngram_analyzer',
+                                'search_analyzer' => 'string_search_analyzer',
+                                'fields' => [
+                                    'raw' => [
+                                        'type' => 'keyword',
+                                    ]
+                                ],
+                            ],
+                            'lastName' => [
+                                'type' => 'text',
+                                'analyzer' => 'edge_ngram_analyzer',
+                                'search_analyzer' => 'string_search_analyzer',
+                                'fields' => [
+                                    'raw' => [
+                                        'type' => 'keyword',
+                                    ]
+                                ],
+                            ],
+                            'displayName' => [
+                                'type' => 'text',
+                                'analyzer' => 'edge_ngram_analyzer',
+                                'search_analyzer' => 'string_search_analyzer',
+                                'fields' => [
+                                    'raw' => [
+                                        'type' => 'keyword',
+                                    ],
+                                    'cmp' => [
+                                        'type' => 'completion'
+                                    ],
+                                ],
+                            ],
+                            'fullName' => [
+                                'type' => 'completion'
+                            ],
+                            'fullNameLastFirst' => [
+                                'type' => 'completion'
+                            ],
+                            'username' => [
+                                'type' => 'keyword',
+                            ],
+                            'campusId' => [
+                                'type' => 'keyword',
+                                'fields' => [
+                                    'cmp' => [
+                                        'type' => 'completion'
+                                    ]
+                                ],
+                            ],
+                            'email' => [
+                                'type' => 'keyword',
+                                'fields' => [
+                                    'cmp' => [
+                                        'type' => 'completion'
+                                    ]
+                                ],
+                            ],
+                            'enabled' => [
+                                'type' => 'boolean',
+                            ],
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 }
