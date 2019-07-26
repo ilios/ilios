@@ -321,7 +321,7 @@ class Course implements CourseInterface
      *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
      *   }
      * )
-     * @ORM\OrderBy({"id" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
@@ -519,7 +519,7 @@ class Course implements CourseInterface
     {
         return $this->clerkshipType;
     }
-    
+
     /**
      * @inheritdoc
      */
