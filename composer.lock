@@ -1967,13 +1967,13 @@
             "authors": [
                 {
                     "name": "Neuman Vong",
-                    "email": "neuman+pear@twilio.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "neuman+pear@twilio.com"
                 },
                 {
                     "name": "Anant Narayanan",
-                    "email": "anant@php.net",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "anant@php.net"
                 }
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
@@ -8354,16 +8354,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "3fd247f2784bf57a7081e96fce3e535943fa5247"
+                "reference": "f0313e4b535aa7f782ad7dc552c8bacd0e3ae262"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/3fd247f2784bf57a7081e96fce3e535943fa5247",
-                "reference": "3fd247f2784bf57a7081e96fce3e535943fa5247",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/f0313e4b535aa7f782ad7dc552c8bacd0e3ae262",
+                "reference": "f0313e4b535aa7f782ad7dc552c8bacd0e3ae262",
                 "shasum": ""
             },
             "require": {
@@ -8422,7 +8422,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2019-07-15T20:59:11+00:00"
+            "time": "2019-07-28T22:20:34+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -8542,7 +8542,7 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v4.3.2",
+            "version": "v4.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
@@ -8750,7 +8750,7 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v4.3.2",
+            "version": "v4.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
