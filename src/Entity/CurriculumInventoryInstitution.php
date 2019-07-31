@@ -84,7 +84,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 10
+     *      max = 100
      * )
      *
      * @IS\Expose
