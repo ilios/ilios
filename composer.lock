@@ -2646,16 +2646,16 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.8.0",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "81e20349ef632aa55399e5f4db04e4c4463b25a1"
+                "reference": "28189fa1363e77ef653c1ff2bc83d81ca76e2852"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/81e20349ef632aa55399e5f4db04e4c4463b25a1",
-                "reference": "81e20349ef632aa55399e5f4db04e4c4463b25a1",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/28189fa1363e77ef653c1ff2bc83d81ca76e2852",
+                "reference": "28189fa1363e77ef653c1ff2bc83d81ca76e2852",
                 "shasum": ""
             },
             "require": {
@@ -2699,20 +2699,20 @@
             ],
             "authors": [
                 {
-                    "name": "Liip AG",
-                    "homepage": "http://www.liip.ch/"
-                },
-                {
                     "name": "Alvaro Videla",
                     "email": "alvaro.videla@liip.ch"
                 },
                 {
-                    "name": "Symfony Community",
-                    "homepage": "https://github.com/liip/LiipMonitorBundle/contributors"
-                },
-                {
                     "name": "Kevin Bond",
                     "homepage": "http://zenstruck.com/"
+                },
+                {
+                    "name": "Liip AG",
+                    "homepage": "http://www.liip.ch/"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/liip/LiipMonitorBundle/contributors"
                 }
             ],
             "description": "Liip Monitor Bundle",
@@ -2722,7 +2722,7 @@
                 "monitor",
                 "monitoring"
             ],
-            "time": "2019-07-05T12:03:56+00:00"
+            "time": "2019-08-01T10:38:04+00:00"
         },
         {
             "name": "monolog/monolog",
