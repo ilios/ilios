@@ -1761,8 +1761,8 @@
             "authors": [
                 {
                     "name": "Markus Poerschke",
-                    "email": "markus@eluceo.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "markus@eluceo.de"
                 }
             ],
             "description": "The eluceo/iCal package offers a abstraction layer for creating iCalendars. You can easily create iCal files by using PHP object instead of typing your *.ics file by hand. The output will follow RFC 5545 as best as possible.",
@@ -4455,16 +4455,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.23.3",
+            "version": "v3.23.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "fb47aa27d774068ac930d45a12d95e68da1b3fe8"
+                "reference": "551007fe473980427e8b08ff8796ddea5585210e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/fb47aa27d774068ac930d45a12d95e68da1b3fe8",
-                "reference": "fb47aa27d774068ac930d45a12d95e68da1b3fe8",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/551007fe473980427e8b08ff8796ddea5585210e",
+                "reference": "551007fe473980427e8b08ff8796ddea5585210e",
                 "shasum": ""
             },
             "type": "library",
@@ -4508,7 +4508,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2019-07-30T18:26:20+00:00"
+            "time": "2019-08-03T06:49:45+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -7935,19 +7935,19 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
+                    "role": "Lead Developer",
                     "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "homepage": "http://fabien.potencier.org"
                 },
                 {
                     "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
+                    "role": "Project Founder",
+                    "email": "armin.ronacher@active-4.com"
                 },
                 {
                     "name": "Twig Team",
-                    "homepage": "https://twig.symfony.com/contributors",
-                    "role": "Contributors"
+                    "role": "Contributors",
+                    "homepage": "https://twig.symfony.com/contributors"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
