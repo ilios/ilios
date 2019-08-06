@@ -2,6 +2,7 @@
 
 namespace App\Tests\Endpoints;
 
+use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\ReadWriteEndpointTest;
 
@@ -270,8 +271,8 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $this->assertSame($report['description'], $newReport['description']);
         $this->assertSame($report['year'], $newReport['year']);
         $this->assertSame($report['program'], $newReport['program']);
-        $this->assertSame($report['startDate'], $newReport['startDate']);
-        $this->assertSame($report['endDate'], $newReport['endDate']);
+        $this->assertEquals('07/01/' . $report['year'], date_create($newReport['startDate'])->format('m/d/Y'));
+        $this->assertEquals('06/30/' . ($report['year'] + 1), date_create($newReport['endDate'])->format('m/d/Y'));
         $this->assertArrayNotHasKey('export', $newReport);
         $this->assertNotEmpty($newReport['absoluteFileUri']);
 
