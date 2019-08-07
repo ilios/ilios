@@ -1730,16 +1730,16 @@
         },
         {
             "name": "eluceo/ical",
-            "version": "0.15.0",
+            "version": "0.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markuspoerschke/iCal.git",
-                "reference": "add0ca99aa1f77f134a2e8b071f2ebc22b115139"
+                "reference": "bdd24747587f6f9b10770a7b873a13e273f85f39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/add0ca99aa1f77f134a2e8b071f2ebc22b115139",
-                "reference": "add0ca99aa1f77f134a2e8b071f2ebc22b115139",
+                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/bdd24747587f6f9b10770a7b873a13e273f85f39",
+                "reference": "bdd24747587f6f9b10770a7b873a13e273f85f39",
                 "shasum": ""
             },
             "require": {
@@ -1777,7 +1777,7 @@
                 "ics",
                 "php calendar"
             ],
-            "time": "2019-01-13T22:00:58+00:00"
+            "time": "2019-08-06T20:33:43+00:00"
         },
         {
             "name": "exercise/htmlpurifier-bundle",
