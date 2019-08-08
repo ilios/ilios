@@ -13,7 +13,7 @@ class Version20161209191650 extends AbstractMigration
     /**
      * @inheritdoc
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema) : void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('CREATE TABLE mesh_tree (mesh_tree_id INT AUTO_INCREMENT NOT NULL, mesh_descriptor_uid VARCHAR(9) DEFAULT NULL, tree_number VARCHAR(31) NOT NULL, INDEX IDX_C63042D9CDB3C93B (mesh_descriptor_uid), PRIMARY KEY(mesh_tree_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
@@ -25,7 +25,7 @@ class Version20161209191650 extends AbstractMigration
     /**
      * @inheritdoc
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema) : void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('CREATE TABLE mesh_tree_x_descriptor (mesh_tree_id INT AUTO_INCREMENT NOT NULL, mesh_descriptor_uid VARCHAR(9) DEFAULT NULL COLLATE utf8_unicode_ci, tree_number VARCHAR(31) NOT NULL COLLATE utf8_unicode_ci, INDEX IDX_A7706041CDB3C93B (mesh_descriptor_uid), PRIMARY KEY(mesh_tree_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');

@@ -42,7 +42,7 @@
     "symfony/framework-bundle": "4.3.*",
     "symfony/lock": "4.3.*",
     "symfony/monolog-bundle": "^3.1.0",
-    "symfony/orm-pack": "1.0.5",
+    "symfony/orm-pack": "^1.0.6",
     "symfony/requirements-checker": "^1.1",
     "symfony/security-bundle": "4.3.*",
     "symfony/serializer-pack": "^1.0",

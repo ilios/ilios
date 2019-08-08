@@ -13,7 +13,7 @@ class Version20150826130000 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema) : void
     {
         $sql = 'SELECT x.mesh_concept_uid, t.mesh_term_id ' .
             'FROM mesh_concept_x_term x JOIN mesh_term t ON ' .
@@ -52,7 +52,7 @@ class Version20150826130000 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema) : void
     {
         $this->abortIf(
             $this->connection->getDatabasePlatform()->getName() != 'mysql',

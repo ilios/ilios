@@ -29,7 +29,7 @@ class LockingMigrationCommand extends MigrationsMigrateDoctrineCommand
         $this->fileSystem = $fileSystem;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
