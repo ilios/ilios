@@ -10,6 +10,7 @@ use App\Entity\Manager\CurriculumInventoryAcademicLevelManager;
 use App\Entity\Manager\CurriculumInventoryReportManager;
 use App\Entity\Manager\CurriculumInventorySequenceBlockManager;
 use App\Entity\Manager\CurriculumInventorySequenceManager;
+use DateTime;
 
 /**
  * Service-class for rolling over a given curriculum inventory report.
@@ -18,6 +19,26 @@ use App\Entity\Manager\CurriculumInventorySequenceManager;
  */
 class ReportRollover
 {
+    /**
+     * @var int
+     */
+    const START_DATE_DAY_OF_MONTH = 1;
+
+    /**
+     * @var int
+     */
+    const START_DATE_MONTH = 7;
+
+    /**
+     * @var int
+     */
+    const END_DATE_DAY_OF_MONTH = 30;
+
+    /**
+     * @var int
+     */
+    const END_DATE_MONTH = 6;
+
     /**
      * @var CurriculumInventoryReportManager $reportManager
      */
@@ -72,8 +93,15 @@ class ReportRollover
     ) {
         /* @var CurriculumInventoryReportInterface $newReport */
         $newReport = $this->reportManager->create();
-        $newReport->setStartDate($report->getStartDate());
-        $newReport->setEndDate($report->getEndDate());
+
+        $newYear = $newYear ?: $report->getYear();
+
+        $startDate = new DateTime();
+        $startDate->setDate($newYear, self::START_DATE_MONTH, self::START_DATE_DAY_OF_MONTH);
+        $endDate = new DateTime();
+        $endDate->setDate($newYear + 1, self::END_DATE_MONTH, self::END_DATE_DAY_OF_MONTH);
+        $newReport->setStartDate($startDate);
+        $newReport->setEndDate($endDate);
         $newReport->setProgram($report->getProgram());
         $newReport->setAdministrators($report->getAdministrators());
         if (isset($newName)) {
@@ -86,11 +114,7 @@ class ReportRollover
         } else {
             $newReport->setDescription($report->getDescription());
         }
-        if (isset($newYear)) {
-            $newReport->setYear($newYear);
-        } else {
-            $newReport->setYear($report->getYear());
-        }
+        $newReport->setYear($newYear);
 
         $this->reportManager->update($newReport, false, false);
 
