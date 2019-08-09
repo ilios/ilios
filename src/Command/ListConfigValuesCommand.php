@@ -4,11 +4,11 @@ namespace App\Command;
 
 use App\Entity\ApplicationConfig;
 use App\Entity\Manager\ApplicationConfigManager;
+use Doctrine\DBAL\Exception\ConnectionException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Get an application configuration value from the DB
@@ -63,8 +63,13 @@ class ListConfigValuesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var ApplicationConfig[] $configs */
-        $configs = $this->applicationConfigManager->findBy([], ['name' => 'asc']);
+        try {
+            /** @var ApplicationConfig[] $configs */
+            $configs = $this->applicationConfigManager->findBy([], ['name' => 'asc']);
+        } catch (ConnectionException $e) {
+            $output->writeln('<error>Unable to connect to database.</error>');
+            $output->writeln($e->getMessage());
+        }
         if (empty($configs)) {
             $output->writeln('<error>There are no configuration values in the database.</error>');
         } else {

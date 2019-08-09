@@ -4,6 +4,7 @@ namespace App\Tests\Command;
 use App\Command\ListConfigValuesCommand;
 use App\Entity\ApplicationConfig;
 use App\Entity\Manager\ApplicationConfigManager;
+use Doctrine\DBAL\Exception\ConnectionException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -58,6 +59,36 @@ class ListConfigValuesCommandTest extends KernelTestCase
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/\sthe-name\s|\sthe-value\s/',
+            $output
+        );
+        $this->assertRegExp(
+            '/\sEnvironment\s|\sTESTING123\s/',
+            $output
+        );
+        $this->assertRegExp(
+            '/\sKernel Secret\s|\sSECRET\s/',
+            $output
+        );
+        $this->assertRegExp(
+            '/\sDatabase URL\s|\smysql\s/',
+            $output
+        );
+    }
+
+    public function testExecuteWithConnectionException()
+    {
+        $connectionException = m::mock(ConnectionException::class);
+        $this->applicationConfigManager->shouldReceive('findBy')
+            ->with([], ['name' => 'asc'])
+            ->once()
+            ->andThrow($connectionException);
+
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME
+        ));
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/^Unable to connect to database./',
             $output
         );
         $this->assertRegExp(
