@@ -243,17 +243,26 @@ class Search extends ElasticSearchBase
             'courseId',
             'courseYear',
             'courseTitle',
+            'courseTitle.ngram',
             'courseTerms',
+            'courseTerms.ngram',
             'courseObjectives',
+            'courseObjectives.ngram',
             'courseLearningMaterials',
+            'courseLearningMaterials.ngram',
             'courseMeshDescriptors',
             'sessionId',
             'sessionTitle',
+            'sessionTitle.ngram',
             'sessionDescription',
+            'sessionDescription.ngram',
             'sessionType',
             'sessionTerms',
+            'sessionTerms.ngram',
             'sessionObjectives',
+            'sessionObjectives.ngram',
             'sessionLearningMaterials',
+            'sessionLearningMaterials.ngram',
             'sessionMeshDescriptors',
         ];
 
@@ -297,7 +306,7 @@ class Search extends ElasticSearchBase
                 $matches = array_map(function (string $type) use ($field, $query) {
                     $fullField = "${field}.${type}";
                     return [ 'match' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
-                }, ['standard', 'english', 'raw']);
+                }, ['english', 'raw']);
 
                 return array_merge($carry, $matches);
             },

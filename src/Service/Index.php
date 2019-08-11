@@ -299,12 +299,12 @@ class Index extends ElasticSearchBase
     {
         $txtTypeField = [
             'type' => 'text',
-            'analyzer' => 'ngram_analyzer',
-            'search_analyzer' => 'string_search_analyzer',
+            'analyzer' => 'standard',
             'fields' => [
-                'std' => [
+                'ngram' => [
                     'type' => 'text',
-                    'analyzer' => 'standard',
+                    'analyzer' => 'ngram_analyzer',
+                    'search_analyzer' => 'string_search_analyzer',
                 ],
                 'english' => [
                     'type' => 'text',
