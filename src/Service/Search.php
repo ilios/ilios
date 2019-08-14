@@ -80,6 +80,7 @@ class Search extends ElasticSearchBase
                     'courseYear',
                     'sessionId',
                     'sessionTitle',
+                    'school',
                 ],
                 'sort' => '_score',
                 'size' => 1000
@@ -357,6 +358,7 @@ class Search extends ElasticSearchBase
                     'id' => $id,
                     'title' => $item['courseTitle'],
                     'year' => $item['courseYear'],
+                    'school' => $item['school'],
                     'bestScore' => 0,
                     'sessions' => [],
                     'matchedIn' => [],

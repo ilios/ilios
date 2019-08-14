@@ -6,7 +6,7 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    ilios_api_version: v1.38
+    ilios_api_version: v1.39
     ilios_api_valid_endpoints: >-
       aamcmethods,aamcpcrses,aamcresourcetypes,academicyears,applicationconfigs,assessmentoptions,authentications,
       cohorts,competencies,courses,courseclerkshiptypes,courselearningmaterials,curriculuminventoryacademiclevels,curriculuminventoryexports,
