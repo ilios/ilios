@@ -232,7 +232,8 @@ class UserMaterial
     /**
      * Blanks out most data points of this learning material.
      */
-    public function clearMaterial() {
+    public function clearMaterial()
+    {
         $this->isBlanked = true;
         $props = array_keys(get_object_vars($this));
         foreach ($props as $prop) {
