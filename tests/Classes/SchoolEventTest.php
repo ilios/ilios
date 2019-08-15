@@ -3,6 +3,9 @@ namespace App\Tests\Classes;
 
 use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent;
+use App\Classes\UserMaterial;
+use Mockery as m;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
@@ -12,6 +15,27 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
  */
 class SchoolEventTest extends TestCase
 {
+
+    /**
+     * @var SchoolEvent
+     */
+    protected $schoolEvent;
+
+    /**
+     * @inheritdoc
+     */
+    protected function setUp()
+    {
+        $this->schoolEvent = new SchoolEvent();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function tearDown() : void
+    {
+        unset($this->schoolEvent);
+    }
     /**
      * @covers SchoolEvent::createFromCalendarEvent
      */
@@ -25,9 +49,9 @@ class SchoolEventTest extends TestCase
         $calendarEvent->courseExternalId = 12;
         $calendarEvent->course = 17;
         $calendarEvent->courseTitle = 'Test Event';
-        $calendarEvent->endDate = new \DateTime();
+        $calendarEvent->endDate = new DateTime();
         $calendarEvent->equipmentRequired = true;
-        $calendarEvent->startDate = new \DateTime();
+        $calendarEvent->startDate = new DateTime();
         $calendarEvent->instructionalNotes = 'lorem ipsum';
         $calendarEvent->sessionDescription = 'something';
 
@@ -44,5 +68,19 @@ class SchoolEventTest extends TestCase
         $this->assertSame($calendarEvent->instructionalNotes, $schoolEvent->instructionalNotes);
         $this->assertSame($calendarEvent->startDate, $schoolEvent->startDate);
         $this->assertSame($calendarEvent->sessionDescription, $schoolEvent->sessionDescription);
+    }
+
+    /**
+     * @covers SchoolEvent::clearDataForUnprivilegedUsers
+     */
+    public function testClearDataForUnprivilegedUsers()
+    {
+        $userMaterial = m::mock(UserMaterial::class);
+        $userMaterial->shouldReceive('clearMaterial');
+        $this->schoolEvent->isPublished = true;
+        $this->schoolEvent->learningMaterials = [ $userMaterial ];
+        $this->schoolEvent->clearDataForUnprivilegedUsers();
+        $userMaterial->shouldHaveReceived('clearMaterial')->once();
+        $this->assertEquals($this->schoolEvent->learningMaterials[0], $userMaterial);
     }
 }
