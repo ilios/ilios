@@ -2,6 +2,8 @@ version: '2.1'
 services:
     db:
         image: ilios/mysql-demo
+        ports:
+            - "13306:3306"
     web:
         build: ./
         environment:
