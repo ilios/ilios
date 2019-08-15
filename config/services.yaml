@@ -191,6 +191,10 @@ services:
       - [ setContainer, ['@service_container'] ]
 
     App\EventListener\IndexEntityChanges:
+      tags:
+        - { name: doctrine.event_listener, event: postPersist }
+        - { name: doctrine.event_listener, event: postUpdate }
+        - { name: doctrine.event_listener, event: preRemove }
 
     App\EventListener\TimestampEntityChanges:
       tags:
