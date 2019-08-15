@@ -33,70 +33,16 @@ class SchooleventsTest extends AbstractEndpointTest
         ];
     }
 
-    public function testAttachedUserMaterials()
+    public function testAttachedUserMaterialsAreBlankedForStudents()
     {
         $school = $this->getContainer()->get(SchoolData::class)->getOne();
         $userId = 5;
         $events = $this->getEvents($school['id'], 0, 100000000000, $userId);
         $lms = $events[3]['learningMaterials'];
-
         $this->assertEquals(9, count($lms));
-        $this->assertEquals(15, count($lms[0]));
-        $this->assertEquals('1', $lms[0]['id']);
-        $this->assertEquals('1', $lms[0]['sessionLearningMaterial']);
-        $this->assertEquals('1', $lms[0]['session']);
-        $this->assertEquals('1', $lms[0]['course']);
-        $this->assertEquals('1', $lms[0]['position']);
-        $this->assertTrue($lms[0]['required']);
-        $this->assertStringStartsWith('firstlm', $lms[0]['title']);
-        $this->assertEquals('desc1', $lms[0]['description']);
-        $this->assertEquals('author1', $lms[0]['originalAuthor']);
-        $this->assertEquals('citation1', $lms[0]['citation']);
-        $this->assertEquals('citation', $lms[0]['mimetype']);
-        $this->assertEquals('session1Title', $lms[0]['sessionTitle']);
-        $this->assertEquals('firstCourse', $lms[0]['courseTitle']);
-        $this->assertEquals('2016-09-04T00:00:00+00:00', $lms[5]['firstOfferingDate']);
-        $this->assertEquals(0, count($lms[0]['instructors']));
-        $this->assertFalse($lms[0]['isBlanked']);
-
-        $this->assertEquals(15, count($lms[1]));
-        $this->assertFalse($lms[1]['isBlanked']);
-
-        $this->assertEquals(17, count($lms[2]));
-        $this->assertFalse($lms[2]['isBlanked']);
-
-        $this->assertEquals(18, count($lms[3]));
-        $this->assertFalse($lms[3]['isBlanked']);
-
-        $this->assertEquals(10, count($lms[4]));
-        $this->assertEquals('6', $lms[4]['id']);
-        $this->assertEquals('6', $lms[4]['courseLearningMaterial']);
-        $this->assertEquals('1', $lms[4]['course']);
-        $this->assertEquals('4', $lms[4]['position']);
-        $this->assertEquals('sixthlm', $lms[4]['title']);
-        $this->assertEquals('firstCourse', $lms[4]['courseTitle']);
-        $this->assertEquals('2016-09-04T00:00:00+00:00', $lms[4]['firstOfferingDate']);
-        $this->assertEmpty($lms[4]['instructors']);
-        $this->assertNotEmpty($lms[4]['startDate']);
-        $this->assertTrue($lms[4]['isBlanked']);
-
-        $this->assertEquals(18, count($lms[5]));
-        $this->assertNotEmpty($lms[5]['endDate']);
-        $this->assertFalse($lms[5]['isBlanked']);
-
-        $this->assertEquals(10, count($lms[6]));
-        $this->assertNotEmpty($lms[6]['endDate']);
-        $this->assertTrue($lms[6]['isBlanked']);
-
-        $this->assertEquals(19, count($lms[7]));
-        $this->assertNotEmpty($lms[7]['startDate']);
-        $this->assertNotEmpty($lms[7]['endDate']);
-        $this->assertFalse($lms[7]['isBlanked']);
-
-        $this->assertEquals(11, count($lms[8]));
-        $this->assertNotEmpty($lms[8]['startDate']);
-        $this->assertNotEmpty($lms[8]['endDate']);
-        $this->assertTrue($lms[8]['isBlanked']);
+        foreach ($lms as $lm) {
+            $this->assertTrue($lm['isBlanked']);
+        }
     }
 
     public function testGetEvents()
