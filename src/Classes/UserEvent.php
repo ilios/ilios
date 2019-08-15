@@ -3,6 +3,7 @@
 namespace App\Classes;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class UserEvent
@@ -32,5 +33,28 @@ class UserEvent extends CalendarEvent
             $userEvent->$key = $name;
         }
         return $userEvent;
+    }
+
+    /**
+     * This information is not available to un-privileged users
+     * @param DateTime $dateTime
+     */
+    public function clearDataForUnprivilegedUsers(DateTime $dateTime)
+    {
+        $this->instructionalNotes = null;
+        $this->clearDataForDraftOrScheduledEvent();
+        $this->removeMaterialsInDraft();
+        $this->clearTimedMaterials($dateTime);
+    }
+
+    /**
+     * @param DateTime $dateTime
+     */
+    protected function clearTimedMaterials(DateTime $dateTime)
+    {
+        /** @var UserMaterial $lm */
+        foreach ($this->learningMaterials as $lm) {
+            $lm->clearTimedMaterial($dateTime);
+        }
     }
 }
