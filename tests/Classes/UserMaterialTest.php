@@ -56,6 +56,17 @@ class UserMaterialTest extends TestCase
         unset($this->userMaterial);
     }
 
+
+    /**
+     * @covers UserMaterial::clearMaterial
+     */
+    public function testClearMaterial()
+    {
+        $this->assertNotBlanked($this->userMaterial);
+        $this->userMaterial->clearMaterial();
+        $this->assertBlanked($this->userMaterial);
+    }
+
     /**
      * @covers UserMaterial::clearTimedMaterial
      */
