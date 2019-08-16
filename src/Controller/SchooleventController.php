@@ -130,9 +130,8 @@ class SchooleventController extends AbstractController
         $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
         if (! $hasElevatedPrivileges) {
             /** @var SchoolEvent $event */
-            $now = new \DateTime();
             foreach ($allEvents as $event) {
-                $event->clearDataForUnprivilegedUsers($now);
+                $event->clearDataForUnprivilegedUsers();
             }
         }
 

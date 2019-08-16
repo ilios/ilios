@@ -3,6 +3,7 @@
 namespace App\Classes;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class SchoolEvent
@@ -32,5 +33,27 @@ class SchoolEvent extends CalendarEvent
             $schoolEvent->$key = $name;
         }
         return $schoolEvent;
+    }
+
+    /**
+     * This information is not available to un-privileged users
+     */
+    public function clearDataForUnprivilegedUsers()
+    {
+        $this->instructionalNotes = null;
+        $this->clearDataForDraftOrScheduledEvent();
+        $this->removeMaterialsInDraft();
+        $this->clearMaterials();
+    }
+
+    /**
+     * Blanks this event's learning materials.
+     */
+    protected function clearMaterials(): void
+    {
+        /** @var UserMaterial $lm */
+        foreach ($this->learningMaterials as $lm) {
+            $lm->clearMaterial();
+        }
     }
 }

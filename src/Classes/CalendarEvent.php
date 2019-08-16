@@ -5,6 +5,7 @@ namespace App\Classes;
 use App\Annotation as IS;
 use App\Entity\LearningMaterialInterface;
 use App\Entity\LearningMaterialStatusInterface;
+use DateTime;
 
 /**
  * Class CalendarEvent
@@ -28,14 +29,14 @@ class CalendarEvent
     public $courseTitle;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      **/
     public $startDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      **/
@@ -80,7 +81,7 @@ class CalendarEvent
     public $location;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
@@ -230,20 +231,6 @@ class CalendarEvent
      * Clean out all the data for draft or scheduled events
      *
      * This information is not available to un-privileged users
-     * @param \DateTime $dateTime
-     */
-    public function clearDataForUnprivilegedUsers(\DateTime $dateTime)
-    {
-        $this->instructionalNotes = null;
-        $this->clearDataForDraftOrScheduledEvent();
-        $this->removeMaterialsInDraft();
-        $this->clearTimedMaterials($dateTime);
-    }
-
-    /**
-     * Clean out all the data for draft or scheduled events
-     *
-     * This information is not available to un-privileged users
      */
     protected function clearDataForDraftOrScheduledEvent()
     {
@@ -279,17 +266,5 @@ class CalendarEvent
         $this->learningMaterials = array_values(array_filter($this->learningMaterials, function (UserMaterial $lm) {
             return $lm->status !== LearningMaterialStatusInterface::IN_DRAFT;
         }));
-    }
-
-
-    /**
-     * @param \DateTime $dateTime
-     */
-    protected function clearTimedMaterials(\DateTime $dateTime)
-    {
-        /** @var UserMaterial $lm */
-        foreach ($this->learningMaterials as $lm) {
-            $lm->clearTimedMaterial($dateTime);
-        }
     }
 }
