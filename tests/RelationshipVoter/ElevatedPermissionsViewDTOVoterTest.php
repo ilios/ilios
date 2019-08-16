@@ -2,17 +2,16 @@
 
 namespace App\Tests\RelationshipVoter;
 
-use App\Classes\SessionUserInterface;
+use App\Entity\DTO\CourseLearningMaterialDTO;
+use App\Entity\DTO\LearningMaterialDTO;
+use App\Entity\DTO\SessionLearningMaterialDTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\ElevatedPermissionsViewDTOVoter as Voter;
 use App\Service\PermissionChecker;
 use App\Entity\DTO\AuthenticationDTO;
 use App\Entity\DTO\IngestionExceptionDTO;
-use App\Entity\DTO\LearnerGroupDTO;
 use App\Entity\DTO\OfferingDTO;
 use App\Entity\DTO\PendingUserUpdateDTO;
-use App\Entity\DTO\UserDTO;
-use App\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -35,9 +34,12 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
     {
         return [
             [AuthenticationDTO::class],
+            [CourseLearningMaterialDTO::class],
             [IngestionExceptionDTO::class],
+            [LearningMaterialDTO::class],
             [OfferingDTO::class],
             [PendingUserUpdateDTO::class],
+            [SessionLearningMaterialDTO::class],
         ];
     }
 
@@ -47,8 +49,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
      */
     public function testCanViewDTO($class)
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(true);
+        $token = $this->createMockTokenWithSessionUserPerformingNonLearnerFunction();
         $dto = m::mock($class);
         $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
@@ -60,9 +61,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
      */
     public function testRootCanViewDTO($class)
     {
-        $sessionUser = m::mock(SessionUserInterface::class);
-        $sessionUser->shouldReceive('isRoot')->andReturn(true);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $token = $this->createMockTokenWithRootSessionUser();
         $dto = m::mock($class);
         $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
@@ -74,8 +73,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
      */
     public function testCanNotViewDTO($class)
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $token = $this->createMockTokenWithSessionUserPerformingOnlyLearnerFunction();
         $dto = m::mock($class);
         $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");

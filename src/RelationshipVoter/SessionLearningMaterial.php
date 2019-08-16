@@ -29,8 +29,7 @@ class SessionLearningMaterial extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                return true;
-                break;
+                return $user->performsNonLearnerFunction();
             case self::EDIT:
             case self::CREATE:
             case self::DELETE:

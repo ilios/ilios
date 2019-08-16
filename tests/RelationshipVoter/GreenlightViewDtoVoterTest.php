@@ -13,7 +13,6 @@ use App\Entity\DTO\CohortDTO;
 use App\Entity\DTO\CompetencyDTO;
 use App\Entity\DTO\CourseClerkshipTypeDTO;
 use App\Entity\DTO\CourseDTO;
-use App\Entity\DTO\CourseLearningMaterialDTO;
 use App\Entity\DTO\CurriculumInventoryAcademicLevelDTO;
 use App\Entity\DTO\CurriculumInventoryInstitutionDTO;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
@@ -22,7 +21,6 @@ use App\Entity\DTO\CurriculumInventorySequenceDTO;
 use App\Entity\DTO\DepartmentDTO;
 use App\Entity\DTO\IlmSessionDTO;
 use App\Entity\DTO\InstructorGroupDTO;
-use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\DTO\LearningMaterialStatusDTO;
 use App\Entity\DTO\LearningMaterialUserRoleDTO;
 use App\Entity\DTO\MeshConceptDTO;
@@ -39,12 +37,10 @@ use App\Entity\DTO\SchoolConfigDTO;
 use App\Entity\DTO\SchoolDTO;
 use App\Entity\DTO\SessionDescriptionDTO;
 use App\Entity\DTO\SessionDTO;
-use App\Entity\DTO\SessionLearningMaterialDTO;
 use App\Entity\DTO\SessionTypeDTO;
 use App\Entity\DTO\TermDTO;
 use App\Entity\DTO\UserRoleDTO;
 use App\Entity\DTO\VocabularyDTO;
-use App\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -74,7 +70,6 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [CompetencyDTO::class],
             [CourseDTO::class],
             [CourseClerkshipTypeDTO::class],
-            [CourseLearningMaterialDTO::class],
             [CurriculumInventoryAcademicLevelDTO::class],
             [CurriculumInventoryInstitutionDTO::class],
             [CurriculumInventoryReportDTO::class],
@@ -83,7 +78,6 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [DepartmentDTO::class],
             [IlmSessionDTO::class],
             [InstructorGroupDTO::class],
-            [LearningMaterialDTO::class],
             [LearningMaterialStatusDTO::class],
             [LearningMaterialUserRoleDTO::class],
             [MeshConceptDTO::class],
@@ -100,7 +94,6 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [SchoolConfigDTO::class],
             [SessionDTO::class],
             [SessionDescriptionDTO::class],
-            [SessionLearningMaterialDTO::class],
             [SessionTypeDTO::class],
             [TermDTO::class],
             [UserRoleDTO::class],
