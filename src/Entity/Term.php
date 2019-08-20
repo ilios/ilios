@@ -386,4 +386,19 @@ class Term implements TermInterface
     {
         return $this->aamcResourceTypes;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexableCourses(): array
+    {
+        $sessionCourses = $this->sessions->map(function (SessionInterface $session) {
+            return $session->getCourse();
+        });
+
+        return array_merge(
+            $this->courses->toArray(),
+            $sessionCourses->toArray()
+        );
+    }
 }

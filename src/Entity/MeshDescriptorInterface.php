@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -24,7 +25,8 @@ interface MeshDescriptorInterface extends
     CoursesEntityInterface,
     SessionsEntityInterface,
     ObjectivesEntityInterface,
-    ConceptsEntityInterface
+    ConceptsEntityInterface,
+    IndexableCoursesEntityInterface
 {
     /**
      * @param string $annotation

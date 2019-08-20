@@ -532,4 +532,39 @@ class MeshDescriptor implements MeshDescriptorInterface
     {
         $this->deleted = $deleted;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexableCourses(): array
+    {
+        $courseLmCourses = $this->courseLearningMaterials
+            ->map(function (CourseLearningMaterialInterface $clm) {
+                return $clm->getCourse();
+            });
+
+        $sessionLMCourses = $this->sessionLearningMaterials
+            ->map(function (SessionLearningMaterialInterface $slm) {
+                return $slm->getSession()->getCourse();
+            });
+
+        $sessionCourses = $this->sessions
+            ->map(function (SessionInterface $session) {
+                return $session->getCourse();
+            });
+
+        $objectiveCourses = $this->objectives
+            ->map(function (ObjectiveInterface $objective) {
+                return $objective->getIndexableCourses();
+            });
+        $flatObjectiveCourses = count($objectiveCourses) ? array_merge(...$objectiveCourses) : [];
+
+        return array_merge(
+            $this->courses->toArray(),
+            $courseLmCourses->toArray(),
+            $sessionLMCourses->toArray(),
+            $sessionCourses->toArray(),
+            $flatObjectiveCourses
+        );
+    }
 }

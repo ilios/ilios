@@ -1,8 +1,12 @@
 <?php
 namespace App\Tests\Entity;
 
+use App\Entity\CourseInterface;
+use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\LearningMaterial;
 use App\Entity\School;
+use App\Entity\SessionInterface;
+use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\User;
 use Mockery as m;
 
@@ -164,5 +168,29 @@ class LearningMaterialTest extends EntityBase
     public function getGetSessionLearningMaterials()
     {
         $this->entityCollectionSetTest('sessionLearningMaterial', 'SessionLearningMaterial');
+    }
+
+    /**
+     * @covers \App\Entity\LearningMaterial::getIndexableCourses
+     */
+    public function testGetIndexableCourses()
+    {
+        $course1 = m::mock(CourseInterface::class);
+        $courseLearningMaterial = m::mock(CourseLearningMaterialInterface::class)
+            ->shouldReceive('getCourse')->once()
+            ->andReturn($course1);
+        $this->object->addCourseLearningMaterial($courseLearningMaterial->getMock());
+
+        $course2 = m::mock(CourseInterface::class);
+        $session = m::mock(SessionInterface::class)
+            ->shouldReceive('getCourse')->once()
+            ->andReturn($course2);
+        $sessionLearningMaterial = m::mock(SessionLearningMaterialInterface::class)
+                    ->shouldReceive('getSession')->once()
+                    ->andReturn($session->getMock());
+        $this->object->addSessionLearningMaterial($sessionLearningMaterial->getMock());
+
+        $rhett = $this->object->getIndexableCourses();
+        $this->assertEquals([$course1, $course2], $rhett);
     }
 }

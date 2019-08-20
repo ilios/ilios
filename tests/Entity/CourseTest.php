@@ -448,4 +448,12 @@ class CourseTest extends EntityBase
     {
         $this->entityCollectionSetTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
+
+    /**
+     * @covers \App\Entity\Course::getIndexableCourses
+     */
+    public function testGetIndexableCourses()
+    {
+        $this->assertEquals([$this->object], $this->object->getIndexableCourses());
+    }
 }

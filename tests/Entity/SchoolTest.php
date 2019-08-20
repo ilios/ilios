@@ -1,6 +1,7 @@
 <?php
 namespace App\Tests\Entity;
 
+use App\Entity\CourseInterface;
 use App\Entity\School;
 use Mockery as m;
 
@@ -398,5 +399,20 @@ class SchoolTest extends EntityBase
     public function testGetConfigurations()
     {
         $this->entityCollectionSetTest('configuration', 'SchoolConfig', 'getConfigurations', 'setConfigurations');
+    }
+
+    /**
+     * @covers \App\Entity\School::getIndexableCourses
+     */
+    public function testGetIndexableCourses()
+    {
+        $course1 = m::mock(CourseInterface::class);
+        $course2 = m::mock(CourseInterface::class);
+        $this->object->addCourse($course1);
+        $this->object->addCourse($course2);
+
+
+        $rhett = $this->object->getIndexableCourses();
+        $this->assertEquals([$course1, $course2], $rhett);
     }
 }

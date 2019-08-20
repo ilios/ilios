@@ -114,4 +114,16 @@ class Vocabulary implements VocabularyInterface
         $this->terms = new ArrayCollection();
         $this->active = true;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexableCourses(): array
+    {
+        $termCourses = $this->terms->map(function (TermInterface $term) {
+            return $term->getIndexableCourses();
+        });
+
+        return count($termCourses) ? array_merge(...$termCourses) : [];
+    }
 }

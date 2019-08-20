@@ -2,6 +2,7 @@
 
 namespace App\Tests\Endpoints;
 
+use App\Entity\CourseInterface;
 use App\Tests\ReadWriteEndpointTest;
 use Symfony\Component\HttpFoundation\Response;
 

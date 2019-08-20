@@ -13,6 +13,7 @@ use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\TermInterface;
 use App\Entity\UserInterface;
 use App\Service\Index;
+use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
@@ -38,8 +39,11 @@ class IndexEntityChanges
         if ($entity instanceof UserInterface) {
             $this->indexUser($entity);
         }
-        if ($entity instanceof CourseInterface) {
-            $this->indexCourse($entity);
+
+        if ($entity instanceof IndexableCoursesEntityInterface) {
+            foreach ($entity->getIndexableCourses() as $course) {
+                $this->indexCourse($course);
+            }
         }
     }
     public function postUpdate(LifecycleEventArgs $args)
@@ -49,8 +53,11 @@ class IndexEntityChanges
         if ($entity instanceof UserInterface) {
             $this->indexUser($entity);
         }
-        if ($entity instanceof CourseInterface) {
-            $this->indexCourse($entity);
+
+        if ($entity instanceof IndexableCoursesEntityInterface) {
+            foreach ($entity->getIndexableCourses() as $course) {
+                $this->indexCourse($course);
+            }
         }
     }
 
@@ -69,6 +76,12 @@ class IndexEntityChanges
 
         if ($entity instanceof CourseInterface) {
             $this->index->deleteCourse($entity->getId());
+        }
+
+        if ($entity instanceof IndexableCoursesEntityInterface) {
+            foreach ($entity->getIndexableCourses() as $course) {
+                $this->indexCourse($course);
+            }
         }
     }
 

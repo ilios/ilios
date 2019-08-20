@@ -2,6 +2,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Course;
+use App\Entity\CourseInterface;
 use App\Entity\School;
 use App\Entity\Session;
 use Mockery as m;
@@ -433,5 +434,18 @@ class SessionTest extends EntityBase
     public function testGetPrerequisites()
     {
         $this->entityCollectionSetTest('prerequisite', 'Session', false, false, 'setPostrequisite');
+    }
+
+    /**
+     * @covers \App\Entity\Session::getIndexableCourses
+     */
+    public function testGetIndexableCourses()
+    {
+        $course = m::mock(CourseInterface::class);
+        $this->object->setCourse($course);
+
+
+        $rhett = $this->object->getIndexableCourses();
+        $this->assertEquals([$course], $rhett);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\ActivatableEntityInterface;
@@ -20,6 +21,7 @@ interface VocabularyInterface extends
     StringableEntityInterface,
     TitledEntityInterface,
     CategorizableEntityInterface,
-    ActivatableEntityInterface
+    ActivatableEntityInterface,
+    IndexableCoursesEntityInterface
 {
 }

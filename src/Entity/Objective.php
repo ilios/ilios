@@ -456,4 +456,19 @@ class Objective implements ObjectiveInterface
     {
         return $this->descendants;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexableCourses(): array
+    {
+        $sessionCourses = $this->sessions->map(function (SessionInterface $session) {
+            return $session->getCourse();
+        });
+
+        return array_merge(
+            $this->courses->toArray(),
+            $sessionCourses->toArray()
+        );
+    }
 }
