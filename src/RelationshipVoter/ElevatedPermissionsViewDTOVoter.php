@@ -30,7 +30,6 @@ class ElevatedPermissionsViewDTOVoter extends AbstractVoter
                 $subject instanceof AuthenticationDTO
                 || $subject instanceof CourseLearningMaterialDTO
                 || $subject instanceof IngestionExceptionDTO
-                || $subject instanceof LearningMaterialDTO
                 || $subject instanceof OfferingDTO
                 || $subject instanceof PendingUserUpdateDTO
                 || $subject instanceof SessionLearningMaterialDTO

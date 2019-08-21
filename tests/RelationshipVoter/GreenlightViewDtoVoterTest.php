@@ -2,6 +2,7 @@
 
 namespace App\Tests\RelationshipVoter;
 
+use App\Entity\DTO\LearningMaterialDTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\GreenlightViewDTOVoter as Voter;
 use App\Service\PermissionChecker;
@@ -78,6 +79,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [DepartmentDTO::class],
             [IlmSessionDTO::class],
             [InstructorGroupDTO::class],
+            [LearningMaterialDTO::class],
             [LearningMaterialStatusDTO::class],
             [LearningMaterialUserRoleDTO::class],
             [MeshConceptDTO::class],

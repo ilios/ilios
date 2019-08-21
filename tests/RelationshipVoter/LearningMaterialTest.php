@@ -8,6 +8,7 @@ use App\Service\PermissionChecker;
 use App\Entity\LearningMaterial;
 use App\Entity\LearningMaterialInterface;
 
+use App\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -24,20 +25,12 @@ class LearningMaterialTest extends AbstractBase
         $this->checkRootEntityAccess(m::mock(LearningMaterialInterface::class));
     }
 
-    public function testCanViewUserPerformingNonLearnerFunction()
+    public function testCanView()
     {
-        $token = $this->createMockTokenWithSessionUserPerformingNonLearnerFunction();
+        $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(LearningMaterial::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
-    }
-
-    public function testCanNotViewAsLearnerOnly()
-    {
-        $token = $this->createMockTokenWithSessionUserPerformingOnlyLearnerFunction();
-        $entity = m::mock(LearningMaterial::class);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View allowed");
     }
 
     public function testCanCreateLearningMaterial()

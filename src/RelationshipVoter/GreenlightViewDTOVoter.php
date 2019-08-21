@@ -19,6 +19,7 @@ use App\Entity\DTO\CurriculumInventorySequenceDTO;
 use App\Entity\DTO\DepartmentDTO;
 use App\Entity\DTO\IlmSessionDTO;
 use App\Entity\DTO\InstructorGroupDTO;
+use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\DTO\LearningMaterialStatusDTO;
 use App\Entity\DTO\LearningMaterialUserRoleDTO;
 use App\Entity\DTO\MeshConceptDTO;
@@ -68,6 +69,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof DepartmentDTO
                 || $subject instanceof IlmSessionDTO
                 || $subject instanceof InstructorGroupDTO
+                || $subject instanceof LearningMaterialDTO
                 || $subject instanceof LearningMaterialStatusDTO
                 || $subject instanceof LearningMaterialUserRoleDTO
                 || $subject instanceof MeshConceptDTO

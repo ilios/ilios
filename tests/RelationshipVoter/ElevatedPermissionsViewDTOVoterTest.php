@@ -3,7 +3,6 @@
 namespace App\Tests\RelationshipVoter;
 
 use App\Entity\DTO\CourseLearningMaterialDTO;
-use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\DTO\SessionLearningMaterialDTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\ElevatedPermissionsViewDTOVoter as Voter;
@@ -36,7 +35,6 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
             [AuthenticationDTO::class],
             [CourseLearningMaterialDTO::class],
             [IngestionExceptionDTO::class],
-            [LearningMaterialDTO::class],
             [OfferingDTO::class],
             [PendingUserUpdateDTO::class],
             [SessionLearningMaterialDTO::class],
