@@ -25,6 +25,7 @@ services:
             - http.cors.allow-origin=http://localhost:1358
             - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
             - http.cors.allow-credentials=true
+            - http.max_content_length=10mb #matches the AWS ElasticSearch limit
         ports:
             - "9200:9200"
     searchui:
