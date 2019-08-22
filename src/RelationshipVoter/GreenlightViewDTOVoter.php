@@ -11,7 +11,6 @@ use App\Entity\DTO\CohortDTO;
 use App\Entity\DTO\CompetencyDTO;
 use App\Entity\DTO\CourseClerkshipTypeDTO;
 use App\Entity\DTO\CourseDTO;
-use App\Entity\DTO\CourseLearningMaterialDTO;
 use App\Entity\DTO\CurriculumInventoryAcademicLevelDTO;
 use App\Entity\DTO\CurriculumInventoryInstitutionDTO;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
@@ -37,7 +36,6 @@ use App\Entity\DTO\SchoolConfigDTO;
 use App\Entity\DTO\SchoolDTO;
 use App\Entity\DTO\SessionDescriptionDTO;
 use App\Entity\DTO\SessionDTO;
-use App\Entity\DTO\SessionLearningMaterialDTO;
 use App\Entity\DTO\SessionTypeDTO;
 use App\Entity\DTO\TermDTO;
 use App\Entity\DTO\UserRoleDTO;
@@ -63,7 +61,6 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof CompetencyDTO
                 || $subject instanceof CourseDTO
                 || $subject instanceof CourseClerkshipTypeDTO
-                || $subject instanceof CourseLearningMaterialDTO
                 || $subject instanceof CurriculumInventoryAcademicLevelDTO
                 || $subject instanceof CurriculumInventoryInstitutionDTO
                 || $subject instanceof CurriculumInventoryReportDTO
@@ -89,7 +86,6 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof SchoolConfigDTO
                 || $subject instanceof SessionDTO
                 || $subject instanceof SessionDescriptionDTO
-                || $subject instanceof SessionLearningMaterialDTO
                 || $subject instanceof SessionTypeDTO
                 || $subject instanceof TermDTO
                 || $subject instanceof UserRoleDTO

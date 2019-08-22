@@ -25,12 +25,20 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->checkRootEntityAccess(m::mock(SessionLearningMaterial::class));
     }
 
-    public function testCanView()
+    public function testCanViewUserPerformingNonLearnerFunction()
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $token = $this->createMockTokenWithSessionUserPerformingNonLearnerFunction();
         $entity = m::mock(SessionLearningMaterial::class);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanNotViewAsLearnerOnly()
+    {
+        $token = $this->createMockTokenWithSessionUserPerformingOnlyLearnerFunction();
+        $entity = m::mock(SessionLearningMaterial::class);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View allowed");
     }
 
     public function testCanEdit()

@@ -41,7 +41,6 @@ class LearningMaterial extends AbstractVoter
         switch ($attribute) {
             case self::VIEW:
                 return true;
-                break;
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
