@@ -51,11 +51,13 @@ class Search extends ElasticSearchBase
         $suggestFields = [
             'courseTitle',
             'courseTerms',
-            'courseMeshDescriptors',
+            'courseMeshDescriptorIds',
+            'courseMeshDescriptorNames',
             'sessionTitle',
             'sessionType',
             'sessionTerms',
-            'sessionMeshDescriptors',
+            'sessionMeshDescriptorIds',
+            'sessionMeshDescriptorNames',
         ];
         $suggest = array_reduce($suggestFields, function ($carry, $field) use ($query) {
             $carry[$field] = [
@@ -251,7 +253,11 @@ class Search extends ElasticSearchBase
             'courseObjectives.ngram',
             'courseLearningMaterials',
             'courseLearningMaterials.ngram',
-            'courseMeshDescriptors',
+            'courseMeshDescriptorIds',
+            'courseMeshDescriptorNames',
+            'courseMeshDescriptorNames.ngram',
+            'courseMeshDescriptorAnnotations',
+            'courseMeshDescriptorAnnotations.ngram',
             'sessionId',
             'sessionTitle',
             'sessionTitle.ngram',
@@ -264,7 +270,11 @@ class Search extends ElasticSearchBase
             'sessionObjectives.ngram',
             'sessionLearningMaterials',
             'sessionLearningMaterials.ngram',
-            'sessionMeshDescriptors',
+            'sessionMeshDescriptorIds',
+            'sessionMeshDescriptorNames',
+            'sessionMeshDescriptorNames.ngram',
+            'sessionMeshDescriptorAnnotations',
+            'sessionMeshDescriptorAnnotations.ngram',
         ];
 
         $shouldFields = [
@@ -366,11 +376,21 @@ class Search extends ElasticSearchBase
             }
             $courseMatches = array_map(function (string $match) {
                 $split = explode('.', $match);
-                return strtolower(substr($split[0], strlen('course')));
+                $field = strtolower(substr($split[0], strlen('course')));
+                if (strpos($field, 'meshdescriptor') !== false) {
+                    $field = 'meshdescriptors';
+                }
+
+                return $field;
             }, $item['courseMatches']);
             $sessionMatches = array_map(function (string $match) {
                 $split = explode('.', $match);
-                return strtolower(substr($split[0], strlen('session')));
+                $field = strtolower(substr($split[0], strlen('session')));
+                if (strpos($field, 'meshdescriptor') !== false) {
+                    $field = 'meshdescriptors';
+                }
+
+                return $field;
             }, $item['sessionMatches']);
             $carry[$id]['matchedIn'] = array_unique(
                 array_merge($courseMatches, $carry[$id]['matchedIn'])

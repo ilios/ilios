@@ -663,8 +663,12 @@ EOL;
             "r.id, r.name, r.annotation",
             $courseIds
         );
-        foreach ($meshDescriptors as $courseId => $arr) {
-            $indexableCourses[$courseId]->meshDescriptors[] = $arr[0]['id'];
+        foreach ($meshDescriptors as $courseId => $courseDescriptors) {
+            foreach ($courseDescriptors as $arr) {
+                $indexableCourses[$courseId]->meshDescriptorIds[] = $arr['id'];
+                $indexableCourses[$courseId]->meshDescriptorNames[] = $arr['name'];
+                $indexableCourses[$courseId]->meshDescriptorAnnotations[] = $arr['annotation'];
+            }
         }
 
         $qb = $this->_em->createQueryBuilder()
@@ -793,8 +797,12 @@ EOL;
             "r.id, r.name, r.annotation",
             $sessionIds
         );
-        foreach ($meshDescriptors as $sessionId => $arr) {
-            $sessions[$sessionId]->meshDescriptors[] = $arr[0]['id'];
+        foreach ($meshDescriptors as $sessionId => $sessionDescriptors) {
+            foreach ($sessionDescriptors as $arr) {
+                $sessions[$sessionId]->meshDescriptorIds[] = $arr['id'];
+                $sessions[$sessionId]->meshDescriptorNames[] = $arr['name'];
+                $sessions[$sessionId]->meshDescriptorAnnotations[] = $arr['annotation'];
+            }
         }
 
         $qb = $this->_em->createQueryBuilder()
