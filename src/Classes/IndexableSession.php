@@ -32,7 +32,13 @@ class IndexableSession
     public $objectives = [];
 
     /** @var array  */
-    public $meshDescriptors = [];
+    public $meshDescriptorIds = [];
+
+    /** @var array  */
+    public $meshDescriptorNames = [];
+
+    /** @var array  */
+    public $meshDescriptorAnnotations = [];
 
     /** @var array  */
     public $learningMaterials = [];
@@ -48,7 +54,9 @@ class IndexableSession
             'sessionAdministrators' => implode(' ', $this->administrators),
             'sessionObjectives' => implode(' ', $this->objectives),
             'sessionTerms' => implode(' ', $this->terms),
-            'sessionMeshDescriptors' => implode(' ', $this->meshDescriptors),
+            'sessionMeshDescriptorIds' => $this->meshDescriptorIds,
+            'sessionMeshDescriptorNames' => $this->meshDescriptorNames,
+            'sessionMeshDescriptorAnnotations' => implode(' ', $this->meshDescriptorAnnotations),
             'sessionLearningMaterials' => implode(' ', $this->learningMaterials),
         ];
     }

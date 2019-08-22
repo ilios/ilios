@@ -350,14 +350,19 @@ class Index extends ElasticSearchBase
                             'courseTerms' => $txtTypeFieldWithCompletion,
                             'courseObjectives'  => $txtTypeField,
                             'courseLearningMaterials'  => $txtTypeField,
-                            'courseMeshDescriptors' => [
+                            'courseMeshDescriptorIds' => [
                                 'type' => 'keyword',
                                 'fields' => [
                                     'cmp' => [
-                                        'type' => 'completion'
+                                        'type' => 'completion',
+                                        // we have to override the analyzer here because the default strips
+                                        // out numbers and mesh ids are mostly numbers
+                                        'analyzer' => 'standard',
                                     ]
                                 ],
                             ],
+                            'courseMeshDescriptorNames' => $txtTypeFieldWithCompletion,
+                            'courseMeshDescriptorAnnotations' => $txtTypeField,
                             'sessionId' => [
                                 'type' => 'keyword',
                             ],
@@ -374,14 +379,19 @@ class Index extends ElasticSearchBase
                             'sessionTerms' => $txtTypeFieldWithCompletion,
                             'sessionObjectives'  => $txtTypeField,
                             'sessionLearningMaterials'  => $txtTypeField,
-                            'sessionMeshDescriptors' => [
+                            'sessionMeshDescriptorIds' => [
                                 'type' => 'keyword',
                                 'fields' => [
                                     'cmp' => [
-                                        'type' => 'completion'
+                                        'type' => 'completion',
+                                        // we have to override the analyzer here because the default strips
+                                        // out numbers and mesh ids are mostly numbers
+                                        'analyzer' => 'standard',
                                     ]
                                 ],
                             ],
+                            'sessionMeshDescriptorNames' => $txtTypeFieldWithCompletion,
+                            'sessionMeshDescriptorAnnotations' => $txtTypeField,
                         ]
                     ]
                 ]
