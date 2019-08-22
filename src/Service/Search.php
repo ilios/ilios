@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Classes\ElasticSearchBase;
-use Ilios\MeSH\Model\Descriptor;
 use Exception;
 
 class Search extends ElasticSearchBase
@@ -214,7 +213,7 @@ class Search extends ElasticSearchBase
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
         $params = [
-            'type' => Descriptor::class,
+            'type' => '_doc',
             'index' => self::PUBLIC_MESH_INDEX,
             'body' => [
                 'query' => [
