@@ -683,4 +683,25 @@ class LearningMaterial implements LearningMaterialInterface
 
         return ['Default', 'file'];
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexableCourses(): array
+    {
+        $directCourses = $this->courseLearningMaterials
+            ->map(function (CourseLearningMaterialInterface $clm) {
+                return $clm->getCourse();
+            });
+
+        $sessionCourses = $this->sessionLearningMaterials
+            ->map(function (SessionLearningMaterialInterface $slm) {
+                return $slm->getSession()->getCourse();
+            });
+
+        return array_merge(
+            $directCourses->toArray(),
+            $sessionCourses->toArray()
+        );
+    }
 }

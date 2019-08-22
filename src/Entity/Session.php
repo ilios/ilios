@@ -713,4 +713,12 @@ class Session implements SessionInterface
     {
         return $this->prerequisites;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexableCourses(): array
+    {
+        return [$this->course];
+    }
 }

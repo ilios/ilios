@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -17,7 +18,8 @@ interface LearningMaterialInterface extends
     TitledEntityInterface,
     DescribableEntityInterface,
     LoggableEntityInterface,
-    SessionStampableInterface
+    SessionStampableInterface,
+    IndexableCoursesEntityInterface
 {
 
     /**

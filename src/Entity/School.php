@@ -545,4 +545,12 @@ class School implements SchoolInterface
     {
         return $this->configurations;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexableCourses(): array
+    {
+        return $this->courses->toArray();
+    }
 }

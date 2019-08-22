@@ -778,4 +778,12 @@ class Course implements CourseInterface
     {
         return $this->sequenceBlocks;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexableCourses(): array
+    {
+        return [$this];
+    }
 }

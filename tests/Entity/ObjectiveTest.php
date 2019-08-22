@@ -1,7 +1,9 @@
 <?php
 namespace App\Tests\Entity;
 
+use App\Entity\CourseInterface;
 use App\Entity\Objective;
+use App\Entity\SessionInterface;
 use Mockery as m;
 
 /**
@@ -287,5 +289,25 @@ class ObjectiveTest extends EntityBase
     public function testSetActive()
     {
         $this->booleanSetTest('active');
+    }
+
+    /**
+     * @covers \App\Entity\Objective::getIndexableCourses
+     */
+    public function testGetIndexableCourses()
+    {
+        $course1 = m::mock(CourseInterface::class)
+            ->shouldReceive('addObjective')->once()->with($this->object)->getMock();
+        $this->object->addCourse($course1);
+
+        $course2 = m::mock(CourseInterface::class);
+        $session = m::mock(SessionInterface::class)
+            ->shouldReceive('addObjective')->once()->with($this->object)
+            ->shouldReceive('getCourse')->once()
+            ->andReturn($course2);
+        $this->object->addSession($session->getMock());
+
+        $rhett = $this->object->getIndexableCourses();
+        $this->assertEquals($rhett, [$course1, $course2]);
     }
 }

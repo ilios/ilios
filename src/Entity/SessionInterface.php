@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -32,7 +33,8 @@ interface SessionInterface extends
     CategorizableEntityInterface,
     MeshDescriptorsEntityInterface,
     SequenceBlocksEntityInterface,
-    AdministratorsEntityInterface
+    AdministratorsEntityInterface,
+    IndexableCoursesEntityInterface
 {
     /**
      * @param boolean $attireRequired

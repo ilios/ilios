@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -38,7 +39,8 @@ interface CourseInterface extends
     CohortsEntityInterface,
     MeshDescriptorsEntityInterface,
     DirectorsEntityInterface,
-    AdministratorsEntityInterface
+    AdministratorsEntityInterface,
+    IndexableCoursesEntityInterface
 {
     /**
      * @param int $level

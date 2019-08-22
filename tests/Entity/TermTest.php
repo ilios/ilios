@@ -1,6 +1,8 @@
 <?php
 namespace App\Tests\Entity;
 
+use App\Entity\CourseInterface;
+use App\Entity\SessionInterface;
 use App\Entity\Term;
 use Mockery as m;
 
@@ -198,5 +200,25 @@ class TermTest extends EntityBase
     public function testIsActive()
     {
         $this->booleanSetTest('active');
+    }
+
+    /**
+     * @covers \App\Entity\LearningMaterial::getIndexableCourses
+     */
+    public function testGetIndexableCourses()
+    {
+        $course1 = m::mock(CourseInterface::class)
+            ->shouldReceive('addTerm')->once()->with($this->object)->getMock();
+        $this->object->addCourse($course1);
+
+        $course2 = m::mock(CourseInterface::class);
+        $session = m::mock(SessionInterface::class)
+            ->shouldReceive('addTerm')->once()->with($this->object)
+            ->shouldReceive('getCourse')->once()
+            ->andReturn($course2);
+        $this->object->addSession($session->getMock());
+
+        $rhett = $this->object->getIndexableCourses();
+        $this->assertEquals($rhett, [$course1, $course2]);
     }
 }
