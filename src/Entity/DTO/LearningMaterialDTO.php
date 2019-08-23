@@ -199,4 +199,21 @@ class LearningMaterialDTO
         $this->sessionLearningMaterials = [];
         $this->courseLearningMaterials = [];
     }
+
+    /**
+     * Blanks out most of the material's attributes.
+     */
+    public function clearMaterial(): void
+    {
+        $this->absoluteFileUri = null;
+        $this->citation = null;
+        $this->copyrightRationale = null;
+        $this->description = null;
+        $this->filename = null;
+        $this->filesize = null;
+        $this->link = null;
+        $this->mimetype = null;
+        $this->originalAuthor = null;
+        $this->token = null;
+    }
 }
