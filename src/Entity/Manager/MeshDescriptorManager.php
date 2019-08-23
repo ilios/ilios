@@ -21,11 +21,6 @@ class MeshDescriptorManager extends BaseManager
     protected $transmogrifier;
 
     /**
-     * @var Search
-     */
-    protected $search;
-
-    /**
      * @param RegistryInterface $registry
      * @param string $class
      * @param MeshDescriptorSetTransmogrifier $transmogrifier
@@ -34,12 +29,10 @@ class MeshDescriptorManager extends BaseManager
     public function __construct(
         RegistryInterface $registry,
         $class,
-        MeshDescriptorSetTransmogrifier $transmogrifier,
-        Search $search
+        MeshDescriptorSetTransmogrifier $transmogrifier
     ) {
         parent::__construct($registry, $class);
         $this->transmogrifier = $transmogrifier;
-        $this->search = $search;
     }
 
     /**
@@ -58,13 +51,7 @@ class MeshDescriptorManager extends BaseManager
     ) {
         /** @var MeshDescriptorRepository $repository */
         $repository = $this->getRepository();
-        if ($this->search->isEnabled()) {
-            $ids = $this->search->meshDescriptorIdsQuery($q);
-            $criteria['id'] = $ids;
-            return $repository->findDTOsBy($criteria, $orderBy, $limit, $offset);
-        } else {
-            return $repository->findByQ($q, $orderBy, $limit, $offset);
-        }
+        return $repository->findByQ($q, $orderBy, $limit, $offset);
     }
 
     /**
