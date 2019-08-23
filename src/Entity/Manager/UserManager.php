@@ -24,20 +24,14 @@ class UserManager extends BaseManager
     protected $factory;
 
     /**
-     * @var Search
-     */
-    protected $search;
-
-    /**
      * @param RegistryInterface $registry
      * @param string $class
      * @param UserMaterialFactory $factory
      */
-    public function __construct(RegistryInterface $registry, $class, UserMaterialFactory $factory, Search $search)
+    public function __construct(RegistryInterface $registry, $class, UserMaterialFactory $factory)
     {
         parent::__construct($registry, $class);
         $this->factory = $factory;
-        $this->search = $search;
     }
 
     /**
@@ -73,23 +67,7 @@ class UserManager extends BaseManager
     ) {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
-        if ($this->search->isEnabled()) {
-            $ids = $this->search->userIdsQuery($q, $limit);
-            $criteria['id'] = $ids;
-            $dtos = $repository->findDTOsBy($criteria, $orderBy, $limit, $offset);
-
-            if (empty($orderBy)) {
-                // resort results by their original search score
-                $keys = array_flip($ids);
-                usort($dtos, function (UserDTO $a, UserDTO $b) use ($keys) {
-                    return $keys[$a->id] - $keys[$b->id];
-                });
-            }
-
-            return $dtos;
-        } else {
-            return $repository->findDTOsByQ($q, $orderBy, $limit, $offset, $criteria);
-        }
+        return $repository->findDTOsByQ($q, $orderBy, $limit, $offset, $criteria);
     }
 
     /**
