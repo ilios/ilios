@@ -89,7 +89,7 @@ class BlankedLearningMaterial implements LearningMaterialInterface
      */
     public function getOriginalAuthor()
     {
-        return null
+        return null;
     }
 
     /**
@@ -97,7 +97,7 @@ class BlankedLearningMaterial implements LearningMaterialInterface
      */
     public function getToken()
     {
-        return null
+        return null;
     }
 
     /**
@@ -173,7 +173,7 @@ class BlankedLearningMaterial implements LearningMaterialInterface
      */
     public function getCitation()
     {
-        return null;.
+        return null;
     }
 
     /**
