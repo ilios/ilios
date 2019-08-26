@@ -139,7 +139,7 @@ class BlankedLearningMaterial implements LearningMaterialInterface
      */
     public function getUserRole()
     {
-        $this->material->getUserRole();
+        return $this->material->getUserRole();
     }
 
     /**
@@ -279,11 +279,11 @@ class BlankedLearningMaterial implements LearningMaterialInterface
     }
 
     /**
-     * @return int;
+     * @return null
      */
     public function getFilesize()
     {
-        return 0;
+        return null;
     }
 
     /**
