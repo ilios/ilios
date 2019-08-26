@@ -7,34 +7,25 @@ use Symfony\Component\Routing\RouterInterface;
 
 class UserMaterialFactory
 {
-
     /**
      * @var RouterInterface
      */
     protected $router;
 
     /**
-     * @var string
-     */
-    protected $decoratorClassName;
-
-    /**
      * @param RouterInterface $router
-     * @param string $decoratorClassName
      */
-    public function __construct(RouterInterface $router, $decoratorClassName)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
-        $this->decoratorClassName = $decoratorClassName;
     }
 
     /**
      * @param array $material
      * @return UserMaterial
      */
-    public function create(
-        array $material
-    ) {
+    public function create(array $material)
+    {
         if (array_key_exists('filename', $material) && !empty($material['filename'])) {
             $absoluteFileUri = $this->router->generate(
                 'ilios_downloadlearningmaterial',
@@ -44,7 +35,7 @@ class UserMaterialFactory
         }
 
         /* @var UserMaterial $obj */
-        $obj = new $this->decoratorClassName();
+        $obj = new UserMaterial();
         $obj->id = $material['id'];
         $obj->courseLearningMaterial = isset($material['clmId'])?$material['clmId']:null;
         $obj->sessionLearningMaterial = isset($material['slmId'])?$material['slmId']:null;
