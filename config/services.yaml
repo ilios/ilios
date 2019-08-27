@@ -247,10 +247,7 @@ services:
       - { name: kernel.event_listener, event: kernel.response, method: flush }
       - { name: kernel.event_listener, event: console.terminate, method: flush }
 
-    App\Service\UserMaterialFactory:
-      arguments:
-        $decoratorClassName: '\App\Classes\UserMaterial'
-
+    App\Service\UserMaterialFactory: ~
     App\Service\CrossingGuard:
       tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 256 }
