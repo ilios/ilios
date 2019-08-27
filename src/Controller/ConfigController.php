@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\AuthenticationInterface;
 use App\Service\Config;
 use App\Service\Search;
+use Jean85\PrettyVersions;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,6 +33,8 @@ class ConfigController extends AbstractController
         }
         $configuration['maxUploadSize'] = UploadedFile::getMaxFilesize();
         $configuration['apiVersion'] = $this->getParameter('ilios_api_version');
+        $iliosVersion = PrettyVersions::getVersion('ilios/ilios');
+        $configuration['iliosVersion'] = 'v' . $iliosVersion->getPrettyVersion();
 
         $configuration['trackingEnabled'] = $config->get('enable_tracking');
         if ($configuration['trackingEnabled']) {
