@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Classes\BlankedLearningMaterial;
+use App\Classes\SessionUserInterface;
+use App\Entity\DTO\LearningMaterialDTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\Service\IliosFileSystem;
 use App\Service\TemporaryFileSystem;
@@ -221,5 +224,41 @@ class LearningMaterialController extends ApiController
 
             throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function resultsToResponse(array $results, $responseKey, $responseCode)
+    {
+        $authChecker = $this->authorizationChecker;
+        $filteredResults = array_filter($results, function ($object) use ($authChecker) {
+            return $authChecker->isGranted(AbstractVoter::VIEW, $object);
+        });
+
+        //If there are no matches return an empty array
+        //If there are matches then re-index the array
+        $values = !empty($filteredResults) ? array_values($filteredResults) : [];
+
+        if (! empty($values)) {
+            /** @var SessionUserInterface $sessionUser */
+            $sessionUser = $this->tokenStorage->getToken()->getUser();
+
+            // return blanked learning materials
+            if (! $sessionUser->performsNonLearnerFunction()) {
+                $blankedResults = [];
+                foreach ($values as $lm) {
+                    if ($lm instanceof LearningMaterialDTO) {
+                        $lm->clearMaterial();
+                        $blankedResults[] = $lm;
+                    } else {
+                        $blankedResults[] = new BlankedLearningMaterial($lm);
+                    }
+                }
+                $values = $blankedResults;
+            }
+        }
+
+        return $this->createResponse($responseKey, $values, $responseCode);
     }
 }

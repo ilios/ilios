@@ -15,6 +15,18 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class LearningMaterialTest extends ReadWriteEndpointTest
 {
+
+    const UNBLANKED_ATTRIBUTES = [
+        'id',
+        'title',
+        'uploadDate',
+        'userRole',
+        'status',
+        'owningUser',
+        'sessionLearningMaterials',
+        'courseLearningMaterials',
+        'copyrightPermission'
+    ];
     protected $testName =  'learningMaterials';
 
     /**
@@ -163,6 +175,41 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         }, $dataKeys);
         $filters = ['q' => $q];
         $this->filterTest($filters, $expectedData);
+    }
+
+    /**
+     * @covers \App\Controller\LearningMaterialController::getAllAction
+     */
+    public function testFindByQAsLearner()
+    {
+        $filters = ['q' => 'lm'];
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $filteredData = $this->getFiltered($endpoint, $responseKey, $filters, 5);
+        $this->assertEquals(count($filteredData), 10);
+        foreach ($filteredData as $lm) {
+            $this->assertEquals(count($lm), 9);
+            foreach (self::UNBLANKED_ATTRIBUTES as $attr) {
+                $this->assertTrue(array_key_exists($attr, $lm));
+            }
+        }
+    }
+
+    /**
+     * @covers \App\Controller\LearningMaterialController::getAllAction
+     */
+    public function testGetAllAsLearner()
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $filteredData = $this->getFiltered($endpoint, $responseKey, [], 5);
+        $this->assertEquals(count($filteredData), 10);
+        foreach ($filteredData as $lm) {
+            $this->assertEquals(count($lm), 9);
+            foreach (self::UNBLANKED_ATTRIBUTES as $attr) {
+                $this->assertTrue(array_key_exists($attr, $lm));
+            }
+        }
     }
 
     public function testPostLearningMaterialCitation()
