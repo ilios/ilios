@@ -118,7 +118,7 @@ class IndexTest extends TestCase
                     'fullNameLastFirst' => 'last2, first2 middle2',
                 ],
             ]
-        ])->andReturn(['errors' => false]);
+        ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->indexUsers([$user1, $user2]);
     }
 
@@ -188,7 +188,7 @@ class IndexTest extends TestCase
                     'id' => 3,
                 ],
             ]
-        ])->andReturn(['errors' => false]);
+        ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->indexCourses([$course1, $course2]);
     }
 

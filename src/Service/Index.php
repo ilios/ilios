@@ -207,16 +207,38 @@ class Index extends ElasticSearchBase
         if (!$this->enabled || empty($items)) {
             return ['errors' => false];
         }
-        $body = [];
-        foreach ($items as $item) {
-            $body[] = ['index' => [
-                '_index' => $index,
-                '_type' => '_doc',
-                '_id' => $item['id']
-            ]];
-            $body[] = $item;
+        // split the index into 2.5mb pieces so we don't run into the
+        // AWS imposed 10MB per request limit
+        $size = strlen(serialize($items));
+        $parts = ceil($size / 4000000);
+        $chunkCounts = ceil(count($items) / $parts);
+        $chunks = array_chunk($items, $chunkCounts);
+
+        $results = [
+            'took' => 0,
+            'errors' => false,
+            'items' => []
+        ];
+
+        foreach ($chunks as $chunk) {
+            $body = [];
+            foreach ($chunk as $item) {
+                $body[] = ['index' => [
+                    '_index' => $index,
+                    '_type' => '_doc',
+                    '_id' => $item['id']
+                ]];
+                $body[] = $item;
+            }
+            $rhett = $this->bulk(['body' => $body]);
+            $results['took'] += $rhett['took'];
+            if ($rhett['errors']) {
+                $results['errors'] = true;
+            }
+            $results['items'] = array_merge($results['items'], $rhett['items']);
         }
-        return $this->bulk(['body' => $body]);
+
+        return $results;
     }
 
     public function clear()
