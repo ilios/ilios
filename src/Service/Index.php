@@ -56,7 +56,7 @@ class Index extends ElasticSearchBase
             'id' => $id,
         ]);
 
-        return !$result['errors'];
+        return $result['result'] === 'deleted';
     }
 
     /**
@@ -113,6 +113,21 @@ class Index extends ElasticSearchBase
         ]);
 
         return !count($result['failures']);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function deleteSession(int $id) : bool
+    {
+        $result = $this->delete([
+            'index' => Search::PUBLIC_CURRICULUM_INDEX,
+            'id' => ElasticSearchBase::SESSION_ID_PREFIX . $id
+        ]);
+
+        return $result['result'] === 'deleted';
     }
 
     /**
@@ -173,7 +188,7 @@ class Index extends ElasticSearchBase
     protected function delete(array $params) : array
     {
         if (!$this->enabled) {
-            return ['errors' => false];
+            return ['result' => 'deleted'];
         }
         return $this->client->delete($params);
     }
