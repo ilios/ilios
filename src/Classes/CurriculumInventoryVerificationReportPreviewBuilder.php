@@ -63,6 +63,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getProgramExpectationsMappedToPCRS(array $data): array
     {
         // @todo implement [ST 2019/08/28]
+        return [];
     }
 
     /**
@@ -73,6 +74,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data): array
     {
         // @todo implement [ST 2019/08/28]
+        return [];
     }
 
 
@@ -84,6 +86,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getNonClerkshipSequenceBlockInstructionalTime(array $data): array
     {
         // @todo implement [ST 2019/08/28]
+        return [];
     }
 
 
@@ -95,6 +98,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getClerkshipSequenceBlockInstructionalTime(array $data): array
     {
         // @todo implement [ST 2019/08/28]
+        return [];
     }
 
     /**
@@ -105,6 +109,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getInstructionalMethodCounts(array $data): array
     {
         // @todo implement [ST 2019/08/28]
+        return [];
     }
 
     /**
@@ -115,6 +120,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getNonClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
         // @todo implement [ST 2019/08/28]
+        return [];
     }
 
     /**
@@ -125,6 +131,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
         // @todo implement [ST 2019/08/28]
+        return [];
     }
 
     /**
@@ -135,6 +142,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getAllEventsWithAssessmentsTaggedAsFormativeOrSummative(array $data): array
     {
         // @todo implement [ST 2019/08/28]
+        return [];
     }
 
     /**
@@ -145,5 +153,6 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getAllResourceTypes(array $data): array
     {
         // @todo implement [ST 2019/08/28]
+        return [];
     }
 }
