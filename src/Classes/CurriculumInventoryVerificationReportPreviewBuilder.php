@@ -152,7 +152,22 @@ class CurriculumInventoryVerificationReportPreviewBuilder
      */
     protected function getAllResourceTypes(array $data): array
     {
-        // @todo implement [ST 2019/08/28]
-        return [];
+        $resources = [];
+        foreach($data['events'] as $event) {
+            if (array_key_exists('resource_types', $event)) {
+                foreach ($event['resource_types'] as $resourceType) {
+                    $resourceTypeId = $resourceType['resource_type_id'];
+                    if (! array_key_exists($resourceTypeId, $resources)) {
+                        $resources[$resourceTypeId] = [
+                            'id' => $resourceTypeId,
+                            'title' => $resourceType['resource_type_title'],
+                            'count' => 0
+                        ];
+                    }
+                    $resources[$resourceTypeId]['count']++;
+                }
+            }
+        }
+        return array_values($resources);
     }
 }
