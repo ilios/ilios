@@ -44,6 +44,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     {
         $tables = [];
         $data = $this->aggregator->getData($report);
+        $methodMaps = $this->getMethodMaps();
 
         $tables['program-expectations-mapped-to-pcrs'] = $this->getProgramExpectationsMappedToPCRS($data);
         $tables['primary-instructional-methods-by-non-clerkship-sequence-blocks']
@@ -52,15 +53,36 @@ class CurriculumInventoryVerificationReportPreviewBuilder
             = $this->getNonClerkshipSequenceBlockInstructionalTime($data);
         $tables['clerkship-sequence-block-instructional-time']
             = $this->getClerkshipSequenceBlockInstructionalTime($data);
-        $tables['instructional-method-counts'] = $this->getInstructionalMethodCounts($data);
+        $tables['instructional-method-counts']
+            = $this->getInstructionalMethodCounts($data, $methodMaps['instructionalMethods']);
         $tables['non-clerkship-sequence-block-assessment-methods']
             = $this->getNonClerkshipSequenceBlockAssessmentMethods($data);
         $tables['clerkship-sequence-block-assessment-methods']
             = $this->getClerkshipSequenceBlockAssessmentMethods($data);
         $tables['all-events-with-assessments-tagged-as-formative-or-summative']
-            = $this->getAllEventsWithAssessmentsTaggedAsFormativeOrSummative($data);
+            = $this->getAllEventsWithAssessmentsTaggedAsFormativeOrSummative($data, $methodMaps['assessmentMethods']);
         $tables['all-resource-types'] = $this->getAllResourceTypes($data);
         return $tables;
+    }
+
+
+    protected function getMethodMaps(): array
+    {
+        $methodMaps = [
+            'instructionalMethods' => [],
+            'assessmentMethods' => []
+        ];
+
+        $dtos = $this->methodManager->findDTOsBy([]);
+        foreach ($dtos as $dto) {
+            if (0 === strpos( $dto->id, 'IM')) {
+                $methodMaps['instructionalMethods'][$dto->id] = $dto;
+            } else {
+                $methodMaps['assessmentMethods'][$dto->id] = $dto;
+
+            }
+        }
+        return $methodMaps;
     }
 
     /**
@@ -111,19 +133,12 @@ class CurriculumInventoryVerificationReportPreviewBuilder
 
     /**
      * @param array $data
+     * @param array $instructionalMethodsById
      *
      * @return array
      */
-    protected function getInstructionalMethodCounts(array $data): array
+    protected function getInstructionalMethodCounts(array $data, array $instructionalMethodsById): array
     {
-        $instructionalMethodsById = [];
-        $dtos = $this->methodManager->findDTOsBy([]);
-        foreach ($dtos as $dto) {
-            if (0 === strpos( $dto->id, 'IM')) { // ignore assessment methods
-                $instructionalMethodsById[$dto->id] = $dto;
-            }
-        }
-
         $methods = [];
         foreach ($data['events'] as $event) {
             $methodId = $event['method_id'];
@@ -171,13 +186,38 @@ class CurriculumInventoryVerificationReportPreviewBuilder
 
     /**
      * @param array $data
+     * @param array $assessmentMethodsById
      *
      * @return array
      */
-    protected function getAllEventsWithAssessmentsTaggedAsFormativeOrSummative(array $data): array
-    {
-        // @todo implement [ST 2019/08/28]
-        return [];
+    protected function getAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
+        array $data,
+        array $assessmentMethodsById
+    ): array {
+        $methods = [];
+        foreach ($data['events'] as $event) {
+            $methodId = $event['method_id'];
+            if (! array_key_exists($methodId, $assessmentMethodsById)) {
+                continue;
+            }
+            if (! array_key_exists($methodId, $methods)) {
+                $methods[$methodId] = [
+                    'id' => $methodId,
+                    'title' => $assessmentMethodsById[$methodId]->description,
+                    'num-summative-assessments' => 0,
+                    'num-formative-assessments' => 0,
+                ];
+            }
+            if ('summative' === $event['assessment_option_name']) {
+                $methods[$methodId]['num-summative-assessments']++;
+            } else {
+                $methods[$methodId]['num-formative-assessments']++;
+            }
+        }
+
+        $methods = array_values($methods);
+        array_multisort(array_column($methods, 'id'), SORT_ASC, $methods);
+        return $methods;
     }
 
     /**
@@ -206,6 +246,5 @@ class CurriculumInventoryVerificationReportPreviewBuilder
         $resources = array_values($resources);
         array_multisort(array_column($resources, 'id'),  SORT_ASC, $resources);
         return $resources;
-
     }
 }

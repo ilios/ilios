@@ -70,6 +70,10 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
 
         $preview = $this->builder->build($report);
         $this->printInstructionalMethodCounts($output, $preview['instructional-method-counts']);
+        $this->printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
+            $output,
+            $preview['all-events-with-assessments-tagged-as-formative-or-summative']
+        );
         $this->printAllResourceTypesTable($output, $preview['all-resource-types']);
     }
 
@@ -115,6 +119,31 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
             '<options=bold>TOTAL</>',
             "<options=bold>${primaryMethodTotal}</>",
             "<options=bold>${nonPrimaryMethodTotal}</>"
+        ];
+        $table->addRow($summaryRow);
+        $table->render();
+    }
+
+    protected function printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(OutputInterface $output, array $data)
+    {
+        $table = new Table($output);
+        $table->setHeaders([
+            'Item Code',
+            'Assessment Method(s)',
+            'Number of Summative Assessments',
+            'Number of Formative Assessments'
+        ]);
+        $table->setHeaderTitle('Table 7: All Events with Assessments Tagged as Formative or Summative');
+        $table->addRows($data);
+        $table->addRow(new TableSeparator());
+        $summativeAssessmentsTotal = array_sum(array_column($data,'num-summative-assessments'));
+        $formativeAssessmentsTotal = array_sum(array_column($data,'num-formative-assessments'));
+
+        $summaryRow = [
+            '',
+            '<options=bold>TOTAL</>',
+            "<options=bold>${summativeAssessmentsTotal}</>",
+            "<options=bold>${formativeAssessmentsTotal}</>"
         ];
         $table->addRow($summaryRow);
         $table->render();
