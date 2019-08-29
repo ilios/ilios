@@ -8,6 +8,7 @@ use App\Entity\Manager\CurriculumInventoryReportManager;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -57,7 +58,7 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
 
         $preview = $this->builder->build($report);
 
-        // @todo print preview [ST 2019/08/28]
+        $this->printAllResourceTypesTable($output, $preview['all-resource-types']);
     }
 
     /**
@@ -71,5 +72,14 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
                 'Generates a preview of the verification report tables for a given curriculum inventory report'
             )
             ->addArgument('reportId', InputArgument::REQUIRED, 'The ID of the CI report to preview.');
+    }
+
+    protected function printAllResourceTypesTable(OutputInterface $output, array $data)
+    {
+        $table = new Table($output);
+        $table->setHeaders(['Item Code', 'Resource Types', 'Number of Events']);
+        $table->setHeaderTitle('Table 8: All Resource Types');
+        $table->addRows($data);
+        $table->render();
     }
 }
