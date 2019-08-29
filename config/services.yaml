@@ -62,7 +62,10 @@ services:
 
     App\Controller\SwaggerDocsController:
       public: true
-
+    App\Entity\Manager\AamcMethodManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\AamcMethod'
     App\Entity\Manager\AlertManager:
       public: true
       arguments:

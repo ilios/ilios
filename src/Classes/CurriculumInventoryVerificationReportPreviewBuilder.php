@@ -3,6 +3,7 @@
 namespace App\Classes;
 
 use App\Entity\CurriculumInventoryReportInterface;
+use App\Entity\Manager\AamcMethodManager;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
 
@@ -18,13 +19,20 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected $aggregator;
 
     /**
+     * @var AamcMethodManager
+     */
+    protected $methodManager;
+
+    /**
      * CurriculumInventoryVerificationReportBuilder constructor.
      *
      * @param Aggregator $aggregator
+     * @param AamcMethodManager $methodManager
      */
-    public function __construct(Aggregator $aggregator)
+    public function __construct(Aggregator $aggregator, AamcMethodManager $methodManager)
     {
         $this->aggregator = $aggregator;
+        $this->methodManager = $methodManager;
     }
 
     /**
@@ -108,8 +116,34 @@ class CurriculumInventoryVerificationReportPreviewBuilder
      */
     protected function getInstructionalMethodCounts(array $data): array
     {
-        // @todo implement [ST 2019/08/28]
-        return [];
+        $instructionalMethodsById = [];
+        $dtos = $this->methodManager->findDTOsBy([]);
+        foreach ($dtos as $dto) {
+            if (0 === strpos( $dto->id, 'IM')) { // ignore assessment methods
+                $instructionalMethodsById[$dto->id] = $dto;
+            }
+        }
+
+        $methods = [];
+        foreach ($data['events'] as $event) {
+            $methodId = $event['method_id'];
+            if (! array_key_exists($methodId, $instructionalMethodsById)) {
+                continue;
+            }
+            if (! array_key_exists($methodId, $methods)) {
+                $methods[$methodId] = [
+                    'id' => $methodId,
+                    'title' => $instructionalMethodsById[$methodId]->description,
+                    'num-events-primary-method' => 0,
+                    'num-events-non-primary-method' => 0,
+                ];
+            }
+            $methods[$methodId]['num-events-primary-method']++;
+        }
+
+        $methods = array_values($methods);
+        array_multisort(array_column($methods, 'id'),  SORT_ASC, $methods);
+        return $methods;
     }
 
     /**
@@ -119,6 +153,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
      */
     protected function getNonClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
+        $methods = [];
         // @todo implement [ST 2019/08/28]
         return [];
     }
@@ -168,6 +203,9 @@ class CurriculumInventoryVerificationReportPreviewBuilder
                 }
             }
         }
-        return array_values($resources);
+        $resources = array_values($resources);
+        array_multisort(array_column($resources, 'id'),  SORT_ASC, $resources);
+        return $resources;
+
     }
 }

@@ -4,11 +4,13 @@ namespace App\Command;
 
 use App\Classes\CurriculumInventoryVerificationReportPreviewBuilder;
 use App\Entity\CurriculumInventoryReportInterface;
+use App\Entity\Manager\AamcMethodManager;
 use App\Entity\Manager\CurriculumInventoryReportManager;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,6 +27,11 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
     protected $builder;
 
     /**
+     * @var AamcMethodManager
+     */
+    protected $methodManager;
+
+    /**
      * @var CurriculumInventoryReportManager
      */
     protected $reportManager;
@@ -33,13 +40,18 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
      * GenerateCurriculumInventoryVerificationReportCommand constructor.
      *
      * @param Aggregator $aggregator
+     * @param AamcMethodManager $methodManager
      * @param CurriculumInventoryReportManager $reportManager
      */
-    public function __construct(Aggregator $aggregator, CurriculumInventoryReportManager $reportManager)
+    public function __construct(
+        Aggregator $aggregator,
+        AamcMethodManager $methodManager,
+        CurriculumInventoryReportManager $reportManager)
     {
         parent::__construct();
-        $this->builder = new CurriculumInventoryVerificationReportPreviewBuilder($aggregator);
+        $this->methodManager = $methodManager;
         $this->reportManager = $reportManager;
+        $this->builder = new CurriculumInventoryVerificationReportPreviewBuilder($aggregator, $this->methodManager);
     }
 
     /**
@@ -57,7 +69,7 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         }
 
         $preview = $this->builder->build($report);
-
+        $this->printInstructionalMethodCounts($output, $preview['instructional-method-counts']);
         $this->printAllResourceTypesTable($output, $preview['all-resource-types']);
     }
 
@@ -80,6 +92,31 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $table->setHeaders(['Item Code', 'Resource Types', 'Number of Events']);
         $table->setHeaderTitle('Table 8: All Resource Types');
         $table->addRows($data);
+        $table->render();
+    }
+
+    protected function printInstructionalMethodCounts(OutputInterface $output, array $data)
+    {
+        $table = new Table($output);
+        $table->setHeaders([
+            'Item Code',
+            'Instructional Method',
+            'Number of Events Featuring This as the Primary Method',
+            'Number of Non-Primary Occurrences if This Method'
+            ]);
+        $table->setHeaderTitle('Table 4: Instructional Method Counts');
+        $table->addRows($data);
+        $table->addRow(new TableSeparator());
+        $primaryMethodTotal = array_sum(array_column($data,'num-events-primary-method'));
+        $nonPrimaryMethodTotal = array_sum(array_column($data,'num-events-non-primary-method'));
+
+        $summaryRow = [
+            '',
+            '<options=bold>TOTAL</>',
+            "<options=bold>${primaryMethodTotal}</>",
+            "<options=bold>${nonPrimaryMethodTotal}</>"
+        ];
+        $table->addRow($summaryRow);
         $table->render();
     }
 }
