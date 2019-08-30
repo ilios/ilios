@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Classes\CurriculumInventoryVerificationReportPreviewBuilder;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\Manager\AamcMethodManager;
+use App\Entity\Manager\AamcPcrsManager;
 use App\Entity\Manager\CurriculumInventoryReportManager;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
@@ -27,11 +28,6 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
     protected $builder;
 
     /**
-     * @var AamcMethodManager
-     */
-    protected $methodManager;
-
-    /**
      * @var CurriculumInventoryReportManager
      */
     protected $reportManager;
@@ -41,17 +37,22 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
      *
      * @param Aggregator $aggregator
      * @param AamcMethodManager $methodManager
+     * @param AamcPcrsManager $pcrsManager
      * @param CurriculumInventoryReportManager $reportManager
      */
     public function __construct(
         Aggregator $aggregator,
         AamcMethodManager $methodManager,
+        AamcPcrsManager $pcrsManager,
         CurriculumInventoryReportManager $reportManager)
     {
         parent::__construct();
-        $this->methodManager = $methodManager;
         $this->reportManager = $reportManager;
-        $this->builder = new CurriculumInventoryVerificationReportPreviewBuilder($aggregator, $this->methodManager);
+        $this->builder = new CurriculumInventoryVerificationReportPreviewBuilder(
+            $aggregator,
+            $methodManager,
+            $pcrsManager
+        );
     }
 
     /**
@@ -64,11 +65,12 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         /* @var CurriculumInventoryReportInterface $report */
         $report = $this->reportManager->findOneBy(['id' => $reportId]);
         if (! $report) {
-            $output->writeln("<error>No report with id #{$reportId} was found.</error>");
+            $output->writeln("<error>No report with id #${reportId} was found.</error>");
             return;
         }
 
         $preview = $this->builder->build($report);
+        $this->printProgramExpectationsMappedToPCRS($output, $preview['program-expectations-mapped-to-pcrs']);
         $this->printInstructionalMethodCounts($output, $preview['instructional-method-counts']);
         $this->printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
             $output,
@@ -146,6 +148,41 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
             "<options=bold>${formativeAssessmentsTotal}</>"
         ];
         $table->addRow($summaryRow);
+        $table->render();
+    }
+
+    protected function printProgramExpectationsMappedToPCRS(OutputInterface $output, array $data)
+    {
+        $table = new Table($output);
+        $table->setColumnMaxWidth(1, 80);
+        $table->setColumnMaxWidth(2, 80);
+
+        $table->setHeaders([
+            'Ilios Objective ID',
+            'Program Expectations',
+            'Physician Competency Reference Set (PCRS)',
+        ]);
+        $table->setHeaderTitle('Table 1: Program Expectations Mapped to PCRS');
+
+        $rows = [];
+        foreach ($data as $expectation) {
+            $rows[] = [
+                $expectation['programObjectiveId'],
+                trim(strip_tags($expectation['title'])),
+                implode("\n", $expectation['pcrs'])
+            ];
+        };
+
+        array_multisort(array_column($rows, 1), SORT_ASC, $rows);
+
+
+        $lastRow = end($rows);
+        foreach ($rows as $row) {
+            $table->addRow($row);
+            if ($lastRow !== $row) {
+                $table->addRow(new TableSeparator());
+            }
+        }
         $table->render();
     }
 }

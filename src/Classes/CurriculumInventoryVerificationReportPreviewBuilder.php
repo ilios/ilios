@@ -4,6 +4,7 @@ namespace App\Classes;
 
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\Manager\AamcMethodManager;
+use App\Entity\Manager\AamcPcrsManager;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
 
@@ -24,15 +25,22 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected $methodManager;
 
     /**
+     * @var AamcPcrsManager
+     */
+    protected $pcrsManager;
+
+    /**
      * CurriculumInventoryVerificationReportBuilder constructor.
      *
      * @param Aggregator $aggregator
      * @param AamcMethodManager $methodManager
+     * @param AamcPcrsManager $pcrsManager
      */
-    public function __construct(Aggregator $aggregator, AamcMethodManager $methodManager)
+    public function __construct(Aggregator $aggregator, AamcMethodManager $methodManager, AamcPcrsManager $pcrsManager)
     {
         $this->aggregator = $aggregator;
         $this->methodManager = $methodManager;
+        $this->pcrsManager = $pcrsManager;
     }
 
     /**
@@ -66,6 +74,9 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     }
 
 
+    /**
+     * @return array
+     */
     protected function getMethodMaps(): array
     {
         $methodMaps = [
@@ -92,8 +103,39 @@ class CurriculumInventoryVerificationReportPreviewBuilder
      */
     protected function getProgramExpectationsMappedToPCRS(array $data): array
     {
-        // @todo implement [ST 2019/08/28]
-        return [];
+        $dtos = $this->pcrsManager->findDTOsBy([]);
+        $pcrsMap = [];
+        foreach ($dtos as $dto) {
+            $pcrsMap[$dto->id] = $dto;
+        }
+        $programObjectivesMap = [];
+        foreach ($data['expectations']['program_objectives'] as $programObjective) {
+            $programObjectivesMap[$programObjective['id']] = $programObjective;
+        }
+
+        $expectations = [];
+        foreach ($data['expectations']['framework']['relations']['program_objectives_to_pcrs'] as $relation) {
+            $programObjectiveId = $relation['rel1'];
+            // @todo deal with duplicates here via ancestor id. [ST 2019/08/29]
+            $pcrsId = $relation['rel2'];
+            if (! array_key_exists($programObjectiveId, $expectations)) {
+                $expectations[$programObjectiveId] = [
+                    'programObjectiveId' => $programObjectiveId,
+                    'title' => $programObjectivesMap[$programObjectiveId]['title'],
+                    'pcrs' => []
+                ];
+            }
+            $expectations[$programObjectiveId]['pcrs'][]
+                = str_replace('aamc-pcrs-comp-', '', $pcrsId) . ': ' . $pcrsMap[$pcrsId]->description;
+        }
+
+        array_walk($expectations, function(&$expectation) {
+           sort($expectation['pcrs']);
+        });
+
+        array_multisort(array_column($expectations, 'id'),  SORT_ASC, $expectations);
+
+        return $expectations;
     }
 
     /**
@@ -107,7 +149,6 @@ class CurriculumInventoryVerificationReportPreviewBuilder
         return [];
     }
 
-
     /**
      * @param array $data
      *
@@ -118,7 +159,6 @@ class CurriculumInventoryVerificationReportPreviewBuilder
         // @todo implement [ST 2019/08/28]
         return [];
     }
-
 
     /**
      * @param array $data

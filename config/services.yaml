@@ -66,6 +66,10 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\AamcMethod'
+    App\Entity\Manager\AamcPcrsManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\AamcPcrs'
     App\Entity\Manager\AlertManager:
       public: true
       arguments:
