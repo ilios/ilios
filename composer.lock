@@ -1682,16 +1682,16 @@
         },
         {
             "name": "elasticsearch/elasticsearch",
-            "version": "v7.2.1",
+            "version": "v7.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elastic/elasticsearch-php.git",
-                "reference": "47af862a9a481bad1cac5bf3a5db8c80a9323497"
+                "reference": "eefeaa8decab4056d6457d179147cd885faf6653"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/47af862a9a481bad1cac5bf3a5db8c80a9323497",
-                "reference": "47af862a9a481bad1cac5bf3a5db8c80a9323497",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/eefeaa8decab4056d6457d179147cd885faf6653",
+                "reference": "eefeaa8decab4056d6457d179147cd885faf6653",
                 "shasum": ""
             },
             "require": {
@@ -1738,7 +1738,7 @@
                 "elasticsearch",
                 "search"
             ],
-            "time": "2019-08-27T12:20:01+00:00"
+            "time": "2019-08-30T08:20:06+00:00"
         },
         {
             "name": "eluceo/ical",
