@@ -1982,13 +1982,13 @@
             "authors": [
                 {
                     "name": "Neuman Vong",
-                    "role": "Developer",
-                    "email": "neuman+pear@twilio.com"
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
                 },
                 {
                     "name": "Anant Narayanan",
-                    "role": "Developer",
-                    "email": "anant@php.net"
+                    "email": "anant@php.net",
+                    "role": "Developer"
                 }
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
@@ -4472,16 +4472,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.23.6",
+            "version": "v3.23.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "5e454feb332edeac712f69c7ecb5937512acc2fc"
+                "reference": "7b737f607fbd0db9f43671ce7ffc0dc7e7e75a4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/5e454feb332edeac712f69c7ecb5937512acc2fc",
-                "reference": "5e454feb332edeac712f69c7ecb5937512acc2fc",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/7b737f607fbd0db9f43671ce7ffc0dc7e7e75a4f",
+                "reference": "7b737f607fbd0db9f43671ce7ffc0dc7e7e75a4f",
                 "shasum": ""
             },
             "type": "library",
@@ -4525,7 +4525,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2019-08-24T02:30:24+00:00"
+            "time": "2019-09-01T01:02:50+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
