@@ -116,11 +116,9 @@ class CurriculumInventoryVerificationReportPreviewBuilder
         $expectations = [];
         foreach ($data['expectations']['framework']['relations']['program_objectives_to_pcrs'] as $relation) {
             $programObjectiveId = $relation['rel1'];
-            // @todo deal with duplicates here via ancestor id. [ST 2019/08/29]
             $pcrsId = $relation['rel2'];
             if (! array_key_exists($programObjectiveId, $expectations)) {
                 $expectations[$programObjectiveId] = [
-                    'program_objective_id' => $programObjectiveId,
                     'title' => $programObjectivesMap[$programObjectiveId]['title'],
                     'pcrs' => []
                 ];
@@ -133,7 +131,20 @@ class CurriculumInventoryVerificationReportPreviewBuilder
            sort($expectation['pcrs']);
         });
 
-        array_multisort(array_column($expectations, 'program_objective_id'),  SORT_ASC, $expectations);
+        // de-dupe
+        $hashes = [];
+        $dedupedExpectations = [];
+        foreach ($expectations as $expectation) {
+            $hash = $expectation['title'] . ' || ' . implode(' || ', $expectation['pcrs']);
+            if (! in_array($hash, $hashes)) {
+                $dedupedExpectations[] = $expectation;
+                $hashes[] = $hash;
+            }
+        }
+
+        $expectations = $dedupedExpectations;
+
+        array_multisort(array_column($expectations, 'title'),  SORT_ASC, $expectations);
 
         return $expectations;
     }
