@@ -158,7 +158,7 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $table->setColumnMaxWidth(2, 60);
 
         $table->setHeaders([
-            'Ilios Objective ID',
+            'Program Expectations ID',
             'Program Expectations',
             'Physician Competency Reference Set (PCRS)',
         ]);
@@ -167,7 +167,7 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $rows = [];
         foreach ($data as $expectation) {
             $rows[] = [
-                $expectation['program_objective_id'],
+                'n/a',
                 trim(strip_tags($expectation['title'])),
                 implode("\n", $expectation['pcrs'])
             ];
