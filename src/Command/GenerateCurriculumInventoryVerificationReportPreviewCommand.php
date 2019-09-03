@@ -154,8 +154,8 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
     protected function printProgramExpectationsMappedToPCRS(OutputInterface $output, array $data)
     {
         $table = new Table($output);
-        $table->setColumnMaxWidth(1, 80);
-        $table->setColumnMaxWidth(2, 80);
+        $table->setColumnMaxWidth(1, 60);
+        $table->setColumnMaxWidth(2, 60);
 
         $table->setHeaders([
             'Ilios Objective ID',
