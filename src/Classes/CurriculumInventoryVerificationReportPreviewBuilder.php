@@ -133,7 +133,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
            sort($expectation['pcrs']);
         });
 
-        array_multisort(array_column($expectations, 'id'),  SORT_ASC, $expectations);
+        array_multisort(array_column($expectations, 'programObjectiveId'),  SORT_ASC, $expectations);
 
         return $expectations;
     }
