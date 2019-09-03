@@ -54,22 +54,22 @@ class CurriculumInventoryVerificationReportPreviewBuilder
         $data = $this->aggregator->getData($report);
         $methodMaps = $this->getMethodMaps();
 
-        $tables['program-expectations-mapped-to-pcrs'] = $this->getProgramExpectationsMappedToPCRS($data);
-        $tables['primary-instructional-methods-by-non-clerkship-sequence-blocks']
+        $tables['program_expectations_mapped_to_pcrs'] = $this->getProgramExpectationsMappedToPCRS($data);
+        $tables['primary_instructional_methods_by_non_clerkship_sequence_blocks']
             = $this->getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock($data);
-        $tables['non-clerkship-sequence-block-instructional-time']
+        $tables['non_clerkship_sequence_block_instructional_time']
             = $this->getNonClerkshipSequenceBlockInstructionalTime($data);
-        $tables['clerkship-sequence-block-instructional-time']
+        $tables['clerkship_sequence_block_instructional_time']
             = $this->getClerkshipSequenceBlockInstructionalTime($data);
-        $tables['instructional-method-counts']
-            = $this->getInstructionalMethodCounts($data, $methodMaps['instructionalMethods']);
-        $tables['non-clerkship-sequence-block-assessment-methods']
+        $tables['instructional_method_counts']
+            = $this->getInstructionalMethodCounts($data, $methodMaps['instructional_methods']);
+        $tables['non_clerkship_sequence_block_assessment_methods']
             = $this->getNonClerkshipSequenceBlockAssessmentMethods($data);
-        $tables['clerkship-sequence-block-assessment-methods']
+        $tables['clerkship_sequence_block_assessment_methods']
             = $this->getClerkshipSequenceBlockAssessmentMethods($data);
-        $tables['all-events-with-assessments-tagged-as-formative-or-summative']
-            = $this->getAllEventsWithAssessmentsTaggedAsFormativeOrSummative($data, $methodMaps['assessmentMethods']);
-        $tables['all-resource-types'] = $this->getAllResourceTypes($data);
+        $tables['all_events_with_assessments_tagged_as_formative_or_summative']
+            = $this->getAllEventsWithAssessmentsTaggedAsFormativeOrSummative($data, $methodMaps['assessment_methods']);
+        $tables['all_resource_types'] = $this->getAllResourceTypes($data);
         return $tables;
     }
 
@@ -80,16 +80,16 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getMethodMaps(): array
     {
         $methodMaps = [
-            'instructionalMethods' => [],
-            'assessmentMethods' => []
+            'instructional_methods' => [],
+            'assessment_methods' => []
         ];
 
         $dtos = $this->methodManager->findDTOsBy([]);
         foreach ($dtos as $dto) {
             if (0 === strpos( $dto->id, 'IM')) {
-                $methodMaps['instructionalMethods'][$dto->id] = $dto;
+                $methodMaps['instructional_methods'][$dto->id] = $dto;
             } else {
-                $methodMaps['assessmentMethods'][$dto->id] = $dto;
+                $methodMaps['assessment_methods'][$dto->id] = $dto;
 
             }
         }
@@ -120,7 +120,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
             $pcrsId = $relation['rel2'];
             if (! array_key_exists($programObjectiveId, $expectations)) {
                 $expectations[$programObjectiveId] = [
-                    'programObjectiveId' => $programObjectiveId,
+                    'program_objective_id' => $programObjectiveId,
                     'title' => $programObjectivesMap[$programObjectiveId]['title'],
                     'pcrs' => []
                 ];
@@ -133,7 +133,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
            sort($expectation['pcrs']);
         });
 
-        array_multisort(array_column($expectations, 'programObjectiveId'),  SORT_ASC, $expectations);
+        array_multisort(array_column($expectations, 'program_objective_id'),  SORT_ASC, $expectations);
 
         return $expectations;
     }
@@ -189,11 +189,11 @@ class CurriculumInventoryVerificationReportPreviewBuilder
                 $methods[$methodId] = [
                     'id' => $methodId,
                     'title' => $instructionalMethodsById[$methodId]->description,
-                    'num-events-primary-method' => 0,
-                    'num-events-non-primary-method' => 0,
+                    'num_events_primary_method' => 0,
+                    'num_events_non_primary_method' => 0,
                 ];
             }
-            $methods[$methodId]['num-events-primary-method']++;
+            $methods[$methodId]['num_events_primary_method']++;
         }
 
         $methods = array_values($methods);
@@ -244,14 +244,14 @@ class CurriculumInventoryVerificationReportPreviewBuilder
                 $methods[$methodId] = [
                     'id' => $methodId,
                     'title' => $assessmentMethodsById[$methodId]->description,
-                    'num-summative-assessments' => 0,
-                    'num-formative-assessments' => 0,
+                    'num_summative_assessments' => 0,
+                    'num_formative_assessments' => 0,
                 ];
             }
             if ('summative' === $event['assessment_option_name']) {
-                $methods[$methodId]['num-summative-assessments']++;
+                $methods[$methodId]['num_summative_assessments']++;
             } else {
-                $methods[$methodId]['num-formative-assessments']++;
+                $methods[$methodId]['num_formative_assessments']++;
             }
         }
 

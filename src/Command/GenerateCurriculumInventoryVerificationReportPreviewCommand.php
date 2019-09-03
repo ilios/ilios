@@ -70,13 +70,13 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         }
 
         $preview = $this->builder->build($report);
-        $this->printProgramExpectationsMappedToPCRS($output, $preview['program-expectations-mapped-to-pcrs']);
-        $this->printInstructionalMethodCounts($output, $preview['instructional-method-counts']);
+        $this->printProgramExpectationsMappedToPCRS($output, $preview['program_expectations_mapped_to_pcrs']);
+        $this->printInstructionalMethodCounts($output, $preview['instructional_method_counts']);
         $this->printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
             $output,
-            $preview['all-events-with-assessments-tagged-as-formative-or-summative']
+            $preview['all_events_with_assessments_tagged_as_formative_or_summative']
         );
-        $this->printAllResourceTypesTable($output, $preview['all-resource-types']);
+        $this->printAllResourceTypesTable($output, $preview['all_resource_types']);
     }
 
     /**
@@ -138,8 +138,8 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $table->setHeaderTitle('Table 7: All Events with Assessments Tagged as Formative or Summative');
         $table->addRows($data);
         $table->addRow(new TableSeparator());
-        $summativeAssessmentsTotal = array_sum(array_column($data,'num-summative-assessments'));
-        $formativeAssessmentsTotal = array_sum(array_column($data,'num-formative-assessments'));
+        $summativeAssessmentsTotal = array_sum(array_column($data,'num_summative_assessments'));
+        $formativeAssessmentsTotal = array_sum(array_column($data,'num_formative_assessments'));
 
         $summaryRow = [
             '',
@@ -167,7 +167,7 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $rows = [];
         foreach ($data as $expectation) {
             $rows[] = [
-                $expectation['programObjectiveId'],
+                $expectation['program_objective_id'],
                 trim(strip_tags($expectation['title'])),
                 implode("\n", $expectation['pcrs'])
             ];
