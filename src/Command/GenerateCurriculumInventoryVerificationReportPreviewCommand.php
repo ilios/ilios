@@ -44,8 +44,8 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         Aggregator $aggregator,
         AamcMethodManager $methodManager,
         AamcPcrsManager $pcrsManager,
-        CurriculumInventoryReportManager $reportManager)
-    {
+        CurriculumInventoryReportManager $reportManager
+    ) {
         parent::__construct();
         $this->reportManager = $reportManager;
         $this->builder = new CurriculumInventoryVerificationReportPreviewBuilder(
@@ -113,8 +113,8 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $table->setHeaderTitle('Table 4: Instructional Method Counts');
         $table->addRows($data);
         $table->addRow(new TableSeparator());
-        $primaryMethodTotal = array_sum(array_column($data,'num-events-primary-method'));
-        $nonPrimaryMethodTotal = array_sum(array_column($data,'num-events-non-primary-method'));
+        $primaryMethodTotal = array_sum(array_column($data, 'num-events-primary-method'));
+        $nonPrimaryMethodTotal = array_sum(array_column($data, 'num-events-non-primary-method'));
 
         $summaryRow = [
             '',
@@ -138,8 +138,8 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $table->setHeaderTitle('Table 7: All Events with Assessments Tagged as Formative or Summative');
         $table->addRows($data);
         $table->addRow(new TableSeparator());
-        $summativeAssessmentsTotal = array_sum(array_column($data,'num_summative_assessments'));
-        $formativeAssessmentsTotal = array_sum(array_column($data,'num_formative_assessments'));
+        $summativeAssessmentsTotal = array_sum(array_column($data, 'num_summative_assessments'));
+        $formativeAssessmentsTotal = array_sum(array_column($data, 'num_formative_assessments'));
 
         $summaryRow = [
             '',

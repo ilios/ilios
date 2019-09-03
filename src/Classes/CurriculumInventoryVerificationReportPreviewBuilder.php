@@ -86,11 +86,10 @@ class CurriculumInventoryVerificationReportPreviewBuilder
 
         $dtos = $this->methodManager->findDTOsBy([]);
         foreach ($dtos as $dto) {
-            if (0 === strpos( $dto->id, 'IM')) {
+            if (0 === strpos($dto->id, 'IM')) {
                 $methodMaps['instructional_methods'][$dto->id] = $dto;
             } else {
                 $methodMaps['assessment_methods'][$dto->id] = $dto;
-
             }
         }
         return $methodMaps;
@@ -127,8 +126,8 @@ class CurriculumInventoryVerificationReportPreviewBuilder
                 = str_replace('aamc-pcrs-comp-', '', $pcrsId) . ': ' . $pcrsMap[$pcrsId]->description;
         }
 
-        array_walk($expectations, function(&$expectation) {
-           sort($expectation['pcrs']);
+        array_walk($expectations, function (&$expectation) {
+            sort($expectation['pcrs']);
         });
 
         // de-dupe
@@ -144,7 +143,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
 
         $expectations = $dedupedExpectations;
 
-        array_multisort(array_column($expectations, 'title'),  SORT_ASC, $expectations);
+        array_multisort(array_column($expectations, 'title'), SORT_ASC, $expectations);
 
         return $expectations;
     }
@@ -208,7 +207,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
         }
 
         $methods = array_values($methods);
-        array_multisort(array_column($methods, 'id'),  SORT_ASC, $methods);
+        array_multisort(array_column($methods, 'id'), SORT_ASC, $methods);
         return $methods;
     }
 
@@ -279,7 +278,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     protected function getAllResourceTypes(array $data): array
     {
         $resources = [];
-        foreach($data['events'] as $event) {
+        foreach ($data['events'] as $event) {
             if (array_key_exists('resource_types', $event)) {
                 foreach ($event['resource_types'] as $resourceType) {
                     $resourceTypeId = $resourceType['resource_type_id'];
@@ -295,7 +294,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
             }
         }
         $resources = array_values($resources);
-        array_multisort(array_column($resources, 'id'),  SORT_ASC, $resources);
+        array_multisort(array_column($resources, 'id'), SORT_ASC, $resources);
         return $resources;
     }
 }
