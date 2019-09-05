@@ -11,6 +11,7 @@ use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -71,11 +72,16 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
 
         $preview = $this->builder->build($report);
         $this->printProgramExpectationsMappedToPCRS($output, $preview['program_expectations_mapped_to_pcrs']);
+        $this->printPrimaryInstructionalMethodsByNonClerkshipSequenceBlocks(
+            $output,
+            $preview['primary_instructional_methods_by_non_clerkship_sequence_blocks']
+        );
         $this->printInstructionalMethodCounts($output, $preview['instructional_method_counts']);
         $this->printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
             $output,
             $preview['all_events_with_assessments_tagged_as_formative_or_summative']
         );
+
         $this->printAllResourceTypesTable($output, $preview['all_resource_types']);
     }
 
@@ -183,6 +189,70 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
                 $table->addRow(new TableSeparator());
             }
         }
+        $table->render();
+    }
+
+    protected function printPrimaryInstructionalMethodsByNonClerkshipSequenceBlocks(OutputInterface $output, array $data)
+    {
+        $table = new Table($output);
+
+        $table->setHeaderTitle('Table 2: Primary Instructional Method by Non-Clerkship Sequence Block');
+        $table->setColumnMaxWidth(0, 60);
+        $table->setColumnMaxWidth(1, 15);
+        $titles = array_column($data['methods'], 'title');
+
+        $table->setHeaders([
+            [
+                new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
+                new TableCell('Academic Level', ['rowspan' => 2]),
+                new TableCell('Number of Formal Instructional Hours Per Course', ['colspan' => count($titles) + 1])
+            ],
+            array_merge($titles, ['Total'])
+        ]);
+
+        $methods = $data['methods'];
+
+        foreach ($data['clerkships'] as $clerkship) {
+            $hours = [];
+            foreach ($titles as $method) {
+                if (array_key_exists($method, $clerkship['instructional_methods'])) {
+                    $hours[] = round($clerkship['instructional_methods'][$method] / 60, 2);
+                } else {
+                    $hours[] = '';
+                }
+            }
+
+            $total = round($clerkship['total'] / 60, 2);
+            $table->addRow(
+                array_merge(
+                    [$clerkship['title'], $clerkship['level']],
+                    $hours,
+                    ["<options=bold>$total</>"]
+                )
+            );
+        }
+
+        $table->addRow(new TableSeparator());
+        $totals = [];
+        $sumTotal = 0;
+        foreach ($methods as $method) {
+            $totals[] = round($method['total'] / 60, 2);
+            $sumTotal += $method['total'];
+        }
+        $sumTotal = round($sumTotal / 60, 2);
+
+        array_walk($totals, function(&$total) {
+            $total = "<options=bold>${total}</>";
+        });
+
+        $table->addRow(
+            array_merge(
+                ['<options=bold>TOTAL</>', ''],
+                $totals,
+                [ "<options=bold>${sumTotal}</>" ]
+            )
+        );
+
         $table->render();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Classes;
 
 use App\Entity\CurriculumInventoryReportInterface;
+use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Entity\Manager\AamcMethodManager;
 use App\Entity\Manager\AamcPcrsManager;
 use App\Service\CurriculumInventory\Export\Aggregator;
@@ -14,6 +15,29 @@ use Exception;
  */
 class CurriculumInventoryVerificationReportPreviewBuilder
 {
+    /**
+     * @var array
+     */
+    const INSTRUCTIONAL_METHOD_GROUPS = [
+        'Lecture' => ['IM013'],
+        'Lab' => ['IM012'],
+        'Small group' => ['IM008', 'IM019', 'IM026'],
+        'Patient Contact' => ['IM002', 'IM003', 'IM018', 'IM024', 'IM025', 'IM029'],
+        'Other' => ['IM001', 'IM004', 'IM005', 'IM006', 'IM007', 'IM009', 'IM010', 'IM011', 'IM014', 'IM015', 'IM016', 'IM017', 'IM020', 'IM021', 'IM022', 'IM023', 'IM027', 'IM028', 'IM030', 'IM031'],
+    ];
+
+    /**
+     * @var array
+     */
+    const ASSESSMENT_METHOD_GROUPS = [
+        'Internal exams' => ['AM004', 'AM005'],
+        'Lab or practical exams' => ['AM019'],
+        'NBME subject exams' => ['AM008'],
+        'Faculty/ resident rating' => ['AM001', 'AM002', 'AM009', 'AM010', 'AM012', 'AM018'],
+        'OSCE/SP exam' => ['AM003'],
+        'Other' => ['AM006', 'AM007', 'AM013', 'AM014', 'AM016', 'AM017', 'AM019']
+    ];
+
     /**
      * @var Aggregator
      */
@@ -56,7 +80,10 @@ class CurriculumInventoryVerificationReportPreviewBuilder
 
         $tables['program_expectations_mapped_to_pcrs'] = $this->getProgramExpectationsMappedToPCRS($data);
         $tables['primary_instructional_methods_by_non_clerkship_sequence_blocks']
-            = $this->getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock($data);
+            = $this->getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(
+                $data,
+                $methodMaps['instructional_methods']
+        );
         $tables['non_clerkship_sequence_block_instructional_time']
             = $this->getNonClerkshipSequenceBlockInstructionalTime($data);
         $tables['clerkship_sequence_block_instructional_time']
@@ -153,10 +180,76 @@ class CurriculumInventoryVerificationReportPreviewBuilder
      *
      * @return array
      */
-    protected function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data): array
+    protected function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data, array $map): array
     {
-        // @todo implement [ST 2019/08/28]
-        return [];
+        /* @var CurriculumInventoryReportInterface $report */
+        $report = $data['report'];
+        $events = $data['events'];
+        $rows = [];
+        $methods = [];
+        $eventRefs = $data['sequence_block_references']['events'];
+
+        $methodsToGroups = $this->getReverseLookupMap(self::INSTRUCTIONAL_METHOD_GROUPS);
+
+        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
+        foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
+            $blockId = $sequenceBlock->getId();
+            $course = $sequenceBlock->getCourse();
+
+            if (empty($course)) {
+                continue;
+            }
+            // check if linked course is a clerkship. if not, move on.
+            if (! empty($course->getClerkshipType())) {
+                continue;
+            }
+
+            if (! array_key_exists($blockId, $eventRefs)) {
+                continue;
+            }
+
+            $row = [
+                'title' => $sequenceBlock->getTitle(),
+                'level' => $sequenceBlock->getAcademicLevel()->getLevel(),
+                'instructional_methods' => [],
+                'total' => 0,
+            ];
+
+            foreach ($eventRefs[$blockId] as $eventRef) {
+                $event = $events[$eventRef['event_id']];
+                $methodId = $event['method_id'];
+                if (0 === strpos($methodId, 'IM')) {
+                    $groups = $methodsToGroups[$methodId];
+                    foreach ($groups as $group) {
+                        if (! array_key_exists($group, $row['instructional_methods'])) {
+                            $row['instructional_methods'][$group] = 0;
+                        }
+                        $row['instructional_methods'][$group] += $event['duration'];
+                        $row['total'] += $event['duration'];
+
+                        if (! array_key_exists($group, $methods)) {
+                            $methods[$group] = [
+                                'title' => $group,
+                                'total' => 0,
+                            ];
+                        }
+                        $methods[$group]['total'] += $event['duration'];
+                    }
+                }
+            }
+            $rows[] = $row;
+        }
+        $methods = array_values($methods);
+        array_multisort(array_column($methods, 'title'), SORT_ASC, $methods);
+        array_multisort(
+            array_column($rows, 'level'),
+            SORT_ASC,
+            array_column($rows, 'title'),
+            SORT_ASC,
+            $rows
+        );
+
+        return ['methods' => $methods, 'clerkships' => $rows];
     }
 
     /**
@@ -296,5 +389,23 @@ class CurriculumInventoryVerificationReportPreviewBuilder
         $resources = array_values($resources);
         array_multisort(array_column($resources, 'id'), SORT_ASC, $resources);
         return $resources;
+    }
+
+    /**
+     * @param array $map
+     * @return array
+     */
+    protected function getReverseLookupMap(array $map): array
+    {
+        $reverseMap = [];
+        foreach ($map as $key => $values) {
+            foreach ($values as $value) {
+                if (! array_key_exists($value, $reverseMap)) {
+                    $reverseMap[$value] = [];
+                }
+                $reverseMap[$value][] = $key;
+            }
+        }
+        return $reverseMap;
     }
 }
