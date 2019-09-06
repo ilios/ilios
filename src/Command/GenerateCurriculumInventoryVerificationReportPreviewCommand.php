@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Classes\CurriculumInventoryVerificationReportPreviewBuilder;
+use App\Service\CurriculumInventoryVerificationReportPreviewBuilder;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\Manager\AamcMethodManager;
 use App\Entity\Manager\AamcPcrsManager;
@@ -36,24 +36,17 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
     /**
      * GenerateCurriculumInventoryVerificationReportCommand constructor.
      *
-     * @param Aggregator $aggregator
-     * @param AamcMethodManager $methodManager
-     * @param AamcPcrsManager $pcrsManager
      * @param CurriculumInventoryReportManager $reportManager
+     * @param CurriculumInventoryVerificationReportPreviewBuilder $builder
      */
     public function __construct(
-        Aggregator $aggregator,
-        AamcMethodManager $methodManager,
-        AamcPcrsManager $pcrsManager,
-        CurriculumInventoryReportManager $reportManager
+        CurriculumInventoryReportManager $reportManager,
+        CurriculumInventoryVerificationReportPreviewBuilder $builder
+
     ) {
         parent::__construct();
         $this->reportManager = $reportManager;
-        $this->builder = new CurriculumInventoryVerificationReportPreviewBuilder(
-            $aggregator,
-            $methodManager,
-            $pcrsManager
-        );
+        $this->builder = $builder;
     }
 
     /**

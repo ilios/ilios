@@ -268,6 +268,9 @@ services:
     App\Service\CasManager:
       public: true
 
+    App\Service\CurriculumInventoryVerificationReportPreviewBuilder:
+      ~
+
     App\Service\PermissionChecker:
       public: true
 

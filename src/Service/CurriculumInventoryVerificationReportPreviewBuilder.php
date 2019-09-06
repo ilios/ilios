@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Classes;
+namespace App\Service;
 
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
@@ -11,7 +11,7 @@ use Exception;
 
 /**
  * Class CurriculumInventoryVerificationReportBuilder
- * @package App\Classes
+ * @package App\Service
  */
 class CurriculumInventoryVerificationReportPreviewBuilder
 {
