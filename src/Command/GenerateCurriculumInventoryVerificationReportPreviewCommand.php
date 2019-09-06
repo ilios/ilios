@@ -4,10 +4,7 @@ namespace App\Command;
 
 use App\Service\CurriculumInventoryVerificationReportPreviewBuilder;
 use App\Entity\CurriculumInventoryReportInterface;
-use App\Entity\Manager\AamcMethodManager;
-use App\Entity\Manager\AamcPcrsManager;
 use App\Entity\Manager\CurriculumInventoryReportManager;
-use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -69,12 +66,27 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
             $output,
             $preview['primary_instructional_methods_by_non_clerkship_sequence_blocks']
         );
+        $this->printNonClerkshipSequenceBlockInstructionalTime(
+            $output,
+            $preview['non_clerkship_sequence_block_instructional_time']
+        );
+        $this->printClerkshipSequenceBlockInstructionalTime(
+            $output,
+            $preview['clerkship_sequence_block_instructional_time']
+        );
         $this->printInstructionalMethodCounts($output, $preview['instructional_method_counts']);
+        $this->printNonClerkshipSequenceBlockAssessmentMethods(
+            $output,
+            $preview['non_clerkship_sequence_block_assessment_methods']
+        );
+        $this->printClerkshipSequenceBlockAssessmentMethods(
+            $output,
+            $preview['clerkship_sequence_block_assessment_methods']
+        );
         $this->printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
             $output,
             $preview['all_events_with_assessments_tagged_as_formative_or_summative']
         );
-
         $this->printAllResourceTypesTable($output, $preview['all_resource_types']);
     }
 
@@ -279,6 +291,46 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
 
     /**
      * @param OutputInterface $output
+     * @param array $data
+     */
+    protected function printNonClerkshipSequenceBlockInstructionalTime(OutputInterface $output, array $data): void
+    {
+        $this->printTableHeadline($output, 'Table 3-A: Non-Clerkship Sequence Block Instructional Time');
+        // @todo implement [ST 2019/09/06]
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param array $data
+     */
+    protected function printClerkshipSequenceBlockInstructionalTime(OutputInterface $output, array $data): void
+    {
+        $this->printTableHeadline($output, 'Table 3-B: Clerkship Sequence Block Instructional Time');
+        // @todo implement [ST 2019/09/06]
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param array $data
+     */
+    protected function printNonClerkshipSequenceBlockAssessmentMethods(OutputInterface $output,array $data): void
+    {
+        $this->printTableHeadline($output, 'Table 5: Non-Clerkship Sequence Block Assessment Methods');
+        // @todo implement [ST 2019/09/06]
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param array $data
+     */
+    protected function printClerkshipSequenceBlockAssessmentMethods(OutputInterface $output, array $data): void
+    {
+        $this->printTableHeadline($output, 'Table 6: Clerkship Sequence Block Assessment Methods');
+        // @todo implement [ST 2019/09/06]
+    }
+
+    /**
+     * @param OutputInterface $output
      * @param $title
      */
     protected function printTableHeadline(OutputInterface $output, $title): void
@@ -287,4 +339,6 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $output->writeln("<options=bold,underscore>${title}</>");
         $output->writeln('');
     }
+
+
 }
