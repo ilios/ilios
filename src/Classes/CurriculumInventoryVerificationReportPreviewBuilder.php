@@ -23,7 +23,28 @@ class CurriculumInventoryVerificationReportPreviewBuilder
         'Lab' => ['IM012'],
         'Small group' => ['IM008', 'IM019', 'IM026'],
         'Patient Contact' => ['IM002', 'IM003', 'IM018', 'IM024', 'IM025', 'IM029'],
-        'Other' => ['IM001', 'IM004', 'IM005', 'IM006', 'IM007', 'IM009', 'IM010', 'IM011', 'IM014', 'IM015', 'IM016', 'IM017', 'IM020', 'IM021', 'IM022', 'IM023', 'IM027', 'IM028', 'IM030', 'IM031'],
+        'Other' => [
+            'IM001',
+            'IM004',
+            'IM005',
+            'IM006',
+            'IM007',
+            'IM009',
+            'IM010',
+            'IM011',
+            'IM014',
+            'IM015',
+            'IM016',
+            'IM017',
+            'IM020',
+            'IM021',
+            'IM022',
+            'IM023',
+            'IM027',
+            'IM028',
+            'IM030',
+            'IM031'
+        ],
     ];
 
     /**
@@ -80,10 +101,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
 
         $tables['program_expectations_mapped_to_pcrs'] = $this->getProgramExpectationsMappedToPCRS($data);
         $tables['primary_instructional_methods_by_non_clerkship_sequence_blocks']
-            = $this->getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(
-                $data,
-                $methodMaps['instructional_methods']
-        );
+            = $this->getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock($data);
         $tables['non_clerkship_sequence_block_instructional_time']
             = $this->getNonClerkshipSequenceBlockInstructionalTime($data);
         $tables['clerkship_sequence_block_instructional_time']
@@ -180,7 +198,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
      *
      * @return array
      */
-    protected function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data, array $map): array
+    protected function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data): array
     {
         /* @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];

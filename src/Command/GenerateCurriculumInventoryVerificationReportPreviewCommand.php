@@ -146,8 +146,10 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
      * @param OutputInterface $output
      * @param array $data
      */
-    protected function printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(OutputInterface $output, array $data): void
-    {
+    protected function printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
+        OutputInterface $output,
+        array $data
+    ): void {
         $this->printTableHeadline($output, 'Table 7: All Events with Assessments Tagged as Formative or Summative');
 
         $table = new Table($output);
@@ -216,8 +218,10 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
      * @param OutputInterface $output
      * @param array $data
      */
-    protected function printPrimaryInstructionalMethodsByNonClerkshipSequenceBlocks(OutputInterface $output, array $data): void
-    {
+    protected function printPrimaryInstructionalMethodsByNonClerkshipSequenceBlocks(
+        OutputInterface $output,
+        array $data
+    ): void {
         $titles = array_column($data['methods'], 'title');
         $methods = $data['methods'];
 
@@ -265,7 +269,7 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         }
         $sumTotal = round($sumTotal / 60, 2);
 
-        array_walk($totals, function(&$total) {
+        array_walk($totals, function (&$total) {
             $total = "<options=bold>${total}</>";
         });
 
