@@ -39,7 +39,6 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
     public function __construct(
         CurriculumInventoryReportManager $reportManager,
         CurriculumInventoryVerificationReportPreviewBuilder $builder
-
     ) {
         parent::__construct();
         $this->reportManager = $reportManager;
@@ -296,7 +295,16 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
     protected function printNonClerkshipSequenceBlockInstructionalTime(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 3-A: Non-Clerkship Sequence Block Instructional Time');
-        // @todo implement [ST 2019/09/06]
+        $table = new Table($output);
+        $table->setColumnMaxWidth(0, 60);
+        $table->setHeaders([
+            'Non-Clerkship Sequence Blocks',
+            'Academic Level',
+            'Total Weeks',
+            'Average Hours of Instruction Per Week'
+            ]);
+        $table->setRows($data);
+        $table->render();
     }
 
     /**
@@ -306,14 +314,23 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
     protected function printClerkshipSequenceBlockInstructionalTime(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 3-B: Clerkship Sequence Block Instructional Time');
-        // @todo implement [ST 2019/09/06]
+        $table = new Table($output);
+        $table->setColumnMaxWidth(0, 60);
+        $table->setHeaders([
+                'Clerkship Sequence Blocks',
+                'Academic Level',
+                'Total Weeks',
+                'Average Hours of Instruction Per Week'
+            ]);
+        $table->setRows($data);
+        $table->render();
     }
 
     /**
      * @param OutputInterface $output
      * @param array $data
      */
-    protected function printNonClerkshipSequenceBlockAssessmentMethods(OutputInterface $output,array $data): void
+    protected function printNonClerkshipSequenceBlockAssessmentMethods(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 5: Non-Clerkship Sequence Block Assessment Methods');
         // @todo implement [ST 2019/09/06]
@@ -339,6 +356,4 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $output->writeln("<options=bold,underscore>${title}</>");
         $output->writeln('');
     }
-
-
 }

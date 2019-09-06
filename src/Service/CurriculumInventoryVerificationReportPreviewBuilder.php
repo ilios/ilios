@@ -277,8 +277,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
      */
     protected function getNonClerkshipSequenceBlockInstructionalTime(array $data): array
     {
-        // @todo implement [ST 2019/08/28]
-        return [];
+        return $this->getSequenceBlockInstructionalTime($data, false);
     }
 
     /**
@@ -288,8 +287,70 @@ class CurriculumInventoryVerificationReportPreviewBuilder
      */
     protected function getClerkshipSequenceBlockInstructionalTime(array $data): array
     {
-        // @todo implement [ST 2019/08/28]
-        return [];
+        return $this->getSequenceBlockInstructionalTime($data, true);
+    }
+
+    /**
+     * @param array $data
+     * @param bool $clerkships
+     *
+     * @return array
+     */
+    protected function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
+    {
+        /* @var CurriculumInventoryReportInterface $report */
+        $report = $data['report'];
+        $events = $data['events'];
+        $rows = [];
+        $eventRefs = $data['sequence_block_references']['events'];
+
+        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
+        foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
+            $blockId = $sequenceBlock->getId();
+            $course  = $sequenceBlock->getCourse();
+            $duration = $sequenceBlock->getDuration();
+
+            if (! $duration) {
+                continue;
+            }
+
+            if (empty($course)) {
+                continue;
+            }
+
+            if ($clerkships === empty($course->getClerkshipType())) {
+                continue;
+            }
+
+            $weeks = round($duration / 5, 2);
+            $time = 0;
+            if (array_key_exists($blockId, $eventRefs)) {
+                foreach ($eventRefs[$blockId] as $eventRef) {
+                    $event = $events[$eventRef['event_id']];
+                    $methodId = $event['method_id'];
+                    if (0 === strpos($methodId, 'IM')) {
+                        $time += $event['duration'];
+                    }
+                }
+            }
+
+            $rows[] = [
+                'title' => $sequenceBlock->getTitle(),
+                'level' => $sequenceBlock->getAcademicLevel()->getLevel(),
+                'weeks' => $weeks,
+                'avg' => round(($time / 60) / ($duration / 5), 2),
+            ];
+        }
+
+        array_multisort(
+            array_column($rows, 'level'),
+            SORT_ASC,
+            array_column($rows, 'title'),
+            SORT_ASC,
+            $rows
+        );
+
+        return $rows;
     }
 
     /**
