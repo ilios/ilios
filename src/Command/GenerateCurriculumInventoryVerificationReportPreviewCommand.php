@@ -98,17 +98,28 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
             ->addArgument('reportId', InputArgument::REQUIRED, 'The ID of the CI report to preview.');
     }
 
-    protected function printAllResourceTypesTable(OutputInterface $output, array $data)
+    /**
+     * @param OutputInterface $output
+     * @param array $data
+     */
+    protected function printAllResourceTypesTable(OutputInterface $output, array $data): void
     {
+        $this->printTableHeadline($output, 'Table 8: All Resource Types');
+
         $table = new Table($output);
         $table->setHeaders(['Item Code', 'Resource Types', 'Number of Events']);
-        $table->setHeaderTitle('Table 8: All Resource Types');
         $table->addRows($data);
         $table->render();
     }
 
-    protected function printInstructionalMethodCounts(OutputInterface $output, array $data)
+    /**
+     * @param OutputInterface $output
+     * @param array $data
+     */
+    protected function printInstructionalMethodCounts(OutputInterface $output, array $data): void
     {
+        $this->printTableHeadline($output, 'Table 4: Instructional Method Counts');
+
         $table = new Table($output);
         $table->setHeaders([
             'Item Code',
@@ -116,7 +127,6 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
             'Number of Events Featuring This as the Primary Method',
             'Number of Non-Primary Occurrences if This Method'
             ]);
-        $table->setHeaderTitle('Table 4: Instructional Method Counts');
         $table->addRows($data);
         $table->addRow(new TableSeparator());
         $primaryMethodTotal = array_sum(array_column($data, 'num-events-primary-method'));
@@ -132,8 +142,14 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $table->render();
     }
 
-    protected function printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(OutputInterface $output, array $data)
+    /**
+     * @param OutputInterface $output
+     * @param array $data
+     */
+    protected function printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(OutputInterface $output, array $data): void
     {
+        $this->printTableHeadline($output, 'Table 7: All Events with Assessments Tagged as Formative or Summative');
+
         $table = new Table($output);
         $table->setHeaders([
             'Item Code',
@@ -141,7 +157,6 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
             'Number of Summative Assessments',
             'Number of Formative Assessments'
         ]);
-        $table->setHeaderTitle('Table 7: All Events with Assessments Tagged as Formative or Summative');
         $table->addRows($data);
         $table->addRow(new TableSeparator());
         $summativeAssessmentsTotal = array_sum(array_column($data, 'num_summative_assessments'));
@@ -157,8 +172,14 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $table->render();
     }
 
-    protected function printProgramExpectationsMappedToPCRS(OutputInterface $output, array $data)
+    /**
+     * @param OutputInterface $output
+     * @param array $data
+     */
+    protected function printProgramExpectationsMappedToPCRS(OutputInterface $output, array $data): void
     {
+        $this->printTableHeadline($output, 'Table 1: Program Expectations Mapped to PCRS');
+
         $table = new Table($output);
         $table->setColumnMaxWidth(1, 60);
         $table->setColumnMaxWidth(2, 60);
@@ -168,7 +189,6 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
             'Program Expectations',
             'Physician Competency Reference Set (PCRS)',
         ]);
-        $table->setHeaderTitle('Table 1: Program Expectations Mapped to PCRS');
 
         $rows = [];
         foreach ($data as $expectation) {
@@ -192,15 +212,20 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         $table->render();
     }
 
-    protected function printPrimaryInstructionalMethodsByNonClerkshipSequenceBlocks(OutputInterface $output, array $data)
+    /**
+     * @param OutputInterface $output
+     * @param array $data
+     */
+    protected function printPrimaryInstructionalMethodsByNonClerkshipSequenceBlocks(OutputInterface $output, array $data): void
     {
-        $table = new Table($output);
+        $titles = array_column($data['methods'], 'title');
+        $methods = $data['methods'];
 
-        $table->setHeaderTitle('Table 2: Primary Instructional Method by Non-Clerkship Sequence Block');
+        $this->printTableHeadline($output, 'Table 2: Primary Instructional Method by Non-Clerkship Sequence Block');
+
+        $table = new Table($output);
         $table->setColumnMaxWidth(0, 60);
         $table->setColumnMaxWidth(1, 15);
-        $titles = array_column($data['methods'], 'title');
-
         $table->setHeaders([
             [
                 new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
@@ -209,8 +234,6 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
             ],
             array_merge($titles, ['Total'])
         ]);
-
-        $methods = $data['methods'];
 
         foreach ($data['clerkships'] as $clerkship) {
             $hours = [];
@@ -233,6 +256,7 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         }
 
         $table->addRow(new TableSeparator());
+
         $totals = [];
         $sumTotal = 0;
         foreach ($methods as $method) {
@@ -254,5 +278,16 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         );
 
         $table->render();
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param $title
+     */
+    protected function printTableHeadline(OutputInterface $output, $title): void
+    {
+        $output->writeln('');
+        $output->writeln("<options=bold,underscore>${title}</>");
+        $output->writeln('');
     }
 }
