@@ -252,7 +252,6 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
                     $hours[] = '';
                 }
             }
-
             $total = round($clerkship['total'] / 60, 2);
             $table->addRow(
                 array_merge(
@@ -273,14 +272,14 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
         }
         $sumTotal = round($sumTotal / 60, 2);
 
-        array_walk($totals, function (&$total) {
-            $total = "<options=bold>${total}</>";
-        });
+
 
         $table->addRow(
             array_merge(
                 ['<options=bold>TOTAL</>', ''],
-                $totals,
+                array_map(function ($total) {
+                    return "<options=bold>${total}</>";
+                }, $totals),
                 [ "<options=bold>${sumTotal}</>" ]
             )
         );
@@ -333,7 +332,33 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
     protected function printNonClerkshipSequenceBlockAssessmentMethods(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 5: Non-Clerkship Sequence Block Assessment Methods');
-        // @todo implement [ST 2019/09/06]
+        $table = new Table($output);
+        $table->setColumnMaxWidth(0, 50);
+        $table->setColumnMaxWidth(1, 15);
+        $table->setHeaders([
+            [
+                new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
+                new TableCell('Academic Level', ['rowspan' => 2]),
+                new TableCell('Formative Asmt.', ['rowspan' => 2]),
+                new TableCell('Narrative Asmt.', ['rowspan' => 2]),
+                new TableCell('Included in Grade', ['colspan' => count($data['methods']) + 1 ]),
+            ],
+            array_merge(['Number of Exams'], $data['methods'])
+        ]);
+
+        foreach ($data['non_clerkships'] as $nonClerkship) {
+            $table->addRow(array_merge([
+                $nonClerkship['title'],
+                $nonClerkship['level'],
+                $nonClerkship['has_formative_assessments'] ? 'Y' : '',
+                $nonClerkship['has_narrative_assessments'] ? 'Y' : '',
+                $nonClerkship['num_exams'] ?: '',
+            ], array_map(function ($method) {
+                return $method ? 'X' : '';
+            }, $nonClerkship['methods'])));
+        }
+
+        $table->render();
     }
 
     /**

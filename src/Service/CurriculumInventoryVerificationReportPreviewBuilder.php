@@ -18,7 +18,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     /**
      * @var array
      */
-    const INSTRUCTIONAL_METHOD_GROUPS = [
+    const TABLE2_METHOD_MAP = [
         'Lecture' => ['IM013'],
         'Lab' => ['IM012'],
         'Small group' => ['IM008', 'IM019', 'IM026'],
@@ -43,20 +43,33 @@ class CurriculumInventoryVerificationReportPreviewBuilder
             'IM027',
             'IM028',
             'IM030',
-            'IM031'
+            'IM031',
         ],
     ];
 
     /**
      * @var array
      */
-    const ASSESSMENT_METHOD_GROUPS = [
+    const TABLE5_METHOD_MAP = [
         'Internal exams' => ['AM004', 'AM005'],
         'Lab or practical exams' => ['AM019'],
         'NBME subject exams' => ['AM008'],
+        'OSCE/SP exam' => ['AM003'],
+        'Faculty/ resident rating' => ['AM001', 'AM002', 'AM009', 'AM010', 'AM012', 'AM018'],
+        'Paper or oral pres.' => ['AM011', 'AM014', 'AM016'],
+        'Other' => ['AM006', 'AM007', 'AM013', 'AM017'],
+    ];
+
+    /**
+     * @var array
+     */
+    const TABLE6_METHOD_MAP = [
+        'NBME subject exams' => ['AM008'],
+        'Internal written exams' => ['AM004'],
+        'Oral Exam or Pres.' => ['AM005', 'AM011'],
         'Faculty/ resident rating' => ['AM001', 'AM002', 'AM009', 'AM010', 'AM012', 'AM018'],
         'OSCE/SP exam' => ['AM003'],
-        'Other' => ['AM006', 'AM007', 'AM013', 'AM014', 'AM016', 'AM017', 'AM019']
+        'Other' => ['AM006', 'AM007', 'AM013', 'AM014', 'AM016', 'AM017', 'AM019'],
     ];
 
     /**
@@ -126,7 +139,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
     {
         $methodMaps = [
             'instructional_methods' => [],
-            'assessment_methods' => []
+            'assessment_methods' => [],
         ];
 
         $dtos = $this->methodManager->findDTOsBy([]);
@@ -164,7 +177,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
             if (! array_key_exists($programObjectiveId, $expectations)) {
                 $expectations[$programObjectiveId] = [
                     'title' => $programObjectivesMap[$programObjectiveId]['title'],
-                    'pcrs' => []
+                    'pcrs' => [],
                 ];
             }
             $expectations[$programObjectiveId]['pcrs'][]
@@ -207,7 +220,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
         $methods = [];
         $eventRefs = $data['sequence_block_references']['events'];
 
-        $methodsToGroups = $this->getReverseLookupMap(self::INSTRUCTIONAL_METHOD_GROUPS);
+        $methodsToGroups = $this->getReverseLookupMap(self::TABLE2_METHOD_MAP);
 
         /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
         foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
@@ -390,9 +403,76 @@ class CurriculumInventoryVerificationReportPreviewBuilder
      */
     protected function getNonClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
-        $methods = [];
-        // @todo implement [ST 2019/08/28]
-        return [];
+        $rows = [];
+        $methods = array_keys(self::TABLE5_METHOD_MAP);
+        sort($methods);
+        $eventRefs = $data['sequence_block_references']['events'];
+        $events = $data['events'];
+
+        $methodsToGroups = $this->getReverseLookupMap(self::TABLE5_METHOD_MAP);
+
+        /* @var CurriculumInventoryReportInterface $report */
+        $report = $data['report'];
+        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
+        foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
+            $blockId = $sequenceBlock->getId();
+            $course = $sequenceBlock->getCourse();
+            if (! $course) {
+                continue;
+            }
+            $clerkshipType = $course->getClerkshipType();
+            if ($clerkshipType) {
+                continue;
+            }
+
+            $row = [
+                'title' => $sequenceBlock->getTitle(),
+                'level' => $sequenceBlock->getAcademicLevel()->getLevel(),
+                'methods' => array_fill_keys($methods, false),
+                'num_exams' => 0,
+                'has_formative_assessments' => false,
+                'has_narrative_assessments' => false,
+            ];
+            $hasAssessmentMethods = false;
+
+            if (array_key_exists($blockId, $eventRefs)) {
+                foreach ($eventRefs[$blockId] as $eventRef) {
+                    $event = $events[$eventRef['event_id']];
+                    $methodId = $event['method_id'];
+                    if (0 === strpos($methodId, 'AM')) {
+                        $hasAssessmentMethods = true;
+
+                        if ('formative' === $event['assessment_option_name']) {
+                            $row['has_formative_assessments'] = true;
+                        }
+                        if ('AM010' === $methodId) {
+                            $row['has_narrative_assessments'] = true;
+                        }
+
+                        if ('summative' === $event['assessment_option_name']) {
+                            $row['num_exams']++;
+                        }
+
+                        if (array_key_exists($methodId, $methodsToGroups)) {
+                            foreach ($methodsToGroups[$methodId] as $method) {
+                                $row['methods'][$method] = true;
+                            }
+                        }
+                    }
+                }
+            }
+            if ($hasAssessmentMethods) {
+                $rows[] = $row;
+            }
+        }
+        array_multisort(
+            array_column($rows, 'level'),
+            SORT_ASC,
+            array_column($rows, 'title'),
+            SORT_ASC,
+            $rows
+        );
+        return ['methods' => $methods, 'non_clerkships' => $rows];
     }
 
     /**
@@ -458,7 +538,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
                         $resources[$resourceTypeId] = [
                             'id' => $resourceTypeId,
                             'title' => $resourceType['resource_type_title'],
-                            'count' => 0
+                            'count' => 0,
                         ];
                     }
                     $resources[$resourceTypeId]['count']++;
