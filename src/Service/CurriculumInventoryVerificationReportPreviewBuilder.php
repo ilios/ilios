@@ -403,13 +403,35 @@ class CurriculumInventoryVerificationReportPreviewBuilder
      */
     protected function getNonClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
+        return $this->getSequenceBlockAssessmentMethods($data, self::TABLE5_METHOD_MAP, false);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    protected function getClerkshipSequenceBlockAssessmentMethods(array $data): array
+    {
+        return $this->getSequenceBlockAssessmentMethods($data, self::TABLE6_METHOD_MAP, true);
+    }
+
+    /**
+     * @param array $data
+     * @param array $map
+     * @param bool $clerkships
+     *
+     * @return array
+     */
+    protected function getSequenceBlockAssessmentMethods(array $data, array $map, $clerkships = false): array
+    {
         $rows = [];
-        $methods = array_keys(self::TABLE5_METHOD_MAP);
+        $methods = array_keys($map);
         sort($methods);
         $eventRefs = $data['sequence_block_references']['events'];
         $events = $data['events'];
 
-        $methodsToGroups = $this->getReverseLookupMap(self::TABLE5_METHOD_MAP);
+        $methodsToGroups = $this->getReverseLookupMap($map);
 
         /* @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];
@@ -421,7 +443,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
                 continue;
             }
             $clerkshipType = $course->getClerkshipType();
-            if ($clerkshipType) {
+            if ($clerkships === empty($clerkshipType)) {
                 continue;
             }
 
@@ -472,18 +494,7 @@ class CurriculumInventoryVerificationReportPreviewBuilder
             SORT_ASC,
             $rows
         );
-        return ['methods' => $methods, 'non_clerkships' => $rows];
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    protected function getClerkshipSequenceBlockAssessmentMethods(array $data): array
-    {
-        // @todo implement [ST 2019/08/28]
-        return [];
+        return ['methods' => $methods, 'rows' => $rows];
     }
 
     /**

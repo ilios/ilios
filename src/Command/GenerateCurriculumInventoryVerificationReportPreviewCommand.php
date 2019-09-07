@@ -346,16 +346,16 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
             array_merge(['Number of Exams'], $data['methods'])
         ]);
 
-        foreach ($data['non_clerkships'] as $nonClerkship) {
+        foreach ($data['rows'] as $row) {
             $table->addRow(array_merge([
-                $nonClerkship['title'],
-                $nonClerkship['level'],
-                $nonClerkship['has_formative_assessments'] ? 'Y' : '',
-                $nonClerkship['has_narrative_assessments'] ? 'Y' : '',
-                $nonClerkship['num_exams'] ?: '',
+                $row['title'],
+                $row['level'],
+                $row['has_formative_assessments'] ? 'Y' : '',
+                $row['has_narrative_assessments'] ? 'Y' : '',
+                $row['num_exams'] ?: '',
             ], array_map(function ($method) {
                 return $method ? 'X' : '';
-            }, $nonClerkship['methods'])));
+            }, $row['methods'])));
         }
 
         $table->render();
@@ -368,7 +368,32 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
     protected function printClerkshipSequenceBlockAssessmentMethods(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 6: Clerkship Sequence Block Assessment Methods');
-        // @todo implement [ST 2019/09/06]
+        $table = new Table($output);
+        $table->setColumnMaxWidth(0, 50);
+        $table->setColumnMaxWidth(1, 15);
+        $table->setHeaders([
+            [
+                new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
+                new TableCell('Academic Level', ['rowspan' => 2]),
+                new TableCell('Formative Asmt.', ['rowspan' => 2]),
+                new TableCell('Narrative Asmt.', ['rowspan' => 2]),
+                new TableCell('Included in Grade', ['colspan' => count($data['methods']) ]),
+            ],
+            $data['methods']
+        ]);
+
+        foreach ($data['rows'] as $row) {
+            $table->addRow(array_merge([
+                $row['title'],
+                $row['level'],
+                $row['has_formative_assessments'] ? 'Y' : '',
+                $row['has_narrative_assessments'] ? 'Y' : '',
+            ], array_map(function ($method) {
+                return $method ? 'X' : '';
+            }, $row['methods'])));
+        }
+
+        $table->render();
     }
 
     /**
