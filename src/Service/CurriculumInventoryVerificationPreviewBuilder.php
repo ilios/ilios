@@ -10,10 +10,10 @@ use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
 
 /**
- * Class CurriculumInventoryVerificationReportBuilder
+ * Class CurriculumInventoryVerificationBuilder
  * @package App\Service
  */
-class CurriculumInventoryVerificationReportPreviewBuilder
+class CurriculumInventoryVerificationPreviewBuilder
 {
     /**
      * @var array
