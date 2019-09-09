@@ -6,9 +6,11 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Service\CurriculumInventory\ReportRollover;
 use App\Service\CurriculumInventoryReportDecoratorFactory;
+use App\Service\CurriculumInventoryVerificationPreviewBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Exception;
 
 /**
  * Class CurriculumInventoryExport
@@ -24,13 +26,23 @@ class CurriculumInventoryReportController extends ApiController
     protected $factory;
 
     /**
+     * @var CurriculumInventoryVerificationPreviewBuilder
+     */
+    protected $builder;
+
+
+    /**
      * Inject this here so we don't have to overload the ApiController Constructor
      * @required
      * @param CurriculumInventoryReportDecoratorFactory $factory
+     * @param CurriculumInventoryVerificationPreviewBuilder $builder
      */
-    public function setup(CurriculumInventoryReportDecoratorFactory $factory)
-    {
+    public function setup(
+        CurriculumInventoryReportDecoratorFactory $factory,
+        CurriculumInventoryVerificationPreviewBuilder $builder
+    ) {
         $this->factory = $factory;
+        $this->builder = $builder;
     }
 
     /**
@@ -134,5 +146,32 @@ class CurriculumInventoryReportController extends ApiController
         $newReport = $rollover->rollover($report, $name, $description, $year);
 
         return $this->resultsToResponse([$newReport], $this->getPluralResponseKey($object), Response::HTTP_CREATED);
+    }
+
+    /**
+     * @param string $version
+     * @param string $object
+     * @param string $id
+     * @return string
+     * @throws Exception
+     */
+    public function verificationPreviewAction($version, $object, $id)
+    {
+        $manager = $this->getManager($object);
+
+        /* @var CurriculumInventoryReportInterface $report */
+        $report = $manager->findOneBy(['id' => $id]);
+
+        if (! $report) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
+
+        if (! $this->authorizationChecker->isGranted([AbstractVoter::VIEW], $report)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $tables = $this->builder->build($report);
+
+        return parent::createResponse('preview', [ $tables ], Response::HTTP_OK );
     }
 }
