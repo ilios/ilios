@@ -6,7 +6,7 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Service\CurriculumInventory\ReportRollover;
 use App\Service\CurriculumInventoryReportDecoratorFactory;
-use App\Service\CurriculumInventoryVerificationPreviewBuilder;
+use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26,7 +26,7 @@ class CurriculumInventoryReportController extends ApiController
     protected $factory;
 
     /**
-     * @var CurriculumInventoryVerificationPreviewBuilder
+     * @var VerificationPreviewBuilder
      */
     protected $builder;
 
@@ -34,12 +34,13 @@ class CurriculumInventoryReportController extends ApiController
     /**
      * Inject this here so we don't have to overload the ApiController Constructor
      * @required
+     *
      * @param CurriculumInventoryReportDecoratorFactory $factory
-     * @param CurriculumInventoryVerificationPreviewBuilder $builder
+     * @param VerificationPreviewBuilder $builder
      */
     public function setup(
         CurriculumInventoryReportDecoratorFactory $factory,
-        CurriculumInventoryVerificationPreviewBuilder $builder
+        VerificationPreviewBuilder $builder
     ) {
         $this->factory = $factory;
         $this->builder = $builder;

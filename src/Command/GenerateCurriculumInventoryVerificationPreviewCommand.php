@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Service\CurriculumInventoryVerificationPreviewBuilder;
+use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\Manager\CurriculumInventoryReportManager;
 use Exception;
@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
 {
     /**
-     * @var CurriculumInventoryVerificationPreviewBuilder
+     * @var VerificationPreviewBuilder
      */
     protected $builder;
 
@@ -34,11 +34,11 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
      * GenerateCurriculumInventoryVerificationPreviewCommand constructor.
      *
      * @param CurriculumInventoryReportManager $reportManager
-     * @param CurriculumInventoryVerificationPreviewBuilder $builder
+     * @param VerificationPreviewBuilder $builder
      */
     public function __construct(
         CurriculumInventoryReportManager $reportManager,
-        CurriculumInventoryVerificationPreviewBuilder $builder
+        VerificationPreviewBuilder $builder
     ) {
         parent::__construct();
         $this->reportManager = $reportManager;

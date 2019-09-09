@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\CurriculumInventory;
 
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
@@ -10,10 +10,10 @@ use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
 
 /**
- * Class CurriculumInventoryVerificationBuilder
+ * Class VerificationBuilder
  * @package App\Service
  */
-class CurriculumInventoryVerificationPreviewBuilder
+class VerificationPreviewBuilder
 {
     /**
      * @var array
