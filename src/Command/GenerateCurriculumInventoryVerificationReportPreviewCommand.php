@@ -133,8 +133,8 @@ class GenerateCurriculumInventoryVerificationReportPreviewCommand extends Comman
             ]);
         $table->addRows($data);
         $table->addRow(new TableSeparator());
-        $primaryMethodTotal = array_sum(array_column($data, 'num-events-primary-method'));
-        $nonPrimaryMethodTotal = array_sum(array_column($data, 'num-events-non-primary-method'));
+        $primaryMethodTotal = array_sum(array_column($data, 'num_events_primary_method'));
+        $nonPrimaryMethodTotal = array_sum(array_column($data, 'num_events_non_primary_method'));
 
         $summaryRow = [
             '',
