@@ -158,7 +158,7 @@ class CurriculumInventoryVerificationPreviewBuilder
      *
      * @return array
      */
-    protected function getProgramExpectationsMappedToPCRS(array $data): array
+    public function getProgramExpectationsMappedToPCRS(array $data): array
     {
         $dtos = $this->pcrsManager->findDTOsBy([]);
         $pcrsMap = [];
@@ -211,7 +211,7 @@ class CurriculumInventoryVerificationPreviewBuilder
      *
      * @return array
      */
-    protected function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data): array
+    public function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data): array
     {
         /* @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];
@@ -288,7 +288,7 @@ class CurriculumInventoryVerificationPreviewBuilder
      *
      * @return array
      */
-    protected function getNonClerkshipSequenceBlockInstructionalTime(array $data): array
+    public function getNonClerkshipSequenceBlockInstructionalTime(array $data): array
     {
         return $this->getSequenceBlockInstructionalTime($data, false);
     }
@@ -298,7 +298,7 @@ class CurriculumInventoryVerificationPreviewBuilder
      *
      * @return array
      */
-    protected function getClerkshipSequenceBlockInstructionalTime(array $data): array
+    public function getClerkshipSequenceBlockInstructionalTime(array $data): array
     {
         return $this->getSequenceBlockInstructionalTime($data, true);
     }
@@ -309,7 +309,7 @@ class CurriculumInventoryVerificationPreviewBuilder
      *
      * @return array
      */
-    protected function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
+    public function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
     {
         /* @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];
@@ -372,7 +372,7 @@ class CurriculumInventoryVerificationPreviewBuilder
      *
      * @return array
      */
-    protected function getInstructionalMethodCounts(array $data, array $instructionalMethodsById): array
+    public function getInstructionalMethodCounts(array $data, array $instructionalMethodsById): array
     {
         $methods = [];
         foreach ($data['events'] as $event) {
@@ -401,7 +401,7 @@ class CurriculumInventoryVerificationPreviewBuilder
      *
      * @return array
      */
-    protected function getNonClerkshipSequenceBlockAssessmentMethods(array $data): array
+    public function getNonClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
         return $this->getSequenceBlockAssessmentMethods($data, self::TABLE5_METHOD_MAP, false);
     }
@@ -411,9 +411,91 @@ class CurriculumInventoryVerificationPreviewBuilder
      *
      * @return array
      */
-    protected function getClerkshipSequenceBlockAssessmentMethods(array $data): array
+    public function getClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
         return $this->getSequenceBlockAssessmentMethods($data, self::TABLE6_METHOD_MAP, true);
+    }
+
+    /**
+     * @param array $data
+     * @param array $assessmentMethodsById
+     *
+     * @return array
+     */
+    public function getAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
+        array $data,
+        array $assessmentMethodsById
+    ): array {
+        $methods = [];
+        foreach ($data['events'] as $event) {
+            $methodId = $event['method_id'];
+            if (! array_key_exists($methodId, $assessmentMethodsById)) {
+                continue;
+            }
+            if (! array_key_exists($methodId, $methods)) {
+                $methods[$methodId] = [
+                    'id' => $methodId,
+                    'title' => $assessmentMethodsById[$methodId]->description,
+                    'num_summative_assessments' => 0,
+                    'num_formative_assessments' => 0,
+                ];
+            }
+            if ('summative' === $event['assessment_option_name']) {
+                $methods[$methodId]['num_summative_assessments']++;
+            } else {
+                $methods[$methodId]['num_formative_assessments']++;
+            }
+        }
+
+        $methods = array_values($methods);
+        array_multisort(array_column($methods, 'id'), SORT_ASC, $methods);
+        return $methods;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    public function getAllResourceTypes(array $data): array
+    {
+        $resources = [];
+        foreach ($data['events'] as $event) {
+            if (array_key_exists('resource_types', $event)) {
+                foreach ($event['resource_types'] as $resourceType) {
+                    $resourceTypeId = $resourceType['resource_type_id'];
+                    if (! array_key_exists($resourceTypeId, $resources)) {
+                        $resources[$resourceTypeId] = [
+                            'id' => $resourceTypeId,
+                            'title' => $resourceType['resource_type_title'],
+                            'count' => 0,
+                        ];
+                    }
+                    $resources[$resourceTypeId]['count']++;
+                }
+            }
+        }
+        $resources = array_values($resources);
+        array_multisort(array_column($resources, 'id'), SORT_ASC, $resources);
+        return $resources;
+    }
+
+    /**
+     * @param array $map
+     * @return array
+     */
+    protected function getReverseLookupMap(array $map): array
+    {
+        $reverseMap = [];
+        foreach ($map as $key => $values) {
+            foreach ($values as $value) {
+                if (! array_key_exists($value, $reverseMap)) {
+                    $reverseMap[$value] = [];
+                }
+                $reverseMap[$value][] = $key;
+            }
+        }
+        return $reverseMap;
     }
 
     /**
@@ -495,87 +577,5 @@ class CurriculumInventoryVerificationPreviewBuilder
             $rows
         );
         return ['methods' => $methods, 'rows' => $rows];
-    }
-
-    /**
-     * @param array $data
-     * @param array $assessmentMethodsById
-     *
-     * @return array
-     */
-    protected function getAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
-        array $data,
-        array $assessmentMethodsById
-    ): array {
-        $methods = [];
-        foreach ($data['events'] as $event) {
-            $methodId = $event['method_id'];
-            if (! array_key_exists($methodId, $assessmentMethodsById)) {
-                continue;
-            }
-            if (! array_key_exists($methodId, $methods)) {
-                $methods[$methodId] = [
-                    'id' => $methodId,
-                    'title' => $assessmentMethodsById[$methodId]->description,
-                    'num_summative_assessments' => 0,
-                    'num_formative_assessments' => 0,
-                ];
-            }
-            if ('summative' === $event['assessment_option_name']) {
-                $methods[$methodId]['num_summative_assessments']++;
-            } else {
-                $methods[$methodId]['num_formative_assessments']++;
-            }
-        }
-
-        $methods = array_values($methods);
-        array_multisort(array_column($methods, 'id'), SORT_ASC, $methods);
-        return $methods;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    protected function getAllResourceTypes(array $data): array
-    {
-        $resources = [];
-        foreach ($data['events'] as $event) {
-            if (array_key_exists('resource_types', $event)) {
-                foreach ($event['resource_types'] as $resourceType) {
-                    $resourceTypeId = $resourceType['resource_type_id'];
-                    if (! array_key_exists($resourceTypeId, $resources)) {
-                        $resources[$resourceTypeId] = [
-                            'id' => $resourceTypeId,
-                            'title' => $resourceType['resource_type_title'],
-                            'count' => 0,
-                        ];
-                    }
-                    $resources[$resourceTypeId]['count']++;
-                }
-            }
-        }
-        $resources = array_values($resources);
-        array_multisort(array_column($resources, 'id'), SORT_ASC, $resources);
-        return $resources;
-    }
-
-    /**
-     * @param array $map
-     * @return array
-     */
-    protected function getReverseLookupMap(array $map): array
-    {
-        $reverseMap = [];
-        foreach ($map as $key => $values) {
-            foreach ($values as $value) {
-                if (! array_key_exists($value, $reverseMap)) {
-                    $reverseMap[$value] = [];
-                }
-                $reverseMap[$value][] = $key;
-            }
-        }
-        return $reverseMap;
     }
 }
