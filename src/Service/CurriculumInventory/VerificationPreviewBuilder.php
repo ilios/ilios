@@ -135,32 +135,6 @@ class VerificationPreviewBuilder
         return $tables;
     }
 
-
-    /**
-     * @return array
-     */
-    protected function getMethodMaps(): array
-    {
-        if (! is_null($this->methodMaps)) {
-            return $this->methodMaps;
-        }
-
-        $this->methodMaps = [
-            'instructional_methods' => [],
-            'assessment_methods' => [],
-        ];
-
-        $dtos = $this->methodManager->findDTOsBy([]);
-        foreach ($dtos as $dto) {
-            if (0 === strpos($dto->id, 'IM')) {
-                $this->methodMaps['instructional_methods'][$dto->id] = $dto;
-            } else {
-                $this->methodMaps['assessment_methods'][$dto->id] = $dto;
-            }
-        }
-        return $this->methodMaps;
-    }
-
     /**
      * @param array $data
      *
@@ -583,5 +557,30 @@ class VerificationPreviewBuilder
             $rows
         );
         return ['methods' => $methods, 'rows' => $rows];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getMethodMaps(): array
+    {
+        if (! is_null($this->methodMaps)) {
+            return $this->methodMaps;
+        }
+
+        $this->methodMaps = [
+            'instructional_methods' => [],
+            'assessment_methods' => [],
+        ];
+
+        $dtos = $this->methodManager->findDTOsBy([]);
+        foreach ($dtos as $dto) {
+            if (0 === strpos($dto->id, 'IM')) {
+                $this->methodMaps['instructional_methods'][$dto->id] = $dto;
+            } else {
+                $this->methodMaps['assessment_methods'][$dto->id] = $dto;
+            }
+        }
+        return $this->methodMaps;
     }
 }
