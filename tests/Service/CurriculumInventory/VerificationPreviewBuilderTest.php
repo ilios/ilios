@@ -383,8 +383,29 @@ class VerificationPreviewBuilderTest extends TestCase
      */
     public function testGetAllResourceTypes()
     {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $data['events'] = [
+            [],
+            ['resource_types' => [
+                ['resource_type_id' => 1, 'resource_type_title' => 'Foo'],
+                ['resource_type_id' => 2, 'resource_type_title' => 'Bar']
+            ]],
+            ['resource_types' => [
+                ['resource_type_id' => 3, 'resource_type_title' => 'Baz'],
+                ['resource_type_id' => 2, 'resource_type_title' => 'Bar']
+            ]],
+            ['resource_types' => [
+                ['resource_type_id' => 3, 'resource_type_title' => 'Baz'],
+            ]],
+            ['resource_types' => [
+                ['resource_type_id' => 3, 'resource_type_title' => 'Baz'],
+            ]],
+        ];
+
+        $table = $this->builder->getAllResourceTypes($data);
+        $this->assertCount(3, $table);
+        $this->assertEquals($table[0], ['id' => 1, 'title' => 'Foo', 'count' => 1]);
+        $this->assertEquals($table[1], ['id' => 2, 'title' => 'Bar', 'count' => 2]);
+        $this->assertEquals($table[2], ['id' => 3, 'title' => 'Baz', 'count' => 3]);
     }
 
     /**
