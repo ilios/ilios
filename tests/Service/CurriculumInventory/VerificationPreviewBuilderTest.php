@@ -404,7 +404,6 @@ class VerificationPreviewBuilderTest extends TestCase
             'num_summative_assessments' => 2,
             'num_formative_assessments' => 0
         ], $rows[2]);
-
     }
 
     /**
@@ -460,8 +459,40 @@ class VerificationPreviewBuilderTest extends TestCase
      */
     public function testGetInstructionalMethodCounts()
     {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $data['events'] = [
+            ['method_id' => 'IM002'],
+            ['method_id' => 'IM002'],
+            ['method_id' => 'IM001'],
+            ['method_id' => 'IM007'],
+            ['method_id' => 'AM002'],
+            ['method_id' => 'IM008'],
+        ];
+        $rows = $this->builder->getInstructionalMethodCounts($data);
+        $this->assertCount(4, $rows);
+        $this->assertEquals([
+            'id' => 'IM001',
+            'title' => 'Case-Based Instruction/Learning',
+            'num_events_primary_method' => 1,
+            'num_events_non_primary_method' => 0
+        ], $rows[0]);
+        $this->assertEquals([
+            'id' => 'IM002',
+            'title' => 'Clinical Experience - Ambulatory',
+            'num_events_primary_method' => 2,
+            'num_events_non_primary_method' => 0
+        ], $rows[1]);
+        $this->assertEquals([
+            'id' => 'IM007',
+            'title' => 'Discussion, Large Group (>12)',
+            'num_events_primary_method' => 1,
+            'num_events_non_primary_method' => 0
+        ], $rows[2]);
+        $this->assertEquals([
+            'id' => 'IM008',
+            'title' => 'Discussion, Small Group (?12)',
+            'num_events_primary_method' => 1,
+            'num_events_non_primary_method' => 0
+        ], $rows[3]);
     }
 
     /**
