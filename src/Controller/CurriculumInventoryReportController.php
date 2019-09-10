@@ -173,6 +173,6 @@ class CurriculumInventoryReportController extends ApiController
 
         $tables = $this->builder->build($report);
 
-        return parent::createResponse('preview', [ $tables ], Response::HTTP_OK );
+        return parent::createResponse('preview', [ $tables ], Response::HTTP_OK);
     }
 }
