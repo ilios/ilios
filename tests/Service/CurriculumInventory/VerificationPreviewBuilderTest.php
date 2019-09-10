@@ -374,8 +374,37 @@ class VerificationPreviewBuilderTest extends TestCase
      */
     public function testGetAllEventsWithAssessmentsTaggedAsFormativeOrSummative()
     {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $data['events'] = [
+            ['method_id' => 'IM002'],
+            ['method_id' => 'AM002', 'assessment_option_name' => 'formative'],
+            ['method_id' => 'AM002', 'assessment_option_name' => 'formative'],
+            ['method_id' => 'AM002', 'assessment_option_name' => 'formative'],
+            ['method_id' => 'AM003', 'assessment_option_name' => 'summative'],
+            ['method_id' => 'AM003', 'assessment_option_name' => 'formative'],
+            ['method_id' => 'AM007', 'assessment_option_name' => 'summative'],
+            ['method_id' => 'AM007', 'assessment_option_name' => 'summative'],
+        ];
+        $rows = $this->builder->getAllEventsWithAssessmentsTaggedAsFormativeOrSummative($data);
+        $this->assertCount(3, $rows);
+        $this->assertEquals([
+            'id' => 'AM002',
+            'title' => 'Clinical Performance Rating/Checklist',
+            'num_summative_assessments' => 0,
+            'num_formative_assessments' => 3
+        ], $rows[0]);
+        $this->assertEquals([
+            'id' => 'AM003',
+            'title' => 'Exam - Institutionally Developed, Clinical Performance',
+            'num_summative_assessments' => 1,
+            'num_formative_assessments' => 1
+        ], $rows[1]);
+        $this->assertEquals([
+            'id' => 'AM007',
+            'title' => 'Exam - Licensure, Written/Computer-based',
+            'num_summative_assessments' => 2,
+            'num_formative_assessments' => 0
+        ], $rows[2]);
+
     }
 
     /**
@@ -401,11 +430,11 @@ class VerificationPreviewBuilderTest extends TestCase
             ]],
         ];
 
-        $table = $this->builder->getAllResourceTypes($data);
-        $this->assertCount(3, $table);
-        $this->assertEquals($table[0], ['id' => 1, 'title' => 'Foo', 'count' => 1]);
-        $this->assertEquals($table[1], ['id' => 2, 'title' => 'Bar', 'count' => 2]);
-        $this->assertEquals($table[2], ['id' => 3, 'title' => 'Baz', 'count' => 3]);
+        $rows = $this->builder->getAllResourceTypes($data);
+        $this->assertCount(3, $rows);
+        $this->assertEquals(['id' => 1, 'title' => 'Foo', 'count' => 1], $rows[0]);
+        $this->assertEquals(['id' => 2, 'title' => 'Bar', 'count' => 2], $rows[1]);
+        $this->assertEquals(['id' => 3, 'title' => 'Baz', 'count' => 3], $rows[2]);
     }
 
     /**
