@@ -88,6 +88,11 @@ class VerificationPreviewBuilder
     protected $pcrsManager;
 
     /**
+     * @var null|array
+     */
+    protected $methodMaps = null;
+
+    /**
      * CurriculumInventoryVerificationReportBuilder constructor.
      *
      * @param Aggregator $aggregator
@@ -110,7 +115,6 @@ class VerificationPreviewBuilder
     {
         $tables = [];
         $data = $this->aggregator->getData($report);
-        $methodMaps = $this->getMethodMaps();
 
         $tables['program_expectations_mapped_to_pcrs'] = $this->getProgramExpectationsMappedToPCRS($data);
         $tables['primary_instructional_methods_by_non_clerkship_sequence_blocks']
@@ -120,13 +124,13 @@ class VerificationPreviewBuilder
         $tables['clerkship_sequence_block_instructional_time']
             = $this->getClerkshipSequenceBlockInstructionalTime($data);
         $tables['instructional_method_counts']
-            = $this->getInstructionalMethodCounts($data, $methodMaps['instructional_methods']);
+            = $this->getInstructionalMethodCounts($data);
         $tables['non_clerkship_sequence_block_assessment_methods']
             = $this->getNonClerkshipSequenceBlockAssessmentMethods($data);
         $tables['clerkship_sequence_block_assessment_methods']
             = $this->getClerkshipSequenceBlockAssessmentMethods($data);
         $tables['all_events_with_assessments_tagged_as_formative_or_summative']
-            = $this->getAllEventsWithAssessmentsTaggedAsFormativeOrSummative($data, $methodMaps['assessment_methods']);
+            = $this->getAllEventsWithAssessmentsTaggedAsFormativeOrSummative($data);
         $tables['all_resource_types'] = $this->getAllResourceTypes($data);
         return $tables;
     }
@@ -137,7 +141,11 @@ class VerificationPreviewBuilder
      */
     protected function getMethodMaps(): array
     {
-        $methodMaps = [
+        if (! is_null($this->methodMaps)) {
+            return $this->methodMaps;
+        }
+
+        $this->methodMaps = [
             'instructional_methods' => [],
             'assessment_methods' => [],
         ];
@@ -145,12 +153,12 @@ class VerificationPreviewBuilder
         $dtos = $this->methodManager->findDTOsBy([]);
         foreach ($dtos as $dto) {
             if (0 === strpos($dto->id, 'IM')) {
-                $methodMaps['instructional_methods'][$dto->id] = $dto;
+                $this->methodMaps['instructional_methods'][$dto->id] = $dto;
             } else {
-                $methodMaps['assessment_methods'][$dto->id] = $dto;
+                $this->methodMaps['assessment_methods'][$dto->id] = $dto;
             }
         }
-        return $methodMaps;
+        return $this->methodMaps;
     }
 
     /**
@@ -368,12 +376,12 @@ class VerificationPreviewBuilder
 
     /**
      * @param array $data
-     * @param array $instructionalMethodsById
      *
      * @return array
      */
-    public function getInstructionalMethodCounts(array $data, array $instructionalMethodsById): array
+    public function getInstructionalMethodCounts(array $data): array
     {
+        $instructionalMethodsById = $this->getMethodMaps()['instructional_methods'];
         $methods = [];
         foreach ($data['events'] as $event) {
             $methodId = $event['method_id'];
@@ -418,14 +426,12 @@ class VerificationPreviewBuilder
 
     /**
      * @param array $data
-     * @param array $assessmentMethodsById
      *
      * @return array
      */
-    public function getAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
-        array $data,
-        array $assessmentMethodsById
-    ): array {
+    public function getAllEventsWithAssessmentsTaggedAsFormativeOrSummative(array $data): array
+    {
+        $assessmentMethodsById = $this->getMethodMaps()['assessment_methods'];
         $methods = [];
         foreach ($data['events'] as $event) {
             $methodId = $event['method_id'];
