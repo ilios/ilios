@@ -55,7 +55,7 @@ class VerificationPreviewBuilder
         'Lab or practical exams' => ['AM019'],
         'NBME subject exams' => ['AM008'],
         'OSCE/SP exam' => ['AM003'],
-        'Faculty/ resident rating' => ['AM001', 'AM002', 'AM009', 'AM010', 'AM012', 'AM018'],
+        'Faculty/resident rating' => ['AM001', 'AM002', 'AM009', 'AM010', 'AM012', 'AM018'],
         'Paper or oral pres.' => ['AM011', 'AM014', 'AM016'],
         'Other' => ['AM006', 'AM007', 'AM013', 'AM017'],
     ];
@@ -67,7 +67,7 @@ class VerificationPreviewBuilder
         'NBME subject exams' => ['AM008'],
         'Internal written exams' => ['AM004'],
         'Oral Exam or Pres.' => ['AM005', 'AM011'],
-        'Faculty/ resident rating' => ['AM001', 'AM002', 'AM009', 'AM010', 'AM012', 'AM018'],
+        'Faculty/resident rating' => ['AM001', 'AM002', 'AM009', 'AM010', 'AM012', 'AM018'],
         'OSCE/SP exam' => ['AM003'],
         'Other' => ['AM006', 'AM007', 'AM013', 'AM014', 'AM016', 'AM017', 'AM019'],
     ];
