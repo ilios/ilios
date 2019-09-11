@@ -999,13 +999,125 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $rows[2]);
     }
 
+    /*
+
+     */
     /**
      * @covers VerificationPreviewBuilder::getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock
      */
     public function testGetPrimaryInstructionalMethodsByNonClerkshipSequenceBlock()
     {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $level1 = new CurriculumInventoryAcademicLevel();
+        $level1->setLevel(1);
+        $level2 = new CurriculumInventoryAcademicLevel();
+        $level2->setLevel(2);
+
+        $report = new CurriculumInventoryReport();
+        $sequenceBlock1 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock1->setId(1);
+        $sequenceBlock1->setTitle('Zeppelin Non-Clerkship Level 2');
+        $sequenceBlock1->setAcademicLevel($level2);
+        $course1 = new Course();
+        $sequenceBlock1->setCourse($course1);
+
+        $sequenceBlock2 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock2->setId(2);
+        $sequenceBlock2->setTitle('Aardvark Non-Clerkship Level 2');
+        $sequenceBlock2->setAcademicLevel($level2);
+        $course2 = new Course();
+        $sequenceBlock2->setCourse($course2);
+
+        $sequenceBlock3 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock3->setId(3);
+        $sequenceBlock3->setTitle('Aardvark Non-Clerkship Level 1');
+        $sequenceBlock3->setAcademicLevel($level1);
+        $course3 = new Course();
+        $sequenceBlock3->setCourse($course3);
+
+        $sequenceBlock4 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock4->setId(4);
+        $sequenceBlock4->setTitle('No events Non-clerkship');
+        $sequenceBlock4->setAcademicLevel($level1);
+        $course4 = new Course();
+        $sequenceBlock4->setCourse($course4);
+
+        $sequenceBlock5 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock5->setId(5);
+        $sequenceBlock5->setTitle('Clerkship');
+        $sequenceBlock5->setAcademicLevel($level1);
+        $course5 = new Course();
+        $course5->setClerkshipType(new CourseClerkshipType());
+        $sequenceBlock5->setCourse($course5);
+
+        $report->setSequenceBlocks(
+            new ArrayCollection([
+                $sequenceBlock1,
+                $sequenceBlock2,
+                $sequenceBlock3,
+                $sequenceBlock4,
+                $sequenceBlock5
+            ])
+        );
+
+        $data = [
+            'report' => $report,
+            'events' => [
+                1 => ['method_id' => 'IM001', 'duration' => 60],
+                2 => ['method_id' => 'IM002', 'duration' => 120],
+                3 => ['method_id' => 'IM001', 'duration' => 90],
+                4 => ['method_id' => 'IM004', 'duration' => 240],
+                5 => ['method_id' => 'IM010', 'duration' => 30],
+                6 => ['method_id' => 'AM001'],
+            ],
+            'sequence_block_references' => [
+                'events' => [
+                    1 => [
+                        ['event_id' => 1],
+                        ['event_id' => 2],
+                    ],
+                    2 => [
+                        ['event_id' => 3],
+                        ['event_id' => 4],
+                    ],
+                    3 => [
+                        ['event_id' => 5],
+                        ['event_id' => 6],
+                    ]
+                ]
+            ]
+        ];
+        $rhett = $this->builder->getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock($data);
+        $methods = $rhett['methods'];
+        $this->assertCount(2, $methods);
+        $this->assertEquals(['title' => 'Other', 'total' => 420], $methods[0]);
+        $this->assertEquals(['title' => 'Patient Contact', 'total' => 120], $methods[1]);
+        $rows = $rhett['rows'];
+        $this->assertCount(3, $rows);
+        $this->assertEquals([
+            'title' => 'Aardvark Non-Clerkship Level 1',
+            'level' => 1,
+            'instructional_methods' => [
+                'Other' => 30,
+            ],
+            'total' => 30,
+        ], $rows[0]);
+        $this->assertEquals([
+            'title' => 'Aardvark Non-Clerkship Level 2',
+            'level' => 2,
+            'instructional_methods' => [
+                'Other' => 330,
+            ],
+            'total' => 330,
+        ], $rows[1]);
+        $this->assertEquals([
+            'title' => 'Zeppelin Non-Clerkship Level 2',
+            'level' => 2,
+            'instructional_methods' => [
+                'Other' => 60,
+                'Patient Contact' => 120
+            ],
+            'total' => 180,
+        ], $rows[2]);
     }
 
     /**
