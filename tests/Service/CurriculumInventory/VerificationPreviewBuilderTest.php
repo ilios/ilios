@@ -1018,20 +1018,36 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::getSequenceBlockInstructionalTime
-     */
-    public function testGetSequenceBlockInstructionalTime()
-    {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    /**
      * @covers VerificationPreviewBuilder::build
      */
     public function testBuild()
     {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $report = new CurriculumInventoryReport();
+        $this->aggregator->shouldReceive('getData')->andReturn([
+            'report' => $report,
+            'events' => [],
+            'sequence_block_references' => [
+                'events' => []
+            ],
+            'expectations' => [
+                'program_objectives' => [],
+                'framework' => [
+                    'relations' => [
+                        'program_objectives_to_pcrs' => [],
+                    ]
+                ],
+            ],
+        ]);
+        $rhett = $this->builder->build($report);
+        $this->assertCount(9, $rhett);
+        $this->assertArrayHasKey('program_expectations_mapped_to_pcrs', $rhett);
+        $this->assertArrayHasKey('primary_instructional_methods_by_non_clerkship_sequence_blocks', $rhett);
+        $this->assertArrayHasKey('non_clerkship_sequence_block_instructional_time', $rhett);
+        $this->assertArrayHasKey('clerkship_sequence_block_instructional_time', $rhett);
+        $this->assertArrayHasKey('instructional_method_counts', $rhett);
+        $this->assertArrayHasKey('non_clerkship_sequence_block_assessment_methods', $rhett);
+        $this->assertArrayHasKey('clerkship_sequence_block_assessment_methods', $rhett);
+        $this->assertArrayHasKey('all_events_with_assessments_tagged_as_formative_or_summative', $rhett);
+        $this->assertArrayHasKey('all_resource_types', $rhett);
     }
 }
