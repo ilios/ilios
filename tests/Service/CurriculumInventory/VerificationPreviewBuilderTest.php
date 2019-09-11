@@ -1013,8 +1013,57 @@ class VerificationPreviewBuilderTest extends TestCase
      */
     public function testGetProgramExpectationsMappedToPcrs()
     {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $data['expectations'] = [
+            'program_objectives' => [
+                ['id' => 1, 'title' => 'Objective 1'],
+                ['id' => 2, 'title' => 'Objective 2'],
+                ['id' => 3, 'title' => 'Objective 3'],
+                ['id' => 4, 'title' => 'Objective 4'],
+            ],
+            'framework' => [
+                'relations' => [
+                    'program_objectives_to_pcrs' => [
+                        ['rel1' => 1, 'rel2' => 'aamc-pcrs-comp-c0101'],
+                        ['rel1' => 1, 'rel2' => 'aamc-pcrs-comp-c0102'],
+                        ['rel1' => 2, 'rel2' => 'aamc-pcrs-comp-c0103'],
+                        ['rel1' => 3, 'rel2' => 'aamc-pcrs-comp-c0104'],
+                        ['rel1' => 3, 'rel2' => 'aamc-pcrs-comp-c0105'],
+                    ],
+                ]
+            ],
+        ];
+
+        $rows = $this->builder->getProgramExpectationsMappedToPcrs($data);
+        $this->assertCount(3, $rows);
+        $this->assertEquals('Objective 1', $rows[0]['title']);
+        $this->assertCount(2, $rows[0]['pcrs']);
+        $this->assertEquals(
+            'c0101: Perform all medical, diagnostic, and surgical procedures considered essential '
+            . 'for the area of practice',
+            $rows[0]['pcrs'][0]
+        );
+        $this->assertEquals(
+            'c0102: Gather essential and accurate information about patients and their conditions through '
+            . 'history-taking, physical examination, and the use of laboratory data, imaging and other tests',
+            $rows[0]['pcrs'][1]
+        );
+        $this->assertEquals('Objective 2', $rows[1]['title']);
+        $this->assertCount(1, $rows[1]['pcrs']);
+        $this->assertEquals(
+            'c0103: Organize and prioritize responsibilities to provide care that is safe, effective, and efficient',
+            $rows[1]['pcrs'][0]
+        );
+        $this->assertEquals('Objective 3', $rows[2]['title']);
+        $this->assertCount(2, $rows[2]['pcrs']);
+        $this->assertEquals(
+            'c0104: Interpret laboratory data, imaging studies, and other tests required for the area of practice',
+            $rows[2]['pcrs'][0]
+        );
+        $this->assertEquals(
+            'c0105: Make informed decisions about diagnostic and therapeutic interventions based on patient '
+             . 'information and preferences, up-to-date scientific evidence, and clinical judgment',
+            $rows[2]['pcrs'][1]
+        );
     }
 
     /**
