@@ -291,7 +291,7 @@ class VerificationPreviewBuilder
      *
      * @return array
      */
-    public function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
+    protected function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
     {
         /* @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];
