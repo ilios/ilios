@@ -60,7 +60,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         }
 
         $preview = $this->builder->build($report);
-        $this->printProgramExpectationsMappedToPCRS($output, $preview['program_expectations_mapped_to_pcrs']);
+        $this->printProgramExpectationsMappedToPcrs($output, $preview['program_expectations_mapped_to_pcrs']);
         $this->printPrimaryInstructionalMethodsByNonClerkshipSequenceBlocks(
             $output,
             $preview['primary_instructional_methods_by_non_clerkship_sequence_blocks']
@@ -182,7 +182,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
      * @param OutputInterface $output
      * @param array $data
      */
-    protected function printProgramExpectationsMappedToPCRS(OutputInterface $output, array $data): void
+    protected function printProgramExpectationsMappedToPcrs(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 1: Program Expectations Mapped to PCRS');
 

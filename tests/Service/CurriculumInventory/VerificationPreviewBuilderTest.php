@@ -1009,9 +1009,9 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::getProgramExpectationsMappedToPCRS
+     * @covers VerificationPreviewBuilder::getProgramExpectationsMappedToPcrs
      */
-    public function testGetProgramExpectationsMappedToPCRS()
+    public function testGetProgramExpectationsMappedToPcrs()
     {
         // @todo implement [ST 2019/09/09]
         $this->markTestIncomplete('This test has not been implemented yet.');

@@ -116,7 +116,7 @@ class VerificationPreviewBuilder
         $tables = [];
         $data = $this->aggregator->getData($report);
 
-        $tables['program_expectations_mapped_to_pcrs'] = $this->getProgramExpectationsMappedToPCRS($data);
+        $tables['program_expectations_mapped_to_pcrs'] = $this->getProgramExpectationsMappedToPcrs($data);
         $tables['primary_instructional_methods_by_non_clerkship_sequence_blocks']
             = $this->getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock($data);
         $tables['non_clerkship_sequence_block_instructional_time']
@@ -140,7 +140,7 @@ class VerificationPreviewBuilder
      *
      * @return array
      */
-    public function getProgramExpectationsMappedToPCRS(array $data): array
+    public function getProgramExpectationsMappedToPcrs(array $data): array
     {
         $dtos = $this->pcrsManager->findDTOsBy([]);
         $pcrsMap = [];
