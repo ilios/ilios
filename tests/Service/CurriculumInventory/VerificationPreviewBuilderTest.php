@@ -2,6 +2,11 @@
 
 namespace App\Tests\Service\CurriculumInventory;
 
+use App\Entity\Course;
+use App\Entity\CourseClerkshipType;
+use App\Entity\CurriculumInventoryAcademicLevel;
+use App\Entity\CurriculumInventoryReport;
+use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\DTO\AamcMethodDTO;
 use App\Entity\DTO\AamcPcrsDTO;
 use App\Entity\Manager\AamcMethodManager;
@@ -9,6 +14,7 @@ use App\Entity\Manager\AamcPcrsManager;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use App\Tests\TestCase;
+use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 
 /**
@@ -441,8 +447,137 @@ class VerificationPreviewBuilderTest extends TestCase
      */
     public function testGetClerkshipSequenceBlockAssessmentMethods()
     {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $data = [];
+
+        $level1 = new CurriculumInventoryAcademicLevel();
+        $level1->setLevel(1);
+        $level2 = new CurriculumInventoryAcademicLevel();
+        $level2->setLevel(2);
+
+        $sequenceBlock1 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock1->setId(1);
+        $sequenceBlock1->setTitle('Zeppelin Clerkship Year 2');
+        $sequenceBlock1->setAcademicLevel($level2);
+        $course1 = new Course();
+        $course1->setClerkshipType(new CourseClerkshipType());
+        $sequenceBlock1->setCourse($course1);
+
+        $sequenceBlock2 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock2->setId(2);
+        $sequenceBlock2->setTitle('Zeppelin Clerkship Year 1');
+        $sequenceBlock2->setAcademicLevel($level1);
+        $course2 = new Course();
+        $course2->setClerkshipType(new CourseClerkshipType());
+        $sequenceBlock2->setCourse($course2);
+
+        $sequenceBlock3 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock3->setId(3);
+        $sequenceBlock3->setTitle('Aardvark Clerkship Year 2');
+        $sequenceBlock3->setAcademicLevel($level2);
+        $course3 = new Course();
+        $course3->setClerkshipType(new CourseClerkshipType());
+        $sequenceBlock3->setCourse($course3);
+
+        $sequenceBlock4 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock4->setTitle('Non-clerkship');
+        $course4 = new Course();
+        $sequenceBlock4->setCourse($course4);
+
+        $report = new CurriculumInventoryReport();
+        $report->setSequenceBlocks(
+            new ArrayCollection([
+                $sequenceBlock1, $sequenceBlock2, $sequenceBlock3, $sequenceBlock4
+            ])
+        );
+
+        $data['report'] = $report;
+        $data['events'] = [
+            1 => ['event_id' => 1, 'method_id' => 'AM010', 'assessment_option_name' => 'formative'],
+            2 => ['event_id' => 2, 'method_id' => 'AM013', 'assessment_option_name' => 'formative'],
+            3 => ['event_id' => 3, 'method_id' => 'AM004', 'assessment_option_name' => 'summative'],
+            4 => ['event_id' => 4, 'method_id' => 'AM004', 'assessment_option_name' => 'formative'],
+            5 => ['event_id' => 5, 'method_id' => 'AM008', 'assessment_option_name' => 'summative'],
+            6 => ['event_id' => 6, 'method_id' => 'AM003', 'assessment_option_name' => 'summative'],
+            7 => ['event_id' => 7, 'method_id' => 'AM019', 'assessment_option_name' => 'formative'],
+            8 => ['event_id' => 8, 'method_id' => 'AM016', 'assessment_option_name' => 'summative'],
+        ];
+        $data['sequence_block_references']['events'] = [
+            1 => [
+                ['id' => 1, 'event_id' => 1],
+                ['id' => 1, 'event_id' => 2],
+            ],
+            2 => [
+                ['id' => 2, 'event_id' => 3],
+                ['id' => 2, 'event_id' => 4],
+                ['id' => 2, 'event_id' => 5],
+            ],
+            3 => [
+                ['id' => 3, 'event_id' => 6],
+                ['id' => 3, 'event_id' => 7],
+                ['id' => 3, 'event_id' => 8],
+            ]
+        ];
+
+        $rhett = $this->builder->getClerkshipSequenceBlockAssessmentMethods($data);
+
+        $methods = $rhett['methods'];
+        $rows = $rhett['rows'];
+        $this->assertCount(6, $methods);
+        $this->assertEquals([
+            'Faculty/resident rating',
+            'Internal written exams',
+            'NBME subject exams',
+            'OSCE/SP exam',
+            'Oral Exam or Pres.',
+            'Other',
+        ], $methods);
+        $this->assertEquals([
+            'title' => 'Zeppelin Clerkship Year 1',
+            'level' => 1,
+            'methods' => [
+                'Faculty/resident rating' => false,
+                'Internal written exams' => true,
+                'NBME subject exams' => true,
+                'OSCE/SP exam' => false,
+                'Oral Exam or Pres.' => false,
+                'Other' => false,
+            ],
+            'num_exams' => 2,
+            'has_formative_assessments' => true,
+            'has_narrative_assessments' => false,
+        ], $rows[0]);
+
+        $this->assertEquals([
+            'title' => 'Aardvark Clerkship Year 2',
+            'level' => 2,
+            'methods' => [
+                'Faculty/resident rating' => false,
+                'Internal written exams' => false,
+                'NBME subject exams' => false,
+                'OSCE/SP exam' => true,
+                'Oral Exam or Pres.' => false,
+                'Other' => true,
+            ],
+            'num_exams' => 2,
+            'has_formative_assessments' => true,
+            'has_narrative_assessments' => false,
+        ], $rows[1]);
+
+        $this->assertEquals([
+            'title' => 'Zeppelin Clerkship Year 2',
+            'level' => 2,
+            'methods' => [
+                'Faculty/resident rating' => true,
+                'Internal written exams' => false,
+                'NBME subject exams' => false,
+                'OSCE/SP exam' => false,
+                'Oral Exam or Pres.' => false,
+                'Other' => true,
+            ],
+            'num_exams' => 0,
+            'has_formative_assessments' => true,
+            'has_narrative_assessments' => true,
+        ], $rows[2]);
     }
 
     /**
@@ -450,8 +585,7 @@ class VerificationPreviewBuilderTest extends TestCase
      */
     public function testGetClerkshipSequenceBlockInstructionalTime()
     {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
+
     }
 
     /**
@@ -500,8 +634,140 @@ class VerificationPreviewBuilderTest extends TestCase
      */
     public function testGetNonClerkshipSequenceBlockAssessmentMethods()
     {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $data = [];
+
+        $level1 = new CurriculumInventoryAcademicLevel();
+        $level1->setLevel(1);
+        $level2 = new CurriculumInventoryAcademicLevel();
+        $level2->setLevel(2);
+
+        $sequenceBlock1 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock1->setId(1);
+        $sequenceBlock1->setTitle('Zeppelin Non-Clerkship Year 2');
+        $sequenceBlock1->setAcademicLevel($level2);
+        $course1 = new Course();
+        $sequenceBlock1->setCourse($course1);
+
+        $sequenceBlock2 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock2->setId(2);
+        $sequenceBlock2->setTitle('Zeppelin Non-Clerkship Year 1');
+        $sequenceBlock2->setAcademicLevel($level1);
+        $course2 = new Course();
+        $sequenceBlock2->setCourse($course2);
+
+        $sequenceBlock3 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock3->setId(3);
+        $sequenceBlock3->setTitle('Aardvark Non-Clerkship Year 2');
+        $sequenceBlock3->setAcademicLevel($level2);
+        $course3 = new Course();
+        $sequenceBlock3->setCourse($course3);
+
+        $sequenceBlock4 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock4->setTitle('Clerkship');
+        $course4 = new Course();
+        $course4->setClerkshipType(new CourseClerkshipType());
+        $sequenceBlock4->setCourse($course4);
+
+        $report = new CurriculumInventoryReport();
+        $report->setSequenceBlocks(
+            new ArrayCollection([
+                $sequenceBlock1, $sequenceBlock2, $sequenceBlock3, $sequenceBlock4
+            ])
+        );
+
+        $data['report'] = $report;
+        $data['events'] = [
+            1 => ['event_id' => 1, 'method_id' => 'AM010', 'assessment_option_name' => 'formative'],
+            2 => ['event_id' => 2, 'method_id' => 'AM013', 'assessment_option_name' => 'formative'],
+            3 => ['event_id' => 3, 'method_id' => 'AM004', 'assessment_option_name' => 'summative'],
+            4 => ['event_id' => 4, 'method_id' => 'AM004', 'assessment_option_name' => 'formative'],
+            5 => ['event_id' => 5, 'method_id' => 'AM008', 'assessment_option_name' => 'summative'],
+            6 => ['event_id' => 6, 'method_id' => 'AM003', 'assessment_option_name' => 'summative'],
+            7 => ['event_id' => 7, 'method_id' => 'AM019', 'assessment_option_name' => 'formative'],
+            8 => ['event_id' => 8, 'method_id' => 'AM016', 'assessment_option_name' => 'summative'],
+        ];
+        $data['sequence_block_references']['events'] = [
+            1 => [
+                ['id' => 1, 'event_id' => 1],
+                ['id' => 1, 'event_id' => 2],
+            ],
+            2 => [
+                ['id' => 2, 'event_id' => 3],
+                ['id' => 2, 'event_id' => 4],
+                ['id' => 2, 'event_id' => 5],
+            ],
+            3 => [
+                ['id' => 3, 'event_id' => 6],
+                ['id' => 3, 'event_id' => 7],
+                ['id' => 3, 'event_id' => 8],
+            ]
+        ];
+
+        $rhett = $this->builder->getNonClerkshipSequenceBlockAssessmentMethods($data);
+
+        $methods = $rhett['methods'];
+        $rows = $rhett['rows'];
+        $this->assertCount(7, $methods);
+        $this->assertEquals([
+            'Faculty/resident rating',
+            'Internal exams',
+            'Lab or practical exams',
+            'NBME subject exams',
+            'OSCE/SP exam',
+            'Other',
+            'Paper or oral pres.',
+        ], $methods);
+
+        $this->assertEquals([
+            'title' => 'Zeppelin Non-Clerkship Year 1',
+            'level' => 1,
+            'methods' => [
+                'Faculty/resident rating' => false,
+                'Internal exams' => true,
+                'Lab or practical exams' => false,
+                'NBME subject exams' => true,
+                'OSCE/SP exam' => false,
+                'Other' => false,
+                'Paper or oral pres.' => false,
+            ],
+            'num_exams' => 2,
+            'has_formative_assessments' => true,
+            'has_narrative_assessments' => false,
+        ], $rows[0]);
+
+        $this->assertEquals([
+            'title' => 'Aardvark Non-Clerkship Year 2',
+            'level' => 2,
+            'methods' => [
+                'Faculty/resident rating' => false,
+                'Internal exams' => false,
+                'Lab or practical exams' => true,
+                'NBME subject exams' => false,
+                'OSCE/SP exam' => true,
+                'Other' => false,
+                'Paper or oral pres.' => true,
+            ],
+            'num_exams' => 2,
+            'has_formative_assessments' => true,
+            'has_narrative_assessments' => false,
+        ], $rows[1]);
+
+        $this->assertEquals([
+            'title' => 'Zeppelin Non-Clerkship Year 2',
+            'level' => 2,
+            'methods' => [
+                'Faculty/resident rating' => true,
+                'Internal exams' => false,
+                'Lab or practical exams' => false,
+                'NBME subject exams' => false,
+                'OSCE/SP exam' => false,
+                'Other' => true,
+                'Paper or oral pres.' => false,
+            ],
+            'num_exams' => 0,
+            'has_formative_assessments' => true,
+            'has_narrative_assessments' => true,
+        ], $rows[2]);
     }
 
     /**
