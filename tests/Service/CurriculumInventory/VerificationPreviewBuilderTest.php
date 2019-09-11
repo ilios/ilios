@@ -585,7 +585,119 @@ class VerificationPreviewBuilderTest extends TestCase
      */
     public function testGetClerkshipSequenceBlockInstructionalTime()
     {
+        $data = [];
 
+        $level1 = new CurriculumInventoryAcademicLevel();
+        $level1->setLevel(1);
+        $level2 = new CurriculumInventoryAcademicLevel();
+        $level2->setLevel(2);
+
+        $sequenceBlock1 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock1->setId(1);
+        $sequenceBlock1->setDuration(30);
+        $sequenceBlock1->setTitle('Zeppelin Clerkship Year 2');
+        $sequenceBlock1->setAcademicLevel($level2);
+        $course1 = new Course();
+        $course1->setClerkshipType(new CourseClerkshipType());
+        $sequenceBlock1->setCourse($course1);
+
+        $sequenceBlock2 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock2->setId(2);
+        $sequenceBlock2->setDuration(5);
+        $sequenceBlock2->setTitle('Zeppelin Clerkship Year 1');
+        $sequenceBlock2->setAcademicLevel($level1);
+        $course2 = new Course();
+        $course2->setClerkshipType(new CourseClerkshipType());
+        $sequenceBlock2->setCourse($course2);
+
+        $sequenceBlock3 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock3->setId(3);
+        $sequenceBlock3->setDuration(7);
+        $sequenceBlock3->setTitle('Aardvark Clerkship Year 2');
+        $sequenceBlock3->setAcademicLevel($level2);
+        $course3 = new Course();
+        $course3->setClerkshipType(new CourseClerkshipType());
+        $sequenceBlock3->setCourse($course3);
+
+        $sequenceBlock4 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock4->setDuration(5);
+        $sequenceBlock4->setTitle('Non-Clerkship');
+        $course4 = new Course();
+        $sequenceBlock4->setCourse($course4);
+
+        $sequenceBlock5 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock5->setDuration(0);
+        $sequenceBlock5->setTitle('No Duration');
+        $sequenceBlock5->setAcademicLevel($level2);
+        $course5 = new Course();
+        $course5->setClerkshipType(new CourseClerkshipType());
+        $sequenceBlock5->setCourse($course5);
+
+        $sequenceBlock6 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock6->setDuration(10);
+        $sequenceBlock6->setTitle('No Course');
+        $sequenceBlock6->setAcademicLevel($level2);
+
+        $report = new CurriculumInventoryReport();
+        $report->setSequenceBlocks(
+            new ArrayCollection([
+                $sequenceBlock1,
+                $sequenceBlock2,
+                $sequenceBlock3,
+                $sequenceBlock4,
+                $sequenceBlock5,
+                $sequenceBlock6,
+            ])
+        );
+
+        $data['report'] = $report;
+        $data['events'] = [
+            1 => ['event_id' => 1, 'duration' => 600, 'method_id' => 'IM008'],
+            2 => ['event_id' => 2, 'duration' => 60, 'method_id' => 'AM013'],
+            3 => ['event_id' => 3, 'duration' => 120,'method_id' => 'IM004'],
+            4 => ['event_id' => 4, 'duration' => 600, 'method_id' => 'IM001'],
+            5 => ['event_id' => 5, 'duration' => 90, 'method_id' => 'IM008'],
+            6 => ['event_id' => 6, 'duration' => 120, 'method_id' => 'IM026'],
+            7 => ['event_id' => 7, 'duration' => 300, 'method_id' => 'IM019'],
+            8 => ['event_id' => 8, 'duration' => 90, 'method_id' => 'AM012'],
+        ];
+        $data['sequence_block_references']['events'] = [
+            1 => [
+                ['id' => 1, 'event_id' => 1],
+                ['id' => 1, 'event_id' => 2],
+            ],
+            2 => [
+                ['id' => 2, 'event_id' => 3],
+                ['id' => 2, 'event_id' => 4],
+                ['id' => 2, 'event_id' => 5],
+            ],
+            3 => [
+                ['id' => 3, 'event_id' => 6],
+                ['id' => 3, 'event_id' => 7],
+                ['id' => 3, 'event_id' => 8],
+            ]
+        ];
+
+        $rows = $this->builder->getClerkshipSequenceBlockInstructionalTime($data);
+        $this->assertCount(3, $rows);
+        $this->assertEquals([
+            'title' => 'Zeppelin Clerkship Year 1',
+            'level' => 1,
+            'weeks' => 1.0,
+            'avg' => 13.5,
+        ], $rows[0]);
+        $this->assertEquals([
+            'title' => 'Aardvark Clerkship Year 2',
+            'level' => 2,
+            'weeks' => 1.4,
+            'avg' => 5,
+        ], $rows[1]);
+        $this->assertEquals([
+            'title' => 'Zeppelin Clerkship Year 2',
+            'level' => 2,
+            'weeks' => 6.0,
+            'avg' => 1.67,
+        ], $rows[2]);
     }
 
     /**
@@ -775,8 +887,116 @@ class VerificationPreviewBuilderTest extends TestCase
      */
     public function testGetNonClerkshipSequenceBlockInstructionalTime()
     {
-        // @todo implement [ST 2019/09/09]
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $data = [];
+
+        $level1 = new CurriculumInventoryAcademicLevel();
+        $level1->setLevel(1);
+        $level2 = new CurriculumInventoryAcademicLevel();
+        $level2->setLevel(2);
+
+        $sequenceBlock1 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock1->setId(1);
+        $sequenceBlock1->setDuration(30);
+        $sequenceBlock1->setTitle('Zeppelin Non-Clerkship Year 2');
+        $sequenceBlock1->setAcademicLevel($level2);
+        $course1 = new Course();
+        $sequenceBlock1->setCourse($course1);
+
+        $sequenceBlock2 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock2->setId(2);
+        $sequenceBlock2->setDuration(5);
+        $sequenceBlock2->setTitle('Zeppelin Non-Clerkship Year 1');
+        $sequenceBlock2->setAcademicLevel($level1);
+        $course2 = new Course();
+        $sequenceBlock2->setCourse($course2);
+
+        $sequenceBlock3 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock3->setId(3);
+        $sequenceBlock3->setDuration(7);
+        $sequenceBlock3->setTitle('Aardvark Non-Clerkship Year 2');
+        $sequenceBlock3->setAcademicLevel($level2);
+        $course3 = new Course();
+        $sequenceBlock3->setCourse($course3);
+
+        $sequenceBlock4 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock4->setDuration(5);
+        $sequenceBlock4->setTitle('Clerkship');
+        $course4 = new Course();
+        $course4->setClerkshipType(new CourseClerkshipType());
+        $sequenceBlock4->setCourse($course4);
+
+        $sequenceBlock5 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock5->setDuration(0);
+        $sequenceBlock5->setTitle('No Duration');
+        $sequenceBlock5->setAcademicLevel($level2);
+        $course5 = new Course();
+        $sequenceBlock5->setCourse($course5);
+
+        $sequenceBlock6 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock6->setDuration(10);
+        $sequenceBlock6->setTitle('No Course');
+        $sequenceBlock6->setAcademicLevel($level2);
+
+        $report = new CurriculumInventoryReport();
+        $report->setSequenceBlocks(
+            new ArrayCollection([
+                $sequenceBlock1,
+                $sequenceBlock2,
+                $sequenceBlock3,
+                $sequenceBlock4,
+                $sequenceBlock5,
+                $sequenceBlock6,
+            ])
+        );
+
+        $data['report'] = $report;
+        $data['events'] = [
+            1 => ['event_id' => 1, 'duration' => 600, 'method_id' => 'IM008'],
+            2 => ['event_id' => 2, 'duration' => 60, 'method_id' => 'AM013'],
+            3 => ['event_id' => 3, 'duration' => 120,'method_id' => 'IM004'],
+            4 => ['event_id' => 4, 'duration' => 600, 'method_id' => 'IM001'],
+            5 => ['event_id' => 5, 'duration' => 90, 'method_id' => 'IM008'],
+            6 => ['event_id' => 6, 'duration' => 120, 'method_id' => 'IM026'],
+            7 => ['event_id' => 7, 'duration' => 300, 'method_id' => 'IM019'],
+            8 => ['event_id' => 8, 'duration' => 90, 'method_id' => 'AM012'],
+        ];
+        $data['sequence_block_references']['events'] = [
+            1 => [
+                ['id' => 1, 'event_id' => 1],
+                ['id' => 1, 'event_id' => 2],
+            ],
+            2 => [
+                ['id' => 2, 'event_id' => 3],
+                ['id' => 2, 'event_id' => 4],
+                ['id' => 2, 'event_id' => 5],
+            ],
+            3 => [
+                ['id' => 3, 'event_id' => 6],
+                ['id' => 3, 'event_id' => 7],
+                ['id' => 3, 'event_id' => 8],
+            ]
+        ];
+
+        $rows = $this->builder->getNonClerkshipSequenceBlockInstructionalTime($data);
+        $this->assertCount(3, $rows);
+        $this->assertEquals([
+            'title' => 'Zeppelin Non-Clerkship Year 1',
+            'level' => 1,
+            'weeks' => 1.0,
+            'avg' => 13.5,
+        ], $rows[0]);
+        $this->assertEquals([
+            'title' => 'Aardvark Non-Clerkship Year 2',
+            'level' => 2,
+            'weeks' => 1.4,
+            'avg' => 5,
+        ], $rows[1]);
+        $this->assertEquals([
+            'title' => 'Zeppelin Non-Clerkship Year 2',
+            'level' => 2,
+            'weeks' => 6.0,
+            'avg' => 1.67,
+        ], $rows[2]);
     }
 
     /**
