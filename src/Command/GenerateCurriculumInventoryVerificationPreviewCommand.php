@@ -243,7 +243,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             array_merge($titles, ['Total'])
         ]);
 
-        foreach ($data['clerkships'] as $clerkship) {
+        foreach ($data['rows'] as $clerkship) {
             $hours = [];
             foreach ($titles as $method) {
                 if (array_key_exists($method, $clerkship['instructional_methods'])) {

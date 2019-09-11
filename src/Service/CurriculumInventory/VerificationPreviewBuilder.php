@@ -262,7 +262,7 @@ class VerificationPreviewBuilder
             $rows
         );
 
-        return ['methods' => $methods, 'clerkships' => $rows];
+        return ['methods' => $methods, 'rows' => $rows];
     }
 
     /**
