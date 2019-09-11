@@ -10,8 +10,10 @@ use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
 
 /**
- * Class VerificationBuilder
+ * AAMC Verification Report Preview Builder.
  * @package App\Service
+ *
+ * @link https://www.aamc.org/download/458016/data/lcmetomethodsmap.pdf
  */
 class VerificationPreviewBuilder
 {
@@ -136,6 +138,14 @@ class VerificationPreviewBuilder
     }
 
     /**
+     * Table 1: Program Expectations Mapped to PCRS
+     *
+     * Program Expectations are your written learning objectives which learners achieve by graduation from the academic
+     * program. The Physician Competency Reference Set (PCRS) is a set of core competencies which may act as a model
+     * set of program expectations; relating your Program Expectations to the PCRS is necessary for AAMC to report
+     * school program expectations in aggregate. A single Program Expectation can be related to multiple PCRS, and
+     * a single PCRS can be related to multiple Program Expectations.
+     *
      * @param array $data
      *
      * @return array
@@ -189,6 +199,17 @@ class VerificationPreviewBuilder
     }
 
     /**
+     * Table 2: Primary Instructional Method by Non-Clerkship Sequence Block
+     *
+     * Table 2 may be used to support your response to the LCME DCI Tables 6.0-1 and 6.0-2.
+     *
+     * Primary instructional method refers to whichever instructional method you mark as primary for a given event.
+     * If you list more than one instructional method for a given event, the total hours for the event will be
+     * attributed to the instructional method marked as primary. For example, if you have a two-and-a-half hour
+     * event in your curriculum management system that includes lecture and simulation, and you choose to mark
+     * lecture as the primary instructional method, the full 2.5 hours of the event will be attributed to lecture
+     * in the Number of Formal Instructional Hours Per Course section of the table below.
+     *
      * @param array $data
      *
      * @return array
@@ -266,6 +287,20 @@ class VerificationPreviewBuilder
     }
 
     /**
+     * Table 3-A: Non-Clerkship Sequence Block Instructional Time
+     *
+     * The amount of time (Total Weeks) in a Sequence Block is calculated using duration (the number of days divided
+     * into 5-day weeks). For example, a 75-day duration Sequence Block will be calculated as 15 weeks.
+     * Duration is an optional field for non-clerkship sequence blocks and is provided by you.
+     * Only Sequence Blocks with duration values provided will appear in the table below; if you do not see any
+     * Sequence Blocks below, it means you have not provided any durations for non-clerkship Sequence Blocks.
+     * The Average Hours of Instruction Per Week is calculated by summing the total event duration (hours, minutes)
+     * for events tagged with an instructional method divided by the number of weeks in the Sequence Block
+     * (as calculated above).
+     * This table displays events that are tagged with only instructional methods, and events that are tagged with
+     * both instructional methods and assessment methods.
+     * It does not include events that are tagged with only assessment methods (i.e., Assessment Events).
+     *
      * @param array $data
      *
      * @return array
@@ -276,6 +311,20 @@ class VerificationPreviewBuilder
     }
 
     /**
+     * Table 3-B: Clerkship Sequence Block Instructional Time
+     *
+     * Table 3-B may be used to support your response to the LCME DCI Table 6.0-3.
+     *
+     * The amount of time (Total Weeks) in a Clerkship Sequence Block is calculated using duration (the number of days
+     * divided into 5-day weeks).
+     * For example, a 75-day duration Clerkship Sequence Block will be calculated as 15 weeks.
+     * Duration is a required field for clerkship sequence blocks and is provided by you.
+     * The Average Hours of Instruction Per Week is calculated by summing the total event duration (hours, minutes)
+     * for events tagged with an instructional method divided by the number of weeks in the Clerkship Sequence Block.
+     * This table displays events that are tagged with only instructional methods, and events that are tagged with
+     * both instructional methods and assessment methods.
+     * It does not include events that are tagged with only assessment methods (i.e., Assessment Events).
+     *
      * @param array $data
      *
      * @return array
@@ -286,69 +335,18 @@ class VerificationPreviewBuilder
     }
 
     /**
-     * @param array $data
-     * @param bool $clerkships
+     * Table 4: Instructional Method Counts
      *
-     * @return array
-     */
-    protected function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
-    {
-        /* @var CurriculumInventoryReportInterface $report */
-        $report = $data['report'];
-        $events = $data['events'];
-        $rows = [];
-        $eventRefs = $data['sequence_block_references']['events'];
-
-        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
-        foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
-            $blockId = $sequenceBlock->getId();
-            $course  = $sequenceBlock->getCourse();
-            $duration = $sequenceBlock->getDuration();
-
-            if (! $duration) {
-                continue;
-            }
-
-            if (empty($course)) {
-                continue;
-            }
-
-            if ($clerkships === empty($course->getClerkshipType())) {
-                continue;
-            }
-
-            $weeks = round($duration / 5, 2);
-            $time = 0;
-            if (array_key_exists($blockId, $eventRefs)) {
-                foreach ($eventRefs[$blockId] as $eventRef) {
-                    $event = $events[$eventRef['event_id']];
-                    $methodId = $event['method_id'];
-                    if (0 === strpos($methodId, 'IM')) {
-                        $time += $event['duration'];
-                    }
-                }
-            }
-
-            $rows[] = [
-                'title' => $sequenceBlock->getTitle(),
-                'level' => $sequenceBlock->getAcademicLevel()->getLevel(),
-                'weeks' => $weeks,
-                'avg' => round(($time / 60) / ($duration / 5), 2),
-            ];
-        }
-
-        array_multisort(
-            array_column($rows, 'level'),
-            SORT_ASC,
-            array_column($rows, 'title'),
-            SORT_ASC,
-            $rows
-        );
-
-        return $rows;
-    }
-
-    /**
+     * This table shows the number of times each Instructional Method was used; this differs from Table 2 which groups
+     * some instructional methods. The CI Standardized Vocabulary contains definitions of all Instructional Methods.
+     * Each primary instructional method is counted in the Number of Events Featuring This as the Primary Method column;
+     * events used in multiple sequence blocks will only have their instructional methods counted once in this table
+     * so the sum reflects total number of instructional events in your curriculum.
+     * Each occurrence of an instructional method that is not indicated as the Primary Method will be tallied in
+     * the Number of Non-primary Occurrences of This Method.
+     * If an instructional method is tagged more than once as non-primary to a given event, each occurrence of the
+     * instructional method is counted.
+     *
      * @param array $data
      *
      * @return array
@@ -379,6 +377,24 @@ class VerificationPreviewBuilder
     }
 
     /**
+     * Table 5: Non-Clerkship Sequence Block Assessment Methods
+     *
+     * Table 5 may be used to support your response to the LCME DCI Tables 9.0-1 and 9.0-2.
+     *
+     * Every Sequence Block that is not a clerkship and contains at least one Assessment Event will appear in this
+     * table. An Assessment Event may contain more than one assessment method.; Sequence Blocks that do not have
+     * Assessment Events will not appear - events that are tagged with both instructional methods and assessment methods
+     * do not appear in this table.
+     *
+     * Select assessment methods are grouped to assist in completing the LCME DCI.
+     * Number of exams is calculated by totaling the number Assessment Events in a sequence block that have assessment
+     * methods tagged as summative.
+     * When a specific assessment method is employed in a Sequence Block, the corresponding grouping will get an X.
+     * If at least one assessment method in an event in the Sequence Block is tagged as formative,
+     * the Formative Assessment (Y/N) column will get a Y.
+     * If at least one event in the Sequence Block contains AM010, Narrative Assessment Narrative Assessment (Y/N)
+     * will get a Y.
+     *
      * @param array $data
      *
      * @return array
@@ -389,6 +405,23 @@ class VerificationPreviewBuilder
     }
 
     /**
+     * Table 6: Clerkship Sequence Block Assessment Methods
+     *
+     * Table 6 may be used to support your response to the LCME DCI Table 9.0-3.
+     *
+     * Every Sequence Block that is a clerkship and contains one Assessment Event will appear in this table;
+     * Sequence Blocks that do not have Assessment Events will not appear - events that are tagged with both
+     * instructional methods and assessment methods do not appear in this table.
+     *
+     * Select assessment methods are grouped to assist in completing the LCME DCI.
+     * Number of exams is calculated by totaling the number Assessment Events in a sequence block that have assessment
+     * methods tagged as summative.
+     * When a specific assessment method is employed in a Sequence Block, the corresponding grouping will get an X.
+     * If at least one assessment method in an event in the Sequence Block is tagged as formative,
+     * the Formative Assessment (Y/N) column will get a Y.
+     * If at least one event in the Sequence Block contains AM010, Narrative Assessment, the Narrative Assessment (Y/N)
+     * will get a Y.
+     *
      * @param array $data
      *
      * @return array
@@ -399,6 +432,18 @@ class VerificationPreviewBuilder
     }
 
     /**
+     * Table 7: All Events with Assessments Tagged as Formative or Summative
+     *
+     * This table counts all assessment methods tagged within events.
+     * The CI Standardized Vocabulary contains definitions of all assessment methods. All assessment methods must be
+     * tagged as formative or summative.
+     * If you tag a single event with the same assessment method (either both formative, both summative, or one
+     * formative and one summative), they will both be counted.
+     * A single event used in multiple sequence blocks will only be counted once in this table.
+     * The Number of Summative Assessments, when summed, represents the total number of assessment methods tagged
+     * as summative in your curriculum; the Number of Formative Assessments, when summed, represents the total number
+     * of assessment methods tagged as formative in your curriculum.
+     *
      * @param array $data
      *
      * @return array
@@ -433,6 +478,11 @@ class VerificationPreviewBuilder
     }
 
     /**
+     * Table 8: All Resource Types
+     *
+     * All resources tagged in each event are counted, including multiple occurrences of the same resource within a
+     * single event.
+     *
      * @param array $data
      *
      * @return array
@@ -582,5 +632,68 @@ class VerificationPreviewBuilder
             }
         }
         return $this->methodMaps;
+    }
+
+    /**
+     * @param array $data
+     * @param bool $clerkships
+     *
+     * @return array
+     */
+    protected function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
+    {
+        /* @var CurriculumInventoryReportInterface $report */
+        $report = $data['report'];
+        $events = $data['events'];
+        $rows = [];
+        $eventRefs = $data['sequence_block_references']['events'];
+
+        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
+        foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
+            $blockId = $sequenceBlock->getId();
+            $course  = $sequenceBlock->getCourse();
+            $duration = $sequenceBlock->getDuration();
+
+            if (! $duration) {
+                continue;
+            }
+
+            if (empty($course)) {
+                continue;
+            }
+
+            if ($clerkships === empty($course->getClerkshipType())) {
+                continue;
+            }
+
+            $weeks = round($duration / 5, 2);
+            $time = 0;
+            if (array_key_exists($blockId, $eventRefs)) {
+                foreach ($eventRefs[$blockId] as $eventRef) {
+                    $event = $events[$eventRef['event_id']];
+                    $methodId = $event['method_id'];
+                    if (0 === strpos($methodId, 'IM')) {
+                        $time += $event['duration'];
+                    }
+                }
+            }
+
+            $rows[] = [
+                'title' => $sequenceBlock->getTitle(),
+                'level' => $sequenceBlock->getAcademicLevel()->getLevel(),
+                'weeks' => $weeks,
+                'avg' => round(($time / 60) / ($duration / 5), 2),
+            ];
+        }
+
+        array_multisort(
+            array_column($rows, 'level'),
+            SORT_ASC,
+            array_column($rows, 'title'),
+            SORT_ASC,
+            $rows
+        );
+
+        return $rows;
     }
 }
