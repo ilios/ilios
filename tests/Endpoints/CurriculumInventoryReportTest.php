@@ -25,7 +25,8 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadCurriculumInventoryExportData',
             'App\Tests\Fixture\LoadCurriculumInventorySequenceData',
             'App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData'
+            'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'App\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
         ];
     }
 
@@ -463,5 +464,61 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         // compare reports
         $this->assertSame($report['name'], $newReport['name']);
         $this->assertSame($report['description'], $newReport['description']);
+    }
+
+    public function testGetVerificationPreview()
+    {
+        $dataLoader = $this->getDataLoader();
+        $reports = $dataLoader->getAll();
+        $report = $reports[1];
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_curriculuminventoryreport_verificationpreview',
+                [
+                    'version' => 'v1',
+                    'object' => 'curriculuminventoryreports',
+                    'id' => $report['id'],
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['preview'];
+        $this->assertCount(9, $data);
+        $this->assertArrayHasKey('program_expectations_mapped_to_pcrs', $data);
+        $this->assertArrayHasKey('primary_instructional_methods_by_non_clerkship_sequence_blocks', $data);
+        $this->assertArrayHasKey('non_clerkship_sequence_block_instructional_time', $data);
+        $this->assertArrayHasKey('clerkship_sequence_block_instructional_time', $data);
+        $this->assertArrayHasKey('instructional_method_counts', $data);
+        $this->assertArrayHasKey('non_clerkship_sequence_block_assessment_methods', $data);
+        $this->assertArrayHasKey('clerkship_sequence_block_assessment_methods', $data);
+        $this->assertArrayHasKey('all_events_with_assessments_tagged_as_formative_or_summative', $data);
+        $this->assertArrayHasKey('all_resource_types', $data);
+    }
+
+    public function testGetVerificationPreviewNotFound()
+    {
+        $invalidReportId = 1000;
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_curriculuminventoryreport_verificationpreview',
+                [
+                    'version' => 'v1',
+                    'object' => 'curriculuminventoryreports',
+                    'id' => $invalidReportId,
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 }
