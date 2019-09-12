@@ -14,6 +14,8 @@ doctrine:
         default_table_options:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
+        # ignore this messenger table in migrations
+        schema_filter: '~^(?!messenger_messages)~'
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.default
