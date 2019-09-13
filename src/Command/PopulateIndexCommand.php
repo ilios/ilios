@@ -7,11 +7,13 @@ use App\Entity\DTO\CourseDTO;
 use App\Entity\Manager\CourseManager;
 use App\Entity\Manager\MeshDescriptorManager;
 use App\Entity\Manager\UserManager;
+use App\Message\CourseIndexRequest;
 use App\Service\Index;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * Populates the search index with documents
@@ -40,12 +42,17 @@ class PopulateIndexCommand extends Command
      */
     protected $descriptorManager;
 
+    /**
+     * @var MessageBusInterface
+     */
+    protected $bus;
 
     public function __construct(
         Index $index,
         UserManager $userManager,
         CourseManager $courseManager,
-        MeshDescriptorManager $descriptorManager
+        MeshDescriptorManager $descriptorManager,
+        MessageBusInterface $bus
     ) {
         parent::__construct();
 
@@ -53,6 +60,7 @@ class PopulateIndexCommand extends Command
         $this->userManager = $userManager;
         $this->courseManager = $courseManager;
         $this->descriptorManager = $descriptorManager;
+        $this->bus = $bus;
     }
     
     /**
@@ -103,17 +111,12 @@ class PopulateIndexCommand extends Command
     protected function populateCourses(OutputInterface $output)
     {
         $allIds = $this->courseManager->getIds();
-        $progressBar = new ProgressBar($output, count($allIds));
-        $progressBar->setMessage('Adding Courses...');
-        $progressBar->start();
-        $chunks = array_chunk($allIds, 100);
+        $count = count($allIds);
+        $chunks = array_chunk($allIds, 50);
         foreach ($chunks as $ids) {
-            $indexes = $this->courseManager->getCourseIndexesFor($ids);
-            $this->index->indexCourses($indexes);
-            $progressBar->advance(count($ids));
+            $this->bus->dispatch(new CourseIndexRequest($ids));
         }
-        $progressBar->setMessage(count($allIds) . " Courses Added!");
-        $progressBar->finish();
+        $output->writeln("<info>${count} courses have been queued for indexing.</info>");
     }
 
     protected function populateMesh(OutputInterface $output)
