@@ -341,32 +341,4 @@ class UserDTO
         $this->directedPrograms = [];
         $this->administeredCurriculumInventoryReports = [];
     }
-
-    public static function createSearchIndexDTOFromEntity(UserInterface $user) : UserDTO
-    {
-        $dto = new UserDTO(
-            $user->getId(),
-            $user->getFirstName(),
-            $user->getLastName(),
-            $user->getMiddleName(),
-            $user->getDisplayName(),
-            $user->getPhone(),
-            $user->getEmail(),
-            $user->getPreferredEmail(),
-            $user->isAddedViaIlios(),
-            $user->isEnabled(),
-            $user->getCampusId(),
-            $user->getOtherId(),
-            $user->isExamined(),
-            $user->isUserSyncIgnore(),
-            $user->getIcsFeedKey(),
-            $user->isRoot()
-        );
-        $authentication = $user->getAuthentication();
-        if ($authentication) {
-            $dto->username = $authentication->getUsername();
-        }
-
-        return $dto;
-    }
 }

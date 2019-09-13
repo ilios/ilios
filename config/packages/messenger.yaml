@@ -12,3 +12,4 @@ framework:
         routing:
             # Route your messages to the transports
              'App\Message\CourseIndexRequest': async
+             'App\Message\UserIndexRequest': async
