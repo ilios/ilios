@@ -323,6 +323,15 @@ ilios_api_curriculuminventoryreport_rollover:
     object: 'curriculuminventoryreports'
     id: '\d+'
 
+ilios_api_curriculuminventoryreport_verificationpreview:
+  path:     /api/{version}/{object}/{id}/verificationpreview
+  controller: App\Controller\CurriculumInventoryReportController::verificationPreviewAction
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'curriculuminventoryreports'
+    id: '\d+'
+
 ilios_api_curriculuminventorysequenceblock_post:
   path:     /api/{version}/{object}
   controller: App\Controller\CurriculumInventorySequenceBlockController::postAction

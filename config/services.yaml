@@ -62,7 +62,14 @@ services:
 
     App\Controller\SwaggerDocsController:
       public: true
-
+    App\Entity\Manager\AamcMethodManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\AamcMethod'
+    App\Entity\Manager\AamcPcrsManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\AamcPcrs'
     App\Entity\Manager\AlertManager:
       public: true
       arguments:
@@ -260,6 +267,9 @@ services:
 
     App\Service\CasManager:
       public: true
+
+    App\Service\CurriculumInventory\VerificationPreviewBuilder:
+      ~
 
     App\Service\PermissionChecker:
       public: true
