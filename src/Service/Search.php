@@ -174,9 +174,10 @@ class Search extends ElasticSearchBase
                         'lastName.raw^3',
                         'displayName',
                         'displayName.raw^3',
-                        'userName^5',
+                        'username^5',
                         'campusId^5',
-                        'email^5',
+                        'email',
+                        'email.email^5',
                     ]
                 ]
             ];

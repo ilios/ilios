@@ -304,6 +304,11 @@ class Index extends ElasticSearchBase
                     'tokenizer' => 'keyword',
                     'filter' => ['lowercase', 'word_delimiter'],
                 ],
+                'email_address' => [
+                    'type' => 'custom',
+                    'tokenizer' => 'uax_url_email',
+                    'filter' => ['lowercase', 'stop'],
+                ],
             ],
             'tokenizer' => [
                 'edge_ngram_tokenizer' => [
@@ -515,10 +520,16 @@ class Index extends ElasticSearchBase
                                 ],
                             ],
                             'email' => [
-                                'type' => 'keyword',
+                                'type' => 'text',
+                                'analyzer' => 'standard',
+                                'search_analyzer' => 'email_address',
                                 'fields' => [
                                     'cmp' => [
-                                        'type' => 'completion'
+                                        'type' => 'completion',
+                                    ],
+                                    'email' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'email_address',
                                     ]
                                 ],
                             ],
