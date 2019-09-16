@@ -3,6 +3,7 @@ namespace App\EventListener;
 
 use App\Classes\IndexableCourse;
 use App\Classes\IndexableSession;
+use App\Entity\AuthenticationInterface;
 use App\Entity\CourseInterface;
 use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\DTO\CourseDTO;
@@ -51,6 +52,10 @@ class IndexEntityChanges
             $this->indexUser($entity);
         }
 
+        if ($entity instanceof AuthenticationInterface) {
+            $this->indexUser($entity->getUser());
+        }
+
         if ($entity instanceof IndexableCoursesEntityInterface) {
             $this->indexCourses($entity->getIndexableCourses());
         }
@@ -61,6 +66,10 @@ class IndexEntityChanges
 
         if ($entity instanceof UserInterface) {
             $this->indexUser($entity);
+        }
+
+        if ($entity instanceof AuthenticationInterface) {
+            $this->indexUser($entity->getUser());
         }
 
         if ($entity instanceof IndexableCoursesEntityInterface) {
@@ -79,6 +88,10 @@ class IndexEntityChanges
 
         if ($entity instanceof UserInterface) {
             $this->index->deleteUser($entity->getId());
+        }
+
+        if ($entity instanceof AuthenticationInterface) {
+            $this->indexUser($entity->getUser());
         }
 
         if ($entity instanceof CourseInterface) {
