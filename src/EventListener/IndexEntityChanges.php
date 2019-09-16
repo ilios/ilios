@@ -14,6 +14,7 @@ use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\TermInterface;
 use App\Entity\UserInterface;
 use App\Message\CourseIndexRequest;
+use App\Message\UserIndexRequest;
 use App\Service\Index;
 use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -97,8 +98,7 @@ class IndexEntityChanges
     protected function indexUser(UserInterface $user)
     {
         if ($this->index->isEnabled()) {
-            $dto = UserDTO::createSearchIndexDTOFromEntity($user);
-            $this->index->indexUsers([$dto]);
+            $this->bus->dispatch(new UserIndexRequest([$user->getId()]));
         }
     }
 
