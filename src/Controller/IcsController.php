@@ -74,11 +74,22 @@ class IcsController extends AbstractController
 
         $events = $this->userManager->findEventsForUser($user->getId(), $from, $to);
 
-        $publishedEvents = array_filter($events, function (UserEvent $event) {
+        //add pre and post requisites so we can filter any prerequisites back out.
+        $events = $this->userManager->addPreAndPostRequisites($user->getId(), $events);
+        $filteredEvents = array_filter($events, function (UserEvent $event) {
+            return count($event->postrequisites) === 0;
+        });
+        $eventsWithPrePostRemoved = array_map(function (UserEvent $event) {
+            $event->postrequisites = [];
+            $event->prerequisites = [];
+            return $event;
+        }, $filteredEvents);
+
+        $publishedEvents = array_filter($eventsWithPrePostRemoved, function (UserEvent $event) {
             return $event->isPublished && !$event->isScheduled;
         });
 
-        $scheduledEvents = array_filter($events, function (UserEvent $event) {
+        $scheduledEvents = array_filter($eventsWithPrePostRemoved, function (UserEvent $event) {
             return $event->isPublished && $event->isScheduled;
         });
 
