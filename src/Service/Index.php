@@ -509,7 +509,17 @@ class Index extends ElasticSearchBase
                                 'type' => 'completion'
                             ],
                             'username' => [
-                                'type' => 'keyword',
+                                'type' => 'text',
+                                'analyzer' => 'edge_ngram_analyzer',
+                                'search_analyzer' => 'string_search_analyzer',
+                                'fields' => [
+                                    'raw' => [
+                                        'type' => 'keyword',
+                                    ],
+                                    'cmp' => [
+                                        'type' => 'completion'
+                                    ],
+                                ],
                             ],
                             'campusId' => [
                                 'type' => 'keyword',

@@ -126,6 +126,7 @@ class Search extends ElasticSearchBase
             'fullNameLastFirst',
             'email.cmp',
             'campusId.cmp',
+            'username.cmp',
         ];
         $suggest = array_reduce($suggestFields, function ($carry, $field) use ($query) {
             $carry[$field] = [
@@ -174,7 +175,8 @@ class Search extends ElasticSearchBase
                         'lastName.raw^3',
                         'displayName',
                         'displayName.raw^3',
-                        'username^5',
+                        'username^3',
+                        'username.raw^5',
                         'campusId^5',
                         'email',
                         'email.email^5',
