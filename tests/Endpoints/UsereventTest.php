@@ -357,10 +357,10 @@ class UsereventTest extends AbstractEndpointTest
             'attendanceRequired is correct for event 3'
         );
         $this->assertEmpty($events[3]['postrequisites']);
-        $this->assertEquals(5, count($events[3]['prerequisites']));
+        $this->assertEquals(3, count($events[3]['prerequisites']));
         $sessionIds = array_unique(array_column($events[3]['prerequisites'], 'session'));
         sort($sessionIds);
-        $this->assertEquals([1, 2], $sessionIds);
+        $this->assertEquals([2], $sessionIds);
 
         $this->assertEquals($events[4]['offering'], 7, 'offering is correct for event 4');
         $this->assertEquals($events[4]['startDate'], $offerings[6]['startDate'], 'startDate is correct for event 4');
@@ -406,10 +406,10 @@ class UsereventTest extends AbstractEndpointTest
             'attendanceRequired is correct for event 4'
         );
         $this->assertEmpty($events[4]['postrequisites']);
-        $this->assertEquals(5, count($events[4]['prerequisites']));
+        $this->assertEquals(3, count($events[4]['prerequisites']));
         $sessionIds = array_unique(array_column($events[4]['prerequisites'], 'session'));
         sort($sessionIds);
-        $this->assertEquals([1, 2], $sessionIds);
+        $this->assertEquals([2], $sessionIds);
 
         $this->assertEquals($events[5]['ilmSession'], 1, 'ilmSession is correct for 5');
         $this->assertEquals($events[5]['startDate'], $ilmSessions[0]['dueDate'], 'dueDate is correct for 5');
@@ -622,9 +622,7 @@ class UsereventTest extends AbstractEndpointTest
             $events[9],
             'attendanceRequired is correct for event 9'
         );
-        $this->assertEquals(1, count($events[9]['postrequisites']));
-        $this->assertEquals(6, $events[9]['postrequisites'][0]['offering']);
-        $this->assertEquals(3, $events[9]['postrequisites'][0]['session']);
+        $this->assertEquals(0, count($events[9]['postrequisites']));
         $this->assertEmpty($events[9]['prerequisites']);
 
         /** @var OfferingInterface $offering */
@@ -678,10 +676,10 @@ class UsereventTest extends AbstractEndpointTest
             'attendanceRequired is correct for event 10'
         );
         $this->assertEmpty($events[10]['postrequisites']);
-        $this->assertEquals(5, count($events[10]['prerequisites']));
+        $this->assertEquals(3, count($events[10]['prerequisites']));
         $sessionIds = array_unique(array_column($events[10]['prerequisites'], 'session'));
         sort($sessionIds);
-        $this->assertEquals([1, 2], $sessionIds);
+        $this->assertEquals([2], $sessionIds);
         foreach ($events as $event) {
             $this->assertEquals($userId, $event['user']);
         }
