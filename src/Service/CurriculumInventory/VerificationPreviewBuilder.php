@@ -167,8 +167,10 @@ class VerificationPreviewBuilder
             $programObjectiveId = $relation['rel1'];
             $pcrsId = $relation['rel2'];
             if (! array_key_exists($programObjectiveId, $expectations)) {
+                $title = $programObjectivesMap[$programObjectiveId]['title'];
                 $expectations[$programObjectiveId] = [
-                    'title' => $programObjectivesMap[$programObjectiveId]['title'],
+                    'title' => $title,
+                    'title_plain' => trim(strip_tags($title)),
                     'pcrs' => [],
                 ];
             }
@@ -184,7 +186,7 @@ class VerificationPreviewBuilder
         $hashes = [];
         $dedupedExpectations = [];
         foreach ($expectations as $expectation) {
-            $hash = $expectation['title'] . ' || ' . implode(' || ', $expectation['pcrs']);
+            $hash = $expectation['title_plain'] . ' || ' . implode(' || ', $expectation['pcrs']);
             if (! in_array($hash, $hashes)) {
                 $dedupedExpectations[] = $expectation;
                 $hashes[] = $hash;
@@ -193,7 +195,11 @@ class VerificationPreviewBuilder
 
         $expectations = $dedupedExpectations;
 
-        array_multisort(array_column($expectations, 'title'), SORT_ASC, $expectations);
+        array_multisort(array_column($expectations, 'title_plain'), SORT_ASC, $expectations);
+
+        array_walk($expectations, function (&$expectation) {
+            unset($expectation['title_plain']);
+        });
 
         return $expectations;
     }

@@ -1128,7 +1128,7 @@ class VerificationPreviewBuilderTest extends TestCase
         $data['expectations'] = [
             'program_objectives' => [
                 ['id' => 1, 'title' => 'Objective 1'],
-                ['id' => 2, 'title' => 'Objective 2'],
+                ['id' => 2, 'title' => '<p>Objective 2</p>'],
                 ['id' => 3, 'title' => 'Objective 3'],
                 ['id' => 4, 'title' => 'Objective 4'],
             ],
@@ -1159,7 +1159,7 @@ class VerificationPreviewBuilderTest extends TestCase
             . 'history-taking, physical examination, and the use of laboratory data, imaging and other tests',
             $rows[0]['pcrs'][1]
         );
-        $this->assertEquals('Objective 2', $rows[1]['title']);
+        $this->assertEquals('<p>Objective 2</p>', $rows[1]['title']);
         $this->assertCount(1, $rows[1]['pcrs']);
         $this->assertEquals(
             'c0103: Organize and prioritize responsibilities to provide care that is safe, effective, and efficient',
