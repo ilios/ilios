@@ -42,12 +42,12 @@ _monitor:
   prefix: /ilios/health
 
 ilios_curriculum_search:
-  path: /search/v1/curriculum
+  path: /api/search/v1/curriculum
   controller: App\Controller\Search:curriculumSearch
   methods:  [GET]
 
 ilios_user_search:
-  path: /search/v1/users
+  path: /api/search/v1/users
   controller: App\Controller\Search:userSearch
   methods:  [GET]
 
