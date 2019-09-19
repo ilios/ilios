@@ -159,8 +159,16 @@ class IcsController extends AbstractController
             $session->isAttireRequired()?'You will need special attire':null,
             $session->isEquipmentRequired()?'You will need special equipment':null,
             $session->isAttendanceRequired()?'Attendance is Required':null,
-            "\n" . $link,
         ];
+
+        if ($session->getPrerequisites()->count()) {
+            $lines[] = 'Session has Pre-work';
+        }
+        if ($session->getLearningMaterials()->count() || $session->getCourse()->getLearningMaterials()->count()) {
+            $lines[] = 'Session has Learning Materials';
+        }
+
+        $lines[] = "\n" . $link;
 
         //removes any empty values
         $lines = array_filter($lines);
