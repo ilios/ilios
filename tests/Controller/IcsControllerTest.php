@@ -52,6 +52,8 @@ class IcsControllerTest extends WebTestCase
         $session['attireRequired'] = true;
         $session['equipmentRequired'] = true;
         $session['attendanceRequired'] = true;
+        $session['prerequisites'] = ['3'];
+        $session['learningMaterials'] = ['2'];
         $id = $session['id'];
         $this->makeJsonRequest(
             $client,
@@ -108,6 +110,18 @@ class IcsControllerTest extends WebTestCase
             $firstDescription,
             'Attendance required shows up'
         );
+
+        $this->assertRegExp(
+            '#SessionhasPre-work#',
+            $firstDescription,
+            'Has Pre-work shows up'
+        );
+
+        $this->assertRegExp(
+            '#SessionhasLearningMaterials#',
+            $firstDescription,
+            'Has Learning Materials shows up'
+        );
     }
 
     public function testSessionAttributesAreHidden()
@@ -118,6 +132,8 @@ class IcsControllerTest extends WebTestCase
         $session['attireRequired'] = false;
         $session['equipmentRequired'] = false;
         $session['attendanceRequired'] = false;
+        $session['prerequisites'] = [];
+        $session['learningMaterials'] = [];
         $id = $session['id'];
         $this->makeJsonRequest(
             $client,
@@ -173,6 +189,18 @@ class IcsControllerTest extends WebTestCase
             '#AttendanceisRequired#',
             $firstDescription,
             'Attendance required is hidden'
+        );
+
+        $this->assertNotRegExp(
+            '#SessionhasPre-work#',
+            $firstDescription,
+            'Has Pre-work is hidden'
+        );
+
+        $this->assertRegExp(
+            '#SessionhasLearningMaterials#',
+            $firstDescription,
+            'Has Learning Materials shows up b/c the owning course has learning materials.'
         );
     }
 
