@@ -54,8 +54,8 @@ class IndexableSession
             'sessionAdministrators' => implode(' ', $this->administrators),
             'sessionObjectives' => implode(' ', $this->objectives),
             'sessionTerms' => implode(' ', $this->terms),
-            'sessionMeshDescriptorIds' => $this->meshDescriptorIds,
-            'sessionMeshDescriptorNames' => $this->meshDescriptorNames,
+            'sessionMeshDescriptorIds' => array_values($this->meshDescriptorIds),
+            'sessionMeshDescriptorNames' => array_values($this->meshDescriptorNames),
             'sessionMeshDescriptorAnnotations' => implode(' ', $this->meshDescriptorAnnotations),
             'sessionLearningMaterials' => implode(' ', $this->learningMaterials),
         ];
