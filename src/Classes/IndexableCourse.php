@@ -55,8 +55,8 @@ class IndexableCourse
             'courseAdministrators' => implode(' ', $this->administrators),
             'courseObjectives' => implode(' ', $this->objectives),
             'courseTerms' => implode(' ', $this->terms),
-            'courseMeshDescriptorIds' => $this->meshDescriptorIds,
-            'courseMeshDescriptorNames' => $this->meshDescriptorNames,
+            'courseMeshDescriptorIds' => array_values($this->meshDescriptorIds),
+            'courseMeshDescriptorNames' => array_values($this->meshDescriptorNames),
             'courseMeshDescriptorAnnotations' => implode(' ', $this->meshDescriptorAnnotations),
             'courseLearningMaterials' => implode(' ', $this->learningMaterials),
         ];
