@@ -2663,16 +2663,16 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.9.0",
+            "version": "2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "28189fa1363e77ef653c1ff2bc83d81ca76e2852"
+                "reference": "1903c6094b391eedc48e607542970c4eedf63776"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/28189fa1363e77ef653c1ff2bc83d81ca76e2852",
-                "reference": "28189fa1363e77ef653c1ff2bc83d81ca76e2852",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/1903c6094b391eedc48e607542970c4eedf63776",
+                "reference": "1903c6094b391eedc48e607542970c4eedf63776",
                 "shasum": ""
             },
             "require": {
@@ -2739,7 +2739,7 @@
                 "monitor",
                 "monitoring"
             ],
-            "time": "2019-08-01T10:38:04+00:00"
+            "time": "2019-09-19T16:40:18+00:00"
         },
         {
             "name": "monolog/monolog",
