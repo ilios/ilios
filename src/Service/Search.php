@@ -394,9 +394,9 @@ class Search extends ElasticSearchBase
 
                 return $field;
             }, $item['sessionMatches']);
-            $carry[$id]['matchedIn'] = array_unique(
+            $carry[$id]['matchedIn'] = array_values(array_unique(
                 array_merge($courseMatches, $carry[$id]['matchedIn'])
-            );
+            ));
             if ($item['score'] > $carry[$id]['bestScore']) {
                 $carry[$id]['bestScore'] = $item['score'];
             }
@@ -404,7 +404,7 @@ class Search extends ElasticSearchBase
                 'id' => $item['sessionId'],
                 'title' => $item['sessionTitle'],
                 'score' => $item['score'],
-                'matchedIn' => array_unique(array_values($sessionMatches)),
+                'matchedIn' => array_values(array_unique($sessionMatches)),
             ];
 
             return $carry;
