@@ -14,6 +14,7 @@ class Config
         'enable_tracking',
         'requireSecureConnection',
         'errorCaptureEnabled',
+        'learningMaterialsDisabled',
     ];
 
     /**
