@@ -2,7 +2,7 @@ exercise_html_purifier:
   # full configuration reference: http://htmlpurifier.org/live/configdoc/plain.html
   default:
     # the charset used by the original contents
-    HTML.Allowed: 'a[href|target],br,div,dd,dl,dt,em,li,ol,p,strong,sub,sup,ul,u'
+    HTML.Allowed: 'a[href|target],br,div,dd,dl,dt,em,li,ol,p,strong,sub,sup,ul'
     Core.Encoding: 'UTF-8'
     Attr.AllowedFrameTargets:
     - '_blank'

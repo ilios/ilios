@@ -166,7 +166,6 @@ class ObjectiveTest extends ReadWriteEndpointTest
                 '<a href="https://iliosproject.org" target="_blank">Ilios</a>',
                 '<a href="https://iliosproject.org" target="_blank" rel="noreferrer noopener">Ilios</a>'
             ],
-            ['<u>NOW I CRY</u>', '<u>NOW I CRY</u>'],
         ];
     }
 
