@@ -50,6 +50,10 @@ sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interacti
 
 ## Version-specific steps
 
+### Upgrading to Ilios 3.69.1
+
+1. A new asynchronous queue service has been added. You must run `bin/console messenger:setup-transports` to set it up.
+
 ### Upgrading to Ilios 3.56.0
 
 1. `parameters.yml` has been replaced with ENV configuration. See [env_vars_and_config](env_vars_and_config) for details.
