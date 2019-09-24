@@ -524,10 +524,10 @@ class VerificationPreviewBuilderTest extends TestCase
         $rows = $rhett['rows'];
         $this->assertCount(6, $methods);
         $this->assertEquals([
-            'Faculty/resident rating',
+            'Faculty / resident rating',
             'Internal written exams',
             'NBME subject exams',
-            'OSCE/SP exam',
+            'OSCE / SP exam',
             'Oral Exam or Pres.',
             'Other',
         ], $methods);
@@ -535,10 +535,10 @@ class VerificationPreviewBuilderTest extends TestCase
             'title' => 'Zeppelin Clerkship Year 1',
             'level' => 1,
             'methods' => [
-                'Faculty/resident rating' => false,
+                'Faculty / resident rating' => false,
                 'Internal written exams' => true,
                 'NBME subject exams' => true,
-                'OSCE/SP exam' => false,
+                'OSCE / SP exam' => false,
                 'Oral Exam or Pres.' => false,
                 'Other' => false,
             ],
@@ -551,10 +551,10 @@ class VerificationPreviewBuilderTest extends TestCase
             'title' => 'Aardvark Clerkship Year 2',
             'level' => 2,
             'methods' => [
-                'Faculty/resident rating' => false,
+                'Faculty / resident rating' => false,
                 'Internal written exams' => false,
                 'NBME subject exams' => false,
-                'OSCE/SP exam' => true,
+                'OSCE / SP exam' => true,
                 'Oral Exam or Pres.' => false,
                 'Other' => true,
             ],
@@ -567,10 +567,10 @@ class VerificationPreviewBuilderTest extends TestCase
             'title' => 'Zeppelin Clerkship Year 2',
             'level' => 2,
             'methods' => [
-                'Faculty/resident rating' => true,
+                'Faculty / resident rating' => true,
                 'Internal written exams' => false,
                 'NBME subject exams' => false,
-                'OSCE/SP exam' => false,
+                'OSCE / SP exam' => false,
                 'Oral Exam or Pres.' => false,
                 'Other' => true,
             ],
@@ -821,11 +821,11 @@ class VerificationPreviewBuilderTest extends TestCase
         $rows = $rhett['rows'];
         $this->assertCount(7, $methods);
         $this->assertEquals([
-            'Faculty/resident rating',
+            'Faculty / resident rating',
             'Internal exams',
             'Lab or practical exams',
             'NBME subject exams',
-            'OSCE/SP exam',
+            'OSCE / SP exam',
             'Other',
             'Paper or oral pres.',
         ], $methods);
@@ -834,11 +834,11 @@ class VerificationPreviewBuilderTest extends TestCase
             'title' => 'Zeppelin Non-Clerkship Year 1',
             'level' => 1,
             'methods' => [
-                'Faculty/resident rating' => false,
+                'Faculty / resident rating' => false,
                 'Internal exams' => true,
                 'Lab or practical exams' => false,
                 'NBME subject exams' => true,
-                'OSCE/SP exam' => false,
+                'OSCE / SP exam' => false,
                 'Other' => false,
                 'Paper or oral pres.' => false,
             ],
@@ -851,11 +851,11 @@ class VerificationPreviewBuilderTest extends TestCase
             'title' => 'Aardvark Non-Clerkship Year 2',
             'level' => 2,
             'methods' => [
-                'Faculty/resident rating' => false,
+                'Faculty / resident rating' => false,
                 'Internal exams' => false,
                 'Lab or practical exams' => true,
                 'NBME subject exams' => false,
-                'OSCE/SP exam' => true,
+                'OSCE / SP exam' => true,
                 'Other' => false,
                 'Paper or oral pres.' => true,
             ],
@@ -868,11 +868,11 @@ class VerificationPreviewBuilderTest extends TestCase
             'title' => 'Zeppelin Non-Clerkship Year 2',
             'level' => 2,
             'methods' => [
-                'Faculty/resident rating' => true,
+                'Faculty / resident rating' => true,
                 'Internal exams' => false,
                 'Lab or practical exams' => false,
                 'NBME subject exams' => false,
-                'OSCE/SP exam' => false,
+                'OSCE / SP exam' => false,
                 'Other' => true,
                 'Paper or oral pres.' => false,
             ],
