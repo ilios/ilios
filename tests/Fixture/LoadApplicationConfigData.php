@@ -2,6 +2,7 @@
 
 namespace App\Tests\Fixture;
 
+use App\Tests\DataLoader\ApplicationConfigData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -24,7 +25,7 @@ class LoadApplicationConfigData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('App\Tests\DataLoader\ApplicationConfigData')
+            ->get(ApplicationConfigData::class)
             ->getAll();
         foreach ($data as $arr) {
             $entity = new ApplicationConfig();

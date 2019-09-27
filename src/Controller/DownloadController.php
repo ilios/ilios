@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Manager\LearningMaterialManager;
+use App\Service\Config;
 use App\Service\IliosFileSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,8 +20,15 @@ class DownloadController extends AbstractController
         $token,
         LearningMaterialManager $learningMaterialManager,
         IliosFileSystem $iliosFileSystem,
-        Request $request
+        Request $request,
+        Config $config
     ) {
+        if ($config->get('learningMaterialsDisabled') === true) {
+            return new Response(
+                'Learning Materials are disabled on this instance.',
+                200,
+            );
+        }
         $learningMaterial = $learningMaterialManager->findOneBy(['token' => $token]);
 
         if (!$learningMaterial) {
