@@ -125,7 +125,10 @@ class IndexEntityChanges
             $courseIds = array_map(function (CourseInterface $course) {
                 return $course->getId();
             }, $courses);
-            $this->bus->dispatch(new CourseIndexRequest($courseIds));
+            $chunks = array_chunk($courseIds, CourseIndexRequest::MAX_COURSES);
+            foreach ($chunks as $ids) {
+                $this->bus->dispatch(new CourseIndexRequest($ids));
+            }
         }
     }
 }
