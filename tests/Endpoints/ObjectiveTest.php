@@ -47,6 +47,7 @@ class ObjectiveTest extends ReadWriteEndpointTest
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
             'ancestor' => ['ancestor', 1, $skipped = true],
             'descendants' => ['descendants', [2], $skipped = true],
+            'terms' => ['terms', [2]],
         ];
     }
 
@@ -82,6 +83,7 @@ class ObjectiveTest extends ReadWriteEndpointTest
 //            'descendants' => [[1], ['descendants' => [3]]],
             'fullCoursesThroughCourse' => [[1, 3], ['fullCourses' => [2]]],
             'fullCoursesThroughSession' => [[1, 2], ['fullCourses' => [1]]],
+            'terms' => [[0, 3], ['terms' => ['1']]],
         ];
     }
 

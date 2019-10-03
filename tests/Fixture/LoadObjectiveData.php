@@ -43,6 +43,9 @@ class LoadObjectiveData extends AbstractFixture implements
             foreach ($arr['meshDescriptors'] as $id) {
                 $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
             }
+            foreach ($arr['terms'] as $id) {
+                $entity->addTerm($this->getReference('terms' . $id));
+            }
             if (array_key_exists('ancestor', $arr)) {
                 $entity->setAncestor($this->getReference('objectives' . $arr['ancestor']));
             }
@@ -58,6 +61,7 @@ class LoadObjectiveData extends AbstractFixture implements
         return array(
             'App\Tests\Fixture\LoadCompetencyData',
             'App\Tests\Fixture\LoadMeshDescriptorData',
+            'App\Tests\Fixture\LoadTermData',
         );
     }
 }

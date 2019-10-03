@@ -34,6 +34,7 @@ class TermTest extends EntityBase
         $this->assertEmpty($this->object->getSessions());
         $this->assertEmpty($this->object->getChildren());
         $this->assertEmpty($this->object->getAamcResourceTypes());
+        $this->assertEmpty($this->object->getObjectives());
     }
 
     /**
@@ -220,5 +221,29 @@ class TermTest extends EntityBase
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals($rhett, [$course1, $course2]);
+    }
+
+    /**
+     * @covers \App\Entity\Term::addObjective
+     */
+    public function testAddObjective()
+    {
+        $this->entityCollectionAddTest('objective', 'Objective', false, false, 'addTerm');
+    }
+
+    /**
+     * @covers \App\Entity\Term::removeObjective
+     */
+    public function testRemoveObjective()
+    {
+        $this->entityCollectionRemoveTest('objective', 'Objective', false, false, false, 'removeTerm');
+    }
+
+    /**
+     * @covers \App\Entity\Term::getObjectives
+     */
+    public function testGetObjectives()
+    {
+        $this->entityCollectionSetTest('objective', 'Objective', false, false, 'addTerm');
     }
 }

@@ -80,6 +80,7 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
             'programYears',
             'sessions',
             'aamcResourceTypes',
+            'objectives',
         ];
 
         foreach ($related as $rel) {
@@ -288,6 +289,13 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
             $qb->setParameter(':aamcResourceTypes', $ids);
         }
 
+        if (array_key_exists('objectives', $criteria)) {
+            $ids = is_array($criteria['objectives']) ? $criteria['objectives'] : [$criteria['objectives']];
+            $qb->join('t.objectives', 'o_objective');
+            $qb->andWhere($qb->expr()->in('o_objective.id', ':objectives'));
+            $qb->setParameter(':objectives', $ids);
+        }
+
         unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
@@ -300,7 +308,7 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
         unset($criteria['meshDescriptors']);
         unset($criteria['aamcResourceTypes']);
         unset($criteria['programYears']);
-
+        unset($criteria['objectives']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\ObjectivesEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -38,6 +39,7 @@ class Term implements TermInterface
     use StringableIdEntity;
     use TitledEntity;
     use ActivatableEntity;
+    use ObjectivesEntity;
 
     /**
      * @var int
@@ -193,6 +195,17 @@ class Term implements TermInterface
     protected $active;
 
     /**
+     * @var ArrayCollection|ObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Objective", mappedBy="terms")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $objectives;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -202,6 +215,7 @@ class Term implements TermInterface
         $this->programYears = new ArrayCollection();
         $this->sessions = new ArrayCollection();
         $this->children = new ArrayCollection();
+        $this->objectives = new ArrayCollection();
         $this->active = true;
     }
 
@@ -400,5 +414,27 @@ class Term implements TermInterface
             $this->courses->toArray(),
             $sessionCourses->toArray()
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addObjective(ObjectiveInterface $objective)
+    {
+        if (!$this->objectives->contains($objective)) {
+            $this->objectives->add($objective);
+            $objective->addTerm($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeObjective(ObjectiveInterface $objective)
+    {
+        if ($this->objectives->contains($objective)) {
+            $this->objectives->removeElement($objective);
+            $objective->removeTerm($this);
+        }
     }
 }

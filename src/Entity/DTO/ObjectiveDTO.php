@@ -115,6 +115,14 @@ class ObjectiveDTO
      */
     public $active;
 
+    /**
+     * @var int[]
+     * @IS\Expose
+     * @IS\Type("array<string>")
+     *
+     */
+    public $terms;
+
 
     public function __construct(
         $id,
@@ -134,5 +142,6 @@ class ObjectiveDTO
         $this->children = [];
         $this->meshDescriptors = [];
         $this->descendants = [];
+        $this->terms = [];
     }
 }

@@ -45,3 +45,8 @@ Term:
   active:
    description: Active
    type: boolean
+  objectives:
+   description: Objectives
+   type: array
+   items:
+    type: string

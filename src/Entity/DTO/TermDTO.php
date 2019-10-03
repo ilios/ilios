@@ -97,6 +97,13 @@ class TermDTO
      */
     public $school;
 
+    /**
+     * @var int[]
+     * @IS\Expose
+     * @IS\Type("array<string>")
+     */
+    public $objectives;
+
     public function __construct(
         $id,
         $title,
@@ -113,5 +120,6 @@ class TermDTO
         $this->programYears = [];
         $this->sessions = [];
         $this->aamcResourceTypes = [];
+        $this->objectives = [];
     }
 }

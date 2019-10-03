@@ -18,6 +18,7 @@ class TermData extends AbstractDataLoader
             'sessions' => ['2'],
             'aamcResourceTypes' => ['RE001'],
             'active' => true,
+            'objectives' => ['1', '4'],
         );
         $arr[] = array(
             'id' => 2,
@@ -31,6 +32,7 @@ class TermData extends AbstractDataLoader
             'sessions' => ['1'],
             'aamcResourceTypes' => ['RE001', 'RE002'],
             'active' => true,
+            'objectives' => ['2'],
         );
         $arr[] = array(
             'id' => 3,
@@ -44,6 +46,7 @@ class TermData extends AbstractDataLoader
             'sessions' => ['3'],
             'aamcResourceTypes' => ['RE002'],
             'active' => false,
+            'objectives' => ['2'],
         );
 
         $arr[] = array(
@@ -57,6 +60,7 @@ class TermData extends AbstractDataLoader
             'sessions' => ['2'],
             'aamcResourceTypes' => [],
             'active' => true,
+            'objectives' => ['1', '5'],
         );
         $arr[] = array(
             'id' => 5,
@@ -69,6 +73,7 @@ class TermData extends AbstractDataLoader
             'sessions' => ['1'],
             'aamcResourceTypes' => [],
             'active' => true,
+            'objectives' => [],
         );
         $arr[] = array(
             'id' => 6,
@@ -81,6 +86,7 @@ class TermData extends AbstractDataLoader
             'sessions' => ['3'],
             'aamcResourceTypes' => [],
             'active' => false,
+            'objectives' => [],
         );
 
         return $arr;
@@ -99,6 +105,7 @@ class TermData extends AbstractDataLoader
             'sessions' => ['3'],
             'aamcResourceTypes' => [],
             'active' => true,
+            'objectives' => [],
         ];
     }
 

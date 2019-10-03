@@ -52,6 +52,7 @@ class TermTest extends ReadWriteEndpointTest
             'vocabulary' => ['vocabulary', 2],
             'aamcResourceTypes' => ['aamcResourceTypes', [1], $skipped = true],
             'active' => ['active', false],
+            'objectives' => ['objectives', [1]],
         ];
     }
 
@@ -92,6 +93,7 @@ class TermTest extends ReadWriteEndpointTest
             'meshDescriptors' => [[0, 1, 2, 3, 4, 5], ['meshDescriptors' => ['abc1', 'abc2', 'abc3']]],
             'programs' => [[0, 3], ['programs' => [1]]],
             'schools' => [[0, 1, 2], ['schools' => [1]]],
+            'objectives' => [[0, 3], ['objectives' => [1]]],
         ];
     }
 

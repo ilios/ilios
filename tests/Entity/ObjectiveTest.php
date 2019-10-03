@@ -36,7 +36,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Course::__construct
+     * @covers \App\Entity\Objective::__construct
      */
     public function testConstructor()
     {
@@ -48,6 +48,7 @@ class ObjectiveTest extends EntityBase
         $this->assertEmpty($this->object->getParents());
         $this->assertEmpty($this->object->getChildren());
         $this->assertEmpty($this->object->getDescendants());
+        $this->assertEmpty($this->object->getTerms());
     }
 
     /**
@@ -309,5 +310,30 @@ class ObjectiveTest extends EntityBase
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals($rhett, [$course1, $course2]);
+    }
+
+    /**
+     * @covers \App\Entity\Objective::addTerm
+     */
+    public function testAddTerm()
+    {
+        $this->entityCollectionAddTest('term', 'Term', false, false, 'addObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Objective::removeTerm
+     */
+    public function testRemoveTerm()
+    {
+        $this->entityCollectionRemoveTest('term', 'Term', false, false, false, 'removeObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Objective::getTerms
+     * @covers \App\Entity\Objective::setTerms
+     */
+    public function testSetTerms()
+    {
+        $this->entityCollectionSetTest('term', 'Term', false, false, 'addObjective');
     }
 }

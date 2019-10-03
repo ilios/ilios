@@ -72,7 +72,8 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
             'parents',
             'children',
             'meshDescriptors',
-            'descendants'
+            'descendants',
+            'terms',
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
@@ -130,10 +131,18 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
             $qb->setParameter(':fullCourses', $ids);
         }
 
+        if (array_key_exists('terms', $criteria)) {
+            $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
+            $qb->join('o.terms', 'term');
+            $qb->andWhere($qb->expr()->in('term.id', ':terms'));
+            $qb->setParameter(':terms', $ids);
+        }
+
         unset($criteria['courses']);
         unset($criteria['programYears']);
         unset($criteria['sessions']);
         unset($criteria['fullCourses']);
+        unset($criteria['terms']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {

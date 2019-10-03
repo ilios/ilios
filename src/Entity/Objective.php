@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Traits\ActivatableEntity;
+use App\Traits\CategorizableEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\IdentifiableEntity;
 use App\Traits\MeshDescriptorsEntity;
@@ -37,7 +38,7 @@ class Objective implements ObjectiveInterface
     use MeshDescriptorsEntity;
     use SortableEntity;
     use ActivatableEntity;
-
+    use CategorizableEntity;
 
     /**
      * @var int
@@ -214,6 +215,25 @@ class Objective implements ObjectiveInterface
     protected $active;
 
     /**
+     * @var ArrayCollection|TermInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Term", inversedBy="objectives")
+     * @ORM\JoinTable(name="objective_x_term",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
+     *   }
+     * )
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $terms;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -227,6 +247,7 @@ class Objective implements ObjectiveInterface
         $this->children = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
+        $this->terms = new ArrayCollection();
     }
 
     /**
@@ -470,5 +491,27 @@ class Objective implements ObjectiveInterface
             $this->courses->toArray(),
             $sessionCourses->toArray()
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addTerm(TermInterface $term)
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+            $term->addObjective($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeTerm(TermInterface $term)
+    {
+        if ($this->terms->contains($term)) {
+            $this->terms->removeElement($term);
+            $term->removeObjective($this);
+        }
     }
 }
