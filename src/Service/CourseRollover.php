@@ -510,6 +510,7 @@ class CourseRollover
             $newObjective->addCourse($newCourse);
             $newObjective->setAncestor($objective->getAncestorOrSelf());
             $newObjective->setPosition($objective->getPosition());
+            $newObjective->setTerms($objective->getTerms());
             foreach ($cohorts as $cohort) {
                 $this->reLinkCourseObjectiveToParents($objective, $newObjective, $cohort);
             }
@@ -560,6 +561,7 @@ class CourseRollover
                     $newObjective->addSession($newSession);
                     $newObjective->setAncestor($objective->getAncestorOrSelf());
                     $newObjective->setPosition($objective->getPosition());
+                    $newObjective->setTerms($objective->getTerms());
                     $newParents = $objective->getParents()
                         ->map(
                             function (ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective) {

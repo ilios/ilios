@@ -199,6 +199,7 @@ class CourseRolloverTest extends TestCase
             $newObjective->shouldReceive('addCourse')->with($newCourse)->once();
             $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
             $newObjective->shouldReceive('setPosition')->with($objective->getPosition())->once();
+            $newObjective->shouldReceive('setTerms')->with($objective->getTerms())->once();
 
             $ancestor = $objective->getAncestor();
             if ($ancestor) {
@@ -256,6 +257,7 @@ class CourseRolloverTest extends TestCase
                 $newObjective->shouldReceive('addSession')->with($newSession)->once();
                 $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
                 $newObjective->shouldReceive('setPosition')->with($objective->getPosition())->once();
+                $newObjective->shouldReceive('setTerms')->with($objective->getTerms())->once();
                 $newObjective->shouldReceive('setParents')
                     ->with(m::on(function (Collection $collection) use ($objective) {
                         return count($collection) === count($objective->getParents());
@@ -712,6 +714,7 @@ class CourseRolloverTest extends TestCase
             $newObjective->shouldReceive('setParents')->with($objective->getParents());
             $newObjective->shouldReceive('setPosition')->with($objective->getPosition())->once();
             $newObjective->shouldReceive('setAncestor')->with($objective->getAncestorOrSelf())->once();
+            $newObjective->shouldReceive('setTerms')->with($objective->getTerms())->once();
             $this->objectiveManager->shouldReceive('create')->once()->andReturn($newObjective);
             $this->objectiveManager->shouldReceive('update')->once()->withArgs([$newObjective, false, false]);
         }
@@ -1050,6 +1053,7 @@ class CourseRolloverTest extends TestCase
         $courseObjective1 = new Objective();
         $courseObjective1->setId(808);
         $courseObjective1->setTitle('test course objective1');
+        $courseObjective1->setTerms(new ArrayCollection([new Term()]));
         $courseObjective1->addParent($pyObjective);
         $course->addObjective($courseObjective1);
 
@@ -1070,6 +1074,7 @@ class CourseRolloverTest extends TestCase
         $newObjective->shouldReceive('addParent')->with($newPyObjective)->once();
         $newObjective->shouldReceive('setMeshDescriptors')->with($courseObjective1->getMeshDescriptors())->once();
         $newObjective->shouldReceive('setPosition')->with($courseObjective1->getPosition())->once();
+        $newObjective->shouldReceive('setTerms')->with($courseObjective1->getTerms())->once();
         $this->objectiveManager
             ->shouldReceive('create')->once()
             ->andReturn($newObjective);
@@ -1168,6 +1173,7 @@ class CourseRolloverTest extends TestCase
         $courseObjective1->setTitle('test course objective1');
         $courseObjective1->addMeshDescriptor(new MeshDescriptor());
         $courseObjective1->addParent(new Objective());
+        $courseObjective1->setTerms(new ArrayCollection([new Term()]));
         $course->addObjective($courseObjective1);
         $courseObjective2 = new Objective();
         $courseObjective2->setId(42);
@@ -1209,6 +1215,7 @@ class CourseRolloverTest extends TestCase
         $sessionObjective1->addMeshDescriptor(new MeshDescriptor());
         $sessionObjective1->addParent($courseObjective1);
         $sessionObjective1->addParent($courseObjective2);
+        $sessionObjective1->setTerms(new ArrayCollection([new Term()]));
         $session1->addObjective($sessionObjective1);
 
         $sessionObjective2 = new Objective();
