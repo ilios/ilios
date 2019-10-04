@@ -35,6 +35,16 @@ class ProgramYearStewardTest extends EntityBase
     }
 
     /**
+     * @covers \App\Entity\ProgramYearSteward::setDepartment
+     * @covers \App\Entity\ProgramYearSteward::getDepartment
+     */
+    public function testSetDepartmentToNull()
+    {
+        $this->object->setDepartment(null);
+        $this->assertEquals(null, $this->object->getDepartment());
+    }
+
+    /**
      * @covers \App\Entity\ProgramYearSteward::setProgramYear
      * @covers \App\Entity\ProgramYearSteward::getProgramYear
      */

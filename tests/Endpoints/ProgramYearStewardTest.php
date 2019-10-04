@@ -100,4 +100,17 @@ class ProgramYearStewardTest extends ReadWriteEndpointTest
             $this->putTest($data, $data, $data['id']);
         }
     }
+
+    /**
+     * Tests creation of a new steward at the school level, without department.
+     */
+    public function testPostStewardWithoutDepartment()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $this->assertNotEmpty($data['department']);
+        unset($data['department']);
+        $postData = $data;
+        $this->postTest($data, $postData);
+    }
 }
