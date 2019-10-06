@@ -167,6 +167,21 @@ class LearningMaterialDTO
      */
     public $token;
 
+    /**
+     * List of all sessions a material is attached to, including the ones
+     * where the LM is attached to the course a session is in.
+     * Not exposed, used by indexing
+     *
+     * @var int[]
+     */
+    public $indexSessions;
+
+    /**
+     * Not exposed, used by indexing
+     * @var string
+     */
+    public $relativePath;
+
     public function __construct(
         $id,
         $title,
@@ -180,7 +195,8 @@ class LearningMaterialDTO
         $mimetype,
         $filesize,
         $link,
-        $token
+        $token,
+        $relativePath
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -195,9 +211,11 @@ class LearningMaterialDTO
         $this->filesize = $filesize;
         $this->link = $link;
         $this->token = $token;
+        $this->relativePath = $relativePath;
 
         $this->sessionLearningMaterials = [];
         $this->courseLearningMaterials = [];
+        $this->indexSessions = [];
     }
 
     /**

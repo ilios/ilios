@@ -63,4 +63,13 @@ class LearningMaterialManager extends BaseManager
         return $this->em
             ->createQuery('SELECT COUNT(l.id) FROM App\Entity\LearningMaterial l')->getSingleScalarResult();
     }
+
+    /**
+     * Get all the IDs for learning materials that are files
+     */
+    public function getFileLearningMaterialIds() : array
+    {
+        $dql = 'SELECT l.id FROM App\Entity\LearningMaterial l WHERE l.relativePath IS NOT NULL';
+        return $this->em->createQuery($dql)->getScalarResult();
+    }
 }

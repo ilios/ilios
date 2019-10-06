@@ -19,6 +19,7 @@ class ElasticSearchBase
     public const PUBLIC_CURRICULUM_INDEX = 'ilios-public-curriculum';
     public const PRIVATE_USER_INDEX = 'ilios-private-users';
     public const PUBLIC_MESH_INDEX = 'ilios-public-mesh';
+    public const PRIVATE_LEARNING_MATERIAL_INDEX = 'ilios-private-learning-materials';
     public const SESSION_ID_PREFIX = 'session_';
 
     /**

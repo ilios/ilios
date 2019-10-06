@@ -2,6 +2,7 @@
 
 namespace App\Entity\Repository;
 
+use App\Entity\LearningMaterial;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -55,7 +56,8 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
                 $arr['mimetype'],
                 $arr['filesize'],
                 $arr['link'],
-                $arr['token']
+                $arr['token'],
+                $arr['relativePath']
             );
         }
         $learningMaterialIds = array_keys($learningMaterialDTOs);
@@ -76,23 +78,46 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
             $learningMaterialDTOs[$arr['xId']]->owningUser = (int) $arr['owningUserId'];
             $learningMaterialDTOs[$arr['xId']]->status = (int) $arr['statusId'];
         }
-
-        $related = [
-            'courseLearningMaterials',
-            'sessionLearningMaterials',
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS learningMaterialId')
-                ->from('App\Entity\LearningMaterial', 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $learningMaterialIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $learningMaterialDTOs[$arr['learningMaterialId']]->{$rel}[] = $arr['relId'];
+        $qb = $this->_em->createQueryBuilder()
+            ->select('clm.id AS clmId, s.id as sessionId, x.id AS learningMaterialId')
+            ->from(LearningMaterial::class, 'x')
+            ->join("x.courseLearningMaterials", 'clm')
+            ->leftJoin("clm.course", 'c')
+            ->leftJoin("c.sessions", 's')
+            ->where($qb->expr()->in('x.id', ':ids'))
+            ->orderBy('clmId')
+            ->setParameter('ids', $learningMaterialIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $lm = $learningMaterialDTOs[$arr['learningMaterialId']];
+            $id = $arr['clmId'];
+            $sessionId = $arr['sessionId'];
+            if (!in_array($id, $lm->courseLearningMaterials)) {
+                $lm->courseLearningMaterials[] = $id;
+            }
+            if (!in_array($sessionId, $lm->indexSessions)) {
+                $lm->indexSessions[] = $sessionId;
             }
         }
+        $qb = $this->_em->createQueryBuilder()
+            ->select('slm.id AS slmId, s.id as sessionId, x.id AS learningMaterialId')
+            ->from(LearningMaterial::class, 'x')
+            ->join("x.sessionLearningMaterials", 'slm')
+            ->leftJoin("slm.session", 's')
+            ->where($qb->expr()->in('x.id', ':ids'))
+            ->orderBy('slmId')
+            ->setParameter('ids', $learningMaterialIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $lm = $learningMaterialDTOs[$arr['learningMaterialId']];
+            $id = $arr['slmId'];
+            $sessionId = $arr['sessionId'];
+            if (!in_array($id, $lm->sessionLearningMaterials)) {
+                $lm->sessionLearningMaterials[] = $id;
+            }
+            if (!in_array($sessionId, $lm->indexSessions)) {
+                $lm->indexSessions[] = $sessionId;
+            }
+        }
+
         return array_values($learningMaterialDTOs);
     }
     

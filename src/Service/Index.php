@@ -4,13 +4,26 @@ namespace App\Service;
 
 use App\Classes\ElasticSearchBase;
 use App\Classes\IndexableCourse;
+use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\DTO\UserDTO;
+use Elasticsearch\Client;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Exception;
 
 class Index extends ElasticSearchBase
 {
+    /**
+     * @var IliosFileSystem
+     */
+    private $iliosFileSystem;
+
+    public function __construct(IliosFileSystem $iliosFileSystem, Client $client = null)
+    {
+        parent::__construct($client);
+        $this->iliosFileSystem = $iliosFileSystem;
+    }
+
     /**
      * @param UserDTO[] $users
      * @return bool
@@ -177,6 +190,42 @@ class Index extends ElasticSearchBase
         return !$result['errors'];
     }
 
+    /**
+     * @param LearningMaterialDTO[] $materials
+     * @return bool
+     */
+    public function indexLearningMaterials(array $materials): bool
+    {
+        foreach ($materials as $material) {
+            if (!$material instanceof LearningMaterialDTO) {
+                throw new \InvalidArgumentException(
+                    '$materials must be an array of ' . LearningMaterialDTO::class .
+                    ' ' . get_class($material) . ' found'
+                );
+            }
+        }
+        $results = array_map(function (LearningMaterialDTO $lm) {
+            $params = [
+                'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
+                'type' => '_doc',
+                'pipeline' => 'learning_materials',
+                'id' => $lm->id,
+                'body' => [
+                    'name' => $lm->filename,
+                    'sessions' => array_values($lm->indexSessions),
+                    'data' => base64_encode($this->iliosFileSystem->getFileContents($lm->relativePath))
+                ]
+            ];
+            return $this->client->index($params);
+        }, $materials);
+
+        $errors = array_filter($results, function ($result) {
+            return $result['result'] === 'error';
+        });
+
+        return empty($errors);
+    }
+
     protected function index(array $params): array
     {
         if (!$this->enabled) {
@@ -262,9 +311,12 @@ class Index extends ElasticSearchBase
             return;
         }
 
+        $learningMaterialsPipeline = $this->buildLearningMaterialPipeline();
+        $this->client->ingest()->putPipeline($learningMaterialsPipeline);
         $indexes = [
             $this->buildCurriculumIndex(),
             $this->buildUserIndex(),
+            $this->buildLearningMaterialIndex(),
             [
                 'index' => self::PUBLIC_MESH_INDEX,
                 'body' => [
@@ -546,6 +598,47 @@ class Index extends ElasticSearchBase
                             'enabled' => [
                                 'type' => 'boolean',
                             ],
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    protected function buildLearningMaterialIndex(): array
+    {
+        return [
+        'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
+        'body' => [
+            'settings' => [
+                'number_of_shards' => 1,
+                'number_of_replicas' => 0,
+            ],
+            'mappings' => [
+                '_doc' => [
+                    'properties' => [
+                        'session' => [
+                            'type' => 'integer',
+                        ],
+                        'name' => [
+                            'type' => 'text',
+                        ],
+                    ]
+                ]
+            ]
+        ]
+        ];
+    }
+    protected function buildLearningMaterialPipeline(): array
+    {
+        return [
+            'id' => 'learning_materials',
+            'body' => [
+                'description' => 'Learning Material Data',
+                'processors' => [
+                    [
+                        'attachment' => [
+                            'field' => 'data'
                         ]
                     ]
                 ]
