@@ -88,11 +88,11 @@ class Index extends ElasticSearchBase
 
         $input = array_reduce($courses, function (array $carry, IndexableCourse $item) {
             $sessions = $item->createIndexObjects();
-            return array_merge($carry, $sessions);
+            $sessionsWithMaterials = $this->attachLearningMaterialsToSession($sessions);
+            return array_merge($carry, $sessionsWithMaterials);
         }, []);
 
-
-        $result = $this->bulkIndex(Search::PUBLIC_CURRICULUM_INDEX, $input);
+        $result = $this->bulkIndex(Search::CURRICULUM_INDEX, $input);
 
         if ($result['errors']) {
             $errors = array_map(function (array $item) {
@@ -117,7 +117,7 @@ class Index extends ElasticSearchBase
     public function deleteCourse(int $id): bool
     {
         $result = $this->deleteByQuery([
-            'index' => Search::PUBLIC_CURRICULUM_INDEX,
+            'index' => Search::CURRICULUM_INDEX,
             'body' => [
                 'query' => [
                     'term' => ['courseId' => $id]
@@ -136,7 +136,7 @@ class Index extends ElasticSearchBase
     public function deleteSession(int $id): bool
     {
         $result = $this->delete([
-            'index' => Search::PUBLIC_CURRICULUM_INDEX,
+            'index' => Search::CURRICULUM_INDEX,
             'id' => ElasticSearchBase::SESSION_ID_PREFIX . $id
         ]);
 
@@ -211,7 +211,6 @@ class Index extends ElasticSearchBase
                 'pipeline' => 'learning_materials',
                 'id' => $lm->id,
                 'body' => [
-                    'name' => $lm->filename,
                     'sessions' => array_values($lm->indexSessions),
                     'data' => base64_encode($this->iliosFileSystem->getFileContents($lm->relativePath))
                 ]
@@ -309,6 +308,10 @@ class Index extends ElasticSearchBase
     {
         if (!$this->enabled) {
             return;
+        }
+        // remove the deprecated public-curriculum-index
+        if ($this->client->indices()->exists(['index' => self::PUBLIC_CURRICULUM_INDEX])) {
+            $this->client->indices()->delete(['index' => self::PUBLIC_CURRICULUM_INDEX]);
         }
 
         $learningMaterialsPipeline = $this->buildLearningMaterialPipeline();
@@ -415,7 +418,7 @@ class Index extends ElasticSearchBase
 
         $analysis = $this->buildAnalyzers();
         return [
-            'index' => self::PUBLIC_CURRICULUM_INDEX,
+            'index' => self::CURRICULUM_INDEX,
             'body' => [
                 'settings' => [
                     'analysis' => $analysis,
@@ -443,7 +446,9 @@ class Index extends ElasticSearchBase
                             'courseTitle' => $txtTypeFieldWithCompletion,
                             'courseTerms' => $txtTypeFieldWithCompletion,
                             'courseObjectives'  => $txtTypeField,
-                            'courseLearningMaterials'  => $txtTypeField,
+                            'courseLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
+                            'courseLearningMaterialDescriptions'  => $txtTypeField,
+                            'courseLearningMaterialCitation'  => $txtTypeField,
                             'courseMeshDescriptorIds' => [
                                 'type' => 'keyword',
                                 'fields' => [
@@ -472,7 +477,10 @@ class Index extends ElasticSearchBase
                             ],
                             'sessionTerms' => $txtTypeFieldWithCompletion,
                             'sessionObjectives'  => $txtTypeField,
-                            'sessionLearningMaterials'  => $txtTypeField,
+                            'sessionLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
+                            'sessionLearningMaterialDescriptions'  => $txtTypeField,
+                            'sessionLearningMaterialCitation'  => $txtTypeField,
+                            'learningMaterialAttachments'  => $txtTypeField,
                             'sessionMeshDescriptorIds' => [
                                 'type' => 'keyword',
                                 'fields' => [
@@ -608,27 +616,25 @@ class Index extends ElasticSearchBase
     protected function buildLearningMaterialIndex(): array
     {
         return [
-        'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
-        'body' => [
-            'settings' => [
-                'number_of_shards' => 1,
-                'number_of_replicas' => 0,
-            ],
-            'mappings' => [
-                '_doc' => [
-                    'properties' => [
-                        'session' => [
-                            'type' => 'integer',
-                        ],
-                        'name' => [
-                            'type' => 'text',
-                        ],
+            'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
+            'body' => [
+                'settings' => [
+                    'number_of_shards' => 1,
+                    'number_of_replicas' => 0,
+                ],
+                'mappings' => [
+                    '_doc' => [
+                        'properties' => [
+                            'sessions' => [
+                                'type' => 'integer',
+                            ],
+                        ]
                     ]
                 ]
             ]
-        ]
         ];
     }
+
     protected function buildLearningMaterialPipeline(): array
     {
         return [
@@ -638,11 +644,58 @@ class Index extends ElasticSearchBase
                 'processors' => [
                     [
                         'attachment' => [
-                            'field' => 'data'
+                            'field' => 'data',
+                            'target_field' => 'material',
                         ]
                     ]
                 ]
             ]
         ];
+    }
+
+    protected function attachLearningMaterialsToSession(array $sessions): array
+    {
+        $sessionsById = [];
+        $ids = [];
+        foreach ($sessions as $session) {
+            $sessionsById[$session['sessionId']] = $session;
+            $ids[] = $session['sessionId'];
+        }
+        $should = array_map(function (int $id) {
+            return ['term' => [
+                'sessions' => $id
+            ]];
+        }, $ids);
+        $params = [
+            'type' => '_doc',
+            'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'should' => $should
+                    ]
+                ],
+                "_source" => [
+                    'material.content',
+                    'sessions'
+                ]
+            ]
+        ];
+        $results = $this->client->search($params);
+        $rhett = array_reduce($results['hits']['hits'], function (array $sessions, array $hit) {
+            $result = $hit['_source'];
+
+            if (array_key_exists('material', $result)) {
+                foreach ($result['sessions'] as $id) {
+                    if (array_key_exists($id, $sessions)) {
+                        $sessions[$id]['learningMaterialAttachments'][] = $result['material']['content'];
+                    }
+                }
+            }
+
+            return $sessions;
+        }, $sessionsById);
+
+        return array_values($rhett);
     }
 }

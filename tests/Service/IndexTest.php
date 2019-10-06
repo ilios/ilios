@@ -185,7 +185,7 @@ class IndexTest extends TestCase
             'body' => [
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::PUBLIC_CURRICULUM_INDEX,
+                        '_index' => ElasticSearchBase::CURRICULUM_INDEX,
                         '_type' => '_doc',
                         '_id' => 1
                     ]
@@ -195,7 +195,7 @@ class IndexTest extends TestCase
                 ],
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::PUBLIC_CURRICULUM_INDEX,
+                        '_index' => ElasticSearchBase::CURRICULUM_INDEX,
                         '_type' => '_doc',
                         '_id' => 2
                     ]
@@ -205,7 +205,7 @@ class IndexTest extends TestCase
                 ],
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::PUBLIC_CURRICULUM_INDEX,
+                        '_index' => ElasticSearchBase::CURRICULUM_INDEX,
                         '_type' => '_doc',
                         '_id' => 3
                     ]

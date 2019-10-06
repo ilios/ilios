@@ -72,7 +72,7 @@ class Search extends ElasticSearchBase
 
         $params = [
             'type' => '_doc',
-            'index' => self::PUBLIC_CURRICULUM_INDEX,
+            'index' => self::CURRICULUM_INDEX,
             'body' => [
                 'suggest' => $suggest,
                 "_source" => [

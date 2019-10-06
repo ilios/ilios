@@ -89,9 +89,10 @@ class PopulateIndexCommand extends Command
         $output->writeln("<info>Clearing the index and preparing to insert data.</info>");
         $this->index->clear();
         $output->writeln("<info>Ok.</info>");
+
         $this->populateUsers($output);
-        $this->populateCourses($output);
         $this->populateLearningMaterials($output);
+        $this->populateCourses($output);
         $this->populateMesh($output);
     }
 

@@ -806,7 +806,7 @@ EOL;
         }
 
         $qb = $this->_em->createQueryBuilder()
-            ->select("s.id AS sessionId, CONCAT(l.title, ' ', l.description) AS txt")
+            ->select("s.id AS sessionId, l.title, l.description, l.citation")
             ->from(Session::class, 's')
             ->join("s.learningMaterials", 'slm')
             ->join("slm.learningMaterial", 'l')
@@ -814,7 +814,9 @@ EOL;
             ->setParameter('ids', $sessionIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $sessions[$arr['sessionId']]->learningMaterials[] = $arr['txt'];
+            $sessions[$arr['sessionId']]->learningMaterialTitles[] = $arr['title'];
+            $sessions[$arr['sessionId']]->learningMaterialDescriptions[] = $arr['description'];
+            $sessions[$arr['sessionId']]->learningMaterialCitations[] = $arr['citation'];
         }
 
         return array_values($sessions);
