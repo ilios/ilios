@@ -79,23 +79,22 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
             $learningMaterialDTOs[$arr['xId']]->status = (int) $arr['statusId'];
         }
         $qb = $this->_em->createQueryBuilder()
-            ->select('clm.id AS clmId, s.id as sessionId, x.id AS learningMaterialId')
+            ->select('clm.id AS clmId, c.id as courseId, x.id AS learningMaterialId')
             ->from(LearningMaterial::class, 'x')
             ->join("x.courseLearningMaterials", 'clm')
             ->leftJoin("clm.course", 'c')
-            ->leftJoin("c.sessions", 's')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->orderBy('clmId')
             ->setParameter('ids', $learningMaterialIds);
         foreach ($qb->getQuery()->getResult() as $arr) {
             $lm = $learningMaterialDTOs[$arr['learningMaterialId']];
             $id = $arr['clmId'];
-            $sessionId = $arr['sessionId'];
+            $courseId = $arr['courseId'];
             if (!in_array($id, $lm->courseLearningMaterials)) {
                 $lm->courseLearningMaterials[] = $id;
             }
-            if (!in_array($sessionId, $lm->indexSessions)) {
-                $lm->indexSessions[] = $sessionId;
+            if (!in_array($courseId, $lm->courses)) {
+                $lm->courses[] = $courseId;
             }
         }
         $qb = $this->_em->createQueryBuilder()
@@ -113,8 +112,8 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
             if (!in_array($id, $lm->sessionLearningMaterials)) {
                 $lm->sessionLearningMaterials[] = $id;
             }
-            if (!in_array($sessionId, $lm->indexSessions)) {
-                $lm->indexSessions[] = $sessionId;
+            if (!in_array($sessionId, $lm->sessions)) {
+                $lm->sessions[] = $sessionId;
             }
         }
 

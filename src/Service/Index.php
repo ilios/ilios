@@ -211,7 +211,8 @@ class Index extends ElasticSearchBase
                 'pipeline' => 'learning_materials',
                 'id' => $lm->id,
                 'body' => [
-                    'sessions' => array_values($lm->indexSessions),
+                    'courses' => array_values($lm->courses),
+                    'sessions' => array_values($lm->sessions),
                     'data' => base64_encode($this->iliosFileSystem->getFileContents($lm->relativePath))
                 ]
             ];
@@ -449,6 +450,7 @@ class Index extends ElasticSearchBase
                             'courseLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
                             'courseLearningMaterialDescriptions'  => $txtTypeField,
                             'courseLearningMaterialCitation'  => $txtTypeField,
+                            'courseLearningMaterialAttachments'  => $txtTypeField,
                             'courseMeshDescriptorIds' => [
                                 'type' => 'keyword',
                                 'fields' => [
@@ -480,7 +482,7 @@ class Index extends ElasticSearchBase
                             'sessionLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
                             'sessionLearningMaterialDescriptions'  => $txtTypeField,
                             'sessionLearningMaterialCitation'  => $txtTypeField,
-                            'learningMaterialAttachments'  => $txtTypeField,
+                            'sessionLearningMaterialAttachments'  => $txtTypeField,
                             'sessionMeshDescriptorIds' => [
                                 'type' => 'keyword',
                                 'fields' => [
@@ -619,12 +621,14 @@ class Index extends ElasticSearchBase
             'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
             'body' => [
                 'settings' => [
-                    'number_of_shards' => 1,
                     'number_of_replicas' => 0,
                 ],
                 'mappings' => [
                     '_doc' => [
                         'properties' => [
+                            'courses' => [
+                                'type' => 'integer',
+                            ],
                             'sessions' => [
                                 'type' => 'integer',
                             ],
@@ -656,45 +660,74 @@ class Index extends ElasticSearchBase
     protected function attachLearningMaterialsToSession(array $sessions): array
     {
         $sessionsById = [];
-        $ids = [];
+        $sessionIds = [];
+        $sessionIdsByCourseId = [];
+        $courseIds = array_column($sessions, 'courseId');
+        foreach ($courseIds as $id) {
+            $sessionIdsByCourseId[$id] = [];
+        }
+
         foreach ($sessions as $session) {
             $sessionsById[$session['sessionId']] = $session;
-            $ids[] = $session['sessionId'];
+            $sessionId = $session['sessionId'];
+            $sessionIds[] = $sessionId;
+            $sessionIdsByCourseId[$session['courseId']][] = $sessionId;
         }
-        $should = array_map(function (int $id) {
+        $sessionShould = array_map(function (int $id) {
             return ['term' => [
                 'sessions' => $id
             ]];
-        }, $ids);
+        }, $sessionIds);
+        $courseShould = array_map(function (int $id) {
+            return ['term' => [
+                'courses' => $id
+            ]];
+        }, $courseIds);
         $params = [
             'type' => '_doc',
             'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
             'body' => [
                 'query' => [
                     'bool' => [
-                        'should' => $should
+                        'should' => array_merge($courseShould, $sessionShould)
                     ]
                 ],
                 "_source" => [
                     'material.content',
-                    'sessions'
+                    'courses',
+                    'sessions',
                 ]
             ]
         ];
         $results = $this->client->search($params);
-        $rhett = array_reduce($results['hits']['hits'], function (array $sessions, array $hit) {
-            $result = $hit['_source'];
+        // write all these learning materials into the sessions they belong to
+        $rhett = array_reduce(
+            $results['hits']['hits'],
+            function (array $sessions, array $hit) use ($sessionIdsByCourseId) {
+                $result = $hit['_source'];
 
-            if (array_key_exists('material', $result)) {
-                foreach ($result['sessions'] as $id) {
-                    if (array_key_exists($id, $sessions)) {
-                        $sessions[$id]['learningMaterialAttachments'][] = $result['material']['content'];
+                if (array_key_exists('material', $result)) {
+                    $content = $result['material']['content'];
+                    foreach ($result['sessions'] as $id) {
+                        if (array_key_exists($id, $sessions)) {
+                            $sessions[$id]['sessionLearningMaterialAttachments'][] = $content;
+                        }
+                    }
+                    foreach ($result['courses'] as $courseId) {
+                        if (array_key_exists($courseId, $sessionIdsByCourseId)) {
+                            foreach ($sessionIdsByCourseId[$courseId] as $id) {
+                                if (array_key_exists($id, $sessions)) {
+                                    $sessions[$id]['courseLearningMaterialAttachments'][] = $content;
+                                }
+                            }
+                        }
                     }
                 }
-            }
 
-            return $sessions;
-        }, $sessionsById);
+                return $sessions;
+            },
+            $sessionsById
+        );
 
         return array_values($rhett);
     }

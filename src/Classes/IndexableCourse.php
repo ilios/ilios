@@ -67,6 +67,7 @@ class IndexableCourse
             'courseLearningMaterialTitles' => array_values($this->learningMaterialTitles),
             'courseLearningMaterialDescriptions' => array_values($this->learningMaterialDescriptions),
             'courseLearningMaterialCitations' => array_values($this->learningMaterialCitations),
+            'courseLearningMaterialAttachments' => [],
         ];
 
         return array_map(function (IndexableSession $session) use ($courseData) {

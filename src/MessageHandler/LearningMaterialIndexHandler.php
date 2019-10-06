@@ -40,7 +40,7 @@ class LearningMaterialIndexHandler implements MessageHandlerInterface
     {
         $dtos = $this->manager->findDTOsBy(['id' => $message->getIds()]);
         $filteredDtos = array_filter($dtos, function (LearningMaterialDTO $dto) {
-            if (empty($dto->indexSessions)) {
+            if (empty($dto->courses) && empty($dto->sessions)) {
                 return false;
             }
             return $this->iliosFileSystem->checkLearningMaterialRelativePath($dto->relativePath);

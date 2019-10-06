@@ -66,7 +66,7 @@ class IndexableSession
             'sessionLearningMaterialTitles' => array_values($this->learningMaterialTitles),
             'sessionLearningMaterialDescriptions' => array_values($this->learningMaterialDescriptions),
             'sessionLearningMaterialCitations' => array_values($this->learningMaterialCitations),
-            'learningMaterialAttachments' => [],
+            'sessionLearningMaterialAttachments' => [],
         ];
     }
 }

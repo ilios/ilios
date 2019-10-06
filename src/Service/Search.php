@@ -266,6 +266,8 @@ class Search extends ElasticSearchBase
             'courseMeshDescriptorNames.ngram',
             'courseMeshDescriptorAnnotations',
             'courseMeshDescriptorAnnotations.ngram',
+            'courseLearningMaterialAttachments',
+            'courseLearningMaterialAttachments.ngram',
             'sessionId',
             'sessionTitle',
             'sessionTitle.ngram',
@@ -287,8 +289,8 @@ class Search extends ElasticSearchBase
             'sessionMeshDescriptorNames.ngram',
             'sessionMeshDescriptorAnnotations',
             'sessionMeshDescriptorAnnotations.ngram',
-            'learningMaterialAttachments',
-            'learningMaterialAttachments.ngram',
+            'sessionLearningMaterialAttachments',
+            'sessionLearningMaterialAttachments.ngram',
         ];
 
         $shouldFields = [
@@ -297,6 +299,7 @@ class Search extends ElasticSearchBase
             'courseObjectives',
             'courseLearningMaterialTitles',
             'courseLearningMaterialDescriptions',
+            'courseLearningMaterialAttachments',
             'sessionTitle',
             'sessionDescription',
             'sessionType',
@@ -304,7 +307,7 @@ class Search extends ElasticSearchBase
             'sessionObjectives',
             'sessionLearningMaterialTitles',
             'sessionLearningMaterialDescriptions',
-            'learningMaterialAttachments',
+            'sessionLearningMaterialAttachments',
         ];
 
         $mustMatch = array_map(function ($field) use ($query) {
