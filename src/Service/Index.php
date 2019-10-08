@@ -33,7 +33,11 @@ class Index extends ElasticSearchBase
         foreach ($users as $user) {
             if (!$user instanceof UserDTO) {
                 throw new \InvalidArgumentException(
-                    '$users must be an array of ' . UserDTO::class . ' ' . get_class($user) . ' found'
+                    sprintf(
+                        '$users must be an array of %s. %s found',
+                        UserDTO::class,
+                        get_class($user)
+                    )
                 );
             }
         }
@@ -81,7 +85,11 @@ class Index extends ElasticSearchBase
         foreach ($courses as $course) {
             if (!$course instanceof IndexableCourse) {
                 throw new \InvalidArgumentException(
-                    '$courses must be an array of ' . IndexableCourse::class . ' ' . get_class($course) . ' found'
+                    sprintf(
+                        '$courses must be an array of %s. %s found',
+                        IndexableCourse::class,
+                        get_class($course)
+                    )
                 );
             }
         }
@@ -152,7 +160,11 @@ class Index extends ElasticSearchBase
         foreach ($descriptors as $descriptor) {
             if (!$descriptor instanceof Descriptor) {
                 throw new \InvalidArgumentException(
-                    '$descriptors must be an array of ' . Descriptor::class . ' ' . get_class($descriptor) . ' found'
+                    sprintf(
+                        '$descriptors must be an array of %s. %s found',
+                        Descriptor::class,
+                        get_class($descriptor)
+                    )
                 );
             }
         }
@@ -199,8 +211,11 @@ class Index extends ElasticSearchBase
         foreach ($materials as $material) {
             if (!$material instanceof LearningMaterialDTO) {
                 throw new \InvalidArgumentException(
-                    '$materials must be an array of ' . LearningMaterialDTO::class .
-                    ' ' . get_class($material) . ' found'
+                    sprintf(
+                        '$materials must be an array of %s. %s found',
+                        LearningMaterialDTO::class,
+                        get_class($material)
+                    )
                 );
             }
         }
