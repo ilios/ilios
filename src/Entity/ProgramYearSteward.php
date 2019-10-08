@@ -96,7 +96,7 @@ class ProgramYearSteward implements ProgramYearStewardInterface
     /**
      * @param DepartmentInterface $department
      */
-    public function setDepartment(DepartmentInterface $department)
+    public function setDepartment(DepartmentInterface $department = null)
     {
         $this->department = $department;
     }
