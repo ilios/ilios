@@ -49,6 +49,9 @@ class IndexableSession
     /** @var array  */
     public $learningMaterialCitations = [];
 
+    /** @var array  */
+    public $fileLearningMaterialIds = [];
+
     public function createIndexObject()
     {
         return [
@@ -67,6 +70,7 @@ class IndexableSession
             'sessionLearningMaterialDescriptions' => array_values($this->learningMaterialDescriptions),
             'sessionLearningMaterialCitations' => array_values($this->learningMaterialCitations),
             'sessionLearningMaterialAttachments' => [],
+            'sessionFileLearningMaterialIds' => array_values($this->fileLearningMaterialIds),
         ];
     }
 }

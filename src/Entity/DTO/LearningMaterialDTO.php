@@ -168,22 +168,6 @@ class LearningMaterialDTO
     public $token;
 
     /**
-     * List of all courses a material is attached to
-     * Not exposed, used by indexing
-     *
-     * @var int[]
-     */
-    public $courses;
-
-    /**
-     * List of all sessions a material is attached to
-     * Not exposed, used by indexing
-     *
-     * @var int[]
-     */
-    public $sessions;
-
-    /**
      * Not exposed, used by indexing
      * @var string
      */
@@ -222,8 +206,6 @@ class LearningMaterialDTO
 
         $this->sessionLearningMaterials = [];
         $this->courseLearningMaterials = [];
-        $this->courses = [];
-        $this->sessions = [];
     }
 
     /**

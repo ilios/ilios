@@ -211,8 +211,6 @@ class Index extends ElasticSearchBase
                 'pipeline' => 'learning_materials',
                 'id' => $lm->id,
                 'body' => [
-                    'courses' => array_values($lm->courses),
-                    'sessions' => array_values($lm->sessions),
                     'data' => base64_encode($this->iliosFileSystem->getFileContents($lm->relativePath))
                 ]
             ];
@@ -626,11 +624,8 @@ class Index extends ElasticSearchBase
                 'mappings' => [
                     '_doc' => [
                         'properties' => [
-                            'courses' => [
-                                'type' => 'integer',
-                            ],
-                            'sessions' => [
-                                'type' => 'integer',
+                            'material' => [
+                                'type' => 'object'
                             ],
                         ]
                     ]
@@ -659,76 +654,51 @@ class Index extends ElasticSearchBase
 
     protected function attachLearningMaterialsToSession(array $sessions): array
     {
-        $sessionsById = [];
-        $sessionIds = [];
-        $sessionIdsByCourseId = [];
-        $courseIds = array_column($sessions, 'courseId');
-        foreach ($courseIds as $id) {
-            $sessionIdsByCourseId[$id] = [];
-        }
-
-        foreach ($sessions as $session) {
-            $sessionsById[$session['sessionId']] = $session;
-            $sessionId = $session['sessionId'];
-            $sessionIds[] = $sessionId;
-            $sessionIdsByCourseId[$session['courseId']][] = $sessionId;
-        }
-        $sessionShould = array_map(function (int $id) {
-            return ['term' => [
-                'sessions' => $id
-            ]];
-        }, $sessionIds);
-        $courseShould = array_map(function (int $id) {
-            return ['term' => [
-                'courses' => $id
-            ]];
-        }, $courseIds);
+        $courseIds = array_column($sessions, 'courseFileLearningMaterialIds');
+        $sessionIds = array_column($sessions, 'sessionFileLearningMaterialIds');
+        $learningMaterialIds = array_values(array_unique(array_merge([], ...$courseIds, ...$sessionIds)));
         $params = [
             'type' => '_doc',
             'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
             'body' => [
                 'query' => [
-                    'bool' => [
-                        'should' => array_merge($courseShould, $sessionShould)
+                    'ids' => [
+                        'values' => $learningMaterialIds
                     ]
                 ],
                 "_source" => [
+                    '_id',
                     'material.content',
-                    'courses',
-                    'sessions',
                 ]
             ]
         ];
         $results = $this->client->search($params);
-        // write all these learning materials into the sessions they belong to
-        $rhett = array_reduce(
-            $results['hits']['hits'],
-            function (array $sessions, array $hit) use ($sessionIdsByCourseId) {
-                $result = $hit['_source'];
 
-                if (array_key_exists('material', $result)) {
-                    $content = $result['material']['content'];
-                    foreach ($result['sessions'] as $id) {
-                        if (array_key_exists($id, $sessions)) {
-                            $sessions[$id]['sessionLearningMaterialAttachments'][] = $content;
-                        }
-                    }
-                    foreach ($result['courses'] as $courseId) {
-                        if (array_key_exists($courseId, $sessionIdsByCourseId)) {
-                            foreach ($sessionIdsByCourseId[$courseId] as $id) {
-                                if (array_key_exists($id, $sessions)) {
-                                    $sessions[$id]['courseLearningMaterialAttachments'][] = $content;
-                                }
-                            }
-                        }
-                    }
+        $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
+            $result = $hit['_source'];
+            $id = $hit['_id'];
+
+            if (array_key_exists('material', $result)) {
+                $carry[$id] = $result['material']['content'];
+            }
+
+            return $carry;
+        }, []);
+        return array_map(function (array $session) use ($materialsById) {
+            foreach ($session['sessionFileLearningMaterialIds'] as $id) {
+                if (array_key_exists($id, $materialsById)) {
+                    $session['sessionLearningMaterialAttachments'][] = $materialsById[$id];
                 }
+            }
+            unset($session['sessionFileLearningMaterialIds']);
+            foreach ($session['courseFileLearningMaterialIds'] as $id) {
+                if (array_key_exists($id, $materialsById)) {
+                    $session['courseLearningMaterialAttachments'][] = $materialsById[$id];
+                }
+            }
+            unset($session['courseFileLearningMaterialIds']);
 
-                return $sessions;
-            },
-            $sessionsById
-        );
-
-        return array_values($rhett);
+            return $session;
+        }, $sessions);
     }
 }
