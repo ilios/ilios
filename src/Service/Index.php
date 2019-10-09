@@ -239,6 +239,21 @@ class Index extends ElasticSearchBase
         return empty($errors);
     }
 
+    /**
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function deleteLearningMaterial(int $id): bool
+    {
+        $result = $this->delete([
+            'index' => Search::PRIVATE_LEARNING_MATERIAL_INDEX,
+            'id' => $id
+        ]);
+
+        return $result['result'] === 'deleted';
+    }
+
     protected function index(array $params): array
     {
         if (!$this->enabled) {
@@ -627,7 +642,7 @@ class Index extends ElasticSearchBase
             ]
         ];
     }
-
+    
     protected function buildLearningMaterialIndex(): array
     {
         return [

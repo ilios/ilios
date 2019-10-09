@@ -197,4 +197,12 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     {
         return $this->course;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexableCourses(): array
+    {
+        return [$this->course];
+    }
 }
