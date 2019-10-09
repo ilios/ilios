@@ -18,10 +18,19 @@ class Index extends ElasticSearchBase
      */
     private $iliosFileSystem;
 
-    public function __construct(IliosFileSystem $iliosFileSystem, Client $client = null)
-    {
+    /** @var int */
+    private $uploadLimit;
+
+    public function __construct(
+        IliosFileSystem $iliosFileSystem,
+        Config $config,
+        Client $client = null
+    ) {
         parent::__construct($client);
         $this->iliosFileSystem = $iliosFileSystem;
+        $limit = $config->get('elasticsearch_upload_limit');
+        //default to 8mb which is under the 10mb AWS hard limit on non-huge ES clusters
+        $this->uploadLimit = $limit ?? 8000000;
     }
 
     /**
@@ -299,10 +308,9 @@ class Index extends ElasticSearchBase
         if (!$this->enabled || empty($items)) {
             return ['errors' => false];
         }
-        // split the index into 2.5mb pieces so we don't run into the
-        // AWS imposed 10MB per request limit
+
         $size = strlen(serialize($items));
-        $parts = ceil($size / 4000000);
+        $parts = ceil($size / $this->uploadLimit);
         $chunkCounts = ceil(count($items) / $parts);
         $chunks = array_chunk($items, $chunkCounts);
 

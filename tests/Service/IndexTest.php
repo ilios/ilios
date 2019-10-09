@@ -8,6 +8,7 @@ use App\Entity\Course;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
 use App\Entity\User;
+use App\Service\Config;
 use App\Service\IliosFileSystem;
 use App\Service\Index;
 use App\Tests\TestCase;
@@ -21,20 +22,31 @@ class IndexTest extends TestCase
      * @var IliosFileSystem|m\MockInterface
      */
     private $fileSystem;
+
     /**
      * @var Client|m\MockInterface
      */
     private $client;
 
+    /**
+     * @var Config|m\MockInterface
+     */
+    private $config;
+
     public function setup()
     {
         $this->fileSystem = m::mock(IliosFileSystem::class);
         $this->client = m::mock(Client::class);
+        $this->config = m::mock(Config::class);
+        $this->config->shouldReceive('get')
+            ->with('elasticsearch_upload_limit')
+            ->andReturn(8000000);
     }
     public function tearDown()
     {
         unset($this->fileSystem);
         unset($this->client);
+        unset($this->config);
     }
 
 
@@ -275,11 +287,11 @@ class IndexTest extends TestCase
 
     protected function createWithHost()
     {
-        return new Index($this->fileSystem, $this->client);
+        return new Index($this->fileSystem, $this->config, $this->client);
     }
 
     protected function createWithoutHost()
     {
-        return new Index($this->fileSystem, null);
+        return new Index($this->fileSystem, $this->config, null);
     }
 }
