@@ -101,7 +101,7 @@ class IndexTest extends TestCase
             'body' => [
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::PRIVATE_USER_INDEX,
+                        '_index' => ElasticSearchBase::USER_INDEX,
                         '_type' => '_doc',
                         '_id' => $user1->id
                     ]
@@ -121,7 +121,7 @@ class IndexTest extends TestCase
                 ],
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::PRIVATE_USER_INDEX,
+                        '_index' => ElasticSearchBase::USER_INDEX,
                         '_type' => '_doc',
                         '_id' => $user2->id
                     ]

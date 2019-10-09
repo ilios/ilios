@@ -145,7 +145,7 @@ class Search extends ElasticSearchBase
 
         $params = [
             'type' => '_doc',
-            'index' => self::PRIVATE_USER_INDEX,
+            'index' => self::USER_INDEX,
             'size' => $size,
             'body' => [
                 'suggest' => $suggest,
@@ -221,7 +221,7 @@ class Search extends ElasticSearchBase
         }
         $params = [
             'type' => '_doc',
-            'index' => self::PUBLIC_MESH_INDEX,
+            'index' => self::MESH_INDEX,
             'body' => [
                 'query' => [
                     'query_string' => [

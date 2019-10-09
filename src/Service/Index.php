@@ -57,7 +57,7 @@ class Index extends ElasticSearchBase
             ];
         }, $users);
 
-        $result = $this->bulkIndex(Search::PRIVATE_USER_INDEX, $input);
+        $result = $this->bulkIndex(Search::USER_INDEX, $input);
 
         return !$result['errors'];
     }
@@ -69,7 +69,7 @@ class Index extends ElasticSearchBase
     public function deleteUser(int $id): bool
     {
         $result = $this->delete([
-            'index' => Search::PRIVATE_USER_INDEX,
+            'index' => Search::USER_INDEX,
             'id' => $id,
         ]);
 
@@ -198,7 +198,7 @@ class Index extends ElasticSearchBase
             ];
         }, $descriptors);
 
-        $result = $this->bulkIndex(Search::PUBLIC_MESH_INDEX, $input);
+        $result = $this->bulkIndex(Search::MESH_INDEX, $input);
         return !$result['errors'];
     }
 
@@ -221,7 +221,7 @@ class Index extends ElasticSearchBase
         }
         $results = array_map(function (LearningMaterialDTO $lm) {
             $params = [
-                'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
+                'index' => self::LEARNING_MATERIAL_INDEX,
                 'type' => '_doc',
                 'pipeline' => 'learning_materials',
                 'id' => $lm->id,
@@ -247,7 +247,7 @@ class Index extends ElasticSearchBase
     public function deleteLearningMaterial(int $id): bool
     {
         $result = $this->delete([
-            'index' => Search::PRIVATE_LEARNING_MATERIAL_INDEX,
+            'index' => Search::LEARNING_MATERIAL_INDEX,
             'id' => $id
         ]);
 
@@ -338,10 +338,7 @@ class Index extends ElasticSearchBase
         if (!$this->enabled) {
             return;
         }
-        // remove the deprecated public-curriculum-index
-        if ($this->client->indices()->exists(['index' => self::PUBLIC_CURRICULUM_INDEX])) {
-            $this->client->indices()->delete(['index' => self::PUBLIC_CURRICULUM_INDEX]);
-        }
+        $this->cleanupOldIndexes();
 
         $learningMaterialsPipeline = $this->buildLearningMaterialPipeline();
         $this->client->ingest()->putPipeline($learningMaterialsPipeline);
@@ -350,7 +347,7 @@ class Index extends ElasticSearchBase
             $this->buildUserIndex(),
             $this->buildLearningMaterialIndex(),
             [
-                'index' => self::PUBLIC_MESH_INDEX,
+                'index' => self::MESH_INDEX,
                 'body' => [
                     'settings' => [
                         'number_of_shards' => 1,
@@ -535,7 +532,7 @@ class Index extends ElasticSearchBase
     {
         $analysis = $this->buildAnalyzers();
         return [
-            'index' => self::PRIVATE_USER_INDEX,
+            'index' => self::USER_INDEX,
             'body' => [
                 'settings' => [
                     'analysis' => $analysis,
@@ -646,7 +643,7 @@ class Index extends ElasticSearchBase
     protected function buildLearningMaterialIndex(): array
     {
         return [
-            'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
+            'index' => self::LEARNING_MATERIAL_INDEX,
             'body' => [
                 'settings' => [
                     'number_of_replicas' => 0,
@@ -689,7 +686,7 @@ class Index extends ElasticSearchBase
         $learningMaterialIds = array_values(array_unique(array_merge([], ...$courseIds, ...$sessionIds)));
         $params = [
             'type' => '_doc',
-            'index' => self::PRIVATE_LEARNING_MATERIAL_INDEX,
+            'index' => self::LEARNING_MATERIAL_INDEX,
             'body' => [
                 'query' => [
                     'ids' => [
@@ -730,5 +727,22 @@ class Index extends ElasticSearchBase
 
             return $session;
         }, $sessions);
+    }
+
+    /**
+     * Indexes have been renamed, this cleans up after ourselves
+     */
+    protected function cleanupOldIndexes()
+    {
+        $indexes = [
+            'ilios-public-curriculum',
+            'ilios-public-mesh',
+            'ilios-private-users',
+        ];
+        foreach ($indexes as $index) {
+            if ($this->client->indices()->exists(['index' => $index])) {
+                $this->client->indices()->delete(['index' => $index]);
+            }
+        }
     }
 }
