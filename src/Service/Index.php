@@ -684,33 +684,37 @@ class Index extends ElasticSearchBase
         $courseIds = array_column($sessions, 'courseFileLearningMaterialIds');
         $sessionIds = array_column($sessions, 'sessionFileLearningMaterialIds');
         $learningMaterialIds = array_values(array_unique(array_merge([], ...$courseIds, ...$sessionIds)));
-        $params = [
-            'type' => '_doc',
-            'index' => self::LEARNING_MATERIAL_INDEX,
-            'body' => [
-                'query' => [
-                    'ids' => [
-                        'values' => $learningMaterialIds
+        $materialsById = [];
+        if (!empty($learningMaterialIds)) {
+            $params = [
+                'type' => '_doc',
+                'index' => self::LEARNING_MATERIAL_INDEX,
+                'body' => [
+                    'query' => [
+                        'ids' => [
+                            'values' => $learningMaterialIds
+                        ]
+                    ],
+                    "_source" => [
+                        '_id',
+                        'material.content',
                     ]
-                ],
-                "_source" => [
-                    '_id',
-                    'material.content',
                 ]
-            ]
-        ];
-        $results = $this->client->search($params);
+            ];
+            $results = $this->client->search($params);
 
-        $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
-            $result = $hit['_source'];
-            $id = $hit['_id'];
+            $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
+                $result = $hit['_source'];
+                $id = $hit['_id'];
 
-            if (array_key_exists('material', $result)) {
-                $carry[$id] = $result['material']['content'];
-            }
+                if (array_key_exists('material', $result)) {
+                    $carry[$id] = $result['material']['content'];
+                }
 
-            return $carry;
-        }, []);
+                return $carry;
+            }, []);
+        }
+
         return array_map(function (array $session) use ($materialsById) {
             foreach ($session['sessionFileLearningMaterialIds'] as $id) {
                 if (array_key_exists($id, $materialsById)) {
