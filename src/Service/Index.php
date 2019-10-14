@@ -10,6 +10,9 @@ use Elasticsearch\Client;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Exception;
+use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\PdfParser\StreamReader;
+use SplFileInfo;
 
 class Index extends ElasticSearchBase
 {
@@ -29,8 +32,8 @@ class Index extends ElasticSearchBase
         parent::__construct($client);
         $this->iliosFileSystem = $iliosFileSystem;
         $limit = $config->get('elasticsearch_upload_limit');
-        //default to 8mb which is under the 10mb AWS hard limit on non-huge ES clusters
-        $this->uploadLimit = $limit ?? 8000000;
+        //10mb AWS hard limit on non-huge ES clusters and we need some overhead for control statements
+        $this->uploadLimit = $limit ?? 9000000;
     }
 
     /**
@@ -228,18 +231,29 @@ class Index extends ElasticSearchBase
                 );
             }
         }
-        $results = array_map(function (LearningMaterialDTO $lm) {
+
+        $extractedMaterials = array_reduce($materials, function ($materials, LearningMaterialDTO $lm) {
+            foreach ($this->extractLearningMaterialData($lm) as $data) {
+                $materials[] = [
+                    'id' => $lm->id,
+                    'data' => $data
+                ];
+            }
+            return $materials;
+        }, []);
+
+        $results = array_map(function (array $arr) {
             $params = [
                 'index' => self::LEARNING_MATERIAL_INDEX,
                 'type' => '_doc',
                 'pipeline' => 'learning_materials',
-                'id' => $lm->id,
                 'body' => [
-                    'data' => base64_encode($this->iliosFileSystem->getFileContents($lm->relativePath))
+                    'learningMaterialId' => $arr['id'],
+                    'data' => $arr['data'],
                 ]
             ];
             return $this->client->index($params);
-        }, $materials);
+        }, $extractedMaterials);
 
         $errors = array_filter($results, function ($result) {
             return $result['result'] === 'error';
@@ -255,12 +269,16 @@ class Index extends ElasticSearchBase
      */
     public function deleteLearningMaterial(int $id): bool
     {
-        $result = $this->delete([
+        $result = $this->deleteByQuery([
             'index' => Search::LEARNING_MATERIAL_INDEX,
-            'id' => $id
+            'body' => [
+                'query' => [
+                    'term' => ['learningMaterialId' => $id]
+                ]
+            ]
         ]);
 
-        return $result['result'] === 'deleted';
+        return !count($result['failures']);
     }
 
     protected function index(array $params): array
@@ -659,6 +677,9 @@ class Index extends ElasticSearchBase
                 'mappings' => [
                     '_doc' => [
                         'properties' => [
+                            'learningMaterialId' => [
+                                'type' => 'integer'
+                            ],
                             'material' => [
                                 'type' => 'object'
                             ],
@@ -699,12 +720,12 @@ class Index extends ElasticSearchBase
                 'index' => self::LEARNING_MATERIAL_INDEX,
                 'body' => [
                     'query' => [
-                        'ids' => [
-                            'values' => $learningMaterialIds
+                        'terms' => [
+                            'learningMaterialId' => $learningMaterialIds
                         ]
                     ],
                     "_source" => [
-                        '_id',
+                        'learningMaterialId',
                         'material.content',
                     ]
                 ]
@@ -713,10 +734,10 @@ class Index extends ElasticSearchBase
 
             $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
                 $result = $hit['_source'];
-                $id = $hit['_id'];
+                $id = $result['learningMaterialId'];
 
                 if (array_key_exists('material', $result)) {
-                    $carry[$id] = $result['material']['content'];
+                    $carry[$id][] = $result['material']['content'];
                 }
 
                 return $carry;
@@ -726,13 +747,17 @@ class Index extends ElasticSearchBase
         return array_map(function (array $session) use ($materialsById) {
             foreach ($session['sessionFileLearningMaterialIds'] as $id) {
                 if (array_key_exists($id, $materialsById)) {
-                    $session['sessionLearningMaterialAttachments'][] = $materialsById[$id];
+                    foreach ($materialsById[$id] as $value) {
+                        $session['sessionLearningMaterialAttachments'][] = $value;
+                    }
                 }
             }
             unset($session['sessionFileLearningMaterialIds']);
             foreach ($session['courseFileLearningMaterialIds'] as $id) {
                 if (array_key_exists($id, $materialsById)) {
-                    $session['courseLearningMaterialAttachments'][] = $materialsById[$id];
+                    foreach ($materialsById[$id] as $value) {
+                        $session['courseLearningMaterialAttachments'][] = $value;
+                    }
                 }
             }
             unset($session['courseFileLearningMaterialIds']);
@@ -756,5 +781,109 @@ class Index extends ElasticSearchBase
                 $this->client->indices()->delete(['index' => $index]);
             }
         }
+    }
+
+    /**
+     * Base64 encodes learning material contents for indexing
+     * Large PDFs are split into multiple chunks to they can
+     * be indexed without going over the size limit. Other non-text
+     * or too large files are ignored.
+     *
+     * @param LearningMaterialDTO $dto
+     * @return array
+     */
+    protected function extractLearningMaterialData(LearningMaterialDTO $dto) : array
+    {
+        //skip files without useful text content
+        if ($dto->mimetype && preg_match('/image|video|audio/', $dto->mimetype)) {
+            return [];
+        }
+        $info = new SplFileInfo($dto->filename);
+        $extension = $info->getExtension();
+        if (in_array($extension, ['mp3', 'mov'])) {
+            return [];
+        }
+
+        $data = $this->iliosFileSystem->getFileContents($dto->relativePath);
+        $encodedData = base64_encode($data);
+        if (strlen($encodedData) < $this->uploadLimit) {
+            return [
+                $encodedData
+            ];
+        }
+        if ($dto->mimetype === 'application/pdf') {
+            $parts = $this->splitPDFIntoSmallParts($data);
+            return array_map(function (string $string) {
+                return base64_encode($string);
+            }, $parts);
+        }
+
+        return [];
+    }
+
+    /**
+     * Extracts each page from a PDF and attempts to create smaller PDFs with as many pages
+     * as possible. This is better than returning all the pages individually because there
+     * is significant overhead in each transaction with elasticsearch so we want to keep
+     * the total PDF count down, but each one under the limit,.
+     *
+     * Thanks to https://gist.github.com/silasrm/3da655045b899a858eae4f4463755f5c for a
+     * critical example.
+     *
+     * @param string $pdfContents
+     * @return array
+     */
+    protected function splitPDFIntoSmallParts(string $pdfContents) : array
+    {
+        // Base64 Encoding makes files about 30% bigger so we need some padding when comparing
+        $fileSizeLimit = $this->uploadLimit * .66;
+
+        $i = 1;
+        $pagesInCurrentPdf = 0;
+        $PDFs = [];
+        $sizeLimitReached = true;
+        $newPdf = new Fpdi();
+        $stream = StreamReader::createByString($pdfContents);
+        $pageCount = $newPdf->setSourceFile($stream);
+        // Keep adding new pages until we run out of space and then start over
+        while ($i <= $pageCount) {
+            if ($sizeLimitReached) {
+                // start a new empty PDF
+                $newPdf = new FPDI();
+                $newPdf->setSourceFile($stream);
+                $sizeLimitReached = false;
+            }
+            //create a copy to see how big the output would be
+            $testCopy = clone $newPdf;
+            $this->addPageToPdf($testCopy, $i);
+            $testOutput = $testCopy->Output('s');
+            if (strlen($testOutput) < $fileSizeLimit) {
+                //add the page and move on to the next one
+                $this->addPageToPdf($newPdf, $i);
+                $i++;
+                $pagesInCurrentPdf++;
+            } else {
+                if ($pagesInCurrentPdf > 0) {
+                    //we've reached a point where adding another page is too much
+                    //instead we'll just output what we have and start again
+                    $output = $newPdf->Output('s');
+                    $PDFs[] = $output;
+                    $sizeLimitReached = true;
+                    $pagesInCurrentPdf = 0;
+                } else {
+                    //this single page is too big so we have to skip it
+                    $i++;
+                }
+            }
+        }
+        return $PDFs;
+    }
+
+    protected function addPageToPdf(FPDI $pdf, int $pageNumber) : void
+    {
+        $templateId = $pdf->importPage($pageNumber);
+        $size = $pdf->getTemplateSize($templateId);
+        $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
+        $pdf->useTemplate($templateId);
     }
 }
