@@ -327,10 +327,44 @@ class Index extends ElasticSearchBase
             return ['errors' => false];
         }
 
-        $size = strlen(serialize($items));
-        $parts = ceil($size / $this->uploadLimit);
-        $chunkCounts = ceil(count($items) / $parts);
-        $chunks = array_chunk($items, $chunkCounts);
+        $totalItems = count($items);
+        $i = 0;
+        $chunks = [];
+        $chunk = [];
+        $chunkSize = 0;
+        // Keep adding items until we run out of space and then start over
+        while ($i < $totalItems) {
+            $item = $items[$i];
+            $itemSize = strlen(json_encode($item));
+            if (($chunkSize + $itemSize) < $this->uploadLimit) {
+                //add the item and move on to the next one
+                $chunk[] = $item;
+                $i++;
+                $chunkSize += $itemSize;
+            } else {
+                if (count($chunk)) {
+                    //we've reached a point where adding another item is too much
+                    //instead we'll just save what we have and start again
+                    $chunks[] = $chunk;
+                    $chunk = [];
+                    $chunkSize = 0;
+                } else {
+                    //this single item is too big so we have to skip it
+                    throw new Exception(
+                        sprintf(
+                            'Unable to index %s ID #%s as it is larger than the %s byte upload limit',
+                            $index,
+                            $item['id'],
+                            $this->uploadLimit
+                        )
+                    );
+                }
+            }
+        }
+        //take care of the last iteration
+        if (!empty($chunk)) {
+            $chunks[] = $chunk;
+        }
 
         $results = [
             'took' => 0,
