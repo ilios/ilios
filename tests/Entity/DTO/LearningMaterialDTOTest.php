@@ -75,10 +75,11 @@ class LearningMaterialDTOTest extends TestCase
         $this->dto->token = 'aaabbbcccdddeee';
         $this->dto->uploadDate = '12/12/2012';
         $this->dto->userRole = 1;
+        $this->dto->relativePath = 'path/to/material';
 
         $props = array_keys(get_object_vars($this->dto));
         foreach ($props as $prop) {
-            $this->assertNotNull($this->dto->$prop);
+            $this->assertNotNull($this->dto->$prop, "${prop} is set");
         }
 
         $this->dto->clearMaterial();
@@ -94,12 +95,13 @@ class LearningMaterialDTOTest extends TestCase
                 'link',
                 'mimetype',
                 'originalAuthor',
-                'token'
+                'token',
+                'relativePath',
                 ])
             ) {
-                $this->assertNull($this->dto->$prop);
+                $this->assertNull($this->dto->$prop, "${prop} is cleared");
             } else {
-                $this->assertNotNull($this->dto->$prop);
+                $this->assertNotNull($this->dto->$prop, "${prop} is not cleared");
             }
         }
     }

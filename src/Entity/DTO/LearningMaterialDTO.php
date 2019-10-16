@@ -223,5 +223,6 @@ class LearningMaterialDTO
         $this->mimetype = null;
         $this->originalAuthor = null;
         $this->token = null;
+        $this->relativePath = null;
     }
 }
