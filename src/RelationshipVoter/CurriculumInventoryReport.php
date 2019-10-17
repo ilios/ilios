@@ -11,10 +11,7 @@ class CurriculumInventoryReport extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return $subject instanceof CurriculumInventoryReportInterface
-            && in_array(
-                $attribute,
-                [self::CREATE, self::VIEW, self::EDIT, self::DELETE, self::ROLLOVER]
-            );
+            && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE, self::ROLLOVER]);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

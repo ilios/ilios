@@ -11,10 +11,7 @@ class Cohort extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return $subject instanceof CohortInterface
-            && in_array(
-                $attribute,
-                [self::VIEW, self::EDIT]
-            );
+            && in_array($attribute, [self::VIEW, self::EDIT]);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

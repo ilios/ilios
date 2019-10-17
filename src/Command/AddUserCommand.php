@@ -140,13 +140,11 @@ class AddUserCommand extends Command
             'campusId'          => $input->getOption('campusId'),
             'username'          => $input->getOption('username'),
             'password'          => $input->getOption('password'),
-            'isRoot'            => (null !== $input->getOption('isRoot')) ?
-                filter_var(
-                    $input->getOption('isRoot'),
-                    FILTER_VALIDATE_BOOLEAN,
-                    FILTER_NULL_ON_FAILURE
-                )
-                : null,
+            'isRoot'            => (null !== $input->getOption('isRoot')) ? filter_var(
+                $input->getOption('isRoot'),
+                FILTER_VALIDATE_BOOLEAN,
+                FILTER_NULL_ON_FAILURE
+            ) : null
         ];
 
         $userRecord = $this->fillUserRecord($userRecord, $input, $output);

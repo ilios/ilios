@@ -11,10 +11,7 @@ class PendingUserUpdate extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return $subject instanceof PendingUserUpdateInterface
-            && in_array(
-                $attribute,
-                [self::VIEW, self::EDIT, self::DELETE]
-            );
+            && in_array($attribute, [self::VIEW, self::EDIT, self::DELETE]);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
