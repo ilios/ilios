@@ -11,10 +11,7 @@ class Vocabulary extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return $subject instanceof VocabularyInterface
-            && in_array(
-                $attribute,
-                [self::CREATE, self::VIEW, self::EDIT, self::DELETE]
-            );
+            && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

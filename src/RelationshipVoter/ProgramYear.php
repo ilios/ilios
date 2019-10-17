@@ -11,18 +11,15 @@ class ProgramYear extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return $subject instanceof ProgramYearInterface
-            && in_array(
-                $attribute,
-                [
-                    self::CREATE,
-                    self::VIEW,
-                    self::EDIT,
-                    self::DELETE,
-                    self::UNLOCK,
-                    self::LOCK,
-                    self::ARCHIVE,
-                ]
-            );
+            && in_array($attribute, [
+                self::CREATE,
+                self::VIEW,
+                self::EDIT,
+                self::DELETE,
+                self::UNLOCK,
+                self::LOCK,
+                self::ARCHIVE,
+            ]);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

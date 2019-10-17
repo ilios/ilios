@@ -569,11 +569,9 @@ class CourseRollover
 
                                 return null;
                             }
-                        )->filter(
-                            function ($value) {
-                                return !empty($value);
-                            }
-                        );
+                        )->filter(function ($value) {
+                            return !empty($value);
+                        });
 
                     $newObjective->setParents($newParents);
                     $this->objectiveManager->update($newObjective, false, false);
