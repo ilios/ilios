@@ -45,6 +45,13 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    command_handlers:
+      namespace: App\MessageHandler\
+      resource: '%kernel.project_dir%/src/MessageHandler/*IndexHandler.php'
+      autoconfigure: false
+      tags:
+        - { name: messenger.message_handler, bus: messenger.bus.index }
+
     Ilios\MeSH\Parser:
 
     Alchemy\Zippy\Zippy:
