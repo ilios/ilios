@@ -175,8 +175,8 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         $events = array_merge($events, $uniqueIlmEvents);
 
         //cast calendar events into school events
-        $schoolEvents = array_map(function (CalendarEvent $event) use ($id) {
-            return SchoolEvent::createFromCalendarEvent($id, $event);
+        $schoolEvents = array_map(function (CalendarEvent $event) {
+            return SchoolEvent::createFromCalendarEvent($event);
         }, $events);
 
         //sort events by startDate and endDate for consistency
@@ -206,7 +206,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         \DateTime $to
     ) {
         $qb = $this->_em->createQueryBuilder();
-        $what = 'c.id as courseId, s.id AS sessionId, ' .
+        $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
@@ -255,7 +255,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         $qb = $this->_em->createQueryBuilder();
 
-        $what = 'c.id as courseId, s.id AS sessionId, ' .
+        $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
@@ -353,7 +353,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         $sessionIds = array_unique(array_column($events, 'session'));
 
         // get pre-requisites from offerings
-        $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, ' .
+        $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
@@ -389,7 +389,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         // create pre-requisites events and attach them to their proper events
         foreach ($dedupedResults as $result) {
-            $prerequisite = SchoolEvent::createFromCalendarEvent($id, $this->createEventObjectForOffering($result));
+            $prerequisite = SchoolEvent::createFromCalendarEvent($this->createEventObjectForOffering($result));
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
@@ -400,7 +400,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         }
 
         // get pre-requisites from ILMs
-        $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, ' .
+        $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id as schoolId,' .
             'ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
@@ -436,10 +436,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         // create pre-requisites events and attach them to their proper events
         foreach ($dedupedResults as $result) {
-            $prerequisite = SchoolEvent::createFromCalendarEvent(
-                $id,
-                $this->createEventObjectForIlmSession($id, $result)
-            );
+            $prerequisite = SchoolEvent::createFromCalendarEvent($this->createEventObjectForIlmSession($id, $result));
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
@@ -475,7 +472,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         $sessionIds = array_unique(array_column($events, 'session'));
 
         // get post-requisites from offerings
-        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, ' .
+        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
@@ -511,7 +508,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         // create post-requisites events and attach them to their proper events
         foreach ($dedupedResults as $result) {
-            $postrequisite = SchoolEvent::createFromCalendarEvent($id, $this->createEventObjectForOffering($result));
+            $postrequisite = SchoolEvent::createFromCalendarEvent($this->createEventObjectForOffering($result));
             $sessionId = $result['postRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
@@ -522,7 +519,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         }
 
         // get post-requisites from ILMs
-        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, ' .
+        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
@@ -559,7 +556,6 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         // create post-requisites events and attach them to their proper events
         foreach ($dedupedResults as $result) {
             $postrequisite = SchoolEvent::createFromCalendarEvent(
-                $id,
                 $this->createEventObjectForIlmSession(null, $result)
             );
             $sessionId = $result['postRequisiteSessionId'];
