@@ -79,9 +79,14 @@ CalendarEvent:
    description: ID of the session which this event belongs to
    type: integer
    readOnly: true
+  school:
+   description: School ID
+   type: integer
+   readOnly: true
   learningMaterials:
    description: Attached learning materials.
    type: array
    readOnly: true
    items:
     $ref: '#/definitions/UserMaterial'
+
