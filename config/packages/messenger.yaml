@@ -21,8 +21,10 @@ framework:
        'App\Message\UserIndexRequest': async
        'App\Message\MeshDescriptorIndexRequest': async
 
+    default_bus: messenger.bus.default
     buses:
-      messenger.bus.default:
+      messenger.bus.default: ~
+      messenger.bus.index:
         middleware:
           # each time a message is handled, the Doctrine connection
           # is "pinged" and reconnected if it's closed.
