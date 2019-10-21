@@ -37,14 +37,32 @@ class UserEvent extends AbstractVoter
             return true;
         }
 
-        // if the current user performs any non-learner functions,
-        // they can see their user events, regardless of published status,
-        // and any other published events.
-        if ($user->performsNonLearnerFunction()) {
+        // if the event is published and owned by the current user
+        // then it can be viewed.
+        if ($event->isPublished && $user->getId() === $event->user) {
+            return true;
+        }
+
+        $sessionId = $event->session;
+        $courseId = $event->course;
+        $schoolId = $event->school;
+
+        // if the current user is associated with the given event
+        // in a directing/administrating/instructing capacity via the event's
+        // owning school/course/session context,
+        // and the event is published or owned by the current user,
+        // then it can be viewed.
+        if (in_array($schoolId, $user->getAdministeredSchoolIds())
+            || in_array($schoolId, $user->getDirectedSchoolIds())
+            || in_array($schoolId, $user->getDirectedProgramSchoolIds())
+            || in_array($courseId, $user->getAdministeredCourseIds())
+            || in_array($courseId, $user->getDirectedCourseIds())
+            || in_array($sessionId, $user->getAdministeredSessionIds())
+            || in_array($sessionId, $user->getInstructedSessionIds())
+        ) {
             return $event->isPublished || $user->getId() === $event->user;
         }
 
-        // otherwise, only published user events owned by the current user are accessible.
-        return $event->isPublished && $user->getId() === $event->user;
+        return false;
     }
 }

@@ -40,7 +40,7 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewOwnUnpublishedEventsIfUserPerformsNonStudentFunction()
+    public function testCanViewOwnUnpublishedEventsIfUserIsSchoolAdministratorInEventowningSchool()
     {
         $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
@@ -48,8 +48,9 @@ class UserEventTest extends AbstractBase
         $sessionUser = $token->getUser();
 
         $entity->user = $userId;
+        $entity->school = 1;
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(true);
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([$entity->school]);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
@@ -57,22 +58,146 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-
-    public function testCanViewOtherPublishedEventsIfUserPerformsNonStudentFunction()
+    public function testCanViewOwnUnpublishedEventsIfUserIsSchoolDirectorInEventowningSchool()
     {
+        $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
-        $entity->isPublished = true;
-        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(true);
+        $entity->user = $userId;
+        $entity->school = 1;
+        $entity->isPublished = false;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([$entity->school]);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanNotViewOtherUsersEvents()
+    public function testCanViewOwnUnpublishedEventsIfUserIsProgramDirectorInEventowningSchool()
+    {
+        $userId = 1;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $userId;
+        $entity->school = 1;
+        $entity->isPublished = false;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([$entity->school]);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOwnUnpublishedEventsIfUserIsCourseAdministratorInEventowningCourse()
+    {
+        $userId = 1;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $userId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->isPublished = false;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([$entity->course]);
+
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOwnUnpublishedEventsIfUserIsCourseDirectorInEventowningCourse()
+    {
+        $userId = 1;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $userId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->isPublished = false;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([$entity->course]);
+
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOwnUnpublishedEventsIfUserIsSessionAdministratorInEventowningSession()
+    {
+        $userId = 1;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $userId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->session = 1;
+        $entity->isPublished = false;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([$entity->session]);
+
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOwnUnpublishedEventsIfCurrentUserIsInstructorInEventowningSession()
+    {
+        $userId = 1;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $userId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->session = 1;
+        $entity->isPublished = false;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
+        $sessionUser->shouldReceive('getInstructedSessionIds')->andReturn([$entity->session]);
+
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOtherPublishedEventsIfCurrentUserIsSchoolAdministratorInEventowningSchool()
     {
         $userId = 1;
         $otherUserId = 2;
@@ -81,8 +206,178 @@ class UserEventTest extends AbstractBase
         $sessionUser = $token->getUser();
 
         $entity->user = $otherUserId;
+        $entity->school = 1;
         $entity->isPublished = true;
-        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([$entity->school]);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOtherPublishedEventsIfCurrentUserIsSchoolDirectorInEventowningSchool()
+    {
+        $userId = 1;
+        $otherUserId = 2;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $otherUserId;
+        $entity->school = 1;
+        $entity->isPublished = true;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([$entity->school]);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOtherPublishedEventsIfCurrentUserIsProgramDirectorInEventowningSchool()
+    {
+        $userId = 1;
+        $otherUserId = 2;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $otherUserId;
+        $entity->school = 1;
+        $entity->isPublished = true;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([$entity->school]);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOtherPublishedEventsIfCurrentUserIsCourseAdministratorInEventowningCourse()
+    {
+        $userId = 1;
+        $otherUserId = 2;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $otherUserId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->isPublished = true;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([$entity->course]);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOtherPublishedEventsIfCurrentUserIsCourseDirectorInEventowningCourse()
+    {
+        $userId = 1;
+        $otherUserId = 2;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $otherUserId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->isPublished = true;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([$entity->course]);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOtherPublishedEventsIfCurrentUserIsSessionAdministratorInEventowningSession()
+    {
+        $userId = 1;
+        $otherUserId = 2;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $otherUserId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->session = 1;
+        $entity->isPublished = true;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([$entity->session]);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOtherPublishedEventsIfCurrentUserIsInstructorInEventowningSession()
+    {
+        $userId = 1;
+        $otherUserId = 2;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $otherUserId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->session = 1;
+        $entity->isPublished = true;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
+        $sessionUser->shouldReceive('getInstructedSessionIds')->andReturn([$entity->session]);
+
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanNotViewOtherUsersPublishedEventsIfNotTeachingAdministratingOrDirectingEvents()
+    {
+        $userId = 1;
+        $otherUserId = 2;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $otherUserId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->session = 1;
+        $entity->isPublished = true;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
+        $sessionUser->shouldReceive('getInstructedSessionIds')->andReturn([]);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
@@ -90,7 +385,7 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
-    public function testCanNotViewOtherUsersUnpublishedEventsEvenIfUserPerformsNonStudentFunction()
+    public function testCanNotViewOtherUsersUnpublishedEvents()
     {
         $userId = 1;
         $otherUserId = 2;
@@ -100,7 +395,8 @@ class UserEventTest extends AbstractBase
 
         $entity->user = $otherUserId;
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(true);
+        $entity->school = 1;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([$entity->school]);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);

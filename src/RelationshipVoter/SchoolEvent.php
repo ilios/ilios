@@ -37,17 +37,31 @@ class SchoolEvent extends AbstractVoter
         }
 
 
-        // if the current user performs any non-learner functions,
-        // then check if the event's school matches the current user's primary school,
-        // or any of the associated schools in a non-learner context.
-        // if so, grant VIEW access.
-        if ($user->performsNonLearnerFunction()) {
-            $schoolIds = $user->getAssociatedSchoolIdsInNonLearnerFunction();
-            return $user->getSchoolId() === $event->school || in_array($event->school, $schoolIds);
+        // if the event is published and the it's owned by the current user's
+        // primary school, then it can be viewed.
+        if ($event->isPublished && $user->getSchoolId() === $event->school) {
+            return true;
         }
 
-        // student/learners can only VIEW published events in their primary school.
-        // @todo perhaps this is to restrictive, needs review [ST 2018/01/17]
-        return $event->isPublished && $user->getSchoolId() === $event->school;
+        $sessionId = $event->session;
+        $courseId = $event->course;
+        $schoolId = $event->school;
+
+        // if the current user is associated with the given event
+        // in a directing/administrating/instructing capacity via the event's
+        // owning school/course/session context,
+        // then it can be viewed.
+        if (in_array($schoolId, $user->getAdministeredSchoolIds())
+            || in_array($schoolId, $user->getDirectedSchoolIds())
+            || in_array($schoolId, $user->getDirectedProgramSchoolIds())
+            || in_array($courseId, $user->getAdministeredCourseIds())
+            || in_array($courseId, $user->getDirectedCourseIds())
+            || in_array($sessionId, $user->getAdministeredSessionIds())
+            || in_array($sessionId, $user->getInstructedSessionIds())
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }
