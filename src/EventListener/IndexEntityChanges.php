@@ -38,10 +38,16 @@ class IndexEntityChanges
      */
     private $bus;
 
-    public function __construct(Index $index, MessageBusInterface $bus)
+    /**
+     * IndexEntityChanges constructor.
+     * ACHTUNG!!! Do NOT change the name of $dispatchBus it tells the dependency injection system what bus to inject!!!
+     * @param Index $index
+     * @param MessageBusInterface $dispatchBus
+     */
+    public function __construct(Index $index, MessageBusInterface $dispatchBus)
     {
         $this->index = $index;
-        $this->bus = $bus;
+        $this->bus = $dispatchBus;
     }
 
     public function postPersist(LifecycleEventArgs $args)
