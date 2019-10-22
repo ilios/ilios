@@ -23,12 +23,20 @@ framework:
 
     default_bus: messenger.bus.default
     buses:
-      messenger.bus.default: ~
-      messenger.bus.index:
+      messenger.bus.default:
         middleware:
           # each time a message is handled, the Doctrine connection
           # is "pinged" and reconnected if it's closed.
           - doctrine_ping_connection
-
           # After handling, the Doctrine connection is closed
           - doctrine_close_connection
+      dispatch.bus:
+        default_middleware: false
+        middleware:
+            - validation
+            - add_bus_name_stamp_middleware: ['messenger.bus.default']
+            - dispatch_after_current_bus
+            - failed_message_processing_middleware
+            - send_message
+            - handle_message
+
