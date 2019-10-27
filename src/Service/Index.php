@@ -10,7 +10,10 @@ use Elasticsearch\Client;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Exception;
+use Psr\Log\LoggerInterface;
 use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\FpdiException;
+use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\StreamReader;
 use SplFileInfo;
 
@@ -21,16 +24,23 @@ class Index extends ElasticSearchBase
      */
     private $iliosFileSystem;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     /** @var int */
     private $uploadLimit;
 
     public function __construct(
         IliosFileSystem $iliosFileSystem,
         Config $config,
+        LoggerInterface $logger,
         Client $client = null
     ) {
         parent::__construct($client);
         $this->iliosFileSystem = $iliosFileSystem;
+        $this->logger = $logger;
         $limit = $config->get('elasticsearch_upload_limit');
         //10mb AWS hard limit on non-huge ES clusters and we need some overhead for control statements
         $this->uploadLimit = $limit ?? 9000000;
@@ -846,10 +856,20 @@ class Index extends ElasticSearchBase
             ];
         }
         if ($dto->mimetype === 'application/pdf') {
-            $parts = $this->splitPDFIntoSmallParts($data);
-            return array_map(function (string $string) {
-                return base64_encode($string);
-            }, $parts);
+            try {
+                $parts = $this->splitPDFIntoSmallParts($data);
+                return array_map(function (string $string) {
+                    return base64_encode($string);
+                }, $parts);
+            } catch (FpdiException $e) {
+                $this->logger->error('Unable to split large PDF learning material into smaller parts.', [
+                    'id' => $dto->id,
+                    'filename' => $dto->filename,
+                    'path' => $dto->relativePath,
+                    'error' => $e->getMessage(),
+                ]);
+                return [];
+            }
         }
 
         return [];

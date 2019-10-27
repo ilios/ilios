@@ -15,6 +15,7 @@ use App\Tests\TestCase;
 use Elasticsearch\Client;
 use Ilios\MeSH\Model\Descriptor;
 use Mockery as m;
+use Psr\Log\LoggerInterface;
 
 class IndexTest extends TestCase
 {
@@ -33,6 +34,11 @@ class IndexTest extends TestCase
      */
     private $config;
 
+    /**
+     * @var m\LegacyMockInterface|m\MockInterface|LoggerInterface
+     */
+    private $logger;
+
     public function setup()
     {
         $this->fileSystem = m::mock(IliosFileSystem::class);
@@ -41,14 +47,15 @@ class IndexTest extends TestCase
         $this->config->shouldReceive('get')
             ->with('elasticsearch_upload_limit')
             ->andReturn(8000000);
+        $this->logger = m::mock(LoggerInterface::class);
     }
     public function tearDown()
     {
         unset($this->fileSystem);
         unset($this->client);
         unset($this->config);
+        unset($this->logger);
     }
-
 
     public function testSetup()
     {
@@ -287,11 +294,11 @@ class IndexTest extends TestCase
 
     protected function createWithHost()
     {
-        return new Index($this->fileSystem, $this->config, $this->client);
+        return new Index($this->fileSystem, $this->config, $this->logger, $this->client);
     }
 
     protected function createWithoutHost()
     {
-        return new Index($this->fileSystem, $this->config, null);
+        return new Index($this->fileSystem, $this->config, $this->logger, null);
     }
 }
