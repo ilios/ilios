@@ -122,9 +122,8 @@ class PopulateIndexCommand extends Command
     {
         $allIds = $this->learningMaterialManager->getFileLearningMaterialIds();
         $count = count($allIds);
-        $chunks = array_chunk($allIds, LearningMaterialIndexRequest::MAX);
-        foreach ($chunks as $ids) {
-            $this->bus->dispatch(new LearningMaterialIndexRequest($ids));
+        foreach ($allIds as $id) {
+            $this->bus->dispatch(new LearningMaterialIndexRequest($id));
         }
         $output->writeln("<info>${count} learning materials have been queued for indexing.</info>");
     }

@@ -156,7 +156,7 @@ class IndexEntityChanges
     protected function indexLearningMaterial(LearningMaterialInterface $lm)
     {
         if ($this->index->isEnabled()) {
-            $this->bus->dispatch(new LearningMaterialIndexRequest([$lm->getId()]));
+            $this->bus->dispatch(new LearningMaterialIndexRequest($lm->getId()));
         }
     }
 }

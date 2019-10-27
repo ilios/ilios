@@ -1,37 +1,17 @@
 <?php
 namespace App\Message;
 
-use InvalidArgumentException;
-
 class LearningMaterialIndexRequest
 {
-    private $ids;
-    const MAX = 10;
+    private $id;
 
-    /**
-     * LearningMaterialIndexRequest constructor.
-     * @param int[] $ids
-     */
-    public function __construct(array $ids)
+    public function __construct(int $id)
     {
-        $count = count($ids);
-        if ($count > self::MAX) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'A maximum of %d learning material ids can be indexed at the same time, you sent %d',
-                    self::MAX,
-                    $count
-                )
-            );
-        }
-        $this->ids = $ids;
+        $this->id = $id;
     }
 
-    /**
-     * @return int[]
-     */
-    public function getIds(): array
+    public function getId(): int
     {
-        return $this->ids;
+        return $this->id;
     }
 }

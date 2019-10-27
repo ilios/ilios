@@ -66,10 +66,13 @@ class LearningMaterialManager extends BaseManager
 
     /**
      * Get all the IDs for learning materials that are files
+     * int[]
      */
     public function getFileLearningMaterialIds() : array
     {
         $dql = 'SELECT l.id FROM App\Entity\LearningMaterial l WHERE l.relativePath IS NOT NULL';
-        return $this->em->createQuery($dql)->getScalarResult();
+        $results = $this->em->createQuery($dql)->getScalarResult();
+        $ids = array_column($results, 'id');
+        return array_map('intval', $ids);
     }
 }

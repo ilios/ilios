@@ -2,7 +2,6 @@
 namespace App\MessageHandler;
 
 use App\Entity\DTO\LearningMaterialDTO;
-use App\Entity\Manager\CourseManager;
 use App\Entity\Manager\LearningMaterialManager;
 use App\Message\LearningMaterialIndexRequest;
 use App\Service\IliosFileSystem;
@@ -38,7 +37,7 @@ class LearningMaterialIndexHandler implements MessageHandlerInterface
 
     public function __invoke(LearningMaterialIndexRequest $message)
     {
-        $dtos = $this->manager->findDTOsBy(['id' => $message->getIds()]);
+        $dtos = $this->manager->findDTOsBy(['id' => $message->getId()]);
         $filteredDtos = array_filter($dtos, function (LearningMaterialDTO $dto) {
             return $this->iliosFileSystem->checkLearningMaterialRelativePath($dto->relativePath);
         });
