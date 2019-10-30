@@ -51,13 +51,13 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=120)
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 60
+     *      max = 120
      * )
      *
      * @IS\Expose
