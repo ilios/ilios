@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb8bfacaacca50cd11cb6f0ae25d9010",
+    "content-hash": "f1897e7e8c8918cb026f28378ce20adf",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -4392,16 +4392,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "2.2.2",
+            "version": "2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "217c9e550eb3e06bbe48a4da4031223e1aab76f0"
+                "reference": "71abca33b75f6bafb8b3829a620ff9ea5e5c1d9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/217c9e550eb3e06bbe48a4da4031223e1aab76f0",
-                "reference": "217c9e550eb3e06bbe48a4da4031223e1aab76f0",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/71abca33b75f6bafb8b3829a620ff9ea5e5c1d9b",
+                "reference": "71abca33b75f6bafb8b3829a620ff9ea5e5c1d9b",
                 "shasum": ""
             },
             "require": {
@@ -4470,7 +4470,7 @@
                 "logging",
                 "sentry"
             ],
-            "time": "2019-10-10T08:16:00+00:00"
+            "time": "2019-10-31T11:08:21+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
@@ -8160,16 +8160,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "2.1.4",
+            "version": "2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "a16378c4db99be661afc76805242281603d20a7c"
+                "reference": "6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/a16378c4db99be661afc76805242281603d20a7c",
-                "reference": "a16378c4db99be661afc76805242281603d20a7c",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c",
+                "reference": "6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c",
                 "shasum": ""
             },
             "require": {
@@ -8223,7 +8223,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2019-10-08T20:08:44+00:00"
+            "time": "2019-10-10T17:38:20+00:00"
         },
         {
             "name": "zendframework/zend-eventmanager",
@@ -9283,7 +9283,8 @@
     "stability-flags": {
         "firebase/php-jwt": 0,
         "fzaninotto/faker": 0,
-        "mockery/mockery": 0
+        "mockery/mockery": 0,
+        "squizlabs/php_codesniffer": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
