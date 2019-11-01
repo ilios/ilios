@@ -52,15 +52,15 @@ class SchoolEvent extends AbstractVoter
         // if the current user is associated with the given event
         // in a directing/administrating/instructing capacity via the event's
         // owning school/course/session/ILM/offering context,
-        // then it can be viewed.
-        if (in_array($schoolId, $user->getAdministeredSchoolIds())
-            || in_array($schoolId, $user->getDirectedSchoolIds())
-            || in_array($schoolId, $user->getDirectedProgramSchoolIds())
-            || in_array($courseId, $user->getAdministeredCourseIds())
-            || in_array($courseId, $user->getDirectedCourseIds())
-            || in_array($sessionId, $user->getAdministeredSessionIds())
-            || in_array($offeringId, $user->getInstructedOfferingIds())
-            || in_array($ilmId, $user->getInstructedIlmIds())
+        // then it can be viewed, even if it is not published.
+        if ($user->isAdministeringSchool($schoolId)
+            || $user->isDirectingSchool($schoolId)
+            || $user->isDirectingProgramInSchool($schoolId)
+            || $user->isAdministeringCourse($courseId)
+            || $user->isDirectingCourse($courseId)
+            || $user->isAdministeringSession($sessionId)
+            || ($offeringId && $user->isInstructingOffering($offeringId))
+            || ($ilmId && $user->isInstructingIlm($ilmId))
         ) {
             return true;
         }

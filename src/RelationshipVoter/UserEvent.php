@@ -60,8 +60,8 @@ class UserEvent extends AbstractVoter
             || $user->isAdministeringCourse($courseId)
             || $user->isDirectingCourse($courseId)
             || $user->isAdministeringSession($sessionId)
-            || $user->isInstructingOffering($offeringId)
-            || $user->isInstructingIlm($ilmId)
+            || ($offeringId && $user->isInstructingOffering($offeringId))
+            || ($ilmId && $user->isInstructingIlm($ilmId))
         ) {
             return $event->isPublished || $user->getId() === $event->user;
         }

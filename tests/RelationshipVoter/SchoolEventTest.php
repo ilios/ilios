@@ -13,6 +13,7 @@ class SchoolEventTest extends AbstractBase
 {
     public function setup()
     {
+        /* @var PermissionChecker permissionChecker */
         $this->permissionChecker = m::mock(PermissionChecker::class);
         $this->voter = new Voter($this->permissionChecker);
     }
@@ -50,7 +51,7 @@ class SchoolEventTest extends AbstractBase
         $entity->school = $schoolId;
         $entity->isPublished = false;
         $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([$entity->school]);
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
@@ -68,8 +69,8 @@ class SchoolEventTest extends AbstractBase
         $entity->school = $schoolId;
         $entity->isPublished = false;
         $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([$entity->school]);
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
@@ -87,10 +88,9 @@ class SchoolEventTest extends AbstractBase
         $entity->school = $schoolId;
         $entity->isPublished = false;
         $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([$entity->school]);
-
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
@@ -105,13 +105,13 @@ class SchoolEventTest extends AbstractBase
         $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
-        $entity->course = 1;
+        $entity->course = 2;
         $entity->isPublished = false;
         $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([$entity->course]);
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
@@ -127,14 +127,14 @@ class SchoolEventTest extends AbstractBase
         $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
-        $entity->course = 1;
+        $entity->course = 2;
         $entity->isPublished = false;
         $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([$entity->course]);
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
@@ -150,16 +150,16 @@ class SchoolEventTest extends AbstractBase
         $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
-        $entity->course = 1;
-        $entity->session = 1;
+        $entity->course = 2;
+        $entity->session = 3;
         $entity->isPublished = false;
         $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
-        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([$entity->session]);
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
@@ -175,18 +175,18 @@ class SchoolEventTest extends AbstractBase
         $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
-        $entity->course = 1;
-        $entity->session = 1;
-        $entity->offering = 1;
+        $entity->course = 2;
+        $entity->session = 3;
+        $entity->offering = 4;
         $entity->isPublished = false;
         $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
-        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
-        $sessionUser->shouldReceive('getInstructedOfferingIds')->andReturn([$entity->offering]);
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
@@ -202,21 +202,21 @@ class SchoolEventTest extends AbstractBase
         $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
-        $entity->course = 1;
-        $entity->session = 1;
-        $entity->offering = 1;
-        $entity->ilmSession = 1;
+        $entity->course = 2;
+        $entity->session = 3;
+        $entity->offering = 4;
+        $entity->ilmSession = 5;
 
         $entity->isPublished = false;
         $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
-        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
-        $sessionUser->shouldReceive('getInstructedOfferingIds')->andReturn([]);
-        $sessionUser->shouldReceive('getInstructedIlmIds')->andReturn([$entity->ilmSession]);
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
@@ -239,14 +239,14 @@ class SchoolEventTest extends AbstractBase
         $entity->ilmSession = 1;
         $entity->isPublished = false;
         $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
-        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
-        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
-        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
-        $sessionUser->shouldReceive('getInstructedOfferingIds')->andReturn([]);
-        $sessionUser->shouldReceive('getInstructedIlmIds')->andReturn([]);
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
 
