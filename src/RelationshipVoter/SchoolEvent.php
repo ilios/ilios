@@ -46,10 +46,12 @@ class SchoolEvent extends AbstractVoter
         $sessionId = $event->session;
         $courseId = $event->course;
         $schoolId = $event->school;
+        $offeringId = $event->offering;
+        $ilmId = $event->ilmSession;
 
         // if the current user is associated with the given event
         // in a directing/administrating/instructing capacity via the event's
-        // owning school/course/session context,
+        // owning school/course/session/ILM/offering context,
         // then it can be viewed.
         if (in_array($schoolId, $user->getAdministeredSchoolIds())
             || in_array($schoolId, $user->getDirectedSchoolIds())
@@ -57,7 +59,8 @@ class SchoolEvent extends AbstractVoter
             || in_array($courseId, $user->getAdministeredCourseIds())
             || in_array($courseId, $user->getDirectedCourseIds())
             || in_array($sessionId, $user->getAdministeredSessionIds())
-            || in_array($sessionId, $user->getInstructedSessionIds())
+            || in_array($offeringId, $user->getInstructedOfferingIds())
+            || in_array($ilmId, $user->getInstructedIlmIds())
         ) {
             return true;
         }

@@ -6,7 +6,6 @@ use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\UserEvent as Voter;
 use App\Service\PermissionChecker;
 use App\Classes\UserEvent;
-use App\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -27,6 +26,7 @@ class UserEventTest extends AbstractBase
     {
         $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -44,6 +44,7 @@ class UserEventTest extends AbstractBase
     {
         $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -62,6 +63,7 @@ class UserEventTest extends AbstractBase
     {
         $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -81,6 +83,7 @@ class UserEventTest extends AbstractBase
     {
         $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -101,6 +104,7 @@ class UserEventTest extends AbstractBase
     {
         $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -124,6 +128,7 @@ class UserEventTest extends AbstractBase
     {
         $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -148,6 +153,7 @@ class UserEventTest extends AbstractBase
     {
         $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -170,10 +176,11 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewOwnUnpublishedEventsIfCurrentUserIsInstructorInEventowningSession()
+    public function testCanViewOwnUnpublishedEventsIfCurrentUserIsInstructorInEventowningOffering()
     {
         $userId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -181,6 +188,7 @@ class UserEventTest extends AbstractBase
         $entity->school = 1;
         $entity->course = 1;
         $entity->session = 1;
+        $entity->offering = 1;
         $entity->isPublished = false;
         $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
         $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
@@ -188,7 +196,38 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
         $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
         $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
-        $sessionUser->shouldReceive('getInstructedSessionIds')->andReturn([$entity->session]);
+        $sessionUser->shouldReceive('getInstructedOfferingIds')->andReturn([$entity->offering]);
+
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOwnUnpublishedEventsIfCurrentUserIsInstructorInEventowningIlm()
+    {
+        $userId = 1;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $userId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->session = 1;
+        $entity->offering = 1;
+        $entity->ilmSession = 1;
+        $entity->isPublished = false;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
+        $sessionUser->shouldReceive('getInstructedOfferingIds')->andReturn([]);
+        $sessionUser->shouldReceive('getInstructedIlmIds')->andReturn([$entity->ilmSession]);
 
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
@@ -202,6 +241,7 @@ class UserEventTest extends AbstractBase
         $userId = 1;
         $otherUserId = 2;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -221,6 +261,7 @@ class UserEventTest extends AbstractBase
         $userId = 1;
         $otherUserId = 2;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -241,6 +282,7 @@ class UserEventTest extends AbstractBase
         $userId = 1;
         $otherUserId = 2;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -262,6 +304,7 @@ class UserEventTest extends AbstractBase
         $userId = 1;
         $otherUserId = 2;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -285,6 +328,7 @@ class UserEventTest extends AbstractBase
         $userId = 1;
         $otherUserId = 2;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -309,6 +353,7 @@ class UserEventTest extends AbstractBase
         $userId = 1;
         $otherUserId = 2;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -330,11 +375,12 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewOtherPublishedEventsIfCurrentUserIsInstructorInEventowningSession()
+    public function testCanViewOtherPublishedEventsIfCurrentUserIsInstructorInEventowningOffering()
     {
         $userId = 1;
         $otherUserId = 2;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -342,6 +388,7 @@ class UserEventTest extends AbstractBase
         $entity->school = 1;
         $entity->course = 1;
         $entity->session = 1;
+        $entity->offering = 1;
         $entity->isPublished = true;
         $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
         $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
@@ -349,7 +396,39 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
         $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
         $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
-        $sessionUser->shouldReceive('getInstructedSessionIds')->andReturn([$entity->session]);
+        $sessionUser->shouldReceive('getInstructedOfferingIds')->andReturn([$entity->offering]);
+
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewOtherPublishedEventsIfCurrentUserIsInstructorInEventowningIlm()
+    {
+        $userId = 1;
+        $otherUserId = 2;
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
+        $entity = m::mock(UserEvent::class);
+        $sessionUser = $token->getUser();
+
+        $entity->user = $otherUserId;
+        $entity->school = 1;
+        $entity->course = 1;
+        $entity->session = 1;
+        $entity->offering = 1;
+        $entity->ilmSession = 1;
+        $entity->isPublished = true;
+        $sessionUser->shouldReceive('getAdministeredSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedProgramSchoolIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
+        $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
+        $sessionUser->shouldReceive('getInstructedOfferingIds')->andReturn([]);
+        $sessionUser->shouldReceive('getInstructedIlmIds')->andReturn([$entity->ilmSession]);
 
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
@@ -363,6 +442,7 @@ class UserEventTest extends AbstractBase
         $userId = 1;
         $otherUserId = 2;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
@@ -377,7 +457,8 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('getDirectedCourseIds')->andReturn([]);
         $sessionUser->shouldReceive('getAdministeredCourseIds')->andReturn([]);
         $sessionUser->shouldReceive('getAdministeredSessionIds')->andReturn([]);
-        $sessionUser->shouldReceive('getInstructedSessionIds')->andReturn([]);
+        $sessionUser->shouldReceive('getInstructedOfferingIds')->andReturn([]);
+        $sessionUser->shouldReceive('getInstructedIlmIds')->andReturn([]);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
@@ -390,6 +471,7 @@ class UserEventTest extends AbstractBase
         $userId = 1;
         $otherUserId = 2;
         $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var UserEvent $entity */
         $entity = m::mock(UserEvent::class);
         $sessionUser = $token->getUser();
 
