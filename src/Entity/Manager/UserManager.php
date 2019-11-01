@@ -320,13 +320,13 @@ class UserManager extends BaseManager
      * @param $userId
      * @return array
      * @throws \Exception
-     * @see UserRepository::getInstructedSessionCourseAndSchoolIds()
+     * @see UserRepository::getInstructedOfferingIlmSessionCourseAndSchoolIds()
      */
-    public function getInstructedSessionCourseAndSchoolIds($userId): array
+    public function getInstructedOfferingIlmSessionCourseAndSchoolIds($userId): array
     {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
-        return $repository->getInstructedSessionCourseAndSchoolIds($userId);
+        return $repository->getInstructedOfferingIlmSessionCourseAndSchoolIds($userId);
     }
 
     /**

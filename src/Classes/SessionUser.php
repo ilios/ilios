@@ -80,7 +80,7 @@ class SessionUser implements SessionUserInterface
     /**
      * @var array
      */
-    protected $instructedSessionCourseAndSchoolIds;
+    protected $instructedOfferingIlmSessionCourseAndSchoolIds;
 
     /**
      * @var array
@@ -444,6 +444,22 @@ class SessionUser implements SessionUserInterface
     /**
      * @inheritdoc
      */
+    public function isInstructingOffering(int $offeringId) : bool
+    {
+        return in_array($offeringId, $this->getInstructedOfferingIds());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isInstructingIlm(int $ilmId) : bool
+    {
+        return in_array($ilmId, $this->getInstructedIlmIds());
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rolesInSchool(
         int $schoolId,
         $roles = [
@@ -685,7 +701,7 @@ class SessionUser implements SessionUserInterface
      */
     public function getTaughtCourseIds(): array
     {
-        return $this->getInstructedSessionCourseAndSchoolIds()['courseIds'];
+        return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['courseIds'];
     }
 
     /**
@@ -701,7 +717,23 @@ class SessionUser implements SessionUserInterface
      */
     public function getInstructedSessionIds(): array
     {
-        return $this->getInstructedSessionCourseAndSchoolIds()['sessionIds'];
+        return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['sessionIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getInstructedIlmIds(): array
+    {
+        return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['ilmIds'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getInstructedOfferingIds(): array
+    {
+        return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['offeringIds'];
     }
 
     /**
@@ -709,7 +741,7 @@ class SessionUser implements SessionUserInterface
      */
     public function getTaughtCourseSchoolIds(): array
     {
-        return $this->getInstructedSessionCourseAndSchoolIds()['schoolIds'];
+        return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['schoolIds'];
     }
 
     /**
@@ -800,13 +832,13 @@ class SessionUser implements SessionUserInterface
      * @return array
      * @throws \Exception
      */
-    protected function getInstructedSessionCourseAndSchoolIds(): array
+    protected function getInstructedOfferingIlmSessionCourseAndSchoolIds(): array
     {
-        if (!isset($this->instructedSessionCourseAndSchoolIds)) {
-            $this->instructedSessionCourseAndSchoolIds =
-                $this->userManager->getInstructedSessionCourseAndSchoolIds($this->getId());
+        if (!isset($this->instructedOfferingIlmSessionCourseAndSchoolIds)) {
+            $this->instructedOfferingIlmSessionCourseAndSchoolIds =
+                $this->userManager->getInstructedOfferingIlmSessionCourseAndSchoolIds($this->getId());
         }
-        return $this->instructedSessionCourseAndSchoolIds;
+        return $this->instructedOfferingIlmSessionCourseAndSchoolIds;
     }
 
     /**

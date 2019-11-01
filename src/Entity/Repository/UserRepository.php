@@ -1405,24 +1405,26 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     }
 
     /**
-     * Returns an assoc. array of ids of sessions instructed by the given user,
-     * and the ids of schools and courses owning these instructed sessions.
+     * Returns an assoc. array of ids of ILMs and offerings instructed by the given user,
+     * and the ids of schools, courses, and sessions owning these instructed and offerings.
      * @param $userId
      * @return array
      */
-    public function getInstructedSessionCourseAndSchoolIds($userId): array
+    public function getInstructedOfferingIlmSessionCourseAndSchoolIds($userId): array
     {
         $rhett['schoolIds'] = [];
         $rhett['courseIds'] = [];
         $rhett['sessionIds'] = [];
+        $rhett['ilmIds'] = [];
+        $rhett['offeringIds'] = [];
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
+        $qb->select('o.id as offeringId, session.id as sessionId, course.id as courseId, school.id as schoolId')
             ->distinct()
             ->from(User::class, 'u');
         $qb->join('u.instructorGroups', 'instructorGroup');
-        $qb->join('instructorGroup.offerings', 'offerings');
-        $qb->join('offerings.session', 'session');
+        $qb->join('instructorGroup.offerings', 'o');
+        $qb->join('o.session', 'session');
         $qb->join('session.course', 'course');
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
@@ -1432,15 +1434,16 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
+            $rhett['offeringIds'][] = $arr['offeringIds'];
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
-            ->distinct()
-            ->from(User::class, 'u');
+        $qb->select('ilm.id as ilmId, session.id as sessionId, course.id as courseId, school.id as schoolId')
+           ->distinct()
+           ->from(User::class, 'u');
         $qb->join('u.instructorGroups', 'instructorGroup');
-        $qb->join('instructorGroup.ilmSessions', 'ilmSessions');
-        $qb->join('ilmSessions.session', 'session');
+        $qb->join('instructorGroup.ilmSessions', 'ilm');
+        $qb->join('ilm.session', 'session');
         $qb->join('session.course', 'course');
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
@@ -1450,14 +1453,15 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
+            $rhett['ilmIds'][] = $arr['ilmId'];
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
+        $qb->select('o.id as offeringId, session.id as sessionId, course.id as courseId, school.id as schoolId')
             ->distinct()
             ->from(User::class, 'u');
-        $qb->join('u.instructedOfferings', 'offerings');
-        $qb->join('offerings.session', 'session');
+        $qb->join('u.instructedOfferings', 'o');
+        $qb->join('o.session', 'session');
         $qb->join('session.course', 'course');
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
@@ -1467,14 +1471,15 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
+            $rhett['offeringIds'][] = $arr['offeringIds'];
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
-            ->distinct()
-            ->from(User::class, 'u');
-        $qb->join('u.instructorIlmSessions', 'ilmSession');
-        $qb->join('ilmSession.session', 'session');
+        $qb->select('ilm.id as ilmId, session.id as sessionId, course.id as courseId, school.id as schoolId')
+           ->distinct()
+           ->from(User::class, 'u');
+        $qb->join('u.instructorIlmSessions', 'ilm');
+        $qb->join('ilm.session', 'session');
         $qb->join('session.course', 'course');
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
@@ -1484,6 +1489,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
+            $rhett['ilmIds'][] = $arr['ilmId'];
         }
 
         return $this->dedupeSubArrays($rhett);
