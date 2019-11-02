@@ -54,9 +54,10 @@ class SchoolEventTest extends TestCase
         $calendarEvent->startDate = new DateTime();
         $calendarEvent->instructionalNotes = 'lorem ipsum';
         $calendarEvent->sessionDescription = 'something';
+        $calendarEvent->school = $schoolId;
 
-        $schoolEvent = SchoolEvent::createFromCalendarEvent($schoolId, $calendarEvent);
-        $this->assertSame($schoolId, $schoolEvent->school);
+        $schoolEvent = SchoolEvent::createFromCalendarEvent($calendarEvent);
+        $this->assertSame($calendarEvent->school, $schoolEvent->school);
         $this->assertSame($calendarEvent->attendanceRequired, $schoolEvent->attendanceRequired);
         $this->assertSame($calendarEvent->attireRequired, $schoolEvent->attireRequired);
         $this->assertSame($calendarEvent->color, $schoolEvent->color);
