@@ -6,6 +6,7 @@ use App\Classes\CalendarEvent;
 use App\Classes\SessionUserInterface;
 use App\Entity\Manager\SessionManager;
 use App\Entity\SessionInterface;
+use App\RelationshipVoter\AbstractCalendarEvent;
 use App\RelationshipVoter\AbstractVoter;
 use App\Classes\UserEvent;
 use App\Entity\Manager\UserManager;
@@ -129,13 +130,10 @@ class UsereventController extends AbstractController
         $allEvents = $manager->addMaterialsToEvents($allEvents);
         $allEvents = $manager->addSessionDataToEvents($allEvents);
 
-        // Remove all draft data when not viewing your own events
-        // or if the requesting user does not have elevated privileges
-        $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
-        if ($sessionUser->getId() !== $user->getId() || !$hasElevatedPrivileges) {
-            $now = new \DateTime();
-            /* @var CalendarEvent $event */
-            foreach ($allEvents as $event) {
+        $now = new \DateTime();
+        /* @var UserEvent $event */
+       foreach ($allEvents as $event) {
+            if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_UNPUBLISHED_CONTENTS, $event)) {
                 $event->clearDataForUnprivilegedUsers($now);
             }
         }
