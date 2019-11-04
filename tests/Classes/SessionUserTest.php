@@ -1244,7 +1244,13 @@ class SessionUserTest extends TestCase
      */
     public function testGetInstructedOfferingIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $userId = 1;
+        $offeringIds = [1, 2, 3];
+        $this->userManager
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
+            ->with($userId)
+            ->andReturn(['offeringIds' => $offeringIds]);
+        $this->assertEquals($offeringIds, $this->sessionUser->getInstructedOfferingIds());
     }
 
     /**
@@ -1252,7 +1258,13 @@ class SessionUserTest extends TestCase
      */
     public function testGetInstructedIlmIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $userId = 1;
+        $ilmIds = [1, 2, 3];
+        $this->userManager
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
+            ->with($userId)
+            ->andReturn(['ilmIds' => $ilmIds]);
+        $this->assertEquals($ilmIds, $this->sessionUser->getInstructedIlmIds());
     }
 
     /**
