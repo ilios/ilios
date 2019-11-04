@@ -1434,7 +1434,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
-            $rhett['offeringIds'][] = $arr['offeringIds'];
+            $rhett['offeringIds'][] = $arr['offeringId'];
         }
 
         $qb = $this->_em->createQueryBuilder();
@@ -1471,7 +1471,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
-            $rhett['offeringIds'][] = $arr['offeringIds'];
+            $rhett['offeringIds'][] = $arr['offeringId'];
         }
 
         $qb = $this->_em->createQueryBuilder();
