@@ -9,10 +9,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 /**
  * Class UserEvent
  */
-class UserEvent extends AbstractVoter
+class UserEvent extends AbstractCalendarEvent
 {
-    const VIEW_UNPUBLISHED_CONTENTS = 'view_unpublished_contents';
-
     /**
      * {@inheritdoc}
      */
@@ -39,12 +37,6 @@ class UserEvent extends AbstractVoter
             return true;
         }
 
-        $sessionId = $event->session;
-        $courseId = $event->course;
-        $schoolId = $event->school;
-        $offeringId = $event->offering;
-        $ilmId = $event->ilmSession;
-
         switch ($attribute) {
             case self::VIEW:
                 // if the event is published and owned by the current user
@@ -58,14 +50,7 @@ class UserEvent extends AbstractVoter
                 // owning school/course/session/ILM/offering context,
                 // and the event is published or owned by the current user,
                 // then it can be viewed.
-                if ($user->isAdministeringSchool($schoolId)
-                    || $user->isDirectingSchool($schoolId)
-                    || $user->isDirectingProgramInSchool($schoolId)
-                    || $user->isAdministeringCourse($courseId)
-                    || $user->isDirectingCourse($courseId)
-                    || $user->isAdministeringSession($sessionId)
-                    || ($offeringId && $user->isInstructingOffering($offeringId))
-                    || ($ilmId && $user->isInstructingIlm($ilmId))
+                if ($this->isUserAdministersDirectorsOrInstructsEvent($user, $event)
                 ) {
                     return $event->isPublished || $user->getId() === $event->user;
                 }
@@ -78,15 +63,7 @@ class UserEvent extends AbstractVoter
                 }
                 // can't view draft data on events owned by the current user, unless
                 // the event is being instructed/directed/administered by the current user.
-                if ($user->isAdministeringSchool($schoolId)
-                    || $user->isDirectingSchool($schoolId)
-                    || $user->isDirectingProgramInSchool($schoolId)
-                    || $user->isAdministeringCourse($courseId)
-                    || $user->isDirectingCourse($courseId)
-                    || $user->isAdministeringSession($sessionId)
-                    || ($offeringId && $user->isInstructingOffering($offeringId))
-                    || ($ilmId && $user->isInstructingIlm($ilmId))
-                ) {
+                if ($this->isUserAdministersDirectorsOrInstructsEvent($user, $event)) {
                     return true;
                 }
                 return false;

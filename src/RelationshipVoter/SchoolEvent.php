@@ -9,9 +9,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 /**
  * Class SchoolEvent
  */
-class SchoolEvent extends AbstractVoter
+class SchoolEvent extends AbstractCalendarEvent
 {
-    const VIEW_UNPUBLISHED_CONTENTS = 'view_unpublished_contents';
     /**
      * {@inheritdoc}
      */
@@ -55,15 +54,7 @@ class SchoolEvent extends AbstractVoter
                 // in a directing/administrating/instructing capacity via the event's
                 // owning school/course/session/ILM/offering context,
                 // then it can be viewed, even if it is not published.
-                if ($user->isAdministeringSchool($schoolId)
-                    || $user->isDirectingSchool($schoolId)
-                    || $user->isDirectingProgramInSchool($schoolId)
-                    || $user->isAdministeringCourse($courseId)
-                    || $user->isDirectingCourse($courseId)
-                    || $user->isAdministeringSession($sessionId)
-                    || ($offeringId && $user->isInstructingOffering($offeringId))
-                    || ($ilmId && $user->isInstructingIlm($ilmId))
-                ) {
+                if ($this->isUserAdministersDirectorsOrInstructsEvent($user, $event)) {
                     return true;
                 }
                 return false;
@@ -71,15 +62,7 @@ class SchoolEvent extends AbstractVoter
             case self::VIEW_UNPUBLISHED_CONTENTS:
                 // can't view draft data on events owned by the current user, unless
                 // the event is being instructed/directed/administered by the current user.
-                if ($user->isAdministeringSchool($schoolId)
-                    || $user->isDirectingSchool($schoolId)
-                    || $user->isDirectingProgramInSchool($schoolId)
-                    || $user->isAdministeringCourse($courseId)
-                    || $user->isDirectingCourse($courseId)
-                    || $user->isAdministeringSession($sessionId)
-                    || ($offeringId && $user->isInstructingOffering($offeringId))
-                    || ($ilmId && $user->isInstructingIlm($ilmId))
-                ) {
+                if ($this->isUserAdministersDirectorsOrInstructsEvent($user, $event)) {
                     return true;
                 }
                 return false;
