@@ -16,7 +16,7 @@ class UserEvent extends AbstractCalendarEvent
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof Event && in_array($attribute, array(self::VIEW, self::VIEW_UNPUBLISHED_CONTENTS));
+        return $subject instanceof Event && in_array($attribute, array(self::VIEW, self::VIEW_DRAFT_CONTENTS));
     }
 
     /**
@@ -51,7 +51,7 @@ class UserEvent extends AbstractCalendarEvent
                 // then it can be viewed, even if it is not published.
                 return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
 
-            case self::VIEW_UNPUBLISHED_CONTENTS:
+            case self::VIEW_DRAFT_CONTENTS:
                 // can't view draft data on other user's event
                 if ($user->getId() !== $event->user) {
                     return false;

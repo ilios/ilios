@@ -129,7 +129,7 @@ class SchooleventController extends AbstractController
 
         /* @var SchoolEvent $event */
         foreach ($allEvents as $event) {
-            if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_UNPUBLISHED_CONTENTS, $event)) {
+            if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_DRAFT_CONTENTS, $event)) {
                 $event->clearDataForUnprivilegedUsers();
             }
         }
