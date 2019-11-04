@@ -11,12 +11,13 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class SchoolEvent extends AbstractVoter
 {
+    const VIEW_UNPUBLISHED_CONTENTS = 'view_unpublished_contents';
     /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof Event && in_array($attribute, array(self::VIEW));
+        return $subject instanceof Event && in_array($attribute, array(self::VIEW, self::VIEW_UNPUBLISHED_CONTENTS));
     }
 
     /**
@@ -36,35 +37,54 @@ class SchoolEvent extends AbstractVoter
             return true;
         }
 
-
-        // if the event is published and the it's owned by the current user's
-        // primary school, then it can be viewed.
-        if ($event->isPublished && $user->getSchoolId() === $event->school) {
-            return true;
-        }
-
         $sessionId = $event->session;
         $courseId = $event->course;
         $schoolId = $event->school;
         $offeringId = $event->offering;
         $ilmId = $event->ilmSession;
 
-        // if the current user is associated with the given event
-        // in a directing/administrating/instructing capacity via the event's
-        // owning school/course/session/ILM/offering context,
-        // then it can be viewed, even if it is not published.
-        if ($user->isAdministeringSchool($schoolId)
-            || $user->isDirectingSchool($schoolId)
-            || $user->isDirectingProgramInSchool($schoolId)
-            || $user->isAdministeringCourse($courseId)
-            || $user->isDirectingCourse($courseId)
-            || $user->isAdministeringSession($sessionId)
-            || ($offeringId && $user->isInstructingOffering($offeringId))
-            || ($ilmId && $user->isInstructingIlm($ilmId))
-        ) {
-            return true;
-        }
+        switch ($attribute) {
+            case self::VIEW:
+                // if the event is published and the it's owned by the current user's
+                // primary school, then it can be viewed.
+                if ($event->isPublished && $user->getSchoolId() === $event->school) {
+                    return true;
+                }
 
-        return false;
+                // if the current user is associated with the given event
+                // in a directing/administrating/instructing capacity via the event's
+                // owning school/course/session/ILM/offering context,
+                // then it can be viewed, even if it is not published.
+                if ($user->isAdministeringSchool($schoolId)
+                    || $user->isDirectingSchool($schoolId)
+                    || $user->isDirectingProgramInSchool($schoolId)
+                    || $user->isAdministeringCourse($courseId)
+                    || $user->isDirectingCourse($courseId)
+                    || $user->isAdministeringSession($sessionId)
+                    || ($offeringId && $user->isInstructingOffering($offeringId))
+                    || ($ilmId && $user->isInstructingIlm($ilmId))
+                ) {
+                    return true;
+                }
+                return false;
+
+            case self::VIEW_UNPUBLISHED_CONTENTS:
+                // can't view draft data on events owned by the current user, unless
+                // the event is being instructed/directed/administered by the current user.
+                if ($user->isAdministeringSchool($schoolId)
+                    || $user->isDirectingSchool($schoolId)
+                    || $user->isDirectingProgramInSchool($schoolId)
+                    || $user->isAdministeringCourse($courseId)
+                    || $user->isDirectingCourse($courseId)
+                    || $user->isAdministeringSession($sessionId)
+                    || ($offeringId && $user->isInstructingOffering($offeringId))
+                    || ($ilmId && $user->isInstructingIlm($ilmId))
+                ) {
+                    return true;
+                }
+                return false;
+            default:
+                return false;
+        }
     }
 }

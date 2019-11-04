@@ -11,12 +11,14 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class UserEvent extends AbstractVoter
 {
+    const VIEW_UNPUBLISHED_CONTENTS = 'view_unpublished_contents';
+
     /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof Event && in_array($attribute, array(self::VIEW));
+        return $subject instanceof Event && in_array($attribute, array(self::VIEW, self::VIEW_UNPUBLISHED_CONTENTS));
     }
 
     /**
@@ -37,35 +39,61 @@ class UserEvent extends AbstractVoter
             return true;
         }
 
-        // if the event is published and owned by the current user
-        // then it can be viewed.
-        if ($event->isPublished && $user->getId() === $event->user) {
-            return true;
-        }
-
         $sessionId = $event->session;
         $courseId = $event->course;
         $schoolId = $event->school;
         $offeringId = $event->offering;
         $ilmId = $event->ilmSession;
 
-        // if the current user is associated with the given event
-        // in a directing/administrating/instructing capacity via the event's
-        // owning school/course/session/ILM/offering context,
-        // and the event is published or owned by the current user,
-        // then it can be viewed.
-        if ($user->isAdministeringSchool($schoolId)
-            || $user->isDirectingSchool($schoolId)
-            || $user->isDirectingProgramInSchool($schoolId)
-            || $user->isAdministeringCourse($courseId)
-            || $user->isDirectingCourse($courseId)
-            || $user->isAdministeringSession($sessionId)
-            || ($offeringId && $user->isInstructingOffering($offeringId))
-            || ($ilmId && $user->isInstructingIlm($ilmId))
-        ) {
-            return $event->isPublished || $user->getId() === $event->user;
+        switch ($attribute) {
+            case self::VIEW:
+                // if the event is published and owned by the current user
+                // then it can be viewed.
+                if ($event->isPublished && $user->getId() === $event->user) {
+                    return true;
+                }
+
+                // if the current user is associated with the given event
+                // in a directing/administrating/instructing capacity via the event's
+                // owning school/course/session/ILM/offering context,
+                // and the event is published or owned by the current user,
+                // then it can be viewed.
+                if ($user->isAdministeringSchool($schoolId)
+                    || $user->isDirectingSchool($schoolId)
+                    || $user->isDirectingProgramInSchool($schoolId)
+                    || $user->isAdministeringCourse($courseId)
+                    || $user->isDirectingCourse($courseId)
+                    || $user->isAdministeringSession($sessionId)
+                    || ($offeringId && $user->isInstructingOffering($offeringId))
+                    || ($ilmId && $user->isInstructingIlm($ilmId))
+                ) {
+                    return $event->isPublished || $user->getId() === $event->user;
+                }
+                return false;
+
+            case self::VIEW_UNPUBLISHED_CONTENTS:
+                // can't view draft data on other user's event
+                if ($user->getId() !== $event->user) {
+                    return false;
+                }
+                // can't view draft data on events owned by the current user, unless
+                // the event is being instructed/directed/administered by the current user.
+                if ($user->isAdministeringSchool($schoolId)
+                    || $user->isDirectingSchool($schoolId)
+                    || $user->isDirectingProgramInSchool($schoolId)
+                    || $user->isAdministeringCourse($courseId)
+                    || $user->isDirectingCourse($courseId)
+                    || $user->isAdministeringSession($sessionId)
+                    || ($offeringId && $user->isInstructingOffering($offeringId))
+                    || ($ilmId && $user->isInstructingIlm($ilmId))
+                ) {
+                    return true;
+                }
+                return false;
+
+            default:
+                return false;
         }
 
-        return false;
     }
 }
