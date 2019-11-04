@@ -64,6 +64,5 @@ class UserEvent extends AbstractCalendarEvent
             default:
                 return false;
         }
-
     }
 }

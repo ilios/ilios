@@ -39,5 +39,4 @@ abstract class AbstractCalendarEvent extends AbstractVoter
             || ($offeringId && $user->isInstructingOffering($offeringId))
             || ($ilmId && $user->isInstructingIlm($ilmId));
     }
-
 }
