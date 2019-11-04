@@ -2,6 +2,7 @@
 
 namespace App\Tests\RelationshipVoter;
 
+use App\RelationshipVoter\AbstractCalendarEvent;
 use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\SchoolEvent as Voter;
 use App\Service\PermissionChecker;
@@ -249,6 +250,182 @@ class SchoolEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
 
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
+    }
+
+    public function testCanViewDraftDataIfCurrentUserIsSchoolAdministratorInEventowningSchool()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewDraftDataIfCurrentUserIsSchoolDirectorInEventowningSchool()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewDraftDataIfCurrentUserIsProgramDirectorInEventowningSchool()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewDraftDataIfCurrentUserIsCourseAdministratorInEventowningCourse()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewDraftDataIfCurrentUserIsCourseDirectorInEventowningCourse()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewDraftDataIfCurrentUserIsSessionAdministratorInEventowningSession()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewDraftDataIfCurrentUserIsInstructorInEventowningOffering()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $entity->offering = 5;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewDraftDataIfCurrentUserIsInstructorInEventowningIlm()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $entity->offering = 5;
+        $entity->ilmSession = 6;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewDraftDataIfCurrentUserIsNotAdministratorDirectorOrInstructorToEvent()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $entity->offering = 5;
+        $entity->ilmSession = 6;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramInSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
+
+        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
