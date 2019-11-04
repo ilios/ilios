@@ -48,8 +48,7 @@ class UserEvent extends AbstractCalendarEvent
                 // if the current user is associated with the given event
                 // in a directing/administrating/instructing capacity via the event's
                 // owning school/course/session/ILM/offering context,
-                // and the event is published or owned by the current user,
-                // then it can be viewed.
+                // then it can be viewed, even if it is not published.
                 return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
 
             case self::VIEW_UNPUBLISHED_CONTENTS:
