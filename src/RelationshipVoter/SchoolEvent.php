@@ -54,12 +54,12 @@ class SchoolEvent extends AbstractCalendarEvent
                 // in a directing/administrating/instructing capacity via the event's
                 // owning school/course/session/ILM/offering context,
                 // then it can be viewed, even if it is not published.
-                return $this->isUserAdministersDirectorsOrInstructsEvent($user, $event);
+                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
 
             case self::VIEW_UNPUBLISHED_CONTENTS:
                 // can't view draft data on events owned by the current user, unless
                 // the event is being instructed/directed/administered by the current user.
-                return $this->isUserAdministersDirectorsOrInstructsEvent($user, $event);
+                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
 
             default:
                 return false;

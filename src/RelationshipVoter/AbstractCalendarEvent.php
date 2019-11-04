@@ -20,7 +20,7 @@ abstract class AbstractCalendarEvent extends AbstractVoter
      * @param CalendarEvent $event
      * @return bool
      */
-    protected function isUserAdministersDirectorsOrInstructsEvent(
+    protected function isUserAdministratorDirectorsOrInstructorOfEvent(
         SessionUserInterface $user,
         CalendarEvent $event
     ): bool {
