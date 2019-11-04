@@ -50,11 +50,7 @@ class UserEvent extends AbstractCalendarEvent
                 // owning school/course/session/ILM/offering context,
                 // and the event is published or owned by the current user,
                 // then it can be viewed.
-                if ($this->isUserAdministersDirectorsOrInstructsEvent($user, $event)
-                ) {
-                    return $event->isPublished || $user->getId() === $event->user;
-                }
-                return false;
+                return $this->isUserAdministersDirectorsOrInstructsEvent($user, $event);
 
             case self::VIEW_UNPUBLISHED_CONTENTS:
                 // can't view draft data on other user's event
@@ -63,10 +59,7 @@ class UserEvent extends AbstractCalendarEvent
                 }
                 // can't view draft data on events owned by the current user, unless
                 // the event is being instructed/directed/administered by the current user.
-                if ($this->isUserAdministersDirectorsOrInstructsEvent($user, $event)) {
-                    return true;
-                }
-                return false;
+                return $this->isUserAdministersDirectorsOrInstructsEvent($user, $event);
 
             default:
                 return false;
