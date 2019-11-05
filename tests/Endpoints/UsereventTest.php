@@ -113,7 +113,7 @@ class UsereventTest extends AbstractEndpointTest
             $userId,
             0,
             100000000000,
-            $this->getTokenForUser($this->kernelBrowser, 2)
+            $this->getTokenForUser($this->kernelBrowser, 1)
         );
         $lms = $events[0]['learningMaterials'];
 
