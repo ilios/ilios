@@ -3,11 +3,15 @@
 namespace App\Tests\Classes;
 
 use App\Classes\SessionUser;
+use App\Classes\UserRoles;
 use App\Entity\Manager\UserManager;
 use App\Entity\School;
+use App\Entity\SchoolInterface;
 use App\Entity\UserInterface;
+use App\Service\AuthenticationInterface;
 use App\Tests\TestCase;
 use Mockery as m;
+use function Sentry\withScope;
 
 /**
  * Class SessionUserTest
@@ -31,21 +35,27 @@ class SessionUserTest extends TestCase
     protected $sessionUser;
 
     /**
+     * @var int
+     */
+    protected $userId;
+
+    /**
+     * @var SchoolInterface
+     */
+    protected $school;
+
+    /**
      * @inheritdoc
      */
     public function setUp()
     {
+        $this->userId = 1;
         $this->userManager = m::mock(UserManager::class);
-        $this->iliosUser = m::mock(UserInterface::class);
 
-        $school = m::mock(School::class);
-        $school->shouldReceive('getId')->andReturn(1);
+        $this->school = m::mock(School::class);
+        $this->school->shouldReceive('getId')->andReturn(1);
 
-        $this->iliosUser->shouldReceive('getId')->andReturn(1);
-        $this->iliosUser->shouldReceive('isRoot')->andReturn(false);
-        $this->iliosUser->shouldReceive('isEnabled')->andReturn(true);
-        $this->iliosUser->shouldReceive('getSchool')->andReturn($school);
-        $this->iliosUser->shouldReceive('getAuthentication')->andReturn(null);
+        $this->iliosUser = $this->createMockUser($this->userId, $this->school);
 
         $this->sessionUser = new SessionUser($this->iliosUser, $this->userManager);
     }
@@ -58,6 +68,8 @@ class SessionUserTest extends TestCase
         unset($this->sessionUser);
         unset($this->iliosUser);
         unset($this->userManager);
+        unset($this->school);
+        unset($this->userId);
     }
 
     /**
@@ -490,7 +502,50 @@ class SessionUserTest extends TestCase
      */
     public function testRolesInSchool()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $schoolId = 2;
+        $roles = [
+            UserRoles::SCHOOL_DIRECTOR,
+            UserRoles::SCHOOL_ADMINISTRATOR,
+            UserRoles::COURSE_DIRECTOR,
+            UserRoles::COURSE_ADMINISTRATOR,
+            UserRoles::SESSION_ADMINISTRATOR,
+            UserRoles::COURSE_INSTRUCTOR,
+            UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
+            UserRoles::PROGRAM_DIRECTOR,
+        ];
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn([$schoolId]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn([$schoolId]);
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => [$schoolId]]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => [$schoolId]]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => [$schoolId]]);
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => [$schoolId]]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => [$schoolId]]);
+        $this->userManager
+            ->shouldReceive('getDirectedProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => [$schoolId]]);
+        $this->assertEquals($roles, $this->sessionUser->rolesInSchool($schoolId));
     }
 
     /**
@@ -498,7 +553,29 @@ class SessionUserTest extends TestCase
      */
     public function testRolesInCourse()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $courseId = 2;
+        $roles = [UserRoles::COURSE_DIRECTOR,
+            UserRoles::COURSE_ADMINISTRATOR,
+            UserRoles::SESSION_ADMINISTRATOR,
+            UserRoles::COURSE_INSTRUCTOR
+        ];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => [$courseId]]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => [$courseId]]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => [$courseId]]);
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => [$courseId]]);
+        $this->assertEquals($roles, $this->sessionUser->rolesInCourse($courseId));
     }
 
     /**
@@ -506,7 +583,17 @@ class SessionUserTest extends TestCase
      */
     public function testRolesInSession()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $sessionId = 2;
+        $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR];
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['sessionIds' => [$sessionId]]);
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['sessionIds' => [$sessionId]]);
+        $this->assertEquals($roles, $this->sessionUser->rolesInSession($sessionId));
     }
 
     /**
@@ -514,7 +601,17 @@ class SessionUserTest extends TestCase
      */
     public function testRolesInProgram()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $programId = 2;
+        $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programIds' => [$programId]]);
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programIds' => [$programId]]);
+        $this->assertEquals($roles, $this->sessionUser->rolesInProgram($programId));
     }
 
     /**
@@ -522,7 +619,13 @@ class SessionUserTest extends TestCase
      */
     public function testRolesInProgramYear()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $programYearId = 2;
+        $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programYearIds' => [$programYearId]]);
+        $this->assertEquals($roles, $this->sessionUser->rolesInProgramYear($programYearId));
     }
 
     /**
@@ -530,15 +633,419 @@ class SessionUserTest extends TestCase
      */
     public function testRolesInCurriculumInventoryReport()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $reportId = 2;
+        $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR];
+        $this->userManager
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['reportIds' => [$reportId]]);
+        $this->assertEquals($roles, $this->sessionUser->rolesInCurriculumInventoryReport($reportId));
     }
 
     /**
      * @covers SessionUser::performsNonLearnerFunction()
      */
-    public function testPerformsNonLearnerFunction()
+    public function testPerformsNonLearnerFunctionIfUserIsRoot()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $this->iliosUser = $this->createMockUser($this->userId, $this->school, true);
+        $this->sessionUser = new SessionUser($this->iliosUser, $this->userManager);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsCourseDirector()
+    {
+        $courseIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => $courseIds]);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsCourseAdministrator()
+    {
+        $courseIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => $courseIds]);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsSchoolDirector()
+    {
+        $schoolIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn($schoolIds);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsSchoolAdministrator()
+    {
+        $schoolIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn($schoolIds);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsInInstructorGroups()
+    {
+        $instructorGroupIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructorGroupIds')
+            ->with($this->userId)
+            ->andReturn($instructorGroupIds);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsTeachingInCourses()
+    {
+        $courseIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructorGroupIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => $courseIds]);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsSessionAdministrator()
+    {
+        $sessionIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructorGroupIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['sessionIds' => $sessionIds]);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsInstructingInSessions()
+    {
+        $sessionIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructorGroupIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => [], 'sessionIds' => $sessionIds]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['sessionIds' => []]);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsProgramDirector()
+    {
+        $programIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructorGroupIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => [], 'sessionIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['sessionIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programIds' => $programIds]);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsProgramYearDirector()
+    {
+        $programYearIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructorGroupIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => [], 'sessionIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['sessionIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programYearIds' => $programYearIds]);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testPerformsNonLearnerFunctionIfUserIsCurriculumInventoryReportAdministrator()
+    {
+        $reportIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructorGroupIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => [], 'sessionIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['sessionIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programYearIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['reportIds' => $reportIds]);
+        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
+    }
+
+    /**
+     * @covers SessionUser::performsNonLearnerFunction()
+     */
+    public function testDoesNotPerformNonLearnerFunction()
+    {
+        $reportIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructorGroupIds')
+            ->with($this->userId)
+            ->andReturn([]);
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => [], 'sessionIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['sessionIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programIds' => []]);
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programYearIds' => []]);
+        $this->userManager
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['reportIds' => []]);
+        $this->assertFalse($this->sessionUser->performsNonLearnerFunction());
     }
 
     /**
@@ -546,7 +1053,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetDirectedCourseIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $courseIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => $courseIds]);
+        $this->assertEquals($courseIds, $this->sessionUser->getDirectedCourseIds());
     }
 
     /**
@@ -554,7 +1066,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetAdministeredCourseIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $courseIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => $courseIds]);
+        $this->assertEquals($courseIds, $this->sessionUser->getAdministeredCourseIds());
     }
 
     /**
@@ -562,7 +1079,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetDirectedSchoolIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $schoolIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedSchoolIds')
+            ->with($this->userId)
+            ->andReturn($schoolIds);
+        $this->assertEquals($schoolIds, $this->sessionUser->getDirectedSchoolIds());
     }
 
     /**
@@ -570,7 +1092,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetAdministeredSchoolIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $schoolIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getAdministeredSchoolIds')
+            ->with($this->userId)
+            ->andReturn($schoolIds);
+        $this->assertEquals($schoolIds, $this->sessionUser->getAdministeredSchoolIds());
     }
 
     /**
@@ -578,7 +1105,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetDirectedCourseSchoolIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $schoolIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => $schoolIds]);
+        $this->assertEquals($schoolIds, $this->sessionUser->getDirectedCourseSchoolIds());
     }
 
     /**
@@ -586,7 +1118,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetAdministeredCourseSchoolIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $schoolIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getAdministeredCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => $schoolIds]);
+        $this->assertEquals($schoolIds, $this->sessionUser->getAdministeredCourseSchoolIds());
     }
 
     /**
@@ -594,7 +1131,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetAdministeredSessionSchoolIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $schoolIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => $schoolIds]);
+        $this->assertEquals($schoolIds, $this->sessionUser->getAdministeredSessionSchoolIds());
     }
 
     /**
@@ -602,7 +1144,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetAdministeredSessionCourseIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $courseIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => $courseIds]);
+        $this->assertEquals($courseIds, $this->sessionUser->getAdministeredSessionCourseIds());
     }
 
     /**
@@ -610,7 +1157,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetTaughtCourseIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $courseIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => $courseIds]);
+        $this->assertEquals($courseIds, $this->sessionUser->getTaughtCourseIds());
     }
 
     /**
@@ -618,7 +1170,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetAdministeredSessionIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $sessionIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['sessionIds' => $sessionIds]);
+        $this->assertEquals($sessionIds, $this->sessionUser->getAdministeredSessionIds());
     }
 
     /**
@@ -626,7 +1183,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetInstructedSessionIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $sessionIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['sessionIds' => $sessionIds]);
+        $this->assertEquals($sessionIds, $this->sessionUser->getInstructedSessionIds());
     }
 
     /**
@@ -634,7 +1196,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetTaughtCourseSchoolIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $schoolIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => $schoolIds]);
+        $this->assertEquals($schoolIds, $this->sessionUser->getTaughtCourseSchoolIds());
     }
 
     /**
@@ -642,7 +1209,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetDirectedProgramIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $programIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programIds' => $programIds]);
+        $this->assertEquals($programIds, $this->sessionUser->getDirectedProgramIds());
     }
 
     /**
@@ -650,7 +1222,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetDirectedProgramYearIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $programYearIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programYearIds' => $programYearIds]);
+        $this->assertEquals($programYearIds, $this->sessionUser->getDirectedProgramYearIds());
     }
 
     /**
@@ -658,7 +1235,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetDirectedProgramYearProgramIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $programIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['programIds' => $programIds]);
+        $this->assertEquals($programIds, $this->sessionUser->getDirectedProgramYearProgramIds());
     }
 
     /**
@@ -666,7 +1248,12 @@ class SessionUserTest extends TestCase
      */
     public function testGetAdministeredCurriculumInventoryReportIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $reportIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['reportIds' => $reportIds]);
+        $this->assertEquals($reportIds, $this->sessionUser->getAdministeredCurriculumInventoryReportIds());
     }
 
     /**
@@ -674,6 +1261,27 @@ class SessionUserTest extends TestCase
      */
     public function testGetAdministeredCurriculumInventoryReportSchoolIds()
     {
-        $this->markTestIncomplete('to be implemented.');
+        $schoolIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['schoolIds' => $schoolIds]);
+        $this->assertEquals($schoolIds, $this->sessionUser->getAdministeredCurriculumInventoryReportSchoolIds());
+    }
+
+    protected function createMockUser(
+        int $userId,
+        SchoolInterface $school,
+        bool $isRoot = false,
+        bool $enabled = true,
+        AuthenticationInterface $authentication = null
+    ) : UserInterface {
+        $iliosUser = m::mock(UserInterface::class);
+        $iliosUser->shouldReceive('getId')->andReturn($userId);
+        $iliosUser->shouldReceive('getSchool')->andReturn($school);
+        $iliosUser->shouldReceive('isRoot')->andReturn($isRoot);
+        $iliosUser->shouldReceive('isEnabled')->andReturn($enabled);
+        $iliosUser->shouldReceive('getAuthentication')->andReturn($authentication);
+        return $iliosUser;
     }
 }
