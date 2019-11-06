@@ -181,6 +181,7 @@ class CourseRollover
         }
         $newCourse->setSchool($origCourse->getSchool());
         $newCourse->setDirectors($origCourse->getDirectors());
+        $newCourse->setAdministrators($origCourse->getAdministrators());
 
         foreach ($newCohortIds as $id) {
             /** @var CohortInterface $cohort */
