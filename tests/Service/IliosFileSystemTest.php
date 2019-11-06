@@ -1,6 +1,7 @@
 <?php
 namespace App\Tests\Service;
 
+use App\Classes\LocalCachingFilesystemDecorator;
 use App\Entity\LearningMaterialInterface;
 use League\Flysystem\Filesystem;
 use Mockery as m;
@@ -79,6 +80,46 @@ class IliosFileSystemTest extends TestCase
         $this->fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(true);
         $this->fileSystem->shouldReceive('read')->with($filename)->once()->andReturn($value);
         $result = $this->iliosFileSystem->getFileContents($filename);
+        $this->assertEquals($value, $result);
+    }
+
+    public function testGetFileContentsWithCacheDisabledOnNonCachingFileSystem()
+    {
+        $filename = 'test/file/name';
+        $value = 'something something word word';
+        $this->fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(true);
+        $this->fileSystem->shouldReceive('read')->with($filename)->once()->andReturn($value);
+        $result = $this->iliosFileSystem->getFileContents($filename, false);
+        $this->assertEquals($value, $result);
+    }
+
+    public function testGetFileContentsWithCacheDisabled()
+    {
+        $fileSystem = m::mock(LocalCachingFilesystemDecorator::class);
+        $iliosFileSystem = new IliosFileSystem($fileSystem);
+        $filename = 'test/file/name';
+        $value = 'something something word word';
+        $fileSystem->shouldReceive('isCacheEnabled')->once()->andReturn(true);
+        $fileSystem->shouldReceive('disableCache')->once();
+        $fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(true);
+        $fileSystem->shouldReceive('read')->with($filename)->once()->andReturn($value);
+        $fileSystem->shouldReceive('enableCache')->once();
+        $result = $iliosFileSystem->getFileContents($filename, false);
+        $this->assertEquals($value, $result);
+    }
+
+    public function testGetFileContentsWithCacheDisabledIfCacheWasAlreadyDisabled()
+    {
+        $fileSystem = m::mock(LocalCachingFilesystemDecorator::class);
+        $iliosFileSystem = new IliosFileSystem($fileSystem);
+        $filename = 'test/file/name';
+        $value = 'something something word word';
+        $fileSystem->shouldReceive('isCacheEnabled')->once()->andReturn(false);
+        $fileSystem->shouldReceive('disableCache')->once();
+        $fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(true);
+        $fileSystem->shouldReceive('read')->with($filename)->once()->andReturn($value);
+        $fileSystem->shouldNotReceive('enableCache');
+        $result = $iliosFileSystem->getFileContents($filename, false);
         $this->assertEquals($value, $result);
     }
 
