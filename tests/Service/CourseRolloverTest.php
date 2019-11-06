@@ -186,6 +186,7 @@ class CourseRolloverTest extends TestCase
         $newCourse->shouldReceive('setClerkshipType')->with($course->getClerkshipType())->once();
         $newCourse->shouldReceive('setSchool')->with($course->getSchool())->once();
         $newCourse->shouldReceive('setDirectors')->with($course->getDirectors())->once();
+        $newCourse->shouldReceive('setAdministrators')->with($course->getAdministrators())->once();
         $newCourse->shouldReceive('setTerms')->with($course->getTerms())->once();
         $newCourse->shouldReceive('setMeshDescriptors')->with($course->getMeshDescriptors())->once();
 
