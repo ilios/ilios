@@ -52,10 +52,6 @@ class UserEvent extends AbstractCalendarEvent
                 return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
 
             case self::VIEW_DRAFT_CONTENTS:
-                // can't view draft data on other user's event
-                if ($user->getId() !== $event->user) {
-                    return false;
-                }
                 // can't view draft data on events owned by the current user, unless
                 // the event is being instructed/directed/administered by the current user.
                 return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
