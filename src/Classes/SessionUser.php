@@ -4,6 +4,7 @@ namespace App\Classes;
 
 use App\Entity\Manager\UserManager;
 use App\Entity\SchoolInterface;
+use Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\UserInterface as IliosUserInterface;
 use DateTime;
@@ -139,7 +140,8 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return bool
+     * @inheritdoc
+     * @throws Exception
      */
     public function performsNonLearnerFunction():bool
     {
@@ -210,6 +212,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getAssociatedSchoolIdsInNonLearnerFunction()
     {
@@ -315,6 +318,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isDirectingCourse(int $courseId)
     {
@@ -323,6 +327,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isAdministeringCourse(int $courseId) : bool
     {
@@ -331,6 +336,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isDirectingSchool(int $schoolId) : bool
     {
@@ -339,6 +345,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isAdministeringSchool(int $schoolId) : bool
     {
@@ -347,6 +354,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isDirectingCourseInSchool(int $schoolId) : bool
     {
@@ -355,6 +363,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isAdministeringCourseInSchool(int $schoolId) : bool
     {
@@ -363,6 +372,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isAdministeringSessionInSchool(int $schoolId) : bool
     {
@@ -371,6 +381,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isAdministeringSessionInCourse(int $courseId) : bool
     {
@@ -379,6 +390,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isTeachingCourseInSchool(int $schoolId) : bool
     {
@@ -387,6 +399,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isTeachingCourse(int $courseId) : bool
     {
@@ -395,6 +408,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isAdministeringSession(int $sessionId) : bool
     {
@@ -403,6 +417,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isDirectingProgram(int $programId) : bool
     {
@@ -411,6 +426,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isDirectingProgramInSchool(int $schoolId) : bool
     {
@@ -419,6 +435,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isDirectingProgramYearInProgram(int $programId) : bool
     {
@@ -427,6 +444,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isDirectingProgramYear(int $programYearId) : bool
     {
@@ -435,6 +453,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isTeachingSession(int $sessionId) : bool
     {
@@ -443,6 +462,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isInstructingOffering(int $offeringId) : bool
     {
@@ -451,6 +471,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isInstructingIlm(int $ilmId) : bool
     {
@@ -459,6 +480,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function rolesInSchool(
         int $schoolId,
@@ -510,6 +532,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function rolesInCourse(
         int $courseId,
@@ -541,6 +564,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function rolesInSession(
         int $sessionId,
@@ -560,6 +584,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function rolesInProgram(
         int $programId,
@@ -580,6 +605,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array
     {
@@ -595,6 +621,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId) : bool
     {
@@ -603,6 +630,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId): bool
     {
@@ -611,6 +639,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function rolesInCurriculumInventoryReport(
         int $curriculumInventoryReportId,
@@ -628,6 +657,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getDirectedCourseIds(): array
     {
@@ -636,6 +666,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getAdministeredCourseIds(): array
     {
@@ -644,6 +675,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getDirectedSchoolIds(): array
     {
@@ -655,6 +687,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getAdministeredSchoolIds(): array
     {
@@ -666,6 +699,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getDirectedCourseSchoolIds(): array
     {
@@ -674,6 +708,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getAdministeredCourseSchoolIds(): array
     {
@@ -682,6 +717,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getAdministeredSessionSchoolIds(): array
     {
@@ -690,6 +726,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getAdministeredSessionCourseIds(): array
     {
@@ -698,6 +735,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getTaughtCourseIds(): array
     {
@@ -706,6 +744,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getAdministeredSessionIds(): array
     {
@@ -714,6 +753,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getInstructedSessionIds(): array
     {
@@ -722,6 +762,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getInstructedIlmIds(): array
     {
@@ -730,6 +771,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getInstructedOfferingIds(): array
     {
@@ -738,6 +780,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getTaughtCourseSchoolIds(): array
     {
@@ -746,6 +789,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getDirectedProgramIds(): array
     {
@@ -754,6 +798,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getDirectedProgramSchoolIds(): array
     {
@@ -762,6 +807,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @@inheritdoc
+     * @throws Exception
      */
     public function getDirectedProgramYearIds(): array
     {
@@ -770,6 +816,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getDirectedProgramYearProgramIds(): array
     {
@@ -778,6 +825,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getAdministeredCurriculumInventoryReportIds(): array
     {
@@ -786,6 +834,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function getAdministeredCurriculumInventoryReportSchoolIds(): array
     {
@@ -794,6 +843,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function isInLearnerGroup(int $learnerGroupId): bool
     {
@@ -803,7 +853,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getDirectedProgramYearProgramAndSchoolIds(): array
     {
@@ -817,7 +867,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getAdministeredCurriculumInventoryReportAndSchoolIds()
     {
@@ -830,7 +880,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getInstructedOfferingIlmSessionCourseAndSchoolIds(): array
     {
@@ -843,7 +893,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getDirectedProgramAndSchoolIds(): array
     {
@@ -855,7 +905,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getAdministeredSessionCourseAndSchoolIds(): array
     {
@@ -868,7 +918,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getAdministeredCourseAndSchoolIds(): array
     {
@@ -882,7 +932,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getDirectedCourseAndSchoolIds(): array
     {
@@ -894,7 +944,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserManager::getInstructedLearnerGroupSchoolIds()
      */
     protected function getInstructedLearnerGroupSchoolIds(): array
@@ -908,7 +958,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserManager::getInstructorGroupSchoolIds()
      */
     protected function getInstructorGroupSchoolIds(): array
@@ -922,7 +972,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserManager::getLearnerGroupIds()
      */
     protected function getLearnerGroupIds(): array
@@ -936,7 +986,7 @@ class SessionUser implements SessionUserInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserManager::getInstructorGroupIds()
      */
     protected function getInstructorGroupIds(): array
