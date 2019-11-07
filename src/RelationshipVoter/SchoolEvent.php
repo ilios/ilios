@@ -57,7 +57,7 @@ class SchoolEvent extends AbstractCalendarEvent
                 return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
 
             case self::VIEW_DRAFT_CONTENTS:
-                // can't view draft data on events owned by the current user, unless
+                // can't view draft data on events, unless
                 // the event is being instructed/directed/administered by the current user.
                 return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
 
