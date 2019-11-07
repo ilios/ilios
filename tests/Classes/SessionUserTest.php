@@ -582,7 +582,7 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn(['schoolIds' => [$schoolId]]);
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['schoolIds' => [$schoolId]]);
         $this->userManager
@@ -620,7 +620,7 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn(['courseIds' => [$courseId]]);
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['courseIds' => [$courseId]]);
         $this->assertEquals($roles, $this->sessionUser->rolesInCourse($courseId));
@@ -638,7 +638,7 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn(['sessionIds' => [$sessionId]]);
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['sessionIds' => [$sessionId]]);
         $this->assertEquals($roles, $this->sessionUser->rolesInSession($sessionId));
@@ -832,7 +832,7 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn([]);
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['courseIds' => $courseIds]);
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
@@ -865,7 +865,7 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn([]);
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['courseIds' => []]);
         $this->userManager
@@ -902,7 +902,7 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn([]);
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['courseIds' => [], 'sessionIds' => $sessionIds]);
         $this->userManager
@@ -939,7 +939,7 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn([]);
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['courseIds' => [], 'sessionIds' => []]);
         $this->userManager
@@ -980,7 +980,7 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn([]);
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['courseIds' => [], 'sessionIds' => []]);
         $this->userManager
@@ -1025,7 +1025,7 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn([]);
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['courseIds' => [], 'sessionIds' => []]);
         $this->userManager
@@ -1074,7 +1074,7 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn([]);
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['courseIds' => [], 'sessionIds' => []]);
         $this->userManager
@@ -1207,7 +1207,7 @@ class SessionUserTest extends TestCase
     {
         $courseIds = [2, 3];
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['courseIds' => $courseIds]);
         $this->assertEquals($courseIds, $this->sessionUser->getTaughtCourseIds());
@@ -1233,7 +1233,7 @@ class SessionUserTest extends TestCase
     {
         $sessionIds = [2, 3];
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['sessionIds' => $sessionIds]);
         $this->assertEquals($sessionIds, $this->sessionUser->getInstructedSessionIds());
@@ -1274,7 +1274,7 @@ class SessionUserTest extends TestCase
     {
         $schoolIds = [2, 3];
         $this->userManager
-            ->shouldReceive('getInstructedSessionCourseAndSchoolIds')
+            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
             ->andReturn(['schoolIds' => $schoolIds]);
         $this->assertEquals($schoolIds, $this->sessionUser->getTaughtCourseSchoolIds());
