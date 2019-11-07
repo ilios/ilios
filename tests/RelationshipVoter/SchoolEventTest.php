@@ -225,7 +225,7 @@ class SchoolEventTest extends AbstractBase
     }
 
 
-    public function testCanNotViewUnpublishedSchoolEventsIfNotTeachingAdministratingOrDirectingEvents()
+    public function testCanNotViewUnpublishedSchoolEventsIfCurrentUserIsNotAdministratorDirectorOrInstructorToEvent()
     {
         $schoolId = 1;
         $token = $this->createMockTokenWithNonRootSessionUser();

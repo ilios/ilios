@@ -568,7 +568,7 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanNotViewOtherUsersPublishedEventsIfNotTeachingAdministratingOrDirectingEvents()
+    public function testCanNotViewOtherUsersPublishedEventsIfCurrentUserIsNotAdministratorDirectorOrInstructorToEvent()
     {
         $userId = 1;
         $otherUserId = 2;
