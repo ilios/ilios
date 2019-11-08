@@ -1429,10 +1429,10 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->setParameter(':userId', $userId);
 
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $rhett['programIds'] = $arr['programId'];
-            $rhett['programYearIds'] = $arr['programYearId'];
-            $rhett['cohortIds'] = $arr['cohortId'];
-            $rhett['courseIds'] = $arr['courseId'];
+            $rhett['programIds'][] = $arr['programId'];
+            $rhett['programYearIds'][] = $arr['programYearId'];
+            $rhett['cohortIds'][] = $arr['cohortId'];
+            $rhett['courseIds'] []= $arr['courseId'];
         }
 
         return $this->dedupeSubArrays($rhett);
