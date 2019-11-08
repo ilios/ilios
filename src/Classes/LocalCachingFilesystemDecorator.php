@@ -54,6 +54,14 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
     }
 
     /**
+     * Check if the cache is enabled
+     */
+    public function isCacheEnabled() : bool
+    {
+        return $this->cacheEnabled;
+    }
+
+    /**
      * Wrapped delete for removing possibly missing files from the local cache
      * @param $path
      */

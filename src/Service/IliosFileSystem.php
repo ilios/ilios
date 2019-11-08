@@ -63,7 +63,7 @@ class IliosFileSystem
 
         return $relativePath;
     }
-    
+
     /**
      * Store a learning material file and return the relativePath
      * @param File $file
@@ -75,7 +75,7 @@ class IliosFileSystem
 
         return self::HASHED_LM_DIRECTORY . '/' . substr($hash, 0, 2) . '/' . $hash;
     }
-    
+
     /**
      * Remove a file from the filesystem by hash
      * @param  string $relativePath
