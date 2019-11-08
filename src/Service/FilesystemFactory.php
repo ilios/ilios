@@ -40,10 +40,25 @@ class FilesystemFactory
         $s3Url = $this->config->get('storage_s3_url');
 
         if ($s3Url) {
-            return $this->getS3Filesystem($s3Url);
+            return $this->getS3FilesystemWithCache($s3Url);
         }
 
         return $this->getLocalFilesystem();
+    }
+
+    public function getNonCachingFilesystem() : FilesystemInterface
+    {
+        $s3Url = $this->config->get('storage_s3_url');
+
+        if ($s3Url) {
+            $adapter = $this->getS3Adapter($s3Url);
+            return new LeagueFilesystem($adapter);
+        }
+
+        $path = $this->config->get('file_system_storage_path');
+        $localAdapter = new Local($path);
+
+        return new LeagueFilesystem($localAdapter, ['visibility' => 'private']);
     }
 
     /**
@@ -65,15 +80,9 @@ class FilesystemFactory
         return new LeagueFilesystem($localAdapter, ['visibility' => 'private']);
     }
 
-    protected function getS3Filesystem(string $s3Url) : FilesystemInterface
+    protected function getS3FilesystemWithCache(string $s3Url) : FilesystemInterface
     {
-        $configuration = $this->parseS3URL($s3Url);
-        //extract bucket from configuration, it's not required here
-        $bucket = $configuration['bucket'];
-        unset($configuration['bucket']);
-
-        $client = new S3Client($configuration);
-        $s3 = new AwsS3Adapter($client, $bucket);
+        $s3 = $this->getS3Adapter($s3Url);
         $localAdapter = $this->getLocalAdapter($this->getLocalS3CacheDirectory());
 
         $cache = new Adapter($localAdapter, 'file');
@@ -82,6 +91,18 @@ class FilesystemFactory
         $localCache = $this->getS3LocalFilesystemCache();
 
         return new LocalCachingFilesystemDecorator($localCache, $remoteFileSystem);
+    }
+
+    protected function getS3Adapter(string $s3Url) : AwsS3Adapter
+    {
+        $configuration = $this->parseS3URL($s3Url);
+        //extract bucket from configuration, it's not required here
+        $bucket = $configuration['bucket'];
+        unset($configuration['bucket']);
+
+        $client = new S3Client($configuration);
+
+        return new AwsS3Adapter($client, $bucket);
     }
 
     protected function getLocalAdapter($path) : AdapterInterface

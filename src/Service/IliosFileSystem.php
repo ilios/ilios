@@ -63,7 +63,7 @@ class IliosFileSystem
 
         return $relativePath;
     }
-    
+
     /**
      * Store a learning material file and return the relativePath
      * @param File $file
@@ -75,7 +75,7 @@ class IliosFileSystem
 
         return self::HASHED_LM_DIRECTORY . '/' . substr($hash, 0, 2) . '/' . $hash;
     }
-    
+
     /**
      * Remove a file from the filesystem by hash
      * @param  string $relativePath
@@ -88,27 +88,16 @@ class IliosFileSystem
 
     /**
      * Get a File from a hash
-     * @param string $relativePath
-     * @param bool $cacheResults
+     * @param  string $relativePath
      * @return string | bool
-     * @throws FileNotFoundException
      */
-    public function getFileContents(string $relativePath, $cacheResults = true)
+    public function getFileContents(string $relativePath)
     {
-        $reEnableCache = false;
-        $contents = false;
-        if (!$cacheResults && $this->fileSystem instanceof LocalCachingFilesystemDecorator) {
-            $reEnableCache = $this->fileSystem->isCacheEnabled();
-            $this->fileSystem->disableCache();
-        }
         if ($this->fileSystem->has($relativePath)) {
-            $contents = $this->fileSystem->read($relativePath);
-        }
-        if ($reEnableCache) {
-            $this->fileSystem->enableCache();
+            return $this->fileSystem->read($relativePath);
         }
 
-        return $contents;
+        return false;
     }
 
     /**

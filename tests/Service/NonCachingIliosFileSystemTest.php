@@ -3,6 +3,8 @@ namespace App\Tests\Service;
 
 use App\Classes\LocalCachingFilesystemDecorator;
 use App\Entity\LearningMaterialInterface;
+use App\Service\FilesystemFactory;
+use App\Service\NonCachingIliosFileSystem;
 use League\Flysystem\Filesystem;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
@@ -11,7 +13,7 @@ use \Symfony\Component\HttpFoundation\File\File;
 use App\Service\IliosFileSystem;
 use App\Tests\TestCase;
 
-class IliosFileSystemTest extends TestCase
+class NonCachingIliosFileSystemTest extends TestCase
 {
     /**
      *
@@ -28,7 +30,12 @@ class IliosFileSystemTest extends TestCase
      * @var string
      */
     private $fakeTestFileDir;
-    
+
+    /**
+     * @var FilesystemFactory|m\MockInterface
+     */
+    private $fileSystemFactory;
+
     public function setUp()
     {
         $fs = new SymfonyFileSystem();
@@ -38,7 +45,9 @@ class IliosFileSystemTest extends TestCase
         }
 
         $this->fileSystem = m::mock(Filesystem::class);
-        $this->iliosFileSystem = new IliosFileSystem($this->fileSystem);
+        $this->fileSystemFactory = m::mock(FilesystemFactory::class);
+        $this->fileSystemFactory->shouldReceive('getNonCachingFilesystem')->once()->andReturn($this->fileSystem);
+        $this->iliosFileSystem = new NonCachingIliosFileSystem($this->fileSystemFactory);
     }
 
     public function tearDown() : void
@@ -73,13 +82,25 @@ class IliosFileSystemTest extends TestCase
         $this->iliosFileSystem->removeFile($file);
     }
 
-    public function testGetFileContents()
+    public function testGetFileContentsOnNonCachingFileSystem()
     {
         $filename = 'test/file/name';
         $value = 'something something word word';
         $this->fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(true);
         $this->fileSystem->shouldReceive('read')->with($filename)->once()->andReturn($value);
-        $result = $this->iliosFileSystem->getFileContents($filename);
+        $result = $this->iliosFileSystem->getFileContents($filename, false);
+        $this->assertEquals($value, $result);
+    }
+
+    public function testGetFileContents()
+    {
+        $fileSystem = m::mock(LocalCachingFilesystemDecorator::class);
+        $iliosFileSystem = new IliosFileSystem($fileSystem);
+        $filename = 'test/file/name';
+        $value = 'something something word word';
+        $fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(true);
+        $fileSystem->shouldReceive('read')->with($filename)->once()->andReturn($value);
+        $result = $iliosFileSystem->getFileContents($filename, false);
         $this->assertEquals($value, $result);
     }
 
