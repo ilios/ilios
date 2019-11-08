@@ -32,7 +32,7 @@ abstract class AbstractCalendarEvent extends AbstractVoter
 
         return $user->isAdministeringSchool($schoolId)
             || $user->isDirectingSchool($schoolId)
-            || $user->isDirectingProgramInSchool($schoolId)
+            || $user->isDirectingProgramLinkedToCourse($schoolId)
             || $user->isAdministeringCourse($courseId)
             || $user->isDirectingCourse($courseId)
             || $user->isAdministeringSession($sessionId)

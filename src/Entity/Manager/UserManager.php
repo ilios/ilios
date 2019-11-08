@@ -360,6 +360,19 @@ class UserManager extends BaseManager
      * @param $userId
      * @return array
      * @throws Exception
+     * @see UserRepository::getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser()
+     */
+    public function getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($userId);
+    }
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws Exception
      * @see UserRepository::getLearnerGroupIds()
      */
     public function getLearnerGroupIds($userId): array

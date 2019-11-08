@@ -95,6 +95,29 @@ class SessionUserTest extends TestCase
             ->andReturn($directedCourseAndSchoolIds);
         $this->assertFalse($this->sessionUser->isDirectingCourse(1));
     }
+    /**
+     * @covers SessionUser::isDirectingProgramLinkedToCourse
+     */
+    public function testIsDirectingProgramLinkedToCourse()
+    {
+        $linkedCourseIds = ['courseIds' => [1, 2, 3]];
+        $this->userManager
+            ->shouldReceive('getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser')
+            ->andReturn($linkedCourseIds);
+        $this->assertTrue($this->sessionUser->isDirectingProgramLinkedToCourse(1));
+    }
+
+    /**
+     * @covers SessionUser::isDirectingProgramLinkedToCourse
+     */
+    public function testIsNotDirectingProgramLinkedToCourse()
+    {
+        $linkedCourseIds = ['courseIds' => [2, 3]];
+        $this->userManager
+            ->shouldReceive('getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser')
+            ->andReturn($linkedCourseIds);
+        $this->assertFalse($this->sessionUser->isDirectingProgramLinkedToCourse(1));
+    }
 
     /**
      * @covers SessionUser::isAdministeringCourse
@@ -1120,6 +1143,19 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn(['courseIds' => $courseIds]);
         $this->assertEquals($courseIds, $this->sessionUser->getAdministeredCourseIds());
+    }
+
+    /**
+     * @covers SessionUser::getCourseIdsLinkedToProgramsDirectedByUser
+     */
+    public function getCourseIdsLinkedToProgramsDirectedByUser()
+    {
+        $courseIds = [2, 3];
+        $this->userManager
+            ->shouldReceive('getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser')
+            ->with($this->userId)
+            ->andReturn(['courseIds' => $courseIds]);
+        $this->assertEquals($courseIds, $this->sessionUser->getCourseIdsLinkedToProgramsDirectedByUser());
     }
 
     /**

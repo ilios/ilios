@@ -247,4 +247,15 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return bool
      */
     public function isInLearnerGroup(int $learnerGroupId): bool;
+
+    /**
+     * @return array
+     */
+    public function getCourseIdsLinkedToProgramsDirectedByUser(): array;
+
+    /**
+     * @param int $courseId
+     * @return bool
+     */
+    public function isDirectingProgramLinkedToCourse(int $courseId): bool;
 }

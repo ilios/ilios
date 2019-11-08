@@ -114,6 +114,11 @@ class SessionUser implements SessionUserInterface
     protected $instructorGroupIds;
 
     /**
+     * @var array
+     */
+    protected $coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser;
+
+    /**
      * @var UserManager
      */
     protected $userManager;
@@ -852,6 +857,25 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
+     * @inheritdoc
+     * @throws Exception
+     */
+    public function getCourseIdsLinkedToProgramsDirectedByUser(): array
+    {
+        return $this->getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser()['courseIds'];
+    }
+
+    /**
+     * @inheritdoc
+     * @throws Exception
+     */
+    public function isDirectingProgramLinkedToCourse(int $courseId): bool
+    {
+        $ids = $this->getCourseIdsLinkedToProgramsDirectedByUser();
+        return in_array($courseId, $ids);
+    }
+
+    /**
      * @return array
      * @throws Exception
      */
@@ -901,6 +925,20 @@ class SessionUser implements SessionUserInterface
             $this->directedProgramAndSchoolIds = $this->userManager->getDirectedProgramAndSchoolIds($this->getId());
         }
         return $this->directedProgramAndSchoolIds;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    protected function getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser(): array
+    {
+        if (!isset($this->coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser)) {
+            $this->coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser
+                = $this->userManager
+                ->getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($this->getId());
+        }
+        return $this->coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser;
     }
 
     /**
