@@ -9,8 +9,8 @@ use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
 use App\Entity\User;
 use App\Service\Config;
-use App\Service\IliosFileSystem;
 use App\Service\Index;
+use App\Service\NonCachingIliosFileSystem;
 use App\Tests\TestCase;
 use Elasticsearch\Client;
 use Ilios\MeSH\Model\Descriptor;
@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
 class IndexTest extends TestCase
 {
     /**
-     * @var IliosFileSystem|m\MockInterface
+     * @var NonCachingIliosFileSystem|m\MockInterface
      */
     private $fileSystem;
 
@@ -41,7 +41,7 @@ class IndexTest extends TestCase
 
     public function setup()
     {
-        $this->fileSystem = m::mock(IliosFileSystem::class);
+        $this->fileSystem = m::mock(NonCachingIliosFileSystem::class);
         $this->client = m::mock(Client::class);
         $this->config = m::mock(Config::class);
         $this->config->shouldReceive('get')

@@ -13,16 +13,15 @@ use Exception;
 use Psr\Log\LoggerInterface;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\FpdiException;
-use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\StreamReader;
 use SplFileInfo;
 
 class Index extends ElasticSearchBase
 {
     /**
-     * @var IliosFileSystem
+     * @var NonCachingIliosFileSystem
      */
-    private $iliosFileSystem;
+    private $nonCachingIliosFileSystem;
 
     /**
      * @var LoggerInterface
@@ -33,13 +32,13 @@ class Index extends ElasticSearchBase
     private $uploadLimit;
 
     public function __construct(
-        IliosFileSystem $iliosFileSystem,
+        NonCachingIliosFileSystem $nonCachingIliosFileSystem,
         Config $config,
         LoggerInterface $logger,
         Client $client = null
     ) {
         parent::__construct($client);
-        $this->iliosFileSystem = $iliosFileSystem;
+        $this->nonCachingIliosFileSystem = $nonCachingIliosFileSystem;
         $this->logger = $logger;
         $limit = $config->get('elasticsearch_upload_limit');
         //10mb AWS hard limit on non-huge ES clusters and we need some overhead for control statements
@@ -848,7 +847,7 @@ class Index extends ElasticSearchBase
             return [];
         }
 
-        $data = $this->iliosFileSystem->getFileContents($dto->relativePath);
+        $data = $this->nonCachingIliosFileSystem->getFileContents($dto->relativePath);
         $encodedData = base64_encode($data);
         if (strlen($encodedData) < $this->uploadLimit) {
             return [

@@ -4,9 +4,8 @@ namespace App\MessageHandler;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\Manager\LearningMaterialManager;
 use App\Message\LearningMaterialIndexRequest;
-use App\Service\IliosFileSystem;
 use App\Service\Index;
-use Psr\Log\LoggerInterface;
+use App\Service\NonCachingIliosFileSystem;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class LearningMaterialIndexHandler implements MessageHandlerInterface
@@ -22,41 +21,28 @@ class LearningMaterialIndexHandler implements MessageHandlerInterface
     private $manager;
 
     /**
-     * @var IliosFileSystem
+     * @var NonCachingIliosFileSystem
      */
-    private $iliosFileSystem;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private $fileSystem;
 
     public function __construct(
         Index $index,
         LearningMaterialManager $manager,
-        IliosFileSystem $iliosFileSystem,
-        LoggerInterface $logger
+        NonCachingIliosFileSystem $fileSystem
     ) {
         $this->index = $index;
         $this->manager = $manager;
-        $this->iliosFileSystem = $iliosFileSystem;
-        $this->logger = $logger;
+        $this->fileSystem = $fileSystem;
     }
 
     public function __invoke(LearningMaterialIndexRequest $message)
     {
         $dtos = $this->manager->findDTOsBy(['id' => $message->getId()]);
         $filteredDtos = array_filter($dtos, function (LearningMaterialDTO $dto) {
-            return $this->iliosFileSystem->checkLearningMaterialRelativePath($dto->relativePath);
+            return $this->fileSystem->checkLearningMaterialRelativePath($dto->relativePath);
         });
         if (count($filteredDtos)) {
-            $this->logger->debug('Start Indexing Learning Materials', [
-                'material_ids' => array_column($filteredDtos, 'id'),
-            ]);
             $this->index->indexLearningMaterials($filteredDtos);
-            $this->logger->debug('Complete Indexing Learning Materials', [
-                'material_ids' => array_column($filteredDtos, 'id'),
-            ]);
         }
     }
 }
