@@ -55,7 +55,7 @@
   },
   "require-dev": {
     "fzaninotto/faker": "@stable",
-    "liip/test-fixtures-bundle": "~1.3.0",
+    "liip/test-fixtures-bundle": "~1.4.1",
     "mockery/mockery": "@stable",
     "squizlabs/php_codesniffer": "@stable",
     "symfony/debug-pack": "^1.0",
