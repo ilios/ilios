@@ -2905,16 +2905,16 @@
         },
         {
             "name": "nelmio/cors-bundle",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioCorsBundle.git",
-                "reference": "5e6eace16e3bed3aaca237d45ab4b325c65f41b5"
+                "reference": "9683e6d30d000ef998919261329d825de7c53499"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/5e6eace16e3bed3aaca237d45ab4b325c65f41b5",
-                "reference": "5e6eace16e3bed3aaca237d45ab4b325c65f41b5",
+                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/9683e6d30d000ef998919261329d825de7c53499",
+                "reference": "9683e6d30d000ef998919261329d825de7c53499",
                 "shasum": ""
             },
             "require": {
@@ -2958,7 +2958,7 @@
                 "cors",
                 "crossdomain"
             ],
-            "time": "2019-11-12T16:27:09+00:00"
+            "time": "2019-11-15T08:54:08+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -9314,6 +9314,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
+        "fzaninotto/faker": 0,
         "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0
     },
