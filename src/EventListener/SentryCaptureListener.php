@@ -4,6 +4,7 @@ namespace App\EventListener;
 use App\Service\Config;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use function Sentry\init as sentryInit;
 use function Sentry\captureException as sentryCaptureException;
 
@@ -30,7 +31,12 @@ class SentryCaptureListener
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         if ($this->errorCaptureEnabled) {
-            sentryCaptureException($event->getException());
+            $exception = $event->getException();
+            //don't report 404s to Sentry
+            if ($exception instanceof NotFoundHttpException) {
+                return;
+            }
+            sentryCaptureException($exception);
         }
     }
 }
