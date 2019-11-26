@@ -2,8 +2,8 @@
 
 namespace App\Entity\Manager;
 
-use App\Service\Search;
 use App\Traits\CalendarEventRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
@@ -11,6 +11,7 @@ use App\Classes\UserMaterial;
 use App\Entity\Repository\UserRepository;
 use App\Entity\DTO\UserDTO;
 use App\Service\UserMaterialFactory;
+use Exception;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -38,7 +39,7 @@ class UserManager extends BaseManager
      * @param array $campusIds
      *
      * @return UserDTO[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function findAllMatchingDTOsByCampusIds(
         array $campusIds
@@ -56,7 +57,7 @@ class UserManager extends BaseManager
      * @param array $criteria
      *
      * @return UserDTO[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function findUserDTOsByQ(
         $q,
@@ -74,12 +75,12 @@ class UserManager extends BaseManager
      * Find all of the events for a user id between two dates.
      *
      * @param integer $userId
-     * @param \DateTime $from
-     * @param \DateTime $to
+     * @param DateTime $from
+     * @param DateTime $to
      * @return UserEvent[]
-     * @throws \Exception
+     * @throws Exception
      */
-    public function findEventsForUser($userId, \DateTime $from, \DateTime $to)
+    public function findEventsForUser($userId, DateTime $from, DateTime $to)
     {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
@@ -92,7 +93,7 @@ class UserManager extends BaseManager
      * @param integer $userId
      * @param integer $sessionId
      * @return UserEvent[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function findSessionEventsForUser(int $userId, int $sessionId) : array
     {
@@ -106,7 +107,7 @@ class UserManager extends BaseManager
      *
      * @param CalendarEvent[] $events
      * @return CalendarEvent[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function addInstructorsToEvents(array $events)
     {
@@ -120,7 +121,7 @@ class UserManager extends BaseManager
      *
      * @param CalendarEvent[] $events
      * @return CalendarEvent[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function addSessionDataToEvents(array $events)
     {
@@ -133,7 +134,7 @@ class UserManager extends BaseManager
      * @param array $campusIdFilter an array of the campusIDs to include in our search if empty then all users
      *
      * @return ArrayCollection
-     * @throws \Exception
+     * @throws Exception
      */
     public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = array())
     {
@@ -148,7 +149,7 @@ class UserManager extends BaseManager
      * @param $includeSyncIgnore
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getIds($includeDisabled = true, $includeSyncIgnore = true)
     {
@@ -163,7 +164,7 @@ class UserManager extends BaseManager
      * @param $includeSyncIgnore
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true)
     {
@@ -174,7 +175,7 @@ class UserManager extends BaseManager
 
     /**
      * Reset the examined flags on every user
-     * @throws \Exception
+     * @throws Exception
      */
     public function resetExaminedFlagForAllUsers()
     {
@@ -189,7 +190,7 @@ class UserManager extends BaseManager
      * @param integer $userId
      * @param array $criteria
      * @return UserMaterial[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function findMaterialsForUser($userId, $criteria)
     {
@@ -203,7 +204,7 @@ class UserManager extends BaseManager
      *
      * @param UserEvent[] $events
      * @return UserEvent[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function addMaterialsToEvents(array $events)
     {
@@ -215,7 +216,7 @@ class UserManager extends BaseManager
     /**
      * @param int $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::getDirectedSchoolIds()
      */
     public function getDirectedSchoolIds($userId): array
@@ -228,7 +229,7 @@ class UserManager extends BaseManager
     /**
      * @param int $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::getAdministeredSchoolIds()
      */
     public function getAdministeredSchoolIds($userId): array
@@ -241,7 +242,7 @@ class UserManager extends BaseManager
     /**
      * @param int $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::getDirectedCourseAndSchoolIds()
      */
     public function getDirectedCourseAndSchoolIds($userId): array
@@ -254,7 +255,7 @@ class UserManager extends BaseManager
     /**
      * @param int $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::getAdministeredCourseAndSchoolIds()
      */
     public function getAdministeredCourseAndSchoolIds($userId): array
@@ -267,7 +268,7 @@ class UserManager extends BaseManager
     /**
      * @param $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::getAdministeredCurriculumInventoryReportAndSchoolIds
      */
     public function getAdministeredCurriculumInventoryReportAndSchoolIds($userId): array
@@ -280,7 +281,7 @@ class UserManager extends BaseManager
     /**
      * @param $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::getAdministeredSessionCourseAndSchoolIds()
      */
     public function getAdministeredSessionCourseAndSchoolIds($userId): array
@@ -293,7 +294,7 @@ class UserManager extends BaseManager
     /**
      * @param $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::getInstructedLearnerGroupSchoolIds()
      */
     public function getInstructedLearnerGroupSchoolIds($userId): array
@@ -306,7 +307,7 @@ class UserManager extends BaseManager
     /**
      * @param $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::getInstructorGroupSchoolIds()
      */
     public function getInstructorGroupSchoolIds($userId): array
@@ -319,20 +320,20 @@ class UserManager extends BaseManager
     /**
      * @param $userId
      * @return array
-     * @throws \Exception
-     * @see UserRepository::getInstructedSessionCourseAndSchoolIds()
+     * @throws Exception
+     * @see UserRepository::getInstructedOfferingIlmSessionCourseAndSchoolIds()
      */
-    public function getInstructedSessionCourseAndSchoolIds($userId): array
+    public function getInstructedOfferingIlmSessionCourseAndSchoolIds($userId): array
     {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
-        return $repository->getInstructedSessionCourseAndSchoolIds($userId);
+        return $repository->getInstructedOfferingIlmSessionCourseAndSchoolIds($userId);
     }
 
     /**
      * @param $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::getDirectedProgramAndSchoolIds()
      */
     public function getDirectedProgramAndSchoolIds($userId): array
@@ -345,7 +346,7 @@ class UserManager extends BaseManager
     /**
      * @param $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::getDirectedProgramYearProgramAndSchoolIds()
      */
     public function getDirectedProgramYearProgramAndSchoolIds($userId): array
@@ -358,7 +359,20 @@ class UserManager extends BaseManager
     /**
      * @param $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
+     * @see UserRepository::getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser()
+     */
+    public function getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($userId);
+    }
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws Exception
      * @see UserRepository::getLearnerGroupIds()
      */
     public function getLearnerGroupIds($userId): array
@@ -371,7 +385,7 @@ class UserManager extends BaseManager
     /**
      * @param $userId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see CalendarEventRepository::getInstructorGroupIds()
      */
     public function getInstructorGroupIds($userId): array
@@ -385,7 +399,7 @@ class UserManager extends BaseManager
      * @param int $id
      * @param array $events
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see UserRepository::addPreAndPostRequisites()
      */
     public function addPreAndPostRequisites($id, array $events): array

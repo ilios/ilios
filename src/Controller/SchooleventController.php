@@ -6,6 +6,7 @@ use App\Classes\CalendarEvent;
 use App\Classes\SessionUserInterface;
 use App\Entity\Manager\SessionManager;
 use App\Entity\SessionInterface;
+use App\RelationshipVoter\AbstractCalendarEvent;
 use App\RelationshipVoter\AbstractVoter;
 use App\Classes\SchoolEvent;
 use App\Entity\Manager\SchoolManager;
@@ -126,11 +127,9 @@ class SchooleventController extends AbstractController
         $allEvents = $schoolManager->addMaterialsToEvents($allEvents);
         $allEvents = $schoolManager->addSessionDataToEvents($allEvents);
 
-        //Un-privileged users get less data
-        $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
-        if (! $hasElevatedPrivileges) {
-            /** @var SchoolEvent $event */
-            foreach ($allEvents as $event) {
+        /* @var SchoolEvent $event */
+        foreach ($allEvents as $event) {
+            if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_DRAFT_CONTENTS, $event)) {
                 $event->clearDataForUnprivilegedUsers();
             }
         }

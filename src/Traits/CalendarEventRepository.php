@@ -55,6 +55,7 @@ trait CalendarEventRepository
         $event->equipmentRequired = $arr['equipmentRequired'];
         $event->supplemental = $arr['supplemental'];
         $event->attendanceRequired = $arr['attendanceRequired'];
+        $event->school = $arr['schoolId'];
         return $event;
     }
 
@@ -100,6 +101,7 @@ trait CalendarEventRepository
         $event->equipmentRequired = $arr['equipmentRequired'];
         $event->supplemental = $arr['supplemental'];
         $event->attendanceRequired = $arr['attendanceRequired'];
+        $event->school = $arr['schoolId'];
         return $event;
     }
 

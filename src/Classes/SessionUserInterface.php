@@ -112,6 +112,9 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function isAdministeringSessionInCourse(int $courseId) : bool;
     public function isAdministeringSession(int $sessionId): bool;
     public function isTeachingSession(int $sessionId): bool;
+    public function isInstructingOffering(int $sessionId): bool;
+    public function isInstructingIlm(int $sessionId): bool;
+
     public function rolesInSession(
         int $sessionId,
         $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]
@@ -197,6 +200,16 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     /**
      * @return array
      */
+    public function getInstructedIlmIds(): array;
+
+    /**
+     * @return array
+     */
+    public function getInstructedOfferingIds(): array;
+
+    /**
+     * @return array
+     */
     public function getTaughtCourseSchoolIds(): array;
 
     /**
@@ -234,4 +247,15 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return bool
      */
     public function isInLearnerGroup(int $learnerGroupId): bool;
+
+    /**
+     * @return array
+     */
+    public function getCourseIdsLinkedToProgramsDirectedByUser(): array;
+
+    /**
+     * @param int $courseId
+     * @return bool
+     */
+    public function isDirectingProgramLinkedToCourse(int $courseId): bool;
 }

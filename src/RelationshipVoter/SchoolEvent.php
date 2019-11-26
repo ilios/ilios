@@ -9,14 +9,14 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 /**
  * Class SchoolEvent
  */
-class SchoolEvent extends AbstractVoter
+class SchoolEvent extends AbstractCalendarEvent
 {
     /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof Event && in_array($attribute, array(self::VIEW));
+        return $subject instanceof Event && in_array($attribute, array(self::VIEW, self::VIEW_DRAFT_CONTENTS));
     }
 
     /**
@@ -36,18 +36,33 @@ class SchoolEvent extends AbstractVoter
             return true;
         }
 
+        $sessionId = $event->session;
+        $courseId = $event->course;
+        $schoolId = $event->school;
+        $offeringId = $event->offering;
+        $ilmId = $event->ilmSession;
 
-        // if the current user performs any non-learner functions,
-        // then check if the event's school matches the current user's primary school,
-        // or any of the associated schools in a non-learner context.
-        // if so, grant VIEW access.
-        if ($user->performsNonLearnerFunction()) {
-            $schoolIds = $user->getAssociatedSchoolIdsInNonLearnerFunction();
-            return $user->getSchoolId() === $event->school || in_array($event->school, $schoolIds);
+        switch ($attribute) {
+            case self::VIEW:
+                // if the event is published and the it's owned by the current user's
+                // primary school, then it can be viewed.
+                if ($event->isPublished && $user->getSchoolId() === $event->school) {
+                    return true;
+                }
+
+                // if the current user is associated with the given event
+                // in a directing/administrating/instructing capacity via the event's
+                // owning school/course/session/ILM/offering context,
+                // then it can be viewed, even if it is not published.
+                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
+
+            case self::VIEW_DRAFT_CONTENTS:
+                // can't view draft data on events, unless
+                // the event is being instructed/directed/administered by the current user.
+                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
+
+            default:
+                return false;
         }
-
-        // student/learners can only VIEW published events in their primary school.
-        // @todo perhaps this is to restrictive, needs review [ST 2018/01/17]
-        return $event->isPublished && $user->getSchoolId() === $event->school;
     }
 }

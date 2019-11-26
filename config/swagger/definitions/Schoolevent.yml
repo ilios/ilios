@@ -3,10 +3,6 @@ Schoolevent:
   allOf:
     - $ref: '#/definitions/CalendarEvent'
   properties:
-    school:
-      description: School ID
-      type: integer
-      readOnly: true
     postrequisites:
       description: Postrequisites of this event.
       type: array

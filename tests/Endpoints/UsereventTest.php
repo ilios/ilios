@@ -106,20 +106,6 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertTrue($lms[8]['isBlanked']);
     }
 
-    public function testAttachedMaterialsRemovedIfUserIsNotOwnerOfRequestedEvents()
-    {
-        $userId = 5;
-        $events = $this->getEvents(
-            $userId,
-            0,
-            100000000000,
-            $this->getTokenForUser($this->kernelBrowser, 2)
-        );
-        $lms = $events[0]['learningMaterials'];
-
-        $this->assertEquals(0, count($lms));
-    }
-
     public function testGetEvents()
     {
         $offerings = $this->getContainer()->get(OfferingData::class)->getAll();

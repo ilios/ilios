@@ -228,6 +228,13 @@ class CalendarEvent
     public $prerequisites = array();
 
     /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("integer")
+     **/
+    public $school;
+
+    /**
      * Clean out all the data for draft or scheduled events
      *
      * This information is not available to un-privileged users

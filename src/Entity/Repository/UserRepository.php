@@ -340,7 +340,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     ) {
 
         $qb = $this->_em->createQueryBuilder();
-        $what = 'c.id as courseId, s.id AS sessionId, o.id, o.startDate, o.endDate, o.room, ' .
+        $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, o.id, o.startDate, o.endDate, o.room, ' .
             'o.updatedAt AS offeringUpdatedAt, s.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
@@ -353,6 +353,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
         $qb->leftJoin('o.session', 's');
         $qb->leftJoin('s.course', 'c');
+        $qb->leftJoin('c.school', 'school');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.sessionDescription', 'sd');
 
@@ -386,7 +387,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     protected function getIlmSessionEventsFor($id, \DateTime $from, \DateTime $to, array $joins)
     {
         $qb = $this->_em->createQueryBuilder();
-        $what = 'c.id as courseId, s.id AS sessionId, ilm.id, ilm.dueDate, ' .
+        $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
@@ -400,6 +401,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         }
         $qb->leftJoin('ilm.session', 's');
         $qb->leftJoin('s.course', 'c');
+        $qb->leftJoin('c.school', 'school');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.sessionDescription', 'sd');
 
@@ -463,7 +465,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // get pre-requisites from offerings that a the user is associated with (as learner, instructor, etc.)
         $results = [];
         $joins = $this->getUserToOfferingJoins();
-        $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, ' .
+        $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
@@ -478,6 +480,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             }
             $qb->leftJoin('o.session', 's');
             $qb->leftJoin('s.course', 'c');
+            $qb->leftJoin('c.school', 'school');
             $qb->leftJoin('s.sessionType', 'st');
             $qb->leftJoin('s.sessionDescription', 'sd');
             $qb->leftJoin('s.postrequisite', 'ps');
@@ -515,8 +518,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // get pre-requisites from ILMs that a the user is associated with (as learner, instructor, etc.)
         $results = [];
         $joins = $this->getUserToIlmJoins();
-        $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, ilm.id, ilm.dueDate, ' .
-            's.updatedAt, s.title, st.calendarColor, ' .
+        $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
+            'ilm.id, ilm.dueDate, s.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
@@ -529,6 +532,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             }
             $qb->leftJoin('ilm.session', 's');
             $qb->leftJoin('s.course', 'c');
+            $qb->leftJoin('c.school', 'school');
             $qb->leftJoin('s.sessionType', 'st');
             $qb->leftJoin('s.sessionDescription', 'sd');
             $qb->leftJoin('s.postrequisite', 'ps');
@@ -594,7 +598,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // get post-requisites from offerings that a the user is associated with (as learner, instructor, etc.)
         $results = [];
         $joins = $this->getUserToOfferingJoins();
-        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, ' .
+        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
@@ -609,6 +613,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             }
             $qb->leftJoin('o.session', 's');
             $qb->leftJoin('s.course', 'c');
+            $qb->leftJoin('c.school', 'school');
             $qb->leftJoin('s.sessionType', 'st');
             $qb->leftJoin('s.sessionDescription', 'sd');
             $qb->leftJoin('s.prerequisites', 'ps');
@@ -646,8 +651,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         // get post-requisites from ILMs that a the user is associated with (as learner, instructor, etc.)
         $results = [];
         $joins = $this->getUserToIlmJoins();
-        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, ilm.id, ilm.dueDate, ' .
-            's.updatedAt, s.title, st.calendarColor, ' .
+        $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
+            'ilm.id, ilm.dueDate, s.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
@@ -660,6 +665,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             }
             $qb->leftJoin('ilm.session', 's');
             $qb->leftJoin('s.course', 'c');
+            $qb->leftJoin('c.school', 'school');
             $qb->leftJoin('s.sessionType', 'st');
             $qb->leftJoin('s.sessionDescription', 'sd');
             $qb->leftJoin('s.prerequisites', 'ps');
@@ -1399,24 +1405,60 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     }
 
     /**
-     * Returns an assoc. array of ids of sessions instructed by the given user,
-     * and the ids of schools and courses owning these instructed sessions.
+     * Returns an assoc. array of ids of courses that are linked to the programs directed by the given user,
+     * and the ids of cohorts, program years and directed programs in this chain of associations.
      * @param $userId
      * @return array
      */
-    public function getInstructedSessionCourseAndSchoolIds($userId): array
+    public function getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($userId): array
+    {
+        $rhett['programIds'] = [];
+        $rhett['programYearIds'] = [];
+        $rhett['cohortIds'] = [];
+        $rhett['courseIds'] = [];
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
+            'course.id as courseId, cohort.id as cohortId, programYear.id as programYearId, program.id as programId'
+        )->distinct()->from(User::class, 'u');
+        $qb->join('u.directedPrograms', 'program');
+        $qb->join('program.programYears', 'programYear');
+        $qb->join('programYear.cohort', 'cohort');
+        $qb->join('cohort.courses', 'course');
+        $qb->where($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $rhett['programIds'][] = $arr['programId'];
+            $rhett['programYearIds'][] = $arr['programYearId'];
+            $rhett['cohortIds'][] = $arr['cohortId'];
+            $rhett['courseIds'] []= $arr['courseId'];
+        }
+
+        return $this->dedupeSubArrays($rhett);
+    }
+
+    /**
+     * Returns an assoc. array of ids of ILMs and offerings instructed by the given user,
+     * and the ids of schools, courses, and sessions owning these instructed and offerings.
+     * @param $userId
+     * @return array
+     */
+    public function getInstructedOfferingIlmSessionCourseAndSchoolIds($userId): array
     {
         $rhett['schoolIds'] = [];
         $rhett['courseIds'] = [];
         $rhett['sessionIds'] = [];
+        $rhett['ilmIds'] = [];
+        $rhett['offeringIds'] = [];
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
+        $qb->select('o.id as offeringId, session.id as sessionId, course.id as courseId, school.id as schoolId')
             ->distinct()
             ->from(User::class, 'u');
         $qb->join('u.instructorGroups', 'instructorGroup');
-        $qb->join('instructorGroup.offerings', 'offerings');
-        $qb->join('offerings.session', 'session');
+        $qb->join('instructorGroup.offerings', 'o');
+        $qb->join('o.session', 'session');
         $qb->join('session.course', 'course');
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
@@ -1426,15 +1468,16 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
+            $rhett['offeringIds'][] = $arr['offeringId'];
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
-            ->distinct()
-            ->from(User::class, 'u');
+        $qb->select('ilm.id as ilmId, session.id as sessionId, course.id as courseId, school.id as schoolId')
+           ->distinct()
+           ->from(User::class, 'u');
         $qb->join('u.instructorGroups', 'instructorGroup');
-        $qb->join('instructorGroup.ilmSessions', 'ilmSessions');
-        $qb->join('ilmSessions.session', 'session');
+        $qb->join('instructorGroup.ilmSessions', 'ilm');
+        $qb->join('ilm.session', 'session');
         $qb->join('session.course', 'course');
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
@@ -1444,14 +1487,15 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
+            $rhett['ilmIds'][] = $arr['ilmId'];
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
+        $qb->select('o.id as offeringId, session.id as sessionId, course.id as courseId, school.id as schoolId')
             ->distinct()
             ->from(User::class, 'u');
-        $qb->join('u.instructedOfferings', 'offerings');
-        $qb->join('offerings.session', 'session');
+        $qb->join('u.instructedOfferings', 'o');
+        $qb->join('o.session', 'session');
         $qb->join('session.course', 'course');
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
@@ -1461,14 +1505,15 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
+            $rhett['offeringIds'][] = $arr['offeringId'];
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('session.id as sessionId, course.id as courseId, school.id as schoolId')
-            ->distinct()
-            ->from(User::class, 'u');
-        $qb->join('u.instructorIlmSessions', 'ilmSession');
-        $qb->join('ilmSession.session', 'session');
+        $qb->select('ilm.id as ilmId, session.id as sessionId, course.id as courseId, school.id as schoolId')
+           ->distinct()
+           ->from(User::class, 'u');
+        $qb->join('u.instructorIlmSessions', 'ilm');
+        $qb->join('ilm.session', 'session');
         $qb->join('session.course', 'course');
         $qb->join('course.school', 'school');
         $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
@@ -1478,6 +1523,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['schoolIds'][] = $arr['schoolId'];
             $rhett['courseIds'][] = $arr['courseId'];
             $rhett['sessionIds'][] = $arr['sessionId'];
+            $rhett['ilmIds'][] = $arr['ilmId'];
         }
 
         return $this->dedupeSubArrays($rhett);
