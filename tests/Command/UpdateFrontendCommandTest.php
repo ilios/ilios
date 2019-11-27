@@ -14,12 +14,17 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Mockery as m;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Class UpdateFrontendCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class UpdateFrontendCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:update-frontend';
     const TEST_API_VERSION = '33.14-test';
-    
+
     protected $commandTester;
     protected $fetch;
     protected $fs;
@@ -79,7 +84,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         unset($this->archive);
         unset($this->finder);
     }
-    
+
     public function testExecute()
     {
         $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;

@@ -8,6 +8,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Term
+ * @group model
  */
 class TermTest extends EntityBase
 {

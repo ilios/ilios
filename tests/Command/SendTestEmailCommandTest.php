@@ -7,6 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class SendTestEmailCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class SendTestEmailCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;

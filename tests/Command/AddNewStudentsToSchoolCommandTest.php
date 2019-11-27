@@ -15,12 +15,13 @@ use Mockery as m;
 
 /**
  * Class AddNewStudentsToSchoolCommandTest
+ * @group cli
  */
 class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:add-students';
-    
+
     protected $userManager;
     protected $userRoleManager;
     protected $schoolManager;
@@ -28,7 +29,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
-    
+
     public function setUp()
     {
         $this->userManager = m::mock(UserManager::class);
@@ -36,7 +37,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         $this->schoolManager = m::mock(SchoolManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
         $this->directory = m::mock(Directory::class);
-        
+
         $command = new AddNewStudentsToSchoolCommand(
             $this->userManager,
             $this->schoolManager,
@@ -64,7 +65,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         unset($this->directory);
         unset($this->commandTester);
     }
-    
+
     public function testExecute()
     {
         $fakeDirectoryUser1 = [
@@ -113,7 +114,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
             ->andReturn([$fakeDirectoryUser1, $fakeDirectoryUser2]);
         $this->userManager->shouldReceive('getAllCampusIds')
             ->andReturn(['abc2']);
-            
+
         $this->userManager->shouldReceive('create')->andReturn($user);
         $this->userManager
             ->shouldReceive('update')
@@ -133,20 +134,20 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 
         $this->authenticationManager->shouldReceive('create')->andReturn($authentication);
         $this->authenticationManager->shouldReceive('update')->with($authentication, false);
-        
+
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute(array(
             'command'   => self::COMMAND_NAME,
             'schoolId'    => 1,
             'filter'    => 'FILTER',
         ));
-        
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Found 2 students in the directory./',
             $output
         );
-        
+
         $this->assertRegExp(
             '/There are 1 new students to be added to school 1./',
             $output
@@ -164,7 +165,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testBadSchoolId()
     {
         $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
@@ -175,7 +176,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
             'schoolId'         => '1'
         ));
     }
-    
+
     public function testFilterRequired()
     {
         $this->expectException(\RuntimeException::class);
@@ -184,7 +185,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
             'schoolId'         => '1'
         ));
     }
-    
+
     public function testSchoolRequired()
     {
         $this->expectException(\RuntimeException::class);

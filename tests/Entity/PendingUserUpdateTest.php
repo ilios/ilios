@@ -7,6 +7,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity PendingUserUpdate
+ * @group model
  */
 class PendingUserUpdateTest extends EntityBase
 {
@@ -80,7 +81,7 @@ class PendingUserUpdateTest extends EntityBase
     {
         $this->basicSetTest('value', 'string');
     }
-    
+
     /**
      * @covers \App\Entity\PendingUserUpdate::setUser
      * @covers \App\Entity\PendingUserUpdate::getUser

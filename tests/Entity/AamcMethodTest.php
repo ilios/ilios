@@ -5,6 +5,7 @@ use App\Entity\AamcMethod;
 
 /**
  * Tests for Entity AamcMethod
+ * @group model
  */
 class AamcMethodTest extends EntityBase
 {

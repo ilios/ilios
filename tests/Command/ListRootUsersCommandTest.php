@@ -12,6 +12,7 @@ use Mockery as m;
  * Tests the List Root Users command.
  *
  * Class ListRootUsersCommandTest
+ * @group cli
  */
 class ListRootUsersCommandTest extends KernelTestCase
 {

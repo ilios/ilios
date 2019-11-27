@@ -9,6 +9,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Session
+ * @group model
  */
 class SessionTest extends EntityBase
 {

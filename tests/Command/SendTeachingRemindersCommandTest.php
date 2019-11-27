@@ -28,6 +28,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * Send Teaching Reminder command test.
  *
  * Class SendTeachingRemindersCommandTest
+ * @group cli
  */
 class SendTeachingRemindersCommandTest extends KernelTestCase
 {

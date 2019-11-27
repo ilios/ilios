@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity IngestionException
+ * @group model
  */
 class IngestionExceptionTest extends EntityBase
 {

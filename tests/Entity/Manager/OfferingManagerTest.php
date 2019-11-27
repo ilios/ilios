@@ -13,7 +13,8 @@ use Mockery as m;
 use App\Tests\TestCase;
 
 /**
- * Tests for Entity AamcMethod
+ * Tests for Offering manager.
+ * @group model
  */
 class OfferingManagerTest extends TestCase
 {
@@ -31,7 +32,7 @@ class OfferingManagerTest extends TestCase
             ->shouldReceive('getRepository')
             ->andReturn($repository)
             ->mock();
-        
+
         $entity = m::mock(Offering::class);
         $manager = new OfferingManager($registry, Offering::class);
         $manager->delete($entity);

@@ -9,6 +9,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Offering
+ * @group model
  */
 class OfferingTest extends EntityBase
 {

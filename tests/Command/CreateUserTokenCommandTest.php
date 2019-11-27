@@ -8,19 +8,24 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class CreateUserTokenCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class CreateUserTokenCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:create-user-token';
-    
+
     protected $userManager;
     protected $commandTester;
-    
+
     public function setUp()
     {
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
         $this->jwtManager = m::mock(JsonWebTokenManager::class);
-        
+
         $command = new CreateUserTokenCommand($this->userManager, $this->jwtManager);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -37,46 +42,46 @@ class CreateUserTokenCommandTest extends KernelTestCase
         unset($this->userManager);
         unset($this->commandTester);
     }
-    
+
     public function testNewDefaultToken()
     {
         $user = m::mock('App\Entity\UserInterface');
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, 'PT8H')->andReturn('123JWT');
-        
+
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Token 123JWT/',
             $output
         );
     }
-    
+
     public function testNewTTLToken()
     {
         $user = m::mock('App\Entity\UserInterface');
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, '108Franks')->andReturn('123JWT');
-        
+
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'       => '1',
             '--ttl'        => '108Franks'
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Token 123JWT/',
             $output
         );
     }
-    
+
     public function testBadUserId()
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
@@ -86,7 +91,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
             'userId'         => '1'
         ));
     }
-    
+
     public function testUserRequired()
     {
         $this->expectException(\RuntimeException::class);

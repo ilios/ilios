@@ -8,6 +8,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity CurriculumInventoryReport
+ * @group model
  */
 class CurriculumInventoryReportTest extends EntityBase
 {

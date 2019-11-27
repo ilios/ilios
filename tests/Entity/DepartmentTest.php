@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Department
+ * @group model
  */
 class DepartmentTest extends EntityBase
 {

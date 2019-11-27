@@ -8,6 +8,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity CurriculumInventorySequenceBlock
+ * @group model
  */
 class CurriculumInventorySequenceBlockTest extends EntityBase
 {

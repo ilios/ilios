@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Alert
+ * @group model
  */
 class AlertTest extends EntityBase
 {

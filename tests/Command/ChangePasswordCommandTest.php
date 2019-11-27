@@ -15,6 +15,11 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class ChangePasswordCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class ChangePasswordCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -67,7 +72,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         unset($this->sessionUserProvider);
         unset($this->commandTester);
     }
-    
+
     public function testChangePassword()
     {
         $user = m::mock(UserInterface::class);
@@ -89,8 +94,8 @@ class ChangePasswordCommandTest extends KernelTestCase
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Password Changed/',
@@ -139,7 +144,7 @@ class ChangePasswordCommandTest extends KernelTestCase
             'userId'         => '1'
         ));
     }
-    
+
     public function testUserRequired()
     {
         $this->expectException(\RuntimeException::class);

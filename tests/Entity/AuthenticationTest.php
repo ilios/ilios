@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Authentication
+ * @group model
  */
 class AuthenticationTest extends EntityBase
 {
@@ -21,7 +22,7 @@ class AuthenticationTest extends EntityBase
     {
         $this->object = new Authentication;
     }
-    
+
     /**
      * @covers \App\Entity\Authentication::setUsername
      * @covers \App\Entity\Authentication::getUsername

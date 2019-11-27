@@ -12,6 +12,7 @@ use Mockery as m;
 
 /**
  * Class SetupAuthenticationCommandTest
+ * @group cli
  */
 class SetupAuthenticationCommandTest extends KernelTestCase
 {

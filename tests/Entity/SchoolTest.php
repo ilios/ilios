@@ -7,6 +7,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity School
+ * @group model
  */
 class SchoolTest extends EntityBase
 {

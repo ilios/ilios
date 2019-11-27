@@ -11,21 +11,22 @@ use \DateTime;
 
 /**
  * Class InvalidateUserTokenCommandTest
+ * @group cli
  */
 class InvalidateUserTokenCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:invalidate-user-tokens';
-    
+
     protected $userManager;
     protected $authenticationManager;
     protected $commandTester;
-    
+
     public function setUp()
     {
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
         $this->authenticationManager = m::mock('App\Entity\Manager\AuthenticationManager');
-        
+
         $command = new InvalidateUserTokenCommand($this->userManager, $this->authenticationManager);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -43,7 +44,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         unset($this->authenticationManager);
         unset($this->commandTester);
     }
-    
+
     public function testHappyPathExecute()
     {
         $now = new DateTime();
@@ -60,13 +61,13 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
         ));
-        
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/All the tokens for somebody great issued before Today at [0-9:APM\s]+ UTC have been invalidated./',
             $output
         );
-        
+
         preg_match('/[0-9:APM\s]+ UTC/', $output, $matches);
         $time = trim($matches[0]);
         $since = new DateTime($time);
@@ -75,7 +76,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
             $diff > 1
         );
     }
-    
+
     public function testNoAuthenticationForUser()
     {
         $authentication = m::mock('App\Entity\AuthenticationInterface')
@@ -94,14 +95,14 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
         ));
-        
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/All the tokens for somebody great issued before Today at [0-9:APM\s]+ UTC have been invalidated./',
             $output
         );
     }
-    
+
     public function testBadUserId()
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
@@ -111,7 +112,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
             'userId'         => '1'
         ));
     }
-    
+
     public function testUserRequired()
     {
         $this->expectException(\RuntimeException::class);

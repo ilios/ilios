@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Report
+ * @group model
  */
 class ReportTest extends EntityBase
 {
@@ -21,7 +22,7 @@ class ReportTest extends EntityBase
     {
         $this->object = new Report;
     }
-    
+
     /**
      * @covers \App\Entity\Session::__construct
      */

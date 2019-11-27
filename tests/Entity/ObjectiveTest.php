@@ -8,6 +8,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Objective
+ * @group model
  */
 class ObjectiveTest extends EntityBase
 {

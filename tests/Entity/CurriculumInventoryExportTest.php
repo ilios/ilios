@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity CurriculumInventoryExport
+ * @group model
  */
 class CurriculumInventoryExportTest extends EntityBase
 {
@@ -28,11 +29,11 @@ class CurriculumInventoryExportTest extends EntityBase
             'document',
         );
         $this->validateNotBlanks($notBlank);
-        
+
         $this->object->setDocument('text file super large test');
         $this->validate(0);
     }
-    
+
     /**
      * @covers \App\Entity\Session::__construct
      */

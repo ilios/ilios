@@ -11,6 +11,7 @@ use Mockery as m;
  * Tests the Remove Root User command.
  *
  * Class RemoveRootUserCommandTest
+ * @group cli
  */
 class RemoveRootUserCommandTest extends KernelTestCase
 {

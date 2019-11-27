@@ -6,6 +6,7 @@ use DateTime;
 
 /**
  * Tests for Entity MeshQualifier
+ * @group model
  */
 class MeshQualifierTest extends EntityBase
 {

@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for SchoolConfig entity.
+ * @group model
  */
 class SchoolConfigTest extends EntityBase
 {

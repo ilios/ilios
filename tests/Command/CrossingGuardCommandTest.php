@@ -10,6 +10,7 @@ use Mockery as m;
 
 /**
  * Class CrossingGuardCommandTest
+ * @group cli
  */
 class CrossingGuardCommandTest extends KernelTestCase
 {
@@ -18,7 +19,7 @@ class CrossingGuardCommandTest extends KernelTestCase
 
     protected $crossingGuard;
     protected $commandTester;
-    
+
     public function setUp()
     {
         $this->crossingGuard = m::mock(CrossingGuard::class);
@@ -41,7 +42,7 @@ class CrossingGuardCommandTest extends KernelTestCase
         unset($this->crossingGuard);
         unset($this->commandTester);
     }
-    
+
     public function testEnable()
     {
         $this->crossingGuard->shouldReceive('enable')->once();

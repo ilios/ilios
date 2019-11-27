@@ -5,6 +5,11 @@ namespace App\Tests\Entity\DTO;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Tests\TestCase;
 
+/**
+ * Class LearningMaterialDTOTest
+ * @package App\Tests\Entity\DTO
+ * @group model
+ */
 class LearningMaterialDTOTest extends TestCase
 {
     /**

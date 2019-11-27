@@ -17,6 +17,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class InstallFirstUserCommandTest
+ * @group cli
  */
 class InstallFirstUserCommandTest extends KernelTestCase
 {

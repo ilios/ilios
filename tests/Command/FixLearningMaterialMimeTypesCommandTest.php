@@ -12,11 +12,16 @@ use Mockery as m;
 use App\Service\IliosFileSystem;
 use Symfony\Component\HttpFoundation\File\File;
 
+/**
+ * Class FixLearningMaterialMimeTypesCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:fix-mime-types';
-    
+
     protected $iliosFileSystem;
     protected $temporaryFileSystem;
     protected $learningMaterialManager;
@@ -49,7 +54,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         unset($this->learningMaterialManager);
         unset($this->commandTester);
     }
-    
+
     public function testFixCitationType()
     {
         $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')

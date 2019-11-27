@@ -11,6 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class CleanupS3FilesystemCacheCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -52,7 +57,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
         unset($this->diskSpace);
         unset($this->commandTester);
     }
-    
+
     public function testPlentyOfFreeSpaceDoesNothing()
     {
         $this->diskSpace->shouldReceive('freeSpace')->once()->with(self::CACHE_DIR)->andReturn(80);

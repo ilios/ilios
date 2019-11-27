@@ -12,6 +12,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity MeshDescriptor
+ * @group model
  */
 class MeshDescriptorTest extends EntityBase
 {

@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity SessionDescription
+ * @group model
  */
 class SessionDescriptionTest extends EntityBase
 {
@@ -21,7 +22,7 @@ class SessionDescriptionTest extends EntityBase
     {
         $this->object = new SessionDescription;
     }
-   
+
     /**
      * @covers \App\Entity\SessionDescription::setDescription
      * @covers \App\Entity\SessionDescription::getDescription
