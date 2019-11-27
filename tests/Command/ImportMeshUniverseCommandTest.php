@@ -16,6 +16,7 @@ use Mockery as m;
 /**
  * Class ImportMeshUniverseCommandTest
  * @package App\Tests\Command
+ * @group cli
  */
 class ImportMeshUniverseCommandTest extends KernelTestCase
 {

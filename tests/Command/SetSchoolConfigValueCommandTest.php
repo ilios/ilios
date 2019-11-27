@@ -11,11 +11,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class SetSchoolConfigValueCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class SetSchoolConfigValueCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:set-school-config-value';
-    
+
     protected $commandTester;
     protected $schoolManager;
     protected $schoolConfigManager;
@@ -41,7 +46,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         unset($this->schoolConfigManager);
         unset($this->commandTester);
     }
-    
+
     public function testSaveExistingConfig()
     {
         $mockSchool = m::mock(SchoolInterface::class);
@@ -87,7 +92,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
             'value' => 'bar',
         ));
     }
-    
+
     public function testNameRequired()
     {
         $this->expectException(\RuntimeException::class);

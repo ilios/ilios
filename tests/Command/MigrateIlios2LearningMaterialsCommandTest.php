@@ -10,15 +10,20 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use Symfony\Component\HttpFoundation\File\File;
 
+/**
+ * Class MigrateIlios2LearningMaterialsCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:migrate-learning-materials';
-    
+
     protected $symfonyFileSystem;
     protected $iliosFileSystem;
     protected $learningMaterialManager;
-    
+
     public function setUp()
     {
         $this->symfonyFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
@@ -48,7 +53,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         unset($this->directory);
         unset($this->learningMaterialManager);
     }
-    
+
     public function testExecute()
     {
         $this->symfonyFileSystem
@@ -75,13 +80,13 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
             }))->andReturn('newrelativepath')->once()
         ;
         $this->commandTester->setInputs(['Yes']);
-        
+
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'pathToIlios2'         => __DIR__ . '/'
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Ready to copy 1 learning materials. Shall we continue?/',
@@ -92,13 +97,13 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithBadRelativePath()
     {
         $this->symfonyFileSystem
             ->shouldReceive('exists')->with('path')->andReturn(true)
             ->shouldReceive('exists')->with('path/pathtofile')->andReturn(false);
-        
+
         $lm = m::mock('App\Entity\LearningMaterial')
             ->shouldReceive('getRelativePath')->andReturn('/pathtofile')->once()
             ->mock();
@@ -124,7 +129,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testBadIlios2Path()
     {
         $this->symfonyFileSystem->shouldReceive('exists')->with('badpath')->andReturn(false);
@@ -134,7 +139,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
             'pathToIlios2'         => 'badpath'
         ));
     }
-    
+
     public function testIlios2PathRequired()
     {
         $this->expectException(\RuntimeException::class);

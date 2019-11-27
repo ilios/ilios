@@ -8,15 +8,20 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class ValidateLearningMaterialPathsCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:validate-learning-materials';
-    
+
     protected $iliosFileSystem;
     protected $learningMaterialManager;
     protected $commandTester;
-    
+
     public function setUp()
     {
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
@@ -41,7 +46,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
         unset($this->iliosFileSystem);
         unset($this->learningMaterialManager);
     }
-    
+
     public function testExecute()
     {
         $goodLm = m::mock('App\Entity\LearningMaterial');
@@ -62,8 +67,8 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Validated 1 learning materials file path/',

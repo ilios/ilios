@@ -16,26 +16,27 @@ use Mockery as m;
 
 /**
  * Class SyncUserCommandTest
+ * @group cli
  */
 class SyncUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:sync-user';
-    
+
     protected $userManager;
     protected $authenticationManager;
     protected $pendingUserUpdateManager;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
-    
+
     public function setUp()
     {
         $this->userManager = m::mock(UserManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
         $this->pendingUserUpdateManager = m::mock(PendingUserUpdateManager::class);
         $this->directory = m::mock(Directory::class);
-        
+
         $command = new SyncUserCommand(
             $this->userManager,
             $this->authenticationManager,
@@ -61,7 +62,7 @@ class SyncUserCommandTest extends KernelTestCase
         unset($this->directory);
         unset($this->commandTester);
     }
-    
+
     public function testExecute()
     {
         $authentication = m::mock(AuthenticationInterface::class)
@@ -98,13 +99,13 @@ class SyncUserCommandTest extends KernelTestCase
         ];
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->commandTester->setInputs(['Yes']);
-        
+
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Ilios User\s+\| abc\s+\| old-first\s+\| old-last\s+\| old-display\s+\| old-email\s+\| old-phone/',
@@ -115,7 +116,7 @@ class SyncUserCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testBadUserId()
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
@@ -125,7 +126,7 @@ class SyncUserCommandTest extends KernelTestCase
             'userId' => '1'
         ));
     }
-    
+
     public function testUserRequired()
     {
         $this->expectException(\RuntimeException::class);

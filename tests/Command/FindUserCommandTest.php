@@ -8,14 +8,19 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class FindUserCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class FindUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:find-user';
-    
+
     protected $commandTester;
     protected $directory;
-    
+
     public function setUp()
     {
         $this->directory = m::mock(Directory::class);
@@ -35,7 +40,7 @@ class FindUserCommandTest extends KernelTestCase
         unset($this->directory);
         unset($this->commandTester);
     }
-    
+
     public function testExecute()
     {
         $fakeDirectoryUser = [
@@ -46,20 +51,20 @@ class FindUserCommandTest extends KernelTestCase
             'campusId' => 'abc',
         ];
         $this->directory->shouldReceive('find')->with(array('a', 'b'))->andReturn(array($fakeDirectoryUser));
-        
+
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'searchTerms'         => array('a', 'b')
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/abc\s+\| first\s+\| last\s+\| email\s+\| phone/',
             $output
         );
     }
-    
+
     public function testTermRequired()
     {
         $this->expectException(\RuntimeException::class);

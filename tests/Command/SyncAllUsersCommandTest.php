@@ -14,6 +14,7 @@ use Mockery as m;
 
 /**
  * Class SyncAllUsersCommandTest
+ * @group cli
  */
 class SyncAllUsersCommandTest extends KernelTestCase
 {
@@ -46,7 +47,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
      * @var m\Mock
      */
     protected $em;
-    
+
     public function setUp()
     {
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
@@ -54,7 +55,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->pendingUserUpdateManager = m::mock('App\Entity\Manager\PendingUserUpdateManager');
         $this->directory = m::mock(Directory::class);
         $this->em = m::mock(EntityManagerInterface::class);
-        
+
         $command = new SyncAllUsersCommand(
             $this->userManager,
             $this->authenticationManager,
@@ -68,7 +69,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
         $this->questionHelper = $command->getHelper('question');
-        
+
         $this->pendingUserUpdateManager->shouldReceive('removeAllPendingUserUpdates')->once();
         $this->userManager->shouldReceive('resetExaminedFlagForAllUsers')->once();
     }
@@ -85,7 +86,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         unset($this->em);
         unset($this->commandTester);
     }
-    
+
     public function testExecuteUserWithNoChanges()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -135,8 +136,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Comparing User #42 first last \(email\) to directory user by campus ID abc./',
@@ -147,7 +148,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithFirstNameChange()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -192,14 +193,14 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('update')->with($user, false)->once();
-                
+
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Updating first name from "first" to "new-first"./',
@@ -210,7 +211,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithLastNameChange()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -255,14 +256,14 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('update')->with($user, false)->once();
-                
+
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Updating last name from "last" to "new-last"./',
@@ -273,7 +274,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithPhoneNumberChange()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -318,14 +319,14 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('update')->with($user, false)->once();
-                
+
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Updating phone number from "phone" to "new-phone"./',
@@ -336,7 +337,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithEmailChange()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -388,14 +389,14 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->pendingUserUpdateManager->shouldReceive('create')->andReturn($update)->once();
         $this->pendingUserUpdateManager->shouldReceive('update')->with($update, false)->once();
-                
+
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Email address "email" differs from "new-email" logging for further action./',
@@ -406,7 +407,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithEmailCaseChange()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -457,8 +458,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Updating email from "email" to "EMAIL" since the only difference was the case./',
@@ -532,7 +533,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithUsernameChange()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -577,15 +578,15 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('update')->with($user, false)->once();
-                
+
         $this->authenticationManager->shouldReceive('update')->with($authentication, false)->once();
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Updating username from "abc123" to "new-abc123"./',
@@ -596,8 +597,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
-    
+
+
     public function testExecuteWithNoAuthenticationDataChange()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -653,8 +654,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Updating username from "" to "abc123"./',
@@ -669,7 +670,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithMultipleUserMatches()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -728,8 +729,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Multiple accounts exist for the same campus ID \(abc\)\.  None of them will be updated./',
@@ -740,7 +741,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithEmptyFirstName()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -783,8 +784,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/firstName is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
@@ -795,7 +796,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithEmptyLastName()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -838,8 +839,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/lastName is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
@@ -850,7 +851,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithEmptyEmail()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -893,8 +894,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/email is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
@@ -905,7 +906,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithEmptyUsernamelName()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -948,8 +949,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/username is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
@@ -960,7 +961,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteWithUserNotInTheDirectory()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -990,20 +991,20 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([$user])
             ->once();
-        
+
         $update = m::mock('App\Entity\PendingUserUpdate')
             ->shouldReceive('setType')->with('missingFromDirectory')->once()
             ->shouldReceive('setUser')->with($user)->once()
             ->mock();
         $this->pendingUserUpdateManager->shouldReceive('create')->andReturn($update)->once();
         $this->pendingUserUpdateManager->shouldReceive('update')->with($update, false)->once();
-        
+
         $this->em->shouldReceive('flush')->once();
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/User #42 missing person email abc not found in the directory.  Logged for further study/',
@@ -1014,7 +1015,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testExecuteEmailChangeDoesNotChangeOthers()
     {
         $this->userManager->shouldReceive('getAllCampusIds')
@@ -1066,13 +1067,13 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->pendingUserUpdateManager->shouldReceive('create')->andReturn($update)->once();
         $this->pendingUserUpdateManager->shouldReceive('update')->with($update, false)->once();
-                
+
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME
         ));
-        
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Completed sync process 1 users found in the directory; 0 users updated./',

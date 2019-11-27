@@ -8,11 +8,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class CleanupStringsCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class CleanupStringsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:cleanup-strings';
-    
+
     protected $purifier;
     protected $em;
     protected $objectiveManager;
@@ -68,7 +73,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         unset($this->sessionDescriptionManager);
         unset($this->commandTester);
     }
-    
+
     public function testObjectiveTitle()
     {
         $cleanObjective = m::mock('App\Entity\ObjectiveInterface')
@@ -93,8 +98,8 @@ class CleanupStringsCommandTest extends KernelTestCase
             'command'           => self::COMMAND_NAME,
             '--objective-title' => true
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/1 Objective Titles updated/',

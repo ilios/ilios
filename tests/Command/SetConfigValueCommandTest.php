@@ -10,14 +10,19 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class SetConfigValueCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class SetConfigValueCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:set-config-value';
-    
+
     protected $commandTester;
     protected $applicationConfigManager;
-    
+
     public function setUp()
     {
         $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
@@ -37,7 +42,7 @@ class SetConfigValueCommandTest extends KernelTestCase
         unset($this->applicationConfigManager);
         unset($this->commandTester);
     }
-    
+
     public function testSaveExistingConfig()
     {
         $mockConfig = m::mock(ApplicationConfig::class);
@@ -70,7 +75,7 @@ class SetConfigValueCommandTest extends KernelTestCase
             'value'        => 'bar',
         ));
     }
-    
+
     public function testNameRequired()
     {
         $this->expectException(\RuntimeException::class);

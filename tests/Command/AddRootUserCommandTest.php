@@ -11,6 +11,7 @@ use Mockery as m;
  * Tests the Add Root User command.
  *
  * Class AddRootUserCommandTest
+ * @group cli
  */
 class AddRootUserCommandTest extends KernelTestCase
 {

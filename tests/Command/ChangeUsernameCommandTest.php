@@ -11,6 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class ChangeUsernameCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class ChangeUsernameCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -49,7 +54,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         unset($this->authenticationManager);
         unset($this->commandTester);
     }
-    
+
     public function testChangeUsername()
     {
         $user = m::mock(UserInterface::class);
@@ -67,8 +72,8 @@ class ChangeUsernameCommandTest extends KernelTestCase
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Username Changed/',
@@ -214,7 +219,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
             'userId'         => '1'
         ));
     }
-    
+
     public function testUserRequired()
     {
         $this->expectException(\RuntimeException::class);

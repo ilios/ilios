@@ -10,20 +10,21 @@ use Mockery as m;
 
 /**
  * Class AddDirectoryUserCommandTest
+ * @group cli
  */
 class AddDirectoryUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     const COMMAND_NAME = 'ilios:add-directory-user';
-    
+
     protected $userManager;
     protected $authenticationManager;
     protected $schoolManager;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
-    
+
     public function setUp()
     {
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
@@ -57,7 +58,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         unset($this->commandTester);
         unset($this->questionHelper);
     }
-    
+
     public function testExecute()
     {
         $school = m::mock('App\Entity\SchoolInterface');
@@ -79,7 +80,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
             ->shouldReceive('getFirstAndLastName')->andReturn('Test Person')
             ->mock();
         $authentication->shouldReceive('setUser')->with($user);
-        
+
         $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 'abc'))->andReturn(false);
         $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($school);
         $this->userManager->shouldReceive('create')->andReturn($user);
@@ -96,14 +97,14 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         ];
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->commandTester->setInputs(['Yes']);
-        
+
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'campusId'         => 'abc',
             'schoolId'         => '1',
         ));
-        
-        
+
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/abc\s+\| first\s+\| last\s+\| email\s+\| abc123\s+\| phone/',
@@ -115,7 +116,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         );
     }
 
-    
+
     public function testBadCampusId()
     {
         $user = m::mock('App\Entity\UserInterface')
@@ -129,7 +130,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
             'schoolId'         => '1'
         ));
     }
-    
+
     public function testBadSchoolId()
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn(null);
@@ -141,7 +142,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
             'schoolId'         => '1'
         ));
     }
-    
+
     public function testUserRequired()
     {
         $this->expectException(\RuntimeException::class);
@@ -150,7 +151,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
             'schoolId'         => '1'
         ));
     }
-    
+
     public function testSchoolRequired()
     {
         $this->expectException(\RuntimeException::class);

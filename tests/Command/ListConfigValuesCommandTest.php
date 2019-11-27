@@ -10,14 +10,19 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class ListConfigValuesCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class ListConfigValuesCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:list-config-values';
-    
+
     protected $commandTester;
     protected $applicationConfigManager;
-    
+
     public function setUp()
     {
         $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
@@ -42,7 +47,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
         unset($this->applicationConfigManager);
         unset($this->commandTester);
     }
-    
+
     public function testExecute()
     {
         $mockConfig = m::mock(ApplicationConfig::class);

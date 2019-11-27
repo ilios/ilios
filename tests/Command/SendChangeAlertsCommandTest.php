@@ -35,6 +35,7 @@ use Twig\Environment;
  * Send Change Alerts command test.
  *
  * Class SendChangeAlertsCommandTest
+ * @group cli
  */
 class SendChangeAlertsCommandTest extends KernelTestCase
 {

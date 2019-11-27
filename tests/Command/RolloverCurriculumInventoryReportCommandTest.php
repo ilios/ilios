@@ -12,6 +12,7 @@ use Mockery as m;
 
 /**
  * Class RolloverCurriculumInventoryReportCommandTest
+ * @group cli
  */
 class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 {

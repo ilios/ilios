@@ -12,23 +12,28 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Mockery as m;
 
+/**
+ * Class SyncFormerStudentsCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class SyncFormerStudentsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:sync-former-students';
-    
+
     protected $userManager;
     protected $userRoleManager;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
-    
+
     public function setUp()
     {
         $this->userManager = m::mock(UserManager::class);
         $this->userRoleManager = m::mock(UserRoleManager::class);
         $this->directory = m::mock(Directory::class);
-        
+
         $command = new SyncFormerStudentsCommand($this->userManager, $this->userRoleManager, $this->directory);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -48,7 +53,7 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
         unset($this->directory);
         unset($this->commandTester);
     }
-    
+
     public function testExecute()
     {
         $fakeDirectoryUser1 = [
@@ -92,19 +97,19 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
         $this->userRoleManager
             ->shouldReceive('update')
             ->with($role);
-        
+
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute(array(
             'command'   => self::COMMAND_NAME,
             'filter'    => 'FILTER'
         ));
-        
+
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/Found 2 former students in the directory./',
             $output
         );
-        
+
         $this->assertRegExp(
             '/There are 1 students in Ilios who will be marked as a Former Student./',
             $output
@@ -122,7 +127,7 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
             $output
         );
     }
-    
+
     public function testFilterRequired()
     {
         $this->expectException(\RuntimeException::class);

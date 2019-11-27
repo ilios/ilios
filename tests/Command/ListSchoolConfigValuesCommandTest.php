@@ -10,11 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class ListSchoolConfigValuesCommandTest
+ * @package App\Tests\Command
+ * @group cli
+ */
 class ListSchoolConfigValuesCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:list-school-config-values';
-    
+
     protected $commandTester;
     protected $schoolManager;
     protected $schoolConfigManager;
@@ -40,7 +45,7 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
         unset($this->schoolConfigManager);
         unset($this->commandTester);
     }
-    
+
     public function testExecute()
     {
         $mockSchool = m::mock(SchoolInterface::class);
