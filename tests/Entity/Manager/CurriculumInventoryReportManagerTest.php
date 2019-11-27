@@ -12,6 +12,7 @@ use App\Tests\TestCase;
 /**
  * Class CurriculumInventoryReportManagerTest
  * @package App\Tests\Entity\Manager
+ * @group model
  */
 class CurriculumInventoryReportManagerTest extends TestCase
 {

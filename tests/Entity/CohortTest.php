@@ -9,6 +9,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Cohort
+ * @group model
  */
 class CohortTest extends EntityBase
 {

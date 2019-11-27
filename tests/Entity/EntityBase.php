@@ -10,6 +10,7 @@ use App\Tests\TestCase;
 
 /**
  * Class EntityBase
+ * @group model
  */
 class EntityBase extends TestCase
 {

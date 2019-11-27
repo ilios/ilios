@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity AuditLog
+ * @group model
  */
 class AuditLogTest extends EntityBase
 {

@@ -7,6 +7,7 @@ use App\Tests\TestCase;
 
 /**
  * Class CourseManagerTest
+ * @group model
  */
 class CourseManagerTest extends TestCase
 {
@@ -25,7 +26,7 @@ class CourseManagerTest extends TestCase
             ->shouldReceive('getRepository')
             ->andReturn($repository)
             ->mock();
-        
+
         $entity = m::mock($class);
         $manager = new CourseManager($registry, $class);
         $manager->delete($entity);

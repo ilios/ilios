@@ -8,10 +8,11 @@ use App\Tests\TestCase;
 
 /**
  * Class SchoolManagerTest
+ * @group model
  */
 class SchoolManagerTest extends TestCase
 {
-    
+
     /**
      * @covers \App\Entity\Manager\SchoolManager::delete
      */
@@ -27,7 +28,7 @@ class SchoolManagerTest extends TestCase
             ->shouldReceive('getRepository')
             ->andReturn($repository)
             ->mock();
-        
+
         $entity = m::mock($class);
         $manager = new SchoolManager($registry, $class, m::mock(UserMaterialFactory::class));
         $manager->delete($entity);

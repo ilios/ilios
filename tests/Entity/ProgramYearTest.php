@@ -8,6 +8,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity ProgramYear
+ * @group model
  */
 class ProgramYearTest extends EntityBase
 {

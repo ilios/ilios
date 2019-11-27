@@ -10,6 +10,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity LearnerGroup
+ * @group model
  */
 class LearnerGroupTest extends EntityBase
 {

@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity SessionLearningMaterial
+ * @group model
  */
 class SessionLearningMaterialTest extends EntityBase
 {

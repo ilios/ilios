@@ -7,6 +7,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity IlmSession
+ * @group model
  */
 class IlmSessionTest extends EntityBase
 {

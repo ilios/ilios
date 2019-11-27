@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Vocabulary
+ * @group model
  */
 class VocabularyTest extends EntityBase
 {

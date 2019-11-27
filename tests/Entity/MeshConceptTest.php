@@ -6,6 +6,7 @@ use DateTime;
 
 /**
  * Tests for Entity MeshConcept
+ * @group model
  */
 class MeshConceptTest extends EntityBase
 {

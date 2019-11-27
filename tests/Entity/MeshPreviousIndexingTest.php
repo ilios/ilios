@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity MeshPreviousIndexing
+ * @group model
  */
 class MeshPreviousIndexingTest extends EntityBase
 {

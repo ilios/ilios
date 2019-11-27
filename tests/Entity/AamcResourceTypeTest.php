@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity AamcResourceType
+ * @group model
  */
 class AamcResourceTypeTest extends EntityBase
 {

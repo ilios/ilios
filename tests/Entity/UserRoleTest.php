@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity UserRole
+ * @group model
  */
 class UserRoleTest extends EntityBase
 {

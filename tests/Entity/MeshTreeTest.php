@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity MeshTree
+ * @group model
  */
 class MeshTreeTest extends EntityBase
 {
@@ -32,7 +33,7 @@ class MeshTreeTest extends EntityBase
         $this->object->setTreeNumber('junk');
         $this->validate(0);
     }
-    
+
     /**
      * @covers \App\Entity\MeshTree::setTreeNumber
      * @covers \App\Entity\MeshTree::getTreeNumber

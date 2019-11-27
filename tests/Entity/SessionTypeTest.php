@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity SessionType
+ * @group model
  */
 class SessionTypeTest extends EntityBase
 {

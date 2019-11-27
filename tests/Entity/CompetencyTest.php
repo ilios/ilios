@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity Competency
+ * @group model
  */
 class CompetencyTest extends EntityBase
 {

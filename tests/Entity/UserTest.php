@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity Objective
+ * @group model
  */
 class UserTest extends EntityBase
 {

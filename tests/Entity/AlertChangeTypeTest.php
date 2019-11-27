@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity AlertChangeType
+ * @group model
  */
 class AlertChangeTypeTest extends EntityBase
 {

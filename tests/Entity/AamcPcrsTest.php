@@ -6,6 +6,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity AamcPcrs
+ * @group model
  */
 class AamcPcrsTest extends EntityBase
 {

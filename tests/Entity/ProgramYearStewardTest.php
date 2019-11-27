@@ -9,6 +9,7 @@ use Mockery as m;
 
 /**
  * Tests for Entity ProgramYearSteward
+ * @group model
  */
 class ProgramYearStewardTest extends EntityBase
 {
