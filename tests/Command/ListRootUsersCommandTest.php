@@ -1,7 +1,6 @@
 <?php
 namespace App\Tests\Command;
 
-
 use App\Command\ListRootUsersCommand;
 use App\Entity\DTO\UserDTO;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
