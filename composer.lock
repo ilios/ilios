@@ -2695,37 +2695,38 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.9.1",
+            "version": "2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "1903c6094b391eedc48e607542970c4eedf63776"
+                "reference": "033231d890dc6691cb867f39a3a93a89cc7aa0ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/1903c6094b391eedc48e607542970c4eedf63776",
-                "reference": "1903c6094b391eedc48e607542970c4eedf63776",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/033231d890dc6691cb867f39a3a93a89cc7aa0ae",
+                "reference": "033231d890dc6691cb867f39a3a93a89cc7aa0ae",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1",
-                "symfony/framework-bundle": "~3.4|^4.0",
-                "zendframework/zenddiagnostics": "^1.5.0"
+                "symfony/framework-bundle": "^3.4 || ^4.0 || ^5.0",
+                "zendframework/zenddiagnostics": "^1.5"
             },
             "require-dev": {
-                "doctrine/doctrine-migrations-bundle": "~2.0",
-                "doctrine/migrations": "~2.0",
-                "guzzlehttp/guzzle": "^5.3.2|^6.3.3",
-                "matthiasnoback/symfony-dependency-injection-test": "^3.0",
-                "phpunit/phpunit": "^7.0",
-                "sensiolabs/security-checker": "~5.0",
-                "swiftmailer/swiftmailer": "~5.4|~6.1",
-                "symfony/asset": "^3.4|^4.0",
-                "symfony/browser-kit": "^3.4|^4.0",
-                "symfony/expression-language": "~3.4|^4.0",
-                "symfony/finder": "^3.4|^4.0",
-                "symfony/templating": "^3.4|^4.0",
-                "symfony/twig-bundle": "^3.4|^4.0"
+                "doctrine/doctrine-migrations-bundle": "^2.0",
+                "doctrine/migrations": "^2.0",
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "guzzlehttp/guzzle": "^5.3.2 || ^6.3.3",
+                "matthiasnoback/symfony-dependency-injection-test": "^3.0 || ^4.0",
+                "phpunit/phpunit": "^7.0 || ^8.0",
+                "sensiolabs/security-checker": "^5.0 || ^6.0",
+                "swiftmailer/swiftmailer": "^5.4 || ^6.1",
+                "symfony/asset": "^3.4 || ^4.0 || ^5.0",
+                "symfony/browser-kit": "^3.4 || ^4.0 || ^5.0",
+                "symfony/expression-language": "^3.4 || ^4.0 || ^5.0",
+                "symfony/finder": "^3.4 || ^4.0 || ^5.0",
+                "symfony/templating": "^3.4 || ^4.0 || ^5.0",
+                "symfony/twig-bundle": "^3.4 || ^4.0 || ^5.0"
             },
             "suggest": {
                 "sensio/distribution-bundle": "To be able to use the composer ScriptHandler",
@@ -2771,7 +2772,7 @@
                 "monitor",
                 "monitoring"
             ],
-            "time": "2019-09-19T16:40:18+00:00"
+            "time": "2019-11-27T19:52:04+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -8317,16 +8318,16 @@
         },
         {
             "name": "zendframework/zenddiagnostics",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diagnostics.git",
-                "reference": "2e60c61935ecc70c9d3b4ce5a8903ea9986ae314"
+                "reference": "9ad04e7a911c3895071cfb7ec22c5f354a0099fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diagnostics/zipball/2e60c61935ecc70c9d3b4ce5a8903ea9986ae314",
-                "reference": "2e60c61935ecc70c9d3b4ce5a8903ea9986ae314",
+                "url": "https://api.github.com/repos/zendframework/zend-diagnostics/zipball/9ad04e7a911c3895071cfb7ec22c5f354a0099fe",
+                "reference": "9ad04e7a911c3895071cfb7ec22c5f354a0099fe",
                 "shasum": ""
             },
             "require": {
@@ -8342,8 +8343,8 @@
                 "php-amqplib/php-amqplib": "^2.0",
                 "phpunit/phpunit": "^5.7.27 || 6.5.8 || ^7.1.2",
                 "predis/predis": "^1.0",
-                "sensiolabs/security-checker": "^5.0",
-                "symfony/yaml": "^2.7 || ^3.0 || ^4.0",
+                "sensiolabs/security-checker": "^5.0 || ^6.0.3",
+                "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0",
                 "zendframework/zend-coding-standard": "~1.0.0",
                 "zendframework/zend-loader": "^2.0"
             },
@@ -8359,8 +8360,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5.x-dev",
-                    "dev-develop": "1.6.x-dev"
+                    "dev-master": "1.6.x-dev",
+                    "dev-develop": "1.7.x-dev"
                 }
             },
             "autoload": {
@@ -8384,7 +8385,7 @@
                 "test",
                 "zf"
             ],
-            "time": "2019-03-26T15:50:07+00:00"
+            "time": "2019-11-22T19:06:24+00:00"
         }
     ],
     "packages-dev": [
