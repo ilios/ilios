@@ -11,8 +11,8 @@ use App\Classes\UserMaterial;
 use App\Entity\Repository\UserRepository;
 use App\Entity\DTO\UserDTO;
 use App\Service\UserMaterialFactory;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class UserManager
@@ -25,11 +25,11 @@ class UserManager extends BaseManager
     protected $factory;
 
     /**
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      * @param string $class
      * @param UserMaterialFactory $factory
      */
-    public function __construct(RegistryInterface $registry, $class, UserMaterialFactory $factory)
+    public function __construct(ManagerRegistry $registry, $class, UserMaterialFactory $factory)
     {
         parent::__construct($registry, $class);
         $this->factory = $factory;
