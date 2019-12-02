@@ -732,11 +732,20 @@ class CourseRolloverTest extends TestCase
                 ->andReturn($newSession);
             $this->sessionManager->shouldReceive('update')->withArgs([$newSession, false, false])->once();
 
+            /** @var ObjectiveInterface $objective */
             foreach ($session->getObjectives() as $objective) {
                 $newObjective = m::mock(ObjectiveInterface::class);
-                $newObjective->shouldIgnoreMissing();
+                $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
+                $newObjective->shouldReceive('addSession')->with($newSession)->once();
+                $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
+                $newObjective->shouldReceive('setPosition')->with($objective->getPosition())->once();
+                $newObjective->shouldReceive('setAncestor')->with($objective->getAncestorOrSelf())->once();
+                $newObjective->shouldReceive('setParents')
+                             ->with(m::on(function (Collection $collection) use ($objective) {
+                                 return count($collection) === count($objective->getParents());
+                             }))->once();
                 $this->objectiveManager->shouldReceive('create')->once()->andReturn($newObjective);
-                $this->objectiveManager->shouldIgnoreMissing();
+                $this->objectiveManager->shouldReceive('update')->withArgs([$newObjective, false, false]);
             }
 
             foreach ($session->getLearningMaterials() as $learningMaterial) {
@@ -810,8 +819,6 @@ class CourseRolloverTest extends TestCase
                 $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
             }
         }
-        $this->objectiveManager->shouldIgnoreMissing();
-
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['new-course-title' => $newTitle]);
 
         $this->assertSame($newCourse, $rhett);

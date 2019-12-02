@@ -309,6 +309,18 @@
     "react/promise": {
         "version": "v2.7.1"
     },
+    "sebastian/comparator": {
+        "version": "3.0.2"
+    },
+    "sebastian/diff": {
+        "version": "3.0.2"
+    },
+    "sebastian/exporter": {
+        "version": "3.1.2"
+    },
+    "sebastian/recursion-context": {
+        "version": "3.0.0"
+    },
     "sensiolabs/security-checker": {
         "version": "4.0",
         "recipe": {
