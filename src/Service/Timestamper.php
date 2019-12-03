@@ -5,9 +5,9 @@ namespace App\Service;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\TimestampableEntityInterface;
 use DateTime;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Exception;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class Timestamper
 {
@@ -17,14 +17,14 @@ class Timestamper
     protected $entities;
 
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     protected $registry;
 
     /**
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry   = $registry;
         $this->entities   = [];

@@ -6,8 +6,7 @@ use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent;
 use App\Entity\Repository\SchoolRepository;
 use App\Service\UserMaterialFactory;
-use App\Traits\CalendarEventRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * Class SchoolManager
@@ -20,11 +19,11 @@ class SchoolManager extends BaseManager
     protected $factory;
 
     /**
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      * @param string $class
      * @param UserMaterialFactory $factory
      */
-    public function __construct(RegistryInterface $registry, $class, UserMaterialFactory $factory)
+    public function __construct(ManagerRegistry $registry, $class, UserMaterialFactory $factory)
     {
         parent::__construct($registry, $class);
         $this->factory = $factory;

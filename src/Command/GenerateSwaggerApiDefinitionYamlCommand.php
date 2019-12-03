@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Service\EntityMetadata;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,7 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
     protected $twig;
 
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     protected $registry;
 
@@ -35,12 +35,12 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
     /**
      *
      * @param Environment $twig
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      * @param EntityMetadata $entityMetadata
      */
     public function __construct(
         Environment $twig,
-        RegistryInterface $registry,
+        ManagerRegistry $registry,
         EntityMetadata $entityMetadata
     ) {
         parent::__construct();

@@ -3,8 +3,8 @@
 namespace App\Normalizer;
 
 use App\Exception\InvalidInputWithSafeUserMessageException;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Service\EntityMetadata;
 use HTMLPurifier;
@@ -20,7 +20,7 @@ class Entity extends ObjectNormalizer
     private $entityMetadata;
 
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     private $registry;
 
@@ -53,9 +53,9 @@ class Entity extends ObjectNormalizer
      * service
      *
      * @required
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
-    public function setRegistry(RegistryInterface $registry)
+    public function setRegistry(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }

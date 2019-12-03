@@ -2,10 +2,10 @@
 
 namespace App\Entity\Manager;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use App\Entity\Repository\DTORepositoryInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class BaseManager
@@ -23,7 +23,7 @@ class BaseManager implements ManagerInterface
     protected $repository;
 
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     protected $registry;
 
@@ -33,10 +33,10 @@ class BaseManager implements ManagerInterface
     protected $class;
 
     /**
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      * @param string $class
      */
-    public function __construct(RegistryInterface $registry, $class)
+    public function __construct(ManagerRegistry $registry, $class)
     {
         $this->registry   = $registry;
         $this->em         = $registry->getManagerForClass($class);
