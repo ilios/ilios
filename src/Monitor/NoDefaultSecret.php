@@ -35,7 +35,7 @@ class NoDefaultSecret implements CheckInterface
             );
         }
 
-        return new Success('ILIOS_SECRET not set do a default value');
+        return new Success('ILIOS_SECRET uses a non-default value');
     }
 
     /**
