@@ -41,13 +41,14 @@ class SwaggerDocBuilder
     protected $router;
 
     public function __construct(
-        KernelInterface $kernel,
         Environment $twig,
         RouterInterface $router,
+        $kernelProjectDir,
+        $environment,
         $apiVersion
     ) {
-        $this->swaggerDir = realpath($kernel->getProjectDir() . '/config/swagger');
-        $this->environment = $kernel->getEnvironment();
+        $this->swaggerDir = realpath($kernelProjectDir . '/config/swagger');
+        $this->environment = $environment;
         $this->twig = $twig;
         $this->router = $router;
         $this->apiVersion = $apiVersion;
