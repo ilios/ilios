@@ -508,16 +508,23 @@ class CourseRolloverTest extends TestCase
                 }))->once();
                 $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
                     $oldEnd = $offering->getEndDate();
-                    $expectedEndWeek = (int) $oldEnd->format('W') + 2;
-                    if ($expectedEndWeek > 52) {
-                        $expectedEndWeek = $expectedEndWeek - 52;
+                    $oldEndWeekOfYear = (int) $oldEnd->format('W');
+                    $newEndWeekOfYear = (int) $newEnd->format('W');
+                    $weeksDiff = 0;
+                    if ($newEndWeekOfYear > $oldEndWeekOfYear) {
+                        $weeksDiff = $newEndWeekOfYear - $oldEndWeekOfYear;
+                    } elseif ($newEndWeekOfYear < $oldEndWeekOfYear) {
+                        $weeksInOldYear = (int) (new DateTime("December 28th, {$oldEnd->format('Y')}"))->format('W');
+                        $weeksDiff = ($weeksInOldYear - $oldEndWeekOfYear) + $newEndWeekOfYear;
                     }
-                    return (
+                    $rhett = (
                         //day of the week is the same
-                        $oldEnd->format('w') === $newEnd->format('w') &&
-                        //Week of the year is the same
-                        $expectedEndWeek ===  (int) $newEnd->format('W')
+                        $oldEnd->format('w') === $newEnd->format('w')
+                        // dates are two weeks apart
+                        && 2 === $weeksDiff
                     );
+
+                    return $rhett;
                 }))->once();
 
                 $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
