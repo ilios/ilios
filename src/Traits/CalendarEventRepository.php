@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use App\Entity\Course;
+use App\Entity\Session;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use App\Classes\CalendarEvent;
@@ -298,7 +300,7 @@ trait CalendarEventRepository
         $qb = $em->createQueryBuilder();
         $qb->select('c.id AS course_id, co.id, co.title, co.position, cm.id AS competency_id')
             ->distinct()
-            ->from('App\Entity\Course', 'c')
+            ->from(Course::class, 'c')
             ->join('c.objectives', 'co')
             ->leftJoin('co.parents', 'po')
             ->leftJoin('po.competency', 'cm')
@@ -365,12 +367,16 @@ trait CalendarEventRepository
         }
 
         $courseCohorts = $this->getCohortsForCourses($courseIds, $em);
+        $courseTerms = $this->getTermsForCourses($courseIds, $em);
+        $sessionTerms = $this->getTermsForSessions($sessionIds, $em);
 
         return array_map(function (CalendarEvent $event) use (
             $sessionObjectives,
             $courseObjectives,
             $competencies,
-            $courseCohorts
+            $courseCohorts,
+            $courseTerms,
+            $sessionTerms
         ) {
             if (array_key_exists($event->session, $sessionObjectives)) {
                 $event->sessionObjectives = array_values($sessionObjectives[$event->session]);
@@ -404,6 +410,14 @@ trait CalendarEventRepository
 
             if (array_key_exists($event->course, $courseCohorts)) {
                 $event->cohorts = array_values($courseCohorts[$event->course]);
+            }
+
+            if (array_key_exists($event->course, $courseTerms)) {
+                $event->courseTerms = array_values($courseTerms[$event->course]);
+            }
+
+            if (array_key_exists($event->session, $sessionTerms)) {
+                $event->sessionTerms = array_values($sessionTerms[$event->session]);
             }
             return $event;
         }, $events);
@@ -614,7 +628,7 @@ trait CalendarEventRepository
         $qb = $em->createQueryBuilder();
         $qb->select('c.id AS courseId, co.id, co.title')
             ->distinct()
-            ->from('App\Entity\Course', 'c')
+            ->from(Course::class, 'c')
             ->join('c.cohorts', 'co')
             ->where($qb->expr()->in('c.id', ':ids'))
             ->setParameter(':ids', $courseIds);
@@ -639,5 +653,60 @@ trait CalendarEventRepository
         }
 
         return $courseCohorts;
+    }
+
+    protected function getTermsForCourses(array $courseIds, EntityManager $em) : array
+    {
+        $qb = $em->createQueryBuilder();
+        $qb->select('c.id, t.id as termId, t.title as termTitle, v.id as vocabularyId, v.title as vocabularyTitle')
+            ->distinct()
+            ->from(Course::class, 'c')
+            ->join('c.terms', 't')
+            ->leftJoin('t.vocabulary', 'v')
+            ->where($qb->expr()->in('c.id', ':ids'))
+            ->setParameter(':ids', $courseIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        return $this->parseTermResults($results);
+    }
+
+    protected function getTermsForSessions(array $sessionIds, EntityManager $em) : array
+    {
+        $qb = $em->createQueryBuilder();
+        $qb->select('s.id, t.id as termId, t.title as termTitle, v.id as vocabularyId, v.title as vocabularyTitle')
+            ->distinct()
+            ->from(Session::class, 's')
+            ->join('s.terms', 't')
+            ->leftJoin('t.vocabulary', 'v')
+            ->where($qb->expr()->in('s.id', ':ids'))
+            ->setParameter(':ids', $sessionIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        return $this->parseTermResults($results);
+    }
+
+    protected function parseTermResults(array $results) : array
+    {
+        $terms = [];
+        foreach ($results as $result) {
+            $id = $result['id'];
+            $termId = $result['termId'];
+
+            if (! array_key_exists($id, $terms)) {
+                $terms[$id] = [];
+            }
+            if (! array_key_exists($termId, $terms[$id])) {
+                $terms[$id][$termId] = [
+                    'id' => $termId,
+                    'title' => $result['termTitle'],
+                    'vocabularyId' => $result['vocabularyId'],
+                    'vocabularyTitle' => $result['vocabularyTitle'],
+                ];
+            }
+        }
+
+        return $terms;
     }
 }

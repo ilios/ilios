@@ -256,6 +256,20 @@ class CalendarEvent
     public $courseLevel;
 
     /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $sessionTerms = array();
+
+    /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $courseTerms = array();
+
+    /**
      * Clean out all the data for draft or scheduled events
      *
      * This information is not available to un-privileged users
@@ -286,6 +300,8 @@ class CalendarEvent
             $this->courseObjectives = [];
             $this->competencies = [];
             $this->cohorts = [];
+            $this->sessionTerms = [];
+            $this->courseTerms = [];
         }
     }
 

@@ -65,7 +65,13 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[0]['courseLevel'], $courses[0]['level']);
         $this->assertEquals(
             array_column($events[0]['cohorts'], 'id'),
-            $courses[0]['cohorts']
+            $courses[0]['cohorts'],
+            'cohorts correct for event 0'
+        );
+        $this->assertEquals(
+            array_column($events[0]['courseTerms'], 'id'),
+            $courses[0]['terms'],
+            'course terms correct for event 0'
         );
         $this->assertEquals($events[0]['course'], $courses[0]['id']);
         $this->assertTrue($events[0]['attireRequired'], 'attireRequired is correct for event 0');
@@ -81,6 +87,11 @@ class SchooleventsTest extends AbstractEndpointTest
             $events[0]['instructionalNotes'],
             $sessions[1]['instructionalNotes'],
             'instructional notes is correct for event 0'
+        );
+        $this->assertEquals(
+            array_column($events[0]['sessionTerms'], 'id'),
+            $sessions[1]['terms'],
+            'session terms is correct for event (d)'
         );
         $this->assertEquals(0, count($events[0]['sessionObjectives']));
         $this->assertEquals(1, count($events[0]['courseObjectives']));
@@ -109,7 +120,13 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[1]['courseLevel'], $courses[0]['level']);
         $this->assertEquals(
             array_column($events[1]['cohorts'], 'id'),
-            $courses[0]['cohorts']
+            $courses[0]['cohorts'],
+            'cohorts correct for event 1'
+        );
+        $this->assertEquals(
+            array_column($events[1]['courseTerms'], 'id'),
+            $courses[0]['terms'],
+            'course terms correct for event 1'
         );
         $this->assertEquals($events[1]['course'], $courses[0]['id']);
         $this->assertTrue($events[1]['attireRequired'], 'attireRequired is correct for event 1');
@@ -127,6 +144,11 @@ class SchooleventsTest extends AbstractEndpointTest
             $sessions[1]['instructionalNotes'],
             'instructional notes is correct for event 1'
         );
+        $this->assertEquals(
+            array_column($events[1]['sessionTerms'], 'id'),
+            $sessions[1]['terms'],
+            'session terms is correct for event (d)'
+        );
         $this->assertEquals(1, count($events[1]['postrequisites']));
         $this->assertEquals(6, $events[1]['postrequisites'][0]['offering']);
         $this->assertEquals(3, $events[1]['postrequisites'][0]['session']);
@@ -139,7 +161,13 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[2]['courseLevel'], $courses[0]['level']);
         $this->assertEquals(
             array_column($events[2]['cohorts'], 'id'),
-            $courses[0]['cohorts']
+            $courses[0]['cohorts'],
+            'cohorts correct for event 2'
+        );
+        $this->assertEquals(
+            array_column($events[2]['courseTerms'], 'id'),
+            $courses[0]['terms'],
+            'course terms correct for event 2'
         );
         $this->assertEquals($events[2]['course'], $courses[0]['id']);
         $this->assertTrue($events[2]['attireRequired'], 'attireRequired is correct for event 2');
@@ -156,6 +184,11 @@ class SchooleventsTest extends AbstractEndpointTest
             $sessions[1]['instructionalNotes'],
             'instructional notes is correct for event 2'
         );
+        $this->assertEquals(
+            array_column($events[2]['sessionTerms'], 'id'),
+            $sessions[1]['terms'],
+            'session terms is correct for event (d)'
+        );
         $this->assertEquals(1, count($events[2]['postrequisites']));
         $this->assertEquals(6, $events[2]['postrequisites'][0]['offering']);
         $this->assertEquals(3, $events[2]['postrequisites'][0]['session']);
@@ -168,7 +201,13 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[3]['courseLevel'], $courses[1]['level']);
         $this->assertEquals(
             array_column($events[3]['cohorts'], 'id'),
-            $courses[1]['cohorts']
+            $courses[1]['cohorts'],
+            'cohorts correct for event 3'
+        );
+        $this->assertEquals(
+            array_column($events[3]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 3'
         );
         $this->assertEquals($events[3]['course'], $courses[1]['id']);
         $this->assertFalse($events[3]['attireRequired'], 'attireRequired is correct for event 3');
@@ -185,6 +224,11 @@ class SchooleventsTest extends AbstractEndpointTest
             $sessions[2]['instructionalNotes'],
             'instructional notes is correct for event 3'
         );
+        $this->assertEquals(
+            array_column($events[3]['sessionTerms'], 'id'),
+            $sessions[2]['terms'],
+            'session terms is correct for event (d)'
+        );
         $this->assertEmpty($events[3]['postrequisites']);
         $this->assertEquals(3, count($events[3]['prerequisites']));
         $sessionIds = array_unique(array_column($events[3]['prerequisites'], 'session'));
@@ -198,7 +242,13 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[4]['courseLevel'], $courses[1]['level']);
         $this->assertEquals(
             array_column($events[4]['cohorts'], 'id'),
-            $courses[1]['cohorts']
+            $courses[1]['cohorts'],
+            'cohorts correct for event 4'
+        );
+        $this->assertEquals(
+            array_column($events[4]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 4'
         );
         $this->assertEquals($events[4]['course'], $courses[1]['id']);
         $this->assertFalse($events[4]['attireRequired'], 'attireRequired is correct for event 4');
@@ -215,6 +265,11 @@ class SchooleventsTest extends AbstractEndpointTest
             $sessions[2]['instructionalNotes'],
             'instructional notes is correct for event 4'
         );
+        $this->assertEquals(
+            array_column($events[4]['sessionTerms'], 'id'),
+            $sessions[2]['terms'],
+            'session terms is correct for event (d)'
+        );
         $this->assertEmpty($events[4]['postrequisites']);
         $this->assertEquals(3, count($events[4]['prerequisites']));
         $sessionIds = array_unique(array_column($events[4]['prerequisites'], 'session'));
@@ -227,7 +282,13 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[5]['courseLevel'], $courses[1]['level']);
         $this->assertEquals(
             array_column($events[5]['cohorts'], 'id'),
-            $courses[1]['cohorts']
+            $courses[1]['cohorts'],
+            'cohorts correct for event 5'
+        );
+        $this->assertEquals(
+            array_column($events[5]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 5'
         );
         $this->assertEquals($events[5]['course'], $courses[1]['id']);
         $this->assertFalse($events[5]['attireRequired'], 'attireRequired is correct for event 5');
@@ -249,7 +310,13 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[6]['courseLevel'], $courses[1]['level']);
         $this->assertEquals(
             array_column($events[6]['cohorts'], 'id'),
-            $courses[1]['cohorts']
+            $courses[1]['cohorts'],
+            'cohorts correct for event 6'
+        );
+        $this->assertEquals(
+            array_column($events[6]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 6'
         );
         $this->assertEquals($events[6]['course'], $courses[1]['id']);
         $this->assertFalse($events[6]['attireRequired'], 'attireRequired is correct for event 6');
@@ -271,7 +338,13 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[7]['courseLevel'], $courses[1]['level']);
         $this->assertEquals(
             array_column($events[7]['cohorts'], 'id'),
-            $courses[1]['cohorts']
+            $courses[1]['cohorts'],
+            'cohorts correct for event 7'
+        );
+        $this->assertEquals(
+            array_column($events[7]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 7'
         );
         $this->assertEquals($events[7]['course'], $courses[1]['id']);
         $this->assertFalse($events[7]['attireRequired'], 'attireRequired is correct for event 7');
@@ -293,7 +366,13 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[8]['courseLevel'], $courses[1]['level']);
         $this->assertEquals(
             array_column($events[8]['cohorts'], 'id'),
-            $courses[1]['cohorts']
+            $courses[1]['cohorts'],
+            'cohorts correct for event 8'
+        );
+        $this->assertEquals(
+            array_column($events[8]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 8'
         );
         $this->assertEquals($events[8]['course'], $courses[1]['id']);
         $this->assertFalse($events[8]['attireRequired'], 'attireRequired is correct for event 8');
@@ -316,7 +395,13 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[9]['courseLevel'], $courses[0]['level']);
         $this->assertEquals(
             array_column($events[9]['cohorts'], 'id'),
-            $courses[0]['cohorts']
+            $courses[0]['cohorts'],
+            'cohorts correct for event 9'
+        );
+        $this->assertEquals(
+            array_column($events[9]['courseTerms'], 'id'),
+            $courses[0]['terms'],
+            'course terms correct for event 9'
         );
         $this->assertEquals($events[9]['course'], $courses[0]['id']);
         $this->assertFalse($events[9]['attireRequired'], 'attireRequired is correct for event 9');

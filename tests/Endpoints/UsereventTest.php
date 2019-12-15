@@ -3,6 +3,7 @@
 namespace App\Tests\Endpoints;
 
 use App\Entity\OfferingInterface;
+use App\Tests\DataLoader\VocabularyData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\CourseData;
 use App\Tests\DataLoader\IlmSessionData;
@@ -157,6 +158,11 @@ class UsereventTest extends AbstractEndpointTest
             $courses[0]['cohorts'],
             'cohorts correct for event 0'
         );
+        $this->assertEquals(
+            array_column($events[0]['courseTerms'], 'id'),
+            $courses[0]['terms'],
+            'course terms correct for event 0'
+        );
 
         $this->assertEquals(
             $events[0]['sessionTypeTitle'],
@@ -177,6 +183,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[0]['instructionalNotes'],
             $sessions[1]['instructionalNotes'],
             'instructional notes is correct for event 0'
+        );
+        $this->assertEquals(
+            array_column($events[0]['sessionTerms'], 'id'),
+            $sessions[1]['terms'],
+            'session terms is correct for event (d)'
         );
         $this->assertEquals(
             count($events[0]['learningMaterials']),
@@ -230,6 +241,11 @@ class UsereventTest extends AbstractEndpointTest
             'cohorts correct for event 1'
         );
         $this->assertEquals(
+            array_column($events[1]['courseTerms'], 'id'),
+            $courses[0]['terms'],
+            'course terms correct for event 1'
+        );
+        $this->assertEquals(
             $events[1]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 1'
@@ -248,6 +264,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[1]['instructionalNotes'],
             $sessions[1]['instructionalNotes'],
             'instructional notes is correct for event 1'
+        );
+        $this->assertEquals(
+            array_column($events[1]['sessionTerms'], 'id'),
+            $sessions[1]['terms'],
+            'session terms is correct for event (d)'
         );
         $this->assertEquals(
             count($events[1]['learningMaterials']),
@@ -300,6 +321,11 @@ class UsereventTest extends AbstractEndpointTest
             'cohorts correct for event 2'
         );
         $this->assertEquals(
+            array_column($events[2]['courseTerms'], 'id'),
+            $courses[0]['terms'],
+            'course terms correct for event 2'
+        );
+        $this->assertEquals(
             $events[2]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 2'
@@ -318,6 +344,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[2]['instructionalNotes'],
             $sessions[1]['instructionalNotes'],
             'instructional notes is correct for event 2'
+        );
+        $this->assertEquals(
+            array_column($events[2]['sessionTerms'], 'id'),
+            $sessions[1]['terms'],
+            'session terms is correct for event (d)'
         );
         $this->assertEquals(
             count($events[2]['learningMaterials']),
@@ -366,6 +397,11 @@ class UsereventTest extends AbstractEndpointTest
             'cohorts correct for event 3'
         );
         $this->assertEquals(
+            array_column($events[3]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 3'
+        );
+        $this->assertEquals(
             $events[3]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 3'
@@ -379,6 +415,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[3]['instructionalNotes'],
             $sessions[2]['instructionalNotes'],
             'instructional notes is correct for event 3'
+        );
+        $this->assertEquals(
+            array_column($events[3]['sessionTerms'], 'id'),
+            $sessions[2]['terms'],
+            'session terms is correct for event (d)'
         );
         $this->assertEquals(
             7,
@@ -430,6 +471,11 @@ class UsereventTest extends AbstractEndpointTest
             'cohorts correct for event 4'
         );
         $this->assertEquals(
+            array_column($events[4]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 4'
+        );
+        $this->assertEquals(
             $events[4]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 4'
@@ -443,6 +489,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[4]['instructionalNotes'],
             $sessions[2]['instructionalNotes'],
             'instructional notes is correct for event 4'
+        );
+        $this->assertEquals(
+            array_column($events[4]['sessionTerms'], 'id'),
+            $sessions[2]['terms'],
+            'session terms is correct for event (d)'
         );
         $this->assertEquals(
             7,
@@ -491,6 +542,11 @@ class UsereventTest extends AbstractEndpointTest
             array_column($events[5]['cohorts'], 'id'),
             $courses[1]['cohorts'],
             'cohorts correct for event 5'
+        );
+        $this->assertEquals(
+            array_column($events[5]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 5'
         );
         $this->assertEquals(
             $events[5]['sessionTypeTitle'],
@@ -549,6 +605,11 @@ class UsereventTest extends AbstractEndpointTest
             'cohorts correct for event 6'
         );
         $this->assertEquals(
+            array_column($events[6]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 6'
+        );
+        $this->assertEquals(
             $events[6]['sessionTypeTitle'],
             $sessionTypes[0]['title'],
             'session type title is correct for event 6'
@@ -604,6 +665,11 @@ class UsereventTest extends AbstractEndpointTest
             'cohorts correct for event 7'
         );
         $this->assertEquals(
+            array_column($events[7]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 7'
+        );
+        $this->assertEquals(
             $events[7]['sessionTypeTitle'],
             $sessionTypes[0]['title'],
             'session type title is correct for event 7'
@@ -657,6 +723,11 @@ class UsereventTest extends AbstractEndpointTest
             array_column($events[8]['cohorts'], 'id'),
             $courses[1]['cohorts'],
             'cohorts correct for event 8'
+        );
+        $this->assertEquals(
+            array_column($events[8]['courseTerms'], 'id'),
+            $courses[1]['terms'],
+            'course terms correct for event 8'
         );
         $this->assertEquals(
             $events[8]['sessionTypeTitle'],
@@ -727,6 +798,11 @@ class UsereventTest extends AbstractEndpointTest
             'cohorts correct for event 9'
         );
         $this->assertEquals(
+            array_column($events[9]['courseTerms'], 'id'),
+            $courses[0]['terms'],
+            'course terms correct for event 9'
+        );
+        $this->assertEquals(
             $events[9]['sessionDescription'],
             $sessionDescriptions[0]['description'],
             'session description is correct for event 9'
@@ -735,6 +811,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[9]['instructionalNotes'],
             $sessions[0]['instructionalNotes'],
             'instructional notes is correct for event 9'
+        );
+        $this->assertEquals(
+            array_column($events[9]['sessionTerms'], 'id'),
+            $sessions[0]['terms'],
+            'session terms is correct for event (d)'
         );
         $this->assertEquals(
             count($events[9]['learningMaterials']),
