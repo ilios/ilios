@@ -298,17 +298,6 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     }
 
     /**
-     * Adds cohorts to a given list of events.
-     * @param CalendarEvent[] $events A list of events
-     *
-     * @return CalendarEvent[] The events list with instructors added.
-     */
-    public function addCohortsToEvents(array $events)
-    {
-        return $this->attachCohortsToEvents($events, $this->_em);
-    }
-
-    /**
      * Finds and adds learning materials to a given list of calendar events.
      *
      * @param CalendarEvent[] $events

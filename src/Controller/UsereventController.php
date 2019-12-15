@@ -129,7 +129,6 @@ class UsereventController extends AbstractController
         $allEvents = $manager->addInstructorsToEvents($allEvents);
         $allEvents = $manager->addMaterialsToEvents($allEvents);
         $allEvents = $manager->addSessionDataToEvents($allEvents);
-        $allEvents = $manager->addCohortsToEvents($allEvents);
 
         $now = new \DateTime();
         /* @var UserEvent $event */

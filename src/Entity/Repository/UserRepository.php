@@ -431,17 +431,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     }
 
     /**
-     * Adds cohorts to a given list of events.
-     * @param UserEvent[] $events A list of events
-     *
-     * @return UserEvent[] The events list with instructors added.
-     */
-    public function addCohortsToEvents(array $events)
-    {
-        return $this->attachCohortsToEvents($events, $this->_em);
-    }
-
-    /**
      * Adds pre- and post-requisites for a given user to a given list of events.
      * @param int $id The user id.
      * @param UserEvent[] $events A list of events.
