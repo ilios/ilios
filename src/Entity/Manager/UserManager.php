@@ -117,6 +117,20 @@ class UserManager extends BaseManager
     }
 
     /**
+     * Finds and adds cohorts to a given list of calendar events.
+     *
+     * @param CalendarEvent[] $events
+     * @return CalendarEvent[]
+     * @throws Exception
+     */
+    public function addCohortsToEvents(array $events)
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->addCohortsToEvents($events);
+    }
+
+    /**
      * Finds and adds course- and session-objectives and their competencies to a given list of calendar events.
      *
      * @param CalendarEvent[] $events

@@ -232,6 +232,13 @@ class CalendarEvent
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    public $cohorts = array();
+
+    /**
+     * @var []
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     public $prerequisites = array();
 
     /**
@@ -278,6 +285,7 @@ class CalendarEvent
             $this->sessionObjectives = [];
             $this->courseObjectives = [];
             $this->competencies = [];
+            $this->cohorts = [];
         }
     }
 

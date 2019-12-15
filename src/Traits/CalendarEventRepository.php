@@ -243,6 +243,50 @@ trait CalendarEventRepository
     }
 
     /**
+     * Adds cohorts to a given list of events.
+     * @param array $events A list of events
+     * @param EntityManager $em
+     * @return array The events list with instructors added.
+     */
+    public function attachCohortsToEvents(array $events, EntityManager $em)
+    {
+        $courseIds = array_unique(array_column($events, 'course'));
+        $qb = $em->createQueryBuilder();
+        $qb->select('c.id AS courseId, co.id, co.title')
+            ->distinct()
+            ->from('App\Entity\Course', 'c')
+            ->join('c.cohorts', 'co')
+            ->where($qb->expr()->in('c.id', ':ids'))
+            ->setParameter(':ids', $courseIds);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        $courseCohorts =  [];
+
+        foreach ($results as $result) {
+            $courseId = $result['courseId'];
+            $cohortId = $result['id'];
+
+            if (! array_key_exists($courseId, $courseCohorts)) {
+                $courseCohorts[$courseId] = [];
+            }
+            if (! array_key_exists($cohortId, $courseCohorts[$courseId])) {
+                $courseCohorts[$courseId][$cohortId] = [
+                    'id' => $cohortId,
+                    'title' => $result['title'],
+                ];
+            }
+        }
+
+        return array_map(function (CalendarEvent $event) use ($courseCohorts) {
+            if (array_key_exists($event->course, $courseCohorts)) {
+                $event->cohorts = array_values($courseCohorts[$event->course]);
+            }
+            return $event;
+        }, $events);
+    }
+
+    /**
      * Adds course- and session-objectives and their competencies to a given list of events.
      * @param array $events A list of events
      * @param EntityManager $em
