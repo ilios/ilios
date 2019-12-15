@@ -31,24 +31,24 @@
     "sentry/sdk": "^2.0",
     "swagger-api/swagger-ui": "^3.0",
     "symfony/apache-pack": "^1.0",
-    "symfony/asset": "4.3.*",
-    "symfony/console": "4.3.*",
-    "symfony/dotenv": "4.3.*",
+    "symfony/asset": "@stable",
+    "symfony/console": "@stable",
+    "symfony/dotenv": "@stable",
     "symfony/flex": "^1.1",
-    "symfony/framework-bundle": "4.3.*",
-    "symfony/http-client": "4.3.*",
-    "symfony/lock": "4.3.*",
-    "symfony/messenger": "4.3.*",
+    "symfony/framework-bundle": "@stable",
+    "symfony/http-client": "@stable",
+    "symfony/lock": "@stable",
+    "symfony/messenger": "@stable",
     "symfony/monolog-bundle": "^3.1.0",
     "symfony/orm-pack": "^1.0.6",
     "symfony/requirements-checker": "^1.1",
-    "symfony/security-bundle": "4.3.*",
+    "symfony/security-bundle": "@stable",
     "symfony/serializer-pack": "^1.0",
     "symfony/swiftmailer-bundle": "^3.2",
-    "symfony/twig-bundle": "4.3.*",
-    "symfony/validator": "4.3.*",
-    "symfony/web-link": "4.3.*",
-    "symfony/yaml": "4.3.*"
+    "symfony/twig-bundle": "@stable",
+    "symfony/validator": "@stable",
+    "symfony/web-link": "@stable",
+    "symfony/yaml": "@stable"
   },
   "require-dev": {
     "fzaninotto/faker": "@stable",
@@ -58,7 +58,7 @@
     "symfony/debug-pack": "^1.0",
     "symfony/profiler-pack": "^1.0",
     "symfony/test-pack": "^1.0",
-    "symfony/web-server-bundle": "4.3.*"
+    "symfony/web-server-bundle": "@stable"
   },
   "config": {
     "platform": {
