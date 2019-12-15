@@ -186,6 +186,13 @@ class CalendarEvent
     public $instructionalNotes;
 
     /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    public $sessionTypeId;
+
+    /**
      * @var string
      * @IS\Expose
      * @IS\Type("string")
@@ -235,6 +242,13 @@ class CalendarEvent
     public $school;
 
     /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    public $courseLevel;
+
+    /**
      * Clean out all the data for draft or scheduled events
      *
      * This information is not available to un-privileged users
@@ -256,6 +270,8 @@ class CalendarEvent
             $this->sessionDescription = null;
             $this->sessionTitle = null;
             $this->sessionTypeTitle = null;
+            $this->sessionTypeId = null;
+            $this->courseLevel = null;
 
             $this->instructors = [];
             $this->learningMaterials = [];

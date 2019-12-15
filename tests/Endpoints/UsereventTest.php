@@ -148,9 +148,19 @@ class UsereventTest extends AbstractEndpointTest
             'course external id correct for event 0'
         );
         $this->assertEquals(
+            $events[0]['courseLevel'],
+            $courses[0]['level'],
+            'course level correct for event 0'
+        );
+        $this->assertEquals(
             $events[0]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 0'
+        );
+        $this->assertEquals(
+            $events[0]['sessionTypeId'],
+            $sessionTypes[1]['id'],
+            'session type id is correct for event 0'
         );
         $this->assertEquals(
             $events[0]['sessionDescription'],
@@ -204,9 +214,19 @@ class UsereventTest extends AbstractEndpointTest
             'course external id correct for event 1'
         );
         $this->assertEquals(
+            $events[1]['courseLevel'],
+            $courses[0]['level'],
+            'course level correct for event 1'
+        );
+        $this->assertEquals(
             $events[1]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 1'
+        );
+        $this->assertEquals(
+            $events[1]['sessionTypeId'],
+            $sessionTypes[1]['id'],
+            'session type id is correct for event 1'
         );
         $this->assertEquals(
             $events[1]['sessionDescription'],
@@ -259,9 +279,19 @@ class UsereventTest extends AbstractEndpointTest
             'course external id correct for event 2'
         );
         $this->assertEquals(
+            $events[2]['courseLevel'],
+            $courses[0]['level'],
+            'course level correct for event 2'
+        );
+        $this->assertEquals(
             $events[2]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 2'
+        );
+        $this->assertEquals(
+            $events[2]['sessionTypeId'],
+            $sessionTypes[1]['id'],
+            'session type id is correct for event 2'
         );
         $this->assertEquals(
             $events[2]['sessionDescription'],
@@ -310,9 +340,19 @@ class UsereventTest extends AbstractEndpointTest
             'course external id correct for event 3'
         );
         $this->assertEquals(
+            $events[3]['courseLevel'],
+            $courses[1]['level'],
+            'course level correct for event 3'
+        );
+        $this->assertEquals(
             $events[3]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 3'
+        );
+        $this->assertEquals(
+            $events[3]['sessionTypeId'],
+            $sessionTypes[1]['id'],
+            'session type id is correct for event 3'
         );
         $this->assertEquals(
             $events[3]['instructionalNotes'],
@@ -359,9 +399,19 @@ class UsereventTest extends AbstractEndpointTest
             'course external id correct for event 4'
         );
         $this->assertEquals(
+            $events[4]['courseLevel'],
+            $courses[1]['level'],
+            'course level correct for event 4'
+        );
+        $this->assertEquals(
             $events[4]['sessionTypeTitle'],
             $sessionTypes[1]['title'],
             'session type title is correct for event 4'
+        );
+        $this->assertEquals(
+            $events[4]['sessionTypeId'],
+            $sessionTypes[1]['id'],
+            'session type id is correct for event 4'
         );
         $this->assertEquals(
             $events[4]['instructionalNotes'],
@@ -407,9 +457,19 @@ class UsereventTest extends AbstractEndpointTest
             'course external id correct for event 5'
         );
         $this->assertEquals(
+            $events[5]['courseLevel'],
+            $courses[1]['level'],
+            'course level correct for event 5'
+        );
+        $this->assertEquals(
             $events[5]['sessionTypeTitle'],
             $sessionTypes[0]['title'],
             'session type title is correct for event 5'
+        );
+        $this->assertEquals(
+            $events[5]['sessionTypeId'],
+            $sessionTypes[0]['id'],
+            'session type id is correct for event 5'
         );
         $this->assertArrayNotHasKey(
             'instructionalNotes',
@@ -448,9 +508,19 @@ class UsereventTest extends AbstractEndpointTest
             'course external id correct for event 6'
         );
         $this->assertEquals(
+            $events[6]['courseLevel'],
+            $courses[1]['level'],
+            'course level correct for event 6'
+        );
+        $this->assertEquals(
             $events[6]['sessionTypeTitle'],
             $sessionTypes[0]['title'],
             'session type title is correct for event 6'
+        );
+        $this->assertEquals(
+            $events[6]['sessionTypeId'],
+            $sessionTypes[0]['id'],
+            'session type id is correct for event 6'
         );
         $this->assertArrayNotHasKey(
             'instructionalNotes',
@@ -488,9 +558,19 @@ class UsereventTest extends AbstractEndpointTest
             'course external id correct for event 7'
         );
         $this->assertEquals(
+            $events[7]['courseLevel'],
+            $courses[1]['level'],
+            'course level correct for event 7'
+        );
+        $this->assertEquals(
             $events[7]['sessionTypeTitle'],
             $sessionTypes[0]['title'],
             'session type title is correct for event 7'
+        );
+        $this->assertEquals(
+            $events[7]['sessionTypeId'],
+            $sessionTypes[0]['id'],
+            'session type id is correct for event 7'
         );
         $this->assertArrayNotHasKey(
             'instructionalNotes',
@@ -528,9 +608,19 @@ class UsereventTest extends AbstractEndpointTest
             'course external id correct for event 8'
         );
         $this->assertEquals(
+            $events[8]['courseLevel'],
+            $courses[1]['level'],
+            'course level correct for event 8'
+        );
+        $this->assertEquals(
             $events[8]['sessionTypeTitle'],
             $sessionTypes[0]['title'],
             'session type title is correct for event 8'
+        );
+        $this->assertEquals(
+            $events[8]['sessionTypeId'],
+            $sessionTypes[0]['id'],
+            'session type id is correct for event 8'
         );
         $this->assertArrayNotHasKey(
             'instructionalNotes',
@@ -566,6 +656,11 @@ class UsereventTest extends AbstractEndpointTest
             'session type title is correct for event 9'
         );
         $this->assertEquals(
+            $events[9]['sessionTypeId'],
+            $sessionTypes[0]['id'],
+            'session type id is correct for event 9'
+        );
+        $this->assertEquals(
             $events[9]['course'],
             $courses[0]['id'],
             'course id correct for event 9'
@@ -574,6 +669,11 @@ class UsereventTest extends AbstractEndpointTest
             $events[9]['courseExternalId'],
             $courses[0]['externalId'],
             'course external id correct for event 9'
+        );
+        $this->assertEquals(
+            $events[9]['courseLevel'],
+            $courses[0]['level'],
+            'course level correct for event 9'
         );
         $this->assertEquals(
             $events[9]['sessionDescription'],

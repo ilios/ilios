@@ -45,6 +45,8 @@ trait CalendarEventRepository
         $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
         $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
         $event->courseTitle = $arr['courseTitle'];
+        $event->courseLevel = $arr['courseLevel'];
+        $event->sessionTypeId = $arr['sessionTypeId'];
         $event->sessionTypeTitle = $arr['sessionTypeTitle'];
         $event->courseExternalId = $arr['courseExternalId'];
         $event->sessionDescription = $arr['sessionDescription'];
@@ -92,7 +94,9 @@ trait CalendarEventRepository
         $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
         $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
         $event->courseTitle = $arr['courseTitle'];
+        $event->courseLevel = $arr['courseLevel'];
         $event->sessionTypeTitle = $arr['sessionTypeTitle'];
+        $event->sessionTypeId = $arr['sessionTypeId'];
         $event->courseExternalId = $arr['courseExternalId'];
         $event->sessionDescription = $arr['sessionDescription'];
         $event->session = $arr['sessionId'];
