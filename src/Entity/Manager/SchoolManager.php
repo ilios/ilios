@@ -71,6 +71,20 @@ class SchoolManager extends BaseManager
     }
 
     /**
+     * Finds and adds instructors to a given list of calendar events.
+     *
+     * @param CalendarEvent[] $events
+     * @return CalendarEvent[]
+     * @throws \Exception
+     */
+    public function addCohortsToEvents(array $events)
+    {
+        /** @var SchoolRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->addCohortsToEvents($events);
+    }
+
+    /**
      * Finds and adds learning materials to a given list of user events.
      *
      * @param CalendarEvent[] $events

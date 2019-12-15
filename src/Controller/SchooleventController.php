@@ -126,6 +126,7 @@ class SchooleventController extends AbstractController
         $allEvents = $schoolManager->addInstructorsToEvents($allEvents);
         $allEvents = $schoolManager->addMaterialsToEvents($allEvents);
         $allEvents = $schoolManager->addSessionDataToEvents($allEvents);
+        $allEvents = $schoolManager->addCohortsToEvents($allEvents);
 
         /* @var SchoolEvent $event */
         foreach ($allEvents as $event) {
