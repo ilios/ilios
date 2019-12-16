@@ -2606,16 +2606,16 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.10.0",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "033231d890dc6691cb867f39a3a93a89cc7aa0ae"
+                "reference": "4a0dad07576748a6d7a298ea163f4543a893e357"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/033231d890dc6691cb867f39a3a93a89cc7aa0ae",
-                "reference": "033231d890dc6691cb867f39a3a93a89cc7aa0ae",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/4a0dad07576748a6d7a298ea163f4543a893e357",
+                "reference": "4a0dad07576748a6d7a298ea163f4543a893e357",
                 "shasum": ""
             },
             "require": {
@@ -2683,7 +2683,7 @@
                 "monitor",
                 "monitoring"
             ],
-            "time": "2019-11-27T19:52:04+00:00"
+            "time": "2019-12-13T16:11:25+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -9475,6 +9475,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
+        "fzaninotto/faker": 0,
         "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0
     },
