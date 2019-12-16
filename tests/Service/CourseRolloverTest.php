@@ -495,15 +495,20 @@ class CourseRolloverTest extends TestCase
                 $newOffering->shouldIgnoreMissing();
                 $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
                     $oldStart = $offering->getStartDate();
-                    $expectedStartWeek = (int) $oldStart->format('W') + 2;
-                    if ($expectedStartWeek > 52) {
-                        $expectedStartWeek = $expectedStartWeek - 52;
+                    $oldStartWeekOfYear = (int) $oldStart->format('W');
+                    $newStartWeekOfYear = (int) $newStart->format('W');
+                    $weeksDiff = 0;
+                    if ($newStartWeekOfYear > $oldStartWeekOfYear) {
+                        $weeksDiff = $newStartWeekOfYear - $oldStartWeekOfYear;
+                    } elseif ($newStartWeekOfYear < $oldStartWeekOfYear) {
+                        $weeksInOldYear = (int) (new DateTime("December 28th, {$oldStart->format('Y')}"))->format('W');
+                        $weeksDiff = ($weeksInOldYear - $oldStartWeekOfYear) + $newStartWeekOfYear;
                     }
                     return (
                         //day of the week is the same
                         $oldStart->format('w') === $newStart->format('w') &&
-                        //Week of the year is the same
-                        $expectedStartWeek ===  (int) $newStart->format('W')
+                        //dates are two weeks apart
+                        2 === $weeksDiff
                     );
                 }))->once();
                 $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
@@ -517,14 +522,12 @@ class CourseRolloverTest extends TestCase
                         $weeksInOldYear = (int) (new DateTime("December 28th, {$oldEnd->format('Y')}"))->format('W');
                         $weeksDiff = ($weeksInOldYear - $oldEndWeekOfYear) + $newEndWeekOfYear;
                     }
-                    $rhett = (
+                    return (
                         //day of the week is the same
                         $oldEnd->format('w') === $newEnd->format('w')
                         // dates are two weeks apart
                         && 2 === $weeksDiff
                     );
-
-                    return $rhett;
                 }))->once();
 
                 $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
