@@ -455,8 +455,9 @@ class CourseRolloverTest extends TestCase
                     $weeksDiff = $newStartWeekOfYear - $oldStartWeekOfYear;
                 } elseif ($newStartWeekOfYear < $oldStartWeekOfYear) {
                     /* @link http://stackoverflow.com/a/21480444 */
-                    $weeksInOldYear = (int) (new DateTime("December 28th, {$oldStart->format('Y')}"))->format('W');
-                    $weeksDiff = ($weeksInOldYear - $oldStartWeekOfYear) + $newStartWeekOfYear;
+                    $yearPreviousToNewYear = $newStart->format('Y') - 1;
+                    $weeksInPreviousYear = (int) (new DateTime("December 28th, ${yearPreviousToNewYear}"))->format('W');
+                    $weeksDiff = ($weeksInPreviousYear - $oldStartWeekOfYear) + $newStartWeekOfYear;
                 }
                 return (
                     $newStart->format('c') === $newStartDate->format('c')
@@ -475,8 +476,9 @@ class CourseRolloverTest extends TestCase
             if ($newEndWeekOfYear > $oldEndWeekOfYear) {
                 $weeksDiff = $newEndWeekOfYear - $oldEndWeekOfYear;
             } elseif ($newEndWeekOfYear < $oldEndWeekOfYear) {
-                $weeksInOldYear = (int) (new DateTime("December 28th, {$oldEnd->format('Y')}"))->format('W');
-                $weeksDiff = ($weeksInOldYear - $oldEndWeekOfYear) + $newEndWeekOfYear;
+                $yearPreviousToNewYear = $newEnd->format('Y') - 1;
+                $weeksInPreviousYear = (int) (new DateTime("December 28th, ${yearPreviousToNewYear}"))->format('W');
+                $weeksDiff = ($weeksInPreviousYear - $oldEndWeekOfYear) + $newEndWeekOfYear;
             }
             return (
                 //day of the week is the same
@@ -501,8 +503,10 @@ class CourseRolloverTest extends TestCase
                     if ($newStartWeekOfYear > $oldStartWeekOfYear) {
                         $weeksDiff = $newStartWeekOfYear - $oldStartWeekOfYear;
                     } elseif ($newStartWeekOfYear < $oldStartWeekOfYear) {
-                        $weeksInOldYear = (int) (new DateTime("December 28th, {$oldStart->format('Y')}"))->format('W');
-                        $weeksDiff = ($weeksInOldYear - $oldStartWeekOfYear) + $newStartWeekOfYear;
+                        $yearPreviousToNewYear = $newStart->format('Y') - 1;
+                        $weeksInPreviousYear
+                            = (int) (new DateTime("December 28th, ${yearPreviousToNewYear}"))->format('W');
+                        $weeksDiff = ($weeksInPreviousYear - $oldStartWeekOfYear) + $newStartWeekOfYear;
                     }
                     return (
                         //day of the week is the same
@@ -519,8 +523,10 @@ class CourseRolloverTest extends TestCase
                     if ($newEndWeekOfYear > $oldEndWeekOfYear) {
                         $weeksDiff = $newEndWeekOfYear - $oldEndWeekOfYear;
                     } elseif ($newEndWeekOfYear < $oldEndWeekOfYear) {
-                        $weeksInOldYear = (int) (new DateTime("December 28th, {$oldEnd->format('Y')}"))->format('W');
-                        $weeksDiff = ($weeksInOldYear - $oldEndWeekOfYear) + $newEndWeekOfYear;
+                        $yearPreviousToNewYear = $newEnd->format('Y') - 1;
+                        $weeksInPreviousYear
+                            = (int) (new DateTime("December 28th, ${yearPreviousToNewYear}"))->format('W');
+                        $weeksDiff = ($weeksInPreviousYear - $oldEndWeekOfYear) + $newEndWeekOfYear;
                     }
                     return (
                         //day of the week is the same
