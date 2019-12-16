@@ -186,6 +186,13 @@ class CalendarEvent
     public $instructionalNotes;
 
     /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    public $sessionTypeId;
+
+    /**
      * @var string
      * @IS\Expose
      * @IS\Type("string")
@@ -225,6 +232,13 @@ class CalendarEvent
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    public $cohorts = array();
+
+    /**
+     * @var []
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
     public $prerequisites = array();
 
     /**
@@ -233,6 +247,27 @@ class CalendarEvent
      * @IS\Type("integer")
      **/
     public $school;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    public $courseLevel;
+
+    /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $sessionTerms = array();
+
+    /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $courseTerms = array();
 
     /**
      * Clean out all the data for draft or scheduled events
@@ -256,12 +291,17 @@ class CalendarEvent
             $this->sessionDescription = null;
             $this->sessionTitle = null;
             $this->sessionTypeTitle = null;
+            $this->sessionTypeId = null;
+            $this->courseLevel = null;
 
             $this->instructors = [];
             $this->learningMaterials = [];
             $this->sessionObjectives = [];
             $this->courseObjectives = [];
             $this->competencies = [];
+            $this->cohorts = [];
+            $this->sessionTerms = [];
+            $this->courseTerms = [];
         }
     }
 

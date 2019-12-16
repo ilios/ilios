@@ -212,6 +212,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
 
         $qb->addSelect($what)->from('App\Entity\School', 'school');
@@ -261,6 +262,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
 
         $qb->addSelect($what)->from('App\Entity\School', 'school');
@@ -359,6 +361,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
 
         $qb = $this->_em->createQueryBuilder();
@@ -406,6 +409,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
 
         $qb = $this->_em->createQueryBuilder();
@@ -478,6 +482,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
 
         $qb = $this->_em->createQueryBuilder();
@@ -525,6 +530,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
 
         $qb = $this->_em->createQueryBuilder();

@@ -345,6 +345,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
 
         $qb->addSelect($what)->from('App\Entity\User', 'u');
@@ -392,6 +393,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
 
         $qb->addSelect($what)->from('App\Entity\User', 'u');
@@ -471,6 +473,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
         foreach ($joins as $join) {
             $qb = $this->_em->createQueryBuilder();
@@ -523,6 +526,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
         foreach ($joins as $join) {
             $qb = $this->_em->createQueryBuilder();
@@ -604,6 +608,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
+            'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, sd.description AS sessionDescription';
         foreach ($joins as $join) {
             $qb = $this->_em->createQueryBuilder();
