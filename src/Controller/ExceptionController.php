@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
-use Twig_Environment;
+use Twig\Environment;
 
 /**
  * Convert our exceptions into JSON
@@ -16,7 +16,7 @@ use Twig_Environment;
 class ExceptionController
 {
     /**
-     * @var Twig_Environment
+     * @var Environment
      */
     protected $twig;
 
@@ -33,10 +33,10 @@ class ExceptionController
     /**
      * Only show exceptions in the dev environment
      *
-     * @param Twig_Environment $twig
+     * @param Environment $twig
      * @param string $environment
      */
-    public function __construct(Twig_Environment $twig, $environment)
+    public function __construct(Environment $twig, $environment)
     {
         $this->twig = $twig;
         $this->showException = $environment === 'dev';
