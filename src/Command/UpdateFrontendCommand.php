@@ -12,6 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 use App\Service\Filesystem;
+use \Exception;
+use \SplFileObject;
 
 /**
  * Pull down asset archive from AWS and extract it so
@@ -140,16 +142,19 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $versionOverride = $input->getOption('at-version');
         $environment = $stagingBuild?self::STAGING:self::PRODUCTION;
 
-        $this->downloadAndExtractArchive($environment, $versionOverride);
-
-        $message = 'Frontend updated successfully';
-        if ($stagingBuild) {
-            $message .= ' from staging build';
+        try {
+            $message = '';
+            if ($stagingBuild) {
+                $message .= ' from staging build';
+            }
+            if ($versionOverride) {
+                $message .= ' at version ' . $versionOverride;
+            }
+            $this->downloadAndExtractArchive($environment, $versionOverride);
+            $output->writeln("<info>Frontend updated successfully${message}!</info>");
+        } catch (Exception $e) {
+            $output->writeln("<error>No matching frontend found${message}!</error>");
         }
-        if ($versionOverride) {
-            $message .= ' to version ' . $versionOverride;
-        }
-        $output->writeln("<info>{$message}!</info>");
     }
 
     /**
@@ -165,7 +170,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 $version = $releaseVersion;
             }
             $this->downloadAndExtractArchive(self::PRODUCTION, $version);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             print "\n\n**Warning: Unable to load frontend. Please run ilios:maintenance:update-frontend again.**\n\n\n";
         }
     }
@@ -182,7 +187,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
      * @param string $environment
      * @param string|bool $versionOverride
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function downloadAndExtractArchive($environment = 'prod', $versionOverride = false)
     {
@@ -204,7 +209,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         ];
         $archivePath = join(DIRECTORY_SEPARATOR, $parts);
 
-        $file = is_readable($archivePath) ? new \SplFileObject($archivePath, "r"): null;
+        $file = is_readable($archivePath) ? new SplFileObject($archivePath, "r"): null;
         $string = $this->fetch->get($url . $fileName, $file);
 
         $this->fs->dumpFile($archivePath, $string);

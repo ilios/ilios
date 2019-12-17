@@ -13,6 +13,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Mockery as m;
 use Symfony\Component\Finder\Finder;
+use Exception;
 
 /**
  * Class UpdateFrontendCommandTest
@@ -186,7 +187,24 @@ class UpdateFrontendCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Frontend updated successfully to version foo.bar!/',
+            '/Frontend updated successfully at version foo.bar!/',
+            $output
+        );
+    }
+
+    public function testFailsToLoad()
+    {
+        $fileName = self::TEST_API_VERSION . '/' . UpdateFrontendCommand::ARCHIVE_FILE_NAME;
+        $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::PRODUCTION_CDN_ASSET_DOMAIN . $fileName, null)
+            ->once()->andThrow(Exception::class);
+
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME,
+        ));
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/No matching frontend found!/',
             $output
         );
     }
