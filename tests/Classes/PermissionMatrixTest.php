@@ -3,7 +3,7 @@
 namespace App\Tests\Classes;
 
 use App\Classes\PermissionMatrix;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Class PermissionMatrixTest

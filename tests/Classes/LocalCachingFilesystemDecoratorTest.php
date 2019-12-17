@@ -2,8 +2,8 @@
 namespace App\Tests\Classes;
 
 use App\Classes\LocalCachingFilesystemDecorator;
+use App\Tests\TestCase;
 use League\Flysystem\FilesystemInterface;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 
 /**
