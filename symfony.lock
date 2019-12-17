@@ -165,6 +165,9 @@
     "hamcrest/hamcrest-php": {
         "version": "v2.0.0"
     },
+    "http-interop/http-factory-guzzle": {
+        "version": "1.0.0"
+    },
     "ilios/mesh-parser": {
         "version": "v2.0.1"
     },
@@ -240,26 +243,8 @@
     "php-http/discovery": {
         "version": "1.6.1"
     },
-    "php-http/guzzle6-adapter": {
-        "version": "v1.1.1"
-    },
     "php-http/httplug": {
         "version": "v1.1.0"
-    },
-    "php-http/httplug-bundle": {
-        "version": "1.6",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.6",
-            "ref": "4655962c64e2de96c418caf576c57215711c7877"
-        },
-        "files": [
-            "config/packages/httplug.yaml"
-        ]
-    },
-    "php-http/logger-plugin": {
-        "version": "1.1.0"
     },
     "php-http/message": {
         "version": "1.7.2"
@@ -269,9 +254,6 @@
     },
     "php-http/promise": {
         "version": "v1.0.0"
-    },
-    "php-http/stopwatch-plugin": {
-        "version": "1.2.0"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -286,6 +268,9 @@
         "version": "1.0.1"
     },
     "psr/container": {
+        "version": "1.0.0"
+    },
+    "psr/http-client": {
         "version": "1.0.0"
     },
     "psr/http-factory": {
@@ -332,6 +317,9 @@
         "files": [
             "config/packages/security_checker.yaml"
         ]
+    },
+    "sentry/sdk": {
+        "version": "2.0.4"
     },
     "sentry/sentry": {
         "version": "2.1.0"

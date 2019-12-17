@@ -2,10 +2,11 @@
 
 namespace App\Service;
 
-use Http\Client\HttpClient;
-use Http\Message\RequestFactory;
 use \DateTime;
+use \SplFileObject;
+use \Exception;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Fetch things from the interwebs - exposed as a service for
@@ -17,19 +18,13 @@ use Symfony\Component\HttpFoundation\Response;
 class Fetch
 {
     /**
-     * @var HttpClient
+     * @var HttpClientInterface
      */
     protected $client;
 
-    /**
-     * @var RequestFactory
-     */
-    protected $requestFactory;
-
-    public function __construct(HttpClient $client, RequestFactory $requestFactory)
+    public function __construct(HttpClientInterface $client)
     {
         $this->client = $client;
-        $this->requestFactory = $requestFactory;
     }
 
     /**
@@ -39,26 +34,28 @@ class Fetch
      * and if so just return the contents of $file to save bandwidth downloading it again
      *
      * @param string $url
-     * @param \SplFileObject|null $file
+     * @param SplFileObject|null $file
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
-    public function get(string $url, \SplFileObject $file = null) : string
+    public function get(string $url, SplFileObject $file = null) : string
     {
-        $request = $this->requestFactory->createRequest('GET', $url);
-
+        $headers = [];
         if ($file) {
             $lastModifiedTime = $file->getMTime();
             $lastModified = new DateTime();
             $lastModified->setTimestamp($lastModifiedTime);
-            $request = $request->withHeader('if-modified-since', $lastModified->format('D, d M Y H:i:s T'));
+            $headers['if-modified-since'] = $lastModified->format('D, d M Y H:i:s T');
         }
 
-        $response = $this->client->sendRequest($request);
+        $response = $this->client->request('GET', $url, [
+            'headers' => $headers,
+        ]);
+
         if ($file && $response->getStatusCode() === Response::HTTP_NOT_MODIFIED) {
             $fileContents = $file->fread($file->getSize());
         } else {
-            $fileContents = $response->getBody()->getContents();
+            $fileContents = $response->getContent();
         }
 
         if (empty($fileContents)) {
