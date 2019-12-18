@@ -1,9 +1,8 @@
 <?php
 namespace App\Tests\Classes;
 
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
-
 use App\Classes\AcademicYear;
+use App\Tests\TestCase;
 
 class AcademicYearTest extends TestCase
 {

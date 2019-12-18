@@ -5,7 +5,7 @@ use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
 use App\Classes\UserMaterial;
 use App\Entity\LearningMaterialStatusInterface;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Class UserEventTest

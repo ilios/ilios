@@ -138,9 +138,6 @@
     "ezyang/htmlpurifier": {
         "version": "v4.10.0"
     },
-    "fig/link-util": {
-        "version": "1.0.0"
-    },
     "firebase/php-jwt": {
         "version": "v5.0.0"
     },
@@ -414,6 +411,9 @@
     },
     "symfony/dotenv": {
         "version": "v4.3.0"
+    },
+    "symfony/error-handler": {
+        "version": "v4.4.1"
     },
     "symfony/event-dispatcher": {
         "version": "v4.3.0"

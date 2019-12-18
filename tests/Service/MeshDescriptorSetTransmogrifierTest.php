@@ -2,13 +2,13 @@
 namespace App\Tests\Service;
 
 use App\Service\MeshDescriptorSetTransmogrifier;
+use App\Tests\TestCase;
 use Ilios\MeSH\Model\AllowableQualifier;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Reference;
 use Ilios\MeSH\Model\Term;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 class MeshDescriptorSetTransmogrifierTest extends TestCase
 {

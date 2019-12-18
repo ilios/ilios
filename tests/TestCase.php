@@ -2,7 +2,7 @@
 namespace App\Tests;
 
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase as BaseTestCase;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
 /**
  * Default Test Case

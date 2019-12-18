@@ -4,9 +4,9 @@ namespace App\Tests\Classes;
 use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent;
 use App\Classes\UserMaterial;
+use App\Tests\TestCase;
 use Mockery as m;
 use DateTime;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * Class SchoolEventTest

@@ -2,7 +2,7 @@
 namespace App\Tests\Classes;
 
 use App\Classes\UserMaterial;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use App\Tests\TestCase;
 
 /**
  * Class UserMaterialTest
