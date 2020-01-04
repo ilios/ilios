@@ -441,8 +441,11 @@ class CourseRolloverTest extends TestCase
         $newCourse->shouldReceive('setYear')->with($newYear)->once();
 
         $newStartDate = clone $course->getStartDate();
-        //start the new course two weeks later
-        $newStartDate->add(new \DateInterval('P54W'));
+        $newStartDate->setISODate(
+            $newYear,
+            (int) $course->getStartDate()->format('W') + 2,
+            (int) $course->getStartDate()->format('N')
+        );
         $this->assertEquals($course->getStartDate()->format('w'), $newStartDate->format('w'));
 
         $newCourse
