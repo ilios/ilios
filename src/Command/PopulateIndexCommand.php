@@ -91,7 +91,8 @@ class PopulateIndexCommand extends Command
         $output->writeln("<info>Ok.</info>");
 
         $this->populateUsers($output);
-        $this->populateLearningMaterials($output);
+        //temporarily disable LM indexing for performance reasons.
+//        $this->populateLearningMaterials($output);
         $this->populateCourses($output);
         $this->populateMesh($output);
     }
