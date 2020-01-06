@@ -11,7 +11,6 @@ class RequiredENV implements CheckInterface
 {
     private const REQUIRED_ENV = [
         'ILIOS_DATABASE_URL',
-        'ILIOS_DATABASE_MYSQL_VERSION',
         'ILIOS_MAILER_URL',
         'ILIOS_LOCALE',
         'ILIOS_SECRET'
