@@ -146,7 +146,7 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a userId
-     * @param  integer $userId
+     * @param int $userId
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
      *
      * @return string

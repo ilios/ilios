@@ -21,7 +21,7 @@ class IlmSessionDTO
     public $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -79,7 +79,7 @@ class IlmSessionDTO
     /**
      * Needed for voting not exposed in the API
      *
-     * @var integer
+     * @var int
      *
      * @IS\Type("integer")
      */
@@ -88,7 +88,7 @@ class IlmSessionDTO
     /**
      * Needed for voting not exposed in the API
      *
-     * @var integer
+     * @var int
      *
      * @IS\Type("integer")
      */

@@ -180,7 +180,7 @@ class Term implements TermInterface
     protected $aamcResourceTypes;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *

@@ -35,7 +35,7 @@ class AamcMethodDTO
     public $sessionTypes;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */

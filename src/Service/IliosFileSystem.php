@@ -103,7 +103,7 @@ class IliosFileSystem
      * Get if a learning material file path is valid
      * @param LearningMaterialInterface $lm
      *
-     * @return boolean
+     * @return bool
      */
     public function checkLearningMaterialFilePath(LearningMaterialInterface $lm): bool
     {
@@ -155,7 +155,7 @@ class IliosFileSystem
     /**
      * Check if a lock file exists
      * @param string $name
-     * @return boolean
+     * @return bool
      */
     public function hasLock(string $name): bool
     {

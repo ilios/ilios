@@ -37,7 +37,7 @@ class Search extends ElasticSearchBase
 
     /**
      * @param string $query
-     * @param boolean $onlySuggest should the search return only suggestions
+     * @param bool $onlySuggest should the search return only suggestions
      * @return array
      * @throws Exception when search is not configured
      */

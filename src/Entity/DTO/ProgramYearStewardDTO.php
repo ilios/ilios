@@ -20,7 +20,7 @@ class ProgramYearStewardDTO
     public $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -28,7 +28,7 @@ class ProgramYearStewardDTO
     public $department;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -36,7 +36,7 @@ class ProgramYearStewardDTO
     public $programYear;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -44,13 +44,13 @@ class ProgramYearStewardDTO
     public $school;
 
     /**
-     * @var integer
+     * @var int
      * Not exposed, used in voter
      */
     public $owningProgram;
 
     /**
-     * @var integer
+     * @var int
      * Not exposed, used in voter
      */
     public $owningSchool;

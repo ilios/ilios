@@ -12,7 +12,7 @@ use App\Annotation as IS;
 class PendingUserUpdateDTO
 {
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("integer")
@@ -44,7 +44,7 @@ class PendingUserUpdateDTO
     public $value;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")

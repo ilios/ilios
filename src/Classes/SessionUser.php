@@ -19,7 +19,7 @@ use DateTime;
 class SessionUser implements SessionUserInterface
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $userId;
 
@@ -39,7 +39,7 @@ class SessionUser implements SessionUserInterface
     protected $tokenNotValidBefore;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $schoolId;
 

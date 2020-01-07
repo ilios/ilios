@@ -20,7 +20,7 @@ class CasManager
     protected $casVersion;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $casVerifySSL;
 

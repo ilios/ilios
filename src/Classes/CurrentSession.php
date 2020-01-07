@@ -14,7 +14,7 @@ use App\Annotation as IS;
 class CurrentSession
 {
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")

@@ -21,7 +21,7 @@ class LearningMaterialUserRoleDTO
     public $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")

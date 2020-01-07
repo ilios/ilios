@@ -29,7 +29,7 @@ trait LearningMaterialRelationshipEntity
     }
 
     /**
-     * @param boolean $required
+     * @param bool $required
      */
     public function setRequired($required)
     {
@@ -37,7 +37,7 @@ trait LearningMaterialRelationshipEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRequired()
     {
@@ -45,7 +45,7 @@ trait LearningMaterialRelationshipEntity
     }
 
     /**
-     * @param boolean $publicNotes
+     * @param bool $publicNotes
      */
     public function setPublicNotes($publicNotes)
     {
@@ -53,7 +53,7 @@ trait LearningMaterialRelationshipEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasPublicNotes()
     {

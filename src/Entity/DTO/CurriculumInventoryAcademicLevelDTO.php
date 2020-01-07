@@ -63,7 +63,7 @@ class CurriculumInventoryAcademicLevelDTO
     /**
      * Needed for voting not exposed in the API
      *
-     * @var integer
+     * @var int
      *
      * @IS\Type("integer")
      */

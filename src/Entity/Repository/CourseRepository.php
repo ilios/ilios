@@ -150,7 +150,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
      *
      * @param int $userId
      * @param int $courseId
-     * @return boolean TRUE if the user instructs at least one offering or ILM, FALSE otherwise.
+     * @return bool TRUE if the user instructs at least one offering or ILM, FALSE otherwise.
      */
     public function isUserInstructingInCourse($userId, $courseId)
     {
@@ -219,7 +219,7 @@ EOL;
      * Finds all courses associated with a given user.
      * A user can be associated as either course director, learner or instructor with a given course.
      *
-     * @param integer $userId
+     * @param int $userId
      * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit

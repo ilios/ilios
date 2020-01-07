@@ -13,7 +13,7 @@ use App\Annotation as IS;
 class DepartmentDTO
 {
     /**
-     * @var integer
+     * @var int
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -27,7 +27,7 @@ class DepartmentDTO
     public $title;
 
     /**
-     * @var integer
+     * @var int
      * @IS\Expose
      * @IS\Type("integer")
      */

@@ -63,28 +63,28 @@ class CourseDTO
     public $externalId;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
     public $locked;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
     public $archived;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
     public $publishedAsTbd;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */

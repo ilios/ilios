@@ -60,7 +60,7 @@ class MeshConcept implements MeshConceptInterface
     protected $name;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="preferred", type="boolean")
      *
@@ -181,7 +181,7 @@ class MeshConcept implements MeshConceptInterface
     }
 
     /**
-     * @param boolean $preferred
+     * @param bool $preferred
      */
     public function setPreferred($preferred)
     {
@@ -189,7 +189,7 @@ class MeshConcept implements MeshConceptInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getPreferred()
     {

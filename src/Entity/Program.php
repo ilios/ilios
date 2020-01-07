@@ -94,7 +94,7 @@ class Program implements ProgramInterface
     protected $duration;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="published_as_tbd", type="boolean")
      *
@@ -109,7 +109,7 @@ class Program implements ProgramInterface
     protected $publishedAsTbd;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *

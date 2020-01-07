@@ -111,7 +111,7 @@ class MeshDescriptorDTO
     public $previousIndexing;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */

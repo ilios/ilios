@@ -36,7 +36,7 @@ class ReportDTO
     public $createdAt;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -68,7 +68,7 @@ class ReportDTO
     public $prepositionalObjectTableRowId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")

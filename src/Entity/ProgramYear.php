@@ -68,7 +68,7 @@ class ProgramYear implements ProgramYearInterface
     protected $startYear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -81,7 +81,7 @@ class ProgramYear implements ProgramYearInterface
     protected $locked;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -94,7 +94,7 @@ class ProgramYear implements ProgramYearInterface
     protected $archived;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -109,7 +109,7 @@ class ProgramYear implements ProgramYearInterface
     protected $publishedAsTbd;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *

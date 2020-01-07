@@ -70,7 +70,7 @@ interface TermInterface extends
     public function getChildren();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasChildren();
 

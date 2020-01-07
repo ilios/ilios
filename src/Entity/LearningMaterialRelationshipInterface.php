@@ -28,22 +28,22 @@ interface LearningMaterialRelationshipInterface extends
     public function getNotes();
 
     /**
-     * @param boolean $required
+     * @param bool $required
      */
     public function setRequired($required);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRequired();
 
     /**
-     * @param boolean $publicNotes
+     * @param bool $publicNotes
      */
     public function setPublicNotes($publicNotes);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasPublicNotes();
 

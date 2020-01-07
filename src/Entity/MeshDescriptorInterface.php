@@ -127,12 +127,12 @@ interface MeshDescriptorInterface extends
     public function getPreviousIndexing();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isDeleted();
 
     /**
-     * @param boolean $deleted
+     * @param bool $deleted
      */
     public function setDeleted($deleted);
 }

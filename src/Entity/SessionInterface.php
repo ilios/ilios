@@ -36,42 +36,42 @@ interface SessionInterface extends
     IndexableCoursesEntityInterface
 {
     /**
-     * @param boolean $attireRequired
+     * @param bool $attireRequired
      */
     public function setAttireRequired($attireRequired);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isAttireRequired();
 
     /**
-     * @param boolean $equipmentRequired
+     * @param bool $equipmentRequired
      */
     public function setEquipmentRequired($equipmentRequired);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEquipmentRequired();
 
     /**
-     * @param boolean $supplemental
+     * @param bool $supplemental
      */
     public function setSupplemental($supplemental);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isSupplemental();
 
     /**
-     * @param boolean $attendanceRequired
+     * @param bool $attendanceRequired
      */
     public function setAttendanceRequired($attendanceRequired);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isAttendanceRequired();
 

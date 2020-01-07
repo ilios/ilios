@@ -70,7 +70,7 @@ class CompetencyDTO
     public $programYears;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      *

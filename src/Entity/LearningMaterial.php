@@ -231,7 +231,7 @@ class LearningMaterial implements LearningMaterialInterface
 
     /**
      * renamed copyrightownership
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="copyright_ownership", type="boolean", nullable=true)
      *

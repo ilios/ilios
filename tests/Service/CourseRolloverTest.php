@@ -1333,7 +1333,7 @@ class CourseRolloverTest extends TestCase
      *
      * @param CourseInterface $course
      * @param CourseInterface $newCourse
-     * @param integer $interval the length of time in the future for the new academic year
+     * @param int $interval the length of time in the future for the new academic year
      *
      * @return int
      */

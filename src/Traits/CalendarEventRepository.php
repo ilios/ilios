@@ -65,7 +65,7 @@ trait CalendarEventRepository
 
     /**
      * Convert IlmSessions into CalendarEvent() objects
-     * @param integer $userId
+     * @param int $userId
      * @param array $results
      * @return CalendarEvent[]
      */

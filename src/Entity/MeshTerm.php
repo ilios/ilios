@@ -100,7 +100,7 @@ class MeshTerm implements MeshTermInterface
     protected $lexicalTag;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="concept_preferred", type="boolean", nullable=true)
      *
@@ -112,7 +112,7 @@ class MeshTerm implements MeshTermInterface
     protected $conceptPreferred;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="record_preferred", type="boolean", nullable=true)
      *
@@ -124,7 +124,7 @@ class MeshTerm implements MeshTermInterface
     protected $recordPreferred;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="permuted", type="boolean", nullable=true)
      *
@@ -215,7 +215,7 @@ class MeshTerm implements MeshTermInterface
     }
 
     /**
-     * @param boolean $conceptPreferred
+     * @param bool $conceptPreferred
      */
     public function setConceptPreferred($conceptPreferred)
     {
@@ -223,7 +223,7 @@ class MeshTerm implements MeshTermInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isConceptPreferred()
     {
@@ -231,7 +231,7 @@ class MeshTerm implements MeshTermInterface
     }
 
     /**
-     * @param boolean $recordPreferred
+     * @param bool $recordPreferred
      */
     public function setRecordPreferred($recordPreferred)
     {
@@ -239,7 +239,7 @@ class MeshTerm implements MeshTermInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRecordPreferred()
     {
@@ -247,7 +247,7 @@ class MeshTerm implements MeshTermInterface
     }
 
     /**
-     * @param boolean $permuted
+     * @param bool $permuted
      */
     public function setPermuted($permuted)
     {
@@ -255,7 +255,7 @@ class MeshTerm implements MeshTermInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPermuted()
     {

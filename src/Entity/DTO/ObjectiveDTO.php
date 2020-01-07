@@ -28,7 +28,7 @@ class ObjectiveDTO
     public $title;
 
     /**
-     * @var integer
+     * @var int
      * @IS\Expose
      * @IS\Type("string")
      *
@@ -84,7 +84,7 @@ class ObjectiveDTO
     public $meshDescriptors;
 
     /**
-     * @var integer
+     * @var int
      * @IS\Expose
      * @IS\Type("string")
      *
@@ -108,7 +108,7 @@ class ObjectiveDTO
     public $position;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("integer")
      *

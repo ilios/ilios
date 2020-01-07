@@ -25,7 +25,7 @@ class EntityBase extends TestCase
 
     /**
      * Engage the symfony validator and test the object.
-     * @param  integer $expectedCount how many errors are you expecting
+     * @param int $expectedCount how many errors are you expecting
      * @return array an abbreviated set of errors
      */
     protected function validate($expectedCount)
@@ -107,7 +107,7 @@ class EntityBase extends TestCase
      * A generic test for boolean entity setters.
      *
      * @param string $property
-     * @param boolean $is should we use is vs has when generating the method.
+     * @param bool $is should we use is vs has when generating the method.
      */
     protected function booleanSetTest($property, $is = true)
     {

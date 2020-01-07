@@ -8,22 +8,22 @@ namespace App\Traits;
 interface PublishableEntityInterface
 {
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPublished();
 
     /**
-     * @param boolean $published
+     * @param bool $published
      */
     public function setPublished($published);
 
     /**
-     * @param boolean $publishedAsTbd
+     * @param bool $publishedAsTbd
      */
     public function setPublishedAsTbd($publishedAsTbd);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPublishedAsTbd();
 }

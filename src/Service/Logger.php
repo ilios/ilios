@@ -17,7 +17,7 @@ use App\Classes\SessionUserInterface;
 class Logger
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $userId;
 

@@ -35,7 +35,7 @@ class CurriculumInventorySequenceBlockDTO
     public $description;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("integer")
@@ -75,7 +75,7 @@ class CurriculumInventorySequenceBlockDTO
     public $maximum;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -107,7 +107,7 @@ class CurriculumInventorySequenceBlockDTO
     public $duration;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -115,7 +115,7 @@ class CurriculumInventorySequenceBlockDTO
     public $academicLevel;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -123,7 +123,7 @@ class CurriculumInventorySequenceBlockDTO
     public $course;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -139,7 +139,7 @@ class CurriculumInventorySequenceBlockDTO
     public $children;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -165,7 +165,7 @@ class CurriculumInventorySequenceBlockDTO
     /**
      * Needed for voting not exposed in the API
      *
-     * @var integer
+     * @var int
      *
      * @IS\Type("integer")
      */

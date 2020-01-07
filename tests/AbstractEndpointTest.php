@@ -498,7 +498,7 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param array $data we are changing
      * @param bool $new if this is expected to generate new data instead
      *                  of updating existing data
-     * @param integer $userId
+     * @param int $userId
      *
      * @return mixed
      */

@@ -153,7 +153,7 @@ class Course implements CourseInterface
     protected $externalId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *
@@ -166,7 +166,7 @@ class Course implements CourseInterface
     protected $locked;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *
@@ -179,7 +179,7 @@ class Course implements CourseInterface
     protected $archived;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", name="published_as_tbd")
      *
@@ -192,7 +192,7 @@ class Course implements CourseInterface
     protected $publishedAsTbd;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *

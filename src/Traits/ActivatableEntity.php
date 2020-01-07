@@ -8,7 +8,7 @@ namespace App\Traits;
 trait ActivatableEntity
 {
     /**
-     * @return boolean
+     * @return bool
      */
     public function isActive()
     {
@@ -16,7 +16,7 @@ trait ActivatableEntity
     }
 
     /**
-     * @param boolean $active
+     * @param bool $active
      */
     public function setActive($active)
     {

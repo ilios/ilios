@@ -13,12 +13,12 @@ use App\Annotation as IS;
 interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInterface
 {
     /**
-     * @param integer $tableRowId
+     * @param int $tableRowId
      */
     public function setTableRowId($tableRowId);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getTableRowId();
 
@@ -43,12 +43,12 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     public function getAdditionalText();
 
     /**
-     * @param boolean $dispatched
+     * @param bool $dispatched
      */
     public function setDispatched($dispatched);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isDispatched();
 

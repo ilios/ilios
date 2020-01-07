@@ -172,7 +172,7 @@ class User implements UserInterface
     protected $preferredEmail;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="added_via_ilios", type="boolean")
      *
@@ -185,7 +185,7 @@ class User implements UserInterface
     protected $addedViaIlios;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="enabled", type="boolean")
      *
@@ -230,7 +230,7 @@ class User implements UserInterface
     protected $otherId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="examined", type="boolean")
      *
@@ -243,7 +243,7 @@ class User implements UserInterface
     protected $examined;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="user_sync_ignore", type="boolean")
      *
@@ -551,7 +551,7 @@ class User implements UserInterface
     protected $directedPrograms;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="root", type="boolean")
      *
@@ -731,7 +731,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $addedViaIlios
+     * @param bool $addedViaIlios
      */
     public function setAddedViaIlios($addedViaIlios)
     {
@@ -739,7 +739,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isAddedViaIlios()
     {
@@ -747,7 +747,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $enabled
+     * @param bool $enabled
      */
     public function setEnabled($enabled)
     {
@@ -755,7 +755,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {
@@ -795,7 +795,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $examined
+     * @param bool $examined
      */
     public function setExamined($examined)
     {
@@ -803,7 +803,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isExamined()
     {
@@ -811,7 +811,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $userSyncIgnore
+     * @param bool $userSyncIgnore
      */
     public function setUserSyncIgnore($userSyncIgnore)
     {
@@ -819,7 +819,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isUserSyncIgnore()
     {

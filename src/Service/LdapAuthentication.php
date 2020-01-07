@@ -136,7 +136,7 @@ class LdapAuthentication implements AuthenticationInterface
      * @param  string $username
      * @param  string $password
      *
-     * @return boolean
+     * @return bool
      */
     public function checkLdapPassword($username, $password)
     {

@@ -36,7 +36,7 @@ class VocabularyDTO
     public $school;
 
     /**
-     * @var integer[]
+     * @var int[]
      *
      * @IS\Expose
      * @IS\Type("array<string>")
@@ -44,7 +44,7 @@ class VocabularyDTO
     public $terms;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")

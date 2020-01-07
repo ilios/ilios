@@ -69,14 +69,14 @@ class UserDTO
     public $preferredEmail;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
     public $addedViaIlios;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
@@ -97,14 +97,14 @@ class UserDTO
     public $otherId;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
     public $examined;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
@@ -237,7 +237,7 @@ class UserDTO
     public $pendingUserUpdates;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
 

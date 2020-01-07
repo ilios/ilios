@@ -42,8 +42,8 @@ interface ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return array A list of entities.
      */
@@ -58,8 +58,8 @@ interface ManagerInterface
      * Searches the data store for all objects matching the given criteria.
      * @param array $criteria
      * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return object[] A list of DTOs.
      */

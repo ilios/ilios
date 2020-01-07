@@ -105,7 +105,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $updatedAt;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(name="deleted", type="boolean")
      *
      * @IS\Expose

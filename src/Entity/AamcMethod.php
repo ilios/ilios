@@ -75,7 +75,7 @@ class AamcMethod implements AamcMethodInterface
     protected $sessionTypes;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *

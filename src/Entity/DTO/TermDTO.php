@@ -85,7 +85,7 @@ class TermDTO
     public $aamcResourceTypes;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */

@@ -44,7 +44,7 @@ class MeshTermDTO
     public $lexicalTag;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -52,7 +52,7 @@ class MeshTermDTO
     public $conceptPreferred;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -60,7 +60,7 @@ class MeshTermDTO
     public $recordPreferred;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -84,7 +84,7 @@ class MeshTermDTO
     public $updatedAt;
 
     /**
-     * @var integer[]
+     * @var int[]
      *
      * @IS\Expose
      * @IS\Type("array<string>")

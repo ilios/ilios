@@ -118,22 +118,22 @@ interface UserInterface extends
     public function getPreferredEmail();
 
     /**
-     * @param boolean $addedViaIlios
+     * @param bool $addedViaIlios
      */
     public function setAddedViaIlios($addedViaIlios);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isAddedViaIlios();
 
     /**
-     * @param boolean $enabled
+     * @param bool $enabled
      */
     public function setEnabled($enabled);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEnabled();
 
@@ -158,22 +158,22 @@ interface UserInterface extends
     public function getOtherId();
 
     /**
-     * @param boolean $examined
+     * @param bool $examined
      */
     public function setExamined($examined);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isExamined();
 
     /**
-     * @param boolean $userSyncIgnore
+     * @param bool $userSyncIgnore
      */
     public function setUserSyncIgnore($userSyncIgnore);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isUserSyncIgnore();
 
@@ -235,7 +235,7 @@ interface UserInterface extends
 
     /**
      * @param int $courseId
-     * @return boolean
+     * @return bool
      */
     public function isDirectingCourse($courseId);
 
@@ -465,12 +465,12 @@ interface UserInterface extends
     public function getDirectedPrograms();
 
     /**
-     * @param boolean $root
+     * @param bool $root
      */
     public function setRoot($root);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRoot();
 

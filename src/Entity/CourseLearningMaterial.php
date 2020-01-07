@@ -62,7 +62,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     protected $notes;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="required", type="boolean")
      *
@@ -75,7 +75,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     protected $required;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="notes_are_public", type="boolean")
      *

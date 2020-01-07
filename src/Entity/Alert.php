@@ -85,7 +85,7 @@ class Alert implements AlertInterface
     protected $additionalText;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="dispatched", type="boolean")
      *

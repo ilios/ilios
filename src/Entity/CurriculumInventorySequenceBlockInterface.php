@@ -98,12 +98,12 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function getMaximum();
 
     /**
-     * @param boolean $track
+     * @param bool $track
      */
     public function setTrack($track);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasTrack();
 

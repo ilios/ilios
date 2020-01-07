@@ -52,8 +52,8 @@ class UserManager extends BaseManager
     /**
      * @param string $q
      * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      * @param array $criteria
      *
      * @return UserDTO[]
@@ -74,7 +74,7 @@ class UserManager extends BaseManager
     /**
      * Find all of the events for a user id between two dates.
      *
-     * @param integer $userId
+     * @param int $userId
      * @param DateTime $from
      * @param DateTime $to
      * @return UserEvent[]
@@ -90,8 +90,8 @@ class UserManager extends BaseManager
     /**
      * Find all of the events for a user in a session
      *
-     * @param integer $userId
-     * @param integer $sessionId
+     * @param int $userId
+     * @param int $sessionId
      * @return UserEvent[]
      * @throws Exception
      */
@@ -187,7 +187,7 @@ class UserManager extends BaseManager
     /**
      * Find all of the learning materials for a userId
      *
-     * @param integer $userId
+     * @param int $userId
      * @param array $criteria
      * @return UserMaterial[]
      * @throws Exception

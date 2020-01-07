@@ -16,7 +16,7 @@ class ProgramYearStewardManager extends BaseManager
     /**
      * Checks if a given entity's school (co-)stewards a given program year.
      *
-     * @param integer $schoolId
+     * @param int $schoolId
      * @param ProgramYearInterface $programYear
      * @return bool
      */

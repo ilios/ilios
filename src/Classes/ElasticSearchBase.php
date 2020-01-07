@@ -12,7 +12,7 @@ class ElasticSearchBase
     protected $client;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $enabled = false;
 

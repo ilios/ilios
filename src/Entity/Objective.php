@@ -200,7 +200,7 @@ class Objective implements ObjectiveInterface
     protected $position;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *

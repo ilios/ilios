@@ -60,7 +60,7 @@ class CleanupStringsCommand extends Command
     protected $sessionDescriptionManager;
 
     /**
-     * @var integer where to limit each query for memory management
+     * @var int where to limit each query for memory management
      */
     private const QUERY_LIMIT = 500;
 

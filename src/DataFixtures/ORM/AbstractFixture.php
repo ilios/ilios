@@ -29,7 +29,7 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
     protected $key;
 
     /**
-     * @var boolean
+     * @var bool
      * Set to TRUE if the loaded fixture should be held on for reference.
      */
     protected $storeReference;
@@ -40,7 +40,7 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
 
     /**
      * @param string $key
-     * @param boolean $storeReference
+     * @param bool $storeReference
      * @param DataimportFileLocator $dataimportFileLocator
      */
     public function __construct(

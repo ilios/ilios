@@ -14,14 +14,14 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     /**
      * Is this user a root user
      *
-     * @return boolean
+     * @return bool
      */
     public function isRoot();
 
     /**
      * Is this user enabled
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnabled();
 
@@ -35,14 +35,14 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     /**
      * Get user's id
      *
-     * @return integer
+     * @return int
      */
     public function getId();
 
     /**
      * Get user's primary school id
      *
-     * @return integer
+     * @return int
      */
     public function getSchoolId();
 
@@ -75,7 +75,7 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      *
      * @param $courseId
      *
-     * @return boolean
+     * @return bool
      */
     public function isDirectingCourse(int $courseId);
     public function isAdministeringCourse(int $courseId): bool;

@@ -80,7 +80,7 @@ class Session implements SessionInterface
     protected $title;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="attire_required", type="boolean", nullable=true)
      *
@@ -92,7 +92,7 @@ class Session implements SessionInterface
     protected $attireRequired;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="equipment_required", type="boolean", nullable=true)
      *
@@ -104,7 +104,7 @@ class Session implements SessionInterface
     protected $equipmentRequired;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="supplemental", type="boolean", nullable=true)
      *
@@ -116,7 +116,7 @@ class Session implements SessionInterface
     protected $supplemental;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="attendance_required", type="boolean", nullable=true)
      *
@@ -128,7 +128,7 @@ class Session implements SessionInterface
     protected $attendanceRequired;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="published_as_tbd", type="boolean")
      *
@@ -141,7 +141,7 @@ class Session implements SessionInterface
     protected $publishedAsTbd;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *
@@ -397,7 +397,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param boolean $attireRequired
+     * @param bool $attireRequired
      */
     public function setAttireRequired($attireRequired)
     {
@@ -405,7 +405,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isAttireRequired()
     {
@@ -413,7 +413,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param boolean $equipmentRequired
+     * @param bool $equipmentRequired
      */
     public function setEquipmentRequired($equipmentRequired)
     {
@@ -421,7 +421,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEquipmentRequired()
     {
@@ -429,7 +429,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param boolean $supplemental
+     * @param bool $supplemental
      */
     public function setSupplemental($supplemental)
     {
@@ -437,7 +437,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isSupplemental()
     {
@@ -445,7 +445,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param boolean $attendanceRequired
+     * @param bool $attendanceRequired
      */
     public function setAttendanceRequired($attendanceRequired)
     {
@@ -453,7 +453,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isAttendanceRequired()
     {

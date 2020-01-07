@@ -112,8 +112,8 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
     /**
      * Find all of the events for a school by session
-     * @param integer $schoolId
-     * @param integer $sessionId
+     * @param int $schoolId
+     * @param int $sessionId
      * @return SchoolEvent[]
      */
     public function findSessionEventsForSchool(int $schoolId, int $sessionId): array
@@ -141,7 +141,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     /**
      * Find all of the events for a user id between two dates.
      *
-     * @param integer $id
+     * @param int $id
      * @param \DateTime $from
      * @param \DateTime $to
      *
@@ -196,7 +196,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     /**
      * Use the query builder to get a set of offering based school events.
      *
-     * @param integer $id
+     * @param int $id
      * @param \DateTime $from
      * @param \DateTime $to
      *
@@ -244,7 +244,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     /**
      * Use the query builder to get a set of ILMSession based user events.
      *
-     * @param integer $id
+     * @param int $id
      * @param \DateTime $from
      * @param \DateTime $to
      *

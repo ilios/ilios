@@ -143,7 +143,7 @@ class Competency implements CompetencyInterface
     protected $programYears;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *

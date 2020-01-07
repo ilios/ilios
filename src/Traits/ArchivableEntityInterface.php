@@ -8,12 +8,12 @@ namespace App\Traits;
 interface ArchivableEntityInterface
 {
     /**
-     * @return boolean
+     * @return bool
      */
     public function isArchived();
 
     /**
-     * @param boolean $archived
+     * @param bool $archived
      */
     public function setArchived($archived);
 }

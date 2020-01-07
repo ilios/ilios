@@ -17,12 +17,12 @@ interface MeshConceptInterface extends
     TimestampableEntityInterface
 {
     /**
-     * @param boolean $preferred
+     * @param bool $preferred
      */
     public function setPreferred($preferred);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getPreferred();
 
