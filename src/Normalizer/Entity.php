@@ -190,12 +190,10 @@ class Entity extends ObjectNormalizer
                         $exception->getMessage()
                     );
                 }
-            } else {
-                if (!array_key_exists($attribute, $exposedProperties)) {
-                    throw new InvalidInputWithSafeUserMessageException(
-                        sprintf("Extra data was sent:  '%s' is not a valid property", $attribute)
-                    );
-                }
+            } elseif (!array_key_exists($attribute, $exposedProperties)) {
+                throw new InvalidInputWithSafeUserMessageException(
+                    sprintf("Extra data was sent:  '%s' is not a valid property", $attribute)
+                );
             }
         }
 
@@ -253,31 +251,29 @@ class Entity extends ObjectNormalizer
                     }
                     $value = $result;
                 }
-            } else {
-                if (is_array($value) && !empty($value)) {
-                    $result = $repository->findBy(['id' => $value]);
-                    if (count($result) !== count($value)) {
-                        $identifier = $metaData->getSingleIdentifierFieldName();
-                        $method = 'get' . ucfirst($identifier);
-                        $foundIds = array_map(function ($entity) use ($method) {
-                            return $entity->$method();
-                        }, $result);
-                        $missingIds = array_filter($value, function ($id) use ($foundIds) {
-                            return  !in_array($id, $foundIds);
-                        });
-                        throw new InvalidInputWithSafeUserMessageException(
-                            sprintf(
-                                "Unable to resolve %s[%s] for %s",
-                                $identifier,
-                                implode(',', $missingIds),
-                                $property->getName()
-                            )
-                        );
-                    }
-                    $value = $result;
-                } else {
-                    $value = [];
+            } elseif (is_array($value) && !empty($value)) {
+                $result = $repository->findBy(['id' => $value]);
+                if (count($result) !== count($value)) {
+                    $identifier = $metaData->getSingleIdentifierFieldName();
+                    $method = 'get' . ucfirst($identifier);
+                    $foundIds = array_map(function ($entity) use ($method) {
+                        return $entity->$method();
+                    }, $result);
+                    $missingIds = array_filter($value, function ($id) use ($foundIds) {
+                        return  !in_array($id, $foundIds);
+                    });
+                    throw new InvalidInputWithSafeUserMessageException(
+                        sprintf(
+                            "Unable to resolve %s[%s] for %s",
+                            $identifier,
+                            implode(',', $missingIds),
+                            $property->getName()
+                        )
+                    );
                 }
+                $value = $result;
+            } else {
+                $value = [];
             }
         }
 

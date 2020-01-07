@@ -473,14 +473,12 @@ class CurriculumInventoryReportManager extends BaseManager
 
             if (!array_key_exists($row['event_id'], $rhett)) {
                 $rhett[$row['event_id']] = $row;
-            } else {
-                if (in_array($row['event_id'], $sessionIds)) {
-                    if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
-                        $rhett[$row['event_id']]['duration'] = $row['duration'];
-                    }
-                } else {
-                    $rhett[$row['event_id']]['duration'] += $row['duration'];
+            } elseif (in_array($row['event_id'], $sessionIds)) {
+                if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
+                    $rhett[$row['event_id']]['duration'] = $row['duration'];
                 }
+            } else {
+                $rhett[$row['event_id']]['duration'] += $row['duration'];
             }
         }
 
@@ -553,14 +551,12 @@ class CurriculumInventoryReportManager extends BaseManager
 
             if (!array_key_exists($row['event_id'], $rhett)) {
                 $rhett[$row['event_id']] = $row;
-            } else {
-                if (in_array($row['event_id'], $sessionIds)) {
-                    if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
-                        $rhett[$row['event_id']]['duration'] = $row['duration'];
-                    }
-                } else {
-                    $rhett[$row['event_id']]['duration'] += $row['duration'];
+            } elseif (in_array($row['event_id'], $sessionIds)) {
+                if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
+                    $rhett[$row['event_id']]['duration'] = $row['duration'];
                 }
+            } else {
+                $rhett[$row['event_id']]['duration'] += $row['duration'];
             }
         }
 
