@@ -11,9 +11,9 @@ use DateInterval;
 
 class JsonWebTokenManager
 {
-    const PREPEND_KEY = 'ilios.jwt.key.';
-    const TOKEN_ISS = 'ilios';
-    const TOKEN_AUD = 'ilios';
+    public const PREPEND_KEY = 'ilios.jwt.key.';
+    private const TOKEN_ISS = 'ilios';
+    private const TOKEN_AUD = 'ilios';
     
     /**
      * @var string

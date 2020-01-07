@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class CrossingGuard
 {
-    const GUARD = 'crossing-guard-enabled.lock';
+    public const GUARD = 'crossing-guard-enabled.lock';
 
     protected $fs;
 

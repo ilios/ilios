@@ -16,7 +16,7 @@ use Twig\Environment;
 
 class IndexController extends AbstractController
 {
-    const DEFAULT_TEMPLATE_NAME = 'index/webindex.html.twig';
+    private const DEFAULT_TEMPLATE_NAME = 'index/webindex.html.twig';
 
     /**
      * @var Filesystem

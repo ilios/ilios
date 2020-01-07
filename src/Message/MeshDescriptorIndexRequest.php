@@ -7,7 +7,7 @@ use InvalidArgumentException;
 class MeshDescriptorIndexRequest
 {
     private $descriptorIds;
-    const MAX_DESCRIPTORS = 250;
+    public const MAX_DESCRIPTORS = 250;
 
     /**
      * @param int[] $descriptorIds

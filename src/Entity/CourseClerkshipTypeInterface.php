@@ -20,13 +20,13 @@ interface CourseClerkshipTypeInterface extends
     /**
      * @var int
      */
-    const BLOCK = 1;
+    public const BLOCK = 1;
     /**
      * @var int
      */
-    const LONGITUDINAL = 2;
+    public const LONGITUDINAL = 2;
     /**
      * @var int
      */
-    const INTEGRATED = 3;
+    public const INTEGRATED = 3;
 }

@@ -26,7 +26,7 @@ class SendChangeAlertsCommand extends Command
     /**
      * @var string
      */
-    const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
+    private const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
 
     /**
      * @var AlertManager

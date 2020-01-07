@@ -25,8 +25,8 @@ class UpdateFrontendCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:update-frontend';
-    const TEST_API_VERSION = '33.14-test';
+    private const COMMAND_NAME = 'ilios:update-frontend';
+    private const TEST_API_VERSION = '33.14-test';
 
     protected $commandTester;
     protected $fetch;

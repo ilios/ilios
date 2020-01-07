@@ -15,8 +15,8 @@ use App\Service\CrossingGuard;
  */
 class CrossingGuardCommand extends Command
 {
-    const ENABLED_MESSAGE = 'Crossing Guard is down - Requests will be held until further notice.';
-    const DISABLED_MESSAGE = 'Crossing Guard is up - Requests are flowing normally.';
+    public const ENABLED_MESSAGE = 'Crossing Guard is down - Requests will be held until further notice.';
+    public const DISABLED_MESSAGE = 'Crossing Guard is up - Requests are flowing normally.';
     /**
      * @var CrossingGuard
      */

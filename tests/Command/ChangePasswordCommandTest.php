@@ -25,7 +25,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:change-password';
+    private const COMMAND_NAME = 'ilios:change-password';
 
     /** @var CommandTester */
     protected $commandTester;

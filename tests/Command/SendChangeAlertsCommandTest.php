@@ -42,7 +42,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:send-change-alerts';
+    private const COMMAND_NAME = 'ilios:send-change-alerts';
 
     /**
      * @var m\MockInterface

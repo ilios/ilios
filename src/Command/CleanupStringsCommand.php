@@ -62,7 +62,7 @@ class CleanupStringsCommand extends Command
     /**
      * @var integer where to limit each query for memory management
      */
-    const QUERY_LIMIT = 500;
+    private const QUERY_LIMIT = 500;
 
     public function __construct(
         \HTMLPurifier $purifier,

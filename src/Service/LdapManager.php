@@ -11,7 +11,7 @@ class LdapManager
      * last request we should reset the ldap connection
      * @var int
      */
-    const RESET_TIMEOUT = 120;
+    private const RESET_TIMEOUT = 120;
 
     /**
      * @var Config

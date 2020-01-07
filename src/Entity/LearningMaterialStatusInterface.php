@@ -20,15 +20,15 @@ interface LearningMaterialStatusInterface extends
     /**
      * @var int
      */
-    const IN_DRAFT = 1;
+    public const IN_DRAFT = 1;
 
     /**
      * @var int
      */
-    const FINALIZED  = 2;
+    public const FINALIZED  = 2;
 
     /**
      * @var int
      */
-    const REVISED = 3;
+    public const REVISED = 3;
 }

@@ -10,42 +10,42 @@ abstract class AbstractVoter extends SymfonyVoter
     /**
      * @var string
      */
-    const VIEW = 'view';
+    public const VIEW = 'view';
 
     /**
      * @var string
      */
-    const EDIT = 'edit';
+    public const EDIT = 'edit';
 
     /**
      * @var string
      */
-    const DELETE = 'delete';
+    public const DELETE = 'delete';
 
     /**
      * @var string
      */
-    const CREATE = 'create';
+    public const CREATE = 'create';
 
     /**
      * @var string
      */
-    const UNLOCK = 'unlock';
+    public const UNLOCK = 'unlock';
 
     /**
      * @var string
      */
-    const LOCK = 'lock';
+    public const LOCK = 'lock';
 
     /**
      * @var string
      */
-    const ARCHIVE = 'archive';
+    public const ARCHIVE = 'archive';
 
     /**
      * @var string
      */
-    const ROLLOVER = 'rollover';
+    public const ROLLOVER = 'rollover';
 
     /**
      * @var PermissionChecker

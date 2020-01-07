@@ -26,15 +26,15 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     /**
      * @var string
      */
-    const FRONTEND_DIRECTORY = '/ilios/frontend/';
-    const ARCHIVE_FILE_NAME = 'frontend.tar.gz';
-    const UNPACKED_DIRECTORY = '/deploy-dist/';
+    public const FRONTEND_DIRECTORY = '/ilios/frontend/';
+    public const ARCHIVE_FILE_NAME = 'frontend.tar.gz';
+    public const UNPACKED_DIRECTORY = '/deploy-dist/';
 
-    const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
-    const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
+    public const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
+    public const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
 
-    const STAGING = 'stage';
-    const PRODUCTION = 'prod';
+    private const STAGING = 'stage';
+    private const PRODUCTION = 'prod';
 
     /**
      * @var Fetch

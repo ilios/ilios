@@ -17,7 +17,7 @@ class CrossingGuardCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:crossing-guard';
+    private const COMMAND_NAME = 'ilios:crossing-guard';
 
     protected $crossingGuard;
     protected $commandTester;

@@ -17,7 +17,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:invalidate-user-tokens';
+    private const COMMAND_NAME = 'ilios:invalidate-user-tokens';
 
     protected $userManager;
     protected $authenticationManager;

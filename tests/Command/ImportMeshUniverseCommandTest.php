@@ -46,7 +46,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @var string
      */
-    const COMMAND_NAME = 'ilios:import-mesh-universe';
+    private const COMMAND_NAME = 'ilios:import-mesh-universe';
 
     /**
      * @inheritdoc

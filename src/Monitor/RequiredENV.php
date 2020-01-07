@@ -9,14 +9,14 @@ use ZendDiagnostics\Result\Success;
 
 class RequiredENV implements CheckInterface
 {
-    const REQUIRED_ENV = [
+    private const REQUIRED_ENV = [
         'ILIOS_DATABASE_URL',
         'ILIOS_DATABASE_MYSQL_VERSION',
         'ILIOS_MAILER_URL',
         'ILIOS_LOCALE',
         'ILIOS_SECRET'
     ];
-    const INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
+    private const INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
 
     /**
      * Perform the actual check and return a ResultInterface

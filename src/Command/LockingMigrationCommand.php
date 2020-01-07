@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class LockingMigrationCommand extends MigrationsMigrateDoctrineCommand
 {
-    const LOCK_NAME = 'database-migration.lock';
+    private const LOCK_NAME = 'database-migration.lock';
 
     /**
      * @var IliosFileSystem

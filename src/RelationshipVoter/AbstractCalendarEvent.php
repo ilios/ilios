@@ -10,7 +10,7 @@ abstract class AbstractCalendarEvent extends AbstractVoter
     /**
      * @var string
      */
-    const VIEW_DRAFT_CONTENTS = 'view_draft_contents';
+    public const VIEW_DRAFT_CONTENTS = 'view_draft_contents';
 
     /**
      * Checks if the given user is associated with the given event

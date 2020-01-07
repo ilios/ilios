@@ -18,7 +18,7 @@ class ListRootUsersCommand extends Command
     /**
      * @var string
      */
-    const COMMAND_NAME = 'ilios:list-root-users';
+    public const COMMAND_NAME = 'ilios:list-root-users';
 
     /**
      * @var UserManager

@@ -22,7 +22,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:fix-mime-types';
+    private const COMMAND_NAME = 'ilios:fix-mime-types';
 
     protected $iliosFileSystem;
     protected $temporaryFileSystem;

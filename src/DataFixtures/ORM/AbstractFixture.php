@@ -21,7 +21,7 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
     /**
      * @var int number of insert statements per batch.
      */
-    const BATCH_SIZE = 200;
+    protected const BATCH_SIZE = 200;
     /**
      * @var string
      * Doubles as identifier for this fixture's data file and entity references.

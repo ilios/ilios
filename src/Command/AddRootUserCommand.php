@@ -19,7 +19,7 @@ class AddRootUserCommand extends Command
     /**
      * @var string
      */
-    const COMMAND_NAME = 'ilios:add-root-user';
+    public const COMMAND_NAME = 'ilios:add-root-user';
 
     /**
      * @var UserManager

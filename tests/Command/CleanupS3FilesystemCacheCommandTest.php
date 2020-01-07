@@ -21,8 +21,8 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:cleanup-s3-cache';
-    const CACHE_DIR = __DIR__ . '/test';
+    private const COMMAND_NAME = 'ilios:cleanup-s3-cache';
+    private const CACHE_DIR = __DIR__ . '/test';
 
     /** @var CommandTester */
     protected $commandTester;

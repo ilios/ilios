@@ -14,7 +14,7 @@ use Twig\Environment;
 
 class SwaggerDocBuilder
 {
-    const CACHE_NAME = 'swagger-doc-builder.yaml';
+    private const CACHE_NAME = 'swagger-doc-builder.yaml';
     /**
      * @var string
      */

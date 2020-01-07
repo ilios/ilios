@@ -22,19 +22,19 @@ class IliosFileSystem
      * learning_material directory
      * @var string
      */
-    const HASHED_LM_DIRECTORY = 'learning_materials/lm';
+    public const HASHED_LM_DIRECTORY = 'learning_materials/lm';
 
     /**
      * Lock files are stored in this directory
      * @var string
      */
-    const LOCK_FILE_DIRECTORY = 'locks';
+    public const LOCK_FILE_DIRECTORY = 'locks';
 
     /**
      * Testing files are stored in this directory
      * @var string
      */
-    const TEST_FILE_ROOT = 'crud_tests';
+    public const TEST_FILE_ROOT = 'crud_tests';
 
     /**
      * A filesystem object to work with

@@ -25,7 +25,7 @@ class AddUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:add-user';
+    private const COMMAND_NAME = 'ilios:add-user';
 
     protected $userManager;
     protected $authenticationManager;

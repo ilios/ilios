@@ -21,7 +21,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:set-school-config-value';
+    private const COMMAND_NAME = 'ilios:set-school-config-value';
 
     protected $commandTester;
     protected $schoolManager;

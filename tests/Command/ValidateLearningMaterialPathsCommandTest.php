@@ -18,7 +18,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:validate-learning-materials';
+    private const COMMAND_NAME = 'ilios:validate-learning-materials';
 
     protected $iliosFileSystem;
     protected $learningMaterialManager;

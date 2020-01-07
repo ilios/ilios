@@ -18,7 +18,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:rollover-ci-report';
+    private const COMMAND_NAME = 'ilios:rollover-ci-report';
 
     /**
      * @var m\MockInterface

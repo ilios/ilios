@@ -7,7 +7,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class MigrateParameters
 {
-    const SYMFONY_KEYS = [
+    private const SYMFONY_KEYS = [
         'database_driver',
         'database_host',
         'database_port',

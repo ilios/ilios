@@ -35,7 +35,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:send-teaching-reminders';
+    private const COMMAND_NAME = 'ilios:send-teaching-reminders';
 
     /**
      * @var OfferingManager

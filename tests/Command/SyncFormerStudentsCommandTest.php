@@ -21,7 +21,7 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:sync-former-students';
+    private const COMMAND_NAME = 'ilios:sync-former-students';
 
     protected $userManager;
     protected $userRoleManager;

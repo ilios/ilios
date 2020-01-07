@@ -19,7 +19,7 @@ class RemoveRootUserCommand extends Command
     /**
      * @var string
      */
-    const COMMAND_NAME = 'ilios:remove-root-user';
+    public const COMMAND_NAME = 'ilios:remove-root-user';
 
     /**
      * @var UserManager

@@ -21,7 +21,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:change-username';
+    private const COMMAND_NAME = 'ilios:change-username';
 
     /** @var CommandTester */
     protected $commandTester;

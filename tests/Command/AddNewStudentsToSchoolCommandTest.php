@@ -21,7 +21,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:add-students';
+    private const COMMAND_NAME = 'ilios:add-students';
 
     protected $userManager;
     protected $userRoleManager;

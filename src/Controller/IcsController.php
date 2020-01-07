@@ -18,8 +18,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class IcsController extends AbstractController
 {
-    const LOOK_BACK = '-4 months';
-    const LOOK_FORWARD = '+2 months';
+    private const LOOK_BACK = '-4 months';
+    private const LOOK_FORWARD = '+2 months';
 
     /**
      * @var RouterInterface

@@ -10,7 +10,7 @@ use function Stringy\create as s;
 
 class Config
 {
-    const BOOLEAN_NAMES = [
+    private const BOOLEAN_NAMES = [
         'keep_frontend_updated',
         'cas_authentication_verify_ssl',
         'enable_tracking',

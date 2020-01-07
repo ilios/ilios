@@ -16,7 +16,7 @@ use App\Tests\ReadWriteEndpointTest;
 class LearningMaterialTest extends ReadWriteEndpointTest
 {
 
-    const UNBLANKED_ATTRIBUTES = [
+    private const UNBLANKED_ATTRIBUTES = [
         'id',
         'title',
         'uploadDate',

@@ -20,7 +20,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:sync-users';
+    private const COMMAND_NAME = 'ilios:sync-users';
 
     /**
      * @var m\Mock

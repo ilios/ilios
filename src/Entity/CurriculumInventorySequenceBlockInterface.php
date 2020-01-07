@@ -22,30 +22,30 @@ interface CurriculumInventorySequenceBlockInterface extends
     /**
      * @var int
      */
-    const REQUIRED = 1;
+    public const REQUIRED = 1;
     /**
      * @var int
      */
-    const OPTIONAL = 2;
+    public const OPTIONAL = 2;
     /**
      * @var int
      */
-    const REQUIRED_IN_TRACK = 3;
+    public const REQUIRED_IN_TRACK = 3;
 
     /**
      * @var int
      */
-    const ORDERED = 1;
+    public const ORDERED = 1;
 
     /**
      * @var int
      */
-    const UNORDERED = 2;
+    public const UNORDERED = 2;
 
     /**
      * @var int
      */
-    const PARALLEL = 3;
+    public const PARALLEL = 3;
 
     /**
      * @param int $required

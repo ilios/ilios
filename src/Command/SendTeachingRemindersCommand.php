@@ -25,12 +25,12 @@ class SendTeachingRemindersCommand extends Command
     /**
      * @var string
      */
-    const DEFAULT_TEMPLATE_NAME = 'teachingreminder.text.twig';
+    public const DEFAULT_TEMPLATE_NAME = 'teachingreminder.text.twig';
 
     /**
      * @var string
      */
-    const DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
+    public const DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
 
     /**
      * @var OfferingManager

@@ -15,7 +15,7 @@ use League\Flysystem\FilesystemInterface;
 
 class FilesystemFactory
 {
-    const LOCAL_S3_CACHE_DIR = '/ilios/s3-cache';
+    private const LOCAL_S3_CACHE_DIR = '/ilios/s3-cache';
 
     /**
      * @var Config
