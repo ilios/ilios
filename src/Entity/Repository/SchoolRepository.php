@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use App\Entity\Session;
@@ -18,6 +19,7 @@ use App\Traits\CalendarEventRepository;
 class SchoolRepository extends EntityRepository implements DTORepositoryInterface
 {
     use CalendarEventRepository;
+
     /**
      * Custom findBy so we can filter by related entities
      *
@@ -114,7 +116,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
      * @param integer $sessionId
      * @return SchoolEvent[]
      */
-    public function findSessionEventsForSchool(int $schoolId, int $sessionId) : array
+    public function findSessionEventsForSchool(int $schoolId, int $sessionId): array
     {
         $qb = $this->_em->createQueryBuilder();
         $dates = $qb->select('o.startDate, o.endDate')
@@ -601,7 +603,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('s.'.$sort, $order);
+                $qb->addOrderBy('s.' . $sort, $order);
             }
         }
 

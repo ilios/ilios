@@ -57,7 +57,7 @@ class SearchControllerTest extends TestCase
         );
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->controller);
         unset($this->mockSearch);

@@ -141,9 +141,9 @@ class CurriculumInventoryReportDecorator
         $this->year = $report->getYear();
         $this->startDate = $report->getStartDate();
         $this->endDate = $report->getEndDate();
-        $this->export = $report->getExport()?(string) $report->getExport():null;
-        $this->sequence = $report->getSequence()?(string) $report->getSequence():null;
-        $this->program = $report->getProgram()?(string) $report->getProgram():null;
+        $this->export = $report->getExport() ? (string) $report->getExport() : null;
+        $this->sequence = $report->getSequence() ? (string) $report->getSequence() : null;
+        $this->program = $report->getProgram() ? (string) $report->getProgram() : null;
 
         $sequenceBlockIds = $report->getSequenceBlocks()
             ->map(function (CurriculumInventorySequenceBlockInterface $block) {

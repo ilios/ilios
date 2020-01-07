@@ -156,9 +156,9 @@ class IcsController extends AbstractController
 
         $lines = [
             $this->purify($type),
-            $session->isAttireRequired()?'You will need special attire':null,
-            $session->isEquipmentRequired()?'You will need special equipment':null,
-            $session->isAttendanceRequired()?'Attendance is Required':null,
+            $session->isAttireRequired() ? 'You will need special attire' : null,
+            $session->isEquipmentRequired() ? 'You will need special equipment' : null,
+            $session->isAttendanceRequired() ? 'Attendance is Required' : null,
         ];
 
         if ($session->getPrerequisites()->count()) {

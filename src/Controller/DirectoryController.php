@@ -74,8 +74,8 @@ class DirectoryController extends AbstractController
                 $results = $searchResults;
             }
         }
-        $offset = $request->query->has('offset')?$request->query->get('offset'):0;
-        $limit = $request->query->has('limit')?$request->query->get('limit'):count($results);
+        $offset = $request->query->has('offset') ? $request->query->get('offset') : 0;
+        $limit = $request->query->has('limit') ? $request->query->get('limit') : count($results);
         $results = array_slice($results, $offset, $limit);
 
         $campusIds = array_map(function ($arr) {
@@ -89,7 +89,7 @@ class DirectoryController extends AbstractController
         }
 
         $results = array_map(function ($arr) use ($usersIdsByCampusId) {
-            $arr['user'] = !empty($usersIdsByCampusId[$arr['campusId']])?$usersIdsByCampusId[$arr['campusId']]:null;
+            $arr['user'] = !empty($usersIdsByCampusId[$arr['campusId']]) ? $usersIdsByCampusId[$arr['campusId']] : null;
 
             return $arr;
         }, $results);

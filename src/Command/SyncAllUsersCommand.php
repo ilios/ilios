@@ -8,7 +8,6 @@ use App\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use App\Entity\Manager\UserManager;
 use App\Entity\Manager\AuthenticationManager;
 use App\Entity\Manager\PendingUserUpdateManager;
@@ -219,9 +218,11 @@ class SyncAllUsersCommand extends Command
                         $authentication->setUser($user);
                     }
                 }
-                if ($fixSmallThings &&
+                if (
+                    $fixSmallThings &&
                     !$duplicateAuthenticationExists &&
-                    $authentication->getUsername() != $recordArray['username']) {
+                    $authentication->getUsername() != $recordArray['username']
+                ) {
                     $update = true;
                     $output->writeln(
                         '  <comment>[I] Updating username from "' . $authentication->getUsername() .
@@ -249,7 +250,7 @@ class SyncAllUsersCommand extends Command
         $output->writeln('<info>Found ' . count($unsyncedUsers) . ' unexamined users.</info>');
 
         foreach ($unsyncedUsers as $user) {
-            $campusId = $user->getCampusId()?$user->getCampusId():'(no campusId)';
+            $campusId = $user->getCampusId() ? $user->getCampusId() : '(no campusId)';
             $output->writeln(
                 '<comment>[I] User #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' ' .
                 $user->getEmail() . ' ' . $campusId . ' ' .

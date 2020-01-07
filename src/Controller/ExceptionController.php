@@ -86,7 +86,7 @@ class ExceptionController
             $safeMessage = $exception->getMessage();
         }
 
-        $message = $this->showFullErrorMessage?$exception->getMessage():$safeMessage;
+        $message = $this->showFullErrorMessage ? $exception->getMessage() : $safeMessage;
 
         $json = json_encode([
             'code' => $code,

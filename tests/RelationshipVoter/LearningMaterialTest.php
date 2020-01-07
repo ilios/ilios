@@ -7,7 +7,6 @@ use App\RelationshipVoter\LearningMaterial as Voter;
 use App\Service\PermissionChecker;
 use App\Entity\LearningMaterial;
 use App\Entity\LearningMaterialInterface;
-
 use App\Service\Config;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;

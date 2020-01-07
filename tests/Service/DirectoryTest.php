@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Tests\Service;
 
 use App\Service\Config;
 use App\Service\LdapManager;
 use Mockery as m;
-
 use App\Service\Directory;
 use App\Tests\TestCase;
 
@@ -24,7 +24,7 @@ class DirectoryTest extends TestCase
         );
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->obj);
         unset($this->ldapManager);

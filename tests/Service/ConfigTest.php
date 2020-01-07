@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Tests\Service;
 
 use App\Entity\Manager\ApplicationConfigManager;
 use App\Service\Config;
 use Mockery as m;
 use App\Tests\TestCase;
+
 use function Stringy\create as s;
 
 /**

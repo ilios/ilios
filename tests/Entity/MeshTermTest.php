@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\MeshTerm;
@@ -20,7 +21,7 @@ class MeshTermTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new MeshTerm;
+        $this->object = new MeshTerm();
     }
 
     public function testNotBlankValidation()

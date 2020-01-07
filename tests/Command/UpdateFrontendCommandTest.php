@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\UpdateFrontendCommand;
@@ -23,6 +24,7 @@ use Exception;
 class UpdateFrontendCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     const COMMAND_NAME = 'ilios:update-frontend';
     const TEST_API_VERSION = '33.14-test';
 
@@ -73,7 +75,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         $fs = new SymfonyFileSystem();
         $fs->remove($this->fakeCacheFileDir);

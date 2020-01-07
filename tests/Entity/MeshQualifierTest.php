@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\MeshQualifier;
@@ -20,7 +21,7 @@ class MeshQualifierTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new MeshQualifier;
+        $this->object = new MeshQualifier();
     }
 
     public function testNotBlankValidation()

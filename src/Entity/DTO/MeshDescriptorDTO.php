@@ -141,7 +141,7 @@ class MeshDescriptorDTO
         $this->updatedAt = $updatedAt;
         $this->deleted = $deleted;
 
-        $this->courses= [];
+        $this->courses = [];
         $this->objectives = [];
         $this->sessions = [];
         $this->concepts = [];

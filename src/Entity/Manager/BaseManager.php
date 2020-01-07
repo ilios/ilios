@@ -51,7 +51,7 @@ class BaseManager implements ManagerInterface
      * @throws \Exception
      * @return DTORepositoryInterface
      */
-    protected function getRepository() : DTORepositoryInterface
+    protected function getRepository(): DTORepositoryInterface
     {
         if (!$this->repository) {
             $this->repository = $this->registry->getRepository($this->class);
@@ -104,7 +104,7 @@ class BaseManager implements ManagerInterface
     public function findDTOBy(array $criteria)
     {
         $results = $this->getRepository()->findDTOsBy($criteria, null, 1);
-        return empty($results)?false:$results[0];
+        return empty($results) ? false : $results[0];
     }
 
     /**

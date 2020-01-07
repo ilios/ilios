@@ -4,7 +4,6 @@ namespace App\DataFixtures\ORM;
 
 use App\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 use App\Entity\SessionType;
 use App\Entity\SessionTypeInterface;
 
@@ -53,8 +52,8 @@ class LoadSessionTypeData extends AbstractFixture implements DependentFixtureInt
         $entity->setTitle($data[1]);
         $entity->setSchool($this->getReference('school' . $data[2]));
         $entity->setCalendarColor($data[3]);
-        $entity->setAssessment((boolean) $data[4]);
-        $entity->setActive((boolean) $data[6]);
+        $entity->setAssessment((bool) $data[4]);
+        $entity->setActive((bool) $data[6]);
         if (! empty($data[5])) {
             $entity->setAssessmentOption($this->getReference('assessment_option' . $data[5]));
         }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use App\Entity\Session;
@@ -203,7 +204,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      * @param integer $sessionId
      * @return UserEvent[]
      */
-    public function findSessionEventsForUser(int $userId, int $sessionId) : array
+    public function findSessionEventsForUser(int $userId, int $sessionId): array
     {
         $qb = $this->_em->createQueryBuilder();
         $dates = $qb->select('o.startDate, o.endDate')
@@ -1437,7 +1438,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['programIds'][] = $arr['programId'];
             $rhett['programYearIds'][] = $arr['programYearId'];
             $rhett['cohortIds'][] = $arr['cohortId'];
-            $rhett['courseIds'] []= $arr['courseId'];
+            $rhett['courseIds'] [] = $arr['courseId'];
         }
 
         return $this->dedupeSubArrays($rhett);
@@ -1614,7 +1615,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     /**
      * @return array
      */
-    protected function getUserToIlmJoins() : array
+    protected function getUserToIlmJoins(): array
     {
         return [
             ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions'],

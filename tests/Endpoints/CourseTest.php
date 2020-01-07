@@ -113,7 +113,7 @@ class CourseTest extends ReadWriteEndpointTest
             'learningMaterials' => [[0, 1, 3], ['learningMaterials' => [1, 3]]],
             'sessions' => [[1], ['sessions' => [3]]],
             'ancestor' => [[3], ['ancestor' => 3]],
-            'ancestors' => [[3], ['ancestors' =>[3]]],
+            'ancestors' => [[3], ['ancestors' => [3]]],
             'descendants' => [[0], ['descendants' => [1]], $skipped = true],
             'programs' => [[3, 4], ['programs' => [2]]],
             'instructors' => [[0, 1, 3], ['instructors' => [1, 2]]],

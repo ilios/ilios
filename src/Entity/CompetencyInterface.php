@@ -4,10 +4,8 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use App\Traits\ActivatableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-
 use App\Entity\AamcPcrsInterface;
 use App\Entity\SchoolInterface;
 use App\Entity\ProgramYearInterface;

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\AamcPcrs;
@@ -20,7 +21,7 @@ class AamcPcrsTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new AamcPcrs;
+        $this->object = new AamcPcrs();
     }
 
     public function testNotBlankValidation()

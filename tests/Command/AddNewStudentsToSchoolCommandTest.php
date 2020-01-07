@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\AddNewStudentsToSchoolCommand;
@@ -10,7 +11,6 @@ use App\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-
 use Mockery as m;
 
 /**
@@ -20,6 +20,7 @@ use Mockery as m;
 class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     const COMMAND_NAME = 'ilios:add-students';
 
     protected $userManager;
@@ -56,7 +57,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->userManager);
         unset($this->userRoleManager);

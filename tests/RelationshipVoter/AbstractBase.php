@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
@@ -19,7 +20,7 @@ class AbstractBase extends TestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->voter);
         unset($this->permissionChecker);

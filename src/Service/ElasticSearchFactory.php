@@ -7,7 +7,7 @@ use Elasticsearch\ClientBuilder;
 
 class ElasticSearchFactory
 {
-    public static function getClient(Config $config) : ?Client
+    public static function getClient(Config $config): ?Client
     {
         $elasticSearchHosts = $config->get('elasticsearch_hosts');
         if ($elasticSearchHosts) {

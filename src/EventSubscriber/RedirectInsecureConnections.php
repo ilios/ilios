@@ -1,4 +1,5 @@
 <?php
+
 namespace App\EventSubscriber;
 
 use App\Service\Config;

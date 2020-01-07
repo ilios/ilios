@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\SyncFormerStudentsCommand;
@@ -9,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Mockery as m;
 
 /**
@@ -20,6 +20,7 @@ use Mockery as m;
 class SyncFormerStudentsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     const COMMAND_NAME = 'ilios:sync-former-students';
 
     protected $userManager;
@@ -46,7 +47,7 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->userManager);
         unset($this->userRoleManager);

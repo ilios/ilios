@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CourseInterface;
@@ -22,7 +23,7 @@ class ObjectiveTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new Objective;
+        $this->object = new Objective();
     }
 
     public function testNotBlankValidation()

@@ -29,8 +29,10 @@ class ProgramYearStewardManager extends BaseManager
         $stewards = $this->findBy($criteria);
         foreach ($stewards as $steward) {
             $stewardingSchool = $steward->getSchool();
-            if ($stewardingSchool instanceof SchoolInterface
-                && $schoolId === $stewardingSchool->getId()) {
+            if (
+                $stewardingSchool instanceof SchoolInterface
+                && $schoolId === $stewardingSchool->getId()
+            ) {
                 return true;
             }
         }

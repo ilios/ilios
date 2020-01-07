@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CourseClerkshipType;
@@ -20,7 +21,7 @@ class CourseClerkshipTypeTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new CourseClerkshipType;
+        $this->object = new CourseClerkshipType();
     }
 
     public function testNotBlankValidation()

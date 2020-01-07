@@ -1,4 +1,5 @@
 <?php
+
 namespace App\MessageHandler;
 
 use App\Entity\Manager\CourseManager;

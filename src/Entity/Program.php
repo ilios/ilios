@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use App\Traits\DirectorsEntity;
 use App\Traits\PublishableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Annotation as IS;
-
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;

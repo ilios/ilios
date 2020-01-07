@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Service;
 
 use App\Classes\SessionUserInterface;
@@ -11,7 +12,6 @@ use App\Service\Config;
 use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
-
 use App\Service\LdapAuthentication;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -44,7 +44,7 @@ class LdapAuthenticationTest extends TestCase
         );
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->obj);
         unset($this->authManager);

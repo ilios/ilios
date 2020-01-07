@@ -61,7 +61,7 @@ class LoadUserData extends AbstractFixture implements
                 $entity->setPrimaryCohort($this->getReference('cohorts' . $arr['primaryCohort']));
             }
             foreach ($arr['programYears'] as $id) {
-                $entity->addProgramYear($this->getReference('programYears'.$id));
+                $entity->addProgramYear($this->getReference('programYears' . $id));
             }
             foreach ($arr['directedSchools'] as $id) {
                 $entity->addDirectedSchool($this->getReference('schools' . $id));

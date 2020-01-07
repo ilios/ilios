@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\SetupAuthenticationCommand;
@@ -7,7 +8,6 @@ use App\Entity\Manager\ApplicationConfigManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-
 use Mockery as m;
 
 /**
@@ -17,6 +17,7 @@ use Mockery as m;
 class SetupAuthenticationCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     const COMMAND_NAME = 'ilios:setup-authentication';
 
     protected $applicationConfigManager;
@@ -48,7 +49,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
     /**
      * @inheritdoc
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->applicationConfigManager);
         unset($this->questionHelper);

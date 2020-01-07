@@ -32,7 +32,7 @@ class LoadCurriculumInventoryExportData extends AbstractFixture implements
             $entity = new CurriculumInventoryExport();
             $entity->setId($arr['id']);
             $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
-            $entity->setCreatedBy($this->getReference('users' .$arr['createdBy']));
+            $entity->setCreatedBy($this->getReference('users' . $arr['createdBy']));
             $entity->setDocument($arr['document']);
             $manager->persist($entity);
             $this->addReference('curriculumInventoryExports' . $arr['report'], $entity);

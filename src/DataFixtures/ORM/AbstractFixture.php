@@ -6,7 +6,6 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use App\Service\DataimportFileLocator;
 use App\Traits\IdentifiableEntityInterface;
 

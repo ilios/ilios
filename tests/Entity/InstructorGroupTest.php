@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\InstructorGroup;
@@ -20,7 +21,7 @@ class InstructorGroupTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new InstructorGroup;
+        $this->object = new InstructorGroup();
     }
 
     public function testNotBlankValidation()

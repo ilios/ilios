@@ -129,7 +129,8 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
         if ($skipped) {
             $this->markTestSkipped();
         }
-        if (null != $key &&
+        if (
+            null != $key &&
             null != $id &&
             null != $value
         ) {

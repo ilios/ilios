@@ -148,7 +148,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function performsNonLearnerFunction():bool
+    public function performsNonLearnerFunction(): bool
     {
         return
             $this->isRoot() ||
@@ -334,7 +334,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isAdministeringCourse(int $courseId) : bool
+    public function isAdministeringCourse(int $courseId): bool
     {
         return in_array($courseId, $this->getAdministeredCourseIds());
     }
@@ -343,7 +343,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isDirectingSchool(int $schoolId) : bool
+    public function isDirectingSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getDirectedSchoolIds());
     }
@@ -352,7 +352,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isAdministeringSchool(int $schoolId) : bool
+    public function isAdministeringSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getAdministeredSchoolIds());
     }
@@ -361,7 +361,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isDirectingCourseInSchool(int $schoolId) : bool
+    public function isDirectingCourseInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getDirectedCourseSchoolIds());
     }
@@ -370,7 +370,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isAdministeringCourseInSchool(int $schoolId) : bool
+    public function isAdministeringCourseInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getAdministeredCourseSchoolIds());
     }
@@ -379,7 +379,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isAdministeringSessionInSchool(int $schoolId) : bool
+    public function isAdministeringSessionInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getAdministeredSessionSchoolIds());
     }
@@ -388,7 +388,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isAdministeringSessionInCourse(int $courseId) : bool
+    public function isAdministeringSessionInCourse(int $courseId): bool
     {
         return in_array($courseId, $this->getAdministeredSessionCourseIds());
     }
@@ -397,7 +397,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isTeachingCourseInSchool(int $schoolId) : bool
+    public function isTeachingCourseInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getTaughtCourseSchoolIds());
     }
@@ -406,7 +406,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isTeachingCourse(int $courseId) : bool
+    public function isTeachingCourse(int $courseId): bool
     {
         return in_array($courseId, $this->getTaughtCourseIds());
     }
@@ -415,7 +415,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isAdministeringSession(int $sessionId) : bool
+    public function isAdministeringSession(int $sessionId): bool
     {
         return in_array($sessionId, $this->getAdministeredSessionIds());
     }
@@ -424,7 +424,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isDirectingProgram(int $programId) : bool
+    public function isDirectingProgram(int $programId): bool
     {
         return in_array($programId, $this->getDirectedProgramIds());
     }
@@ -433,7 +433,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isDirectingProgramInSchool(int $schoolId) : bool
+    public function isDirectingProgramInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getDirectedProgramSchoolIds());
     }
@@ -442,7 +442,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isDirectingProgramYearInProgram(int $programId) : bool
+    public function isDirectingProgramYearInProgram(int $programId): bool
     {
         return in_array($programId, $this->getDirectedProgramYearProgramIds());
     }
@@ -451,7 +451,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isDirectingProgramYear(int $programYearId) : bool
+    public function isDirectingProgramYear(int $programYearId): bool
     {
         return in_array($programYearId, $this->getDirectedProgramYearIds());
     }
@@ -460,7 +460,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isTeachingSession(int $sessionId) : bool
+    public function isTeachingSession(int $sessionId): bool
     {
         return in_array($sessionId, $this->getInstructedSessionIds());
     }
@@ -469,7 +469,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isInstructingOffering(int $offeringId) : bool
+    public function isInstructingOffering(int $offeringId): bool
     {
         return in_array($offeringId, $this->getInstructedOfferingIds());
     }
@@ -478,7 +478,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isInstructingIlm(int $ilmId) : bool
+    public function isInstructingIlm(int $ilmId): bool
     {
         return in_array($ilmId, $this->getInstructedIlmIds());
     }
@@ -511,24 +511,34 @@ class SessionUser implements SessionUserInterface
         if (in_array(UserRoles::COURSE_DIRECTOR, $roles) && $this->isDirectingCourseInSchool($schoolId)) {
             $rhett[] = UserRoles::COURSE_DIRECTOR;
         }
-        if (in_array(UserRoles::COURSE_ADMINISTRATOR, $roles) &&
-            $this->isAdministeringCourseInSchool($schoolId)) {
+        if (
+            in_array(UserRoles::COURSE_ADMINISTRATOR, $roles) &&
+            $this->isAdministeringCourseInSchool($schoolId)
+        ) {
             $rhett[] = UserRoles::COURSE_ADMINISTRATOR;
         }
-        if (in_array(UserRoles::SESSION_ADMINISTRATOR, $roles) &&
-            $this->isAdministeringSessionInSchool($schoolId)) {
+        if (
+            in_array(UserRoles::SESSION_ADMINISTRATOR, $roles) &&
+            $this->isAdministeringSessionInSchool($schoolId)
+        ) {
             $rhett[] = UserRoles::SESSION_ADMINISTRATOR;
         }
-        if (in_array(UserRoles::COURSE_INSTRUCTOR, $roles) &&
-            $this->isTeachingCourseInSchool($schoolId)) {
+        if (
+            in_array(UserRoles::COURSE_INSTRUCTOR, $roles) &&
+            $this->isTeachingCourseInSchool($schoolId)
+        ) {
             $rhett[] = UserRoles::COURSE_INSTRUCTOR;
         }
-        if (in_array(UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR, $roles) &&
-            $this->isAdministeringCurriculumInventoryReportInSchool($schoolId)) {
+        if (
+            in_array(UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR, $roles) &&
+            $this->isAdministeringCurriculumInventoryReportInSchool($schoolId)
+        ) {
             $rhett[] = UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR;
         }
-        if (in_array(UserRoles::PROGRAM_DIRECTOR, $roles) &&
-            $this->isDirectingProgramInSchool($schoolId)) {
+        if (
+            in_array(UserRoles::PROGRAM_DIRECTOR, $roles) &&
+            $this->isDirectingProgramInSchool($schoolId)
+        ) {
             $rhett[] = UserRoles::PROGRAM_DIRECTOR;
         }
 
@@ -556,8 +566,10 @@ class SessionUser implements SessionUserInterface
         if (in_array(UserRoles::COURSE_ADMINISTRATOR, $roles) && $this->isAdministeringCourse($courseId)) {
             $rhett[] = UserRoles::COURSE_ADMINISTRATOR;
         }
-        if (in_array(UserRoles::SESSION_ADMINISTRATOR, $roles) &&
-            $this->isAdministeringSessionInCourse($courseId)) {
+        if (
+            in_array(UserRoles::SESSION_ADMINISTRATOR, $roles) &&
+            $this->isAdministeringSessionInCourse($courseId)
+        ) {
             $rhett[] = UserRoles::SESSION_ADMINISTRATOR;
         }
         if (in_array(UserRoles::COURSE_INSTRUCTOR, $roles) && $this->isTeachingCourse($courseId)) {
@@ -600,8 +612,10 @@ class SessionUser implements SessionUserInterface
         if (in_array(UserRoles::PROGRAM_DIRECTOR, $roles) && $this->isDirectingProgram($programId)) {
             $rhett[] = UserRoles::PROGRAM_DIRECTOR;
         }
-        if (in_array(UserRoles::PROGRAM_YEAR_DIRECTOR, $roles) &&
-            $this->isDirectingProgramYearInProgram($programId)) {
+        if (
+            in_array(UserRoles::PROGRAM_YEAR_DIRECTOR, $roles) &&
+            $this->isDirectingProgramYearInProgram($programId)
+        ) {
             $rhett[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
         }
 
@@ -612,12 +626,14 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array
+    public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]): array
     {
         $rhett = [];
 
-        if (in_array(UserRoles::PROGRAM_YEAR_DIRECTOR, $roles) &&
-            $this->isDirectingProgramYear($programYearId)) {
+        if (
+            in_array(UserRoles::PROGRAM_YEAR_DIRECTOR, $roles) &&
+            $this->isDirectingProgramYear($programYearId)
+        ) {
             $rhett[] = UserRoles::PROGRAM_YEAR_DIRECTOR;
         }
 
@@ -628,7 +644,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId) : bool
+    public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getAdministeredCurriculumInventoryReportSchoolIds());
     }
@@ -652,8 +668,10 @@ class SessionUser implements SessionUserInterface
     ): array {
         $rhett = [];
 
-        if (in_array(UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR, $roles) &&
-            $this->isAdministeringCurriculumInventoryReport($curriculumInventoryReportId)) {
+        if (
+            in_array(UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR, $roles) &&
+            $this->isAdministeringCurriculumInventoryReport($curriculumInventoryReportId)
+        ) {
             $rhett[] = UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR;
         }
 

@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
-
 use App\Service\Filesystem;
 use \Exception;
 use \SplFileObject;
@@ -140,7 +139,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     {
         $stagingBuild = $input->getOption('staging-build');
         $versionOverride = $input->getOption('at-version');
-        $environment = $stagingBuild?self::STAGING:self::PRODUCTION;
+        $environment = $stagingBuild ? self::STAGING : self::PRODUCTION;
 
         try {
             $message = '';
@@ -199,7 +198,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         if ($environment === self::STAGING) {
             $url = self::STAGING_CDN_ASSET_DOMAIN;
         }
-        $archiveDir = $environment === 'prod'? $this->productionTemporaryFileStore : $this->stagingTemporaryFileStore;
+        $archiveDir = $environment === 'prod' ? $this->productionTemporaryFileStore : $this->stagingTemporaryFileStore;
         $versionPath = $versionOverride ? $versionOverride : 'active';
         $parts = [
             $archiveDir,
@@ -209,7 +208,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         ];
         $archivePath = join(DIRECTORY_SEPARATOR, $parts);
 
-        $file = is_readable($archivePath) ? new SplFileObject($archivePath, "r"): null;
+        $file = is_readable($archivePath) ? new SplFileObject($archivePath, "r") : null;
         $string = $this->fetch->get($url . $fileName, $file);
 
         $this->fs->dumpFile($archivePath, $string);

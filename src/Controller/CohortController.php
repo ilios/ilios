@@ -18,7 +18,7 @@ class CohortController extends ApiController
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);
-        $entity = $manager->findOneBy(['id'=> $id]);
+        $entity = $manager->findOneBy(['id' => $id]);
 
         if (!$entity) {
             $this->fourTenAction();

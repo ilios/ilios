@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\CompetenciesEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\DescribableEntity;
 use App\Entity\CompetencyInterface;
 use App\Traits\IdentifiableEntity;

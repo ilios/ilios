@@ -12,7 +12,6 @@ use App\Traits\SequenceBlocksEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Annotation as IS;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;

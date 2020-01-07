@@ -339,7 +339,8 @@ class AuthenticationTest extends ReadWriteEndpointTest
         if ($skipped) {
             $this->markTestSkipped();
         }
-        if (null != $key &&
+        if (
+            null != $key &&
             null != $id &&
             null != $value
         ) {

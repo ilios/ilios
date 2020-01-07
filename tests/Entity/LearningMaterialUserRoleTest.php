@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\LearningMaterialUserRole;
@@ -20,7 +21,7 @@ class LearningMaterialUserRoleTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new LearningMaterialUserRole;
+        $this->object = new LearningMaterialUserRole();
     }
 
     public function testNotBlankValidation()

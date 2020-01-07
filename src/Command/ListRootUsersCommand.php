@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Command;
 
 use App\Entity\Manager\UserManager;

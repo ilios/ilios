@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service;
 
 use App\Classes\UserMaterial;
@@ -37,15 +38,15 @@ class UserMaterialFactory
         /* @var UserMaterial $obj */
         $obj = new UserMaterial();
         $obj->id = $material['id'];
-        $obj->courseLearningMaterial = isset($material['clmId'])?$material['clmId']:null;
-        $obj->sessionLearningMaterial = isset($material['slmId'])?$material['slmId']:null;
-        $obj->position = isset($material['position'])?$material['position']:null;
-        $obj->session = isset($material['sessionId'])?$material['sessionId']:null;
-        $obj->course = isset($material['courseId'])?$material['courseId']:null;
-        $obj->sessionTitle = isset($material['sessionTitle'])?$material['sessionTitle']:null;
-        $obj->courseTitle = isset($material['courseTitle'])?$material['courseTitle']:null;
-        $obj->firstOfferingDate = isset($material['firstOfferingDate'])?$material['firstOfferingDate']:null;
-        $obj->instructors = isset($material['instructors'])?$material['instructors']:[];
+        $obj->courseLearningMaterial = isset($material['clmId']) ? $material['clmId'] : null;
+        $obj->sessionLearningMaterial = isset($material['slmId']) ? $material['slmId'] : null;
+        $obj->position = isset($material['position']) ? $material['position'] : null;
+        $obj->session = isset($material['sessionId']) ? $material['sessionId'] : null;
+        $obj->course = isset($material['courseId']) ? $material['courseId'] : null;
+        $obj->sessionTitle = isset($material['sessionTitle']) ? $material['sessionTitle'] : null;
+        $obj->courseTitle = isset($material['courseTitle']) ? $material['courseTitle'] : null;
+        $obj->firstOfferingDate = isset($material['firstOfferingDate']) ? $material['firstOfferingDate'] : null;
+        $obj->instructors = isset($material['instructors']) ? $material['instructors'] : [];
         if ($material['publicNotes']) {
             $obj->publicNotes = $material['notes'];
         }
@@ -53,7 +54,7 @@ class UserMaterialFactory
         $obj->title = $material['title'];
         $obj->description = $material['description'];
         $obj->originalAuthor = $material['originalAuthor'];
-        $obj->absoluteFileUri = isset($absoluteFileUri)?$absoluteFileUri:null;
+        $obj->absoluteFileUri = isset($absoluteFileUri) ? $absoluteFileUri : null;
         $obj->citation = $material['citation'];
         $obj->link = $material['link'];
         $obj->filename = $material['filename'];

@@ -10,7 +10,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
-
 use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use App\Entity\Manager\AuthenticationManager;
 use App\Entity\UserInterface;

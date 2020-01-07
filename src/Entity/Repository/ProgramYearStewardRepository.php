@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -68,8 +69,8 @@ class ProgramYearStewardRepository extends EntityRepository implements DTOReposi
             $programYearStewardDTOs[$arr['xId']]->programYear = (int)$arr['programYearId'];
             $programYearStewardDTOs[$arr['xId']]->owningSchool = (int)$arr['owningSchoolId'];
             $programYearStewardDTOs[$arr['xId']]->owningProgram = (int)$arr['owningProgramId'];
-            $programYearStewardDTOs[$arr['xId']]->department = $arr['departmentId']?(int)$arr['departmentId']:null;
-            $programYearStewardDTOs[$arr['xId']]->school = $arr['schoolId']?(int)$arr['schoolId']:null;
+            $programYearStewardDTOs[$arr['xId']]->department = $arr['departmentId'] ? (int)$arr['departmentId'] : null;
+            $programYearStewardDTOs[$arr['xId']]->school = $arr['schoolId'] ? (int)$arr['schoolId'] : null;
         }
 
         return array_values($programYearStewardDTOs);
@@ -101,7 +102,7 @@ class ProgramYearStewardRepository extends EntityRepository implements DTOReposi
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.'.$sort, $order);
+                $qb->addOrderBy('x.' . $sort, $order);
             }
         }
 

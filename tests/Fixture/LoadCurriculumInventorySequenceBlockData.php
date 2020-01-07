@@ -50,10 +50,10 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
                 $entity->setParent($this->getReference('curriculumInventorySequenceBlocks' . $arr['parent']));
             }
             foreach ($arr['sessions'] as $sessionId) {
-                $entity->addSession($this->getReference('sessions'. $sessionId));
+                $entity->addSession($this->getReference('sessions' . $sessionId));
             }
             foreach ($arr['excludedSessions'] as $sessionId) {
-                $entity->addExcludedSession($this->getReference('sessions'. $sessionId));
+                $entity->addExcludedSession($this->getReference('sessions' . $sessionId));
             }
 
             $manager->persist($entity);

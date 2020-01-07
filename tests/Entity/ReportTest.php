@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Report;
@@ -20,7 +21,7 @@ class ReportTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new Report;
+        $this->object = new Report();
     }
 
     /**

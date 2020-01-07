@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Controller;
 
 use App\Tests\DataLoader\IlmSessionData;
@@ -38,7 +39,7 @@ class IcsControllerTest extends WebTestCase
         ])->getReferenceRepository();
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->fixtures);

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\SessionLearningMaterial;
@@ -20,7 +21,7 @@ class SessionLearningMaterialTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new SessionLearningMaterial;
+        $this->object = new SessionLearningMaterial();
     }
 
     /**

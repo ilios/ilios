@@ -99,7 +99,7 @@ class ImportMeshUniverseCommand extends Command
             $output->writeln('The command is already running in another process.');
             return 0;
         }
-        $steps = $this->index->isEnabled()?5:4;
+        $steps = $this->index->isEnabled() ? 5 : 4;
         $startTime = time();
         $output->writeln('Started MeSH universe import, this will take a while...');
         $uri = $this->getUri($input);
@@ -163,7 +163,7 @@ class ImportMeshUniverseCommand extends Command
             $year = (int)$year;
             if (!in_array($year, $supportedYears)) {
                 $this->release();
-                throw new \RuntimeException('Given year must be one of: '.implode(', ', $supportedYears));
+                throw new \RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears));
             }
 
             return self::YEARS[$year];

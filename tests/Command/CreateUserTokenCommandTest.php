@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\CreateUserTokenCommand;
@@ -16,6 +17,7 @@ use Mockery as m;
 class CreateUserTokenCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     const COMMAND_NAME = 'ilios:create-user-token';
 
     protected $userManager;
@@ -37,7 +39,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->userManager);
         unset($this->commandTester);

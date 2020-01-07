@@ -36,7 +36,7 @@ class LockingMigrationCommand extends MigrationsMigrateDoctrineCommand
         $this->setName('ilios:migrate-database');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) : ?int
+    public function execute(InputInterface $input, OutputInterface $output): ?int
     {
         try {
             $this->fileSystem->waitForLock(self::LOCK_NAME);

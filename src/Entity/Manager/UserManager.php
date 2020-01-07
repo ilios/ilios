@@ -95,7 +95,7 @@ class UserManager extends BaseManager
      * @return UserEvent[]
      * @throws Exception
      */
-    public function findSessionEventsForUser(int $userId, int $sessionId) : array
+    public function findSessionEventsForUser(int $userId, int $sessionId): array
     {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();

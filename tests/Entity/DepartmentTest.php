@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Department;
@@ -20,7 +21,7 @@ class DepartmentTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new Department;
+        $this->object = new Department();
     }
 
     public function testNotBlankValidation()

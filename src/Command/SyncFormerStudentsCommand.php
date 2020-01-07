@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-
 use App\Entity\Manager\UserRoleManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;

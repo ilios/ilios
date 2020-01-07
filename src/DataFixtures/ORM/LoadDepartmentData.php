@@ -4,7 +4,6 @@ namespace App\DataFixtures\ORM;
 
 use App\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 use App\Entity\Department;
 use App\Entity\DepartmentInterface;
 use App\Traits\IdentifiableEntityInterface;

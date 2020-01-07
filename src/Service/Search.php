@@ -12,7 +12,7 @@ class Search extends ElasticSearchBase
      * @return array
      * @throws Exception when the search service isn't setup
      */
-    protected function search(array $params) : array
+    protected function search(array $params): array
     {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
@@ -26,7 +26,7 @@ class Search extends ElasticSearchBase
      * @return array
      * @throws Exception when the search service isn't setup
      */
-    protected function explain(string $id, array $params) : array
+    protected function explain(string $id, array $params): array
     {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
@@ -242,7 +242,7 @@ class Search extends ElasticSearchBase
      * @param string $query
      * @return array
      */
-    protected function buildCurriculumSearch(string $query) : array
+    protected function buildCurriculumSearch(string $query): array
     {
         $mustFields = [
             'courseId',
@@ -334,7 +334,7 @@ class Search extends ElasticSearchBase
         ];
     }
 
-    protected function parseCurriculumSearchResults(array $results) : array
+    protected function parseCurriculumSearchResults(array $results): array
     {
         $autocompleteSuggestions = array_reduce(
             $results['suggest'],

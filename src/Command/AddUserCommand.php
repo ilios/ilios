@@ -14,7 +14,6 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
 use App\Entity\Manager\AuthenticationManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\Manager\SchoolManager;

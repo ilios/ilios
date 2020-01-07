@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\MigrateIlios2LearningMaterialsCommand;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\File\File;
 class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     const COMMAND_NAME = 'ilios:migrate-learning-materials';
 
     protected $symfonyFileSystem;
@@ -46,7 +48,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->symfonyFileSystem);
         unset($this->iliosFileSystem);

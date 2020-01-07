@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\AuditLog;
@@ -20,7 +21,7 @@ class AuditLogTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new AuditLog;
+        $this->object = new AuditLog();
     }
 
     public function testNotBlankValidation()

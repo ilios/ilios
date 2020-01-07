@@ -12,7 +12,6 @@ use App\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\TitledEntity;
 use App\Traits\CoursesEntity;
 use App\Traits\SessionsEntity;
@@ -416,7 +415,7 @@ class Objective implements ObjectiveInterface
     {
         $ancestor = $this->getAncestor();
 
-        return $ancestor?$ancestor:$this;
+        return $ancestor ? $ancestor : $this;
     }
 
     /**

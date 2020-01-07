@@ -28,7 +28,7 @@ trait PublishableEntity
      */
     public function setPublishedAsTbd($publishedAsTbd)
     {
-        $this->publishedAsTbd = (boolean) $publishedAsTbd;
+        $this->publishedAsTbd = (bool) $publishedAsTbd;
     }
 
     /**

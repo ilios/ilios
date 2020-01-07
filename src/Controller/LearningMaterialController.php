@@ -129,7 +129,7 @@ class LearningMaterialController extends ApiController
         $class = $manager->getClass();
         $entities = [];
         foreach ($dataWithFilesAttributes as $obj) {
-            $relativePath = property_exists($obj, 'relativePath')?$obj->relativePath:null;
+            $relativePath = property_exists($obj, 'relativePath') ? $obj->relativePath : null;
             unset($obj->relativePath);
             $json = json_encode($obj);
             $serializer = $this->getSerializer();
@@ -162,7 +162,7 @@ class LearningMaterialController extends ApiController
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);
-        $entity = $manager->findOneBy(['id'=> $id]);
+        $entity = $manager->findOneBy(['id' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;

@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use App\Entity\Manager\AuthenticationManager;
-
 use App\Entity\Manager\SchoolManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\SchoolInterface;

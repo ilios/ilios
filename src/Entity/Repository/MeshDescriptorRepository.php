@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use App\Entity\MeshConcept;
@@ -176,7 +177,7 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
     public function importMeshConcept(array $data)
     {
         $connection = $this->_em->getConnection();
-        $sql =<<<EOL
+        $sql = <<<EOL
 INSERT INTO mesh_concept (
     mesh_concept_uid, name, preferred, scope_note,
     casn_1_name, registry_number, created_at, updated_at
@@ -190,7 +191,7 @@ EOL;
      */
     public function importMeshConceptTerm(array $data)
     {
-        $sql =<<<EOL
+        $sql = <<<EOL
 INSERT INTO mesh_concept_x_term (
     mesh_concept_uid, mesh_term_id
 ) VALUES (?, ?)
@@ -204,7 +205,7 @@ EOL;
      */
     public function importMeshDescriptor(array $data)
     {
-        $sql =<<<EOL
+        $sql = <<<EOL
 INSERT INTO mesh_descriptor (
     mesh_descriptor_uid, name, annotation, created_at, updated_at, deleted
 ) VALUES (?, ?, ?, ?, ?, ?)
@@ -219,7 +220,7 @@ EOL;
     public function importMeshDescriptorConcept(array $data)
     {
         {
-            $sql =<<<EOL
+            $sql = <<<EOL
 INSERT INTO mesh_descriptor_x_concept (
     mesh_concept_uid, mesh_descriptor_uid
 ) VALUES (?, ?)
@@ -234,7 +235,7 @@ EOL;
      */
     public function importMeshDescriptorQualifier(array $data)
     {
-        $sql =<<<EOL
+        $sql = <<<EOL
 INSERT INTO mesh_descriptor_x_qualifier (
     mesh_descriptor_uid, mesh_qualifier_uid
 ) VALUES (?, ?)
@@ -248,7 +249,7 @@ EOL;
      */
     public function importMeshPreviousIndexing(array $data)
     {
-        $sql =<<<EOL
+        $sql = <<<EOL
 INSERT INTO mesh_previous_indexing (
     mesh_descriptor_uid, previous_indexing, mesh_previous_indexing_id
 ) VALUES (?, ?, ?)
@@ -263,7 +264,7 @@ EOL;
     public function importMeshQualifier(array $data)
     {
 
-        $sql =<<<EOL
+        $sql = <<<EOL
 INSERT INTO mesh_qualifier (
     mesh_qualifier_uid, name, created_at, updated_at
 ) VALUES (?, ?, ?, ?)
@@ -277,7 +278,7 @@ EOL;
      */
     public function importMeshTerm(array $data)
     {
-        $sql =<<<EOL
+        $sql = <<<EOL
 INSERT INTO mesh_term (
     mesh_term_uid, name, lexical_tag, concept_preferred, record_preferred, permuted,
     created_at, updated_at, mesh_term_id
@@ -292,7 +293,7 @@ EOL;
      */
     public function importMeshTree(array $data)
     {
-        $sql =<<<EOL
+        $sql = <<<EOL
 INSERT INTO mesh_tree (
     tree_number, mesh_descriptor_uid, mesh_tree_id
 ) VALUES (?, ?, ?)
@@ -456,7 +457,7 @@ EOL;
         }
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('m.'.$sort, $order);
+                $qb->addOrderBy('m.' . $sort, $order);
             }
         }
 
@@ -489,7 +490,7 @@ EOL;
             $conn->query('DELETE FROM mesh_concept');
             $conn->query('DELETE FROM mesh_qualifier');
 
-            $sql=<<<EOL
+            $sql = <<<EOL
 DELETE FROM mesh_descriptor
 WHERE mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_learning_material_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_learning_material_x_mesh)
@@ -678,7 +679,7 @@ EOL;
      *
      * @return array
      */
-    public function getIds() : array
+    public function getIds(): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('x.id')->from(MeshDescriptor::class, 'x');
@@ -696,7 +697,7 @@ EOL;
      * @param array $ids
      * @return Descriptor[]
      */
-    public function getIliosMeshDescriptorsById(array $ids) : array
+    public function getIliosMeshDescriptorsById(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('d.id, d.name, d.annotation, pi.previousIndexing')

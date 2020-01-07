@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -65,7 +66,7 @@ class ReportRepository extends EntityRepository implements DTORepositoryInterfac
             ->setParameter('ids', $reportIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $reportDTOs[$arr['xId']]->school = $arr['schoolId']?(int) $arr['schoolId']:null;
+            $reportDTOs[$arr['xId']]->school = $arr['schoolId'] ? (int) $arr['schoolId'] : null;
             $reportDTOs[$arr['xId']]->user = (int) $arr['userId'];
         }
 
@@ -98,7 +99,7 @@ class ReportRepository extends EntityRepository implements DTORepositoryInterfac
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.'.$sort, $order);
+                $qb->addOrderBy('x.' . $sort, $order);
             }
         }
 

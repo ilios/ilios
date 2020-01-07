@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CourseInterface;
@@ -26,7 +27,7 @@ class LearningMaterialTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new LearningMaterial;
+        $this->object = new LearningMaterial();
     }
 
     public function testNotBlankValidation()

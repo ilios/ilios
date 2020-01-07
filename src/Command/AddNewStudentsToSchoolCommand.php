@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-
 use App\Entity\Manager\UserManager;
 use App\Entity\Manager\SchoolManager;
 use App\Entity\Manager\AuthenticationManager;
@@ -124,7 +123,7 @@ class AddNewStudentsToSchoolCommand extends Command
             $school->getTitle() .
             '.</info>'
         );
-        $rows =array_map(function (array $arr) {
+        $rows = array_map(function (array $arr) {
             return [
                 $arr['campusId'],
                 $arr['firstName'],

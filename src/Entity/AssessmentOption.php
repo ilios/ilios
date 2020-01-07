@@ -8,8 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Traits\SessionTypesEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
-
-
 use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;

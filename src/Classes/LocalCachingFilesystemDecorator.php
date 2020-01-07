@@ -40,7 +40,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
     /**
      * Temporarily disable the cache
      */
-    public function disableCache() : void
+    public function disableCache(): void
     {
         $this->cacheEnabled = false;
     }
@@ -48,7 +48,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
     /**
      * Re enable the cache
      */
-    public function enableCache() : void
+    public function enableCache(): void
     {
         $this->cacheEnabled = true;
     }
@@ -56,7 +56,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
     /**
      * Check if the cache is enabled
      */
-    public function isCacheEnabled() : bool
+    public function isCacheEnabled(): bool
     {
         return $this->cacheEnabled;
     }
@@ -65,7 +65,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      * Wrapped delete for removing possibly missing files from the local cache
      * @param $path
      */
-    protected function deleteFromCache(string $path) : void
+    protected function deleteFromCache(string $path): void
     {
         try {
             //cleanup any existing test file
@@ -79,7 +79,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
      * Wrapped deleteFromDir for removing possibly missing files from the local cache
      * @param $dirname
      */
-    protected function deleteDirFromCache(string $dirname) : void
+    protected function deleteDirFromCache(string $dirname): void
     {
         try {
             //cleanup any existing test file

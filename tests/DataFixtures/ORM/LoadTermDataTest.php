@@ -51,6 +51,6 @@ class LoadTermDataTest extends AbstractDataFixtureTest
         }
         $this->assertEquals($data[3], $entity->getDescription());
         $this->assertEquals($data[4], $entity->getVocabulary()->getId());
-        $this->assertEquals((boolean) $data[4], $entity->isActive());
+        $this->assertEquals((bool) $data[4], $entity->isActive());
     }
 }

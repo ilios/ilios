@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests;
 
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;

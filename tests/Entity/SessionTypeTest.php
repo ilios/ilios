@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\SessionType;
@@ -20,7 +21,7 @@ class SessionTypeTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new SessionType;
+        $this->object = new SessionType();
     }
 
     public function testNotBlankValidation()

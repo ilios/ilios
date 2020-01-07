@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -63,7 +64,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
         foreach ($qb->getQuery()->getResult() as $arr) {
             $sessionTypeDTOs[$arr['sessionTypeId']]->school = (int) $arr['schoolId'];
             $sessionTypeDTOs[$arr['sessionTypeId']]->assessmentOption =
-                $arr['assessmentOptionId']?(int)$arr['assessmentOptionId']:null;
+                $arr['assessmentOptionId'] ? (int)$arr['assessmentOptionId'] : null;
         }
 
         $related = [
@@ -260,7 +261,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
         }
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('st.'.$sort, $order);
+                $qb->addOrderBy('st.' . $sort, $order);
             }
         }
 

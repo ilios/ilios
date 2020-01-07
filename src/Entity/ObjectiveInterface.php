@@ -6,7 +6,6 @@ use App\Traits\ActivatableEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\SortableEntityInterface;

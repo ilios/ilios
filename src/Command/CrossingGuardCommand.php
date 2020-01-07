@@ -6,7 +6,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use App\Service\CrossingGuard;
 
 /**
@@ -64,7 +63,7 @@ class CrossingGuardCommand extends Command
         }
 
         $status = $this->crossingGuard->isStopped();
-        $message = $status?self::ENABLED_MESSAGE:self::DISABLED_MESSAGE;
+        $message = $status ? self::ENABLED_MESSAGE : self::DISABLED_MESSAGE;
         $output->writeln('');
         $output->writeln("<info>${message} </info>");
         $output->writeln('');

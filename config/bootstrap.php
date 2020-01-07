@@ -2,13 +2,13 @@
 
 use Symfony\Component\Dotenv\Dotenv;
 
-require dirname(__DIR__).'/vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 
 use Doctrine\Common\Annotations\AnnotationReader;
 
 // Load cached env vars if the .env.local.php file exists
 // Run "composer dump-env prod" to create it (requires symfony/flex >=1.2)
-if (is_array($env = @include dirname(__DIR__).'/.env.local.php')) {
+if (is_array($env = @include dirname(__DIR__) . '/.env.local.php')) {
     $_ENV += $env;
 } elseif (!class_exists(Dotenv::class)) {
     throw new RuntimeException(
@@ -16,7 +16,7 @@ if (is_array($env = @include dirname(__DIR__).'/.env.local.php')) {
     );
 } else {
     // load all the .env files
-    (new Dotenv(false))->loadEnv(dirname(__DIR__).'/.env');
+    (new Dotenv(false))->loadEnv(dirname(__DIR__) . '/.env');
 }
 
 $_SERVER += $_ENV;

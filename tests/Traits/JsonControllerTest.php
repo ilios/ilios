@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Traits;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;

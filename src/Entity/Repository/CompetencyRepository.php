@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -56,7 +57,7 @@ class CompetencyRepository extends EntityRepository implements DTORepositoryInte
             ->setParameter('ids', $competencyIds);
         foreach ($qb->getQuery()->getResult() as $arr) {
             $competencyDTOs[$arr['competencyId']]->school = (int) $arr['schoolId'];
-            $competencyDTOs[$arr['competencyId']]->parent = $arr['parentId']?(int)$arr['parentId']:null;
+            $competencyDTOs[$arr['competencyId']]->parent = $arr['parentId'] ? (int)$arr['parentId'] : null;
         }
         $related = [
             'objectives',
@@ -206,7 +207,7 @@ class CompetencyRepository extends EntityRepository implements DTORepositoryInte
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('c.'.$sort, $order);
+                $qb->addOrderBy('c.' . $sort, $order);
             }
         }
 

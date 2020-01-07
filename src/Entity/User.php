@@ -12,7 +12,6 @@ use App\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\OfferingsEntity;

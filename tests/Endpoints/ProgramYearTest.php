@@ -114,7 +114,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $program = $this->getOne('programs', 'programs', $fetchedResponseData['program']);
 
         $this->assertEquals($cohort['programYear'], $fetchedResponseData['id']);
-        $this->assertEquals($cohort['title'], 'Class of '.($fetchedResponseData['startYear'] + $program['duration']));
+        $this->assertEquals($cohort['title'], 'Class of ' . ($fetchedResponseData['startYear'] + $program['duration']));
 
         return $fetchedResponseData;
     }
@@ -155,7 +155,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
 
             $cohort = $this->getOne('cohorts', 'cohorts', $cohortId);
             $this->assertEquals($cohort['programYear'], $response['id']);
-            $this->assertEquals($cohort['title'], 'Class of '.($response['startYear'] + $program['duration']));
+            $this->assertEquals($cohort['title'], 'Class of ' . ($response['startYear'] + $program['duration']));
         }
 
         return $fetchedResponseData;

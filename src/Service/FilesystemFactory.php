@@ -35,7 +35,7 @@ class FilesystemFactory
         $this->kernelCacheDir = $kernelCacheDir;
     }
 
-    public function getFilesystem() : FilesystemInterface
+    public function getFilesystem(): FilesystemInterface
     {
         $s3Url = $this->config->get('storage_s3_url');
 
@@ -46,7 +46,7 @@ class FilesystemFactory
         return $this->getLocalFilesystem();
     }
 
-    public function getNonCachingFilesystem() : FilesystemInterface
+    public function getNonCachingFilesystem(): FilesystemInterface
     {
         $s3Url = $this->config->get('storage_s3_url');
 
@@ -65,7 +65,7 @@ class FilesystemFactory
      * Get the path to the S3 cache
      * @return string path
      */
-    public function getLocalS3CacheDirectory() : string
+    public function getLocalS3CacheDirectory(): string
     {
         return $this->kernelCacheDir . self::LOCAL_S3_CACHE_DIR;
     }
@@ -74,13 +74,13 @@ class FilesystemFactory
      * Get a filesystem for the local S3 cache
      * @return FilesystemInterface
      */
-    public function getS3LocalFilesystemCache() : FilesystemInterface
+    public function getS3LocalFilesystemCache(): FilesystemInterface
     {
         $localAdapter = $this->getLocalAdapter($this->getLocalS3CacheDirectory());
         return new LeagueFilesystem($localAdapter, ['visibility' => 'private']);
     }
 
-    protected function getS3FilesystemWithCache(string $s3Url) : FilesystemInterface
+    protected function getS3FilesystemWithCache(string $s3Url): FilesystemInterface
     {
         $s3 = $this->getS3Adapter($s3Url);
         $localAdapter = $this->getLocalAdapter($this->getLocalS3CacheDirectory());
@@ -93,7 +93,7 @@ class FilesystemFactory
         return new LocalCachingFilesystemDecorator($localCache, $remoteFileSystem);
     }
 
-    protected function getS3Adapter(string $s3Url) : AwsS3Adapter
+    protected function getS3Adapter(string $s3Url): AwsS3Adapter
     {
         $configuration = $this->parseS3URL($s3Url);
         //extract bucket from configuration, it's not required here
@@ -105,14 +105,14 @@ class FilesystemFactory
         return new AwsS3Adapter($client, $bucket);
     }
 
-    protected function getLocalAdapter($path) : AdapterInterface
+    protected function getLocalAdapter($path): AdapterInterface
     {
         $localAdapter = new Local($path);
         $cacheStore = new MemoryStore();
         return new CachedAdapter($localAdapter, $cacheStore);
     }
 
-    protected function getLocalFilesystem() : FilesystemInterface
+    protected function getLocalFilesystem(): FilesystemInterface
     {
         $path = $this->config->get('file_system_storage_path');
         $adapter = $this->getLocalAdapter($path);
@@ -120,7 +120,7 @@ class FilesystemFactory
         return new LeagueFilesystem($adapter, ['visibility' => 'private']);
     }
 
-    protected function parseS3URL(string $url) : array
+    protected function parseS3URL(string $url): array
     {
         $result = preg_match(
             '#^(s3)://([a-zA-Z0-9]+):([A-Za-z0-9/+=]{40})@([a-z0-9-]+.)\.([a-z0-9-]+)#',

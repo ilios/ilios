@@ -7,12 +7,12 @@ namespace App\Classes;
  */
 class DiskSpace
 {
-    public function freeSpace($dir) : float
+    public function freeSpace($dir): float
     {
         return \disk_free_space($dir);
     }
 
-    public function totalSpace($dir) : float
+    public function totalSpace($dir): float
     {
         return \disk_total_space($dir);
     }

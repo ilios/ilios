@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\SetSchoolConfigValueCommand;
@@ -19,6 +20,7 @@ use Mockery as m;
 class SetSchoolConfigValueCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     const COMMAND_NAME = 'ilios:set-school-config-value';
 
     protected $commandTester;
@@ -40,7 +42,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->schoolManager);
         unset($this->schoolConfigManager);

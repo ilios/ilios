@@ -110,7 +110,7 @@ class UsermaterialController extends AbstractController
      *
      * @return array;
      */
-    protected function clearDraftMaterials(array $materials) : array
+    protected function clearDraftMaterials(array $materials): array
     {
         $publishedMaterials = [];
         foreach ($materials as $material) {

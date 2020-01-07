@@ -67,7 +67,7 @@ class AuthController extends AbstractController
         if ($token->isAuthenticated()) {
             $sessionUser = $token->getUser();
             if ($sessionUser instanceof SessionUserInterface) {
-                $ttl = $request->get('ttl')?$request->get('ttl'):'PT8H';
+                $ttl = $request->get('ttl') ? $request->get('ttl') : 'PT8H';
                 $jwt = $jwtManager->createJwtFromSessionUser($sessionUser, $ttl);
                 return new JsonResponse(array('jwt' => $jwt), JsonResponse::HTTP_OK);
             }

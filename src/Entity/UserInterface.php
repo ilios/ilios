@@ -9,7 +9,6 @@ use App\Traits\CohortsEntityInterface;
 use App\Traits\InstructorGroupsEntityInterface;
 use App\Traits\LearnerGroupsEntityInterface;
 use App\Traits\LearningMaterialsEntityInterface;
-
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\StringableEntityInterface;
 use App\Traits\OfferingsEntityInterface;

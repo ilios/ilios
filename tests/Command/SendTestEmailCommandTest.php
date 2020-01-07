@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\SendTestEmailCommand;
@@ -15,6 +16,7 @@ use Mockery as m;
 class SendTestEmailCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     const COMMAND_NAME = 'ilios:send-test-email';
 
     /**
@@ -44,7 +46,7 @@ class SendTestEmailCommandTest extends KernelTestCase
     /**
      * {@inheritdoc}
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->mailer);
     }

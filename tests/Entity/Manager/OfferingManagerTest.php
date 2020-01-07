@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity\Manager;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;

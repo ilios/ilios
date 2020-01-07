@@ -4,7 +4,6 @@ namespace App\DataFixtures\ORM;
 
 use App\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 use App\Entity\Vocabulary;
 use App\Entity\VocabularyInterface;
 
@@ -51,7 +50,7 @@ class LoadVocabularyData extends AbstractFixture implements DependentFixtureInte
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
         $entity->setSchool($this->getReference('school' . $data[2]));
-        $entity->setActive((boolean) $data[3]);
+        $entity->setActive((bool) $data[3]);
         return $entity;
     }
 }

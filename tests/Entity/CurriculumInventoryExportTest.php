@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CurriculumInventoryExport;
@@ -20,7 +21,7 @@ class CurriculumInventoryExportTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new CurriculumInventoryExport;
+        $this->object = new CurriculumInventoryExport();
     }
 
     public function testNotBlankValidation()

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\FindUserCommand;
@@ -16,6 +17,7 @@ use Mockery as m;
 class FindUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     const COMMAND_NAME = 'ilios:find-user';
 
     protected $commandTester;
@@ -35,7 +37,7 @@ class FindUserCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->directory);
         unset($this->commandTester);

@@ -139,7 +139,7 @@ class EntityMetadata
      */
     protected function getClassName($classNameOrObject)
     {
-        return is_object($classNameOrObject)?get_class($classNameOrObject):$classNameOrObject;
+        return is_object($classNameOrObject) ? get_class($classNameOrObject) : $classNameOrObject;
     }
 
     /**

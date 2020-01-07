@@ -16,6 +16,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
 {
     use PutEndpointTestable;
     use DeleteEndpointTestable;
+
     protected $testName =  'pendingUserUpdates';
 
     /**

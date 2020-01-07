@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Encoder;
-
 use App\Entity\UserInterface;
 use Firebase\JWT\JWT;
 use DateTime;
@@ -115,7 +114,7 @@ class JsonWebTokenManager
         $maximumFromToday = clone $now;
         $maximumFromToday->add($maximumInterval);
 
-        $interval = $requestedFromToday > $maximumFromToday?$maximumInterval:$requestedInterval;
+        $interval = $requestedFromToday > $maximumFromToday ? $maximumInterval : $requestedInterval;
         $expires = clone $now;
         $expires->add($interval);
         $canCreateOrUpdateUserInAnySchool = $this->permissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser);

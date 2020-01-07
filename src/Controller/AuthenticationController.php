@@ -132,7 +132,7 @@ class AuthenticationController extends ApiController
     public function putAction($version, $object, $userId, Request $request)
     {
         $manager = $this->getManager($object);
-        $entity = $manager->findOneBy(['user'=> $userId]);
+        $entity = $manager->findOneBy(['user' => $userId]);
 
         if ($entity) {
             $code = Response::HTTP_OK;
@@ -179,7 +179,7 @@ class AuthenticationController extends ApiController
     public function deleteAction($version, $object, $userId)
     {
         $manager = $this->getManager($object);
-        $entity = $manager->findOneBy(['user'=> $userId]);
+        $entity = $manager->findOneBy(['user' => $userId]);
 
         if (! $entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $userId));

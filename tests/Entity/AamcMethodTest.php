@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\AamcMethod;
@@ -19,7 +20,7 @@ class AamcMethodTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new AamcMethod;
+        $this->object = new AamcMethod();
     }
 
     public function testNotBlankValidation()

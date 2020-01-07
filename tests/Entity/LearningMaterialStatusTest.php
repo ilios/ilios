@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\LearningMaterialStatus;
@@ -20,7 +21,7 @@ class LearningMaterialStatusTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new LearningMaterialStatus;
+        $this->object = new LearningMaterialStatus();
     }
 
     public function testNotBlankValidation()

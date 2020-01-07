@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\IlmSession;
@@ -21,7 +22,7 @@ class IlmSessionTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new IlmSession;
+        $this->object = new IlmSession();
     }
 
     public function testNotBlankValidation()

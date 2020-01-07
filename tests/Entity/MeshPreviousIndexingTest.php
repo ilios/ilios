@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\MeshPreviousIndexing;
@@ -20,7 +21,7 @@ class MeshPreviousIndexingTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new MeshPreviousIndexing;
+        $this->object = new MeshPreviousIndexing();
     }
 
     public function testNotBlankValidation()

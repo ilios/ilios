@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Tests\Service;
 
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
-
 use App\Service\TemporaryFileSystem;
 use App\Tests\TestCase;
 
@@ -46,7 +46,7 @@ class TemporaryFileSystemTest extends TestCase
         $this->tempFileSystem = new TemporaryFileSystem($this->mockFileSystem, $kernelRootDirectory);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->mockFileSystem);
         unset($this->iliosFileSystem);

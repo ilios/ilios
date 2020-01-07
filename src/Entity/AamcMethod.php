@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\SessionTypesEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\ActivatableEntity;
 use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;

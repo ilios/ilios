@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Cohort;
@@ -24,7 +25,7 @@ class LearnerGroupTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new LearnerGroup;
+        $this->object = new LearnerGroup();
     }
 
     public function testNotBlankValidation()

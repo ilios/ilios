@@ -59,7 +59,8 @@ class LdapManager
     protected function getLdap()
     {
         $now = time();
-        if ($this->connectionLastUsed &&
+        if (
+            $this->connectionLastUsed &&
             $this->ldap &&
             $now - $this->connectionLastUsed > self::RESET_TIMEOUT
         ) {
@@ -118,7 +119,7 @@ class LdapManager
                 unset($arr['count']);
                 $results = array_merge($results, $arr);
                 $pagedArray = $response->pagedResultResponse();
-                $cookie = !empty($pagedArray['cookie'])?$pagedArray['cookie']:false;
+                $cookie = !empty($pagedArray['cookie']) ? $pagedArray['cookie'] : false;
             } while ($cookie);
 
             if (count($results)) {
@@ -137,7 +138,7 @@ class LdapManager
                     ];
                     $values = [];
                     foreach ($keys as $key) {
-                        $value = array_key_exists($key, $userData)?$userData[$key][0]:null;
+                        $value = array_key_exists($key, $userData) ? $userData[$key][0] : null;
                         $values[$key] = $value;
                     }
                     return [

@@ -10,7 +10,7 @@ class ProgramYearData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'startYear' =>'2013',
+            'startYear' => '2013',
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
@@ -70,7 +70,7 @@ class ProgramYearData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 5,
-            'startYear' =>'2016',
+            'startYear' => '2016',
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\MeshConcept;
@@ -20,7 +21,7 @@ class MeshConceptTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new MeshConcept;
+        $this->object = new MeshConcept();
     }
 
     public function testNotBlankValidation()

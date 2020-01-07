@@ -35,7 +35,8 @@ class Mesh extends AbstractVoter
             return true;
         }
 
-        if ($subject instanceof MeshConceptInterface ||
+        if (
+            $subject instanceof MeshConceptInterface ||
             $subject instanceof MeshDescriptorInterface ||
             $subject instanceof MeshPreviousIndexingInterface ||
             $subject instanceof MeshQualifierInterface ||

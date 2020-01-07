@@ -1,4 +1,5 @@
 <?php
+
 namespace App\EventListener;
 
 use App\Classes\IndexableCourse;
@@ -125,7 +126,7 @@ class IndexEntityChanges
      * @param CourseInterface[] $courses
      * @throws Exception
      */
-    protected function indexCourses(array $courses) : void
+    protected function indexCourses(array $courses): void
     {
         if ($this->index->isEnabled()) {
             $courseIds = array_map(function (CourseInterface $course) {

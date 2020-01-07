@@ -77,7 +77,7 @@ class OfferingController extends ApiController
     {
         $manager = $this->getManager($object);
         /** @var OfferingInterface $entity */
-        $entity = $manager->findOneBy(['id'=> $id]);
+        $entity = $manager->findOneBy(['id' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;

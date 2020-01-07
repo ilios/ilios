@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -138,7 +139,7 @@ class CourseRolloverTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->courseManager);
         unset($this->learningMaterialManager);

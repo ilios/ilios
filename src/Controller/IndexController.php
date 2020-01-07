@@ -132,7 +132,7 @@ class IndexController extends AbstractController
         return $response;
     }
 
-    protected function getAsset(Request $request, string $path, bool $versionedStaticFile) : Response
+    protected function getAsset(Request $request, string $path, bool $versionedStaticFile): Response
     {
         $content = $this->fs->readFile($path);
         $file = new \SplFileObject($path, 'r');
@@ -203,10 +203,10 @@ class IndexController extends AbstractController
 
         $metas = array_map(function ($obj) {
             return [
-                'charset' => property_exists($obj, 'charset')?$obj->charset:null,
-                'httpequiv' => property_exists($obj, 'http-equiv')?$obj->{'http-equiv'}:null,
-                'name' => property_exists($obj, 'name')?$obj->name:null,
-                'content' => property_exists($obj, 'content')?$obj->content:null,
+                'charset' => property_exists($obj, 'charset') ? $obj->charset : null,
+                'httpequiv' => property_exists($obj, 'http-equiv') ? $obj->{'http-equiv'} : null,
+                'name' => property_exists($obj, 'name') ? $obj->name : null,
+                'content' => property_exists($obj, 'content') ? $obj->content : null,
             ];
         }, $filteredMetas);
 
@@ -216,15 +216,15 @@ class IndexController extends AbstractController
                 'isStyleSheet' => $obj->rel === 'stylesheet',
                 'isNotStyleSheet' => $obj->rel !== 'stylesheet',
                 'href' => ltrim($obj->href, '/'),
-                'sizes' => property_exists($obj, 'sizes')?$obj->sizes:null,
-                'type' => property_exists($obj, 'type')?$obj->type:null,
+                'sizes' => property_exists($obj, 'sizes') ? $obj->sizes : null,
+                'type' => property_exists($obj, 'type') ? $obj->type : null,
             ];
         }, $json->link);
 
         $scripts = array_map(function ($obj) {
             return [
-                'src' => property_exists($obj, 'src')?ltrim($obj->src, '/'):null,
-                'content' => property_exists($obj, 'content')?$obj->content:null,
+                'src' => property_exists($obj, 'src') ? ltrim($obj->src, '/') : null,
+                'content' => property_exists($obj, 'content') ? $obj->content : null,
             ];
         }, $json->script);
 
@@ -267,7 +267,7 @@ class IndexController extends AbstractController
         string $content,
         Request $request,
         \DateTime $lastModified
-    ) : Response {
+    ): Response {
         $response->setEtag(sha1($content));
         $response->setLastModified($lastModified);
         $response->setPublic();

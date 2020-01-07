@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\PendingUserUpdate;
@@ -21,7 +22,7 @@ class PendingUserUpdateTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new PendingUserUpdate;
+        $this->object = new PendingUserUpdate();
     }
 
     public function testNotBlankValidation()

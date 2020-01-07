@@ -82,7 +82,7 @@ class ObjectiveData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 6,
-            'title' =>'sixth objective',
+            'title' => 'sixth objective',
             'position' => 0,
             'active' => true,
             'courses' => [],

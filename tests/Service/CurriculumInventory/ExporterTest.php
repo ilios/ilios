@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Tests\Service\CurriculumInventory;
 
 use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\Export\XmlPrinter;
 use App\Service\CurriculumInventory\Exporter;
-
 use App\Tests\TestCase;
 use Mockery as m;
 

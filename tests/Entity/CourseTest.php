@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Course;
@@ -21,7 +22,7 @@ class CourseTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new Course;
+        $this->object = new Course();
     }
 
     public function testNotBlankValidation()

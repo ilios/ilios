@@ -153,7 +153,7 @@ class ApiController implements ApiControllerInterface, ContainerAwareInterface
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);
-        $entity = $manager->findOneBy(['id'=> $id]);
+        $entity = $manager->findOneBy(['id' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;
@@ -187,7 +187,7 @@ class ApiController implements ApiControllerInterface, ContainerAwareInterface
     public function deleteAction($version, $object, $id)
     {
         $manager = $this->getManager($object);
-        $entity = $manager->findOneBy(['id'=> $id]);
+        $entity = $manager->findOneBy(['id' => $id]);
 
         if (! $entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));

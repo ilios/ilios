@@ -10,7 +10,6 @@ use App\Traits\ObjectivesEntity;
 use App\Traits\StringableIdEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\ProgramYearsEntity;
