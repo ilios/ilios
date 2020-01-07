@@ -14,8 +14,7 @@ ENV \
 COMPOSER_HOME=/tmp \
 COMPOSER_ALLOW_SUPERUSER=true \
 APP_ENV=prod \
-ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios \
-ILIOS_DATABASE_MYSQL_VERSION=5.7 \
+ILIOS_DATABASE_URL="mysql://ilios:ilios@db/ilios?serverVersion=5.7" \
 ILIOS_MAILER_URL=null://localhost \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
