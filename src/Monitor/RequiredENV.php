@@ -16,6 +16,7 @@ class RequiredENV implements CheckInterface
         'ILIOS_SECRET'
     ];
     private const INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
+    private const UPDATE_URL = 'https://github.com/ilios/ilios/blob/master/docs/update.md';
 
     /**
      * Perform the actual check and return a ResultInterface
@@ -25,7 +26,7 @@ class RequiredENV implements CheckInterface
     public function check()
     {
         $missingVariables = array_filter(self::REQUIRED_ENV, function ($name) {
-            return !getenv($name);
+            return !getenv($name) && !isset($_ENV[$name]);
         });
 
         if (count($missingVariables)) {
@@ -33,6 +34,13 @@ class RequiredENV implements CheckInterface
 
             return new Failure(
                 "\nMissing:\n" . $missing . "\n For help see: \n " . self::INSTRUCTIONS_URL
+            );
+        }
+
+        if (getenv('ILIOS_DATABASE_MYSQL_VERSION') || isset($_ENV['ILIOS_DATABASE_MYSQL_VERSION'])) {
+            return new Failure(
+                "\nILIOS_DATABASE_MYSQL_VERSION should be migrated. See \n " . self::UPDATE_URL .
+                " for details.\n"
             );
         }
         return new Success('All required ENV variables are setup');
