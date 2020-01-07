@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
-use \Eluceo\iCal\Component as ICS;
+use Eluceo\iCal\Component as ICS;
 use Symfony\Component\Routing\RouterInterface;
 
 class IcsController extends AbstractController

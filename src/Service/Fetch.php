@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use \DateTime;
-use \SplFileObject;
-use \Exception;
+use DateTime;
+use SplFileObject;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

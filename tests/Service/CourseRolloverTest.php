@@ -43,7 +43,7 @@ use App\Entity\Term;
 use App\Entity\User;
 use Doctrine\Common\Collections\Collection;
 use Mockery as m;
-use \DateTime;
+use DateTime;
 use App\Tests\TestCase;
 
 /**

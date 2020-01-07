@@ -9,7 +9,7 @@ use App\Service\NonCachingIliosFileSystem;
 use League\Flysystem\Filesystem;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
-use \Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\File;
 use App\Service\IliosFileSystem;
 use App\Tests\TestCase;
 

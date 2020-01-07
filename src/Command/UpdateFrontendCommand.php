@@ -11,8 +11,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use App\Service\Filesystem;
-use \Exception;
-use \SplFileObject;
+use Exception;
+use SplFileObject;
 
 /**
  * Pull down asset archive from AWS and extract it so
