@@ -34,14 +34,14 @@ interface SessionTypeInterface extends
     /**
      * Set assessment
      *
-     * @param boolean $assessment
+     * @param bool $assessment
      */
     public function setAssessment($assessment);
 
     /**
      * Get assessment
      *
-     * @return boolean
+     * @return bool
      */
     public function isAssessment();
 

@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Service\Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use App\Entity\Manager\AuthenticationManager;
 use App\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;
@@ -137,7 +136,7 @@ class LdapAuthentication implements AuthenticationInterface
      * @param  string $username
      * @param  string $password
      *
-     * @return boolean
+     * @return bool
      */
     public function checkLdapPassword($username, $password)
     {

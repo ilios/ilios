@@ -11,7 +11,6 @@ use App\Traits\SessionConsolidationEntity;
 use App\Annotation as IS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\StringableIdEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TimestampableEntity;

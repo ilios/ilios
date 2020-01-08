@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\SessionDescription;
@@ -20,7 +21,7 @@ class SessionDescriptionTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new SessionDescription;
+        $this->object = new SessionDescription();
     }
 
     /**

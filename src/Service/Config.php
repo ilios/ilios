@@ -1,14 +1,16 @@
 <?php
+
 namespace App\Service;
 
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ServerException;
 use App\Entity\Manager\ApplicationConfigManager;
+
 use function Stringy\create as s;
 
 class Config
 {
-    const BOOLEAN_NAMES = [
+    private const BOOLEAN_NAMES = [
         'keep_frontend_updated',
         'cas_authentication_verify_ssl',
         'enable_tracking',
@@ -109,7 +111,7 @@ class Config
     protected function castResult($name, $result)
     {
         if (null !== $result && in_array($name, self::BOOLEAN_NAMES)) {
-            return (boolean) json_decode($result);
+            return (bool) json_decode($result);
         }
 
         return $result;

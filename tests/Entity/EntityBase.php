@@ -18,14 +18,14 @@ class EntityBase extends TestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->object);
     }
 
     /**
      * Engage the symfony validator and test the object.
-     * @param  integer $expectedCount how many errors are you expecting
+     * @param int $expectedCount how many errors are you expecting
      * @return array an abbreviated set of errors
      */
     protected function validate($expectedCount)
@@ -107,12 +107,12 @@ class EntityBase extends TestCase
      * A generic test for boolean entity setters.
      *
      * @param string $property
-     * @param boolean $is should we use is vs has when generating the method.
+     * @param bool $is should we use is vs has when generating the method.
      */
     protected function booleanSetTest($property, $is = true)
     {
         $setMethod = $this->getSetMethodForProperty($property);
-        $isMethod = $is?$this->getIsMethodForProperty($property):$this->getHasMethodForProperty($property);
+        $isMethod = $is ? $this->getIsMethodForProperty($property) : $this->getHasMethodForProperty($property);
         $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
         $this->assertTrue(method_exists($this->object, $isMethod), "Method {$isMethod} missing");
         $expected = $this->getValueForType('boolean');
@@ -154,8 +154,8 @@ class EntityBase extends TestCase
         $setter = false,
         $crossSaveMethod = false
     ) {
-        $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
-        $setMethod = $setter?$setter:$this->getSetMethodForCollectionProperty($property);
+        $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
+        $setMethod = $setter ? $setter : $this->getSetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
         $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
         $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
@@ -192,8 +192,8 @@ class EntityBase extends TestCase
         $crossSaveMethod = false
     ) {
         $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
-        $addMethod = $setter?$setter:$this->getAddMethodForProperty($property);
-        $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
+        $addMethod = $setter ? $setter : $this->getAddMethodForProperty($property);
+        $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
         $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
         foreach ($arr as $obj) {
@@ -229,9 +229,9 @@ class EntityBase extends TestCase
         $crossSaveMethod = false
     ) {
         $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
-        $addMethod = $adder?$adder:$this->getAddMethodForProperty($property);
-        $removeMethod = $remover?$remover:$this->getRemoveMethodForProperty($property);
-        $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
+        $addMethod = $adder ? $adder : $this->getAddMethodForProperty($property);
+        $removeMethod = $remover ? $remover : $this->getRemoveMethodForProperty($property);
+        $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing from {$entityName}");
         $this->assertTrue(
             method_exists($this->object, $removeMethod),

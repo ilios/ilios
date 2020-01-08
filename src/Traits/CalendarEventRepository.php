@@ -65,7 +65,7 @@ trait CalendarEventRepository
 
     /**
      * Convert IlmSessions into CalendarEvent() objects
-     * @param integer $userId
+     * @param int $userId
      * @param array $results
      * @return CalendarEvent[]
      */
@@ -288,7 +288,8 @@ trait CalendarEventRepository
                 ];
             }
 
-            if (! empty($competencyId)
+            if (
+                ! empty($competencyId)
                 && ! in_array($competencyId, $sessionObjectives[$sessionId][$objectiveId]['competencies'])
             ) {
                 $sessionObjectives[$sessionId][$objectiveId]['competencies'][] = $competencyId;
@@ -328,7 +329,8 @@ trait CalendarEventRepository
                 ];
             }
 
-            if (! empty($competencyId)
+            if (
+                ! empty($competencyId)
                 && ! in_array($competencyId, $courseObjectives[$courseId][$objectiveId]['competencies'])
             ) {
                 $courseObjectives[$courseId][$objectiveId]['competencies'][] = $competencyId;
@@ -481,7 +483,7 @@ trait CalendarEventRepository
             $groupedCourseLms[$id][] = $lm;
         }
 
-        for ($i =0, $n = count($events); $i < $n; $i++) {
+        for ($i = 0, $n = count($events); $i < $n; $i++) {
             $event = $events[$i];
             $sessionId = $event->session;
             $courseId = $event->course;
@@ -623,7 +625,7 @@ trait CalendarEventRepository
         return $qb;
     }
 
-    protected function getCohortsForCourses(array $courseIds, EntityManager $em) : array
+    protected function getCohortsForCourses(array $courseIds, EntityManager $em): array
     {
         $qb = $em->createQueryBuilder();
         $qb->select('c.id AS courseId, co.id, co.title')
@@ -655,7 +657,7 @@ trait CalendarEventRepository
         return $courseCohorts;
     }
 
-    protected function getTermsForCourses(array $courseIds, EntityManager $em) : array
+    protected function getTermsForCourses(array $courseIds, EntityManager $em): array
     {
         $qb = $em->createQueryBuilder();
         $qb->select('c.id, t.id as termId, t.title as termTitle, v.id as vocabularyId, v.title as vocabularyTitle')
@@ -671,7 +673,7 @@ trait CalendarEventRepository
         return $this->parseTermResults($results);
     }
 
-    protected function getTermsForSessions(array $sessionIds, EntityManager $em) : array
+    protected function getTermsForSessions(array $sessionIds, EntityManager $em): array
     {
         $qb = $em->createQueryBuilder();
         $qb->select('s.id, t.id as termId, t.title as termTitle, v.id as vocabularyId, v.title as vocabularyTitle')
@@ -687,7 +689,7 @@ trait CalendarEventRepository
         return $this->parseTermResults($results);
     }
 
-    protected function parseTermResults(array $results) : array
+    protected function parseTermResults(array $results): array
     {
         $terms = [];
         foreach ($results as $result) {

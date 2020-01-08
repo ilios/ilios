@@ -38,32 +38,32 @@ interface MeshTermInterface extends
     public function getLexicalTag();
 
     /**
-     * @param boolean $conceptPreferred
+     * @param bool $conceptPreferred
      */
     public function setConceptPreferred($conceptPreferred);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isConceptPreferred();
 
     /**
-     * @param boolean $recordPreferred
+     * @param bool $recordPreferred
      */
     public function setRecordPreferred($recordPreferred);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRecordPreferred();
 
     /**
-     * @param boolean $permuted
+     * @param bool $permuted
      */
     public function setPermuted($permuted);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPermuted();
 }

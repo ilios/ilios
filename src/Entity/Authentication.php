@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -6,7 +7,6 @@ use App\Annotation as IS;
 use App\Classes\SessionUser;
 use App\Classes\SessionUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Entity\UserInterface;
 
 /**

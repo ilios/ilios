@@ -94,7 +94,7 @@ class Vocabulary implements VocabularyInterface
     protected $terms;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *

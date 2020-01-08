@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Program;
@@ -23,7 +24,7 @@ class ProgramYearStewardTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new ProgramYearSteward;
+        $this->object = new ProgramYearSteward();
     }
 
     /**

@@ -63,7 +63,7 @@ class SwaggerDocsController extends AbstractController
      */
     public function uiAction(Request $request, $fileName)
     {
-        $fileName = empty($fileName)?'index.html':$fileName;
+        $fileName = empty($fileName) ? 'index.html' : $fileName;
         $swaggerDistDir = $this->kernelRootDirectory . '/../vendor/swagger-api/swagger-ui/dist';
         $filePath = "${swaggerDistDir}/${fileName}";
 

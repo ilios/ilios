@@ -8,7 +8,6 @@ use App\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
@@ -77,7 +76,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     protected $description;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="required", type="integer")
      *
@@ -147,7 +146,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     protected $maximum;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="track", type="boolean")
      *
@@ -396,7 +395,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param boolean $track
+     * @param bool $track
      */
     public function setTrack($track)
     {
@@ -404,7 +403,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasTrack()
     {

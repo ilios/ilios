@@ -8,7 +8,6 @@ use Aws\S3\Exception\S3Exception;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
-
 use App\Entity\LearningMaterialInterface;
 
 /**
@@ -23,19 +22,19 @@ class IliosFileSystem
      * learning_material directory
      * @var string
      */
-    const HASHED_LM_DIRECTORY = 'learning_materials/lm';
+    public const HASHED_LM_DIRECTORY = 'learning_materials/lm';
 
     /**
      * Lock files are stored in this directory
      * @var string
      */
-    const LOCK_FILE_DIRECTORY = 'locks';
+    public const LOCK_FILE_DIRECTORY = 'locks';
 
     /**
      * Testing files are stored in this directory
      * @var string
      */
-    const TEST_FILE_ROOT = 'crud_tests';
+    public const TEST_FILE_ROOT = 'crud_tests';
 
     /**
      * A filesystem object to work with
@@ -54,7 +53,7 @@ class IliosFileSystem
      * @param File $file
      * @return string $relativePath
      */
-    public function storeLearningMaterialFile(File $file) : string
+    public function storeLearningMaterialFile(File $file): string
     {
         $relativePath = $this->getLearningMaterialFilePath($file);
         $stream = fopen($file->getPathname(), 'r+');
@@ -69,7 +68,7 @@ class IliosFileSystem
      * @param File $file
      * @return string $relativePath
      */
-    public function getLearningMaterialFilePath(File $file) : string
+    public function getLearningMaterialFilePath(File $file): string
     {
         $hash = md5_file($file->getPathname());
 
@@ -80,7 +79,7 @@ class IliosFileSystem
      * Remove a file from the filesystem by hash
      * @param  string $relativePath
      */
-    public function removeFile(string $relativePath) : void
+    public function removeFile(string $relativePath): void
     {
         $this->fileSystem->delete($relativePath);
     }
@@ -104,9 +103,9 @@ class IliosFileSystem
      * Get if a learning material file path is valid
      * @param LearningMaterialInterface $lm
      *
-     * @return boolean
+     * @return bool
      */
-    public function checkLearningMaterialFilePath(LearningMaterialInterface $lm) : bool
+    public function checkLearningMaterialFilePath(LearningMaterialInterface $lm): bool
     {
         $relativePath = $lm->getRelativePath();
         return $this->fileSystem->has($relativePath);
@@ -117,7 +116,7 @@ class IliosFileSystem
      * @param string $name
      * @return string $relativePath
      */
-    protected function getLockFilePath(string $name) : string
+    protected function getLockFilePath(string $name): string
     {
         $safeName = preg_replace('/[^a-z0-9\._-]+/i', '-', $name);
         return self::LOCK_FILE_DIRECTORY . '/' . $safeName;
@@ -127,7 +126,7 @@ class IliosFileSystem
      * Create a lock file
      * @param string $name
      */
-    public function createLock(string $name) : void
+    public function createLock(string $name): void
     {
         if ($this->hasLock($name)) {
             return;
@@ -142,7 +141,7 @@ class IliosFileSystem
      * Remove a lock file
      * @param string $name
      */
-    public function releaseLock(string $name) : void
+    public function releaseLock(string $name): void
     {
         if (!$this->hasLock($name)) {
             return;
@@ -156,9 +155,9 @@ class IliosFileSystem
     /**
      * Check if a lock file exists
      * @param string $name
-     * @return boolean
+     * @return bool
      */
-    public function hasLock(string $name) : bool
+    public function hasLock(string $name): bool
     {
         $relativePath = $this->getLockFilePath($name);
 
@@ -169,7 +168,7 @@ class IliosFileSystem
      * Wait for and then acquire a lock
      * @param string $name
      */
-    public function waitForLock(string $name) : void
+    public function waitForLock(string $name): void
     {
         while ($this->hasLock($name)) {
             usleep(250);
@@ -181,7 +180,7 @@ class IliosFileSystem
      * Test Create, Read, Update, Delete on our filesystem
      * @throws IliosFilesystemException
      */
-    public function testCRUD() : void
+    public function testCRUD(): void
     {
 
         $path = self::TEST_FILE_ROOT . '/test-file-' . uniqid();

@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use App\Traits\AdministratorsEntity;
 use App\Traits\AlertableEntity;
 use App\Traits\CompetenciesEntity;
@@ -16,7 +15,6 @@ use App\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\TitledEntity;
 use App\Traits\CoursesEntity;
 use App\Traits\ProgramsEntity;

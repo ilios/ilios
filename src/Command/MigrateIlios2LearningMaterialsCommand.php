@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\Console\Helper\ProgressBar;
-
 use App\Entity\Manager\LearningMaterialManager;
 use App\Service\IliosFileSystem;
 use Symfony\Component\HttpFoundation\File\File;
@@ -109,7 +108,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
                         $newPath = $this->iliosFileSystem->storeLearningMaterialFile($file);
                         $lm->setRelativePath($newPath);
                         $this->learningMaterialManager->update($lm, false);
-                        $migrated ++;
+                        $migrated++;
                     }
                     $progress->advance();
                 }

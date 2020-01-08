@@ -75,7 +75,7 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
         // get the expected fixture from the repo, then correct
         // the expected start- and end-dates by overriding them.
         // @todo load fixtures upstream without regenerating them [ST 2017/09/14].
-        $ref = 'courseLearningMaterials'.$expected['id'];
+        $ref = 'courseLearningMaterials' . $expected['id'];
         if ($this->fixtures->hasReference($ref)) {
             $fixture = $this->fixtures->getReference($ref);
             $startDate = $fixture->getStartDate();

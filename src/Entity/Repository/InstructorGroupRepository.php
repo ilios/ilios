@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -238,7 +239,7 @@ class InstructorGroupRepository extends EntityRepository implements DTORepositor
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.'.$sort, $order);
+                $qb->addOrderBy('x.' . $sort, $order);
             }
         }
 

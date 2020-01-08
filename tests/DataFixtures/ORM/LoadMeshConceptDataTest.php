@@ -46,7 +46,7 @@ class LoadMeshConceptDataTest extends AbstractDataFixtureTest
         // `registry_number`,`created_at`,`updated_at`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getName());
-        $this->assertEquals((boolean) $data[2], $entity->getPreferred());
+        $this->assertEquals((bool) $data[2], $entity->getPreferred());
         $this->assertEquals($data[3], $entity->getScopeNote());
         $this->assertEquals($data[4], $entity->getCasn1Name());
         $this->assertEquals($data[5], $entity->getRegistryNumber());

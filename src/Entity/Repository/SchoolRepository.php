@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use App\Entity\Session;
@@ -18,6 +19,7 @@ use App\Traits\CalendarEventRepository;
 class SchoolRepository extends EntityRepository implements DTORepositoryInterface
 {
     use CalendarEventRepository;
+
     /**
      * Custom findBy so we can filter by related entities
      *
@@ -110,11 +112,11 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
     /**
      * Find all of the events for a school by session
-     * @param integer $schoolId
-     * @param integer $sessionId
+     * @param int $schoolId
+     * @param int $sessionId
      * @return SchoolEvent[]
      */
-    public function findSessionEventsForSchool(int $schoolId, int $sessionId) : array
+    public function findSessionEventsForSchool(int $schoolId, int $sessionId): array
     {
         $qb = $this->_em->createQueryBuilder();
         $dates = $qb->select('o.startDate, o.endDate')
@@ -139,7 +141,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     /**
      * Find all of the events for a user id between two dates.
      *
-     * @param integer $id
+     * @param int $id
      * @param \DateTime $from
      * @param \DateTime $to
      *
@@ -194,7 +196,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     /**
      * Use the query builder to get a set of offering based school events.
      *
-     * @param integer $id
+     * @param int $id
      * @param \DateTime $from
      * @param \DateTime $to
      *
@@ -242,7 +244,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     /**
      * Use the query builder to get a set of ILMSession based user events.
      *
-     * @param integer $id
+     * @param int $id
      * @param \DateTime $from
      * @param \DateTime $to
      *
@@ -601,7 +603,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('s.'.$sort, $order);
+                $qb->addOrderBy('s.' . $sort, $order);
             }
         }
 

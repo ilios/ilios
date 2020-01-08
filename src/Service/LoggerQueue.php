@@ -57,7 +57,7 @@ class LoggerQueue
                 $item = array_pop($this->queue);
                 $action = $item['action'];
                 //New entities don't have an ID until this point
-                $objectId = $action === 'delete'?$item['id']:(string)$item['entity'];
+                $objectId = $action === 'delete' ? $item['id'] : (string)$item['entity'];
                 $objectClass = get_class($item['entity']);
                 $changes = $item['changes'];
                 $this->logger->log($action, $objectId, $objectClass, $changes, false);

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity\Manager;
 
 use App\Entity\Manager\SchoolManager;

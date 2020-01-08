@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\AbstractQuery;
@@ -168,7 +169,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('p.'.$sort, $order);
+                $qb->addOrderBy('p.' . $sort, $order);
             }
         }
 

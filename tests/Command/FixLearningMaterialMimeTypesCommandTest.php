@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\FixLearningMaterialMimeTypesCommand;
@@ -20,7 +21,8 @@ use Symfony\Component\HttpFoundation\File\File;
 class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:fix-mime-types';
+
+    private const COMMAND_NAME = 'ilios:fix-mime-types';
 
     protected $iliosFileSystem;
     protected $temporaryFileSystem;
@@ -48,7 +50,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->iliosFileSystem);
         unset($this->learningMaterialManager);

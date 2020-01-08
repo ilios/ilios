@@ -46,7 +46,7 @@ class LoadSessionTypeDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[1], $entity->getTitle());
         $this->assertEquals($data[2], $entity->getSchool()->getId());
         $this->assertEquals($data[3], $entity->getCalendarColor());
-        $this->assertEquals((boolean) $data[4], $entity->isAssessment());
+        $this->assertEquals((bool) $data[4], $entity->isAssessment());
         if (empty($data[5])) {
             $this->assertNull($entity->getAssessmentOption());
         } else {

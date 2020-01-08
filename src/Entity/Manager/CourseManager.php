@@ -15,7 +15,7 @@ class CourseManager extends BaseManager
     /**
      * Retrieves all courses associated with the given user.
      *
-     * @param integer $user
+     * @param int $user
      * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
@@ -62,7 +62,7 @@ class CourseManager extends BaseManager
      *
      * @param int $userId
      * @param int $courseId
-     * @return boolean TRUE if the user instructs at least one offering or ILM, FALSE otherwise.
+     * @return bool TRUE if the user instructs at least one offering or ILM, FALSE otherwise.
      */
     public function isUserInstructingInCourse($userId, $courseId)
     {

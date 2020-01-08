@@ -45,7 +45,7 @@ class LoadProgramYearData extends AbstractFixture implements
             }
 
             foreach ($arr['competencies'] as $id) {
-                $entity->addCompetency($this->getReference('competencies'.$id));
+                $entity->addCompetency($this->getReference('competencies' . $id));
             }
             $manager->persist($entity);
             $this->addReference('programYears' . $arr['id'], $entity);

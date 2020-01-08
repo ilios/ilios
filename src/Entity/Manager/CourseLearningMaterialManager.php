@@ -8,7 +8,7 @@ namespace App\Entity\Manager;
 class CourseLearningMaterialManager extends BaseManager
 {
     /**
-     * @return integer
+     * @return int
      */
     public function getTotalCourseLearningMaterialCount()
     {

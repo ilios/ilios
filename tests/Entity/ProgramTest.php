@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Program;
@@ -20,7 +21,7 @@ class ProgramTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new Program;
+        $this->object = new Program();
     }
 
     public function testNotBlankValidation()

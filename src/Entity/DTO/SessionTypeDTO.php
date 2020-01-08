@@ -13,7 +13,7 @@ use App\Annotation as IS;
 class SessionTypeDTO
 {
     /**
-     * @var integer
+     * @var int
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -36,7 +36,7 @@ class SessionTypeDTO
     public $calendarColor;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -44,7 +44,7 @@ class SessionTypeDTO
     public $active;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -52,7 +52,7 @@ class SessionTypeDTO
     public $assessment;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("entity")
@@ -60,7 +60,7 @@ class SessionTypeDTO
     public $assessmentOption;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("entity")

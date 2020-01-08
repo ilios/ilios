@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Classes\Capabilities;
 use App\Classes\PermissionMatrixInterface;
 use App\Classes\SessionUserInterface;
-
 use App\Entity\CourseInterface;
 use App\Entity\ProgramInterface;
 use App\Entity\ProgramYearInterface;
@@ -37,21 +36,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_ALL_COURSES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_ALL_COURSES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_ALL_COURSES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_THEIR_COURSES);
         $rolesInCourse = $sessionUser->rolesInCourse($course->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_THEIR_COURSES,
-            $rolesInCourse
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_THEIR_COURSES,
+                $rolesInCourse
+            )
+        ) {
             return true;
         }
 
@@ -71,21 +74,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_ALL_COURSES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_ALL_COURSES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_ALL_COURSES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_THEIR_COURSES);
         $rolesInCourse = $sessionUser->rolesInCourse($course->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_THEIR_COURSES,
-            $rolesInCourse
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_THEIR_COURSES,
+                $rolesInCourse
+            )
+        ) {
             return true;
         }
 
@@ -101,11 +108,13 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_COURSES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_COURSES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_COURSES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -125,21 +134,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UNLOCK_ALL_COURSES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UNLOCK_ALL_COURSES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UNLOCK_ALL_COURSES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UNLOCK_THEIR_COURSES);
         $rolesInCourse = $sessionUser->rolesInCourse($course->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UNLOCK_THEIR_COURSES,
-            $rolesInCourse
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UNLOCK_THEIR_COURSES,
+                $rolesInCourse
+            )
+        ) {
             return true;
         }
 
@@ -159,21 +172,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_LOCK_ALL_COURSES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_LOCK_ALL_COURSES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_LOCK_ALL_COURSES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_LOCK_THEIR_COURSES);
         $rolesInCourse = $sessionUser->rolesInCourse($course->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_LOCK_THEIR_COURSES,
-            $rolesInCourse
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_LOCK_THEIR_COURSES,
+                $rolesInCourse
+            )
+        ) {
             return true;
         }
 
@@ -189,21 +206,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_ARCHIVE_ALL_COURSES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_ARCHIVE_ALL_COURSES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_ARCHIVE_ALL_COURSES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_ARCHIVE_THEIR_COURSES);
         $rolesInCourse = $sessionUser->rolesInCourse($course->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_ARCHIVE_THEIR_COURSES,
-            $rolesInCourse
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_ARCHIVE_THEIR_COURSES,
+                $rolesInCourse
+            )
+        ) {
             return true;
         }
 
@@ -223,21 +244,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_ALL_SESSIONS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_ALL_SESSIONS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_ALL_SESSIONS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_THEIR_SESSIONS);
         $rolesInSession = $sessionUser->rolesInSession($session->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_THEIR_SESSIONS,
-            $rolesInSession
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_THEIR_SESSIONS,
+                $rolesInSession
+            )
+        ) {
             return true;
         }
 
@@ -257,21 +282,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_ALL_SESSIONS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_ALL_SESSIONS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_ALL_SESSIONS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_THEIR_SESSIONS);
         $rolesInSession = $sessionUser->rolesInSession($session->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_THEIR_SESSIONS,
-            $rolesInSession
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_THEIR_SESSIONS,
+                $rolesInSession
+            )
+        ) {
             return true;
         }
 
@@ -291,11 +320,13 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_SESSIONS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_SESSIONS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_SESSIONS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -309,11 +340,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_SESSION_TYPES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_SESSION_TYPES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_SESSION_TYPES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -327,11 +360,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_SESSION_TYPES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_SESSION_TYPES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_SESSION_TYPES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -345,146 +380,164 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_SESSION_TYPES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_SESSION_TYPES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_SESSION_TYPES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canUpdateDepartment(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canUpdateDepartment(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_DEPARTMENTS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_DEPARTMENTS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_DEPARTMENTS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canDeleteDepartment(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canDeleteDepartment(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_DEPARTMENTS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_DEPARTMENTS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_DEPARTMENTS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canCreateDepartment(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canCreateDepartment(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_DEPARTMENTS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_DEPARTMENTS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_DEPARTMENTS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canUpdateProgram(SessionUserInterface $sessionUser, int $programId, int $schoolId) : bool
+    public function canUpdateProgram(SessionUserInterface $sessionUser, int $programId, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_ALL_PROGRAMS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_ALL_PROGRAMS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAMS);
         $rolesInProgram = $sessionUser->rolesInProgram($programId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_THEIR_PROGRAMS,
-            $rolesInProgram
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_THEIR_PROGRAMS,
+                $rolesInProgram
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canDeleteProgram(SessionUserInterface $sessionUser, int $programId, int $schoolId) : bool
+    public function canDeleteProgram(SessionUserInterface $sessionUser, int $programId, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_ALL_PROGRAMS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_ALL_PROGRAMS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_ALL_PROGRAMS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAMS);
         $rolesInProgram = $sessionUser->rolesInProgram($programId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_THEIR_PROGRAMS,
-            $rolesInProgram
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_THEIR_PROGRAMS,
+                $rolesInProgram
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canCreateProgram(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canCreateProgram(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_PROGRAMS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_PROGRAMS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_PROGRAMS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canUpdateProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear) : bool
+    public function canUpdateProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
         if ($programYear->isLocked() || $programYear->isArchived()) {
             return false;
@@ -497,21 +550,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS);
         $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYear->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS,
-            $rolesInProgramYear
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS,
+                $rolesInProgramYear
+            )
+        ) {
             return true;
         }
 
@@ -522,7 +579,7 @@ class PermissionChecker
         );
     }
 
-    public function canDeleteProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear) : bool
+    public function canDeleteProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
         if ($programYear->isLocked() || $programYear->isArchived()) {
             return false;
@@ -535,21 +592,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS);
         $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYear->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS,
-            $rolesInProgramYear
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS,
+                $rolesInProgramYear
+            )
+        ) {
             return true;
         }
 
@@ -569,18 +630,20 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_PROGRAM_YEARS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_PROGRAM_YEARS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_PROGRAM_YEARS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return $this->canUpdateProgram($sessionUser, $program->getId(), $schoolId);
     }
 
-    public function canUnlockProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear) : bool
+    public function canUnlockProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
         if ($programYear->isArchived()) {
             return false;
@@ -593,21 +656,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UNLOCK_THEIR_PROGRAM_YEARS);
         $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYear->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UNLOCK_THEIR_PROGRAM_YEARS,
-            $rolesInProgramYear
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UNLOCK_THEIR_PROGRAM_YEARS,
+                $rolesInProgramYear
+            )
+        ) {
             return true;
         }
 
@@ -631,21 +698,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS);
         $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYear->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS,
-            $rolesInProgramYear
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS,
+                $rolesInProgramYear
+            )
+        ) {
             return true;
         }
 
@@ -665,21 +736,25 @@ class PermissionChecker
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS);
         $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYear->getId(), $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS,
-            $rolesInProgramYear
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS,
+                $rolesInProgramYear
+            )
+        ) {
             return true;
         }
 
@@ -690,126 +765,140 @@ class PermissionChecker
         );
     }
 
-    public function canUpdateSchoolConfig(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canUpdateSchoolConfig(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_SCHOOL_CONFIGS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_SCHOOL_CONFIGS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_SCHOOL_CONFIGS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canDeleteSchoolConfig(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canDeleteSchoolConfig(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_SCHOOL_CONFIGS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_SCHOOL_CONFIGS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_SCHOOL_CONFIGS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canCreateSchoolConfig(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canCreateSchoolConfig(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_SCHOOL_CONFIGS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_SCHOOL_CONFIGS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_SCHOOL_CONFIGS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canUpdateSchool(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canUpdateSchool(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_SCHOOLS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_SCHOOLS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_SCHOOLS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canUpdateCompetency(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canUpdateCompetency(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_COMPETENCIES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_COMPETENCIES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_COMPETENCIES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canDeleteCompetency(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canDeleteCompetency(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_COMPETENCIES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_COMPETENCIES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_COMPETENCIES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canCreateCompetency(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canCreateCompetency(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_COMPETENCIES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_COMPETENCIES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_COMPETENCIES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -823,11 +912,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_VOCABULARIES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_VOCABULARIES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_VOCABULARIES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -841,11 +932,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_VOCABULARIES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_VOCABULARIES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_VOCABULARIES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -859,11 +952,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_VOCABULARIES);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_VOCABULARIES,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_VOCABULARIES,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -877,11 +972,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_TERMS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_TERMS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_TERMS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -895,11 +992,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_TERMS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_TERMS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_TERMS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -913,11 +1012,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_TERMS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_TERMS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_TERMS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -931,11 +1032,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -949,11 +1052,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_INSTRUCTOR_GROUPS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_INSTRUCTOR_GROUPS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_INSTRUCTOR_GROUPS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -967,11 +1072,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_INSTRUCTOR_GROUPS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_INSTRUCTOR_GROUPS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_INSTRUCTOR_GROUPS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -992,11 +1099,13 @@ class PermissionChecker
             Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS
         );
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -1008,11 +1117,13 @@ class PermissionChecker
             $curriculumInventoryReportId,
             $permittedRoles
         );
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_THEIR_CURRICULUM_INVENTORY_REPORTS,
-            $rolesInCiReport
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_THEIR_CURRICULUM_INVENTORY_REPORTS,
+                $rolesInCiReport
+            )
+        ) {
             return true;
         }
 
@@ -1032,11 +1143,13 @@ class PermissionChecker
             Capabilities::CAN_DELETE_ALL_CURRICULUM_INVENTORY_REPORTS
         );
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_ALL_CURRICULUM_INVENTORY_REPORTS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_ALL_CURRICULUM_INVENTORY_REPORTS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -1048,11 +1161,13 @@ class PermissionChecker
             $curriculumInventoryReportId,
             $permittedRoles
         );
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_THEIR_CURRICULUM_INVENTORY_REPORTS,
-            $rolesInCiReport
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_THEIR_CURRICULUM_INVENTORY_REPORTS,
+                $rolesInCiReport
+            )
+        ) {
             return true;
         }
 
@@ -1071,11 +1186,13 @@ class PermissionChecker
             Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_REPORTS
         );
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_REPORTS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_REPORTS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -1105,7 +1222,7 @@ class PermissionChecker
         return $can;
     }
 
-    public function canUpdateCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canUpdateCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
@@ -1115,18 +1232,20 @@ class PermissionChecker
             Capabilities::CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS
         );
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canDeleteCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canDeleteCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
@@ -1136,18 +1255,20 @@ class PermissionChecker
             Capabilities::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS
         );
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
         return false;
     }
 
-    public function canCreateCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId) : bool
+    public function canCreateCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
@@ -1157,11 +1278,13 @@ class PermissionChecker
             Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS
         );
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -1175,11 +1298,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_LEARNER_GROUPS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_LEARNER_GROUPS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_LEARNER_GROUPS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -1193,11 +1318,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_LEARNER_GROUPS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_LEARNER_GROUPS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_LEARNER_GROUPS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -1211,11 +1338,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_LEARNER_GROUPS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_LEARNER_GROUPS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_LEARNER_GROUPS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -1229,11 +1358,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_USERS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_UPDATE_USERS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_UPDATE_USERS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -1247,11 +1378,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_USERS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_DELETE_USERS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_DELETE_USERS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 
@@ -1265,11 +1398,13 @@ class PermissionChecker
         }
         $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_USERS);
         $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if ($this->matrix->hasPermission(
-            $schoolId,
-            Capabilities::CAN_CREATE_USERS,
-            $rolesInSchool
-        )) {
+        if (
+            $this->matrix->hasPermission(
+                $schoolId,
+                Capabilities::CAN_CREATE_USERS,
+                $rolesInSchool
+            )
+        ) {
             return true;
         }
 

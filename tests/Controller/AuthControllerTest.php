@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Tests\GetUrlTrait;
 use Firebase\JWT\JWT;
 use DateTime;
-
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use App\Entity\Session;
@@ -39,8 +40,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      * Find by a string query
      * @param string $q
      * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      * @param array $criteria
      * @return UserDTO[]
      */
@@ -135,7 +136,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
     /**
      * Find all of the events for a user id between two dates
-     * @param integer $id
+     * @param int $id
      * @param \DateTime $from
      * @param \DateTime $to
      * @return UserEvent[]
@@ -199,11 +200,11 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
     /**
      * Find all of the events for a user in a session
-     * @param integer $userId
-     * @param integer $sessionId
+     * @param int $userId
+     * @param int $sessionId
      * @return UserEvent[]
      */
-    public function findSessionEventsForUser(int $userId, int $sessionId) : array
+    public function findSessionEventsForUser(int $userId, int $sessionId): array
     {
         $qb = $this->_em->createQueryBuilder();
         $dates = $qb->select('o.startDate, o.endDate')
@@ -262,8 +263,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     /**
      * Get all the IDs for all users
      *
-     * @param boolean $includeDisabled
-     * @param boolean $includeSyncIgnore
+     * @param bool $includeDisabled
+     * @param bool $includeSyncIgnore
      *
      * @return array
      */
@@ -286,8 +287,8 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     /**
      * Get all the campus IDs for all users
      *
-     * @param boolean $includeDisabled
-     * @param boolean $includeSyncIgnore
+     * @param bool $includeDisabled
+     * @param bool $includeSyncIgnore
      *
      * @return array
      */
@@ -326,7 +327,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      * Use the query builder and the $joins to get a set of
      * offering based user events
      *
-     * @param integer $id
+     * @param int $id
      * @param \DateTime $from
      * @param \DateTime $to
      * @param array $joins
@@ -379,7 +380,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      * Use the query builder and the $joins to get a set of
      * ILMSession based user events
      *
-     * @param integer $id
+     * @param int $id
      * @param \DateTime $from
      * @param \DateTime $to
      * @param array $joins
@@ -1036,7 +1037,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
     /**
      * Find all of the assigned materials for a user
-     * @param integer $id
+     * @param int $id
      * @param UserMaterialFactory $factory
      * @param array $criteria
      *
@@ -1437,7 +1438,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $rhett['programIds'][] = $arr['programId'];
             $rhett['programYearIds'][] = $arr['programYearId'];
             $rhett['cohortIds'][] = $arr['cohortId'];
-            $rhett['courseIds'] []= $arr['courseId'];
+            $rhett['courseIds'] [] = $arr['courseId'];
         }
 
         return $this->dedupeSubArrays($rhett);
@@ -1614,7 +1615,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
     /**
      * @return array
      */
-    protected function getUserToIlmJoins() : array
+    protected function getUserToIlmJoins(): array
     {
         return [
             ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions'],

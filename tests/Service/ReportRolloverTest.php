@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Service;
 
 use App\Entity\CurriculumInventoryAcademicLevel;
@@ -84,7 +85,7 @@ class ReportRolloverTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->service);
         unset($this->sequenceBlockManager);

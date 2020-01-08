@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use App\Traits\DescribableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\SessionsEntityInterface;
@@ -23,30 +22,30 @@ interface CurriculumInventorySequenceBlockInterface extends
     /**
      * @var int
      */
-    const REQUIRED = 1;
+    public const REQUIRED = 1;
     /**
      * @var int
      */
-    const OPTIONAL = 2;
+    public const OPTIONAL = 2;
     /**
      * @var int
      */
-    const REQUIRED_IN_TRACK = 3;
+    public const REQUIRED_IN_TRACK = 3;
 
     /**
      * @var int
      */
-    const ORDERED = 1;
+    public const ORDERED = 1;
 
     /**
      * @var int
      */
-    const UNORDERED = 2;
+    public const UNORDERED = 2;
 
     /**
      * @var int
      */
-    const PARALLEL = 3;
+    public const PARALLEL = 3;
 
     /**
      * @param int $required
@@ -99,12 +98,12 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function getMaximum();
 
     /**
-     * @param boolean $track
+     * @param bool $track
      */
     public function setTrack($track);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasTrack();
 

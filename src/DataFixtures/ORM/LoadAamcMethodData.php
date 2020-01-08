@@ -42,7 +42,7 @@ class LoadAamcMethodData extends AbstractFixture
         // `method_id`,`description`,`active`
         $entity->setId($data[0]);
         $entity->setDescription($data[1]);
-        $entity->setActive((boolean) $data[2]);
+        $entity->setActive((bool) $data[2]);
         return $entity;
     }
 }

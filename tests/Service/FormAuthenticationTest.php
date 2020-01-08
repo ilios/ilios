@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Service;
 
 use App\Classes\SessionUserInterface;
@@ -10,7 +11,6 @@ use App\Entity\UserInterface;
 use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
-
 use App\Service\FormAuthentication;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -53,7 +53,7 @@ class FormAuthenticationTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         unset($this->authManager);
         unset($this->userManager);

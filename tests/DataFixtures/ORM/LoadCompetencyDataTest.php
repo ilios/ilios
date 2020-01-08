@@ -50,6 +50,6 @@ class LoadCompetencyDataTest extends AbstractDataFixtureTest
             $this->assertEquals($data[2], $entity->getParent()->getId());
         }
         $this->assertEquals($data[3], $entity->getSchool()->getId());
-        $this->assertEquals((boolean) $data[4], $entity->isActive());
+        $this->assertEquals((bool) $data[4], $entity->isActive());
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CourseInterface;
@@ -22,7 +23,7 @@ class TermTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new Term;
+        $this->object = new Term();
     }
 
     /**

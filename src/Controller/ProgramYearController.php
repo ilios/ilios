@@ -68,7 +68,7 @@ class ProgramYearController extends ApiController
         /** @var BaseManager $manager */
         $manager = $this->getManager($object);
         /** @var ProgramYearInterface $entity */
-        $entity = $manager->findOneBy(['id'=> $id]);
+        $entity = $manager->findOneBy(['id' => $id]);
         $data = $this->extractPutDataFromRequest($request, $object);
 
         if ($entity) {

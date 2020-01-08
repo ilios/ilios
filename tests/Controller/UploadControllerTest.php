@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
-
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 
@@ -35,7 +35,7 @@ class UploadControllerTest extends WebTestCase
         );
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         $this->fs->remove($this->fakeTestFileDir);
         unset($this->fs);

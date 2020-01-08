@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CourseInterface;
@@ -26,7 +27,7 @@ class MeshDescriptorTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new MeshDescriptor;
+        $this->object = new MeshDescriptor();
     }
 
     public function testNotBlankValidation()

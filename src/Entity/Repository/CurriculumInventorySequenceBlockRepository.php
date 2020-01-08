@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -77,9 +78,10 @@ class CurriculumInventorySequenceBlockRepository extends EntityRepository implem
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $sequenceBlockDTOs[$arr['xId']]->report = (int) $arr['reportId'];
-            $sequenceBlockDTOs[$arr['xId']]->academicLevel = $arr['academicLevelId']?(int)$arr['academicLevelId']:null;
-            $sequenceBlockDTOs[$arr['xId']]->course = $arr['courseId']?(int)$arr['courseId']:null;
-            $sequenceBlockDTOs[$arr['xId']]->parent = $arr['parentId']?(int)$arr['parentId']:null;
+            $sequenceBlockDTOs[$arr['xId']]->academicLevel =
+                $arr['academicLevelId'] ? (int)$arr['academicLevelId'] : null;
+            $sequenceBlockDTOs[$arr['xId']]->course = $arr['courseId'] ? (int)$arr['courseId'] : null;
+            $sequenceBlockDTOs[$arr['xId']]->parent = $arr['parentId'] ? (int)$arr['parentId'] : null;
             $sequenceBlockDTOs[$arr['xId']]->school = $arr['schoolId'];
         }
 
@@ -147,7 +149,7 @@ class CurriculumInventorySequenceBlockRepository extends EntityRepository implem
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.'.$sort, $order);
+                $qb->addOrderBy('x.' . $sort, $order);
             }
         }
 

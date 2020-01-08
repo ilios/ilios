@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\AddDirectoryUserCommand;
@@ -16,7 +17,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    const COMMAND_NAME = 'ilios:add-directory-user';
+    private const COMMAND_NAME = 'ilios:add-directory-user';
 
     protected $userManager;
     protected $authenticationManager;
@@ -49,7 +50,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->userManager);
         unset($this->authenticationManager);

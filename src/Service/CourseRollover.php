@@ -421,8 +421,8 @@ class CourseRollover
 
     /**
      * @param \DateTime      $origCourseStartDate
-     * @param integer        $origAcademicYear
-     * @param integer        $newAcademicYear
+     * @param int        $origAcademicYear
+     * @param int        $newAcademicYear
      * @param \DateTime|null $newCourseStartDate
      * @return int
      */

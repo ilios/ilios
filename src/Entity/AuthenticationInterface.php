@@ -56,7 +56,7 @@ interface AuthenticationInterface extends LoggableEntityInterface
 
     /**
      * Check if this is a legacy account
-     * @return boolean
+     * @return bool
      */
     public function isLegacyAccount();
 

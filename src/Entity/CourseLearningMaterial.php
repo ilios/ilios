@@ -9,7 +9,6 @@ use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SortableEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 
@@ -63,7 +62,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     protected $notes;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="required", type="boolean")
      *
@@ -76,7 +75,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     protected $required;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="notes_are_public", type="boolean")
      *

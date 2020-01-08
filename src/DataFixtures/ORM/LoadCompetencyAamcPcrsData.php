@@ -4,7 +4,6 @@ namespace App\DataFixtures\ORM;
 
 use App\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 use App\Entity\Competency;
 use App\Entity\CompetencyInterface;
 

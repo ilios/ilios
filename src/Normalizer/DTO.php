@@ -58,7 +58,7 @@ class DTO extends ObjectNormalizer
 
         if ($type === 'string') {
             $value = $this->propertyAccessor->getValue($object, $property);
-            return null === $value? null:(string) $value;
+            return null === $value ? null : (string) $value;
         }
 
         if ($type === 'array<string>') {

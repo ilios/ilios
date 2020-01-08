@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\ChangeUsernameCommand;
@@ -19,7 +20,8 @@ use Mockery as m;
 class ChangeUsernameCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:change-username';
+
+    private const COMMAND_NAME = 'ilios:change-username';
 
     /** @var CommandTester */
     protected $commandTester;
@@ -48,7 +50,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->userManager);
         unset($this->authenticationManager);

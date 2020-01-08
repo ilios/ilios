@@ -22,7 +22,7 @@ class UserTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new User;
+        $this->object = new User();
     }
 
     public function testNotBlankValidation()

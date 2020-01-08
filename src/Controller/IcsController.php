@@ -13,13 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
-use \Eluceo\iCal\Component as ICS;
+use Eluceo\iCal\Component as ICS;
 use Symfony\Component\Routing\RouterInterface;
 
 class IcsController extends AbstractController
 {
-    const LOOK_BACK = '-4 months';
-    const LOOK_FORWARD = '+2 months';
+    private const LOOK_BACK = '-4 months';
+    private const LOOK_FORWARD = '+2 months';
 
     /**
      * @var RouterInterface
@@ -156,9 +156,9 @@ class IcsController extends AbstractController
 
         $lines = [
             $this->purify($type),
-            $session->isAttireRequired()?'You will need special attire':null,
-            $session->isEquipmentRequired()?'You will need special equipment':null,
-            $session->isAttendanceRequired()?'Attendance is Required':null,
+            $session->isAttireRequired() ? 'You will need special attire' : null,
+            $session->isEquipmentRequired() ? 'You will need special equipment' : null,
+            $session->isAttendanceRequired() ? 'Attendance is Required' : null,
         ];
 
         if ($session->getPrerequisites()->count()) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\ValidateLearningMaterialPathsCommand;
@@ -16,7 +17,8 @@ use Mockery as m;
 class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:validate-learning-materials';
+
+    private const COMMAND_NAME = 'ilios:validate-learning-materials';
 
     protected $iliosFileSystem;
     protected $learningMaterialManager;
@@ -41,7 +43,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->iliosFileSystem);
         unset($this->learningMaterialManager);

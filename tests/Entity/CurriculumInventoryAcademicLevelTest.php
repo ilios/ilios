@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CurriculumInventoryAcademicLevel;
@@ -20,7 +21,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new CurriculumInventoryAcademicLevel;
+        $this->object = new CurriculumInventoryAcademicLevel();
     }
 
     public function testNotBlankValidation()

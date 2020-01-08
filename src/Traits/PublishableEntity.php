@@ -8,7 +8,7 @@ namespace App\Traits;
 trait PublishableEntity
 {
     /**
-     * @param boolean $published
+     * @param bool $published
      */
     public function setPublished($published)
     {
@@ -16,7 +16,7 @@ trait PublishableEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPublished()
     {
@@ -24,15 +24,15 @@ trait PublishableEntity
     }
 
     /**
-     * @param boolean $publishedAsTbd
+     * @param bool $publishedAsTbd
      */
     public function setPublishedAsTbd($publishedAsTbd)
     {
-        $this->publishedAsTbd = (boolean) $publishedAsTbd;
+        $this->publishedAsTbd = (bool) $publishedAsTbd;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPublishedAsTbd()
     {

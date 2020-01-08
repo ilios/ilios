@@ -47,9 +47,9 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getMeshTermUid());
         $this->assertEquals($data[1], $entity->getName());
         $this->assertEquals($data[2], $entity->getLexicalTag());
-        $this->assertEquals((boolean) $data[3], $entity->isConceptPreferred());
-        $this->assertEquals((boolean) $data[4], $entity->isRecordPreferred());
-        $this->assertEquals((boolean) $data[5], $entity->isPermuted());
+        $this->assertEquals((bool) $data[3], $entity->isConceptPreferred());
+        $this->assertEquals((bool) $data[4], $entity->isRecordPreferred());
+        $this->assertEquals((bool) $data[5], $entity->isPermuted());
         $this->assertEquals(new \DateTime($data[6], new \DateTimeZone('UTC')), $entity->getCreatedAt());
         $this->assertEquals(new \DateTime($data[7], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
         $this->assertEquals($data[8], $entity->getId());

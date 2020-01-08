@@ -46,7 +46,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @var string
      */
-    const COMMAND_NAME = 'ilios:import-mesh-universe';
+    private const COMMAND_NAME = 'ilios:import-mesh-universe';
 
     /**
      * @inheritdoc
@@ -68,7 +68,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @inheritdoc
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->meshParser);
         unset($this->descriptorManager);

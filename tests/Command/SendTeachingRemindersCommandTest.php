@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,7 +34,8 @@ use Symfony\Component\Filesystem\Filesystem;
 class SendTeachingRemindersCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:send-teaching-reminders';
+
+    private const COMMAND_NAME = 'ilios:send-teaching-reminders';
 
     /**
      * @var OfferingManager
@@ -104,7 +106,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->fakeOfferingManager);
         unset($this->fs);

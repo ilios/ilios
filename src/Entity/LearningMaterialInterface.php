@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use App\Traits\DescribableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\TitledEntityInterface;

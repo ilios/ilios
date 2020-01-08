@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\SyncAllUsersCommand;
@@ -9,7 +10,6 @@ use App\Entity\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-
 use Mockery as m;
 
 /**
@@ -19,7 +19,8 @@ use Mockery as m;
 class SyncAllUsersCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:sync-users';
+
+    private const COMMAND_NAME = 'ilios:sync-users';
 
     /**
      * @var m\Mock
@@ -77,7 +78,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->userManager);
         unset($this->authenticationManager);

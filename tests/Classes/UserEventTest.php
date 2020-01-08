@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Classes;
 
 use App\Classes\CalendarEvent;
@@ -31,7 +32,7 @@ class UserEventTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         unset($this->userEvent);
     }

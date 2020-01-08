@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use \DateTime;
-use \SplFileObject;
-use \Exception;
+use DateTime;
+use SplFileObject;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -38,7 +38,7 @@ class Fetch
      * @return string
      * @throws Exception
      */
-    public function get(string $url, SplFileObject $file = null) : string
+    public function get(string $url, SplFileObject $file = null): string
     {
         $headers = [];
         if ($file) {

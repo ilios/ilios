@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use App\Entity\Manager\AuthenticationManager;
-
 use App\Entity\Manager\SchoolManager;
 use App\Entity\Manager\UserManager;
 use App\Entity\SchoolInterface;
@@ -28,22 +27,22 @@ class InstallFirstUserCommand extends Command
     /**
      * @var string
      */
-    const USERNAME = 'first_user';
+    private const USERNAME = 'first_user';
 
     /**
      * @var string
      */
-    const PASSWORD = 'Ch4nge_m3';
+    private const PASSWORD = 'Ch4nge_m3';
 
     /**
      * @var string
      */
-    const FIRST_NAME = 'First';
+    private const FIRST_NAME = 'First';
 
     /**
      * @var string
      */
-    const LAST_NAME = 'User';
+    private const LAST_NAME = 'User';
 
     /**
      * @var UserManager

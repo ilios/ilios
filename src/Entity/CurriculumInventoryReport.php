@@ -9,7 +9,6 @@ use App\Traits\AdministratorsEntity;
 use App\Traits\SequenceBlocksEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;

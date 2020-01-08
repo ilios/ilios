@@ -35,7 +35,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     use LearningMaterialRelationshipEntity;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="session_learning_material_id", type="integer")
      * @ORM\Id
@@ -67,7 +67,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     protected $notes;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="required", type="boolean")
      *
@@ -80,7 +80,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     protected $required;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="notes_are_public", type="boolean")
      *

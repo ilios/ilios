@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\CrossingGuardCommand;
@@ -15,7 +16,8 @@ use Mockery as m;
 class CrossingGuardCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:crossing-guard';
+
+    private const COMMAND_NAME = 'ilios:crossing-guard';
 
     protected $crossingGuard;
     protected $commandTester;
@@ -37,7 +39,7 @@ class CrossingGuardCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->crossingGuard);
         unset($this->commandTester);

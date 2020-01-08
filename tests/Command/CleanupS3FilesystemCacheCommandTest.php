@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Classes\DiskSpace;
@@ -19,8 +20,9 @@ use Mockery as m;
 class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:cleanup-s3-cache';
-    const CACHE_DIR = __DIR__ . '/test';
+
+    private const COMMAND_NAME = 'ilios:cleanup-s3-cache';
+    private const CACHE_DIR = __DIR__ . '/test';
 
     /** @var CommandTester */
     protected $commandTester;
@@ -51,7 +53,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->filesystem);
         unset($this->diskSpace);

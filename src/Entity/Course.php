@@ -14,7 +14,6 @@ use App\Traits\ObjectivesEntity;
 use App\Traits\PublishableEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
 use App\Traits\IdentifiableEntity;
@@ -154,7 +153,7 @@ class Course implements CourseInterface
     protected $externalId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *
@@ -167,7 +166,7 @@ class Course implements CourseInterface
     protected $locked;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *
@@ -180,7 +179,7 @@ class Course implements CourseInterface
     protected $archived;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", name="published_as_tbd")
      *
@@ -193,7 +192,7 @@ class Course implements CourseInterface
     protected $publishedAsTbd;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *
@@ -586,7 +585,7 @@ class Course implements CourseInterface
     {
         $ancestor = $this->getAncestor();
 
-        return $ancestor?$ancestor:$this;
+        return $ancestor ? $ancestor : $this;
     }
 
     /**

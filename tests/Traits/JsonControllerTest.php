@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Traits;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -15,8 +16,8 @@ trait JsonControllerTest
      * Check if the response is valid
      * tests the status code, headers, and the content
      * @param Response $response
-     * @param integer $statusCode
-     * @param boolean $checkValidJson
+     * @param int $statusCode
+     * @param bool $checkValidJson
      */
     protected function assertJsonResponse(Response $response, $statusCode, $checkValidJson = true)
     {

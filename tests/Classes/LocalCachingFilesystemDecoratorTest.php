@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Classes;
 
 use App\Classes\LocalCachingFilesystemDecorator;
@@ -43,7 +44,7 @@ class LocalCachingFilesystemDecoratorTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         unset($this->cacheFileSystem);
         unset($this->remoteFileSystem);

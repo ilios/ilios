@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Service;
 
 use App\Classes\SessionUserInterface;
@@ -12,7 +13,6 @@ use App\Tests\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
-
 use App\Service\ShibbolethAuthentication;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,7 +50,7 @@ class ShibbolethAuthenticationTest extends TestCase
         );
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->obj);
         unset($this->authManager);

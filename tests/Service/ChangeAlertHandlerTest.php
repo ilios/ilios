@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Service;
 
 use App\Entity\Alert;
@@ -59,7 +60,7 @@ class ChangeAlertHandlerTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         unset($this->changeAlertHandler);
         unset($this->mockAlertManager);

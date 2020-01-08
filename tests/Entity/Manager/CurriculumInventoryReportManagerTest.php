@@ -52,7 +52,7 @@ class CurriculumInventoryReportManagerTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         parent::tearDown();
         unset($this->repository);

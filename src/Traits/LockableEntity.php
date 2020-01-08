@@ -8,7 +8,7 @@ namespace App\Traits;
 trait LockableEntity
 {
     /**
-     * @param boolean $locked
+     * @param bool $locked
      */
     public function setLocked($locked)
     {
@@ -16,7 +16,7 @@ trait LockableEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isLocked()
     {

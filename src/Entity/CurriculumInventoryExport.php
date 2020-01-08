@@ -5,10 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\UserInterface;
-
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 

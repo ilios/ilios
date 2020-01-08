@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -42,7 +43,7 @@ use App\Entity\Term;
 use App\Entity\User;
 use Doctrine\Common\Collections\Collection;
 use Mockery as m;
-use \DateTime;
+use DateTime;
 use App\Tests\TestCase;
 
 /**
@@ -138,7 +139,7 @@ class CourseRolloverTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->courseManager);
         unset($this->learningMaterialManager);
@@ -1332,7 +1333,7 @@ class CourseRolloverTest extends TestCase
      *
      * @param CourseInterface $course
      * @param CourseInterface $newCourse
-     * @param integer $interval the length of time in the future for the new academic year
+     * @param int $interval the length of time in the future for the new academic year
      *
      * @return int
      */

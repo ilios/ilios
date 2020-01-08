@@ -28,7 +28,7 @@ class IngestionExceptionDTO
     public $uid;
 
     /**
-     * @var integer
+     * @var int
      * @IS\Expose
      *
      * @IS\Type("string")

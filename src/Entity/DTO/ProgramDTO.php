@@ -36,7 +36,7 @@ class ProgramDTO
     public $shortTitle;
 
     /**
-     * @var integer
+     * @var int
      * @IS\Expose
      * @IS\Type("string")
      *
@@ -44,7 +44,7 @@ class ProgramDTO
     public $duration;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      * @deprecated
@@ -52,7 +52,7 @@ class ProgramDTO
     public $publishedAsTbd;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      * @deprecated
@@ -60,7 +60,7 @@ class ProgramDTO
     public $published;
 
     /**
-     * @var integer
+     * @var int
      * @IS\Expose
      * @IS\Type("string")
      *

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CurriculumInventoryAcademicLevel;
@@ -22,7 +23,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new CurriculumInventorySequenceBlock;
+        $this->object = new CurriculumInventorySequenceBlock();
     }
 
     public function testNotBlankValidation()

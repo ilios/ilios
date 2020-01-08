@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Controller;
 
 use App\Tests\DataLoader\ApplicationConfigData;
@@ -10,7 +11,6 @@ use App\Tests\Fixture\LoadSessionDescriptionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\GetUrlTrait;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -50,7 +50,7 @@ class DownloadControllerTest extends WebTestCase
     /**
      * @inheritdoc
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->fixtures);
     }
@@ -90,7 +90,7 @@ class DownloadControllerTest extends WebTestCase
 
         $this->assertEquals(
             $response->headers->get('Content-Disposition'),
-            'attachment; filename="' . $data['filename'] .'"'
+            'attachment; filename="' . $data['filename'] . '"'
         );
         $this->assertEquals(RESPONSE::HTTP_OK, $response->getStatusCode(), $response->getContent());
         $learningMaterialLoaderPath = realpath(__DIR__ . '/../Fixture/LoadLearningMaterialData.php');

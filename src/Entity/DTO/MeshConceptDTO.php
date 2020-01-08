@@ -12,7 +12,7 @@ use App\Annotation as IS;
 class MeshConceptDTO
 {
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -28,7 +28,7 @@ class MeshConceptDTO
     public $name;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")

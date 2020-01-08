@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Alert;
@@ -20,7 +21,7 @@ class AlertTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new Alert;
+        $this->object = new Alert();
     }
 
     public function testNotBlankValidation()

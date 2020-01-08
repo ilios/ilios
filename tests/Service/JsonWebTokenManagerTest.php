@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Service;
 
 use App\Classes\SessionUserInterface;
@@ -8,7 +9,6 @@ use App\Tests\TestCase;
 use Firebase\JWT\JWT;
 use DateTime;
 use Mockery as m;
-
 use App\Service\JsonWebTokenManager;
 
 class JsonWebTokenManagerTest extends TestCase
@@ -32,7 +32,7 @@ class JsonWebTokenManagerTest extends TestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->obj);
         unset($this->permissionChecker);

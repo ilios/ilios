@@ -28,7 +28,7 @@ class CourseLearningMaterialDTO
     public $notes;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -36,7 +36,7 @@ class CourseLearningMaterialDTO
     public $required;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -93,7 +93,7 @@ class CourseLearningMaterialDTO
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var boolean
+     * @var bool
      *
      * @IS\Type("boolean")
      */
@@ -101,7 +101,7 @@ class CourseLearningMaterialDTO
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var boolean
+     * @var bool
      *
      * @IS\Type("boolean")
      */

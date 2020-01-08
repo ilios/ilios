@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service;
 
 use App\Entity\AuditLog;
@@ -16,7 +17,7 @@ use App\Classes\SessionUserInterface;
 class Logger
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $userId;
 
@@ -47,7 +48,8 @@ class Logger
         AuditLogManager $auditLogManager,
         LoggerInterface $logger
     ) {
-        if (null !== $securityTokenStorage &&
+        if (
+            null !== $securityTokenStorage &&
             null !== $securityTokenStorage->getToken()
         ) {
             /** @var SessionUserInterface $sessionUser */

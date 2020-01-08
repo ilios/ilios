@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use App\Traits\DirectorsEntity;
 use App\Traits\PublishableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Annotation as IS;
-
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
@@ -96,7 +94,7 @@ class Program implements ProgramInterface
     protected $duration;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="published_as_tbd", type="boolean")
      *
@@ -111,7 +109,7 @@ class Program implements ProgramInterface
     protected $publishedAsTbd;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *

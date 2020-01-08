@@ -1,4 +1,5 @@
 <?php
+
 namespace App\EventListener;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,7 +28,8 @@ class RemoveOrphanedObjectives
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            if ($entity instanceof ProgramYearInterface ||
+            if (
+                $entity instanceof ProgramYearInterface ||
                 $entity instanceof CourseInterface ||
                 $entity instanceof SessionInterface
             ) {
@@ -39,7 +41,8 @@ class RemoveOrphanedObjectives
                     /** @var IdentifiableEntityInterface[] $allLinks */
                     $allLinks = array_merge($programYears->toArray(), $courses->toArray(), $sessions->toArray());
                     //ensure that this Objective is only linked to the deleted entity
-                    if (count($allLinks) === 0 ||
+                    if (
+                        count($allLinks) === 0 ||
                         (count($allLinks) === 1 && $allLinks[0]->getId() === $entity->getId())
                     ) {
                         $this->removeLinks($uow, $em, $objective);

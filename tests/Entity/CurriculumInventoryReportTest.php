@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CurriculumInventoryReport;
@@ -22,7 +23,7 @@ class CurriculumInventoryReportTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new CurriculumInventoryReport;
+        $this->object = new CurriculumInventoryReport();
     }
 
     public function testNotBlankValidation()

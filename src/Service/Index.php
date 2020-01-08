@@ -15,7 +15,7 @@ class Index extends ElasticSearchBase
      * @param UserDTO[] $users
      * @return bool
      */
-    public function indexUsers(array $users) : bool
+    public function indexUsers(array $users): bool
     {
         foreach ($users as $user) {
             if (!$user instanceof UserDTO) {
@@ -49,7 +49,7 @@ class Index extends ElasticSearchBase
      * @param int $id
      * @return bool
      */
-    public function deleteUser(int $id) : bool
+    public function deleteUser(int $id): bool
     {
         $result = $this->delete([
             'index' => Search::PRIVATE_USER_INDEX,
@@ -63,7 +63,7 @@ class Index extends ElasticSearchBase
      * @param IndexableCourse[] $courses
      * @return bool
      */
-    public function indexCourses(array $courses) : bool
+    public function indexCourses(array $courses): bool
     {
         foreach ($courses as $course) {
             if (!$course instanceof IndexableCourse) {
@@ -101,7 +101,7 @@ class Index extends ElasticSearchBase
      *
      * @return bool
      */
-    public function deleteCourse(int $id) : bool
+    public function deleteCourse(int $id): bool
     {
         $result = $this->deleteByQuery([
             'index' => Search::PUBLIC_CURRICULUM_INDEX,
@@ -120,7 +120,7 @@ class Index extends ElasticSearchBase
      *
      * @return bool
      */
-    public function deleteSession(int $id) : bool
+    public function deleteSession(int $id): bool
     {
         $result = $this->delete([
             'index' => Search::PUBLIC_CURRICULUM_INDEX,
@@ -134,7 +134,7 @@ class Index extends ElasticSearchBase
      * @param Descriptor[] $descriptors
      * @return bool
      */
-    public function indexMeshDescriptors(array $descriptors) : bool
+    public function indexMeshDescriptors(array $descriptors): bool
     {
         foreach ($descriptors as $descriptor) {
             if (!$descriptor instanceof Descriptor) {
@@ -177,7 +177,7 @@ class Index extends ElasticSearchBase
         return !$result['errors'];
     }
 
-    protected function index(array $params) : array
+    protected function index(array $params): array
     {
         if (!$this->enabled) {
             return ['errors' => false];
@@ -185,7 +185,7 @@ class Index extends ElasticSearchBase
         return $this->client->index($params);
     }
 
-    protected function delete(array $params) : array
+    protected function delete(array $params): array
     {
         if (!$this->enabled) {
             return ['result' => 'deleted'];
@@ -193,7 +193,7 @@ class Index extends ElasticSearchBase
         return $this->client->delete($params);
     }
 
-    protected function deleteByQuery(array $params) : array
+    protected function deleteByQuery(array $params): array
     {
         if (!$this->enabled) {
             return ['failures' => []];
@@ -201,7 +201,7 @@ class Index extends ElasticSearchBase
         return $this->client->deleteByQuery($params);
     }
 
-    protected function bulk(array $params) : array
+    protected function bulk(array $params): array
     {
         if (!$this->enabled) {
             return ['errors' => false];
@@ -217,7 +217,7 @@ class Index extends ElasticSearchBase
      * @param array $items
      * @return array
      */
-    protected function bulkIndex(string $index, array $items) : array
+    protected function bulkIndex(string $index, array $items): array
     {
         if (!$this->enabled || empty($items)) {
             return ['errors' => false];
@@ -287,7 +287,7 @@ class Index extends ElasticSearchBase
      * Create a set of common analyzers we can use in multiple indexes
      * @return array
      */
-    protected function buildAnalyzers() : array
+    protected function buildAnalyzers(): array
     {
         return [
             'analyzer' => [
@@ -337,7 +337,7 @@ class Index extends ElasticSearchBase
      * Create the index for curriculum
      * @return array
      */
-    protected function buildCurriculumIndex() : array
+    protected function buildCurriculumIndex(): array
     {
         $txtTypeField = [
             'type' => 'text',
@@ -441,7 +441,7 @@ class Index extends ElasticSearchBase
         ];
     }
 
-    protected function buildUserIndex() : array
+    protected function buildUserIndex(): array
     {
         $analysis = $this->buildAnalyzers();
         return [

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -152,7 +153,7 @@ class CohortRepository extends EntityRepository implements DTORepositoryInterfac
         }
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('c.'.$sort, $order);
+                $qb->addOrderBy('c.' . $sort, $order);
             }
         }
 

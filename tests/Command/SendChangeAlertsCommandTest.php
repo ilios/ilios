@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\SendChangeAlertsCommand as Command;
@@ -40,7 +41,8 @@ use Twig\Environment;
 class SendChangeAlertsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:send-change-alerts';
+
+    private const COMMAND_NAME = 'ilios:send-change-alerts';
 
     /**
      * @var m\MockInterface
@@ -112,7 +114,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * {@inheritdoc}
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->offeringManager);
         unset($this->alertManager);

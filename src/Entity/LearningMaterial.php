@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
@@ -231,7 +231,7 @@ class LearningMaterial implements LearningMaterialInterface
 
     /**
      * renamed copyrightownership
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="copyright_ownership", type="boolean", nullable=true)
      *

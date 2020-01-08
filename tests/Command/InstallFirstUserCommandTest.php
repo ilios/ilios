@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Classes\SessionUserInterface;
@@ -11,7 +12,6 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-
 use Mockery as m;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -22,7 +22,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class InstallFirstUserCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:setup-first-user';
+
+    private const COMMAND_NAME = 'ilios:setup-first-user';
 
     protected $userManager;
     protected $authenticationManager;
@@ -65,7 +66,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     /**
      * @inheritdoc
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->userManager);
         unset($this->authenticationManager);

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\ListConfigValuesCommand;
@@ -18,7 +19,8 @@ use Mockery as m;
 class ListConfigValuesCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:list-config-values';
+
+    private const COMMAND_NAME = 'ilios:list-config-values';
 
     protected $commandTester;
     protected $applicationConfigManager;
@@ -42,7 +44,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->applicationConfigManager);
         unset($this->commandTester);

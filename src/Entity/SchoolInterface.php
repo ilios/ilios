@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use App\Traits\AdministratorsEntityInterface;
 use App\Traits\AlertableEntityInterface;
 use App\Traits\CompetenciesEntityInterface;

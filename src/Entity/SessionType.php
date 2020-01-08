@@ -9,7 +9,6 @@ use App\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\SessionsEntity;
@@ -38,7 +37,7 @@ class SessionType implements SessionTypeInterface
     use ActivatableEntity;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="session_type_id", type="integer")
      * @ORM\Id
@@ -86,7 +85,7 @@ class SessionType implements SessionTypeInterface
     protected $calendarColor;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *
@@ -99,7 +98,7 @@ class SessionType implements SessionTypeInterface
     protected $active;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="assessment", type="boolean")
      *
@@ -199,7 +198,7 @@ class SessionType implements SessionTypeInterface
     /**
      * Set assessment
      *
-     * @param boolean $assessment
+     * @param bool $assessment
      */
     public function setAssessment($assessment)
     {
@@ -209,7 +208,7 @@ class SessionType implements SessionTypeInterface
     /**
      * Get assessment
      *
-     * @return boolean
+     * @return bool
      */
     public function isAssessment()
     {

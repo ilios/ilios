@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\NameableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
@@ -61,7 +60,7 @@ class MeshConcept implements MeshConceptInterface
     protected $name;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="preferred", type="boolean")
      *
@@ -182,7 +181,7 @@ class MeshConcept implements MeshConceptInterface
     }
 
     /**
-     * @param boolean $preferred
+     * @param bool $preferred
      */
     public function setPreferred($preferred)
     {
@@ -190,7 +189,7 @@ class MeshConcept implements MeshConceptInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getPreferred()
     {

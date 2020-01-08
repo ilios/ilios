@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;

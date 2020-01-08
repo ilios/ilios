@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Encoder;
-
 use App\Entity\UserInterface;
 use Firebase\JWT\JWT;
 use DateTime;
@@ -12,9 +11,9 @@ use DateInterval;
 
 class JsonWebTokenManager
 {
-    const PREPEND_KEY = 'ilios.jwt.key.';
-    const TOKEN_ISS = 'ilios';
-    const TOKEN_AUD = 'ilios';
+    public const PREPEND_KEY = 'ilios.jwt.key.';
+    private const TOKEN_ISS = 'ilios';
+    private const TOKEN_AUD = 'ilios';
     
     /**
      * @var string
@@ -115,7 +114,7 @@ class JsonWebTokenManager
         $maximumFromToday = clone $now;
         $maximumFromToday->add($maximumInterval);
 
-        $interval = $requestedFromToday > $maximumFromToday?$maximumInterval:$requestedInterval;
+        $interval = $requestedFromToday > $maximumFromToday ? $maximumInterval : $requestedInterval;
         $expires = clone $now;
         $expires->add($interval);
         $canCreateOrUpdateUserInAnySchool = $this->permissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser);
@@ -147,7 +146,7 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a userId
-     * @param  integer $userId
+     * @param int $userId
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
      *
      * @return string

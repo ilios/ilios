@@ -133,14 +133,14 @@ class Entity extends ObjectNormalizer
         if ($type === 'entity') {
             $entity = $this->propertyAccessor->getValue($object, $property);
 
-            return $entity?(string) $entity:null;
+            return $entity ? (string) $entity : null;
         }
 
         if ($type === 'entityCollection') {
             $collection = $this->propertyAccessor->getValue($object, $property);
 
             $ids = $collection->map(function ($entity) {
-                return $entity?(string) $entity:null;
+                return $entity ? (string) $entity : null;
             })->toArray();
 
             return array_values($ids);
@@ -183,19 +183,17 @@ class Entity extends ObjectNormalizer
 
                     // we ignore attempts to set entities to NULL when they are type hinted otherwise
                     // This will get caught in the validator with a much nicer message
-                    $errorValue = null == $value?'null':$value;
+                    $errorValue = null == $value ? 'null' : $value;
                     $this->logger->error(
                         'Denormalization error ' . self::class . ' line ' . __LINE__ . ': ' .
                         "Unable to set '${attribute}' to '${errorValue}' on '${class}'.  Message: " .
                         $exception->getMessage()
                     );
                 }
-            } else {
-                if (!array_key_exists($attribute, $exposedProperties)) {
-                    throw new InvalidInputWithSafeUserMessageException(
-                        sprintf("Extra data was sent:  '%s' is not a valid property", $attribute)
-                    );
-                }
+            } elseif (!array_key_exists($attribute, $exposedProperties)) {
+                throw new InvalidInputWithSafeUserMessageException(
+                    sprintf("Extra data was sent:  '%s' is not a valid property", $attribute)
+                );
             }
         }
 
@@ -253,31 +251,29 @@ class Entity extends ObjectNormalizer
                     }
                     $value = $result;
                 }
-            } else {
-                if (is_array($value) && !empty($value)) {
-                    $result = $repository->findBy(['id' => $value]);
-                    if (count($result) !== count($value)) {
-                        $identifier = $metaData->getSingleIdentifierFieldName();
-                        $method = 'get' . ucfirst($identifier);
-                        $foundIds = array_map(function ($entity) use ($method) {
-                            return $entity->$method();
-                        }, $result);
-                        $missingIds = array_filter($value, function ($id) use ($foundIds) {
-                            return  !in_array($id, $foundIds);
-                        });
-                        throw new InvalidInputWithSafeUserMessageException(
-                            sprintf(
-                                "Unable to resolve %s[%s] for %s",
-                                $identifier,
-                                implode(',', $missingIds),
-                                $property->getName()
-                            )
-                        );
-                    }
-                    $value = $result;
-                } else {
-                    $value = [];
+            } elseif (is_array($value) && !empty($value)) {
+                $result = $repository->findBy(['id' => $value]);
+                if (count($result) !== count($value)) {
+                    $identifier = $metaData->getSingleIdentifierFieldName();
+                    $method = 'get' . ucfirst($identifier);
+                    $foundIds = array_map(function ($entity) use ($method) {
+                        return $entity->$method();
+                    }, $result);
+                    $missingIds = array_filter($value, function ($id) use ($foundIds) {
+                        return  !in_array($id, $foundIds);
+                    });
+                    throw new InvalidInputWithSafeUserMessageException(
+                        sprintf(
+                            "Unable to resolve %s[%s] for %s",
+                            $identifier,
+                            implode(',', $missingIds),
+                            $property->getName()
+                        )
+                    );
                 }
+                $value = $result;
+            } else {
+                $value = [];
             }
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\MeshTree;
@@ -20,7 +21,7 @@ class MeshTreeTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new MeshTree;
+        $this->object = new MeshTree();
     }
 
     public function testNotBlankValidation()

@@ -59,7 +59,7 @@ class Aggregator
                 continue;
             }
             if (! array_key_exists('keywords', $events[$eventId])) {
-                $events[$eventId]['keywords'] =[];
+                $events[$eventId]['keywords'] = [];
             }
             $events[$eventId]['keywords'][] = $keyword;
         }
@@ -80,7 +80,7 @@ class Aggregator
                 continue;
             }
             if (! array_key_exists('resource_types', $events[$eventId])) {
-                $events[$eventId]['resource_types'] =[];
+                $events[$eventId]['resource_types'] = [];
             }
             $events[$eventId]['resource_types'][] = $resourceType;
         }
@@ -186,7 +186,7 @@ class Aggregator
 
         // The various objective type are all "Competency Objects" in the context of reporting the curriculum inventory.
         // The are grouped in the "Expectations" section of the report, lump 'em together here.
-        $expectations =[];
+        $expectations = [];
         $expectations['program_objectives'] = array_filter(
             array_values($programObjectives),
             function ($objective) use ($consolidatedProgramObjectivesMap) {
@@ -206,7 +206,7 @@ class Aggregator
         $courseObjectiveIds = array_keys($courseObjectives);
         $sessionObjectiveIds = array_keys($sessionObjectives);
         $includes = [
-            'pcrs_ids' =>[],
+            'pcrs_ids' => [],
             'program_objective_ids' => [],
             'course_objective_ids' => [],
             'session_objective_ids' => [],
@@ -270,14 +270,14 @@ class Aggregator
         //
         // aggregate inventory into single return-array
         //
-        $rhett =[];
+        $rhett = [];
         $rhett['report'] = $invReport;
         $rhett['expectations'] = $expectations;
         $rhett['institution'] = $institution;
         $rhett['events'] = $events;
         $rhett['sequence_block_references'] = [
             'events' => $eventRefsForSeqBlocks,
-            'competency_objects' =>$compObjRefsForSeqBlocks,
+            'competency_objects' => $compObjRefsForSeqBlocks,
         ];
         $rhett['institution_domain'] = $this->config->get('institution_domain');
         $rhett['supporting_link'] = $this->config->get('supporting_link');

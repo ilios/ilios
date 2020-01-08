@@ -15,8 +15,8 @@ class LearningMaterialManager extends BaseManager
      *
      * @param string $q
      * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return LearningMaterialInterface[]
      */
@@ -33,8 +33,8 @@ class LearningMaterialManager extends BaseManager
 
     /**
      * Find all the File type learning materials
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return LearningMaterialInterface[]
      */

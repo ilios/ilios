@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use App\Entity\Objective;
@@ -62,8 +63,8 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
             ->where($qb->expr()->in('o.id', ':ids'))
             ->setParameter('ids', $objectiveIds);
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $objectiveDTOs[$arr['objectiveId']]->competency = $arr['competencyId']?(int)$arr['competencyId']:null;
-            $objectiveDTOs[$arr['objectiveId']]->ancestor = $arr['ancestorId']?(int)$arr['ancestorId']:null;
+            $objectiveDTOs[$arr['objectiveId']]->competency = $arr['competencyId'] ? (int)$arr['competencyId'] : null;
+            $objectiveDTOs[$arr['objectiveId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
         }
         $related = [
             'courses',
@@ -149,7 +150,7 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('o.'.$sort, $order);
+                $qb->addOrderBy('o.' . $sort, $order);
             }
         }
 

@@ -20,7 +20,7 @@ class CurriculumInventorySequenceDTO
     public $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -38,7 +38,7 @@ class CurriculumInventorySequenceDTO
     /**
      * Needed for voting not exposed in the API
      *
-     * @var integer
+     * @var int
      *
      * @IS\Type("integer")
      */

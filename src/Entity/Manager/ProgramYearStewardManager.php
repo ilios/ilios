@@ -16,7 +16,7 @@ class ProgramYearStewardManager extends BaseManager
     /**
      * Checks if a given entity's school (co-)stewards a given program year.
      *
-     * @param integer $schoolId
+     * @param int $schoolId
      * @param ProgramYearInterface $programYear
      * @return bool
      */
@@ -29,8 +29,10 @@ class ProgramYearStewardManager extends BaseManager
         $stewards = $this->findBy($criteria);
         foreach ($stewards as $steward) {
             $stewardingSchool = $steward->getSchool();
-            if ($stewardingSchool instanceof SchoolInterface
-                && $schoolId === $stewardingSchool->getId()) {
+            if (
+                $stewardingSchool instanceof SchoolInterface
+                && $schoolId === $stewardingSchool->getId()
+            ) {
                 return true;
             }
         }

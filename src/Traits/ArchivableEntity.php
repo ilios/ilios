@@ -8,7 +8,7 @@ namespace App\Traits;
 trait ArchivableEntity
 {
     /**
-     * @return boolean
+     * @return bool
      */
     public function isArchived()
     {
@@ -16,7 +16,7 @@ trait ArchivableEntity
     }
 
     /**
-     * @param boolean $archived
+     * @param bool $archived
      */
     public function setArchived($archived)
     {

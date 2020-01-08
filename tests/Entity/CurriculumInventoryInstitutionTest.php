@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CurriculumInventoryInstitution;
@@ -20,7 +21,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new CurriculumInventoryInstitution;
+        $this->object = new CurriculumInventoryInstitution();
     }
 
     public function testNotBlankValidation()

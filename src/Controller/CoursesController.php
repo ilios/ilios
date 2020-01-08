@@ -56,7 +56,7 @@ class CoursesController extends ApiController
         /** @var CourseManager $manager */
         $manager = $this->getManager($object);
         /** @var CourseInterface $entity */
-        $entity = $manager->findOneBy(['id'=> $id]);
+        $entity = $manager->findOneBy(['id' => $id]);
         $data = $this->extractPutDataFromRequest($request, $object);
 
         if ($entity) {

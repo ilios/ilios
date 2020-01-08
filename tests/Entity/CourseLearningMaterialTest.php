@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CourseLearningMaterial;
@@ -20,7 +21,7 @@ class CourseLearningMaterialTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new CourseLearningMaterial;
+        $this->object = new CourseLearningMaterial();
     }
 
     /**

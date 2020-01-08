@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,7 +24,7 @@ class UsersEntityTest extends TestCase
         $this->traitObject = $this->getObjectForTrait($traitName);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->object);
     }

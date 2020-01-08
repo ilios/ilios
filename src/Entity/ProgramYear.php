@@ -13,7 +13,6 @@ use App\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
 use App\Traits\IdentifiableEntity;
@@ -69,7 +68,7 @@ class ProgramYear implements ProgramYearInterface
     protected $startYear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -82,7 +81,7 @@ class ProgramYear implements ProgramYearInterface
     protected $locked;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -95,7 +94,7 @@ class ProgramYear implements ProgramYearInterface
     protected $archived;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Type("boolean")
@@ -110,7 +109,7 @@ class ProgramYear implements ProgramYearInterface
     protected $publishedAsTbd;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      *

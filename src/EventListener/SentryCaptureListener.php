@@ -1,10 +1,11 @@
 <?php
+
 namespace App\EventListener;
 
 use App\Service\Config;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 use function Sentry\init as sentryInit;
 use function Sentry\captureException as sentryCaptureException;
 

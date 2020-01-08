@@ -82,7 +82,8 @@ class LearningMaterialDTOTest extends TestCase
 
         $this->dto->clearMaterial();
         foreach ($props as $prop) {
-            if (in_array($prop, [
+            if (
+                in_array($prop, [
                 'absoluteFileUri',
                 'citation',
                 'copyrightRationale',
@@ -93,7 +94,8 @@ class LearningMaterialDTOTest extends TestCase
                 'mimetype',
                 'originalAuthor',
                 'token'
-            ])) {
+                ])
+            ) {
                 $this->assertNull($this->dto->$prop);
             } else {
                 $this->assertNotNull($this->dto->$prop);

@@ -62,7 +62,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         ClockMock::register(Timestamper::class);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->kernelBrowser);
@@ -450,7 +450,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $responseData = $this->postTest($data, $postData);
 
         $newId = $responseData['id'];
-        $relatedName = null == $relatedName?$related:$relatedName;
+        $relatedName = null == $relatedName ? $related : $relatedName;
         $this->assertArrayHasKey($relatedName, $postData, 'Missing related key: ' . var_export($postData, true));
         foreach ($postData[$relatedName] as $id) {
             $obj = $this->getOne(strtolower($related), $related, $id);
@@ -498,7 +498,7 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param array $data we are changing
      * @param bool $new if this is expected to generate new data instead
      *                  of updating existing data
-     * @param integer $userId
+     * @param int $userId
      *
      * @return mixed
      */
@@ -515,7 +515,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getTokenForUser($this->kernelBrowser, $userId)
         );
         $response = $this->kernelBrowser->getResponse();
-        $expectedHeader = $new?Response::HTTP_CREATED:Response::HTTP_OK;
+        $expectedHeader = $new ? Response::HTTP_CREATED : Response::HTTP_OK;
         $this->assertJsonResponse($response, $expectedHeader);
 
         return json_decode($response->getContent(), true)[$responseKey];

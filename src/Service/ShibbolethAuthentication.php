@@ -7,7 +7,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use App\Entity\Manager\AuthenticationManager;
 use App\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;

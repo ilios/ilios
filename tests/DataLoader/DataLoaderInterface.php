@@ -30,7 +30,7 @@ interface DataLoaderInterface
 
       /**
        * Create multiple samples of this item
-       * @param integer $count
+       * @param int $count
        * @return array
        */
     public function createMany($count);

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -57,8 +58,8 @@ class LearnerGroupRepository extends EntityRepository implements DTORepositoryIn
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $learnerGroupDTOs[$arr['learnerGroupId']]->cohort = (int) $arr['cohortId'];
-            $learnerGroupDTOs[$arr['learnerGroupId']]->parent = $arr['parentId']?(int)$arr['parentId']:null;
-            $learnerGroupDTOs[$arr['learnerGroupId']]->ancestor = $arr['ancestorId']?(int)$arr['ancestorId']:null;
+            $learnerGroupDTOs[$arr['learnerGroupId']]->parent = $arr['parentId'] ? (int)$arr['parentId'] : null;
+            $learnerGroupDTOs[$arr['learnerGroupId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
         }
 
         $related = [
@@ -168,7 +169,7 @@ class LearnerGroupRepository extends EntityRepository implements DTORepositoryIn
         }
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('l.'.$sort, $order);
+                $qb->addOrderBy('l.' . $sort, $order);
             }
         }
 

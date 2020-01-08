@@ -38,8 +38,8 @@ class MeshDescriptorManager extends BaseManager
     /**
      * @param string $q
      * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return MeshDescriptorInterface[]
      */
@@ -140,7 +140,7 @@ class MeshDescriptorManager extends BaseManager
      * @return array
      * @throws \Exception
      */
-    public function getIds() : array
+    public function getIds(): array
     {
         /** @var MeshDescriptorRepository $repository */
         $repository = $this->getRepository();
@@ -154,7 +154,7 @@ class MeshDescriptorManager extends BaseManager
      * @return Descriptor[]
      * @throws \Exception
      */
-    public function getIliosMeshDescriptorsById(array $ids) : array
+    public function getIliosMeshDescriptorsById(array $ids): array
     {
         /** @var MeshDescriptorRepository $repository */
         $repository = $this->getRepository();

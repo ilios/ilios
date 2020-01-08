@@ -206,12 +206,16 @@ class CurriculumInventoryReportManager extends BaseManager
                     'program_objectives' => [],
                 ];
             }
-            if (isset($courseObjectiveId)
-                && ! in_array($courseObjectiveId, $rhett[$sequenceBlockId]['course_objectives'])) {
+            if (
+                isset($courseObjectiveId)
+                && ! in_array($courseObjectiveId, $rhett[$sequenceBlockId]['course_objectives'])
+            ) {
                 $rhett[$sequenceBlockId]['course_objectives'][] = $courseObjectiveId;
             }
-            if (isset($programObjectiveId)
-                && ! in_array($programObjectiveId, $rhett[$sequenceBlockId]['program_objectives'])) {
+            if (
+                isset($programObjectiveId)
+                && ! in_array($programObjectiveId, $rhett[$sequenceBlockId]['program_objectives'])
+            ) {
                 $rhett[$sequenceBlockId]['program_objectives'][] = $programObjectiveId;
             }
         }
@@ -270,16 +274,22 @@ class CurriculumInventoryReportManager extends BaseManager
                     'program_objectives' => [],
                 ];
             }
-            if (isset($sessionObjectiveId)
-                && ! in_array($sessionObjectiveId, $rhett[$eventId]['session_objectives'])) {
+            if (
+                isset($sessionObjectiveId)
+                && ! in_array($sessionObjectiveId, $rhett[$eventId]['session_objectives'])
+            ) {
                 $rhett[$eventId]['session_objectives'][] = $sessionObjectiveId;
             }
-            if (isset($courseObjectiveId)
-                && ! in_array($courseObjectiveId, $rhett[$eventId]['course_objectives'])) {
+            if (
+                isset($courseObjectiveId)
+                && ! in_array($courseObjectiveId, $rhett[$eventId]['course_objectives'])
+            ) {
                 $rhett[$eventId]['course_objectives'][] = $courseObjectiveId;
             }
-            if (isset($programObjectiveId)
-                && ! in_array($programObjectiveId, $rhett[$eventId]['program_objectives'])) {
+            if (
+                isset($programObjectiveId)
+                && ! in_array($programObjectiveId, $rhett[$eventId]['program_objectives'])
+            ) {
                 $rhett[$eventId]['program_objectives'][] = $programObjectiveId;
             }
         }
@@ -463,14 +473,12 @@ class CurriculumInventoryReportManager extends BaseManager
 
             if (!array_key_exists($row['event_id'], $rhett)) {
                 $rhett[$row['event_id']] = $row;
-            } else {
-                if (in_array($row['event_id'], $sessionIds)) {
-                    if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
-                        $rhett[$row['event_id']]['duration'] = $row['duration'];
-                    }
-                } else {
-                    $rhett[$row['event_id']]['duration'] += $row['duration'];
+            } elseif (in_array($row['event_id'], $sessionIds)) {
+                if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
+                    $rhett[$row['event_id']]['duration'] = $row['duration'];
                 }
+            } else {
+                $rhett[$row['event_id']]['duration'] += $row['duration'];
             }
         }
 
@@ -543,14 +551,12 @@ class CurriculumInventoryReportManager extends BaseManager
 
             if (!array_key_exists($row['event_id'], $rhett)) {
                 $rhett[$row['event_id']] = $row;
-            } else {
-                if (in_array($row['event_id'], $sessionIds)) {
-                    if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
-                        $rhett[$row['event_id']]['duration'] = $row['duration'];
-                    }
-                } else {
-                    $rhett[$row['event_id']]['duration'] += $row['duration'];
+            } elseif (in_array($row['event_id'], $sessionIds)) {
+                if ($rhett[$row['event_id']]['duration'] < $row['duration']) {
+                    $rhett[$row['event_id']]['duration'] = $row['duration'];
                 }
+            } else {
+                $rhett[$row['event_id']]['duration'] += $row['duration'];
             }
         }
 

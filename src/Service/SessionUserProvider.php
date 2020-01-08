@@ -6,7 +6,6 @@ use App\Classes\SessionUser;
 use App\Classes\SessionUserInterface;
 use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface as IliosUser;
-
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -33,7 +32,7 @@ class SessionUserProvider implements UserProviderInterface
      * @param IliosUser $user
      * @return SessionUserInterface
      */
-    public function createSessionUserFromUser(IliosUser $user) : SessionUserInterface
+    public function createSessionUserFromUser(IliosUser $user): SessionUserInterface
     {
         return new SessionUser($user, $this->userManager);
     }
@@ -42,7 +41,7 @@ class SessionUserProvider implements UserProviderInterface
      * @param int $userId
      * @return SessionUserInterface
      */
-    public function createSessionUserFromUserId(int $userId) : SessionUserInterface
+    public function createSessionUserFromUserId(int $userId): SessionUserInterface
     {
         /** @var IliosUser $user */
         $user = $this->userManager->findOneBy(['id' => $userId]);

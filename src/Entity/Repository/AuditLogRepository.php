@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -104,7 +105,7 @@ class AuditLogRepository extends EntityRepository implements DTORepositoryInterf
                 }
             }
             $log['action'] = $entry['action'];
-            $log['objectId'] = empty($entry['objectId'])?0:$entry['objectId'];
+            $log['objectId'] = empty($entry['objectId']) ? 0 : $entry['objectId'];
             $log['objectClass'] = $entry['objectClass'];
             $log['valuesChanged'] = $entry['valuesChanged'];
             $log['user_id'] = $entry['userId'];

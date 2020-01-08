@@ -11,6 +11,7 @@ use App\Entity\UserInterface;
 use App\Service\AuthenticationInterface;
 use App\Tests\TestCase;
 use Mockery as m;
+
 use function Sentry\withScope;
 
 /**
@@ -63,7 +64,7 @@ class SessionUserTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->sessionUser);
         unset($this->iliosUser);
@@ -1387,7 +1388,7 @@ class SessionUserTest extends TestCase
         bool $isRoot = false,
         bool $enabled = true,
         AuthenticationInterface $authentication = null
-    ) : UserInterface {
+    ): UserInterface {
         $iliosUser = m::mock(UserInterface::class);
         $iliosUser->shouldReceive('getId')->andReturn($userId);
         $iliosUser->shouldReceive('getSchool')->andReturn($school);

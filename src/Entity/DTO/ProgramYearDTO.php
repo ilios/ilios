@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
@@ -29,14 +28,14 @@ class ProgramYearDTO
     public $startYear;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
     public $locked;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @IS\Expose
      * @IS\Expose
@@ -45,7 +44,7 @@ class ProgramYearDTO
     public $archived;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      * @deprecated
@@ -53,7 +52,7 @@ class ProgramYearDTO
     public $publishedAsTbd;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      * @deprecated

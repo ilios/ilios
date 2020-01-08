@@ -26,14 +26,14 @@ class SessionDescriptionDTO
     public $description;
 
     /**
-     * @var integer
+     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
     public $session;
 
     /**
-     * @var integer
+     * @var int
      * Not exposed, needed for the voter
      *
      * @IS\Type("string")
@@ -41,7 +41,7 @@ class SessionDescriptionDTO
     public $course;
 
     /**
-     * @var integer
+     * @var int
      * Not exposed, needed for the voter
      *
      * @IS\Type("string")

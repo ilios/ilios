@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\IngestionException;
@@ -20,7 +21,7 @@ class IngestionExceptionTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new IngestionException;
+        $this->object = new IngestionException();
     }
 
     // not sure about this one -- there is the ID field which is NotBlank() but I recall this failing

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -72,10 +73,10 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->setParameter('ids', $curriculumInventoryReportIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $curriculumInventoryReportDTOs[$arr['xId']]->export = $arr['exportId']?(int)$arr['exportId']:null;
-            $curriculumInventoryReportDTOs[$arr['xId']]->sequence = $arr['sequenceId']?(int)$arr['sequenceId']:null;
-            $curriculumInventoryReportDTOs[$arr['xId']]->program = $arr['programId']?(int)$arr['programId']:null;
-            $curriculumInventoryReportDTOs[$arr['xId']]->school = $arr['schoolId']?(int)$arr['schoolId']:null;
+            $curriculumInventoryReportDTOs[$arr['xId']]->export = $arr['exportId'] ? (int)$arr['exportId'] : null;
+            $curriculumInventoryReportDTOs[$arr['xId']]->sequence = $arr['sequenceId'] ? (int)$arr['sequenceId'] : null;
+            $curriculumInventoryReportDTOs[$arr['xId']]->program = $arr['programId'] ? (int)$arr['programId'] : null;
+            $curriculumInventoryReportDTOs[$arr['xId']]->school = $arr['schoolId'] ? (int)$arr['schoolId'] : null;
         }
 
         $related = [
@@ -141,7 +142,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.'.$sort, $order);
+                $qb->addOrderBy('x.' . $sort, $order);
             }
         }
 

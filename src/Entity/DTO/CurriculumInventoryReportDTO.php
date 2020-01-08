@@ -84,7 +84,7 @@ class CurriculumInventoryReportDTO
     public $sequenceBlocks;
 
     /**
-     * @var integer
+     * @var int
      *
      * @IS\Expose
      * @IS\Type("integer")
@@ -110,14 +110,14 @@ class CurriculumInventoryReportDTO
     /**
      * Needed for voting not exposed in the API
      *
-     * @var integer
+     * @var int
      */
     public $school;
 
     /**
      * Needed for creating the absolute URL, not exposed in the API
      *
-     * @var integer
+     * @var int
      */
     public $token;
 

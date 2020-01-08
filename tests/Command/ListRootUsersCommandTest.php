@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\ListRootUsersCommand;
@@ -17,6 +18,7 @@ use Mockery as m;
 class ListRootUsersCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @var m\MockInterface
      */
@@ -45,7 +47,7 @@ class ListRootUsersCommandTest extends KernelTestCase
     /**
      * @inheritdoc
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->userManager);
         unset($this->commandTester);

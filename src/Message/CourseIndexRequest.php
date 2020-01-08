@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Message;
 
 use InvalidArgumentException;
@@ -6,7 +7,7 @@ use InvalidArgumentException;
 class CourseIndexRequest
 {
     private $courseIds;
-    const MAX_COURSES = 50;
+    public const MAX_COURSES = 50;
 
     /**
      * CourseIndexRequest constructor.

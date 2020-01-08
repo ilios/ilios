@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\CleanupStringsCommand;
@@ -16,7 +17,8 @@ use Mockery as m;
 class CleanupStringsCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:cleanup-strings';
+
+    private const COMMAND_NAME = 'ilios:cleanup-strings';
 
     protected $purifier;
     protected $em;
@@ -62,7 +64,7 @@ class CleanupStringsCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->purifier);
         unset($this->em);

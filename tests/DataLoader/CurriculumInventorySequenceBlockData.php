@@ -33,7 +33,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
         for ($i = 1; $i < 5; $i++) {
             $arr[] = array(
                 'id' => $i + 1,
-                'title' => 'Nested Sequence Block '. $i,
+                'title' => 'Nested Sequence Block ' . $i,
                 'report' => '1',
                 'childSequenceOrder' => CurriculumInventorySequenceBlockInterface::OPTIONAL,
                 'orderInSequence' => $i,

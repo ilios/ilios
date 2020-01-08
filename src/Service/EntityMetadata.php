@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class EntityMetadata
 {
-    const CACH_KEY_PREFIX = 'ilios-entity-metadata-';
+    private const CACH_KEY_PREFIX = 'ilios-entity-metadata-';
 
     /**
      * @var Reader
@@ -139,7 +139,7 @@ class EntityMetadata
      */
     protected function getClassName($classNameOrObject)
     {
-        return is_object($classNameOrObject)?get_class($classNameOrObject):$classNameOrObject;
+        return is_object($classNameOrObject) ? get_class($classNameOrObject) : $classNameOrObject;
     }
 
     /**

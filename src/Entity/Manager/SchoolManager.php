@@ -49,7 +49,7 @@ class SchoolManager extends BaseManager
      * @return SchoolEvent[]
      * @throws \Exception
      */
-    public function findSessionEventsForSchool(int $schoolId, int $sessionId) : array
+    public function findSessionEventsForSchool(int $schoolId, int $sessionId): array
     {
         /** @var SchoolRepository $repository */
         $repository = $this->getRepository();

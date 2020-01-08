@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\AbstractQuery;
@@ -97,8 +98,8 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
     
     /**
      * Find all the file type learning materials
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return LearningMaterialInterface[]
      */
@@ -118,8 +119,8 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
      * Find by a string query
      * @param string $q
      * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      * @return LearningMaterialInterface[]
      */
     public function findByQ($q, $orderBy, $limit, $offset)
@@ -329,7 +330,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.'.$sort, $order);
+                $qb->addOrderBy('x.' . $sort, $order);
             }
         }
 

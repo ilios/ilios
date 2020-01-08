@@ -33,7 +33,7 @@ class RolloverCurriculumInventoryReportCommand extends Command
      */
     public function __construct(CurriculumInventoryReportManager $reportManager, ReportRollover $service)
     {
-        $this->reportManager =$reportManager;
+        $this->reportManager = $reportManager;
         $this->service = $service;
         parent::__construct();
     }

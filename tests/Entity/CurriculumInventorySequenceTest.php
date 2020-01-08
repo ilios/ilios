@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\CurriculumInventorySequence;
@@ -20,7 +21,7 @@ class CurriculumInventorySequenceTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new CurriculumInventorySequence;
+        $this->object = new CurriculumInventorySequence();
     }
 
     /**

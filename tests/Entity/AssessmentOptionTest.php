@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\AssessmentOption;
@@ -20,7 +21,7 @@ class AssessmentOptionTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new AssessmentOption;
+        $this->object = new AssessmentOption();
     }
 
 

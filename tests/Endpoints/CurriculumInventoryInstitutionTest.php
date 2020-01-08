@@ -79,7 +79,7 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
     public function testPostMany()
     {
         $this->markTestSkipped(
-            'In order to write these we need write permissions in the school.'.
+            'In order to write these we need write permissions in the school.' .
             'This seems like too much of a pain to test this right now.'
         );
         $count = 26;

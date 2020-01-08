@@ -81,7 +81,7 @@ class UsersController extends ApiController
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);
-        $entity = $manager->findOneBy(['id'=> $id]);
+        $entity = $manager->findOneBy(['id' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;
@@ -99,7 +99,8 @@ class UsersController extends ApiController
                  current user object in the session has been modified
                */
         $currentUser = $this->tokenStorage->getToken()->getUser();
-        if ($obj->root &&
+        if (
+            $obj->root &&
             (!$currentUser->isRoot() && !$entity->isRoot())
         ) {
             throw $this->createAccessDeniedException('Unauthorized access!');

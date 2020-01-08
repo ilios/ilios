@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Program;
@@ -22,7 +23,7 @@ class ProgramYearTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new ProgramYear;
+        $this->object = new ProgramYear();
     }
 
     public function testNotBlankValidation()

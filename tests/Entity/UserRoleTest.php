@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\UserRole;
@@ -20,7 +21,7 @@ class UserRoleTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new UserRole;
+        $this->object = new UserRole();
     }
 
     public function testNotBlankValidation()

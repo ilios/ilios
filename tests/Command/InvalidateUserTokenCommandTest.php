@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use \DateTime;
+use DateTime;
 
 /**
  * Class InvalidateUserTokenCommandTest
@@ -16,7 +16,8 @@ use \DateTime;
 class InvalidateUserTokenCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:invalidate-user-tokens';
+
+    private const COMMAND_NAME = 'ilios:invalidate-user-tokens';
 
     protected $userManager;
     protected $authenticationManager;
@@ -38,7 +39,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->userManager);
         unset($this->authenticationManager);

@@ -26,7 +26,7 @@ class FilesystemFactoryTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->config);
         unset($this->filesystemFactory);

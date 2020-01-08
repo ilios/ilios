@@ -10,10 +10,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
-
 use App\Service\Filesystem;
-use \Exception;
-use \SplFileObject;
+use Exception;
+use SplFileObject;
 
 /**
  * Pull down asset archive from AWS and extract it so
@@ -27,15 +26,15 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     /**
      * @var string
      */
-    const FRONTEND_DIRECTORY = '/ilios/frontend/';
-    const ARCHIVE_FILE_NAME = 'frontend.tar.gz';
-    const UNPACKED_DIRECTORY = '/deploy-dist/';
+    public const FRONTEND_DIRECTORY = '/ilios/frontend/';
+    public const ARCHIVE_FILE_NAME = 'frontend.tar.gz';
+    public const UNPACKED_DIRECTORY = '/deploy-dist/';
 
-    const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
-    const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
+    public const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
+    public const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
 
-    const STAGING = 'stage';
-    const PRODUCTION = 'prod';
+    private const STAGING = 'stage';
+    private const PRODUCTION = 'prod';
 
     /**
      * @var Fetch
@@ -140,7 +139,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     {
         $stagingBuild = $input->getOption('staging-build');
         $versionOverride = $input->getOption('at-version');
-        $environment = $stagingBuild?self::STAGING:self::PRODUCTION;
+        $environment = $stagingBuild ? self::STAGING : self::PRODUCTION;
 
         try {
             $message = '';
@@ -199,7 +198,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         if ($environment === self::STAGING) {
             $url = self::STAGING_CDN_ASSET_DOMAIN;
         }
-        $archiveDir = $environment === 'prod'? $this->productionTemporaryFileStore : $this->stagingTemporaryFileStore;
+        $archiveDir = $environment === 'prod' ? $this->productionTemporaryFileStore : $this->stagingTemporaryFileStore;
         $versionPath = $versionOverride ? $versionOverride : 'active';
         $parts = [
             $archiveDir,
@@ -209,7 +208,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         ];
         $archivePath = join(DIRECTORY_SEPARATOR, $parts);
 
-        $file = is_readable($archivePath) ? new SplFileObject($archivePath, "r"): null;
+        $file = is_readable($archivePath) ? new SplFileObject($archivePath, "r") : null;
         $string = $this->fetch->get($url . $fileName, $file);
 
         $this->fs->dumpFile($archivePath, $string);

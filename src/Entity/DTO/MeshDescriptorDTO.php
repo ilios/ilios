@@ -111,7 +111,7 @@ class MeshDescriptorDTO
     public $previousIndexing;
 
     /**
-     * @var boolean
+     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
@@ -141,7 +141,7 @@ class MeshDescriptorDTO
         $this->updatedAt = $updatedAt;
         $this->deleted = $deleted;
 
-        $this->courses= [];
+        $this->courses = [];
         $this->objectives = [];
         $this->sessions = [];
         $this->concepts = [];

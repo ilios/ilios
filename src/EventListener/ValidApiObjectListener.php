@@ -4,7 +4,6 @@ namespace App\EventListener;
 
 use App\Controller\ApiControllerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 /**

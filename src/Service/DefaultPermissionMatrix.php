@@ -16,7 +16,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
     protected $schoolManager;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $hasMatrixBeenBuilt;
 

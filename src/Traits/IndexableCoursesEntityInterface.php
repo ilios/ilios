@@ -14,5 +14,5 @@ interface IndexableCoursesEntityInterface
      * even deeply nested ones
      * @return CourseInterface[]
      */
-    public function getIndexableCourses() : array;
+    public function getIndexableCourses(): array;
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use App\Entity\Authentication;
@@ -7,7 +8,6 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-
 use App\Entity\AuthenticationInterface;
 use App\Entity\DTO\AuthenticationDTO;
 

@@ -14,14 +14,14 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     /**
      * Is this user a root user
      *
-     * @return boolean
+     * @return bool
      */
     public function isRoot();
 
     /**
      * Is this user enabled
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnabled();
 
@@ -35,14 +35,14 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     /**
      * Get user's id
      *
-     * @return integer
+     * @return int
      */
     public function getId();
 
     /**
      * Get user's primary school id
      *
-     * @return integer
+     * @return int
      */
     public function getSchoolId();
 
@@ -75,18 +75,18 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      *
      * @param $courseId
      *
-     * @return boolean
+     * @return bool
      */
     public function isDirectingCourse(int $courseId);
     public function isAdministeringCourse(int $courseId): bool;
 
-    public function isDirectingSchool(int $schoolId) : bool;
-    public function isAdministeringSchool(int $schoolId) : bool;
-    public function isDirectingCourseInSchool(int $schoolId) : bool;
-    public function isAdministeringCourseInSchool(int $schoolId) : bool;
-    public function isAdministeringSessionInSchool(int $schoolId) : bool;
-    public function isTeachingCourseInSchool(int $schoolId) : bool;
-    public function isTeachingCourse(int $courseId) : bool;
+    public function isDirectingSchool(int $schoolId): bool;
+    public function isAdministeringSchool(int $schoolId): bool;
+    public function isDirectingCourseInSchool(int $schoolId): bool;
+    public function isAdministeringCourseInSchool(int $schoolId): bool;
+    public function isAdministeringSessionInSchool(int $schoolId): bool;
+    public function isTeachingCourseInSchool(int $schoolId): bool;
+    public function isTeachingCourse(int $courseId): bool;
     public function rolesInSchool(
         int $schoolId,
         $roles = [
@@ -109,7 +109,7 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
             UserRoles::COURSE_INSTRUCTOR
         ]
     ): array;
-    public function isAdministeringSessionInCourse(int $courseId) : bool;
+    public function isAdministeringSessionInCourse(int $courseId): bool;
     public function isAdministeringSession(int $sessionId): bool;
     public function isTeachingSession(int $sessionId): bool;
     public function isInstructingOffering(int $sessionId): bool;
@@ -124,12 +124,12 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
         $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR]
     ): array;
     public function isDirectingProgram(int $programId): bool;
-    public function isDirectingProgramInSchool(int $schoolId) : bool;
-    public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]) : array;
-    public function isDirectingProgramYear(int $programYearId) : bool;
-    public function isDirectingProgramYearInProgram(int $programId) : bool;
-    public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId) : bool;
-    public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId) : bool;
+    public function isDirectingProgramInSchool(int $schoolId): bool;
+    public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]): array;
+    public function isDirectingProgramYear(int $programYearId): bool;
+    public function isDirectingProgramYearInProgram(int $programId): bool;
+    public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId): bool;
+    public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId): bool;
     public function rolesInCurriculumInventoryReport(
         int $curriculumInventoryReportId,
         $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR]

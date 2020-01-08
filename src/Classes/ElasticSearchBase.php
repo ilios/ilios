@@ -12,14 +12,14 @@ class ElasticSearchBase
     protected $client;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $enabled = false;
 
-    const PUBLIC_CURRICULUM_INDEX = 'ilios-public-curriculum';
-    const PRIVATE_USER_INDEX = 'ilios-private-users';
-    const PUBLIC_MESH_INDEX = 'ilios-public-mesh';
-    const SESSION_ID_PREFIX = 'session_';
+    public const PUBLIC_CURRICULUM_INDEX = 'ilios-public-curriculum';
+    public const PRIVATE_USER_INDEX = 'ilios-private-users';
+    public const PUBLIC_MESH_INDEX = 'ilios-public-mesh';
+    public const SESSION_ID_PREFIX = 'session_';
 
     /**
      * Search constructor.

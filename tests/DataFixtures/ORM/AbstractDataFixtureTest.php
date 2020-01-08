@@ -3,7 +3,6 @@
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\Manager\ManagerInterface;
-
 use App\Service\DataimportFileLocator;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Competency;
@@ -20,7 +21,7 @@ class CompetencyTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new Competency;
+        $this->object = new Competency();
     }
 
     /**

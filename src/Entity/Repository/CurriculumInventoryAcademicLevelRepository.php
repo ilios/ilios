@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -65,7 +66,7 @@ class CurriculumInventoryAcademicLevelRepository extends EntityRepository implem
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $academicLevelDTOs[$arr['xId']]->report = (int) $arr['reportId'];
-            $academicLevelDTOs[$arr['xId']]->school = $arr['schoolId']?(int)$arr['schoolId']:null;
+            $academicLevelDTOs[$arr['xId']]->school = $arr['schoolId'] ? (int)$arr['schoolId'] : null;
         }
 
         $related = [
@@ -122,7 +123,7 @@ class CurriculumInventoryAcademicLevelRepository extends EntityRepository implem
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.'.$sort, $order);
+                $qb->addOrderBy('x.' . $sort, $order);
             }
         }
 

@@ -22,22 +22,22 @@ class ReportRollover
     /**
      * @var int
      */
-    const START_DATE_DAY_OF_MONTH = 1;
+    private const START_DATE_DAY_OF_MONTH = 1;
 
     /**
      * @var int
      */
-    const START_DATE_MONTH = 7;
+    private const START_DATE_MONTH = 7;
 
     /**
      * @var int
      */
-    const END_DATE_DAY_OF_MONTH = 30;
+    private const END_DATE_DAY_OF_MONTH = 30;
 
     /**
      * @var int
      */
-    const END_DATE_MONTH = 6;
+    private const END_DATE_MONTH = 6;
 
     /**
      * @var CurriculumInventoryReportManager $reportManager

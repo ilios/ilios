@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Command;
 
 use App\Command\SetConfigValueCommand;
@@ -18,7 +19,8 @@ use PHPUnit\Framework\TestCase;
 class SetConfigValueCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:set-config-value';
+
+    private const COMMAND_NAME = 'ilios:set-config-value';
 
     protected $commandTester;
     protected $applicationConfigManager;
@@ -37,7 +39,7 @@ class SetConfigValueCommandTest extends KernelTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->applicationConfigManager);
         unset($this->commandTester);

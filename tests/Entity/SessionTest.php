@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Course;
@@ -23,7 +24,7 @@ class SessionTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new Session;
+        $this->object = new Session();
     }
 
     public function testNotBlankValidation()

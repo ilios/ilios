@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Service;
 
 use App\Classes\LocalCachingFilesystemDecorator;
@@ -6,8 +7,7 @@ use App\Entity\LearningMaterialInterface;
 use League\Flysystem\Filesystem;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
-use \Symfony\Component\HttpFoundation\File\File;
-
+use Symfony\Component\HttpFoundation\File\File;
 use App\Service\IliosFileSystem;
 use App\Tests\TestCase;
 
@@ -41,7 +41,7 @@ class IliosFileSystemTest extends TestCase
         $this->iliosFileSystem = new IliosFileSystem($this->fileSystem);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->fileSystem);
         unset($this->iliosFileSystem);

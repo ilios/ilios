@@ -8,7 +8,6 @@ use App\Annotation as IS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Entity\AlertInterface;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;

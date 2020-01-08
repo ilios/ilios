@@ -18,7 +18,8 @@ class Composer implements CheckInterface
         /** @var ClassLoader $loader */
         $loader = (include __DIR__ . '/../../vendor/autoload.php');
         $prefixes = $loader->getPrefixesPsr4();
-        if (!$loader->isClassMapAuthoritative() ||
+        if (
+            !$loader->isClassMapAuthoritative() ||
             array_key_exists('App\\Tests\\', $prefixes)
         ) {
             return new Failure("is not optimized. Run `composer dump-autoload --no-dev --classmap-authoritative`");

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\AlertChangeType;
@@ -20,7 +21,7 @@ class AlertChangeTypeTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new AlertChangeType;
+        $this->object = new AlertChangeType();
     }
 
     public function testNotBlankValidation()

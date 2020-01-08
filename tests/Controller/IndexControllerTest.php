@@ -12,8 +12,9 @@ use Symfony\Component\Filesystem\Filesystem;
 class IndexControllerTest extends WebTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    const COMMAND_NAME = 'ilios:maintenance:update-frontend';
-    const TEST_API_VERSION = '33.14-test';
+
+    private const COMMAND_NAME = 'ilios:maintenance:update-frontend';
+    private const TEST_API_VERSION = '33.14-test';
 
     /**
      * @var m\Mock
@@ -48,7 +49,7 @@ class IndexControllerTest extends WebTestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->kernelBrowser);

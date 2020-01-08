@@ -4,7 +4,6 @@ namespace App\DataFixtures\ORM;
 
 use App\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 use App\Entity\Competency;
 use App\Entity\CompetencyInterface;
 
@@ -55,7 +54,7 @@ class LoadCompetencyData extends AbstractFixture implements DependentFixtureInte
             $entity->setParent($this->getReference($this->getKey() . $data[2]));
         }
         $entity->setSchool($this->getReference('school' . $data[3]));
-        $entity->setActive((boolean) $data[4]);
+        $entity->setActive((bool) $data[4]);
         return $entity;
     }
 }

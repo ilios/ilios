@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
-
 use App\Entity\Manager\ObjectiveManager;
 use App\Entity\Manager\LearningMaterialManager;
 use App\Entity\Manager\CourseLearningMaterialManager;
@@ -61,9 +60,9 @@ class CleanupStringsCommand extends Command
     protected $sessionDescriptionManager;
 
     /**
-     * @var integer where to limit each query for memory management
+     * @var int where to limit each query for memory management
      */
-    const QUERY_LIMIT = 500;
+    private const QUERY_LIMIT = 500;
 
     public function __construct(
         \HTMLPurifier $purifier,

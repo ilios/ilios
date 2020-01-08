@@ -8,12 +8,12 @@ namespace App\Traits;
 interface LockableEntityInterface
 {
     /**
-     * @return boolean
+     * @return bool
      */
     public function isLocked();
 
     /**
-     * @param boolean $locked
+     * @param bool $locked
      */
     public function setLocked($locked);
 }

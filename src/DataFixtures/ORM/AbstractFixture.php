@@ -6,7 +6,6 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use App\Service\DataimportFileLocator;
 use App\Traits\IdentifiableEntityInterface;
 
@@ -22,7 +21,7 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
     /**
      * @var int number of insert statements per batch.
      */
-    const BATCH_SIZE = 200;
+    protected const BATCH_SIZE = 200;
     /**
      * @var string
      * Doubles as identifier for this fixture's data file and entity references.
@@ -30,7 +29,7 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
     protected $key;
 
     /**
-     * @var boolean
+     * @var bool
      * Set to TRUE if the loaded fixture should be held on for reference.
      */
     protected $storeReference;
@@ -41,7 +40,7 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
 
     /**
      * @param string $key
-     * @param boolean $storeReference
+     * @param bool $storeReference
      * @param DataimportFileLocator $dataimportFileLocator
      */
     public function __construct(

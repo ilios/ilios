@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Service;
 
 use App\Service\CasAuthentication;
@@ -8,7 +9,6 @@ use App\Service\ShibbolethAuthentication;
 use App\Service\Config;
 use App\Tests\TestCase;
 use Mockery as m;
-
 use App\Service\AuthenticationFactory;
 
 class AuthenticationFactoryTest extends TestCase
@@ -39,7 +39,7 @@ class AuthenticationFactoryTest extends TestCase
     /**
      * Remove all mock objects
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
         unset($this->obj);
         unset($this->config);

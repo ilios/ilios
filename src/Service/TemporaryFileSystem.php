@@ -79,7 +79,7 @@ class TemporaryFileSystem
     /**
      * Get a File from a hash
      * @param string $hash
-     * @return File|boolean
+     * @return File|bool
      */
     public function getFile($hash)
     {

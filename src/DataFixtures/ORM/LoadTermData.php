@@ -4,7 +4,6 @@ namespace App\DataFixtures\ORM;
 
 use App\Service\DataimportFileLocator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 use App\Entity\Term;
 use App\Entity\TermInterface;
 
@@ -55,7 +54,7 @@ class LoadTermData extends AbstractFixture implements DependentFixtureInterface
         }
         $entity->setDescription($data[3]);
         $entity->setVocabulary($this->getReference('vocabulary' . $data[4]));
-        $entity->setActive((boolean) $data[5]);
+        $entity->setActive((bool) $data[5]);
         return $entity;
     }
 }

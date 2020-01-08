@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Classes;
 
 use App\Classes\AcademicYear;

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Entity;
 
 use App\Entity\Authentication;
@@ -20,7 +21,7 @@ class AuthenticationTest extends EntityBase
      */
     protected function setUp()
     {
-        $this->object = new Authentication;
+        $this->object = new Authentication();
     }
 
     /**

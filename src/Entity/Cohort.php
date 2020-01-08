@@ -9,7 +9,6 @@ use App\Traits\LearnerGroupsEntity;
 use App\Traits\UsersEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Traits\TitledEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
