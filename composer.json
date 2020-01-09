@@ -57,8 +57,7 @@
     "squizlabs/php_codesniffer": "@stable",
     "symfony/debug-pack": "^1.0",
     "symfony/profiler-pack": "^1.0",
-    "symfony/test-pack": "^1.0",
-    "symfony/web-server-bundle": "@stable"
+    "symfony/test-pack": "^1.0"
   },
   "config": {
     "platform": {
