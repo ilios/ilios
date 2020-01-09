@@ -835,7 +835,7 @@ class Index extends ElasticSearchBase
      * @param LearningMaterialDTO $dto
      * @return array
      */
-    protected function extractLearningMaterialData(LearningMaterialDTO $dto) : array
+    protected function extractLearningMaterialData(LearningMaterialDTO $dto): array
     {
         //skip files without useful text content
         if ($dto->mimetype && preg_match('/image|video|audio/', $dto->mimetype)) {
@@ -886,7 +886,7 @@ class Index extends ElasticSearchBase
      * @param string $pdfContents
      * @return array
      */
-    protected function splitPDFIntoSmallParts(string $pdfContents) : array
+    protected function splitPDFIntoSmallParts(string $pdfContents): array
     {
         // Base64 Encoding makes files about 30% bigger so we need some padding when comparing
         $fileSizeLimit = $this->uploadLimit * .66;
@@ -932,7 +932,7 @@ class Index extends ElasticSearchBase
         return $PDFs;
     }
 
-    protected function addPageToPdf(FPDI $pdf, int $pageNumber) : void
+    protected function addPageToPdf(FPDI $pdf, int $pageNumber): void
     {
         $templateId = $pdf->importPage($pageNumber);
         $size = $pdf->getTemplateSize($templateId);

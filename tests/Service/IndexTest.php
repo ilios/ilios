@@ -240,7 +240,7 @@ class IndexTest extends TestCase
     public function testIndexCourseWithNoSessions()
     {
         $this->client = m::mock(Client::class);
-        $obj =$this->createWithHost();
+        $obj = $this->createWithHost();
         $course1 = m::mock(IndexableCourse::class);
         $course1->shouldReceive('createIndexObjects')->once()->andReturn([]);
 

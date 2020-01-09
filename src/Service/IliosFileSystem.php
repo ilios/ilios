@@ -116,7 +116,7 @@ class IliosFileSystem
      * @param string $path
      * @return bool
      */
-    public function checkLearningMaterialRelativePath(string $path) : bool
+    public function checkLearningMaterialRelativePath(string $path): bool
     {
         return $this->fileSystem->has($path);
     }
