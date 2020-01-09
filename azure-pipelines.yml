@@ -33,6 +33,7 @@ jobs:
   steps:
     - template: .azure/install-steps-template.yaml
     - script: vendor/bin/phpcs
+    - script: bin/console lint:twig templates custom
     - script: bin/console security:check
 - template: .azure/phpunit-job-template.yaml
   parameters:
