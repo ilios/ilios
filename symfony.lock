@@ -234,11 +234,11 @@
     "php-http/client-common": {
         "version": "1.9.1"
     },
-    "php-http/curl-client": {
-        "version": "v1.7.1"
-    },
     "php-http/discovery": {
         "version": "1.6.1"
+    },
+    "php-http/guzzle6-adapter": {
+        "version": "v2.0.1"
     },
     "php-http/httplug": {
         "version": "v1.1.0"
@@ -284,9 +284,6 @@
     },
     "ralouphie/getallheaders": {
         "version": "2.0.5"
-    },
-    "ramsey/uuid": {
-        "version": "3.8.0"
     },
     "react/promise": {
         "version": "v2.7.1"
@@ -542,8 +539,8 @@
     "symfony/polyfill-php73": {
         "version": "v1.11.0"
     },
-    "symfony/process": {
-        "version": "v4.3.0"
+    "symfony/polyfill-uuid": {
+        "version": "v1.13.1"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.4"
@@ -687,15 +684,6 @@
             "config/routes/dev/web_profiler.yaml"
         ]
     },
-    "symfony/web-server-bundle": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
-        }
-    },
     "symfony/yaml": {
         "version": "v4.3.0"
     },
@@ -707,9 +695,6 @@
     },
     "zendframework/zend-code": {
         "version": "3.3.1"
-    },
-    "zendframework/zend-diactoros": {
-        "version": "2.1.2"
     },
     "zendframework/zend-eventmanager": {
         "version": "3.2.1"
