@@ -13,11 +13,8 @@ APP_ENV=prod
 # The authentication should be set to whichever type of user authentication you use (`form`,`cas`,`shibboleth`,`ldap`):
 ILIOS_AUTHENTICATION_TYPE=form
 
-# The database connection settings, in url format (eg, mysql://{username}:{password}@{database-hostname}/{database_name}:
-ILIOS_DATABASE_URL="mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db"
-
-# The version of the MySQL database server you are using:
-ILIOS_DATABASE_MYSQL_VERSION=5.7
+# The database connection settings, in url format (eg, mysql://{username}:{password}@{database-hostname}/{database_name}?serverVersion={version}:
+ILIOS_DATABASE_URL="mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.7"
 
 # The locale of the Ilios instance (which language to use: `en`,`fr`,`es`):
 ILIOS_LOCALE=en
@@ -58,8 +55,7 @@ HOME=/home/ilios_user
 ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
-ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
-ILIOS_DATABASE_MYSQL_VERSION=5.7
+ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.7
 ILIOS_LOCALE=en
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 APP_ENV=prod
@@ -84,8 +80,7 @@ export APP_ENV=prod
 export ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 export ILIOS_AUTHENTICATION_TYPE=form
 export ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
-export ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
-export ILIOS_DATABASE_MYSQL_VERSION=5.7
+export ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.7
 export ILIOS_LOCALE=en
 export ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 ```
@@ -103,8 +98,7 @@ APP_ENV=prod
 ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
-ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
-ILIOS_DATABASE_MYSQL_VERSION=5.7
+ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.7
 ILIOS_LOCALE=en
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 
@@ -119,7 +113,7 @@ Note that doing it this way will only set the ENV variables for the duration of 
 While it is technically possible to set all of the ENV vars at the command line on the same line when you run the `bin/setup` command, we do not recommend this approach.  However, if you choose to do so, it would look something like this:
 
 ```bash
-APP_ENV=prod ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd ILIOS_AUTHENTICATION_TYPE=form ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db ILIOS_DATABASE_MYSQL_VERSION=5.7 ILIOS_LOCALE=en ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt bin/setup
+APP_ENV=prod ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd ILIOS_AUTHENTICATION_TYPE=form ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.7 ILIOS_LOCALE=en ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt bin/setup
 ```
 Furthermore, as was the case in Example #2, the ENV vars set in this way only persist for the duration of the execution of the command being run.
   
@@ -136,8 +130,7 @@ APP_ENV=prod
 ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
-ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
-ILIOS_DATABASE_MYSQL_VERSION=5.7
+ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.7
 ILIOS_LOCALE=en
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 ``` 
@@ -147,8 +140,7 @@ ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 In order to set runtime environment variables within the Apache httpd web service configuration itself, you will need to enable the `mod_env` Apache module and set the `SetEnv` directives in the appropriate section(s) of your httpd configuration files as shown:
 
 ```
-SetEnv ILIOS_DATABASE_URL mysql://ilios_db_user:Pa$$w0rd@db-host1/ilios_db
-SetEnv ILIOS_DATABASE_MYSQL_VERSION 5.7
+SetEnv ILIOS_DATABASE_URL mysql://ilios_db_user:Pa$$w0rd@db-host1/ilios_db?serverVersion=5.7
 SetEnv ILIOS_DATABASE_PORT 3306
 SetEnv ILIOS_MAILER_URL smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 SetEnv ILIOS_LOCALE en
@@ -159,14 +151,13 @@ SetEnv ILIOS_SECRET ThisTokenIsNotSoSecretChangeIt
 If you are running more than one Ilios instance (eg, production and staging instances) on a single Apache httpd server using multiple VirtualHost configurations, certain variables will collide (eg, `ILIOS_DATABASE_URL`), so these will need to be set conditionally.  In order to do this, you will need to install/enable the `mod_setenvif` Apache module and set the 'SetEnvIf' directives in the appropriate section(s) of your httpd configuration files as shown.  Note that the values shared between the two instances are set using `SetEnv`, while the conditional values are set with `SetEnvIf` and require a specific condition to be true in order to be set.  
 
 ```
-SetEnv ILIOS_DATABASE_MYSQL_VERSION 5.7
 SetEnv ILIOS_MAILER_URL smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
 SetEnv ILIOS_LOCALE en
 
-SetEnvIf Host "ilios-staging\.example\.com" ILIOS_DATABASE_URL=SetEnv ILIOS_DATABASE_URL mysql://ilios_staging_db_user:Stag1ngPassw0rd@db-host1/ilios_stage_db
+SetEnvIf Host "ilios-staging\.example\.com" ILIOS_DATABASE_URL=SetEnv ILIOS_DATABASE_URL mysql://ilios_staging_db_user:Stag1ngPassw0rd@db-host1/ilios_stage_db?serverVersion=5.7
 SetEnvIf Host "ilios-staging\.example\.com ILIOS_SECRET=ST@G1nGS3CRET12345
 
-SetEnvIf Host "ilios-production\.example\.com" ILIOS_DATABASE_URL=mysql://ilios_production_db_user:Pr0duct10nPassw0rd@/db-host1/ilios_production_db
+SetEnvIf Host "ilios-production\.example\.com" ILIOS_DATABASE_URL=mysql://ilios_production_db_user:Pr0duct10nPassw0rd@/db-host1/ilios_production_db?serverVersion=5.7
 SetEnvIf Host "ilios-production\.example\.com ILIOS_SECRET=PR0DUCT10nS3CRET12345
 ```
 
@@ -188,7 +179,6 @@ If you are missing anything, the output will let you know by returning a message
 FAIL ENV variables:
 Missing:
 ILIOS_DATABASE_URL
-ILIOS_DATABASE_MYSQL_VERSION
 ILIOS_MAILER_URL
 ILIOS_LOCALE
 ILIOS_SECRET
@@ -257,8 +247,7 @@ APP_ENV=prod
 ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
-ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db
-ILIOS_DATABASE_MYSQL_VERSION=5.7
+ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.7
 ILIOS_LOCALE=en
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 ```

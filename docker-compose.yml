@@ -9,7 +9,7 @@ services:
         environment:
             - APP_ENV=dev
             - APP_DEBUG=true
-            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios
+            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
             - ILIOS_REQUIRE_SECURE_CONNECTION=false
             - ILIOS_ERROR_CAPTURE_ENABLED=false
             - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch

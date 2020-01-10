@@ -50,6 +50,12 @@ sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interacti
 
 ## Version-specific steps
 
+### Upgrading to Ilios 3.71.0
+
+1. The `ILIOS_DATABASE_MYSQL_VERSION` parameter has been removed, instead the MySQL version should be specified in the `ILIOS_DATABASE_URL`
+as `?serverVersion=5.7`. for example 
+`ILIOS_DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7`.
+
 ### Upgrading to Ilios 3.69.1
 
 1. A new asynchronous queue service has been added. You must run `bin/console messenger:setup-transports` to set it up.
