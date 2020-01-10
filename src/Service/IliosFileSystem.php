@@ -100,7 +100,7 @@ class IliosFileSystem
     }
 
     /**
-     * Get if a learning material file path is valid
+     * Get if a learning material has a valid file path
      * @param LearningMaterialInterface $lm
      *
      * @return bool
@@ -108,7 +108,17 @@ class IliosFileSystem
     public function checkLearningMaterialFilePath(LearningMaterialInterface $lm): bool
     {
         $relativePath = $lm->getRelativePath();
-        return $this->fileSystem->has($relativePath);
+        return $this->checkLearningMaterialRelativePath($relativePath);
+    }
+
+    /**
+     * Get if a learning material file path is valid
+     * @param string $path
+     * @return bool
+     */
+    public function checkLearningMaterialRelativePath(string $path): bool
+    {
+        return $this->fileSystem->has($path);
     }
 
     /**

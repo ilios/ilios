@@ -2,10 +2,15 @@
 
 namespace App\Entity;
 
+use App\Traits\IndexableCoursesEntityInterface;
+
 /**
  * Interface SessionLearningMaterialInterface
  */
-interface SessionLearningMaterialInterface extends LearningMaterialRelationshipInterface, SessionStampableInterface
+interface SessionLearningMaterialInterface extends
+    LearningMaterialRelationshipInterface,
+    SessionStampableInterface,
+    IndexableCoursesEntityInterface
 {
     /**
      * @param SessionInterface $session

@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
+use App\Traits\IndexableCoursesEntityInterface;
+
 /**
  * Interface CourseLearningMaterialInterface
  */
-interface CourseLearningMaterialInterface extends LearningMaterialRelationshipInterface
+interface CourseLearningMaterialInterface extends
+    LearningMaterialRelationshipInterface,
+    IndexableCoursesEntityInterface
 {
     /**
      * @param CourseInterface $course

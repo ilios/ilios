@@ -55,7 +55,8 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
                 $arr['mimetype'],
                 $arr['filesize'],
                 $arr['link'],
-                $arr['token']
+                $arr['token'],
+                $arr['relativePath']
             );
         }
         $learningMaterialIds = array_keys($learningMaterialDTOs);
@@ -95,7 +96,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
         }
         return array_values($learningMaterialDTOs);
     }
-    
+
     /**
      * Find all the file type learning materials
      * @param int $limit
@@ -139,7 +140,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
                 $qb->expr()->like('x.description', "?{$key}"),
                 $qb->expr()->like('x.originalAuthor', "?{$key}")
             ))
-            ->setParameter($key, '%' . $term . '%');
+                ->setParameter($key, '%' . $term . '%');
         }
 
         if (is_array($orderBy)) {

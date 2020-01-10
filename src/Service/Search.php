@@ -52,11 +52,13 @@ class Search extends ElasticSearchBase
             'courseTerms',
             'courseMeshDescriptorIds',
             'courseMeshDescriptorNames',
+            'courseLearningMaterialTitles',
             'sessionTitle',
             'sessionType',
             'sessionTerms',
             'sessionMeshDescriptorIds',
             'sessionMeshDescriptorNames',
+            'sessionLearningMaterialTitles',
         ];
         $suggest = array_reduce($suggestFields, function ($carry, $field) use ($query) {
             $carry[$field] = [
@@ -72,7 +74,7 @@ class Search extends ElasticSearchBase
 
         $params = [
             'type' => '_doc',
-            'index' => self::PUBLIC_CURRICULUM_INDEX,
+            'index' => self::CURRICULUM_INDEX,
             'body' => [
                 'suggest' => $suggest,
                 "_source" => [
@@ -143,7 +145,7 @@ class Search extends ElasticSearchBase
 
         $params = [
             'type' => '_doc',
-            'index' => self::PRIVATE_USER_INDEX,
+            'index' => self::USER_INDEX,
             'size' => $size,
             'body' => [
                 'suggest' => $suggest,
@@ -219,7 +221,7 @@ class Search extends ElasticSearchBase
         }
         $params = [
             'type' => '_doc',
-            'index' => self::PUBLIC_MESH_INDEX,
+            'index' => self::MESH_INDEX,
             'body' => [
                 'query' => [
                     'query_string' => [
@@ -253,13 +255,19 @@ class Search extends ElasticSearchBase
             'courseTerms.ngram',
             'courseObjectives',
             'courseObjectives.ngram',
-            'courseLearningMaterials',
-            'courseLearningMaterials.ngram',
+            'courseLearningMaterialTitles',
+            'courseLearningMaterialTitles.ngram',
+            'courseLearningMaterialDescriptions',
+            'courseLearningMaterialDescriptions.ngram',
+            'courseLearningMaterialCitation',
+            'courseLearningMaterialCitation.ngram',
             'courseMeshDescriptorIds',
             'courseMeshDescriptorNames',
             'courseMeshDescriptorNames.ngram',
             'courseMeshDescriptorAnnotations',
             'courseMeshDescriptorAnnotations.ngram',
+            'courseLearningMaterialAttachments',
+            'courseLearningMaterialAttachments.ngram',
             'sessionId',
             'sessionTitle',
             'sessionTitle.ngram',
@@ -270,26 +278,36 @@ class Search extends ElasticSearchBase
             'sessionTerms.ngram',
             'sessionObjectives',
             'sessionObjectives.ngram',
-            'sessionLearningMaterials',
-            'sessionLearningMaterials.ngram',
+            'sessionLearningMaterialTitles',
+            'sessionLearningMaterialTitles.ngram',
+            'sessionLearningMaterialDescriptions',
+            'sessionLearningMaterialDescriptions.ngram',
+            'sessionLearningMaterialCitation',
+            'sessionLearningMaterialCitation.ngram',
             'sessionMeshDescriptorIds',
             'sessionMeshDescriptorNames',
             'sessionMeshDescriptorNames.ngram',
             'sessionMeshDescriptorAnnotations',
             'sessionMeshDescriptorAnnotations.ngram',
+            'sessionLearningMaterialAttachments',
+            'sessionLearningMaterialAttachments.ngram',
         ];
 
         $shouldFields = [
             'courseTitle',
             'courseTerms',
             'courseObjectives',
-            'courseLearningMaterials',
+            'courseLearningMaterialTitles',
+            'courseLearningMaterialDescriptions',
+            'courseLearningMaterialAttachments',
             'sessionTitle',
             'sessionDescription',
             'sessionType',
             'sessionTerms',
             'sessionObjectives',
-            'sessionLearningMaterials',
+            'sessionLearningMaterialTitles',
+            'sessionLearningMaterialDescriptions',
+            'sessionLearningMaterialAttachments',
         ];
 
         $mustMatch = array_map(function ($field) use ($query) {
@@ -382,6 +400,9 @@ class Search extends ElasticSearchBase
                 if (strpos($field, 'meshdescriptor') !== false) {
                     $field = 'meshdescriptors';
                 }
+                if (strpos($field, 'learningmaterial') !== false) {
+                    $field = 'learningmaterials';
+                }
 
                 return $field;
             }, $item['courseMatches']);
@@ -390,6 +411,9 @@ class Search extends ElasticSearchBase
                 $field = strtolower(substr($split[0], strlen('session')));
                 if (strpos($field, 'meshdescriptor') !== false) {
                     $field = 'meshdescriptors';
+                }
+                if (strpos($field, 'learningmaterial') !== false) {
+                    $field = 'learningmaterials';
                 }
 
                 return $field;

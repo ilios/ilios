@@ -167,6 +167,12 @@ class LearningMaterialDTO
      */
     public $token;
 
+    /**
+     * Not exposed, used by indexing
+     * @var string
+     */
+    public $relativePath;
+
     public function __construct(
         $id,
         $title,
@@ -180,7 +186,8 @@ class LearningMaterialDTO
         $mimetype,
         $filesize,
         $link,
-        $token
+        $token,
+        $relativePath
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -195,6 +202,7 @@ class LearningMaterialDTO
         $this->filesize = $filesize;
         $this->link = $link;
         $this->token = $token;
+        $this->relativePath = $relativePath;
 
         $this->sessionLearningMaterials = [];
         $this->courseLearningMaterials = [];
@@ -215,5 +223,6 @@ class LearningMaterialDTO
         $this->mimetype = null;
         $this->originalAuthor = null;
         $this->token = null;
+        $this->relativePath = null;
     }
 }

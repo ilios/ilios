@@ -294,18 +294,6 @@
     "react/promise": {
         "version": "v2.7.1"
     },
-    "sebastian/comparator": {
-        "version": "3.0.2"
-    },
-    "sebastian/diff": {
-        "version": "3.0.2"
-    },
-    "sebastian/exporter": {
-        "version": "3.1.2"
-    },
-    "sebastian/recursion-context": {
-        "version": "3.0.0"
-    },
     "sensiolabs/security-checker": {
         "version": "4.0",
         "recipe": {
@@ -323,6 +311,15 @@
     },
     "sentry/sentry": {
         "version": "2.2.6"
+    },
+    "setasign/fpdf": {
+        "version": "1.8.1"
+    },
+    "setasign/fpdi": {
+        "version": "v2.2.0"
+    },
+    "setasign/fpdi-fpdf": {
+        "version": "v2.2.0"
     },
     "squizlabs/php_codesniffer": {
         "version": "3.0",

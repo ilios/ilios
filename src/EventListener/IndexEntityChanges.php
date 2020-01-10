@@ -9,6 +9,7 @@ use App\Entity\CourseInterface;
 use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
+use App\Entity\LearningMaterialInterface;
 use App\Entity\MeshDescriptorInterface;
 use App\Entity\ObjectiveInterface;
 use App\Entity\SessionInterface;
@@ -16,6 +17,7 @@ use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\TermInterface;
 use App\Entity\UserInterface;
 use App\Message\CourseIndexRequest;
+use App\Message\LearningMaterialIndexRequest;
 use App\Message\UserIndexRequest;
 use App\Service\Index;
 use App\Traits\IndexableCoursesEntityInterface;
@@ -63,6 +65,10 @@ class IndexEntityChanges
             $this->indexUser($entity->getUser());
         }
 
+        if ($entity instanceof LearningMaterialInterface) {
+            $this->indexLearningMaterial($entity);
+        }
+
         if ($entity instanceof IndexableCoursesEntityInterface) {
             $this->indexCourses($entity->getIndexableCourses());
         }
@@ -77,6 +83,10 @@ class IndexEntityChanges
 
         if ($entity instanceof AuthenticationInterface) {
             $this->indexUser($entity->getUser());
+        }
+
+        if ($entity instanceof LearningMaterialInterface) {
+            $this->indexLearningMaterial($entity);
         }
 
         if ($entity instanceof IndexableCoursesEntityInterface) {
@@ -110,6 +120,10 @@ class IndexEntityChanges
             return; //don't re-index our just removed session
         }
 
+        if ($entity instanceof LearningMaterialInterface) {
+            $this->index->deleteLearningMaterial($entity->getId());
+        }
+
         if ($entity instanceof IndexableCoursesEntityInterface) {
             $this->indexCourses($entity->getIndexableCourses());
         }
@@ -137,5 +151,13 @@ class IndexEntityChanges
                 $this->bus->dispatch(new CourseIndexRequest($ids));
             }
         }
+    }
+
+    protected function indexLearningMaterial(LearningMaterialInterface $lm)
+    {
+        //temporarily disable indexing learning materials while we figure out performance
+//        if ($this->index->isEnabled()) {
+//            $this->bus->dispatch(new LearningMaterialIndexRequest($lm->getId()));
+//        }
     }
 }

@@ -20,6 +20,7 @@ framework:
        'App\Message\CourseIndexRequest': async
        'App\Message\UserIndexRequest': async
        'App\Message\MeshDescriptorIndexRequest': async
+       'App\Message\LearningMaterialIndexRequest': async
 
     default_bus: messenger.bus.default
     buses:
@@ -39,4 +40,3 @@ framework:
             - failed_message_processing_middleware
             - send_message
             - handle_message
-

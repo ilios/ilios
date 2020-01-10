@@ -61,7 +61,8 @@ class LearningMaterialDecoratorFactory
             $learningMaterial->getMimetype(),
             $learningMaterial->getFilesize(),
             $learningMaterial->getLink(),
-            $learningMaterial->getToken()
+            $learningMaterial->getToken(),
+            $learningMaterial->getRelativePath()
         );
         $dto->userRole = $learningMaterial->getUserRole()->getId();
         $dto->owningUser = $learningMaterial->getOwningUser()->getId();

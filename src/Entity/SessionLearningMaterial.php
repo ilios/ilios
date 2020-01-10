@@ -203,4 +203,12 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     {
         return $this->session;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexableCourses(): array
+    {
+        return [$this->session->getCourse()];
+    }
 }

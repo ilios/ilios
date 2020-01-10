@@ -4,13 +4,47 @@ namespace App\Service;
 
 use App\Classes\ElasticSearchBase;
 use App\Classes\IndexableCourse;
+use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\DTO\UserDTO;
+use Elasticsearch\Client;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Exception;
+use Psr\Log\LoggerInterface;
+use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\FpdiException;
+use setasign\Fpdi\PdfParser\StreamReader;
+use SplFileInfo;
 
 class Index extends ElasticSearchBase
 {
+    /**
+     * @var NonCachingIliosFileSystem
+     */
+    private $nonCachingIliosFileSystem;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /** @var int */
+    private $uploadLimit;
+
+    public function __construct(
+        NonCachingIliosFileSystem $nonCachingIliosFileSystem,
+        Config $config,
+        LoggerInterface $logger,
+        Client $client = null
+    ) {
+        parent::__construct($client);
+        $this->nonCachingIliosFileSystem = $nonCachingIliosFileSystem;
+        $this->logger = $logger;
+        $limit = $config->get('elasticsearch_upload_limit');
+        //10mb AWS hard limit on non-huge ES clusters and we need some overhead for control statements
+        $this->uploadLimit = $limit ?? 9000000;
+    }
+
     /**
      * @param UserDTO[] $users
      * @return bool
@@ -20,7 +54,11 @@ class Index extends ElasticSearchBase
         foreach ($users as $user) {
             if (!$user instanceof UserDTO) {
                 throw new \InvalidArgumentException(
-                    '$users must be an array of ' . UserDTO::class . ' ' . get_class($user) . ' found'
+                    sprintf(
+                        '$users must be an array of %s. %s found',
+                        UserDTO::class,
+                        get_class($user)
+                    )
                 );
             }
         }
@@ -40,7 +78,7 @@ class Index extends ElasticSearchBase
             ];
         }, $users);
 
-        $result = $this->bulkIndex(Search::PRIVATE_USER_INDEX, $input);
+        $result = $this->bulkIndex(Search::USER_INDEX, $input);
 
         return !$result['errors'];
     }
@@ -52,7 +90,7 @@ class Index extends ElasticSearchBase
     public function deleteUser(int $id): bool
     {
         $result = $this->delete([
-            'index' => Search::PRIVATE_USER_INDEX,
+            'index' => Search::USER_INDEX,
             'id' => $id,
         ]);
 
@@ -68,18 +106,22 @@ class Index extends ElasticSearchBase
         foreach ($courses as $course) {
             if (!$course instanceof IndexableCourse) {
                 throw new \InvalidArgumentException(
-                    '$courses must be an array of ' . IndexableCourse::class . ' ' . get_class($course) . ' found'
+                    sprintf(
+                        '$courses must be an array of %s. %s found',
+                        IndexableCourse::class,
+                        get_class($course)
+                    )
                 );
             }
         }
 
         $input = array_reduce($courses, function (array $carry, IndexableCourse $item) {
             $sessions = $item->createIndexObjects();
-            return array_merge($carry, $sessions);
+            $sessionsWithMaterials = $this->attachLearningMaterialsToSession($sessions);
+            return array_merge($carry, $sessionsWithMaterials);
         }, []);
 
-
-        $result = $this->bulkIndex(Search::PUBLIC_CURRICULUM_INDEX, $input);
+        $result = $this->bulkIndex(Search::CURRICULUM_INDEX, $input);
 
         if ($result['errors']) {
             $errors = array_map(function (array $item) {
@@ -104,7 +146,7 @@ class Index extends ElasticSearchBase
     public function deleteCourse(int $id): bool
     {
         $result = $this->deleteByQuery([
-            'index' => Search::PUBLIC_CURRICULUM_INDEX,
+            'index' => Search::CURRICULUM_INDEX,
             'body' => [
                 'query' => [
                     'term' => ['courseId' => $id]
@@ -123,7 +165,7 @@ class Index extends ElasticSearchBase
     public function deleteSession(int $id): bool
     {
         $result = $this->delete([
-            'index' => Search::PUBLIC_CURRICULUM_INDEX,
+            'index' => Search::CURRICULUM_INDEX,
             'id' => ElasticSearchBase::SESSION_ID_PREFIX . $id
         ]);
 
@@ -139,7 +181,11 @@ class Index extends ElasticSearchBase
         foreach ($descriptors as $descriptor) {
             if (!$descriptor instanceof Descriptor) {
                 throw new \InvalidArgumentException(
-                    '$descriptors must be an array of ' . Descriptor::class . ' ' . get_class($descriptor) . ' found'
+                    sprintf(
+                        '$descriptors must be an array of %s. %s found',
+                        Descriptor::class,
+                        get_class($descriptor)
+                    )
                 );
             }
         }
@@ -173,8 +219,75 @@ class Index extends ElasticSearchBase
             ];
         }, $descriptors);
 
-        $result = $this->bulkIndex(Search::PUBLIC_MESH_INDEX, $input);
+        $result = $this->bulkIndex(Search::MESH_INDEX, $input);
         return !$result['errors'];
+    }
+
+    /**
+     * @param LearningMaterialDTO[] $materials
+     * @return bool
+     */
+    public function indexLearningMaterials(array $materials): bool
+    {
+        foreach ($materials as $material) {
+            if (!$material instanceof LearningMaterialDTO) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        '$materials must be an array of %s. %s found',
+                        LearningMaterialDTO::class,
+                        get_class($material)
+                    )
+                );
+            }
+        }
+
+        $extractedMaterials = array_reduce($materials, function ($materials, LearningMaterialDTO $lm) {
+            foreach ($this->extractLearningMaterialData($lm) as $data) {
+                $materials[] = [
+                    'id' => $lm->id,
+                    'data' => $data
+                ];
+            }
+            return $materials;
+        }, []);
+
+        $results = array_map(function (array $arr) {
+            $params = [
+                'index' => self::LEARNING_MATERIAL_INDEX,
+                'type' => '_doc',
+                'pipeline' => 'learning_materials',
+                'body' => [
+                    'learningMaterialId' => $arr['id'],
+                    'data' => $arr['data'],
+                ]
+            ];
+            return $this->client->index($params);
+        }, $extractedMaterials);
+
+        $errors = array_filter($results, function ($result) {
+            return $result['result'] === 'error';
+        });
+
+        return empty($errors);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function deleteLearningMaterial(int $id): bool
+    {
+        $result = $this->deleteByQuery([
+            'index' => Search::LEARNING_MATERIAL_INDEX,
+            'body' => [
+                'query' => [
+                    'term' => ['learningMaterialId' => $id]
+                ]
+            ]
+        ]);
+
+        return !count($result['failures']);
     }
 
     protected function index(array $params): array
@@ -222,12 +335,45 @@ class Index extends ElasticSearchBase
         if (!$this->enabled || empty($items)) {
             return ['errors' => false];
         }
-        // split the index into 2.5mb pieces so we don't run into the
-        // AWS imposed 10MB per request limit
-        $size = strlen(serialize($items));
-        $parts = ceil($size / 4000000);
-        $chunkCounts = ceil(count($items) / $parts);
-        $chunks = array_chunk($items, $chunkCounts);
+
+        $totalItems = count($items);
+        $i = 0;
+        $chunks = [];
+        $chunk = [];
+        $chunkSize = 0;
+        // Keep adding items until we run out of space and then start over
+        while ($i < $totalItems) {
+            $item = $items[$i];
+            $itemSize = strlen(json_encode($item));
+            if (($chunkSize + $itemSize) < $this->uploadLimit) {
+                //add the item and move on to the next one
+                $chunk[] = $item;
+                $i++;
+                $chunkSize += $itemSize;
+            } else {
+                if (count($chunk)) {
+                    //we've reached a point where adding another item is too much
+                    //instead we'll just save what we have and start again
+                    $chunks[] = $chunk;
+                    $chunk = [];
+                    $chunkSize = 0;
+                } else {
+                    //this single item is too big so we have to skip it
+                    throw new Exception(
+                        sprintf(
+                            'Unable to index %s ID #%s as it is larger than the %s byte upload limit',
+                            $index,
+                            $item['id'],
+                            $this->uploadLimit
+                        )
+                    );
+                }
+            }
+        }
+        //take care of the last iteration
+        if (!empty($chunk)) {
+            $chunks[] = $chunk;
+        }
 
         $results = [
             'took' => 0,
@@ -261,12 +407,16 @@ class Index extends ElasticSearchBase
         if (!$this->enabled) {
             return;
         }
+        $this->cleanupOldIndexes();
 
+        $learningMaterialsPipeline = $this->buildLearningMaterialPipeline();
+        $this->client->ingest()->putPipeline($learningMaterialsPipeline);
         $indexes = [
             $this->buildCurriculumIndex(),
             $this->buildUserIndex(),
+            $this->buildLearningMaterialIndex(),
             [
-                'index' => self::PUBLIC_MESH_INDEX,
+                'index' => self::MESH_INDEX,
                 'body' => [
                     'settings' => [
                         'number_of_shards' => 1,
@@ -363,7 +513,7 @@ class Index extends ElasticSearchBase
 
         $analysis = $this->buildAnalyzers();
         return [
-            'index' => self::PUBLIC_CURRICULUM_INDEX,
+            'index' => self::CURRICULUM_INDEX,
             'body' => [
                 'settings' => [
                     'analysis' => $analysis,
@@ -391,7 +541,10 @@ class Index extends ElasticSearchBase
                             'courseTitle' => $txtTypeFieldWithCompletion,
                             'courseTerms' => $txtTypeFieldWithCompletion,
                             'courseObjectives'  => $txtTypeField,
-                            'courseLearningMaterials'  => $txtTypeField,
+                            'courseLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
+                            'courseLearningMaterialDescriptions'  => $txtTypeField,
+                            'courseLearningMaterialCitation'  => $txtTypeField,
+                            'courseLearningMaterialAttachments'  => $txtTypeField,
                             'courseMeshDescriptorIds' => [
                                 'type' => 'keyword',
                                 'fields' => [
@@ -420,7 +573,10 @@ class Index extends ElasticSearchBase
                             ],
                             'sessionTerms' => $txtTypeFieldWithCompletion,
                             'sessionObjectives'  => $txtTypeField,
-                            'sessionLearningMaterials'  => $txtTypeField,
+                            'sessionLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
+                            'sessionLearningMaterialDescriptions'  => $txtTypeField,
+                            'sessionLearningMaterialCitation'  => $txtTypeField,
+                            'sessionLearningMaterialAttachments'  => $txtTypeField,
                             'sessionMeshDescriptorIds' => [
                                 'type' => 'keyword',
                                 'fields' => [
@@ -445,7 +601,7 @@ class Index extends ElasticSearchBase
     {
         $analysis = $this->buildAnalyzers();
         return [
-            'index' => self::PRIVATE_USER_INDEX,
+            'index' => self::USER_INDEX,
             'body' => [
                 'settings' => [
                     'analysis' => $analysis,
@@ -551,5 +707,236 @@ class Index extends ElasticSearchBase
                 ]
             ]
         ];
+    }
+    
+    protected function buildLearningMaterialIndex(): array
+    {
+        return [
+            'index' => self::LEARNING_MATERIAL_INDEX,
+            'body' => [
+                'settings' => [
+                    'number_of_replicas' => 0,
+                ],
+                'mappings' => [
+                    '_doc' => [
+                        'properties' => [
+                            'learningMaterialId' => [
+                                'type' => 'integer'
+                            ],
+                            'material' => [
+                                'type' => 'object'
+                            ],
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    protected function buildLearningMaterialPipeline(): array
+    {
+        return [
+            'id' => 'learning_materials',
+            'body' => [
+                'description' => 'Learning Material Data',
+                'processors' => [
+                    [
+                        'attachment' => [
+                            'field' => 'data',
+                            'target_field' => 'material',
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    protected function attachLearningMaterialsToSession(array $sessions): array
+    {
+        $courseIds = array_column($sessions, 'courseFileLearningMaterialIds');
+        $sessionIds = array_column($sessions, 'sessionFileLearningMaterialIds');
+        $learningMaterialIds = array_values(array_unique(array_merge([], ...$courseIds, ...$sessionIds)));
+        $materialsById = [];
+        if (!empty($learningMaterialIds)) {
+            $params = [
+                'type' => '_doc',
+                'index' => self::LEARNING_MATERIAL_INDEX,
+                'body' => [
+                    'query' => [
+                        'terms' => [
+                            'learningMaterialId' => $learningMaterialIds
+                        ]
+                    ],
+                    "_source" => [
+                        'learningMaterialId',
+                        'material.content',
+                    ]
+                ]
+            ];
+            $results = $this->client->search($params);
+
+            $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
+                $result = $hit['_source'];
+                $id = $result['learningMaterialId'];
+
+                if (array_key_exists('material', $result)) {
+                    $carry[$id][] = $result['material']['content'];
+                }
+
+                return $carry;
+            }, []);
+        }
+
+        return array_map(function (array $session) use ($materialsById) {
+            foreach ($session['sessionFileLearningMaterialIds'] as $id) {
+                if (array_key_exists($id, $materialsById)) {
+                    foreach ($materialsById[$id] as $value) {
+                        $session['sessionLearningMaterialAttachments'][] = $value;
+                    }
+                }
+            }
+            unset($session['sessionFileLearningMaterialIds']);
+            foreach ($session['courseFileLearningMaterialIds'] as $id) {
+                if (array_key_exists($id, $materialsById)) {
+                    foreach ($materialsById[$id] as $value) {
+                        $session['courseLearningMaterialAttachments'][] = $value;
+                    }
+                }
+            }
+            unset($session['courseFileLearningMaterialIds']);
+
+            return $session;
+        }, $sessions);
+    }
+
+    /**
+     * Indexes have been renamed, this cleans up after ourselves
+     */
+    protected function cleanupOldIndexes()
+    {
+        $indexes = [
+            'ilios-public-curriculum',
+            'ilios-public-mesh',
+            'ilios-private-users',
+        ];
+        foreach ($indexes as $index) {
+            if ($this->client->indices()->exists(['index' => $index])) {
+                $this->client->indices()->delete(['index' => $index]);
+            }
+        }
+    }
+
+    /**
+     * Base64 encodes learning material contents for indexing
+     * Large PDFs are split into multiple chunks to they can
+     * be indexed without going over the size limit. Other non-text
+     * or too large files are ignored.
+     *
+     * @param LearningMaterialDTO $dto
+     * @return array
+     */
+    protected function extractLearningMaterialData(LearningMaterialDTO $dto): array
+    {
+        //skip files without useful text content
+        if ($dto->mimetype && preg_match('/image|video|audio/', $dto->mimetype)) {
+            return [];
+        }
+        $info = new SplFileInfo($dto->filename);
+        $extension = $info->getExtension();
+        if (in_array($extension, ['mp3', 'mov'])) {
+            return [];
+        }
+
+        $data = $this->nonCachingIliosFileSystem->getFileContents($dto->relativePath);
+        $encodedData = base64_encode($data);
+        if (strlen($encodedData) < $this->uploadLimit) {
+            return [
+                $encodedData
+            ];
+        }
+        if ($dto->mimetype === 'application/pdf') {
+            try {
+                $parts = $this->splitPDFIntoSmallParts($data);
+                return array_map(function (string $string) {
+                    return base64_encode($string);
+                }, $parts);
+            } catch (FpdiException $e) {
+                $this->logger->error('Unable to split large PDF learning material into smaller parts.', [
+                    'id' => $dto->id,
+                    'filename' => $dto->filename,
+                    'path' => $dto->relativePath,
+                    'error' => $e->getMessage(),
+                ]);
+                return [];
+            }
+        }
+
+        return [];
+    }
+
+    /**
+     * Extracts each page from a PDF and attempts to create smaller PDFs with as many pages
+     * as possible. This is better than returning all the pages individually because there
+     * is significant overhead in each transaction with elasticsearch so we want to keep
+     * the total PDF count down, but each one under the limit,.
+     *
+     * Thanks to https://gist.github.com/silasrm/3da655045b899a858eae4f4463755f5c for a
+     * critical example.
+     *
+     * @param string $pdfContents
+     * @return array
+     */
+    protected function splitPDFIntoSmallParts(string $pdfContents): array
+    {
+        // Base64 Encoding makes files about 30% bigger so we need some padding when comparing
+        $fileSizeLimit = $this->uploadLimit * .66;
+
+        $i = 1;
+        $pagesInCurrentPdf = 0;
+        $PDFs = [];
+        $sizeLimitReached = true;
+        $newPdf = new Fpdi();
+        $stream = StreamReader::createByString($pdfContents);
+        $pageCount = $newPdf->setSourceFile($stream);
+        // Keep adding new pages until we run out of space and then start over
+        while ($i <= $pageCount) {
+            if ($sizeLimitReached) {
+                // start a new empty PDF
+                $newPdf = new FPDI();
+                $newPdf->setSourceFile($stream);
+                $sizeLimitReached = false;
+            }
+            //create a copy to see how big the output would be
+            $testCopy = clone $newPdf;
+            $this->addPageToPdf($testCopy, $i);
+            $testOutput = $testCopy->Output('s');
+            if (strlen($testOutput) < $fileSizeLimit) {
+                //add the page and move on to the next one
+                $this->addPageToPdf($newPdf, $i);
+                $i++;
+                $pagesInCurrentPdf++;
+            } else {
+                if ($pagesInCurrentPdf > 0) {
+                    //we've reached a point where adding another page is too much
+                    //instead we'll just output what we have and start again
+                    $output = $newPdf->Output('s');
+                    $PDFs[] = $output;
+                    $sizeLimitReached = true;
+                    $pagesInCurrentPdf = 0;
+                } else {
+                    //this single page is too big so we have to skip it
+                    $i++;
+                }
+            }
+        }
+        return $PDFs;
+    }
+
+    protected function addPageToPdf(FPDI $pdf, int $pageNumber): void
+    {
+        $templateId = $pdf->importPage($pageNumber);
+        $size = $pdf->getTemplateSize($templateId);
+        $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
+        $pdf->useTemplate($templateId);
     }
 }

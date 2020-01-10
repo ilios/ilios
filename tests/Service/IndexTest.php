@@ -8,14 +8,55 @@ use App\Entity\Course;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\UserDTO;
 use App\Entity\User;
+use App\Service\Config;
 use App\Service\Index;
+use App\Service\NonCachingIliosFileSystem;
 use App\Tests\TestCase;
 use Elasticsearch\Client;
 use Ilios\MeSH\Model\Descriptor;
 use Mockery as m;
+use Psr\Log\LoggerInterface;
 
 class IndexTest extends TestCase
 {
+    /**
+     * @var NonCachingIliosFileSystem|m\MockInterface
+     */
+    private $fileSystem;
+
+    /**
+     * @var Client|m\MockInterface
+     */
+    private $client;
+
+    /**
+     * @var Config|m\MockInterface
+     */
+    private $config;
+
+    /**
+     * @var m\LegacyMockInterface|m\MockInterface|LoggerInterface
+     */
+    private $logger;
+
+    public function setup()
+    {
+        $this->fileSystem = m::mock(NonCachingIliosFileSystem::class);
+        $this->client = m::mock(Client::class);
+        $this->config = m::mock(Config::class);
+        $this->config->shouldReceive('get')
+            ->with('elasticsearch_upload_limit')
+            ->andReturn(8000000);
+        $this->logger = m::mock(LoggerInterface::class);
+    }
+    public function tearDown()
+    {
+        unset($this->fileSystem);
+        unset($this->client);
+        unset($this->config);
+        unset($this->logger);
+    }
+
     public function testSetup()
     {
         $obj1 = $this->createWithHost();
@@ -52,8 +93,7 @@ class IndexTest extends TestCase
 
     public function testIndexUsers()
     {
-        $client = m::mock(Client::class);
-        $obj = new Index($client);
+        $obj = $this->createWithHost();
         $user1 = m::mock(UserDTO::class);
         $user1->id = 13;
         $user1->firstName = 'first';
@@ -76,11 +116,11 @@ class IndexTest extends TestCase
         $user2->campusId = 'OG';
         $user2->username = null;
 
-        $client->shouldReceive('bulk')->once()->with([
+        $this->client->shouldReceive('bulk')->once()->with([
             'body' => [
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::PRIVATE_USER_INDEX,
+                        '_index' => ElasticSearchBase::USER_INDEX,
                         '_type' => '_doc',
                         '_id' => $user1->id
                     ]
@@ -100,7 +140,7 @@ class IndexTest extends TestCase
                 ],
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::PRIVATE_USER_INDEX,
+                        '_index' => ElasticSearchBase::USER_INDEX,
                         '_type' => '_doc',
                         '_id' => $user2->id
                     ]
@@ -148,19 +188,23 @@ class IndexTest extends TestCase
 
     public function testIndexCourses()
     {
-        $client = m::mock(Client::class);
-        $obj = new Index($client);
+        $obj = $this->createWithHost();
         $course1 = m::mock(IndexableCourse::class);
-        $course1->shouldReceive('createIndexObjects')->once()->andReturn([['id' => 1]]);
+        $course1->shouldReceive('createIndexObjects')->once()->andReturn([
+            ['id' => 1, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []]
+        ]);
 
         $course2 = m::mock(IndexableCourse::class);
-        $course2->shouldReceive('createIndexObjects')->once()->andReturn([['id' => 2], ['id' => 3]]);
+        $course2->shouldReceive('createIndexObjects')->once()->andReturn([
+            ['id' => 2, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
+            ['id' => 3, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
+        ]);
 
-        $client->shouldReceive('bulk')->once()->with([
+        $this->client->shouldReceive('bulk')->once()->with([
             'body' => [
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::PUBLIC_CURRICULUM_INDEX,
+                        '_index' => ElasticSearchBase::CURRICULUM_INDEX,
                         '_type' => '_doc',
                         '_id' => 1
                     ]
@@ -170,7 +214,7 @@ class IndexTest extends TestCase
                 ],
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::PUBLIC_CURRICULUM_INDEX,
+                        '_index' => ElasticSearchBase::CURRICULUM_INDEX,
                         '_type' => '_doc',
                         '_id' => 2
                     ]
@@ -180,7 +224,7 @@ class IndexTest extends TestCase
                 ],
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::PUBLIC_CURRICULUM_INDEX,
+                        '_index' => ElasticSearchBase::CURRICULUM_INDEX,
                         '_type' => '_doc',
                         '_id' => 3
                     ]
@@ -195,12 +239,12 @@ class IndexTest extends TestCase
 
     public function testIndexCourseWithNoSessions()
     {
-        $client = m::mock(Client::class);
-        $obj = new Index($client);
+        $this->client = m::mock(Client::class);
+        $obj = $this->createWithHost();
         $course1 = m::mock(IndexableCourse::class);
         $course1->shouldReceive('createIndexObjects')->once()->andReturn([]);
 
-        $client->shouldNotReceive('bulk');
+        $this->client->shouldNotReceive('bulk');
         $obj->indexCourses([$course1]);
     }
 
@@ -250,12 +294,11 @@ class IndexTest extends TestCase
 
     protected function createWithHost()
     {
-        $client = m::mock(Client::class);
-        return new Index($client);
+        return new Index($this->fileSystem, $this->config, $this->logger, $this->client);
     }
 
     protected function createWithoutHost()
     {
-        return new Index(null);
+        return new Index($this->fileSystem, $this->config, $this->logger, null);
     }
 }

@@ -41,7 +41,16 @@ class IndexableSession
     public $meshDescriptorAnnotations = [];
 
     /** @var array  */
-    public $learningMaterials = [];
+    public $learningMaterialTitles = [];
+
+    /** @var array  */
+    public $learningMaterialDescriptions = [];
+
+    /** @var array  */
+    public $learningMaterialCitations = [];
+
+    /** @var array  */
+    public $fileLearningMaterialIds = [];
 
     public function createIndexObject()
     {
@@ -57,7 +66,11 @@ class IndexableSession
             'sessionMeshDescriptorIds' => array_values($this->meshDescriptorIds),
             'sessionMeshDescriptorNames' => array_values($this->meshDescriptorNames),
             'sessionMeshDescriptorAnnotations' => implode(' ', $this->meshDescriptorAnnotations),
-            'sessionLearningMaterials' => implode(' ', $this->learningMaterials),
+            'sessionLearningMaterialTitles' => array_values($this->learningMaterialTitles),
+            'sessionLearningMaterialDescriptions' => array_values($this->learningMaterialDescriptions),
+            'sessionLearningMaterialCitations' => array_values($this->learningMaterialCitations),
+            'sessionLearningMaterialAttachments' => [],
+            'sessionFileLearningMaterialIds' => array_values($this->fileLearningMaterialIds),
         ];
     }
 }

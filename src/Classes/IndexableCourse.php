@@ -37,7 +37,16 @@ class IndexableCourse
     public $meshDescriptorAnnotations = [];
 
     /** @var array  */
-    public $learningMaterials = [];
+    public $learningMaterialTitles = [];
+
+    /** @var array  */
+    public $learningMaterialDescriptions = [];
+
+    /** @var array  */
+    public $learningMaterialCitations = [];
+
+    /** @var array  */
+    public $fileLearningMaterialIds = [];
 
     /** @var IndexableSession[]  */
     public $sessions = [];
@@ -58,7 +67,11 @@ class IndexableCourse
             'courseMeshDescriptorIds' => array_values($this->meshDescriptorIds),
             'courseMeshDescriptorNames' => array_values($this->meshDescriptorNames),
             'courseMeshDescriptorAnnotations' => implode(' ', $this->meshDescriptorAnnotations),
-            'courseLearningMaterials' => implode(' ', $this->learningMaterials),
+            'courseLearningMaterialTitles' => array_values($this->learningMaterialTitles),
+            'courseLearningMaterialDescriptions' => array_values($this->learningMaterialDescriptions),
+            'courseLearningMaterialCitations' => array_values($this->learningMaterialCitations),
+            'courseLearningMaterialAttachments' => [],
+            'courseFileLearningMaterialIds' => array_values($this->fileLearningMaterialIds),
         ];
 
         return array_map(function (IndexableSession $session) use ($courseData) {

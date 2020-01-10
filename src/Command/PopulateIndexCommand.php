@@ -3,9 +3,11 @@
 namespace App\Command;
 
 use App\Entity\Manager\CourseManager;
+use App\Entity\Manager\LearningMaterialManager;
 use App\Entity\Manager\MeshDescriptorManager;
 use App\Entity\Manager\UserManager;
 use App\Message\CourseIndexRequest;
+use App\Message\LearningMaterialIndexRequest;
 use App\Message\MeshDescriptorIndexRequest;
 use App\Message\UserIndexRequest;
 use App\Service\Index;
@@ -42,6 +44,11 @@ class PopulateIndexCommand extends Command
     protected $descriptorManager;
 
     /**
+     * @var LearningMaterialManager
+     */
+    protected $learningMaterialManager;
+
+    /**
      * @var MessageBusInterface
      */
     protected $bus;
@@ -51,6 +58,7 @@ class PopulateIndexCommand extends Command
         UserManager $userManager,
         CourseManager $courseManager,
         MeshDescriptorManager $descriptorManager,
+        LearningMaterialManager $learningMaterialManager,
         MessageBusInterface $bus
     ) {
         parent::__construct();
@@ -59,6 +67,7 @@ class PopulateIndexCommand extends Command
         $this->userManager = $userManager;
         $this->courseManager = $courseManager;
         $this->descriptorManager = $descriptorManager;
+        $this->learningMaterialManager = $learningMaterialManager;
         $this->bus = $bus;
     }
     
@@ -80,7 +89,10 @@ class PopulateIndexCommand extends Command
         $output->writeln("<info>Clearing the index and preparing to insert data.</info>");
         $this->index->clear();
         $output->writeln("<info>Ok.</info>");
+
         $this->populateUsers($output);
+        //temporarily disable LM indexing for performance reasons.
+//        $this->populateLearningMaterials($output);
         $this->populateCourses($output);
         $this->populateMesh($output);
     }
@@ -105,6 +117,16 @@ class PopulateIndexCommand extends Command
             $this->bus->dispatch(new CourseIndexRequest($ids));
         }
         $output->writeln("<info>${count} courses have been queued for indexing.</info>");
+    }
+
+    protected function populateLearningMaterials(OutputInterface $output)
+    {
+        $allIds = $this->learningMaterialManager->getFileLearningMaterialIds();
+        $count = count($allIds);
+        foreach ($allIds as $id) {
+            $this->bus->dispatch(new LearningMaterialIndexRequest($id));
+        }
+        $output->writeln("<info>${count} learning materials have been queued for indexing.</info>");
     }
 
     protected function populateMesh(OutputInterface $output)

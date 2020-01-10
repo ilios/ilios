@@ -672,15 +672,21 @@ EOL;
         }
 
         $qb = $this->_em->createQueryBuilder()
-            ->select("c.id AS courseId, CONCAT(l.title, ' ', l.description) AS txt")
+            ->select("c.id AS courseId, l.id as learningMaterialId, l.relativePath, " .
+                "l.title, l.description, l.citation")
             ->from(Course::class, 'c')
             ->join("c.learningMaterials", 'clm')
             ->join("clm.learningMaterial", 'l')
-            ->where($qb->expr()->in('c.id', ':courseIds'))
-            ->setParameter('courseIds', $courseIds);
+            ->where($qb->expr()->in('c.id', ':ids'))
+            ->setParameter('ids', $courseIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $indexableCourses[$arr['courseId']]->learningMaterials[] = $arr['txt'];
+            $indexableCourses[$arr['courseId']]->learningMaterialTitles[] = $arr['title'];
+            $indexableCourses[$arr['courseId']]->learningMaterialDescriptions[] = $arr['description'];
+            $indexableCourses[$arr['courseId']]->learningMaterialCitations[] = $arr['citation'];
+            if ($arr['relativePath']) {
+                $indexableCourses[$arr['courseId']]->fileLearningMaterialIds[] = $arr['learningMaterialId'];
+            }
         }
 
         $arr = $this->joinResults(
@@ -806,7 +812,8 @@ EOL;
         }
 
         $qb = $this->_em->createQueryBuilder()
-            ->select("s.id AS sessionId, CONCAT(l.title, ' ', l.description) AS txt")
+            ->select("s.id AS sessionId, l.id as learningMaterialId, l.relativePath, " .
+                "l.title, l.description, l.citation")
             ->from(Session::class, 's')
             ->join("s.learningMaterials", 'slm')
             ->join("slm.learningMaterial", 'l')
@@ -814,7 +821,12 @@ EOL;
             ->setParameter('ids', $sessionIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $sessions[$arr['sessionId']]->learningMaterials[] = $arr['txt'];
+            $sessions[$arr['sessionId']]->learningMaterialTitles[] = $arr['title'];
+            $sessions[$arr['sessionId']]->learningMaterialDescriptions[] = $arr['description'];
+            $sessions[$arr['sessionId']]->learningMaterialCitations[] = $arr['citation'];
+            if ($arr['relativePath']) {
+                $sessions[$arr['sessionId']]->fileLearningMaterialIds[] = $arr['learningMaterialId'];
+            }
         }
 
         return array_values($sessions);

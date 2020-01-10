@@ -4,30 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4942d9910a0cfe82b372276c179b44ca",
+    "content-hash": "0529bf810c4cd8ebd903aef0690af62f",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.130.3",
+            "version": "3.132.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "916356edb5c30fa564d02de94bde51a9c0bb4469"
+                "reference": "f814995664d4ad616f674e664ae069b9f4e340bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/916356edb5c30fa564d02de94bde51a9c0bb4469",
-                "reference": "916356edb5c30fa564d02de94bde51a9c0bb4469",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f814995664d4ad616f674e664ae069b9f4e340bf",
+                "reference": "f814995664d4ad616f674e664ae069b9f4e340bf",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-pcre": "*",
                 "ext-simplexml": "*",
-                "guzzlehttp/guzzle": "^5.3.3|^6.2.1",
-                "guzzlehttp/promises": "~1.0",
+                "guzzlehttp/guzzle": "^5.3.3|^6.2.1|^7.0",
+                "guzzlehttp/promises": "^1.0",
                 "guzzlehttp/psr7": "^1.4.1",
-                "mtdowling/jmespath.php": "~2.2",
+                "mtdowling/jmespath.php": "^2.5",
                 "php": ">=5.5"
             },
             "require-dev": {
@@ -88,7 +88,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-01-02T19:13:50+00:00"
+            "time": "2020-01-10T19:14:49+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -420,16 +420,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "v2.11.0",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "b8ca1dcf6b0dc8a2af7a09baac8d0c48345df4ff"
+                "reference": "2053eafdf60c2172ee1373d1b9289ba1db7f1fc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/b8ca1dcf6b0dc8a2af7a09baac8d0c48345df4ff",
-                "reference": "b8ca1dcf6b0dc8a2af7a09baac8d0c48345df4ff",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/2053eafdf60c2172ee1373d1b9289ba1db7f1fc6",
+                "reference": "2053eafdf60c2172ee1373d1b9289ba1db7f1fc6",
                 "shasum": ""
             },
             "require": {
@@ -499,7 +499,7 @@
                 "doctrine",
                 "php"
             ],
-            "time": "2019-09-10T10:10:14+00:00"
+            "time": "2020-01-10T15:49:25+00:00"
         },
         {
             "name": "doctrine/data-fixtures",
@@ -1145,16 +1145,16 @@
         },
         {
             "name": "doctrine/migrations",
-            "version": "2.2.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "8e124252d2f6be1124017d746d5994dd4095d66f"
+                "reference": "a3987131febeb0e9acb3c47ab0df0af004588934"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/8e124252d2f6be1124017d746d5994dd4095d66f",
-                "reference": "8e124252d2f6be1124017d746d5994dd4095d66f",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/a3987131febeb0e9acb3c47ab0df0af004588934",
+                "reference": "a3987131febeb0e9acb3c47ab0df0af004588934",
                 "shasum": ""
             },
             "require": {
@@ -1223,7 +1223,7 @@
                 "migrations",
                 "php"
             ],
-            "time": "2019-11-13T11:06:31+00:00"
+            "time": "2019-12-04T06:09:14+00:00"
         },
         {
             "name": "doctrine/orm",
@@ -1310,16 +1310,16 @@
         },
         {
             "name": "doctrine/persistence",
-            "version": "1.3.3",
+            "version": "1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/persistence.git",
-                "reference": "99b196bbd4715a94fa100fac664a351ffa46d6a5"
+                "reference": "ff7e08b0f814be2cd20c52dc3c8a262579376b94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/persistence/zipball/99b196bbd4715a94fa100fac664a351ffa46d6a5",
-                "reference": "99b196bbd4715a94fa100fac664a351ffa46d6a5",
+                "url": "https://api.github.com/repos/doctrine/persistence/zipball/ff7e08b0f814be2cd20c52dc3c8a262579376b94",
+                "reference": "ff7e08b0f814be2cd20c52dc3c8a262579376b94",
                 "shasum": ""
             },
             "require": {
@@ -1389,20 +1389,20 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-12-13T10:43:02+00:00"
+            "time": "2020-01-09T19:49:17+00:00"
         },
         {
             "name": "doctrine/reflection",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/reflection.git",
-                "reference": "02538d3f95e88eb397a5f86274deb2c6175c2ab6"
+                "reference": "bc420ead87fdfe08c03ecc3549db603a45b06d4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/reflection/zipball/02538d3f95e88eb397a5f86274deb2c6175c2ab6",
-                "reference": "02538d3f95e88eb397a5f86274deb2c6175c2ab6",
+                "url": "https://api.github.com/repos/doctrine/reflection/zipball/bc420ead87fdfe08c03ecc3549db603a45b06d4c",
+                "reference": "bc420ead87fdfe08c03ecc3549db603a45b06d4c",
                 "shasum": ""
             },
             "require": {
@@ -1410,13 +1410,15 @@
                 "ext-tokenizer": "*",
                 "php": "^7.1"
             },
+            "conflict": {
+                "doctrine/common": "<2.9"
+            },
             "require-dev": {
-                "doctrine/coding-standard": "^4.0",
-                "doctrine/common": "^2.8",
-                "phpstan/phpstan": "^0.9.2",
-                "phpstan/phpstan-phpunit": "^0.9.4",
-                "phpunit/phpunit": "^7.0",
-                "squizlabs/php_codesniffer": "^3.0"
+                "doctrine/coding-standard": "^5.0",
+                "doctrine/common": "^2.10",
+                "phpstan/phpstan": "^0.11.0",
+                "phpstan/phpstan-phpunit": "^0.11.0",
+                "phpunit/phpunit": "^7.0"
             },
             "type": "library",
             "extra": {
@@ -1435,16 +1437,16 @@
             ],
             "authors": [
                 {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
                 },
                 {
                     "name": "Benjamin Eberlei",
                     "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
                 },
                 {
                     "name": "Jonathan Wage",
@@ -1459,12 +1461,13 @@
                     "email": "ocramius@gmail.com"
                 }
             ],
-            "description": "Doctrine Reflection component",
+            "description": "The Doctrine Reflection project is a simple library used by the various Doctrine projects which adds some additional functionality on top of the reflection functionality that comes with PHP. It allows you to get the reflection information about classes, methods and properties statically.",
             "homepage": "https://www.doctrine-project.org/projects/reflection.html",
             "keywords": [
-                "reflection"
+                "reflection",
+                "static"
             ],
-            "time": "2018-06-14T14:45:07+00:00"
+            "time": "2020-01-08T19:53:19+00:00"
         },
         {
             "name": "dreamscapes/ldap-core",
@@ -1568,16 +1571,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.13",
+            "version": "2.1.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "834593d5900615639208417760ba6a17299e2497"
+                "reference": "c4b8d12921999d8a561004371701dbc2e05b5ece"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/834593d5900615639208417760ba6a17299e2497",
-                "reference": "834593d5900615639208417760ba6a17299e2497",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/c4b8d12921999d8a561004371701dbc2e05b5ece",
+                "reference": "c4b8d12921999d8a561004371701dbc2e05b5ece",
                 "shasum": ""
             },
             "require": {
@@ -1621,7 +1624,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2019-12-30T08:14:25+00:00"
+            "time": "2020-01-05T14:11:20+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -4165,6 +4168,145 @@
                 "sentry"
             ],
             "time": "2020-01-08T11:27:08+00:00"
+        },
+        {
+            "name": "setasign/fpdf",
+            "version": "1.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Setasign/FPDF.git",
+                "reference": "d77904018090c17dc9f3ab6e944679a7a47e710a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Setasign/FPDF/zipball/d77904018090c17dc9f3ab6e944679a7a47e710a",
+                "reference": "d77904018090c17dc9f3ab6e944679a7a47e710a",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fpdf.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Olivier Plathey",
+                    "email": "oliver@fpdf.org",
+                    "homepage": "http://fpdf.org/"
+                }
+            ],
+            "description": "FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
+            "homepage": "http://www.fpdf.org",
+            "keywords": [
+                "fpdf",
+                "pdf"
+            ],
+            "time": "2019-12-08T10:32:10+00:00"
+        },
+        {
+            "name": "setasign/fpdi",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Setasign/FPDI.git",
+                "reference": "3c266002f8044f61b17329f7cd702d44d73f0f7f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Setasign/FPDI/zipball/3c266002f8044f61b17329f7cd702d44d73f0f7f",
+                "reference": "3c266002f8044f61b17329f7cd702d44d73f0f7f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zlib": "*",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.7",
+                "setasign/fpdf": "~1.8",
+                "setasign/tfpdf": "1.25",
+                "tecnickcom/tcpdf": "~6.2"
+            },
+            "suggest": {
+                "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured.",
+                "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
+                "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF.",
+                "setasign/fpdi-tfpdf": "Use this package to automatically evaluate dependencies to tFPDF."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "setasign\\Fpdi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Slabon",
+                    "email": "jan.slabon@setasign.com",
+                    "homepage": "https://www.setasign.com"
+                },
+                {
+                    "name": "Maximilian Kresse",
+                    "email": "maximilian.kresse@setasign.com",
+                    "homepage": "https://www.setasign.com"
+                }
+            ],
+            "description": "FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF. Because it is also possible to use FPDI with TCPDF, there are no fixed dependencies defined. Please see suggestions for packages which evaluates the dependencies automatically.",
+            "homepage": "https://www.setasign.com/fpdi",
+            "keywords": [
+                "fpdf",
+                "fpdi",
+                "pdf"
+            ],
+            "time": "2019-01-30T14:11:19+00:00"
+        },
+        {
+            "name": "setasign/fpdi-fpdf",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Setasign/FPDI-FPDF.git",
+                "reference": "e4363ac09e1b766b38ebea1c3cbe82b3480a11e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Setasign/FPDI-FPDF/zipball/e4363ac09e1b766b38ebea1c3cbe82b3480a11e9",
+                "reference": "e4363ac09e1b766b38ebea1c3cbe82b3480a11e9",
+                "shasum": ""
+            },
+            "require": {
+                "setasign/fpdf": "^1.8",
+                "setasign/fpdi": "^2.2"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Slabon",
+                    "email": "jan.slabon@setasign.com",
+                    "homepage": "https://www.setasign.com"
+                }
+            ],
+            "description": "Kind of metadata package for dependencies of the latest versions of FPDI and FPDF.",
+            "homepage": "https://www.setasign.com/fpdi",
+            "keywords": [
+                "fpdf",
+                "fpdi",
+                "pdf"
+            ],
+            "time": "2019-01-30T14:38:19+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
