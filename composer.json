@@ -114,7 +114,7 @@
   "extra": {
     "symfony": {
       "allow-contrib": true,
-      "require": "4.4.*"
+      "require": "5.0.*"
     }
   }
 }

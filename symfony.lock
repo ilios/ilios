@@ -138,6 +138,12 @@
             "config/packages/exercise_html_purifier.yaml"
         ]
     },
+    "ezimuel/guzzlestreams": {
+        "version": "3.0.1"
+    },
+    "ezimuel/ringphp": {
+        "version": "1.1.2"
+    },
     "ezyang/htmlpurifier": {
         "version": "v4.12.0"
     },
@@ -155,12 +161,6 @@
     },
     "guzzlehttp/psr7": {
         "version": "1.6.1"
-    },
-    "guzzlehttp/ringphp": {
-        "version": "1.1.1"
-    },
-    "guzzlehttp/streams": {
-        "version": "3.0.0"
     },
     "hamcrest/hamcrest-php": {
         "version": "v2.0.0"
@@ -288,6 +288,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/event-dispatcher": {
+        "version": "1.0.0"
+    },
     "psr/http-client": {
         "version": "1.0.0"
     },
@@ -398,9 +401,6 @@
         ]
     },
     "symfony/css-selector": {
-        "version": "v4.4.2"
-    },
-    "symfony/debug": {
         "version": "v4.4.2"
     },
     "symfony/debug-bundle": {
