@@ -53,7 +53,7 @@ ilios_user_search:
 
 ilios_swagger_redirect_docs:
   path: /api/docs/
-  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
   defaults:
     path: /api/doc/
     permanent: true
