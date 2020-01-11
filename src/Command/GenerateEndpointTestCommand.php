@@ -115,6 +115,6 @@ class GenerateEndpointTestCommand extends Command
 
         print $content;
 
-        exit();
+        return 0;
     }
 }

@@ -62,5 +62,7 @@ class RemoveRootUserCommand extends Command
         $user->setRoot(false);
         $this->userManager->update($user, true, true);
         $output->writeln("Root-level privileges have been revoked from user with id #{$userId}.");
+
+        return 0;
     }
 }

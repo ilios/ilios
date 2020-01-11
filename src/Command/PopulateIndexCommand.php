@@ -95,6 +95,8 @@ class PopulateIndexCommand extends Command
 //        $this->populateLearningMaterials($output);
         $this->populateCourses($output);
         $this->populateMesh($output);
+
+        return 0;
     }
 
     protected function populateUsers(OutputInterface $output)

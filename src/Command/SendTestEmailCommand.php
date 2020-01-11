@@ -63,5 +63,7 @@ class SendTestEmailCommand extends Command
             ->setContentType('text/plain')
             ->setBody('This is a test email from your ilios system.');
         $this->mailer->send($message);
+
+        return 0;
     }
 }

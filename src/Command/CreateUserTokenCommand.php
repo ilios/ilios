@@ -79,5 +79,7 @@ class CreateUserTokenCommand extends Command
         
         $output->writeln('Success!');
         $output->writeln('Token ' . $jwt);
+
+        return 0;
     }
 }

@@ -110,5 +110,7 @@ class ChangePasswordCommand extends Command
         $this->authenticationManager->update($authentication);
 
         $output->writeln('<info>Password Changed.</info>');
+
+        return 0;
     }
 }

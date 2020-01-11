@@ -84,5 +84,7 @@ class ListSchoolConfigValuesCommand extends Command
                 }, $configs));
             $table->render();
         }
+
+        return 0;
     }
 }

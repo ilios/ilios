@@ -206,5 +206,7 @@ class InstallFirstUserCommand extends Command
         $output->writeln('A user account has been created.');
         $output->writeln(sprintf("You may now log in as '%s' with the password '%s'.", self::USERNAME, self::PASSWORD));
         $output->writeln('Please change this password as soon as possible.');
+
+        return 0;
     }
 }

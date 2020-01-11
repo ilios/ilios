@@ -73,5 +73,7 @@ class SetConfigValueCommand extends Command
         $this->applicationConfigManager->update($config, true);
 
         $output->writeln('<info>Done.</info>');
+
+        return 0;
     }
 }

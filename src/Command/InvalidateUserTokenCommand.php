@@ -82,5 +82,7 @@ class InvalidateUserTokenCommand extends Command
             ' issued before Today at ' . $now->format('g:i:s A e') .
             ' have been invalidated.'
         );
+
+        return 0;
     }
 }

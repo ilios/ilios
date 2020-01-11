@@ -96,5 +96,7 @@ class RolloverCurriculumInventoryReportCommand extends Command
 
         //output message with the new courseId on success
         $output->writeln("The given report has been rolled over. The new report id is {$newReport->getId()}.");
+
+        return 0;
     }
 }

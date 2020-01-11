@@ -89,7 +89,7 @@ class SyncUserCommand extends Command
         
         if (!$userRecord) {
             $output->writeln('<error>Unable to find ' . $user->getCampusId() . ' in the directory.');
-            return;
+            return 1;
         }
         
         $table = new Table($output);
@@ -103,7 +103,7 @@ class SyncUserCommand extends Command
                 'Email',
                 'Phone Number'
             ])
-            ->setRows(array(
+            ->setRows([
                 [
                     'Ilios User',
                     $user->getCampusId(),
@@ -122,7 +122,7 @@ class SyncUserCommand extends Command
                     $userRecord['email'],
                     $userRecord['telephoneNumber']
                 ]
-            ))
+            ])
         ;
         $table->render();
         
@@ -156,8 +156,12 @@ class SyncUserCommand extends Command
             }
 
             $output->writeln('<info>User updated successfully!</info>');
+
+            return 0;
         } else {
             $output->writeln('<comment>Update canceled.</comment>');
+
+            return 1;
         }
     }
 }

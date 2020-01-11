@@ -54,7 +54,7 @@ class CheckS3PermissionsCommand extends Command
 
         if (!$s3Url) {
             $output->writeln("<comment>No configuration found for storage_s3_url. Nothing to check.</comment>");
-            exit();
+            return 0;
         }
         try {
             $output->writeln("<info>Connecting to the filesystem and checking permissions.</info>");
@@ -62,7 +62,8 @@ class CheckS3PermissionsCommand extends Command
             $output->writeln("<info>All Systems Go!!</info>");
         } catch (IliosFilesystemException $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
-            exit(1);
+
+            return 1;
         }
     }
 }

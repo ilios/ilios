@@ -267,6 +267,8 @@ class SyncAllUsersCommand extends Command
             "<info>Completed sync process {$totalRecords} users found in the directory; " .
             "{$updated} users updated.</info>"
         );
+
+        return 0;
     }
 
     protected function validateDirectoryRecord(array $record, OutputInterface $output)

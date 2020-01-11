@@ -62,5 +62,7 @@ class AddRootUserCommand extends Command
         $user->setRoot(true);
         $this->userManager->update($user, true, true);
         $output->writeln("User with id #{$userId} has been granted root-level privileges.");
+
+        return 0;
     }
 }

@@ -87,6 +87,8 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             $preview['all_events_with_assessments_tagged_as_formative_or_summative']
         );
         $this->printAllResourceTypesTable($output, $preview['all_resource_types']);
+
+        return 0;
     }
 
     /**

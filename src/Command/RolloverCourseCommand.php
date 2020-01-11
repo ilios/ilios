@@ -152,5 +152,7 @@ class RolloverCourseCommand extends Command
 
         //output message with the new courseId on success
         $output->writeln("This course has been rolled over. The new course id is {$newCourse->getId()}.");
+
+        return 0;
     }
 }

@@ -128,8 +128,12 @@ class SyncFormerStudentsCommand extends Command
             $this->userRoleManager->update($formerStudentRole);
             
             $output->writeln('<info>Former students updated successfully!</info>');
+
+            return 0;
         } else {
             $output->writeln('<comment>Update canceled,</comment>');
+
+            return 1;
         }
     }
 }

@@ -103,6 +103,6 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
 
         print $content;
 
-        exit();
+        return 0;
     }
 }

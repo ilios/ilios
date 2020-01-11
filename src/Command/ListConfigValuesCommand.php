@@ -92,5 +92,7 @@ class ListConfigValuesCommand extends Command
         $table->setHeaders(array('Name', 'Value'));
         $table->setRows($rows);
         $table->render();
+
+        return 0;
     }
 }

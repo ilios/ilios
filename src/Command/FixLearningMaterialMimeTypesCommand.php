@@ -146,8 +146,12 @@ class FixLearningMaterialMimeTypesCommand extends Command
                     $output->writeln("<error>${message}</error>");
                 }
             }
+
+            return 0;
         } else {
             $output->writeln('<comment>Update canceled.</comment>');
+
+            return 1;
         }
     }
 

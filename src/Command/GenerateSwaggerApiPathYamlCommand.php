@@ -62,6 +62,6 @@ class GenerateSwaggerApiPathYamlCommand extends Command
 
         print $content;
 
-        exit();
+        return 0;
     }
 }

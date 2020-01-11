@@ -87,6 +87,8 @@ class SetupAuthenticationCommand extends Command
         $this->applicationConfigManager->flush();
 
         $output->writeln('<info>Authentication Setup Successfully!</info>');
+
+        return 0;
     }
 
     protected function setupForm(): array
