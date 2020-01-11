@@ -51,7 +51,7 @@ class ListRootUsersCommand extends Command
 
         if (empty($users)) {
             $output->writeln("No users with root-level privileges found.");
-            return;
+            return 0;
         }
 
         $rows = array_map(function ($dto) {
@@ -71,5 +71,7 @@ class ListRootUsersCommand extends Command
             ->setRows($rows)
         ;
         $table->render();
+
+        return 0;
     }
 }

@@ -77,7 +77,6 @@ class AuditLogExportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $from = $input->getArgument('from');
         $to = $input->getArgument('to');
 
@@ -130,5 +129,7 @@ class AuditLogExportCommand extends Command
         }
 
         $this->logger->info('Finished Audit Log Export.');
+
+        return 0;
     }
 }

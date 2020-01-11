@@ -137,6 +137,8 @@ class ImportMeshUniverseCommand extends Command
         $output->writeln('');
         $output->writeln("Finished MeSH universe import in ${duration} seconds.");
         $this->release();
+
+        return 0;
     }
 
     /**

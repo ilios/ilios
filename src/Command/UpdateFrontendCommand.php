@@ -151,8 +151,12 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             }
             $this->downloadAndExtractArchive($environment, $versionOverride);
             $output->writeln("<info>Frontend updated successfully${message}!</info>");
+
+            return 0;
         } catch (Exception $e) {
             $output->writeln("<error>No matching frontend found${message}!</error>");
+
+            return 1;
         }
     }
 

@@ -92,5 +92,7 @@ class ChangeUsernameCommand extends Command
         $this->authenticationManager->update($authentication);
 
         $output->writeln('<info>Username Changed.</info>');
+
+        return 0;
     }
 }

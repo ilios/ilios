@@ -67,5 +67,7 @@ class CrossingGuardCommand extends Command
         $output->writeln('');
         $output->writeln("<info>${message} </info>");
         $output->writeln('');
+
+        return 0;
     }
 }

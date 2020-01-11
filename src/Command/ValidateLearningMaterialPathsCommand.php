@@ -101,6 +101,10 @@ class ValidateLearningMaterialPathsCommand extends Command
                 ->setRows($rows)
             ;
             $table->render();
+
+            return 1;
         }
+
+        return 0;
     }
 }

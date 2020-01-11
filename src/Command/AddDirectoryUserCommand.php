@@ -148,5 +148,7 @@ class AddDirectoryUserCommand extends Command
         } else {
             $output->writeln('<comment>Canceled.</comment>');
         }
+
+        return 0;
     }
 }

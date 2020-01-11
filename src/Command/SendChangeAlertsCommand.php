@@ -126,7 +126,7 @@ class SendChangeAlertsCommand extends Command
         $alerts = $this->alertManager->findBy(['dispatched' => false, 'tableName' => 'offering']);
         if (! count($alerts)) {
             $output->writeln("<info>No undispatched offering alerts found.</info>");
-            return;
+            return 0;
         }
 
         $templateCache = [];
@@ -232,6 +232,8 @@ class SendChangeAlertsCommand extends Command
             $output->writeln("<info>Sent {$sent} offering change alert notifications.</info>");
             $output->writeln("<info>Marked {$dispatched} offering change alerts as dispatched.</info>");
         }
+
+        return 0;
     }
 
     /**

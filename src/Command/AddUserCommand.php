@@ -108,7 +108,6 @@ class AddUserCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $schoolId = $input->getOption('schoolId');
         if (!$schoolId) {
             $schoolTitles = [];
@@ -213,8 +212,11 @@ class AddUserCommand extends Command
             $output->writeln(
                 '<info>Success! New user #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' created.</info>'
             );
+            return 0;
         } else {
             $output->writeln('<comment>Canceled.</comment>');
+
+            return 1;
         }
     }
 

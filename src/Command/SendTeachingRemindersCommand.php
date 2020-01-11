@@ -146,7 +146,7 @@ class SendTeachingRemindersCommand extends Command
             foreach ($errors as $error) {
                 $output->writeln("<error>{$error}</error>");
             }
-            return;
+            return 1;
         }
 
         $daysInAdvance = $input->getOption('days');
@@ -165,7 +165,7 @@ class SendTeachingRemindersCommand extends Command
 
         if ($offerings->isEmpty()) {
             $output->writeln('<info>No offerings with pending teaching reminders found.</info>');
-            return;
+            return 0;
         }
 
         // mail out a reminder per instructor per offering.
@@ -224,6 +224,8 @@ class SendTeachingRemindersCommand extends Command
         }
 
         $output->writeln("<info>Sent {$i} teaching reminders.</info>");
+
+        return 0;
     }
 
     /**

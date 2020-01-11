@@ -128,5 +128,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
         } else {
             $output->writeln('<comment>Migration canceled.</comment>');
         }
+
+        return 0;
     }
 }
