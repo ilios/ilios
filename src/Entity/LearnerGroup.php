@@ -75,7 +75,8 @@ class LearnerGroup implements LearnerGroupInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 100
+     *      max = 100,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

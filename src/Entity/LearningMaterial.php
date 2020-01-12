@@ -73,7 +73,8 @@ class LearningMaterial implements LearningMaterialInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 65000
+     *      max = 65000,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -104,7 +105,8 @@ class LearningMaterial implements LearningMaterialInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 80
+     *      max = 80,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -120,7 +122,8 @@ class LearningMaterial implements LearningMaterialInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 64
+     *      max = 64,
+     *      allowEmptyString = true
      * )
      */
     protected $token;
@@ -205,7 +208,8 @@ class LearningMaterial implements LearningMaterialInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 512,
-     *      groups={"citation"}
+     *      groups={"citation"},
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -250,7 +254,8 @@ class LearningMaterial implements LearningMaterialInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 65000
+     *      max = 65000,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

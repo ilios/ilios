@@ -57,7 +57,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 65000
+     *      max = 65000,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

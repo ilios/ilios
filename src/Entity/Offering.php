@@ -79,7 +79,8 @@ class Offering implements OfferingInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 255
+     *      max = 255,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

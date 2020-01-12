@@ -91,7 +91,8 @@ class MeshTerm implements MeshTermInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 12
+     *      max = 12,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

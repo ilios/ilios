@@ -55,7 +55,8 @@ class Competency implements CompetencyInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 200
+     *      max = 200,
+     *     allowEmptyString = true
      * )
      *
      * @IS\Expose

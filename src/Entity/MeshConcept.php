@@ -80,7 +80,8 @@ class MeshConcept implements MeshConceptInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 65000
+     *      max = 65000,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -96,7 +97,8 @@ class MeshConcept implements MeshConceptInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 512
+     *      max = 512,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -112,7 +114,8 @@ class MeshConcept implements MeshConceptInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 30
+     *      max = 30,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

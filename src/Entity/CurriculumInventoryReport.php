@@ -62,7 +62,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 200
+     *      max = 200,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -78,7 +79,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 65000
+     *      max = 65000,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -186,7 +188,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 64
+     *      max = 64,
+     *      allowEmptyString = true
      * )
      */
     protected $token;
