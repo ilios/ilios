@@ -72,6 +72,9 @@ class Config
         if ($result === null && isset($_SERVER[$envName])) {
             $result = $_SERVER[$envName];
         }
+        if (is_bool($result)) {
+            return $result;
+        }
         if ($result !== null) {
             $lowerCaseResult = strtolower($result);
             if (in_array($lowerCaseResult, ['null', 'false', 'true'])) {
