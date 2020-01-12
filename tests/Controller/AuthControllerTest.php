@@ -269,17 +269,13 @@ class AuthControllerTest extends WebTestCase
         $token2 = (array) JWT::decode($response['jwt'], $this->jwtKey, array('HS256'));
 
         // figure out the delta between issued and expiration datetime
-        $exp = new \DateTime();
-        $exp->setTimestamp($token['exp']);
-        $iat = new \DateTime();
-        $iat->setTimestamp($token['iat']);
+        $exp = DateTime::createFromFormat('U', $token['exp']);
+        $iat = DateTime::createFromFormat('U', $token['iat']);
         $interval = $iat->diff($exp);
 
         // do it again for the new token
-        $exp2 = new \DateTime();
-        $exp2->setTimestamp($token2['exp']);
-        $iat2 = new \DateTime();
-        $iat2->setTimestamp($token2['iat']);
+        $exp2 = DateTime::createFromFormat('U', $token2['exp']);
+        $iat2 = DateTime::createFromFormat('U', $token2['iat']);
         $interval2 = $iat2->diff($exp2);
 
         // test for sameness
@@ -308,8 +304,7 @@ class AuthControllerTest extends WebTestCase
 
 
         $now = new DateTime();
-        $expiresAt = new DateTime();
-        $expiresAt->setTimeStamp($token['exp']);
+        $expiresAt = DateTime::createFromFormat('U', $token['exp']);
 
         $this->assertTrue($now->diff($expiresAt)->d > 5);
     }

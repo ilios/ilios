@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Classes\SessionUserInterface;
-use Symfony\Component\Security\Core\Encoder;
 use App\Entity\UserInterface;
 use Firebase\JWT\JWT;
 use DateTime;
-use DateInterval;
 
 class JsonWebTokenManager
 {
@@ -58,19 +56,13 @@ class JsonWebTokenManager
     public function getIssuedAtFromToken($jwt)
     {
         $arr = $this->decode($jwt);
-        $datetime = new DateTime();
-        $datetime->setTimestamp($arr['iat']);
-        
-        return $datetime;
+        return DateTime::createFromFormat('U', $arr['iat']);
     }
     
     public function getExpiresAtFromToken($jwt)
     {
         $arr = $this->decode($jwt);
-        $datetime = new DateTime();
-        $datetime->setTimestamp($arr['exp']);
-        
-        return $datetime;
+        return DateTime::createFromFormat('U', $arr['exp']);
     }
 
     public function getIsRootFromToken($jwt)
