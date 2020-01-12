@@ -169,7 +169,7 @@ class SendChangeAlertsCommand extends Command
             /* @var SchoolInterface $school */
             $school = $schools->first();
 
-            $recipients = trim($school->getChangeAlertRecipients());
+            $recipients = trim((string) $school->getChangeAlertRecipients());
             if ('' === $recipients) {
                 $output->writeln(
                     "<error>Recipient without email for offering change alert {$alert->getId()}.</error>"
