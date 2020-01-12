@@ -60,12 +60,14 @@ class Timestamper
             /** @var EntityManager $om */
             $om = $this->registry->getManager();
             foreach ($this->entities as $timestamp => $entities) {
+                $dateTime = new DateTime();
+                $dateTime->setTimestamp($timestamp);
                 foreach ($entities as $class => $ids) {
                     $qb = $om->createQueryBuilder();
                     $qb->update($class, 'c')
                        ->set('c.updatedAt', ':timestamp')
                        ->where($qb->expr()->in('c.id', $ids))
-                       ->setParameter('timestamp', DateTime::createFromFormat('U', $timestamp));
+                       ->setParameter('timestamp', $dateTime);
                     $query = $qb->getQuery();
                     $query->execute();
                 }
