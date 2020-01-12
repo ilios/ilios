@@ -183,7 +183,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
 
         usort($fetchedResponseData, function ($a, $b) {
-            return strnatcasecmp($a['id'], $b['id']);
+            return $a['id'] <=> $b['id'];
         });
 
         foreach ($data as $i => $datum) {
