@@ -87,7 +87,7 @@ class Directory
     {
         $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
         $filterTerms = array_map(function ($term) use ($ldapCampusIdProperty) {
-            $term = ldap_escape($term, null, LDAP_ESCAPE_FILTER);
+            $term = ldap_escape($term, "", LDAP_ESCAPE_FILTER);
             return "(|(sn={$term}*)(givenname={$term}*)(mail={$term}*)({$ldapCampusIdProperty}={$term}*))";
         }, $searchTerms);
         $filterTermsString = implode($filterTerms, '');
