@@ -23,6 +23,7 @@ use App\Entity\Manager\SessionDescriptionManager;
 use App\Entity\SessionDescriptionInterface;
 use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\ObjectiveInterface;
+use DateTime;
 
 /**
  * CourseRollover Rolls over an existing course and its components to a new Academic Year
@@ -422,21 +423,21 @@ class CourseRollover
     }
 
     /**
-     * @param \DateTime      $origCourseStartDate
+     * @param DateTime      $origCourseStartDate
      * @param int        $origAcademicYear
      * @param int        $newAcademicYear
-     * @param \DateTime|null $newCourseStartDate
+     * @param DateTime|null $newCourseStartDate
      * @return int
      */
     private function calculateDaysOffset(
-        $origCourseStartDate,
-        $origAcademicYear,
-        $newAcademicYear,
-        $newCourseStartDate
+        DateTime $origCourseStartDate,
+        int $origAcademicYear,
+        int $newAcademicYear,
+        DateTime $newCourseStartDate = null
     ) {
         if (!$newCourseStartDate) {
-            $isoWeekOrdinal = $origCourseStartDate->format('W');
-            $isoDayOrdinal = $origCourseStartDate->format('N');
+            $isoWeekOrdinal = (int) $origCourseStartDate->format('W');
+            $isoDayOrdinal = (int) $origCourseStartDate->format('N');
             $yearDiff = (int) $origCourseStartDate->format('Y') - $origAcademicYear;
 
             $diffedYear = $newAcademicYear + $yearDiff;
