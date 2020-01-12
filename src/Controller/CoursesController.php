@@ -112,9 +112,12 @@ class CoursesController extends ApiController
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        $year = $request->get('year');
+        $year = (int) $request->get('year');
         if (!$year) {
             throw new InvalidInputWithSafeUserMessageException("year is missing");
+        }
+        if ($year < 2000 || $year > 3000) {
+            throw new InvalidInputWithSafeUserMessageException("year is invalid");
         }
         $options = [];
         $options['new-start-date'] = $request->get('newStartDate');
