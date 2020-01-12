@@ -9,6 +9,7 @@
     <arg name="extensions" value="php"/>
 
     <rule ref="PSR12"/>
+    <rule ref="Generic.PHP.RequireStrictTypes"/>
 
     <file>bin/</file>
     <file>config/</file>

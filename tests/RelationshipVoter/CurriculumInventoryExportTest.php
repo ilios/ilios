@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;

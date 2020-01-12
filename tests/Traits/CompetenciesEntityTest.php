@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
