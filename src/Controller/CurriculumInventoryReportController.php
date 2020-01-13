@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\RelationshipVoter\AbstractVoter;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Service\CurriculumInventory\ReportRollover;
@@ -144,7 +145,14 @@ class CurriculumInventoryReportController extends ApiController
 
         $name = $request->get('name');
         $description = $request->get('description');
+
         $year = $request->get('year');
+        if ($year) {
+            $year = (int) $year;
+            if ($year < 2000 || $year > 3000) {
+                throw new InvalidInputWithSafeUserMessageException("year is invalid");
+            }
+        }
 
         $newReport = $rollover->rollover($report, $name, $description, $year);
 

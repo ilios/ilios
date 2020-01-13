@@ -91,7 +91,7 @@ class ReportRollover
         CurriculumInventoryReportInterface $report,
         $newName = null,
         $newDescription = null,
-        $newYear = null
+        int $newYear = null
     ) {
         /* @var CurriculumInventoryReportInterface $newReport */
         $newReport = $this->reportManager->create();
