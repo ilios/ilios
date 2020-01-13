@@ -677,9 +677,9 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function getValidationGroups()
     {
-        if ($this->getCitation() && strlen(trim($this->getCitation())) > 0) {
+        if ($this->getCitation() !== null && strlen(trim($this->getCitation())) > 0) {
             return ['Default', 'citation'];
-        } elseif ($this->getLink() && strlen(trim($this->getLink())) > 0) {
+        } elseif ($this->getLink() !== null && strlen(trim($this->getLink())) > 0) {
             return ['Default', 'link'];
         }
 
