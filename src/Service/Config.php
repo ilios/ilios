@@ -115,7 +115,7 @@ class Config
      */
     protected function castResult($name, $result)
     {
-        if (null !== $result && in_array($name, self::BOOLEAN_NAMES) && !is_bool($result)) {
+        if (null !== $result && !is_bool($result) && in_array($name, self::BOOLEAN_NAMES)) {
             return (bool) json_decode($result);
         }
 
