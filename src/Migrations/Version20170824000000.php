@@ -125,7 +125,7 @@ class Version20170824000000 extends AbstractMigration
     protected function readParameters()
     {
         $parametersPath = realpath(__DIR__ . '/../../config/parameters.yml');
-        if (is_readable($parametersPath)) {
+        if ($parametersPath && is_readable($parametersPath)) {
             $parameters = Yaml::parse(file_get_contents($parametersPath));
             if (array_key_exists('parameters', $parameters)) {
                 return $parameters['parameters'];
