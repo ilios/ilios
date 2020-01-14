@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Service\Config;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Command\UpdateFrontendCommand;
 use Twig\Environment;
+use DateTime;
 
 class IndexController extends AbstractController
 {
@@ -120,7 +123,8 @@ class IndexController extends AbstractController
             $content = $this->twig->render(self::DEFAULT_TEMPLATE_NAME, $options);
             $content = gzencode($content);
             $file = new \SplFileObject($path, 'r');
-            $lastModified = \DateTime::createFromFormat('U', $file->getMTime());
+            $lastModified = new DateTime();
+            $lastModified->setTimestamp($file->getMTime());
             $response = $this->responseFromString($response, $content, $request, $lastModified);
 
             // doesn't actually mean don't cache - it means that the server must
@@ -136,7 +140,8 @@ class IndexController extends AbstractController
     {
         $content = $this->fs->readFile($path);
         $file = new \SplFileObject($path, 'r');
-        $lastModified = \DateTime::createFromFormat('U', $file->getMTime());
+        $lastModified = new DateTime();
+        $lastModified->setTimestamp($file->getMTime());
         $response = new Response();
         $response = $this->responseFromString($response, $content, $request, $lastModified);
 

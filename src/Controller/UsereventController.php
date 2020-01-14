@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Classes\CalendarEvent;
@@ -69,7 +71,7 @@ class UsereventController extends AbstractController
             if (!$session) {
                 throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));
             }
-            $events = $manager->findSessionEventsForUser($user->getId(), $sessionId);
+            $events = $manager->findSessionEventsForUser($user->getId(), $session->getId());
         } else {
             $fromTimestamp = $request->get('from');
             $toTimestamp = $request->get('to');

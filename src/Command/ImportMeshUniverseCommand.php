@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Entity\Manager\MeshDescriptorManager;
@@ -147,9 +149,9 @@ class ImportMeshUniverseCommand extends Command
      */
     private function getUri(InputInterface $input)
     {
-        $path = trim($input->getOption('path'));
-        $url = trim($input->getOption('url'));
-        $year = trim($input->getOption('year'));
+        $path = trim((string) $input->getOption('path'));
+        $url = trim((string) $input->getOption('url'));
+        $year = trim((string) $input->getOption('year'));
 
         if ('' !== $path) {
             return $path;

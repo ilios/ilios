@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\CurriculumInventory\Export;
 
 use App\Entity\CourseClerkshipTypeInterface;
@@ -150,7 +152,7 @@ class XmlPrinter
         $programNameNode = $dom->createElement('ProgramName');
         $programNameNode->appendChild($dom->createTextNode($program->getTitle()));
         $programNode->appendChild($programNameNode);
-        $programIdNode = $dom->createElement('ProgramID', $program->getId());
+        $programIdNode = $dom->createElement('ProgramID', (string) $program->getId());
         $programIdNode->setAttribute('domain', "idd:{$institutionDomain}:program");
         $programNode->appendChild($programIdNode);
 
@@ -347,7 +349,7 @@ class XmlPrinter
 
         $academicLevelsNode = $dom->createElement('AcademicLevels');
         $rootNode->appendChild($academicLevelsNode);
-        $levelsInProgramNode = $dom->createElement('LevelsInProgram', $levels->count());
+        $levelsInProgramNode = $dom->createElement('LevelsInProgram', (string) $levels->count());
         $academicLevelsNode->appendChild($levelsInProgramNode);
         $iterator = $levels->getIterator();
         /** @var CurriculumInventoryAcademicLevelInterface $level */

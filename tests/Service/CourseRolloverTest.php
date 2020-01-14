@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -1003,7 +1005,7 @@ class CourseRolloverTest extends TestCase
         $courseId = 10;
         $pastDate = new \DateTime();
         $pastDate->add(\DateInterval::createFromDateString('-2 year'));
-        $year = $pastDate->format('Y');
+        $year = (int) $pastDate->format('Y');
 
         $this->expectException(
             \Exception::class,
@@ -1018,7 +1020,7 @@ class CourseRolloverTest extends TestCase
         $courseId = -1;
         $futureDate = new \DateTime();
         $futureDate->add(\DateInterval::createFromDateString('+2 year'));
-        $year = $futureDate->format('Y');
+        $year = (int) $futureDate->format('Y');
         $this->courseManager->shouldReceive('findOneBy')->withArgs([['id' => $courseId]])->andReturn(false);
 
         $this->expectException(\Exception::class, "There are no courses with courseId {$courseId}.");

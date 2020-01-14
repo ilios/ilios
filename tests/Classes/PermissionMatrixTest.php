@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Classes;
 
 use App\Classes\PermissionMatrix;

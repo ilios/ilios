@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Entity\AlertInterface;
@@ -167,7 +169,7 @@ class SendChangeAlertsCommand extends Command
             /* @var SchoolInterface $school */
             $school = $schools->first();
 
-            $recipients = trim($school->getChangeAlertRecipients());
+            $recipients = trim((string) $school->getChangeAlertRecipients());
             if ('' === $recipients) {
                 $output->writeln(
                     "<error>Recipient without email for offering change alert {$alert->getId()}.</error>"

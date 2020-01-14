@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
 use App\Command\UpdateFrontendCommand;
@@ -8,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Filesystem\Filesystem;
+use DateTime;
 
 class IndexControllerTest extends WebTestCase
 {
@@ -102,7 +105,8 @@ class IndexControllerTest extends WebTestCase
         $response = $this->kernelBrowser->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode(), 'Wrong Status Code');
-        $lastModified = \DateTime::createFromFormat('U', filemtime($path));
+        $lastModified = new DateTime();
+        $lastModified->setTimestamp(filemtime($path));
 
         $this->assertEquals($lastModified, $response->getLastModified(), 'Wrong Modified Cache Header');
         $this->assertGreaterThan(0, strlen($response->getEtag()), 'Missing Cache Header');
@@ -181,7 +185,8 @@ class IndexControllerTest extends WebTestCase
         $response = $this->kernelBrowser->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode(), 'Wrong Status Code');
-        $lastModified = \DateTime::createFromFormat('U', filemtime($path));
+        $lastModified = new DateTime();
+        $lastModified->setTimestamp(filemtime($path));
 
         $this->assertEquals($lastModified, $response->getLastModified(), 'Wrong Modified Cache Header');
         $this->assertGreaterThan(0, strlen($response->getEtag()), 'Missing Cache Header');
@@ -316,7 +321,8 @@ class IndexControllerTest extends WebTestCase
         $response = $this->kernelBrowser->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode(), 'Wrong Status Code');
-        $lastModified = \DateTime::createFromFormat('U', filemtime($path));
+        $lastModified = new DateTime();
+        $lastModified->setTimestamp(filemtime($path));
 
         $this->assertEquals($lastModified, $response->getLastModified(), 'Wrong Modified Cache Header');
         $this->assertGreaterThan(0, strlen($response->getEtag()), 'Missing Cache Header');

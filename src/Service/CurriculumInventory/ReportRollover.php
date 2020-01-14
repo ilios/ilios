@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\CurriculumInventory;
 
 use App\Entity\CurriculumInventoryAcademicLevelInterface;
@@ -89,7 +91,7 @@ class ReportRollover
         CurriculumInventoryReportInterface $report,
         $newName = null,
         $newDescription = null,
-        $newYear = null
+        int $newYear = null
     ) {
         /* @var CurriculumInventoryReportInterface $newReport */
         $newReport = $this->reportManager->create();

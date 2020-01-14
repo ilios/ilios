@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -137,12 +139,9 @@ class ProgramYearTest extends ReadWriteEndpointTest
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
 
-        usort(
-            $fetchedResponseData,
-            function ($a, $b) {
-                return strnatcasecmp($a['id'], $b['id']);
-            }
-        );
+        usort($fetchedResponseData, function ($a, $b) {
+            return $a['id'] <=> $b['id'];
+        });
 
         $program = $this->getOne('programs', 'programs', $data[0]['program']);
         foreach ($data as $i => $datum) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Classes\CalendarEvent;
@@ -63,7 +65,7 @@ class SchooleventController extends AbstractController
             if (!$session) {
                 throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));
             }
-            $events = $schoolManager->findSessionEventsForSchool($school->getId(), $sessionId);
+            $events = $schoolManager->findSessionEventsForSchool($school->getId(), $session->getId());
         } else {
             $fromTimestamp = $request->get('from');
             $toTimestamp = $request->get('to');

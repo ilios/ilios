@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -27,7 +29,7 @@ class SwaggerYamlDocsControllerTest extends WebTestCase
                 'Content-Type',
                 'application/x-yaml'
             ),
-            $response->headers
+            var_export($response->headers, true)
         );
         
         $this->assertGreaterThan(1000, strlen($response->getContent()), 'API Endpoints loaded');

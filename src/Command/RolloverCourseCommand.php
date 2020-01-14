@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Service\CourseRollover;
@@ -144,8 +146,8 @@ class RolloverCourseCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         //get/set the courseId and newAcademicYear arguments
-        $courseId = $input->getArgument('courseId');
-        $newAcademicYear = $input->getArgument('newAcademicYear');
+        $courseId = (int) $input->getArgument('courseId');
+        $newAcademicYear = (int) $input->getArgument('newAcademicYear');
 
         //roll it over to build the newCourse object
         $newCourse = $this->service->rolloverCourse($courseId, $newAcademicYear, $input->getOptions());

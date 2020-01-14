@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -675,9 +677,9 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function getValidationGroups()
     {
-        if ('' !== trim($this->getCitation())) {
+        if ($this->getCitation() !== null && strlen(trim($this->getCitation())) > 0) {
             return ['Default', 'citation'];
-        } elseif ('' !== trim($this->getLink())) {
+        } elseif ($this->getLink() !== null && strlen(trim($this->getLink())) > 0) {
             return ['Default', 'link'];
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Manager\CurriculumInventoryExportManager;
@@ -49,7 +51,7 @@ class CurriculumInventoryDownloadController extends AbstractController
         // This cookie must be accessible by JS on the client, so HttpOnly must be explicitly set to FALSE.
         $cookie = new Cookie(
             'report-download-' . $curriculumInventoryReport->getId(),
-            true,
+            null,
             0,
             '/',
             null,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests;
 
 use App\Service\Timestamper;
@@ -325,7 +327,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
 
         usort($fetchedResponseData, function ($a, $b) {
-            return strnatcasecmp($a['id'], $b['id']);
+            if (is_string($a['id']) && is_string($b['id'])) {
+                return strnatcasecmp($a['id'], $b['id']);
+            }
+
+            return $a['id'] <=> $b['id'];
         });
 
         $now = new DateTime();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\MeshTerm;
@@ -43,7 +45,7 @@ class MeshTermTest extends EntityBase
      */
     public function testConstructor()
     {
-        $now = DateTime::createFromFormat('U', time());
+        $now = new DateTime();
         $createdAt = $this->object->getCreatedAt();
         $this->assertTrue($createdAt instanceof DateTime);
         $diff = $now->diff($createdAt);

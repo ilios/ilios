@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use Doctrine\DBAL\Exception\ConnectionException;
@@ -70,6 +72,9 @@ class Config
         if ($result === null && isset($_SERVER[$envName])) {
             $result = $_SERVER[$envName];
         }
+        if (is_bool($result)) {
+            return $result;
+        }
         if ($result !== null) {
             $lowerCaseResult = strtolower($result);
             if (in_array($lowerCaseResult, ['null', 'false', 'true'])) {
@@ -110,7 +115,7 @@ class Config
      */
     protected function castResult($name, $result)
     {
-        if (null !== $result && in_array($name, self::BOOLEAN_NAMES)) {
+        if (null !== $result && !is_bool($result) && in_array($name, self::BOOLEAN_NAMES)) {
             return (bool) json_decode($result);
         }
 

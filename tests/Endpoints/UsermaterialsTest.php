@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -108,7 +110,7 @@ class UsermaterialsTest extends AbstractEndpointTest
         $materials = $this->getMaterials($userId, null, null, $userId);
         $this->assertCount(9, $materials, 'All expected materials returned');
         $materialIds = array_column($materials, 'id');
-        $this->assertFalse(in_array('2', $materialIds, 'Draft material was filtered out.'));
+        $this->assertFalse(in_array('2', $materialIds), 'Draft material was filtered out.');
     }
 
     public function testWhenViewingAnotherUsersEventsOnlyPublishedShows()
@@ -117,7 +119,7 @@ class UsermaterialsTest extends AbstractEndpointTest
         $materials = $this->getMaterials($userId, null, null);
         $this->assertCount(9, $materials, 'All expected materials returned');
         $materialIds = array_column($materials, 'id');
-        $this->assertFalse(in_array('2', $materialIds, 'Draft material was filtered out.'));
+        $this->assertFalse(in_array('2', $materialIds), 'Draft material was filtered out.');
     }
 
     public function testGetMaterialsBeforeTheBeginningOfTime()
