@@ -49,7 +49,8 @@ class Report implements ReportInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 240
+     *      max = 240,
+     *      allowEmptyString = true
      * )
      *
      *
@@ -109,7 +110,8 @@ class Report implements ReportInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 32
+     *      max = 32,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -125,7 +127,8 @@ class Report implements ReportInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 14
+     *      max = 14,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

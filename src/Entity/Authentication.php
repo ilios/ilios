@@ -44,7 +44,8 @@ class Authentication implements AuthenticationInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 100
+     *      max = 100,
+     *     allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -59,7 +60,8 @@ class Authentication implements AuthenticationInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 64
+     *      max = 64,
+     *     allowEmptyString = true
      * )
      *
      */
@@ -72,7 +74,8 @@ class Authentication implements AuthenticationInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 64
+     *      max = 64,
+     *     allowEmptyString = true
      * )
      *
      */

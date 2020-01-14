@@ -49,11 +49,10 @@ class AuditLog implements AuditLogInterface
     protected $action;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(type="datetime")
      *
      * @Assert\NotBlank()
-     * @Assert\DateTime()
      *
      */
     protected $createdAt;
@@ -140,7 +139,7 @@ class AuditLog implements AuditLogInterface
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreatedAt()
     {
@@ -150,7 +149,7 @@ class AuditLog implements AuditLogInterface
     /**
      * {@inheritdoc}
      */
-    public function setCreatedAt(\DateTime $createdAt)
+    public function setCreatedAt(DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
     }

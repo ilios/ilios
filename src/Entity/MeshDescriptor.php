@@ -47,7 +47,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 12
+     *      max = 12,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -64,7 +65,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 192
+     *      max = 192,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -80,7 +82,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 65000
+     *      max = 65000,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

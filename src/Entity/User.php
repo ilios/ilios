@@ -98,7 +98,8 @@ class User implements UserInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 20
+     *      max = 20,
+     *      allowEmptyString = true
      * )
      * @IS\Expose
      * @IS\Type("string")
@@ -113,7 +114,8 @@ class User implements UserInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 200
+     *      max = 200,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -129,7 +131,8 @@ class User implements UserInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 30
+     *      max = 30,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -143,9 +146,7 @@ class User implements UserInterface
      * @ORM\Column(name="email", type="string", length=100)
      *
      * @Assert\Email
-     *
      * @Assert\NotBlank()
-     *
      * @Assert\Length(
      *      min = 1,
      *      max = 100
@@ -165,7 +166,8 @@ class User implements UserInterface
      *
      * @Assert\Length(
      *      min = 1,
-     *      max = 100
+     *      max = 100,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -207,7 +209,8 @@ class User implements UserInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 16
+     *      max = 16,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose
@@ -223,7 +226,8 @@ class User implements UserInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 16
+     *      max = 16,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

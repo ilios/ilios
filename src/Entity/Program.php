@@ -74,7 +74,8 @@ class Program implements ProgramInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 10
+     *      max = 10,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

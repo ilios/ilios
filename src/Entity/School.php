@@ -89,7 +89,8 @@ class School implements SchoolInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 8
+     *      max = 8,
+     *      allowEmptyString = true
      * )
      *
      * @IS\Expose

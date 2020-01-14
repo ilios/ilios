@@ -11,11 +11,11 @@ use App\Traits\LearnerGroupsEntity;
 use App\Traits\LearnersEntity;
 use App\Traits\SessionConsolidationEntity;
 use App\Annotation as IS;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
+use DateTime;
 
 /**
  * Class IlmSession
@@ -88,12 +88,11 @@ class IlmSession implements IlmSessionInterface
     protected $hours;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="due_date", type="datetime")
      *
      * @Assert\NotBlank()
-     * @Assert\DateTime()
      *
      * @IS\Expose
      * @IS\Type("dateTime")
@@ -204,15 +203,15 @@ class IlmSession implements IlmSessionInterface
     }
 
     /**
-     * @param \DateTime $dueDate
+     * @param DateTime $dueDate
      */
-    public function setDueDate(\DateTime $dueDate = null)
+    public function setDueDate(DateTime $dueDate = null)
     {
         $this->dueDate = $dueDate;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDueDate()
     {
