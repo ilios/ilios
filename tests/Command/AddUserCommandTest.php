@@ -322,7 +322,7 @@ class AddUserCommandTest extends KernelTestCase
 
         $authentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('setUsername')->with('abc123')
-            ->shouldReceive('setPasswordBcrypt')->with('hashBlurb')
+            ->shouldReceive('setPasswordHash')->with('hashBlurb')
             ->shouldReceive('getUser')->andReturn($user)
             ->mock();
 

@@ -34,7 +34,7 @@ class LoadAuthenticationData extends AbstractFixture implements
             $entity = new Authentication();
             $entity->setUsername($arr['username']);
             $entity->setPasswordSha256($arr['passwordSha256']);
-            $entity->setPasswordBcrypt($arr['passwordBcrypt']);
+            $entity->setPasswordHash($arr['passwordBcrypt']);
             $entity->setUser($this->getReference('users' . $arr['user']));
 
             $manager->persist($entity);

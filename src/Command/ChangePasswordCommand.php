@@ -107,7 +107,7 @@ class ChangePasswordCommand extends Command
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
 
         $encodedPassword = $this->encoder->encodePassword($sessionUser, $password);
-        $authentication->setPasswordBcrypt($encodedPassword);
+        $authentication->setPasswordHash($encodedPassword);
 
         $this->authenticationManager->update($authentication);
 

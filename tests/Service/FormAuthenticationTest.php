@@ -181,6 +181,7 @@ class FormAuthenticationTest extends TestCase
         $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)
             ->shouldReceive('isLegacyAccount')->andReturn(false)->mock();
+        $this->encoder->shouldReceive('needsRehash')->with($sessionUser)->andReturn(false);
         $this->authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);

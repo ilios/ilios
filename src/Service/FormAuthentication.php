@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Classes\SessionUser;
+use App\Classes\SessionUserInterface;
 use App\Entity\Manager\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use App\Entity\Manager\AuthenticationManager;
-use App\Entity\UserInterface;
 use App\Traits\AuthenticationService;
 
 class FormAuthentication implements AuthenticationInterface
@@ -113,7 +112,7 @@ class FormAuthentication implements AuthenticationInterface
                 if ($sessionUser->isEnabled()) {
                     $passwordValid = $this->encoder->isPasswordValid($sessionUser, $password);
                     if ($passwordValid) {
-                        $this->updateLegacyPassword($authEntity, $password);
+                        $this->updatePassword($authEntity, $sessionUser, $password);
                         $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
 
                         return $this->createSuccessResponseFromJWT($jwt);
@@ -146,11 +145,15 @@ class FormAuthentication implements AuthenticationInterface
 
     /**
      * Update users to the new password encoding when they login
-     * @param  AuthenticationEntityInterface $authEntity
-     * @param  string         $password
+     * @param AuthenticationEntityInterface $authEntity
+     * @param SessionUserInterface $sessionUser
+     * @param string $password
      */
-    protected function updateLegacyPassword(AuthenticationEntityInterface $authEntity, $password)
-    {
+    protected function updatePassword(
+        AuthenticationEntityInterface $authEntity,
+        SessionUserInterface $sessionUser,
+        $password
+    ) {
         if ($authEntity->isLegacyAccount()) {
             //we have to have a valid token to update the user because the audit log requires it
             $authenticatedToken = new PreAuthenticatedToken(
@@ -164,7 +167,12 @@ class FormAuthentication implements AuthenticationInterface
             $authEntity->setPasswordSha256(null);
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             $encodedPassword = $this->encoder->encodePassword($sessionUser, $password);
-            $authEntity->setPasswordBcrypt($encodedPassword);
+            $authEntity->setPasswordHash($encodedPassword);
+            $this->authManager->update($authEntity);
+        }
+        if ($this->encoder->needsRehash($sessionUser)) {
+            $newPassword = $this->encoder->encodePassword($sessionUser, $password);
+            $authEntity->setPasswordHash($newPassword);
             $this->authManager->update($authEntity);
         }
     }

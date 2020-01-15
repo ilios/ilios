@@ -191,7 +191,7 @@ class AuthControllerTest extends WebTestCase
         $authentication = $legacyUser->getAuthentication();
         $this->assertTrue($authentication->isLegacyAccount());
         $this->assertNotEmpty($authentication->getPasswordSha256());
-        $this->assertEmpty($authentication->getPasswordBcrypt());
+        $this->assertEmpty($authentication->getPasswordHash());
 
 
         $client->request('POST', '/auth/login', [], [], [], json_encode([
@@ -222,7 +222,7 @@ class AuthControllerTest extends WebTestCase
         $authentication = $legacyUser->getAuthentication();
         $this->assertFalse($authentication->isLegacyAccount());
         $this->assertEmpty($authentication->getPasswordSha256());
-        $this->assertNotEmpty($authentication->getPasswordBcrypt());
+        $this->assertNotEmpty($authentication->getPasswordHash());
     }
 
     public function testWhoAmI()

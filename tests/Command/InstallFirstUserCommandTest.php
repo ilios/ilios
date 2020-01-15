@@ -156,7 +156,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
             ->mock();
         $authentication = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('setUsername')->with('first_user')
-            ->shouldReceive('setPasswordBcrypt')->with('hashBlurb')
+            ->shouldReceive('setPasswordHash')->with('hashBlurb')
             ->shouldReceive('getUser')->andReturn($user)
             ->shouldReceive('setUser')
             ->mock();

@@ -34,12 +34,12 @@ interface AuthenticationInterface extends LoggableEntityInterface
     /**
      * @param string $passwordBcrypt
      */
-    public function setPasswordBcrypt($passwordBcrypt);
+    public function setPasswordHash($passwordBcrypt);
 
     /**
      * @return string
      */
-    public function getPasswordBcrypt();
+    public function getPasswordHash();
 
     /**
      * @return string

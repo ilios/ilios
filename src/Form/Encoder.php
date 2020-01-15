@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Service\Config;
 use Symfony\Component\Security\Core\Encoder\BasePasswordEncoder;
+use Exception;
 
 /**
  * Class Encoder
@@ -17,9 +18,6 @@ class Encoder extends BasePasswordEncoder
      */
     protected $config;
 
-    /**
-     * @param string $salt
-     */
     public function __construct(Config $config)
     {
         $this->config = $config;
@@ -27,7 +25,7 @@ class Encoder extends BasePasswordEncoder
 
     public function encodePassword($raw, $salt)
     {
-        throw new \Exception("Do not use this legacy encoder to encode new passwords");
+        throw new Exception("Do not use this legacy encoder to encode new passwords");
     }
 
     public function isPasswordValid($encoded, $raw, $salt)
