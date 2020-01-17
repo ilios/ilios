@@ -201,7 +201,7 @@ class InstallFirstUserCommand extends Command
         $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, self::PASSWORD);
 
         $authentication->setUsername(self::USERNAME);
-        $authentication->setPasswordBcrypt($encodedPassword);
+        $authentication->setPasswordHash($encodedPassword);
         $this->authenticationManager->update($authentication);
 
         $output->writeln('Success!');

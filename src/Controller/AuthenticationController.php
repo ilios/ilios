@@ -113,7 +113,7 @@ class AuthenticationController extends ApiController
         }
 
         foreach ($encodedPasswords as $userId => $password) {
-            $entitiesByUserId[$userId]->setPasswordBcrypt($password);
+            $entitiesByUserId[$userId]->setPasswordHash($password);
         }
         $entities = array_values($entitiesByUserId);
 
@@ -165,7 +165,7 @@ class AuthenticationController extends ApiController
         $serializer = $this->getSerializer();
         $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         if (isset($encodedPassword)) {
-            $entity->setPasswordBcrypt($encodedPassword);
+            $entity->setPasswordHash($encodedPassword);
         }
         $this->validateAndAuthorizeEntities([$entity], $permission);
 

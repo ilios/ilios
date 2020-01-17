@@ -90,7 +90,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
 
         $this->encoder->shouldReceive('encodePassword')->with($sessionUser, '123456789')->andReturn('abc');
-        $authentication->shouldReceive('setPasswordBcrypt')->with('abc')->once();
+        $authentication->shouldReceive('setPasswordHash')->with('abc')->once();
 
         $this->authenticationManager->shouldReceive('update')->with($authentication);
 
@@ -122,7 +122,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
 
         $this->encoder->shouldReceive('encodePassword')->with($sessionUser, '123456789')->andReturn('abc');
-        $authentication->shouldReceive('setPasswordBcrypt')->with('abc')->once();
+        $authentication->shouldReceive('setPasswordHash')->with('abc')->once();
 
         $this->authenticationManager->shouldReceive('update')->with($authentication);
 

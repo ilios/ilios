@@ -207,7 +207,7 @@ class AddUserCommand extends Command
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
 
             $encodedPassword = $this->encoder->encodePassword($sessionUser, $userRecord['password']);
-            $authentication->setPasswordBcrypt($encodedPassword);
+            $authentication->setPasswordHash($encodedPassword);
 
             $this->authenticationManager->update($authentication);
 

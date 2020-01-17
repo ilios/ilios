@@ -68,18 +68,18 @@ class Authentication implements AuthenticationInterface
     private $passwordSha256;
 
     /**
-     * @ORM\Column(name="password_bcrypt", type="string", nullable=true)
+     * @ORM\Column(name="password_hash", type="string", nullable=true)
      * @var string
      *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 64,
+     *      max = 255,
      *     allowEmptyString = true
      * )
      *
      */
-    private $passwordBcrypt;
+    private $passwordHash;
 
     /**
      * @ORM\Column(name="invalidate_token_issued_before", type="datetime", nullable=true)
@@ -127,20 +127,20 @@ class Authentication implements AuthenticationInterface
     /**
      * @inheritdoc
      */
-    public function setPasswordBcrypt($passwordBcrypt)
+    public function setPasswordHash($passwordHash)
     {
-        if ($passwordBcrypt) {
+        if ($passwordHash) {
             $this->setPasswordSha256(null);
         }
-        $this->passwordBcrypt = $passwordBcrypt;
+        $this->passwordHash = $passwordHash;
     }
 
     /**
      * @inheritdoc
      */
-    public function getPasswordBcrypt()
+    public function getPasswordHash()
     {
-        return $this->passwordBcrypt;
+        return $this->passwordHash;
     }
 
     /**
@@ -148,7 +148,7 @@ class Authentication implements AuthenticationInterface
      */
     public function getPassword()
     {
-        $newPassword = $this->getPasswordBcrypt();
+        $newPassword = $this->getPasswordHash();
         $legacyPassword = $this->getPasswordSha256();
         return $newPassword ? $newPassword : $legacyPassword;
     }
