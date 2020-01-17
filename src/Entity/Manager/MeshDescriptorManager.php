@@ -160,4 +160,49 @@ class MeshDescriptorManager extends BaseManager
         $repository = $this->getRepository();
         return $repository->getIliosMeshDescriptorsById($ids);
     }
+
+    public function exportMeshDescriptor(): array
+    {
+        return $this->getRepository()->exportMeshDescriptor();
+    }
+
+    public function exportMeshTree(): array
+    {
+        return $this->getRepository()->exportMeshTree();
+    }
+
+    public function exportMeshConcept(): array
+    {
+        return $this->getRepository()->exportMeshConcept();
+    }
+
+    public function exportMeshTerm(): array
+    {
+        return $this->getRepository()->exportMeshTerm();
+    }
+
+    public function exportMeshQualifier(): array
+    {
+        return $this->getRepository()->exportMeshQualifier();
+    }
+
+    public function exportMeshPreviousIndexing(): array
+    {
+        return $this->getRepository()->exportMeshPreviousIndexing();
+    }
+
+    public function exportMeshConceptTerm(): array
+    {
+        return $this->getRepository()->exportMeshConceptTerm();
+    }
+
+    public function exportMeshDescriptorQualifier(): array
+    {
+        return $this->getRepository()->exportMeshDescriptorQualifier();
+    }
+
+    public function exportMeshDescriptorConcept(): array
+    {
+        return $this->getRepository()->exportMeshDescriptorConcept();
+    }
 }

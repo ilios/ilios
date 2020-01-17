@@ -7,6 +7,8 @@ namespace App\Entity\Repository;
 use App\Entity\MeshConcept;
 use App\Entity\MeshDescriptor;
 use App\Entity\MeshTerm;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -772,5 +774,136 @@ EOL;
 
             return $descriptor;
         }, $fullDescriptors);
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    public function exportMeshDescriptor(): array
+    {
+        $sql = <<<EOL
+SELECT mesh_descriptor_uid, name, annotation, created_at, updated_at, deleted
+FROM mesh_descriptor 
+ORDER BY mesh_descriptor_uid, name
+EOL;
+        return $this->fetchDataFromRawSqlQuery($sql);
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    public function exportMeshTree(): array
+    {
+        $sql = 'SELECT tree_number, mesh_descriptor_uid, mesh_tree_id FROM mesh_tree ORDER BY mesh_tree_id';
+        return $this->fetchDataFromRawSqlQuery($sql);
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    public function exportMeshConcept(): array
+    {
+        $sql = <<<EOL
+SELECT mesh_concept_uid, name, preferred, scope_note, casn_1_name, registry_number, created_at, updated_at
+FROM mesh_concept 
+ORDER BY mesh_concept_uid
+EOL;
+        return $this->fetchDataFromRawSqlQuery($sql);
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    public function exportMeshTerm(): array
+    {
+        $sql = <<<EOL
+SELECT mesh_term_uid, name, lexical_tag, concept_preferred, record_preferred, permuted, created_at, 
+updated_at, mesh_term_id
+FROM mesh_term
+ORDER BY mesh_term_id
+EOL;
+        return $this->fetchDataFromRawSqlQuery($sql);
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    public function exportMeshQualifier(): array
+    {
+        $sql = <<<EOL
+SELECT mesh_qualifier_uid, name, created_at, updated_at 
+FROM mesh_qualifier 
+ORDER BY mesh_qualifier_uid, name
+EOL;
+        return $this->fetchDataFromRawSqlQuery($sql);
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    public function exportMeshPreviousIndexing(): array
+    {
+        $sql = <<<EOL
+SELECT mesh_descriptor_uid, previous_indexing, mesh_previous_indexing_id 
+FROM mesh_previous_indexing
+ORDER BY mesh_previous_indexing_id
+EOL;
+        return $this->fetchDataFromRawSqlQuery($sql);
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    public function exportMeshConceptTerm(): array
+    {
+        $sql = 'SELECT mesh_concept_uid, mesh_term_id FROM mesh_concept_x_term ORDER BY mesh_term_id, mesh_concept_uid';
+        return $this->fetchDataFromRawSqlQuery($sql);
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    public function exportMeshDescriptorQualifier(): array
+    {
+        $sql = <<<EOL
+SELECT mesh_descriptor_uid, mesh_qualifier_uid
+FROM mesh_descriptor_x_qualifier 
+ORDER BY mesh_descriptor_uid, mesh_qualifier_uid
+EOL;
+        return $this->fetchDataFromRawSqlQuery($sql);
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    public function exportMeshDescriptorConcept(): array
+    {
+        $sql = <<<EOL
+SELECT mesh_concept_uid, mesh_descriptor_uid
+FROM mesh_descriptor_x_concept
+ORDER BY mesh_concept_uid, mesh_descriptor_uid
+EOL;
+        return $this->fetchDataFromRawSqlQuery($sql);
+    }
+
+    /**
+     * @param string $sql
+     * @return array
+     * @throws DBALException
+     */
+    protected function fetchDataFromRawSqlQuery(string $sql): array
+    {
+        $connection = $this->_em->getConnection();
+        $result = $connection->executeQuery($sql);
+        return $result->fetchAll(FetchMode::NUMERIC);
     }
 }
