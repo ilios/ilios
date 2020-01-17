@@ -2430,6 +2430,132 @@
             "time": "2018-06-13T13:22:40+00:00"
         },
         {
+            "name": "laminas/laminas-diagnostics",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-diagnostics.git",
+                "reference": "9434b93ca7fc66999e0a2f01400e7f20214169c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-diagnostics/zipball/9434b93ca7fc66999e0a2f01400e7f20214169c4",
+                "reference": "9434b93ca7fc66999e0a2f01400e7f20214169c4",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^5.6 || ^7.0"
+            },
+            "conflict": {
+                "guzzlehttp/ringphp": "<1.1.1"
+            },
+            "replace": {
+                "zendframework/zenddiagnostics": "self.version"
+            },
+            "require-dev": {
+                "doctrine/migrations": "^1.0 || ^2.0",
+                "guzzlehttp/guzzle": "^5.3.3 || ^6.3.3",
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-loader": "^2.0",
+                "mikey179/vfsstream": "^1.6",
+                "php-amqplib/php-amqplib": "^2.0",
+                "phpunit/phpunit": "^5.7.27 || 6.5.8 || ^7.1.2",
+                "predis/predis": "^1.0",
+                "sensiolabs/security-checker": "^5.0 || ^6.0.3",
+                "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0"
+            },
+            "suggest": {
+                "doctrine/migrations": "Required by Check\\DoctrineMigration",
+                "ext-bcmath": "Required by Check\\CpuPerformance",
+                "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
+                "predis/predis": "Required by Check\\Redis",
+                "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
+                "symfony/yaml": "Required by Check\\YamlFile",
+                "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6.x-dev",
+                    "dev-develop": "1.7.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/autoload.php"
+                ],
+                "psr-4": {
+                    "Laminas\\Diagnostics\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "A set of components for performing diagnostic tests in PHP applications",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "diagnostics",
+                "laminas",
+                "php",
+                "test"
+            ],
+            "time": "2019-12-31T16:42:23+00:00"
+        },
+        {
+            "name": "laminas/laminas-zendframework-bridge",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
+                "reference": "0fb9675b84a1666ab45182b6c5b29956921e818d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/0fb9675b84a1666ab45182b6c5b29956921e818d",
+                "reference": "0fb9675b84a1666ab45182b6c5b29956921e818d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.1",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev",
+                    "dev-develop": "1.1.x-dev"
+                },
+                "laminas": {
+                    "module": "Laminas\\ZendFrameworkBridge"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/autoload.php"
+                ],
+                "psr-4": {
+                    "Laminas\\ZendFrameworkBridge\\": "src//"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Alias legacy ZF class names to Laminas Project equivalents.",
+            "keywords": [
+                "ZendFramework",
+                "autoloading",
+                "laminas",
+                "zf"
+            ],
+            "time": "2020-01-07T22:58:31+00:00"
+        },
+        {
             "name": "league/flysystem",
             "version": "1.0.63",
             "source": {
@@ -2609,22 +2735,22 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.11.1",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "f2406b35ee6423c1e70e913a5bbe2be4d4b31722"
+                "reference": "a1e2df0227dbaf724315c7203741d91acbe22cd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/f2406b35ee6423c1e70e913a5bbe2be4d4b31722",
-                "reference": "f2406b35ee6423c1e70e913a5bbe2be4d4b31722",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/a1e2df0227dbaf724315c7203741d91acbe22cd0",
+                "reference": "a1e2df0227dbaf724315c7203741d91acbe22cd0",
                 "shasum": ""
             },
             "require": {
+                "laminas/laminas-diagnostics": "^1.5",
                 "php": "^7.1",
-                "symfony/framework-bundle": "^3.4 || ^4.0 || ^5.0",
-                "zendframework/zenddiagnostics": "^1.5"
+                "symfony/framework-bundle": "^3.4 || ^4.0 || ^5.0"
             },
             "require-dev": {
                 "doctrine/doctrine-migrations-bundle": "^2.0",
@@ -2686,7 +2812,7 @@
                 "monitor",
                 "monitoring"
             ],
-            "time": "2019-12-16T13:24:52+00:00"
+            "time": "2020-01-16T17:57:52+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -8266,78 +8392,6 @@
             ],
             "abandoned": "laminas/laminas-eventmanager",
             "time": "2018-04-25T15:33:34+00:00"
-        },
-        {
-            "name": "zendframework/zenddiagnostics",
-            "version": "v1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-diagnostics.git",
-                "reference": "9ad04e7a911c3895071cfb7ec22c5f354a0099fe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diagnostics/zipball/9ad04e7a911c3895071cfb7ec22c5f354a0099fe",
-                "reference": "9ad04e7a911c3895071cfb7ec22c5f354a0099fe",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6 || ^7.0"
-            },
-            "conflict": {
-                "guzzlehttp/ringphp": "<1.1.1"
-            },
-            "require-dev": {
-                "doctrine/migrations": "^1.0 || ^2.0",
-                "guzzlehttp/guzzle": "^5.3.3 || ^6.3.3",
-                "mikey179/vfsstream": "^1.6",
-                "php-amqplib/php-amqplib": "^2.0",
-                "phpunit/phpunit": "^5.7.27 || 6.5.8 || ^7.1.2",
-                "predis/predis": "^1.0",
-                "sensiolabs/security-checker": "^5.0 || ^6.0.3",
-                "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0",
-                "zendframework/zend-coding-standard": "~1.0.0",
-                "zendframework/zend-loader": "^2.0"
-            },
-            "suggest": {
-                "doctrine/migrations": "Required by Check\\DoctrineMigration",
-                "ext-bcmath": "Required by Check\\CpuPerformance",
-                "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
-                "predis/predis": "Required by Check\\Redis",
-                "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
-                "symfony/yaml": "Required by Check\\YamlFile",
-                "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.6.x-dev",
-                    "dev-develop": "1.7.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/autoload.php"
-                ],
-                "psr-4": {
-                    "ZendDiagnostics\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "A set of components for performing diagnostic tests in PHP applications",
-            "homepage": "https://github.com/zendframework/zend-diagnostics",
-            "keywords": [
-                "ZendFramework",
-                "diagnostics",
-                "php",
-                "test",
-                "zf"
-            ],
-            "abandoned": "laminas/laminas-diagnostics",
-            "time": "2019-11-22T19:06:24+00:00"
         }
     ],
     "packages-dev": [
