@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Classes\SessionUserInterface;
+use App\Service\Index\Users;
 use App\Service\PermissionChecker;
 use App\Service\Search as SearchService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,14 +36,21 @@ class Search extends AbstractController
      */
     protected $permissionChecker;
 
+    /**
+     * @var Users
+     */
+    protected $userIndex;
+
     public function __construct(
         SearchService $search,
+        Users $userIndex,
         TokenStorageInterface $tokenStorage,
         PermissionChecker $permissionChecker
     ) {
         $this->search = $search;
         $this->tokenStorage = $tokenStorage;
         $this->permissionChecker = $permissionChecker;
+        $this->userIndex = $userIndex;
     }
 
     public function curriculumSearch(Request $request)
@@ -79,7 +87,7 @@ class Search extends AbstractController
             $size = 100;
         }
 
-        $result = $this->search->userSearch($query, $size, $onlySuggest);
+        $result = $this->userIndex->search($query, $size, $onlySuggest);
 
         return new JsonResponse(['results' => $result]);
     }

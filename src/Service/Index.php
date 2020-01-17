@@ -39,64 +39,12 @@ class Index extends ElasticSearchBase
         LoggerInterface $logger,
         Client $client = null
     ) {
-        parent::__construct($client);
+        parent::__construct($config, $client);
         $this->nonCachingIliosFileSystem = $nonCachingIliosFileSystem;
         $this->logger = $logger;
         $limit = $config->get('elasticsearch_upload_limit');
         //10mb AWS hard limit on non-huge ES clusters and we need some overhead for control statements
         $this->uploadLimit = $limit ?? 9000000;
-    }
-
-    /**
-     * @param UserDTO[] $users
-     * @return bool
-     */
-    public function indexUsers(array $users): bool
-    {
-        foreach ($users as $user) {
-            if (!$user instanceof UserDTO) {
-                throw new \InvalidArgumentException(
-                    sprintf(
-                        '$users must be an array of %s. %s found',
-                        UserDTO::class,
-                        get_class($user)
-                    )
-                );
-            }
-        }
-        $input = array_map(function (UserDTO $user) {
-            return [
-                'id' => $user->id,
-                'firstName' => $user->firstName,
-                'lastName' => $user->lastName,
-                'middleName' => $user->middleName,
-                'displayName' => $user->displayName,
-                'email' => $user->email,
-                'campusId' => $user->campusId,
-                'username' => $user->username,
-                'enabled' => $user->enabled,
-                'fullName' => $user->firstName . ' ' . $user->middleName . ' ' . $user->lastName,
-                'fullNameLastFirst' => $user->lastName . ', ' . $user->firstName . ' ' . $user->middleName,
-            ];
-        }, $users);
-
-        $result = $this->bulkIndex(Search::USER_INDEX, $input);
-
-        return !$result['errors'];
-    }
-
-    /**
-     * @param int $id
-     * @return bool
-     */
-    public function deleteUser(int $id): bool
-    {
-        $result = $this->delete([
-            'index' => Search::USER_INDEX,
-            'id' => $id,
-        ]);
-
-        return $result['result'] === 'deleted';
     }
 
     /**
