@@ -52,7 +52,8 @@ class DropCommand extends Command
     {
         if (! $input->getOption('force')) {
             $output->writeln(
-                '<error>ATTENTION:</error> This operation should not be executed in a production environment.'
+                '<error>ATTENTION:</error> This operation will remove all indexed data ' .
+                    'and require a period of re-indexing in order to restart search functionality.'
             );
             $output->writeln('');
             $output->writeln('Please run the operation with --force to execute');

@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Service\Index;
+
+class MeshMapping
+{
+    public static function getBody(): array
+    {
+        return [
+            'settings' => [
+                'number_of_shards' => 1,
+                'number_of_replicas' => 0,
+            ],
+        ];
+    }
+}
