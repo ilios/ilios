@@ -17,6 +17,9 @@ class UserMapping
             ],
             'mappings' => [
                 '_doc' => [
+                    '_meta' => [
+                        'version' => '1',
+                    ],
                     'properties' => [
                         'id' => [
                             'type' => 'keyword',

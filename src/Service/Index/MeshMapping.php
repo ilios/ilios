@@ -13,6 +13,13 @@ class MeshMapping
                 'number_of_shards' => 1,
                 'number_of_replicas' => 0,
             ],
+            'mappings' => [
+                '_doc' => [
+                    '_meta' => [
+                        'version' => '1',
+                    ],
+                ],
+            ],
         ];
     }
 }

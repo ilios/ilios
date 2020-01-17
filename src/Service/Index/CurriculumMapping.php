@@ -39,6 +39,9 @@ class CurriculumMapping
             ],
             'mappings' => [
                 '_doc' => [
+                    '_meta' => [
+                        'version' => '1',
+                    ],
                     'properties' => [
                         'courseId' => [
                             'type' => 'keyword',

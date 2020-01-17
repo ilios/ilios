@@ -11,6 +11,9 @@ class LearningMaterialMapping
         return [
             'mappings' => [
                 '_doc' => [
+                    '_meta' => [
+                        'version' => '1',
+                    ],
                     'properties' => [
                         'learningMaterialId' => [
                             'type' => 'integer'
