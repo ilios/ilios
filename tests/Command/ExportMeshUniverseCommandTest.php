@@ -130,7 +130,10 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
 
         $meshDescriptorQualifierData = [['D000001', 'Q000008']];
         $meshDescriptorQualifierHeader = ['mesh_descriptor_uid', 'mesh_qualifier_uid'];
-        $this->manager->shouldReceive('exportMeshDescriptorQualifiers')->once()->andReturn($meshDescriptorQualifierData);
+        $this->manager
+            ->shouldReceive('exportMeshDescriptorQualifiers')
+            ->once()
+            ->andReturn($meshDescriptorQualifierData);
         $this->writer->shouldReceive('writeToFile')
             ->with(
                 $meshDescriptorQualifierHeader,
