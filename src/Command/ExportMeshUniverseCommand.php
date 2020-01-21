@@ -123,6 +123,10 @@ class ExportMeshUniverseCommand extends Command
         $data = $this->manager->exportMeshTerm();
         $this->writeToFile($header, $data, 'mesh_term.csv');
 
+        $header = ['tree_number', 'mesh_descriptor_uid', 'mesh_tree_id'];
+        $data = $this->manager->exportMeshTree();
+        $this->writeToFile($header, $data, 'mesh_tree.csv');
+
         $this->release();
         return 0;
     }
