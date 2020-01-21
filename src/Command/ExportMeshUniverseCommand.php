@@ -135,6 +135,6 @@ class ExportMeshUniverseCommand extends Command
      */
     protected function writeToFile($header, $data, $fileName)
     {
-        $this->writer::writeToFile($header, $data, $this->kernelProjectDir . '/config/dataimport/' . $fileName);
+        $this->writer->writeToFile($header, $data, $this->kernelProjectDir . '/config/dataimport/' . $fileName);
     }
 }

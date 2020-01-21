@@ -20,7 +20,7 @@ class CsvWriter
      * @param string $openMode
      * @throws Exception
      */
-    public static function writeToFile(array $header, array $data, string $path, string $openMode = 'w+'): void
+    public function writeToFile(array $header, array $data, string $path, string $openMode = 'w+'): void
     {
         $writer = Writer::createFromPath($path, $openMode);
         $writer->insertOne($header);
