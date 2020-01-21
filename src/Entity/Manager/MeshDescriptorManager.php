@@ -8,6 +8,7 @@ use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Entity\MeshDescriptorInterface;
 use App\Entity\Repository\MeshDescriptorRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Exception;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 
@@ -59,7 +60,7 @@ class MeshDescriptorManager extends BaseManager
      *
      * @param array $data An associative array containing a MeSH record.
      * @param string $type The type of MeSH data that's being imported.
-     * @throws \Exception on unsupported type.
+     * @throws Exception on unsupported type.
      */
     public function import(array $data, $type)
     {
@@ -102,7 +103,7 @@ class MeshDescriptorManager extends BaseManager
                 $repository->importMeshDescriptorConcept($data);
                 break;
             default:
-                throw new \Exception("Unsupported type ${type}.");
+                throw new Exception("Unsupported type ${type}.");
         }
     }
 
@@ -138,7 +139,7 @@ class MeshDescriptorManager extends BaseManager
      * Get all the IDs for every descriptor
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getIds(): array
     {
@@ -152,7 +153,7 @@ class MeshDescriptorManager extends BaseManager
      *
      * @param array $ids
      * @return Descriptor[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function getIliosMeshDescriptorsById(array $ids): array
     {
@@ -161,48 +162,84 @@ class MeshDescriptorManager extends BaseManager
         return $repository->getIliosMeshDescriptorsById($ids);
     }
 
-    public function exportMeshDescriptor(): array
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshDescriptors(): array
     {
-        return $this->getRepository()->exportMeshDescriptor();
+        return $this->getRepository()->exportMeshDescriptors();
     }
 
-    public function exportMeshTree(): array
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshTrees(): array
     {
-        return $this->getRepository()->exportMeshTree();
+        return $this->getRepository()->exportMeshTrees();
     }
 
-    public function exportMeshConcept(): array
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshConcepts(): array
     {
-        return $this->getRepository()->exportMeshConcept();
+        return $this->getRepository()->exportMeshConcepts();
     }
 
-    public function exportMeshTerm(): array
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshTerms(): array
     {
-        return $this->getRepository()->exportMeshTerm();
+        return $this->getRepository()->exportMeshTerms();
     }
 
-    public function exportMeshQualifier(): array
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshQualifiers(): array
     {
-        return $this->getRepository()->exportMeshQualifier();
+        return $this->getRepository()->exportMeshQualifiers();
     }
 
-    public function exportMeshPreviousIndexing(): array
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshPreviousIndexings(): array
     {
-        return $this->getRepository()->exportMeshPreviousIndexing();
+        return $this->getRepository()->exportMeshPreviousIndexings();
     }
 
-    public function exportMeshConceptTerm(): array
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshConceptTerms(): array
     {
-        return $this->getRepository()->exportMeshConceptTerm();
+        return $this->getRepository()->exportMeshConceptTerms();
     }
 
-    public function exportMeshDescriptorQualifier(): array
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshDescriptorQualifiers(): array
     {
-        return $this->getRepository()->exportMeshDescriptorQualifier();
+        return $this->getRepository()->exportMeshDescriptorQualifiers();
     }
 
-    public function exportMeshDescriptorConcept(): array
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshDescriptorConcepts(): array
     {
-        return $this->getRepository()->exportMeshDescriptorConcept();
+        return $this->getRepository()->exportMeshDescriptorConcepts();
     }
 }

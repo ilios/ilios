@@ -82,31 +82,31 @@ class ExportMeshUniverseCommand extends Command
             'created_at',
             'updated_at'
         ];
-        $data = $this->manager->exportMeshConcept();
+        $data = $this->manager->exportMeshConcepts();
         $this->writeToFile($header, $data, 'mesh_concept.csv');
 
         $header = ['mesh_concept_uid', 'mesh_term_id'];
-        $data = $this->manager->exportMeshConceptTerm();
+        $data = $this->manager->exportMeshConceptTerms();
         $this->writeToFile($header, $data, 'mesh_concept_x_term.csv');
 
         $header = ['mesh_descriptor_uid', 'name', 'annotation', 'created_at', 'updated_at', 'deleted'];
-        $data = $this->manager->exportMeshDescriptor();
+        $data = $this->manager->exportMeshDescriptors();
         $this->writeToFile($header, $data, 'mesh_descriptor.csv');
 
         $header = ['mesh_concept_uid', 'mesh_descriptor_uid'];
-        $data = $this->manager->exportMeshDescriptorConcept();
+        $data = $this->manager->exportMeshDescriptorConcepts();
         $this->writeToFile($header, $data, 'mesh_descriptor_x_concept.csv');
 
         $header = ['mesh_descriptor_uid', 'mesh_qualifier_uid'];
-        $data = $this->manager->exportMeshDescriptorQualifier();
+        $data = $this->manager->exportMeshDescriptorQualifiers();
         $this->writeToFile($header, $data, 'mesh_descriptor_x_qualifier.csv');
 
         $header = ['mesh_descriptor_uid', 'previous_indexing', 'mesh_previous_indexing_id'];
-        $data = $this->manager->exportMeshPreviousIndexing();
+        $data = $this->manager->exportMeshPreviousIndexings();
         $this->writeToFile($header, $data, 'mesh_previous_indexing.csv');
 
         $header = ['mesh_qualifier_uid', 'name', 'created_at', 'updated_at'];
-        $data = $this->manager->exportMeshQualifier();
+        $data = $this->manager->exportMeshQualifiers();
         $this->writeToFile($header, $data, 'mesh_qualifier.csv');
 
         $header = [
@@ -120,11 +120,11 @@ class ExportMeshUniverseCommand extends Command
             'updated_at',
             'mesh_term_id'
         ];
-        $data = $this->manager->exportMeshTerm();
+        $data = $this->manager->exportMeshTerms();
         $this->writeToFile($header, $data, 'mesh_term.csv');
 
         $header = ['tree_number', 'mesh_descriptor_uid', 'mesh_tree_id'];
-        $data = $this->manager->exportMeshTree();
+        $data = $this->manager->exportMeshTrees();
         $this->writeToFile($header, $data, 'mesh_tree.csv');
 
         $this->release();

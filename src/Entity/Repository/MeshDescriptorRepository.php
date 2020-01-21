@@ -780,7 +780,7 @@ EOL;
      * @return array
      * @throws DBALException
      */
-    public function exportMeshDescriptor(): array
+    public function exportMeshDescriptors(): array
     {
         $sql = <<<EOL
 SELECT mesh_descriptor_uid, name, annotation, created_at, updated_at, deleted
@@ -794,7 +794,7 @@ EOL;
      * @return array
      * @throws DBALException
      */
-    public function exportMeshTree(): array
+    public function exportMeshTrees(): array
     {
         $sql = 'SELECT tree_number, mesh_descriptor_uid, mesh_tree_id FROM mesh_tree ORDER BY mesh_tree_id';
         return $this->fetchDataFromRawSqlQuery($sql);
@@ -804,7 +804,7 @@ EOL;
      * @return array
      * @throws DBALException
      */
-    public function exportMeshConcept(): array
+    public function exportMeshConcepts(): array
     {
         $sql = <<<EOL
 SELECT mesh_concept_uid, name, preferred, scope_note, casn_1_name, registry_number, created_at, updated_at
@@ -818,7 +818,7 @@ EOL;
      * @return array
      * @throws DBALException
      */
-    public function exportMeshTerm(): array
+    public function exportMeshTerms(): array
     {
         $sql = <<<EOL
 SELECT mesh_term_uid, name, lexical_tag, concept_preferred, record_preferred, permuted, created_at, 
@@ -833,7 +833,7 @@ EOL;
      * @return array
      * @throws DBALException
      */
-    public function exportMeshQualifier(): array
+    public function exportMeshQualifiers(): array
     {
         $sql = <<<EOL
 SELECT mesh_qualifier_uid, name, created_at, updated_at 
@@ -847,7 +847,7 @@ EOL;
      * @return array
      * @throws DBALException
      */
-    public function exportMeshPreviousIndexing(): array
+    public function exportMeshPreviousIndexings(): array
     {
         $sql = <<<EOL
 SELECT mesh_descriptor_uid, previous_indexing, mesh_previous_indexing_id 
@@ -861,7 +861,7 @@ EOL;
      * @return array
      * @throws DBALException
      */
-    public function exportMeshConceptTerm(): array
+    public function exportMeshConceptTerms(): array
     {
         $sql = 'SELECT mesh_concept_uid, mesh_term_id FROM mesh_concept_x_term ORDER BY mesh_term_id, mesh_concept_uid';
         return $this->fetchDataFromRawSqlQuery($sql);
@@ -871,7 +871,7 @@ EOL;
      * @return array
      * @throws DBALException
      */
-    public function exportMeshDescriptorQualifier(): array
+    public function exportMeshDescriptorQualifiers(): array
     {
         $sql = <<<EOL
 SELECT mesh_descriptor_uid, mesh_qualifier_uid
@@ -885,7 +885,7 @@ EOL;
      * @return array
      * @throws DBALException
      */
-    public function exportMeshDescriptorConcept(): array
+    public function exportMeshDescriptorConcepts(): array
     {
         $sql = <<<EOL
 SELECT mesh_concept_uid, mesh_descriptor_uid
