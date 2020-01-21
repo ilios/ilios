@@ -177,6 +177,12 @@
     "jean85/pretty-package-versions": {
         "version": "1.2"
     },
+    "laminas/laminas-diagnostics": {
+        "version": "1.6.0"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.1"
+    },
     "league/flysystem": {
         "version": "1.0.63"
     },
