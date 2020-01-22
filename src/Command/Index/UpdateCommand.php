@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Command\Index;
 
 use App\Entity\Manager\CourseManager;
 use App\Entity\Manager\LearningMaterialManager;
@@ -12,23 +12,17 @@ use App\Message\CourseIndexRequest;
 use App\Message\LearningMaterialIndexRequest;
 use App\Message\MeshDescriptorIndexRequest;
 use App\Message\UserIndexRequest;
-use App\Service\Index;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
- * Populates the search index with documents
- *
- * Class PopulateIndexCommand
+ * Queues the updating of all indexed items
  */
-class PopulateIndexCommand extends Command
+class UpdateCommand extends Command
 {
-    /**
-     * @var Index
-     */
-    protected $index;
+    public const COMMAND_NAME = 'ilios:index:update';
 
     /**
      * @var UserManager
@@ -56,7 +50,6 @@ class PopulateIndexCommand extends Command
     protected $bus;
 
     public function __construct(
-        Index $index,
         UserManager $userManager,
         CourseManager $courseManager,
         MeshDescriptorManager $descriptorManager,
@@ -65,7 +58,6 @@ class PopulateIndexCommand extends Command
     ) {
         parent::__construct();
 
-        $this->index = $index;
         $this->userManager = $userManager;
         $this->courseManager = $courseManager;
         $this->descriptorManager = $descriptorManager;
@@ -79,8 +71,8 @@ class PopulateIndexCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:populate-index')
-            ->setDescription('Populate the search index with documents.');
+            ->setName(self::COMMAND_NAME)
+            ->setDescription('Queue everything to be updated in the index.');
     }
 
     /**
@@ -88,20 +80,16 @@ class PopulateIndexCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("<info>Clearing the index and preparing to insert data.</info>");
-        $this->index->clear();
-        $output->writeln("<info>Ok.</info>");
-
-        $this->populateUsers($output);
+        $this->queueUsers($output);
         //temporarily disable LM indexing for performance reasons.
-//        $this->populateLearningMaterials($output);
-        $this->populateCourses($output);
-        $this->populateMesh($output);
+//        $this->queueLearningMaterials($output);
+        $this->queueCourses($output);
+        $this->queueMesh($output);
 
         return 0;
     }
 
-    protected function populateUsers(OutputInterface $output)
+    protected function queueUsers(OutputInterface $output)
     {
         $allIds = $this->userManager->getIds();
         $count = count($allIds);
@@ -112,7 +100,7 @@ class PopulateIndexCommand extends Command
         $output->writeln("<info>${count} users have been queued for indexing.</info>");
     }
 
-    protected function populateCourses(OutputInterface $output)
+    protected function queueCourses(OutputInterface $output)
     {
         $allIds = $this->courseManager->getIds();
         $count = count($allIds);
@@ -123,7 +111,7 @@ class PopulateIndexCommand extends Command
         $output->writeln("<info>${count} courses have been queued for indexing.</info>");
     }
 
-    protected function populateLearningMaterials(OutputInterface $output)
+    protected function queueLearningMaterials(OutputInterface $output)
     {
         $allIds = $this->learningMaterialManager->getFileLearningMaterialIds();
         $count = count($allIds);
@@ -133,7 +121,7 @@ class PopulateIndexCommand extends Command
         $output->writeln("<info>${count} learning materials have been queued for indexing.</info>");
     }
 
-    protected function populateMesh(OutputInterface $output)
+    protected function queueMesh(OutputInterface $output)
     {
         $allIds = $this->descriptorManager->getIds();
         $count = count($allIds);
