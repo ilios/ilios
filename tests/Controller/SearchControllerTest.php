@@ -6,6 +6,8 @@ namespace App\Tests\Controller;
 
 use App\Classes\SessionUserInterface;
 use App\Controller\Search;
+use App\Service\Index\Curriculum;
+use App\Service\Index\Users;
 use App\Service\PermissionChecker;
 use App\Service\Search as SearchService;
 use App\Tests\TestCase;
@@ -24,24 +26,30 @@ class SearchControllerTest extends TestCase
     protected $controller;
 
     /**
-     * @var m\MockInterface
+     * @var Curriculum|m\MockInterface
      */
-    protected $mockSearch;
+    protected $mockCurriculumSearch;
 
     /**
-     * @var m\MockInterface
+     * @var Users|m\MockInterface
+     */
+    protected $mockUsersSearch;
+
+    /**
+     * @var TokenStorageInterface|m\MockInterface
      */
     protected $mockTokenStorage;
 
     /**
-     * @var m\MockInterface
+     * @var PermissionChecker|m\MockInterface
      */
     protected $mockPermissionChecker;
 
     public function setUp()
     {
         parent::setUp();
-        $this->mockSearch = m::mock(SearchService::class);
+        $this->mockCurriculumSearch = m::mock(Curriculum::class);
+        $this->mockUsersSearch = m::mock(Users::class);
         $this->mockTokenStorage = m::mock(TokenStorageInterface::class);
         $this->mockPermissionChecker = m::mock(PermissionChecker::class);
 
@@ -53,7 +61,8 @@ class SearchControllerTest extends TestCase
         $this->mockTokenStorage->shouldReceive('getToken')->andReturn($mockToken);
 
         $this->controller = new Search(
-            $this->mockSearch,
+            $this->mockCurriculumSearch,
+            $this->mockUsersSearch,
             $this->mockTokenStorage,
             $this->mockPermissionChecker
         );
@@ -62,7 +71,8 @@ class SearchControllerTest extends TestCase
     public function tearDown(): void
     {
         unset($this->controller);
-        unset($this->mockSearch);
+        unset($this->mockCurriculumSearch);
+        unset($this->mockUsersSearch);
         unset($this->mockTokenStorage);
         unset($this->mockPermissionChecker);
 
@@ -95,8 +105,8 @@ class SearchControllerTest extends TestCase
             ]
         ];
 
-        $this->mockSearch
-            ->shouldReceive('curriculumSearch')
+        $this->mockCurriculumSearch
+            ->shouldReceive('search')
             ->with($searchTerm, false)
             ->once()
             ->andReturn([$result]);
@@ -110,10 +120,10 @@ class SearchControllerTest extends TestCase
 
         $response = $this->controller->curriculumSearch($request);
         $content = $response->getContent();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
-        $this->assertEquals(
-            array('results' => array($result)),
+        self::assertEquals(
+            ['results' => [$result]],
             json_decode($content, true),
             var_export($content, true)
         );
@@ -130,8 +140,8 @@ class SearchControllerTest extends TestCase
             'courses' => []
         ];
 
-        $this->mockSearch
-            ->shouldReceive('curriculumSearch')
+        $this->mockCurriculumSearch
+            ->shouldReceive('search')
             ->with($searchTerm, true)
             ->once()
             ->andReturn([$result]);
@@ -145,10 +155,10 @@ class SearchControllerTest extends TestCase
 
         $response = $this->controller->curriculumSearch($request);
         $content = $response->getContent();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
-        $this->assertEquals(
-            array('results' => array($result)),
+        self::assertEquals(
+            ['results' => [$result]],
             json_decode($content, true),
             var_export($content, true)
         );
@@ -178,8 +188,8 @@ class SearchControllerTest extends TestCase
             ]
         ];
 
-        $this->mockSearch
-            ->shouldReceive('userSearch')
+        $this->mockUsersSearch
+            ->shouldReceive('search')
             ->with($searchTerm, 100, false)
             ->once()
             ->andReturn([$result]);
@@ -193,10 +203,10 @@ class SearchControllerTest extends TestCase
 
         $response = $this->controller->userSearch($request);
         $content = $response->getContent();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
-        $this->assertEquals(
-            array('results' => array($result)),
+        self::assertEquals(
+            ['results' => [$result]],
             json_decode($content, true),
             var_export($content, true)
         );
@@ -213,8 +223,8 @@ class SearchControllerTest extends TestCase
             'courses' => []
         ];
 
-        $this->mockSearch
-            ->shouldReceive('userSearch')
+        $this->mockUsersSearch
+            ->shouldReceive('search')
             ->with($searchTerm, 100, true)
             ->once()
             ->andReturn([$result]);
@@ -228,10 +238,10 @@ class SearchControllerTest extends TestCase
 
         $response = $this->controller->userSearch($request);
         $content = $response->getContent();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
-        $this->assertEquals(
-            array('results' => array($result)),
+        self::assertEquals(
+            ['results' => [$result]],
             json_decode($content, true),
             var_export($content, true)
         );
@@ -245,8 +255,8 @@ class SearchControllerTest extends TestCase
             'courses' => []
         ];
 
-        $this->mockSearch
-            ->shouldReceive('userSearch')
+        $this->mockUsersSearch
+            ->shouldReceive('search')
             ->with($searchTerm, 13, false)
             ->once()
             ->andReturn([$result]);
@@ -260,10 +270,10 @@ class SearchControllerTest extends TestCase
 
         $response = $this->controller->userSearch($request);
         $content = $response->getContent();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
-        $this->assertEquals(
-            array('results' => array($result)),
+        self::assertEquals(
+            ['results' => [$result]],
             json_decode($content, true),
             var_export($content, true)
         );

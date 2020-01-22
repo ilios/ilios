@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Classes\SessionUserInterface;
 use App\Service\Index\Curriculum;
-use App\Service\Index\Mesh;
 use App\Service\Index\Users;
 use App\Service\PermissionChecker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
