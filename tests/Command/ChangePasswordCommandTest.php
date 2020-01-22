@@ -87,6 +87,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 
         $authentication = m::mock(AuthenticationInterface::class);
         $user->shouldReceive('getAuthentication')->once()->andReturn($authentication);
+        $authentication->shouldReceive('isLegacyAccount')->once()->andReturn(false);
 
         $sessionUser = m::mock(SessionUserInterface::class);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
