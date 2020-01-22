@@ -85,6 +85,8 @@ class Search extends AbstractController
 
         if ($size === null) {
             $size = 100;
+        } else {
+            $size = (int) $size;
         }
 
         $result = $this->userIndex->search($query, $size, $onlySuggest);
