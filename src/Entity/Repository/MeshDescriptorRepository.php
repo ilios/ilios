@@ -6,7 +6,10 @@ namespace App\Entity\Repository;
 
 use App\Entity\MeshConcept;
 use App\Entity\MeshDescriptor;
+use App\Entity\MeshPreviousIndexing;
+use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
+use App\Entity\MeshTree;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\AbstractQuery;
@@ -778,132 +781,121 @@ EOL;
 
     /**
      * @return array
-     * @throws DBALException
      */
     public function exportMeshDescriptors(): array
     {
-        $sql = <<<EOL
-SELECT mesh_descriptor_uid, name, annotation, created_at, updated_at, deleted
-FROM mesh_descriptor 
-ORDER BY mesh_descriptor_uid, name
-EOL;
-        return $this->fetchDataFromRawSqlQuery($sql);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('d.id, d.name, d.annotation, d.createdAt, d.updatedAt, d.deleted')
+            ->from(MeshDescriptor::class, 'd')
+            ->orderBy('d.id');
+        return $qb->getQuery()->getScalarResult();
     }
 
     /**
      * @return array
-     * @throws DBALException
      */
     public function exportMeshTrees(): array
     {
-        $sql = 'SELECT tree_number, mesh_descriptor_uid, mesh_tree_id FROM mesh_tree ORDER BY mesh_tree_id';
-        return $this->fetchDataFromRawSqlQuery($sql);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('t.treeNumber, d.id AS descriptor_id, t.id')
+            ->from(MeshTree::class, 't')
+            ->join('t.descriptor', 'd')
+            ->orderBy('t.id');
+        return $qb->getQuery()->getScalarResult();
     }
 
     /**
      * @return array
-     * @throws DBALException
      */
     public function exportMeshConcepts(): array
     {
-        $sql = <<<EOL
-SELECT mesh_concept_uid, name, preferred, scope_note, casn_1_name, registry_number, created_at, updated_at
-FROM mesh_concept 
-ORDER BY mesh_concept_uid
-EOL;
-        return $this->fetchDataFromRawSqlQuery($sql);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('c.id, c.name, c.preferred, c.scopeNote, c.casn1Name, c.registryNumber, c.createdAt, c.updatedAt')
+            ->from(MeshConcept::class, 'c')
+            ->orderBy('c.id');
+        return $qb->getQuery()->getScalarResult();
     }
 
     /**
      * @return array
-     * @throws DBALException
      */
     public function exportMeshTerms(): array
     {
-        $sql = <<<EOL
-SELECT mesh_term_uid, name, lexical_tag, concept_preferred, record_preferred, permuted, created_at, 
-updated_at, mesh_term_id
-FROM mesh_term
-ORDER BY mesh_term_id
-EOL;
-        return $this->fetchDataFromRawSqlQuery($sql);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
+            't.meshTermUid, t.name, t.lexicalTag, t.conceptPreferred, t.recordPreferred,'
+            . ' t.permuted, t.createdAt, t.updatedAt, t.id'
+        )
+            ->from(MeshTerm::class, 't')
+            ->orderBy('t.id');
+        return $qb->getQuery()->getScalarResult();
     }
 
     /**
      * @return array
-     * @throws DBALException
      */
     public function exportMeshQualifiers(): array
     {
-        $sql = <<<EOL
-SELECT mesh_qualifier_uid, name, created_at, updated_at 
-FROM mesh_qualifier 
-ORDER BY mesh_qualifier_uid, name
-EOL;
-        return $this->fetchDataFromRawSqlQuery($sql);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('q.id, q.name, q.createdAt, q.updatedAt')
+            ->from(MeshQualifier::class, 'q')
+            ->orderBy('q.id')
+            ->addOrderBy('q.name');
+        return $qb->getQuery()->getScalarResult();
     }
 
     /**
      * @return array
-     * @throws DBALException
      */
     public function exportMeshPreviousIndexings(): array
     {
-        $sql = <<<EOL
-SELECT mesh_descriptor_uid, previous_indexing, mesh_previous_indexing_id 
-FROM mesh_previous_indexing
-ORDER BY mesh_previous_indexing_id
-EOL;
-        return $this->fetchDataFromRawSqlQuery($sql);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('d.id AS descriptor_id, p.previousIndexing, p.id')
+            ->from(MeshPreviousIndexing::class, 'p')
+            ->join('p.descriptor', 'd')
+            ->orderBy('p.id');
+        return $qb->getQuery()->getScalarResult();
     }
 
     /**
      * @return array
-     * @throws DBALException
      */
     public function exportMeshConceptTerms(): array
     {
-        $sql = 'SELECT mesh_concept_uid, mesh_term_id FROM mesh_concept_x_term ORDER BY mesh_term_id, mesh_concept_uid';
-        return $this->fetchDataFromRawSqlQuery($sql);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('c.id AS concept_id, t.id AS term_id')
+            ->from(MeshConcept::class, 'c')
+            ->join('c.terms', 't')
+            ->orderBy('t.id')
+            ->addOrderBy('c.id');
+        return $qb->getQuery()->getScalarResult();
     }
 
     /**
      * @return array
-     * @throws DBALException
      */
     public function exportMeshDescriptorQualifiers(): array
     {
-        $sql = <<<EOL
-SELECT mesh_descriptor_uid, mesh_qualifier_uid
-FROM mesh_descriptor_x_qualifier 
-ORDER BY mesh_descriptor_uid, mesh_qualifier_uid
-EOL;
-        return $this->fetchDataFromRawSqlQuery($sql);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('d.id AS descriptor_id, q.id AS qualifier_id')
+            ->from(MeshDescriptor::class, 'd')
+            ->join('d.qualifiers', 'q')
+            ->orderBy('d.id')
+            ->addOrderBy('q.id');
+        return $qb->getQuery()->getScalarResult();
     }
 
     /**
      * @return array
-     * @throws DBALException
      */
     public function exportMeshDescriptorConcepts(): array
     {
-        $sql = <<<EOL
-SELECT mesh_concept_uid, mesh_descriptor_uid
-FROM mesh_descriptor_x_concept
-ORDER BY mesh_concept_uid, mesh_descriptor_uid
-EOL;
-        return $this->fetchDataFromRawSqlQuery($sql);
-    }
-
-    /**
-     * @param string $sql
-     * @return array
-     * @throws DBALException
-     */
-    protected function fetchDataFromRawSqlQuery(string $sql): array
-    {
-        $connection = $this->_em->getConnection();
-        $result = $connection->executeQuery($sql);
-        return $result->fetchAll(FetchMode::NUMERIC);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('c.id AS concept_id, d.id AS descriptor_id')
+            ->from(MeshDescriptor::class, 'd')
+            ->join('d.concepts', 'c')
+            ->orderBy('c.id')
+            ->addOrderBy('d.id');
+        return $qb->getQuery()->getScalarResult();
     }
 }
