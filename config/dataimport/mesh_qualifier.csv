@@ -1,77 +1,77 @@
-mesh_qualifier_uid,name,created_at,updated_at
-Q000000981,"diagnostic imaging","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000002,abnormalities,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000008,"administration & dosage","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000009,"adverse effects","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000031,"analogs & derivatives","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000032,analysis,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000033,"anatomy & histology","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000037,"antagonists & inhibitors","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000096,biosynthesis,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000097,blood,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000098,"blood supply","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000134,"cerebrospinal fluid","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000138,"chemical synthesis","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000139,"chemically induced","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000145,classification,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000150,complications,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000151,congenital,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000166,cytology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000172,deficiency,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000175,diagnosis,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000178,"diet therapy","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000187,"drug effects","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000188,"drug therapy","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000191,economics,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000193,education,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000196,embryology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000201,enzymology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000208,ethnology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000209,etiology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000235,genetics,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000254,"growth & development","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000266,history,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000276,immunology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000293,injuries,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000294,innervation,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000295,instrumentation,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000302,"isolation & purification","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000331,"legislation & jurisprudence","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000378,metabolism,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000379,methods,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000382,microbiology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000401,mortality,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000451,nursing,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000453,epidemiology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000458,"organization & administration","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000469,parasitology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000472,pathogenicity,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000473,pathology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000493,pharmacokinetics,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000494,pharmacology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000502,physiology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000503,physiopathology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000506,poisoning,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000517,"prevention & control","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000523,psychology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000528,"radiation effects","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000532,radiotherapy,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000534,rehabilitation,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000556,secondary,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000592,standards,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000600,"supply & distribution","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000601,surgery,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000627,"therapeutic use","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000628,therapy,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000633,toxicity,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000635,transmission,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000637,transplantation,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000639,trends,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000648,ultrastructure,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000652,urine,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000662,veterinary,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000706,"statistics & numerical data","2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000737,chemistry,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000819,agonists,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000821,virology,"2020-01-14 22:57:29","2020-01-14 22:57:29"
-Q000941,ethics,"2020-01-14 22:57:29","2020-01-14 22:57:29"
+mesh_qualifier_uid,name
+Q000000981,"diagnostic imaging"
+Q000002,abnormalities
+Q000008,"administration & dosage"
+Q000009,"adverse effects"
+Q000031,"analogs & derivatives"
+Q000032,analysis
+Q000033,"anatomy & histology"
+Q000037,"antagonists & inhibitors"
+Q000096,biosynthesis
+Q000097,blood
+Q000098,"blood supply"
+Q000134,"cerebrospinal fluid"
+Q000138,"chemical synthesis"
+Q000139,"chemically induced"
+Q000145,classification
+Q000150,complications
+Q000151,congenital
+Q000166,cytology
+Q000172,deficiency
+Q000175,diagnosis
+Q000178,"diet therapy"
+Q000187,"drug effects"
+Q000188,"drug therapy"
+Q000191,economics
+Q000193,education
+Q000196,embryology
+Q000201,enzymology
+Q000208,ethnology
+Q000209,etiology
+Q000235,genetics
+Q000254,"growth & development"
+Q000266,history
+Q000276,immunology
+Q000293,injuries
+Q000294,innervation
+Q000295,instrumentation
+Q000302,"isolation & purification"
+Q000331,"legislation & jurisprudence"
+Q000378,metabolism
+Q000379,methods
+Q000382,microbiology
+Q000401,mortality
+Q000451,nursing
+Q000453,epidemiology
+Q000458,"organization & administration"
+Q000469,parasitology
+Q000472,pathogenicity
+Q000473,pathology
+Q000493,pharmacokinetics
+Q000494,pharmacology
+Q000502,physiology
+Q000503,physiopathology
+Q000506,poisoning
+Q000517,"prevention & control"
+Q000523,psychology
+Q000528,"radiation effects"
+Q000532,radiotherapy
+Q000534,rehabilitation
+Q000556,secondary
+Q000592,standards
+Q000600,"supply & distribution"
+Q000601,surgery
+Q000627,"therapeutic use"
+Q000628,therapy
+Q000633,toxicity
+Q000635,transmission
+Q000637,transplantation
+Q000639,trends
+Q000648,ultrastructure
+Q000652,urine
+Q000662,veterinary
+Q000706,"statistics & numerical data"
+Q000737,chemistry
+Q000819,agonists
+Q000821,virology
+Q000941,ethics
