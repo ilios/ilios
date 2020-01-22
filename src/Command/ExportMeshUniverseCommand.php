@@ -57,7 +57,6 @@ class ExportMeshUniverseCommand extends Command
     {
         $this
             ->setName('ilios:export-mesh-universe')
-            ->setAliases(['ilios:development:export-mesh-universe'])
             ->setDescription('Dumps the contents of all mesh_* tables into dataimport files.');
     }
 
