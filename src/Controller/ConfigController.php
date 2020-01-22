@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Service\AuthenticationInterface;
 use App\Service\Config;
-use App\Service\Search;
+use App\Service\Index\Curriculum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +20,7 @@ class ConfigController extends AbstractController
     public function indexAction(
         Request $request,
         Config $config,
-        Search $search,
+        Curriculum $curriculumSearch,
         AuthenticationInterface $authenticationSystem
     ) {
         $configuration = $authenticationSystem->getPublicConfigurationInformation($request);
@@ -39,8 +39,8 @@ class ConfigController extends AbstractController
         if ($configuration['trackingEnabled']) {
             $configuration['trackingCode'] = $config->get('tracking_code');
         }
-        $configuration['searchEnabled'] = $search->isEnabled();
+        $configuration['searchEnabled'] = $curriculumSearch->isEnabled();
 
-        return new JsonResponse(array('config' => $configuration));
+        return new JsonResponse(['config' => $configuration]);
     }
 }
