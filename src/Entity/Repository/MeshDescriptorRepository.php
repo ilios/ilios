@@ -10,8 +10,8 @@ use App\Entity\MeshPreviousIndexing;
 use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
+use DateTime;
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -180,21 +180,26 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
 
     /**
      * @param array $data
+     * @param string $now
+     * @throws DBALException
      */
-    public function importMeshConcept(array $data)
+    public function importMeshConcept(array $data, string $now)
     {
-        $connection = $this->_em->getConnection();
         $sql = <<<EOL
 INSERT INTO mesh_concept (
     mesh_concept_uid, name, preferred, scope_note,
     casn_1_name, registry_number, created_at, updated_at
 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 EOL;
+        $data[] = $now;
+        $data[] = $now;
+        $connection = $this->_em->getConnection();
         $connection->executeUpdate($sql, $data);
     }
 
     /**
      * @param array $data
+     * @throws DBALException
      */
     public function importMeshConceptTerm(array $data)
     {
@@ -209,20 +214,25 @@ EOL;
 
     /**
      * @param array $data
+     * @param string $now
+     * @throws DBALException
      */
-    public function importMeshDescriptor(array $data)
+    public function importMeshDescriptor(array $data, string $now)
     {
         $sql = <<<EOL
 INSERT INTO mesh_descriptor (
-    mesh_descriptor_uid, name, annotation, created_at, updated_at, deleted
+    mesh_descriptor_uid, name, annotation, deleted, created_at, updated_at
 ) VALUES (?, ?, ?, ?, ?, ?)
 EOL;
+        $data[] = $now;
+        $data[] = $now;
         $connection = $this->_em->getConnection();
         $connection->executeUpdate($sql, $data);
     }
 
     /**
      * @param array $data
+     * @throws DBALException
      */
     public function importMeshDescriptorConcept(array $data)
     {
@@ -239,6 +249,7 @@ EOL;
 
     /**
      * @param array $data
+     * @throws DBALException
      */
     public function importMeshDescriptorQualifier(array $data)
     {
@@ -253,6 +264,7 @@ EOL;
 
     /**
      * @param array $data
+     * @throws DBALException
      */
     public function importMeshPreviousIndexing(array $data)
     {
@@ -267,8 +279,10 @@ EOL;
 
     /**
      * @param array $data
+     * @param string $now
+     * @throws DBALException
      */
-    public function importMeshQualifier(array $data)
+    public function importMeshQualifier(array $data, string $now)
     {
 
         $sql = <<<EOL
@@ -276,27 +290,34 @@ INSERT INTO mesh_qualifier (
     mesh_qualifier_uid, name, created_at, updated_at
 ) VALUES (?, ?, ?, ?)
 EOL;
+        $data[] = $now;
+        $data[] = $now;
         $connection = $this->_em->getConnection();
         $connection->executeUpdate($sql, $data);
     }
 
     /**
      * @param array $data
+     * @param string $now
+     * @throws DBALException
      */
-    public function importMeshTerm(array $data)
+    public function importMeshTerm(array $data, string $now)
     {
         $sql = <<<EOL
 INSERT INTO mesh_term (
     mesh_term_uid, name, lexical_tag, concept_preferred, record_preferred, permuted,
-    created_at, updated_at, mesh_term_id
+    mesh_term_id, created_at, updated_at
 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 EOL;
+        $data[] = $now;
+        $data[] = $now;
         $connection = $this->_em->getConnection();
         $connection->executeUpdate($sql, $data);
     }
 
     /**
      * @param array $data
+     * @throws DBALException
      */
     public function importMeshTree(array $data)
     {
@@ -523,7 +544,7 @@ EOL;
      */
     public function upsertMeshUniverse(array $data)
     {
-        $now = new \DateTime();
+        $now = new DateTime();
         $conn = $this->_em->getConnection();
 
         $termMap = []; // maps term hashes to record ids.

@@ -44,17 +44,14 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
      */
     protected function assertDataEquals(array $data, $entity)
     {
-        // `mesh_term_uid`,`name`,`lexical_tag`,`concept_preferred`,`record_preferred`,
-        // `permuted`,`created_at`,`updated_at`,`mesh_term_id`
+        // `mesh_term_uid`,`name`,`lexical_tag`,`concept_preferred`,`record_preferred`, `permuted`, `mesh_term_id`
         $this->assertEquals($data[0], $entity->getMeshTermUid());
         $this->assertEquals($data[1], $entity->getName());
         $this->assertEquals($data[2], $entity->getLexicalTag());
         $this->assertEquals((bool) $data[3], $entity->isConceptPreferred());
         $this->assertEquals((bool) $data[4], $entity->isRecordPreferred());
         $this->assertEquals((bool) $data[5], $entity->isPermuted());
-        $this->assertEquals(new \DateTime($data[6], new \DateTimeZone('UTC')), $entity->getCreatedAt());
-        $this->assertEquals(new \DateTime($data[7], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
-        $this->assertEquals($data[8], $entity->getId());
+        $this->assertEquals($data[6], $entity->getId());
     }
 
     /**
@@ -62,6 +59,6 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
      */
     protected function getEntity(array $data)
     {
-        return $this->em->findOneBy(['id' => $data[8]]);
+        return $this->em->findOneBy(['id' => $data[6]]);
     }
 }

@@ -60,35 +60,30 @@ class MeshDescriptorManager extends BaseManager
      *
      * @param array $data An associative array containing a MeSH record.
      * @param string $type The type of MeSH data that's being imported.
+     * @param string|null $now The current time and date as an ANSI SQL compatible string representation.
      * @throws Exception on unsupported type.
      */
-    public function import(array $data, $type)
+    public function import(array $data, $type, string $now = null)
     {
-        // KLUDGE!
-        // For performance reasons, we're completely side-stepping
-        // Doctrine's entity layer.
-        // Instead, this method invokes low-level/native-SQL import-methods
-        // on this manager's repository.
-        // [ST 2015/09/08]
         /**
          * @var MeshDescriptorRepository $repository
          */
         $repository = $this->getRepository();
         switch ($type) {
             case 'MeshDescriptor':
-                $repository->importMeshDescriptor($data);
+                $repository->importMeshDescriptor($data, $now);
                 break;
             case 'MeshTree':
                 $repository->importMeshTree($data);
                 break;
             case 'MeshConcept':
-                $repository->importMeshConcept($data);
+                $repository->importMeshConcept($data, $now);
                 break;
             case 'MeshTerm':
-                $repository->importMeshTerm($data);
+                $repository->importMeshTerm($data, $now);
                 break;
             case 'MeshQualifier':
-                $repository->importMeshQualifier($data);
+                $repository->importMeshQualifier($data, $now);
                 break;
             case 'MeshPreviousIndexing':
                 $repository->importMeshPreviousIndexing($data);

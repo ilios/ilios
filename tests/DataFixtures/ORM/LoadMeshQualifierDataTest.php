@@ -44,10 +44,8 @@ class LoadMeshQualifierDataTest extends AbstractDataFixtureTest
      */
     protected function assertDataEquals(array $data, $entity)
     {
-        // `mesh_qualifier_uid`,`name`,`created_at`,`updated_at`
+        // `mesh_qualifier_uid`,`name`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getName());
-        $this->assertEquals(new \DateTime($data[2], new \DateTimeZone('UTC')), $entity->getCreatedAt());
-        $this->assertEquals(new \DateTime($data[3], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
     }
 }
