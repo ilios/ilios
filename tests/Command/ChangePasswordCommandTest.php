@@ -12,6 +12,8 @@ use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
 use App\Service\SessionUserProvider;
 use App\Tests\Helper\TestQuestionHelper;
+use Exception;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -32,13 +34,13 @@ class ChangePasswordCommandTest extends KernelTestCase
     /** @var CommandTester */
     protected $commandTester;
 
-    /** @var m\Mock */
+    /** @var UserManager */
     protected $userManager;
-    /** @var m\Mock */
+    /** @var AuthenticationManager */
     protected $authenticationManager;
-    /** @var m\Mock */
+    /** @var UserPasswordEncoderInterface */
     protected $encoder;
-    /** @var m\Mock */
+    /** @var SessionUserProvider */
     protected $sessionUserProvider;
 
     public function setUp()
@@ -94,10 +96,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 
         $this->authenticationManager->shouldReceive('update')->with($authentication);
 
-        $this->commandTester->execute(array(
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
-        ));
+        $this->commandTester->execute(array('command' => self::COMMAND_NAME, 'userId' => '1'));
 
 
         $output = $this->commandTester->getDisplay();
@@ -142,7 +141,7 @@ class ChangePasswordCommandTest extends KernelTestCase
     public function testBadUserId()
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -151,7 +150,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 
     public function testUserRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
     }
 }
