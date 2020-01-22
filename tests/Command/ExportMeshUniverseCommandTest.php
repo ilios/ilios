@@ -80,8 +80,6 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
                 'An ionophorous, polyether antibiotic from Streptomyces chartreusensis.',
                 '4-Benzoxazolecarboxylic acid, ...',
                 '37H9VM9WZL',
-                '2020-01-14 22:57:29',
-                '2020-01-14 22:57:29'
             ]
         ];
         $meshConceptHeader = [
@@ -91,8 +89,6 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
             'scope_note',
             'casn_1_name',
             'registry_number',
-            'created_at',
-            'updated_at'
         ];
         $this->manager->shouldReceive('exportMeshConcepts')->once()->andReturn($meshConceptData);
         $this->writer->shouldReceive('writeToFile')
@@ -108,8 +104,8 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
                 $this->path . '/config/dataimport/mesh_concept_x_term.csv'
             );
 
-        $meshDescriptorData = [['D000001', 'Calcimycin', null, '2020-01-14 22:57:29', '2020-01-14 22:57:29', false]];
-        $meshDescriptorHeader = ['mesh_descriptor_uid', 'name', 'annotation', 'created_at', 'updated_at', 'deleted'];
+        $meshDescriptorData = [['D000001', 'Calcimycin', null, false]];
+        $meshDescriptorHeader = ['mesh_descriptor_uid', 'name', 'annotation', 'deleted'];
         $this->manager->shouldReceive('exportMeshDescriptors')->once()->andReturn($meshDescriptorData);
         $this->writer->shouldReceive('writeToFile')
             ->with(
@@ -151,8 +147,8 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
                 $this->path . '/config/dataimport/mesh_previous_indexing.csv'
             );
 
-        $meshQualifierData = [['Q000000981', 'diagnostic imaging', '2020-01-14 22:57:29', '2020-01-14 22:57:29']];
-        $meshQualifierHeader = ['mesh_qualifier_uid', 'name', 'created_at', 'updated_at'];
+        $meshQualifierData = [['Q000000981', 'diagnostic imaging']];
+        $meshQualifierHeader = ['mesh_qualifier_uid', 'name'];
         $this->manager->shouldReceive('exportMeshQualifiers')->once()->andReturn($meshQualifierData);
         $this->writer->shouldReceive('writeToFile')
             ->with(
@@ -162,7 +158,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
             );
 
         $meshTermData = [
-            ['T000002', 'Calcimycin', 'NON', true, true, false, '2020-01-14 22:57:29', '2020-01-14 22:57:29', 1]
+            ['T000002', 'Calcimycin', 'NON', true, true, false, 1]
         ];
         $meshTermHeader = [
             'mesh_term_uid',
@@ -171,9 +167,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
             'concept_preferred',
             'record_preferred',
             'permuted',
-            'created_at',
-            'updated_at',
-            'mesh_term_id'
+            'mesh_term_id',
         ];
         $this->manager->shouldReceive('exportMeshTerms')->once()->andReturn($meshTermData);
         $this->writer->shouldReceive('writeToFile')

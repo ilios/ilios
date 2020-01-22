@@ -785,7 +785,7 @@ EOL;
     public function exportMeshDescriptors(): array
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('d.id, d.name, d.annotation, d.createdAt, d.updatedAt, d.deleted')
+        $qb->select('d.id, d.name, d.annotation, d.deleted')
             ->from(MeshDescriptor::class, 'd')
             ->orderBy('d.id');
         return $qb->getQuery()->getScalarResult();
@@ -810,7 +810,7 @@ EOL;
     public function exportMeshConcepts(): array
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('c.id, c.name, c.preferred, c.scopeNote, c.casn1Name, c.registryNumber, c.createdAt, c.updatedAt')
+        $qb->select('c.id, c.name, c.preferred, c.scopeNote, c.casn1Name, c.registryNumber')
             ->from(MeshConcept::class, 'c')
             ->orderBy('c.id');
         return $qb->getQuery()->getScalarResult();
@@ -822,10 +822,7 @@ EOL;
     public function exportMeshTerms(): array
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select(
-            't.meshTermUid, t.name, t.lexicalTag, t.conceptPreferred, t.recordPreferred,'
-            . ' t.permuted, t.createdAt, t.updatedAt, t.id'
-        )
+        $qb->select('t.meshTermUid, t.name, t.lexicalTag, t.conceptPreferred, t.recordPreferred, t.permuted, t.id')
             ->from(MeshTerm::class, 't')
             ->orderBy('t.id');
         return $qb->getQuery()->getScalarResult();
@@ -837,7 +834,7 @@ EOL;
     public function exportMeshQualifiers(): array
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('q.id, q.name, q.createdAt, q.updatedAt')
+        $qb->select('q.id, q.name')
             ->from(MeshQualifier::class, 'q')
             ->orderBy('q.id')
             ->addOrderBy('q.name');

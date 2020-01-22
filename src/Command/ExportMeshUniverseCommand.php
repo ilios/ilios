@@ -78,8 +78,6 @@ class ExportMeshUniverseCommand extends Command
             'scope_note',
             'casn_1_name',
             'registry_number',
-            'created_at',
-            'updated_at'
         ];
         $data = $this->manager->exportMeshConcepts();
         $this->writeToFile($header, $data, 'mesh_concept.csv');
@@ -88,7 +86,7 @@ class ExportMeshUniverseCommand extends Command
         $data = $this->manager->exportMeshConceptTerms();
         $this->writeToFile($header, $data, 'mesh_concept_x_term.csv');
 
-        $header = ['mesh_descriptor_uid', 'name', 'annotation', 'created_at', 'updated_at', 'deleted'];
+        $header = ['mesh_descriptor_uid', 'name', 'annotation', 'deleted'];
         $data = $this->manager->exportMeshDescriptors();
         $this->writeToFile($header, $data, 'mesh_descriptor.csv');
 
@@ -104,7 +102,7 @@ class ExportMeshUniverseCommand extends Command
         $data = $this->manager->exportMeshPreviousIndexings();
         $this->writeToFile($header, $data, 'mesh_previous_indexing.csv');
 
-        $header = ['mesh_qualifier_uid', 'name', 'created_at', 'updated_at'];
+        $header = ['mesh_qualifier_uid', 'name'];
         $data = $this->manager->exportMeshQualifiers();
         $this->writeToFile($header, $data, 'mesh_qualifier.csv');
 
@@ -115,9 +113,7 @@ class ExportMeshUniverseCommand extends Command
             'concept_preferred',
             'record_preferred',
             'permuted',
-            'created_at',
-            'updated_at',
-            'mesh_term_id'
+            'mesh_term_id',
         ];
         $data = $this->manager->exportMeshTerms();
         $this->writeToFile($header, $data, 'mesh_term.csv');
