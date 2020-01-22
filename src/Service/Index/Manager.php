@@ -14,10 +14,10 @@ class Manager extends ElasticSearchBase
             return;
         }
         $indexes = [
-            self::USER_INDEX,
-            self::MESH_INDEX,
-            self::CURRICULUM_INDEX,
-            self::LEARNING_MATERIAL_INDEX,
+            Users::INDEX,
+            Mesh::INDEX,
+            Curriculum::INDEX,
+            LearningMaterials::INDEX,
             'ilios-public-curriculum',
             'ilios-public-mesh',
             'ilios-private-users',
@@ -36,21 +36,21 @@ class Manager extends ElasticSearchBase
         }
 
         $this->client->indices()->create([
-            'index' => self::USER_INDEX,
+            'index' => Users::INDEX,
             'body' => UserMapping::getBody()
         ]);
         $this->client->indices()->create([
-            'index' => self::MESH_INDEX,
+            'index' => Mesh::INDEX,
             'body' => MeshMapping::getBody()
         ]);
         $this->client->indices()->create([
-            'index' => self::CURRICULUM_INDEX,
+            'index' => Curriculum::INDEX,
             'body' => CurriculumMapping::getBody()
         ]);
 
         $this->client->ingest()->putPipeline(LearningMaterialMapping::getPipeline());
         $this->client->indices()->create([
-            'index' => self::LEARNING_MATERIAL_INDEX,
+            'index' => LearningMaterials::INDEX,
             'body' => LearningMaterialMapping::getBody()
         ]);
     }

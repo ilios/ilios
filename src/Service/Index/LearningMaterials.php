@@ -8,7 +8,6 @@ use App\Classes\ElasticSearchBase;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Service\Config;
 use App\Service\NonCachingIliosFileSystem;
-use App\Service\Search;
 use Elasticsearch\Client;
 use Psr\Log\LoggerInterface;
 use setasign\Fpdi\Fpdi;
@@ -19,6 +18,7 @@ use SplFileInfo;
 
 class LearningMaterials extends ElasticSearchBase
 {
+    public const INDEX = 'ilios-learning-materials';
 
     /**
      * @var NonCachingIliosFileSystem
@@ -71,7 +71,7 @@ class LearningMaterials extends ElasticSearchBase
 
         $results = array_map(function (array $arr) {
             $params = [
-                'index' => self::LEARNING_MATERIAL_INDEX,
+                'index' => self::INDEX,
                 'type' => '_doc',
                 'pipeline' => 'learning_materials',
                 'body' => [
@@ -97,7 +97,7 @@ class LearningMaterials extends ElasticSearchBase
     public function delete(int $id): bool
     {
         $result = $this->doDeleteByQuery([
-            'index' => Search::LEARNING_MATERIAL_INDEX,
+            'index' => self::INDEX,
             'body' => [
                 'query' => [
                     'term' => ['learningMaterialId' => $id]

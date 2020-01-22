@@ -11,6 +11,7 @@ use Exception;
 
 class Mesh extends ElasticSearchBase
 {
+    public const INDEX = 'ilios-mesh';
 
     /**
      * @param string $query
@@ -24,7 +25,7 @@ class Mesh extends ElasticSearchBase
         }
         $params = [
             'type' => '_doc',
-            'index' => self::MESH_INDEX,
+            'index' => self::INDEX,
             'body' => [
                 'query' => [
                     'query_string' => [
@@ -89,7 +90,7 @@ class Mesh extends ElasticSearchBase
             ];
         }, $descriptors);
 
-        $result = $this->doBulkIndex(self::MESH_INDEX, $input);
+        $result = $this->doBulkIndex(self::INDEX, $input);
         return !$result['errors'];
     }
 }

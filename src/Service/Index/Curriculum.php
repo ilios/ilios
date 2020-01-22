@@ -6,11 +6,13 @@ namespace App\Service\Index;
 
 use App\Classes\ElasticSearchBase;
 use App\Classes\IndexableCourse;
-use App\Service\Search;
 use Exception;
 
 class Curriculum extends ElasticSearchBase
 {
+
+    public const INDEX = 'ilios-curriculum';
+    public const SESSION_ID_PREFIX = 'session_';
 
     /**
      * @param string $query
@@ -51,7 +53,7 @@ class Curriculum extends ElasticSearchBase
 
         $params = [
             'type' => '_doc',
-            'index' => self::CURRICULUM_INDEX,
+            'index' => self::INDEX,
             'body' => [
                 'suggest' => $suggest,
                 "_source" => [
@@ -100,7 +102,7 @@ class Curriculum extends ElasticSearchBase
             return array_merge($carry, $sessionsWithMaterials);
         }, []);
 
-        $result = $this->doBulkIndex(Search::CURRICULUM_INDEX, $input);
+        $result = $this->doBulkIndex(self::INDEX, $input);
 
         if ($result['errors']) {
             $errors = array_map(function (array $item) {
@@ -125,7 +127,7 @@ class Curriculum extends ElasticSearchBase
     public function deleteCourse(int $id): bool
     {
         $result = $this->doDeleteByQuery([
-            'index' => Search::CURRICULUM_INDEX,
+            'index' => self::INDEX,
             'body' => [
                 'query' => [
                     'term' => ['courseId' => $id]
@@ -144,8 +146,8 @@ class Curriculum extends ElasticSearchBase
     public function deleteSession(int $id): bool
     {
         $result = $this->doDelete([
-            'index' => Search::CURRICULUM_INDEX,
-            'id' => ElasticSearchBase::SESSION_ID_PREFIX . $id
+            'index' => self::INDEX,
+            'id' => self::SESSION_ID_PREFIX . $id
         ]);
 
         return $result['result'] === 'deleted';
@@ -160,7 +162,7 @@ class Curriculum extends ElasticSearchBase
         if (!empty($learningMaterialIds)) {
             $params = [
                 'type' => '_doc',
-                'index' => self::LEARNING_MATERIAL_INDEX,
+                'index' => LearningMaterials::INDEX,
                 'body' => [
                     'query' => [
                         'terms' => [

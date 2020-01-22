@@ -11,6 +11,8 @@ use Exception;
 
 class Users extends ElasticSearchBase
 {
+    public const INDEX = 'ilios-users';
+
     /**
      * @param UserDTO[] $users
      * @return bool
@@ -44,7 +46,7 @@ class Users extends ElasticSearchBase
             ];
         }, $users);
 
-        $result = $this->doBulkIndex(self::USER_INDEX, $input);
+        $result = $this->doBulkIndex(self::INDEX, $input);
 
         return !$result['errors'];
     }
@@ -56,7 +58,7 @@ class Users extends ElasticSearchBase
     public function delete(int $id): bool
     {
         $result = $this->doDelete([
-            'index' => self::USER_INDEX,
+            'index' => self::INDEX,
             'id' => $id,
         ]);
 
@@ -91,7 +93,7 @@ class Users extends ElasticSearchBase
 
         $params = [
             'type' => '_doc',
-            'index' => self::USER_INDEX,
+            'index' => self::INDEX,
             'size' => $size,
             'body' => [
                 'suggest' => $suggest,

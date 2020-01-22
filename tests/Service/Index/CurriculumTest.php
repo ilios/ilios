@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Index;
 
-use App\Classes\ElasticSearchBase;
 use App\Classes\IndexableCourse;
 use App\Entity\DTO\CourseDTO;
 use App\Service\Config;
@@ -91,7 +90,7 @@ class CurriculumTest extends TestCase
             'body' => [
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::CURRICULUM_INDEX,
+                        '_index' => Curriculum::INDEX,
                         '_type' => '_doc',
                         '_id' => 1
                     ]
@@ -101,7 +100,7 @@ class CurriculumTest extends TestCase
                 ],
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::CURRICULUM_INDEX,
+                        '_index' => Curriculum::INDEX,
                         '_type' => '_doc',
                         '_id' => 2
                     ]
@@ -111,7 +110,7 @@ class CurriculumTest extends TestCase
                 ],
                 [
                     'index' => [
-                        '_index' => ElasticSearchBase::CURRICULUM_INDEX,
+                        '_index' => Curriculum::INDEX,
                         '_type' => '_doc',
                         '_id' => 3
                     ]
