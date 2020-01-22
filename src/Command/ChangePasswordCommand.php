@@ -108,7 +108,6 @@ class ChangePasswordCommand extends Command
             // Nuke the old sha256 password.
             // This will remove the legacy status from this account so we can set a new, secure password further down.
             $authentication->setPasswordSha256(null);
-            $this->authenticationManager->update($authentication);
         }
 
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
