@@ -7,6 +7,8 @@ namespace App\Command;
 use App\Entity\UserInterface;
 use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
+use Exception;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -71,7 +73,7 @@ class ChangePasswordCommand extends Command
 
     /**
      * {@inheritdoc}
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -79,7 +81,7 @@ class ChangePasswordCommand extends Command
         /** @var UserInterface $user */
         $user = $this->userManager->findOneBy(['id' => $userId]);
         if (!$user) {
-            throw new \Exception(
+            throw new Exception(
                 "No user with id #{$userId} was found."
             );
         }
@@ -87,7 +89,7 @@ class ChangePasswordCommand extends Command
         $question = new Question("Password: ");
         $question->setValidator(function ($answer) {
             if (strlen($answer) < 7) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     "Password must be at least 7 character"
                 );
             }
@@ -102,6 +104,11 @@ class ChangePasswordCommand extends Command
             /** @var AuthenticationInterface $authentication */
             $authentication = $this->authenticationManager->create();
             $user->setAuthentication($authentication);
+        } elseif ($authentication->isLegacyAccount()) {
+            // Nuke the old sha256 password.
+            // This will remove the legacy status from this account so we can set a new, secure password further down.
+            $authentication->setPasswordSha256(null);
+            $this->authenticationManager->update($authentication);
         }
 
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
