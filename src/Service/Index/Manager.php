@@ -37,21 +37,21 @@ class Manager extends ElasticSearchBase
 
         $this->client->indices()->create([
             'index' => Users::INDEX,
-            'body' => UserMapping::getBody()
+            'body' => Users::getMapping()
         ]);
         $this->client->indices()->create([
             'index' => Mesh::INDEX,
-            'body' => MeshMapping::getBody()
+            'body' => Mesh::getMapping()
         ]);
         $this->client->indices()->create([
             'index' => Curriculum::INDEX,
-            'body' => CurriculumMapping::getBody()
+            'body' => Curriculum::getMapping()
         ]);
 
-        $this->client->ingest()->putPipeline(LearningMaterialMapping::getPipeline());
+        $this->client->ingest()->putPipeline(LearningMaterials::getPipeline());
         $this->client->indices()->create([
             'index' => LearningMaterials::INDEX,
-            'body' => LearningMaterialMapping::getBody()
+            'body' => LearningMaterials::getMapping()
         ]);
     }
 }

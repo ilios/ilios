@@ -93,4 +93,22 @@ class Mesh extends ElasticSearchBase
         $result = $this->doBulkIndex(self::INDEX, $input);
         return !$result['errors'];
     }
+
+
+    public static function getMapping(): array
+    {
+        return [
+            'settings' => [
+                'number_of_shards' => 1,
+                'number_of_replicas' => 0,
+            ],
+            'mappings' => [
+                '_doc' => [
+                    '_meta' => [
+                        'version' => '1',
+                    ],
+                ],
+            ],
+        ];
+    }
 }

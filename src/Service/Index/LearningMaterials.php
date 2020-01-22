@@ -220,4 +220,43 @@ class LearningMaterials extends ElasticSearchBase
         $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
         $pdf->useTemplate($templateId);
     }
+
+    public static function getMapping(): array
+    {
+        return [
+            'mappings' => [
+                '_doc' => [
+                    '_meta' => [
+                        'version' => '1',
+                    ],
+                    'properties' => [
+                        'learningMaterialId' => [
+                            'type' => 'integer'
+                        ],
+                        'material' => [
+                            'type' => 'object'
+                        ],
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    public static function getPipeline(): array
+    {
+        return [
+            'id' => 'learning_materials',
+            'body' => [
+                'description' => 'Learning Material Data',
+                'processors' => [
+                    [
+                        'attachment' => [
+                            'field' => 'data',
+                            'target_field' => 'material',
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
 }
