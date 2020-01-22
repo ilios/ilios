@@ -29,7 +29,7 @@ class ElasticSearchBase
     /**
      * @var int|string|null
      */
-    private $uploadLimit;
+    protected $uploadLimit;
 
     /**
      * Search constructor.

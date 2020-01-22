@@ -7,16 +7,16 @@ namespace App\MessageHandler;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\Manager\LearningMaterialManager;
 use App\Message\LearningMaterialIndexRequest;
-use App\Service\Index;
+use App\Service\Index\LearningMaterials;
 use App\Service\NonCachingIliosFileSystem;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class LearningMaterialIndexHandler implements MessageHandlerInterface
 {
     /**
-     * @var Index
+     * @var LearningMaterials
      */
-    private $index;
+    private $learningMaterialsIndex;
 
     /**
      * @var LearningMaterialManager
@@ -29,11 +29,11 @@ class LearningMaterialIndexHandler implements MessageHandlerInterface
     private $fileSystem;
 
     public function __construct(
-        Index $index,
+        LearningMaterials $index,
         LearningMaterialManager $manager,
         NonCachingIliosFileSystem $fileSystem
     ) {
-        $this->index = $index;
+        $this->learningMaterialsIndex = $index;
         $this->manager = $manager;
         $this->fileSystem = $fileSystem;
     }
@@ -45,7 +45,7 @@ class LearningMaterialIndexHandler implements MessageHandlerInterface
             return $this->fileSystem->checkLearningMaterialRelativePath($dto->relativePath);
         });
         if (count($filteredDtos)) {
-            $this->index->indexLearningMaterials($filteredDtos);
+            $this->learningMaterialsIndex->index($filteredDtos);
         }
     }
 }

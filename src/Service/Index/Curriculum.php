@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Index;
 
 use App\Classes\ElasticSearchBase;
+use App\Classes\IndexableCourse;
+use App\Service\Search;
 use Exception;
 
-class Search extends ElasticSearchBase
+class Curriculum extends ElasticSearchBase
 {
 
     /**
@@ -16,7 +18,7 @@ class Search extends ElasticSearchBase
      * @return array
      * @throws Exception when search is not configured
      */
-    public function curriculumSearch(string $query, $onlySuggest)
+    public function search(string $query, $onlySuggest)
     {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
@@ -69,39 +71,142 @@ class Search extends ElasticSearchBase
             $params['body']['query'] = $this->buildCurriculumSearch($query);
         }
 
-        $results = $this->search($params);
+        $results = $this->doSearch($params);
 
         return $this->parseCurriculumSearchResults($results);
     }
 
     /**
-     * @param string $query
-     * @return array
-     * @throws Exception when search is not configured
+     * @param IndexableCourse[] $courses
+     * @return bool
      */
-    public function meshDescriptorIdsQuery(string $query)
+    public function index(array $courses): bool
     {
-        if (!$this->enabled) {
-            throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
+        foreach ($courses as $course) {
+            if (!$course instanceof IndexableCourse) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        '$courses must be an array of %s. %s found',
+                        IndexableCourse::class,
+                        get_class($course)
+                    )
+                );
+            }
         }
-        $params = [
-            'type' => '_doc',
-            'index' => self::MESH_INDEX,
+
+        $input = array_reduce($courses, function (array $carry, IndexableCourse $item) {
+            $sessions = $item->createIndexObjects();
+            $sessionsWithMaterials = $this->attachLearningMaterialsToSession($sessions);
+            return array_merge($carry, $sessionsWithMaterials);
+        }, []);
+
+        $result = $this->doBulkIndex(Search::CURRICULUM_INDEX, $input);
+
+        if ($result['errors']) {
+            $errors = array_map(function (array $item) {
+                if (array_key_exists('error', $item['index'])) {
+                    return $item['index']['error']['reason'];
+                }
+            }, $result['items']);
+            $clean = array_filter($errors);
+            $str = join(';', array_unique($clean));
+            $count = count($clean);
+            throw new Exception("Failed to index all courses ${count} errors. Error text: ${str}");
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function deleteCourse(int $id): bool
+    {
+        $result = $this->doDeleteByQuery([
+            'index' => Search::CURRICULUM_INDEX,
             'body' => [
                 'query' => [
-                    'query_string' => [
-                        'query' => "*${query}*",
-                    ]
-                ],
-                "_source" => [
-                    '_id'
+                    'term' => ['courseId' => $id]
                 ]
             ]
-        ];
-        $results = $this->search($params);
-        return array_map(function (array $arr) {
-            return $arr['_id'];
-        }, $results['hits']['hits']);
+        ]);
+
+        return !count($result['failures']);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function deleteSession(int $id): bool
+    {
+        $result = $this->doDelete([
+            'index' => Search::CURRICULUM_INDEX,
+            'id' => ElasticSearchBase::SESSION_ID_PREFIX . $id
+        ]);
+
+        return $result['result'] === 'deleted';
+    }
+
+    protected function attachLearningMaterialsToSession(array $sessions): array
+    {
+        $courseIds = array_column($sessions, 'courseFileLearningMaterialIds');
+        $sessionIds = array_column($sessions, 'sessionFileLearningMaterialIds');
+        $learningMaterialIds = array_values(array_unique(array_merge([], ...$courseIds, ...$sessionIds)));
+        $materialsById = [];
+        if (!empty($learningMaterialIds)) {
+            $params = [
+                'type' => '_doc',
+                'index' => self::LEARNING_MATERIAL_INDEX,
+                'body' => [
+                    'query' => [
+                        'terms' => [
+                            'learningMaterialId' => $learningMaterialIds
+                        ]
+                    ],
+                    "_source" => [
+                        'learningMaterialId',
+                        'material.content',
+                    ]
+                ]
+            ];
+            $results = $this->client->search($params);
+
+            $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
+                $result = $hit['_source'];
+                $id = $result['learningMaterialId'];
+
+                if (array_key_exists('material', $result)) {
+                    $carry[$id][] = $result['material']['content'];
+                }
+
+                return $carry;
+            }, []);
+        }
+
+        return array_map(function (array $session) use ($materialsById) {
+            foreach ($session['sessionFileLearningMaterialIds'] as $id) {
+                if (array_key_exists($id, $materialsById)) {
+                    foreach ($materialsById[$id] as $value) {
+                        $session['sessionLearningMaterialAttachments'][] = $value;
+                    }
+                }
+            }
+            unset($session['sessionFileLearningMaterialIds']);
+            foreach ($session['courseFileLearningMaterialIds'] as $id) {
+                if (array_key_exists($id, $materialsById)) {
+                    foreach ($materialsById[$id] as $value) {
+                        $session['courseLearningMaterialAttachments'][] = $value;
+                    }
+                }
+            }
+            unset($session['courseFileLearningMaterialIds']);
+
+            return $session;
+        }, $sessions);
     }
 
     /**

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Classes\SessionUserInterface;
+use App\Service\Index\Curriculum;
+use App\Service\Index\Mesh;
 use App\Service\Index\Users;
 use App\Service\PermissionChecker;
-use App\Service\Search as SearchService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,11 +22,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class Search extends AbstractController
 {
-    /**
-     * @var SearchService
-     */
-    protected $search;
-
     /**
      * @var TokenStorageInterface
      */
@@ -41,16 +37,21 @@ class Search extends AbstractController
      */
     protected $userIndex;
 
+    /**
+     * @var Curriculum
+     */
+    protected $curriculumIndex;
+
     public function __construct(
-        SearchService $search,
+        Curriculum $curriculumIndex,
         Users $userIndex,
         TokenStorageInterface $tokenStorage,
         PermissionChecker $permissionChecker
     ) {
-        $this->search = $search;
         $this->tokenStorage = $tokenStorage;
         $this->permissionChecker = $permissionChecker;
         $this->userIndex = $userIndex;
+        $this->curriculumIndex = $curriculumIndex;
     }
 
     public function curriculumSearch(Request $request)
@@ -65,7 +66,7 @@ class Search extends AbstractController
 
         $onlySuggest = (bool) $request->get('onlySuggest');
 
-        $result = $this->search->curriculumSearch($query, $onlySuggest);
+        $result = $this->curriculumIndex->search($query, $onlySuggest);
 
         return new JsonResponse(['results' => $result]);
     }

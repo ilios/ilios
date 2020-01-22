@@ -6,7 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\ImportMeshUniverseCommand;
 use App\Entity\Manager\MeshDescriptorManager;
-use App\Service\Index;
+use App\Service\Index\Mesh;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Parser;
@@ -36,9 +36,9 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     protected $descriptorManager;
 
     /**
-     * @var m\MockInterface
+     * @var Mesh|m\MockInterface
      */
-    protected $index;
+    protected $meshIndex;
 
     /**
      * @var CommandTester
@@ -57,9 +57,9 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     {
         $this->meshParser = m::mock(Parser::class);
         $this->descriptorManager = m::mock(MeshDescriptorManager::class);
-        $this->index = m::mock(Index::class);
+        $this->meshIndex = m::mock(Mesh::class);
 
-        $command = new ImportMeshUniverseCommand($this->meshParser, $this->descriptorManager, $this->index);
+        $command = new ImportMeshUniverseCommand($this->meshParser, $this->descriptorManager, $this->meshIndex);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -74,7 +74,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     {
         unset($this->meshParser);
         unset($this->descriptorManager);
-        unset($this->index);
+        unset($this->meshIndex);
         unset($this->commandTester);
     }
 
@@ -198,7 +198,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     {
         $year = '1906';
         $this->expectExceptionMessage('Given year must be one of: 2019, 2020');
-        $this->index->shouldReceive('isEnabled');
+        $this->meshIndex->shouldReceive('isEnabled');
 
         $this->commandTester->execute(
             [
@@ -220,7 +220,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->descriptorManager->shouldReceive('findDTOsBy')->once()->andReturn([]);
         $this->descriptorManager->shouldReceive('upsertMeshUniverse')->once();
         $this->descriptorManager->shouldReceive('flagDescriptorsAsDeleted')->once();
-        $this->index->shouldReceive('isEnabled')->andReturn(true);
+        $this->meshIndex->shouldReceive('isEnabled')->andReturn(true);
 
         $descriptor = m::mock(Descriptor::class);
         $descriptorSet = m::mock(DescriptorSet::class);
@@ -228,8 +228,8 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $descriptorSet
             ->shouldReceive('getDescriptors')->once()->andReturn([$descriptor])
             ->shouldReceive('getDescriptorUis')->andReturn(['id']);
-        $this->index
-            ->shouldReceive('indexMeshDescriptors')->with([$descriptor])
+        $this->meshIndex
+            ->shouldReceive('index')->with([$descriptor])
             ->once()->andReturn(true);
 
         $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2020.xml';
@@ -255,6 +255,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->descriptorManager->shouldReceive('findDTOsBy')->once()->andReturn([]);
         $this->descriptorManager->shouldReceive('upsertMeshUniverse')->once();
         $this->descriptorManager->shouldReceive('flagDescriptorsAsDeleted')->once();
-        $this->index->shouldReceive('isEnabled')->andReturn(false);
+        $this->meshIndex->shouldReceive('isEnabled')->andReturn(false);
     }
 }
