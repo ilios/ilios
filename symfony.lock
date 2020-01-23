@@ -183,6 +183,9 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.1"
     },
+    "league/csv": {
+        "version": "9.5.0"
+    },
     "league/flysystem": {
         "version": "1.0.63"
     },

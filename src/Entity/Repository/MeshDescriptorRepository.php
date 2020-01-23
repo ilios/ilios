@@ -6,7 +6,12 @@ namespace App\Entity\Repository;
 
 use App\Entity\MeshConcept;
 use App\Entity\MeshDescriptor;
+use App\Entity\MeshPreviousIndexing;
+use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
+use App\Entity\MeshTree;
+use DateTime;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -175,21 +180,26 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
 
     /**
      * @param array $data
+     * @param string $now
+     * @throws DBALException
      */
-    public function importMeshConcept(array $data)
+    public function importMeshConcept(array $data, string $now)
     {
-        $connection = $this->_em->getConnection();
         $sql = <<<EOL
 INSERT INTO mesh_concept (
     mesh_concept_uid, name, preferred, scope_note,
     casn_1_name, registry_number, created_at, updated_at
 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 EOL;
+        $data[] = $now;
+        $data[] = $now;
+        $connection = $this->_em->getConnection();
         $connection->executeUpdate($sql, $data);
     }
 
     /**
      * @param array $data
+     * @throws DBALException
      */
     public function importMeshConceptTerm(array $data)
     {
@@ -204,20 +214,25 @@ EOL;
 
     /**
      * @param array $data
+     * @param string $now
+     * @throws DBALException
      */
-    public function importMeshDescriptor(array $data)
+    public function importMeshDescriptor(array $data, string $now)
     {
         $sql = <<<EOL
 INSERT INTO mesh_descriptor (
-    mesh_descriptor_uid, name, annotation, created_at, updated_at, deleted
+    mesh_descriptor_uid, name, annotation, deleted, created_at, updated_at
 ) VALUES (?, ?, ?, ?, ?, ?)
 EOL;
+        $data[] = $now;
+        $data[] = $now;
         $connection = $this->_em->getConnection();
         $connection->executeUpdate($sql, $data);
     }
 
     /**
      * @param array $data
+     * @throws DBALException
      */
     public function importMeshDescriptorConcept(array $data)
     {
@@ -234,6 +249,7 @@ EOL;
 
     /**
      * @param array $data
+     * @throws DBALException
      */
     public function importMeshDescriptorQualifier(array $data)
     {
@@ -248,6 +264,7 @@ EOL;
 
     /**
      * @param array $data
+     * @throws DBALException
      */
     public function importMeshPreviousIndexing(array $data)
     {
@@ -262,8 +279,10 @@ EOL;
 
     /**
      * @param array $data
+     * @param string $now
+     * @throws DBALException
      */
-    public function importMeshQualifier(array $data)
+    public function importMeshQualifier(array $data, string $now)
     {
 
         $sql = <<<EOL
@@ -271,27 +290,34 @@ INSERT INTO mesh_qualifier (
     mesh_qualifier_uid, name, created_at, updated_at
 ) VALUES (?, ?, ?, ?)
 EOL;
+        $data[] = $now;
+        $data[] = $now;
         $connection = $this->_em->getConnection();
         $connection->executeUpdate($sql, $data);
     }
 
     /**
      * @param array $data
+     * @param string $now
+     * @throws DBALException
      */
-    public function importMeshTerm(array $data)
+    public function importMeshTerm(array $data, string $now)
     {
         $sql = <<<EOL
 INSERT INTO mesh_term (
     mesh_term_uid, name, lexical_tag, concept_preferred, record_preferred, permuted,
-    created_at, updated_at, mesh_term_id
+    mesh_term_id, created_at, updated_at
 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 EOL;
+        $data[] = $now;
+        $data[] = $now;
         $connection = $this->_em->getConnection();
         $connection->executeUpdate($sql, $data);
     }
 
     /**
      * @param array $data
+     * @throws DBALException
      */
     public function importMeshTree(array $data)
     {
@@ -518,7 +544,7 @@ EOL;
      */
     public function upsertMeshUniverse(array $data)
     {
-        $now = new \DateTime();
+        $now = new DateTime();
         $conn = $this->_em->getConnection();
 
         $termMap = []; // maps term hashes to record ids.
@@ -772,5 +798,122 @@ EOL;
 
             return $descriptor;
         }, $fullDescriptors);
+    }
+
+    /**
+     * @return array
+     */
+    public function exportMeshDescriptors(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('d.id, d.name, d.annotation, d.deleted')
+            ->from(MeshDescriptor::class, 'd')
+            ->orderBy('d.id');
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function exportMeshTrees(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('t.treeNumber, d.id AS descriptor_id, t.id')
+            ->from(MeshTree::class, 't')
+            ->join('t.descriptor', 'd')
+            ->orderBy('t.id');
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function exportMeshConcepts(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('c.id, c.name, c.preferred, c.scopeNote, c.casn1Name, c.registryNumber')
+            ->from(MeshConcept::class, 'c')
+            ->orderBy('c.id');
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function exportMeshTerms(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('t.meshTermUid, t.name, t.lexicalTag, t.conceptPreferred, t.recordPreferred, t.permuted, t.id')
+            ->from(MeshTerm::class, 't')
+            ->orderBy('t.id');
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function exportMeshQualifiers(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('q.id, q.name')
+            ->from(MeshQualifier::class, 'q')
+            ->orderBy('q.id')
+            ->addOrderBy('q.name');
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function exportMeshPreviousIndexings(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('d.id AS descriptor_id, p.previousIndexing, p.id')
+            ->from(MeshPreviousIndexing::class, 'p')
+            ->join('p.descriptor', 'd')
+            ->orderBy('p.id');
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function exportMeshConceptTerms(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('c.id AS concept_id, t.id AS term_id')
+            ->from(MeshConcept::class, 'c')
+            ->join('c.terms', 't')
+            ->orderBy('t.id')
+            ->addOrderBy('c.id');
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function exportMeshDescriptorQualifiers(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('d.id AS descriptor_id, q.id AS qualifier_id')
+            ->from(MeshDescriptor::class, 'd')
+            ->join('d.qualifiers', 'q')
+            ->orderBy('d.id')
+            ->addOrderBy('q.id');
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function exportMeshDescriptorConcepts(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('c.id AS concept_id, d.id AS descriptor_id')
+            ->from(MeshDescriptor::class, 'd')
+            ->join('d.concepts', 'c')
+            ->orderBy('c.id')
+            ->addOrderBy('d.id');
+        return $qb->getQuery()->getScalarResult();
     }
 }

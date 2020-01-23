@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\DataFixtures\ORM;
 
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use App\Entity\Manager\MeshDescriptorManager;
 use App\Service\DataimportFileLocator;
 
@@ -61,7 +62,7 @@ abstract class AbstractMeshFixture extends DataFixture implements ORMFixtureInte
     public function load(ObjectManager $manager)
     {
         $path = $this->dataimportFileLocator->getDataFilePath($this->filename);
-
+        $now = (new DateTime())->format('Y-m-d H:i:s');
         $i = 0;
 
         if (($handle = fopen($path, 'r')) !== false) {
@@ -72,7 +73,7 @@ abstract class AbstractMeshFixture extends DataFixture implements ORMFixtureInte
                 if (1 === $i) {
                     continue;
                 }
-                $this->meshDescriptorManager->import($data, $this->type);
+                $this->meshDescriptorManager->import($data, $this->type, $now);
             }
 
             // clean-up

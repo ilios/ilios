@@ -8,6 +8,7 @@ use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Entity\MeshDescriptorInterface;
 use App\Entity\Repository\MeshDescriptorRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Exception;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 
@@ -59,35 +60,30 @@ class MeshDescriptorManager extends BaseManager
      *
      * @param array $data An associative array containing a MeSH record.
      * @param string $type The type of MeSH data that's being imported.
-     * @throws \Exception on unsupported type.
+     * @param string|null $now The current time and date as an ANSI SQL compatible string representation.
+     * @throws Exception on unsupported type.
      */
-    public function import(array $data, $type)
+    public function import(array $data, $type, string $now = null)
     {
-        // KLUDGE!
-        // For performance reasons, we're completely side-stepping
-        // Doctrine's entity layer.
-        // Instead, this method invokes low-level/native-SQL import-methods
-        // on this manager's repository.
-        // [ST 2015/09/08]
         /**
          * @var MeshDescriptorRepository $repository
          */
         $repository = $this->getRepository();
         switch ($type) {
             case 'MeshDescriptor':
-                $repository->importMeshDescriptor($data);
+                $repository->importMeshDescriptor($data, $now);
                 break;
             case 'MeshTree':
                 $repository->importMeshTree($data);
                 break;
             case 'MeshConcept':
-                $repository->importMeshConcept($data);
+                $repository->importMeshConcept($data, $now);
                 break;
             case 'MeshTerm':
-                $repository->importMeshTerm($data);
+                $repository->importMeshTerm($data, $now);
                 break;
             case 'MeshQualifier':
-                $repository->importMeshQualifier($data);
+                $repository->importMeshQualifier($data, $now);
                 break;
             case 'MeshPreviousIndexing':
                 $repository->importMeshPreviousIndexing($data);
@@ -102,7 +98,7 @@ class MeshDescriptorManager extends BaseManager
                 $repository->importMeshDescriptorConcept($data);
                 break;
             default:
-                throw new \Exception("Unsupported type ${type}.");
+                throw new Exception("Unsupported type ${type}.");
         }
     }
 
@@ -138,7 +134,7 @@ class MeshDescriptorManager extends BaseManager
      * Get all the IDs for every descriptor
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getIds(): array
     {
@@ -152,12 +148,93 @@ class MeshDescriptorManager extends BaseManager
      *
      * @param array $ids
      * @return Descriptor[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function getIliosMeshDescriptorsById(array $ids): array
     {
         /** @var MeshDescriptorRepository $repository */
         $repository = $this->getRepository();
         return $repository->getIliosMeshDescriptorsById($ids);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshDescriptors(): array
+    {
+        return $this->getRepository()->exportMeshDescriptors();
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshTrees(): array
+    {
+        return $this->getRepository()->exportMeshTrees();
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshConcepts(): array
+    {
+        return $this->getRepository()->exportMeshConcepts();
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshTerms(): array
+    {
+        return $this->getRepository()->exportMeshTerms();
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshQualifiers(): array
+    {
+        return $this->getRepository()->exportMeshQualifiers();
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshPreviousIndexings(): array
+    {
+        return $this->getRepository()->exportMeshPreviousIndexings();
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshConceptTerms(): array
+    {
+        return $this->getRepository()->exportMeshConceptTerms();
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshDescriptorQualifiers(): array
+    {
+        return $this->getRepository()->exportMeshDescriptorQualifiers();
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function exportMeshDescriptorConcepts(): array
+    {
+        return $this->getRepository()->exportMeshDescriptorConcepts();
     }
 }
