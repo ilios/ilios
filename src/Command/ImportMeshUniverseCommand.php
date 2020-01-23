@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\Manager\MeshDescriptorManager;
-use App\Service\Index;
+use App\Service\Index\Mesh;
 use Ilios\MeSH\Parser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -42,24 +42,24 @@ class ImportMeshUniverseCommand extends Command
     protected $parser;
 
     /**
-     * @var Index
+     * @var Mesh
      */
-    protected $index;
+    protected $meshIndex;
 
     /**
      * @param Parser $parser
      * @param MeshDescriptorManager $manager
-     * @param Index $index
+     * @param Mesh $meshIndex
      */
     public function __construct(
         Parser $parser,
         MeshDescriptorManager $manager,
-        Index $index
+        Mesh $meshIndex
     ) {
         parent::__construct();
         $this->parser = $parser;
         $this->manager = $manager;
-        $this->index = $index;
+        $this->meshIndex = $meshIndex;
     }
 
     /**
@@ -101,7 +101,7 @@ class ImportMeshUniverseCommand extends Command
             $output->writeln('The command is already running in another process.');
             return 0;
         }
-        $steps = $this->index->isEnabled() ? 5 : 4;
+        $steps = $this->meshIndex->isEnabled() ? 5 : 4;
         $startTime = time();
         $output->writeln('Started MeSH universe import, this will take a while...');
         $uri = $this->getUri($input);
@@ -119,7 +119,7 @@ class ImportMeshUniverseCommand extends Command
         $output->writeln("4/${steps}: Flagging orphaned MeSH descriptors as deleted.");
         $this->manager->flagDescriptorsAsDeleted($deletedDescriptorIds);
 
-        if ($this->index->isEnabled()) {
+        if ($this->meshIndex->isEnabled()) {
             $output->writeln("5/${steps}: Adding MeSH data to the search index.");
             $allDescriptors = $descriptorSet->getDescriptors();
             $progressBar = new ProgressBar($output, count($allDescriptors));
@@ -127,7 +127,7 @@ class ImportMeshUniverseCommand extends Command
             $progressBar->start();
             $chunks = array_chunk($allDescriptors, 500);
             foreach ($chunks as $descriptors) {
-                $this->index->indexMeshDescriptors($descriptors);
+                $this->meshIndex->index($descriptors);
                 $progressBar->advance(count($descriptors));
             }
             $progressBar->setMessage(count($allDescriptors) . " Descriptors Indexed for Search!");

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
+use App\Service\Index\Curriculum;
+
 class IndexableSession
 {
     /** @var int */
@@ -57,7 +59,7 @@ class IndexableSession
     public function createIndexObject()
     {
         return [
-            'id' => ElasticSearchBase::SESSION_ID_PREFIX . $this->sessionId,
+            'id' => Curriculum::SESSION_ID_PREFIX . $this->sessionId,
             'sessionId' => $this->sessionId,
             'sessionTitle' => $this->title,
             'sessionType' => $this->sessionType,

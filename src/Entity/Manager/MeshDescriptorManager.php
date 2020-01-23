@@ -7,7 +7,6 @@ namespace App\Entity\Manager;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Entity\MeshDescriptorInterface;
 use App\Entity\Repository\MeshDescriptorRepository;
-use App\Service\Search;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
@@ -26,7 +25,6 @@ class MeshDescriptorManager extends BaseManager
      * @param ManagerRegistry $registry
      * @param string $class
      * @param MeshDescriptorSetTransmogrifier $transmogrifier
-     * @param Search $search
      */
     public function __construct(
         ManagerRegistry $registry,

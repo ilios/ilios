@@ -4,24 +4,17 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Classes\IndexableCourse;
-use App\Classes\IndexableSession;
 use App\Entity\AuthenticationInterface;
 use App\Entity\CourseInterface;
-use App\Entity\CourseLearningMaterialInterface;
-use App\Entity\DTO\CourseDTO;
-use App\Entity\DTO\UserDTO;
 use App\Entity\LearningMaterialInterface;
-use App\Entity\MeshDescriptorInterface;
-use App\Entity\ObjectiveInterface;
 use App\Entity\SessionInterface;
-use App\Entity\SessionLearningMaterialInterface;
-use App\Entity\TermInterface;
 use App\Entity\UserInterface;
 use App\Message\CourseIndexRequest;
-use App\Message\LearningMaterialIndexRequest;
 use App\Message\UserIndexRequest;
-use App\Service\Index;
+use App\Service\Index\Curriculum;
+use App\Service\Index\LearningMaterials;
+use App\Service\Index\Mesh;
+use App\Service\Index\Users;
 use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Exception;
@@ -34,25 +27,50 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class IndexEntityChanges
 {
     /**
-     * @var Index
+     * @var Curriculum
      */
-    private $index;
+    protected $curriculumIndex;
+
+    /**
+     * @var LearningMaterials
+     */
+    protected $learningMaterialsIndex;
+
+    /**
+     * @var Mesh
+     */
+    protected $meshIndex;
+
+    /**
+     * @var Users
+     */
+    protected $usersIndex;
 
     /**
      * @var MessageBusInterface
      */
-    private $bus;
+    protected $bus;
 
     /**
-     * IndexEntityChanges constructor.
+     * @param Curriculum $curriculumIndex
+     * @param LearningMaterials $learningMaterialsIndex
+     * @param Mesh $meshIndex
+     * @param Users $usersIndex
      * ACHTUNG!!! Do NOT change the name of $dispatchBus it tells the dependency injection system what bus to inject!!!
-     * @param Index $index
      * @param MessageBusInterface $dispatchBus
      */
-    public function __construct(Index $index, MessageBusInterface $dispatchBus)
-    {
-        $this->index = $index;
+    public function __construct(
+        Curriculum $curriculumIndex,
+        LearningMaterials $learningMaterialsIndex,
+        Mesh $meshIndex,
+        Users $usersIndex,
+        MessageBusInterface $dispatchBus
+    ) {
         $this->bus = $dispatchBus;
+        $this->curriculumIndex = $curriculumIndex;
+        $this->meshIndex = $meshIndex;
+        $this->usersIndex = $usersIndex;
+        $this->learningMaterialsIndex = $learningMaterialsIndex;
     }
 
     public function postPersist(LifecycleEventArgs $args)
@@ -106,7 +124,7 @@ class IndexEntityChanges
         $entity = $args->getObject();
 
         if ($entity instanceof UserInterface) {
-            $this->index->deleteUser($entity->getId());
+            $this->usersIndex->delete($entity->getId());
         }
 
         if ($entity instanceof AuthenticationInterface) {
@@ -114,16 +132,16 @@ class IndexEntityChanges
         }
 
         if ($entity instanceof CourseInterface) {
-            $this->index->deleteCourse($entity->getId());
+            $this->curriculumIndex->deleteCourse($entity->getId());
         }
 
         if ($entity instanceof SessionInterface) {
-            $this->index->deleteSession($entity->getId());
+            $this->curriculumIndex->deleteSession($entity->getId());
             return; //don't re-index our just removed session
         }
 
         if ($entity instanceof LearningMaterialInterface) {
-            $this->index->deleteLearningMaterial($entity->getId());
+            $this->learningMaterialsIndex->delete($entity->getId());
         }
 
         if ($entity instanceof IndexableCoursesEntityInterface) {
@@ -133,7 +151,7 @@ class IndexEntityChanges
 
     protected function indexUser(UserInterface $user)
     {
-        if ($this->index->isEnabled()) {
+        if ($this->usersIndex->isEnabled()) {
             $this->bus->dispatch(new UserIndexRequest([$user->getId()]));
         }
     }
@@ -144,7 +162,7 @@ class IndexEntityChanges
      */
     protected function indexCourses(array $courses): void
     {
-        if ($this->index->isEnabled()) {
+        if ($this->curriculumIndex->isEnabled()) {
             $courseIds = array_map(function (CourseInterface $course) {
                 return $course->getId();
             }, $courses);
