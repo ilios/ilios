@@ -108,7 +108,7 @@ class ChangePasswordCommandTest extends KernelTestCase
     }
 
 
-    public function testChangePasswordWOnLegacyAccount()
+    public function testChangePasswordOnLegacyAccount()
     {
         $user = m::mock(UserInterface::class);
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
