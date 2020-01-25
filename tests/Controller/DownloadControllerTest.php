@@ -39,6 +39,7 @@ class DownloadControllerTest extends WebTestCase
      */
     public function setUp()
     {
+        parent::setUp();
         $this->fixtures = $this->loadFixtures([
             LoadAuthenticationData::class,
             LoadOfferingData::class,
@@ -54,6 +55,7 @@ class DownloadControllerTest extends WebTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->fixtures);
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Entity\User;
+use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\GetUrlTrait;
 use Firebase\JWT\JWT;
 use DateTime;
@@ -32,7 +33,7 @@ class AuthControllerTest extends WebTestCase
     {
         parent::setUp();
         $this->loadFixtures([
-            'App\Tests\Fixture\LoadAuthenticationData'
+            LoadAuthenticationData::class
         ]);
 
         $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $this->getContainer()->getParameter('kernel.secret');
@@ -325,7 +326,6 @@ class AuthControllerTest extends WebTestCase
         $response = $client->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), $response->getContent());
 
-        $client = static::createClient();
         $this->makeJsonRequest(
             $client,
             'GET',
