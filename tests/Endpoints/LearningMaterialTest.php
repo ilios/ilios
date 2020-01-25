@@ -244,8 +244,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         $fakeTestFile = new UploadedFile(
             $fakeTestFileDir . '/TESTFILE.txt',
             'TESTFILE.txt',
-            'text/plain',
-            $filesize
+            'text/plain'
         );
         $this->makeJsonRequest(
             $this->kernelBrowser,
