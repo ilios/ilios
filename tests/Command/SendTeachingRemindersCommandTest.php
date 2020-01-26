@@ -139,57 +139,69 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         /** @var UserInterface $instructor */
         foreach ($offering->getAllInstructors()->toArray() as $instructor) {
-            $this->assertContains("To: {$instructor->getEmail()}", $output);
-            $this->assertContains("Dear {$instructor->getFirstName()} {$instructor->getLastName()}", $output);
+            $this->assertStringContainsString("To: {$instructor->getEmail()}", $output);
+            $this->assertStringContainsString(
+                "Dear {$instructor->getFirstName()} {$instructor->getLastName()}",
+                $output
+            );
         }
 
         $timezone = new \DateTimeZone($this->timezone);
         $startDate = $offering->getStartDate()->setTimezone($timezone);
         $endDate = $offering->getEndDate()->setTimezone($timezone);
 
-        $this->assertContains("From: {$sender}", $output);
+        $this->assertStringContainsString("From: {$sender}", $output);
         $subject = SendTeachingRemindersCommand::DEFAULT_MESSAGE_SUBJECT;
-        $this->assertContains("Subject: {$subject}", $output);
-        $this->assertContains("upcoming {$offering->getSession()->getSessionType()->getTitle()}", $output);
-        $this->assertContains("School of {$offering->getSession()->getCourse()->getSchool()->getTitle()}'s ", $output);
+        $this->assertStringContainsString("Subject: {$subject}", $output);
+        $this->assertStringContainsString("upcoming {$offering->getSession()->getSessionType()->getTitle()}", $output);
+        $this->assertStringContainsString(
+            "School of {$offering->getSession()->getCourse()->getSchool()->getTitle()}'s ",
+            $output
+        );
         $courseTitle = trim(strip_tags($offering->getSession()->getCourse()->getTitle()));
-        $this->assertContains("Course:   {$courseTitle}", $output);
+        $this->assertStringContainsString("Course:   {$courseTitle}", $output);
         $sessionTitle = trim(strip_tags($offering->getSession()->getTitle()));
-        $this->assertContains("Session:  {$sessionTitle}", $output);
-        $this->assertContains("Date:     {$startDate->format('D M d, Y')}", $output);
-        $this->assertContains("Time:     {$startDate->format('h:i a')} - {$endDate->format('h:i a')}", $output);
-        $this->assertContains("Location: {$offering->getSite()} {$offering->getRoom()}", $output);
-        $this->assertContains(
+        $this->assertStringContainsString("Session:  {$sessionTitle}", $output);
+        $this->assertStringContainsString("Date:     {$startDate->format('D M d, Y')}", $output);
+        $this->assertStringContainsString(
+            "Time:     {$startDate->format('h:i a')} - {$endDate->format('h:i a')}",
+            $output
+        );
+        $this->assertStringContainsString("Location: {$offering->getSite()} {$offering->getRoom()}", $output);
+        $this->assertStringContainsString(
             "Coordinator at {$offering->getSession()->getCourse()->getSchool()->getIliosAdministratorEmail()}.",
             $output
         );
 
         /** @var LearnerGroupInterface $learnerGroup */
         foreach ($offering->getLearnerGroups()->toArray() as $learnerGroup) {
-            $this->assertContains("- {$learnerGroup->getTitle()}", $output);
+            $this->assertStringContainsString("- {$learnerGroup->getTitle()}", $output);
         }
 
         /** @var UserInterface $learner */
         foreach ($offering->getLearners()->toArray() as $learner) {
-            $this->assertContains("- {$learner->getFirstName()} {$learner->getLastName()}", $output);
+            $this->assertStringContainsString("- {$learner->getFirstName()} {$learner->getLastName()}", $output);
         }
 
         /** @var ObjectiveInterface $objective */
         foreach ($offering->getSession()->getObjectives() as $objective) {
             $title = trim(strip_tags($objective->getTitle()));
-            $this->assertContains("- {$title}", $output);
+            $this->assertStringContainsString("- {$title}", $output);
         }
 
         /** @var ObjectiveInterface $objective */
         foreach ($offering->getSession()->getCourse()->getObjectives() as $objective) {
             $title = trim(strip_tags($objective->getTitle()));
-            $this->assertContains("- {$title}", $output);
+            $this->assertStringContainsString("- {$title}", $output);
         }
 
-        $this->assertContains("{$baseUrl}/courses/{$offering->getSession()->getCourse()->getId()}", $output);
+        $this->assertStringContainsString(
+            "{$baseUrl}/courses/{$offering->getSession()->getCourse()->getId()}",
+            $output
+        );
 
         $totalMailsSent = count($offering->getAllInstructors()->toArray());
-        $this->assertContains("Sent {$totalMailsSent} teaching reminders.", $output);
+        $this->assertStringContainsString("Sent {$totalMailsSent} teaching reminders.", $output);
     }
 
     /**
@@ -209,7 +221,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertContains('No offerings with pending teaching reminders found.', $output);
+        $this->assertStringContainsString('No offerings with pending teaching reminders found.', $output);
     }
 
     /**
@@ -236,7 +248,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertContains("From: {$name} <{$sender}>", $output);
+        $this->assertStringContainsString("From: {$name} <{$sender}>", $output);
     }
 
     /**
@@ -271,12 +283,12 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertContains("From: {$name} <{$sender}>", $output);
+        $this->assertStringContainsString("From: {$name} <{$sender}>", $output);
 
         /** @var UserInterface $instructor */
         foreach ($offering->getAllInstructors()->toArray() as $instructor) {
-            $this->assertContains("To: {$instructor->getPreferredEmail()}", $output);
-            $this->assertNotContains("To: {$instructor->getEmail()}", $output);
+            $this->assertStringContainsString("To: {$instructor->getPreferredEmail()}", $output);
+            $this->assertStringNotContainsString("To: {$instructor->getEmail()}", $output);
         }
     }
 
@@ -302,7 +314,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertContains("Subject: {$subject}", $output);
+        $this->assertStringContainsString("Subject: {$subject}", $output);
     }
 
     /**
@@ -331,7 +343,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertContains("School of {$offering->getSession()->getCourse()->getSchool()->getTitle()}' ", $output);
+        $this->assertStringContainsString(
+            "School of {$offering->getSession()->getCourse()->getSchool()->getTitle()}' ",
+            $output
+        );
     }
 
     /**
@@ -384,11 +399,11 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid value '-1' for '--days' option. Must be greater or equal to 0.",
             $output
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid value 'not an email' for '--sender' option. Must be a valid email address.",
             $output
         );

@@ -78,8 +78,8 @@ class IndexControllerTest extends WebTestCase
         $this->kernelBrowser->request('GET', '/');
         $response = $this->kernelBrowser->getResponse();
 
-        $this->assertContains('<title>Ilios</title>', $response->getContent());
-        $this->assertContains(
+        $this->assertStringContainsString('<title>Ilios</title>', $response->getContent());
+        $this->assertStringContainsString(
             '<meta name=\'iliosconfig-error-capture-enabled\' content="false">',
             $response->getContent()
         );
@@ -166,7 +166,7 @@ class IndexControllerTest extends WebTestCase
         );
         $content = $response->getContent();
         $inflatedContent = gzdecode($content);
-        $this->assertContains('<title>Ilios</title>', $inflatedContent);
+        $this->assertStringContainsString('<title>Ilios</title>', $inflatedContent);
     }
 
     public function testGzippedBinaryFile()
@@ -353,7 +353,7 @@ class IndexControllerTest extends WebTestCase
         $this->kernelBrowser->request('GET', '/');
         $response = $this->kernelBrowser->getResponse();
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             '<meta name=\'iliosconfig-error-capture-enabled\' content="true">',
             $response->getContent()
         );

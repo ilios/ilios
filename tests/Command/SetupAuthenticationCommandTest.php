@@ -72,8 +72,8 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertContains('How will your users authentication to Ilios (defaults to form)?', $output);
-        $this->assertContains('Authentication Setup Successfully!', $output);
+        $this->assertStringContainsString('How will your users authentication to Ilios (defaults to form)?', $output);
+        $this->assertStringContainsString('Authentication Setup Successfully!', $output);
     }
 
     public function testCasAuth()
@@ -105,15 +105,15 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertContains('How will your users authentication to Ilios (defaults to form)?', $output);
-        $this->assertContains('What is the url for you CAS server?', $output);
-        $this->assertContains('What version of CAS do you want to use (defaults to 3)?', $output);
-        $this->assertContains(
+        $this->assertStringContainsString('How will your users authentication to Ilios (defaults to form)?', $output);
+        $this->assertStringContainsString('What is the url for you CAS server?', $output);
+        $this->assertStringContainsString('What version of CAS do you want to use (defaults to 3)?', $output);
+        $this->assertStringContainsString(
             "If necessary set the 'cas_authentication_verify_ssl' and " .
             "'cas_authentication_certificate_path' variables as well.",
             $output
         );
-        $this->assertContains('Authentication Setup Successfully!', $output);
+        $this->assertStringContainsString('Authentication Setup Successfully!', $output);
     }
 
     public function testLdapAuth()
@@ -145,14 +145,14 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertContains('How will your users authentication to Ilios (defaults to form)?', $output);
-        $this->assertContains('What is the url for you LDAP server?', $output);
-        $this->assertContains('What is the port for you LDAP server? (defaults to 636)', $output);
-        $this->assertContains(
+        $this->assertStringContainsString('How will your users authentication to Ilios (defaults to form)?', $output);
+        $this->assertStringContainsString('What is the url for you LDAP server?', $output);
+        $this->assertStringContainsString('What is the port for you LDAP server? (defaults to 636)', $output);
+        $this->assertStringContainsString(
             'What is the bind template for your LDAP users?  (defaults to uid=%s,cn=users,dc=domain,dc=edu)',
             $output
         );
-        $this->assertContains('Authentication Setup Successfully!', $output);
+        $this->assertStringContainsString('Authentication Setup Successfully!', $output);
     }
 
     public function testShibAuth()
@@ -184,10 +184,10 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertContains('How will your users authentication to Ilios (defaults to form)?', $output);
-        $this->assertContains('What is the login path for the service provider?', $output);
-        $this->assertContains('What is the logout path for the service provider?', $output);
-        $this->assertContains('What field contains the Ilios user id?', $output);
-        $this->assertContains('Authentication Setup Successfully!', $output);
+        $this->assertStringContainsString('How will your users authentication to Ilios (defaults to form)?', $output);
+        $this->assertStringContainsString('What is the login path for the service provider?', $output);
+        $this->assertStringContainsString('What is the logout path for the service provider?', $output);
+        $this->assertStringContainsString('What field contains the Ilios user id?', $output);
+        $this->assertStringContainsString('Authentication Setup Successfully!', $output);
     }
 }

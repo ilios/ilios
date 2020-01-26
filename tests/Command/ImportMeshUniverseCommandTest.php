@@ -93,11 +93,11 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ->andReturn(new DescriptorSet());
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
-        $this->assertContains("Started MeSH universe import, this will take a while...", $output);
-        $this->assertContains("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
-        $this->assertContains("2/4: Clearing database of existing MeSH data.", $output);
-        $this->assertContains("3/4: Importing MeSH data into database.", $output);
-        $this->assertContains("4/4: Flagging orphaned MeSH descriptors as deleted.", $output);
+        $this->assertStringContainsString("Started MeSH universe import, this will take a while...", $output);
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
+        $this->assertStringContainsString("2/4: Clearing database of existing MeSH data.", $output);
+        $this->assertStringContainsString("3/4: Importing MeSH data into database.", $output);
+        $this->assertStringContainsString("4/4: Flagging orphaned MeSH descriptors as deleted.", $output);
         $this->assertRegExp("/Finished MeSH universe import in \d+ seconds./", $output);
     }
 
@@ -120,7 +120,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ]
         );
         $output = $this->commandTester->getDisplay();
-        $this->assertContains("1/4: Parsing MeSH XML retrieved from ${path}.", $output);
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from ${path}.", $output);
     }
 
     /**
@@ -142,7 +142,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ]
         );
         $output = $this->commandTester->getDisplay();
-        $this->assertContains("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
     }
 
     /**
@@ -165,7 +165,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ]
         );
         $output = $this->commandTester->getDisplay();
-        $this->assertContains("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
     }
 
     /**
@@ -188,7 +188,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ]
         );
         $output = $this->commandTester->getDisplay();
-        $this->assertContains("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
     }
 
     /**
@@ -240,12 +240,12 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ->andReturn($descriptorSet);
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
-        $this->assertContains("Started MeSH universe import, this will take a while...", $output);
-        $this->assertContains("1/5: Parsing MeSH XML retrieved from ${url}.", $output);
-        $this->assertContains("2/5: Clearing database of existing MeSH data.", $output);
-        $this->assertContains("3/5: Importing MeSH data into database.", $output);
-        $this->assertContains("4/5: Flagging orphaned MeSH descriptors as deleted.", $output);
-        $this->assertContains("5/5: Adding MeSH data to the search index.", $output);
+        $this->assertStringContainsString("Started MeSH universe import, this will take a while...", $output);
+        $this->assertStringContainsString("1/5: Parsing MeSH XML retrieved from ${url}.", $output);
+        $this->assertStringContainsString("2/5: Clearing database of existing MeSH data.", $output);
+        $this->assertStringContainsString("3/5: Importing MeSH data into database.", $output);
+        $this->assertStringContainsString("4/5: Flagging orphaned MeSH descriptors as deleted.", $output);
+        $this->assertStringContainsString("5/5: Adding MeSH data to the search index.", $output);
         $this->assertRegExp("/Finished MeSH universe import in \d+ seconds./", $output);
     }
 

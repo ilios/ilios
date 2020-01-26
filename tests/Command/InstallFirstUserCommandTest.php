@@ -176,6 +176,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
     protected function checkOuput()
     {
         $output = $this->commandTester->getDisplay();
-        $this->assertContains('Success!', $output);
+        $this->assertStringContainsString('Success!', $output);
     }
 }

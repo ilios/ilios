@@ -212,6 +212,6 @@ class ShibbolethAuthenticationTest extends TestCase
         /** @var RedirectResponse $result */
         $result = $this->obj->createAuthenticationResponse($request);
         $this->assertInstanceOf(RedirectResponse::class, $result);
-        $this->assertContains('?target=something.html', $result->getTargetUrl());
+        $this->assertStringContainsString('?target=something.html', $result->getTargetUrl());
     }
 }
