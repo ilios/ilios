@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Tests\Fixture\LoadAuthenticationData;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +18,9 @@ class ErrorControllerTest extends WebTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->loadFixtures([
-            'App\Tests\Fixture\LoadAuthenticationData',
+            LoadAuthenticationData::class,
         ]);
     }
 

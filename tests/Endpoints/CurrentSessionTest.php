@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\Fixture\LoadUserData;
 use App\Tests\GetUrlTrait;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
@@ -35,16 +37,18 @@ class CurrentSessionTest extends WebTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->kernelBrowser = self::createClient();
         $fixtures = [
-            'App\Tests\Fixture\LoadAuthenticationData',
-            'App\Tests\Fixture\LoadUserData',
+            LoadAuthenticationData::class,
+            LoadUserData::class,
         ];
         $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
     }
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->fixtures);
     }
 

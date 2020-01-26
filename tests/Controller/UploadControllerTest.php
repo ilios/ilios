@@ -38,6 +38,7 @@ class UploadControllerTest extends WebTestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         $this->fs->remove($this->fakeTestFileDir);
         unset($this->fs);
         unset($this->fakeTestFile);
