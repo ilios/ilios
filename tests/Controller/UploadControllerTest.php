@@ -32,8 +32,7 @@ class UploadControllerTest extends WebTestCase
         $this->fakeTestFile = new UploadedFile(
             $this->fakeTestFileDir . '/TESTFILE.txt',
             'TESTFILE.txt',
-            'text/plain',
-            filesize($this->fakeTestFileDir . '/TESTFILE.txt')
+            'text/plain'
         );
     }
 
