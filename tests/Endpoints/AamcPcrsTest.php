@@ -66,6 +66,9 @@ class AamcPcrsTest extends ReadWriteEndpointTest
         $this->relatedPostDataTest($data, $postData, 'aamcPcrses', 'competencies');
     }
 
+    /**
+     * @group twice
+     */
     public function testCamelCaseInflection()
     {
         $singular = 'aamcPcrs';
