@@ -18,6 +18,22 @@ class Kernel extends BaseKernel
 
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
+    /**
+     * Hook into creation and __wakeup of the symfony kernel in order to
+     * make our own customizations.
+     *
+     * @param string $environment
+     * @param bool $debug
+     */
+    public function __construct(string $environment, bool $debug)
+    {
+        // Force a UTC timezone on everyone
+        date_default_timezone_set('UTC');
+        parent::__construct($environment, $debug);
+
+        self::loadInflectionRules();
+    }
+
     public function registerBundles(): iterable
     {
         $contents = require $this->getProjectDir() . '/config/bundles.php';
@@ -53,14 +69,6 @@ class Kernel extends BaseKernel
         $routes->import($confDir . '/{routes}/' . $this->environment . '/*' . self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
-    }
-
-    protected function build(ContainerBuilder $container)
-    {
-        // Force a UTC timezone on everyone
-        date_default_timezone_set('UTC');
-        self::loadInflectionRules();
-        parent::build($container);
     }
 
     /**
