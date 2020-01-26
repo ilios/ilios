@@ -31,7 +31,7 @@ class ShibbolethAuthenticationTest extends TestCase
     protected $obj;
     protected $sessionUserProvider;
 
-    public function setup()
+    public function setup(): void
     {
         $this->authManager = m::mock(AuthenticationManager::class);
         $this->jwtManager = m::mock(JsonWebTokenManager::class);

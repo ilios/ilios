@@ -23,7 +23,7 @@ class ProgramYearTest extends EntityBase
     /**
      * Instantiate a ProgramYear object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new ProgramYear();
     }

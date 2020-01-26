@@ -21,7 +21,7 @@ class SchoolConfigTest extends EntityBase
     /**
      * Instantiate a SchoolConfig object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new SchoolConfig();
     }

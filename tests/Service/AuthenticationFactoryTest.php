@@ -22,7 +22,7 @@ class AuthenticationFactoryTest extends TestCase
     protected $shib;
     protected $obj;
 
-    public function setup()
+    public function setup(): void
     {
         $this->config = m::mock(Config::class);
         $this->cas = m::mock(CasAuthentication::class);

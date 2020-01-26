@@ -26,7 +26,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
     protected $learningMaterialManager;
     protected $commandTester;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
         $this->learningMaterialManager = m::mock('App\Entity\Manager\LearningMaterialManager');

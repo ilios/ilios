@@ -50,7 +50,7 @@ class SessionUserTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->userId = 1;
         $this->userManager = m::mock(UserManager::class);

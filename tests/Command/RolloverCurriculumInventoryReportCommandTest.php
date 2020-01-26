@@ -41,7 +41,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
     /**
      * @inheritdoc
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = m::mock(ReportRollover::class);
         $this->reportManager = m::mock('App\Entity\Manager\CurriculumInventoryReportManager');

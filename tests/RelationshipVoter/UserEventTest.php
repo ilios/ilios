@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class UserEventTest extends AbstractBase
 {
-    public function setup()
+    public function setup(): void
     {
         /* @var PermissionChecker permissionChecker */
         $this->permissionChecker = m::mock(PermissionChecker::class);

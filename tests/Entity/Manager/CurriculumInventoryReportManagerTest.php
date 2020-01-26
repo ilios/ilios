@@ -36,7 +36,7 @@ class CurriculumInventoryReportManagerTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $class = CurriculumInventoryReport::class;

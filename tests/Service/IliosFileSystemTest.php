@@ -31,7 +31,7 @@ class IliosFileSystemTest extends TestCase
      */
     private $fakeTestFileDir;
     
-    public function setUp()
+    public function setUp(): void
     {
         $fs = new SymfonyFileSystem();
         $this->fakeTestFileDir = __DIR__ . '/FakeTestFiles';

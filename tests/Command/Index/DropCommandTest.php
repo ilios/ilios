@@ -25,7 +25,7 @@ class DropCommandTest extends KernelTestCase
     protected $indexManager;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->indexManager = m::mock(Manager::class);
 

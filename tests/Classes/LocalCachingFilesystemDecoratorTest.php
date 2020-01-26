@@ -33,7 +33,7 @@ class LocalCachingFilesystemDecoratorTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->cacheFileSystem = m::mock(FilesystemInterface::class);
         $this->remoteFileSystem = m::mock(FilesystemInterface::class);

@@ -21,7 +21,7 @@ class SessionDescriptionTest extends EntityBase
     /**
      * Instantiate a SessionDescription object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new SessionDescription();
     }

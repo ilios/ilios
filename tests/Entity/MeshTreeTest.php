@@ -21,7 +21,7 @@ class MeshTreeTest extends EntityBase
     /**
      * Instantiate a MeshTree object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new MeshTree();
     }

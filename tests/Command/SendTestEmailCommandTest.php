@@ -31,7 +31,7 @@ class SendTestEmailCommandTest extends KernelTestCase
      */
     protected $commandTester;
 
-    public function setUp()
+    public function setUp(): void
     {
         $kernel = self::bootKernel();
         $application = new Application($kernel);

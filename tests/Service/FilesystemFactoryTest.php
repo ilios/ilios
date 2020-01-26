@@ -19,7 +19,7 @@ class FilesystemFactoryTest extends TestCase
     /** @var FilesystemFactory */
     private $filesystemFactory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->config = m::mock(Config::class);
         $this->filesystemFactory = new FilesystemFactory($this->config, '/tmp');

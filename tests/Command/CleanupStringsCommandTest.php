@@ -31,7 +31,7 @@ class CleanupStringsCommandTest extends KernelTestCase
     protected $sessionDescriptionManager;
     protected $commandTester;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->purifier = m::mock('HTMLPurifier');
         $this->objectiveManager = m::mock('App\Entity\Manager\ObjectiveManager');

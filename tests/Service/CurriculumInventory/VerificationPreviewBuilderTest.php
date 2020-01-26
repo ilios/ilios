@@ -49,7 +49,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->aggregator = m::mock(Aggregator::class);
@@ -368,7 +368,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->aggregator);
         unset($this->methodManager);

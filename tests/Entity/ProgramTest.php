@@ -21,7 +21,7 @@ class ProgramTest extends EntityBase
     /**
      * Instantiate a Program object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Program();
     }

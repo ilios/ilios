@@ -28,7 +28,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
     protected $questionHelper;
     protected $directory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
         $this->authenticationManager = m::mock('App\Entity\Manager\AuthenticationManager');

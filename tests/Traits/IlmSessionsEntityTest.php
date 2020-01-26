@@ -20,7 +20,7 @@ class IlmSessionsEntityTest extends TestCase
      * @var IlmSessionsEntity
      */
     private $traitObject;
-    public function setUp()
+    public function setUp(): void
     {
         $traitName = IlmSessionsEntity::class;
         $this->traitObject = $this->getObjectForTrait($traitName);

@@ -22,7 +22,7 @@ class SchoolTest extends EntityBase
     /**
      * Instantiate a School object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new School();
     }

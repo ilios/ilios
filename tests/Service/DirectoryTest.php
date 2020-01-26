@@ -16,7 +16,7 @@ class DirectoryTest extends TestCase
     protected $config;
     protected $obj;
 
-    public function setup()
+    public function setup(): void
     {
         $this->ldapManager = m::mock(LdapManager::class);
         $this->config = m::mock(Config::class);

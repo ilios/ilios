@@ -48,7 +48,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected $faker;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();

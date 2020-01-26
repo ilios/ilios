@@ -25,7 +25,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * Instantiate a LearnerGroup object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new LearnerGroup();
     }

@@ -22,7 +22,7 @@ class IlmSessionTest extends EntityBase
     /**
      * Instantiate a IlmSession object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new IlmSession();
     }

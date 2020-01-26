@@ -21,7 +21,7 @@ class LearningMaterialStatusTest extends EntityBase
     /**
      * Instantiate a LearningMaterialStatus object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new LearningMaterialStatus();
     }

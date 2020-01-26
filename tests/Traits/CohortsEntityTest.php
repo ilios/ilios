@@ -20,7 +20,7 @@ class CohortsEntityTest extends TestCase
      * @var CohortsEntity
      */
     private $traitObject;
-    public function setUp()
+    public function setUp(): void
     {
         $traitName = CohortsEntity::class;
         $this->traitObject = $this->getObjectForTrait($traitName);

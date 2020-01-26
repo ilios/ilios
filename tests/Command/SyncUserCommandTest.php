@@ -34,7 +34,7 @@ class SyncUserCommandTest extends KernelTestCase
     protected $questionHelper;
     protected $directory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->userManager = m::mock(UserManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);

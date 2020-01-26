@@ -35,7 +35,7 @@ class CurrentSessionTest extends WebTestCase
     protected $kernelBrowser;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();

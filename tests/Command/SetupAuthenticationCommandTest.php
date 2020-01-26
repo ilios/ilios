@@ -33,7 +33,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
     /**
      * @inheritdoc
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
 

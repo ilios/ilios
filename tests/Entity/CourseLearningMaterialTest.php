@@ -21,7 +21,7 @@ class CourseLearningMaterialTest extends EntityBase
     /**
      * Instantiate a CourseLearningMaterial object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new CourseLearningMaterial();
     }

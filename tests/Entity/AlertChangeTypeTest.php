@@ -21,7 +21,7 @@ class AlertChangeTypeTest extends EntityBase
     /**
      * Instantiate a AlertChangeType object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new AlertChangeType();
     }

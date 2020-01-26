@@ -23,7 +23,7 @@ class CurriculumInventoryReportTest extends EntityBase
     /**
      * Instantiate a CurriculumInventoryReport object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new CurriculumInventoryReport();
     }

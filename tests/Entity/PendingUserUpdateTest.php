@@ -22,7 +22,7 @@ class PendingUserUpdateTest extends EntityBase
     /**
      * Instantiate a PendingUserUpdate object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new PendingUserUpdate();
     }

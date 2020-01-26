@@ -21,7 +21,7 @@ class MeshPreviousIndexingTest extends EntityBase
     /**
      * Instantiate a MeshPreviousIndexing object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new MeshPreviousIndexing();
     }

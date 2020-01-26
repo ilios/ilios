@@ -45,7 +45,7 @@ class SearchControllerTest extends TestCase
      */
     protected $mockPermissionChecker;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->mockCurriculumSearch = m::mock(Curriculum::class);

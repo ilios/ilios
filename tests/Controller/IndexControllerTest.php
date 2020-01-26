@@ -39,7 +39,7 @@ class IndexControllerTest extends WebTestCase
      */
     protected $testFiles;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->kernelBrowser = static::createClient();
         $container = $this->kernelBrowser->getContainer();

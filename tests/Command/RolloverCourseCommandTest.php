@@ -36,7 +36,7 @@ class RolloverCourseCommandTest extends KernelTestCase
     /**
      * @inheritdoc
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = m::mock(CourseRollover::class);
 

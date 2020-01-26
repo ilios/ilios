@@ -64,7 +64,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
      */
     protected $testDir;
 
-    public function setUp()
+    public function setUp(): void
     {
         $offering = $this->createOffering();
 

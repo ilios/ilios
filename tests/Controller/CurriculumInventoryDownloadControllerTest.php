@@ -22,7 +22,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     /**
      * @inheritdoc
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->loadFixtures([
             'App\Tests\Fixture\LoadCurriculumInventoryReportData',

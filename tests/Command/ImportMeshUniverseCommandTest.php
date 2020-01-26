@@ -53,7 +53,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @inheritdoc
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->meshParser = m::mock(Parser::class);
         $this->descriptorManager = m::mock(MeshDescriptorManager::class);

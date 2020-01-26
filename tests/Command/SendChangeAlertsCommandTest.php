@@ -81,7 +81,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      */
     protected $timezone;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->offeringManager = m::mock(OfferingManager::class);
         $this->alertManager = m::mock(AlertManager::class);

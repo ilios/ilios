@@ -21,7 +21,7 @@ class SessionLearningMaterialTest extends EntityBase
     /**
      * Instantiate a SessionLearningMaterial object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new SessionLearningMaterial();
     }

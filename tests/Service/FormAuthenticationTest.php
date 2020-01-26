@@ -34,7 +34,7 @@ class FormAuthenticationTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->authManager = m::mock(AuthenticationManager::class);
         $this->encoder = m::mock(UserPasswordEncoderInterface::class);

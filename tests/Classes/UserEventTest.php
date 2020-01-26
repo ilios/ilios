@@ -26,7 +26,7 @@ class UserEventTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->userEvent = new UserEvent();
     }
