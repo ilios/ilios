@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\DataFixtures\ORM;
 
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use App\Service\DataimportFileLocator;
 use App\Traits\IdentifiableEntityInterface;
 
@@ -68,9 +69,12 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
      */
     public function load(ObjectManager $manager)
     {
+        /** @var Connection $connection */
+        $connection = $manager->getConnection();
+
         // disable the SQL logger
         // @link http://stackoverflow.com/a/30924545
-        $manager->getConnection()->getConfiguration()->setSQLLogger(null);
+        $connection->getConfiguration()->setSQLLogger(null);
 
         $fileName = $this->getKey() . '.csv';
         $path = $this->dataimportFileLocator->getDataFilePath($fileName);
@@ -78,7 +82,7 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
         // honor the given entity identifiers.
         // @link http://www.ens.ro/2012/07/03/symfony2-doctrine-force-entity-id-on-persist/
         $manager
-          ->getClassMetaData(get_class($this->createEntity()))
+          ->getClassMetadata(get_class($this->createEntity()))
           ->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
         $i = 0;
