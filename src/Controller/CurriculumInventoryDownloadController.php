@@ -55,8 +55,10 @@ class CurriculumInventoryDownloadController extends AbstractController
             0,
             '/',
             null,
+            null,
             false,
-            false
+            false,
+            Cookie::SAMESITE_LAX
         );
         $response->headers->setCookie($cookie);
         return $response;
