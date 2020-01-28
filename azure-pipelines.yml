@@ -120,6 +120,26 @@ jobs:
     dependsOn:
       - PHPUnit_all_other_tests
       - test_migrations_against_mysql
+- job: PHPUnit_twice
+  dependsOn:
+    - PHPUnit_all_other_tests
+    - test_migrations_against_mysql
+  pool:
+    vmImage: $(IMAGE)
+  steps:
+    - template: .azure/install-steps-template.yaml
+    - script: bin/phpunit -c phpunit.xml.dist --log-junit build/junit-twice1.xml --group twice
+      displayName: PHPUnit Twice 1st run
+    - script: bin/phpunit -c phpunit.xml.dist --log-junit build/junit-twice2.xml --group twice
+      displayName: PHPUnit Twice 2nd run
+    - task: CopyFiles@2
+      inputs:
+        contents: build/junit-twice2.xml
+        targetFolder: $(Build.ArtifactStagingDirectory)
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: $(Build.ArtifactStagingDirectory)
+        artifactName: BuildOutput
 - job: publish_test_results
   dependsOn:
   - PHPUnit_cli
@@ -131,6 +151,7 @@ jobs:
   - PHPUnit_api_3
   - PHPUnit_api_4
   - PHPUnit_api_5
+  - PHPUnit_twice
   steps:
     - checkout: none #skip checking out the default repository resource
     - task: DownloadBuildArtifacts@0
