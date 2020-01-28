@@ -21,7 +21,7 @@ class MeshConceptTest extends EntityBase
     /**
      * Instantiate a MeshConcept object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new MeshConcept();
     }

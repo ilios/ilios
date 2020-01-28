@@ -21,7 +21,7 @@ class AuditLogTest extends EntityBase
     /**
      * Instantiate a AuditLog object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new AuditLog();
     }

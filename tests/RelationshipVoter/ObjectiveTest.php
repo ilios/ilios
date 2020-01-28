@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class ObjectiveTest extends AbstractBase
 {
-    public function setup()
+    public function setup(): void
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
         $this->voter = new Voter($this->permissionChecker);

@@ -29,7 +29,7 @@ class LdapAuthenticationTest extends TestCase
      */
     protected $obj;
 
-    public function setup()
+    public function setup(): void
     {
         $this->authManager = m::mock(AuthenticationManager::class);
         $this->jwtManager = m::mock(JsonWebTokenManager::class);

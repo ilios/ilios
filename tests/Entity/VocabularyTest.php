@@ -21,7 +21,7 @@ class VocabularyTest extends EntityBase
     /**
      * Instantiate a Vocabulary object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Vocabulary();
     }

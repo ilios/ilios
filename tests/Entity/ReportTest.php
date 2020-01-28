@@ -21,7 +21,7 @@ class ReportTest extends EntityBase
     /**
      * Instantiate a Report object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Report();
     }

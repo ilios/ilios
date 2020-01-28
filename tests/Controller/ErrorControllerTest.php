@@ -16,7 +16,7 @@ class ErrorControllerTest extends WebTestCase
     use JsonControllerTest;
     use FixturesTrait;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures([

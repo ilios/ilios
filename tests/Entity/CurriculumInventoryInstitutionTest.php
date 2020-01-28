@@ -21,7 +21,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
     /**
      * Instantiate a CurriculumInventoryInstitution object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new CurriculumInventoryInstitution();
     }

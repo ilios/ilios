@@ -23,7 +23,7 @@ class TermTest extends EntityBase
     /**
      * Instantiate a Term object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Term();
     }

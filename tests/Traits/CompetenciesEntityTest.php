@@ -20,7 +20,7 @@ class CompetenciesEntityTest extends TestCase
      * @var CompetenciesEntity
      */
     private $traitObject;
-    public function setUp()
+    public function setUp(): void
     {
         $traitName = CompetenciesEntity::class;
         $this->traitObject = $this->getObjectForTrait($traitName);

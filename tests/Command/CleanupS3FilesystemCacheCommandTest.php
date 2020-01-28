@@ -36,7 +36,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
     protected $diskSpace;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $factory = m::mock(FilesystemFactory::class);
         $this->filesystem = m::mock(FilesystemInterface::class);

@@ -24,7 +24,7 @@ class SessionTest extends EntityBase
     /**
      * Instantiate a Session object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Session();
     }

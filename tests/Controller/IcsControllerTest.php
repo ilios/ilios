@@ -28,7 +28,7 @@ class IcsControllerTest extends WebTestCase
      */
     protected $fixtures;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->fixtures = $this->loadFixtures([

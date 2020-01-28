@@ -39,7 +39,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
     protected $fakeCacheFileDir;
     protected $fakeProjectFileDir;
 
-    public function setUp()
+    public function setUp(): void
     {
         $fs = new SymfonyFileSystem();
         $testFiles = __DIR__ . '/FakeTestFiles';

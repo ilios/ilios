@@ -14,7 +14,7 @@ class ApiControllerTest extends WebTestCase
     use JsonControllerTest;
     use FixturesTrait;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->loadFixtures([
             'App\Tests\Fixture\LoadAuthenticationData'

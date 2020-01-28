@@ -21,7 +21,7 @@ class OfferingTest extends ReadWriteEndpointTest
     /**
      * Reset date skipping for each test
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->skipDates = false;

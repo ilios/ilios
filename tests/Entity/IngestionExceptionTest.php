@@ -21,7 +21,7 @@ class IngestionExceptionTest extends EntityBase
     /**
      * Instantiate a IngestionException object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new IngestionException();
     }

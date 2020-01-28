@@ -81,7 +81,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      */
     protected $timezone;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->offeringManager = m::mock(OfferingManager::class);
         $this->alertManager = m::mock(AlertManager::class);
@@ -149,7 +149,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $output = $this->commandTester->getDisplay();
 
         // check mail headers
-        $this->assertContains(
+        $this->assertStringContainsString(
             'From: ' . $offering->getSession()->getCourse()->getSchool()->getIliosAdministratorEmail(),
             $output
         );
@@ -163,41 +163,44 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         }
         $expectedSubject = 'Subject: ' . $offering->getSession()->getCourse()->getExternalId() . ' - '
             . $offering->getStartDate()->format('m/d/Y');
-        $this->assertContains($expectedSubject, $output);
+        $this->assertStringContainsString($expectedSubject, $output);
 
         // check mail body
         $timezone = new \DateTimeZone($this->timezone);
         $startDate = $offering->getStartDate()->setTimezone($timezone);
         $endDate = $offering->getEndDate()->setTimezone($timezone);
         $courseTitle = trim(strip_tags($offering->getSession()->getCourse()->getTitle()));
-        $this->assertContains("Course:   {$courseTitle}", $output);
+        $this->assertStringContainsString("Course:   {$courseTitle}", $output);
         $sessionTitle = trim(strip_tags($offering->getSession()->getTitle()));
-        $this->assertContains("Session:  {$sessionTitle}", $output);
-        $this->assertContains("Type:     {$offering->getSession()->getSessionType()->getTitle()}", $output);
-        $this->assertContains("Date:     {$startDate->format('D M d, Y')}", $output);
-        $this->assertContains("Time:     {$startDate->format('h:i a')} - {$endDate->format('h:i a')}", $output);
-        $this->assertContains("Location: {$offering->getRoom()}", $output);
+        $this->assertStringContainsString("Session:  {$sessionTitle}", $output);
+        $this->assertStringContainsString("Type:     {$offering->getSession()->getSessionType()->getTitle()}", $output);
+        $this->assertStringContainsString("Date:     {$startDate->format('D M d, Y')}", $output);
+        $this->assertStringContainsString(
+            "Time:     {$startDate->format('h:i a')} - {$endDate->format('h:i a')}",
+            $output
+        );
+        $this->assertStringContainsString("Location: {$offering->getRoom()}", $output);
         /** @var UserInterface $instructor */
         foreach ($offering->getAllInstructors()->toArray() as $instructor) {
-            $this->assertContains("- {$instructor->getFirstName()} {$instructor->getLastName()}", $output);
+            $this->assertStringContainsString("- {$instructor->getFirstName()} {$instructor->getLastName()}", $output);
         }
         /** @var LearnerGroupInterface $learnerGroup */
         foreach ($offering->getLearnerGroups()->toArray() as $learnerGroup) {
-            $this->assertContains("- {$learnerGroup->getTitle()}", $output);
+            $this->assertStringContainsString("- {$learnerGroup->getTitle()}", $output);
         }
         /** @var UserInterface $learner */
         foreach ($offering->getLearners()->toArray() as $learner) {
-            $this->assertContains("- {$learner->getFirstName()} {$learner->getLastName()}", $output);
+            $this->assertStringContainsString("- {$learner->getFirstName()} {$learner->getLastName()}", $output);
         }
         /** @var AlertChangeTypeInterface $changeType */
         foreach ($alert->getChangeTypes()->toArray() as $changeType) {
-            $this->assertContains("- {$changeType->getTitle()}", $output);
+            $this->assertStringContainsString("- {$changeType->getTitle()}", $output);
         }
         /** @var AuditLogInterface $log */
         foreach ($auditLogs as $log) {
             $user = $log->getUser();
             $createdAt = $log->getCreatedAt()->setTimezone($timezone);
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "- Updates made {$createdAt->format('m/d/Y')} at {$createdAt->format('h:i a')}"
                 . " by {$user->getFirstName()} {$user->getLastName()}",
                 $output
@@ -227,8 +230,8 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
-        $this->assertContains("Sent 1 offering change alert notifications.", $output);
-        $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
+        $this->assertStringContainsString("Sent 1 offering change alert notifications.", $output);
+        $this->assertStringContainsString("Marked 1 offering change alerts as dispatched.", $output);
     }
 
     /**
@@ -260,9 +263,9 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
 
-        $this->assertContains("No alert recipient for offering change alert {$alert->getId()}.", $output);
-        $this->assertContains("Sent 0 offering change alert notifications.", $output);
-        $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
+        $this->assertStringContainsString("No alert recipient for offering change alert {$alert->getId()}.", $output);
+        $this->assertStringContainsString("Sent 0 offering change alert notifications.", $output);
+        $this->assertStringContainsString("Marked 1 offering change alerts as dispatched.", $output);
     }
 
     /**
@@ -283,9 +286,12 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
 
-        $this->assertContains("Recipient without email for offering change alert {$alert->getId()}.", $output);
-        $this->assertContains("Sent 0 offering change alert notifications.", $output);
-        $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
+        $this->assertStringContainsString(
+            "Recipient without email for offering change alert {$alert->getId()}.",
+            $output
+        );
+        $this->assertStringContainsString("Sent 0 offering change alert notifications.", $output);
+        $this->assertStringContainsString("Marked 1 offering change alerts as dispatched.", $output);
     }
 
     /**
@@ -307,8 +313,8 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
 
-        $this->assertContains("Sent 0 offering change alert notifications.", $output);
-        $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
+        $this->assertStringContainsString("Sent 0 offering change alert notifications.", $output);
+        $this->assertStringContainsString("Marked 1 offering change alerts as dispatched.", $output);
     }
 
 

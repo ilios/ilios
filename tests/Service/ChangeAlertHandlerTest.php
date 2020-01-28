@@ -47,7 +47,7 @@ class ChangeAlertHandlerTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->mockAlertManager = m::mock(AlertManager::class);
         $this->mockAlertChangeTypeManager = m::mock(AlertChangeTypeManager::class);

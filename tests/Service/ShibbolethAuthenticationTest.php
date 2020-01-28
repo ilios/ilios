@@ -31,7 +31,7 @@ class ShibbolethAuthenticationTest extends TestCase
     protected $obj;
     protected $sessionUserProvider;
 
-    public function setup()
+    public function setup(): void
     {
         $this->authManager = m::mock(AuthenticationManager::class);
         $this->jwtManager = m::mock(JsonWebTokenManager::class);
@@ -212,6 +212,6 @@ class ShibbolethAuthenticationTest extends TestCase
         /** @var RedirectResponse $result */
         $result = $this->obj->createAuthenticationResponse($request);
         $this->assertInstanceOf(RedirectResponse::class, $result);
-        $this->assertContains('?target=something.html', $result->getTargetUrl());
+        $this->assertStringContainsString('?target=something.html', $result->getTargetUrl());
     }
 }

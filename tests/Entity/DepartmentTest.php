@@ -21,7 +21,7 @@ class DepartmentTest extends EntityBase
     /**
      * Instantiate a Department object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Department();
     }

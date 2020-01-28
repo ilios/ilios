@@ -33,7 +33,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
     /** @var m\Mock */
     protected $authenticationManager;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->userManager = m::mock(UserManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);

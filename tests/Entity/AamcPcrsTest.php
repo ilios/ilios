@@ -21,7 +21,7 @@ class AamcPcrsTest extends EntityBase
     /**
      * Instantiate a AamcPcrs object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new AamcPcrs();
     }

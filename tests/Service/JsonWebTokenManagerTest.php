@@ -20,7 +20,7 @@ class JsonWebTokenManagerTest extends TestCase
     protected $permissionChecker;
     protected $sessionUserProvider;
 
-    public function setup()
+    public function setup(): void
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);

@@ -46,7 +46,7 @@ class DirectoryControllerTest extends TestCase
      */
     protected $permissionChecker;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->tokenStorageMock = m::mock(TokenStorageInterface::class);

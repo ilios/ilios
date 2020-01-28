@@ -22,7 +22,7 @@ class UserMaterialTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->userMaterial = new UserMaterial();
         $this->userMaterial->id = 1;

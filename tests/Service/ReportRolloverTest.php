@@ -53,7 +53,7 @@ class ReportRolloverTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->reportManager = m::mock(CurriculumInventoryReportManager::class);
         $this->academicLevelManager = m::mock(CurriculumInventoryAcademicLevelManager::class);

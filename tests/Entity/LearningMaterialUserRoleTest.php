@@ -21,7 +21,7 @@ class LearningMaterialUserRoleTest extends EntityBase
     /**
      * Instantiate a LearningMaterialUserRole object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new LearningMaterialUserRole();
     }

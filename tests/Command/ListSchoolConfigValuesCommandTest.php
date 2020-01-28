@@ -28,7 +28,7 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
     protected $schoolManager;
     protected $schoolConfigManager;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->schoolManager = m::mock(SchoolManager::class);
         $this->schoolConfigManager = m::mock(SchoolConfigManager::class);

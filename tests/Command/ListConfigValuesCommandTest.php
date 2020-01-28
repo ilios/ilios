@@ -27,7 +27,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
     protected $commandTester;
     protected $applicationConfigManager;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
         $command = new ListConfigValuesCommand(

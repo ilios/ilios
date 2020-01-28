@@ -21,7 +21,7 @@ class MeshQualifierTest extends EntityBase
     /**
      * Instantiate a MeshQualifier object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new MeshQualifier();
     }

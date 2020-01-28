@@ -28,7 +28,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
     protected $iliosFileSystem;
     protected $learningMaterialManager;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->symfonyFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);

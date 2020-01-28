@@ -18,7 +18,7 @@ class ConfigControllerTest extends WebTestCase
     use JsonControllerTest;
     use FixturesTrait;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->loadFixtures([
             LoadApplicationConfigData::class,

@@ -21,7 +21,7 @@ class UploadControllerTest extends WebTestCase
     protected $fakeTestFile;
     protected $fs;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fs = new Filesystem();
         $this->fakeTestFileDir = __DIR__ . '/FakeTestFiles';

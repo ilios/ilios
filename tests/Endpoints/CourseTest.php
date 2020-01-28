@@ -392,7 +392,7 @@ class CourseTest extends ReadWriteEndpointTest
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
         $data = json_decode($response->getContent(), true);
-        $this->assertContains('Courses cannot be rolled over to a new year before', $data['detail']);
+        $this->assertStringContainsString('Courses cannot be rolled over to a new year before', $data['detail']);
     }
 
     public function testRolloverIlmSessions()

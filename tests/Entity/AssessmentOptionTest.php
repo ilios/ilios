@@ -21,7 +21,7 @@ class AssessmentOptionTest extends EntityBase
     /**
      * Instantiate a AssessmentOption object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new AssessmentOption();
     }

@@ -33,7 +33,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
     protected $questionHelper;
     protected $directory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->userManager = m::mock(UserManager::class);
         $this->userRoleManager = m::mock(UserRoleManager::class);

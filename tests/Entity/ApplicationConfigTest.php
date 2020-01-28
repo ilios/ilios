@@ -21,7 +21,7 @@ class ApplicationConfigTest extends EntityBase
     /**
      * Instantiate a ApplicationConfig object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new ApplicationConfig();
     }

@@ -21,7 +21,7 @@ class AamcResourceTypeTest extends EntityBase
     /**
      * Instantiate a AamcResourceType object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new AamcResourceType();
     }

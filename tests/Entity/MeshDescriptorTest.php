@@ -27,7 +27,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * Instantiate a MeshDescriptor object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new MeshDescriptor();
     }

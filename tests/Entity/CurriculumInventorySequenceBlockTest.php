@@ -23,7 +23,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * Instantiate a CurriculumInventorySequenceBlock object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new CurriculumInventorySequenceBlock();
     }

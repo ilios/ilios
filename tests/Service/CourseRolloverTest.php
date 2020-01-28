@@ -112,7 +112,7 @@ class CourseRolloverTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->courseManager = m::mock(CourseManager::class);
         $this->learningMaterialManager = m::mock(LearningMaterialManager::class);

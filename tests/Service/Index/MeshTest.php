@@ -23,7 +23,7 @@ class MeshTest extends TestCase
      */
     private $config;
 
-    public function setup()
+    public function setup(): void
     {
         $this->client = m::mock(Client::class);
         $this->config = m::mock(Config::class);
@@ -31,7 +31,7 @@ class MeshTest extends TestCase
             ->with('elasticsearch_upload_limit')
             ->andReturn(8000000);
     }
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->client);
         unset($this->config);

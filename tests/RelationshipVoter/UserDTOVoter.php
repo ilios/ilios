@@ -23,7 +23,7 @@ class UserDTOVoterTest extends AbstractBase
     /**
      * @inheritdoc
      */
-    public function setup()
+    public function setup(): void
     {
         $this->permissionChecker = m::mock(PermissionChecker::class);
         $this->voter = new UserDTOVoter($this->permissionChecker);

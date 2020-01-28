@@ -20,7 +20,7 @@ class UsersEntityTest extends TestCase
      * @var UsersEntity
      */
     private $traitObject;
-    public function setUp()
+    public function setUp(): void
     {
         $traitName = UsersEntity::class;
         $this->traitObject = $this->getObjectForTrait($traitName);

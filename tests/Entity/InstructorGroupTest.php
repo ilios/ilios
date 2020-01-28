@@ -21,7 +21,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * Instantiate a InstructorGroup object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new InstructorGroup();
     }

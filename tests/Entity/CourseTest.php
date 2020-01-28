@@ -22,7 +22,7 @@ class CourseTest extends EntityBase
     /**
      * Instantiate a Course object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Course();
     }

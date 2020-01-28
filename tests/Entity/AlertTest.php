@@ -21,7 +21,7 @@ class AlertTest extends EntityBase
     /**
      * Instantiate a Alert object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Alert();
     }

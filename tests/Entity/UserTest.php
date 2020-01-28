@@ -22,7 +22,7 @@ class UserTest extends EntityBase
     /**
      * Instantiate a Objective object
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new User();
     }
