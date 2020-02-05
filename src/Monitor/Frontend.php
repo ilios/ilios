@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Monitor;
 
 use App\Command\UpdateFrontendCommand;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Success;
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\Success;
 
 class Frontend implements CheckInterface
 {

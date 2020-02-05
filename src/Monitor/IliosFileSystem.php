@@ -7,10 +7,10 @@ namespace App\Monitor;
 use App\Exception\IliosFilesystemException;
 use App\Service\Config;
 use App\Service\IliosFileSystem as Filesystem;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Warning;
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Warning;
 
 class IliosFileSystem implements CheckInterface
 {
