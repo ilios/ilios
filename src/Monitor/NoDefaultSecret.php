@@ -12,14 +12,20 @@ use Laminas\Diagnostics\Result\Warning;
 
 class NoDefaultSecret implements CheckInterface
 {
+    private const NAME = 'ILIOS_SECRET';
+
     /**
-     * Perform the actual check and return a ResultInterface
+     * Ensure ILIOS_SECRET isn't set to a default value
      *
      * @return ResultInterface
      */
     public function check()
     {
-        $secret = getenv('ILIOS_SECRET', true);
+        $secret = getenv(self::NAME);
+        if (!$secret && isset($_ENV[self::NAME])) {
+            $secret = $_ENV[self::NAME];
+        }
+
         if (!$secret) {
             return new Warning("'ILIOS_SECRET' is not set");
         }
@@ -41,7 +47,7 @@ class NoDefaultSecret implements CheckInterface
     }
 
     /**
-     * Return a label describing this test instance.
+     * Describe this test
      *
      * @return string
      */
