@@ -1,0 +1,33 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: '33 2 * * 1' # weekly, on Monday morning
+
+jobs:
+  code_style_security:
+    name: Code Style and Security
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [7.3]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: ${{ matrix.php-version }}
+    - name: install dependencies
+      run: composer install --no-interaction --prefer-dist
+    - name: lint PHP
+      run: vendor/bin/phpcs
+    - name: lint twig
+      run: bin/console lint:twig templates custom
+    - name: security check
+      run: bin/console security:check

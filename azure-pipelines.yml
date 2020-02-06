@@ -27,14 +27,6 @@ variables:
   IMAGE: 'Ubuntu-16.04'
 
 jobs:
-- job: code_style_and_security
-  pool:
-    vmImage: $(IMAGE)
-  steps:
-    - template: .azure/install-steps-template.yaml
-    - script: vendor/bin/phpcs
-    - script: bin/console lint:twig templates custom
-    - script: bin/console security:check
 - template: .azure/phpunit-job-template.yaml
   parameters:
     name: all_other_tests
