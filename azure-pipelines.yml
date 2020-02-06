@@ -27,30 +27,6 @@ variables:
   IMAGE: 'Ubuntu-16.04'
 
 jobs:
-- template: .azure/phpunit-job-template.yaml
-  parameters:
-    name: cli
-    testCommand: "--group cli"
-    image: $(IMAGE)
-    dependsOn:
-      - PHPUnit_all_other_tests
-      - test_migrations_against_mysql
-- template: .azure/phpunit-job-template.yaml
-  parameters:
-    name: mesh_data_import
-    testCommand: "--group mesh_data_import"
-    image: $(IMAGE)
-    dependsOn:
-      - PHPUnit_all_other_tests
-      - test_migrations_against_mysql
-- template: .azure/phpunit-job-template.yaml
-  parameters:
-    name: model
-    testCommand: "--group model"
-    image: $(IMAGE)
-    dependsOn:
-      - PHPUnit_all_other_tests
-      - test_migrations_against_mysql
 - job: PHPUnit_twice
   dependsOn:
     - PHPUnit_all_other_tests
