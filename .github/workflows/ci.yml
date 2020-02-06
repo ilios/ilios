@@ -19,17 +19,12 @@ jobs:
   code_style_security:
     name: Code Style and Security
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        php-version: [7.3]
-
     steps:
     - uses: actions/checkout@v1
-    - name: Use PHP ${{ matrix.php-version }}
+    - name: Use PHP 7.3
       uses: shivammathur/setup-php@v1
       with:
-        php-version: ${{ matrix.php-version }}
+        php-version: 7.3
     - name: Get Composer Cache Directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
