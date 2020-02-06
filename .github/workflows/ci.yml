@@ -8,6 +8,13 @@ on:
   schedule:
     - cron: '33 2 * * 1' # weekly, on Monday morning
 
+env:
+  ILIOS_MAILER_URL: null://localhost
+  ILIOS_LOCALE: en
+  ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
+  ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
+  SYMFONY_DEPRECATIONS_HELPER: disabled=1
+
 jobs:
   code_style_security:
     name: Code Style and Security
