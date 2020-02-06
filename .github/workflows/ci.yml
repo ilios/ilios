@@ -25,6 +25,7 @@ jobs:
     - name: Use PHP ${{ env.latest_php }}
       uses: shivammathur/setup-php@v1
       with:
+        coverage: none
         php-version: ${{ env.latest_php }}
     - name: Get Composer Cache Directory
       id: composer-cache
@@ -57,6 +58,7 @@ jobs:
     - name: Use PHP ${{ matrix.php-version }}
       uses: shivammathur/setup-php@v1
       with:
+        coverage: none
         php-version: ${{ matrix.php-version }}
     - name: Get Composer Cache Directory
       id: composer-cache
@@ -80,6 +82,7 @@ jobs:
     - name: Use PHP ${{ env.latest_php }}
       uses: shivammathur/setup-php@v1
       with:
+        coverage: none
         php-version: ${{ env.latest_php }}
     - name: Get Composer Cache Directory
       id: composer-cache
@@ -115,6 +118,7 @@ jobs:
     - name: Use PHP ${{ matrix.php-version }}
       uses: shivammathur/setup-php@v1
       with:
+        coverage: none
         php-version: ${{ matrix.php-version }}
     - name: Get Composer Cache Directory
       id: composer-cache
@@ -143,6 +147,7 @@ jobs:
     - name: Use PHP ${{ matrix.php-version }}
       uses: shivammathur/setup-php@v1
       with:
+        coverage: none
         php-version: ${{ matrix.php-version }}
     - name: Get Composer Cache Directory
       id: composer-cache
