@@ -132,3 +132,33 @@ jobs:
       run: composer install --no-interaction --prefer-dist
     - name: Test ${{ matrix.group }}
       run: bin/phpunit --group ${{ matrix.group }}
+
+  run_twice:
+    name: PHPUnit Run Twice
+    needs: code_style_security
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [7.3]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: ${{ matrix.php-version }}
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: install dependencies
+      run: composer install --no-interaction --prefer-dist
+    - name: First Run
+      run: bin/phpunit --group twice
+    - name: Second Run
+      run: bin/phpunit --group twice
