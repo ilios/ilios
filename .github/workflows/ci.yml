@@ -39,3 +39,31 @@ jobs:
       run: bin/console lint:twig templates custom
     - name: security check
       run: bin/console security:check
+
+  fast_tests:
+    name: Fast Tests
+    needs: code_style_security
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [7.3]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: ${{ matrix.php-version }}
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: install dependencies
+      run: composer install --no-interaction --prefer-dist
+    - name: Run Tests
+      run: bin/phpunit --exclude-group api_1,api_2,api_3,api_4,api_5,mesh_data_import,cli,model

@@ -27,12 +27,6 @@ variables:
   IMAGE: 'Ubuntu-16.04'
 
 jobs:
-- template: .azure/phpunit-job-template.yaml
-  parameters:
-    name: all_other_tests
-    testCommand: " --exclude-group api_1,api_2,api_3,api_4,api_5,mesh_data_import,cli,model"
-    image: $(IMAGE)
-    dependsOn: code_style_and_security
 - job: test_migrations_against_mysql
   dependsOn: code_style_and_security
   services:
