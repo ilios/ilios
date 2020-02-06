@@ -29,14 +29,6 @@ variables:
 jobs:
 - template: .azure/phpunit-job-template.yaml
   parameters:
-    name: api_1
-    testCommand: "--group api_1"
-    image: $(IMAGE)
-    dependsOn:
-    - PHPUnit_all_other_tests
-    - test_migrations_against_mysql
-- template: .azure/phpunit-job-template.yaml
-  parameters:
     name: api_2
     testCommand: "--group api_2"
     image: $(IMAGE)
