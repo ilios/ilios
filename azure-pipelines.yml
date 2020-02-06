@@ -27,21 +27,6 @@ variables:
   IMAGE: 'Ubuntu-16.04'
 
 jobs:
-- job: test_migrations_against_mysql
-  dependsOn: code_style_and_security
-  services:
-    mysql: mysql
-  pool:
-    vmImage: $(IMAGE)
-  variables:
-    ILIOS_DATABASE_URL: mysql://ilios_user:ilios_password@127.0.0.1:33060/ilios?serverVersion=5.7
-  steps:
-  - template: .azure/install-steps-template.yaml
-  - script: bin/console doctrine:database:drop --force
-  - script: bin/console doctrine:database:create
-  - script: bin/console doctrine:migrations:migrate  --no-interaction
-  - script: bin/console doctrine:schema:validate
-
 - template: .azure/phpunit-job-template.yaml
   parameters:
     name: api_1

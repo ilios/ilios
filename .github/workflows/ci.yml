@@ -74,3 +74,32 @@ jobs:
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
       run: bin/phpunit --exclude-group api_1,api_2,api_3,api_4,api_5,mesh_data_import,cli,model
+
+  test_migrations_against_mysql:
+    name: Test Migrations Against MySQL
+    needs: code_style_security
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use PHP 7.3
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: 7.3
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: install dependencies
+      run: composer install --no-interaction --prefer-dist
+    - name: Drop, Create, Migrate, and Validate DB
+      env:
+        ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=5.7
+      run: |
+        bin/console doctrine:database:drop --if-exists --force
+        bin/console doctrine:database:create
+        bin/console doctrine:migrations:migrate  --no-interaction
+        bin/console doctrine:schema:validate
