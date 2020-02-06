@@ -1,0 +1,178 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: '33 2 * * 1' # weekly, on Monday morning
+
+env:
+  ILIOS_MAILER_URL: null://localhost
+  ILIOS_LOCALE: en
+  ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
+  ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
+  SYMFONY_DEPRECATIONS_HELPER: disabled=1
+  latest_php: 7.3
+
+jobs:
+  code_style_security:
+    name: Code Style and Security
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use PHP ${{ env.latest_php }}
+      uses: shivammathur/setup-php@v1
+      with:
+        coverage: none
+        php-version: ${{ env.latest_php }}
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: install dependencies
+      run: composer install --no-interaction --prefer-dist
+    - name: lint PHP
+      run: vendor/bin/phpcs
+    - name: lint twig
+      run: bin/console lint:twig templates custom
+    - name: security check
+      run: bin/console security:check
+
+  fast_tests:
+    name: Fast Tests
+    needs: code_style_security
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [7.3]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@v1
+      with:
+        coverage: none
+        php-version: ${{ matrix.php-version }}
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: install dependencies
+      run: composer install --no-interaction --prefer-dist
+    - name: Run Tests
+      run: bin/phpunit --exclude-group api_1,api_2,api_3,api_4,api_5,mesh_data_import,cli,model
+
+  test_migrations_against_mysql:
+    name: Test Migrations Against MySQL
+    needs: code_style_security
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use PHP ${{ env.latest_php }}
+      uses: shivammathur/setup-php@v1
+      with:
+        coverage: none
+        php-version: ${{ env.latest_php }}
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: install dependencies
+      run: composer install --no-interaction --prefer-dist
+    - name: Drop, Create, Migrate, and Validate DB
+      env:
+        ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=5.7
+      run: |
+        bin/console doctrine:database:drop --if-exists --force
+        bin/console doctrine:database:create
+        bin/console doctrine:migrations:migrate  --no-interaction
+        bin/console doctrine:schema:validate
+
+  api_tests:
+    name: PHPUnit Test Group
+    needs: code_style_security
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [7.3]
+        group: [api_1, api_2, api_3, api_4, api_5, cli, mesh_data_import, model]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@v1
+      with:
+        coverage: none
+        php-version: ${{ matrix.php-version }}
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: install dependencies
+      run: composer install --no-interaction --prefer-dist
+    - name: Test ${{ matrix.group }}
+      run: bin/phpunit --group ${{ matrix.group }}
+
+  run_twice:
+    name: PHPUnit Run Twice
+    needs: code_style_security
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [7.3]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@v1
+      with:
+        coverage: none
+        php-version: ${{ matrix.php-version }}
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: install dependencies
+      run: composer install --no-interaction --prefer-dist
+    - name: First Run
+      run: bin/phpunit --group twice
+    - name: Second Run
+      run: bin/phpunit --group twice
+
+  build_and_run_container:
+    name: Build and Run Container
+    needs: code_style_security
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build, Run, Test Container
+      run: |
+        docker build -t ilios-php-apache-test .
+        docker run -d --name ilios-php-apache-test -e "ILIOS_SECRET=DifferentSecret" ilios-php-apache-test
+        docker ps | grep -q ilios-php-apache-test
+        docker exec ilios-php-apache-test php /var/www/ilios/bin/console monitor:health
