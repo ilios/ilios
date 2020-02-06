@@ -104,14 +104,15 @@ jobs:
         bin/console doctrine:migrations:migrate  --no-interaction
         bin/console doctrine:schema:validate
 
-  api_1:
-    name: API Group 1
-    needs: fast_tests
+  api_tests:
+    name: API Tests
+    needs: code_style_security
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         php-version: [7.3]
+        group: [api_1, api_2, api_3, api_4, api_5]
 
     steps:
     - uses: actions/checkout@v1
@@ -129,5 +130,5 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
-    - name: Run Tests
-      run: bin/phpunit --group api_1
+    - name: Test ${{ matrix.group }}
+      run: bin/phpunit --group ${{ matrix.group }}

@@ -29,38 +29,6 @@ variables:
 jobs:
 - template: .azure/phpunit-job-template.yaml
   parameters:
-    name: api_2
-    testCommand: "--group api_2"
-    image: $(IMAGE)
-    dependsOn:
-    - PHPUnit_all_other_tests
-    - test_migrations_against_mysql
-- template: .azure/phpunit-job-template.yaml
-  parameters:
-    name: api_3
-    testCommand: "--group api_3"
-    image: $(IMAGE)
-    dependsOn:
-    - PHPUnit_all_other_tests
-    - test_migrations_against_mysql
-- template: .azure/phpunit-job-template.yaml
-  parameters:
-    name: api_4
-    testCommand: "--group api_4"
-    image: $(IMAGE)
-    dependsOn:
-    - PHPUnit_all_other_tests
-    - test_migrations_against_mysql
-- template: .azure/phpunit-job-template.yaml
-  parameters:
-    name: api_5
-    testCommand: "--group api_5"
-    image: $(IMAGE)
-    dependsOn:
-    - PHPUnit_all_other_tests
-    - test_migrations_against_mysql
-- template: .azure/phpunit-job-template.yaml
-  parameters:
     name: cli
     testCommand: "--group cli"
     image: $(IMAGE)
