@@ -26,7 +26,6 @@ class PhpConfiguration implements CheckInterface
             'opcache.memory_consumption' => 256,
             'opcache.max_accelerated_files' => 20000,
             'realpath_cache_ttl' => 600,
-            'max_execution_time' => 300,
         ];
 
         foreach ($gtOptions as $option => $required) {
@@ -36,6 +35,13 @@ class PhpConfiguration implements CheckInterface
                     "`${option}` set to `${value}`. That is too low, should be at least `${required}`"
                 );
             }
+        }
+        $maxExecutionTimeConfig = (int) ini_get('max_execution_time');
+        if ($maxExecutionTimeConfig !== 0 && $maxExecutionTimeConfig < 300) {
+            return new Warning(
+                "`max_execution_time` set to `${maxExecutionTimeConfig}`. " .
+                "That is too low, should be at least `300`"
+            );
         }
         $realPathCacheSizeConfig = ini_get('realpath_cache_size');
         $value = $this->valueToBytes($realPathCacheSizeConfig);
