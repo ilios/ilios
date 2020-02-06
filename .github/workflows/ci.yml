@@ -162,3 +162,16 @@ jobs:
       run: bin/phpunit --group twice
     - name: Second Run
       run: bin/phpunit --group twice
+
+  build_and_run_container:
+    name: Build and Run Container
+    needs: code_style_security
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build, Run, Test Container
+      run: |
+        docker build -t ilios-php-apache-test .
+        docker run -d --name ilios-php-apache-test -e "ILIOS_SECRET=DifferentSecret" ilios-php-apache-test
+        docker ps | grep -q ilios-php-apache-test
+        docker exec ilios-php-apache-test php /var/www/ilios/bin/console monitor:health
