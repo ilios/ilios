@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Service\Config;
+use Exception;
+use DOMElement;
 
 /**
  * Class CasManager
@@ -32,41 +33,35 @@ class CasManager
     protected $casCertificatePath;
 
     /**
-     * Constructor
-     * @param Config $config
+     * @var Fetch
      */
-    public function __construct(Config $config)
+    protected $fetch;
+
+    public function __construct(Config $config, Fetch $fetch)
     {
         $this->casServer = $config->get('cas_authentication_server');
         $this->casVersion = $config->get('cas_authentication_version');
         $this->casVerifySSL = $config->get('cas_authentication_verify_ssl');
         $this->casCertificatePath = $config->get('cas_authentication_certificate_path');
+        $this->fetch = $fetch;
     }
 
-    public function getLoginUrl()
+    public function getLoginUrl(): string
     {
-        $logoutUrl = $this->casServer . '/login';
-        return $logoutUrl;
+        return $this->casServer . '/login';
     }
 
-    public function getLogoutUrl()
+    public function getLogoutUrl(): string
     {
-        $logoutUrl = $this->casServer . '/logout';
-        return $logoutUrl;
+        return $this->casServer . '/logout';
     }
 
     /**
-     * Use a ticket to authenticate a user and get a userId
-     *
-     * @param string $service
-     * @param string $ticket
-     *
-     * @return string $userId
-     * @throws \Exception
+     * Use a ticket to authenticate a user and get a username
      */
-    public function getUserId($service, $ticket)
+    public function getUsername(string $service, string $ticket): string
     {
-        $url = $this->getUrl($service, $ticket);
+        $url = $this->getValidationUrl($service, $ticket);
         $root = $this->connect($url);
 
         if ($root->getElementsByTagName("authenticationSuccess")->length != 0) {
@@ -78,21 +73,17 @@ class CasManager
         } elseif ($root->getElementsByTagName("authenticationFailure")->length != 0) {
             $elements = $root->getElementsByTagName("authenticationFailure");
             $reason = $elements->item(0)->getAttribute('code');
-            throw new \Exception("CAS Authentication Failed: {$reason}");
+
+            throw new Exception("CAS Authentication Failed: {$reason}");
         }
 
-        return false;
+        throw new Exception("CAS Authentication Failed for an unknown reason.");
     }
 
     /**
-     * Use a ticket to authenticate a user and get a userId
-     *
-     * @param string $service
-     * @param string $ticket
-     *
-     * @return string $userId
+     * Construct the validation URL for this version of CAS
      */
-    protected function getUrl($service, $ticket)
+    protected function getValidationUrl(string $service, string $ticket): string
     {
         $validate = '';
         switch ($this->casVersion) {
@@ -106,66 +97,36 @@ class CasManager
                 $validate = 'p3/serviceValidate';
                 break;
         }
-        $url = $this->casServer . '/' .
+
+        return $this->casServer . '/' .
             $validate .
             '?service=' . $service .
             '&ticket=' . $ticket;
-
-        return $url;
     }
 
     /**
      * Get the XML response from the CAS server
-     *
-     * @param string $url
-     *
-     * @return \DOMElement
-     *
-     * @throws \Exception
      */
-    protected function connect($url)
+    protected function connect(string $url): DOMElement
     {
-        $ch = curl_init($url);
-
-        if ($this->casVerifySSL) {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-
-            if ($this->casCertificatePath) {
-                curl_setopt($ch, CURLOPT_CAINFO, $this->casCertificatePath);
-            }
-        } else {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        }
-
-        // return the CURL output into a variable
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        $response = curl_exec($ch);
-        if ($response === false) {
-            throw new \Exception(
-                'CURL error #' . curl_errno($ch) . ': ' . curl_error($ch)
-            );
-        }
-        curl_close($ch);
-
+        $response = $this->fetch->get($url);
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = false;
         $dom->encoding = "utf-8";
 
         if (!($dom->loadXML($response))) {
-            throw new \Exception(
+            throw new Exception(
                 'Ticket not validated - bad response from server: ' . var_export($response, true)
             );
         }
 
         if (!($root = $dom->documentElement)) {
-            throw new \Exception(
+            throw new Exception(
                 'Ticket not validated - bad XML: ' . var_export($response, true)
             );
         }
         if ($root->localName != 'serviceResponse') {
-            throw new \Exception(
+            throw new Exception(
                 'Ticket not validated - bad xml:' . var_export($response, true)
             );
         }

@@ -11,6 +11,7 @@ use App\Entity\Manager\AuthenticationManager;
 use App\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
+use Exception;
 
 /**
  * Class CasAuthentication
@@ -75,15 +76,11 @@ class CasAuthentication implements AuthenticationInterface
     }
 
     /**
-     * Authenticate a user from shibboleth
+     * Authenticate a user from CAS
      *
      * If the user is not yet logged in send a redirect Request
      * If the user is logged in, but no account exists send an error
      * If the user is authenticated send a JWT
-     * @param Request $request
-     *
-     * @throws \Exception when the shibboleth attributes do not contain a value for the configured user id attribute
-     * @return JsonResponse
      */
     public function login(Request $request)
     {
@@ -98,14 +95,14 @@ class CasAuthentication implements AuthenticationInterface
             ], JsonResponse::HTTP_OK);
         }
 
-        $userId = $this->casManager->getUserId($service, $ticket);
-        if (!$userId) {
+        $username = $this->casManager->getUsername($service, $ticket);
+        if (!$username) {
             $msg =  "No user found for authenticated user.";
             $this->logger->error($msg, ['server vars' => var_export($_SERVER, true)]);
-            throw new \Exception($msg);
+            throw new Exception($msg);
         }
         /* @var \App\Entity\AuthenticationInterface $authEntity */
-        $authEntity = $this->authManager->findOneBy(['username' => $userId]);
+        $authEntity = $this->authManager->findOneBy(['username' => $username]);
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             if ($sessionUser->isEnabled()) {
@@ -117,17 +114,14 @@ class CasAuthentication implements AuthenticationInterface
 
         return new JsonResponse([
             'status' => 'noAccountExists',
-            'userId' => $userId,
+            'userId' => $username,
             'errors' => [],
             'jwt' => null,
         ], JsonResponse::HTTP_OK);
     }
 
     /**
-     * Logout a user
-     * @param Request $request
-     *
-     * @return JsonResponse
+     * @inheritDoc
      */
     public function logout(Request $request)
     {
