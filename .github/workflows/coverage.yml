@@ -28,6 +28,6 @@ jobs:
     - name: calculate
       uses: paambaati/codeclimate-action@v2.4.0
       with:
-        coverageCommand: bin/phpunit --group=model --coverage-clover build/coverage.xml
+        coverageCommand: bin/phpunit --coverage-clover build/coverage.xml
         coverageLocations:
           build/coverage.xml:clover
