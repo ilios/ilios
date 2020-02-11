@@ -56,25 +56,14 @@ class ApplicationConfigRepository extends EntityRepository implements DTOReposit
     }
 
     /**
-     * Get a value from the application_config table by name
-     *
-     * @param $name
-     * @return mixed|null
+     * Get every configuration value
      */
-    public function getValue($name)
+    public function getAllValues(): array
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('x.value')->from('App\Entity\ApplicationConfig', 'x')
-            ->where($qb->expr()->eq('x.name', ':name'))
-            ->setParameter('name', $name);
+        $qb->select('x.value, x.name')->from(ApplicationConfig::class, 'x');
 
-        try {
-            $result = $qb->getQuery()->getSingleScalarResult();
-        } catch (NoResultException $e) {
-            $result = null;
-        }
-
-        return $result;
+        return $qb->getQuery()->getArrayResult();
     }
 
     /**
