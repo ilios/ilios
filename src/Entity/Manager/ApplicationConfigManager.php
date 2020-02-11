@@ -17,7 +17,7 @@ class ApplicationConfigManager extends BaseManager
      * @return array
      * @throws Exception
      */
-    protected function getCache(): array
+    protected function getValues(): array
     {
         static $cache;
         if (! isset($cache)) {
@@ -41,9 +41,9 @@ class ApplicationConfigManager extends BaseManager
      */
     public function getValue($name)
     {
-        $cache = $this->getCache();
-        if (array_key_exists($name, $cache)) {
-            return $cache[$name];
+        $values = $this->getValues();
+        if (array_key_exists($name, $values)) {
+            return $values[$name];
         }
 
         return null;
