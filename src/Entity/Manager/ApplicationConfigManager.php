@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity\Manager;
 
 use App\Entity\Repository\ApplicationConfigRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * Class ApplicationConfigManager
@@ -12,28 +14,45 @@ use App\Entity\Repository\ApplicationConfigRepository;
  */
 class ApplicationConfigManager extends BaseManager
 {
-    protected $cache;
+    protected $cacheEnabled = true;
 
-    protected function buildCache()
+    public function __construct(ManagerRegistry $registry, $class, $cacheEnabled = true)
     {
-        if (!$this->cache) {
-            $this->cache = [];
+        parent::__construct($registry, $class);
+        $this->cacheEnabled = $cacheEnabled;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    protected function getValues(): array
+    {
+        static $cache;
+        if (! $this->cacheEnabled || ! isset($cache)) {
+            $cache = [];
 
             /** @var ApplicationConfigRepository $repository */
             $repository = $this->getRepository();
             $configs = $repository->getAllValues();
 
             foreach ($configs as ['name' => $name, 'value' => $value]) {
-                $this->cache[$name] = $value;
+                $cache[$name] = $value;
             }
         }
+        return $cache;
     }
 
+    /**
+     * @param $name
+     * @return mixed|null
+     * @throws Exception
+     */
     public function getValue($name)
     {
-        $this->buildCache();
-        if (array_key_exists($name, $this->cache)) {
-            return $this->cache[$name];
+        $values = $this->getValues();
+        if (array_key_exists($name, $values)) {
+            return $values[$name];
         }
 
         return null;

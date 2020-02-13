@@ -82,6 +82,7 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\ApplicationConfig'
+        $cacheEnabled: true
     App\Entity\Manager\AuditLogManager:
       public: true
       arguments:
