@@ -82,6 +82,7 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\ApplicationConfig'
+        $cacheEnabled: '%env(bool:ILIOS_ENABLE_APPLICATION_CONFIG_CACHE)%'
     App\Entity\Manager\AuditLogManager:
       public: true
       arguments:

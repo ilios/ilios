@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Manager;
 
 use App\Entity\Repository\ApplicationConfigRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
 
 /**
@@ -13,6 +14,14 @@ use Exception;
  */
 class ApplicationConfigManager extends BaseManager
 {
+    protected $cacheEnabled = true;
+
+    public function __construct(ManagerRegistry $registry, $class, $cacheEnabled = true)
+    {
+        parent::__construct($registry, $class);
+        $this->cacheEnabled = $cacheEnabled;
+    }
+
     /**
      * @return array
      * @throws Exception
@@ -20,7 +29,7 @@ class ApplicationConfigManager extends BaseManager
     protected function getValues(): array
     {
         static $cache;
-        if (! isset($cache)) {
+        if (! $this->cacheEnabled || ! isset($cache)) {
             $cache = [];
 
             /** @var ApplicationConfigRepository $repository */
