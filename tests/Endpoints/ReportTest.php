@@ -9,6 +9,7 @@ use App\Tests\ReadWriteEndpointTest;
 /**
  * Report API endpoint Test.
  * @group api_4
+ * @group time-sensitive
  */
 class ReportTest extends ReadWriteEndpointTest
 {

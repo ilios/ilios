@@ -14,6 +14,7 @@ use App\Tests\ReadWriteEndpointTest;
 /**
  * LearningMaterial API endpoint Test.
  * @group api_4
+ * @group time-sensitive
  */
 class LearningMaterialTest extends ReadWriteEndpointTest
 {

@@ -7,6 +7,7 @@ namespace App\Tests\Endpoints;
 /**
  * MeshDescriptor API endpoint Test.
  * @group api_3
+ * @group time-sensitive
  */
 class MeshDescriptorTest extends AbstractMeshTest
 {

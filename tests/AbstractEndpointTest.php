@@ -60,7 +60,6 @@ abstract class AbstractEndpointTest extends WebTestCase
         $testFixtures = $this->getFixtures();
         $fixtures = array_merge($authFixtures, $testFixtures);
         $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
-        ClockMock::register(__CLASS__);
         ClockMock::register(Timestamper::class);
     }
 
