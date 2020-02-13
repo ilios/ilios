@@ -14,6 +14,7 @@ use App\Tests\ReadWriteEndpointTest;
 /**
  * Session API endpoint Test.
  * @group api_2
+ * @group time-sensitive
  */
 class SessionTest extends ReadWriteEndpointTest
 {
