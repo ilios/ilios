@@ -51,13 +51,27 @@ class JsonWebTokenManagerTest extends TestCase
         $jwt = $this->buildToken();
         $this->assertSame(42, $this->obj->getUserIdFromToken($jwt));
     }
-    
+
     public function testGetIssuedAtFromToken()
     {
         $yesterday = new DateTime('yesterday');
         $stamp = $yesterday->format('U');
-        $jwt = $this->buildToken(array('iat' => $stamp));
+        $jwt = $this->buildToken(['iat' => $stamp]);
         $this->assertSame($stamp, $this->obj->getIssuedAtFromToken($jwt)->format('U'));
+
+        $jwt = $this->buildToken(['iat' => (int) $stamp]);
+        $this->assertSame($stamp, $this->obj->getIssuedAtFromToken($jwt)->format('U'));
+    }
+
+    public function testGetExpiresAtFromToken()
+    {
+        $tomorrow = new DateTime('tomorrow');
+        $stamp = $tomorrow->format('U');
+        $jwt = $this->buildToken(['exp' => $stamp]);
+        $this->assertSame($stamp, $this->obj->getExpiresAtFromToken($jwt)->format('U'));
+
+        $jwt = $this->buildToken(['exp' => (int) $stamp]);
+        $this->assertSame($stamp, $this->obj->getExpiresAtFromToken($jwt)->format('U'));
     }
     
     public function testCreateJwtFromSessionUser()
@@ -133,13 +147,13 @@ class JsonWebTokenManagerTest extends TestCase
     protected function buildToken(array $values = array(), $secretKey = 'ilios.jwt.key.secret')
     {
         $now = new DateTime();
-        $default = array(
+        $default = [
             'iss' => 'ilios',
             'aud' => 'ilios',
             'iat' => $now->format('U'),
             'exp' => $now->modify('+1 year')->format('U'),
             'user_id' => 42
-        );
+        ];
         
         $merged = array_merge($default, $values);
 

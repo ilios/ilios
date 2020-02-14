@@ -56,13 +56,13 @@ class JsonWebTokenManager
     public function getIssuedAtFromToken($jwt)
     {
         $arr = $this->decode($jwt);
-        return DateTime::createFromFormat('U', $arr['iat']);
+        return DateTime::createFromFormat('U', (string) $arr['iat']);
     }
     
     public function getExpiresAtFromToken($jwt)
     {
         $arr = $this->decode($jwt);
-        return DateTime::createFromFormat('U', $arr['exp']);
+        return DateTime::createFromFormat('U', (string) $arr['exp']);
     }
 
     public function getIsRootFromToken($jwt)
