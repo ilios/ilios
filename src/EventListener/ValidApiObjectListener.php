@@ -6,7 +6,7 @@ namespace App\EventListener;
 
 use App\Controller\ApiControllerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 
 /**
  * Class ValidApiObjectListener
@@ -36,9 +36,9 @@ class ValidApiObjectListener
     /**
      * Search and validate requests
      *
-     * @param FilterControllerEvent $event
+     * @param ControllerEvent $event
      */
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(ControllerEvent $event)
     {
         $controllers = $event->getController();
 
