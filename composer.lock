@@ -2807,16 +2807,16 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.12.1",
+            "version": "2.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "a1e2df0227dbaf724315c7203741d91acbe22cd0"
+                "reference": "85aa212c83b0dac34fa0e7743364979f6a7879a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/a1e2df0227dbaf724315c7203741d91acbe22cd0",
-                "reference": "a1e2df0227dbaf724315c7203741d91acbe22cd0",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/85aa212c83b0dac34fa0e7743364979f6a7879a4",
+                "reference": "85aa212c83b0dac34fa0e7743364979f6a7879a4",
                 "shasum": ""
             },
             "require": {
@@ -2884,7 +2884,7 @@
                 "monitor",
                 "monitoring"
             ],
-            "time": "2020-01-16T17:57:52+00:00"
+            "time": "2020-02-17T13:20:27+00:00"
         },
         {
             "name": "monolog/monolog",
