@@ -27,7 +27,12 @@ class TemporaryFileSystemTest extends TestCase
      * @var string
      */
     private $uploadDirectory;
-    
+
+    /**
+     * @var string
+     */
+    private $fakeTestFileDir;
+
     public function setUp(): void
     {
         $fs = new SymfonyFileSystem();
@@ -35,17 +40,14 @@ class TemporaryFileSystemTest extends TestCase
         if (!$fs->exists($this->fakeTestFileDir)) {
             $fs->mkdir($this->fakeTestFileDir);
         }
-        
-        $kernelRootDirectory = $this->fakeTestFileDir .  '/app';
+
         $this->uploadDirectory = $this->fakeTestFileDir .  '/var/tmp/uploads';
-        //create a fake app directory so relative path to ../var works
-        $fs->mkdir($kernelRootDirectory);
         $fs->mkdir($this->uploadDirectory);
         
         $this->mockFileSystem = m::mock(SymfonyFileSystem::class);
         $this->mockFileSystem->shouldReceive('exists')->with($this->uploadDirectory)->andReturn(true);
         
-        $this->tempFileSystem = new TemporaryFileSystem($this->mockFileSystem, $kernelRootDirectory);
+        $this->tempFileSystem = new TemporaryFileSystem($this->mockFileSystem, $this->fakeTestFileDir);
     }
 
     public function tearDown(): void

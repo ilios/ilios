@@ -29,7 +29,6 @@ services:
           $environment: '%kernel.environment%'
           $kernelCacheDir: '%kernel.cache_dir%'
           $apiVersion: '%ilios_api_version%'
-          $kernelRootDirectory: '%kernel.root_dir%'
           $kernelProjectDir: '%kernel.project_dir%'
           $kernelSecret: '%kernel.secret%'
 

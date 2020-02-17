@@ -28,17 +28,12 @@ class SwaggerDocsController extends AbstractController
     /**
      * @var string
      */
-    protected $kernelRootDirectory;
+    protected $kernelProjectDir;
 
-    /**
-     * SwaggerDocsController constructor.
-     * @param SwaggerDocBuilder $builder
-     * @param string $kernelRootDirectory
-     */
-    public function __construct(SwaggerDocBuilder $builder, $kernelRootDirectory)
+    public function __construct(SwaggerDocBuilder $builder, string $kernelProjectDir)
     {
         $this->builder = $builder;
-        $this->kernelRootDirectory = $kernelRootDirectory;
+        $this->kernelProjectDir = $kernelProjectDir;
     }
 
     /**
@@ -66,7 +61,7 @@ class SwaggerDocsController extends AbstractController
     public function uiAction(Request $request, $fileName)
     {
         $fileName = empty($fileName) ? 'index.html' : $fileName;
-        $swaggerDistDir = $this->kernelRootDirectory . '/../vendor/swagger-api/swagger-ui/dist';
+        $swaggerDistDir = $this->kernelProjectDir . '/vendor/swagger-api/swagger-ui/dist';
         $filePath = "${swaggerDistDir}/${fileName}";
 
         if (!is_readable($filePath)) {

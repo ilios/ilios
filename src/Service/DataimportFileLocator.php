@@ -23,9 +23,9 @@ class DataimportFileLocator
      */
     protected $fileLocator;
 
-    public function __construct($kernelRootDirectory)
+    public function __construct($kernelProjectDir)
     {
-        $path = realpath($kernelRootDirectory . '/../config/dataimport');
+        $path = realpath($kernelProjectDir . '/config/dataimport');
         $this->fileLocator = new FileLocator();
         $this->setDirectoryPath($path);
     }
