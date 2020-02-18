@@ -79,7 +79,7 @@ class IndexController extends AbstractController
      */
     public function getAction(Request $request, $fileName, $versionedStaticFile = false)
     {
-        if ('index.html' === $fileName || empty($fileName)) {
+        if ('index.html' === $fileName || '/' === $fileName || empty($fileName)) {
             return $this->getIndex($request);
         }
 
@@ -184,7 +184,7 @@ class IndexController extends AbstractController
     {
         $assetsPath = $this->getParameter('kernel.cache_dir') . UpdateFrontendCommand::FRONTEND_DIRECTORY;
         $path = $assetsPath . $fileName;
-        if ($this->fs->exists($path)) {
+        if ($this->fs->exists($path) && is_readable($path) && !is_dir($path)) {
             return $path;
         }
 
