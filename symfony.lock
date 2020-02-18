@@ -8,6 +8,9 @@
     "danielstjules/stringy": {
         "version": "3.1.0"
     },
+    "dealerdirect/phpcodesniffer-composer-installer": {
+        "version": "v0.6.2"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -266,6 +269,9 @@
     },
     "php-http/promise": {
         "version": "v1.0.0"
+    },
+    "phpcompatibility/php-compatibility": {
+        "version": "9.3.5"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
