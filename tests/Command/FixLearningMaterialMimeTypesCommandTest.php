@@ -54,6 +54,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->iliosFileSystem);
         unset($this->learningMaterialManager);
         unset($this->commandTester);

@@ -36,6 +36,7 @@ class JsonWebTokenManagerTest extends TestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->obj);
         unset($this->permissionChecker);
         unset($this->sessionUserProvider);

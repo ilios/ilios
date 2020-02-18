@@ -46,6 +46,7 @@ class PermissionCheckerTest extends TestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->permissionChecker);
         unset($this->permissionMatrix);
     }

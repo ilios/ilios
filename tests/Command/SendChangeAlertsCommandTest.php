@@ -118,6 +118,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->offeringManager);
         unset($this->alertManager);
         unset($this->auditLogManager);

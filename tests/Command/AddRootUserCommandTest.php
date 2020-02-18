@@ -50,6 +50,7 @@ class AddRootUserCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->userManager);
         unset($this->commandTester);
     }

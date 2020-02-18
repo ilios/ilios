@@ -43,6 +43,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->userManager);
         unset($this->commandTester);
     }

@@ -45,6 +45,7 @@ class IliosFileSystemTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->fileSystem);
         unset($this->iliosFileSystem);
         unset($this->fakeTestFileDir);

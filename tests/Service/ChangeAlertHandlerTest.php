@@ -64,6 +64,7 @@ class ChangeAlertHandlerTest extends TestCase
      */
     protected function tearDown(): void
     {
+        parent::tearDown();
         unset($this->changeAlertHandler);
         unset($this->mockAlertManager);
         unset($this->mockAlertChangeTypeManager);

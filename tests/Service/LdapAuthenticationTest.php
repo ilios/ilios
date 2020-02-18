@@ -48,6 +48,7 @@ class LdapAuthenticationTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->obj);
         unset($this->authManager);
         unset($this->jwtManager);

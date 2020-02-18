@@ -52,6 +52,7 @@ class TemporaryFileSystemTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->mockFileSystem);
         unset($this->iliosFileSystem);
         

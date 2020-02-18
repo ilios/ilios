@@ -41,6 +41,7 @@ class FindUserCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->directory);
         unset($this->commandTester);
     }

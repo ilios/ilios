@@ -42,6 +42,7 @@ class DropCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->indexManager);
     }
 

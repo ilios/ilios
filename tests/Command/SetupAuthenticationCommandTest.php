@@ -53,6 +53,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->applicationConfigManager);
         unset($this->questionHelper);
     }

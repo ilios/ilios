@@ -28,6 +28,7 @@ class DirectoryTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->obj);
         unset($this->ldapManager);
         unset($this->config);

@@ -71,14 +71,12 @@ class DirectoryControllerTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->directoryController);
         unset($this->tokenStorageMock);
         unset($this->userManagerMock);
         unset($this->directoryMock);
         unset($this->permissionChecker);
-
-
-        parent::tearDown();
     }
 
     public function testSearchOne()

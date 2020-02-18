@@ -143,6 +143,7 @@ class CourseRolloverTest extends TestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->courseManager);
         unset($this->learningMaterialManager);
         unset($this->courseLearningMaterialManager);

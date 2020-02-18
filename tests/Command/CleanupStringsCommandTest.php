@@ -68,6 +68,7 @@ class CleanupStringsCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->purifier);
         unset($this->em);
         unset($this->objectiveManager);

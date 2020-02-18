@@ -89,6 +89,7 @@ class ReportRolloverTest extends TestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->service);
         unset($this->sequenceBlockManager);
         unset($this->sequenceManager);

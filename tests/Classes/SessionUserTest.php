@@ -68,6 +68,7 @@ class SessionUserTest extends TestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->sessionUser);
         unset($this->iliosUser);
         unset($this->userManager);

@@ -30,6 +30,7 @@ class FilesystemFactoryTest extends TestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->config);
         unset($this->filesystemFactory);
     }

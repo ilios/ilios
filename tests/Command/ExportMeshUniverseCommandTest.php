@@ -61,6 +61,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->manager);
         unset($this->writer);
         unset($this->path);

@@ -43,6 +43,7 @@ class CrossingGuardCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->crossingGuard);
         unset($this->commandTester);
     }

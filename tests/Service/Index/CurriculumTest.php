@@ -34,6 +34,7 @@ class CurriculumTest extends TestCase
     }
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->client);
         unset($this->config);
     }

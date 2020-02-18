@@ -57,6 +57,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->filesystem);
         unset($this->diskSpace);
         unset($this->commandTester);

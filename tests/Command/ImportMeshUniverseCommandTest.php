@@ -72,6 +72,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->meshParser);
         unset($this->descriptorManager);
         unset($this->meshIndex);

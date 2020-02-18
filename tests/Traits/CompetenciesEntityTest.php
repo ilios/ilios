@@ -28,6 +28,7 @@ class CompetenciesEntityTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->object);
     }
 

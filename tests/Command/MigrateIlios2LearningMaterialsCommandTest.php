@@ -52,6 +52,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->symfonyFileSystem);
         unset($this->iliosFileSystem);
         unset($this->directory);

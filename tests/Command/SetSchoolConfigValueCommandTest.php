@@ -46,6 +46,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->schoolManager);
         unset($this->schoolConfigManager);
         unset($this->commandTester);

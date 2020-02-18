@@ -61,6 +61,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->userManager);
         unset($this->userRoleManager);
         unset($this->schoolManager);

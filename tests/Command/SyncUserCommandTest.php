@@ -60,6 +60,7 @@ class SyncUserCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->userManager);
         unset($this->authenticationManager);
         unset($this->pendingUserUpdateManager);

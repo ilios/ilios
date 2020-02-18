@@ -53,6 +53,7 @@ class RolloverCourseCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->service);
         unset($this->commandTester);
     }

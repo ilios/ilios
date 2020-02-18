@@ -110,6 +110,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->fakeOfferingManager);
         unset($this->fs);
     }

@@ -47,6 +47,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->iliosFileSystem);
         unset($this->learningMaterialManager);
     }
