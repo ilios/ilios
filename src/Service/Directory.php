@@ -64,7 +64,7 @@ class Directory
 
         //Split into groups of 50 to avoid LDAP query length limits
         foreach (array_chunk($filterTerms, 50) as $terms) {
-            $filterTermsString = implode($terms, '');
+            $filterTermsString = implode('', $terms);
             $filter = "(|{$filterTermsString})";
 
             $users = array_merge($users, $this->ldapManager->search($filter));
@@ -90,7 +90,7 @@ class Directory
             $term = ldap_escape($term, "", LDAP_ESCAPE_FILTER);
             return "(|(sn={$term}*)(givenname={$term}*)(mail={$term}*)({$ldapCampusIdProperty}={$term}*))";
         }, $searchTerms);
-        $filterTermsString = implode($filterTerms, '');
+        $filterTermsString = implode('', $filterTerms);
         $filter = "(&{$filterTermsString})";
         $users = $this->ldapManager->search($filter);
 

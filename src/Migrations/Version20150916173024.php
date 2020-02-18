@@ -36,7 +36,7 @@ class Version20150916173024 extends AbstractMigration
             
             //bulk update all the records to avoide a mess in the output
             $sql = 'UPDATE `user` SET ics_feed_key = (CASE user_id ';
-            $sql .= implode($updates, ' ');
+            $sql .= implode(' ', $updates);
             
             $sql .= 'END)';
             

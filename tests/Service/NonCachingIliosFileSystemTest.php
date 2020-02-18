@@ -141,7 +141,7 @@ class NonCachingIliosFileSystemTest extends TestCase
             $hashDirectory,
             $hash
         ];
-        return implode($parts, '/');
+        return implode('/', $parts);
     }
 
     protected function getTestFileLock($name)
@@ -150,7 +150,7 @@ class NonCachingIliosFileSystemTest extends TestCase
             IliosFileSystem::LOCK_FILE_DIRECTORY,
             $name
         ];
-        return implode($parts, '/');
+        return implode('/', $parts);
     }
 
     public function testCreateLock()

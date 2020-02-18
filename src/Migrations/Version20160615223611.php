@@ -42,7 +42,7 @@ class Version20160615223611 extends AbstractMigration
 
             //bulk update all the records to avoide a mess in the output
             $sql = 'UPDATE `curriculum_inventory_report` SET `token` = (CASE report_id ';
-            $sql .= implode($updates, ' ');
+            $sql .= implode(' ', $updates);
             $sql .= 'END)';
 
             $this->addSql($sql);
