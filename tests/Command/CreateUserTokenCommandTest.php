@@ -27,6 +27,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
         $this->jwtManager = m::mock(JsonWebTokenManager::class);
 

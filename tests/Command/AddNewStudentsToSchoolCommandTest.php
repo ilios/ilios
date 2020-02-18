@@ -35,6 +35,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock(UserManager::class);
         $this->userRoleManager = m::mock(UserRoleManager::class);
         $this->schoolManager = m::mock(SchoolManager::class);

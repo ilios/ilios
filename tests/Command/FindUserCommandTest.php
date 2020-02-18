@@ -27,6 +27,7 @@ class FindUserCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->directory = m::mock(Directory::class);
         $command = new FindUserCommand($this->directory);
         $kernel = self::bootKernel();

@@ -35,6 +35,7 @@ class AddRootUserCommandTest extends KernelTestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
 
         $command = new AddRootUserCommand($this->userManager);

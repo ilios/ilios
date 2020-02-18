@@ -24,6 +24,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->loadFixtures([
             'App\Tests\Fixture\LoadCurriculumInventoryReportData',
             'App\Tests\Fixture\LoadCurriculumInventoryExportData',

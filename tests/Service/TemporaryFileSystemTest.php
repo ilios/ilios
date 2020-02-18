@@ -35,6 +35,7 @@ class TemporaryFileSystemTest extends TestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $fs = new SymfonyFileSystem();
         $this->fakeTestFileDir = __DIR__ . '/FakeTestFiles';
         if (!$fs->exists($this->fakeTestFileDir)) {

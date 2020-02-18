@@ -83,6 +83,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->offeringManager = m::mock(OfferingManager::class);
         $this->alertManager = m::mock(AlertManager::class);
         $this->auditLogManager = m::mock(AuditLogManager::class);

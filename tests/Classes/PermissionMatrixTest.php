@@ -23,6 +23,7 @@ class PermissionMatrixTest extends TestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->permissionMatrix = new PermissionMatrix();
     }
 

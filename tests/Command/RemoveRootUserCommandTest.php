@@ -35,6 +35,7 @@ class RemoveRootUserCommandTest extends KernelTestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
 
         $command = new RemoveRootUserCommand($this->userManager);

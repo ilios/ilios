@@ -33,6 +33,7 @@ class SendTestEmailCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $this->mailer = m::mock(\Swift_Mailer::class);

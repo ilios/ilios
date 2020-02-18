@@ -25,8 +25,8 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->transmogrifier = new MeshDescriptorSetTransmogrifier();
         parent::setUp();
+        $this->transmogrifier = new MeshDescriptorSetTransmogrifier();
     }
 
     /**

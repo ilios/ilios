@@ -22,6 +22,7 @@ class CoursesEntityTest extends TestCase
     private $traitObject;
     public function setUp(): void
     {
+        parent::setUp();
         $traitName = CoursesEntity::class;
         $this->traitObject = $this->getObjectForTrait($traitName);
     }

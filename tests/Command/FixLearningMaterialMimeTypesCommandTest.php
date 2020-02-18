@@ -33,6 +33,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
         $this->temporaryFileSystem = m::mock(TemporaryFileSystem::class);
         $this->learningMaterialManager = m::mock(LearningMaterialManager::class);

@@ -31,6 +31,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->schoolManager = m::mock(SchoolManager::class);
         $this->schoolConfigManager = m::mock(SchoolConfigManager::class);
         $command = new SetSchoolConfigValueCommand($this->schoolManager, $this->schoolConfigManager);

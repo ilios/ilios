@@ -33,6 +33,7 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock(UserManager::class);
         $this->userRoleManager = m::mock(UserRoleManager::class);
         $this->directory = m::mock(Directory::class);

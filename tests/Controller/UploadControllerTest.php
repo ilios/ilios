@@ -23,6 +23,7 @@ class UploadControllerTest extends WebTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->fs = new Filesystem();
         $this->fakeTestFileDir = __DIR__ . '/FakeTestFiles';
         if (!$this->fs->exists($this->fakeTestFileDir)) {

@@ -22,6 +22,7 @@ class StewardedEntityTest extends TestCase
     private $traitObject;
     public function setUp(): void
     {
+        parent::setUp();
         $traitName = StewardedEntity::class;
         $this->traitObject = $this->getObjectForTrait($traitName);
     }

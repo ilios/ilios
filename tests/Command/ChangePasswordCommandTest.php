@@ -45,6 +45,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock(UserManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
         $this->encoder = m::mock(UserPasswordEncoderInterface::class);

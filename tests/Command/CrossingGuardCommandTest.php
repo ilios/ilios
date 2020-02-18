@@ -26,6 +26,7 @@ class CrossingGuardCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->crossingGuard = m::mock(CrossingGuard::class);
 
         $command = new CrossingGuardCommand(

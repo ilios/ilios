@@ -27,6 +27,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
         $this->authenticationManager = m::mock('App\Entity\Manager\AuthenticationManager');
 

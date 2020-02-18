@@ -36,6 +36,7 @@ class ListRootUsersCommandTest extends KernelTestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
 
         $command = new ListRootUsersCommand($this->userManager);

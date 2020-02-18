@@ -22,6 +22,7 @@ class ProgramYearsEntityTest extends TestCase
     private $traitObject;
     public function setUp(): void
     {
+        parent::setUp();
         $traitName = ProgramYearsEntity::class;
         $this->traitObject = $this->getObjectForTrait($traitName);
     }

@@ -53,6 +53,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
         $this->authenticationManager = m::mock('App\Entity\Manager\AuthenticationManager');
         $this->pendingUserUpdateManager = m::mock('App\Entity\Manager\PendingUserUpdateManager');

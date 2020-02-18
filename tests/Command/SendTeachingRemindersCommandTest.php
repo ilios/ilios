@@ -66,6 +66,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $offering = $this->createOffering();
 
         $this->fakeOfferingManager = $this
