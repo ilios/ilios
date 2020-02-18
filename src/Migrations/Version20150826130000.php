@@ -26,7 +26,7 @@ class Version20150826130000 extends AbstractMigration
                 return '("' . $arr['mesh_term_id'] . '","' . $arr['mesh_concept_uid'] . '")';
             }, $rows);
             unset($rows);
-            $insertSql .= implode($values, ',');
+            $insertSql .= implode(',', $values);
             unset($values);
         }
         
@@ -70,7 +70,7 @@ class Version20150826130000 extends AbstractMigration
             }, $rows);
             $values = array_unique($values);
             unset($rows);
-            $insertSql .= implode($values, ',');
+            $insertSql .= implode(',', $values);
             unset($values);
         }
         

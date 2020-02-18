@@ -88,7 +88,7 @@ class LogEntityChanges
         }
         $loggerQueue = $this->container->get(LoggerQueue::class);
         foreach ($updates as $arr) {
-            $valuesChanged = implode($arr['changes'], ',');
+            $valuesChanged = implode(',', $arr['changes']);
             $loggerQueue->add($arr['action'], $arr['entity'], $valuesChanged);
         }
     }
