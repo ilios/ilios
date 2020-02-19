@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 use Exception;
+use UnexpectedValueException;
 
 /**
  * Authenticate user using CAS Protocol and return a JWT
@@ -94,10 +95,13 @@ class CasAuthentication implements AuthenticationInterface
     public function login(Request $request)
     {
         if ($request->cookies->has(self::JWT_COOKIE)) {
-            $response = $this->createSuccessResponseFromJWT($request->cookies->get(self::JWT_COOKIE));
-            $response->headers->clearCookie(self::JWT_COOKIE);
-
-            return $response;
+            $jwt = $request->cookies->get(self::JWT_COOKIE);
+            try {
+                $this->jwtManager->getUserIdFromToken($jwt);
+                return $this->createSuccessResponseFromJWT($jwt);
+            } catch (UnexpectedValueException $e) {
+                //JWT could not be validated, move on
+            }
         }
         if ($request->cookies->has(self::NO_ACCOUNT_EXISTS_COOKIE)) {
             $response = $this->createNoAccountExistsResponse($request->cookies->get(self::NO_ACCOUNT_EXISTS_COOKIE));
@@ -133,10 +137,11 @@ class CasAuthentication implements AuthenticationInterface
                 } else {
                     $response = $this->createSuccessResponseFromJWT($jwt);
                 }
+                $exp = $this->jwtManager->getExpiresAtFromToken($jwt);
                 $response->headers->setCookie(Cookie::create(
                     self::JWT_COOKIE,
                     $jwt,
-                    strtotime('now + 45 seconds')
+                    $exp
                 ));
 
                 return $response;
@@ -169,10 +174,13 @@ class CasAuthentication implements AuthenticationInterface
     public function logout(Request $request)
     {
         $logoutUrl = $this->casManager->getLogoutUrl();
-        return new JsonResponse([
+        $response =  new JsonResponse([
             'status' => 'redirect',
             'logoutUrl' => $logoutUrl
         ], JsonResponse::HTTP_OK);
+        $response->headers->clearCookie(self::JWT_COOKIE);
+
+        return $response;
     }
 
     /**
