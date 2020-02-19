@@ -23,9 +23,9 @@ class CasAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
-    protected const REDIRECT_COOKIE = 'ilios_cas_redirect';
-    protected const JWT_COOKIE = 'ilios_jwt';
-    protected const NO_ACCOUNT_EXISTS_COOKIE = 'ilios_no_account_exists';
+    protected const REDIRECT_COOKIE = 'ilios-cas-redirect';
+    protected const JWT_COOKIE = 'ilios-cas-jwt';
+    protected const NO_ACCOUNT_EXISTS_COOKIE = 'ilios-cas-no-account-exists';
 
     /**
      * @var AuthenticationManager
