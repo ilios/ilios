@@ -151,11 +151,7 @@ class CasAuthentication implements AuthenticationInterface
         if ($request->cookies->has(self::REDIRECT_COOKIE)) {
             $url = $request->cookies->get(self::REDIRECT_COOKIE);
         } else {
-            $url = $this->router->generate(
-                'ilios_web_assets',
-                [],
-                UrlGenerator::ABSOLUTE_URL
-            );
+            $url = $this->getRootUrl();
         }
 
         $response = RedirectResponse::create($url);
@@ -212,8 +208,8 @@ class CasAuthentication implements AuthenticationInterface
         $response = RedirectResponse::create($url);
 
         if (!$request->cookies->has(self::REDIRECT_COOKIE)) {
-            $originalPath = $request->getSchemeAndHttpHost() . $request->getRequestUri();
-            $response->headers->setCookie(Cookie::create(self::REDIRECT_COOKIE, $originalPath));
+            $redirectUrl = $this->getAllowedRedirectUrl($request);
+            $response->headers->setCookie(Cookie::create(self::REDIRECT_COOKIE, $redirectUrl));
         }
 
         return $response;
@@ -233,6 +229,15 @@ class CasAuthentication implements AuthenticationInterface
         );
     }
 
+    protected function getRootUrl(): string
+    {
+        return $this->router->generate(
+            'ilios_web_assets',
+            [],
+            UrlGenerator::ABSOLUTE_URL
+        );
+    }
+
     protected function createNoAccountExistsResponse(string $username): JsonResponse
     {
         return new JsonResponse([
@@ -241,5 +246,33 @@ class CasAuthentication implements AuthenticationInterface
             'errors' => [],
             'jwt' => null,
         ], JsonResponse::HTTP_OK);
+    }
+
+    protected function getAllowedRedirectUrl(Request $request): string
+    {
+        $topLevelRoutes = [
+            'admin',
+            'courses',
+            'curriculum-inventory-reports',
+            'dashboard',
+            'data',
+            'events',
+            'instructorgroups',
+            'learnergroups',
+            'login',
+            'lm',
+            'myprofile',
+            'mymaterials',
+            'program',
+            'schools',
+            'search',
+        ];
+        $or = implode('|', $topLevelRoutes);
+        $pattern = "+^/(${or})/?[\/a-z\-0-9]*$+i";
+        if (preg_match($pattern, $request->getRequestUri())) {
+            return $this->getRootUrl() . ltrim($request->getRequestUri(), '/');
+        } else {
+            return $this->getRootUrl();
+        }
     }
 }
