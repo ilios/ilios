@@ -25,6 +25,7 @@ class CasAuthentication implements AuthenticationInterface
 
     protected const REDIRECT_COOKIE = 'ilios_cas_redirect';
     protected const JWT_COOKIE = 'ilios_jwt';
+    protected const NO_ACCOUNT_EXISTS_COOKIE = 'ilios_no_account_exists';
 
     /**
      * @var AuthenticationManager
@@ -84,16 +85,23 @@ class CasAuthentication implements AuthenticationInterface
     /**
      * Authenticate a user from CAS
      *
-     * If the user has been authenticated already send the stored JWT
+     * If a JWT cookie exists user it to create a JSON response
+     * If the user account doesn't exist send a JSON response with that error
      * If the user is not yet logged in send a redirect Request
-     * If the user is logged in, but no account exists send an error
-     * If the user is authenticated send a JWT
+     * If the user is logged in, but no account exists set a cookie and redirect them back to the frontend
+     * If the user is authenticated set a cookie and redirect back to the frontend
      */
     public function login(Request $request)
     {
         if ($request->cookies->has(self::JWT_COOKIE)) {
             $response = $this->createSuccessResponseFromJWT($request->cookies->get(self::JWT_COOKIE));
             $response->headers->clearCookie(self::JWT_COOKIE);
+
+            return $response;
+        }
+        if ($request->cookies->has(self::NO_ACCOUNT_EXISTS_COOKIE)) {
+            $response = $this->createNoAccountExistsResponse($request->cookies->get(self::NO_ACCOUNT_EXISTS_COOKIE));
+            $response->headers->clearCookie(self::NO_ACCOUNT_EXISTS_COOKIE);
 
             return $response;
         }
@@ -135,12 +143,24 @@ class CasAuthentication implements AuthenticationInterface
             }
         }
 
-        return new JsonResponse([
-            'status' => 'noAccountExists',
-            'userId' => $username,
-            'errors' => [],
-            'jwt' => null,
-        ], JsonResponse::HTTP_OK);
+        if ($request->cookies->has(self::REDIRECT_COOKIE)) {
+            $url = $request->cookies->get(self::REDIRECT_COOKIE);
+        } else {
+            $url = $this->router->generate(
+                'ilios_web_assets',
+                [],
+                UrlGenerator::ABSOLUTE_URL
+            );
+        }
+
+        $response = RedirectResponse::create($url);
+        $response->headers->setCookie(Cookie::create(
+            self::NO_ACCOUNT_EXISTS_COOKIE,
+            $username,
+            strtotime('now + 45 seconds')
+        ));
+
+        return $response;
     }
 
     /**
@@ -172,18 +192,23 @@ class CasAuthentication implements AuthenticationInterface
      */
     public function createAuthenticationResponse(Request $request): Response
     {
-        $cookie = $request->cookies->get(self::JWT_COOKIE);
-        if (!$cookie) {
-            $originalPath = $request->getSchemeAndHttpHost() . $request->getRequestUri();
-            $service = $this->getServiceUrl();
-            $url = $this->casManager->getLoginUrl() . "?service=${service}";
-            $response = RedirectResponse::create($url);
-            $response->headers->setCookie(Cookie::create(self::REDIRECT_COOKIE, $originalPath));
-
-            return $response;
+        if (
+            $request->cookies->has(self::NO_ACCOUNT_EXISTS_COOKIE) ||
+            $request->cookies->has(self::JWT_COOKIE)
+        ) {
+            return new Response();
         }
 
-        return new Response();
+        $service = $this->getServiceUrl();
+        $url = $this->casManager->getLoginUrl() . "?service=${service}";
+        $response = RedirectResponse::create($url);
+
+        if (!$request->cookies->has(self::REDIRECT_COOKIE)) {
+            $originalPath = $request->getSchemeAndHttpHost() . $request->getRequestUri();
+            $response->headers->setCookie(Cookie::create(self::REDIRECT_COOKIE, $originalPath));
+        }
+
+        return $response;
     }
 
     /**
@@ -198,5 +223,15 @@ class CasAuthentication implements AuthenticationInterface
             [],
             UrlGenerator::ABSOLUTE_URL
         );
+    }
+
+    protected function createNoAccountExistsResponse(string $username): JsonResponse
+    {
+        return new JsonResponse([
+            'status' => 'noAccountExists',
+            'userId' => $username,
+            'errors' => [],
+            'jwt' => null,
+        ], JsonResponse::HTTP_OK);
     }
 }
