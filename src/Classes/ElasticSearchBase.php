@@ -6,6 +6,7 @@ namespace App\Classes;
 
 use App\Service\Config;
 use Elasticsearch\Client;
+use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Exception;
 
 class ElasticSearchBase
@@ -78,7 +79,11 @@ class ElasticSearchBase
         if (!$this->enabled) {
             return ['result' => 'deleted'];
         }
-        return $this->client->delete($params);
+        try {
+            return $this->client->delete($params);
+        } catch (Missing404Exception $e) {
+            return ['result' => 'deleted'];
+        }
     }
 
     protected function doDeleteByQuery(array $params): array
@@ -86,7 +91,11 @@ class ElasticSearchBase
         if (!$this->enabled) {
             return ['failures' => []];
         }
-        return $this->client->deleteByQuery($params);
+        try {
+            return $this->client->deleteByQuery($params);
+        } catch (Missing404Exception $e) {
+            return ['failures' => []];
+        }
     }
 
     protected function doBulk(array $params): array
