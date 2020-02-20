@@ -80,6 +80,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         $fs = new SymfonyFileSystem();
         $fs->remove($this->fakeCacheFileDir);
         $fs->remove($this->fakeProjectFileDir);
