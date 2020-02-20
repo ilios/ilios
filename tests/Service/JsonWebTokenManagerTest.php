@@ -20,8 +20,9 @@ class JsonWebTokenManagerTest extends TestCase
     protected $permissionChecker;
     protected $sessionUserProvider;
 
-    public function setup(): void
+    public function setUp(): void
     {
+        parent::setUp();
         $this->permissionChecker = m::mock(PermissionChecker::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
         $this->obj = new JsonWebTokenManager(
@@ -46,7 +47,7 @@ class JsonWebTokenManagerTest extends TestCase
     {
         $this->assertTrue($this->obj instanceof JsonWebTokenManager);
     }
-    
+
     public function testGetUserIdFromToken()
     {
         $jwt = $this->buildToken();
@@ -74,7 +75,7 @@ class JsonWebTokenManagerTest extends TestCase
         $jwt = $this->buildToken(['exp' => (int) $stamp]);
         $this->assertSame($stamp, $this->obj->getExpiresAtFromToken($jwt)->format('U'));
     }
-    
+
     public function testCreateJwtFromSessionUser()
     {
         $sessionUser = m::mock(SessionUserInterface::class)
@@ -86,13 +87,13 @@ class JsonWebTokenManagerTest extends TestCase
             ->with($sessionUser)->once()->andReturn(true);
 
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser);
-        
+
         $this->assertSame(42, $this->obj->getUserIdFromToken($jwt));
         $this->assertSame(true, $this->obj->getPerformsNonLearnerFunctionFromToken($jwt));
         $this->assertSame(true, $this->obj->getIsRootFromToken($jwt));
         $this->assertSame(true, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
     }
-    
+
     public function testCreateJwtFromSessionUserWhichExpiresNextWeek()
     {
         $sessionUser = m::mock(SessionUserInterface::class)
@@ -102,14 +103,14 @@ class JsonWebTokenManagerTest extends TestCase
         $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
         $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
             ->with($sessionUser)->once()->andReturn(true);
-        
+
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser, 'P1W');
         $now = new DateTime();
         $expiresAt = $this->obj->getExpiresAtFromToken($jwt);
-        
+
         $this->assertTrue($now->diff($expiresAt)->d > 5);
     }
-    
+
     public function testCreateJwtFromSessionUserWhichExpiresAfterMaximumTime()
     {
         $sessionUser = m::mock(SessionUserInterface::class)
@@ -119,7 +120,7 @@ class JsonWebTokenManagerTest extends TestCase
         $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
         $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
             ->with($sessionUser)->once()->andReturn(true);
-        
+
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser, 'P400D');
         $now = new DateTime();
         $expiresAt = $this->obj->getExpiresAtFromToken($jwt);
@@ -144,7 +145,7 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertSame(false, $this->obj->getPerformsNonLearnerFunctionFromToken($jwt));
         $this->assertSame(false, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
     }
-    
+
     protected function buildToken(array $values = array(), $secretKey = 'ilios.jwt.key.secret')
     {
         $now = new DateTime();
@@ -155,7 +156,7 @@ class JsonWebTokenManagerTest extends TestCase
             'exp' => $now->modify('+1 year')->format('U'),
             'user_id' => 42
         ];
-        
+
         $merged = array_merge($default, $values);
 
         return JWT::encode($merged, $secretKey);

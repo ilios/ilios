@@ -24,8 +24,9 @@ class UsersTest extends TestCase
      */
     private $config;
 
-    public function setup(): void
+    public function setUp(): void
     {
+        parent::setUp();
         $this->client = m::mock(Client::class);
         $this->config = m::mock(Config::class);
         $this->config->shouldReceive('get')

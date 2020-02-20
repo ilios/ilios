@@ -20,8 +20,9 @@ class LearnerGroupDTOVoterTest extends AbstractBase
     /**
      * @inheritdoc
      */
-    public function setup(): void
+    public function setUp(): void
     {
+        parent::setUp();
         $this->permissionChecker = m::mock(PermissionChecker::class);
         $this->voter = new LearnerGroupDTOVoter($this->permissionChecker);
     }

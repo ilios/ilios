@@ -36,6 +36,7 @@ class FormAuthenticationTest extends TestCase
      */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->authManager = m::mock(AuthenticationManager::class);
         $this->encoder = m::mock(UserPasswordEncoderInterface::class);
         $this->tokenStorage = m::mock(TokenStorageInterface::class);

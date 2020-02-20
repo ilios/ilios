@@ -22,8 +22,9 @@ class AuthenticationFactoryTest extends TestCase
     protected $shib;
     protected $obj;
 
-    public function setup(): void
+    public function setUp(): void
     {
+        parent::setUp();
         $this->config = m::mock(Config::class);
         $this->cas = m::mock(CasAuthentication::class);
         $this->form   = m::mock(FormAuthentication::class);
@@ -55,7 +56,7 @@ class AuthenticationFactoryTest extends TestCase
     public function testCreateCasService()
     {
         $this->config->shouldReceive('get')->once()->with('authentication_type')->andReturn('cas');
-        
+
         $service = $this->obj->createAuthenticationService();
         $this->assertSame($this->cas, $service);
     }
