@@ -33,6 +33,7 @@ class IliosFileSystemTest extends TestCase
     
     public function setUp(): void
     {
+        parent::setUp();
         $fs = new SymfonyFileSystem();
         $this->fakeTestFileDir = __DIR__ . '/FakeTestFiles';
         if (!$fs->exists($this->fakeTestFileDir)) {
@@ -45,6 +46,7 @@ class IliosFileSystemTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->fileSystem);
         unset($this->iliosFileSystem);
         unset($this->fakeTestFileDir);

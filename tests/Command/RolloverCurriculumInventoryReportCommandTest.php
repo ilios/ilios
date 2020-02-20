@@ -43,6 +43,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->service = m::mock(ReportRollover::class);
         $this->reportManager = m::mock('App\Entity\Manager\CurriculumInventoryReportManager');
         $command = new RolloverCurriculumInventoryReportCommand($this->reportManager, $this->service);
@@ -58,6 +59,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->service);
         unset($this->reportManager);
         unset($this->commandTester);

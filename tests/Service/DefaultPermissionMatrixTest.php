@@ -34,6 +34,7 @@ class DefaultPermissionMatrixTest extends TestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->schoolDTO = new SchoolDTO(
             1,
             'School of Test',
@@ -51,6 +52,7 @@ class DefaultPermissionMatrixTest extends TestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->schoolDTO);
         unset($this->permissionMatrix);
     }

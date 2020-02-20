@@ -52,6 +52,7 @@ class SessionUserTest extends TestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->userId = 1;
         $this->userManager = m::mock(UserManager::class);
 
@@ -68,6 +69,7 @@ class SessionUserTest extends TestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->sessionUser);
         unset($this->iliosUser);
         unset($this->userManager);

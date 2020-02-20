@@ -29,8 +29,9 @@ class LdapAuthenticationTest extends TestCase
      */
     protected $obj;
 
-    public function setup(): void
+    public function setUp(): void
     {
+        parent::setUp();
         $this->authManager = m::mock(AuthenticationManager::class);
         $this->jwtManager = m::mock(JsonWebTokenManager::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
@@ -48,6 +49,7 @@ class LdapAuthenticationTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->obj);
         unset($this->authManager);
         unset($this->jwtManager);

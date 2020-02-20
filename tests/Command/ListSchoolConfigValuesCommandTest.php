@@ -30,6 +30,7 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->schoolManager = m::mock(SchoolManager::class);
         $this->schoolConfigManager = m::mock(SchoolConfigManager::class);
         $command = new ListSchoolConfigValuesCommand($this->schoolManager, $this->schoolConfigManager);
@@ -45,6 +46,7 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->schoolManager);
         unset($this->schoolConfigManager);
         unset($this->commandTester);

@@ -36,6 +36,7 @@ class SyncUserCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock(UserManager::class);
         $this->authenticationManager = m::mock(AuthenticationManager::class);
         $this->pendingUserUpdateManager = m::mock(PendingUserUpdateManager::class);
@@ -60,6 +61,7 @@ class SyncUserCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->userManager);
         unset($this->authenticationManager);
         unset($this->pendingUserUpdateManager);

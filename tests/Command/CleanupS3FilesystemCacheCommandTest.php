@@ -38,6 +38,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $factory = m::mock(FilesystemFactory::class);
         $this->filesystem = m::mock(FilesystemInterface::class);
         $this->diskSpace = m::mock(DiskSpace::class);
@@ -57,6 +58,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->filesystem);
         unset($this->diskSpace);
         unset($this->commandTester);

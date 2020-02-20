@@ -29,6 +29,7 @@ class SetConfigValueCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
         $command = new SetConfigValueCommand($this->applicationConfigManager);
         $kernel = self::bootKernel();
@@ -43,6 +44,7 @@ class SetConfigValueCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->applicationConfigManager);
         unset($this->commandTester);
     }

@@ -16,6 +16,7 @@ class ApiControllerTest extends WebTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->loadFixtures([
             'App\Tests\Fixture\LoadAuthenticationData'
         ]);

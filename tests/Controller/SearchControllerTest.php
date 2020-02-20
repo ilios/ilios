@@ -70,14 +70,12 @@ class SearchControllerTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->controller);
         unset($this->mockCurriculumSearch);
         unset($this->mockUsersSearch);
         unset($this->mockTokenStorage);
         unset($this->mockPermissionChecker);
-
-
-        parent::tearDown();
     }
 
     public function testCurriculumSearch()

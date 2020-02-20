@@ -49,6 +49,7 @@ class ChangeAlertHandlerTest extends TestCase
      */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->mockAlertManager = m::mock(AlertManager::class);
         $this->mockAlertChangeTypeManager = m::mock(AlertChangeTypeManager::class);
         $this->mockUserManager = m::mock(UserManager::class);
@@ -64,6 +65,7 @@ class ChangeAlertHandlerTest extends TestCase
      */
     protected function tearDown(): void
     {
+        parent::tearDown();
         unset($this->changeAlertHandler);
         unset($this->mockAlertManager);
         unset($this->mockAlertChangeTypeManager);

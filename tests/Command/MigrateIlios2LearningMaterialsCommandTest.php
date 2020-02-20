@@ -30,6 +30,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->symfonyFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
         $this->learningMaterialManager = m::mock('App\Entity\Manager\LearningMaterialManager');
@@ -52,6 +53,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->symfonyFileSystem);
         unset($this->iliosFileSystem);
         unset($this->directory);

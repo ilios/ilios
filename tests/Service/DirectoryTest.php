@@ -16,8 +16,9 @@ class DirectoryTest extends TestCase
     protected $config;
     protected $obj;
 
-    public function setup(): void
+    public function setUp(): void
     {
+        parent::setUp();
         $this->ldapManager = m::mock(LdapManager::class);
         $this->config = m::mock(Config::class);
         $this->obj = new Directory(
@@ -28,6 +29,7 @@ class DirectoryTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->obj);
         unset($this->ldapManager);
         unset($this->config);

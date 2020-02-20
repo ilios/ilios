@@ -21,6 +21,7 @@ class FilesystemFactoryTest extends TestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->config = m::mock(Config::class);
         $this->filesystemFactory = new FilesystemFactory($this->config, '/tmp');
     }
@@ -30,6 +31,7 @@ class FilesystemFactoryTest extends TestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->config);
         unset($this->filesystemFactory);
     }

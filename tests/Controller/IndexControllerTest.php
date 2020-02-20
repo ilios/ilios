@@ -41,6 +41,7 @@ class IndexControllerTest extends WebTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->kernelBrowser = static::createClient();
         $container = $this->kernelBrowser->getContainer();
         $cacheDir = $container->getParameter('kernel.cache_dir');

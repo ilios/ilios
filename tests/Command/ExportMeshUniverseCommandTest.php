@@ -43,6 +43,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->manager = m::mock(MeshDescriptorManager::class);
         $this->writer = m::mock(CsvWriter::class);
         $this->path = '/path/to/approot';
@@ -61,6 +62,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->manager);
         unset($this->writer);
         unset($this->path);

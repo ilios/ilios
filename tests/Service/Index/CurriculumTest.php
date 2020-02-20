@@ -24,8 +24,9 @@ class CurriculumTest extends TestCase
      */
     private $config;
 
-    public function setup(): void
+    public function setUp(): void
     {
+        parent::setUp();
         $this->client = m::mock(Client::class);
         $this->config = m::mock(Config::class);
         $this->config->shouldReceive('get')
@@ -34,6 +35,7 @@ class CurriculumTest extends TestCase
     }
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->client);
         unset($this->config);
     }

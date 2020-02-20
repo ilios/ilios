@@ -38,6 +38,7 @@ class AuditLogExportCommandTest extends KernelTestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->logger = m::mock(LoggerInterface::class);
         $this->auditLogManager = m::mock(AuditLogManager::class);
         $kernel = self::bootKernel();

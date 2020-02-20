@@ -41,6 +41,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $fs = new SymfonyFileSystem();
         $testFiles = __DIR__ . '/FakeTestFiles';
 
@@ -79,6 +80,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         $fs = new SymfonyFileSystem();
         $fs->remove($this->fakeCacheFileDir);
         $fs->remove($this->fakeProjectFileDir);

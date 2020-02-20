@@ -28,6 +28,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->loadEntityManager($this->getEntityManagerServiceKey());
     }
 

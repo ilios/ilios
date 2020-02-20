@@ -22,12 +22,14 @@ class IlmSessionsEntityTest extends TestCase
     private $traitObject;
     public function setUp(): void
     {
+        parent::setUp();
         $traitName = IlmSessionsEntity::class;
         $this->traitObject = $this->getObjectForTrait($traitName);
     }
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->object);
     }
 

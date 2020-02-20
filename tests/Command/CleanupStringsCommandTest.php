@@ -33,6 +33,7 @@ class CleanupStringsCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->purifier = m::mock('HTMLPurifier');
         $this->objectiveManager = m::mock('App\Entity\Manager\ObjectiveManager');
         $this->learningMaterialManager = m::mock('App\Entity\Manager\LearningMaterialManager');
@@ -68,6 +69,7 @@ class CleanupStringsCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->purifier);
         unset($this->em);
         unset($this->objectiveManager);

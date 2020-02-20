@@ -28,6 +28,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
         $this->learningMaterialManager = m::mock('App\Entity\Manager\LearningMaterialManager');
 
@@ -47,6 +48,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->iliosFileSystem);
         unset($this->learningMaterialManager);
     }

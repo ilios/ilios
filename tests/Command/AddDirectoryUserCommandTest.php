@@ -30,6 +30,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->userManager = m::mock('App\Entity\Manager\UserManager');
         $this->authenticationManager = m::mock('App\Entity\Manager\AuthenticationManager');
         $this->schoolManager = m::mock('App\Entity\Manager\SchoolManager');
@@ -54,6 +55,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->userManager);
         unset($this->authenticationManager);
         unset($this->schoolManager);

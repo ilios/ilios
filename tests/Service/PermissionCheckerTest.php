@@ -37,6 +37,7 @@ class PermissionCheckerTest extends TestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->permissionMatrix = m::mock(PermissionMatrixInterface::class);
         $this->permissionChecker = new PermissionChecker($this->permissionMatrix);
     }
@@ -46,6 +47,7 @@ class PermissionCheckerTest extends TestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->permissionChecker);
         unset($this->permissionMatrix);
     }

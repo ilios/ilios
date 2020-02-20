@@ -35,6 +35,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
 
         $command = new SetupAuthenticationCommand(
@@ -53,6 +54,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->applicationConfigManager);
         unset($this->questionHelper);
     }

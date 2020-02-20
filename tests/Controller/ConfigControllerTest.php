@@ -20,6 +20,7 @@ class ConfigControllerTest extends WebTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->loadFixtures([
             LoadApplicationConfigData::class,
         ]);

@@ -31,8 +31,9 @@ class ShibbolethAuthenticationTest extends TestCase
     protected $obj;
     protected $sessionUserProvider;
 
-    public function setup(): void
+    public function setUp(): void
     {
+        parent::setUp();
         $this->authManager = m::mock(AuthenticationManager::class);
         $this->jwtManager = m::mock(JsonWebTokenManager::class);
         $this->logger = m::mock(LoggerInterface::class);
@@ -54,6 +55,7 @@ class ShibbolethAuthenticationTest extends TestCase
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->obj);
         unset($this->authManager);
         unset($this->jwtManager);

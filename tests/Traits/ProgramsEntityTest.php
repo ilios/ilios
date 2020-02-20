@@ -22,12 +22,14 @@ class ProgramsEntityTest extends TestCase
     private $traitObject;
     public function setUp(): void
     {
+        parent::setUp();
         $traitName = ProgramsEntity::class;
         $this->traitObject = $this->getObjectForTrait($traitName);
     }
 
     public function tearDown(): void
     {
+        parent::tearDown();
         unset($this->object);
     }
 

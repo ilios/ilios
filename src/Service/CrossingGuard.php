@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class CrossingGuard
 {
@@ -43,9 +43,9 @@ class CrossingGuard
 
     /**
      * Listen to all requests and, if they are stopped, wait
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         while ($this->isStopped()) {
             sleep(1);

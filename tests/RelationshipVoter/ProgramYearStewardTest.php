@@ -17,8 +17,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class ProgramYearStewardTest extends AbstractBase
 {
-    public function setup(): void
+    public function setUp(): void
     {
+        parent::setUp();
         $this->permissionChecker = m::mock(PermissionChecker::class);
         $this->voter = new Voter($this->permissionChecker);
     }
