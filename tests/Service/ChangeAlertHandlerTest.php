@@ -22,6 +22,7 @@ use App\Tests\TestCase;
 /**
  * Class ChangeAlertHandlerTest
  * @package App\Tests\Service
+ * @coversDefaultClass \App\Service\ChangeAlertHandler
  */
 class ChangeAlertHandlerTest extends TestCase
 {
@@ -73,7 +74,7 @@ class ChangeAlertHandlerTest extends TestCase
     }
 
     /**
-     * @covers ChangeAlertHandler::createAlertForNewOffering()
+     * @covers ::createAlertForNewOffering()
      */
     public function testCreateAlertForNewOffering()
     {
@@ -116,7 +117,7 @@ class ChangeAlertHandlerTest extends TestCase
     }
 
     /**
-     * @covers ChangeAlertHandler::createOrUpdateAlertForUpdatedOffering()
+     * @covers ::createOrUpdateAlertForUpdatedOffering()
      */
     public function testCreateOrUpdateAlertForUpdatedOfferingExistingAlert()
     {
@@ -201,7 +202,7 @@ class ChangeAlertHandlerTest extends TestCase
     }
 
     /**
-     * @covers ChangeAlertHandler::createOrUpdateAlertForUpdatedOffering()
+     * @covers ::createOrUpdateAlertForUpdatedOffering()
      */
     public function testCreateOrUpdateAlertForUpdatedOfferingNewAlert()
     {

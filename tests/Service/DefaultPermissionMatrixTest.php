@@ -15,7 +15,7 @@ use Mockery as m;
 /**
  * Class DefaultPermissionMatrixTest
  * @package App\Tests\Service
- * @covers DefaultPermissionMatrix
+ * @covers \App\Service\DefaultPermissionMatrix
  */
 class DefaultPermissionMatrixTest extends TestCase
 {

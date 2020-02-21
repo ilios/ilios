@@ -27,7 +27,7 @@ class SchoolConfigTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\SchoolConfig::__construct
+     * @covers \App\Entity\SchoolConfig
      */
     public function testConstructor()
     {

@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 /**
  * Class ElevatedPermissionsViewDtoVoterTest
  * @package App\Tests\RelationshipVoter
+ * @coversDefaultClass \App\RelationshipVoter\ElevatedPermissionsViewDTOVoter
+
  */
 class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
 {
@@ -46,7 +48,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
 
     /**
      * @dataProvider dtoProvider
-     * @covers ElevatedPermissionsViewDTOVoter::voteOnAttribute()
+     * @covers ::voteOnAttribute()
      */
     public function testCanViewDTO($class)
     {
@@ -58,7 +60,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
 
     /**
      * @dataProvider dtoProvider
-     * @covers ElevatedPermissionsViewDTOVoter::voteOnAttribute()
+     * @covers ::voteOnAttribute()
      */
     public function testRootCanViewDTO($class)
     {
@@ -70,7 +72,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
 
     /**
      * @dataProvider dtoProvider
-     * @covers ElevatedPermissionsViewDTOVoter::voteOnAttribute()
+     * @covers ::voteOnAttribute()
      */
     public function testCanNotViewDTO($class)
     {

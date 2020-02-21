@@ -22,6 +22,7 @@ use Mockery as m;
 
 /**
  * Class ReportRolloverTest
+ * @coversDefaultClass \App\Service\CurriculumInventory\ReportRollover
  */
 class ReportRolloverTest extends TestCase
 {
@@ -164,7 +165,7 @@ class ReportRolloverTest extends TestCase
         return [[ $report ]];
     }
     /**
-     * @covers ReportRollover::rollover
+     * @covers ::rollover
      * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */
@@ -218,7 +219,7 @@ class ReportRolloverTest extends TestCase
     }
 
     /**
-     * @covers ReportRollover::rollover
+     * @covers ::rollover
      * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */
@@ -229,7 +230,7 @@ class ReportRolloverTest extends TestCase
     }
 
     /**
-     * @covers ReportRollover::rollover
+     * @covers ::rollover
      * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */
@@ -240,7 +241,7 @@ class ReportRolloverTest extends TestCase
     }
 
     /**
-     * @covers ReportRollover::rollover
+     * @covers ::rollover
      * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */

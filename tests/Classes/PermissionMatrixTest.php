@@ -9,7 +9,7 @@ use App\Tests\TestCase;
 
 /**
  * Class PermissionMatrixTest
- * @package App\Tests\Classes
+ * @coversDefaultClass \App\Classes\PermissionMatrix
  */
 class PermissionMatrixTest extends TestCase
 {
@@ -37,9 +37,9 @@ class PermissionMatrixTest extends TestCase
     }
 
     /**
-     * @covers PermissionMatrix::setPermission
-     * @covers PermissionMatrix::hasPermission
-     * @covers PermissionMatrix::getPermittedRoles
+     * @covers ::setPermission
+     * @covers ::hasPermission
+     * @covers ::getPermittedRoles
      */
     public function testHasPermission()
     {
@@ -65,7 +65,7 @@ class PermissionMatrixTest extends TestCase
     }
 
     /**
-     * @covers PermissionMatrix::getPermittedRoles
+     * @covers ::getPermittedRoles
      */
     public function testGetPermittedRoles()
     {

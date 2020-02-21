@@ -18,7 +18,7 @@ use function Sentry\withScope;
 
 /**
  * Class SessionUserTest
- * @package App\Tests\Classes
+ * @coversDefaultClass \App\Classes\SessionUser
  */
 class SessionUserTest extends TestCase
 {
@@ -78,7 +78,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingCourse
+     * @covers ::isDirectingCourse
      */
     public function testIsDirectingCourse()
     {
@@ -90,7 +90,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingCourse
+     * @covers ::isDirectingCourse
      */
     public function testIsNotDirectingCourse()
     {
@@ -101,7 +101,7 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isDirectingCourse(1));
     }
     /**
-     * @covers SessionUser::isDirectingProgramLinkedToCourse
+     * @covers ::isDirectingProgramLinkedToCourse
      */
     public function testIsDirectingProgramLinkedToCourse()
     {
@@ -113,7 +113,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingProgramLinkedToCourse
+     * @covers ::isDirectingProgramLinkedToCourse
      */
     public function testIsNotDirectingProgramLinkedToCourse()
     {
@@ -125,7 +125,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringCourse
+     * @covers ::isAdministeringCourse
      */
     public function testIsAdministeringCourse()
     {
@@ -137,7 +137,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringCourse
+     * @covers ::isAdministeringCourse
      */
     public function testIsNotAdministeringCourse()
     {
@@ -149,7 +149,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingSchool
+     * @covers ::isDirectingSchool
      */
     public function testIsDirectingSchool()
     {
@@ -159,7 +159,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingSchool
+     * @covers ::isDirectingSchool
      */
     public function testIsNotDirectingSchool()
     {
@@ -169,7 +169,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringSchool
+     * @covers ::isAdministeringSchool
      */
     public function testIsAdministeringSchool()
     {
@@ -179,7 +179,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringSchool
+     * @covers ::isAdministeringSchool
      */
     public function testIsNotAdministeringSchool()
     {
@@ -189,7 +189,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingCourseInSchool
+     * @covers ::isDirectingCourseInSchool
      */
     public function testIsDirectingCourseInSchool()
     {
@@ -201,7 +201,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingCourseInSchool
+     * @covers ::isDirectingCourseInSchool
      */
     public function testIsNotDirectingCourseInSchool()
     {
@@ -213,7 +213,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringCourseInSchool
+     * @covers ::isAdministeringCourseInSchool
      */
     public function testIsAdministeringCourseInSchool()
     {
@@ -225,7 +225,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringCourseInSchool
+     * @covers ::isAdministeringCourseInSchool
      */
     public function testIsNotAdministeringCourseInSchool()
     {
@@ -237,7 +237,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringSessionInSchool
+     * @covers ::isAdministeringSessionInSchool
      */
     public function testIsAdministeringSessionInSchool()
     {
@@ -249,7 +249,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringSessionInSchool
+     * @covers ::isAdministeringSessionInSchool
      */
     public function testIsNotAdministeringSessionInSchool()
     {
@@ -261,7 +261,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isTeachingCourseInSchool
+     * @covers ::isTeachingCourseInSchool
      */
     public function testIsTeachingCourseInSchool()
     {
@@ -273,7 +273,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isTeachingCourseInSchool
+     * @covers ::isTeachingCourseInSchool
      */
     public function testIsNotTeachingCourseInSchool()
     {
@@ -285,7 +285,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isTeachingCourse
+     * @covers ::isTeachingCourse
      */
     public function testIsTeachingCourse()
     {
@@ -297,7 +297,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isTeachingCourse
+     * @covers ::isTeachingCourse
      */
     public function testIsNotTeachingCourse()
     {
@@ -309,7 +309,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringSessionInCourse
+     * @covers ::isAdministeringSessionInCourse
      */
     public function testIsAdministeringSessionInCourse()
     {
@@ -321,7 +321,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringSessionInCourse
+     * @covers ::isAdministeringSessionInCourse
      */
     public function testIsNotAdministeringSessionInCourse()
     {
@@ -333,7 +333,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringSession
+     * @covers ::isAdministeringSession
      */
     public function testIsAdministeringSession()
     {
@@ -345,7 +345,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringSession
+     * @covers ::isAdministeringSession
      */
     public function testIsNotAdministeringSession()
     {
@@ -357,7 +357,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isTeachingSession
+     * @covers ::isTeachingSession
      */
     public function testIsTeachingSession()
     {
@@ -369,7 +369,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isTeachingSession
+     * @covers ::isTeachingSession
      */
     public function testIsNotTeachingSession()
     {
@@ -381,7 +381,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isInstructingOffering
+     * @covers ::isInstructingOffering
      */
     public function testIsInstructingOffering()
     {
@@ -393,7 +393,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isInstructingOffering
+     * @covers ::isInstructingOffering
      */
     public function testIsNotInstructingOffering()
     {
@@ -405,7 +405,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isInstructingIlm
+     * @covers ::isInstructingIlm
      */
     public function testIsInstructingIlm()
     {
@@ -417,7 +417,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isInstructingIlm
+     * @covers ::isInstructingIlm
      */
     public function testIsNotInstructingIlm()
     {
@@ -429,7 +429,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingProgram
+     * @covers ::isDirectingProgram
      */
     public function testIsDirectingProgram()
     {
@@ -441,7 +441,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingProgram
+     * @covers ::isDirectingProgram
      */
     public function testIsNotDirectingProgram()
     {
@@ -453,7 +453,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingProgramYear
+     * @covers ::isDirectingProgramYear
      */
     public function testIsDirectingProgramYear()
     {
@@ -465,7 +465,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingProgramYear
+     * @covers ::isDirectingProgramYear
      */
     public function testIsNotDirectingProgramYear()
     {
@@ -477,7 +477,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingProgramYearInProgram
+     * @covers ::isDirectingProgramYearInProgram
      */
     public function testIsDirectingProgramYearInProgram()
     {
@@ -489,7 +489,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isDirectingProgramYearInProgram
+     * @covers ::isDirectingProgramYearInProgram
      */
     public function testIsNotDirectingProgramYearInProgram()
     {
@@ -501,7 +501,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringCurriculumInventoryReport
+     * @covers ::isAdministeringCurriculumInventoryReport
      */
     public function testIsAdministeringCurriculumInventoryReport()
     {
@@ -513,7 +513,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringCurriculumInventoryReport
+     * @covers ::isAdministeringCurriculumInventoryReport
      */
     public function testIsNotAdministeringCurriculumInventoryReport()
     {
@@ -525,7 +525,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringCurriculumInventoryReportInSchool
+     * @covers ::isAdministeringCurriculumInventoryReportInSchool
      */
     public function testIsAdministeringCurriculumInventoryReportInSchool()
     {
@@ -537,7 +537,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isAdministeringCurriculumInventoryReportInSchool
+     * @covers ::isAdministeringCurriculumInventoryReportInSchool
      */
     public function testIsNotAdministeringCurriculumInventoryReportInSchool()
     {
@@ -549,7 +549,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isInLearnerGroup()
+     * @covers ::isInLearnerGroup()
      */
     public function testIsInLearnerGroup()
     {
@@ -561,7 +561,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::isInLearnerGroup()
+     * @covers ::isInLearnerGroup()
      */
     public function testIsNotInLearnerGroup()
     {
@@ -574,7 +574,7 @@ class SessionUserTest extends TestCase
 
 
     /**
-     * @covers SessionUser::rolesInSchool
+     * @covers ::rolesInSchool
      */
     public function testRolesInSchool()
     {
@@ -625,7 +625,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::rolesInCourse
+     * @covers ::rolesInCourse
      */
     public function testRolesInCourse()
     {
@@ -655,7 +655,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::rolesInSession
+     * @covers ::rolesInSession
      */
     public function testRolesInSession()
     {
@@ -673,7 +673,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::rolesInProgram
+     * @covers ::rolesInProgram
      */
     public function testRolesInProgram()
     {
@@ -691,7 +691,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::rolesInProgramYear
+     * @covers ::rolesInProgramYear
      */
     public function testRolesInProgramYear()
     {
@@ -705,7 +705,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::rolesInCurriculumInventoryReport
+     * @covers ::rolesInCurriculumInventoryReport
      */
     public function testRolesInCurriculumInventoryReport()
     {
@@ -719,7 +719,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsRoot()
     {
@@ -729,7 +729,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsCourseDirector()
     {
@@ -742,7 +742,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsCourseAdministrator()
     {
@@ -759,7 +759,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsSchoolDirector()
     {
@@ -780,7 +780,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsSchoolAdministrator()
     {
@@ -805,7 +805,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsInInstructorGroups()
     {
@@ -834,7 +834,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsTeachingInCourses()
     {
@@ -867,7 +867,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsSessionAdministrator()
     {
@@ -904,7 +904,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsInstructingInSessions()
     {
@@ -941,7 +941,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsProgramDirector()
     {
@@ -982,7 +982,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsProgramYearDirector()
     {
@@ -1027,7 +1027,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testPerformsNonLearnerFunctionIfUserIsCurriculumInventoryReportAdministrator()
     {
@@ -1076,7 +1076,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::performsNonLearnerFunction()
+     * @covers ::performsNonLearnerFunction()
      */
     public function testDoesNotPerformNonLearnerFunction()
     {
@@ -1125,7 +1125,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getDirectedCourseIds
+     * @covers ::getDirectedCourseIds
      */
     public function testGetDirectedCourseIds()
     {
@@ -1138,7 +1138,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getAdministeredCourseIds
+     * @covers ::getAdministeredCourseIds
      */
     public function testGetAdministeredCourseIds()
     {
@@ -1151,7 +1151,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getCourseIdsLinkedToProgramsDirectedByUser
+     * @covers ::getCourseIdsLinkedToProgramsDirectedByUser
      */
     public function getCourseIdsLinkedToProgramsDirectedByUser()
     {
@@ -1164,7 +1164,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getDirectedSchoolIds
+     * @covers ::getDirectedSchoolIds
      */
     public function testGetDirectedSchoolIds()
     {
@@ -1177,7 +1177,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getAdministeredSchoolIds
+     * @covers ::getAdministeredSchoolIds
      */
     public function testGetAdministeredSchoolIds()
     {
@@ -1190,7 +1190,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getDirectedCourseSchoolIds
+     * @covers ::getDirectedCourseSchoolIds
      */
     public function testGetDirectedCourseSchoolIds()
     {
@@ -1203,7 +1203,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getAdministeredCourseSchoolIds
+     * @covers ::getAdministeredCourseSchoolIds
      */
     public function testGetAdministeredCourseSchoolIds()
     {
@@ -1216,7 +1216,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getAdministeredSessionSchoolIds
+     * @covers ::getAdministeredSessionSchoolIds
      */
     public function testGetAdministeredSessionSchoolIds()
     {
@@ -1229,7 +1229,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getAdministeredSessionCourseIds
+     * @covers ::getAdministeredSessionCourseIds
      */
     public function testGetAdministeredSessionCourseIds()
     {
@@ -1242,7 +1242,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getTaughtCourseIds
+     * @covers ::getTaughtCourseIds
      */
     public function testGetTaughtCourseIds()
     {
@@ -1255,7 +1255,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getAdministeredSessionIds
+     * @covers ::getAdministeredSessionIds
      */
     public function testGetAdministeredSessionIds()
     {
@@ -1268,7 +1268,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getInstructedSessionIds
+     * @covers ::getInstructedSessionIds
      */
     public function testGetInstructedSessionIds()
     {
@@ -1281,7 +1281,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getInstructedOfferingIds
+     * @covers ::getInstructedOfferingIds
      */
     public function testGetInstructedOfferingIds()
     {
@@ -1295,7 +1295,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getInstructedIlmIds
+     * @covers ::getInstructedIlmIds
      */
     public function testGetInstructedIlmIds()
     {
@@ -1309,7 +1309,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getTaughtCourseSchoolIds
+     * @covers ::getTaughtCourseSchoolIds
      */
     public function testGetTaughtCourseSchoolIds()
     {
@@ -1322,7 +1322,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getDirectedProgramIds
+     * @covers ::getDirectedProgramIds
      */
     public function testGetDirectedProgramIds()
     {
@@ -1335,7 +1335,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getDirectedProgramYearIds
+     * @covers ::getDirectedProgramYearIds
      */
     public function testGetDirectedProgramYearIds()
     {
@@ -1348,7 +1348,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getDirectedProgramYearProgramIds
+     * @covers ::getDirectedProgramYearProgramIds
      */
     public function testGetDirectedProgramYearProgramIds()
     {
@@ -1361,7 +1361,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getAdministeredCurriculumInventoryReportIds
+     * @covers ::getAdministeredCurriculumInventoryReportIds
      */
     public function testGetAdministeredCurriculumInventoryReportIds()
     {
@@ -1374,7 +1374,7 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers SessionUser::getAdministeredCurriculumInventoryReportSchoolIds
+     * @covers ::getAdministeredCurriculumInventoryReportSchoolIds
      */
     public function testGetAdministeredCurriculumInventoryReportSchoolIds()
     {

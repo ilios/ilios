@@ -11,6 +11,7 @@ use App\Tests\TestCase;
  * Class UserMaterialTest
  * @package App\Tests\Classes
  * @covers \App\Classes\UserMaterial
+ * @coversDefaultClass \App\Classes\UserMaterial
  */
 class UserMaterialTest extends TestCase
 {
@@ -61,7 +62,7 @@ class UserMaterialTest extends TestCase
 
 
     /**
-     * @covers UserMaterial::clearMaterial
+     * @covers ::clearMaterial
      */
     public function testClearMaterial()
     {
@@ -71,7 +72,7 @@ class UserMaterialTest extends TestCase
     }
 
     /**
-     * @covers UserMaterial::clearTimedMaterial
+     * @covers ::clearTimedMaterial
      */
     public function testClearTimedMaterialWithNoDates()
     {
@@ -81,7 +82,7 @@ class UserMaterialTest extends TestCase
     }
 
     /**
-     * @covers UserMaterial::clearTimedMaterial
+     * @covers ::clearTimedMaterial
      */
     public function testClearTimedMaterialWithStartDateAndInRange()
     {
@@ -92,7 +93,7 @@ class UserMaterialTest extends TestCase
     }
 
     /**
-     * @covers UserMaterial::clearTimedMaterial
+     * @covers ::clearTimedMaterial
      */
     public function testClearTimedMaterialWithStartDateAndOutOfRange()
     {
@@ -103,7 +104,7 @@ class UserMaterialTest extends TestCase
     }
 
     /**
-     * @covers UserMaterial::clearTimedMaterial
+     * @covers ::clearTimedMaterial
      */
     public function testClearTimedMaterialWithEndDateAndInRange()
     {
@@ -114,7 +115,7 @@ class UserMaterialTest extends TestCase
     }
 
     /**
-     * @covers UserMaterial::clearTimedMaterial
+     * @covers ::clearTimedMaterial
      */
     public function testClearTimedMaterialWithEndDateAndOutOfRange()
     {
@@ -125,7 +126,7 @@ class UserMaterialTest extends TestCase
     }
 
     /**
-     * @covers UserMaterial::clearTimedMaterial
+     * @covers ::clearTimedMaterial
      */
     public function testClearTimedMaterialWithStartEndDateAndInRange()
     {
@@ -137,7 +138,7 @@ class UserMaterialTest extends TestCase
     }
 
     /**
-     * @covers UserMaterial::clearTimedMaterial
+     * @covers ::clearTimedMaterial
      */
     public function testClearTimedMaterialWithStartEndDateAndOutOfRange()
     {
