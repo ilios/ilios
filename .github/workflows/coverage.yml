@@ -2,7 +2,7 @@ name: Report Code Coverage
 
 on:
   schedule:
-    - cron: '46 2 * * 6' # weekly, on Saturday Morning night
+    - cron: '46 2 * * *' # daily at 2:46am
 
 env:
   ILIOS_MAILER_URL: null://localhost
