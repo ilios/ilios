@@ -70,7 +70,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers ExportMeshUniverseCommand::execute
+     * @covers \App\Command\ExportMeshUniverseCommand::execute
      */
     public function testExecute()
     {

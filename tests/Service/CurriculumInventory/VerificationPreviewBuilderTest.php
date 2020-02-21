@@ -22,6 +22,7 @@ use Mockery as m;
 /**
  * Class VerificationPreviewBuilderTest
  * @package App\Tests\Service\CurriculumInventory
+ * @coversDefaultClass \App\Service\CurriculumInventory\VerificationPreviewBuilder
  */
 class VerificationPreviewBuilderTest extends TestCase
 {
@@ -378,7 +379,7 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::getAllEventsWithAssessmentsTaggedAsFormativeOrSummative
+     * @covers ::getAllEventsWithAssessmentsTaggedAsFormativeOrSummative
      */
     public function testGetAllEventsWithAssessmentsTaggedAsFormativeOrSummative()
     {
@@ -415,7 +416,7 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::getAllResourceTypes
+     * @covers ::getAllResourceTypes
      */
     public function testGetAllResourceTypes()
     {
@@ -445,7 +446,7 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::getClerkshipSequenceBlockAssessmentMethods
+     * @covers ::getClerkshipSequenceBlockAssessmentMethods
      */
     public function testGetClerkshipSequenceBlockAssessmentMethods()
     {
@@ -583,7 +584,7 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::getClerkshipSequenceBlockInstructionalTime
+     * @covers ::getClerkshipSequenceBlockInstructionalTime
      */
     public function testGetClerkshipSequenceBlockInstructionalTime()
     {
@@ -703,7 +704,7 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::getInstructionalMethodCounts
+     * @covers ::getInstructionalMethodCounts
      */
     public function testGetInstructionalMethodCounts()
     {
@@ -744,7 +745,7 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::getNonClerkshipSequenceBlockAssessmentMethods
+     * @covers ::getNonClerkshipSequenceBlockAssessmentMethods
      */
     public function testGetNonClerkshipSequenceBlockAssessmentMethods()
     {
@@ -885,7 +886,7 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::getNonClerkshipSequenceBlockInstructionalTime
+     * @covers ::getNonClerkshipSequenceBlockInstructionalTime
      */
     public function testGetNonClerkshipSequenceBlockInstructionalTime()
     {
@@ -1005,7 +1006,7 @@ class VerificationPreviewBuilderTest extends TestCase
 
      */
     /**
-     * @covers VerificationPreviewBuilder::getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock
+     * @covers ::getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock
      */
     public function testGetPrimaryInstructionalMethodsByNonClerkshipSequenceBlock()
     {
@@ -1123,7 +1124,7 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::getProgramExpectationsMappedToPcrs
+     * @covers ::getProgramExpectationsMappedToPcrs
      */
     public function testGetProgramExpectationsMappedToPcrs()
     {
@@ -1181,7 +1182,7 @@ class VerificationPreviewBuilderTest extends TestCase
     }
 
     /**
-     * @covers VerificationPreviewBuilder::build
+     * @covers ::build
      */
     public function testBuild()
     {

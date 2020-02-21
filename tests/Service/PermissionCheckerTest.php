@@ -19,6 +19,7 @@ use Mockery as m;
 /**
  * Class PermissionCheckerTest
  * @package App\Tests\Service
+ * @coversDefaultClass \App\Service\PermissionChecker
  */
 class PermissionCheckerTest extends TestCase
 {
@@ -53,7 +54,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCourse()
+     * @covers ::canUpdateCourse()
      */
     public function testCanUpdateAllCourses()
     {
@@ -84,7 +85,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCourse()
+     * @covers ::canUpdateCourse()
      */
     public function testCanUpdateTheirCourses()
     {
@@ -126,7 +127,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCourse()
+     * @covers ::canUpdateCourse()
      */
     public function testCanNotUpdateCourses()
     {
@@ -168,7 +169,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCourse()
+     * @covers ::canUpdateCourse()
      */
     public function testCanNotUpdateLockedCourses()
     {
@@ -182,7 +183,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCourse()
+     * @covers ::canUpdateCourse()
      */
     public function testCanNotUpdateArchivedCourses()
     {
@@ -196,7 +197,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCourse()
+     * @covers ::canDeleteCourse()
      */
     public function testCanDeleteAllCourses()
     {
@@ -228,7 +229,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCourse()
+     * @covers ::canDeleteCourse()
      */
     public function testCanDeleteTheirCourses()
     {
@@ -270,7 +271,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCourse()
+     * @covers ::canDeleteCourse()
      */
     public function testCanNotDeleteCourses()
     {
@@ -312,7 +313,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCourse()
+     * @covers ::canDeleteCourse()
      */
     public function testCanNotDeleteLockedCourses()
     {
@@ -326,7 +327,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCourse()
+     * @covers ::canDeleteCourse()
      */
     public function testCanNotDeleteArchivedCourses()
     {
@@ -340,7 +341,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateCourse()
+     * @covers ::canCreateCourse()
      */
     public function testCanCreateCourse()
     {
@@ -365,7 +366,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateCourse()
+     * @covers ::canCreateCourse()
      */
     public function testCanNotCreateCourse()
     {
@@ -390,7 +391,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUnlockCourse()
+     * @covers ::canUnlockCourse()
      */
     public function testCanUnlockAllCourses()
     {
@@ -420,7 +421,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUnlockCourse()
+     * @covers ::canUnlockCourse()
      */
     public function testCanUnlockTheirCourses()
     {
@@ -460,7 +461,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUnlockCourse()
+     * @covers ::canUnlockCourse()
      */
     public function testCanNotUnlockCourses()
     {
@@ -501,7 +502,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUnlockCourse()
+     * @covers ::canUnlockCourse()
      */
     public function testCanNotUnlockCourseIfCourseIsArchived()
     {
@@ -514,7 +515,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canLockCourse()
+     * @covers ::canLockCourse()
      */
     public function testCanLockAllCourses()
     {
@@ -544,7 +545,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canLockCourse()
+     * @covers ::canLockCourse()
      */
     public function testCanLockTheirCourses()
     {
@@ -584,7 +585,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canLockCourse()
+     * @covers ::canLockCourse()
      */
     public function testCanNotLockCourses()
     {
@@ -625,7 +626,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUnlockCourse()
+     * @covers ::canUnlockCourse()
      */
     public function testCanNotLockCourseIfCourseIsArchived()
     {
@@ -638,7 +639,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canArchiveCourse()
+     * @covers ::canArchiveCourse()
      */
     public function testCanArchiveAllCourses()
     {
@@ -667,7 +668,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canArchiveCourse()
+     * @covers ::canArchiveCourse()
      */
     public function testCanArchiveTheirCourses()
     {
@@ -706,7 +707,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canArchiveCourse()
+     * @covers ::canArchiveCourse()
      */
     public function testCanNotArchiveCourses()
     {
@@ -746,7 +747,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSession()
+     * @covers ::canUpdateSession()
      */
     public function testCanUpdateAllSessions()
     {
@@ -781,7 +782,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSession()
+     * @covers ::canUpdateSession()
      */
     public function testCanUpdateTheirSessions()
     {
@@ -826,7 +827,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSession()
+     * @covers ::canUpdateSession()
      */
     public function testCanUpdateSessionsIfUserCanUpdateCourse()
     {
@@ -884,7 +885,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSession()
+     * @covers ::canUpdateSession()
      */
     public function testCanNotUpdateSessions()
     {
@@ -950,7 +951,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSession()
+     * @covers ::canUpdateSession()
      */
     public function testCanNotUpdateSessionsInLockedCourse()
     {
@@ -966,7 +967,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSession()
+     * @covers ::canUpdateSession()
      */
     public function testCanNotUpdateSessionsInArchivedCourse()
     {
@@ -982,7 +983,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteSession()
+     * @covers ::canDeleteSession()
      */
     public function testCanDeleteAllSessions()
     {
@@ -1017,7 +1018,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteSession()
+     * @covers ::canDeleteSession()
      */
     public function testCanDeleteTheirSessions()
     {
@@ -1063,7 +1064,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteSession()
+     * @covers ::canDeleteSession()
      */
     public function testCanDeleteSessionsIfUserCanUpdateCourse()
     {
@@ -1119,7 +1120,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteSession()
+     * @covers ::canDeleteSession()
      */
     public function testCanNotDeleteSessions()
     {
@@ -1185,7 +1186,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteSession()
+     * @covers ::canDeleteSession()
      */
     public function testCanNotDeleteSessionsInLockedCourse()
     {
@@ -1201,7 +1202,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteSession()
+     * @covers ::canDeleteSession()
      */
     public function testCanNotDeleteSessionsInArchivedCourse()
     {
@@ -1217,7 +1218,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateSession()
+     * @covers ::canCreateSession()
      */
     public function testCanCreateSession()
     {
@@ -1247,7 +1248,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateSession()
+     * @covers ::canCreateSession()
      */
     public function testCanCreateSessionIfUserCanUpdateCourse()
     {
@@ -1285,7 +1286,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateSession()
+     * @covers ::canCreateSession()
      */
     public function testCanNotCreateSession()
     {
@@ -1335,7 +1336,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateSession()
+     * @covers ::canCreateSession()
      */
     public function testCanNotCreateSessionInLockedCourse()
     {
@@ -1349,7 +1350,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateSession()
+     * @covers ::canCreateSession()
      */
     public function testCanNotCreateSessionInArchivedCourse()
     {
@@ -1363,7 +1364,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSessionType()
+     * @covers ::canUpdateSessionType()
      */
     public function testCanUpdateSessionType()
     {
@@ -1386,7 +1387,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSessionType()
+     * @covers ::canUpdateSessionType()
      */
     public function testCanNotUpdateSessionType()
     {
@@ -1409,7 +1410,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteSessionType()
+     * @covers ::canDeleteSessionType()
      */
     public function testCanDeleteSessionType()
     {
@@ -1432,7 +1433,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteSessionType()
+     * @covers ::canDeleteSessionType()
      */
     public function testCanNotDeleteSessionType()
     {
@@ -1455,7 +1456,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateSessionType()
+     * @covers ::canCreateSessionType()
      */
     public function testCanCreateSessionType()
     {
@@ -1478,7 +1479,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateSessionType()
+     * @covers ::canCreateSessionType()
      */
     public function testCanNotCreateSessionType()
     {
@@ -1501,7 +1502,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateDepartment()
+     * @covers ::canUpdateDepartment()
      */
     public function testCanUpdateDepartment()
     {
@@ -1524,7 +1525,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateDepartment()
+     * @covers ::canUpdateDepartment()
      */
     public function testCanNotUpdateDepartment()
     {
@@ -1547,7 +1548,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteDepartment()
+     * @covers ::canDeleteDepartment()
      */
     public function testCanDeleteDepartment()
     {
@@ -1570,7 +1571,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteDepartment()
+     * @covers ::canDeleteDepartment()
      */
     public function testCanNotDeleteDepartment()
     {
@@ -1593,7 +1594,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateDepartment()
+     * @covers ::canCreateDepartment()
      */
     public function testCanCreateDepartment()
     {
@@ -1616,7 +1617,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateDepartment()
+     * @covers ::canCreateDepartment()
      */
     public function testCanNotCreateDepartment()
     {
@@ -1639,7 +1640,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateProgram()
+     * @covers ::canUpdateProgram()
      */
     public function testCanUpdateAllPrograms()
     {
@@ -1663,7 +1664,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateProgram()
+     * @covers ::canUpdateProgram()
      */
     public function testCanUpdateTheirPrograms()
     {
@@ -1699,7 +1700,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateProgram()
+     * @covers ::canUpdateProgram()
      */
     public function testCanNotUpdatePrograms()
     {
@@ -1735,7 +1736,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteProgram()
+     * @covers ::canDeleteProgram()
      */
     public function testCanDeleteAllPrograms()
     {
@@ -1759,7 +1760,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteProgram()
+     * @covers ::canDeleteProgram()
      */
     public function testCanDeleteTheirPrograms()
     {
@@ -1795,7 +1796,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteProgram()
+     * @covers ::canDeleteProgram()
      */
     public function testCanNotDeletePrograms()
     {
@@ -1831,7 +1832,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateProgram()
+     * @covers ::canCreateProgram()
      */
     public function testCanCreateProgram()
     {
@@ -1854,7 +1855,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateProgram()
+     * @covers ::canCreateProgram()
      */
     public function testCanNotCreateProgram()
     {
@@ -1877,7 +1878,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateProgramYear()
+     * @covers ::canUpdateProgramYear()
      */
     public function testCanUpdateAllProgramYears()
     {
@@ -1909,7 +1910,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateProgramYear()
+     * @covers ::canUpdateProgramYear()
      */
     public function testCanUpdateTheirProgramYears()
     {
@@ -1951,7 +1952,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateProgramYear()
+     * @covers ::canUpdateProgramYear()
      */
     public function testCanUpdateProgramYearsIfUserCanUpdateProgram()
     {
@@ -2005,7 +2006,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateProgramYear()
+     * @covers ::canUpdateProgramYear()
      */
     public function testCanNotUpdateProgramYears()
     {
@@ -2069,7 +2070,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateProgramYear()
+     * @covers ::canUpdateProgramYear()
      */
     public function testCanNotUpdateLockedProgramYears()
     {
@@ -2083,7 +2084,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateProgramYear()
+     * @covers ::canUpdateProgramYear()
      */
     public function testCanNotUpdateArchivedProgramYears()
     {
@@ -2097,7 +2098,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteProgramYear()
+     * @covers ::canDeleteProgramYear()
      */
     public function testCanDeleteAllProgramYears()
     {
@@ -2129,7 +2130,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteProgramYear()
+     * @covers ::canDeleteProgramYear()
      */
     public function testCanDeleteTheirProgramYears()
     {
@@ -2171,7 +2172,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteProgramYear()
+     * @covers ::canDeleteProgramYear()
      */
     public function testCanDeleteProgramYearsIfUserCanUpdateProgram()
     {
@@ -2226,7 +2227,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteProgramYear()
+     * @covers ::canDeleteProgramYear()
      */
     public function testCanNotDeleteProgramYears()
     {
@@ -2290,7 +2291,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteProgramYear()
+     * @covers ::canDeleteProgramYear()
      */
     public function testCanNotDeleteLockedProgramYears()
     {
@@ -2304,7 +2305,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteProgramYear()
+     * @covers ::canDeleteProgramYear()
      */
     public function testCanNotDeleteArchivedProgramYears()
     {
@@ -2318,7 +2319,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateProgramYear()
+     * @covers ::canCreateProgramYear()
      */
     public function testCanCreateProgramYear()
     {
@@ -2348,7 +2349,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateProgramYear()
+     * @covers ::canCreateProgramYear()
      */
     public function testCanCreateProgramYearIfUserCanUpdateProgram()
     {
@@ -2386,7 +2387,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateProgramYear()
+     * @covers ::canCreateProgramYear()
      */
     public function testCanNotCreateProgramYear()
     {
@@ -2435,7 +2436,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canLockProgramYear()
+     * @covers ::canLockProgramYear()
      */
     public function testCanLockAllProgramYears()
     {
@@ -2466,7 +2467,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canLockProgramYear()
+     * @covers ::canLockProgramYear()
      */
     public function testCanLockTheirProgramYears()
     {
@@ -2507,7 +2508,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canLockProgramYear()
+     * @covers ::canLockProgramYear()
      */
     public function testCanLockProgramYearsIfUserCanUpdateProgram()
     {
@@ -2560,7 +2561,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canLockProgramYear()
+     * @covers ::canLockProgramYear()
      */
     public function testCanNotLockProgramYearIfProgramYearIsArchived()
     {
@@ -2573,7 +2574,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUnlockProgramYear()
+     * @covers ::canUnlockProgramYear()
      */
     public function testCanUnlockAllProgramYears()
     {
@@ -2604,7 +2605,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUnlockProgramYear()
+     * @covers ::canUnlockProgramYear()
      */
     public function testCanUnlockTheirProgramYears()
     {
@@ -2645,7 +2646,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUnlockProgramYear()
+     * @covers ::canUnlockProgramYear()
      */
     public function testCanUnlockProgramYearsIfUserCanUpdateProgram()
     {
@@ -2698,7 +2699,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUnlockProgramYear()
+     * @covers ::canUnlockProgramYear()
      */
     public function testCanNotUnlockProgramYearIfProgramYearIsArchived()
     {
@@ -2711,7 +2712,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canArchiveProgramYear()
+     * @covers ::canArchiveProgramYear()
      */
     public function testCanArchiveAllProgramYears()
     {
@@ -2741,7 +2742,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canArchiveProgramYear()
+     * @covers ::canArchiveProgramYear()
      */
     public function testCanArchiveTheirProgramYears()
     {
@@ -2781,7 +2782,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canArchiveProgramYear()
+     * @covers ::canArchiveProgramYear()
      */
     public function testCanArchiveProgramYearsIfUserCanUpdateProgram()
     {
@@ -2833,7 +2834,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSchoolConfig()
+     * @covers ::canUpdateSchoolConfig()
      */
     public function testCanUpdateSchoolConfig()
     {
@@ -2856,7 +2857,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSchoolConfig()
+     * @covers ::canUpdateSchoolConfig()
      */
     public function testCanNotUpdateSchoolConfig()
     {
@@ -2879,7 +2880,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteSchoolConfig()
+     * @covers ::canDeleteSchoolConfig()
      */
     public function testCanDeleteSchoolConfig()
     {
@@ -2902,7 +2903,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteSchoolConfig()
+     * @covers ::canDeleteSchoolConfig()
      */
     public function testCanNotDeleteSchoolConfig()
     {
@@ -2925,7 +2926,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateSchoolConfig()
+     * @covers ::canCreateSchoolConfig()
      */
     public function testCanCreateSchoolConfig()
     {
@@ -2948,7 +2949,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateSchoolConfig()
+     * @covers ::canCreateSchoolConfig()
      */
     public function testCanNotCreateSchoolConfig()
     {
@@ -2971,7 +2972,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSchool()
+     * @covers ::canUpdateSchool()
      */
     public function testCanUpdateSchool()
     {
@@ -2994,7 +2995,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateSchool()
+     * @covers ::canUpdateSchool()
      */
     public function testCanNotUpdateSchool()
     {
@@ -3017,7 +3018,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCompetency()
+     * @covers ::canUpdateCompetency()
      */
     public function testCanUpdateCompetency()
     {
@@ -3040,7 +3041,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCompetency()
+     * @covers ::canUpdateCompetency()
      */
     public function testCanNotUpdateCompetency()
     {
@@ -3063,7 +3064,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCompetency()
+     * @covers ::canDeleteCompetency()
      */
     public function testCanDeleteCompetency()
     {
@@ -3086,7 +3087,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCompetency()
+     * @covers ::canDeleteCompetency()
      */
     public function testCanNotDeleteCompetency()
     {
@@ -3109,7 +3110,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateCompetency()
+     * @covers ::canCreateCompetency()
      */
     public function testCanCreateCompetency()
     {
@@ -3132,7 +3133,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateCompetency()
+     * @covers ::canCreateCompetency()
      */
     public function testCanNotCreateCompetency()
     {
@@ -3155,7 +3156,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateVocabulary()
+     * @covers ::canUpdateVocabulary()
      */
     public function testCanUpdateVocabulary()
     {
@@ -3178,7 +3179,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateVocabulary()
+     * @covers ::canUpdateVocabulary()
      */
     public function testCanNotUpdateVocabulary()
     {
@@ -3201,7 +3202,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteVocabulary()
+     * @covers ::canDeleteVocabulary()
      */
     public function testCanDeleteVocabulary()
     {
@@ -3224,7 +3225,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteVocabulary()
+     * @covers ::canDeleteVocabulary()
      */
     public function testCanNotDeleteVocabulary()
     {
@@ -3247,7 +3248,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateVocabulary()
+     * @covers ::canCreateVocabulary()
      */
     public function testCanCreateVocabulary()
     {
@@ -3270,7 +3271,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateVocabulary()
+     * @covers ::canCreateVocabulary()
      */
     public function testCanNotCreateVocabulary()
     {
@@ -3293,7 +3294,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateTerm()
+     * @covers ::canUpdateTerm()
      */
     public function testCanUpdateTerm()
     {
@@ -3316,7 +3317,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateTerm()
+     * @covers ::canUpdateTerm()
      */
     public function testCanNotUpdateTerm()
     {
@@ -3339,7 +3340,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteTerm()
+     * @covers ::canDeleteTerm()
      */
     public function testCanDeleteTerm()
     {
@@ -3362,7 +3363,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteTerm()
+     * @covers ::canDeleteTerm()
      */
     public function testCanNotDeleteTerm()
     {
@@ -3385,7 +3386,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateTerm()
+     * @covers ::canCreateTerm()
      */
     public function testCanCreateTerm()
     {
@@ -3408,7 +3409,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateTerm()
+     * @covers ::canCreateTerm()
      */
     public function testCanNotCreateTerm()
     {
@@ -3431,7 +3432,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateInstructorGroup()
+     * @covers ::canUpdateInstructorGroup()
      */
     public function testCanUpdateInstructorGroup()
     {
@@ -3454,7 +3455,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateInstructorGroup()
+     * @covers ::canUpdateInstructorGroup()
      */
     public function testCanNotUpdateInstructorGroup()
     {
@@ -3477,7 +3478,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteInstructorGroup()
+     * @covers ::canDeleteInstructorGroup()
      */
     public function testCanDeleteInstructorGroup()
     {
@@ -3500,7 +3501,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteInstructorGroup()
+     * @covers ::canDeleteInstructorGroup()
      */
     public function testCanNotDeleteInstructorGroup()
     {
@@ -3523,7 +3524,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateInstructorGroup()
+     * @covers ::canCreateInstructorGroup()
      */
     public function testCanCreateInstructorGroup()
     {
@@ -3546,7 +3547,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateInstructorGroup()
+     * @covers ::canCreateInstructorGroup()
      */
     public function testCanNotCreateInstructorGroup()
     {
@@ -3569,7 +3570,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCurriculumInventoryReport()
+     * @covers ::canUpdateCurriculumInventoryReport()
      */
     public function testCanUpdateAllCurriculumInventoryReports()
     {
@@ -3595,7 +3596,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCurriculumInventoryReport()
+     * @covers ::canUpdateCurriculumInventoryReport()
      */
     public function testCanUpdateTheirCurriculumInventoryReports()
     {
@@ -3632,7 +3633,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCurriculumInventoryReport()
+     * @covers ::canUpdateCurriculumInventoryReport()
      */
     public function testCanNotUpdateCurriculumInventoryReport()
     {
@@ -3669,7 +3670,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCurriculumInventoryReport()
+     * @covers ::canDeleteCurriculumInventoryReport()
      */
     public function testCanDeleteAllCurriculumInventoryReports()
     {
@@ -3695,7 +3696,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCurriculumInventoryReport()
+     * @covers ::canDeleteCurriculumInventoryReport()
      */
     public function testCanDeleteTheirCurriculumInventoryReports()
     {
@@ -3732,7 +3733,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCurriculumInventoryReport()
+     * @covers ::canDeleteCurriculumInventoryReport()
      */
     public function testCanNotDeleteCurriculumInventoryReport()
     {
@@ -3769,7 +3770,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateCurriculumInventoryReport()
+     * @covers ::canCreateCurriculumInventoryReport()
      */
     public function testCanCreateCurriculumInventoryReport()
     {
@@ -3792,7 +3793,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateCurriculumInventoryReport()
+     * @covers ::canCreateCurriculumInventoryReport()
      */
     public function testCanNotCreateCurriculumInventoryReport()
     {
@@ -3815,7 +3816,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCurriculumInventoryInstitution()
+     * @covers ::canUpdateCurriculumInventoryInstitution()
      */
     public function testCanUpdateCurriculumInventoryInstitution()
     {
@@ -3838,7 +3839,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateCurriculumInventoryInstitution()
+     * @covers ::canUpdateCurriculumInventoryInstitution()
      */
     public function testCanNotUpdateCurriculumInventoryInstitution()
     {
@@ -3861,7 +3862,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCurriculumInventoryInstitution()
+     * @covers ::canDeleteCurriculumInventoryInstitution()
      */
     public function testCanDeleteCurriculumInventoryInstitution()
     {
@@ -3884,7 +3885,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteCurriculumInventoryInstitution()
+     * @covers ::canDeleteCurriculumInventoryInstitution()
      */
     public function testCanNotDeleteCurriculumInventoryInstitution()
     {
@@ -3907,7 +3908,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateCurriculumInventoryInstitution()
+     * @covers ::canCreateCurriculumInventoryInstitution()
      */
     public function testCanCreateCurriculumInventoryInstitution()
     {
@@ -3930,7 +3931,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateCurriculumInventoryInstitution()
+     * @covers ::canCreateCurriculumInventoryInstitution()
      */
     public function testCanNotCreateCurriculumInventoryInstitution()
     {
@@ -3953,7 +3954,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateLearnerGroup()
+     * @covers ::canUpdateLearnerGroup()
      */
     public function testCanUpdateLearnerGroup()
     {
@@ -3976,7 +3977,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateLearnerGroup()
+     * @covers ::canUpdateLearnerGroup()
      */
     public function testCanNotUpdateLearnerGroup()
     {
@@ -3999,7 +4000,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteLearnerGroup()
+     * @covers ::canDeleteLearnerGroup()
      */
     public function testCanDeleteLearnerGroup()
     {
@@ -4022,7 +4023,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteLearnerGroup()
+     * @covers ::canDeleteLearnerGroup()
      */
     public function testCanNotDeleteLearnerGroup()
     {
@@ -4045,7 +4046,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateLearnerGroup()
+     * @covers ::canCreateLearnerGroup()
      */
     public function testCanCreateLearnerGroup()
     {
@@ -4068,7 +4069,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateLearnerGroup()
+     * @covers ::canCreateLearnerGroup()
      */
     public function testCanNotCreateLearnerGroup()
     {
@@ -4091,7 +4092,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateUser()
+     * @covers ::canUpdateUser()
      */
     public function testCanUpdateUser()
     {
@@ -4114,7 +4115,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canUpdateUser()
+     * @covers ::canUpdateUser()
      */
     public function testCanNotUpdateUser()
     {
@@ -4137,7 +4138,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteUser()
+     * @covers ::canDeleteUser()
      */
     public function testCanDeleteUser()
     {
@@ -4160,7 +4161,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canDeleteUser()
+     * @covers ::canDeleteUser()
      */
     public function testCanNotDeleteUser()
     {
@@ -4183,7 +4184,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateUser()
+     * @covers ::canCreateUser()
      */
     public function testCanCreateUser()
     {
@@ -4206,7 +4207,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateUser()
+     * @covers ::canCreateUser()
      */
     public function testCanNotCreateUser()
     {
@@ -4230,7 +4231,7 @@ class PermissionCheckerTest extends TestCase
 
 
     /**
-     * @covers PermissionChecker::canViewLearnerGroup()
+     * @covers ::canViewLearnerGroup()
      */
     public function testCanViewLearnerGroupIfUseIsInLearnerGroup()
     {
@@ -4247,7 +4248,7 @@ class PermissionCheckerTest extends TestCase
 
 
     /**
-     * @covers PermissionChecker::canViewLearnerGroup()
+     * @covers ::canViewLearnerGroup()
      */
     public function testCanViewLearnerGroupIfUserPerformsNonLearnerFunction()
     {
@@ -4266,7 +4267,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canViewLearnerGroup()
+     * @covers ::canViewLearnerGroup()
      */
     public function testCanNotViewLearnerGroup()
     {
@@ -4285,7 +4286,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateUsersInAnySchool()
+     * @covers ::canCreateUsersInAnySchool()
      */
     public function testCanCreateUsersInAnySchool()
     {
@@ -4293,7 +4294,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateOrUpdateUsersInAnySchool()
+     * @covers ::canCreateOrUpdateUsersInAnySchool()
      */
     public function testCanCreateOrUpdateUsersInAnySchool()
     {
@@ -4301,7 +4302,7 @@ class PermissionCheckerTest extends TestCase
     }
 
     /**
-     * @covers PermissionChecker::canCreateCurriculumInventoryReportInAnySchool()
+     * @covers ::canCreateCurriculumInventoryReportInAnySchool()
      */
     public function testCanCreateCurriculumInventoryReportUserInAnySchool()
     {

@@ -19,6 +19,7 @@ use Mockery as m;
  * Class ImportMeshUniverseCommandTest
  * @package App\Tests\Command
  * @group cli
+ * @coversDefaultClass \App\Command\ImportMeshUniverseCommand
  */
 class ImportMeshUniverseCommandTest extends KernelTestCase
 {
@@ -81,7 +82,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers ImportMeshUniverseCommand::execute
+     * @covers ::execute
      */
     public function testNoArgs()
     {
@@ -104,7 +105,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers ImportMeshUniverseCommand::execute
+     * @covers ::execute
      */
     public function testGivenFilePath()
     {
@@ -126,7 +127,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers ImportMeshUniverseCommand::execute
+     * @covers ::execute
      */
     public function testGivenUrl()
     {
@@ -148,7 +149,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers ImportMeshUniverseCommand::execute
+     * @covers ::execute
      */
     public function testYear2020()
     {
@@ -171,7 +172,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers ImportMeshUniverseCommand::execute
+     * @covers ::execute
      */
     public function testYear2019()
     {
@@ -194,7 +195,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers ImportMeshUniverseCommand::execute
+     * @covers ::execute
      */
     public function testInvalidGivenYear()
     {
@@ -214,7 +215,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers ImportMeshUniverseCommand::execute
+     * @covers ::execute
      */
     public function testIndexesResults()
     {

@@ -27,7 +27,7 @@ class ApplicationConfigTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\ApplicationConfig::__construct
+     * @covers \App\Entity\ApplicationConfig
      */
     public function testConstructor()
     {

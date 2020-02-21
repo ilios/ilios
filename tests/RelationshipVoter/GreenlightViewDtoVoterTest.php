@@ -50,6 +50,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 /**
  * Class GreenlightViewDtoVoterTest
  * @package App\Tests\RelationshipVoter
+ * @coversDefaultClass \App\RelationshipVoter\GreenlightViewDTOVoter
  */
 class GreenlightViewDtoVoterTest extends AbstractBase
 {
@@ -108,7 +109,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
 
     /**
      * @dataProvider canViewDTOProvider
-     * @covers GreenlightViewDTOVoter::voteOnAttribute()
+     * @covers ::voteOnAttribute()
      * @param string $class The fully qualified class name.
      */
     public function testCanViewDTO($class)

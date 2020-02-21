@@ -40,7 +40,7 @@ class UserEventTest extends TestCase
     }
 
     /**
-     * @covers CalendarEvent::removeMaterialsInDraft
+     * @covers \App\Classes\CalendarEvent::removeMaterialsInDraft
      */
     public function testRemoveMaterialsInDraft()
     {
@@ -60,7 +60,7 @@ class UserEventTest extends TestCase
     }
 
     /**
-     * @covers UserEvent::createFromCalendarEvent
+     * @covers \App\Classes\UserEvent::createFromCalendarEvent
      */
     public function testCreateFromCalendarEvent()
     {

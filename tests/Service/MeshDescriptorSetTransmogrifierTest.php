@@ -13,6 +13,10 @@ use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Reference;
 use Ilios\MeSH\Model\Term;
 
+/**
+ * Class MeshDescriptorSetTransmogrifierTest
+ * @coversDefaultClass \App\Service\MeshDescriptorSetTransmogrifier
+ */
 class MeshDescriptorSetTransmogrifierTest extends TestCase
 {
     /**
@@ -39,7 +43,7 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
     }
 
     /**
-     * @covers MeshDescriptorSetTransmogrifier::transmogrify
+     * @covers ::transmogrify
      */
     public function testTransmogrify()
     {
@@ -162,7 +166,7 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
     }
 
     /**
-     * @covers MeshDescriptorSetTransmogrifier::hashTerm
+     * @covers ::hashTerm
      */
     public function testHashTerm()
     {

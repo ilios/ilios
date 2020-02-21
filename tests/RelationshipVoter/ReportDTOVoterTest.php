@@ -14,6 +14,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 /**
  * Class ReportDTOVoterTest
  * @package App\Tests\RelationshipVoter
+ * @coversDefaultClass \App\RelationshipVoter\ReportDTOVoter
+
  */
 class ReportDTOVoterTest extends AbstractBase
 {
@@ -28,7 +30,7 @@ class ReportDTOVoterTest extends AbstractBase
     }
 
     /**
-     * @covers ReportDTOVoter::voteOnAttribute()
+     * @covers ::voteOnAttribute()
      */
     public function testCanViewDTO()
     {
@@ -42,7 +44,7 @@ class ReportDTOVoterTest extends AbstractBase
     }
 
     /**
-     * @covers ReportDTOVoter::voteOnAttribute()
+     * @covers ::voteOnAttribute()
      */
     public function testRootCanViewDTO()
     {
@@ -53,7 +55,7 @@ class ReportDTOVoterTest extends AbstractBase
     }
 
     /**
-     * @covers ReportDTOVoter::voteOnAttribute()
+     * @covers ::voteOnAttribute()
      */
     public function testCanNotViewDTO()
     {

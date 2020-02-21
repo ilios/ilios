@@ -14,7 +14,7 @@ use DateTime;
 /**
  * Class SchoolEventTest
  * @package App\Tests\Classes
- * @covers \App\Classes\SchoolEvent
+ * @coversDefaultClass \App\Classes\SchoolEvent
  */
 class SchoolEventTest extends TestCase
 {
@@ -40,7 +40,7 @@ class SchoolEventTest extends TestCase
         unset($this->schoolEvent);
     }
     /**
-     * @covers SchoolEvent::createFromCalendarEvent
+     * @covers ::createFromCalendarEvent
      */
     public function testCreateFromCalendarEvent()
     {
@@ -75,7 +75,7 @@ class SchoolEventTest extends TestCase
     }
 
     /**
-     * @covers SchoolEvent::clearDataForUnprivilegedUsers
+     * @covers ::clearDataForUnprivilegedUsers
      */
     public function testClearDataForUnprivilegedUsers()
     {
