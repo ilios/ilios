@@ -1,0 +1,28 @@
+name: Future PHP Versions
+
+on:
+  schedule:
+    - cron: '33 1 * * 1' # weekly, on Monday morning
+
+env:
+  ILIOS_MAILER_URL: null://localhost
+  ILIOS_LOCALE: en
+  ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
+  ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
+  SYMFONY_DEPRECATIONS_HELPER: disabled=1
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use PHP 7.4
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: 7.4
+        coverage: none
+    - name: install dependencies
+      run: composer install --no-interaction --prefer-dist
+    - name: Run Tests
+      run: bin/phpunit
