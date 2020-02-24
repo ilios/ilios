@@ -4522,21 +4522,21 @@
         },
         {
             "name": "setasign/fpdi-fpdf",
-            "version": "v2.2.0",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Setasign/FPDI-FPDF.git",
-                "reference": "e4363ac09e1b766b38ebea1c3cbe82b3480a11e9"
+                "reference": "f2fdc44e4d5247a3bb55ed2c2c1396ef05c02357"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/FPDI-FPDF/zipball/e4363ac09e1b766b38ebea1c3cbe82b3480a11e9",
-                "reference": "e4363ac09e1b766b38ebea1c3cbe82b3480a11e9",
+                "url": "https://api.github.com/repos/Setasign/FPDI-FPDF/zipball/f2fdc44e4d5247a3bb55ed2c2c1396ef05c02357",
+                "reference": "f2fdc44e4d5247a3bb55ed2c2c1396ef05c02357",
                 "shasum": ""
             },
             "require": {
-                "setasign/fpdf": "^1.8",
-                "setasign/fpdi": "^2.2"
+                "setasign/fpdf": "^1.8.2",
+                "setasign/fpdi": "^2.3"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -4557,7 +4557,7 @@
                 "fpdi",
                 "pdf"
             ],
-            "time": "2019-01-30T14:38:19+00:00"
+            "time": "2020-02-19T12:21:53+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
