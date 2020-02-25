@@ -10,11 +10,11 @@ trait AuthenticationService
 {
     protected function createSuccessResponseFromJWT($jwt)
     {
-        $response =  new JsonResponse(array(
+        $response =  new JsonResponse([
             'status' => 'success',
             'errors' => [],
             'jwt' => $jwt,
-        ), JsonResponse::HTTP_OK);
+        ], JsonResponse::HTTP_OK);
         $response->headers->set('X-JWT-TOKEN', $jwt);
         
         return $response;

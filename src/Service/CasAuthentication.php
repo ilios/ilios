@@ -5,19 +5,28 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Manager\AuthenticationManager;
 use App\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
+use Exception;
+use UnexpectedValueException;
 
 /**
- * Class CasAuthentication
+ * Authenticate user using CAS Protocol and return a JWT
  */
 class CasAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
+
+    protected const REDIRECT_COOKIE = 'ilios-cas-redirect';
+    protected const JWT_COOKIE = 'ilios-cas-jwt';
+    protected const NO_ACCOUNT_EXISTS_COOKIE = 'ilios-cas-no-account-exists';
 
     /**
      * @var AuthenticationManager
@@ -75,19 +84,31 @@ class CasAuthentication implements AuthenticationInterface
     }
 
     /**
-     * Authenticate a user from shibboleth
+     * Authenticate a user from CAS
      *
+     * If a JWT cookie exists user it to create a JSON response
+     * If the user account doesn't exist send a JSON response with that error
      * If the user is not yet logged in send a redirect Request
-     * If the user is logged in, but no account exists send an error
-     * If the user is authenticated send a JWT
-     * @param Request $request
-     *
-     * @throws \Exception when the shibboleth attributes do not contain a value for the configured user id attribute
-     * @return JsonResponse
+     * If the user is logged in, but no account exists set a cookie and redirect them back to the frontend
+     * If the user is authenticated set a cookie and redirect back to the frontend
      */
     public function login(Request $request)
     {
-        $service = $request->query->get('service');
+        if ($request->cookies->has(self::JWT_COOKIE)) {
+            $jwt = $request->cookies->get(self::JWT_COOKIE);
+            try {
+                $this->jwtManager->getUserIdFromToken($jwt);
+                return $this->createSuccessResponseFromJWT($jwt);
+            } catch (UnexpectedValueException $e) {
+                //JWT could not be validated, move on
+            }
+        }
+        if ($request->cookies->has(self::NO_ACCOUNT_EXISTS_COOKIE)) {
+            $response = $this->createNoAccountExistsResponse($request->cookies->get(self::NO_ACCOUNT_EXISTS_COOKIE));
+            $response->headers->clearCookie(self::NO_ACCOUNT_EXISTS_COOKIE);
+
+            return $response;
+        }
         $ticket = $request->query->get('ticket');
 
         if (!$ticket) {
@@ -98,44 +119,64 @@ class CasAuthentication implements AuthenticationInterface
             ], JsonResponse::HTTP_OK);
         }
 
-        $userId = $this->casManager->getUserId($service, $ticket);
-        if (!$userId) {
+        $username = $this->casManager->getUsername($this->getServiceUrl(), $ticket);
+        if (!$username) {
             $msg =  "No user found for authenticated user.";
             $this->logger->error($msg, ['server vars' => var_export($_SERVER, true)]);
-            throw new \Exception($msg);
+            throw new Exception($msg);
         }
         /* @var \App\Entity\AuthenticationInterface $authEntity */
-        $authEntity = $this->authManager->findOneBy(['username' => $userId]);
+        $authEntity = $this->authManager->findOneBy(['username' => $username]);
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             if ($sessionUser->isEnabled()) {
                 $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
+                if ($request->cookies->has(self::REDIRECT_COOKIE)) {
+                    $response = RedirectResponse::create($request->cookies->get(self::REDIRECT_COOKIE));
+                    $response->headers->clearCookie(self::REDIRECT_COOKIE);
+                } else {
+                    $response = $this->createSuccessResponseFromJWT($jwt);
+                }
+                $exp = $this->jwtManager->getExpiresAtFromToken($jwt);
+                $response->headers->setCookie(Cookie::create(
+                    self::JWT_COOKIE,
+                    $jwt,
+                    $exp
+                ));
 
-                return $this->createSuccessResponseFromJWT($jwt);
+                return $response;
             }
         }
 
-        return new JsonResponse([
-            'status' => 'noAccountExists',
-            'userId' => $userId,
-            'errors' => [],
-            'jwt' => null,
-        ], JsonResponse::HTTP_OK);
+        if ($request->cookies->has(self::REDIRECT_COOKIE)) {
+            $url = $request->cookies->get(self::REDIRECT_COOKIE);
+        } else {
+            $url = $this->getRootUrl();
+        }
+
+        $response = RedirectResponse::create($url);
+        $response->headers->setCookie(Cookie::create(
+            self::NO_ACCOUNT_EXISTS_COOKIE,
+            $username,
+            strtotime('now + 45 seconds')
+        ));
+
+        return $response;
     }
 
     /**
-     * Logout a user
-     * @param Request $request
-     *
-     * @return JsonResponse
+     * @inheritDoc
      */
     public function logout(Request $request)
     {
         $logoutUrl = $this->casManager->getLogoutUrl();
-        return new JsonResponse([
+        $response =  new JsonResponse([
             'status' => 'redirect',
             'logoutUrl' => $logoutUrl
         ], JsonResponse::HTTP_OK);
+        $response->headers->clearCookie(self::JWT_COOKIE);
+
+        return $response;
     }
 
     /**
@@ -155,6 +196,83 @@ class CasAuthentication implements AuthenticationInterface
      */
     public function createAuthenticationResponse(Request $request): Response
     {
-        return new Response();
+        if (
+            $request->cookies->has(self::NO_ACCOUNT_EXISTS_COOKIE) ||
+            $request->cookies->has(self::JWT_COOKIE)
+        ) {
+            return new Response();
+        }
+
+        $service = $this->getServiceUrl();
+        $url = $this->casManager->getLoginUrl() . "?service=${service}";
+        $response = RedirectResponse::create($url);
+
+        if (!$request->cookies->has(self::REDIRECT_COOKIE)) {
+            $redirectUrl = $this->getAllowedRedirectUrl($request);
+            $response->headers->setCookie(Cookie::create(self::REDIRECT_COOKIE, $redirectUrl));
+        }
+
+        return $response;
+    }
+
+    /**
+     * Always user /auth/login for the CAS service
+     * This ensures users get redirected back there when authentication is successfull
+     * it also ensures that the ticket is valid since it is based on the service.
+     */
+    protected function getServiceUrl(): string
+    {
+        return $this->router->generate(
+            'ilios_authentication.login',
+            [],
+            UrlGenerator::ABSOLUTE_URL
+        );
+    }
+
+    protected function getRootUrl(): string
+    {
+        return $this->router->generate(
+            'ilios_web_assets',
+            [],
+            UrlGenerator::ABSOLUTE_URL
+        );
+    }
+
+    protected function createNoAccountExistsResponse(string $username): JsonResponse
+    {
+        return new JsonResponse([
+            'status' => 'noAccountExists',
+            'userId' => $username,
+            'errors' => [],
+            'jwt' => null,
+        ], JsonResponse::HTTP_OK);
+    }
+
+    protected function getAllowedRedirectUrl(Request $request): string
+    {
+        $topLevelRoutes = [
+            'admin',
+            'courses',
+            'curriculum-inventory-reports',
+            'dashboard',
+            'data',
+            'events',
+            'instructorgroups',
+            'learnergroups',
+            'login',
+            'lm',
+            'myprofile',
+            'mymaterials',
+            'program',
+            'schools',
+            'search',
+        ];
+        $or = implode('|', $topLevelRoutes);
+        $pattern = "+^/(${or})/?[\/a-z\-0-9]*$+i";
+        if (preg_match($pattern, $request->getRequestUri())) {
+            return $this->getRootUrl() . ltrim($request->getRequestUri(), '/');
+        } else {
+            return $this->getRootUrl();
+        }
     }
 }
