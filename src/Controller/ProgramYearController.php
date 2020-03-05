@@ -128,7 +128,9 @@ class ProgramYearController extends ApiController
 
         array_walk($data, function (&$row) {
             foreach (['program_year_objective', 'mapped_course_objective'] as $key) {
-                $row[$key] = strip_tags($row[$key]);
+                if ($row[$key]) {
+                    $row[$key] = strip_tags($row[$key]);
+                }
             }
             $row['matriculation_year'] = $row['matriculation_year'] . ' - ' . ($row['matriculation_year'] + 1);
         });
