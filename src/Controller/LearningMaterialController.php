@@ -105,8 +105,7 @@ class LearningMaterialController extends ApiController
             if (property_exists($obj, 'fileHash')) {
                 $fileHash = $obj->fileHash;
                 $file = $temporaryFileSystem->getFile($fileHash);
-
-                if (!$file->isReadable()) {
+                if (!$file || !$file->isReadable()) {
                     throw new HttpException(
                         Response::HTTP_BAD_REQUEST,
                         'This "fileHash" is not valid'
