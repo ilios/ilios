@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\School;
 use App\Entity\Session;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\DBAL\Types\Type as DoctrineType;
@@ -334,6 +335,19 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     {
         $events = $this->attachPreRequisitesToEvents($id, $events);
         return $this->attachPostRequisitesToEvents($id, $events);
+    }
+
+    /**
+     * Get all the IDs
+     *
+     * @return int[]
+     */
+    public function getIds(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->addSelect('x.id')->from(School::class, 'x');
+        $results = $qb->getQuery()->getScalarResult();
+        return array_map('intval', array_column($results, 'id'));
     }
 
     /**

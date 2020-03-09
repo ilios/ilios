@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity\Manager;
 
+use App\Entity\School;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -69,23 +70,23 @@ class OfferingManagerTest extends TestCase
 
         $session->setPublished(true);
         $course->setPublished(true);
-        $offerings  = $manager->getOfferingsForTeachingReminders(10);
+        $offerings  = $manager->getOfferingsForTeachingReminders(10, [1]);
         $this->assertEquals(1, $offerings->count());
         $this->assertEquals($offering, $offerings->first());
 
         $session->setPublished(false);
         $course->setPublished(true);
-        $offerings  = $manager->getOfferingsForTeachingReminders(10);
+        $offerings  = $manager->getOfferingsForTeachingReminders(10, [1]);
         $this->assertEquals(0, $offerings->count());
 
         $session->setPublished(true);
         $course->setPublished(false);
-        $offerings  = $manager->getOfferingsForTeachingReminders(10);
+        $offerings  = $manager->getOfferingsForTeachingReminders(10, [1]);
         $this->assertEquals(0, $offerings->count());
 
         $session->setPublished(false);
         $course->setPublished(false);
-        $offerings  = $manager->getOfferingsForTeachingReminders(10);
+        $offerings  = $manager->getOfferingsForTeachingReminders(10, [1]);
         $this->assertEquals(0, $offerings->count());
     }
 }

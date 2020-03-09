@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Manager;
 
+use App\Entity\Repository\OfferingRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use App\Entity\OfferingInterface;
@@ -15,39 +16,11 @@ class OfferingManager extends BaseManager
 {
     /**
      * Retrieves offerings starting X days from now.
-     *
-     * @param int $daysInAdvance Days in advance from now.
-     * @return Collection|OfferingInterface[]
      */
-    public function getOfferingsForTeachingReminders($daysInAdvance)
+    public function getOfferingsForTeachingReminders(int $daysInAdvance, array $schoolIds): array
     {
-        $now = time();
-        $startDate = new \DateTime();
-        $startDate->setTimezone(new \DateTimeZone('UTC'));
-        $startDate->setTimestamp($now);
-        $startDate->modify("midnight +{$daysInAdvance} days");
-
-        $daysInAdvance++;
-        $endDate = new \DateTime();
-        $endDate->setTimezone(new \DateTimeZone('UTC'));
-        $endDate->setTimestamp($now);
-        $endDate->modify("midnight +{$daysInAdvance} days");
-
-        $criteria = Criteria::create();
-        $expr = Criteria::expr();
-        $criteria->where(
-            $expr->andX(
-                $expr->gte('startDate', $startDate),
-                $expr->lt('startDate', $endDate)
-            )
-        );
-        $offerings = $this->getRepository()->matching($criteria);
-
-        // filter out any offerings belonging to unpublished sessions and courses
-        $offerings = $offerings->filter(function (OfferingInterface $offering) {
-            return ($offering->getSession()->isPublished() && $offering->getSession()->getCourse()->isPublished());
-        });
-
-        return $offerings;
+        /** @var OfferingRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getOfferingsForTeachingReminders($daysInAdvance, $schoolIds);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Manager\SchoolManager;
 use App\Command\SendTeachingRemindersCommand;
 use App\Entity\Course;
 use App\Entity\InstructorGroup;
@@ -45,6 +45,11 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     protected $fakeOfferingManager;
 
     /**
+     * @var SchoolManager
+     */
+    private $fakeSchoolManager;
+
+    /**
      * @var CommandTester
      */
     protected $commandTester;
@@ -70,17 +75,24 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $offering = $this->createOffering();
 
         $this->fakeOfferingManager = $this
-            ->getMockBuilder('App\Entity\Manager\OfferingManager')
+            ->getMockBuilder(OfferingManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->fakeOfferingManager
             ->method('getOfferingsForTeachingReminders')
             ->will($this->returnValueMap(
                 [
-                    [ 7, new ArrayCollection([ $offering ]) ],
-                    [ 10, new ArrayCollection() ],
+                    [ 7, [1], [ $offering ] ],
+                    [ 10, [1], [] ],
                 ]
             ));
+        $this->fakeSchoolManager = $this
+            ->getMockBuilder(SchoolManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->fakeSchoolManager
+            ->method('getIds')
+            ->will($this->returnValue([1]));
         $this->testDir = sys_get_temp_dir();
 
         $this->fs = m::mock(Filesystem::class);
@@ -95,6 +107,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $command = new SendTeachingRemindersCommand(
             $this->fakeOfferingManager,
+            $this->fakeSchoolManager,
             $kernel->getContainer()->get('twig'),
             $kernel->getContainer()->get('mailer'),
             $config,
@@ -113,6 +126,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->fakeOfferingManager);
+        unset($this->fakeSchoolManager);
         unset($this->fs);
     }
 
@@ -135,7 +149,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         ]);
 
         /** @var OfferingInterface $offering */
-        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7)->toArray()[0];
+        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7, [1])[0];
 
         $output = $this->commandTester->getDisplay();
 
@@ -264,7 +278,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $baseUrl = 'https://ilios.bar.edu';
 
         /* @var OfferingInterface $offering */
-        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7)->toArray()[0];
+        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7, [1])[0];
 
         /** @var UserInterface $instructor */
         foreach ($offering->getAllInstructors()->toArray() as $instructor) {
@@ -327,7 +341,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     {
         $schoolTitle = 'Global Health Sciences';
         /** @var OfferingInterface $offering */
-        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7)->toArray()[0];
+        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7, [1])[0];
         $offering->getSession()->getCourse()->getSchool()->setTitle($schoolTitle);
 
         $sender = 'foo@bar.edu';
