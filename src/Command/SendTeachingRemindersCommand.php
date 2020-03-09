@@ -138,6 +138,12 @@ class SendTeachingRemindersCommand extends Command
                 "The name of the reminder's sender."
             )
             ->addOption(
+                'schools',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                "Only Send Reminders for this comma seperated list of school ids."
+            )
+            ->addOption(
                 'dry-run',
                 null,
                 InputOption::VALUE_NONE,
@@ -165,15 +171,19 @@ class SendTeachingRemindersCommand extends Command
         $subject = $input->getOption('subject');
         $isDryRun = $input->getOption('dry-run');
         $senderName = $input->getOption('sender_name');
+        $schools = $input->getOption('schools');
         $from = $sender;
         if ($senderName) {
             $from = [$sender => $senderName];
         }
-
-        $allSchoolIds = $this->schoolManager->getIds();
+        if ($schools) {
+            $schoolIds = array_map('intval', str_getcsv($schools));
+        } else {
+            $schoolIds = $this->schoolManager->getIds();
+        }
 
         // get all applicable offerings.
-        $offerings = $this->offeringManager->getOfferingsForTeachingReminders($daysInAdvance, $allSchoolIds);
+        $offerings = $this->offeringManager->getOfferingsForTeachingReminders($daysInAdvance, $schoolIds);
 
         if (!count($offerings)) {
             $output->writeln('<info>No offerings with pending teaching reminders found.</info>');

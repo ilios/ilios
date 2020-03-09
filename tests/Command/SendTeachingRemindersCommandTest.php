@@ -389,6 +389,51 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $this->assertRegExp('/^Sent (\d+) teaching reminders\.$/', trim($output));
     }
 
+    public function testExecuteDryRunWithSchools()
+    {
+        $sender = 'foo@bar.edu';
+        $baseUrl = 'https://ilios.bar.edu';
+
+        $offering = $this->createOffering();
+        $this->fakeOfferingManager->shouldReceive('getOfferingsForTeachingReminders')
+            ->with(7, [1])->andReturn([$offering]);
+        $this->fakeSchoolManager->shouldReceive('getIds')->andReturn([1]);
+
+        $this->fs->shouldReceive('exists')->with(
+            $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
+        )->once()->andReturn(false);
+
+        $this->commandTester->execute([
+            'sender' => $sender,
+            'base_url' => $baseUrl,
+            '--dry-run' => true,
+            '--schools' => '1',
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        $totalMailsSent = count($offering->getAllInstructors()->toArray());
+        $this->assertStringContainsString("Sent {$totalMailsSent} teaching reminders.", $output);
+    }
+
+    public function testExecuteDryRunWithSchoolsWithNoOfferings()
+    {
+        $sender = 'foo@bar.edu';
+        $baseUrl = 'https://ilios.bar.edu';
+
+        $this->fakeOfferingManager->shouldReceive('getOfferingsForTeachingReminders')
+            ->with(7, [2])->andReturn([]);
+
+        $this->commandTester->execute([
+            'sender' => $sender,
+            'base_url' => $baseUrl,
+            '--dry-run' => true,
+            '--schools' => '2',
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString("No offerings with pending teaching reminders found.", $output);
+    }
+
     /**
      * @covers \App\Command\SendTeachingRemindersCommand::execute
      */
