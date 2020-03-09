@@ -60,7 +60,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     protected $timezone;
 
     /**
-     * @var m\MockInterface
+     * @var m\MockInterface|Filesystem
      */
     protected $fs;
 
@@ -72,27 +72,8 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $offering = $this->createOffering();
-
-        $this->fakeOfferingManager = $this
-            ->getMockBuilder(OfferingManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->fakeOfferingManager
-            ->method('getOfferingsForTeachingReminders')
-            ->will($this->returnValueMap(
-                [
-                    [ 7, [1], [ $offering ] ],
-                    [ 10, [1], [] ],
-                ]
-            ));
-        $this->fakeSchoolManager = $this
-            ->getMockBuilder(SchoolManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->fakeSchoolManager
-            ->method('getIds')
-            ->will($this->returnValue([1]));
+        $this->fakeOfferingManager = m::mock(OfferingManager::class);
+        $this->fakeSchoolManager = m::mock(SchoolManager::class);
         $this->testDir = sys_get_temp_dir();
 
         $this->fs = m::mock(Filesystem::class);
@@ -138,6 +119,11 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $sender = 'foo@bar.edu';
         $baseUrl = 'https://ilios.bar.edu';
 
+        $offering = $this->createOffering();
+        $this->fakeOfferingManager->shouldReceive('getOfferingsForTeachingReminders')
+            ->with(7, [1])->andReturn([$offering]);
+        $this->fakeSchoolManager->shouldReceive('getIds')->andReturn([1]);
+
         $this->fs->shouldReceive('exists')->with(
             $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
         )->once()->andReturn(false);
@@ -147,9 +133,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             'base_url' => $baseUrl,
             '--dry-run' => true,
         ]);
-
-        /** @var OfferingInterface $offering */
-        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7, [1])[0];
 
         $output = $this->commandTester->getDisplay();
 
@@ -227,6 +210,9 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     {
         $sender = 'foo@bar.edu';
         $baseUrl = 'https://ilios.bar.edu';
+        $this->fakeOfferingManager->shouldReceive('getOfferingsForTeachingReminders')
+            ->with(10, [1])->andReturn([]);
+        $this->fakeSchoolManager->shouldReceive('getIds')->andReturn([1]);
 
         $this->commandTester->execute([
             'sender' => $sender,
@@ -249,6 +235,11 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $name = 'Horst Krause';
         $subject = "Custom email subject";
         $baseUrl = 'https://ilios.bar.edu';
+        $offering = $this->createOffering();
+        $this->fakeOfferingManager->shouldReceive('getOfferingsForTeachingReminders')
+            ->with(7, [1])->andReturn([$offering]);
+        $this->fakeSchoolManager->shouldReceive('getIds')->andReturn([1]);
+
 
         $this->fs->shouldReceive('exists')->with(
             $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
@@ -276,9 +267,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $name = 'Horst Krause';
         $subject = "Custom email subject";
         $baseUrl = 'https://ilios.bar.edu';
-
-        /* @var OfferingInterface $offering */
-        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7, [1])[0];
+        $offering = $this->createOffering();
+        $this->fakeOfferingManager->shouldReceive('getOfferingsForTeachingReminders')
+            ->with(7, [1])->andReturn([$offering]);
+        $this->fakeSchoolManager->shouldReceive('getIds')->andReturn([1]);
 
         /** @var UserInterface $instructor */
         foreach ($offering->getAllInstructors()->toArray() as $instructor) {
@@ -316,6 +308,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $sender = 'foo@bar.edu';
         $subject = "Custom email subject";
         $baseUrl = 'https://ilios.bar.edu';
+        $offering = $this->createOffering();
+        $this->fakeOfferingManager->shouldReceive('getOfferingsForTeachingReminders')
+            ->with(7, [1])->andReturn([$offering]);
+        $this->fakeSchoolManager->shouldReceive('getIds')->andReturn([1]);
 
         $this->fs->shouldReceive('exists')->with(
             $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
@@ -339,9 +335,11 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
      */
     public function testExecuteSchoolTitleEndsWithS()
     {
+        $offering = $this->createOffering();
+        $this->fakeOfferingManager->shouldReceive('getOfferingsForTeachingReminders')
+            ->with(7, [1])->andReturn([$offering]);
+        $this->fakeSchoolManager->shouldReceive('getIds')->andReturn([1]);
         $schoolTitle = 'Global Health Sciences';
-        /** @var OfferingInterface $offering */
-        $offering = $this->fakeOfferingManager->getOfferingsForTeachingReminders(7, [1])[0];
         $offering->getSession()->getCourse()->getSchool()->setTitle($schoolTitle);
 
         $sender = 'foo@bar.edu';
@@ -372,6 +370,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     {
         $sender = 'foo@bar.edu';
         $baseUrl = 'https://ilios.bar.edu';
+        $offering = $this->createOffering();
+        $this->fakeOfferingManager->shouldReceive('getOfferingsForTeachingReminders')
+            ->with(7, [1])->andReturn([$offering]);
+        $this->fakeSchoolManager->shouldReceive('getIds')->andReturn([1]);
 
         $this->fs->shouldReceive('exists')->with(
             $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
@@ -426,11 +428,9 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     }
 
     /**
-     * @return OfferingInterface
-     *
      * @todo This is truly in bad form. Refactor fixture loading out. [ST 2015/09/25]
      */
-    protected function createOffering()
+    protected function createOffering(): OfferingInterface
     {
         $school = new School();
         $school->setId(1);
