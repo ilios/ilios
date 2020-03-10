@@ -115,7 +115,6 @@ class OfferingRepository extends EntityRepository implements DTORepositoryInterf
                 $exp->gte('offering.startDate', ':startDate'),
                 $exp->lt('offering.startDate', ':endDate')
             ))
-            ->andWhere($qb->expr()->in('school.id', ':schools'))
             ->andWhere($qb->expr()->eq('session.published', true))
             ->andWhere($qb->expr()->eq('course.published', true))
             ->andWhere($qb->expr()->in('school.id', ':schools'))
