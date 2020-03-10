@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\Offering;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -87,6 +88,42 @@ class OfferingRepository extends EntityRepository implements DTORepositoryInterf
             }
         }
         return array_values($offeringDTOs);
+    }
+
+    public function getOfferingsForTeachingReminders(int $daysInAdvance, array $schoolIds): array
+    {
+        $now = time();
+        $startDate = new \DateTime();
+        $startDate->setTimezone(new \DateTimeZone('UTC'));
+        $startDate->setTimestamp($now);
+        $startDate->modify("midnight +{$daysInAdvance} days");
+
+        $daysInAdvance++;
+        $endDate = new \DateTime();
+        $endDate->setTimezone(new \DateTimeZone('UTC'));
+        $endDate->setTimestamp($now);
+        $endDate->modify("midnight +{$daysInAdvance} days");
+
+        $qb = $this->_em->createQueryBuilder();
+        $exp = $qb->expr();
+
+        $qb->select('DISTINCT offering')->from(Offering::class, 'offering')
+            ->join('offering.session', 'session')
+            ->join('session.course', 'course')
+            ->join('course.school', 'school')
+            ->where($exp->andX(
+                $exp->gte('offering.startDate', ':startDate'),
+                $exp->lt('offering.startDate', ':endDate')
+            ))
+            ->andWhere($qb->expr()->eq('session.published', true))
+            ->andWhere($qb->expr()->eq('course.published', true))
+            ->andWhere($qb->expr()->in('school.id', ':schools'))
+            ->orderBy('offering.id')
+            ->setParameter(':schools', $schoolIds)
+            ->setParameter(':startDate', $startDate)
+            ->setParameter(':endDate', $endDate);
+
+        return $qb->getQuery()->getResult();
     }
 
 

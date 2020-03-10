@@ -113,4 +113,16 @@ class SchoolManager extends BaseManager
         $repository = $this->getRepository();
         return $repository->addPreAndPostRequisites($id, $events);
     }
+
+    /**
+     * Get all the IDs for every school
+     *
+     * @return int[]
+     */
+    public function getIds(): array
+    {
+        /** @var SchoolRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getIds();
+    }
 }

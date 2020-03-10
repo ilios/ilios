@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\Manager\OfferingManager;
+use App\Entity\Manager\SchoolManager;
 use App\Entity\OfferingInterface;
 use App\Entity\SchoolInterface;
 use App\Entity\UserInterface;
@@ -38,6 +39,11 @@ class SendTeachingRemindersCommand extends Command
      * @var OfferingManager
      */
     protected $offeringManager;
+
+    /**
+     * @var SchoolManager
+     */
+    protected $schoolManager;
 
     /**
      * @var Environment
@@ -75,6 +81,7 @@ class SendTeachingRemindersCommand extends Command
      */
     public function __construct(
         OfferingManager $offeringManager,
+        SchoolManager $schoolManager,
         Environment $twig,
         \Swift_Mailer $mailer,
         Config $config,
@@ -83,6 +90,7 @@ class SendTeachingRemindersCommand extends Command
     ) {
         parent::__construct();
         $this->offeringManager = $offeringManager;
+        $this->schoolManager = $schoolManager;
         $this->twig = $twig;
         $this->mailer = $mailer;
         $this->config = $config;
@@ -130,6 +138,12 @@ class SendTeachingRemindersCommand extends Command
                 "The name of the reminder's sender."
             )
             ->addOption(
+                'schools',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                "Only Send Reminders for this comma seperated list of school ids."
+            )
+            ->addOption(
                 'dry-run',
                 null,
                 InputOption::VALUE_NONE,
@@ -151,32 +165,37 @@ class SendTeachingRemindersCommand extends Command
             return 1;
         }
 
-        $daysInAdvance = $input->getOption('days');
+        $daysInAdvance = (int) $input->getOption('days');
         $sender = $input->getArgument('sender');
         $baseUrl = rtrim($input->getArgument('base_url'), '/');
         $subject = $input->getOption('subject');
         $isDryRun = $input->getOption('dry-run');
         $senderName = $input->getOption('sender_name');
+        $schools = $input->getOption('schools');
         $from = $sender;
         if ($senderName) {
             $from = [$sender => $senderName];
         }
+        if ($schools) {
+            $schoolIds = array_map('intval', str_getcsv($schools));
+        } else {
+            $schoolIds = $this->schoolManager->getIds();
+        }
 
         // get all applicable offerings.
-        $offerings = $this->offeringManager->getOfferingsForTeachingReminders($daysInAdvance);
+        $offerings = $this->offeringManager->getOfferingsForTeachingReminders($daysInAdvance, $schoolIds);
 
-        if ($offerings->isEmpty()) {
+        if (!count($offerings)) {
             $output->writeln('<info>No offerings with pending teaching reminders found.</info>');
             return 0;
         }
 
         // mail out a reminder per instructor per offering.
         $templateCache = [];
-        $iterator = $offerings->getIterator();
         $i = 0;
 
         /** @var OfferingInterface $offering */
-        foreach ($iterator as $offering) {
+        foreach ($offerings as $offering) {
             $deleted = ! $offering->getSession()
                 || ! $offering->getSession()->getCourse()
                 || ! $offering->getSchool();
