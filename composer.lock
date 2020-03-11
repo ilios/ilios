@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dcca2535e9acd7b671cc14e34ba83658",
+    "content-hash": "a3c25351be9a89a66a518ebfd8d19340",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1746,21 +1746,21 @@
         },
         {
             "name": "exercise/htmlpurifier-bundle",
-            "version": "v2.0.5",
+            "version": "v3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Exercise/HTMLPurifierBundle.git",
-                "reference": "7a55d73311ee4e8a4b9639d7a3760cc0a7afddf0"
+                "reference": "b6c238e9dce45aa8fcb9d1bac3fe3acc0999e489"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Exercise/HTMLPurifierBundle/zipball/7a55d73311ee4e8a4b9639d7a3760cc0a7afddf0",
-                "reference": "7a55d73311ee4e8a4b9639d7a3760cc0a7afddf0",
+                "url": "https://api.github.com/repos/Exercise/HTMLPurifierBundle/zipball/b6c238e9dce45aa8fcb9d1bac3fe3acc0999e489",
+                "reference": "b6c238e9dce45aa8fcb9d1bac3fe3acc0999e489",
                 "shasum": ""
             },
             "require": {
                 "ezyang/htmlpurifier": "~4.0",
-                "php": "^5.5.9|>=7.0.8",
+                "php": "^7.1.3",
                 "symfony/config": "~3.4 || ~4.0 || ^5.0",
                 "symfony/dependency-injection": "~3.4.1 || ^4.0.1 || ^5.0",
                 "symfony/http-kernel": "~3.4.1 || ^4.0.1 || ^5.0"
@@ -1774,7 +1774,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -1800,7 +1800,7 @@
                 "htmlpurifier",
                 "symfony"
             ],
-            "time": "2019-12-14T11:57:47+00:00"
+            "time": "2020-03-10T19:35:42+00:00"
         },
         {
             "name": "ezimuel/guzzlestreams",
