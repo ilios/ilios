@@ -26,22 +26,22 @@ class AddDirectoryUserCommand extends Command
      * @var UserManager
      */
     protected $userManager;
-    
+
     /**
      * @var AuthenticationManager
      */
     protected $authenticationManager;
-    
+
     /**
      * @var SchoolManager
      */
     protected $schoolManager;
-    
+
     /**
      * @var Directory
      */
     protected $directory;
-    
+
     public function __construct(
         UserManager $userManager,
         AuthenticationManager $authenticationManager,
@@ -52,10 +52,10 @@ class AddDirectoryUserCommand extends Command
         $this->authenticationManager = $authenticationManager;
         $this->schoolManager = $schoolManager;
         $this->directory = $directory;
-        
+
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -101,7 +101,7 @@ class AddDirectoryUserCommand extends Command
 
         if (!$userRecord) {
             $output->writeln("<error>Unable to find campus ID {$campusId} in the directory.</error>");
-            return;
+            return 0;
         }
 
         $table = new Table($output);
@@ -119,14 +119,14 @@ class AddDirectoryUserCommand extends Command
             ))
         ;
         $table->render();
-        
+
         $helper = $this->getHelper('question');
         $output->writeln('');
         $question = new ConfirmationQuestion(
             "<question>Do you wish to add this user to Ilios?</question>\n",
             true
         );
-        
+
         if ($helper->ask($input, $output, $question)) {
             $user = $this->userManager->create();
             $user->setFirstName($userRecord['firstName']);
@@ -138,7 +138,7 @@ class AddDirectoryUserCommand extends Command
             $user->setSchool($school);
             $user->setUserSyncIgnore(false);
             $this->userManager->update($user);
-            
+
             $authentication = $this->authenticationManager->create();
             $authentication->setUser($user);
             $authentication->setUsername($userRecord['username']);

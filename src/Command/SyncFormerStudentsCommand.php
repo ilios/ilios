@@ -27,17 +27,17 @@ class SyncFormerStudentsCommand extends Command
      * @var UserManager
      */
     protected $userManager;
-    
+
     /**
      * @var UserRoleManager
      */
     protected $userRoleManager;
-    
+
     /**
      * @var Directory
      */
     protected $directory;
-    
+
     public function __construct(
         UserManager $userManager,
         UserRoleManager $userRoleManager,
@@ -46,10 +46,10 @@ class SyncFormerStudentsCommand extends Command
         $this->userManager = $userManager;
         $this->userRoleManager = $userRoleManager;
         $this->directory = $directory;
-        
+
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -73,15 +73,15 @@ class SyncFormerStudentsCommand extends Command
     {
         $output->writeln('<info>Starting former student synchronization process.</info>');
         $filter = $input->getArgument('filter');
-        
+
         $formerStudents = $this->directory->findByLdapFilter($filter);
-        
+
         if (!$formerStudents) {
             $output->writeln("<error>{$filter} returned no results.</error>");
-            return;
+            return 0;
         }
         $output->writeln('<info>Found ' . count($formerStudents) . ' former students in the directory.</info>');
-        
+
         $formerStudentsCampusIds = array_map(function (array $arr) {
             return $arr['campusId'];
         }, $formerStudents);
@@ -92,7 +92,7 @@ class SyncFormerStudentsCommand extends Command
         });
         if (!$usersToUpdate->count() > 0) {
             $output->writeln("<info>There are no students to update.</info>");
-            return;
+            return 0;
         }
         $output->writeln(
             '<info>There are ' .
@@ -117,7 +117,7 @@ class SyncFormerStudentsCommand extends Command
             '<question>Do you wish to mark these users as Former Students? </question>' . "\n",
             true
         );
-        
+
         if ($helper->ask($input, $output, $question)) {
             /* @var UserRoleInterface $formerStudentRole */
             $formerStudentRole = $this->userRoleManager->findOneBy(array('title' => 'Former Student'));
@@ -128,7 +128,7 @@ class SyncFormerStudentsCommand extends Command
                 $this->userManager->update($user, false);
             }
             $this->userRoleManager->update($formerStudentRole);
-            
+
             $output->writeln('<info>Former students updated successfully!</info>');
 
             return 0;

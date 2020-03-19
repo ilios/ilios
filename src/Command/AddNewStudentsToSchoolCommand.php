@@ -37,17 +37,17 @@ class AddNewStudentsToSchoolCommand extends Command
      * @var AuthenticationManager
      */
     protected $authenticationManager;
-    
+
     /**
      * @var UserRoleManager
      */
     protected $userRoleManager;
-    
+
     /**
      * @var Directory
      */
     protected $directory;
-    
+
     public function __construct(
         UserManager $userManager,
         SchoolManager $schoolManager,
@@ -60,10 +60,10 @@ class AddNewStudentsToSchoolCommand extends Command
         $this->authenticationManager = $authenticationManager;
         $this->userRoleManager = $userRoleManager;
         $this->directory = $directory;
-        
+
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -99,21 +99,21 @@ class AddNewStudentsToSchoolCommand extends Command
             );
         }
         $output->writeln("<info>Searching for new students to add to " . $school->getTitle() . ".</info>");
-        
+
         $students = $this->directory->findByLdapFilter($filter);
-        
+
         if (!$students) {
             $output->writeln("<error>{$filter} returned no results.</error>");
-            return;
+            return 0;
         }
         $output->writeln('<info>Found ' . count($students) . ' students in the directory.</info>');
-        
+
         $campusIds = $this->userManager->getAllCampusIds();
-        
+
         $newStudents = array_filter($students, function (array $arr) use ($campusIds) {
             return !in_array($arr['campusId'], $campusIds);
         });
-        
+
         if (!count($newStudents) > 0) {
             $output->writeln("<info>There are no new students to add.</info>");
             return;
@@ -143,7 +143,7 @@ class AddNewStudentsToSchoolCommand extends Command
             '<question>Do you wish to add these students to ' . $school->getTitle() . '? </question>' . "\n",
             true
         );
-        
+
         if ($helper->ask($input, $output, $question)) {
             $studentRole = $this->userRoleManager->findOneBy(array('title' => 'Student'));
             foreach ($newStudents as $userRecord) {
@@ -182,15 +182,15 @@ class AddNewStudentsToSchoolCommand extends Command
                 $user->setUserSyncIgnore(false);
                 $user->addRole($studentRole);
                 $this->userManager->update($user);
-                
+
                 $authentication = $this->authenticationManager->create();
                 $authentication->setUser($user);
                 $authentication->setUsername($userRecord['username']);
                 $this->authenticationManager->update($authentication, false);
-                
+
                 $studentRole->addUser($user);
                 $this->userRoleManager->update($studentRole);
-                
+
                 $output->writeln(
                     '<info>Success! New student #' .
                     $user->getId() . ' ' .

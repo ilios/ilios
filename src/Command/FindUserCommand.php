@@ -22,15 +22,15 @@ class FindUserCommand extends Command
      * @var Directory
      */
     protected $directory;
-    
+
     public function __construct(
         Directory $directory
     ) {
         $this->directory = $directory;
-        
+
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -56,9 +56,9 @@ class FindUserCommand extends Command
         $userRecords = $this->directory->find($searchTerms);
         if (!$userRecords) {
             $output->writeln('<error>Unable to find anyone matching those terms in the directory.</error>');
-            return;
+            return 0;
         }
-        
+
         $rows = array_map(function ($arr) {
             return [
                 $arr['campusId'],
