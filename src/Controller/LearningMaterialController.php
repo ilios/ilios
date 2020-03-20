@@ -101,27 +101,29 @@ class LearningMaterialController extends ApiController
         $temporaryFileSystem = $this->temporaryFileSystem;
         $fs = $this->fileSystem;
         $dataWithFilesAttributes = array_map(function ($obj) use ($fs, $temporaryFileSystem) {
-            $file = false;
+            $tmpFile = false;
             if (property_exists($obj, 'fileHash')) {
                 $fileHash = $obj->fileHash;
-                $file = $temporaryFileSystem->getFile($fileHash);
-                if (!$file || !$file->isReadable()) {
+                $contents = $fs->getUploadedTemporaryFileContentsAndRemoveFile($fileHash);
+                $tmpFile = $temporaryFileSystem->createFile($contents);
+                if (!$tmpFile || !$tmpFile->isReadable()) {
                     throw new HttpException(
                         Response::HTTP_BAD_REQUEST,
                         'This "fileHash" is not valid'
                     );
                 }
                 unset($obj->fileHash);
-                $obj->mimetype = $file->getMimeType();
-                $obj->relativePath = $fs->getLearningMaterialFilePath($file);
-                $obj->filesize = $file->getSize();
+                $obj->mimetype = $tmpFile->getMimeType();
+                $obj->relativePath = $fs->getLearningMaterialFilePath($tmpFile);
+                $obj->filesize = $tmpFile->getSize();
             } else {
                 unset($obj->mimetype);
                 unset($obj->relativePath);
                 unset($obj->filesize);
             }
-            if ($file) {
-                $fs->storeLearningMaterialFile($file, true);
+            if ($tmpFile) {
+                $fs->storeLearningMaterialFile($tmpFile, true);
+                unlink($tmpFile->getRealPath());
             }
 
             return $obj;
