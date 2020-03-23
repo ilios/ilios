@@ -11,6 +11,7 @@ use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Entity\LearningMaterialInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class IliosFileSystem
@@ -31,6 +32,12 @@ class IliosFileSystem
      * @var string
      */
     public const LOCK_FILE_DIRECTORY = 'locks';
+
+    /**
+     * Temporary File which need to be shared across servers
+     * @var string
+     */
+    public const TEMPORARY_SHARED_FILE_DIRECTORY = 'tmp';
 
     /**
      * Testing files are stored in this directory
@@ -222,5 +229,34 @@ class IliosFileSystem
         } catch (S3Exception $e) {
             throw new IliosFilesystemException('Error from AWS: ' . $e->getAwsErrorMessage());
         }
+    }
+
+    protected function getTemporaryFilePath(string $hash): string
+    {
+        return self::TEMPORARY_SHARED_FILE_DIRECTORY . '/' . $hash;
+    }
+
+    /**
+     * Store an uploaded file and return the hash
+     */
+    public function storeUploadedTemporaryFile(UploadedFile $file): string
+    {
+        $hash = md5_file($file->getPathname());
+        $relativePath = $this->getTemporaryFilePath($hash);
+        $stream = fopen($file->getPathname(), 'r+');
+        $this->fileSystem->putStream($relativePath, $stream);
+        fclose($stream);
+
+        return $hash;
+    }
+
+    public function getUploadedTemporaryFileContentsAndRemoveFile($hash): ?string
+    {
+        $relativePath = $this->getTemporaryFilePath($hash);
+        if ($this->fileSystem->has($relativePath)) {
+            return $this->fileSystem->readAndDelete($relativePath);
+        }
+
+        return null;
     }
 }

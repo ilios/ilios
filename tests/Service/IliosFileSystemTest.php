@@ -12,6 +12,7 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Service\IliosFileSystem;
 use App\Tests\TestCase;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class IliosFileSystemTest extends TestCase
 {
@@ -194,5 +195,24 @@ class IliosFileSystemTest extends TestCase
         $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(true);
         $this->fileSystem->shouldReceive('put')->with($lockFilePath, 'LOCK');
         $this->iliosFileSystem->createLock($name);
+    }
+
+    public function testStoreUploadedTemporaryFile()
+    {
+        $path = __FILE__;
+        $file = m::mock(UploadedFile::class)
+            ->shouldReceive('getPathname')->andReturn($path)->getMock();
+        $this->fileSystem->shouldReceive('putStream');
+        $this->iliosFileSystem->storeUploadedTemporaryFile($file);
+    }
+
+    public function testGetUploadedTemporaryFileContents()
+    {
+        $hash = md5_file(__FILE__);
+        $testContents = file_get_contents(__FILE__);
+        $this->fileSystem->shouldReceive('has')->with("tmp/${hash}")->andReturn(true);
+        $this->fileSystem->shouldReceive('readAndDelete')->with("tmp/${hash}")->andReturn($testContents);
+        $contents = $this->iliosFileSystem->getUploadedTemporaryFileContentsAndRemoveFile($hash);
+        $this->assertSame($contents, $testContents);
     }
 }

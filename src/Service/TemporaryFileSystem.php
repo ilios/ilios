@@ -58,7 +58,7 @@ class TemporaryFileSystem
      * @param  string $contents
      * @return File
      */
-    public function createFile(string $contents)
+    public function createFile(string $contents): File
     {
         $hash = md5($contents);
         $path = $this->getPath($hash);
