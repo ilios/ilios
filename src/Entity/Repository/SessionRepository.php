@@ -192,7 +192,8 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
             $qb->join('s.objectives', 'c_session_objective');
-            $qb->join('c_session_objective.parents', 'c_course_objective');
+            $qb->join('c_session_objective.objective', 'c_objective');
+            $qb->join('c_objective.parents', 'c_course_objective');
             $qb->join('c_course_objective.parents', 'c_program_year_objective');
             $qb->leftJoin('c_program_year_objective.competency', 'c_competency');
             $qb->leftJoin('c_competency.parent', 'c_competency2');
@@ -207,7 +208,8 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
             $ids = is_array($criteria['meshDescriptors']) ?
                 $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
             $qb->leftJoin('s.meshDescriptors', 'm_meshDescriptor');
-            $qb->leftJoin('s.objectives', 'm_objective');
+            $qb->leftJoin('s.objectives', 'm_session_objective');
+            $qb->leftJoin('m_session_objective.objective', 'm_objective');
             $qb->leftJoin('m_objective.meshDescriptors', 'm_objectiveMeshDescriptor');
             $qb->andWhere(
                 $qb->expr()->orX(

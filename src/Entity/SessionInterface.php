@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\IndexableCoursesEntityInterface;
+use App\Traits\SessionObjectivesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
@@ -29,13 +30,13 @@ interface SessionInterface extends
     TimestampableEntityInterface,
     OfferingsEntityInterface,
     LoggableEntityInterface,
-    ObjectivesEntityInterface,
     PublishableEntityInterface,
     CategorizableEntityInterface,
     MeshDescriptorsEntityInterface,
     SequenceBlocksEntityInterface,
     AdministratorsEntityInterface,
-    IndexableCoursesEntityInterface
+    IndexableCoursesEntityInterface,
+    SessionObjectivesEntityInterface
 {
     /**
      * @param bool $attireRequired

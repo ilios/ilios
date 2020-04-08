@@ -9,6 +9,7 @@ Objective:
    description: Title
    type: string
   position:
+   deprecated: true
    description: Sort order position
    type: integer
   active:

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\CourseObjectivesEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -34,14 +35,14 @@ interface CourseInterface extends
     SessionsEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,
-    ObjectivesEntityInterface,
     PublishableEntityInterface,
     CategorizableEntityInterface,
     CohortsEntityInterface,
     MeshDescriptorsEntityInterface,
     DirectorsEntityInterface,
     AdministratorsEntityInterface,
-    IndexableCoursesEntityInterface
+    IndexableCoursesEntityInterface,
+    CourseObjectivesEntityInterface
 {
     /**
      * @param int $level

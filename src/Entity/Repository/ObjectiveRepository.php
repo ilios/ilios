@@ -69,9 +69,9 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
             $objectiveDTOs[$arr['objectiveId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
         }
         $related = [
-            'courses',
-            'programYears',
-            'sessions',
+            'courseObjectives',
+            'programYearObjectives',
+            'sessionObjectives',
             'parents',
             'children',
             'meshDescriptors',
@@ -105,26 +105,52 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
     {
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
-            $qb->join('o.courses', 'course');
+            $qb->join('o.courseObjectives', 'courseObjective');
+            $qb->join('courseObjective.course', 'course');
             $qb->andWhere($qb->expr()->in('course.id', ':courses'));
             $qb->setParameter(':courses', $ids);
         }
         if (array_key_exists('programYears', $criteria)) {
             $ids = is_array($criteria['programYears']) ? $criteria['programYears'] : [$criteria['programYears']];
-            $qb->join('o.programYears', 'programYear');
+            $qb->join('o.programYears', 'programYearObjective');
+            $qb->join('programYearObjective.programYear', 'programYear');
             $qb->andWhere($qb->expr()->in('programYear.id', ':programYears'));
             $qb->setParameter(':programYears', $ids);
         }
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->join('o.sessions', 'session');
+            $qb->join('o.sessions', 'sessionObjective');
+            $qb->join('sessionObjective.session', 'session');
             $qb->andWhere($qb->expr()->in('session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
         }
+        if (array_key_exists('courseObjectives', $criteria)) {
+            $ids = is_array($criteria['courseObjectives'])
+                ? $criteria['courseObjectives'] : [$criteria['courseObjectives']];
+            $qb->join('o.courseObjectives', 'courseObjective2');
+            $qb->andWhere($qb->expr()->in('courseObjective2.id', ':courseObjectives'));
+            $qb->setParameter(':courseObjectives', $ids);
+        }
+        if (array_key_exists('programYearObjectives', $criteria)) {
+            $ids = is_array($criteria['programYearObjectives'])
+                ? $criteria['programYearObjectives'] : [$criteria['programYearObjectives']];
+            $qb->join('o.programYearsObjectives', 'programYearObjective2');
+            $qb->andWhere($qb->expr()->in('programYearObjective2.id', ':programYearObjectives'));
+            $qb->setParameter(':programYearObjectives', $ids);
+        }
+        if (array_key_exists('sessionObjectives', $criteria)) {
+            $ids = is_array($criteria['sessionObjectives'])
+                ? $criteria['sessionObjectives'] : [$criteria['sessionObjectives']];
+            $qb->join('o.sessionObjectives', 'sessionObjective2');
+            $qb->andWhere($qb->expr()->in('sessionObjective2.id', ':sessionObjectives'));
+            $qb->setParameter(':sessionObjectives', $ids);
+        }
         if (array_key_exists('fullCourses', $criteria)) {
             $ids = is_array($criteria['fullCourses']) ? $criteria['fullCourses'] : [$criteria['fullCourses']];
-            $qb->leftJoin('o.courses', 'f_course');
-            $qb->leftJoin('o.sessions', 'f_sessions');
+            $qb->leftJoin('o.courseObjectives', 'f_course_objective');
+            $qb->leftJoin('f_course_objective.course', 'f_course');
+            $qb->leftJoin('o.sessionsObjectives', 'f_session_objective');
+            $qb->leftJoin('f_session_objective.session', 'f_sessions');
             $qb->leftJoin('f_sessions.course', 'f_session_course');
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->in('f_course.id', ':fullCourses'),
@@ -136,6 +162,9 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
         unset($criteria['courses']);
         unset($criteria['programYears']);
         unset($criteria['sessions']);
+        unset($criteria['courseObjectives']);
+        unset($criteria['programYearObjectives']);
+        unset($criteria['sessionObjectives']);
         unset($criteria['fullCourses']);
 
         if (count($criteria)) {

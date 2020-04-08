@@ -105,6 +105,7 @@ class ObjectiveDTO
      * @var int
      * @IS\Expose
      * @IS\Type("integer")
+     * @deprecated
      *
      */
     public $position;

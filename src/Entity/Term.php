@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\CourseObjectivesEntity;
+use App\Traits\ProgramYearObjectivesEntity;
+use App\Traits\SessionObjectivesEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -40,6 +43,9 @@ class Term implements TermInterface
     use StringableIdEntity;
     use TitledEntity;
     use ActivatableEntity;
+    use SessionObjectivesEntity;
+    use CourseObjectivesEntity;
+    use ProgramYearObjectivesEntity;
 
     /**
      * @var int
@@ -132,6 +138,39 @@ class Term implements TermInterface
     protected $sessions;
 
     /**
+     * @var ArrayCollection|SessionObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="SessionObjective", mappedBy="terms")
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $sessionObjectives;
+
+    /**
+     * @var ArrayCollection|SessionObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="CourseObjective", mappedBy="terms")
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $courseObjectives;
+
+    /**
+     * @var ArrayCollection|SessionObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="ProgramYearObjective", mappedBy="terms")
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $programYearObjectives;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=false)
@@ -205,6 +244,7 @@ class Term implements TermInterface
         $this->programYears = new ArrayCollection();
         $this->sessions = new ArrayCollection();
         $this->children = new ArrayCollection();
+        $this->sessionObjectives = new ArrayCollection();
         $this->active = true;
     }
 

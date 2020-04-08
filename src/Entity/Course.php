@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\CourseObjectivesEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -45,13 +46,13 @@ class Course implements CourseInterface
     use ArchivableEntity;
     use SessionsEntity;
     use SchoolEntity;
-    use ObjectivesEntity;
     use PublishableEntity;
     use CategorizableEntity;
     use CohortsEntity;
     use MeshDescriptorsEntity;
     use DirectorsEntity;
     use AdministratorsEntity;
+    use CourseObjectivesEntity;
 
     /**
      * @var int
@@ -312,17 +313,9 @@ class Course implements CourseInterface
     protected $terms;
 
     /**
-     * @var ArrayCollection|ObjectiveInterface[]
+     * @var ArrayCollection|CourseObjectiveInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Objective", inversedBy="courses")
-     * @ORM\JoinTable(name="course_x_objective",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
-     *   }
-     * )
+     * @ORM\OneToMany(targetEntity="CourseObjective", mappedBy="course")
      * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      *
      * @IS\Expose
@@ -716,28 +709,19 @@ class Course implements CourseInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function addObjective(ObjectiveInterface $objective)
-    {
-        if (!$this->objectives->contains($objective)) {
-            $this->objectives->add($objective);
-            $objective->addCourse($this);
-        }
-    }
-
-    /**
      * When and objective is remove from a course it needs to remove any relationships
      * to children that belong to sessions in that course
+     * @param CourseObjectiveInterface $courseObjective
      */
-    public function removeObjective(ObjectiveInterface $objective)
+    public function removeObjective(CourseObjectiveInterface $courseObjective): void
     {
-        if ($this->objectives->contains($objective)) {
-            $this->objectives->removeElement($objective);
-            $objective->removeCourse($this);
+        if ($this->objectives->contains($courseObjective)) {
+            $this->objectives->removeElement($courseObjective);
+            $objective = $courseObjective->getObjective();
             foreach ($this->getSessions() as $session) {
+                /* @var SessionObjectiveInterface $sessionObjective */
                 foreach ($session->getObjectives() as $sessionObjective) {
-                    $sessionObjective->removeParent($objective);
+                    $sessionObjective->getObjective()->removeParent($objective);
                 }
             }
         }

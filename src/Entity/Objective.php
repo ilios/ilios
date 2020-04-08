@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ActivatableEntity;
+use App\Traits\CourseObjectivesEntity;
+use App\Traits\ProgramYearObjectivesEntity;
+use App\Traits\SessionObjectivesEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\IdentifiableEntity;
 use App\Traits\MeshDescriptorsEntity;
@@ -31,14 +34,13 @@ class Objective implements ObjectiveInterface
 {
     use IdentifiableEntity;
     use TitledEntity;
-    use CoursesEntity;
-    use SessionsEntity;
-    use ProgramYearsEntity;
     use StringableIdEntity;
     use MeshDescriptorsEntity;
     use SortableEntity;
     use ActivatableEntity;
-
+    use CourseObjectivesEntity;
+    use SessionObjectivesEntity;
+    use ProgramYearObjectivesEntity;
 
     /**
      * @var int
@@ -87,37 +89,37 @@ class Objective implements ObjectiveInterface
     protected $competency;
 
     /**
-     * @var ArrayCollection|CourseInterface[]
+     * @var ArrayCollection|CourseObjectiveInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="objectives")
-     * @ORM\OrderBy({"id" = "ASC"})
+     * @ORM\OneToMany(targetEntity="CourseObjective", mappedBy="objective")
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $courses;
+    protected $courseObjectives;
 
     /**
-     * @var ArrayCollection|ProgramYearInterface[]
+     * @var ArrayCollection|CourseObjectiveInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="objectives")
-     * @ORM\OrderBy({"id" = "ASC"})
+     * @ORM\OneToMany(targetEntity="ProgramYearObjective", mappedBy="objective")
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $programYears;
+    protected $programYearObjectives;
 
     /**
-     * @var ArrayCollection|SessionInterface[]
+     * @var ArrayCollection|SessionObjectiveInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Session", mappedBy="objectives")
-     * @ORM\OrderBy({"id" = "ASC"})
+     * @ORM\OneToMany(targetEntity="SessionObjective", mappedBy="objective")
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $sessions;
+    protected $sessionObjectives;
 
     /**
      * @var ArrayCollection|ObjectiveInterface[]
@@ -198,6 +200,7 @@ class Objective implements ObjectiveInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @deprecated
      */
     protected $position;
 
@@ -221,9 +224,9 @@ class Objective implements ObjectiveInterface
     {
         $this->position = 0;
         $this->active = true;
-        $this->courses = new ArrayCollection();
-        $this->programYears = new ArrayCollection();
-        $this->sessions = new ArrayCollection();
+        $this->courseObjectives = new ArrayCollection();
+        $this->programYearObjectives = new ArrayCollection();
+        $this->sessionObjectives = new ArrayCollection();
         $this->parents = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
@@ -329,50 +332,6 @@ class Objective implements ObjectiveInterface
     /**
      * @inheritdoc
      */
-    public function addCourse(CourseInterface $course)
-    {
-        if (!$this->courses->contains($course)) {
-            $this->courses->add($course);
-            $course->addObjective($this);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeCourse(CourseInterface $course)
-    {
-        if ($this->courses->contains($course)) {
-            $this->courses->removeElement($course);
-            $course->removeObjective($this);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addSession(SessionInterface $session)
-    {
-        if (!$this->sessions->contains($session)) {
-            $this->sessions->add($session);
-            $session->addObjective($this);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeSession(SessionInterface $session)
-    {
-        if ($this->sessions->contains($session)) {
-            $this->sessions->removeElement($session);
-            $session->removeObjective($this);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function addProgramYear(ProgramYearInterface $programYear)
     {
         if (!$this->programYears->contains($programYear)) {
@@ -463,12 +422,16 @@ class Objective implements ObjectiveInterface
      */
     public function getIndexableCourses(): array
     {
-        $sessionCourses = $this->sessions->map(function (SessionInterface $session) {
-            return $session->getCourse();
+        $sessionCourses = $this->sessionObjectives->map(function (SessionObjectiveInterface $sessionObjective) {
+            return $sessionObjective->getSession()->getCourse();
+        });
+
+        $courses = $this->courseObjectives->map(function (CourseObjectiveInterface $courseObjective) {
+            return $courseObjective->getCourse();
         });
 
         return array_merge(
-            $this->courses->toArray(),
+            $courses->toArray(),
             $sessionCourses->toArray()
         );
     }

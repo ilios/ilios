@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\SessionObjectivesEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\AdministratorsEntity;
 use App\Traits\CategorizableEntity;
@@ -43,12 +44,12 @@ class Session implements SessionInterface
     use StringableIdEntity;
     use TimestampableEntity;
     use OfferingsEntity;
-    use ObjectivesEntity;
     use PublishableEntity;
     use CategorizableEntity;
     use MeshDescriptorsEntity;
     use SequenceBlocksEntity;
     use AdministratorsEntity;
+    use SessionObjectivesEntity;
 
     /**
      * @var int
@@ -247,17 +248,9 @@ class Session implements SessionInterface
     protected $terms;
 
     /**
-     * @var ArrayCollection|ObjectiveInterface[]
+     * @var ArrayCollection|SessionObjectiveInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Objective", inversedBy="sessions")
-     * @ORM\JoinTable(name="session_x_objective",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
-     *   }
-     * )
+     * @ORM\OneToMany(targetEntity="SessionObjective", mappedBy="session")
      * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      *
      * @IS\Expose
