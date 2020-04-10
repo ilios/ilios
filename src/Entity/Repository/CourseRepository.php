@@ -487,7 +487,7 @@ EOL;
 
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
-            $qb->join('c.objectives', 'c_course_objective');
+            $qb->join('c.courseObjectives', 'c_course_objective');
             $qb->join('c_course_objective.objective', 'c_objective');
             $qb->join('c_objective.parents', 'c_program_year_objective');
             $qb->leftJoin('c_program_year_objective.competency', 'c_competency');
@@ -505,10 +505,10 @@ EOL;
             $qb->leftJoin('c.meshDescriptors', 'm_meshDescriptor');
             $qb->leftJoin('c.sessions', 'm_session');
             $qb->leftJoin('m_session.meshDescriptors', 'm_sessMeshDescriptor');
-            $qb->leftJoin('c.objectives', 'm_cObjective');
+            $qb->leftJoin('c.courseObjectives', 'm_cObjective');
             $qb->leftJoin('m_cObjective.objective', 'm_Objective');
             $qb->leftJoin('m_Objective.meshDescriptors', 'm_cObjectiveMeshDescriptor');
-            $qb->leftJoin('m_session.objectives', 'm_sObjective');
+            $qb->leftJoin('m_session.sessionObjectives', 'm_sObjective');
             $qb->leftJoin('m_sObjective.objective', 'm_Objective2');
             $qb->leftJoin('m_Objective2.meshDescriptors', 'm_sObjectiveMeshDescriptors');
             $qb->andWhere($qb->expr()->orX(
@@ -652,7 +652,12 @@ EOL;
             $indexableCourses[$courseId]->terms[] = $arr[0]['title'];
         }
 
-        $objectives = $this->joinObjectiveResults(Course::class, 'r.title', $courseIds);
+        $objectives = $this->joinObjectiveResults(
+            Course::class,
+            'courseObjectives',
+            'r.title',
+            $courseIds
+        );
         foreach ($objectives as $courseId => $arr) {
             $indexableCourses[$courseId]->objectives[] = $arr[0]['title'];
         }
@@ -742,12 +747,12 @@ EOL;
      *
      * @return array
      */
-    protected function joinObjectiveResults(string $from, string $select, array $ids)
+    protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select("f.id AS fromId, ${select}")->from($from, 'f')
-            ->join('f.objectives', 'o')
-            ->join('o.objective', 'r')
+            ->join("f.{$rel}", 'fxo')
+            ->join('fxo.objective', 'r')
             ->where($qb->expr()->in('f.id', ':ids'))
             ->setParameter('ids', $ids);
 
@@ -811,7 +816,12 @@ EOL;
             $sessions[$sessionId]->terms[] = $arr[0]['title'];
         }
 
-        $objectives = $this->joinObjectiveResults(Session::class, "r.title", $sessionIds);
+        $objectives = $this->joinObjectiveResults(
+            Session::class,
+            'sessionObjectives',
+            'r.title',
+            $sessionIds
+        );
         foreach ($objectives as $sessionId => $arr) {
             $sessions[$sessionId]->objectives[] = $arr[0]['title'];
         }

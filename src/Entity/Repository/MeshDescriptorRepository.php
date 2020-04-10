@@ -348,7 +348,8 @@ EOL;
             $qb->leftJoin('m.objectives', 'objective');
             $qb->leftJoin('m.sessionLearningMaterials', 'slm');
             $qb->leftJoin('slm.session', 'session2');
-            $qb->leftJoin('objective.sessions', 'session3');
+            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('sessionObjective.session', 'session3');
 
             $qb->andWhere(
                 $qb->expr()->orX(
@@ -367,10 +368,12 @@ EOL;
             $qb->leftJoin('m.objectives', 'objective');
             $qb->leftJoin('m.sessions', 'session');
             $qb->leftJoin('m.courseLearningMaterials', 'clm');
-            $qb->leftJoin('objective.courses', 'course2');
+            $qb->leftJoin('objective.courseObjectives', 'courseObjective');
+            $qb->leftJoin('courseObjective.course', 'course2');
             $qb->leftJoin('clm.course', 'course3');
             $qb->leftJoin('session.course', 'course4');
-            $qb->leftJoin('objective.sessions', 'session2');
+            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('sessionObjective.session', 'session2');
             $qb->leftJoin('session2.course', 'course5');
             $qb->leftJoin('m.sessionLearningMaterials', 'slm');
             $qb->leftJoin('slm.session', 'session3');
@@ -398,7 +401,9 @@ EOL;
             $qb->leftJoin('session.sessionType', 'sessionType');
             $qb->leftJoin('slm.session', 'session2');
             $qb->leftJoin('session2.sessionType', 'sessionType2');
-            $qb->leftJoin('objective.sessions', 'session3');
+            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('sessionObjective.session', 'session3');
+
             $qb->leftJoin('session3.sessionType', 'sessionType3');
             $qb->andWhere(
                 $qb->expr()->orX(
@@ -434,14 +439,16 @@ EOL;
             $qb->leftJoin('m.sessions', 'session');
             $qb->leftJoin('m.courseLearningMaterials', 'clm');
             $qb->leftJoin('course.terms', 'terms');
-            $qb->leftJoin('objective.courses', 'course2');
+            $qb->leftJoin('objective.courseObjectives', 'courseObjectives');
+            $qb->leftJoin('courseObjectives.course', 'course2');
             $qb->leftJoin('course2.terms', 'terms2');
             $qb->leftJoin('clm.course', 'course3');
             $qb->leftJoin('course3.terms', 'terms3');
             $qb->leftJoin('session.course', 'course4');
             $qb->leftJoin('session.terms', 'terms4');
             $qb->leftJoin('course4.terms', 'terms5');
-            $qb->leftJoin('objective.sessions', 'session2');
+            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('sessionObjective.session', 'session2');
             $qb->leftJoin('session2.course', 'course5');
             $qb->leftJoin('session2.terms', 'terms6');
             $qb->leftJoin('course5.terms', 'terms7');

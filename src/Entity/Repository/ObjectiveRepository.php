@@ -112,14 +112,14 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
         }
         if (array_key_exists('programYears', $criteria)) {
             $ids = is_array($criteria['programYears']) ? $criteria['programYears'] : [$criteria['programYears']];
-            $qb->join('o.programYears', 'programYearObjective');
+            $qb->join('o.programYearObjectives', 'programYearObjective');
             $qb->join('programYearObjective.programYear', 'programYear');
             $qb->andWhere($qb->expr()->in('programYear.id', ':programYears'));
             $qb->setParameter(':programYears', $ids);
         }
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->join('o.sessions', 'sessionObjective');
+            $qb->join('o.sessionObjectives', 'sessionObjective');
             $qb->join('sessionObjective.session', 'session');
             $qb->andWhere($qb->expr()->in('session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
@@ -134,7 +134,7 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
         if (array_key_exists('programYearObjectives', $criteria)) {
             $ids = is_array($criteria['programYearObjectives'])
                 ? $criteria['programYearObjectives'] : [$criteria['programYearObjectives']];
-            $qb->join('o.programYearsObjectives', 'programYearObjective2');
+            $qb->join('o.programYearObjectives', 'programYearObjective2');
             $qb->andWhere($qb->expr()->in('programYearObjective2.id', ':programYearObjectives'));
             $qb->setParameter(':programYearObjectives', $ids);
         }
@@ -149,7 +149,7 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
             $ids = is_array($criteria['fullCourses']) ? $criteria['fullCourses'] : [$criteria['fullCourses']];
             $qb->leftJoin('o.courseObjectives', 'f_course_objective');
             $qb->leftJoin('f_course_objective.course', 'f_course');
-            $qb->leftJoin('o.sessionsObjectives', 'f_session_objective');
+            $qb->leftJoin('o.sessionObjectives', 'f_session_objective');
             $qb->leftJoin('f_session_objective.session', 'f_sessions');
             $qb->leftJoin('f_sessions.course', 'f_session_course');
             $qb->andWhere($qb->expr()->orX(
