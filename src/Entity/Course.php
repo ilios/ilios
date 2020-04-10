@@ -718,9 +718,10 @@ class Course implements CourseInterface
         if ($this->courseObjectives->contains($courseObjective)) {
             $this->courseObjectives->removeElement($courseObjective);
             $objective = $courseObjective->getObjective();
+            /* @var SessionInterface $session */
             foreach ($this->getSessions() as $session) {
                 /* @var SessionObjectiveInterface $sessionObjective */
-                foreach ($session->getObjectives() as $sessionObjective) {
+                foreach ($session->getSessionObjectives() as $sessionObjective) {
                     $sessionObjective->getObjective()->removeParent($objective);
                 }
             }
