@@ -29,6 +29,10 @@ services:
         class: App\Entity\Manager\BaseManager
         arguments:
             $class: 'App\Entity\CourseClerkshipType'
+    App\Entity\Manager\CourseObjectiveManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\CourseObjective'
     App\Entity\Manager\DepartmentManager:
         class: App\Entity\Manager\BaseManager
         arguments:
@@ -77,10 +81,18 @@ services:
         class: App\Entity\Manager\BaseManager
         arguments:
             $class: 'App\Entity\Program'
+    App\Entity\Manager\ProgramYearObjectiveManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\ProgramYearObjective'
     App\Entity\Manager\ReportManager:
         class: App\Entity\Manager\BaseManager
         arguments:
             $class: 'App\Entity\Report'
+    App\Entity\Manager\SessionObjectiveManager:
+        class: App\Entity\Manager\BaseManager
+        arguments:
+            $class: 'App\Entity\SessionObjective'
     App\Entity\Manager\SessionTypeManager:
         class: App\Entity\Manager\BaseManager
         arguments:
