@@ -216,7 +216,7 @@ class ProgramYear implements ProgramYearInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $objectives;
+    protected $programYearObjectives;
 
     /**
      * @var ArrayCollection|ProgramYearStewardInterface[]
@@ -241,7 +241,7 @@ class ProgramYear implements ProgramYearInterface
         $this->directors = new ArrayCollection();
         $this->competencies = new ArrayCollection();
         $this->terms = new ArrayCollection();
-        $this->objectives = new ArrayCollection();
+        $this->programYearObjectives = new ArrayCollection();
         $this->stewards = new ArrayCollection();
     }
 

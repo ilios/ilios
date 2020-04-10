@@ -321,7 +321,7 @@ class Course implements CourseInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $objectives;
+    protected $courseObjectives;
 
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
@@ -407,7 +407,7 @@ class Course implements CourseInterface
         $this->administrators = new ArrayCollection();
         $this->cohorts = new ArrayCollection();
         $this->terms = new ArrayCollection();
-        $this->objectives = new ArrayCollection();
+        $this->courseObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
         $this->sessions = new ArrayCollection();
@@ -715,8 +715,8 @@ class Course implements CourseInterface
      */
     public function removeObjective(CourseObjectiveInterface $courseObjective): void
     {
-        if ($this->objectives->contains($courseObjective)) {
-            $this->objectives->removeElement($courseObjective);
+        if ($this->courseObjectives->contains($courseObjective)) {
+            $this->courseObjectives->removeElement($courseObjective);
             $objective = $courseObjective->getObjective();
             foreach ($this->getSessions() as $session) {
                 /* @var SessionObjectiveInterface $sessionObjective */

@@ -54,7 +54,7 @@ class SessionObjective implements SessionObjectiveInterface
      *
      * @Assert\NotNull()
      *
-     * @ORM\ManyToOne(targetEntity="Session", inversedBy="objectives")
+     * @ORM\ManyToOne(targetEntity="Session", inversedBy="sessionObjectives")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
      * })

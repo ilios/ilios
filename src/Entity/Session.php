@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\AdministratorsEntity;
 use App\Traits\CategorizableEntity;
 use App\Traits\MeshDescriptorsEntity;
-use App\Traits\ObjectivesEntity;
 use App\Traits\PublishableEntity;
 use App\Traits\SequenceBlocksEntity;
 use Doctrine\Common\Collections\Collection;
@@ -256,7 +255,7 @@ class Session implements SessionInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $objectives;
+    protected $sessionObjectives;
 
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
@@ -380,7 +379,7 @@ class Session implements SessionInterface
         $this->publishedAsTbd = false;
         $this->published = false;
         $this->terms = new ArrayCollection();
-        $this->objectives = new ArrayCollection();
+        $this->sessionObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->offerings = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
