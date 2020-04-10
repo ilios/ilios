@@ -83,6 +83,9 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
             'programYears',
             'sessions',
             'aamcResourceTypes',
+            'programYearObjectives',
+            'courseObjectives',
+            'sessionObjectives'
         ];
 
         foreach ($related as $rel) {
@@ -217,11 +220,13 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
             $qb->leftJoin('t.courses', 'cm_course');
             $qb->leftJoin('t.sessions', 'cm_session');
-            $qb->leftJoin('cm_course.objectives', 'cm_course_objective');
+            $qb->leftJoin('cm_course.objectives', 'cm_course_x_objective');
+            $qb->leftJoin('cm_course_x_objective.objective', 'cm_course_objective');
             $qb->leftJoin('cm_course_objective.parents', 'cm_program_year_objective');
             $qb->leftJoin('cm_program_year_objective.competency', 'cm_competency');
             $qb->leftJoin('cm_competency.parent', 'cm_competency2');
-            $qb->leftJoin('cm_session.objectives', 'cm_session_objective');
+            $qb->leftJoin('cm_session.objectives', 'cm_session_x_objective');
+            $qb->leftJoin('cm_session_x_objective.objective', 'cm_session_objective');
             $qb->leftJoin('cm_session_objective.parents', 'cm_course_objective2');
             $qb->leftJoin('cm_course_objective2.parents', 'cm_program_year_objective2');
             $qb->leftJoin('cm_program_year_objective2.competency', 'cm_competency3');
@@ -252,11 +257,14 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
             $qb->leftJoin('m_slm.meshDescriptors', 'm_meshDescriptor5');
             $qb->leftJoin('m_course2.learningMaterials', 'm_clm2');
             $qb->leftJoin('m_clm.meshDescriptors', 'm_meshDescriptor6');
-            $qb->leftJoin('m_course.objectives', 'm_objective');
+            $qb->leftJoin('m_course.objectives', 'm_course_x_objective');
+            $qb->leftJoin('m_course_x_objective.objective', 'm_objective');
             $qb->leftJoin('m_objective.meshDescriptors', 'm_meshDescriptor7');
-            $qb->leftJoin('m_session.objectives', 'm_objective2');
+            $qb->leftJoin('m_session.objectives', 'm_session_x_objective');
+            $qb->leftJoin('m_session_x_objective.objective', 'm_objective2');
             $qb->leftJoin('m_objective2.meshDescriptors', 'm_meshDescriptor8');
-            $qb->leftJoin('m_course2.objectives', 'm_objective3');
+            $qb->leftJoin('m_course2.objectives', 'm_course_x_objective2');
+            $qb->leftJoin('m_course_x_objective2.objective', 'm_objective3');
             $qb->leftJoin('m_objective3.meshDescriptors', 'm_meshDescriptor9');
             $qb->andWhere(
                 $qb->expr()->orX(
@@ -291,6 +299,33 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
             $qb->setParameter(':aamcResourceTypes', $ids);
         }
 
+        if (array_key_exists('programYearObjectives', $criteria)) {
+            $ids = is_array(
+                $criteria['programYearObjectives']
+            ) ? $criteria['programYearObjectives'] : [$criteria['programYearObjectives']];
+            $qb->join('t.programYearObjectives', 'pyo_programYearObjectives');
+            $qb->andWhere($qb->expr()->in('pyo_programYearObjectives.id', ':programYearObjectives'));
+            $qb->setParameter(':programYearObjectives', $ids);
+        }
+
+        if (array_key_exists('sessionObjectives', $criteria)) {
+            $ids = is_array(
+                $criteria['sessionObjectives']
+            ) ? $criteria['sessionObjectives'] : [$criteria['sessionObjectives']];
+            $qb->join('t.sessionObjectives', 'so_sessionObjectives');
+            $qb->andWhere($qb->expr()->in('so_sessionObjectives.id', ':sessionObjectives'));
+            $qb->setParameter(':sessionObjectives', $ids);
+        }
+
+        if (array_key_exists('courseObjectives', $criteria)) {
+            $ids = is_array(
+                $criteria['courseObjectives']
+            ) ? $criteria['courseObjectives'] : [$criteria['courseObjectives']];
+            $qb->join('t.courseObjectives', 'co_courseObjectives');
+            $qb->andWhere($qb->expr()->in('co_courseObjectives.id', ':courseObjectives'));
+            $qb->setParameter(':courseObjectives', $ids);
+        }
+
         unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
@@ -303,7 +338,9 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
         unset($criteria['meshDescriptors']);
         unset($criteria['aamcResourceTypes']);
         unset($criteria['programYears']);
-
+        unset($criteria['programYearObjectives']);
+        unset($criteria['sessionObjectives']);
+        unset($criteria['courseObjectives']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
