@@ -18,9 +18,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\CoursesEntity;
-use App\Traits\SessionsEntity;
-use App\Traits\ProgramYearsEntity;
 
 /**
  * Class Objective
@@ -327,28 +324,6 @@ class Objective implements ObjectiveInterface
     public function getChildren()
     {
         return $this->children;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addProgramYear(ProgramYearInterface $programYear)
-    {
-        if (!$this->programYears->contains($programYear)) {
-            $this->programYears->add($programYear);
-            $programYear->addObjective($this);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeProgramYear(ProgramYearInterface $programYear)
-    {
-        if ($this->programYears->contains($programYear)) {
-            $this->programYears->removeElement($programYear);
-            $programYear->removeObjective($this);
-        }
     }
 
     /**
