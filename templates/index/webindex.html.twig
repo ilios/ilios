@@ -26,18 +26,23 @@
     <meta name='iliosconfig-error-capture-enabled' content="{{ errorCaptureEnabled ? 'true':'false' }}">
     <title>Ilios</title>
 
+    {% for l in preloadLinks %}
+        <link rel="preload" href="{{ preload(asset(l.href), { as: l.as, crossorigin: l.crossorigin }) }}" as="{{ l.as }}" crossorigin="{{  l.crossorigin }}" {% if l.type %} type="{{  l.type }}" {% endif %} />
+    {% endfor %}
+
+    {% for l in links %}
+        <link rel="{{ l.rel }}" href="{{ l.href }}"
+                {%- if l.type %} type="{{  l.type }}" {% endif -%}
+                {%- if l.sizes %} sizes="{{  l.sizes }}" {% endif -%}
+        />
+    {% endfor %}
+
     {% for s in styles %}
         <style type="{{ s.type }}">
             {% autoescape false %}
             {{ s.content }}
             {% endautoescape %}
         </style>
-    {% endfor %}
-
-    {% for l in links %}
-        {% if l.isNotStyleSheet %}
-            <link rel="{{ l.rel }}" href="{{ l.href }}" type="{{  l.type }}" sizes="{{  l.sizes }}"  />
-        {% endif %}
     {% endfor %}
 </head>
 <body>
@@ -50,10 +55,8 @@
     </div>
 {% endfor %}
 
-{% for l in links %}
-    {% if l.isStyleSheet %}
-        <link rel="{{ l.rel }}" href="{{ preload(asset(l.href), { as: 'style' }) }}" type="{{  l.type }}" sizes="{{  l.sizes }}"  />
-   {% endif %}
+{% for s in stylesheets %}
+    <link rel="stylesheet" href="{{ preload(asset(s.href), { as: 'style' }) }}"  />
 {% endfor %}
 <link rel="stylesheet" href="{{ preload(asset('theme-overrides/custom.css'), { as: 'style'}) }}" />
 

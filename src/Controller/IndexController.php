@@ -215,16 +215,32 @@ class IndexController extends AbstractController
             ];
         }, $filteredMetas);
 
-        $links = array_map(function ($obj) {
-            return [
-                'rel' => $obj->rel,
-                'isStyleSheet' => $obj->rel === 'stylesheet',
-                'isNotStyleSheet' => $obj->rel !== 'stylesheet',
+        $stylesheets = [];
+        $preloadLinks = [];
+        $links = [];
+        foreach ($json->link as $obj) {
+            $arr = [
                 'href' => ltrim($obj->href, '/'),
-                'sizes' => property_exists($obj, 'sizes') ? $obj->sizes : null,
-                'type' => property_exists($obj, 'type') ? $obj->type : null,
             ];
-        }, $json->link);
+            switch ($obj->rel) {
+                case 'preload':
+                    if (property_exists($obj, 'as') && property_exists($obj, 'crossorigin')) {
+                        $arr['as'] = $obj->as;
+                        $arr['crossorigin'] = $obj->crossorigin;
+                        $arr['type'] = property_exists($obj, 'type') ? $obj->type : false;
+                        $preloadLinks[] = $arr;
+                    }
+                    break;
+                case 'stylesheet':
+                    $stylesheets[] = $arr;
+                    break;
+                default:
+                    $arr['sizes'] = property_exists($obj, 'sizes') ? $obj->sizes : false;
+                    $arr['type'] = property_exists($obj, 'type') ? $obj->type : false;
+                    $arr['rel'] = $obj->rel;
+                    $links[] = $arr;
+            }
+        }
 
         $scripts = array_map(function ($obj) {
             return [
@@ -254,8 +270,10 @@ class IndexController extends AbstractController
             ];
         }, $json->div);
 
-        $options = [
+        return [
             'metas' => $metas,
+            'stylesheets' => $stylesheets,
+            'preloadLinks' => $preloadLinks,
             'links' => $links,
             'scripts' => $scripts,
             'styles' => $styles,
@@ -263,8 +281,6 @@ class IndexController extends AbstractController
             'divs' => $divs,
             'errorCaptureEnabled' => $this->config->get('errorCaptureEnabled')
         ];
-
-        return $options;
     }
 
     protected function responseFromString(
