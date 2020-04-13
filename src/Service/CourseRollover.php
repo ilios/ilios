@@ -23,7 +23,9 @@ use App\Entity\Manager\SessionDescriptionManager;
 use App\Entity\SessionDescriptionInterface;
 use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\ObjectiveInterface;
+use DateInterval;
 use DateTime;
+use Exception;
 
 /**
  * CourseRollover Rolls over an existing course and its components to a new Academic Year
@@ -127,13 +129,13 @@ class CourseRollover
      * @param array $options
      * @param array $newCohortIds
      * @return CourseInterface the new, rolled-over course.
-     * @throws \Exception
+     * @throws Exception
      */
     public function rolloverCourse(int $courseId, int $newAcademicYear, array $options, array $newCohortIds = [])
     {
         //now, get/set the required values from the provided arguments
         $origCourseId = $courseId;
-        $newStartDate = (!empty($options['new-start-date'])) ? new \DateTime($options['new-start-date']) : null;
+        $newStartDate = (!empty($options['new-start-date'])) ? new DateTime($options['new-start-date']) : null;
 
         //make sure that the new course's academic year or new start date year is not in the past
         $this->confirmYearIsValid($newAcademicYear);
@@ -190,7 +192,7 @@ class CourseRollover
             /** @var CohortInterface $cohort */
             $cohort = $this->cohortManager->findOneBy(['id' => $id]);
             if (!$cohort) {
-                throw new \Exception("There are no cohorts with id ${id}.");
+                throw new Exception("There are no cohorts with id ${id}.");
             }
             $newCourse->addCohort($cohort);
         }
@@ -265,6 +267,7 @@ class CourseRollover
      * @param int $daysOffset
      * @param array $options
      * @param array $newCourseObjectives
+     * @throws Exception
      */
     protected function rolloverSessions(
         CourseInterface $newCourse,
@@ -380,6 +383,7 @@ class CourseRollover
      * @param SessionInterface $origCourseSession
      * @param $daysOffset
      * @param $options
+     * @throws Exception
      */
     protected function rolloverOfferings(
         SessionInterface $newSession,
@@ -423,11 +427,12 @@ class CourseRollover
     }
 
     /**
-     * @param DateTime      $origCourseStartDate
-     * @param int        $origAcademicYear
-     * @param int        $newAcademicYear
+     * @param DateTime $origCourseStartDate
+     * @param int $origAcademicYear
+     * @param int $newAcademicYear
      * @param DateTime|null $newCourseStartDate
      * @return int
+     * @throws Exception
      */
     private function calculateDaysOffset(
         DateTime $origCourseStartDate,
@@ -441,7 +446,7 @@ class CourseRollover
             $yearDiff = (int) $origCourseStartDate->format('Y') - $origAcademicYear;
 
             $diffedYear = $newAcademicYear + $yearDiff;
-            $newCourseStartDate = new \DateTime();
+            $newCourseStartDate = new DateTime();
             $newCourseStartDate->setISODate($diffedYear, $isoWeekOrdinal, $isoDayOrdinal);
         }
 
@@ -450,13 +455,13 @@ class CourseRollover
 
     /**
      * @param int $newAcademicYear
-     * @throws \Exception
+     * @throws Exception
      */
     private function confirmYearIsValid($newAcademicYear)
     {
         $lastYear = date('Y') - 1;
         if ($newAcademicYear < $lastYear) {
-            throw new \Exception(
+            throw new Exception(
                 "Courses cannot be rolled over to a new year before {$lastYear}."
             );
         }
@@ -465,13 +470,13 @@ class CourseRollover
     /**
      * @param string $title
      * @param int    $newAcademicYear
-     * @throws \Exception
+     * @throws Exception
      */
     private function checkForDuplicateRollover($title, $newAcademicYear)
     {
         $duplicateCourses = $this->courseManager->findBy(['title' => $title, 'year' => $newAcademicYear]);
         if (!empty($duplicateCourses)) {
-            throw new \Exception(
+            throw new Exception(
                 "Another course with the same title and academic year already exists."
                 . " If the year is correct, consider setting a new course title with '--new-course-title' option."
             );
@@ -481,13 +486,14 @@ class CourseRollover
     /**
      * @param int $origCourseId
      * @return CourseInterface
-     * @throws \Exception
+     * @throws Exception
      */
     private function getOriginalCourse($origCourseId)
     {
+        /* @var CourseInterface $origCourse */
         $origCourse = $this->courseManager->findOneBy(['id' => $origCourseId]);
         if (empty($origCourse)) {
-            throw new \Exception(
+            throw new Exception(
                 'There are no courses with courseId ' . $origCourseId . '.'
             );
         }
@@ -584,9 +590,10 @@ class CourseRollover
     }
 
     /**
-     * @param SessionInterface     $newSession
-     * @param SessionInterface     $origSession
+     * @param SessionInterface $newSession
+     * @param SessionInterface $origSession
      * @param $daysOffset
+     * @throws Exception
      */
     protected function rolloverIlmSession(
         SessionInterface $newSession,
@@ -610,14 +617,14 @@ class CourseRollover
     }
 
     /**
-     * @param \DateTime $origCourseStartDate
-     * @param \DateTime $newStartDate
-     * @throws \Exception
+     * @param DateTime $origCourseStartDate
+     * @param DateTime $newStartDate
+     * @throws Exception
      */
     protected function compareStartDateDayOfWeek($origCourseStartDate, $newStartDate)
     {
         if ($origCourseStartDate->format('w') !== $newStartDate->format('w')) {
-            throw new \Exception(
+            throw new Exception(
                 "The new start date must take place on the same day of the week as the original course start date"
                 . " ({$origCourseStartDate->format('l')})."
             );
@@ -625,9 +632,10 @@ class CourseRollover
     }
 
     /**
-     * @param \DateTime $origDate
-     * @param int       $daysOffset
-     * @return \DateTime
+     * @param DateTime $origDate
+     * @param int $daysOffset
+     * @return DateTime
+     * @throws Exception
      */
     protected function getAdjustedDate(
         $origDate,
@@ -635,7 +643,7 @@ class CourseRollover
     ) {
         $newDate = clone $origDate;
         $newInterval = 'P' . $daysOffset . 'D';
-        $newDate->add(new \DateInterval($newInterval));
+        $newDate->add(new DateInterval($newInterval));
 
         return $newDate;
     }
