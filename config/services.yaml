@@ -230,6 +230,11 @@ services:
     App\Service\Config:
       public: true
 
+    App\Service\CourseRollover:
+      arguments:
+        $courseObjectiveManager: '@App\Entity\Manager\CourseObjectiveManager'
+        $sessionObjectiveManager: '@App\Entity\Manager\SessionObjectiveManager'
+
     App\Service\DataimportFileLocator:
       public: true
 
