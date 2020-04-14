@@ -286,7 +286,7 @@ class CourseRollover
      * @param CourseInterface $origCourse
      * @param int $daysOffset
      * @param array $options
-     * @param CourseObjectiveInterface[] $newCourseObjectives
+     * @param ObjectiveInterface[] $newCourseObjectives
      * @throws Exception
      */
     protected function rolloverSessions(
@@ -334,10 +334,7 @@ class CourseRollover
 
             //SESSION OBJECTIVES
             if (empty($options['skip-session-objectives'])) {
-                $objectives = array_map(function (CourseObjectiveInterface $courseObjective) {
-                    return $courseObjective->getObjective();
-                }, $newCourseObjectives);
-                $this->rolloverSessionObjectives($newSession, $origCourseSession, $objectives);
+                $this->rolloverSessionObjectives($newSession, $origCourseSession, $newCourseObjectives);
             }
 
             //SESSION TERMS
@@ -547,7 +544,6 @@ class CourseRollover
             $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
             $newObjective->setAncestor($objective->getAncestorOrSelf());
             $newObjective->setPosition($objective->getPosition());
-            $newObjective->addCourseObjective($newCourseObjective);
             $newCourseObjective->setObjective($newObjective);
             foreach ($cohorts as $cohort) {
                 $this->reLinkCourseObjectiveToParents($objective, $newObjective, $cohort);
@@ -556,7 +552,7 @@ class CourseRollover
             $this->objectiveManager->update($newObjective, false, false);
             $this->courseObjectiveManager->update($newCourseObjective, false, false);
 
-            $newCourseObjectives[$newCourseObjective->getId()] = $newCourseObjective;
+            $newCourseObjectives[$objective->getId()] = $newObjective;
         }
 
         return $newCourseObjectives;
@@ -610,7 +606,6 @@ class CourseRollover
                     $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
                     $newObjective->setAncestor($objective->getAncestorOrSelf());
                     $newObjective->setPosition($objective->getPosition());
-                    $newObjective->addSessionObjective($newSessionObjective);
                     $newSessionObjective->setObjective($newObjective);
                     $newParents = $objective->getParents()
                         ->map(

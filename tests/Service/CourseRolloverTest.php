@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Entity\CourseObjective;
+use App\Entity\CourseObjectiveInterface;
+use App\Entity\Manager\BaseManager;
+use App\Entity\ProgramYearObjective;
+use App\Entity\SessionObjective;
+use App\Entity\SessionObjectiveInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\IlmSessionInterface;
@@ -104,6 +110,16 @@ class CourseRolloverTest extends TestCase
     protected $cohortManager;
 
     /**
+     * @var m\MockInterface
+     */
+    protected $courseObjectiveManager;
+
+    /**
+     * @var m\MockInterface
+     */
+    protected $sessionObjectiveManager;
+
+    /**
      * @var CourseRollover
      */
     protected $service;
@@ -125,6 +141,8 @@ class CourseRolloverTest extends TestCase
         $this->objectiveManager = m::mock(ObjectiveManager::class);
         $this->ilmSessionManager = m::mock(IlmSessionManager::class);
         $this->cohortManager = m::mock(CohortManager::class);
+        $this->sessionObjectiveManager = m::mock(BaseManager::class);
+        $this->courseObjectiveManager = m::mock(BaseManager::class);
         $this->service = new CourseRollover(
             $this->courseManager,
             $this->learningMaterialManager,
@@ -135,7 +153,9 @@ class CourseRolloverTest extends TestCase
             $this->offeringManager,
             $this->objectiveManager,
             $this->ilmSessionManager,
-            $this->cohortManager
+            $this->cohortManager,
+            $this->courseObjectiveManager,
+            $this->sessionObjectiveManager
         );
     }
 
@@ -155,6 +175,8 @@ class CourseRolloverTest extends TestCase
         unset($this->objectiveManager);
         unset($this->ilmSessionManager);
         unset($this->cohortManager);
+        unset($this->courseObjectiveManager);
+        unset($this->sessionObjectiveManager);
         unset($this->service);
     }
 
@@ -198,11 +220,12 @@ class CourseRolloverTest extends TestCase
         $ancestor = $course->getAncestor();
         $newCourse->shouldReceive('setAncestor')->with($ancestor)->once();
 
-        /** @var Objective $objective */
-        foreach ($course->getObjectives() as $objective) {
+        /* @var CourseObjectiveInterface $objective */
+        foreach ($course->getCourseObjectives() as $courseObjective) {
+            $objective = $courseObjective->getObjective();
+
             $newObjective = m::mock(ObjectiveInterface::class);
             $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
-            $newObjective->shouldReceive('addCourse')->with($newCourse)->once();
             $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
             $newObjective->shouldReceive('setPosition')->with($objective->getPosition())->once();
 
@@ -212,10 +235,23 @@ class CourseRolloverTest extends TestCase
             } else {
                 $newObjective->shouldReceive('setAncestor')->with($objective)->once();
             }
+
+            $newCourseObjective = m::mock(CourseObjectiveInterface::class);
+            $newCourseObjective->shouldReceive('setCourse')->with($newCourse)->once();
+            $newCourseObjective->shouldReceive('setPosition')->with($courseObjective->getPosition())->once();
+            $newCourseObjective->shouldReceive('setObjective')->with($newObjective)->once();
+            $newCourseObjective->shouldReceive('setTerms')->with($courseObjective->getTerms())->once();
+
             $this->objectiveManager
                 ->shouldReceive('create')->once()
                 ->andReturn($newObjective);
             $this->objectiveManager->shouldReceive('update')->once()->withArgs([$newObjective, false, false]);
+
+            $this->courseObjectiveManager
+                ->shouldReceive('create')->once()
+                ->andReturn($newCourseObjective);
+            $this->courseObjectiveManager->shouldReceive('update')
+                ->once()->withArgs([$newCourseObjective, false, false]);
         }
 
         foreach ($course->getLearningMaterials() as $learningMaterial) {
@@ -237,6 +273,7 @@ class CourseRolloverTest extends TestCase
                 ->withArgs([$newLearningMaterial, false, false]);
         }
 
+        /* @var SessionInterface $session */
         foreach ($course->getSessions() as $session) {
             $newSession = m::mock(SessionInterface::class);
             $newSession->shouldReceive('setTitle')->with($session->getTitle())->once();
@@ -255,27 +292,41 @@ class CourseRolloverTest extends TestCase
                 ->andReturn($newSession);
             $this->sessionManager->shouldReceive('update')->withArgs([$newSession, false, false])->once();
 
-            /** @var Objective $objective */
-            foreach ($session->getObjectives() as $objective) {
+            /** @var SessionObjectiveInterface $sessionObjective */
+            foreach ($session->getSessionObjectives() as $sessionObjective) {
+                /* @var ObjectiveInterface $objective */
+                $objective = $sessionObjective->getObjective();
+
                 $newObjective = m::mock(ObjectiveInterface::class);
                 $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
-                $newObjective->shouldReceive('addSession')->with($newSession)->once();
                 $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
                 $newObjective->shouldReceive('setPosition')->with($objective->getPosition())->once();
                 $newObjective->shouldReceive('setParents')
                     ->with(m::on(function (Collection $collection) use ($objective) {
                         return count($collection) === count($objective->getParents());
                     }))->once();
-                $this->objectiveManager
-                    ->shouldReceive('create')->once()
-                    ->andReturn($newObjective);
                 $ancestor = $objective->getAncestor();
                 if ($ancestor) {
                     $newObjective->shouldReceive('setAncestor')->with($ancestor)->once();
                 } else {
                     $newObjective->shouldReceive('setAncestor')->with($objective)->once();
                 }
+
+                $newSessionObjective = m::mock(SessionObjectiveInterface::class);
+                $newSessionObjective->shouldReceive('setSession')->with($newSession)->once();
+                $newSessionObjective->shouldReceive('setPosition')->with($sessionObjective->getPosition())->once();
+                $newSessionObjective->shouldReceive('setObjective')->with($newObjective)->once();
+                $newSessionObjective->shouldReceive('setTerms')->with($sessionObjective->getTerms())->once();
+
+                $this->objectiveManager
+                    ->shouldReceive('create')->once()
+                    ->andReturn($newObjective);
                 $this->objectiveManager->shouldReceive('update')->withArgs([$newObjective, false, false]);
+
+                $this->sessionObjectiveManager
+                    ->shouldReceive('create')->once()
+                    ->andReturn($newSessionObjective);
+                $this->sessionObjectiveManager->shouldReceive('update')->withArgs([$newSessionObjective, false, false]);
             }
 
             foreach ($session->getLearningMaterials() as $learningMaterial) {
@@ -666,7 +717,9 @@ class CourseRolloverTest extends TestCase
         $courseObjective = new Objective();
         $courseObjective->setId(13);
         $courseObjective->setTitle('test');
-        $course->addObjective($courseObjective);
+        $courseXObjective = new CourseObjective();
+        $courseXObjective->setObjective($courseObjective);
+        $course->addCourseObjective($courseXObjective);
         $this->objectiveManager->shouldReceive('create')->once()->andReturn(new Objective());
 
         $session = new Session();
@@ -674,7 +727,9 @@ class CourseRolloverTest extends TestCase
         $sessionObjective = new Objective();
         $sessionObjective->addParent(new Objective());
         $sessionObjective->addParent($courseObjective);
-        $session->addObjective($sessionObjective);
+        $sessionXObjective = new SessionObjective();
+        $sessionXObjective->setObjective($sessionObjective);
+        $session->addSessionObjective($sessionXObjective);
         $course->addSession($session);
 
         $newCourse = m::mock(CourseInterface::class);
@@ -685,6 +740,10 @@ class CourseRolloverTest extends TestCase
         $newSession->shouldIgnoreMissing();
         $newObjective = m::mock(ObjectiveInterface::class);
         $newObjective->shouldIgnoreMissing();
+        $newCourseObjective = m::mock(CourseObjectiveInterface::class);
+        $newCourseObjective->shouldIgnoreMissing();
+        $newSessionObjective = m::mock(SessionObjectiveInterface::class);
+        $newSessionObjective->shouldIgnoreMissing();
 
         $self = $this;
         //We should end up with 1 parent since the other one is an orphan
@@ -696,9 +755,13 @@ class CourseRolloverTest extends TestCase
             }));
         $this->objectiveManager->shouldReceive('create')->once()->andReturn($newObjective);
         $this->sessionManager->shouldReceive('create')->once()->andReturn($newSession);
+        $this->courseObjectiveManager->shouldReceive('create')->once()->andReturn($newCourseObjective);
+        $this->sessionObjectiveManager->shouldReceive('create')->once()->andReturn($newSessionObjective);
 
         $this->sessionManager->shouldIgnoreMissing();
         $this->objectiveManager->shouldIgnoreMissing();
+        $this->sessionObjectiveManager->shouldIgnoreMissing();
+        $this->courseObjectiveManager->shouldIgnoreMissing();
 
         $newCourse->shouldReceive('getCohorts')->once()->andReturn(new ArrayCollection());
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['']);
@@ -729,16 +792,27 @@ class CourseRolloverTest extends TestCase
         $newCourse->shouldIgnoreMissing();
 
         /** @var ObjectiveInterface $objective */
-        foreach ($course->getObjectives() as $objective) {
+        foreach ($course->getCourseObjectives() as $courseObjective) {
+            $objective = $courseObjective->getObjective();
             $newObjective = m::mock(ObjectiveInterface::class);
             $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
-            $newObjective->shouldReceive('addCourse')->with($newCourse)->once();
             $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
             $newObjective->shouldReceive('setParents')->with($objective->getParents());
             $newObjective->shouldReceive('setPosition')->with($objective->getPosition())->once();
             $newObjective->shouldReceive('setAncestor')->with($objective->getAncestorOrSelf())->once();
+
+            $newCourseObjective = m::mock(CourseObjectiveInterface::class);
+            $newCourseObjective->shouldReceive('setObjective')->with($newObjective)->once();
+            $newCourseObjective->shouldReceive('setCourse')->with($newCourse)->once();
+            $newCourseObjective->shouldReceive('setPosition')->with($courseObjective->getPosition())->once();
+            $newCourseObjective->shouldReceive('setTerms')->with($courseObjective->getTerms())->once();
+
             $this->objectiveManager->shouldReceive('create')->once()->andReturn($newObjective);
             $this->objectiveManager->shouldReceive('update')->once()->withArgs([$newObjective, false, false]);
+
+            $this->courseObjectiveManager->shouldReceive('create')->once()->andReturn($newCourseObjective);
+            $this->courseObjectiveManager
+                ->shouldReceive('update')->once()->withArgs([$newCourseObjective, false, false]);
         }
 
         foreach ($course->getLearningMaterials() as $learningMaterial) {
@@ -748,6 +822,7 @@ class CourseRolloverTest extends TestCase
             $this->courseLearningMaterialManager->shouldIgnoreMissing();
         }
 
+        /* @var SessionInterface $session */
         foreach ($course->getSessions() as $session) {
             $newSession = m::mock(SessionInterface::class);
             $newSession->shouldIgnoreMissing();
@@ -756,11 +831,11 @@ class CourseRolloverTest extends TestCase
                 ->andReturn($newSession);
             $this->sessionManager->shouldReceive('update')->withArgs([$newSession, false, false])->once();
 
-            /** @var ObjectiveInterface $objective */
-            foreach ($session->getObjectives() as $objective) {
+            /** @var SessionObjectiveInterface $sessionObjective */
+            foreach ($session->getSessionObjectives() as $sessionObjective) {
+                $objective = $sessionObjective->getObjective();
                 $newObjective = m::mock(ObjectiveInterface::class);
                 $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
-                $newObjective->shouldReceive('addSession')->with($newSession)->once();
                 $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
                 $newObjective->shouldReceive('setPosition')->with($objective->getPosition())->once();
                 $newObjective->shouldReceive('setAncestor')->with($objective->getAncestorOrSelf())->once();
@@ -768,8 +843,18 @@ class CourseRolloverTest extends TestCase
                              ->with(m::on(function (Collection $collection) use ($objective) {
                                  return count($collection) === count($objective->getParents());
                              }))->once();
+
+                $newSessionObjective = m::mock(SessionObjectiveInterface::class);
+                $newSessionObjective->shouldReceive('setObjective')->with($newObjective)->once();
+                $newSessionObjective->shouldReceive('setSession')->with($newSession)->once();
+                $newSessionObjective->shouldReceive('setPosition')->with($sessionObjective->getPosition())->once();
+                $newSessionObjective->shouldReceive('setTerms')->with($sessionObjective->getTerms())->once();
+
                 $this->objectiveManager->shouldReceive('create')->once()->andReturn($newObjective);
                 $this->objectiveManager->shouldReceive('update')->withArgs([$newObjective, false, false]);
+
+                $this->sessionObjectiveManager->shouldReceive('create')->once()->andReturn($newSessionObjective);
+                $this->sessionObjectiveManager->shouldReceive('update')->withArgs([$newSessionObjective, false, false]);
             }
 
             foreach ($session->getLearningMaterials() as $learningMaterial) {
@@ -888,10 +973,12 @@ class CourseRolloverTest extends TestCase
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
-        $course->addObjective(new Objective());
+        $courseObjective = new CourseObjective();
+        $courseObjective->setObjective(new Objective());
+        $course->addCourseObjective($courseObjective);
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
-        $newCourse->shouldNotReceive('addObjective');
+        $newCourse->shouldNotReceive('addCourseObjective');
         $this->objectiveManager->shouldNotReceive('create');
         $newYear = $this->setupCourseManager($course, $newCourse);
 
@@ -1066,7 +1153,9 @@ class CourseRolloverTest extends TestCase
         $pyObjective = new Objective();
         $pyObjective->setId(1);
         $pyObjective->setTitle('test program year objective');
-        $programYear->addObjective($pyObjective);
+        $pyXObjective = new ProgramYearObjective();
+        $pyXObjective->setObjective($pyObjective);
+        $programYear->addProgramYearObjective($pyXObjective);
 
         $newProgramYear = new ProgramYear();
         $newCohort = new Cohort();
@@ -1077,35 +1166,49 @@ class CourseRolloverTest extends TestCase
         $newPyObjective->setId(1);
         $newPyObjective->setTitle('test program year objective');
         $newPyObjective->setAncestor($pyObjective);
-        $newProgramYear->addObjective($newPyObjective);
+        $newPyXObjective = new ProgramYearObjective();
+        $newPyXObjective->setObjective($newPyObjective);
+        $newProgramYear->addProgramYearObjective($newPyXObjective);
 
         $courseObjective1 = new Objective();
         $courseObjective1->setId(808);
         $courseObjective1->setTitle('test course objective1');
         $courseObjective1->addParent($pyObjective);
-        $course->addObjective($courseObjective1);
+        $courseXObjective1 = new CourseObjective();
+        $courseXObjective1->setObjective($courseObjective1);
+        $course->addCourseObjective($courseXObjective1);
 
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newYear = $this->setupCourseManager($course, $newCourse);
 
         $newCourse->shouldReceive('setAncestor')->with($course)->once();
-
-        $this->cohortManager->shouldReceive('findOneBy')->with(['id' => 11])->andReturn($newCohort);
         $newCourse->shouldReceive('addCohort')->once()->with($newCohort);
         $newCourse->shouldReceive('getCohorts')->andReturn(new ArrayCollection([$newCohort]));
 
         $newObjective = m::mock(ObjectiveInterface::class);
         $newObjective->shouldReceive('setTitle')->with('test course objective1')->once();
-        $newObjective->shouldReceive('addCourse')->with($newCourse)->once();
         $newObjective->shouldReceive('setAncestor')->with($courseObjective1)->once();
         $newObjective->shouldReceive('addParent')->with($newPyObjective)->once();
         $newObjective->shouldReceive('setMeshDescriptors')->with($courseObjective1->getMeshDescriptors())->once();
         $newObjective->shouldReceive('setPosition')->with($courseObjective1->getPosition())->once();
+
+        $newCourseXObjective = m::mock(CourseObjectiveInterface::class);
+        $newCourseXObjective->shouldReceive('setCourse')->with($newCourse)->once();
+        $newCourseXObjective->shouldReceive('setTerms')->with($courseXObjective1->getTerms())->once();
+        $newCourseXObjective->shouldReceive('setPosition')->with($courseXObjective1->getPosition())->once();
+        $newCourseXObjective->shouldReceive('setObjective')->with($newObjective)->once();
+
+        $this->cohortManager->shouldReceive('findOneBy')->with(['id' => 11])->andReturn($newCohort);
+
         $this->objectiveManager
             ->shouldReceive('create')->once()
             ->andReturn($newObjective);
         $this->objectiveManager->shouldReceive('update')->once()->withArgs([$newObjective, false, false]);
+
+        $this->courseObjectiveManager->shouldReceive('create')->andReturn($newCourseXObjective);
+        $this->courseObjectiveManager
+            ->shouldReceive('update')->once()->withArgs([$newCourseXObjective, false, false]);
 
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, [], [11]);
         $this->assertSame($newCourse, $rhett);
@@ -1186,6 +1289,10 @@ class CourseRolloverTest extends TestCase
         $course->setClerkshipType(new CourseClerkshipType());
         $course->setSchool(new School());
 
+        $objectiveTerm1 = new Term();
+        $objectiveTerm2 = new Term();
+        $objectiveTerm3 = new Term();
+
         $ancestorCourse = new Course();
         $ancestorCourse->setId(1);
         $ancestorCourse->setTitle('test ancestor course');
@@ -1200,12 +1307,25 @@ class CourseRolloverTest extends TestCase
         $courseObjective1->setTitle('test course objective1');
         $courseObjective1->addMeshDescriptor(new MeshDescriptor());
         $courseObjective1->addParent(new Objective());
-        $course->addObjective($courseObjective1);
+        $courseXObjective1 = new CourseObjective();
+        $courseXObjective1->setCourse($course);
+        $courseXObjective1->setObjective($courseObjective1);
+        $courseXObjective1->setPosition(10);
+        $courseXObjective1->addTerm($objectiveTerm1);
+        $courseXObjective1->addTerm($objectiveTerm2);
+        $courseXObjective1->addTerm($objectiveTerm3);
+        $course->addCourseObjective($courseXObjective1);
+
+
+        $course->addCourseObjective($courseXObjective1);
         $courseObjective2 = new Objective();
         $courseObjective2->setId(42);
         $courseObjective2->setTitle('test course objective2');
         $courseObjective2->setAncestor($ancestorObjective);
-        $course->addObjective($courseObjective2);
+        $courseXObjective2 = new CourseObjective();
+        $courseXObjective2->setCourse($course);
+        $courseXObjective2->setObjective($courseObjective2);
+        $course->addCourseObjective($courseXObjective2);
 
         $courseTerm1 = new Term();
         $courseTerm1->setId(808);
@@ -1241,7 +1361,12 @@ class CourseRolloverTest extends TestCase
         $sessionObjective1->addMeshDescriptor(new MeshDescriptor());
         $sessionObjective1->addParent($courseObjective1);
         $sessionObjective1->addParent($courseObjective2);
-        $session1->addObjective($sessionObjective1);
+        $sessionXObjective1 = new SessionObjective();
+        $sessionXObjective1->addTerm($objectiveTerm1);
+        $sessionXObjective1->setObjective($sessionObjective1);
+        $sessionXObjective1->setSession($session1);
+        $sessionXObjective1->setPosition(5);
+        $session1->addSessionObjective($sessionXObjective1);
 
         $sessionObjective2 = new Objective();
         $sessionObjective2->setId(9);
@@ -1249,7 +1374,10 @@ class CourseRolloverTest extends TestCase
         $sessionObjective2->addMeshDescriptor(new MeshDescriptor());
         $sessionObjective2->addParent($courseObjective1);
         $sessionObjective2->setAncestor($sessionAncestor);
-        $session1->addObjective($sessionObjective2);
+        $sessionXObjective2 = new SessionObjective();
+        $sessionXObjective2->setSession($session1);
+        $sessionXObjective2->setObjective($sessionObjective2);
+        $session1->addSessionObjective($sessionXObjective2);
 
         $sessionLearningMaterial1 = new SessionLearningMaterial();
         $sessionLearningMaterial1->setLearningMaterial($lm);
