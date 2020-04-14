@@ -22,7 +22,7 @@ class ProgramYearData extends AbstractDataLoader
             'directors' => ['1'],
             'competencies' => ['1', '3'],
             'terms' => [],
-            'objectives' => ['1', '2'],
+            'programYearObjectives' => ['1', '2'],
             'stewards' => ['1', '2']
         );
         $arr[] = array(
@@ -37,7 +37,7 @@ class ProgramYearData extends AbstractDataLoader
             'directors' => [],
             'competencies' => [],
             'terms' => ['1', '4'],
-            'objectives' => [],
+            'programYearObjectives' => [],
             'stewards' => []
         );
         $arr[] = array(
@@ -52,7 +52,7 @@ class ProgramYearData extends AbstractDataLoader
             'directors' => [],
             'competencies' => [],
             'terms' => [],
-            'objectives' => [],
+            'programYearObjectives' => [],
             'stewards' => []
         );
         $arr[] = array(
@@ -67,7 +67,7 @@ class ProgramYearData extends AbstractDataLoader
             'directors' => [],
             'competencies' => [],
             'terms' => [],
-            'objectives' => [],
+            'programYearObjectives' => [],
             'stewards' => []
         );
         $arr[] = array(
@@ -82,10 +82,9 @@ class ProgramYearData extends AbstractDataLoader
             'directors' => [],
             'competencies' => [],
             'terms' => [],
-            'objectives' => ['8'],
+            'programYearObjectives' => ['3'],
             'stewards' => []
         );
-
 
         return $arr;
     }
@@ -99,7 +98,7 @@ class ProgramYearData extends AbstractDataLoader
             'directors' => [],
             'competencies' => [],
             'terms' => [],
-            'objectives' => [],
+            'programYearObjectives' => [],
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => true,

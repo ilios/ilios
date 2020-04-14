@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
-class SessionObjectiveData extends AbstractDataLoader
+class ProgramYearObjectiveData extends AbstractDataLoader
 {
     protected function getData()
     {
@@ -13,24 +13,24 @@ class SessionObjectiveData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'position' => 0,
-            'session' => '1',
-            'objective' => '3',
+            'programYear' => '1',
+            'objective' => '1',
             'terms' => [],
         );
 
         $arr[] = array(
             'id' => 2,
             'position' => 0,
-            'session' => '4',
-            'objective' => '6',
+            'programYear' => '1',
+            'objective' => '2',
             'terms' => [],
         );
 
         $arr[] = array(
             'id' => 3,
             'position' => 0,
-            'session' => '4',
-            'objective' => '7',
+            'programYear' => '5',
+            'objective' => '8',
             'terms' => [],
         );
 
@@ -42,8 +42,8 @@ class SessionObjectiveData extends AbstractDataLoader
         return array(
             'id' => 4,
             'position' => 0,
-            'session' => '1',
-            'objective' => '11',
+            'programYear' => '2',
+            'objective' => '9',
             'terms' => [],
         );
     }
