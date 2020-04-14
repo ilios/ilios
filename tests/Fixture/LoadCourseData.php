@@ -62,14 +62,11 @@ class LoadCourseData extends AbstractFixture implements
             foreach ($arr['terms'] as $id) {
                 $entity->addTerm($this->getReference('terms' . $id));
             }
-            foreach ($arr['objectives'] as $id) {
-                $entity->addObjective($this->getReference('objectives' . $id));
-            }
             foreach ($arr['meshDescriptors'] as $id) {
                 $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
             }
             $manager->persist($entity);
-            
+
             $this->addReference('courses' . $arr['id'], $entity);
         }
 
@@ -83,7 +80,6 @@ class LoadCourseData extends AbstractFixture implements
             'App\Tests\Fixture\LoadSchoolData',
             'App\Tests\Fixture\LoadUserData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadCourseClerkshipTypeData',
             'App\Tests\Fixture\LoadMeshDescriptorData',
         );
