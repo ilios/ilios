@@ -2292,16 +2292,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.94",
+            "version": "v1.2.95",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "fbd4c12741583fb9d8f0bcbf65248a34eed68fc9"
+                "reference": "a7936c4b60c78f8ae9024eeecf7e8d4cf470b730"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/fbd4c12741583fb9d8f0bcbf65248a34eed68fc9",
-                "reference": "fbd4c12741583fb9d8f0bcbf65248a34eed68fc9",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/a7936c4b60c78f8ae9024eeecf7e8d4cf470b730",
+                "reference": "a7936c4b60c78f8ae9024eeecf7e8d4cf470b730",
                 "shasum": ""
             },
             "require": {
@@ -2337,7 +2337,7 @@
                 "crawlerdetect",
                 "php crawler detect"
             ],
-            "time": "2020-02-20T21:42:59+00:00"
+            "time": "2020-04-14T20:42:56+00:00"
         },
         {
             "name": "jdorn/sql-formatter",
