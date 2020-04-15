@@ -10,6 +10,8 @@ use App\Entity\OfferingInterface;
 use App\Entity\SchoolInterface;
 use App\Entity\UserInterface;
 use App\Service\Config;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -51,7 +53,7 @@ class SendTeachingRemindersCommand extends Command
     protected $twig;
 
     /**
-     * @var \Swift_Mailer
+     * @var Swift_Mailer
      */
     protected $mailer;
 
@@ -73,8 +75,9 @@ class SendTeachingRemindersCommand extends Command
     /**
      * SendTeachingRemindersCommand constructor.
      * @param OfferingManager $offeringManager
+     * @param SchoolManager $schoolManager
      * @param Environment $twig
-     * @param \Swift_Mailer $mailer
+     * @param Swift_Mailer $mailer
      * @param Config $config
      * @param Filesystem $fs
      * @param string $kernelProjectDir
@@ -83,7 +86,7 @@ class SendTeachingRemindersCommand extends Command
         OfferingManager $offeringManager,
         SchoolManager $schoolManager,
         Environment $twig,
-        \Swift_Mailer $mailer,
+        Swift_Mailer $mailer,
         Config $config,
         Filesystem $fs,
         string $kernelProjectDir
@@ -228,7 +231,7 @@ class SendTeachingRemindersCommand extends Command
                 if (empty($email)) {
                     $email = $instructor->getEmail();
                 }
-                $message = (new \Swift_Message($subject))
+                $message = (new Swift_Message($subject))
                     ->setFrom($from)
                     ->setTo($email)
                     ->setCharset('UTF-8')
@@ -270,7 +273,7 @@ class SendTeachingRemindersCommand extends Command
     /**
      * Validates user input.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param InputInterface $input
      * @return array A list of validation error message. Empty if no validation errors occurred.
      */
     protected function validateInput(InputInterface $input)
