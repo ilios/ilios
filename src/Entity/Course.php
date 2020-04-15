@@ -713,7 +713,7 @@ class Course implements CourseInterface
      * to children that belong to sessions in that course
      * @param CourseObjectiveInterface $courseObjective
      */
-    public function removeObjective(CourseObjectiveInterface $courseObjective): void
+    public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
         if ($this->courseObjectives->contains($courseObjective)) {
             $this->courseObjectives->removeElement($courseObjective);
