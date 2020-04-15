@@ -60,7 +60,7 @@ class SessionTest extends EntityBase
     public function testConstructor()
     {
         $this->assertEmpty($this->object->getMeshDescriptors());
-        $this->assertEmpty($this->object->getObjectives());
+        $this->assertEmpty($this->object->getSessionObjectives());
         $this->assertEmpty($this->object->getOfferings());
         $this->assertEmpty($this->object->getTerms());
         $this->assertEmpty($this->object->getSequenceBlocks());
@@ -243,28 +243,28 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Session::addObjective
+     * @covers \App\Entity\Session::addSessionObjective
      */
-    public function testAddObjective()
+    public function testAddSessionObjective()
     {
-        $this->entityCollectionAddTest('objective', 'Objective');
+        $this->entityCollectionAddTest('sessionObjective', 'SessionObjective');
     }
 
     /**
-     * @covers \App\Entity\Session::removeObjective
+     * @covers \App\Entity\Session::removeSessionObjective
      */
-    public function testRemoveObjective()
+    public function testRemoveSessionObjective()
     {
-        $this->entityCollectionRemoveTest('objective', 'Objective');
+        $this->entityCollectionRemoveTest('sessionObjective', 'SessionObjective');
     }
 
     /**
-     * @covers \App\Entity\Session::getObjectives
-     * @covers \App\Entity\Session::setObjectives
+     * @covers \App\Entity\Session::setSessionObjectives
+     * @covers \App\Entity\Session::getSessionObjectives
      */
-    public function testSetObjectives()
+    public function testGetSessionObjectives()
     {
-        $this->entityCollectionSetTest('objective', 'Objective');
+        $this->entityCollectionSetTest('sessionObjective', 'SessionObjective');
     }
 
     /**

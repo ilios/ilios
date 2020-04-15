@@ -62,7 +62,7 @@ class ProgramYearTest extends EntityBase
     {
         $this->assertEmpty($this->object->getCompetencies());
         $this->assertEmpty($this->object->getDirectors());
-        $this->assertEmpty($this->object->getObjectives());
+        $this->assertEmpty($this->object->getProgramYearObjectives());
         $this->assertEmpty($this->object->getStewards());
         $this->assertEmpty($this->object->getTerms());
     }
@@ -216,28 +216,28 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\ProgramYear::addObjective
+     * @covers \App\Entity\ProgramYear::addProgramYearObjective
      */
-    public function testAddObjective()
+    public function testAddProgramYearObjective()
     {
-        $this->entityCollectionAddTest('objective', 'Objective');
+        $this->entityCollectionAddTest('programYearObjective', 'ProgramYearObjective');
     }
 
     /**
-     * @covers \App\Entity\ProgramYear::removeObjective
+     * @covers \App\Entity\ProgramYear::removeProgramYearObjective
      */
-    public function testRemoveObjective()
+    public function testRemoveProgramYearObjective()
     {
-        $this->entityCollectionRemoveTest('objective', 'Objective');
+        $this->entityCollectionRemoveTest('programYearObjective', 'ProgramYearObjective');
     }
 
     /**
-     * @covers \App\Entity\ProgramYear::getObjectives
-     * @covers \App\Entity\ProgramYear::setObjectives
+     * @covers \App\Entity\ProgramYear::setProgramYearObjectives
+     * @covers \App\Entity\ProgramYear::getProgramYearObjectives
      */
-    public function testSetObjectives()
+    public function testGetProgramYearObjectives()
     {
-        $this->entityCollectionSetTest('objective', 'Objective');
+        $this->entityCollectionSetTest('programYearObjective', 'ProgramYearObjective');
     }
 
     /**
