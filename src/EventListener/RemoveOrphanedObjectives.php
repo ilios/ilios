@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\ObjectiveInterface;
-use App\Entity\ObjectiveRelationshipInterface;
+use App\Traits\ObjectiveRelationshipInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;

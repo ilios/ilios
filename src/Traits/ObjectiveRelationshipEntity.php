@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Traits;
 
 use App\Entity\ObjectiveInterface;
-use App\Entity\ObjectiveRelationshipInterface;
+use App\Traits\ObjectiveRelationshipInterface;
 
 /**
  * Trait ObjectiveRelationshipEntity

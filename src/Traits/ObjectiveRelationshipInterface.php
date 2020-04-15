@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Traits;
 
-use App\Traits\CategorizableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\SortableEntityInterface;
+use App\Entity\LoggableEntityInterface;
+use App\Entity\ObjectiveInterface;
 
 /**
  * Interface ObjectiveRelationshipInterface
