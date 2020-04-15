@@ -180,4 +180,10 @@ interface CourseInterface extends
      * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
      */
     public function getSequenceBlocks();
+
+    /**
+     * @return array
+     * @deprecated
+     */
+    public function getObjectives(): array;
 }

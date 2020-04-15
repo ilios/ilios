@@ -715,4 +715,16 @@ class Session implements SessionInterface
     {
         return [$this->course];
     }
+
+    /**
+     * @inheritdoc
+     * @deprecated
+     */
+    public function getObjectives(): array
+    {
+        $courseObjectives = $this->getSessionObjectives()->toArray();
+        return array_map(function (SessionObjectiveInterface $sessionObjective) {
+            return $sessionObjective->getObjective();
+        }, $courseObjectives);
+    }
 }

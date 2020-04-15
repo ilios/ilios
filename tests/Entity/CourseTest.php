@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Course;
+use App\Entity\CourseObjective;
 use App\Entity\CourseObjectiveInterface;
+use App\Entity\Objective;
 use App\Entity\ObjectiveInterface;
 use App\Entity\School;
 use App\Entity\SessionInterface;
@@ -468,5 +470,24 @@ class CourseTest extends EntityBase
     public function testGetIndexableCourses()
     {
         $this->assertEquals([$this->object], $this->object->getIndexableCourses());
+    }
+
+    /**
+     * @covers \App\Entity\Course:getObjectives
+     */
+    public function testGetObjectives()
+    {
+        $objective1 = new Objective();
+        $objective2 = new Objective();
+        $sessionObjective1 = new CourseObjective();
+        $sessionObjective1->setObjective($objective1);
+        $sessionObjective2 = new CourseObjective();
+        $sessionObjective2->setObjective($objective2);
+        $this->object->addCourseObjective($sessionObjective1);
+        $this->object->addCourseObjective($sessionObjective2);
+        $objectives = $this->object->getObjectives();
+        $this->assertCount(2, $objectives);
+        $this->assertContains($objective1, $objectives);
+        $this->assertContains($objective2, $objectives);
     }
 }

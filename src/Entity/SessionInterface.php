@@ -12,7 +12,6 @@ use App\Traits\AdministratorsEntityInterface;
 use App\Traits\CategorizableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
-use App\Traits\ObjectivesEntityInterface;
 use App\Traits\PublishableEntityInterface;
 use App\Traits\SequenceBlocksEntityInterface;
 use App\Traits\TitledEntityInterface;
@@ -202,4 +201,10 @@ interface SessionInterface extends
      * @return ArrayCollection|SessionInterface[]
      */
     public function getPrerequisites();
+
+    /**
+     * @deprecated
+     * @return array
+     */
+    public function getObjectives(): array;
 }

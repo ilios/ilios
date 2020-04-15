@@ -6,8 +6,10 @@ namespace App\Tests\Entity;
 
 use App\Entity\Course;
 use App\Entity\CourseInterface;
+use App\Entity\Objective;
 use App\Entity\School;
 use App\Entity\Session;
+use App\Entity\SessionObjective;
 use Mockery as m;
 
 /**
@@ -451,5 +453,24 @@ class SessionTest extends EntityBase
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals([$course], $rhett);
+    }
+
+    /**
+     * @covers \App\Entity\Session:getObjectives
+     */
+    public function testGetObjectives()
+    {
+        $objective1 = new Objective();
+        $objective2 = new Objective();
+        $sessionObjective1 = new SessionObjective();
+        $sessionObjective1->setObjective($objective1);
+        $sessionObjective2 = new SessionObjective();
+        $sessionObjective2->setObjective($objective2);
+        $this->object->addSessionObjective($sessionObjective1);
+        $this->object->addSessionObjective($sessionObjective2);
+        $objectives = $this->object->getObjectives();
+        $this->assertCount(2, $objectives);
+        $this->assertContains($objective1, $objectives);
+        $this->assertContains($objective2, $objectives);
     }
 }
