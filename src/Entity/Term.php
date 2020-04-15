@@ -245,6 +245,8 @@ class Term implements TermInterface
         $this->sessions = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->sessionObjectives = new ArrayCollection();
+        $this->courseObjectives = new ArrayCollection();
+        $this->programYearObjectives = new ArrayCollection();
         $this->active = true;
     }
 
