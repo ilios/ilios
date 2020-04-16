@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Entity\CourseInterface;
 use App\Entity\ObjectiveInterface;
+use App\Entity\ProgramYearInterface;
+use App\Entity\SessionInterface;
 use App\Traits\ObjectiveRelationshipInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -30,24 +33,26 @@ class RemoveOrphanedObjectives
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            if ($entity instanceof ObjectiveRelationshipInterface) {
+            if (
+                $entity instanceof ProgramYearInterface ||
+                $entity instanceof CourseInterface ||
+                $entity instanceof SessionInterface
+            ) {
                 /* @var ObjectiveInterface $objective */
-                $objective = $entity->getObjective();
-                $programYearObjectives = $objective->getProgramYearObjectives();
-                $courseObjectives = $objective->getCourseObjectives();
-                $sessionObjectives = $objective->getSessionObjectives();
-                /** @var IdentifiableEntityInterface[] $allLinks */
-                $allLinks = array_merge(
-                    $programYearObjectives->toArray(),
-                    $courseObjectives->toArray(),
-                    $sessionObjectives->toArray()
-                );
-                //ensure that this Objective is only linked to the deleted entity
-                if (
-                    count($allLinks) === 0 ||
-                    (count($allLinks) === 1 && $allLinks[0]->getId() === $entity->getId())
-                ) {
-                    $this->removeLinks($uow, $em, $objective);
+                $objectives = $entity->getObjectives();
+                foreach ($objectives as $objective) {
+                    $programYears = $objective->getProgramYears();
+                    $courses = $objective->getCourses();
+                    $sessions = $objective->getSessions();
+                    /** @var IdentifiableEntityInterface[] $allLinks */
+                    $allLinks = array_merge($programYears, $courses, $sessions);
+                    //ensure that this Objective is only linked to the deleted entity
+                    if (
+                        count($allLinks) === 0 ||
+                        (count($allLinks) === 1 && $allLinks[0]->getId() === $entity->getId())
+                    ) {
+                        $this->removeLinks($uow, $em, $objective);
+                    }
                 }
             }
         }

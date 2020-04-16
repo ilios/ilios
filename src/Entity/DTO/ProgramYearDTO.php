@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use App\Entity\CompetencyInterface;
 
 /**
  * Class ProgramYearDTO
@@ -83,7 +84,7 @@ class ProgramYearDTO
     public $directors;
 
     /**
-     * @var ArrayCollection|CompetencyInterface[]
+     * @var CompetencyInterface[] $competencies
      * @IS\Expose
      * @IS\Type("array<string>")
      */
@@ -101,7 +102,7 @@ class ProgramYearDTO
      * @IS\Expose
      * @IS\Type("array<string>")
      */
-    public $objectives;
+    public $programYearObjectives;
 
     /**
      * @var int[]
@@ -134,7 +135,7 @@ class ProgramYearDTO
         $this->directors = [];
         $this->competencies = [];
         $this->terms = [];
-        $this->objectives = [];
+        $this->programYearObjectives = [];
         $this->stewards = [];
     }
 }

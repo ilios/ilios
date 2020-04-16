@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\Course;
 use App\Entity\CourseInterface;
+use App\Entity\CourseObjective;
 use App\Entity\CourseObjectiveInterface;
 use App\Entity\Objective;
+use App\Entity\ProgramYear;
+use App\Entity\ProgramYearObjective;
+use App\Entity\Session;
 use App\Entity\SessionInterface;
+use App\Entity\SessionObjective;
 use App\Entity\SessionObjectiveInterface;
 use Mockery as m;
 
@@ -320,5 +326,62 @@ class ObjectiveTest extends EntityBase
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals($rhett, [$course1, $course2]);
+    }
+
+    /**
+     * @covers \App\Entity\Objective::getSessions
+     */
+    public function testGetSessions()
+    {
+        $session1 = new Session();
+        $session2 = new Session();
+        $sessionObjective1 = new SessionObjective();
+        $sessionObjective1->setSession($session1);
+        $this->object->addSessionObjective($sessionObjective1);
+        $sessionObjective2 = new SessionObjective();
+        $sessionObjective2->setSession($session2);
+        $this->object->addSessionObjective($sessionObjective2);
+        $sessions = $this->object->getSessions();
+        $this->assertCount(2, $sessions);
+        $this->assertContains($session1, $sessions);
+        $this->assertContains($session2, $sessions);
+    }
+
+    /**
+     * @covers \App\Entity\Objective::getCourses
+     */
+    public function testGetCourses()
+    {
+        $course1 = new Course();
+        $course2 = new Course();
+        $courseObjective1 = new CourseObjective();
+        $courseObjective1->setCourse($course1);
+        $this->object->addCourseObjective($courseObjective1);
+        $courseObjective2 = new CourseObjective();
+        $courseObjective2->setCourse($course2);
+        $this->object->addCourseObjective($courseObjective2);
+        $courses = $this->object->getCourses();
+        $this->assertCount(2, $courses);
+        $this->assertContains($course1, $courses);
+        $this->assertContains($course2, $courses);
+    }
+
+    /**
+     * @covers \App\Entity\Objective::getProgramYears
+     */
+    public function testGetProgramYears()
+    {
+        $programYear1 = new ProgramYear();
+        $programYear2 = new ProgramYear();
+        $programYearObjective1 = new ProgramYearObjective();
+        $programYearObjective1->setProgramYear($programYear1);
+        $this->object->addProgramYearObjective($programYearObjective1);
+        $programYearObjective2 = new ProgramYearObjective();
+        $programYearObjective2->setProgramYear($programYear2);
+        $this->object->addProgramYearObjective($programYearObjective2);
+        $programYears = $this->object->getProgramYears();
+        $this->assertCount(2, $programYears);
+        $this->assertContains($programYear1, $programYears);
+        $this->assertContains($programYear2, $programYears);
     }
 }

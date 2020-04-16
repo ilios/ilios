@@ -82,7 +82,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
             'directors',
             'competencies',
             'terms',
-            'objectives',
+            'programYearObjectives',
             'stewards',
         ];
 

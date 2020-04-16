@@ -100,7 +100,7 @@ class CompetencyRepository extends EntityRepository implements DTORepositoryInte
             $qb->leftJoin('se_py_objective.children', 'se_course_objective');
             $qb->leftJoin('se_course_objective.children', 'se_session_objective');
             $qb->leftJoin('se_session_objective.sessionObjectives', 'se_session_x_objective');
-            $qb->leftJoin('se_session_objective.session', 'se_session');
+            $qb->leftJoin('se_session_x_objective.session', 'se_session');
             $qb->leftJoin('se_subcompetency.objectives', 'se_py_objective2');
             $qb->leftJoin('se_py_objective2.children', 'se_course_objective2');
             $qb->leftJoin('se_course_objective2.children', 'se_session_objective2');

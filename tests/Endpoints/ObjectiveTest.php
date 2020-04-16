@@ -27,7 +27,10 @@ class ObjectiveTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadProgramYearData',
             'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadMeshDescriptorData'
+            'App\Tests\Fixture\LoadMeshDescriptorData',
+            'App\Tests\Fixture\LoadSessionObjectiveData',
+            'App\Tests\Fixture\LoadCourseObjectiveData',
+            'App\Tests\Fixture\LoadProgramYearObjectiveData',
         ];
     }
 
@@ -41,9 +44,9 @@ class ObjectiveTest extends ReadWriteEndpointTest
             'position' => ['position', $this->getFaker()->randomDigit],
             'notActive' => ['active', false],
             'competency' => ['competency', 1],
-            'courses' => ['courses', [3]],
-            'programYears' => ['programYears', [2]],
-            'sessions' => ['sessions', [2]],
+            'courseObjectives' => ['courseObjectives', [1], $skipped = true],
+            'programYearObjectives' => ['programYearObjectives', [2], $skipped = true],
+            'sessionObjectives' => ['sessionObjectives', [2], $skipped = true],
             'parents' => ['parents', [2]],
             'children' => ['children', [4]],
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
@@ -70,8 +73,8 @@ class ObjectiveTest extends ReadWriteEndpointTest
         return [
             'id' => [[0], ['id' => 1]],
             'title' => [[1], ['title' => 'second objective']],
-            'position' => [[0, 1, 2, 3, 4, 5, 6, 7], ['position' => 0]],
-            'active' => [[0, 1, 2, 3, 5, 7], ['active' => 1]],
+            'position' => [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ['position' => 0]],
+            'active' => [[0, 1, 2, 3, 5, 7, 8, 9, 10], ['active' => 1]],
             'inactive' => [[4, 6], ['active' => 0]],
             'competency' => [[0], ['competency' => 3]],
             'courses' => [[1, 3], ['courses' => [2]]],
@@ -86,31 +89,6 @@ class ObjectiveTest extends ReadWriteEndpointTest
             'fullCoursesThroughSession' => [[1, 2], ['fullCourses' => [1]]],
         ];
     }
-
-    public function testPostCourseObjective()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'objectives', 'courses');
-    }
-
-    public function testPostProgramYearObjective()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'objectives', 'programYears');
-    }
-
-    public function testPostSessionObjective()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'objectives', 'sessions');
-    }
-
 
     /**
      * Ideally, we'd be testing the "purified textarea" form type by itself.

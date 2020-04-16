@@ -139,7 +139,7 @@ class CourseDTO
      * @IS\Expose
      * @IS\Type("array<string>")
      */
-    public $objectives;
+    public $courseObjectives;
 
     /**
      * @var int[]
@@ -205,7 +205,7 @@ class CourseDTO
         $this->administrators = [];
         $this->cohorts = [];
         $this->terms = [];
-        $this->objectives = [];
+        $this->courseObjectives = [];
         $this->meshDescriptors = [];
         $this->learningMaterials = [];
         $this->sessions = [];

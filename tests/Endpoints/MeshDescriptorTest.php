@@ -30,6 +30,8 @@ class MeshDescriptorTest extends AbstractMeshTest
             'App\Tests\Fixture\LoadMeshTermData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
             'App\Tests\Fixture\LoadCourseLearningMaterialData',
+            'App\Tests\Fixture\LoadCourseObjectiveData',
+            'App\Tests\Fixture\LoadSessionObjectiveData',
         ];
     }
 

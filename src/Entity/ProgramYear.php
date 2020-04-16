@@ -301,4 +301,15 @@ class ProgramYear implements ProgramYearInterface
         }
         return null;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getObjectives(): array
+    {
+        $programYearObjectives = $this->getProgramYearObjectives()->toArray();
+        return array_map(function (ProgramYearObjectiveInterface $programYearObjective) {
+            return $programYearObjective->getObjective();
+        }, $programYearObjectives);
+    }
 }

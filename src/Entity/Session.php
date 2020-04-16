@@ -718,7 +718,6 @@ class Session implements SessionInterface
 
     /**
      * @inheritdoc
-     * @deprecated
      */
     public function getObjectives(): array
     {

@@ -90,7 +90,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
 
         $related = [
             'terms',
-            'objectives',
+            'sessionObjectives',
             'meshDescriptors',
             'learningMaterials',
             'offerings',

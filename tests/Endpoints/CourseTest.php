@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\DataLoader\CourseObjectiveData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\ObjectiveData;
@@ -40,6 +41,9 @@ class CourseTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadProgramYearData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
             'App\Tests\Fixture\LoadIlmSessionData',
+            'App\Tests\Fixture\LoadProgramYearObjectiveData',
+            'App\Tests\Fixture\LoadCourseObjectiveData',
+            'App\Tests\Fixture\LoadSessionObjectiveData',
         ];
     }
 
@@ -66,7 +70,7 @@ class CourseTest extends ReadWriteEndpointTest
             'administrators' => ['administrators', [2]],
             'cohorts' => ['cohorts', [2]],
             'terms' => ['terms', [2]],
-            'objectives' => ['objectives', [1]],
+            'courseObjectives' => ['courseObjectives', [1]],
             'meshDescriptors' => ['meshDescriptors', ['abc3']],
             'learningMaterials' => ['learningMaterials', [1], $skipped = true],
             'sessions' => ['sessions', [1], $skipped = true],
@@ -110,7 +114,6 @@ class CourseTest extends ReadWriteEndpointTest
             'administrators' => [[0], ['administrators' => [1]], $skipped = true],
             'cohorts' => [[2], ['cohorts' => [2]], $skipped = true],
             'terms' => [[0, 1], ['terms' => [1]]],
-            'objectives' => [[0], ['objectives' => [1]], $skipped = true],
             'meshDescriptors' => [[0, 1, 2, 3], ['meshDescriptors' => ['abc1', 'abc2']]],
             'learningMaterials' => [[0, 1, 3], ['learningMaterials' => [1, 3]]],
             'sessions' => [[1], ['sessions' => [3]]],
@@ -244,7 +247,7 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertEquals($course['directors'], $newCourse['directors']);
         $this->assertEmpty($newCourse['cohorts']);
         $this->assertEquals($course['terms'], $newCourse['terms']);
-        $this->assertSame(count($course['objectives']), count($newCourse['objectives']));
+        $this->assertSame(count($course['courseObjectives']), count($newCourse['courseObjectives']));
         $this->assertEquals($course['meshDescriptors'], $newCourse['meshDescriptors']);
         $this->assertSame(count($course['learningMaterials']), count($newCourse['learningMaterials']));
         $this->assertEquals($course['id'], $newCourse['ancestor']);
@@ -451,10 +454,22 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertSame($course['title'], $newCourse['title']);
         $this->assertCount(1, $newCourse['cohorts']);
         $this->assertSame('5', $newCourse['cohorts'][0]);
-        $this->assertSame(count($course['objectives']), count($newCourse['objectives']));
-
-        $newObjectiveData = $this->getFiltered('objectives', 'objectives', ['filters[id]' => $newCourse['objectives']]);
-        $this->assertCount(count($course['objectives']), $newObjectiveData);
+        $this->assertSame(count($course['courseObjectives']), count($newCourse['courseObjectives']));
+        $oldCourseObjectiveData = $this->getFiltered(
+            'courseobjectives',
+            'courseObjectives',
+            ['filters[id]' => $course['courseObjectives']]
+        );
+        $newCourseObjectivesData = $this->getFiltered(
+            'courseobjectives',
+            'courseObjectives',
+            ['filters[id]' => $newCourse['courseObjectives']]
+        );
+        $oldObjectiveIds = array_column($oldCourseObjectiveData, 'objective');
+        $newObjectiveIds = array_column($newCourseObjectivesData, 'objective');
+        $oldObjectiveData = $this->getFiltered('objectives', 'objectives', ['filters[id]' => $oldObjectiveIds]);
+        $newObjectiveData = $this->getFiltered('objectives', 'objectives', ['filters[id]' => $newObjectiveIds]);
+        $this->assertCount(count($oldObjectiveData), $newObjectiveData);
         $this->assertCount(1, $newObjectiveData[0]['parents']);
         $this->assertSame('8', $newObjectiveData[0]['parents'][0]);
     }
@@ -609,12 +624,12 @@ class CourseTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        $objectiveId = $data['objectives'][0];
-        $data['objectives'] = [];
+        $courseObjectiveId = $data['courseObjectives'][0];
+        $courseObjective = $this->getOne('courseobjectives', 'courseObjectives', $courseObjectiveId);
+        $objectiveId = $courseObjective['objective'];
+        $data['courseObjectives'] = [];
         $postData = $data;
-
-        $this->putTest($data, $postData, $data['id']);
-
+        $this->putOne('courses', 'course', $postData['id'], $postData);
         $result = $this->getOne('objectives', 'objectives', $objectiveId);
         $this->assertEquals($result['children'], ['6']);
     }
@@ -655,7 +670,7 @@ class CourseTest extends ReadWriteEndpointTest
         $id = $data['id'];
         $self = $this;
 
-        //create data we an depend on
+        //create data we can depend on
         $dataLoader = $this->getContainer()->get(ObjectiveData::class);
         $create = [];
         for ($i = 0; $i < 2; $i++) {
@@ -663,13 +678,23 @@ class CourseTest extends ReadWriteEndpointTest
             $arr['parents'] = ['1'];
             $arr['children'] = ['7', '8'];
             $arr['competency'] = 1;
-            $arr['programYears'] = [];
-            $arr['courses'] = [$id];
-            $arr['sessions'] = [];
+            $arr['programYearObjectives'] = [];
+            $arr['courseObjectives'] = [];
+            $arr['sessionObjectives'] = [];
             unset($arr['id']);
             $create[] = $arr;
         }
         $newObjectives = $this->postMany('objectives', 'objectives', $create);
+        $dataLoader = $this->getContainer()->get(CourseObjectiveData::class);
+        $create = [];
+        foreach ($newObjectives as $objective) {
+            $arr = $dataLoader->create();
+            unset($arr['id']);
+            $arr['course'] = $id;
+            $arr['objective'] = $objective['id'];
+            $create[] = $arr;
+        }
+        $this->postMany('courseobjectives', 'courseObjectives', $create);
 
         $getObjectives = function ($id) use ($self) {
             return $self->getOne('objectives', 'objectives', $id);

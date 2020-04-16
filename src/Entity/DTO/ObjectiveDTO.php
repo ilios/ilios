@@ -43,7 +43,7 @@ class ObjectiveDTO
      * @IS\Type("array<string>")
      *
      */
-    public $courses;
+    public $courseObjectives;
 
     /**
      * @var int[]
@@ -51,7 +51,7 @@ class ObjectiveDTO
      * @IS\Type("array<string>")
      *
      */
-    public $programYears;
+    public $programYearObjectives;
 
     /**
      * @var int[]
@@ -59,7 +59,7 @@ class ObjectiveDTO
      * @IS\Type("array<string>")
      *
      */
-    public $sessions;
+    public $sessionObjectives;
 
     /**
      * @var int[]
@@ -130,9 +130,9 @@ class ObjectiveDTO
         $this->position = $position;
         $this->active = $active;
 
-        $this->courses = [];
-        $this->programYears = [];
-        $this->sessions = [];
+        $this->courseObjectives = [];
+        $this->programYearObjectives = [];
+        $this->sessionObjectives = [];
         $this->parents = [];
         $this->children = [];
         $this->meshDescriptors = [];

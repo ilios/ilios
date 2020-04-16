@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\DataLoader\ProgramYearObjectiveData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\ObjectiveData;
 use App\Tests\ReadWriteEndpointTest;
@@ -32,6 +33,9 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadProgramYearStewardData',
             'App\Tests\Fixture\LoadSessionData',
             'App\Tests\Fixture\LoadCourseData',
+            'App\Tests\Fixture\LoadProgramYearObjectiveData',
+            'App\Tests\Fixture\LoadCourseObjectiveData',
+            'App\Tests\Fixture\LoadSessionObjectiveData',
         ];
     }
 
@@ -51,7 +55,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'directors' => ['directors', [2]],
             'competencies' => ['competencies', [2]],
             'terms' => ['terms', [2]],
-            'objectives' => ['objectives', [2]],
+            //'objectives' => ['objectives', [2]],
             'stewards' => ['stewards', [2], $skipped = true],
         ];
     }
@@ -87,7 +91,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'directors' => [[0], ['directors' => [1]], $skipped = true],
             'competencies' => [[0], ['competencies' => [1]], $skipped = true],
             'terms' => [[1], ['terms' => [1]]],
-            'objectives' => [[0], ['objectives' => [1]], $skipped = true],
             'stewards' => [[0], ['stewards' => [1]], $skipped = true],
             'courses' => [[2], ['courses' => [4]]],
             'sessions' => [[0], ['sessions' => [3]]],
@@ -263,13 +266,23 @@ class ProgramYearTest extends ReadWriteEndpointTest
             $arr['parents'] = ['1'];
             $arr['children'] = ['7', '8'];
             $arr['competency'] = 1;
-            $arr['programYears'] = [$id];
-            $arr['courses'] = [];
-            $arr['sessions'] = [];
+            $arr['programYearObjectives'] = [];
+            $arr['courseObjectives'] = [];
+            $arr['sessionObjectives'] = [];
             unset($arr['id']);
             $create[] = $arr;
         }
         $newObjectives = $this->postMany('objectives', 'objectives', $create);
+        $dataLoader = $this->getContainer()->get(ProgramYearObjectiveData::class);
+        $create = [];
+        foreach ($newObjectives as $objective) {
+            $arr = $dataLoader->create();
+            unset($arr['id']);
+            $arr['programYear'] = $id;
+            $arr['objective'] = $objective['id'];
+            $create[] = $arr;
+        }
+        $this->postMany('programyearobjectives', 'programYearObjectives', $create);
 
         $getObjectives = function ($id) use ($self) {
             return $self->getOne('objectives', 'objectives', $id);

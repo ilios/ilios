@@ -183,7 +183,6 @@ interface CourseInterface extends
 
     /**
      * @return array
-     * @deprecated
      */
     public function getObjectives(): array;
 }

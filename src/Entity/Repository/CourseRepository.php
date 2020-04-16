@@ -92,7 +92,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
             'administrators',
             'cohorts',
             'terms',
-            'objectives',
+            'courseObjectives',
             'meshDescriptors',
             'learningMaterials',
             'sessions',

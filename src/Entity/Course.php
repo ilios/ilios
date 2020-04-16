@@ -709,7 +709,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * When and objective is remove from a course it needs to remove any relationships
+     * When and objective is removed from a course it needs to remove any relationships
      * to children that belong to sessions in that course
      * @param CourseObjectiveInterface $courseObjective
      */
@@ -776,7 +776,6 @@ class Course implements CourseInterface
 
     /**
      * @inheritdoc
-     * @deprecated
      */
     public function getObjectives(): array
     {

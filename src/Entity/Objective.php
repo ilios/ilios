@@ -410,4 +410,37 @@ class Objective implements ObjectiveInterface
             $sessionCourses->toArray()
         );
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCourses(): array
+    {
+        $courseObjectives = $this->getCourseObjectives()->toArray();
+        return array_map(function (CourseObjectiveInterface $courseObjective) {
+            return $courseObjective->getCourse();
+        }, $courseObjectives);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getProgramYears(): array
+    {
+        $programYearObjectives = $this->getProgramYearObjectives()->toArray();
+        return array_map(function (ProgramYearObjectiveInterface $programYearObjective) {
+            return $programYearObjective->getProgramYear();
+        }, $programYearObjectives);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSessions(): array
+    {
+        $sessionObjectives = $this->getSessionObjectives()->toArray();
+        return array_map(function (SessionObjective $sessionObjective) {
+            return $sessionObjective->getSession();
+        }, $sessionObjectives);
+    }
 }

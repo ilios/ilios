@@ -67,4 +67,9 @@ interface ProgramYearInterface extends
      * @return CohortInterface
      */
     public function getCohort();
+
+    /**
+     * @return array
+     */
+    public function getObjectives(): array;
 }

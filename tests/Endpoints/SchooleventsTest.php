@@ -32,6 +32,10 @@ class SchooleventsTest extends AbstractEndpointTest
             'App\Tests\Fixture\LoadLearningMaterialData',
             'App\Tests\Fixture\LoadCourseLearningMaterialData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            'App\Tests\Fixture\LoadSessionObjectiveData',
+            'App\Tests\Fixture\LoadCourseObjectiveData',
+
+
         ];
     }
 

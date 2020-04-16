@@ -35,6 +35,9 @@ class TermTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadMeshDescriptorData',
             'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadSessionObjectiveData',
+            'App\Tests\Fixture\LoadCourseObjectiveData',
+            'App\Tests\Fixture\LoadProgramYearObjectiveData',
         ];
     }
 

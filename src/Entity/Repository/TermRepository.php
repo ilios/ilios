@@ -225,7 +225,7 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
             $qb->leftJoin('cm_course_objective.parents', 'cm_program_year_objective');
             $qb->leftJoin('cm_program_year_objective.competency', 'cm_competency');
             $qb->leftJoin('cm_competency.parent', 'cm_competency2');
-            $qb->leftJoin('cm_session.sesssionObjectives', 'cm_session_x_objective');
+            $qb->leftJoin('cm_session.sessionObjectives', 'cm_session_x_objective');
             $qb->leftJoin('cm_session_x_objective.objective', 'cm_session_objective');
             $qb->leftJoin('cm_session_objective.parents', 'cm_course_objective2');
             $qb->leftJoin('cm_course_objective2.parents', 'cm_program_year_objective2');

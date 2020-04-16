@@ -37,7 +37,10 @@ class SessionTypeTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadProgramData',
             'App\Tests\Fixture\LoadVocabularyData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadSessionData'
+            'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadSessionObjectiveData',
+            'App\Tests\Fixture\LoadCourseObjectiveData',
+            'App\Tests\Fixture\LoadProgramYearObjectiveData',
         ];
     }
 

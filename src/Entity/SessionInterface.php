@@ -203,7 +203,6 @@ interface SessionInterface extends
     public function getPrerequisites();
 
     /**
-     * @deprecated
      * @return array
      */
     public function getObjectives(): array;

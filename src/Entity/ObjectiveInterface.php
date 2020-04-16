@@ -118,4 +118,19 @@ interface ObjectiveInterface extends
      * @return ArrayCollection|ObjectiveInterface[]
      */
     public function getDescendants();
+
+    /**
+     * @return array
+     */
+    public function getCourses(): array;
+
+    /**
+     * @return array
+     */
+    public function getProgramYears(): array;
+
+    /**
+     * @return array
+     */
+    public function getSessions(): array;
 }

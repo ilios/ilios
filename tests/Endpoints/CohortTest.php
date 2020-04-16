@@ -27,6 +27,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
     {
         return [
             'App\Tests\Fixture\LoadCohortData',
+            'App\Tests\Fixture\LoadProgramYearObjectiveData',
             'App\Tests\Fixture\LoadProgramYearData',
             'App\Tests\Fixture\LoadProgramYearStewardData',
             'App\Tests\Fixture\LoadCourseData',
