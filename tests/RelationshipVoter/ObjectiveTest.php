@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
+use App\Entity\CourseObjectiveInterface;
+use App\Entity\ProgramYearObjectiveInterface;
+use App\Entity\SessionObjectiveInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\Objective as Voter;
@@ -45,12 +48,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $programYearObjective = m::mock(ProgramYearObjectiveInterface::class);
         $programYear = m::mock(ProgramYear::class);
         $program = m::mock(Program::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection([$programYear]));
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection([$programYearObjective]));
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $programYearObjective->shouldReceive('getProgramYear')->andReturn($programYear);
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn(1);
         $program->shouldReceive('getSchool')->andReturn($school);
@@ -65,12 +73,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $programYearObjective = m::mock(ProgramYearObjectiveInterface::class);
         $programYear = m::mock(ProgramYear::class);
         $program = m::mock(Program::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection([$programYear]));
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection([$programYearObjective]));
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $programYearObjective->shouldReceive('getProgramYear')->andReturn($programYear);
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn(1);
         $program->shouldReceive('getSchool')->andReturn($school);
@@ -85,12 +98,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $programYearObjective = m::mock(ProgramYearObjectiveInterface::class);
         $programYear = m::mock(ProgramYear::class);
         $program = m::mock(Program::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection([$programYear]));
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection([$programYearObjective]));
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $programYearObjective->shouldReceive('getProgramYear')->andReturn($programYear);
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn(1);
         $program->shouldReceive('getSchool')->andReturn($school);
@@ -105,12 +123,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $programYearObjective = m::mock(ProgramYearObjectiveInterface::class);
         $programYear = m::mock(ProgramYear::class);
         $program = m::mock(Program::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection([$programYear]));
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection([$programYearObjective]));
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $programYearObjective->shouldReceive('getProgramYear')->andReturn($programYear);
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn(1);
         $program->shouldReceive('getSchool')->andReturn($school);
@@ -124,13 +147,18 @@ class ObjectiveTest extends AbstractBase
     public function testCanDeleteProgramYearObjective()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
+        $programYearObjective = m::mock(ProgramYearObjectiveInterface::class);
         $entity = m::mock(Objective::class);
         $programYear = m::mock(ProgramYear::class);
         $program = m::mock(Program::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection([$programYear]));
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection([$programYearObjective]));
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $programYearObjective->shouldReceive('getProgramYear')->andReturn($programYear);
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn(1);
         $program->shouldReceive('getSchool')->andReturn($school);
@@ -145,12 +173,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $programYearObjective = m::mock(ProgramYearObjectiveInterface::class);
         $programYear = m::mock(ProgramYear::class);
         $program = m::mock(Program::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection([$programYear]));
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection([$programYearObjective]));
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $programYearObjective->shouldReceive('getProgramYear')->andReturn($programYear);
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn(1);
         $program->shouldReceive('getSchool')->andReturn($school);
@@ -165,11 +198,16 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $courseObjective = m::mock(CourseObjectiveInterface::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection([$course]));
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection([$courseObjective]));
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $courseObjective->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn(1);
         $school->shouldReceive('getId')->andReturn(1);
@@ -182,11 +220,16 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $courseObjective = m::mock(CourseObjectiveInterface::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection([$course]));
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection([$courseObjective]));
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $courseObjective->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn(1);
         $school->shouldReceive('getId')->andReturn(1);
@@ -199,11 +242,16 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $courseObjective = m::mock(CourseObjectiveInterface::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection([$course]));
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection([$courseObjective]));
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $courseObjective->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn(1);
         $school->shouldReceive('getId')->andReturn(1);
@@ -216,11 +264,16 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $courseObjective = m::mock(CourseObjectiveInterface::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection([$course]));
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection([$courseObjective]));
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $courseObjective->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn(1);
         $school->shouldReceive('getId')->andReturn(1);
@@ -233,11 +286,16 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $courseObjective = m::mock(CourseObjectiveInterface::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection([$course]));
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection([$courseObjective]));
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $courseObjective->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn(1);
         $school->shouldReceive('getId')->andReturn(1);
@@ -250,11 +308,16 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $courseObjective = m::mock(CourseObjectiveInterface::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection([$course]));
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection([$courseObjective]));
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection());
+        $courseObjective->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $course->shouldReceive('getId')->andReturn(1);
         $school->shouldReceive('getId')->andReturn(1);
@@ -267,12 +330,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $sessionObjective = m::mock(SessionObjectiveInterface::class);
         $session = m::mock(Session::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection([$session]));
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection([$sessionObjective]));
+        $sessionObjective->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $session->shouldReceive('getId')->andReturn(1);
@@ -287,12 +355,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $sessionObjective = m::mock(SessionObjectiveInterface::class);
         $session = m::mock(Session::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection([$session]));
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection([$sessionObjective]));
+        $sessionObjective->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $session->shouldReceive('getId')->andReturn(1);
@@ -307,12 +380,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $sessionObjective = m::mock(SessionObjectiveInterface::class);
         $session = m::mock(Session::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection([$session]));
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection([$sessionObjective]));
+        $sessionObjective->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $session->shouldReceive('getId')->andReturn(1);
@@ -327,12 +405,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $sessionObjective = m::mock(SessionObjectiveInterface::class);
         $session = m::mock(Session::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection([$session]));
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection([$sessionObjective]));
+        $sessionObjective->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $session->shouldReceive('getId')->andReturn(1);
@@ -347,12 +430,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $sessionObjective = m::mock(SessionObjectiveInterface::class);
         $session = m::mock(Session::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection([$session]));
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection([$sessionObjective]));
+        $sessionObjective->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $session->shouldReceive('getId')->andReturn(1);
@@ -367,12 +455,17 @@ class ObjectiveTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $entity = m::mock(Objective::class);
+        $sessionObjective = m::mock(SessionObjectiveInterface::class);
         $session = m::mock(Session::class);
         $course = m::mock(Course::class);
         $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYears')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourses')->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessions')->andReturn(new ArrayCollection([$session]));
+        $entity->shouldReceive('getProgramYearObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getCourseObjectives')
+            ->andReturn(new ArrayCollection());
+        $entity->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection([$sessionObjective]));
+        $sessionObjective->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $session->shouldReceive('getId')->andReturn(1);
