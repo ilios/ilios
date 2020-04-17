@@ -46,9 +46,9 @@ class CourseObjectiveDTO
     public $terms;
 
     /**
-     * Needed for Voting, not exposed in the API
      * @var int
      *
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $course;
