@@ -15,7 +15,7 @@ class SessionObjectiveData extends AbstractDataLoader
             'position' => 0,
             'session' => '1',
             'objective' => '3',
-            'terms' => [],
+            'terms' => ['3', '4'],
         );
 
         $arr[] = array(
@@ -23,7 +23,7 @@ class SessionObjectiveData extends AbstractDataLoader
             'position' => 0,
             'session' => '4',
             'objective' => '6',
-            'terms' => [],
+            'terms' => ['3'],
         );
 
         $arr[] = array(

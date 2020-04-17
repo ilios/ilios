@@ -20,7 +20,7 @@ class TermData extends AbstractDataLoader
             'sessions' => ['2'],
             'aamcResourceTypes' => ['RE001'],
             'active' => true,
-            'courseObjectives' => [],
+            'courseObjectives' => ['1', '2'],
             'programYearObjectives' => [],
             'sessionObjectives' => [],
         );
@@ -37,7 +37,7 @@ class TermData extends AbstractDataLoader
             'aamcResourceTypes' => ['RE001', 'RE002'],
             'active' => true,
             'courseObjectives' => [],
-            'programYearObjectives' => [],
+            'programYearObjectives' => ['1', '2'],
             'sessionObjectives' => [],
         );
         $arr[] = array(
@@ -54,7 +54,7 @@ class TermData extends AbstractDataLoader
             'active' => false,
             'courseObjectives' => [],
             'programYearObjectives' => [],
-            'sessionObjectives' => [],
+            'sessionObjectives' => ['1', '2'],
         );
 
         $arr[] = array(
@@ -68,9 +68,9 @@ class TermData extends AbstractDataLoader
             'sessions' => ['2'],
             'aamcResourceTypes' => [],
             'active' => true,
-            'courseObjectives' => [],
-            'programYearObjectives' => [],
-            'sessionObjectives' => [],
+            'courseObjectives' => ['1'],
+            'programYearObjectives' => ['1'],
+            'sessionObjectives' => ['1'],
         );
         $arr[] = array(
             'id' => 5,

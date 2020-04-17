@@ -97,6 +97,10 @@ class TermTest extends ReadWriteEndpointTest
             'meshDescriptors' => [[0, 1, 2, 3, 4, 5], ['meshDescriptors' => ['abc1', 'abc2', 'abc3']]],
             'programs' => [[0, 3], ['programs' => [1]]],
             'schools' => [[0, 1, 2], ['schools' => [1]]],
+            'courseObjectives' => [[0, 3], ['courseObjectives' => [1]]],
+            'sessionObjectives' => [[2, 3], ['sessionObjectives' => [1]]],
+            'programYearObjectives' => [[1, 3], ['programYearObjectives' => [1]]],
+
         ];
     }
 

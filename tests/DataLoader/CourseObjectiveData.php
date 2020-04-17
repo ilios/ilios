@@ -15,7 +15,7 @@ class CourseObjectiveData extends AbstractDataLoader
             'position' => 0,
             'course' => '1',
             'objective' => '2',
-            'terms' => [],
+            'terms' => ['1', '4'],
         );
 
         $arr[] = array(
@@ -23,7 +23,7 @@ class CourseObjectiveData extends AbstractDataLoader
             'position' => 0,
             'course' => '2',
             'objective' => '2',
-            'terms' => [],
+            'terms' => ['1'],
         );
 
         $arr[] = array(
