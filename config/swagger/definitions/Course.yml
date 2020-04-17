@@ -63,8 +63,8 @@ Course:
    type: array
    items:
     type: string
-  objectives:
-   description: Objectives
+  couseObjectives:
+   description: Course objectives
    type: array
    items:
     type: string

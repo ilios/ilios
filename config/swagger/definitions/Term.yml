@@ -45,3 +45,18 @@ Term:
   active:
    description: Active
    type: boolean
+  sessionObjectives:
+   description: Session objectives
+   type: array
+   items:
+    type: string
+  courseObjectives:
+   description: Course objectives
+   type: array
+   items:
+    type: string
+  programYearObjectives:
+   description: Program-year objectives
+   type: array
+   items:
+    type: string

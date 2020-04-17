@@ -45,8 +45,8 @@ Session:
    type: array
    items:
     type: string
-  objectives:
-   description: Objectives
+  sessionObjectives:
+   description: Session objectives
    type: array
    items:
     type: string

@@ -11,8 +11,8 @@ CourseObjective:
     position:
       description: Position
       type: integer
-    session:
-      description: Session
+    course:
+      description: Course
       type: string
     terms:
       description: Terms

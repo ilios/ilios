@@ -11,8 +11,8 @@ ProgramYearObjective:
     position:
       description: Position
       type: integer
-    session:
-      description: Session
+    programYear:
+      description: Program-year
       type: string
     terms:
       description: Terms
