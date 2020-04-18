@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\CourseInterface;
+use App\Entity\CourseObjectiveInterface;
 use App\Entity\ObjectiveInterface;
 use App\Entity\ProgramYearInterface;
+use App\Entity\ProgramYearObjectiveInterface;
 use App\Entity\SessionInterface;
-use App\Traits\ObjectiveRelationshipInterface;
+use App\Entity\SessionObjectiveInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -53,6 +55,25 @@ class RemoveOrphanedObjectives
                     ) {
                         $this->removeLinks($uow, $em, $objective);
                     }
+                }
+            } elseif (
+                $entity instanceof ProgramYearObjectiveInterface ||
+                $entity instanceof CourseObjectiveInterface ||
+                $entity instanceof SessionObjectiveInterface
+            ) {
+                /* @var ObjectiveInterface $objective */
+                $objective = $entity->getObjective();
+                $programYearObjectives = $objective->getProgramYearObjectives()->toArray();
+                $courseObjectives = $objective->getCourseObjectives()->toArray();
+                $sessionObjectives = $objective->getSessionObjectives()->toArray();
+                /** @var IdentifiableEntityInterface[] $allLinks */
+                $allLinks = array_merge($programYearObjectives, $courseObjectives, $sessionObjectives);
+                //ensure that this Objective is only linked to the deleted entity
+                if (
+                    count($allLinks) === 0 ||
+                    (count($allLinks) === 1 && $allLinks[0]->getId() === $entity->getId())
+                ) {
+                    $this->removeLinks($uow, $em, $objective);
                 }
             }
         }

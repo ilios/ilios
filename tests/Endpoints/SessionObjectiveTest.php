@@ -27,7 +27,10 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadProgramYearData',
             'App\Tests\Fixture\LoadSessionObjectiveData',
+            'App\Tests\Fixture\LoadCourseObjectiveData',
+            'App\Tests\Fixture\LoadProgramYearObjectiveData',
         ];
     }
 
@@ -111,5 +114,41 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             $data['terms'][] = $savedTerms[$i]['id'];
             $this->putTest($data, $data, $data['id']);
         }
+    }
+
+    public function testRemoveLinksFromOrphanedObjectives()
+    {
+        $dataLoader = $this->getContainer()->get(ObjectiveData::class);
+        $arr = $dataLoader->create();
+        $arr['parents'] = ['1'];
+        $arr['children'] = ['7', '8'];
+        $arr['competency'] = 1;
+        $arr['programYearObjectives'] = [];
+        $arr['courseObjectives'] = [];
+        $arr['sessionObjectives'] = [];
+        unset($arr['id']);
+        $objective = $this->postOne('objectives', 'objective', 'objectives', $arr);
+        $dataLoader = $this->getContainer()->get(SessionData::class);
+        $arr = $dataLoader->create();
+        $session = $this->postOne('sessions', 'session', 'sessions', $arr);
+
+        $dataLoader = $this->getDataLoader();
+        $arr = $dataLoader->create();
+        $arr['session'] = $session['id'];
+        $arr['objective'] = $objective['id'];
+        unset($arr['id']);
+        $sessionObjective = $this->postOne('sessionobjectives', 'sessionObjective', 'sessionObjectives', $arr);
+
+        $this->assertNotEmpty($objective['parents'], 'parents have been created');
+        $this->assertNotEmpty($objective['children'], 'children have been created');
+        $this->assertArrayHasKey('competency', $objective);
+
+        $this->deleteTest($sessionObjective['id']);
+
+        $objective = $this->getOne('objectives', 'objectives', $objective['id']);
+
+        $this->assertEmpty($objective['parents'], 'parents have been removed');
+        $this->assertEmpty($objective['children'], 'children have been removed');
+        $this->assertArrayNotHasKey('competency', $objective);
     }
 }
