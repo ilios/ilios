@@ -87,4 +87,14 @@ class ReportTest extends EntityBase
     {
         $this->entitySetTest('school', 'School');
     }
+
+    /**
+     * @covers \App\Entity\Report::setSchool
+     * @covers \App\Entity\Report::getSchool
+     */
+    public function testSetSchoolToNull()
+    {
+        $this->object->setSchool(null);
+        $this->assertNull($this->object->getSchool());
+    }
 }

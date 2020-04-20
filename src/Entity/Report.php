@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SchoolEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
@@ -25,7 +24,6 @@ class Report implements ReportInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use TitledEntity;
-    use SchoolEntity;
 
     /**
      * @var int
@@ -229,5 +227,21 @@ class Report implements ReportInterface
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSchool(): ?SchoolInterface
+    {
+        return $this->school;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setSchool(SchoolInterface $school = null): void
+    {
+        $this->school = $school;
     }
 }
