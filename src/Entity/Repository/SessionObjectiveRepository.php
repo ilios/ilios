@@ -102,6 +102,18 @@ class SessionObjectiveRepository extends EntityRepository implements DTOReposito
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
     {
+        if (array_key_exists('courses', $criteria)) {
+            if (is_array($criteria['courses'])) {
+                $ids = $criteria['courses'];
+            } else {
+                $ids = [$criteria['courses']];
+            }
+            $qb->join('x.session', 'sc');
+            $qb->join('sc.course', 'sc_c');
+            $qb->andWhere($qb->expr()->in('sc_c.id', ':courses'));
+            $qb->setParameter(':courses', $ids);
+        }
+
         if (array_key_exists('terms', $criteria)) {
             if (is_array($criteria['terms'])) {
                 $ids = $criteria['terms'];
@@ -114,6 +126,7 @@ class SessionObjectiveRepository extends EntityRepository implements DTOReposito
         }
 
         //cleanup all the possible relationship filters
+        unset($criteria['courses']);
         unset($criteria['terms']);
 
         if (count($criteria)) {

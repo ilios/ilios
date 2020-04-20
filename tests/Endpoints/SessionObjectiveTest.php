@@ -66,6 +66,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             'objective' => [[2], ['objective' => 7]],
             'terms' => [[0, 1], ['terms' => [3]]],
             'position' => [[0, 1, 2], ['position' => 0]],
+            'courses' => [[1, 2], ['courses' => 4]],
         ];
     }
 
