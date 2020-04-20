@@ -14,7 +14,6 @@ use App\Traits\TitledEntityInterface;
 interface ReportInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    SchoolEntityInterface,
     LoggableEntityInterface
 {
 
@@ -62,4 +61,14 @@ interface ReportInterface extends
      * @return UserInterface
      */
     public function getUser();
+
+    /**
+     * @return SchoolInterface|null
+     */
+    public function getSchool(): ?SchoolInterface;
+
+    /**
+     * @param SchoolInterface|null $school
+     */
+    public function setSchool(SchoolInterface $school = null): void;
 }
