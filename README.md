@@ -58,6 +58,7 @@ You will need Docker and Docker compose:
 - [Windows](https://www.docker.com/docker-windows)
 - [Ubuntu](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
 
+Then install [Symfony](https://symfony.com/download)
 
 ### Running a local development server
 
@@ -65,22 +66,20 @@ From your ILIOS_CODE directory run:
 
 ```bash
 $ docker-compose pull
-...
-Pulling php (ilios/php-dev:latest)...
-latest: Pulling from ilios/php-dev
-...
-```
-```bash
-$ docker-compose up
-...
-Creating network "api_default" with the default driver
-Creating api_php_1 ... 
-Creating api_db_1 ... 
-Creating api_db_1
-...
+$ docker-compose up -d
+$ symfony server:start -d
 ```
 
 ### Accessing Ilios
 
 You should now be able to access your newly-Dockerized instance of Ilios 
 by visiting [http://localhost:8000](http://localhost:8000) in your browser.
+
+### Shutting down the development server
+
+From your ILIOS_CODE directory run:
+
+```bash
+$ symfony server:stop
+$ docker-compose down
+```
