@@ -51,12 +51,6 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
         $diff = $now->diff($stamp);
         $this->assertTrue($diff->days < 2, "The createdAt timestamp is within the last day");
         $this->assertFalse(array_key_exists('document', $responseData), 'Document is not part of payload.');
-
-        /** @var CurriculumInventoryReportInterface $report */
-        $report = $this->fixtures->getReference('curriculumInventoryReports' . $data['report']);
-        $export = $report->getExport();
-        $this->assertNotEmpty($export);
-        $this->assertGreaterThan(500, strlen($export->getDocument()));
     }
 
     public function testGetIs404()
