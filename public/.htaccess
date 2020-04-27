@@ -64,3 +64,11 @@ DirectoryIndex index.php
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
+
+<IfModule mod_deflate.c>
+   <IfModule mod_filter.c>
+       AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+       AddOutputFilterByType DEFLATE application/javascript
+       AddOutputFilterByType DEFLATE application/json
+   </IfModule>
+</IfModule>
