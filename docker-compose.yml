@@ -4,20 +4,6 @@ services:
         image: ilios/mysql-demo
         ports:
             - "13306:3306"
-    web:
-        build: ./
-        environment:
-            - APP_ENV=dev
-            - APP_DEBUG=true
-            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
-            - ILIOS_REQUIRE_SECURE_CONNECTION=false
-            - ILIOS_ERROR_CAPTURE_ENABLED=false
-            - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
-            - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
-        ports:
-            - "8000:80"
-        volumes:
-            - ./:/var/www/ilios:delegated
     elasticsearch:
         build: ./docker/elasticsearch-dev
         environment:
@@ -28,7 +14,3 @@ services:
             - http.max_content_length=10mb #matches the AWS ElasticSearch limit
         ports:
             - "9200:9200"
-    searchui:
-        image: appbaseio/dejavu
-        ports:
-            - "1358:1358"
