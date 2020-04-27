@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Fixture\LoadApplicationConfigData;
@@ -18,21 +19,31 @@ class ConfigControllerTest extends WebTestCase
     use JsonControllerTest;
     use FixturesTrait;
 
+    /**
+     * @var KernelBrowser
+     */
+    protected $kernelBrowser;
+
     public function setUp(): void
     {
         parent::setUp();
+        $this->kernelBrowser = self::createClient();
         $this->loadFixtures([
             LoadApplicationConfigData::class,
         ]);
     }
 
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->kernelBrowser);
+        unset($this->fixtures);
+    }
+
     public function testIndex()
     {
-        $client = static::createClient();
-
-        $client->request('GET', '/application/config');
-
-        $response = $client->getResponse();
+        $this->kernelBrowser->request('GET', '/application/config');
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = json_decode($response->getContent(), true);
@@ -41,7 +52,7 @@ class ConfigControllerTest extends WebTestCase
         $this->assertArrayHasKey('maxUploadSize', $data);
         $this->assertGreaterThan(0, $data['maxUploadSize']);
         unset($data['maxUploadSize']);
-        $container = $client->getContainer();
+        $container = $this->kernelBrowser->getContainer();
 
         $this->assertEquals(
             array(
@@ -58,13 +69,12 @@ class ConfigControllerTest extends WebTestCase
 
     public function testEnvOverrideForConfigItem()
     {
-        $client = static::createClient();
         $_SERVER['ILIOS_ENABLE_TRACKING'] = true;
         $_SERVER['ILIOS_TRACKING_CODE'] = '123-code!';
 
-        $client->request('GET', '/application/config');
+        $this->kernelBrowser->request('GET', '/application/config');
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = json_decode($response->getContent(), true);
@@ -73,7 +83,7 @@ class ConfigControllerTest extends WebTestCase
         $this->assertArrayHasKey('maxUploadSize', $data);
         $this->assertGreaterThan(0, $data['maxUploadSize']);
         unset($data['maxUploadSize']);
-        $container = $client->getContainer();
+        $container = $this->kernelBrowser->getContainer();
 
         $this->assertEquals(
             array(

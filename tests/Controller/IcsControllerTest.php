@@ -6,6 +6,7 @@ namespace App\Tests\Controller;
 
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\GetUrlTrait;
+use DateTime;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -28,9 +29,15 @@ class IcsControllerTest extends WebTestCase
      */
     protected $fixtures;
 
+    /**
+     * @var KernelBrowser
+     */
+    protected $kernelBrowser;
+
     public function setUp(): void
     {
         parent::setUp();
+        $this->kernelBrowser = self::createClient();
         $this->fixtures = $this->loadFixtures([
             'App\Tests\Fixture\LoadAuthenticationData',
             'App\Tests\Fixture\LoadSessionData',
@@ -44,13 +51,13 @@ class IcsControllerTest extends WebTestCase
     public function tearDown(): void
     {
         parent::tearDown();
+        unset($this->kernelBrowser);
         unset($this->fixtures);
     }
 
     public function testSessionAttributesShowUp()
     {
-        $client = static::createClient();
-        $container = $client->getContainer();
+        $container = $this->kernelBrowser->getContainer();
         $session = $container->get(SessionData::class)->getOne();
         $session['attireRequired'] = true;
         $session['equipmentRequired'] = true;
@@ -59,18 +66,22 @@ class IcsControllerTest extends WebTestCase
         $session['learningMaterials'] = ['2'];
         $id = $session['id'];
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'PUT',
-            $this->getUrl($client, 'ilios_api_put', ['version' => 'v1', 'object' => 'sessions', 'id' => $id]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'sessions', 'id' => $id]
+            ),
             json_encode(['session' => $session]),
-            $this->getTokenForUser($client, 2)
+            $this->getTokenForUser($this->kernelBrowser, 2)
         );
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
         $url = '/ics/' . hash('sha256', '1');
-        $client->request('GET', $url);
-        $response = $client->getResponse();
+        $this->kernelBrowser->request('GET', $url);
+        $response = $this->kernelBrowser->getResponse();
 
         $content = $response->getContent();
 
@@ -129,8 +140,7 @@ class IcsControllerTest extends WebTestCase
 
     public function testSessionAttributesAreHidden()
     {
-        $client = static::createClient();
-        $container = $client->getContainer();
+        $container = $this->kernelBrowser->getContainer();
         $session = $container->get(SessionData::class)->getOne();
         $session['attireRequired'] = false;
         $session['equipmentRequired'] = false;
@@ -139,18 +149,22 @@ class IcsControllerTest extends WebTestCase
         $session['learningMaterials'] = [];
         $id = $session['id'];
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'PUT',
-            $this->getUrl($client, 'ilios_api_put', ['version' => 'v1', 'object' => 'sessions', 'id' => $id]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'sessions', 'id' => $id]
+            ),
             json_encode(['session' => $session]),
-            $this->getTokenForUser($client, 2)
+            $this->getTokenForUser($this->kernelBrowser, 2)
         );
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
         $url = '/ics/' . hash('sha256', '1');
-        $client->request('GET', $url);
-        $response = $client->getResponse();
+        $this->kernelBrowser->request('GET', $url);
+        $response = $this->kernelBrowser->getResponse();
 
         $content = $response->getContent();
 
@@ -209,10 +223,9 @@ class IcsControllerTest extends WebTestCase
 
     public function testAbsolutePathsToEvents()
     {
-        $client = static::createClient();
         $url = '/ics/' . hash('sha256', '1');
-        $client->request('GET', $url);
-        $response = $client->getResponse();
+        $this->kernelBrowser->request('GET', $url);
+        $response = $this->kernelBrowser->getResponse();
 
         $content = $response->getContent();
 
@@ -238,7 +251,7 @@ class IcsControllerTest extends WebTestCase
         $this->assertEquals(2, count($matches), 'Found description in response');
         $firstDescription = preg_replace('/\s+/', '', $matches[1]);
 
-        $today = new \DateTime();
+        $today = new DateTime();
         $format = $today->format('Ymd');
 
         $this->assertRegExp(
@@ -248,20 +261,17 @@ class IcsControllerTest extends WebTestCase
         );
     }
 
-    protected function postOne(
-        KernelBrowser $client,
-        string $key,
-        array $postData
-    ) {
+    protected function postOne(string $key, array $postData)
+    {
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'POST',
-            $this->getUrl($client, 'ilios_api_post', ['version' => 'v1', 'object' => strtolower($key)]),
+            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => strtolower($key)]),
             json_encode([$key => [$postData]]),
-            $this->getTokenForUser($client, 2)
+            $this->getTokenForUser($this->kernelBrowser, 2)
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
         return json_decode($response->getContent(), true)[$key][0];
@@ -269,24 +279,25 @@ class IcsControllerTest extends WebTestCase
 
     public function testLinkedSessionWithDueDatesNotShown2635()
     {
-        $client = static::createClient();
-        $container = $client->getContainer();
+        $container = $this->kernelBrowser->getContainer();
+        /* @var array $sessionData */
         $sessionData = $container->get(SessionData::class)->create();
         $skipTitle = 'SKIP THIS SESSION';
         $sessionData['title'] = $skipTitle;
         $sessionData['postrequisite'] = '1';
         $sessionData['publishedAsTbd'] = false;
 
-        $session = $this->postOne($client, 'sessions', $sessionData);
+        $session = $this->postOne('sessions', $sessionData);
+        /* @var array $ilmSessionData */
         $ilmSessionData = $container->get(IlmSessionData::class)->create();
         $ilmSessionData['session'] = $session['id'];
-        $dt = new \DateTime('tomorrow');
+        $dt = new DateTime('tomorrow');
         $dt->setTime(0, 0, 0);
         $ilmSessionData['dueDate'] = $dt->format('c');
-        $this->postOne($client, 'ilmSessions', $ilmSessionData);
+        $this->postOne('ilmSessions', $ilmSessionData);
         $url = '/ics/' . hash('sha256', '1');
-        $client->request('GET', $url);
-        $response = $client->getResponse();
+        $this->kernelBrowser->request('GET', $url);
+        $response = $this->kernelBrowser->getResponse();
 
         $content = $response->getContent();
 

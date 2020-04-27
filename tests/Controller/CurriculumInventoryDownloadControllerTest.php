@@ -6,6 +6,7 @@ namespace App\Tests\Controller;
 
 use App\Tests\GetUrlTrait;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
@@ -20,11 +21,17 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     use GetUrlTrait;
 
     /**
+     * @var KernelBrowser
+     */
+    protected $kernelBrowser;
+
+    /**
      * @inheritdoc
      */
     public function setUp(): void
     {
         parent::setUp();
+        $this->kernelBrowser = self::createClient();
         $this->loadFixtures([
             'App\Tests\Fixture\LoadCurriculumInventoryReportData',
             'App\Tests\Fixture\LoadCurriculumInventoryExportData',
@@ -37,22 +44,28 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
         ]);
     }
 
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->kernelBrowser);
+        unset($this->fixtures);
+    }
+
     /**
      * @covers \App\Controller\CurriculumInventoryDownloadController::getAction
      */
     public function testGetCurriculumInventoryDownload()
     {
-        $client = static::createClient();
-        $curriculumInventoryExport = $client->getContainer()
+        $curriculumInventoryExport = $this->kernelBrowser->getContainer()
             ->get('App\Tests\DataLoader\CurriculumInventoryExportData')
             ->getOne()
         ;
 
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'GET',
             $this->getUrl(
-                $client,
+                $this->kernelBrowser,
                 'ilios_api_get',
                 [
                     'version' => 'v1',
@@ -61,20 +74,20 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
                 ]
             ),
             null,
-            $this->getAuthenticatedUserToken($client)
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $data = json_decode($response->getContent(), true)['curriculumInventoryReports'][0];
 
-        $client->request(
+        $this->kernelBrowser->request(
             'GET',
             $data['absoluteFileUri']
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertEquals($curriculumInventoryExport['document'], $response->getContent());
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), $response->getContent());
         $downloadCookie = null;

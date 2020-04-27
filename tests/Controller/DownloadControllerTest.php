@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Tests\DataLoader\ApplicationConfigData;
+use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
@@ -35,11 +36,17 @@ class DownloadControllerTest extends WebTestCase
     protected $fixtures;
 
     /**
+     * @var KernelBrowser
+     */
+    protected $kernelBrowser;
+
+    /**
      * @inheritdoc
      */
     public function setUp(): void
     {
         parent::setUp();
+        $this->kernelBrowser = self::createClient();
         $this->fixtures = $this->loadFixtures([
             LoadAuthenticationData::class,
             LoadOfferingData::class,
@@ -56,41 +63,42 @@ class DownloadControllerTest extends WebTestCase
     public function tearDown(): void
     {
         parent::tearDown();
+        unset($this->kernelBrowser);
         unset($this->fixtures);
     }
 
     public function testDownloadLearningMaterial()
     {
-        $client = static::createClient();
-        $learningMaterials = $client->getContainer()
-            ->get('App\Tests\DataLoader\LearningMaterialData')
+        /* @var array $learningMaterials */
+        $learningMaterials = $this->kernelBrowser->getContainer()
+            ->get(LearningMaterialData::class)
             ->getAll();
         $fileLearningMaterials = array_filter($learningMaterials, function ($arr) {
             return !empty($arr['filesize']);
         });
         $learningMaterial = array_values($fileLearningMaterials)[0];
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'GET',
             $this->getUrl(
-                $client,
+                $this->kernelBrowser,
                 'ilios_api_learningmaterial_get',
                 ['version' => 'v1', 'object' => 'learningmaterials', 'id' => $learningMaterial['id']]
             ),
             null,
-            $this->getAuthenticatedUserToken($client)
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $data = json_decode($response->getContent(), true)['learningMaterials'][0];
 
-        $client->request(
+        $this->kernelBrowser->request(
             'GET',
             $data['absoluteFileUri']
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertEquals(
             $response->headers->get('Content-Disposition'),
@@ -103,31 +111,30 @@ class DownloadControllerTest extends WebTestCase
 
     public function testPdfInlineDownload()
     {
-        $client = static::createClient();
         $learningMaterial = $this->fixtures->getReference('learningMaterials4');
 
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'GET',
             $this->getUrl(
-                $client,
+                $this->kernelBrowser,
                 'ilios_api_learningmaterial_get',
                 ['version' => 'v1', 'object' => 'learningmaterials', 'id' => $learningMaterial->getId()]
             ),
             null,
-            $this->getAuthenticatedUserToken($client)
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $data = json_decode($response->getContent(), true)['learningMaterials'][0];
 
-        $client->request(
+        $this->kernelBrowser->request(
             'GET',
             $data['absoluteFileUri'] . '?inline=true'
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertEquals(
             $response->headers->get('Content-Disposition'),
@@ -137,63 +144,65 @@ class DownloadControllerTest extends WebTestCase
 
     public function testBadLearningMaterialToken()
     {
-        $client = static::createClient();
         //sending bad hash
-        $client->request(
+        $this->kernelBrowser->request(
             'GET',
             '/lm/a7a8e202e9655ab81155c4c3e52b95098fcaa1c975f63f0327b467a981f6428f'
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertEquals(
             RESPONSE::HTTP_NOT_FOUND,
             $response->getStatusCode()
         );
     }
 
-    protected function setLearningMaterialsDisabled(KernelBrowser $client, string $setTo)
+    protected function setLearningMaterialsDisabled(string $setTo)
     {
-        $container = $client->getContainer();
+        $container = $this->kernelBrowser->getContainer();
         $config = $container->get(ApplicationConfigData::class)->getOne();
         $config['name'] = 'learningMaterialsDisabled';
         $config['value'] = $setTo;
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'POST',
-            $this->getUrl($client, 'ilios_api_post', ['version' => 'v1', 'object' => 'applicationconfigs']),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_post',
+                ['version' => 'v1', 'object' => 'applicationconfigs']
+            ),
             json_encode(['applicationConfig' => $config]),
-            $this->getTokenForUser($client, 2)
+            $this->getTokenForUser($this->kernelBrowser, 2)
         );
-        $this->assertJsonResponse($client->getResponse(), Response::HTTP_CREATED);
+        $this->assertJsonResponse($this->kernelBrowser->getResponse(), Response::HTTP_CREATED);
     }
 
     public function testDisabledMaterialsWithLM()
     {
-        $client = static::createClient();
-        $this->setLearningMaterialsDisabled($client, 'true');
+        $this->setLearningMaterialsDisabled('true');
 
         $learningMaterial = $this->fixtures->getReference('learningMaterials4');
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'GET',
             $this->getUrl(
-                $client,
+                $this->kernelBrowser,
                 'ilios_api_learningmaterial_get',
                 ['version' => 'v1', 'object' => 'learningmaterials', 'id' => $learningMaterial->getId()]
             ),
             null,
-            $this->getAuthenticatedUserToken($client)
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $data = json_decode($response->getContent(), true)['learningMaterials'][0];
 
-        $client->request(
+        $this->kernelBrowser->request(
             'GET',
             $data['absoluteFileUri'] . '?inline=true'
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $this->assertEquals(
@@ -204,14 +213,13 @@ class DownloadControllerTest extends WebTestCase
 
     public function testDisabledMaterialsWithMissingLm()
     {
-        $client = static::createClient();
-        $this->setLearningMaterialsDisabled($client, 'true');
-        $client->request(
+        $this->setLearningMaterialsDisabled('true');
+        $this->kernelBrowser->request(
             'GET',
             '/lm/a7a8e202e9655ab81155c4c3e52b95098fcaa1c975f63f0327b467a981f6428f'
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $this->assertEquals(
@@ -222,15 +230,14 @@ class DownloadControllerTest extends WebTestCase
 
     public function testBadLearningMaterialTokenWithLmEnabled()
     {
-        $client = static::createClient();
-        $this->setLearningMaterialsDisabled($client, 'false');
+        $this->setLearningMaterialsDisabled('false');
         //sending bad hash
-        $client->request(
+        $this->kernelBrowser->request(
             'GET',
             '/lm/a7a8e202e9655ab81155c4c3e52b95098fcaa1c975f63f0327b467a981f6428f'
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertEquals(
             RESPONSE::HTTP_NOT_FOUND,
             $response->getStatusCode()
