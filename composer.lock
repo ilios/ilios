@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3c25351be9a89a66a518ebfd8d19340",
+    "content-hash": "03a243124943705e6bf3a8c3609672b7",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -200,16 +200,16 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "1.10.1",
+            "version": "1.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "5eb79f3dbdffed6544e1fc287572c0f462bd29bb"
+                "reference": "b9d758e831c70751155c698c2f7df4665314a1cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/5eb79f3dbdffed6544e1fc287572c0f462bd29bb",
-                "reference": "5eb79f3dbdffed6544e1fc287572c0f462bd29bb",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/b9d758e831c70751155c698c2f7df4665314a1cb",
+                "reference": "b9d758e831c70751155c698c2f7df4665314a1cb",
                 "shasum": ""
             },
             "require": {
@@ -265,7 +265,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2020-04-02T12:33:25+00:00"
+            "time": "2020-04-20T09:18:32+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -8639,16 +8639,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "664e155cf57c3f6a376d1d7a8e426d5468bbd0de"
+                "reference": "44f60a776a1f71a1e6800bd9a7e0076b454f35c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/664e155cf57c3f6a376d1d7a8e426d5468bbd0de",
-                "reference": "664e155cf57c3f6a376d1d7a8e426d5468bbd0de",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/44f60a776a1f71a1e6800bd9a7e0076b454f35c8",
+                "reference": "44f60a776a1f71a1e6800bd9a7e0076b454f35c8",
                 "shasum": ""
             },
             "require": {
@@ -8706,7 +8706,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2020-02-16T18:43:29+00:00"
+            "time": "2020-04-27T10:24:37+00:00"
         },
         {
             "name": "mockery/mockery",

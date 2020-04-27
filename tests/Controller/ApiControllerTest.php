@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
@@ -14,53 +15,63 @@ class ApiControllerTest extends WebTestCase
     use JsonControllerTest;
     use FixturesTrait;
 
+    /**
+     * @var KernelBrowser
+     */
+    protected $kernelBrowser;
+
     public function setUp(): void
     {
         parent::setUp();
+        $this->kernelBrowser = self::createClient();
         $this->loadFixtures([
             'App\Tests\Fixture\LoadAuthenticationData'
         ]);
     }
 
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->kernelBrowser);
+        unset($this->fixtures);
+    }
+
     public function testNoEndpoint()
     {
-        $client = static::createClient();
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'GET',
             '/api/v1/nothing',
             null,
-            $this->getTokenForUser($client, 1)
+            $this->getTokenForUser($this->kernelBrowser, 1)
         );
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     public function testNoVersion()
     {
-        $client = static::createClient();
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'GET',
             '/api/nothing',
             null,
-            $this->getTokenForUser($client, 1)
+            $this->getTokenForUser($this->kernelBrowser, 1)
         );
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     public function testBadVersion()
     {
-        $client = static::createClient();
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'GET',
             '/api/1/courses',
             null,
-            $this->getTokenForUser($client, 1)
+            $this->getTokenForUser($this->kernelBrowser, 1)
         );
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 }

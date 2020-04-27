@@ -10,6 +10,7 @@ use App\Tests\GetUrlTrait;
 use Firebase\JWT\JWT;
 use DateTime;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
@@ -27,11 +28,17 @@ class AuthControllerTest extends WebTestCase
     protected $jwtKey;
 
     /**
+     * @var KernelBrowser
+     */
+    protected $kernelBrowser;
+
+    /**
      * @inheritdoc
      */
     public function setUp(): void
     {
         parent::setUp();
+        $this->kernelBrowser = self::createClient();
         $this->loadFixtures([
             LoadAuthenticationData::class
         ]);
@@ -39,12 +46,18 @@ class AuthControllerTest extends WebTestCase
         $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $this->getContainer()->getParameter('kernel.secret');
     }
 
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->kernelBrowser);
+        unset($this->fixtures);
+    }
+
     public function testMissingValues()
     {
-        $client = static::createClient();
-        $client->request('POST', '/auth/login');
+        $this->kernelBrowser->request('POST', '/auth/login');
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
 
@@ -57,14 +70,12 @@ class AuthControllerTest extends WebTestCase
 
     public function testAuthenticateLegacyUser()
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/auth/login', [], [], [], json_encode([
+        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'legacyuserpass'
         ]));
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
@@ -78,14 +89,12 @@ class AuthControllerTest extends WebTestCase
 
     public function testAuthenticateUser()
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/auth/login', [], [], [], json_encode([
+        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'newuser',
             'password' => 'newuserpass'
         ]));
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
@@ -101,14 +110,12 @@ class AuthControllerTest extends WebTestCase
 
     public function testAuthenticateLegacyUserCaseInsensitve()
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/auth/login', [], [], [], json_encode([
+        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'LEGACYUSER',
             'password' => 'legacyuserpass'
         ]));
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
@@ -123,13 +130,11 @@ class AuthControllerTest extends WebTestCase
 
     public function testAuthenticateUserCaseInsensitive()
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/auth/login', [], [], [], json_encode([
+        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'NEWUSER',
             'password' => 'newuserpass'
         ]));
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
@@ -144,14 +149,12 @@ class AuthControllerTest extends WebTestCase
 
     public function testWrongLegacyPassword()
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/auth/login', [], [], [], json_encode([
+        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'wronglegacyuserpass'
         ]));
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
 
@@ -163,14 +166,12 @@ class AuthControllerTest extends WebTestCase
 
     public function testWrongPassword()
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/auth/login', [], [], [], json_encode([
+        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'newuser',
             'password' => 'wrongnewuserpass'
         ]));
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
 
@@ -182,9 +183,7 @@ class AuthControllerTest extends WebTestCase
 
     public function testAuthenticatingLegacyUserChangesHash()
     {
-        $client = static::createClient();
-
-        $em = $client->getContainer()
+        $em = $this->kernelBrowser->getContainer()
             ->get('doctrine')
             ->getManager();
 
@@ -195,20 +194,20 @@ class AuthControllerTest extends WebTestCase
         $this->assertEmpty($authentication->getPasswordHash());
 
 
-        $client->request('POST', '/auth/login', [], [], [], json_encode([
+        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'legacyuserpass'
         ]));
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
-        $client->request('POST', '/auth/login', [], [], [], json_encode([
+        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'legacyuserpass'
         ]));
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
         $data = json_decode($content);
@@ -228,17 +227,16 @@ class AuthControllerTest extends WebTestCase
 
     public function testWhoAmI()
     {
-        $client = static::createClient();
-        $jwt = $this->getAuthenticatedUserToken($client);
+        $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'get',
-            $this->getUrl($client, 'ilios_authentication.whoami'),
+            $this->getUrl($this->kernelBrowser, 'ilios_authentication.whoami'),
             null,
             $jwt
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
         $response = json_decode($response->getContent(), true);
 
@@ -255,17 +253,16 @@ class AuthControllerTest extends WebTestCase
 
     public function testGetToken()
     {
-        $client = static::createClient();
-        $jwt = $this->getAuthenticatedUserToken($client);
+        $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
         $token = (array) JWT::decode($jwt, $this->jwtKey, array('HS256'));
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'get',
-            $this->getUrl($client, 'ilios_authentication.token'),
+            $this->getUrl($this->kernelBrowser, 'ilios_authentication.token'),
             null,
             $jwt
         );
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $response = json_decode($response->getContent(), true);
         $token2 = (array) JWT::decode($response['jwt'], $this->jwtKey, array('HS256'));
 
@@ -289,17 +286,16 @@ class AuthControllerTest extends WebTestCase
 
     public function testGetTokenWithNonDefaultTtl()
     {
-        $client = static::createClient();
-        $jwt = $this->getAuthenticatedUserToken($client);
+        $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'get',
-            $this->getUrl($client, 'ilios_authentication.token') . '?ttl=P2W',
+            $this->getUrl($this->kernelBrowser, 'ilios_authentication.token') . '?ttl=P2W',
             null,
             $jwt
         );
 
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $response = json_decode($response->getContent(), true);
         $token = (array) JWT::decode($response['jwt'], $this->jwtKey, array('HS256'));
 
@@ -312,32 +308,31 @@ class AuthControllerTest extends WebTestCase
 
     public function testInvalidateToken()
     {
-        $client = static::createClient();
-        $jwt = $this->getAuthenticatedUserToken($client);
+        $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
         sleep(1);
 
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'get',
-            $this->getUrl($client, 'ilios_authentication.invalidate_tokens'),
+            $this->getUrl($this->kernelBrowser, 'ilios_authentication.invalidate_tokens'),
             null,
             $jwt
         );
-        $response = $client->getResponse();
+        $response = $this->kernelBrowser->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), $response->getContent());
 
         $this->makeJsonRequest(
-            $client,
+            $this->kernelBrowser,
             'GET',
             $this->getUrl(
-                $client,
+                $this->kernelBrowser,
                 'ilios_api_get',
                 ['object' => 'users', 'version' => 'v1', 'id' => 1]
             ),
             null,
             $jwt
         );
-        $response2 = $client->getResponse();
+        $response2 = $this->kernelBrowser->getResponse();
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response2->getStatusCode());
         $this->assertRegExp('/Invalid JSON Web Token: Not issued after/', $response2->getContent());
     }
