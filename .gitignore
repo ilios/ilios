@@ -1,5 +1,9 @@
 /build/
 FakeTestFiles
+/public/
+!/public/index.php
+!/public/.htaccess
+!/public/theme-overrides
 
 ###> squizlabs/php_codesniffer ###
 /.phpcs-cache

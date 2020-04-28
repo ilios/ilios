@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use App\Service\Filesystem;
 use Exception;
 use SplFileObject;
+use is_dir;
 
 /**
  * Pull down asset archive from AWS and extract it so
@@ -83,6 +84,11 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
      */
     protected $environment;
 
+    /**
+     * @var string
+     */
+    protected $publicDirectory;
+
     public function __construct(
         Fetch $fetch,
         Filesystem $fs,
@@ -107,6 +113,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->fs->mkdir($this->productionTemporaryFileStore);
         $this->stagingTemporaryFileStore = $temporaryFileStorePath . '/stage';
         $this->fs->mkdir($this->stagingTemporaryFileStore);
+        $this->publicDirectory = $kernelProjectDir . '/public/';
 
         parent::__construct();
     }
@@ -152,6 +159,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 $message .= ' at version ' . $versionOverride;
             }
             $this->downloadAndExtractArchive($environment, $versionOverride);
+            $this->copyStaticFilesIntoPublicDirectory();
             $output->writeln("<info>Frontend updated successfully${message}!</info>");
 
             return 0;
@@ -223,5 +231,20 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $frontendPath = $this->cacheDir . self::FRONTEND_DIRECTORY;
         $this->fs->remove($frontendPath);
         $this->fs->rename($archiveDir . self::UNPACKED_DIRECTORY, $frontendPath);
+    }
+
+    protected function copyStaticFilesIntoPublicDirectory(): void
+    {
+        $frontendPath = $this->cacheDir . self::FRONTEND_DIRECTORY;
+        $filesToIgnore = ['..', '.', 'index.json', 'index.html', '_redirects'];
+        $files = array_diff(scandir($frontendPath), $filesToIgnore);
+        foreach ($files as $file) {
+            $path = $frontendPath . $file;
+            if (is_dir($path)) {
+                $this->fs->mirror($path, $this->publicDirectory . $file);
+            } else {
+                $this->fs->copy($path, $this->publicDirectory . $file);
+            }
+        }
     }
 }
