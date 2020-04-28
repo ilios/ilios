@@ -237,7 +237,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     {
         $frontendPath = $this->cacheDir . self::FRONTEND_DIRECTORY;
         $filesToIgnore = ['..', '.', 'index.json', 'index.html', '_redirects'];
-        $files = array_diff(scandir($frontendPath), $filesToIgnore);
+        $files = array_diff($this->fs->scandir($frontendPath), $filesToIgnore);
         foreach ($files as $file) {
             $path = $frontendPath . $file;
             if (is_dir($path)) {

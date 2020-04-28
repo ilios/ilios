@@ -143,7 +143,7 @@ class SwaggerDocBuilder
             UrlGenerator::ABSOLUTE_URL
         );
         $myprofileUrl = $this->router->generate(
-            'ilios_web_assets',
+            'ilios_index',
             [],
             UrlGenerator::ABSOLUTE_URL
         );
