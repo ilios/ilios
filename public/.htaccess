@@ -53,6 +53,52 @@ DirectoryIndex index.php
     # Rewrite all other queries to the front controller.
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ %{ENV:BASE}/index.php [L]
+
+    <IfModule mod_headers.c>
+        # Serve brotli compressed CSS and JS files if they exist
+        # and the client accepts brotli.
+        RewriteCond "%{HTTP:Accept-encoding}" "br"
+        RewriteCond "%{REQUEST_FILENAME}\.br" "-s"
+        RewriteRule "^(.*)\.(js|css|svg|txt)"              "$1\.$2\.br" [QSA]
+
+        # Serve correct content types, and prevent double compression.
+        RewriteRule "\.css\.br$" "-" [T=text/css,E=no-brotli:1,E=no-gzip:1]
+        RewriteRule "\.js\.br$"  "-" [T=text/javascript,E=no-brotli:1,E=no-gzip:1]
+        RewriteRule "\.svg\.br$"  "-" [T=image/svg+xml,E=no-brotli:1,E=no-gzip:1]
+        RewriteRule "\.txt\.br$"  "-" [T=text/plain,E=no-brotli:1,E=no-gzip:1]
+
+
+        # Serve gzip compressed CSS and JS files if they exist
+        # and the client accepts gzip.
+        RewriteCond "%{HTTP:Accept-encoding}" "gzip"
+        RewriteCond "%{REQUEST_FILENAME}\.gz" "-s"
+        RewriteRule "^(.*)\.(js|css|svg|txt)"              "$1\.$2\.gz" [QSA]
+
+        # Serve correct content types, and prevent double compression.
+        RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1,E=no-brotli:1]
+        RewriteRule "\.js\.gz$"  "-" [T=text/javascript,E=no-gzip:1,E=no-brotli:1]
+        RewriteRule "\.svg\.gz$"  "-" [T=image/svg+xml,E=no-gzip:1,E=no-brotli:1]
+        RewriteRule "\.txt\.gz$"  "-" [T=text/plain,E=no-gzip:1,E=no-brotli:1]
+
+
+        <FilesMatch "(\.js\.br|\.css\.br|\.svg\.br|\.txt\.br)$">
+          # Serve correct encoding type.
+          Header append Content-Encoding br
+
+          # Force proxies to cache brotli &
+          # non-brotli css/js files separately.
+          Header append Vary Accept-Encoding
+        </FilesMatch>
+
+        <FilesMatch "(\.js\.gz|\.css\.gz|\.svg\.gz|\.txt\.gz)$">
+          # Serve correct encoding type.
+          Header append Content-Encoding gzip
+
+          # Force proxies to cache brotli &
+          # non-brotli css/js files separately.
+          Header append Vary Accept-Encoding
+        </FilesMatch>
+    </IfModule>
 </IfModule>
 
 <IfModule !mod_rewrite.c>
