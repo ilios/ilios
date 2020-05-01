@@ -254,7 +254,12 @@ class IliosFileSystem
     {
         $relativePath = $this->getTemporaryFilePath($hash);
         if ($this->fileSystem->has($relativePath)) {
-            return $this->fileSystem->readAndDelete($relativePath);
+            $result = $this->fileSystem->readAndDelete($relativePath);
+            if ($result === false) {
+                throw new \Exception("Unable to read temporary file ${hash}");
+            }
+
+            return $result;
         }
 
         return null;
