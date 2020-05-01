@@ -116,7 +116,7 @@ class AddNewStudentsToSchoolCommand extends Command
 
         if (!count($newStudents) > 0) {
             $output->writeln("<info>There are no new students to add.</info>");
-            return;
+            return 0;
         }
         $output->writeln(
             '<info>There are ' .
