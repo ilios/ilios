@@ -48,6 +48,8 @@ class Objective extends AbstractVoter
                 return true;
                 break;
             case self::CREATE:
+                return $user->performsNonLearnerFunction();
+                break;
             case self::EDIT:
             case self::DELETE:
                 if (!$objective->getCourseObjectives()->isEmpty()) { // got courses? if so, it's a course objective.

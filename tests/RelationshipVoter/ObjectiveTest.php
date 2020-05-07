@@ -44,52 +44,18 @@ class ObjectiveTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanCreateProgramYearObjective()
+    public function testCanCreateObjective()
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $token = $this->createMockTokenWithSessionUserPerformingNonLearnerFunction();
         $entity = m::mock(Objective::class);
-        $programYearObjective = m::mock(ProgramYearObjectiveInterface::class);
-        $programYear = m::mock(ProgramYear::class);
-        $program = m::mock(Program::class);
-        $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYearObjectives')
-            ->andReturn(new ArrayCollection([$programYearObjective]));
-        $entity->shouldReceive('getCourseObjectives')
-            ->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessionObjectives')
-            ->andReturn(new ArrayCollection());
-        $programYearObjective->shouldReceive('getProgramYear')->andReturn($programYear);
-        $programYear->shouldReceive('getProgram')->andReturn($program);
-        $programYear->shouldReceive('getId')->andReturn(1);
-        $program->shouldReceive('getSchool')->andReturn($school);
-        $program->shouldReceive('getId')->andReturn(1);
-        $school->shouldReceive('getId')->andReturn(1);
-        $this->permissionChecker->shouldReceive('canUpdateProgramYear')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
     }
 
-    public function testCanNotCreateProgramYearObjective()
+    public function testCanNotCreateObjective()
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $token = $this->createMockTokenWithSessionUserPerformingOnlyLearnerFunction();
         $entity = m::mock(Objective::class);
-        $programYearObjective = m::mock(ProgramYearObjectiveInterface::class);
-        $programYear = m::mock(ProgramYear::class);
-        $program = m::mock(Program::class);
-        $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYearObjectives')
-            ->andReturn(new ArrayCollection([$programYearObjective]));
-        $entity->shouldReceive('getCourseObjectives')
-            ->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessionObjectives')
-            ->andReturn(new ArrayCollection());
-        $programYearObjective->shouldReceive('getProgramYear')->andReturn($programYear);
-        $programYear->shouldReceive('getProgram')->andReturn($program);
-        $programYear->shouldReceive('getId')->andReturn(1);
-        $program->shouldReceive('getSchool')->andReturn($school);
-        $program->shouldReceive('getId')->andReturn(1);
-        $school->shouldReceive('getId')->andReturn(1);
-        $this->permissionChecker->shouldReceive('canUpdateProgramYear')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
     }
@@ -194,50 +160,6 @@ class ObjectiveTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
-    public function testCanCreateCourseObjective()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Objective::class);
-        $courseObjective = m::mock(CourseObjectiveInterface::class);
-        $course = m::mock(Course::class);
-        $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYearObjectives')
-            ->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourseObjectives')
-            ->andReturn(new ArrayCollection([$courseObjective]));
-        $entity->shouldReceive('getSessionObjectives')
-            ->andReturn(new ArrayCollection());
-        $courseObjective->shouldReceive('getCourse')->andReturn($course);
-        $course->shouldReceive('getSchool')->andReturn($school);
-        $course->shouldReceive('getId')->andReturn(1);
-        $school->shouldReceive('getId')->andReturn(1);
-        $this->permissionChecker->shouldReceive('canUpdateCourse')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
-    }
-
-    public function testCanNotCreateCourseObjective()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Objective::class);
-        $courseObjective = m::mock(CourseObjectiveInterface::class);
-        $course = m::mock(Course::class);
-        $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYearObjectives')
-            ->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourseObjectives')
-            ->andReturn(new ArrayCollection([$courseObjective]));
-        $entity->shouldReceive('getSessionObjectives')
-            ->andReturn(new ArrayCollection());
-        $courseObjective->shouldReceive('getCourse')->andReturn($course);
-        $course->shouldReceive('getSchool')->andReturn($school);
-        $course->shouldReceive('getId')->andReturn(1);
-        $school->shouldReceive('getId')->andReturn(1);
-        $this->permissionChecker->shouldReceive('canUpdateCourse')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
-    }
-
     public function testCanEditCourseObjective()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
@@ -324,56 +246,6 @@ class ObjectiveTest extends AbstractBase
         $this->permissionChecker->shouldReceive('canUpdateCourse')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
-    }
-
-    public function testCanCreateSessionObjective()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Objective::class);
-        $sessionObjective = m::mock(SessionObjectiveInterface::class);
-        $session = m::mock(Session::class);
-        $course = m::mock(Course::class);
-        $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYearObjectives')
-            ->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourseObjectives')
-            ->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessionObjectives')
-            ->andReturn(new ArrayCollection([$sessionObjective]));
-        $sessionObjective->shouldReceive('getSession')->andReturn($session);
-        $session->shouldReceive('getCourse')->andReturn($course);
-        $course->shouldReceive('getSchool')->andReturn($school);
-        $session->shouldReceive('getId')->andReturn(1);
-        $course->shouldReceive('getId')->andReturn(1);
-        $school->shouldReceive('getId')->andReturn(1);
-        $this->permissionChecker->shouldReceive('canUpdateSession')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
-    }
-
-    public function testCanNotCreateSessionObjective()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(Objective::class);
-        $sessionObjective = m::mock(SessionObjectiveInterface::class);
-        $session = m::mock(Session::class);
-        $course = m::mock(Course::class);
-        $school = m::mock(School::class);
-        $entity->shouldReceive('getProgramYearObjectives')
-            ->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getCourseObjectives')
-            ->andReturn(new ArrayCollection());
-        $entity->shouldReceive('getSessionObjectives')
-            ->andReturn(new ArrayCollection([$sessionObjective]));
-        $sessionObjective->shouldReceive('getSession')->andReturn($session);
-        $session->shouldReceive('getCourse')->andReturn($course);
-        $course->shouldReceive('getSchool')->andReturn($school);
-        $session->shouldReceive('getId')->andReturn(1);
-        $course->shouldReceive('getId')->andReturn(1);
-        $school->shouldReceive('getId')->andReturn(1);
-        $this->permissionChecker->shouldReceive('canUpdateSession')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
     }
 
     public function testCanEditSessionObjective()
