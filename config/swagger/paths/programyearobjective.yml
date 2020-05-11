@@ -33,7 +33,7 @@
         items:
           type: string
     tags:
-      - ProgramYearObjective
+      - programyearobjective
     responses:
       '200':
         description: An array of program year objectives.
@@ -64,7 +64,7 @@
               items:
                 $ref: '#/definitions/ProgramYearObjective'
     tags:
-      - ProgramYearObjective
+      - programyearobjective
     responses:
       '201':
         description: An array of newly created program year objectives.
@@ -95,7 +95,7 @@
         description: id
         type: integer
     tags:
-      - ProgramYearObjective
+      - programyearobjective
     responses:
       '200':
         description: A single program year objective.
@@ -131,7 +131,7 @@
             programYearObjective:
               $ref: '#/definitions/ProgramYearObjective'
     tags:
-      - ProgramYearObjective
+      - programyearobjective
     responses:
       '200':
         description: The updated program year objective.
@@ -161,7 +161,7 @@
         description: id
         type: integer
     tags:
-      - ProgramYearObjective
+      - programyearobjective
     responses:
       '204':
         description: Program year objective successfully deleted.
