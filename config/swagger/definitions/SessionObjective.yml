@@ -1,0 +1,21 @@
+SessionObjective:
+  type: object
+  properties:
+    id:
+      description: Id
+      type: integer
+      readOnly: true
+    objective:
+      description: Objective
+      type: string
+    position:
+      description: Position
+      type: integer
+    session:
+      description: Session
+      type: string
+    terms:
+      description: Terms
+      type: array
+      items:
+        type: string

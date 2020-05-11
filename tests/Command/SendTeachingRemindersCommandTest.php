@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use App\Entity\CourseObjective;
+use App\Entity\CourseObjectiveInterface;
 use App\Entity\Manager\SchoolManager;
 use App\Command\SendTeachingRemindersCommand;
 use App\Entity\Course;
@@ -12,11 +14,12 @@ use App\Entity\LearnerGroup;
 use App\Entity\LearnerGroupInterface;
 use App\Entity\Manager\OfferingManager;
 use App\Entity\Objective;
-use App\Entity\ObjectiveInterface;
 use App\Entity\Offering;
 use App\Entity\OfferingInterface;
 use App\Entity\School;
 use App\Entity\Session;
+use App\Entity\SessionObjective;
+use App\Entity\SessionObjectiveInterface;
 use App\Entity\SessionType;
 use App\Entity\User;
 use App\Entity\UserInterface;
@@ -182,14 +185,16 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $this->assertStringContainsString("- {$learner->getFirstName()} {$learner->getLastName()}", $output);
         }
 
-        /** @var ObjectiveInterface $objective */
-        foreach ($offering->getSession()->getObjectives() as $objective) {
+        /** @var SessionObjectiveInterface $sessionObjective */
+        foreach ($offering->getSession()->getSessionObjectives() as $sessionObjective) {
+            $objective = $sessionObjective->getObjective();
             $title = trim(strip_tags($objective->getTitle()));
             $this->assertStringContainsString("- {$title}", $output);
         }
 
-        /** @var ObjectiveInterface $objective */
-        foreach ($offering->getSession()->getCourse()->getObjectives() as $objective) {
+        /** @var CourseObjectiveInterface $courseObjective */
+        foreach ($offering->getSession()->getCourse()->getCourseObjectives() as $courseObjective) {
+            $objective = $courseObjective->getObjective();
             $title = trim(strip_tags($objective->getTitle()));
             $this->assertStringContainsString("- {$title}", $output);
         }
@@ -493,7 +498,9 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $courseObjective = new Objective();
             $courseObjective->setId(++$i);
             $courseObjective->setTitle("Course <i>Objective</i> '{$letter}'");
-            $course->addObjective($courseObjective);
+            $courseXObjective = new CourseObjective();
+            $courseXObjective->setObjective($courseObjective);
+            $course->addCourseObjective($courseXObjective);
         }
 
         $session = new Session();
@@ -511,7 +518,9 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $sessionObjective = new Objective();
             $sessionObjective->setId(++$i);
             $sessionObjective->setTitle("Session Objective <strong>{$letter}</strong>");
-            $session->addObjective($sessionObjective);
+            $sessionXObjective = new SessionObjective();
+            $sessionXObjective->setObjective($sessionObjective);
+            $session->addSessionObjective($sessionXObjective);
         }
 
         $instructor1 = new User();

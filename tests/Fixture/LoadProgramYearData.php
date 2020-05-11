@@ -42,10 +42,6 @@ class LoadProgramYearData extends AbstractFixture implements
             foreach ($arr['terms'] as $id) {
                 $entity->addTerm($this->getReference('terms' . $id));
             }
-            foreach ($arr['objectives'] as $id) {
-                $entity->addObjective($this->getReference('objectives' . $id));
-            }
-
             foreach ($arr['competencies'] as $id) {
                 $entity->addCompetency($this->getReference('competencies' . $id));
             }
@@ -61,7 +57,6 @@ class LoadProgramYearData extends AbstractFixture implements
         return array(
             'App\Tests\Fixture\LoadProgramData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadCompetencyData',
         );
     }

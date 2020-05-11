@@ -9,6 +9,7 @@ use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\DataLoader\ObjectiveData;
 use App\Tests\DataLoader\SessionDescriptionData;
 use App\Tests\DataLoader\SessionLearningMaterialData;
+use App\Tests\DataLoader\SessionObjectiveData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -35,7 +36,8 @@ class SessionTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadCourseLearningMaterialData',
             'App\Tests\Fixture\LoadLearningMaterialStatusData',
             'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadSessionObjectiveData',
+            'App\Tests\Fixture\LoadCourseObjectiveData',
         ];
     }
 
@@ -66,7 +68,6 @@ class SessionTest extends ReadWriteEndpointTest
             'course' => ['course', 2],
             'ilmSession' => ['ilmSession', 1],
             'terms' => ['terms', [1]],
-            'objectives' => ['objectives', [1]],
             'meshDescriptors' => ['meshDescriptors', [1], $skipped = true],
             'learningMaterials' => ['learningMaterials', [2], $skipped = true],
             'offerings' => ['offerings', [1], $skipped = true],
@@ -121,7 +122,6 @@ class SessionTest extends ReadWriteEndpointTest
 //            'ilmSession' => [[0], ['ilmSessions' => [1]]],
             'terms' => [[1], ['terms' => 1]],
             'termsMultiple' => [[0], ['terms' => [2, 5]]],
-//            'objectives' => [[0], ['objectives' => [1]]],
             'meshDescriptors' => [[2], ['meshDescriptors' => ['abc2']]],
             'meshDescriptorsMultiple' => [[2, 3], ['meshDescriptors' => ['abc2', 'abc3']]],
 //            'sessionDescription' => [[0], ['sessionDescription' => 1]],
@@ -251,13 +251,23 @@ class SessionTest extends ReadWriteEndpointTest
             $arr['parents'] = ['1'];
             $arr['children'] = ['7', '8'];
             $arr['competency'] = 1;
-            $arr['programYears'] = [];
-            $arr['courses'] = [];
-            $arr['sessions'] = [$id];
+            $arr['programYearObjectives'] = [];
+            $arr['courseObjectives'] = [];
+            $arr['sessionObjectives'] = [];
             unset($arr['id']);
             $create[] = $arr;
         }
         $newObjectives = $this->postMany('objectives', 'objectives', $create);
+        $dataLoader = $this->getContainer()->get(SessionObjectiveData::class);
+        $create = [];
+        foreach ($newObjectives as $objective) {
+            $arr = $dataLoader->create();
+            unset($arr['id']);
+            $arr['session'] = $id;
+            $arr['objective'] = $objective['id'];
+            $create[] = $arr;
+        }
+        $this->postMany('sessionobjectives', 'sessionObjectives', $create);
 
         $getObjectives = function ($id) use ($self) {
             return $self->getOne('objectives', 'objectives', $id);

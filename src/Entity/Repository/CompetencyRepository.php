@@ -99,11 +99,13 @@ class CompetencyRepository extends EntityRepository implements DTORepositoryInte
             $qb->leftJoin('c.objectives', 'se_py_objective');
             $qb->leftJoin('se_py_objective.children', 'se_course_objective');
             $qb->leftJoin('se_course_objective.children', 'se_session_objective');
-            $qb->leftJoin('se_session_objective.sessions', 'se_session');
+            $qb->leftJoin('se_session_objective.sessionObjectives', 'se_session_x_objective');
+            $qb->leftJoin('se_session_x_objective.session', 'se_session');
             $qb->leftJoin('se_subcompetency.objectives', 'se_py_objective2');
             $qb->leftJoin('se_py_objective2.children', 'se_course_objective2');
             $qb->leftJoin('se_course_objective2.children', 'se_session_objective2');
-            $qb->leftJoin('se_session_objective2.sessions', 'se_session2');
+            $qb->leftJoin('se_session_objective2.sessionObjectives', 'se_session_x_objective2');
+            $qb->leftJoin('se_session_x_objective2.session', 'se_session2');
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->in('se_session.id', ':sessions'),
@@ -119,12 +121,14 @@ class CompetencyRepository extends EntityRepository implements DTORepositoryInte
             $qb->leftJoin('c.objectives', 'st_py_objective');
             $qb->leftJoin('st_py_objective.children', 'st_course_objective');
             $qb->leftJoin('st_course_objective.children', 'st_session_objective');
-            $qb->leftJoin('st_session_objective.sessions', 'st_session');
+            $qb->leftJoin('st_session_objective.sessionObjectives', 'st_sessionObjective');
+            $qb->leftJoin('st_sessionObjective.session', 'st_session');
             $qb->leftJoin('st_session.sessionType', 'st_sessionType');
             $qb->leftJoin('st_subcompetency.objectives', 'st_py_objective2');
             $qb->leftJoin('st_py_objective2.children', 'st_course_objective2');
             $qb->leftJoin('st_course_objective2.children', 'st_session_objective2');
-            $qb->leftJoin('st_session_objective2.sessions', 'st_session2');
+            $qb->leftJoin('st_session_objective2.sessionObjectives', 'st_sessionObjective2');
+            $qb->leftJoin('st_sessionObjective2.session', 'st_session2');
             $qb->leftJoin('st_session2.sessionType', 'st_sessionType2');
             $qb->andWhere(
                 $qb->expr()->orX(
@@ -140,10 +144,12 @@ class CompetencyRepository extends EntityRepository implements DTORepositoryInte
             $qb->leftJoin('c.children', 'c_subcompetency');
             $qb->leftJoin('c.objectives', 'c_py_objective');
             $qb->leftJoin('c_py_objective.children', 'c_course_objective');
-            $qb->leftJoin('c_course_objective.courses', 'c_course');
+            $qb->leftJoin('c_course_objective.courseObjectives', 'c_courseObjective');
+            $qb->leftJoin('c_courseObjective.course', 'c_course');
             $qb->leftJoin('c_subcompetency.objectives', 'c_py_objective2');
             $qb->leftJoin('c_py_objective2.children', 'c_course_objective2');
-            $qb->leftJoin('c_course_objective2.courses', 'c_course2');
+            $qb->leftJoin('c_course_objective2.courseObjectives', 'c_courseObjective2');
+            $qb->leftJoin('c_courseObjective2.course', 'c_course2');
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->in('c_course.id', ':courses'),
@@ -158,17 +164,21 @@ class CompetencyRepository extends EntityRepository implements DTORepositoryInte
             $qb->leftJoin('c.children', 't_subcompetency');
             $qb->leftJoin('c.objectives', 't_py_objective');
             $qb->leftJoin('t_py_objective.children', 't_course_objective');
-            $qb->leftJoin('t_course_objective.courses', 't_course');
+            $qb->leftJoin('t_course_objective.courseObjectives', 't_courseObjectives');
+            $qb->leftJoin('t_courseObjectives.course', 't_course');
             $qb->leftJoin('t_course.terms', 't_term');
             $qb->leftJoin('t_course_objective.children', 't_session_objective');
-            $qb->leftJoin('t_session_objective.sessions', 't_session');
+            $qb->leftJoin('t_session_objective.sessionObjectives', 't_sessionObjective');
+            $qb->leftJoin('t_sessionObjective.session', 't_session');
             $qb->leftJoin('t_session.terms', 't_term2');
             $qb->leftJoin('t_subcompetency.objectives', 't_py_objective2');
             $qb->leftJoin('t_py_objective2.children', 't_course_objective2');
-            $qb->leftJoin('t_course_objective2.courses', 't_course2');
+            $qb->leftJoin('t_course_objective2.courseObjectives', 't_courseObjectives2');
+            $qb->leftJoin('t_courseObjectives2.course', 't_course2');
             $qb->leftJoin('t_course2.terms', 't_term3');
             $qb->leftJoin('t_course_objective2.children', 't_session_objective2');
-            $qb->leftJoin('t_session_objective2.sessions', 't_session2');
+            $qb->leftJoin('t_session_objective2.sessionObjectives', 't_sessionObjective2');
+            $qb->leftJoin('t_sessionObjective2.session', 't_session2');
             $qb->leftJoin('t_session2.terms', 't_term4');
             $qb->andWhere(
                 $qb->expr()->orX(

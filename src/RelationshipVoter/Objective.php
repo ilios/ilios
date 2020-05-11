@@ -48,13 +48,15 @@ class Objective extends AbstractVoter
                 return true;
                 break;
             case self::CREATE:
+                return $user->performsNonLearnerFunction();
+                break;
             case self::EDIT:
             case self::DELETE:
-                if (!$objective->getCourses()->isEmpty()) { // got courses? if so, it's a course objective.
+                if (!$objective->getCourseObjectives()->isEmpty()) { // got courses? if so, it's a course objective.
                     return $this->isCreateEditDeleteGrantedForCourseObjective($objective, $user);
-                } elseif (!$objective->getSessions()->isEmpty()) { // and so on..
+                } elseif (!$objective->getSessionObjectives()->isEmpty()) { // and so on..
                     return $this->isCreateEditDeleteGrantedForSessionObjective($objective, $user);
-                } elseif (!$objective->getProgramYears()->isEmpty()) { // and so on ..
+                } elseif (!$objective->getProgramYearObjectives()->isEmpty()) { // and so on ..
                     return $this->isCreateEditDeleteGrantedForProgramYearObjective($objective, $user);
                 }
                 break;
@@ -74,8 +76,7 @@ class Objective extends AbstractVoter
     ) {
 
         /* @var ProgramYearInterface $programYear */
-        $programYear = $objective->getProgramYears()->first(); // there should ever only be one
-
+        $programYear = $objective->getProgramYearObjectives()->first()->getProgramYear();
         return $this->permissionChecker->canUpdateProgramYear($user, $programYear);
     }
 
@@ -89,7 +90,7 @@ class Objective extends AbstractVoter
         SessionUserInterface $user
     ) {
         /* @var SessionInterface $session */
-        $session = $objective->getSessions()->first(); // there should ever only be one
+        $session = $objective->getSessionObjectives()->first()->getSession();
 
         return $this->permissionChecker->canUpdateSession($user, $session);
     }
@@ -102,8 +103,7 @@ class Objective extends AbstractVoter
     protected function isCreateEditDeleteGrantedForCourseObjective($objective, $user)
     {
         /* @var CourseInterface $course */
-        $course = $objective->getCourses()->first(); // there should ever only be one
-
+        $course = $objective->getCourseObjectives()->first()->getCourse();
         return $this->permissionChecker->canUpdateCourse($user, $course);
     }
 }

@@ -5,7 +5,15 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Course;
+use App\Entity\CourseObjective;
+use App\Entity\CourseObjectiveInterface;
+use App\Entity\Objective;
+use App\Entity\ObjectiveInterface;
 use App\Entity\School;
+use App\Entity\SessionInterface;
+use App\Entity\SessionObjectiveInterface;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 
 /**
@@ -42,8 +50,8 @@ class CourseTest extends EntityBase
         $this->object->setTitle('test');
         $this->object->setLevel(3);
         $this->object->setYear(2004);
-        $this->object->setStartDate(new \DateTime());
-        $this->object->setEndDate(new \DateTime());
+        $this->object->setStartDate(new DateTime());
+        $this->object->setEndDate(new DateTime());
         $this->validate(0);
     }
 
@@ -55,8 +63,8 @@ class CourseTest extends EntityBase
         $this->object->setTitle('test');
         $this->object->setLevel(3);
         $this->object->setYear(2004);
-        $this->object->setStartDate(new \DateTime());
-        $this->object->setEndDate(new \DateTime());
+        $this->object->setStartDate(new DateTime());
+        $this->object->setEndDate(new DateTime());
         $this->validateNotNulls($notNull);
 
         $this->object->setSchool(new School());
@@ -71,7 +79,7 @@ class CourseTest extends EntityBase
         $this->assertEmpty($this->object->getCohorts());
         $this->assertEmpty($this->object->getDirectors());
         $this->assertEmpty($this->object->getMeshDescriptors());
-        $this->assertEmpty($this->object->getObjectives());
+        $this->assertEmpty($this->object->getCourseObjectives());
         $this->assertEmpty($this->object->getLearningMaterials());
         $this->assertEmpty($this->object->getSessions());
         $this->assertEmpty($this->object->getTerms());
@@ -387,45 +395,48 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Course::addObjective
-     */
-    public function testAddObjective()
-    {
-        $this->entityCollectionAddTest('objective', 'Objective', false, false, 'addCourse');
-    }
-
-    /**
-     * @covers \App\Entity\Course::removeObjective
-     */
-    public function testRemoveObjective()
-    {
-        $this->entityCollectionRemoveTest('objective', 'Objective', false, false, false, 'removeCourse');
-    }
-
-    /**
-     * @covers \App\Entity\Course::getObjectives
-     */
-    public function testGetObjectives()
-    {
-        $this->entityCollectionSetTest('objective', 'Objective', false, false, 'addCourse');
-    }
-
-    /**
      * @covers \App\Entity\Course::removeObjective
      */
     public function testRemoveObjectiveWithSessionChildren()
     {
-        $sessionObjective = m::mock('App\Entity\Objective');
-        $session = m::mock('App\Entity\Session');
-        $this->object->addSession($session);
-        $courseObjective = m::mock('App\Entity\Objective');
-        $courseObjective->shouldReceive('addCourse')->with($this->object)->once();
-        $courseObjective->shouldReceive('removeCourse')->with($this->object)->once();
-
-        $session->shouldReceive('getObjectives')->andReturn([$sessionObjective])->once();
+        $courseObjective = m::mock(ObjectiveInterface::class);
+        $courseXObjective = m::mock(CourseObjectiveInterface::class);
+        $courseXObjective->shouldReceive('getObjective')->andReturn($courseObjective)->once();
+        $sessionObjective = m::mock(ObjectiveInterface::class);
         $sessionObjective->shouldReceive('removeParent')->with($courseObjective)->once();
-        $this->object->addObjective($courseObjective);
-        $this->object->removeObjective($courseObjective);
+        $sessionXObjective = m::mock(SessionObjectiveInterface::class);
+        $sessionXObjective->shouldReceive('getObjective')->andReturn($sessionObjective)->once();
+        $session = m::mock(SessionInterface::class);
+        $session->shouldReceive('getSessionObjectives')
+            ->andReturn(new ArrayCollection([$sessionXObjective]))->once();
+        $this->object->addSession($session);
+        $this->object->addCourseObjective($courseXObjective);
+        $this->object->removeCourseObjective($courseXObjective);
+    }
+
+    /**
+     * @covers \App\Entity\Course::addCourseObjective
+     */
+    public function testAddCourseObjective()
+    {
+        $this->entityCollectionAddTest('courseObjective', 'CourseObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Course::removeCourseObjective
+     */
+    public function testRemoveCourseObjective()
+    {
+        $this->entityCollectionRemoveTest('courseObjective', 'CourseObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Course::setCourseObjectives
+     * @covers \App\Entity\Course::getCourseObjectives
+     */
+    public function testGetCourseObjectives()
+    {
+        $this->entityCollectionSetTest('courseObjective', 'CourseObjective');
     }
 
     /**
@@ -459,5 +470,24 @@ class CourseTest extends EntityBase
     public function testGetIndexableCourses()
     {
         $this->assertEquals([$this->object], $this->object->getIndexableCourses());
+    }
+
+    /**
+     * @covers \App\Entity\Course:getObjectives
+     */
+    public function testGetObjectives()
+    {
+        $objective1 = new Objective();
+        $objective2 = new Objective();
+        $sessionObjective1 = new CourseObjective();
+        $sessionObjective1->setObjective($objective1);
+        $sessionObjective2 = new CourseObjective();
+        $sessionObjective2->setObjective($objective2);
+        $this->object->addCourseObjective($sessionObjective1);
+        $this->object->addCourseObjective($sessionObjective2);
+        $objectives = $this->object->getObjectives();
+        $this->assertCount(2, $objectives);
+        $this->assertContains($objective1, $objectives);
+        $this->assertContains($objective2, $objectives);
     }
 }

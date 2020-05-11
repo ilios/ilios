@@ -1,0 +1,58 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Fixture;
+
+use App\Entity\ProgramYearObjective;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class LoadProgramYearObjectiveData extends AbstractFixture implements
+    ORMFixtureInterface,
+    ContainerAwareInterface,
+    DependentFixtureInterface
+{
+
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        $data = $this->container
+            ->get('App\Tests\DataLoader\ProgramYearObjectiveData')
+            ->getAll();
+        foreach ($data as $arr) {
+            $entity = new ProgramYearObjective();
+            $entity->setId($arr['id']);
+            $entity->setPosition($arr['position']);
+            $entity->setObjective($this->getReference('objectives' . $arr['objective']));
+            $entity->setProgramYear($this->getReference('programYears' . $arr['programYear']));
+            foreach ($arr['terms'] as $id) {
+                $entity->addTerm($this->getReference('terms' . $id));
+            }
+            $manager->persist($entity);
+
+            $this->addReference('programYearObjectives' . $arr['id'], $entity);
+        }
+
+        $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            'App\Tests\Fixture\LoadTermData',
+            'App\Tests\Fixture\LoadProgramYearData',
+            'App\Tests\Fixture\LoadObjectiveData',
+        );
+    }
+}

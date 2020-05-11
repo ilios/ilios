@@ -117,7 +117,7 @@ class SessionDTO
      * @IS\Expose
      * @IS\Type("array<string>")
      */
-    public $objectives;
+    public $sessionObjectives;
 
     /**
      * @var int[]
@@ -198,7 +198,7 @@ class SessionDTO
         $this->updatedAt = $updatedAt;
 
         $this->terms = [];
-        $this->objectives = [];
+        $this->sessionObjectives = [];
         $this->meshDescriptors = [];
         $this->learningMaterials = [];
         $this->offerings = [];

@@ -28,7 +28,10 @@ class CompetencyTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadSessionTypeData',
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadAamcPcrsData',
-            'App\Tests\Fixture\LoadProgramYearData'
+            'App\Tests\Fixture\LoadProgramYearData',
+            'App\Tests\Fixture\LoadSessionObjectiveData',
+            'App\Tests\Fixture\LoadCourseObjectiveData',
+            'App\Tests\Fixture\LoadProgramYearObjectiveData',
         ];
     }
 

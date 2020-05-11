@@ -6,8 +6,10 @@ namespace App\Tests\Entity;
 
 use App\Entity\Course;
 use App\Entity\CourseInterface;
+use App\Entity\Objective;
 use App\Entity\School;
 use App\Entity\Session;
+use App\Entity\SessionObjective;
 use Mockery as m;
 
 /**
@@ -60,7 +62,7 @@ class SessionTest extends EntityBase
     public function testConstructor()
     {
         $this->assertEmpty($this->object->getMeshDescriptors());
-        $this->assertEmpty($this->object->getObjectives());
+        $this->assertEmpty($this->object->getSessionObjectives());
         $this->assertEmpty($this->object->getOfferings());
         $this->assertEmpty($this->object->getTerms());
         $this->assertEmpty($this->object->getSequenceBlocks());
@@ -243,28 +245,28 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Session::addObjective
+     * @covers \App\Entity\Session::addSessionObjective
      */
-    public function testAddObjective()
+    public function testAddSessionObjective()
     {
-        $this->entityCollectionAddTest('objective', 'Objective');
+        $this->entityCollectionAddTest('sessionObjective', 'SessionObjective');
     }
 
     /**
-     * @covers \App\Entity\Session::removeObjective
+     * @covers \App\Entity\Session::removeSessionObjective
      */
-    public function testRemoveObjective()
+    public function testRemoveSessionObjective()
     {
-        $this->entityCollectionRemoveTest('objective', 'Objective');
+        $this->entityCollectionRemoveTest('sessionObjective', 'SessionObjective');
     }
 
     /**
-     * @covers \App\Entity\Session::getObjectives
-     * @covers \App\Entity\Session::setObjectives
+     * @covers \App\Entity\Session::setSessionObjectives
+     * @covers \App\Entity\Session::getSessionObjectives
      */
-    public function testSetObjectives()
+    public function testGetSessionObjectives()
     {
-        $this->entityCollectionSetTest('objective', 'Objective');
+        $this->entityCollectionSetTest('sessionObjective', 'SessionObjective');
     }
 
     /**
@@ -451,5 +453,24 @@ class SessionTest extends EntityBase
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals([$course], $rhett);
+    }
+
+    /**
+     * @covers \App\Entity\Session:getObjectives
+     */
+    public function testGetObjectives()
+    {
+        $objective1 = new Objective();
+        $objective2 = new Objective();
+        $sessionObjective1 = new SessionObjective();
+        $sessionObjective1->setObjective($objective1);
+        $sessionObjective2 = new SessionObjective();
+        $sessionObjective2->setObjective($objective2);
+        $this->object->addSessionObjective($sessionObjective1);
+        $this->object->addSessionObjective($sessionObjective2);
+        $objectives = $this->object->getObjectives();
+        $this->assertCount(2, $objectives);
+        $this->assertContains($objective1, $objectives);
+        $this->assertContains($objective2, $objectives);
     }
 }

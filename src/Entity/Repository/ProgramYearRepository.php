@@ -82,7 +82,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
             'directors',
             'competencies',
             'terms',
-            'objectives',
+            'programYearObjectives',
             'stewards',
         ];
 
@@ -194,18 +194,20 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
-            "p.title AS program_title, py.startYear AS matriculation_year, pyo.title AS program_year_objective," .
+            "p.title AS program_title, py.startYear AS matriculation_year, o.title AS program_year_objective," .
                 "cmp.title AS competency, c.title AS course_title, c.externalId AS course_shortname," .
                 "co.title AS mapped_course_objective"
         )
             ->from('App\Entity\ProgramYear', 'py')
             ->join('py.program', 'p')
-            ->join('py.objectives', 'pyo')
-            ->leftJoin('pyo.competency', 'cmp')
-            ->leftJoin('pyo.children', 'co')
-            ->leftJoin('co.courses', 'c')
+            ->join('py.programYearObjectives', 'pyo')
+            ->join('pyo.objective', 'o')
+            ->leftJoin('o.competency', 'cmp')
+            ->leftJoin('o.children', 'co')
+            ->leftJoin('co.courseObjectives', 'cxo')
+            ->leftJoin('cxo.course', 'c')
             ->where($qb->expr()->eq('py.id', ':id'))
-            ->orderBy('pyo.id', 'ASC')
+            ->orderBy('o.id', 'ASC')
             ->addOrderBy('cmp.id', 'ASC')
             ->addOrderBy('c.id', 'ASC')
             ->addOrderBy('co.id', 'ASC')

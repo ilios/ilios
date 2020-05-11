@@ -92,7 +92,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
             'administrators',
             'cohorts',
             'terms',
-            'objectives',
+            'courseObjectives',
             'meshDescriptors',
             'learningMaterials',
             'sessions',
@@ -487,8 +487,9 @@ EOL;
 
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
-            $qb->join('c.objectives', 'c_course_objective');
-            $qb->join('c_course_objective.parents', 'c_program_year_objective');
+            $qb->join('c.courseObjectives', 'c_course_objective');
+            $qb->join('c_course_objective.objective', 'c_objective');
+            $qb->join('c_objective.parents', 'c_program_year_objective');
             $qb->leftJoin('c_program_year_objective.competency', 'c_competency');
             $qb->leftJoin('c_competency.parent', 'c_competency2');
             $qb->andWhere($qb->expr()->orX(
@@ -504,10 +505,12 @@ EOL;
             $qb->leftJoin('c.meshDescriptors', 'm_meshDescriptor');
             $qb->leftJoin('c.sessions', 'm_session');
             $qb->leftJoin('m_session.meshDescriptors', 'm_sessMeshDescriptor');
-            $qb->leftJoin('c.objectives', 'm_cObjective');
-            $qb->leftJoin('m_cObjective.meshDescriptors', 'm_cObjectiveMeshDescriptor');
-            $qb->leftJoin('m_session.objectives', 'm_sObjective');
-            $qb->leftJoin('m_sObjective.meshDescriptors', 'm_sObjectiveMeshDescriptors');
+            $qb->leftJoin('c.courseObjectives', 'm_cObjective');
+            $qb->leftJoin('m_cObjective.objective', 'm_Objective');
+            $qb->leftJoin('m_Objective.meshDescriptors', 'm_cObjectiveMeshDescriptor');
+            $qb->leftJoin('m_session.sessionObjectives', 'm_sObjective');
+            $qb->leftJoin('m_sObjective.objective', 'm_Objective2');
+            $qb->leftJoin('m_Objective2.meshDescriptors', 'm_sObjectiveMeshDescriptors');
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->in('m_meshDescriptor.id', ':meshDescriptors'),
                 $qb->expr()->in('m_sessMeshDescriptor.id', ':meshDescriptors'),
@@ -649,10 +652,10 @@ EOL;
             $indexableCourses[$courseId]->terms[] = $arr[0]['title'];
         }
 
-        $objectives = $this->joinResults(
+        $objectives = $this->joinObjectiveResults(
             Course::class,
-            'objectives',
-            "r.title",
+            'courseObjectives',
+            'r.title',
             $courseIds
         );
         foreach ($objectives as $courseId => $arr) {
@@ -738,6 +741,30 @@ EOL;
     }
 
     /**
+     * @param string $from
+     * @param string $select
+     * @param array $ids
+     *
+     * @return array
+     */
+    protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("f.id AS fromId, ${select}")->from($from, 'f')
+            ->join("f.{$rel}", 'fxo')
+            ->join('fxo.objective', 'r')
+            ->where($qb->expr()->in('f.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        $rhett = [];
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $rhett[$arr['fromId']][] = $arr;
+        }
+
+        return $rhett;
+    }
+
+    /**
      * @param array $sessionIds
      *
      * @return IndexableSession[]
@@ -789,10 +816,10 @@ EOL;
             $sessions[$sessionId]->terms[] = $arr[0]['title'];
         }
 
-        $objectives = $this->joinResults(
+        $objectives = $this->joinObjectiveResults(
             Session::class,
-            'objectives',
-            "r.title",
+            'sessionObjectives',
+            'r.title',
             $sessionIds
         );
         foreach ($objectives as $sessionId => $arr) {

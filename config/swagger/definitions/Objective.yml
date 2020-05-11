@@ -9,6 +9,7 @@ Objective:
    description: Title
    type: string
   position:
+   deprecated: true
    description: Sort order position
    type: integer
   active:
@@ -17,18 +18,18 @@ Objective:
   competency:
    description: Competency
    type: string
-  courses:
-   description: Courses
+  courseObjectives:
+   description: Course objectives
    type: array
    items:
     type: string
-  programYears:
-   description: Programyears
+  programYearObjectives:
+   description: Program-year objectives
    type: array
    items:
     type: string
-  sessions:
-   description: Sessions
+  sessionObjectives:
+   description: Session objectives
    type: array
    items:
     type: string

@@ -57,7 +57,6 @@ class LoadSessionData extends AbstractFixture implements
             }
             $related = array(
                 'terms' => 'addTerm',
-                'objectives' => 'addObjective',
                 'meshDescriptors' => 'addMeshDescriptor',
             );
             foreach ($related as $key => $method) {
@@ -93,7 +92,6 @@ class LoadSessionData extends AbstractFixture implements
         return array(
             'App\Tests\Fixture\LoadSessionTypeData',
             'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadMeshDescriptorData',
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadUserData',

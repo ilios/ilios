@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\ProgramYearObjectivesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\ArchivableEntityInterface;
@@ -25,7 +26,7 @@ interface ProgramYearInterface extends
     ArchivableEntityInterface,
     LoggableEntityInterface,
     StewardedEntityInterface,
-    ObjectivesEntityInterface,
+    ProgramYearObjectivesEntityInterface,
     PublishableEntityInterface,
     CategorizableEntityInterface,
     DirectorsEntityInterface,
@@ -66,4 +67,9 @@ interface ProgramYearInterface extends
      * @return CohortInterface
      */
     public function getCohort();
+
+    /**
+     * @return array
+     */
+    public function getObjectives(): array;
 }

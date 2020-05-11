@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\Objective;
 use App\Entity\Program;
 use App\Entity\ProgramYear;
+use App\Entity\ProgramYearObjective;
 use App\Entity\School;
 use Mockery as m;
 
@@ -62,7 +64,7 @@ class ProgramYearTest extends EntityBase
     {
         $this->assertEmpty($this->object->getCompetencies());
         $this->assertEmpty($this->object->getDirectors());
-        $this->assertEmpty($this->object->getObjectives());
+        $this->assertEmpty($this->object->getProgramYearObjectives());
         $this->assertEmpty($this->object->getStewards());
         $this->assertEmpty($this->object->getTerms());
     }
@@ -216,28 +218,28 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\ProgramYear::addObjective
+     * @covers \App\Entity\ProgramYear::addProgramYearObjective
      */
-    public function testAddObjective()
+    public function testAddProgramYearObjective()
     {
-        $this->entityCollectionAddTest('objective', 'Objective');
+        $this->entityCollectionAddTest('programYearObjective', 'ProgramYearObjective');
     }
 
     /**
-     * @covers \App\Entity\ProgramYear::removeObjective
+     * @covers \App\Entity\ProgramYear::removeProgramYearObjective
      */
-    public function testRemoveObjective()
+    public function testRemoveProgramYearObjective()
     {
-        $this->entityCollectionRemoveTest('objective', 'Objective');
+        $this->entityCollectionRemoveTest('programYearObjective', 'ProgramYearObjective');
     }
 
     /**
-     * @covers \App\Entity\ProgramYear::getObjectives
-     * @covers \App\Entity\ProgramYear::setObjectives
+     * @covers \App\Entity\ProgramYear::setProgramYearObjectives
+     * @covers \App\Entity\ProgramYear::getProgramYearObjectives
      */
-    public function testSetObjectives()
+    public function testGetProgramYearObjectives()
     {
-        $this->entityCollectionSetTest('objective', 'Objective');
+        $this->entityCollectionSetTest('programYearObjective', 'ProgramYearObjective');
     }
 
     /**
@@ -282,5 +284,24 @@ class ProgramYearTest extends EntityBase
     public function testSetCohort()
     {
         $this->entitySetTest('cohort', 'Cohort');
+    }
+
+    /**
+     * @covers \App\Entity\ProgramYear:getObjectives
+     */
+    public function testGetObjectives()
+    {
+        $objective1 = new Objective();
+        $objective2 = new Objective();
+        $programYearObjective1 = new ProgramYearObjective();
+        $programYearObjective1->setObjective($objective1);
+        $programYearObjective2 = new ProgramYearObjective();
+        $programYearObjective2->setObjective($objective2);
+        $this->object->addProgramYearObjective($programYearObjective1);
+        $this->object->addProgramYearObjective($programYearObjective2);
+        $objectives = $this->object->getObjectives();
+        $this->assertCount(2, $objectives);
+        $this->assertContains($objective1, $objectives);
+        $this->assertContains($objective2, $objectives);
     }
 }

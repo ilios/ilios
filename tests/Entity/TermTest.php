@@ -225,4 +225,79 @@ class TermTest extends EntityBase
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals($rhett, [$course1, $course2]);
     }
+
+    /**
+     * @covers \App\Entity\Term::addProgramYearObjective
+     */
+    public function testAddProgramYearObjective()
+    {
+        $this->entityCollectionAddTest('programYearObjective', 'ProgramYearObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Term::removeProgramYearObjective
+     */
+    public function testRemoveProgramYearObjective()
+    {
+        $this->entityCollectionRemoveTest('programYearObjective', 'ProgramYearObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Term::setProgramYearObjectives
+     * @covers \App\Entity\Term::getProgramYearObjectives
+     */
+    public function testGetProgramYearObjectives()
+    {
+        $this->entityCollectionSetTest('programYearObjective', 'ProgramYearObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Term::addCourseObjective
+     */
+    public function testAddCourseObjective()
+    {
+        $this->entityCollectionAddTest('courseObjective', 'CourseObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Term::removeCourseObjective
+     */
+    public function testRemoveCourseObjective()
+    {
+        $this->entityCollectionRemoveTest('courseObjective', 'CourseObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Term::setCourseObjectives
+     * @covers \App\Entity\Term::getCourseObjectives
+     */
+    public function testGetCourseObjectives()
+    {
+        $this->entityCollectionSetTest('courseObjective', 'CourseObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Term::addSessionObjective
+     */
+    public function testAddSessionObjective()
+    {
+        $this->entityCollectionAddTest('sessionObjective', 'SessionObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Term::removeSessionObjective
+     */
+    public function testRemoveSessionObjective()
+    {
+        $this->entityCollectionRemoveTest('sessionObjective', 'SessionObjective');
+    }
+
+    /**
+     * @covers \App\Entity\Term::setSessionObjectives
+     * @covers \App\Entity\Term::getSessionObjectives
+     */
+    public function testGetSessionObjectives()
+    {
+        $this->entityCollectionSetTest('sessionObjective', 'SessionObjective');
+    }
 }

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\IndexableCoursesEntityInterface;
+use App\Traits\SessionObjectivesEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
 use App\Traits\CategorizableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
-use App\Traits\ObjectivesEntityInterface;
 use App\Traits\PublishableEntityInterface;
 use App\Traits\SequenceBlocksEntityInterface;
 use App\Traits\TitledEntityInterface;
@@ -29,13 +29,13 @@ interface SessionInterface extends
     TimestampableEntityInterface,
     OfferingsEntityInterface,
     LoggableEntityInterface,
-    ObjectivesEntityInterface,
     PublishableEntityInterface,
     CategorizableEntityInterface,
     MeshDescriptorsEntityInterface,
     SequenceBlocksEntityInterface,
     AdministratorsEntityInterface,
-    IndexableCoursesEntityInterface
+    IndexableCoursesEntityInterface,
+    SessionObjectivesEntityInterface
 {
     /**
      * @param bool $attireRequired
@@ -201,4 +201,9 @@ interface SessionInterface extends
      * @return ArrayCollection|SessionInterface[]
      */
     public function getPrerequisites();
+
+    /**
+     * @return array
+     */
+    public function getObjectives(): array;
 }

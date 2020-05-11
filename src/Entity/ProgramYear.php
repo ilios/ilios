@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\ProgramYearObjectivesEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\CategorizableEntity;
 use App\Traits\CompetenciesEntity;
 use App\Traits\DirectorsEntity;
-use App\Traits\ObjectivesEntity;
 use App\Traits\PublishableEntity;
 use App\Traits\StringableIdEntity;
 use App\Annotation as IS;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ArchivableEntity;
@@ -34,7 +33,7 @@ class ProgramYear implements ProgramYearInterface
     use LockableEntity;
     use ArchivableEntity;
     use StewardedEntity;
-    use ObjectivesEntity;
+    use ProgramYearObjectivesEntity;
     use PublishableEntity;
     use CategorizableEntity;
     use StringableIdEntity;
@@ -207,23 +206,15 @@ class ProgramYear implements ProgramYearInterface
     protected $terms;
 
     /**
-     * @var ArrayCollection|ObjectiveInterface[]
+     * @var ArrayCollection|ProgramYearObjective[]
      *
-     * @ORM\ManyToMany(targetEntity="Objective", inversedBy="programYears")
-     * @ORM\JoinTable(name="program_year_x_objective",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
-     *   }
-     * )
+     * @ORM\OneToMany(targetEntity="ProgramYearObjective", mappedBy="programYear")
      * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $objectives;
+    protected $programYearObjectives;
 
     /**
      * @var ArrayCollection|ProgramYearStewardInterface[]
@@ -248,7 +239,7 @@ class ProgramYear implements ProgramYearInterface
         $this->directors = new ArrayCollection();
         $this->competencies = new ArrayCollection();
         $this->terms = new ArrayCollection();
-        $this->objectives = new ArrayCollection();
+        $this->programYearObjectives = new ArrayCollection();
         $this->stewards = new ArrayCollection();
     }
 
@@ -309,5 +300,16 @@ class ProgramYear implements ProgramYearInterface
             return $program->getSchool();
         }
         return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getObjectives(): array
+    {
+        $programYearObjectives = $this->getProgramYearObjectives()->toArray();
+        return array_map(function (ProgramYearObjectiveInterface $programYearObjective) {
+            return $programYearObjective->getObjective();
+        }, $programYearObjectives);
     }
 }

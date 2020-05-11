@@ -7,7 +7,9 @@ namespace App\Service;
 use App\Entity\CohortInterface;
 use App\Entity\CourseInterface;
 use App\Entity\CourseLearningMaterialInterface;
+use App\Entity\CourseObjectiveInterface;
 use App\Entity\IlmSessionInterface;
+use App\Entity\Manager\BaseManager;
 use App\Entity\Manager\CohortManager;
 use App\Entity\Manager\CourseLearningMaterialManager;
 use App\Entity\Manager\CourseManager;
@@ -18,12 +20,16 @@ use App\Entity\Manager\OfferingManager;
 use App\Entity\Manager\SessionLearningMaterialManager;
 use App\Entity\Manager\SessionManager;
 use App\Entity\OfferingInterface;
+use App\Entity\ProgramYearObjectiveInterface;
 use App\Entity\SessionInterface;
 use App\Entity\Manager\SessionDescriptionManager;
 use App\Entity\SessionDescriptionInterface;
 use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\ObjectiveInterface;
+use App\Entity\SessionObjectiveInterface;
+use DateInterval;
 use DateTime;
+use Exception;
 
 /**
  * CourseRollover Rolls over an existing course and its components to a new Academic Year
@@ -64,6 +70,16 @@ class CourseRollover
     protected $sessionLearningMaterialManager;
 
     /**
+     * @var BaseManager $courseObjectiveManager
+     */
+    protected $courseObjectiveManager;
+
+    /**
+     * @var BaseManager $sessionObjectiveManager
+     */
+    protected $sessionObjectiveManager;
+
+    /**
      * @var OfferingManager
      */
     protected $offeringManager;
@@ -96,6 +112,8 @@ class CourseRollover
      * @param ObjectiveManager $objectiveManager
      * @param IlmSessionManager $ilmSessionManager
      * @param CohortManager $cohortManager
+     * @param BaseManager $courseObjectiveManager
+     * @param BaseManager $sessionObjectiveManager
      */
     public function __construct(
         CourseManager $courseManager,
@@ -107,7 +125,9 @@ class CourseRollover
         OfferingManager $offeringManager,
         ObjectiveManager $objectiveManager,
         IlmSessionManager $ilmSessionManager,
-        CohortManager $cohortManager
+        CohortManager $cohortManager,
+        BaseManager $courseObjectiveManager,
+        BaseManager $sessionObjectiveManager
     ) {
         $this->courseManager = $courseManager;
         $this->learningMaterialManager = $learningMaterialManager;
@@ -119,6 +139,8 @@ class CourseRollover
         $this->objectiveManager = $objectiveManager;
         $this->ilmSessionManager = $ilmSessionManager;
         $this->cohortManager = $cohortManager;
+        $this->courseObjectiveManager = $courseObjectiveManager;
+        $this->sessionObjectiveManager = $sessionObjectiveManager;
     }
 
     /**
@@ -127,13 +149,13 @@ class CourseRollover
      * @param array $options
      * @param array $newCohortIds
      * @return CourseInterface the new, rolled-over course.
-     * @throws \Exception
+     * @throws Exception
      */
     public function rolloverCourse(int $courseId, int $newAcademicYear, array $options, array $newCohortIds = [])
     {
         //now, get/set the required values from the provided arguments
         $origCourseId = $courseId;
-        $newStartDate = (!empty($options['new-start-date'])) ? new \DateTime($options['new-start-date']) : null;
+        $newStartDate = (!empty($options['new-start-date'])) ? new DateTime($options['new-start-date']) : null;
 
         //make sure that the new course's academic year or new start date year is not in the past
         $this->confirmYearIsValid($newAcademicYear);
@@ -190,7 +212,7 @@ class CourseRollover
             /** @var CohortInterface $cohort */
             $cohort = $this->cohortManager->findOneBy(['id' => $id]);
             if (!$cohort) {
-                throw new \Exception("There are no cohorts with id ${id}.");
+                throw new Exception("There are no cohorts with id ${id}.");
             }
             $newCourse->addCohort($cohort);
         }
@@ -264,7 +286,8 @@ class CourseRollover
      * @param CourseInterface $origCourse
      * @param int $daysOffset
      * @param array $options
-     * @param array $newCourseObjectives
+     * @param ObjectiveInterface[] $newCourseObjectives
+     * @throws Exception
      */
     protected function rolloverSessions(
         CourseInterface $newCourse,
@@ -380,6 +403,7 @@ class CourseRollover
      * @param SessionInterface $origCourseSession
      * @param $daysOffset
      * @param $options
+     * @throws Exception
      */
     protected function rolloverOfferings(
         SessionInterface $newSession,
@@ -423,11 +447,12 @@ class CourseRollover
     }
 
     /**
-     * @param DateTime      $origCourseStartDate
-     * @param int        $origAcademicYear
-     * @param int        $newAcademicYear
+     * @param DateTime $origCourseStartDate
+     * @param int $origAcademicYear
+     * @param int $newAcademicYear
      * @param DateTime|null $newCourseStartDate
      * @return int
+     * @throws Exception
      */
     private function calculateDaysOffset(
         DateTime $origCourseStartDate,
@@ -441,7 +466,7 @@ class CourseRollover
             $yearDiff = (int) $origCourseStartDate->format('Y') - $origAcademicYear;
 
             $diffedYear = $newAcademicYear + $yearDiff;
-            $newCourseStartDate = new \DateTime();
+            $newCourseStartDate = new DateTime();
             $newCourseStartDate->setISODate($diffedYear, $isoWeekOrdinal, $isoDayOrdinal);
         }
 
@@ -450,13 +475,13 @@ class CourseRollover
 
     /**
      * @param int $newAcademicYear
-     * @throws \Exception
+     * @throws Exception
      */
     private function confirmYearIsValid($newAcademicYear)
     {
         $lastYear = date('Y') - 1;
         if ($newAcademicYear < $lastYear) {
-            throw new \Exception(
+            throw new Exception(
                 "Courses cannot be rolled over to a new year before {$lastYear}."
             );
         }
@@ -465,13 +490,13 @@ class CourseRollover
     /**
      * @param string $title
      * @param int    $newAcademicYear
-     * @throws \Exception
+     * @throws Exception
      */
     private function checkForDuplicateRollover($title, $newAcademicYear)
     {
         $duplicateCourses = $this->courseManager->findBy(['title' => $title, 'year' => $newAcademicYear]);
         if (!empty($duplicateCourses)) {
-            throw new \Exception(
+            throw new Exception(
                 "Another course with the same title and academic year already exists."
                 . " If the year is correct, consider setting a new course title with '--new-course-title' option."
             );
@@ -481,13 +506,14 @@ class CourseRollover
     /**
      * @param int $origCourseId
      * @return CourseInterface
-     * @throws \Exception
+     * @throws Exception
      */
     private function getOriginalCourse($origCourseId)
     {
+        /* @var CourseInterface $origCourse */
         $origCourse = $this->courseManager->findOneBy(['id' => $origCourseId]);
         if (empty($origCourse)) {
-            throw new \Exception(
+            throw new Exception(
                 'There are no courses with courseId ' . $origCourseId . '.'
             );
         }
@@ -497,28 +523,35 @@ class CourseRollover
     /**
      * @param CourseInterface $newCourse
      * @param CourseInterface $origCourse
-     *
-     * @return array
+     * @return CourseObjectiveInterface[]
      */
     protected function rolloverCourseObjectives(
         CourseInterface $newCourse,
         CourseInterface $origCourse
-    ) {
+    ): array {
         $newCourseObjectives = [];
         $cohorts = $newCourse->getCohorts();
-        foreach ($origCourse->getObjectives() as $objective) {
+        foreach ($origCourse->getCourseObjectives() as $courseObjective) {
+            $objective = $courseObjective->getObjective();
+            /* @var CourseObjectiveInterface $newCourseObjective */
+            $newCourseObjective = $this->courseObjectiveManager->create();
+            $newCourseObjective->setCourse($newCourse);
+            $newCourseObjective->setTerms($courseObjective->getTerms());
+            $newCourseObjective->setPosition($courseObjective->getPosition());
             /* @var ObjectiveInterface $newObjective */
             $newObjective = $this->objectiveManager->create();
             $newObjective->setTitle($objective->getTitle());
             $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
-            $newObjective->addCourse($newCourse);
             $newObjective->setAncestor($objective->getAncestorOrSelf());
             $newObjective->setPosition($objective->getPosition());
+            $newCourseObjective->setObjective($newObjective);
             foreach ($cohorts as $cohort) {
                 $this->reLinkCourseObjectiveToParents($objective, $newObjective, $cohort);
             }
 
             $this->objectiveManager->update($newObjective, false, false);
+            $this->courseObjectiveManager->update($newCourseObjective, false, false);
+
             $newCourseObjectives[$objective->getId()] = $newObjective;
         }
 
@@ -531,7 +564,11 @@ class CourseRollover
         CohortInterface $cohort
     ) {
         $programYear = $cohort->getProgramYear();
-        $possibleParents = $programYear->getObjectives();
+        $programYearObjectives = $programYear->getProgramYearObjectives();
+        $possibleParents = $programYearObjectives->map(function (ProgramYearObjectiveInterface $programYearObjective) {
+            return $programYearObjective->getObjective();
+        });
+
         /** @var ObjectiveInterface $parent */
         foreach ($objective->getParents() as $parent) {
             $ancestorId = $parent->getAncestorOrSelf()->getId();
@@ -545,25 +582,31 @@ class CourseRollover
     }
 
     /**
-     * @param SessionInterface     $newSession
-     * @param SessionInterface     $origSession
+     * @param SessionInterface $newSession
+     * @param SessionInterface $origSession
      * @param ObjectiveInterface[] $newCourseObjectives
      */
     protected function rolloverSessionObjectives(
         SessionInterface $newSession,
         SessionInterface $origSession,
         array $newCourseObjectives
-    ) {
-        $origSession->getObjectives()
+    ): void {
+        $origSession->getSessionObjectives()
             ->map(
-                function (ObjectiveInterface $objective) use ($newSession, $newCourseObjectives) {
+                function (SessionObjectiveInterface $sessionObjective) use ($newSession, $newCourseObjectives) {
+                    $objective = $sessionObjective->getObjective();
+                    /** @var SessionObjectiveInterface $newSessionObjective */
+                    $newSessionObjective =  $this->sessionObjectiveManager->create();
+                    $newSessionObjective->setSession($newSession);
+                    $newSessionObjective->setTerms($sessionObjective->getTerms());
+                    $newSessionObjective->setPosition($sessionObjective->getPosition());
                     /* @var ObjectiveInterface $newObjective */
                     $newObjective = $this->objectiveManager->create();
                     $newObjective->setTitle($objective->getTitle());
                     $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
-                    $newObjective->addSession($newSession);
                     $newObjective->setAncestor($objective->getAncestorOrSelf());
                     $newObjective->setPosition($objective->getPosition());
+                    $newSessionObjective->setObjective($newObjective);
                     $newParents = $objective->getParents()
                         ->map(
                             function (ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective) {
@@ -579,14 +622,16 @@ class CourseRollover
 
                     $newObjective->setParents($newParents);
                     $this->objectiveManager->update($newObjective, false, false);
+                    $this->sessionObjectiveManager->update($newSessionObjective, false, false);
                 }
             );
     }
 
     /**
-     * @param SessionInterface     $newSession
-     * @param SessionInterface     $origSession
+     * @param SessionInterface $newSession
+     * @param SessionInterface $origSession
      * @param $daysOffset
+     * @throws Exception
      */
     protected function rolloverIlmSession(
         SessionInterface $newSession,
@@ -610,14 +655,14 @@ class CourseRollover
     }
 
     /**
-     * @param \DateTime $origCourseStartDate
-     * @param \DateTime $newStartDate
-     * @throws \Exception
+     * @param DateTime $origCourseStartDate
+     * @param DateTime $newStartDate
+     * @throws Exception
      */
     protected function compareStartDateDayOfWeek($origCourseStartDate, $newStartDate)
     {
         if ($origCourseStartDate->format('w') !== $newStartDate->format('w')) {
-            throw new \Exception(
+            throw new Exception(
                 "The new start date must take place on the same day of the week as the original course start date"
                 . " ({$origCourseStartDate->format('l')})."
             );
@@ -625,9 +670,10 @@ class CourseRollover
     }
 
     /**
-     * @param \DateTime $origDate
-     * @param int       $daysOffset
-     * @return \DateTime
+     * @param DateTime $origDate
+     * @param int $daysOffset
+     * @return DateTime
+     * @throws Exception
      */
     protected function getAdjustedDate(
         $origDate,
@@ -635,7 +681,7 @@ class CourseRollover
     ) {
         $newDate = clone $origDate;
         $newInterval = 'P' . $daysOffset . 'D';
-        $newDate->add(new \DateInterval($newInterval));
+        $newDate->add(new DateInterval($newInterval));
 
         return $newDate;
     }

@@ -20,6 +20,9 @@ class TermData extends AbstractDataLoader
             'sessions' => ['2'],
             'aamcResourceTypes' => ['RE001'],
             'active' => true,
+            'courseObjectives' => ['1', '2'],
+            'programYearObjectives' => [],
+            'sessionObjectives' => [],
         );
         $arr[] = array(
             'id' => 2,
@@ -33,6 +36,9 @@ class TermData extends AbstractDataLoader
             'sessions' => ['1'],
             'aamcResourceTypes' => ['RE001', 'RE002'],
             'active' => true,
+            'courseObjectives' => [],
+            'programYearObjectives' => ['1', '2'],
+            'sessionObjectives' => [],
         );
         $arr[] = array(
             'id' => 3,
@@ -46,6 +52,9 @@ class TermData extends AbstractDataLoader
             'sessions' => ['3'],
             'aamcResourceTypes' => ['RE002'],
             'active' => false,
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => ['1', '2'],
         );
 
         $arr[] = array(
@@ -59,6 +68,9 @@ class TermData extends AbstractDataLoader
             'sessions' => ['2'],
             'aamcResourceTypes' => [],
             'active' => true,
+            'courseObjectives' => ['1'],
+            'programYearObjectives' => ['1'],
+            'sessionObjectives' => ['1'],
         );
         $arr[] = array(
             'id' => 5,
@@ -71,6 +83,9 @@ class TermData extends AbstractDataLoader
             'sessions' => ['1'],
             'aamcResourceTypes' => [],
             'active' => true,
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => [],
         );
         $arr[] = array(
             'id' => 6,
@@ -83,6 +98,9 @@ class TermData extends AbstractDataLoader
             'sessions' => ['3'],
             'aamcResourceTypes' => [],
             'active' => false,
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => [],
         );
 
         return $arr;
@@ -101,6 +119,9 @@ class TermData extends AbstractDataLoader
             'sessions' => ['3'],
             'aamcResourceTypes' => [],
             'active' => true,
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => [],
         ];
     }
 

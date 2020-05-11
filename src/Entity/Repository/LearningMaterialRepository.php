@@ -271,9 +271,11 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
             $qb->leftJoin('m_clm.course', 'm_course');
             $qb->leftJoin('m_session.meshDescriptors', 'm_sessMeshDescriptor');
             $qb->leftJoin('m_course.meshDescriptors', 'm_courseMeshDescriptor');
-            $qb->leftJoin('m_session.objectives', 'm_sObjective');
+            $qb->leftJoin('m_session.sessionObjectives', 'm_sSessionObjective');
+            $qb->leftJoin('m_sSessionObjective.objective', 'm_sObjective');
             $qb->leftJoin('m_sObjective.meshDescriptors', 'm_sObjectiveMeshDescriptors');
-            $qb->leftJoin('m_course.objectives', 'm_cObjective');
+            $qb->leftJoin('m_course.courseObjectives', 'm_cCourseObjective');
+            $qb->leftJoin('m_cCourseObjective.objective', 'm_cObjective');
             $qb->leftJoin('m_cObjective.meshDescriptors', 'm_cObjectiveMeshDescriptors');
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->in('m_slmMeshDescriptor.id', ':meshDescriptors'),

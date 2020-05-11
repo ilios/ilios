@@ -16,9 +16,9 @@ class ObjectiveData extends AbstractDataLoader
             'position' => 0,
             'active' => true,
             'competency' => '3',
-            'courses' => [],
-            'programYears' => ['1'],
-            'sessions' => [],
+            'courseObjectives' => [],
+            'programYearObjectives' => ['1'],
+            'sessionObjectives' => [],
             'parents' => [],
             'children' => ['2'],
             'meshDescriptors' => [],
@@ -30,9 +30,9 @@ class ObjectiveData extends AbstractDataLoader
             'title' => 'second objective',
             'position' => 0,
             'active' => true,
-            'courses' => ['1', '2', '4'],
-            'programYears' => ['1'],
-            'sessions' => [],
+            'courseObjectives' => ['1', '2', '3'],
+            'programYearObjectives' => ['2'],
+            'sessionObjectives' => [],
             'parents' => ['1'],
             'children' => ['3', '6'],
             'meshDescriptors' => ['abc1'],
@@ -44,9 +44,9 @@ class ObjectiveData extends AbstractDataLoader
             'title' => 'third objective',
             'position' => 0,
             'active' => true,
-            'courses' => [],
-            'programYears' => [],
-            'sessions' => ['1'],
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => ['1'],
             'parents' => ['2'],
             'children' => [],
             'meshDescriptors' => [],
@@ -59,9 +59,9 @@ class ObjectiveData extends AbstractDataLoader
             'title' => 'fourth objective',
             'position' => 0,
             'active' => true,
-            'courses' => ["2"],
-            'programYears' => [],
-            'sessions' => [],
+            'courseObjectives' => ['4'],
+            'programYearObjectives' => [],
+            'sessionObjectives' => [],
             'parents' => [],
             'children' => [],
             'meshDescriptors' => [],
@@ -73,9 +73,9 @@ class ObjectiveData extends AbstractDataLoader
             'title' => 'fifth objective',
             'position' => 0,
             'active' => false,
-            'courses' => ["3"],
-            'programYears' => [],
-            'sessions' => [],
+            'courseObjectives' => ['5'],
+            'programYearObjectives' => [],
+            'sessionObjectives' => [],
             'parents' => [],
             'children' => [],
             'meshDescriptors' => ["abc1"],
@@ -87,9 +87,9 @@ class ObjectiveData extends AbstractDataLoader
             'title' => 'sixth objective',
             'position' => 0,
             'active' => true,
-            'courses' => [],
-            'programYears' => [],
-            'sessions' => ["4"],
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => ['2'],
             'parents' => ['2'],
             'children' => [],
             'meshDescriptors' => ["abc1"],
@@ -101,9 +101,9 @@ class ObjectiveData extends AbstractDataLoader
             'title' => 'seventh objective',
             'position' => 0,
             'active' => false,
-            'courses' => [],
-            'programYears' => [],
-            'sessions' => ["4"],
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => ['3'],
             'parents' => [],
             'children' => [],
             'meshDescriptors' => ["abc3"],
@@ -115,13 +115,60 @@ class ObjectiveData extends AbstractDataLoader
             'title' => 'eighth objective',
             'position' => 0,
             'active' => true,
-            'courses' => [],
-            'programYears' => ['5'],
-            'sessions' => [],
+            'courseObjectives' => [],
+            'programYearObjectives' => ['3'],
+            'sessionObjectives' => [],
             'parents' => [],
             'children' => [],
             'meshDescriptors' => [],
             'ancestor' => '1',
+            'descendants' => []
+        );
+
+        // unlinked objectives
+
+        // link to this from new program-year objective
+        $arr[] = array(
+            'id' => 9,
+            'title' => 'ninth objective',
+            'position' => 0,
+            'active' => true,
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => [],
+            'parents' => [],
+            'children' => ['10'],
+            'meshDescriptors' => [],
+            'descendants' => []
+        );
+
+        // link to this from new course objective
+        $arr[] = array(
+            'id' => 10,
+            'title' => 'tenth objective',
+            'position' => 0,
+            'active' => true,
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => [],
+            'parents' => ['9'],
+            'children' => ['11'],
+            'meshDescriptors' => [],
+            'descendants' => []
+        );
+
+        // link to this from new session objective
+        $arr[] = array(
+            'id' => 11,
+            'title' => 'eleventh objective',
+            'position' => 0,
+            'active' => true,
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => [],
+            'parents' => ['10'],
+            'children' => [],
+            'meshDescriptors' => [],
             'descendants' => []
         );
 
@@ -131,19 +178,18 @@ class ObjectiveData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 9,
+            'id' => 12,
             'title' => $this->faker->text,
             'position' => 0,
             'active' => true,
             'competency' => "1",
-            'courses' => ['1'],
-            'programYears' => ['2'],
-            'sessions' => ['1'],
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
+            'sessionObjectives' => [],
             'parents' => ['1'],
             'children' => [],
             'meshDescriptors' => [],
             'descendants' => []
-
         );
     }
 

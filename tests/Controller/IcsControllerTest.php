@@ -41,6 +41,7 @@ class IcsControllerTest extends WebTestCase
         $this->fixtures = $this->loadFixtures([
             'App\Tests\Fixture\LoadAuthenticationData',
             'App\Tests\Fixture\LoadSessionData',
+            'App\Tests\Fixture\LoadSessionObjectiveData',
             'App\Tests\Fixture\LoadOfferingData',
             'App\Tests\Fixture\LoadCourseLearningMaterialData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',

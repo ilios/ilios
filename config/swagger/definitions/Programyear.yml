@@ -43,8 +43,8 @@ Programyear:
    type: array
    items:
     type: string
-  objectives:
-   description: Objectives
+  programYearObjectives:
+   description: Program-year objectives
    type: array
    items:
     type: string

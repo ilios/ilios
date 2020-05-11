@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\SessionObjectivesEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\AdministratorsEntity;
 use App\Traits\CategorizableEntity;
 use App\Traits\MeshDescriptorsEntity;
-use App\Traits\ObjectivesEntity;
 use App\Traits\PublishableEntity;
 use App\Traits\SequenceBlocksEntity;
 use Doctrine\Common\Collections\Collection;
@@ -43,12 +43,12 @@ class Session implements SessionInterface
     use StringableIdEntity;
     use TimestampableEntity;
     use OfferingsEntity;
-    use ObjectivesEntity;
     use PublishableEntity;
     use CategorizableEntity;
     use MeshDescriptorsEntity;
     use SequenceBlocksEntity;
     use AdministratorsEntity;
+    use SessionObjectivesEntity;
 
     /**
      * @var int
@@ -247,23 +247,15 @@ class Session implements SessionInterface
     protected $terms;
 
     /**
-     * @var ArrayCollection|ObjectiveInterface[]
+     * @var ArrayCollection|SessionObjectiveInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Objective", inversedBy="sessions")
-     * @ORM\JoinTable(name="session_x_objective",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
-     *   }
-     * )
+     * @ORM\OneToMany(targetEntity="SessionObjective", mappedBy="session")
      * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $objectives;
+    protected $sessionObjectives;
 
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
@@ -387,7 +379,7 @@ class Session implements SessionInterface
         $this->publishedAsTbd = false;
         $this->published = false;
         $this->terms = new ArrayCollection();
-        $this->objectives = new ArrayCollection();
+        $this->sessionObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->offerings = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
@@ -722,5 +714,16 @@ class Session implements SessionInterface
     public function getIndexableCourses(): array
     {
         return [$this->course];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getObjectives(): array
+    {
+        $courseObjectives = $this->getSessionObjectives()->toArray();
+        return array_map(function (SessionObjectiveInterface $sessionObjective) {
+            return $sessionObjective->getObjective();
+        }, $courseObjectives);
     }
 }
