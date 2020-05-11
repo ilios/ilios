@@ -55,7 +55,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'directors' => ['directors', [2]],
             'competencies' => ['competencies', [2]],
             'terms' => ['terms', [2]],
-            //'objectives' => ['objectives', [2]],
             'stewards' => ['stewards', [2], $skipped = true],
         ];
     }
