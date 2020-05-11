@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\CourseObjective;
 use App\Entity\DTO\CourseObjectiveDTO;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -20,7 +21,7 @@ class CourseObjectiveRepository extends EntityRepository implements DTORepositor
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\CourseObjective', 'x');
+        $qb->select('DISTINCT x')->from(CourseObjective::class, 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -40,7 +41,7 @@ class CourseObjectiveRepository extends EntityRepository implements DTORepositor
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\CourseObjective', 'x');
+            ->distinct()->from(CourseObjective::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         /** @var CourseObjectiveDTO[] $courseObjectiveDTOs */
         $courseObjectiveDTOs = [];

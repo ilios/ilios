@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Repository;
 
 use App\Entity\DTO\ProgramYearObjectiveDTO;
+use App\Entity\ProgramYearObjective;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -20,7 +21,7 @@ class ProgramYearObjectiveRepository extends EntityRepository implements DTORepo
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\ProgramYearObjective', 'x');
+        $qb->select('DISTINCT x')->from(ProgramYearObjective::class, 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -40,7 +41,7 @@ class ProgramYearObjectiveRepository extends EntityRepository implements DTORepo
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\ProgramYearObjective', 'x');
+            ->distinct()->from(ProgramYearObjective::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         /** @var ProgramYearObjectiveDTO[] $programYearObjectiveDTOs */
         $programYearObjectiveDTOs = [];

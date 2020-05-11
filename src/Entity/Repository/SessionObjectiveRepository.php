@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Repository;
 
 use App\Entity\DTO\SessionObjectiveDTO;
+use App\Entity\SessionObjective;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -20,7 +21,7 @@ class SessionObjectiveRepository extends EntityRepository implements DTOReposito
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\SessionObjective', 'x');
+        $qb->select('DISTINCT x')->from(SessionObjective::class, 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -40,7 +41,7 @@ class SessionObjectiveRepository extends EntityRepository implements DTOReposito
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\SessionObjective', 'x');
+            ->distinct()->from(SessionObjective::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         /** @var SessionObjectiveDTO[] $sessionObjectiveDTOs */
         $sessionObjectiveDTOs = [];
