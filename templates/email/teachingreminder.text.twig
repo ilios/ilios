@@ -33,13 +33,13 @@ The learners participating in this session are:
 {% endfor %}
 
 The learning objectives listed for this session are:
-{% for sessionObjective in offering.session.sessionObjectives %}
-- {{ sessionObjective.objective.title|striptags|trim|raw }}
+{% for objective in offering.session.objectives %}
+- {{ objective.title|striptags|trim|raw }}
 {% endfor %}
 
 The learning objectives listed for this course are:
-{% for courseObjective in offering.session.course.courseObjectives %}
-- {{ courseObjective.objective.title|striptags|trim|raw }}
+{% for objective in offering.session.course.objectives %}
+- {{ objective.title|striptags|trim|raw }}
 {% endfor %}
 
 For a complete review of the session details and its associated learning materials, visit the session details on your Ilios Calendar at {{ base_url }}/courses/{{ offering.session.course.id }}.
