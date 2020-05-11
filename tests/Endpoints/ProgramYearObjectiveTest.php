@@ -11,7 +11,7 @@ use App\Tests\ReadWriteEndpointTest;
 
 /**
  * ProgramYearObjectiveTest API endpoint Test.
- * @group api_1
+ * @group api_2
  */
 class ProgramYearObjectiveTest extends ReadWriteEndpointTest
 {

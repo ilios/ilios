@@ -11,7 +11,7 @@ use App\Tests\ReadWriteEndpointTest;
 
 /**
  * SessionObjectiveTest API endpoint Test.
- * @group api_1
+ * @group api_3
  */
 class SessionObjectiveTest extends ReadWriteEndpointTest
 {
