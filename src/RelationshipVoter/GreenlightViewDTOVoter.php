@@ -44,6 +44,7 @@ use App\Entity\DTO\SessionObjectiveDTO;
 use App\Entity\DTO\SessionTypeDTO;
 use App\Entity\DTO\TermDTO;
 use App\Entity\DTO\UserRoleDTO;
+use App\Entity\DTO\ObjectiveV1DTO;
 use App\Entity\DTO\VocabularyDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -85,6 +86,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof MeshTermDTO
                 || $subject instanceof MeshTreeDTO
                 || $subject instanceof ObjectiveDTO
+                || $subject instanceof ObjectiveV1DTO
                 || $subject instanceof ProgramDTO
                 || $subject instanceof ProgramYearDTO
                 || $subject instanceof ProgramYearObjectiveDTO
