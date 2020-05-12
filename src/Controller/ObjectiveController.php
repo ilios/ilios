@@ -52,20 +52,17 @@ class ObjectiveController extends ApiController
     public function get($version, $object, $id)
     {
         $manager = $this->getManager($object);
-        $dto = $manager->findDTOBy(['id' => $id]);
+        $dto = null;
+        if ('v1' === $version) {
+            $dto = $manager->findV1DTOBy(['id' => $id]);
+        } else {
+            $dto = $manager->findDTOBy(['id' => $id]);
+
+        }
 
         if (! $dto) {
             $name = ucfirst($this->getSingularResponseKey($object));
             throw new NotFoundHttpException(sprintf("%s with id '%s' was not found.", $name, $id));
-        }
-
-        if ($version === 'v1') {
-            $dto = new ObjectiveV1DTO(
-                $dto,
-                $this->courseObjectiveManager,
-                $this->programYearObjectiveManager,
-                $this->sessionObjectiveManager
-            );
         }
 
         return $this->resultsToResponse([$dto], $this->getPluralResponseKey($object), Response::HTTP_OK);
@@ -78,31 +75,21 @@ class ObjectiveController extends ApiController
     ) {
         $parameters = $this->extractParameters($request);
         $manager = $this->getManager($object);
-        $result = $manager->findDTOsBy(
-            $parameters['criteria'],
-            $parameters['orderBy'],
-            $parameters['limit'],
-            $parameters['offset']
-        );
-        $courseObjectiveManager = $this->courseObjectiveManager;
-        $programYearObjectiveManager = $this->programYearObjectiveManager;
-        $sessionObjectiveManager = $this->sessionObjectiveManager;
-
-        if ($version === 'v1') {
-            $result = array_map(function (ObjectiveDTO $objectiveDTO) use (
-                $courseObjectiveManager,
-                $programYearObjectiveManager,
-                $sessionObjectiveManager
-            ) {
-                return new ObjectiveV1DTO(
-                    $objectiveDTO,
-                    $courseObjectiveManager,
-                    $programYearObjectiveManager,
-                    $sessionObjectiveManager
-                );
-            }, $result);
+        if ('v1' === $version) {
+            $result = $manager->findV1DTOsBy(
+                $parameters['criteria'],
+                $parameters['orderBy'],
+                $parameters['limit'],
+                $parameters['offset']
+            );
+        } else {
+            $result = $manager->findDTOsBy(
+                $parameters['criteria'],
+                $parameters['orderBy'],
+                $parameters['limit'],
+                $parameters['offset']
+            );
         }
-
         return $this->resultsToResponse($result, $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 }

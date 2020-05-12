@@ -109,8 +109,6 @@ class ObjectiveV1DTO
      * @var int
      * @IS\Expose
      * @IS\Type("integer")
-     * @deprecated
-     *
      */
     public $position;
 
@@ -123,40 +121,19 @@ class ObjectiveV1DTO
     public $active;
 
 
-    public function __construct(
-        CurrentDTO $dto,
-        CourseObjectiveManager $courseObjectiveManager,
-        ProgramYearObjectiveManager $programYearObjectiveManager,
-        SessionObjectiveManager $sessionObjectiveManager
-    ) {
-
-        $this->id = $dto->id;
-        $this->title = $dto->title;
-        $this->active = $dto->active;
+    public function __construct($id, $title, $active)
+    {
+        $this->id = $id;
+        $this->title = $title;
+        $this->active = $active;
+        $this->position = 0;
 
         $this->courses = [];
         $this->sessions = [];
         $this->programYears = [];
-
-        if ($dto->courseObjectives) {
-            $courseObjectiveDtos = $courseObjectiveManager->findDTOsBy(['id' => $dto->courseObjectives]);
-            $this->courses = array_column($courseObjectiveDtos, 'course');
-            $this->position = $courseObjectiveDtos[0]->position;
-        }
-        if ($dto->programYearObjectives) {
-            $programYearObjectiveDtos = $programYearObjectiveManager->findDTOsBy(['id' => $dto->programYearObjectives]);
-            $this->programYears = array_column($programYearObjectiveDtos, 'programYear');
-            $this->position = $programYearObjectiveDtos[0]->position;
-        }
-        if ($dto->sessionObjectives) {
-            $sessionObjectiveDtos = $sessionObjectiveManager->findDTOsBy(['id' => $dto->sessionObjectives]);
-            $this->sessions = array_column($sessionObjectiveDtos, 'session');
-            $this->position = $sessionObjectiveDtos[0]->position;
-        }
-
-        $this->parents = $dto->parents;
-        $this->children = $dto->children;
-        $this->meshDescriptors = $dto->meshDescriptors;
-        $this->descendants = $dto->descendants;
+        $this->parents = [];
+        $this->children = [];
+        $this->meshDescriptors = [];
+        $this->descendants = [];
     }
 }
