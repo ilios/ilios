@@ -32,6 +32,11 @@ class IndexController extends AbstractController
     protected $twig;
 
     /**
+     * @var string
+     */
+    protected $kernelCacheDir;
+
+    /**
      * @var AuthenticationInterface
      */
     private $authentication;
@@ -42,63 +47,26 @@ class IndexController extends AbstractController
     private $config;
 
     /**
-     * @var string
-     */
-    private $kernelProjectDir;
-
-    /**
      * IndexController constructor.
-     * @param Filesystem $fs
-     * @param Environment $twig
-     * @param AuthenticationInterface $authentication
-     * @param Config $config
-     * @param string $kernelProjectDir
      */
     public function __construct(
         Filesystem $fs,
         Environment $twig,
         AuthenticationInterface $authentication,
         Config $config,
-        string $kernelProjectDir
+        string $kernelCacheDir
     ) {
         $this->fs = $fs;
         $this->twig = $twig;
         $this->authentication = $authentication;
         $this->config = $config;
-        $this->kernelProjectDir = $kernelProjectDir;
-    }
-
-    /**
-     * Respond to GET requests
-     *
-     * @param Request $request
-     * @param $fileName
-     * @param $versionedStaticFile
-     *
-     * @return BinaryFileResponse|Response
-     */
-    public function getAction(Request $request, $fileName, $versionedStaticFile = false)
-    {
-        if ('index.html' === $fileName || '/' === $fileName || empty($fileName)) {
-            return $this->getIndex($request);
-        }
-
-        $path = $this->getFilePath($fileName);
-        //when files don't exist they are probably calls to a frontend route like /dashboard or /courses
-        //in that case we just return the index.html file and let Ember handle it
-        if (!$path) {
-            return $this->getIndex($request);
-        }
-
-        return $this->getAsset($request, $path, $versionedStaticFile);
+        $this->kernelCacheDir = $kernelCacheDir;
     }
 
     /**
      * Load the index.html file or a nice error message if it doesn't exist
-     * @param Request $request
-     * @return Response
      */
-    protected function getIndex(Request $request)
+    public function index(Request $request): Response
     {
         $response = $this->authentication->createAuthenticationResponse($request);
         if ($response instanceof RedirectResponse) {
@@ -121,7 +89,6 @@ class IndexController extends AbstractController
             $options = $this->extractOptions($path);
 
             $content = $this->twig->render(self::DEFAULT_TEMPLATE_NAME, $options);
-            $content = gzencode($content);
             $file = new \SplFileObject($path, 'r');
             $lastModified = new DateTime();
             $lastModified->setTimestamp($file->getMTime());
@@ -136,45 +103,6 @@ class IndexController extends AbstractController
         return $response;
     }
 
-    protected function getAsset(Request $request, string $path, bool $versionedStaticFile): Response
-    {
-        $content = $this->fs->readFile($path);
-        $file = new \SplFileObject($path, 'r');
-        $lastModified = new DateTime();
-        $lastModified->setTimestamp($file->getMTime());
-        $response = new Response();
-        $response = $this->responseFromString($response, $content, $request, $lastModified);
-
-        $extension = $file->getExtension();
-        if ($extension === 'css') {
-            $response->headers->set('Content-Type', 'text/css');
-        }
-        if ($extension === 'js') {
-            $response->headers->set('Content-Type', 'text/javascript');
-        }
-        if ($extension === 'svg') {
-            $response->headers->set('Content-Type', 'image/svg+xml');
-        }
-        if ($extension === 'png') {
-            //PNG files are already compressed and we don't gzip them again
-            $response->headers->remove('Content-Encoding');
-            $response->headers->set('Content-Type', 'image/png');
-        }
-        if ($versionedStaticFile) {
-            //cache for one year
-            $response->setMaxAge(60 * 60 * 24 * 365);
-        } else {
-            // doesn't actually mean don't cache - it means that the server must
-            // check the status and if a 304 is returned it can use the cached version
-            $response->headers->addCacheControlDirective('no-cache');
-        }
-
-        // checks if the file has been modified and if not blanks out the response and sends a 304
-        $response->isNotModified($request);
-
-        return $response;
-    }
-
     /**
      * Extract the path for a frontend file
      * @param $fileName
@@ -182,7 +110,7 @@ class IndexController extends AbstractController
      */
     protected function getFilePath($fileName)
     {
-        $assetsPath = $this->getParameter('kernel.cache_dir') . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $assetsPath = $this->kernelCacheDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
         $path = $assetsPath . $fileName;
         if ($this->fs->exists($path) && is_readable($path) && !is_dir($path)) {
             return $path;
@@ -293,9 +221,8 @@ class IndexController extends AbstractController
         $response->setLastModified($lastModified);
         $response->setPublic();
         if (in_array('gzip', $request->getEncodings())) {
+            $content = gzencode($content);
             $response->headers->add(['Content-Encoding' => 'gzip']);
-        } else {
-            $content = gzdecode($content);
         }
         $response->setContent($content);
 

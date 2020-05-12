@@ -61,7 +61,7 @@ RUN \
     && docker-php-ext-enable apcu \
     && docker-php-ext-enable opcache \
     # enable modules
-    && a2enmod rewrite socache_shmcb mpm_prefork http2 \
+    && a2enmod rewrite socache_shmcb mpm_prefork http2 deflate headers \
     && rm -rf /var/lib/apt/lists/* \
     # remove the apt source files to save space
     && apt-get purge libldap2-dev zlib1g-dev libicu-dev -y \

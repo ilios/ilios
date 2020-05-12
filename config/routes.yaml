@@ -619,25 +619,10 @@ ilios_web_directory_find:
   methods: [GET]
   requirements:
     key: '\d+'
-ilios_web_sw_registraton_js:
-  path:     /sw-registration.js
-  controller: App\Controller\IndexController::getAction
-  defaults:
-    fileName: sw-registration.js
-  requirements:
-    fileName: ".+"
-ilios_web_sw_js:
-  path:     /sw.js
-  controller: App\Controller\IndexController::getAction
-  defaults:
-    fileName: sw.js
-  requirements:
-    fileName: ".+"
-ilios_web_assets:
+ilios_index:
   path:     /{fileName}
-  controller: App\Controller\IndexController::getAction
+  controller: App\Controller\IndexController::index
   defaults:
     fileName: null
-    versionedStaticFile: true
   requirements:
     fileName: "(?!api).+"

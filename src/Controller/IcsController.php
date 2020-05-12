@@ -146,7 +146,7 @@ class IcsController extends AbstractController
             $slug .= 'I' . $event->ilmSession;
         }
         $link = $this->router->generate(
-            'ilios_web_assets',
+            'ilios_index',
             ['fileName' => "events/$slug"],
             UrlGenerator::ABSOLUTE_URL
         );

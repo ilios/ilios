@@ -31,13 +31,38 @@ class UpdateFrontendCommandTest extends KernelTestCase
     private const TEST_API_VERSION = '33.14-test';
 
     protected $commandTester;
-    protected $fetch;
-    protected $fs;
-    protected $config;
-    protected $archive;
-    protected $finder;
     protected $fakeCacheFileDir;
     protected $fakeProjectFileDir;
+
+    /**
+     * @var FinderFactory|m\MockInterface
+     */
+    protected $finderFactory;
+
+    /**
+     * @var Fetch|m\MockInterface
+     */
+    protected $fetch;
+
+    /**
+     * @var Filesystem|m\MockInterface
+     */
+    protected $fs;
+
+    /**
+     * @var Config|m\MockInterface
+     */
+    protected $config;
+
+    /**
+     * @var Archive|m\MockInterface
+     */
+    protected $archive;
+
+    /**
+     * @var Finder|m\MockInterface
+     */
+    protected $finder;
 
     public function setUp(): void
     {
@@ -90,6 +115,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         unset($this->config);
         unset($this->archive);
         unset($this->finder);
+        unset($this->finderFactory);
     }
 
     public function testExecute()
@@ -114,6 +140,15 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $this->fs->shouldReceive('remove')->once()->with($frontendPath);
         $this->fs->shouldReceive('rename')->once()
             ->with($archiveDir . UpdateFrontendCommand::UNPACKED_DIRECTORY, $frontendPath);
+
+        $this->fs->shouldReceive('scandir')
+            ->with($frontendPath)
+            ->andReturn(['one', 'two', 'index.json', 'index.html', '_redirects']);
+
+        $publicPath = $this->fakeProjectFileDir . '/public/';
+
+        $this->fs->shouldReceive('copy')->with($frontendPath . 'one', $publicPath . 'one');
+        $this->fs->shouldReceive('copy')->with($frontendPath . 'two', $publicPath . 'two');
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -148,6 +183,10 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $this->fs->shouldReceive('remove')->once()->with($frontendPath);
         $this->fs->shouldReceive('rename')->once()
             ->with($archiveDir . UpdateFrontendCommand::UNPACKED_DIRECTORY, $frontendPath);
+
+        $this->fs->shouldReceive('scandir')
+            ->with($frontendPath)
+            ->andReturn([]);
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -184,6 +223,10 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $this->fs->shouldReceive('remove')->once()->with($frontendPath);
         $this->fs->shouldReceive('rename')->once()
             ->with($archiveDir . UpdateFrontendCommand::UNPACKED_DIRECTORY, $frontendPath);
+
+        $this->fs->shouldReceive('scandir')
+            ->with($frontendPath)
+            ->andReturn([]);
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,

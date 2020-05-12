@@ -232,7 +232,7 @@ class CasAuthentication implements AuthenticationInterface
     protected function getRootUrl(): string
     {
         return $this->router->generate(
-            'ilios_web_assets',
+            'ilios_index',
             [],
             UrlGenerator::ABSOLUTE_URL
         );

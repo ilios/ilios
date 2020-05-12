@@ -6,14 +6,11 @@ namespace App\Service;
 
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
+use scandir;
 
 /**
- * Class Filesystem
- *
- * Extends Symfonys built in file system to add a read method which symfony core devs
- * do not wish to include in the base class.
- *
- *
+ * Extends Symfonys built in file system to add methods useful for test mocks that symfony
+ * does not wish to include in the base class.
  */
 class Filesystem extends SymfonyFileSystem
 {
@@ -35,5 +32,20 @@ class Filesystem extends SymfonyFileSystem
         }
 
         return $contents;
+    }
+
+    /**
+     * List files and directories inside the specified path
+     *
+     * @throws IOException
+     */
+    public function scandir(string $directory): array
+    {
+        $rhett = scandir($directory);
+        if (false === $rhett) {
+            throw new IOException("Unable to examine directory " . $directory);
+        }
+
+        return $rhett;
     }
 }
