@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ObjectiveController extends ApiController
 {
-    public function get($version, $object, $id)
+    public function getAction($version, $object, $id)
     {
         $manager = $this->getManager($object);
         $dto = null;
@@ -32,11 +32,8 @@ class ObjectiveController extends ApiController
         return $this->resultsToResponse([$dto], $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 
-    public function getAll(
-        $version,
-        $object,
-        Request $request
-    ) {
+    public function getAllAction($version, $object, Request $request)
+    {
         $parameters = $this->extractParameters($request);
         $manager = $this->getManager($object);
         if ('v1' === $version) {
