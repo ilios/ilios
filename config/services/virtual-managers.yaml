@@ -86,7 +86,7 @@ services:
         arguments:
             $class: 'App\Entity\SessionType'
     App\Entity\Manager\TermManager:
-        class: App\Entity\Manager\BaseManager
+        class: App\Entity\Manager\V1CompatibleBaseManager
         arguments:
             $class: 'App\Entity\Term'
     App\Entity\Manager\VocabularyManager:

@@ -12,7 +12,7 @@ use App\Entity\UserInterface;
 /**
  * Class CourseManager
  */
-class CourseManager extends BaseManager
+class CourseManager extends V1CompatibleBaseManager
 {
     /**
      * Retrieves all courses associated with the given user.
