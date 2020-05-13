@@ -105,6 +105,7 @@ services:
       arguments:
         $class: 'App\Entity\CourseLearningMaterial'
     App\Entity\Manager\CourseObjectiveManager:
+      public: true
       arguments:
         $class: 'App\Entity\CourseObjective'
     App\Entity\Manager\CurriculumInventoryAcademicLevelManager:
@@ -160,6 +161,7 @@ services:
       arguments:
         $class: 'App\Entity\ProgramYear'
     App\Entity\Manager\ProgramYearObjectiveManager:
+      public: true
       arguments:
         $class: 'App\Entity\ProgramYearObjective'
     App\Entity\Manager\ProgramYearStewardManager:
@@ -188,6 +190,7 @@ services:
       arguments:
         $class: 'App\Entity\SessionLearningMaterial'
     App\Entity\Manager\SessionObjectiveManager:
+      public: true
       arguments:
         $class: 'App\Entity\SessionObjective'
     App\Entity\Manager\UserManager:
