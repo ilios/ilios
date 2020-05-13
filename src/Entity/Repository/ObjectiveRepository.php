@@ -162,7 +162,7 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
             foreach ($qb->getQuery()->getResult() as $arr) {
                 $objectiveDTOs[$arr['objectiveId']]->{$attr}[] = $arr['relId'];
                 if (! $positionHasBeenApplied) {
-                    $objectiveDTOs[$arr['objectiveId']] = $arr['position'];
+                    $objectiveDTOs[$arr['objectiveId']]->position = $arr['position'];
                     $positionHasBeenApplied = true;
                 }
             }
@@ -170,7 +170,6 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
 
         return array_values($objectiveDTOs);
     }
-
 
     /**
      * @param QueryBuilder $qb
