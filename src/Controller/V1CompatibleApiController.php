@@ -9,10 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class ObjectiveController
- * @package App\Controller
+ * Class V1CompatibleApiController
+ *
+ * Default Controller for all API v1-compatible endpoints.
  */
-class ObjectiveController extends ApiController
+class V1CompatibleApiController extends ApiController
 {
     public function getAction($version, $object, $id)
     {

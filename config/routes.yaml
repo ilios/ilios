@@ -168,7 +168,15 @@ ilios_api_learningmaterial_put:
     object: 'learningmaterials'
     id: '\d+'
 
-ilios_api_getallsessions:
+ilios_api_sessions_get:
+  path:     /api/{version}/{object}
+  controller: App\Controller\SessionsController::getAction
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'sessions'
+
+ilios_api_sessions_getAll:
   path:     /api/{version}/{object}
   controller: App\Controller\SessionsController::getAllAction
   methods:  [GET]
@@ -176,9 +184,17 @@ ilios_api_getallsessions:
     version: "%ilios_api_valid_api_versions%"
     object: 'sessions'
 
-ilios_api_getallcourses:
+ilios_api_courses_getAll:
   path:     /api/{version}/{object}
   controller: App\Controller\CoursesController::getAllAction
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'courses'
+
+ilios_api_courses_get:
+  path:     /api/{version}/{object}
+  controller: App\Controller\CoursesController::getAction
   methods:  [GET]
   requirements:
     version: "%ilios_api_valid_api_versions%"
@@ -491,22 +507,38 @@ ilios_api_permissions_410:
     object: 'permissions'
     id: '(?i)[a-z0-9\-]+'
 
-ilios_api_objective_get:
+ilios_api_objectives_get:
   path:     /api/{version}/{object}/{id}
-  controller: App\Controller\ObjectiveController::getAction
+  controller: App\Controller\V1CompatibleApiController::getAction
   methods:  [GET]
   requirements:
     version: "%ilios_api_valid_api_versions%"
     object: 'objectives'
     id: '\d+'
 
-ilios_api_objective_getAll:
+ilios_api_objectives_getAll:
   path:     /api/{version}/{object}
-  controller: App\Controller\ObjectiveController::getAllAction
+  controller: App\Controller\V1CompatibleApiController::getAllAction
   methods:  [GET]
   requirements:
     version: "%ilios_api_valid_api_versions%"
     object: 'objectives'
+
+ilios_api_programyears_get:
+  path:     /api/{version}/{object}
+  controller: App\Controller\ProgramYearController::getAction
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'programyears'
+
+ilios_api_programyears_getAll:
+  path:     /api/{version}/{object}
+  controller: App\Controller\ProgramYearController::getAllAction
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'programyears'
 
 ilios_api_programyears_post:
   path:     /api/{version}/{object}
@@ -550,6 +582,23 @@ ilios_api_programyears_downloadobjectivesmapping:
     version: "%ilios_api_valid_api_versions%"
     object: 'programyears'
     id: '\d+'
+
+ilios_api_terms_get:
+  path:     /api/{version}/{object}/{id}
+  controller: App\Controller\V1CompatibleApiController::getAction
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'terms'
+    id: '\d+'
+
+ilios_api_terms_getAll:
+  path:     /api/{version}/{object}
+  controller: App\Controller\V1CompatibleApiController::getAllAction
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'terms'
 
 ilios_api_usermadereminders_410:
   path:     /api/{version}/{object}/{id}

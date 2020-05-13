@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * We have to handle a special 'my' parameter on courses
  * so it needs its own controller
  */
-class CoursesController extends ApiController
+class CoursesController extends V1CompatibleApiController
 {
     /**
      * @inheritdoc

@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Serializer;
  * When program years are created cohorts
  * must be created at the same time
  */
-class ProgramYearController extends ApiController
+class ProgramYearController extends V1CompatibleApiController
 {
     /**
      * Create cohort to match the new program year
