@@ -34,6 +34,7 @@ class CurrentSessionTest extends WebTestCase
      */
     protected $kernelBrowser;
 
+    protected $apiVersion = 'v2';
 
     public function setUp(): void
     {
