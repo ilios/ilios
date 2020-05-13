@@ -24,6 +24,8 @@ class IcsControllerTest extends WebTestCase
     use FixturesTrait;
     use GetUrlTrait;
 
+    protected $apiVersion = 'v2';
+
     /**
      * @var ProxyReferenceRepository
      */
@@ -72,7 +74,7 @@ class IcsControllerTest extends WebTestCase
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_put',
-                ['version' => 'v1', 'object' => 'sessions', 'id' => $id]
+                ['version' => $this->apiVersion, 'object' => 'sessions', 'id' => $id]
             ),
             json_encode(['session' => $session]),
             $this->getTokenForUser($this->kernelBrowser, 2)
@@ -155,7 +157,7 @@ class IcsControllerTest extends WebTestCase
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_put',
-                ['version' => 'v1', 'object' => 'sessions', 'id' => $id]
+                ['version' => $this->apiVersion, 'object' => 'sessions', 'id' => $id]
             ),
             json_encode(['session' => $session]),
             $this->getTokenForUser($this->kernelBrowser, 2)
@@ -267,7 +269,11 @@ class IcsControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'POST',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => strtolower($key)]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_post',
+                ['version' => $this->apiVersion,'object' => strtolower($key)]
+            ),
             json_encode([$key => [$postData]]),
             $this->getTokenForUser($this->kernelBrowser, 2)
         );

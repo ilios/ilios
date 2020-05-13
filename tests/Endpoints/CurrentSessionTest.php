@@ -57,7 +57,7 @@ class CurrentSessionTest extends WebTestCase
         $url = $this->getUrl(
             $this->kernelBrowser,
             'ilios_api_currentsession',
-            ['version' => 'v1']
+            ['version' => $this->apiVersion]
         );
         $this->makeJsonRequest(
             $this->kernelBrowser,

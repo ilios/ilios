@@ -116,7 +116,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_getall',
-                ['version' => 'v1', 'object' => $endpoint]
+                ['version' => $this->apiVersion, 'object' => $endpoint]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -256,7 +256,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
                 $this->kernelBrowser,
                 'ilios_api_curriculuminventoryreport_rollover',
                 [
-                    'version' => 'v1',
+                    'version' => $this->apiVersion,
                     'object' => 'curriculuminventoryreports',
                     'id' => $report['id'],
                 ]
@@ -387,7 +387,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
                 $this->kernelBrowser,
                 'ilios_api_curriculuminventoryreport_rollover',
                 [
-                    'version' => 'v1',
+                    'version' => $this->apiVersion,
                     'object' => 'curriculuminventoryreports',
                     'id' => '100',
                 ]
@@ -409,7 +409,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'year' => $report['year'] + 1,
         ];
         $parameters = array_merge($overrides, [
-            'version' => 'v1',
+            'version' => $this->apiVersion,
             'object' => 'curriculuminventoryreports',
             'id' => $report['id'],
         ]);
@@ -450,7 +450,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
                 $this->kernelBrowser,
                 'ilios_api_curriculuminventoryreport_rollover',
                 [
-                    'version' => 'v1',
+                    'version' => $this->apiVersion,
                     'object' => 'curriculuminventoryreports',
                     'id' => $report['id'],
                 ]
@@ -480,7 +480,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
                 $this->kernelBrowser,
                 'ilios_api_curriculuminventoryreport_verificationpreview',
                 [
-                    'version' => 'v1',
+                    'version' => $this->apiVersion,
                     'object' => 'curriculuminventoryreports',
                     'id' => $report['id'],
                 ]
@@ -512,7 +512,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
                 $this->kernelBrowser,
                 'ilios_api_curriculuminventoryreport_verificationpreview',
                 [
-                    'version' => 'v1',
+                    'version' => $this->apiVersion,
                     'object' => 'curriculuminventoryreports',
                     'id' => $invalidReportId,
                 ]

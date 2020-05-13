@@ -312,7 +312,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $url = $this->getUrl(
             $this->kernelBrowser,
             'ilios_api_authentication_get',
-            ['version' => 'v1', 'object' => $endpoint, 'userId' => $userId]
+            ['version' => $this->apiVersion, 'object' => $endpoint, 'userId' => $userId]
         );
         $this->createJsonRequest(
             'GET',

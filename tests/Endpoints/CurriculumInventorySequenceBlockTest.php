@@ -557,7 +557,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_post',
-                ['version' => 'v1', 'object' => 'curriculuminventorysequenceblocks']
+                ['version' => $this->apiVersion, 'object' => 'curriculuminventorysequenceblocks']
             ),
             json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -572,7 +572,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_post',
-                ['version' => 'v1', 'object' => 'curriculuminventorysequenceblocks']
+                ['version' => $this->apiVersion, 'object' => 'curriculuminventorysequenceblocks']
             ),
             json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -610,7 +610,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'PUT',
             $this->getUrl($this->kernelBrowser, 'ilios_api_put', [
-                'version' => 'v1',
+                'version' => $this->apiVersion,
                 'object' => 'curriculuminventorysequenceblocks',
                 'id' => $blockId
             ]),
@@ -625,7 +625,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'PUT',
             $this->getUrl($this->kernelBrowser, 'ilios_api_put', [
-                'version' => 'v1',
+                'version' => $this->apiVersion,
                 'object' => 'curriculuminventorysequenceblocks',
                 'id' => $blockId
             ]),

@@ -88,7 +88,7 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
     protected function fourOhFourTest($type, array $parameters = [])
     {
         $parameters = array_merge(
-            ['version' => 'v1', 'object' => 'curriculuminventoryexports'],
+            ['version' => $this->apiVersion, 'object' => 'curriculuminventoryexports'],
             $parameters
         );
 

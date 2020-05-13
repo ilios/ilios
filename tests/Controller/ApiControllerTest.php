@@ -15,6 +15,8 @@ class ApiControllerTest extends WebTestCase
     use JsonControllerTest;
     use FixturesTrait;
 
+    protected $apiVersion = 'v2';
+
     /**
      * @var KernelBrowser
      */
@@ -41,7 +43,7 @@ class ApiControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'GET',
-            '/api/v1/nothing',
+            "/api/{$this->apiVersion}/nothing",
             null,
             $this->getTokenForUser($this->kernelBrowser, 1)
         );

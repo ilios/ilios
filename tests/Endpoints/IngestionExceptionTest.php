@@ -64,7 +64,7 @@ class IngestionExceptionTest extends ReadEndpointTest
     protected function fourOhFourTest($type, array $parameters = [])
     {
         $parameters = array_merge(
-            ['version' => 'v1', 'object' => 'ingestionexceptions'],
+            ['version' => $this->apiVersion, 'object' => 'ingestionexceptions'],
             $parameters
         );
 

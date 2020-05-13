@@ -58,7 +58,7 @@ class AcademicYearTest extends ReadEndpointTest
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_getall',
-                ['version' => 'v1', 'object' => $endpoint]
+                ['version' => $this->apiVersion, 'object' => $endpoint]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -99,7 +99,7 @@ class AcademicYearTest extends ReadEndpointTest
     protected function fourOhFourTest($type, array $parameters = [])
     {
         $parameters = array_merge(
-            ['version' => 'v1', 'object' => 'academicyears'],
+            ['version' => $this->apiVersion, 'object' => 'academicyears'],
             $parameters
         );
 
