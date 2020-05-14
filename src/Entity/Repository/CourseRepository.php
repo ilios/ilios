@@ -70,51 +70,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
                 $arr['published']
             );
         }
-        $courseIds = array_keys($courseDTOs);
-
-        $qb = $this->_em->createQueryBuilder()
-            ->select('s.id as schoolId, cl.id as clerkshipTypeId, a.id as ancestorId, c.id as courseId')
-            ->from('App\Entity\Course', 'c')
-            ->join('c.school', 's')
-            ->leftJoin('c.clerkshipType', 'cl')
-            ->leftJoin('c.ancestor', 'a')
-            ->where($qb->expr()->in('c.id', ':courseIds'))
-            ->setParameter('courseIds', $courseIds);
-
-        foreach ($qb->getQuery()->getResult() as $arr) {
-            $courseDTOs[$arr['courseId']]->school = (int)$arr['schoolId'];
-            $courseDTOs[$arr['courseId']]->clerkshipType =
-                $arr['clerkshipTypeId'] ? (int)$arr['clerkshipTypeId'] : null;
-            $courseDTOs[$arr['courseId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
-        }
-
-        $related = [
-            'directors',
-            'administrators',
-            'cohorts',
-            'terms',
-            'courseObjectives',
-            'meshDescriptors',
-            'learningMaterials',
-            'sessions',
-            'descendants',
-        ];
-
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, c.id as courseId')->from('App\Entity\Course', 'c')
-                ->join("c.{$rel}", 'r')
-                ->where($qb->expr()->in('c.id', ':courseIds'))
-                ->orderBy('relId')
-                ->setParameter('courseIds', $courseIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $courseDTOs[$arr['courseId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-
-        return array_values($courseDTOs);
+        return $this->attachAssociationsToDTOs($courseDTOs);
     }
 
     /**
@@ -410,6 +366,15 @@ EOL;
         }
         $stmt->closeCursor();
 
+        return $this->attachAssociationsToDTOs($courseDTOs);
+    }
+
+    /**
+     * @param array $courseDTOs
+     * @return array
+     */
+    protected function attachAssociationsToDTOs(array $courseDTOs): array
+    {
         $courseIds = array_keys($courseDTOs);
 
         $qb = $this->_em->createQueryBuilder();
