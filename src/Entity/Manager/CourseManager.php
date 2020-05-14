@@ -6,8 +6,10 @@ namespace App\Entity\Manager;
 
 use App\Classes\IndexableCourse;
 use App\Entity\CourseInterface;
+use App\Entity\DTO\CourseDTO;
 use App\Entity\Repository\CourseRepository;
 use App\Entity\UserInterface;
+use Exception;
 
 /**
  * Class CourseManager
@@ -17,14 +19,15 @@ class CourseManager extends V1CompatibleBaseManager
     /**
      * Retrieves all courses associated with the given user.
      *
-     * @param int $user
+     * @param int $userId
      * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
-     * @return CourseInterface[]
+     * @return CourseDTO[]
      *
-     * @see App\Entity\Repository\CourseRepository::findByUserId()
+     * @throws Exception
+     * @see CourseRepository::findByUserId()
      */
     public function findCoursesByUserId(
         $userId,
@@ -50,7 +53,7 @@ class CourseManager extends V1CompatibleBaseManager
      * Get all the IDs for every course
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getIds()
     {
