@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\DTO\SessionV1DTO;
+use App\Entity\Session;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\SessionDTO;
 
-class SessionRepository extends EntityRepository implements DTORepositoryInterface
+class SessionRepository extends EntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities
@@ -25,7 +27,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
     {
         $qb = $this->_em->createQueryBuilder();
 
-        $qb->select('DISTINCT s')->from('App\Entity\Session', 's');
+        $qb->select('DISTINCT s')->from(Session::class, 's');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -44,7 +46,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('App\Entity\Session', 's');
+        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from(Session::class, 's');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $sessionDTOs = [];
@@ -62,14 +64,48 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
                 $arr['updatedAt']
             );
         }
+
+        return $this->attachAssociationsToDTOs($sessionDTOs);
+    }
+
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from(Session::class, 's');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $sessionDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $sessionDTOs[$arr['id']] = new SessionV1DTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['attireRequired'],
+                $arr['equipmentRequired'],
+                $arr['supplemental'],
+                $arr['attendanceRequired'],
+                $arr['publishedAsTbd'],
+                $arr['published'],
+                $arr['instructionalNotes'],
+                $arr['updatedAt']
+            );
+        }
+
+        return $this->attachAssociationsToV1DTOs($sessionDTOs);
+    }
+
+    /**
+     * @param array $sessionDTOs
+     * @return array
+     */
+    protected function attachAssociationsToDTOs(array $sessionDTOs): array
+    {
         $sessionIds = array_keys($sessionDTOs);
 
-        $qb = $this->_em->createQueryBuilder()
-            ->select(
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
                 's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
                 'sd.id AS descId, school.id as schoolId, postrequisite.id as postrequisiteId'
             )
-            ->from('App\Entity\Session', 's')
+            ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->join('c.school', 'school')
             ->join('s.sessionType', 'st')
@@ -100,7 +136,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, s.id AS sessionId')->from('App\Entity\Session', 's')
+                ->select('r.id as relId, s.id AS sessionId')->from(Session::class, 's')
                 ->join("s.{$rel}", 'r')
                 ->where($qb->expr()->in('s.id', ':sessionIds'))
                 ->orderBy('relId')
@@ -113,6 +149,71 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
 
         return array_values($sessionDTOs);
     }
+
+    protected function attachAssociationsToV1DTOs(array $sessionDTOs): array
+    {
+        $sessionIds = array_keys($sessionDTOs);
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(
+                's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
+                'sd.id AS descId, school.id as schoolId, postrequisite.id as postrequisiteId'
+            )
+            ->from(Session::class, 's')
+            ->join('s.course', 'c')
+            ->join('c.school', 'school')
+            ->join('s.sessionType', 'st')
+            ->leftJoin('s.postrequisite', 'postrequisite')
+            ->leftJoin('s.ilmSession', 'ilm')
+            ->leftJoin('s.sessionDescription', 'sd')
+            ->where($qb->expr()->in('s.id', ':sessionIds'))
+            ->setParameter('sessionIds', $sessionIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $sessionDTOs[$arr['sessionId']]->course = $arr['courseId'];
+            $sessionDTOs[$arr['sessionId']]->school = $arr['schoolId'];
+            $sessionDTOs[$arr['sessionId']]->sessionType = $arr['sessionTypeId'];
+            $sessionDTOs[$arr['sessionId']]->ilmSession = $arr['ilmId'] ? $arr['ilmId'] : null;
+            $sessionDTOs[$arr['sessionId']]->sessionDescription = $arr['descId'] ? $arr['descId'] : null;
+            $sessionDTOs[$arr['sessionId']]->postrequisite = $arr['postrequisiteId'] ? $arr['postrequisiteId'] : null;
+        }
+
+        $related = [
+            'terms',
+            'meshDescriptors',
+            'learningMaterials',
+            'offerings',
+            'administrators',
+            'prerequisites'
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id as relId, s.id AS sessionId')->from(Session::class, 's')
+                ->join("s.{$rel}", 'r')
+                ->where($qb->expr()->in('s.id', ':sessionIds'))
+                ->orderBy('relId')
+                ->setParameter('sessionIds', $sessionIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $sessionDTOs[$arr['sessionId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select('o.id AS objectiveId, s.id AS sessionId')->from(Session::class, 's')
+            ->join("s.sessionObjectives", 'sxo')
+            ->join('sxo.objective', 'o')
+            ->where($qb->expr()->in('s.id', ':sessionIds'))
+            ->orderBy('objectiveId')
+            ->setParameter('sessionIds', $sessionIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $sessionDTOs[$arr['sessionId']]->objectives[] = $arr['objectiveId'];
+        }
+
+        return array_values($sessionDTOs);
+    }
+
 
     /**
      * Custom findBy so we can filter by related entities
