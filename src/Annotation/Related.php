@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Annotation;
 
 /**
- * Applied to classes which should be serialized as DTOs
+ * Information About related resources
  * @Annotation
- * @Target("CLASS")
+ * @Target("PROPERTY")
  */
-class DTO
+class Related
 {
+    /** @Required */
     public $value;
 }

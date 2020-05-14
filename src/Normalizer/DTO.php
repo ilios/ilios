@@ -78,8 +78,8 @@ class DTO extends ObjectNormalizer
      * Check to see if we can normalize the object or class
      * {@inheritdoc}
      */
-    public function supportsNormalization($classNameOrObject, $format = null)
+    public function supportsNormalization($classNameOrObject, string $format = null)
     {
-        return $this->entityMetadata->isAnIliosDto($classNameOrObject);
+        return $format === 'json' && $this->entityMetadata->isAnIliosDto($classNameOrObject);
     }
 }

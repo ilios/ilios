@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Annotation\DTO;
+use App\Annotation\Id;
+use App\Annotation\Related;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
@@ -13,6 +16,9 @@ use App\Annotation\Type;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\KernelInterface;
+use ReflectionClass;
+use ReflectionProperty;
+use is_null;
 
 class EntityMetadata
 {
@@ -27,6 +33,21 @@ class EntityMetadata
      * @var array
      */
     private $exposedPropertiesForClass;
+
+    /**
+     * @var array
+     */
+    private $typeForClasses;
+
+    /**
+     * @var array
+     */
+    private $idForClasses;
+
+    /**
+     * @var array
+     */
+    private $relatedForClass;
 
     /**
      * @var array
@@ -51,6 +72,9 @@ class EntityMetadata
     public function __construct(Cache $cache, KernelInterface $kernel)
     {
         $this->exposedPropertiesForClass = [];
+        $this->typeForClasses = [];
+        $this->idForClasses = [];
+        $this->relatedForClass = [];
 
         $this->annotationReader = new CachedReader(
             new AnnotationReader(),
@@ -92,7 +116,7 @@ class EntityMetadata
             }
 
             if (strpos($className, 'Proxies') !== false) {
-                $reflection = new \ReflectionClass($classNameOrObject);
+                $reflection = new ReflectionClass($classNameOrObject);
                 if ($reflection->implementsInterface('Doctrine\Common\Persistence\Proxy')) {
                     $reflection = $reflection->getParentClass();
                     $className = $reflection->getName();
@@ -148,11 +172,11 @@ class EntityMetadata
      * Get all of the properties of a call which are
      * marked with the Exposed annotation
      *
-     * @param \ReflectionClass $reflection
+     * @param ReflectionClass $reflection
      *
      * @return mixed
      */
-    public function extractExposedProperties(\ReflectionClass $reflection)
+    public function extractExposedProperties(ReflectionClass $reflection)
     {
         $className = $reflection->getName();
         if (!array_key_exists($className, $this->exposedPropertiesForClass)) {
@@ -179,14 +203,88 @@ class EntityMetadata
     }
 
     /**
+     * Get the ID property for a class
+     */
+    public function extractId(ReflectionClass $reflection): string
+    {
+        $className = $reflection->getName();
+        if (!array_key_exists($className, $this->idForClasses)) {
+            $properties = $reflection->getProperties();
+
+            $ids = array_filter($properties, function (ReflectionProperty $property) {
+                $annotation = $this->annotationReader->getPropertyAnnotation(
+                    $property,
+                    Id::class
+                );
+
+                return !is_null($annotation);
+            });
+            if (!$ids) {
+                throw new \Exception("${className} has no property annotated with @Id");
+            }
+
+            $this->idForClasses[$className] = array_values($ids)[0]->getName();
+        }
+
+        return $this->idForClasses[$className];
+    }
+
+    /**
+     * Get the ID property for a class
+     */
+    public function extractRelated(ReflectionClass $reflection): array
+    {
+        $className = $reflection->getName();
+        if (!array_key_exists($className, $this->relatedForClass)) {
+            $properties = $reflection->getProperties();
+
+            $relatedProperties = [];
+
+            foreach ($properties as $property) {
+                $annotation = $this->annotationReader->getPropertyAnnotation(
+                    $property,
+                    Related::class
+                );
+
+                if ($annotation) {
+                    $relatedProperties[$property->getName()] = $annotation->value;
+                }
+            }
+
+            $this->relatedForClass[$className] = $relatedProperties;
+        }
+
+        return $this->relatedForClass[$className];
+    }
+
+    /**
+     * Get the JSON:API type of an object
+     */
+    public function extractType(ReflectionClass $reflection): string
+    {
+        $className = $reflection->getName();
+        if (!array_key_exists($className, $this->typeForClasses)) {
+            $annotation = $this->annotationReader->getClassAnnotation(
+                $reflection,
+                DTO::class
+            );
+
+
+            $this->typeForClasses[$className] = $annotation->value;
+        }
+
+        return $this->typeForClasses[$className];
+    }
+
+    /**
      * Get all of the properties of a class which are
      * not annotated as ReadOnly
      *
-     * @param \ReflectionClass $reflection
+     * @param ReflectionClass $reflection
      *
      * @return array
      */
-    public function extractWritableProperties(\ReflectionClass $reflection)
+    public function extractWritableProperties(ReflectionClass $reflection)
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
@@ -198,11 +296,11 @@ class EntityMetadata
     /**
      * Get all of the annotated ReadOnly properties of a class
      *
-     * @param \ReflectionClass $reflection
+     * @param ReflectionClass $reflection
      *
      * @return array
      */
-    public function extractReadOnlyProperties(\ReflectionClass $reflection)
+    public function extractReadOnlyProperties(ReflectionClass $reflection)
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
@@ -293,7 +391,7 @@ class EntityMetadata
         foreach ($files as $file) {
             $class = 'App\\Entity' . '\\' . $file->getBasename('.php');
             $annotation = $this->annotationReader->getClassAnnotation(
-                new \ReflectionClass($class),
+                new ReflectionClass($class),
                 'App\Annotation\Entity'
             );
             if (null !== $annotation) {
@@ -323,7 +421,7 @@ class EntityMetadata
         foreach ($files as $file) {
             $class = 'App\\Entity\\DTO' . '\\' . $file->getBasename('.php');
             $annotation = $this->annotationReader->getClassAnnotation(
-                new \ReflectionClass($class),
+                new ReflectionClass($class),
                 'App\Annotation\DTO'
             );
             if (null !== $annotation) {
@@ -339,7 +437,7 @@ class EntityMetadata
         foreach ($files as $file) {
             $class = 'App\\Classes' . '\\' . $file->getBasename('.php');
             $annotation = $this->annotationReader->getClassAnnotation(
-                new \ReflectionClass($class),
+                new ReflectionClass($class),
                 'App\Annotation\DTO'
             );
             if (null !== $annotation) {
