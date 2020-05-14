@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\DTO\TermV1DTO;
+use App\Entity\Term;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -13,7 +15,7 @@ use App\Entity\TermInterface;
 /**
  * Class TermRepository
  */
-class TermRepository extends EntityRepository implements DTORepositoryInterface
+class TermRepository extends EntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities
@@ -29,7 +31,7 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
     {
         $qb = $this->_em->createQueryBuilder();
 
-        $qb->select('DISTINCT t')->from('App\Entity\Term', 't');
+        $qb->select('DISTINCT t')->from(Term::class, 't');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -48,7 +50,7 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('t')->distinct()->from('App\Entity\Term', 't');
+        $qb = $this->_em->createQueryBuilder()->select('t')->distinct()->from(Term::class, 't');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $termDTOs = [];
@@ -60,11 +62,42 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
                 $arr['active']
             );
         }
+
+        return $this->attachAssociationsToDTOs($termDTOs);
+    }
+
+    /**
+     * @see TermRepository::findDTOsBy()
+     */
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('t')->distinct()->from(Term::class, 't');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $termDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $termDTOs[$arr['id']] = new TermV1DTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['description'],
+                $arr['active']
+            );
+        }
+
+        return $this->attachAssociationsToV1DTOs($termDTOs);
+    }
+
+    /**
+     * @param array $termDTOs
+     * @return array
+     */
+    protected function attachAssociationsToDTOs(array $termDTOs): array
+    {
         $termIds = array_keys($termDTOs);
 
-        $qb = $this->_em->createQueryBuilder()
-            ->select('t.id AS termId, v.id AS vocabularyId, p.id AS parentId, s.id AS schoolId')
-            ->from('App\Entity\Term', 't')
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('t.id AS termId, v.id AS vocabularyId, p.id AS parentId, s.id AS schoolId')
+            ->from(Term::class, 't')
             ->join('t.vocabulary', 'v')
             ->join('v.school', 's')
             ->leftJoin('t.parent', 'p')
@@ -90,7 +123,50 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, t.id AS termId')->from('App\Entity\Term', 't')
+                ->select('r.id as relId, t.id AS termId')->from(Term::class, 't')
+                ->join("t.{$rel}", 'r')
+                ->where($qb->expr()->in('t.id', ':termIds'))
+                ->orderBy('relId')
+                ->setParameter('termIds', $termIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $termDTOs[$arr['termId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        return array_values($termDTOs);
+    }
+
+    protected function attachAssociationsToV1DTOs(array $termDTOs): array
+    {
+        $termIds = array_keys($termDTOs);
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('t.id AS termId, v.id AS vocabularyId, p.id AS parentId, s.id AS schoolId')
+            ->from(Term::class, 't')
+            ->join('t.vocabulary', 'v')
+            ->join('v.school', 's')
+            ->leftJoin('t.parent', 'p')
+            ->where($qb->expr()->in('t.id', ':termIds'))
+            ->setParameter('termIds', $termIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $termDTOs[$arr['termId']]->vocabulary = $arr['vocabularyId'];
+            $termDTOs[$arr['termId']]->parent = $arr['parentId'] ? $arr['parentId'] : null;
+            $termDTOs[$arr['termId']]->school = $arr['schoolId'];
+        }
+
+        $related = [
+            'children',
+            'courses',
+            'programYears',
+            'sessions',
+            'aamcResourceTypes',
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id as relId, t.id AS termId')->from(Term::class, 't')
                 ->join("t.{$rel}", 'r')
                 ->where($qb->expr()->in('t.id', ':termIds'))
                 ->orderBy('relId')
