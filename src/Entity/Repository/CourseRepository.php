@@ -394,7 +394,7 @@ EOL;
             if (is_array($value)) {
                 $labels = array_map(function ($j) use ($label) {
                     return "${label}_${j}";
-                }, range(0, count($value) -1));
+                }, range(0, count($value) - 1));
                 $params[$name] = $labels;
                 $sqlFragments[] = "{$column} IN (" . implode(', ', $labels) . ")";
             } else {

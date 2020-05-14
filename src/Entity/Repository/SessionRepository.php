@@ -102,9 +102,9 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
-                's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
+            's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
                 'sd.id AS descId, school.id as schoolId, postrequisite.id as postrequisiteId'
-            )
+        )
             ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->join('c.school', 'school')
@@ -156,9 +156,9 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
-                's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
+            's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
                 'sd.id AS descId, school.id as schoolId, postrequisite.id as postrequisiteId'
-            )
+        )
             ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->join('c.school', 'school')
