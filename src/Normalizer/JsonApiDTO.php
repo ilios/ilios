@@ -4,26 +4,42 @@ declare(strict_types=1);
 
 namespace App\Normalizer;
 
+use App\Entity\Manager\ManagerInterface;
+use App\Service\EndpointResponseNamer;
 use App\Service\EntityMetadata;
-use Symfony\Component\Serializer\Exception\CircularReferenceException;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
-use Symfony\Component\Serializer\Exception\LogicException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use ReflectionClass;
 use ReflectionProperty;
 use DateTime;
+use Exception;
 
 class JsonApiDTO implements NormalizerInterface
 {
+
     /**
      * @var EntityMetadata
      */
     protected $entityMetadata;
 
-    public function __construct(EntityMetadata $entityMetadata)
-    {
+    /**
+     * @var EndpointResponseNamer
+     */
+    protected $endpointResponseNamer;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    public function __construct(
+        ContainerInterface $container,
+        EntityMetadata $entityMetadata,
+        EndpointResponseNamer $endpointResponseNamer
+    ) {
         $this->entityMetadata = $entityMetadata;
+        $this->endpointResponseNamer = $endpointResponseNamer;
+        $this->container = $container;
     }
 
     public function normalize($object, string $format = null, array $context = [])
@@ -55,12 +71,61 @@ class JsonApiDTO implements NormalizerInterface
             unset($attributes[$attributeName]);
         }
 
+        $included = [];
+        if (array_key_exists('include', $context)) {
+            $fields = explode(',', $context['include']);
+
+            foreach ($fields as $str) {
+                $parts = explode('.', $str);
+                $key = array_shift($parts);
+                if (array_key_exists($key, $related)) {
+                    $foo = $related[$key];
+                    if (is_array($foo['value'])) {
+                        $manager = $this->getManager($foo['type']);
+                        $dtos = $manager->findDTOsBy(['id' => $foo['value']]);
+                        foreach ($dtos as $dto) {
+                            $newIncludes = $this->pullInclude(
+                                $this->normalize($dto, $format, ['include' => implode('.', $parts)])
+                            );
+                            $included = array_merge($included, $newIncludes);
+                        }
+                    } else {
+                        $manager = $this->getManager($foo['type']);
+                        $dto = $manager->findDTOBy(['id' => $foo['value']]);
+                        $newIncludes = $this->pullInclude(
+                            $this->normalize($dto, $format, ['include' => implode('.', $parts)])
+                        );
+                        $included = array_merge($included, $newIncludes);
+                    }
+                }
+            }
+        }
+
         return [
             'id' => $id,
             'type' => $type,
             'attributes' => $attributes,
             'related' => $related,
+            'included' => $included,
         ];
+    }
+
+    protected function pullInclude(array $arr): array
+    {
+        $rhett = [
+            [
+                'id' => $arr['id'],
+                'type' => $arr['type'],
+                'attributes' => $arr['attributes'],
+            ]
+        ];
+        if (array_key_exists('included', $arr)) {
+            foreach ($arr['included'] as $inc) {
+                $rhett = array_merge($rhett, $this->pullInclude($inc));
+            }
+        }
+
+        return $rhett;
     }
 
     protected function getPropertyValue(ReflectionProperty $property, object $object)
@@ -90,5 +155,37 @@ class JsonApiDTO implements NormalizerInterface
     public function supportsNormalization($data, string $format = null)
     {
         return $format === 'json-api' && $this->entityMetadata->isAnIliosDto($data);
+    }
+
+    /**
+     * Get the Entity name for an endpoint
+     *
+     */
+    protected function getEntityName(string $name): string
+    {
+        return ucfirst($this->endpointResponseNamer->getSingularName($name));
+    }
+
+    /**
+     * Get the manager for this request by name
+     */
+    protected function getManager(string $pluralObjectName): ManagerInterface
+    {
+        $entityName = $this->getEntityName($pluralObjectName);
+        $name = "App\\Entity\\Manager\\${entityName}Manager";
+        if (!$this->container->has($name)) {
+            throw new Exception(
+                sprintf('The manager for \'%s\' does not exist.', $pluralObjectName)
+            );
+        }
+
+        $manager = $this->container->get($name);
+
+        if (!$manager instanceof ManagerInterface) {
+            $class = $manager->getClass();
+            throw new Exception("{$class} is not an Ilios Manager.");
+        }
+
+        return $manager;
     }
 }

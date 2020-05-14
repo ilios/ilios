@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class SessionTypeDTO
  * Data transfer object for a session type
  *
- * @IS\DTO
+ * @IS\DTO("sessionTypes")
  */
 class SessionTypeDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -65,6 +66,7 @@ class SessionTypeDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("entity")
      */
     public $school;
@@ -73,6 +75,7 @@ class SessionTypeDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $aamcMethods;
@@ -81,6 +84,7 @@ class SessionTypeDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessions;

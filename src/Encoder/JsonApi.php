@@ -40,7 +40,10 @@ class JsonApi implements EncoderInterface, DecoderInterface
 
     public function encode($data, string $format, array $context = [])
     {
-        $rhett = [];
+        $rhett = [
+            'data' => [],
+            'included' => []
+        ];
 
         foreach ($data as $object) {
             $arr = [
@@ -49,6 +52,9 @@ class JsonApi implements EncoderInterface, DecoderInterface
                 'attributes' => $object['attributes'],
                 'relationships' => [],
             ];
+            foreach ($object['included'] as $inc) {
+                $rhett['included'][] = $inc;
+            }
             foreach ($object['related'] as $name => $related) {
                 $relatedData = [];
                 $value = $related['value'];
@@ -72,46 +78,14 @@ class JsonApi implements EncoderInterface, DecoderInterface
                 }
             }
 
-            $rhett[] = $arr;
+            $rhett['data'][] = $arr;
         }
 
-        return json_encode(['data' => $arr]);
+        return json_encode($rhett);
     }
 
     public function supportsEncoding(string $format)
     {
         return self::FORMAT === $format;
-    }
-
-    /**
-     * Get the Entity name for an endpoint
-     *
-     */
-    protected function getEntityName(string $name): string
-    {
-        return ucfirst($this->endpointResponseNamer->getSingularName($name));
-    }
-
-    /**
-     * Get the manager for this request by name
-     */
-    protected function getManager(string $pluralObjectName): ManagerInterface
-    {
-        $entityName = $this->getEntityName($pluralObjectName);
-        $name = "App\\Entity\\Manager\\${entityName}Manager";
-        if (!$this->container->has($name)) {
-            throw new Exception(
-                sprintf('The manager for \'%s\' does not exist.', $pluralObjectName)
-            );
-        }
-
-        $manager = $this->container->get($name);
-
-        if (!$manager instanceof ManagerInterface) {
-            $class = $manager->getClass();
-            throw new Exception("{$class} is not an Ilios Manager.");
-        }
-
-        return $manager;
     }
 }
