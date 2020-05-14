@@ -13,13 +13,10 @@ use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\CourseInterface;
-use App\Entity\UserInterface;
 use App\Entity\DTO\CourseDTO;
 
-class CourseRepository extends EntityRepository implements DTORepositoryInterface
+class CourseRepository extends EntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities
@@ -34,7 +31,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT c')->from('App\Entity\Course', 'c');
+        $qb->select('DISTINCT c')->from(Course::class, 'c');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -53,7 +50,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('App\Entity\Course', 'c');
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Course::class, 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $courseDTOs = [];
@@ -103,7 +100,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('App\Entity\Course', 'c');
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Course::class, 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $courseDTOs = [];
@@ -467,7 +464,7 @@ EOL;
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('s.id as schoolId, cl.id as clerkshipTypeId, a.id as ancestorId, c.id as courseId')
-            ->from('App\Entity\Course', 'c')
+            ->from(Course::class, 'c')
             ->join('c.school', 's')
             ->leftJoin('c.clerkshipType', 'cl')
             ->leftJoin('c.ancestor', 'a')
@@ -495,7 +492,7 @@ EOL;
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, c.id as courseId')->from('App\Entity\Course', 'c')
+                ->select('r.id as relId, c.id as courseId')->from(Course::class, 'c')
                 ->join("c.{$rel}", 'r')
                 ->where($qb->expr()->in('c.id', ':courseIds'))
                 ->orderBy('relId')
@@ -519,7 +516,7 @@ EOL;
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('s.id as schoolId, cl.id as clerkshipTypeId, a.id as ancestorId, c.id as courseId')
-            ->from('App\Entity\Course', 'c')
+            ->from(Course::class, 'c')
             ->join('c.school', 's')
             ->leftJoin('c.clerkshipType', 'cl')
             ->leftJoin('c.ancestor', 'a')
@@ -546,7 +543,7 @@ EOL;
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, c.id as courseId')->from('App\Entity\Course', 'c')
+                ->select('r.id as relId, c.id as courseId')->from(Course::class, 'c')
                 ->join("c.{$rel}", 'r')
                 ->where($qb->expr()->in('c.id', ':courseIds'))
                 ->orderBy('relId')
@@ -558,7 +555,7 @@ EOL;
         }
 
         $qb = $this->_em->createQueryBuilder()
-            ->select('o.id AS objectiveId, c.id AS courseId')->from('App\Entity\Course', 'c')
+            ->select('o.id AS objectiveId, c.id AS courseId')->from(Course::class, 'c')
             ->join("c.courseObjectives", 'cxo')
             ->join('cxo.objective', 'o')
             ->where($qb->expr()->in('c.id', ':courseIds'))
@@ -567,6 +564,7 @@ EOL;
         foreach ($qb->getQuery()->getResult() as $arr) {
             $courseDTOs[$arr['courseId']]->objectives[] = $arr['objectiveId'];
         }
+
         return array_values($courseDTOs);
     }
 
