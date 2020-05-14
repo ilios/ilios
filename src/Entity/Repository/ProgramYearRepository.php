@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\DTO\ProgramYearV1DTO;
+use App\Entity\ProgramYear;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,7 +14,7 @@ use App\Entity\DTO\ProgramYearDTO;
 /**
  * Class ProgramYearRepository
  */
-class ProgramYearRepository extends EntityRepository implements DTORepositoryInterface
+class ProgramYearRepository extends EntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities
@@ -27,7 +29,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT p')->from('App\Entity\ProgramYear', 'p');
+        $qb->select('DISTINCT p')->from(ProgramYear::class, 'p');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -46,7 +48,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from('App\Entity\ProgramYear', 'p');
+        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from(ProgramYear::class, 'p');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $programYearDTOs = [];
@@ -60,11 +62,44 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
                 $arr['published']
             );
         }
+
+        return $this->attachAssociationsToDTOs($programYearDTOs);
+    }
+
+    /**
+     * @see ProgramYearRepository::findDTOsBy()
+     */
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from(ProgramYear::class, 'p');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $programYearDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $programYearDTOs[$arr['id']] = new ProgramYearV1DTO(
+                $arr['id'],
+                $arr['startYear'],
+                $arr['locked'],
+                $arr['archived'],
+                $arr['publishedAsTbd'],
+                $arr['published']
+            );
+        }
+
+        return $this->attachAssociationsToV1DTOs($programYearDTOs);
+    }
+
+    /**
+     * @param array $programYearDTOs
+     * @return array
+     */
+    protected function attachAssociationsToDTOs(array $programYearDTOs): array
+    {
         $programYearIds = array_keys($programYearDTOs);
 
-        $qb = $this->_em->createQueryBuilder()
-            ->select('py.id as programYearId, p.id as programId, c.id as cohortId, s.id as schoolId')
-            ->from('App\Entity\ProgramYear', 'py')
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('py.id as programYearId, p.id as programId, c.id as cohortId, s.id as schoolId')
+            ->from(ProgramYear::class, 'py')
             ->join('py.program', 'p')
             ->join('py.cohort', 'c')
             ->join('p.school', 's')
@@ -88,7 +123,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, p.id AS programYearId')->from('App\Entity\ProgramYear', 'p')
+                ->select('r.id AS relId, p.id AS programYearId')->from(ProgramYear::class, 'p')
                 ->join("p.{$rel}", 'r')
                 ->where($qb->expr()->in('p.id', ':programYearIds'))
                 ->orderBy('relId')
@@ -101,6 +136,61 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
 
         return array_values($programYearDTOs);
     }
+
+    protected function attachAssociationsToV1DTOs(array $programYearDTOs): array
+    {
+        $programYearIds = array_keys($programYearDTOs);
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('py.id as programYearId, p.id as programId, c.id as cohortId, s.id as schoolId')
+            ->from(ProgramYear::class, 'py')
+            ->join('py.program', 'p')
+            ->join('py.cohort', 'c')
+            ->join('p.school', 's')
+
+            ->where($qb->expr()->in('py.id', ':ids'))
+            ->setParameter('ids', $programYearIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $programYearDTOs[$arr['programYearId']]->program = (int) $arr['programId'];
+            $programYearDTOs[$arr['programYearId']]->cohort = (int) $arr['cohortId'];
+            $programYearDTOs[$arr['programYearId']]->school = (int) $arr['schoolId'];
+        }
+
+        $related = [
+            'directors',
+            'competencies',
+            'terms',
+            'stewards',
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, p.id AS programYearId')->from(ProgramYear::class, 'p')
+                ->join("p.{$rel}", 'r')
+                ->where($qb->expr()->in('p.id', ':programYearIds'))
+                ->orderBy('relId')
+                ->setParameter('programYearIds', $programYearIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $programYearDTOs[$arr['programYearId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select('o.id AS objectiveId, py.id AS programYearId')->from(ProgramYear::class, 'py')
+            ->join("py.programYearObjectives", 'pyxo')
+            ->join('pyxo.objective', 'o')
+            ->where($qb->expr()->in('py.id', ':programYearIds'))
+            ->orderBy('objectiveId')
+            ->setParameter('programYearIds', $programYearIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $programYearDTOs[$arr['programYearId']]->objectives[] = $arr['objectiveId'];
+        }
+
+        return array_values($programYearDTOs);
+    }
+
 
     /**
      * @param QueryBuilder $qb
@@ -198,7 +288,7 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
                 "cmp.title AS competency, c.title AS course_title, c.externalId AS course_shortname," .
                 "co.title AS mapped_course_objective"
         )
-            ->from('App\Entity\ProgramYear', 'py')
+            ->from(ProgramYear::class, 'py')
             ->join('py.program', 'p')
             ->join('py.programYearObjectives', 'pyo')
             ->join('pyo.objective', 'o')
