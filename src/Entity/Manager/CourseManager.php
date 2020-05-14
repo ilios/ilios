@@ -42,6 +42,21 @@ class CourseManager extends V1CompatibleBaseManager
     }
 
     /**
+     * @see CourseManager::findCoursesByUserId()
+     */
+    public function findCoursesByUserIdV1(
+        $userId,
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        /** @var CourseRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findByUserIdV1($userId, $criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
      * @return string[]
      */
     public function getYears()

@@ -35,13 +35,23 @@ class CoursesController extends V1CompatibleApiController
         if (null !== $my) {
             /** @var SessionUserInterface $currentUser */
             $currentUser = $this->tokenStorage->getToken()->getUser();
-            $result = $manager->findCoursesByUserId(
-                $currentUser->getId(),
-                $parameters['criteria'],
-                $parameters['orderBy'],
-                $parameters['limit'],
-                $parameters['offset']
-            );
+            if ('v1' === $version) {
+                $result = $manager->findCoursesByUserIdV1(
+                    $currentUser->getId(),
+                    $parameters['criteria'],
+                    $parameters['orderBy'],
+                    $parameters['limit'],
+                    $parameters['offset']
+                );
+            } else {
+                $result = $manager->findCoursesByUserId(
+                    $currentUser->getId(),
+                    $parameters['criteria'],
+                    $parameters['orderBy'],
+                    $parameters['limit'],
+                    $parameters['offset']
+                );
+            }
 
             return $this->resultsToResponse($result, $this->getPluralResponseKey($object), Response::HTTP_OK);
         }
