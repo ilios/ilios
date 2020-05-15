@@ -119,6 +119,9 @@ class ObjectiveV1Test extends ReadEndpointTest
         return [];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function testGetOne()
     {
         $objectiveInSessionData = $this->objectiveDataLoader->create();
@@ -247,30 +250,46 @@ class ObjectiveV1Test extends ReadEndpointTest
         $this->assertEquals($v1ObjectiveInProgramYear['position'], 0);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function testGetAll()
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $loader = $this->getDataLoader();
-        $data = $loader->getAll();
+        $v1url = $this->getUrl(
+            $this->kernelBrowser,
+            'ilios_api_getall',
+            ['version' => $this->apiVersion, 'object' => $endpoint]
+        );
+        $v2url = $this->getUrl(
+            $this->kernelBrowser,
+            'ilios_api_getall',
+            ['version' => 'v2', 'object' => $endpoint]
+        );
         $this->createJsonRequest(
             'GET',
-            $this->getUrl(
-                $this->kernelBrowser,
-                'ilios_api_getall',
-                ['version' => $this->apiVersion, 'object' => $endpoint]
-            ),
+            $v1url,
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $response = $this->kernelBrowser->getResponse();
+        $v1Response = $this->kernelBrowser->getResponse();
 
-        $this->assertJsonResponse($response, Response::HTTP_OK);
-        $responses = json_decode($response->getContent(), true)[$responseKey];
+        $this->createJsonRequest(
+            'GET',
+            $v2url,
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $v2Response = $this->kernelBrowser->getResponse();
 
-        // cutting some corners here - just making sure that entities are all returned.
-        // `testGetOne()` already does a decent job in comparing entity attributes, so we're skipping this here.
-        // [ST 2020/05/13]
-        $this->assertCount(count($data), $responses);
+        $v1Data = json_decode($v1Response->getContent(), true)[$responseKey];
+        $v2Data = json_decode($v2Response->getContent(), true)[$responseKey];
+
+        $this->assertNotEmpty($v1Data);
+        $this->assertEquals(count($v2Data), count($v1Data));
+        $v1Ids = array_column($v1Data, 'id');
+        $v2Ids = array_column($v1Data, 'id');
+        $this->assertEquals($v2Ids, $v1Ids);
     }
 }
