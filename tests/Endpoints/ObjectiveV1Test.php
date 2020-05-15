@@ -10,9 +10,7 @@ use App\Tests\DataLoader\ProgramYearData;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\DataLoader\SessionObjectiveData;
 use App\Tests\DataLoader\ProgramYearObjectiveData;
-use App\Tests\DataLoader\ObjectiveData;
 use App\Tests\ReadEndpointTest;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Objective V1 API endpoint Test.
@@ -23,43 +21,6 @@ class ObjectiveV1Test extends ReadEndpointTest
     protected $testName =  'objectives';
 
     protected $apiVersion = 'v1';
-
-    protected $newVersion = 'v2';
-
-    /**
-     * @var ObjectiveData $objectiveDataLoader
-     */
-    protected $objectiveDataLoader;
-
-    /**
-     * @var SessionData $sessionDataLoader
-     */
-    protected $sessionDataLoader;
-
-    /**
-     * @var CourseData $courseDataLoader
-     */
-    protected $courseDataLoader;
-
-    /**
-     * @var ProgramYearData $programYearDataLoader
-     */
-    protected $programYearDataLoader;
-
-    /**
-     * @var SessionObjectiveData $sessionObjectiveDataLoader
-     */
-    protected $sessionObjectiveDataLoader;
-
-    /**
-     * @var CourseObjectiveData $courseObjectiveDataLoader
-     */
-    protected $courseObjectiveDataLoader;
-
-    /**
-     * @var ProgramYearObjectiveData $programYearObjectiveDataLoader
-     */
-    protected $programYearObjectiveDataLoader;
 
     /**
      * @inheritdoc
@@ -79,38 +40,6 @@ class ObjectiveV1Test extends ReadEndpointTest
         ];
     }
 
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->objectiveDataLoader = $this->getDataLoader();
-        $this->sessionDataLoader = $this->getContainer()->get(SessionData::class);
-        $this->courseDataLoader = $this->getContainer()->get(CourseData::class);
-        $this->programYearDataLoader = $this->getContainer()->get(ProgramYearData::class);
-        $this->sessionObjectiveDataLoader = $this->getContainer()->get(SessionObjectiveData::class);
-        $this->courseObjectiveDataLoader = $this->getContainer()->get(CourseObjectiveData::class);
-        $this->programYearObjectiveDataLoader = $this->getContainer()->get(ProgramYearObjectiveData::class);
-    }
-
-    public function tearDown(): void
-    {
-        unset($this->objectiveDataLoader);
-        unset($this->sessionDataLoader);
-        unset($this->courseDataLoader);
-        unset($this->programYearDataLoader);
-        unset($this->sessionObjectiveDataLoader);
-        unset($this->courseObjectiveDataLoader);
-        unset($this->programYearObjectiveDataLoader);
-        parent::tearDown();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest()
-    {
-        return [];
-    }
-
     /**
      * @inheritDoc
      */
@@ -124,19 +53,27 @@ class ObjectiveV1Test extends ReadEndpointTest
      */
     public function testGetOne()
     {
-        $objectiveInSessionData = $this->objectiveDataLoader->create();
+        $objectiveDataLoader = $this->getDataLoader();
+        $sessionDataLoader = $this->getContainer()->get(SessionData::class);
+        $courseDataLoader = $this->getContainer()->get(CourseData::class);
+        $programYearDataLoader = $this->getContainer()->get(ProgramYearData::class);
+        $sessionObjectiveDataLoader = $this->getContainer()->get(SessionObjectiveData::class);
+        $courseObjectiveDataLoader = $this->getContainer()->get(CourseObjectiveData::class);
+        $programYearObjectiveDataLoader = $this->getContainer()->get(ProgramYearObjectiveData::class);
+
+        $objectiveInSessionData = $objectiveDataLoader->create();
         unset($objectiveInSessionData['id']);
-        $objectiveInCourseData = $this->objectiveDataLoader->create();
+        $objectiveInCourseData = $objectiveDataLoader->create();
         unset($objectiveInCourseData['id']);
-        $objectiveInProgramYearData = $this->objectiveDataLoader->create();
+        $objectiveInProgramYearData = $objectiveDataLoader->create();
         unset($objectiveInProgramYearData['id']);
-        $courseData1 = $this->courseDataLoader->create();
+        $courseData1 = $courseDataLoader->create();
         unset($courseData1['id']);
-        $courseData2 = $this->courseDataLoader->create();
+        $courseData2 = $courseDataLoader->create();
         unset($courseData2['id']);
-        $sessionData = $this->sessionDataLoader->create();
+        $sessionData = $sessionDataLoader->create();
         unset($sessionData['id']);
-        $programYearData = $this->programYearDataLoader->create();
+        $programYearData = $programYearDataLoader->create();
         unset($programYearData['id']);
 
         $v2ObjectiveInSession = $this->postOne(
@@ -144,60 +81,60 @@ class ObjectiveV1Test extends ReadEndpointTest
             'objective',
             'objectives',
             $objectiveInSessionData,
-            $this->newVersion
+            'v2'
         );
         $v2ObjectiveInCourse = $this->postOne(
             'objectives',
             'objective',
             'objectives',
             $objectiveInCourseData,
-            $this->newVersion
+            'v2'
         );
         $v2ObjectiveInProgramYear = $this->postOne(
             'objectives',
             'objective',
             'objectives',
             $objectiveInProgramYearData,
-            $this->newVersion
+            'v2'
         );
 
         $v2Courses = $this->postMany(
             'courses',
             'courses',
             [ $courseData1, $courseData2 ],
-            $this->newVersion
+            'v2'
         );
         $v2Session = $this->postOne(
             'sessions',
             'session',
             'sessions',
             $sessionData,
-            $this->newVersion
+            'v2'
         );
         $v2ProgramYear = $this->postOne(
             'programyears',
             'programYear',
             'programYears',
             $programYearData,
-            $this->newVersion
+            'v2'
         );
 
-        $courseObjectiveData1 = $this->courseObjectiveDataLoader->create();
+        $courseObjectiveData1 = $courseObjectiveDataLoader->create();
         unset($courseObjectiveData1['id']);
         $courseObjectiveData1['objective'] = $v2ObjectiveInCourse['id'];
         $courseObjectiveData1['course'] = $v2Courses[0]['id'];
         $courseObjectiveData1['position'] = 3;
-        $courseObjectiveData2 = $this->courseObjectiveDataLoader->create();
+        $courseObjectiveData2 = $courseObjectiveDataLoader->create();
         unset($courseObjectiveData2['id']);
         $courseObjectiveData2['objective'] = $v2ObjectiveInCourse['id'];
         $courseObjectiveData2['course'] = $v2Courses[1]['id'];
         $courseObjectiveData2['position'] = 5;
-        $sessionObjectiveData = $this->sessionObjectiveDataLoader->create();
+        $sessionObjectiveData = $sessionObjectiveDataLoader->create();
         unset($sessionObjectiveData['id']);
         $sessionObjectiveData['objective'] = $v2ObjectiveInSession['id'];
         $sessionObjectiveData['session'] = $v2Session['id'];
         $sessionObjectiveData['position'] = 3;
-        $programYearObjectiveData = $this->programYearObjectiveDataLoader->create();
+        $programYearObjectiveData = $programYearObjectiveDataLoader->create();
         unset($programYearObjectiveData['id']);
         $programYearObjectiveData['objective'] = $v2ObjectiveInProgramYear['id'];
         $programYearObjectiveData['programYear'] = $v2ProgramYear['id'];
@@ -206,21 +143,21 @@ class ObjectiveV1Test extends ReadEndpointTest
             'courseobjectives',
             'courseObjectives',
             [ $courseObjectiveData1, $courseObjectiveData2 ],
-            $this->newVersion
+            'v2'
         );
         $this->postOne(
             'sessionobjectives',
             'sessionObjective',
             'sessionObjectives',
             $sessionObjectiveData,
-            $this->newVersion
+            'v2'
         );
         $this->postOne(
             'programyearobjectives',
             'programYearObjective',
             'programYearObjectives',
             $programYearObjectiveData,
-            $this->newVersion
+            'v2'
         );
 
         $v1ObjectiveInCourse = $this->getOne('objectives', 'objectives', $v2ObjectiveInCourse['id']);
