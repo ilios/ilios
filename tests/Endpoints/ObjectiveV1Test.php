@@ -10,17 +10,15 @@ use App\Tests\DataLoader\ProgramYearData;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\DataLoader\SessionObjectiveData;
 use App\Tests\DataLoader\ProgramYearObjectiveData;
-use App\Tests\ReadEndpointTest;
+use App\Tests\V1ReadEndpointTest;
 
 /**
  * Objective V1 API endpoint Test.
  * @group api_5
  */
-class ObjectiveV1Test extends ReadEndpointTest
+class ObjectiveV1Test extends V1ReadEndpointTest
 {
     protected $testName =  'objectives';
-
-    protected $apiVersion = 'v1';
 
     /**
      * @inheritdoc
@@ -38,14 +36,6 @@ class ObjectiveV1Test extends ReadEndpointTest
             'App\Tests\Fixture\LoadCourseObjectiveData',
             'App\Tests\Fixture\LoadProgramYearObjectiveData',
         ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest()
-    {
-        return [];
     }
 
     /**
@@ -185,48 +175,5 @@ class ObjectiveV1Test extends ReadEndpointTest
         $this->assertCount(1, $v1ObjectiveInProgramYear['programYears']);
         $this->assertEquals($v1ObjectiveInProgramYear['programYears'][0], $v2ProgramYear['id']);
         $this->assertEquals($v1ObjectiveInProgramYear['position'], 0);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function testGetAll()
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $v1url = $this->getUrl(
-            $this->kernelBrowser,
-            'ilios_api_getall',
-            ['version' => $this->apiVersion, 'object' => $endpoint]
-        );
-        $v2url = $this->getUrl(
-            $this->kernelBrowser,
-            'ilios_api_getall',
-            ['version' => 'v2', 'object' => $endpoint]
-        );
-        $this->createJsonRequest(
-            'GET',
-            $v1url,
-            null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
-        );
-        $v1Response = $this->kernelBrowser->getResponse();
-
-        $this->createJsonRequest(
-            'GET',
-            $v2url,
-            null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
-        );
-        $v2Response = $this->kernelBrowser->getResponse();
-
-        $v1Data = json_decode($v1Response->getContent(), true)[$responseKey];
-        $v2Data = json_decode($v2Response->getContent(), true)[$responseKey];
-
-        $this->assertNotEmpty($v1Data);
-        $this->assertEquals(count($v2Data), count($v1Data));
-        $v1Ids = array_column($v1Data, 'id');
-        $v2Ids = array_column($v1Data, 'id');
-        $this->assertEquals($v2Ids, $v1Ids);
     }
 }

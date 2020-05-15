@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Tests\ReadEndpointTest;
+use App\Tests\V1ReadEndpointTest;
 
 /**
  * Course API v1 endpoint Test.
  * @group api_2
  */
-class CourseV1Test extends ReadEndpointTest
+class CourseV1Test extends V1ReadEndpointTest
 {
     protected $testName =  'courses';
-
-    protected $apiVersion = 'v1';
 
     /**
      * @inheritdoc
@@ -40,14 +38,6 @@ class CourseV1Test extends ReadEndpointTest
             'App\Tests\Fixture\LoadCourseObjectiveData',
             'App\Tests\Fixture\LoadSessionObjectiveData',
         ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest()
-    {
-        return [];
     }
 
     /**
@@ -87,49 +77,6 @@ class CourseV1Test extends ReadEndpointTest
         $this->assertEquals($v2Course['descendants'], $v1Course['descendants']);
         $this->assertEquals(count($v2Course['courseObjectives']), count($v1Course['objectives']));
         $this->assertEquals($courseObjective['objective'], $v1Course['objectives'][0]);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function testGetAll()
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $v1url = $this->getUrl(
-            $this->kernelBrowser,
-            'ilios_api_getall',
-            ['version' => $this->apiVersion, 'object' => $endpoint]
-        );
-        $v2url = $this->getUrl(
-            $this->kernelBrowser,
-            'ilios_api_getall',
-            ['version' => 'v2', 'object' => $endpoint]
-        );
-        $this->createJsonRequest(
-            'GET',
-            $v1url,
-            null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
-        );
-        $v1Response = $this->kernelBrowser->getResponse();
-
-        $this->createJsonRequest(
-            'GET',
-            $v2url,
-            null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
-        );
-        $v2Response = $this->kernelBrowser->getResponse();
-
-        $v1Data = json_decode($v1Response->getContent(), true)[$responseKey];
-        $v2Data = json_decode($v2Response->getContent(), true)[$responseKey];
-
-        $this->assertNotEmpty($v1Data);
-        $this->assertEquals(count($v2Data), count($v1Data));
-        $v1Ids = array_column($v1Data, 'id');
-        $v2Ids = array_column($v1Data, 'id');
-        $this->assertEquals($v2Ids, $v1Ids);
     }
 
     /**
