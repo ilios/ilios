@@ -56,7 +56,7 @@ class EndpointResponseNamer
     {
         $list = $this->getEntityList();
 
-        return $list[$object]['singular'];
+        return $list[strtolower($object)]['singular'];
     }
 
     /**

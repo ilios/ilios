@@ -248,7 +248,7 @@ class EntityMetadata
 
                 if ($annotation) {
                     $relatedProperties[$property->getName()] =
-                        $annotation->value ? $annotation->value : strtolower($property->getName());
+                        $annotation->value ? $annotation->value : $property->getName();
                 }
             }
 

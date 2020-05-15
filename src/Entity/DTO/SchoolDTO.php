@@ -140,7 +140,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related("schoolconfigs")
+     * @IS\Related("schoolConfigs")
      * @IS\Type("array<string>")
      */
     public $configurations;
