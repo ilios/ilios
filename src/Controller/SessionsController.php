@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class SessionsController
  */
-class SessionsController extends ApiController
+class SessionsController extends V1CompatibleApiController
 {
     /**
      * Extract and process DateTime properties

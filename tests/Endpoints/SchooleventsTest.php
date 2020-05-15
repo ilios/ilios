@@ -534,7 +534,7 @@ class SchooleventsTest extends AbstractEndpointTest
     protected function getEvents($schoolId, $from, $to, $userId = null)
     {
         $parameters = [
-            'version' => 'v1',
+            'version' => $this->apiVersion,
             'id' => $schoolId,
             'from' => $from,
             'to' => $to
@@ -568,7 +568,7 @@ class SchooleventsTest extends AbstractEndpointTest
     protected function getEventsForSessionId($schoolId, $sessionId, $userId = null)
     {
         $parameters = [
-            'version' => 'v1',
+            'version' => $this->apiVersion,
             'id' => $schoolId,
             'session' => $sessionId
         ];

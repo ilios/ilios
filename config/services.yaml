@@ -16,7 +16,7 @@ parameters:
       objectives,offerings,pendinguserupdates,permissions,programs,programyears,programyearobjectives,programyearstewards,reports,
       sessionlearningmaterials,sessiondescriptions,sessionlearningmaterials,sessions,sessionobjectives,sessiontypes,schoolconfigs,schools,
       terms,usermadereminders,userroles,users,vocabularies
-    ilios_api_valid_api_versions: 'v1'
+    ilios_api_valid_api_versions: 'v1|v2'
     sentry_dsn: https://c70286fb157048be9ebc6e918e8c2b79@sentry.io/1323198
 
 services:
@@ -104,6 +104,10 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\CourseLearningMaterial'
+    App\Entity\Manager\CourseObjectiveManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\CourseObjective'
     App\Entity\Manager\CurriculumInventoryAcademicLevelManager:
       public: true
       arguments:
@@ -156,6 +160,10 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\ProgramYear'
+    App\Entity\Manager\ProgramYearObjectiveManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\ProgramYearObjective'
     App\Entity\Manager\ProgramYearStewardManager:
       public: true
       arguments:
@@ -181,6 +189,10 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\SessionLearningMaterial'
+    App\Entity\Manager\SessionObjectiveManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\SessionObjective'
     App\Entity\Manager\UserManager:
       public: true
       arguments:

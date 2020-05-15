@@ -7,16 +7,16 @@ namespace App\Entity\Repository;
 use App\Classes\IndexableCourse;
 use App\Classes\IndexableSession;
 use App\Entity\Course;
+use App\Entity\DTO\CourseV1DTO;
 use App\Entity\Session;
+use DateTime;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\CourseInterface;
-use App\Entity\UserInterface;
 use App\Entity\DTO\CourseDTO;
 
-class CourseRepository extends EntityRepository implements DTORepositoryInterface
+class CourseRepository extends EntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities
@@ -31,7 +31,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT c')->from('App\Entity\Course', 'c');
+        $qb->select('DISTINCT c')->from(Course::class, 'c');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -50,7 +50,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('App\Entity\Course', 'c');
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Course::class, 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $courseDTOs = [];
@@ -69,51 +69,7 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
                 $arr['published']
             );
         }
-        $courseIds = array_keys($courseDTOs);
-
-        $qb = $this->_em->createQueryBuilder()
-            ->select('s.id as schoolId, cl.id as clerkshipTypeId, a.id as ancestorId, c.id as courseId')
-            ->from('App\Entity\Course', 'c')
-            ->join('c.school', 's')
-            ->leftJoin('c.clerkshipType', 'cl')
-            ->leftJoin('c.ancestor', 'a')
-            ->where($qb->expr()->in('c.id', ':courseIds'))
-            ->setParameter('courseIds', $courseIds);
-
-        foreach ($qb->getQuery()->getResult() as $arr) {
-            $courseDTOs[$arr['courseId']]->school = (int)$arr['schoolId'];
-            $courseDTOs[$arr['courseId']]->clerkshipType =
-                $arr['clerkshipTypeId'] ? (int)$arr['clerkshipTypeId'] : null;
-            $courseDTOs[$arr['courseId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
-        }
-
-        $related = [
-            'directors',
-            'administrators',
-            'cohorts',
-            'terms',
-            'courseObjectives',
-            'meshDescriptors',
-            'learningMaterials',
-            'sessions',
-            'descendants',
-        ];
-
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, c.id as courseId')->from('App\Entity\Course', 'c')
-                ->join("c.{$rel}", 'r')
-                ->where($qb->expr()->in('c.id', ':courseIds'))
-                ->orderBy('relId')
-                ->setParameter('courseIds', $courseIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $courseDTOs[$arr['courseId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-
-        return array_values($courseDTOs);
+        return $this->attachAssociationsToDTOs($courseDTOs);
     }
 
     /**
@@ -130,6 +86,40 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
         }
 
         return $return;
+    }
+
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Course::class, 'c');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $courseDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $courseDTOs[$arr['id']] = new CourseV1DTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['level'],
+                $arr['year'],
+                $arr['startDate'],
+                $arr['endDate'],
+                $arr['externalId'],
+                $arr['locked'],
+                $arr['archived'],
+                $arr['publishedAsTbd'],
+                $arr['published']
+            );
+        }
+        return $this->attachAssociationsToV1DTOs($courseDTOs);
     }
 
     /**
@@ -226,7 +216,7 @@ EOL;
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
-     * @return CourseInterface[]
+     * @return CourseDTO[]
      * @throws \Exception
      */
     public function findByUserId(
@@ -236,9 +226,77 @@ EOL;
         $limit = null,
         $offset = null
     ) {
-        $rsm = new ResultSetMappingBuilder($this->_em);
-        $rsm->addRootEntityFromClassMetadata('App\Entity\Course', 'c');
-        $meta = $this->_em->getClassMetadata('App\Entity\Course');
+        $rows = $this->findMyCourses($userId, $criteria, $orderBy, $limit, $offset);
+
+        $courseDTOs = [];
+        foreach ($rows as $arr) {
+            $courseDTOs[$arr['course_id']] = new CourseDTO(
+                (int) $arr['course_id'],
+                $arr['title'],
+                (int) $arr['course_level'],
+                (int) $arr['year'],
+                new DateTime($arr['start_date']),
+                new DateTime($arr['end_date']),
+                $arr['external_id'],
+                (bool) $arr['locked'],
+                (bool) $arr['archived'],
+                (bool) $arr['published_as_tbd'],
+                (bool) $arr['published']
+            );
+        }
+
+        return $this->attachAssociationsToDTOs($courseDTOs);
+    }
+
+    /**
+     * @see CourseRepository::findByUserId()
+     */
+    public function findByUserIdV1(
+        $userId,
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        $rows = $this->findMyCourses($userId, $criteria, $orderBy, $limit, $offset);
+
+        $courseDTOs = [];
+        foreach ($rows as $arr) {
+            $courseDTOs[$arr['course_id']] = new CourseV1DTO(
+                (int) $arr['course_id'],
+                $arr['title'],
+                (int) $arr['course_level'],
+                (int) $arr['year'],
+                new DateTime($arr['start_date']),
+                new DateTime($arr['end_date']),
+                $arr['external_id'],
+                (bool) $arr['locked'],
+                (bool) $arr['archived'],
+                (bool) $arr['published_as_tbd'],
+                (bool) $arr['published']
+            );
+        }
+
+        return $this->attachAssociationsToV1DTOs($courseDTOs);
+    }
+
+    /**
+     * @param $userId
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     * @return array
+     * @throws DBALException
+     */
+    protected function findMyCourses(
+        $userId,
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ): array {
+        $meta = $this->_em->getClassMetadata(Course::class);
 
         if (empty($orderBy)) {
             $orderBy = ['id' => 'ASC'];
@@ -332,12 +390,16 @@ EOL;
             }
 
             $column = $meta->getColumnName($name);
-            $label = 'param' . $i;
-            $params[$name] = $label;
+            $label = ':param' . $i;
             if (is_array($value)) {
-                $sqlFragments[] = "{$column} IN (:{$label})";
+                $labels = array_map(function ($j) use ($label) {
+                    return "${label}_${j}";
+                }, range(0, count($value) - 1));
+                $params[$name] = $labels;
+                $sqlFragments[] = "{$column} IN (" . implode(', ', $labels) . ")";
             } else {
-                $sqlFragments[] = "{$column} = :{$label}";
+                $params[$name] = $label;
+                $sqlFragments[] = "{$column} = {$label}";
             }
         }
         if (count($sqlFragments)) {
@@ -365,20 +427,145 @@ EOL;
             $sql .= ' OFFSET :offset';
         }
 
-        $query = $this->_em->createNativeQuery($sql, $rsm);
-        $query->setParameter('user_id', $userId);
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(":user_id", (int) $userId);
         foreach ($params as $field => $label) {
             $value = $criteria[$field];
-            $query->setParameter($label, $value);
+            if (is_array($label)) {
+                $arr = array_combine($label, $value);
+                foreach ($arr as $label => $value) {
+                    $stmt->bindValue($label, $value);
+                }
+            } else {
+                $stmt->bindValue($label, $value);
+            }
         }
 
         if (isset($limit)) {
-            $query->setParameter('limit', (int)$limit);
+            $stmt->bindValue(":limit", (int) $limit);
         }
         if (isset($offset)) {
-            $query->setParameter('offset', (int)$offset);
+            $stmt->bindValue(":offset", (int) $offset);
         }
-        return $query->getResult();
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+        $stmt->closeCursor();
+        return $rows;
+    }
+
+    /**
+     * @param array $courseDTOs
+     * @return array
+     */
+    protected function attachAssociationsToDTOs(array $courseDTOs): array
+    {
+        $courseIds = array_keys($courseDTOs);
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('s.id as schoolId, cl.id as clerkshipTypeId, a.id as ancestorId, c.id as courseId')
+            ->from(Course::class, 'c')
+            ->join('c.school', 's')
+            ->leftJoin('c.clerkshipType', 'cl')
+            ->leftJoin('c.ancestor', 'a')
+            ->where($qb->expr()->in('c.id', ':courseIds'))
+            ->setParameter('courseIds', $courseIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $courseDTOs[$arr['courseId']]->school = (int)$arr['schoolId'];
+            $courseDTOs[$arr['courseId']]->clerkshipType =
+                $arr['clerkshipTypeId'] ? (int)$arr['clerkshipTypeId'] : null;
+            $courseDTOs[$arr['courseId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
+        }
+
+        $related = [
+            'directors',
+            'administrators',
+            'cohorts',
+            'terms',
+            'courseObjectives',
+            'meshDescriptors',
+            'learningMaterials',
+            'sessions',
+            'descendants',
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id as relId, c.id as courseId')->from(Course::class, 'c')
+                ->join("c.{$rel}", 'r')
+                ->where($qb->expr()->in('c.id', ':courseIds'))
+                ->orderBy('relId')
+                ->setParameter('courseIds', $courseIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $courseDTOs[$arr['courseId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        return array_values($courseDTOs);
+    }
+
+    /**
+     * @param array $courseDTOs
+     * @return array
+     */
+    protected function attachAssociationsToV1DTOs(array $courseDTOs): array
+    {
+        $courseIds = array_keys($courseDTOs);
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('s.id as schoolId, cl.id as clerkshipTypeId, a.id as ancestorId, c.id as courseId')
+            ->from(Course::class, 'c')
+            ->join('c.school', 's')
+            ->leftJoin('c.clerkshipType', 'cl')
+            ->leftJoin('c.ancestor', 'a')
+            ->where($qb->expr()->in('c.id', ':courseIds'))
+            ->setParameter('courseIds', $courseIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $courseDTOs[$arr['courseId']]->school = (int)$arr['schoolId'];
+            $courseDTOs[$arr['courseId']]->clerkshipType =
+                $arr['clerkshipTypeId'] ? (int)$arr['clerkshipTypeId'] : null;
+            $courseDTOs[$arr['courseId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
+        }
+
+        $related = [
+            'directors',
+            'administrators',
+            'cohorts',
+            'terms',
+            'meshDescriptors',
+            'learningMaterials',
+            'sessions',
+            'descendants',
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id as relId, c.id as courseId')->from(Course::class, 'c')
+                ->join("c.{$rel}", 'r')
+                ->where($qb->expr()->in('c.id', ':courseIds'))
+                ->orderBy('relId')
+                ->setParameter('courseIds', $courseIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $courseDTOs[$arr['courseId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select('o.id AS objectiveId, c.id AS courseId')->from(Course::class, 'c')
+            ->join("c.courseObjectives", 'cxo')
+            ->join('cxo.objective', 'o')
+            ->where($qb->expr()->in('c.id', ':courseIds'))
+            ->orderBy('objectiveId')
+            ->setParameter('courseIds', $courseIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $courseDTOs[$arr['courseId']]->objectives[] = $arr['objectiveId'];
+        }
+
+        return array_values($courseDTOs);
     }
 
 

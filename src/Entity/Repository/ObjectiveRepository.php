@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\DTO\ObjectiveV1DTO;
 use App\Entity\Objective;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -91,6 +92,84 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
         return array_values($objectiveDTOs);
     }
 
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('o')->distinct()->from(Objective::class, 'o');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $objectiveDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $objectiveDTOs[$arr['id']] = new ObjectiveV1DTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['active']
+            );
+        }
+        $objectiveIds = array_keys($objectiveDTOs);
+        $qb = $this->_em->createQueryBuilder()
+            ->select('o.id as objectiveId, c.id as competencyId, a.id as ancestorId')
+            ->from('App\Entity\Objective', 'o')
+            ->leftJoin('o.competency', 'c')
+            ->leftJoin('o.ancestor', 'a')
+            ->where($qb->expr()->in('o.id', ':ids'))
+            ->setParameter('ids', $objectiveIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $objectiveDTOs[$arr['objectiveId']]->competency = $arr['competencyId'] ? (int)$arr['competencyId'] : null;
+            $objectiveDTOs[$arr['objectiveId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
+        }
+        $related = [
+            'parents',
+            'children',
+            'meshDescriptors',
+            'descendants'
+        ];
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, o.id AS objectiveId')->from('App\Entity\Objective', 'o')
+                ->join("o.{$rel}", 'r')
+                ->where($qb->expr()->in('o.id', ':objectiveIds'))
+                ->orderBy('relId')
+                ->setParameter('objectiveIds', $objectiveIds);
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $objectiveDTOs[$arr['objectiveId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+        $related = [
+            'course' => 'courses',
+            'session' => 'sessions',
+            'programYear' => 'programYears',
+        ];
+
+        foreach ($related as $rel => $attr) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select("ro.position AS position, r.id AS relId, o.id AS objectiveId")
+                ->from(Objective::class, 'o')
+                ->join("o.{$rel}Objectives", 'ro')
+                ->join("ro.${rel}", 'r')
+                ->where($qb->expr()->in('o.id', ':objectiveIds'))
+                ->orderBy('relId')
+                ->setParameter('objectiveIds', $objectiveIds);
+            $positionHasBeenApplied = false;
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $objectiveDTOs[$arr['objectiveId']]->{$attr}[] = $arr['relId'];
+                if (! $positionHasBeenApplied) {
+                    $objectiveDTOs[$arr['objectiveId']]->position = $arr['position'];
+                    $positionHasBeenApplied = true;
+                }
+            }
+        }
+
+        return array_values($objectiveDTOs);
+    }
 
     /**
      * @param QueryBuilder $qb

@@ -34,6 +34,7 @@ class CurrentSessionTest extends WebTestCase
      */
     protected $kernelBrowser;
 
+    protected $apiVersion = 'v2';
 
     public function setUp(): void
     {
@@ -57,7 +58,7 @@ class CurrentSessionTest extends WebTestCase
         $url = $this->getUrl(
             $this->kernelBrowser,
             'ilios_api_currentsession',
-            ['version' => 'v1']
+            ['version' => $this->apiVersion]
         );
         $this->makeJsonRequest(
             $this->kernelBrowser,

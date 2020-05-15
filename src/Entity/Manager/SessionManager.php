@@ -7,6 +7,6 @@ namespace App\Entity\Manager;
 /**
  * Class SessionManager
  */
-class SessionManager extends BaseManager
+class SessionManager extends V1CompatibleBaseManager
 {
 }

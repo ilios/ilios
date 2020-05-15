@@ -25,6 +25,8 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
      */
     protected $kernelBrowser;
 
+    protected $apiVersion = 'v2';
+
     /**
      * @inheritdoc
      */
@@ -68,7 +70,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
                 $this->kernelBrowser,
                 'ilios_api_get',
                 [
-                    'version' => 'v1',
+                    'version' => $this->apiVersion,
                     'object' => 'curriculuminventoryreports',
                     'id' => $curriculumInventoryExport['report']
                 ]

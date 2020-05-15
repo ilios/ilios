@@ -169,7 +169,7 @@ class ObjectiveTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'ilios_api_post', [
-                'version' => 'v1',
+                'version' => $this->apiVersion,
                 'object' => 'objectives'
             ]),
             json_encode(['objectives' => [$postData]]),
@@ -218,7 +218,7 @@ class ObjectiveTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'ilios_api_post', [
-                'version' => 'v1',
+                'version' => $this->apiVersion,
                 'object' => 'objectives'
             ]),
             json_encode(['objectives' => [$postData]]),

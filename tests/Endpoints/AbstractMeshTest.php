@@ -20,7 +20,11 @@ abstract class AbstractMeshTest extends ReadEndpointTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_post',
+                ['version' => $this->apiVersion, 'object' => $endpoint]
+            ),
             json_encode([$responseKey => []]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -36,7 +40,11 @@ abstract class AbstractMeshTest extends ReadEndpointTest
 
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_put', ['version' => 'v1', 'object' => $endpoint, 'id' => 1]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_put',
+                ['version' => $this->apiVersion, 'object' => $endpoint, 'id' => 1]
+            ),
             json_encode([$responseKey => []]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -55,7 +63,7 @@ abstract class AbstractMeshTest extends ReadEndpointTest
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_delete',
-                ['version' => 'v1', 'object' => $endpoint, 'id' => 1]
+                ['version' => $this->apiVersion, 'object' => $endpoint, 'id' => 1]
             ),
             json_encode([$responseKey => []]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)

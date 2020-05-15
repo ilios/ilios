@@ -6,25 +6,28 @@ namespace App\Entity\Manager;
 
 use App\Classes\IndexableCourse;
 use App\Entity\CourseInterface;
+use App\Entity\DTO\CourseDTO;
 use App\Entity\Repository\CourseRepository;
 use App\Entity\UserInterface;
+use Exception;
 
 /**
  * Class CourseManager
  */
-class CourseManager extends BaseManager
+class CourseManager extends V1CompatibleBaseManager
 {
     /**
      * Retrieves all courses associated with the given user.
      *
-     * @param int $user
+     * @param int $userId
      * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
-     * @return CourseInterface[]
+     * @return CourseDTO[]
      *
-     * @see App\Entity\Repository\CourseRepository::findByUserId()
+     * @throws Exception
+     * @see CourseRepository::findByUserId()
      */
     public function findCoursesByUserId(
         $userId,
@@ -39,6 +42,21 @@ class CourseManager extends BaseManager
     }
 
     /**
+     * @see CourseManager::findCoursesByUserId()
+     */
+    public function findCoursesByUserIdV1(
+        $userId,
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        /** @var CourseRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findByUserIdV1($userId, $criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
      * @return string[]
      */
     public function getYears()
@@ -50,7 +68,7 @@ class CourseManager extends BaseManager
      * Get all the IDs for every course
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getIds()
     {

@@ -154,7 +154,7 @@ class UsermaterialsTest extends AbstractEndpointTest
     protected function getMaterials($userId, $before = null, $after = null, $authUser = null)
     {
         $parameters = [
-            'version' => 'v1',
+            'version' => $this->apiVersion,
             'id' => $userId
         ];
         if (null !== $before) {

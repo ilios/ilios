@@ -225,7 +225,11 @@ class UserTest extends ReadWriteEndpointTest
             $this->kernelBrowser,
             $userId,
             'POST',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => 'users']),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_post',
+                ['version' => $this->apiVersion, 'object' => 'users']
+            ),
             json_encode(['users' => [$postData]])
         );
     }
@@ -253,7 +257,7 @@ class UserTest extends ReadWriteEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'ilios_api_post', [
-                'version' => 'v1',
+                'version' => $this->apiVersion,
                 'object' => 'users'
             ]),
             json_encode(['users' => [$data]]),
@@ -283,7 +287,7 @@ class UserTest extends ReadWriteEndpointTest
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_put',
-                ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]
+                ['version' => $this->apiVersion, 'object' => 'users', 'id' => $postData['id']]
             ),
             json_encode(['user' => $postData])
         );
@@ -307,7 +311,7 @@ class UserTest extends ReadWriteEndpointTest
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_put',
-                ['version' => 'v1', 'object' => 'users', 'id' => $userId]
+                ['version' => $this->apiVersion, 'object' => 'users', 'id' => $userId]
             ),
             json_encode(['user' => $postData])
         );
@@ -333,7 +337,7 @@ class UserTest extends ReadWriteEndpointTest
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_put',
-                ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]
+                ['version' => $this->apiVersion, 'object' => 'users', 'id' => $postData['id']]
             ),
             json_encode(['user' => $postData])
         );

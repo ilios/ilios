@@ -10,7 +10,7 @@ use App\Entity\Repository\ProgramYearRepository;
  * Class ProgramYearManager
  * @package App\Entity\Manager
  */
-class ProgramYearManager extends BaseManager
+class ProgramYearManager extends V1CompatibleBaseManager
 {
     /**
      * @param int $programYearId

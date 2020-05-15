@@ -14,6 +14,7 @@ use App\Entity\DTO\CompetencyDTO;
 use App\Entity\DTO\CourseClerkshipTypeDTO;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\CourseObjectiveDTO;
+use App\Entity\DTO\CourseV1DTO;
 use App\Entity\DTO\CurriculumInventoryAcademicLevelDTO;
 use App\Entity\DTO\CurriculumInventoryInstitutionDTO;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
@@ -36,14 +37,18 @@ use App\Entity\DTO\ProgramDTO;
 use App\Entity\DTO\ProgramYearDTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
 use App\Entity\DTO\ProgramYearStewardDTO;
+use App\Entity\DTO\ProgramYearV1DTO;
 use App\Entity\DTO\SchoolConfigDTO;
 use App\Entity\DTO\SchoolDTO;
 use App\Entity\DTO\SessionDescriptionDTO;
 use App\Entity\DTO\SessionDTO;
 use App\Entity\DTO\SessionObjectiveDTO;
 use App\Entity\DTO\SessionTypeDTO;
+use App\Entity\DTO\SessionV1DTO;
 use App\Entity\DTO\TermDTO;
+use App\Entity\DTO\TermV1DTO;
 use App\Entity\DTO\UserRoleDTO;
+use App\Entity\DTO\ObjectiveV1DTO;
 use App\Entity\DTO\VocabularyDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -65,6 +70,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof CohortDTO
                 || $subject instanceof CompetencyDTO
                 || $subject instanceof CourseDTO
+                || $subject instanceof CourseV1DTO
                 || $subject instanceof CourseClerkshipTypeDTO
                 || $subject instanceof CourseObjectiveDTO
                 || $subject instanceof CurriculumInventoryAcademicLevelDTO
@@ -85,17 +91,21 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof MeshTermDTO
                 || $subject instanceof MeshTreeDTO
                 || $subject instanceof ObjectiveDTO
+                || $subject instanceof ObjectiveV1DTO
                 || $subject instanceof ProgramDTO
                 || $subject instanceof ProgramYearDTO
+                || $subject instanceof ProgramYearV1DTO
                 || $subject instanceof ProgramYearObjectiveDTO
                 || $subject instanceof ProgramYearStewardDTO
                 || $subject instanceof SchoolDTO
                 || $subject instanceof SchoolConfigDTO
                 || $subject instanceof SessionDTO
+                || $subject instanceof SessionV1DTO
                 || $subject instanceof SessionDescriptionDTO
                 || $subject instanceof SessionObjectiveDTO
                 || $subject instanceof SessionTypeDTO
                 || $subject instanceof TermDTO
+                || $subject instanceof TermV1DTO
                 || $subject instanceof UserRoleDTO
                 || $subject instanceof VocabularyDTO
             )

@@ -8,7 +8,7 @@ namespace App\Entity\Manager;
  * Class ObjectiveManager
  */
 
-class ObjectiveManager extends BaseManager
+class ObjectiveManager extends V1CompatibleBaseManager
 {
     /**
      * @return int

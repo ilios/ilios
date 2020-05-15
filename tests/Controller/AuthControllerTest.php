@@ -22,6 +22,8 @@ class AuthControllerTest extends WebTestCase
     use FixturesTrait;
     use GetUrlTrait;
 
+    protected $apiVersion = 'v2';
+
     /**
      * @var string
      */
@@ -327,7 +329,7 @@ class AuthControllerTest extends WebTestCase
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_get',
-                ['object' => 'users', 'version' => 'v1', 'id' => 1]
+                ['object' => 'users', 'version' => $this->apiVersion, 'id' => 1]
             ),
             null,
             $jwt

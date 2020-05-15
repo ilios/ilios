@@ -1005,7 +1005,7 @@ class UsereventTest extends AbstractEndpointTest
     protected function getEvents($userId, $from, $to, $userToken)
     {
         $parameters = [
-            'version' => 'v1',
+            'version' => $this->apiVersion,
             'id' => $userId,
             'from' => $from,
             'to' => $to,
@@ -1042,7 +1042,7 @@ class UsereventTest extends AbstractEndpointTest
     protected function getEventsForSessionId($userId, $sessionId, $userToken)
     {
         $parameters = [
-            'version' => 'v1',
+            'version' => $this->apiVersion,
             'id' => $userId,
             'session' => $sessionId,
         ];

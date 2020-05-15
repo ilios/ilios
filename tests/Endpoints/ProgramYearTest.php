@@ -182,7 +182,11 @@ class ProgramYearTest extends ReadWriteEndpointTest
             $this->kernelBrowser,
             $userId,
             'POST',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => 'programyears']),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_post',
+                ['version' => $this->apiVersion, 'object' => 'programyears']
+            ),
             json_encode(['programYears' => [$data]])
         );
     }
@@ -209,7 +213,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_put',
-                ['version' => 'v1', 'object' => 'programyears', 'id' => $data['id']]
+                ['version' => $this->apiVersion, 'object' => 'programyears', 'id' => $data['id']]
             ),
             json_encode(['programYear' => $data])
         );
@@ -228,7 +232,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_delete',
-                ['version' => 'v1', 'object' => 'programyears', 'id' => $data['id']]
+                ['version' => $this->apiVersion, 'object' => 'programyears', 'id' => $data['id']]
             )
         );
     }
@@ -308,7 +312,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
     {
         $parameters = array_merge(
             [
-                'version' => 'v1',
+                'version' => $this->apiVersion,
                 'object' => $this->getPluralName(),
                 'id' => 1,
             ]

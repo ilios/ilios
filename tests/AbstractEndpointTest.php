@@ -27,6 +27,8 @@ abstract class AbstractEndpointTest extends WebTestCase
     use FixturesTrait;
     use GetUrlTrait;
 
+    protected $apiVersion = 'v2';
+
     /**
      * @var string|null the name of this endpoint (plural)
      */
@@ -207,15 +209,17 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param string $endpoint the name of the API endpoint
      * @param string $responseKey the key data is returned under
      * @param mixed $id the ID to fetch
+     * @param string $version the version of the API endpoint
      *
      * @return mixed
      */
-    protected function getOne($endpoint, $responseKey, $id)
+    protected function getOne($endpoint, $responseKey, $id, $version = null)
     {
+        $version = $version ?: $this->apiVersion;
         $url = $this->getUrl(
             $this->kernelBrowser,
             'ilios_api_get',
-            ['version' => 'v1', 'object' => $endpoint, 'id' => $id]
+            ['version' => $version, 'object' => $endpoint, 'id' => $id]
         );
         $this->createJsonRequest(
             'GET',
@@ -252,7 +256,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_getall',
-                ['version' => 'v1', 'object' => $endpoint]
+                ['version' => $this->apiVersion, 'object' => $endpoint]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -356,14 +360,20 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param string $postKey the key to send the POST under
      * @param string $responseKey the key the response will be under
      * @param array $postData the data to send
+     * @param string $version the version of the API endpoint
      *
      * @return mixed
      */
-    protected function postOne($endpoint, $postKey, $responseKey, array $postData)
+    protected function postOne($endpoint, $postKey, $responseKey, array $postData, $version = null)
     {
+        $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
             'POST',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_post',
+                ['version' => $version, 'object' => $endpoint]
+            ),
             json_encode([$postKey => $postData]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -377,14 +387,20 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param string $endpoint to send to
      * @param string $responseKey the data will be returned with
      * @param array $postData to send
+     * @param string $version the version of the API endpoint
      *
      * @return mixed
      */
-    protected function postMany($endpoint, $responseKey, array $postData)
+    protected function postMany($endpoint, $responseKey, array $postData, $version = null)
     {
+        $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
             'POST',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_post',
+                ['version' => $version, 'object' => $endpoint]
+            ),
             json_encode([$responseKey => $postData]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -405,7 +421,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         $responseKey = $this->getCamelCasedPluralName();
         $this->createJsonRequest(
             'POST',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            $this->getUrl(
+                $this->kernelBrowser,
+                'ilios_api_post',
+                ['version' => $this->apiVersion, 'object' => $endpoint]
+            ),
             json_encode([$responseKey => [$data]]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -429,7 +449,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_put',
-                ['version' => 'v1', 'object' => $endpoint, 'id' => $id]
+                ['version' => $this->apiVersion, 'object' => $endpoint, 'id' => $id]
             ),
             json_encode([$responseKey => [$data]]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -504,17 +524,19 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param bool $new if this is expected to generate new data instead
      *                  of updating existing data
      * @param int $userId
+     * @param string $version the version of the API endpoint
      *
      * @return mixed
      */
-    protected function putOne($endpoint, $responseKey, $id, array $data, $new = false, $userId = 2)
+    protected function putOne($endpoint, $responseKey, $id, array $data, $new = false, $userId = 2, $version = null)
     {
+        $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_put',
-                ['version' => 'v1', 'object' => $endpoint, 'id' => $id]
+                ['version' => $version, 'object' => $endpoint, 'id' => $id]
             ),
             json_encode([$responseKey => $data]),
             $this->getTokenForUser($this->kernelBrowser, $userId)
@@ -543,16 +565,18 @@ abstract class AbstractEndpointTest extends WebTestCase
      * Delete an object from the API
      * @param string $endpoint we are testing
      * @param mixed $id we want to delete
+     * @param string $version the version of the API endpoint
      * @return null|Response
      */
-    protected function deleteOne($endpoint, $id)
+    protected function deleteOne($endpoint, $id, $version = null)
     {
+        $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_delete',
-                ['version' => 'v1', 'object' => $endpoint, 'id' => $id]
+                ['version' => $version, 'object' => $endpoint, 'id' => $id]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -578,7 +602,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getUrl(
                 $this->kernelBrowser,
                 'ilios_api_get',
-                ['version' => 'v1', 'object' => $endpoint, 'id' => $badId]
+                ['version' => $this->apiVersion, 'object' => $endpoint, 'id' => $badId]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -625,12 +649,14 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param $responseKey
      * @param array $filters
      * @param int $userId
+     * @param string $version
      * @return mixed
      */
-    protected function getFiltered($endpoint, $responseKey, array $filters, int $userId = 2)
+    protected function getFiltered($endpoint, $responseKey, array $filters, int $userId = 2, $version = null)
     {
+        $version = $version ?: $this->apiVersion;
         $parameters = array_merge([
-            'version' => 'v1',
+            'version' => $version,
             'object' => $endpoint
         ], $filters);
         $this->createJsonRequest(
@@ -660,7 +686,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $endpoint = $this->getPluralName();
         $parameters = array_merge([
-            'version' => 'v1',
+            'version' => $this->apiVersion,
             'object' => $endpoint
         ], $badFilters);
         $this->createJsonRequest(

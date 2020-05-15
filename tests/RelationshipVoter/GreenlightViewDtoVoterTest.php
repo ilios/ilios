@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\RelationshipVoter;
 
 use App\Entity\DTO\CourseObjectiveDTO;
+use App\Entity\DTO\CourseV1DTO;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
+use App\Entity\DTO\ProgramYearV1DTO;
 use App\Entity\DTO\SessionObjectiveDTO;
+use App\Entity\DTO\SessionV1DTO;
+use App\Entity\DTO\TermV1DTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\GreenlightViewDTOVoter as Voter;
 use App\Service\PermissionChecker;
@@ -77,8 +81,9 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [CohortDTO::class],
             [CompetencyDTO::class],
             [CourseDTO::class],
+            [CourseV1DTO::class],
             [CourseClerkshipTypeDTO::class],
-            [CourseObjectiveDTO::class]
+            [CourseObjectiveDTO::class],
             [CurriculumInventoryAcademicLevelDTO::class],
             [CurriculumInventoryInstitutionDTO::class],
             [CurriculumInventoryReportDTO::class],
@@ -99,15 +104,18 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [ObjectiveDTO::class],
             [ProgramDTO::class],
             [ProgramYearDTO::class],
+            [ProgramYearV1DTO::class],
             [ProgramYearObjectiveDTO::class],
             [ProgramYearStewardDTO::class],
             [SchoolDTO::class],
             [SchoolConfigDTO::class],
             [SessionDTO::class],
+            [SessionV1DTO::class],
             [SessionDescriptionDTO::class],
             [SessionObjectiveDTO::class],
             [SessionTypeDTO::class],
             [TermDTO::class],
+            [TermV1DTO::class],
             [UserRoleDTO::class],
             [VocabularyDTO::class],
         ];

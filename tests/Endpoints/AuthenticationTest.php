@@ -307,12 +307,13 @@ class AuthenticationTest extends ReadWriteEndpointTest
      * 'user' as the Primary Key
      * @inheritdoc
      */
-    protected function getOne($endpoint, $responseKey, $userId)
+    protected function getOne($endpoint, $responseKey, $userId, $version = null)
     {
+        $version = $version ?: $this->apiVersion;
         $url = $this->getUrl(
             $this->kernelBrowser,
             'ilios_api_authentication_get',
-            ['version' => 'v1', 'object' => $endpoint, 'userId' => $userId]
+            ['version' => $version, 'object' => $endpoint, 'userId' => $userId]
         );
         $this->createJsonRequest(
             'GET',
