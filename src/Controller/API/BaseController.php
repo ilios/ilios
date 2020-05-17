@@ -6,12 +6,11 @@ namespace App\Controller\API;
 
 use App\Entity\Manager\ManagerInterface;
 use App\RelationshipVoter\AbstractVoter;
-use App\Service\EndpointResponseNamer;
+use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class BaseController
 {
@@ -33,26 +32,17 @@ abstract class BaseController
         string $object,
         string $id,
         AuthorizationCheckerInterface $authorizationChecker,
-        EndpointResponseNamer $endpointResponseNamer,
-        SerializerInterface $serializer
+        ApiResponseBuilder $builder
     ): Response {
         $dto = $this->manager->findDTOBy(['id' => $id]);
 
         if (! $dto) {
-            $name = $endpointResponseNamer->getSingularName($object);
-            throw new NotFoundHttpException(sprintf("%s with id '%s' was not found.", $name, $id));
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $object, $id));
         }
 
         $values = $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto) ? [$dto] : [];
 
-        return new Response(
-            $serializer->serialize(
-                [ $endpointResponseNamer->getPluralName($object) => $values],
-                'json'
-            ),
-            Response::HTTP_OK,
-            ['Content-type' => 'application/json']
-        );
+        return $builder->build($object, $values);
     }
 
     /**
@@ -63,8 +53,7 @@ abstract class BaseController
         string $object,
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
-        EndpointResponseNamer $endpointResponseNamer,
-        SerializerInterface $serializer
+        ApiResponseBuilder $builder
     ): Response {
         $parameters = $this->extractParameters($request);
         $dtos = $this->manager->findDTOsBy(
@@ -81,14 +70,7 @@ abstract class BaseController
         //Re-index numerically index the array
         $values = array_values($filteredResults);
 
-        return new Response(
-            $serializer->serialize(
-                [ $endpointResponseNamer->getPluralName($object) => $values],
-                'json'
-            ),
-            Response::HTTP_OK,
-            ['Content-type' => 'application/json']
-        );
+        return $builder->build($object, $values);
     }
 
 
