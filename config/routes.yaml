@@ -75,6 +75,23 @@ ilios_swagger_ui:
   controller: App\Controller\SwaggerDocsController::uiAction
   methods:  [GET]
 
+api_aamcmethod_get:
+  path:     /api/{version}/{object}/{id}
+  controller: App\Controller\API\AamcMethod:getOne
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'aamcmethods'
+    id: '(?i)[a-z0-9]+'
+
+api_aamcmethod_getall:
+  path:     /api/{version}/{object}
+  controller: App\Controller\API\AamcMethod:getAll
+  methods:  [GET]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'aamcmethods'
+
 ilios_api_currentsession:
   path:     /api/{version}/currentsession
   controller: App\Controller\CurrentSessionController::getAction
