@@ -26,14 +26,14 @@ class ApiResponseBuilder
         $this->endpointResponseNamer = $endpointResponseNamer;
     }
 
-    public function build(string $object, array $values): Response
+    public function build(string $object, array $values, int $status): Response
     {
         return new Response(
             $this->serializer->serialize(
                 [ $this->endpointResponseNamer->getPluralName($object) => $values],
                 'json'
             ),
-            Response::HTTP_OK,
+            $status,
             ['Content-type' => 'application/json']
         );
     }
