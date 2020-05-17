@@ -25,9 +25,15 @@ abstract class BaseController
      */
     protected $manager;
 
-    public function __construct(ManagerInterface $manager)
+    /**
+     * @var string
+     */
+    protected $endpoint;
+
+    public function __construct(ManagerInterface $manager, string $endpoint)
     {
         $this->manager = $manager;
+        $this->endpoint = $endpoint;
     }
 
     /**
@@ -35,7 +41,6 @@ abstract class BaseController
      */
     public function getOne(
         string $version,
-        string $object,
         string $id,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
@@ -43,12 +48,12 @@ abstract class BaseController
         $dto = $this->manager->findDTOBy(['id' => $id]);
 
         if (! $dto) {
-            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $object, $id));
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
 
         $values = $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto) ? [$dto] : [];
 
-        return $builder->buildPluralResponse($object, $values, Response::HTTP_OK);
+        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
     }
 
     /**
@@ -56,7 +61,6 @@ abstract class BaseController
      */
     public function getAll(
         string $version,
-        string $object,
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
@@ -76,7 +80,7 @@ abstract class BaseController
         //Re-index numerically index the array
         $values = array_values($filteredResults);
 
-        return $builder->buildPluralResponse($object, $values, Response::HTTP_OK);
+        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
     }
 
     /**
@@ -84,7 +88,6 @@ abstract class BaseController
      */
     public function post(
         string $version,
-        string $object,
         Request $request,
         ApiRequestParser $requestParser,
         ValidatorInterface $validator,
@@ -93,7 +96,7 @@ abstract class BaseController
     ) {
         $class = $this->manager->getClass() . '[]';
 
-        $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $object);
+        $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
 
         foreach ($entities as $entity) {
             $errors = $validator->validate($entity);
@@ -112,7 +115,7 @@ abstract class BaseController
         }
         $this->manager->flush();
 
-        return $builder->buildPluralResponse($object, $entities, Response::HTTP_CREATED);
+        return $builder->buildPluralResponse($this->endpoint, $entities, Response::HTTP_CREATED);
     }
 
     /**
@@ -121,7 +124,6 @@ abstract class BaseController
      */
     public function put(
         string $version,
-        string $object,
         string $id,
         Request $request,
         ApiRequestParser $requestParser,
@@ -140,7 +142,7 @@ abstract class BaseController
             $permission = AbstractVoter::CREATE;
         }
 
-        $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $object);
+        $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
         $errors = $validator->validate($entity);
         if (count($errors) > 0) {
@@ -154,7 +156,7 @@ abstract class BaseController
 
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($object, $entity, $code);
+        return $builder->buildSingularResponse($this->endpoint, $entity, $code);
     }
 
 
@@ -163,7 +165,6 @@ abstract class BaseController
      */
     public function delete(
         string $version,
-        string $object,
         string $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {

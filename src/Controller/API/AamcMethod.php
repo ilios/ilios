@@ -10,6 +10,6 @@ class AamcMethod extends BaseController
 {
     public function __construct(AamcMethodManager $manager)
     {
-        parent::__construct($manager);
+        parent::__construct($manager, 'aamcmethods');
     }
 }
