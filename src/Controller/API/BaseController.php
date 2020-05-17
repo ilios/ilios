@@ -6,6 +6,7 @@ namespace App\Controller\API;
 
 use App\Entity\Manager\ManagerInterface;
 use App\RelationshipVoter\AbstractVoter;
+use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,7 +56,7 @@ abstract class BaseController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $parameters = $this->extractParameters($request);
+        $parameters = ApiRequestParser::extractParameters($request);
         $dtos = $this->manager->findDTOsBy(
             $parameters['criteria'],
             $parameters['orderBy'],
@@ -71,34 +72,5 @@ abstract class BaseController
         $values = array_values($filteredResults);
 
         return $builder->build($object, $values);
-    }
-
-
-
-    /**
-     * Extract the non-data parameters which control the response we send
-     */
-    protected function extractParameters(Request $request): array
-    {
-        $parameters = [
-            'offset' => $request->query->get('offset'),
-            'limit' => $request->query->get('limit'),
-            'orderBy' => $request->query->get('order_by'),
-            'criteria' => []
-        ];
-
-        $criteria = !is_null($request->query->get('filters')) ? $request->query->get('filters') : [];
-        $criteria = array_map(function ($item) {
-            //convert boolean/null strings to boolean/null values
-            $item = $item === 'null' ? null : $item;
-            $item = $item === 'false' ? false : $item;
-            $item = $item === 'true' ? true : $item;
-
-            return $item;
-        }, $criteria);
-
-        $parameters['criteria'] = $criteria;
-
-        return $parameters;
     }
 }
