@@ -109,6 +109,15 @@ api_aamcmethod_put:
     object: 'aamcmethods'
     id: '(?i)[a-z0-9]+'
 
+api_aamcmethod_delete:
+  path:     /api/{version}/{object}/{id}
+  controller: App\Controller\API\AamcMethod:delete
+  methods:  [DELETE]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'aamcmethods'
+    id: '(?i)[a-z0-9]+'
+
 ilios_api_currentsession:
   path:     /api/{version}/currentsession
   controller: App\Controller\CurrentSessionController::getAction

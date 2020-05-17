@@ -15,6 +15,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Exception;
+use RuntimeException;
 
 abstract class BaseController
 {
@@ -153,5 +155,34 @@ abstract class BaseController
         $this->manager->update($entity, true, false);
 
         return $builder->buildSingularResponse($object, $entity, $code);
+    }
+
+
+    /**
+     * Handles DELETE requests to remove an element from the API
+     */
+    public function delete(
+        string $version,
+        string $object,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker
+    ): Response {
+        $entity = $this->manager->findOneBy(['id' => $id]);
+
+        if (! $entity) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
+
+        if (! $authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
+            throw new AccessDeniedException('Unauthorized access!');
+        }
+
+        try {
+            $this->manager->delete($entity);
+
+            return new Response('', Response::HTTP_NO_CONTENT);
+        } catch (Exception $exception) {
+            throw new RuntimeException("Failed to delete entity: " . $exception->getMessage());
+        }
     }
 }
