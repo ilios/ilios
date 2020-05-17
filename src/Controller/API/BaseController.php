@@ -46,7 +46,7 @@ abstract class BaseController
 
         $values = $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto) ? [$dto] : [];
 
-        return $builder->build($object, $values, Response::HTTP_OK);
+        return $builder->buildPluralResponse($object, $values, Response::HTTP_OK);
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class BaseController
         //Re-index numerically index the array
         $values = array_values($filteredResults);
 
-        return $builder->build($object, $values, Response::HTTP_OK);
+        return $builder->buildPluralResponse($object, $values, Response::HTTP_OK);
     }
 
     /**
@@ -110,6 +110,48 @@ abstract class BaseController
         }
         $this->manager->flush();
 
-        return $builder->build($object, $entities, Response::HTTP_CREATED);
+        return $builder->buildPluralResponse($object, $entities, Response::HTTP_CREATED);
+    }
+
+    /**
+     * Modifies a single object in the API.  Can also create and
+     * object if it does not yet exist.
+     */
+    public function put(
+        string $version,
+        string $object,
+        string $id,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ) {
+        $entity = $this->manager->findOneBy(['id' => $id]);
+
+        if ($entity) {
+            $code = Response::HTTP_OK;
+            $permission = AbstractVoter::EDIT;
+        } else {
+            $entity = $this->manager->create();
+            $code = Response::HTTP_CREATED;
+            $permission = AbstractVoter::CREATE;
+        }
+
+        $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $object);
+
+        $errors = $validator->validate($entity);
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+
+            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
+        }
+        if (! $authorizationChecker->isGranted($permission, $entity)) {
+            throw new AccessDeniedException('Unauthorized access!');
+        }
+
+        $this->manager->update($entity, true, false);
+
+        return $builder->buildSingularResponse($object, $entity, $code);
     }
 }

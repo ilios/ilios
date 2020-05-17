@@ -100,6 +100,15 @@ api_aamcmethod_post:
     version: "%ilios_api_valid_api_versions%"
     object: 'aamcmethods'
 
+api_aamcmethod_put:
+  path:     /api/{version}/{object}/{id}
+  controller: App\Controller\API\AamcMethod:put
+  methods:  [PUT]
+  requirements:
+    version: "%ilios_api_valid_api_versions%"
+    object: 'aamcmethods'
+    id: '(?i)[a-z0-9]+'
+
 ilios_api_currentsession:
   path:     /api/{version}/currentsession
   controller: App\Controller\CurrentSessionController::getAction

@@ -26,11 +26,23 @@ class ApiResponseBuilder
         $this->endpointResponseNamer = $endpointResponseNamer;
     }
 
-    public function build(string $object, array $values, int $status): Response
+    public function buildPluralResponse(string $object, array $values, int $status): Response
     {
         return new Response(
             $this->serializer->serialize(
                 [ $this->endpointResponseNamer->getPluralName($object) => $values],
+                'json'
+            ),
+            $status,
+            ['Content-type' => 'application/json']
+        );
+    }
+
+    public function buildSingularResponse(string $object, object $value, int $status): Response
+    {
+        return new Response(
+            $this->serializer->serialize(
+                [ $this->endpointResponseNamer->getSingularName($object) => $value],
                 'json'
             ),
             $status,

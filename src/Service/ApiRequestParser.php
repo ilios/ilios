@@ -112,11 +112,56 @@ class ApiRequestParser
     }
 
     /**
-     * Parse a post request and return de-serialized ORM Entities
+     * Take the request object and pull out the input data we need for a PUT request
+     * which can only be a single object under a singular key
+     */
+    protected function extractPutDataFromRequest(Request $request, string $object): string
+    {
+        $data = false;
+        $str = $request->getContent();
+        $obj = json_decode($str);
+
+        $key = $this->endpointResponseNamer->getSingularName($object);
+        if (property_exists($obj, $key)) {
+            $data = $obj->$key;
+
+            if (is_array($data)) {
+                throw new BadRequestHttpException(
+                    sprintf(
+                        "Data was found in %s but it should be an object not an array.",
+                        $key
+                    )
+                );
+            }
+        }
+
+        if (!$data) {
+            throw new BadRequestHttpException(
+                sprintf(
+                    "This request contained no usable data.  Expected to find it under %s",
+                    $key
+                )
+            );
+        }
+
+        return json_encode($data);
+    }
+
+    /**
+     * Parse a POST request and return de-serialized ORM Entities
      */
     public function extractEntitiesFromPostRequest(Request $request, string $class, string $object): array
     {
         $json = $this->extractPostDataFromRequest($request, $object);
         return $this->serializer->deserialize($json, $class, 'json');
+    }
+
+    /**
+     * Parse a PUT request and return de-serialized ORM Entity
+     */
+    public function extractEntityFromPutRequest(Request $request, object $entity, string $object): object
+    {
+        $json = $this->extractPutDataFromRequest($request, $object);
+        return $this->serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
     }
 }
