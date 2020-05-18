@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 use RuntimeException;
 
-abstract class BaseController
+abstract class ReadWriteController
 {
     /**
      * @var ManagerInterface

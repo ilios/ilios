@@ -6,7 +6,7 @@ namespace App\Controller\API;
 
 use App\Entity\Manager\AamcMethodManager;
 
-class AamcMethod extends BaseController
+class AamcMethod extends ReadWriteController
 {
     public function __construct(AamcMethodManager $manager)
     {
