@@ -1,7 +1,5 @@
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
-imports:
-- { resource: services/virtual-managers.yaml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -69,6 +67,10 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\AamcPcrs'
+    App\Entity\Manager\AamcResourceTypeManager:
+      public: true
+      arguments:
+        $class: 'App\Entity\AamcResourceType'
     App\Entity\Manager\AlertManager:
       public: true
       arguments:
@@ -82,6 +84,9 @@ services:
       arguments:
         $class: 'App\Entity\ApplicationConfig'
         $cacheEnabled: true
+    App\Entity\Manager\AssessmentOptionManager:
+      arguments:
+        $class: 'App\Entity\AssessmentOption'
     App\Entity\Manager\AuditLogManager:
       public: true
       arguments:
@@ -92,14 +97,18 @@ services:
         $class: 'App\Entity\Authentication'
     App\Entity\Manager\CohortManager:
       public: true
-      class: App\Entity\Manager\CohortManager
       arguments:
         $class: 'App\Entity\Cohort'
+    App\Entity\Manager\CompetencyManager:
+      arguments:
+        $class: 'App\Entity\Competency'
     App\Entity\Manager\CourseManager:
       public: true
-      class: App\Entity\Manager\CourseManager
       arguments:
         $class: 'App\Entity\Course'
+    App\Entity\Manager\CourseClerkshipTypeManager:
+      arguments:
+        $class: 'App\Entity\CourseClerkshipType'
     App\Entity\Manager\CourseLearningMaterialManager:
       public: true
       arguments:
@@ -132,18 +141,51 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\CurriculumInventorySequence'
+    App\Entity\Manager\DepartmentManager:
+      arguments:
+        $class: 'App\Entity\Department'
     App\Entity\Manager\IlmSessionManager:
       public: true
       arguments:
         $class: 'App\Entity\IlmSession'
+    App\Entity\Manager\IngestionExceptionManager:
+      arguments:
+        $class: 'App\Entity\IngestionException'
+    App\Entity\Manager\InstructorGroupManager:
+      arguments:
+        $class: 'App\Entity\InstructorGroup'
+    App\Entity\Manager\LearnerGroupManager:
+      arguments:
+        $class: 'App\Entity\LearnerGroup'
     App\Entity\Manager\LearningMaterialManager:
       public: true
       arguments:
         $class: 'App\Entity\LearningMaterial'
+    App\Entity\Manager\LearningMaterialStatusManager:
+      arguments:
+        $class: 'App\Entity\LearningMaterialStatus'
+    App\Entity\Manager\LearningMaterialUserRoleManager:
+      arguments:
+        $class: 'App\Entity\LearningMaterialUserRole'
+    App\Entity\Manager\MeshConceptManager:
+      arguments:
+        $class: 'App\Entity\MeshConcept'
     App\Entity\Manager\MeshDescriptorManager:
       public: true
       arguments:
         $class: 'App\Entity\MeshDescriptor'
+    App\Entity\Manager\MeshPreviousIndexingManager:
+      arguments:
+        $class: 'App\Entity\MeshPreviousIndexing'
+    App\Entity\Manager\MeshQualifierManager:
+      arguments:
+        $class: 'App\Entity\MeshQualifier'
+    App\Entity\Manager\MeshTermManager:
+      arguments:
+        $class: 'App\Entity\MeshTerm'
+    App\Entity\Manager\MeshTreeManager:
+      arguments:
+        $class: 'App\Entity\MeshTree'
     App\Entity\Manager\ObjectiveManager:
       public: true
       arguments:
@@ -156,6 +198,9 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\PendingUserUpdate'
+    App\Entity\Manager\ProgramManager:
+      arguments:
+        $class: 'App\Entity\Program'
     App\Entity\Manager\ProgramYearManager:
       public: true
       arguments:
@@ -168,6 +213,9 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\ProgramYearSteward'
+    App\Entity\Manager\ReportManager:
+      arguments:
+        $class: 'App\Entity\Report'
     App\Entity\Manager\SchoolConfigManager:
       public: true
       arguments:
@@ -193,6 +241,12 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\SessionObjective'
+    App\Entity\Manager\SessionTypeManager:
+      arguments:
+        $class: 'App\Entity\SessionType'
+    App\Entity\Manager\TermManager:
+      arguments:
+        $class: 'App\Entity\Term'
     App\Entity\Manager\UserManager:
       public: true
       arguments:
@@ -201,6 +255,9 @@ services:
       public: true
       arguments:
         $class: 'App\Entity\UserRole'
+    App\Entity\Manager\VocabularyManager:
+      arguments:
+        $class: 'App\Entity\Vocabulary'
 
     App\EventListener\LogEntityChanges:
       tags:
