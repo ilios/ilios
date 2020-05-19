@@ -6,7 +6,7 @@ namespace App\Controller\API;
 
 use App\Entity\Manager\MeshQualifierManager;
 
-class MeshQualifier extends ReadWriteController
+class MeshQualifier extends ReadOnlyController
 {
     public function __construct(MeshQualifierManager $manager)
     {

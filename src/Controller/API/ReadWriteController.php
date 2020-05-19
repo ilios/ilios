@@ -18,71 +18,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 use RuntimeException;
 
-abstract class ReadWriteController
+abstract class ReadWriteController extends ReadOnlyController
 {
-    /**
-     * @var ManagerInterface
-     */
-    protected $manager;
-
-    /**
-     * @var string
-     */
-    protected $endpoint;
-
-    public function __construct(ManagerInterface $manager, string $endpoint)
-    {
-        $this->manager = $manager;
-        $this->endpoint = $endpoint;
-    }
-
-    /**
-     * Handles GET request for a single entity
-     */
-    public function getOne(
-        string $version,
-        string $id,
-        AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $builder
-    ): Response {
-        $dto = $this->manager->findDTOBy(['id' => $id]);
-
-        if (! $dto) {
-            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
-        }
-
-        $values = $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto) ? [$dto] : [];
-
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
-    }
-
-    /**
-     * Handles GET request for multiple entities
-     */
-    public function getAll(
-        string $version,
-        Request $request,
-        AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $builder
-    ): Response {
-        $parameters = ApiRequestParser::extractParameters($request);
-        $dtos = $this->manager->findDTOsBy(
-            $parameters['criteria'],
-            $parameters['orderBy'],
-            $parameters['limit'],
-            $parameters['offset']
-        );
-
-        $filteredResults = array_filter($dtos, function ($object) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $object);
-        });
-
-        //Re-index numerically index the array
-        $values = array_values($filteredResults);
-
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
-    }
-
     /**
      * Handles POST which creates new data in the API
      */

@@ -6,7 +6,7 @@ namespace App\Controller\API;
 
 use App\Entity\Manager\MeshTermManager;
 
-class MeshTerm extends ReadWriteController
+class MeshTerm extends ReadOnlyController
 {
     public function __construct(MeshTermManager $manager)
     {

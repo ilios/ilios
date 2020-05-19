@@ -6,7 +6,7 @@ namespace App\Controller\API;
 
 use App\Entity\Manager\MeshTreeManager;
 
-class MeshTree extends ReadWriteController
+class MeshTree extends ReadOnlyController
 {
     public function __construct(MeshTreeManager $manager)
     {
