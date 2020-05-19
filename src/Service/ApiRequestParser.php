@@ -61,7 +61,7 @@ class ApiRequestParser
      * which can be either an object under a singular key or an array of objects
      * under a plural key
      */
-    protected function extractPostDataFromRequest(Request $request, string $object): string
+    public function extractPostDataFromRequest(Request $request, string $object): array
     {
         $data = false;
         $str = $request->getContent();
@@ -108,16 +108,15 @@ class ApiRequestParser
             );
         }
 
-        return json_encode($data);
+        return $data;
     }
 
     /**
      * Take the request object and pull out the input data we need for a PUT request
      * which can only be a single object under a singular key
      */
-    protected function extractPutDataFromRequest(Request $request, string $object): string
+    public function extractPutDataFromRequest(Request $request, string $object): object
     {
-        $data = false;
         $str = $request->getContent();
         $obj = json_decode($str);
 
@@ -133,9 +132,9 @@ class ApiRequestParser
                     )
                 );
             }
-        }
 
-        if (!$data) {
+            return $data;
+        } else {
             throw new BadRequestHttpException(
                 sprintf(
                     "This request contained no usable data.  Expected to find it under %s",
@@ -143,8 +142,6 @@ class ApiRequestParser
                 )
             );
         }
-
-        return json_encode($data);
     }
 
     /**
@@ -152,7 +149,8 @@ class ApiRequestParser
      */
     public function extractEntitiesFromPostRequest(Request $request, string $class, string $object): array
     {
-        $json = $this->extractPostDataFromRequest($request, $object);
+        $data = $this->extractPostDataFromRequest($request, $object);
+        $json = json_encode($data);
         return $this->serializer->deserialize($json, $class, 'json');
     }
 
@@ -161,7 +159,8 @@ class ApiRequestParser
      */
     public function extractEntityFromPutRequest(Request $request, object $entity, string $object): object
     {
-        $json = $this->extractPutDataFromRequest($request, $object);
+        $data = $this->extractPutDataFromRequest($request, $object);
+        $json = json_encode($data);
         return $this->serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
     }
 }
