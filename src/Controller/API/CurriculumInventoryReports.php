@@ -22,6 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 use RuntimeException;
@@ -305,8 +306,8 @@ class CurriculumInventoryReports
         string $version,
         int $id,
         AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $responseBuilder,
-        VerificationPreviewBuilder $previewBuilder
+        VerificationPreviewBuilder $previewBuilder,
+        SerializerInterface $serializer
     ): Response {
         /* @var CurriculumInventoryReportInterface $report */
         $report = $this->manager->findOneBy(['id' => $id]);
@@ -321,6 +322,13 @@ class CurriculumInventoryReports
 
         $tables = $previewBuilder->build($report);
 
-        return $responseBuilder->buildPluralResponse('preview', $tables, Response::HTTP_OK);
+        return new Response(
+            $serializer->serialize(
+                [ 'preview' => $tables],
+                'json'
+            ),
+            Response::HTTP_OK,
+            ['Content-type' => 'application/json']
+        );
     }
 }
