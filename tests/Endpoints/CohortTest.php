@@ -83,16 +83,12 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'POST',
-            $this->getUrl(
-                $this->kernelBrowser,
-                'app_api_cohorts_post',
-                ['version' => $this->apiVersion]
-            ),
+            '/api/' . $this->apiVersion . '/cohorts',
             json_encode(['cohort' => $data]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_GONE);
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     public function testCreateWithPutFails()
@@ -118,16 +114,12 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'DELETE',
-            $this->getUrl(
-                $this->kernelBrowser,
-                'app_api_cohorts_delete',
-                ['version' => $this->apiVersion, 'id' => $data['id']]
-            ),
+            '/api/' . $this->apiVersion . '/cohorts/' . $data['id'],
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_GONE);
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     /**

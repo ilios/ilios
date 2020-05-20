@@ -84,7 +84,7 @@ class Offerings extends ReadWriteController
         foreach ($entities as $entity) {
             $this->manager->update($entity, false);
         }
-        
+
         $this->manager->flush();
 
         foreach ($entities as $entity) {

@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -62,33 +61,5 @@ class Cohorts extends ReadOnlyController
         $this->manager->update($entity, true, false);
 
         return $builder->buildSingularResponse($this->endpoint, $entity, Response::HTTP_OK);
-    }
-
-    /**
-     * Handles DELETE requests to remove an element from the API
-     * @Route("/{id}", methods={"DELETE"})
-     */
-    public function delete(
-        string $version,
-        string $id,
-        AuthorizationCheckerInterface $authorizationChecker
-    ): Response {
-        $entity = $this->manager->findOneBy(['id' => $id]);
-
-        if (! $entity) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
-        }
-
-        if (! $authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
-
-        try {
-            $this->manager->delete($entity);
-
-            return new Response('', Response::HTTP_NO_CONTENT);
-        } catch (Exception $exception) {
-            throw new RuntimeException("Failed to delete entity: " . $exception->getMessage());
-        }
     }
 }
