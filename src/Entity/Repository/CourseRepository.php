@@ -50,6 +50,12 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
+        if (array_key_exists('startDate', $criteria)) {
+            $criteria['startDate'] = new DateTime($criteria['startDate']);
+        }
+        if (array_key_exists('endDate', $criteria)) {
+            $criteria['endDate'] = new DateTime($criteria['endDate']);
+        }
         $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Course::class, 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -100,6 +106,12 @@ class CourseRepository extends EntityRepository implements DTORepositoryInterfac
      */
     public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
+        if (array_key_exists('startDate', $criteria)) {
+            $criteria['startDate'] = new DateTime($criteria['startDate']);
+        }
+        if (array_key_exists('endDate', $criteria)) {
+            $criteria['endDate'] = new DateTime($criteria['endDate']);
+        }
         $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Course::class, 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 

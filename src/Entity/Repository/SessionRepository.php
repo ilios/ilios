@@ -6,6 +6,7 @@ namespace App\Entity\Repository;
 
 use App\Entity\DTO\SessionV1DTO;
 use App\Entity\Session;
+use DateTime;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -46,6 +47,9 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
+        if (array_key_exists('updatedAt', $criteria)) {
+            $criteria['updatedAt'] = new DateTime($criteria['updatedAt']);
+        }
         $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from(Session::class, 's');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -70,6 +74,9 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
 
     public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
+        if (array_key_exists('updatedAt', $criteria)) {
+            $criteria['updatedAt'] = new DateTime($criteria['updatedAt']);
+        }
         $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from(Session::class, 's');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
