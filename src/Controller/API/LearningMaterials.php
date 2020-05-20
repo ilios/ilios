@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\BlankedLearningMaterial;
 use App\Classes\SessionUserInterface;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
@@ -112,21 +113,21 @@ class LearningMaterials
         $q = $request->get('q');
         if (null !== $q) {
             /** @var LearningMaterialManager $manager */
-            $dtos = $this->manager->findLearningMaterialsByQ(
+            $results = $this->manager->findLearningMaterialsByQ(
                 $q,
                 $parameters['orderBy'],
                 $parameters['limit'],
                 $parameters['offset']
             );
         } elseif ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
-            $dtos = $this->manager->findV1DTOsBy(
+            $results = $this->manager->findV1DTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],
                 $parameters['offset']
             );
         } else {
-            $dtos = $this->manager->findDTOsBy(
+            $results = $this->manager->findDTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],
@@ -134,7 +135,7 @@ class LearningMaterials
             );
         }
 
-        $filteredResults = array_filter($dtos, function ($object) use ($authorizationChecker) {
+        $filteredResults = array_filter($results, function ($object) use ($authorizationChecker) {
             return $authorizationChecker->isGranted(AbstractVoter::VIEW, $object);
         });
 
@@ -142,12 +143,15 @@ class LearningMaterials
         $sessionUser = $tokenStorage->getToken()->getUser();
 
         $values = [];
-        /** @var LearningMaterialDTO $dto */
-        foreach ($filteredResults as $dto) {
+        foreach ($filteredResults as $object) {
             if (! $sessionUser->performsNonLearnerFunction()) {
-                $dto->clearMaterial();
+                if ($object instanceof LearningMaterialInterface) {
+                    $object = new BlankedLearningMaterial($object);
+                } else {
+                    $object->clearMaterial();
+                }
             }
-            $values[] = $this->decoratorFactory->create($dto);
+            $values[] = $this->decoratorFactory->create($object);
         }
 
         return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
