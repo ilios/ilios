@@ -87,16 +87,10 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
 
     protected function fourOhFourTest($type, array $parameters = [])
     {
-        $parameters = array_merge(
-            ['version' => $this->apiVersion, 'object' => 'curriculuminventoryexports'],
-            $parameters
-        );
-
-        $url = $this->getUrl(
-            $this->kernelBrowser,
-            'ilios_api_curriculuminventoryexport_404',
-            $parameters
-        );
+        $url = '/api/' . $this->apiVersion . '/curriculuminventoryexports/';
+        if (array_key_exists('id', $parameters)) {
+            $url .= $parameters['id'];
+        }
         $this->createJsonRequest(
             $type,
             $url,
