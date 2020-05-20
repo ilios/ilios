@@ -142,7 +142,7 @@ class Users extends ReadWriteController
      * Only a root user can make other users root.
      * This has to be done here because by the time it reaches the voter the
      * current user object in the session has been modified
-     * @Route("/{id</d>}", methods={"PUT"})
+     * @Route("/{id}", methods={"PUT"})
      */
     public function put(
         string $version,

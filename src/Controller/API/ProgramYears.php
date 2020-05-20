@@ -101,7 +101,7 @@ class ProgramYears extends ReadWriteController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
-     * @Route("/{id</d>}", methods={"PUT"})
+     * @Route("/{id}", methods={"PUT"})
      */
     public function put(
         string $version,
@@ -157,7 +157,7 @@ class ProgramYears extends ReadWriteController
     }
 
     /**
-     * @Route("/{id</d>}/downloadobjectivesmapping", methods={"GET"})
+     * @Route("/{id}/downloadobjectivesmapping", methods={"GET"})
      */
     public function downloadCourseObjectivesReport(
         string $version,

@@ -100,7 +100,7 @@ class Offerings extends ReadWriteController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
-     * @Route("/{id</d>}", methods={"PUT"})
+     * @Route("/{id}", methods={"PUT"})
      */
     public function put(
         string $version,
