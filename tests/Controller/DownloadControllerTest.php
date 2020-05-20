@@ -84,8 +84,8 @@ class DownloadControllerTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_learningmaterial_get',
-                ['version' => $this->apiVersion, 'object' => 'learningmaterials', 'id' => $learningMaterial['id']]
+                'app_api_learningmaterials_getone',
+                ['version' => $this->apiVersion, 'id' => $learningMaterial['id']]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -120,8 +120,8 @@ class DownloadControllerTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_learningmaterial_get',
-                ['version' => $this->apiVersion, 'object' => 'learningmaterials', 'id' => $learningMaterial->getId()]
+                'app_api_learningmaterials_getone',
+                ['version' => $this->apiVersion, 'id' => $learningMaterial->getId()]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -170,8 +170,8 @@ class DownloadControllerTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => 'applicationconfigs']
+                'app_api_applicationconfigs_post',
+                ['version' => $this->apiVersion]
             ),
             json_encode(['applicationConfig' => $config]),
             $this->getTokenForUser($this->kernelBrowser, 2)
@@ -189,8 +189,8 @@ class DownloadControllerTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_learningmaterial_get',
-                ['version' => $this->apiVersion, 'object' => 'learningmaterials', 'id' => $learningMaterial->getId()]
+                'app_api_learningmaterials_getone',
+                ['version' => $this->apiVersion, 'id' => $learningMaterial->getId()]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)

@@ -73,8 +73,8 @@ class IcsControllerTest extends WebTestCase
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => 'sessions', 'id' => $id]
+                'app_api_sessions_put',
+                ['version' => $this->apiVersion, 'id' => $id]
             ),
             json_encode(['session' => $session]),
             $this->getTokenForUser($this->kernelBrowser, 2)
@@ -156,8 +156,8 @@ class IcsControllerTest extends WebTestCase
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => 'sessions', 'id' => $id]
+                'app_api_sessions_put',
+                ['version' => $this->apiVersion, 'id' => $id]
             ),
             json_encode(['session' => $session]),
             $this->getTokenForUser($this->kernelBrowser, 2)
@@ -266,13 +266,14 @@ class IcsControllerTest extends WebTestCase
 
     protected function postOne(string $key, array $postData)
     {
+        $endpoint = strtolower($key);
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion,'object' => strtolower($key)]
+                "app_api_${endpoint}_post",
+                ['version' => $this->apiVersion]
             ),
             json_encode([$key => [$postData]]),
             $this->getTokenForUser($this->kernelBrowser, 2)

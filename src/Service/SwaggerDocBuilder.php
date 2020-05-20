@@ -148,8 +148,8 @@ class SwaggerDocBuilder
             UrlGenerator::ABSOLUTE_URL
         );
         $userApiUrl = $this->router->generate(
-            'ilios_api_getall',
-            ['version' => 'v1', 'object' => 'users'],
+            'app_api_users_getall',
+            ['version' => 'v1'],
             UrlGenerator::ABSOLUTE_URL
         );
         $template = 'swagger/description.markdown.twig';

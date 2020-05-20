@@ -68,10 +68,9 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_get',
+                'app_api_curriculuminventoryreports_getone',
                 [
                     'version' => $this->apiVersion,
-                    'object' => 'curriculuminventoryreports',
                     'id' => $curriculumInventoryExport['report']
                 ]
             ),

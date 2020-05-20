@@ -556,8 +556,8 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => 'curriculuminventorysequenceblocks']
+                'app_api_curriculuminventorysequenceblocks_post',
+                ['version' => $this->apiVersion]
             ),
             json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -571,8 +571,8 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => 'curriculuminventorysequenceblocks']
+                'app_api_curriculuminventorysequenceblocks_post',
+                ['version' => $this->apiVersion]
             ),
             json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -609,9 +609,8 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
 
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_put', [
+            $this->getUrl($this->kernelBrowser, 'app_api_curriculuminventorysequenceblocks_put', [
                 'version' => $this->apiVersion,
-                'object' => 'curriculuminventorysequenceblocks',
                 'id' => $blockId
             ]),
             json_encode(['curriculumInventorySequenceBlock' => $block]),
@@ -624,9 +623,8 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
 
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_put', [
+            $this->getUrl($this->kernelBrowser, 'app_api_curriculuminventorysequenceblocks_put', [
                 'version' => $this->apiVersion,
-                'object' => 'curriculuminventorysequenceblocks',
                 'id' => $blockId
             ]),
             json_encode(['curriculumInventorySequenceBlock' => $block]),

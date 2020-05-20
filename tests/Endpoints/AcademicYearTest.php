@@ -57,8 +57,8 @@ class AcademicYearTest extends ReadEndpointTest
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_getall',
-                ['version' => $this->apiVersion, 'object' => $endpoint]
+                "app_api_${endpoint}_getall",
+                ['version' => $this->apiVersion]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)

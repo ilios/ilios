@@ -218,8 +218,8 @@ abstract class AbstractEndpointTest extends WebTestCase
         $version = $version ?: $this->apiVersion;
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'ilios_api_get',
-            ['version' => $version, 'object' => $endpoint, 'id' => $id]
+            "app_api_${endpoint}_getone",
+            ['version' => $version, 'id' => $id]
         );
         $this->createJsonRequest(
             'GET',
@@ -255,8 +255,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_getall',
-                ['version' => $this->apiVersion, 'object' => $endpoint]
+                "app_api_${endpoint}_getall",
+                ['version' => $this->apiVersion]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -371,8 +371,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $version, 'object' => $endpoint]
+                "app_api_${endpoint}_post",
+                ['version' => $version]
             ),
             json_encode([$postKey => $postData]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -398,8 +398,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $version, 'object' => $endpoint]
+                "app_api_${endpoint}_post",
+                ['version' => $version]
             ),
             json_encode([$responseKey => $postData]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -423,8 +423,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => $endpoint]
+                "app_api_${endpoint}_post",
+                ['version' => $this->apiVersion]
             ),
             json_encode([$responseKey => [$data]]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -448,8 +448,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => $endpoint, 'id' => $id]
+                "app_api_${endpoint}_put",
+                ['version' => $this->apiVersion, 'id' => $id]
             ),
             json_encode([$responseKey => [$data]]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -535,8 +535,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $version, 'object' => $endpoint, 'id' => $id]
+                "app_api_${endpoint}_put",
+                ['version' => $version, 'id' => $id]
             ),
             json_encode([$responseKey => $data]),
             $this->getTokenForUser($this->kernelBrowser, $userId)
@@ -575,8 +575,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_delete',
-                ['version' => $version, 'object' => $endpoint, 'id' => $id]
+                "app_api_${endpoint}_delete",
+                ['version' => $version, 'id' => $id]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -601,8 +601,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_get',
-                ['version' => $this->apiVersion, 'object' => $endpoint, 'id' => $badId]
+                "app_api_${endpoint}_getone",
+                ['version' => $this->apiVersion, 'id' => $badId]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -657,13 +657,12 @@ abstract class AbstractEndpointTest extends WebTestCase
         $version = $version ?: $this->apiVersion;
         $parameters = array_merge([
             'version' => $version,
-            'object' => $endpoint
         ], $filters);
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_getall',
+                "app_api_${endpoint}_getall",
                 $parameters
             ),
             null,
@@ -687,13 +686,12 @@ abstract class AbstractEndpointTest extends WebTestCase
         $endpoint = $this->getPluralName();
         $parameters = array_merge([
             'version' => $this->apiVersion,
-            'object' => $endpoint
         ], $badFilters);
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_getall',
+                "app_api_${endpoint}_getall",
                 $parameters
             ),
             null,

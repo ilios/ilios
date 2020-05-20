@@ -85,8 +85,8 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => 'cohorts']
+                'app_api_cohorts_post',
+                ['version' => $this->apiVersion]
             ),
             json_encode(['cohort' => $data]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -101,9 +101,8 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_put', [
+            $this->getUrl($this->kernelBrowser, 'app_api_cohorts_put', [
                 'version' => $this->apiVersion,
-                'object' => 'cohorts',
                 'id' => $data['id']
             ]),
             json_encode(['cohort' => $data]),
@@ -121,8 +120,8 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_delete',
-                ['version' => $this->apiVersion, 'object' => 'cohorts', 'id' => $data['id']]
+                'app_api_cohorts_delete',
+                ['version' => $this->apiVersion, 'id' => $data['id']]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)

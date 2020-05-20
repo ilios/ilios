@@ -13,6 +13,7 @@ class ApiResponseBuilder
      * @var SerializerInterface
      */
     protected $serializer;
+
     /**
      * @var EndpointResponseNamer
      */

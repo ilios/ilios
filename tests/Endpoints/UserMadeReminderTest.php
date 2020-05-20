@@ -24,8 +24,8 @@ class UserMadeReminderTest extends AbstractEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => $endpoint]
+                "app_api_${endpoint}_put",
+                ['version' => $this->apiVersion]
             ),
             json_encode([$responseKey => []]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -44,8 +44,8 @@ class UserMadeReminderTest extends AbstractEndpointTest
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => $endpoint, 'id' => 1]
+                "app_api_${endpoint}_put",
+                ['version' => $this->apiVersion, 'id' => 1]
             ),
             json_encode([$responseKey => []]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -64,8 +64,8 @@ class UserMadeReminderTest extends AbstractEndpointTest
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_delete',
-                ['version' => $this->apiVersion, 'object' => $endpoint, 'id' => 1]
+                "app_api_${endpoint}_delete",
+                ['version' => $this->apiVersion, 'id' => 1]
             ),
             json_encode([$responseKey => []]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -83,8 +83,8 @@ class UserMadeReminderTest extends AbstractEndpointTest
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_delete',
-                ['version' => $this->apiVersion, 'object' => $endpoint, 'id' => 1]
+                "app_api_${endpoint}_getone",
+                ['version' => $this->apiVersion, 'id' => 1]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -102,8 +102,8 @@ class UserMadeReminderTest extends AbstractEndpointTest
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_getall',
-                ['version' => $this->apiVersion, 'object' => $endpoint]
+                "app_api_${endpoint}_getall",
+                ['version' => $this->apiVersion]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)

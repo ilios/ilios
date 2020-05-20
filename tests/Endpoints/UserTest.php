@@ -227,8 +227,8 @@ class UserTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => 'users']
+                'app_api_users_post',
+                ['version' => $this->apiVersion]
             ),
             json_encode(['users' => [$postData]])
         );
@@ -256,9 +256,8 @@ class UserTest extends ReadWriteEndpointTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_post', [
-                'version' => $this->apiVersion,
-                'object' => 'users'
+            $this->getUrl($this->kernelBrowser, 'app_api_users_post', [
+                'version' => $this->apiVersion
             ]),
             json_encode(['users' => [$data]]),
             $rootUserToken
@@ -286,8 +285,8 @@ class UserTest extends ReadWriteEndpointTest
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => 'users', 'id' => $postData['id']]
+                'app_api_users_put',
+                ['version' => $this->apiVersion, 'id' => $postData['id']]
             ),
             json_encode(['user' => $postData])
         );
@@ -310,8 +309,8 @@ class UserTest extends ReadWriteEndpointTest
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => 'users', 'id' => $userId]
+                'app_api_users_put',
+                ['version' => $this->apiVersion, 'id' => $userId]
             ),
             json_encode(['user' => $postData])
         );
@@ -336,8 +335,8 @@ class UserTest extends ReadWriteEndpointTest
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => 'users', 'id' => $postData['id']]
+                'app_api_users_put',
+                ['version' => $this->apiVersion, 'id' => $postData['id']]
             ),
             json_encode(['user' => $postData])
         );

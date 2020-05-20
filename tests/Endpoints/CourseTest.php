@@ -374,7 +374,6 @@ class CourseTest extends ReadWriteEndpointTest
 
         $parameters = array_merge([
             'version' => $this->apiVersion,
-            'object' => 'courses'
         ], [
             'id' => $course['id'],
             'year' => $course['year'],
@@ -385,7 +384,7 @@ class CourseTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_courserollover',
+                "app_api_courses_rollover",
                 $parameters
             ),
             null,
@@ -478,14 +477,13 @@ class CourseTest extends ReadWriteEndpointTest
     {
         $parameters = array_merge([
             'version' => $this->apiVersion,
-            'object' => 'courses'
         ], $rolloverDetails);
 
         $this->createJsonRequest(
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_courserollover',
+                "app_api_courses_rollover",
                 $parameters
             ),
             null,
@@ -513,8 +511,8 @@ class CourseTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => 'courses']
+                "app_api_courses_post",
+                ['version' => $this->apiVersion]
             ),
             json_encode(['courses' => [$course]])
         );
@@ -533,8 +531,8 @@ class CourseTest extends ReadWriteEndpointTest
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => 'courses', 'id' => $id]
+                "app_api_courses_put",
+                ['version' => $this->apiVersion, 'id' => $id]
             ),
             json_encode(['course' => $course])
         );
@@ -554,8 +552,8 @@ class CourseTest extends ReadWriteEndpointTest
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => 'courses', 'id' => $id * 10000]
+                "app_api_courses_put",
+                ['version' => $this->apiVersion, 'id' => $id * 10000]
             ),
             json_encode(['course' => $course])
         );
@@ -574,8 +572,8 @@ class CourseTest extends ReadWriteEndpointTest
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_delete',
-                ['version' => $this->apiVersion, 'object' => 'courses', 'id' => $id]
+                "app_api_courses_delete",
+                ['version' => $this->apiVersion, 'id' => $id]
             )
         );
     }
@@ -589,7 +587,6 @@ class CourseTest extends ReadWriteEndpointTest
 
         $rolloverData = [
             'version' => $this->apiVersion,
-            'object' => 'courses',
             'id' => $id,
             'year' => 2019,
             'newStartDate' => 'false',
@@ -599,7 +596,7 @@ class CourseTest extends ReadWriteEndpointTest
             $this->kernelBrowser,
             $userId,
             'POST',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_courserollover', $rolloverData)
+            $this->getUrl($this->kernelBrowser, "app_api_courses_rollover", $rolloverData)
         );
     }
 

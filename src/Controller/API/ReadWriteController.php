@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -22,6 +23,7 @@ abstract class ReadWriteController extends ReadOnlyController
 {
     /**
      * Handles POST which creates new data in the API
+     * @Route("/", methods={"POST"})
      */
     public function post(
         string $version,
@@ -58,6 +60,7 @@ abstract class ReadWriteController extends ReadOnlyController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
+     * @Route("/{id}", methods={"PUT"})
      */
     public function put(
         string $version,
@@ -99,6 +102,7 @@ abstract class ReadWriteController extends ReadOnlyController
 
     /**
      * Handles DELETE requests to remove an element from the API
+     * @Route("/{id}", methods={"DELETE"})
      */
     public function delete(
         string $version,

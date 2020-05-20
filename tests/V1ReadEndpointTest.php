@@ -30,13 +30,13 @@ abstract class V1ReadEndpointTest extends ReadEndpointTest
         $responseKey = $this->getCamelCasedPluralName();
         $v1url = $this->getUrl(
             $this->kernelBrowser,
-            'ilios_api_getall',
-            ['version' => $this->apiVersion, 'object' => $endpoint]
+            "app_api_${endpoint}_getall",
+            ['version' => $this->apiVersion]
         );
         $v2url = $this->getUrl(
             $this->kernelBrowser,
-            'ilios_api_getall',
-            ['version' => 'v2', 'object' => $endpoint]
+            "app_api_${endpoint}_getall",
+            ['version' => 'v2']
         );
         $this->createJsonRequest(
             'GET',
