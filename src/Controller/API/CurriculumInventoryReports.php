@@ -299,7 +299,7 @@ class CurriculumInventoryReports
     }
 
     /**
-     * Rollover (clone) a given curriculum Inventory report, down to the sequence block level.
+     * Build and send the verification preview tables for CI
      * @Route("/{id}/verificationpreview", methods={"GET"})
      */
     public function verificationPreview(
