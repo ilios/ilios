@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -68,7 +69,7 @@ class LearningMaterials
         int $id,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder,
-        SessionUserInterface $sessionUser
+        TokenStorageInterface $tokenStorage
     ): Response {
         if ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
             $dto = $this->manager->findV1DTOBy(['id' => $id]);
@@ -79,6 +80,9 @@ class LearningMaterials
         if (! $dto) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
+
+        /** @var SessionUserInterface $sessionUser */
+        $sessionUser = $tokenStorage->getToken()->getUser();
 
         $values =  [];
         if ($authorizationChecker->isGranted(AbstractVoter::VIEW, $dto)) {
@@ -102,7 +106,7 @@ class LearningMaterials
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder,
-        SessionUserInterface $sessionUser
+        TokenStorageInterface $tokenStorage
     ): Response {
         $parameters = ApiRequestParser::extractParameters($request);
         $q = $request->get('q');
@@ -134,6 +138,9 @@ class LearningMaterials
             return $authorizationChecker->isGranted(AbstractVoter::VIEW, $object);
         });
 
+        /** @var SessionUserInterface $sessionUser */
+        $sessionUser = $tokenStorage->getToken()->getUser();
+
         $values = [];
         /** @var LearningMaterialDTO $dto */
         foreach ($filteredResults as $dto) {
@@ -161,7 +168,6 @@ class LearningMaterials
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder,
-        SessionUserInterface $sessionUser,
         TemporaryFileSystem $temporaryFileSystem,
         IliosFileSystem $fs,
         SerializerInterface $serializer
@@ -250,7 +256,6 @@ class LearningMaterials
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder,
-        SessionUserInterface $sessionUser,
         SerializerInterface $serializer
     ) {
         /** @var LearningMaterialInterface $entity */
