@@ -99,7 +99,7 @@ class Courses extends ReadWriteController
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         /** @var CourseInterface $entity */
         $entity = $this->manager->findOneBy(['id' => $id]);
 
@@ -132,7 +132,7 @@ class Courses extends ReadWriteController
         CourseRollover $rolloverCourse,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $course = $this->manager->findOneBy(['id' => $id]);
 
         if (! $course) {

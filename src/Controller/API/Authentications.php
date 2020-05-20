@@ -97,7 +97,7 @@ class Authentications
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $class = $this->manager->getClass() . '[]';
         $arr = $requestParser->extractPostDataFromRequest($request, 'authentications');
 
@@ -202,7 +202,7 @@ class Authentications
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $entity = $this->manager->findOneBy(['user' => $id]);
 
         if ($entity) {

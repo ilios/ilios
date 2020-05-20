@@ -42,7 +42,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $class = $this->manager->getClass() . '[]';
 
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
@@ -82,7 +82,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         /** @var CurriculumInventorySequenceBlockInterface $entity */
         $entity = $this->manager->findOneBy(['id' => $id]);
 

@@ -65,7 +65,7 @@ class ProgramYears extends ReadWriteController
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $data = $requestParser->extractPostDataFromRequest($request, $this->endpoint);
         // remove empty cohorts since we will be creating them later
         $cleanData = array_map(function ($obj) {
@@ -111,7 +111,7 @@ class ProgramYears extends ReadWriteController
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         /** @var ProgramYearInterface $entity */
         $entity = $this->manager->findOneBy(['id' => $id]);
 

@@ -40,7 +40,7 @@ class Cohorts extends ReadOnlyController
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $entity = $this->manager->findOneBy(['id' => $id]);
 
         if (!$entity) {

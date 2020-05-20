@@ -32,7 +32,7 @@ abstract class ReadWriteController extends ReadOnlyController
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $class = $this->manager->getClass() . '[]';
 
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
@@ -70,7 +70,7 @@ abstract class ReadWriteController extends ReadOnlyController
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $entity = $this->manager->findOneBy(['id' => $id]);
 
         if ($entity) {

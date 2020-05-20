@@ -132,7 +132,7 @@ class CurriculumInventoryReports
         ApiResponseBuilder $builder,
         CurriculumInventoryAcademicLevelManager $levelManager,
         CurriculumInventorySequenceManager $sequenceManager
-    ) {
+    ): Response {
         $class = $this->manager->getClass() . '[]';
 
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
@@ -197,7 +197,7 @@ class CurriculumInventoryReports
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $entity = $this->manager->findOneBy(['id' => $id]);
 
         if ($entity) {

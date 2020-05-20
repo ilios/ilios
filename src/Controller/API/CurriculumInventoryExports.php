@@ -43,7 +43,7 @@ class CurriculumInventoryExports
         ValidatorInterface $validator,
         Exporter $exporter,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $class = $manager->getClass() . '[]';
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, 'curriculuminventoryexports');
 

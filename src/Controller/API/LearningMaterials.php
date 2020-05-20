@@ -175,7 +175,7 @@ class LearningMaterials
         TemporaryFileSystem $temporaryFileSystem,
         IliosFileSystem $fs,
         SerializerInterface $serializer
-    ) {
+    ): Response {
 
         $data = $requestParser->extractPostDataFromRequest($request, 'learningmaterials');
         $dataWithFilesAttributes = array_map(function ($obj) use ($fs, $temporaryFileSystem) {
@@ -261,7 +261,7 @@ class LearningMaterials
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder,
         SerializerInterface $serializer
-    ) {
+    ): Response {
         /** @var LearningMaterialInterface $entity */
         $entity = $this->manager->findOneBy(['id' => $id]);
 

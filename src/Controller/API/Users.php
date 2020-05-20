@@ -102,7 +102,7 @@ class Users extends ReadWriteController
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $data = $requestParser->extractPostDataFromRequest($request, $this->endpoint);
         $dataWithoutEmptyIcsFeed = array_map(function ($obj) {
             if (is_object($obj) && property_exists($obj, 'icsFeedKey')) {
@@ -152,7 +152,7 @@ class Users extends ReadWriteController
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
-    ) {
+    ): Response {
         $entity = $this->manager->findOneBy(['id' => $id]);
         if ($entity) {
             $obj = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
