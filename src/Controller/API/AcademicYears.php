@@ -33,9 +33,9 @@ class AcademicYears
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        $contentType = $request->headers->get('content-type');
-        if ($contentType === 'application/vnd.api json') {
-            $json = $serializer->serialize($years[$id], 'json-api', [
+        $contentTypes = $request->getAcceptableContentTypes();
+        if (in_array('application/vnd.api+json', $contentTypes)) {
+            $json = $serializer->serialize(new AcademicYear($id), 'json-api', [
                 'include' => $request->query->get('include'),
                 'singleItem' => true
             ]);
@@ -69,8 +69,8 @@ class AcademicYears
             return new AcademicYear($year);
         }, $courseManager->getYears());
 
-        $contentType = $request->headers->get('content-type');
-        if ($contentType === 'application/vnd.api json') {
+        $contentTypes = $request->getAcceptableContentTypes();
+        if (in_array('application/vnd.api+json', $contentTypes)) {
             $json = $serializer->serialize($years, 'json-api', [
                 'include' => $request->query->get('include'),
                 'singleItem' => false
