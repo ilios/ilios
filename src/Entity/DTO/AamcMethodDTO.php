@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class AamcMethodDTO
  * Data transfer object for a aamcMethod
  *
- * @IS\DTO
+ * @IS\DTO("aamcMethods")
  */
 class AamcMethodDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
@@ -32,6 +33,7 @@ class AamcMethodDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessionTypes;

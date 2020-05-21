@@ -9,12 +9,13 @@ use App\Annotation as IS;
 /**
  * Class SessionDescriptionDTO
  *
- * @IS\DTO
+ * @IS\DTO("sessionDescriptions")
  */
 class SessionDescriptionDTO
 {
     /**
      * @var string
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */

@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class CurriculumInventoryInstitutionDTO
  *
- * @IS\DTO
+ * @IS\DTO("curriculumInventoryInstitutions")
  */
 class CurriculumInventoryInstitutionDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -81,6 +81,7 @@ class CurriculumInventoryInstitutionDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("string")
      */
     public $school;

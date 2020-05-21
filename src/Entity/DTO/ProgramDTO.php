@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class ProgramDTO
  * Data transfer object for a Program
  *
- * @IS\DTO
+ * @IS\DTO("programs")
  */
 class ProgramDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -72,6 +73,7 @@ class ProgramDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -80,6 +82,7 @@ class ProgramDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -88,6 +91,7 @@ class ProgramDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $directors;

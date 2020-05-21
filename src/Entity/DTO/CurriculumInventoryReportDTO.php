@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class CurriculumInventoryReport
  *
- * @IS\DTO
+ * @IS\DTO("curriculumInventoryReports")
  */
 class CurriculumInventoryReportDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -65,6 +65,7 @@ class CurriculumInventoryReportDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("curriculumInventoryExports")
      * @IS\Type("integer")
      */
     public $export;
@@ -73,6 +74,7 @@ class CurriculumInventoryReportDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("curriculumInventorySequences")
      * @IS\Type("integer")
      */
     public $sequence;
@@ -81,6 +83,8 @@ class CurriculumInventoryReportDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
+     * @IS\Related("curriculumInventorySequenceBlocks")
      * @IS\Type("array<string>")
      */
     public $sequenceBlocks;
@@ -89,6 +93,7 @@ class CurriculumInventoryReportDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("programs")
      * @IS\Type("integer")
      */
     public $program;
@@ -97,6 +102,7 @@ class CurriculumInventoryReportDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related("curriculumInventoryAcademicLevels")
      * @IS\Type("array<string>")
      */
     public $academicLevels;
@@ -126,6 +132,7 @@ class CurriculumInventoryReportDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $administrators;

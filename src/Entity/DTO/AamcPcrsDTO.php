@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class AamcPcrsDTO
  * Data transfer object for a aamcPcrs
  *
- * @IS\DTO
+ * @IS\DTO("aamcPcrses")
  */
 class AamcPcrsDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
@@ -32,6 +33,7 @@ class AamcPcrsDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $competencies;

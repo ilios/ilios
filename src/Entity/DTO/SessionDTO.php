@@ -95,7 +95,6 @@ class SessionDTO
 
     /**
      * @var int
-     * @IS\Expose
      * @IS\Related
      * @IS\Type("string")
      */

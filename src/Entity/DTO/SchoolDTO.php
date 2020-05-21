@@ -133,6 +133,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $stewards;

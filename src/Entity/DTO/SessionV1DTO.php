@@ -16,6 +16,7 @@ class SessionV1DTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -108,6 +109,7 @@ class SessionV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;
@@ -115,6 +117,7 @@ class SessionV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $objectives;
@@ -122,6 +125,7 @@ class SessionV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $meshDescriptors;
@@ -136,6 +140,7 @@ class SessionV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $learningMaterials;
@@ -143,6 +148,7 @@ class SessionV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $administrators;
@@ -150,6 +156,7 @@ class SessionV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $offerings;
@@ -164,6 +171,7 @@ class SessionV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $prerequisites;

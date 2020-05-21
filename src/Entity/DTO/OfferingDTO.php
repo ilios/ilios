@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class OfferingDTO
  * Data transfer object for a offering
  *
- * @IS\DTO
+ * @IS\DTO("offerings")
  */
 class OfferingDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -78,6 +79,7 @@ class OfferingDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $learnerGroups;
@@ -85,6 +87,7 @@ class OfferingDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $instructorGroups;
@@ -92,6 +95,7 @@ class OfferingDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $learners;
@@ -99,6 +103,7 @@ class OfferingDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $instructors;

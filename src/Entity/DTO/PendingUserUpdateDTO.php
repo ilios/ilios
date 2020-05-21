@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class PendingUserUpdateDTO
  *
- * @IS\DTO
+ * @IS\DTO("pendingUserUpdates")
  */
 class PendingUserUpdateDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */

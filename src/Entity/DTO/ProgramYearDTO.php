@@ -11,15 +11,16 @@ use App\Entity\CompetencyInterface;
  * Class ProgramYearDTO
  * Data transfer object for a programYear
  *
- * @IS\DTO
+ * @IS\DTO("programYears")
  */
 class ProgramYearDTO
 {
 
     /**
-    * @var int
+     * @var int
+     * @IS\Id
      * @IS\Expose
-    * @IS\Type("integer")
+     * @IS\Type("integer")
     */
     public $id;
 
@@ -79,6 +80,7 @@ class ProgramYearDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $directors;
@@ -86,6 +88,7 @@ class ProgramYearDTO
     /**
      * @var CompetencyInterface[] $competencies
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $competencies;
@@ -93,6 +96,7 @@ class ProgramYearDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;
@@ -100,6 +104,7 @@ class ProgramYearDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $programYearObjectives;
@@ -107,6 +112,7 @@ class ProgramYearDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $stewards;

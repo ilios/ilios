@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class MeshDescriptorDTO
  * Data transfer object for a MeSH descriptor.
  *
- * @IS\DTO
+ * @IS\DTO("meshDescriptors")
  */
 class MeshDescriptorDTO
 {
     /**
      * @var string
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
@@ -52,6 +53,7 @@ class MeshDescriptorDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $courses;
@@ -59,6 +61,7 @@ class MeshDescriptorDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $objectives;
@@ -66,6 +69,7 @@ class MeshDescriptorDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessions;
@@ -73,6 +77,7 @@ class MeshDescriptorDTO
     /**
      * @var string[]
      * @IS\Expose
+     * @IS\Related("meshConcepts")
      * @IS\Type("array<string>")
      */
     public $concepts;
@@ -80,6 +85,7 @@ class MeshDescriptorDTO
     /**
      * @var string[]
      * @IS\Expose
+     * @IS\Related("meshQualifiers")
      * @IS\Type("array<string>")
      */
     public $qualifiers;
@@ -87,6 +93,7 @@ class MeshDescriptorDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("meshTrees")
      * @IS\Type("array<string>")
      */
     public $trees;
@@ -94,6 +101,7 @@ class MeshDescriptorDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessionLearningMaterials;
@@ -101,6 +109,7 @@ class MeshDescriptorDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $courseLearningMaterials;
@@ -108,6 +117,7 @@ class MeshDescriptorDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("meshPreviousIndexings")
      * @IS\Type("string")
      */
     public $previousIndexing;

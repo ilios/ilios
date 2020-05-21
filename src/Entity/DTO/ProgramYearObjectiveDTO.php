@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class ProgramYearObjectiveDTO
  *
- * @IS\DTO
+ * @IS\DTO("programYearObjectives")
  */
 class ProgramYearObjectiveDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -41,6 +41,7 @@ class ProgramYearObjectiveDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;

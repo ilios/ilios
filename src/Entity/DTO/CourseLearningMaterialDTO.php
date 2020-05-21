@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class CourseLearningMaterialDTO
  *
- * @IS\DTO
+ * @IS\DTO("courseLearningMaterials")
  */
 class CourseLearningMaterialDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -49,6 +49,7 @@ class CourseLearningMaterialDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("courses")
      * @IS\Type("integer")
      */
     public $course;
@@ -57,6 +58,7 @@ class CourseLearningMaterialDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("learningmaterials")
      * @IS\Type("integer")
      */
     public $learningMaterial;
@@ -65,6 +67,7 @@ class CourseLearningMaterialDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $meshDescriptors;
@@ -81,6 +84,7 @@ class CourseLearningMaterialDTO
      * Needed for Voting, not exposed in the API
      * @var int
      *
+     * @IS\Related("schools")
      * @IS\Type("integer")
      */
     public $school;
@@ -88,24 +92,18 @@ class CourseLearningMaterialDTO
     /**
      * Needed for Voting, not exposed in the API
      * @var int
-     *
-     * @IS\Type("integer")
      */
     public $status;
 
     /**
      * Needed for Voting, not exposed in the API
      * @var bool
-     *
-     * @IS\Type("boolean")
      */
     public $courseIsLocked;
 
     /**
      * Needed for Voting, not exposed in the API
      * @var bool
-     *
-     * @IS\Type("boolean")
      */
     public $courseIsArchived;
 

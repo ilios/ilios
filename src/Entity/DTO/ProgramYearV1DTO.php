@@ -18,6 +18,7 @@ class ProgramYearV1DTO
 
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -79,6 +80,7 @@ class ProgramYearV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $directors;
@@ -86,6 +88,7 @@ class ProgramYearV1DTO
     /**
      * @var CompetencyInterface[] $competencies
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $competencies;
@@ -93,6 +96,7 @@ class ProgramYearV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;
@@ -100,6 +104,7 @@ class ProgramYearV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $objectives;
@@ -107,6 +112,7 @@ class ProgramYearV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $stewards;

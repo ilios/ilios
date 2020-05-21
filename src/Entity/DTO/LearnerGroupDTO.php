@@ -10,13 +10,14 @@ use App\Annotation as IS;
  * Class LearnerGroupDTO
  * Data transfer object for a learner group
  *
- * @IS\DTO
+ * @IS\DTO("learnerGroups")
  */
 class LearnerGroupDTO
 {
     
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -39,6 +40,7 @@ class LearnerGroupDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("cohorts")
      * @IS\Type("string")
      */
     public $cohort;
@@ -46,6 +48,7 @@ class LearnerGroupDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("learnerGroups")
      * @IS\Type("string")
      */
     public $parent;
@@ -53,6 +56,7 @@ class LearnerGroupDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("learnerGroups")
      * @IS\Type("string")
      *
      */
@@ -61,6 +65,7 @@ class LearnerGroupDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("learnerGroups")
      * @IS\Type("array<string>")
      *
      */
@@ -69,6 +74,7 @@ class LearnerGroupDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related("learnerGroups")
      * @IS\Type("array<string>")
      */
     public $children;
@@ -76,6 +82,7 @@ class LearnerGroupDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $ilmSessions;
@@ -83,6 +90,7 @@ class LearnerGroupDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $offerings;
@@ -90,6 +98,7 @@ class LearnerGroupDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $instructorGroups;
@@ -97,6 +106,7 @@ class LearnerGroupDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $users;
@@ -104,6 +114,7 @@ class LearnerGroupDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $instructors;

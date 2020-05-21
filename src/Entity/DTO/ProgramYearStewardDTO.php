@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class ProgramYearStewardDTO
  *
- * @IS\DTO
+ * @IS\DTO("programYearStewards")
  */
 class ProgramYearStewardDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */

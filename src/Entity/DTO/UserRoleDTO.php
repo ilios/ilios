@@ -9,12 +9,13 @@ use App\Annotation as IS;
 /**
  * Class UserRoleDTO
  *
- * @IS\DTO
+ * @IS\DTO("userRoles")
  */
 class UserRoleDTO
 {
     /**
      * @var string
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */

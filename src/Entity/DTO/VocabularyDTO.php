@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class VocabularyDTO
  *
- * @IS\DTO
+ * @IS\DTO("vocabularies")
  */
 class VocabularyDTO
 {
     /**
      * @var string
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
@@ -41,6 +41,7 @@ class VocabularyDTO
      * @var int[]
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;

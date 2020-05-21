@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class MeshTermDTO
  *
- * @IS\DTO
+ * @IS\DTO("meshTerms")
  */
 class MeshTermDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -89,6 +89,7 @@ class MeshTermDTO
      * @var int[]
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $concepts;

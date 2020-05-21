@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class ReportDTO
  *
- * @IS\DTO
+ * @IS\DTO("reports")
  */
 class ReportDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */

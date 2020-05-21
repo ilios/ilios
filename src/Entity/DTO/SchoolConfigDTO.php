@@ -9,12 +9,13 @@ use App\Annotation as IS;
 /**
  * Class SchoolConfigDTO
  *
- * @IS\DTO
+ * @IS\DTO("schoolConfigs")
  */
 class SchoolConfigDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */

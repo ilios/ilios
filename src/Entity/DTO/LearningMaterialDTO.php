@@ -10,14 +10,14 @@ use App\Annotation as IS;
  * Class LearningMaterialDTO
  * Data transfer object for a learning materials
  *
- * @IS\DTO
+ * @IS\DTO("learningMaterials")
  */
 class LearningMaterialDTO
 {
 
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -59,6 +59,7 @@ class LearningMaterialDTO
      * @var string
      *
      * @IS\Expose
+     * @IS\Related("learningMaterialUserRoles")
      * @IS\Type("entity")
      */
     public $userRole;
@@ -67,6 +68,7 @@ class LearningMaterialDTO
      * @var string
      *
      * @IS\Expose
+     * @IS\Related("learningMaterialStatuses")
      * @IS\Type("entity")
      */
     public $status;
@@ -75,6 +77,7 @@ class LearningMaterialDTO
      * @var string
      *
      * @IS\Expose
+     * @IS\Related("users")
      * @IS\Type("entity")
      */
     public $owningUser;
@@ -83,7 +86,8 @@ class LearningMaterialDTO
      * @var string[]
      *
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Related
+     * @IS\Type("array<string>")
      */
     public $sessionLearningMaterials;
 
@@ -91,7 +95,8 @@ class LearningMaterialDTO
      * @var string[]
      *
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Related
+     * @IS\Type("array<string>")
      */
     public $courseLearningMaterials;
 

@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class MeshConceptDTO
  *
- * @IS\DTO
+ * @IS\DTO("meshConcepts")
  */
 class MeshConceptDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
@@ -65,6 +65,7 @@ class MeshConceptDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related("meshTerms")
      * @IS\Type("array<string>")
      */
     public $terms;
@@ -89,6 +90,8 @@ class MeshConceptDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
+     * @IS\Related("meshDescriptors")
      * @IS\Type("array<string>")
      */
     public $descriptors;

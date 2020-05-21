@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class ObjectiveDTO
  * Data transfer object for a Objective
  *
- * @IS\DTO
+ * @IS\DTO("objectives")
  */
 class ObjectiveDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -40,6 +41,7 @@ class ObjectiveDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -48,6 +50,7 @@ class ObjectiveDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -56,6 +59,7 @@ class ObjectiveDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -64,6 +68,7 @@ class ObjectiveDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -72,6 +77,7 @@ class ObjectiveDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -80,6 +86,7 @@ class ObjectiveDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -96,6 +103,7 @@ class ObjectiveDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */

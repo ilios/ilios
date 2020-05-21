@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class CohortDTO
  * Data transfer object for a cohort
  *
- * @IS\DTO
+ * @IS\DTO("cohorts")
  */
 class CohortDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -32,6 +33,7 @@ class CohortDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("programYears")
      * @IS\Type("string")
      */
     public $programYear;
@@ -39,6 +41,7 @@ class CohortDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $courses;
@@ -46,6 +49,7 @@ class CohortDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $learnerGroups;
@@ -53,6 +57,7 @@ class CohortDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $users;

@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class AssessmentOptionDTO
  * Data transfer object for an assessmentOption
  *
- * @IS\DTO
+ * @IS\DTO("assessmentOptions")
  */
 class AssessmentOptionDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -31,6 +32,7 @@ class AssessmentOptionDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessionTypes;

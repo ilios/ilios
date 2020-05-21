@@ -20,6 +20,7 @@ class ObjectiveV1DTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -44,6 +45,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -52,6 +54,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -60,6 +63,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -68,6 +72,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -76,6 +81,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -84,6 +90,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */
@@ -100,6 +107,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      *
      */

@@ -127,48 +127,48 @@ class CourseDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
-     * @IS\Related("cohorts")
      */
     public $cohorts;
 
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
-     * @IS\Related("terms")
      */
     public $terms;
 
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
-     * @IS\Related("courseobjectives")
      */
     public $courseObjectives;
 
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
-     * @IS\Related("meshdescriptors")
      */
     public $meshDescriptors;
 
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("courselearningmaterials")
      * @IS\Type("array<string>")
-     * @IS\Related("learningmaterials")
      */
     public $learningMaterials;
 
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
-     * @IS\Related("sessions")
      */
     public $sessions;
 
@@ -183,8 +183,8 @@ class CourseDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Type("array<string>")
      * @IS\Related("courses")
+     * @IS\Type("array<string>")
      */
     public $descendants;
 

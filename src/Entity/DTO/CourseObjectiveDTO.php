@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class CourseObjectiveDTO
  *
- * @IS\DTO
+ * @IS\DTO("courseObjectives")
  */
 class CourseObjectiveDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -25,6 +25,7 @@ class CourseObjectiveDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("objectives")
      * @IS\Type("integer")
      */
     public $objective;
@@ -41,6 +42,7 @@ class CourseObjectiveDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;
@@ -49,6 +51,7 @@ class CourseObjectiveDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("courses")
      * @IS\Type("integer")
      */
     public $course;
@@ -56,24 +59,18 @@ class CourseObjectiveDTO
     /**
      * Needed for Voting, not exposed in the API
      * @var int
-     *
-     * @IS\Type("integer")
      */
     public $school;
 
     /**
      * Needed for Voting, not exposed in the API
      * @var bool
-     *
-     * @IS\Type("boolean")
      */
     public $courseIsLocked;
 
     /**
      * Needed for Voting, not exposed in the API
      * @var bool
-     *
-     * @IS\Type("boolean")
      */
     public $courseIsArchived;
 

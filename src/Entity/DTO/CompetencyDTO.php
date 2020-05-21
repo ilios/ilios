@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class CompetencyDTO
  * Data transfer object for a competency
  *
- * @IS\DTO
+ * @IS\DTO("competencies")
  */
 class CompetencyDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -32,6 +33,7 @@ class CompetencyDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("string")
      */
     public $school;
@@ -39,6 +41,7 @@ class CompetencyDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $objectives;
@@ -46,6 +49,7 @@ class CompetencyDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("competencies")
      * @IS\Type("string")
      */
     public $parent;
@@ -53,6 +57,7 @@ class CompetencyDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("competencies")
      * @IS\Type("array<string>")
      */
     public $children;
@@ -60,6 +65,7 @@ class CompetencyDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $aamcPcrses;
@@ -67,6 +73,7 @@ class CompetencyDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $programYears;
