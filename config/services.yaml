@@ -85,6 +85,7 @@ services:
         $class: 'App\Entity\ApplicationConfig'
         $cacheEnabled: true
     App\Entity\Manager\AssessmentOptionManager:
+      public: true
       arguments:
         $class: 'App\Entity\AssessmentOption'
     App\Entity\Manager\AuditLogManager:
@@ -100,6 +101,7 @@ services:
       arguments:
         $class: 'App\Entity\Cohort'
     App\Entity\Manager\CompetencyManager:
+      public: true
       arguments:
         $class: 'App\Entity\Competency'
     App\Entity\Manager\CourseManager:
@@ -107,6 +109,7 @@ services:
       arguments:
         $class: 'App\Entity\Course'
     App\Entity\Manager\CourseClerkshipTypeManager:
+      public: true
       arguments:
         $class: 'App\Entity\CourseClerkshipType'
     App\Entity\Manager\CourseLearningMaterialManager:
@@ -142,6 +145,7 @@ services:
       arguments:
         $class: 'App\Entity\CurriculumInventorySequence'
     App\Entity\Manager\DepartmentManager:
+      public: true
       arguments:
         $class: 'App\Entity\Department'
     App\Entity\Manager\IlmSessionManager:
@@ -149,12 +153,15 @@ services:
       arguments:
         $class: 'App\Entity\IlmSession'
     App\Entity\Manager\IngestionExceptionManager:
+      public: true
       arguments:
         $class: 'App\Entity\IngestionException'
     App\Entity\Manager\InstructorGroupManager:
+      public: true
       arguments:
         $class: 'App\Entity\InstructorGroup'
     App\Entity\Manager\LearnerGroupManager:
+      public: true
       arguments:
         $class: 'App\Entity\LearnerGroup'
     App\Entity\Manager\LearningMaterialManager:
@@ -162,12 +169,15 @@ services:
       arguments:
         $class: 'App\Entity\LearningMaterial'
     App\Entity\Manager\LearningMaterialStatusManager:
+      public: true
       arguments:
         $class: 'App\Entity\LearningMaterialStatus'
     App\Entity\Manager\LearningMaterialUserRoleManager:
+      public: true
       arguments:
         $class: 'App\Entity\LearningMaterialUserRole'
     App\Entity\Manager\MeshConceptManager:
+      public: true
       arguments:
         $class: 'App\Entity\MeshConcept'
     App\Entity\Manager\MeshDescriptorManager:
@@ -175,15 +185,19 @@ services:
       arguments:
         $class: 'App\Entity\MeshDescriptor'
     App\Entity\Manager\MeshPreviousIndexingManager:
+      public: true
       arguments:
         $class: 'App\Entity\MeshPreviousIndexing'
     App\Entity\Manager\MeshQualifierManager:
+      public: true
       arguments:
         $class: 'App\Entity\MeshQualifier'
     App\Entity\Manager\MeshTermManager:
+      public: true
       arguments:
         $class: 'App\Entity\MeshTerm'
     App\Entity\Manager\MeshTreeManager:
+      public: true
       arguments:
         $class: 'App\Entity\MeshTree'
     App\Entity\Manager\ObjectiveManager:
@@ -199,6 +213,7 @@ services:
       arguments:
         $class: 'App\Entity\PendingUserUpdate'
     App\Entity\Manager\ProgramManager:
+      public: true
       arguments:
         $class: 'App\Entity\Program'
     App\Entity\Manager\ProgramYearManager:
@@ -214,6 +229,7 @@ services:
       arguments:
         $class: 'App\Entity\ProgramYearSteward'
     App\Entity\Manager\ReportManager:
+      public: true
       arguments:
         $class: 'App\Entity\Report'
     App\Entity\Manager\SchoolConfigManager:
@@ -226,7 +242,6 @@ services:
         $class: 'App\Entity\School'
     App\Entity\Manager\SessionManager:
       public: true
-      class: App\Entity\Manager\SessionManager
       arguments:
         $class: 'App\Entity\Session'
     App\Entity\Manager\SessionDescriptionManager:
@@ -242,9 +257,11 @@ services:
       arguments:
         $class: 'App\Entity\SessionObjective'
     App\Entity\Manager\SessionTypeManager:
+      public: true
       arguments:
         $class: 'App\Entity\SessionType'
     App\Entity\Manager\TermManager:
+      public: true
       arguments:
         $class: 'App\Entity\Term'
     App\Entity\Manager\UserManager:
@@ -256,6 +273,7 @@ services:
       arguments:
         $class: 'App\Entity\UserRole'
     App\Entity\Manager\VocabularyManager:
+      public: true
       arguments:
         $class: 'App\Entity\Vocabulary'
 

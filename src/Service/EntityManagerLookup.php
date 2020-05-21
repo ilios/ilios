@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -31,7 +32,7 @@ class EntityManagerLookup
         $name = "App\\Entity\\Manager\\${entityName}Manager";
         if (!$this->container->has($name)) {
             throw new Exception(
-                sprintf('The manager for \'%s\' does not exist.', $pluralObjectName)
+                sprintf('The manager for \'%s\' does not exist. Is the serivice public?', $name)
             );
         }
 
@@ -54,5 +55,4 @@ class EntityManagerLookup
     {
         return ucfirst($this->endpointResponseNamer->getSingularName($name));
     }
-
 }
