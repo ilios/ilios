@@ -26,11 +26,8 @@ class BlankedLearningMaterial implements LearningMaterialInterface
      * @var LearningMaterial $material
      */
     protected $material;
-    /**
-     * BlankedLearningMaterial constructor.
-     * @param LearningMaterial $material
-     */
-    public function __construct(LearningMaterial $material)
+
+    public function __construct(LearningMaterialInterface $material)
     {
         $this->material = $material;
     }

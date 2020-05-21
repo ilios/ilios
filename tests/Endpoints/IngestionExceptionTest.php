@@ -63,16 +63,10 @@ class IngestionExceptionTest extends ReadEndpointTest
 
     protected function fourOhFourTest($type, array $parameters = [])
     {
-        $parameters = array_merge(
-            ['version' => $this->apiVersion, 'object' => 'ingestionexceptions'],
-            $parameters
-        );
-
-        $url = $this->getUrl(
-            $this->kernelBrowser,
-            'ilios_api_ingestionexception_404',
-            $parameters
-        );
+        $url = '/api/' . $this->apiVersion . '/ingestionexceptions/';
+        if (array_key_exists('id', $parameters)) {
+            $url .= $parameters['id'];
+        }
         $this->createJsonRequest(
             $type,
             $url,

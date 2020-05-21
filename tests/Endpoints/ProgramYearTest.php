@@ -184,8 +184,8 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => 'programyears']
+                'app_api_programyears_post',
+                ['version' => $this->apiVersion]
             ),
             json_encode(['programYears' => [$data]])
         );
@@ -212,8 +212,8 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => 'programyears', 'id' => $data['id']]
+                'app_api_programyears_put',
+                ['version' => $this->apiVersion, 'id' => $data['id']]
             ),
             json_encode(['programYear' => $data])
         );
@@ -231,8 +231,8 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_delete',
-                ['version' => $this->apiVersion, 'object' => 'programyears', 'id' => $data['id']]
+                'app_api_programyears_delete',
+                ['version' => $this->apiVersion, 'id' => $data['id']]
             )
         );
     }
@@ -322,7 +322,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_programyears_downloadobjectivesmapping',
+                'app_api_programyears_downloadcourseobjectivesreport',
                 $parameters
             ),
             null,

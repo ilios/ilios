@@ -115,8 +115,8 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_getall',
-                ['version' => $this->apiVersion, 'object' => $endpoint]
+                "app_api_${endpoint}_getall",
+                ['version' => $this->apiVersion]
             ),
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
@@ -254,10 +254,9 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_curriculuminventoryreport_rollover',
+                'app_api_curriculuminventoryreports_rollover',
                 [
                     'version' => $this->apiVersion,
-                    'object' => 'curriculuminventoryreports',
                     'id' => $report['id'],
                 ]
             ),
@@ -385,10 +384,9 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_curriculuminventoryreport_rollover',
+                'app_api_curriculuminventoryreports_rollover',
                 [
                     'version' => $this->apiVersion,
-                    'object' => 'curriculuminventoryreports',
                     'id' => '100',
                 ]
             ),
@@ -417,7 +415,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_curriculuminventoryreport_rollover',
+                'app_api_curriculuminventoryreports_rollover',
                 $parameters
             ),
             null,
@@ -448,10 +446,9 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_curriculuminventoryreport_rollover',
+                'app_api_curriculuminventoryreports_rollover',
                 [
                     'version' => $this->apiVersion,
-                    'object' => 'curriculuminventoryreports',
                     'id' => $report['id'],
                 ]
             ),
@@ -478,10 +475,9 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_curriculuminventoryreport_verificationpreview',
+                'app_api_curriculuminventoryreports_verificationpreview',
                 [
                     'version' => $this->apiVersion,
-                    'object' => 'curriculuminventoryreports',
                     'id' => $report['id'],
                 ]
             ),
@@ -510,10 +506,9 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_curriculuminventoryreport_verificationpreview',
+                'app_api_curriculuminventoryreports_verificationpreview',
                 [
                     'version' => $this->apiVersion,
-                    'object' => 'curriculuminventoryreports',
                     'id' => $invalidReportId,
                 ]
             ),

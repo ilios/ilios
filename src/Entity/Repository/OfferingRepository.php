@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Repository;
 
 use App\Entity\Offering;
+use DateTime;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -40,6 +41,15 @@ class OfferingRepository extends EntityRepository implements DTORepositoryInterf
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
+        if (array_key_exists('startDate', $criteria)) {
+            $criteria['startDate'] = new DateTime($criteria['startDate']);
+        }
+        if (array_key_exists('endDate', $criteria)) {
+            $criteria['endDate'] = new DateTime($criteria['endDate']);
+        }
+        if (array_key_exists('updatedAt', $criteria)) {
+            $criteria['updatedAt'] = new DateTime($criteria['updatedAt']);
+        }
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\Offering', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $offeringDTOs = [];

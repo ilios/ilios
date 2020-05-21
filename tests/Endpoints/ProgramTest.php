@@ -108,8 +108,8 @@ class ProgramTest extends ReadWriteEndpointTest
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => 'programs']
+                'app_api_programs_post',
+                ['version' => $this->apiVersion]
             ),
             json_encode(['programs' => [$program]])
         );
@@ -127,8 +127,8 @@ class ProgramTest extends ReadWriteEndpointTest
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => 'programs', 'id' => $program['id']]
+                'app_api_programs_put',
+                ['version' => $this->apiVersion, 'id' => $program['id']]
             ),
             json_encode(['program' => $program])
         );
@@ -146,8 +146,8 @@ class ProgramTest extends ReadWriteEndpointTest
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_put',
-                ['version' => $this->apiVersion, 'object' => 'programs', 'id' => $program['id'] * 10000]
+                'app_api_programs_put',
+                ['version' => $this->apiVersion, 'id' => $program['id'] * 10000]
             ),
             json_encode(['program' => $program])
         );
@@ -165,8 +165,8 @@ class ProgramTest extends ReadWriteEndpointTest
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
-                'ilios_api_delete',
-                ['version' => $this->apiVersion, 'object' => 'programs', 'id' => $program['id']]
+                'app_api_programs_delete',
+                ['version' => $this->apiVersion, 'id' => $program['id']]
             )
         );
     }

@@ -83,16 +83,12 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'POST',
-            $this->getUrl(
-                $this->kernelBrowser,
-                'ilios_api_post',
-                ['version' => $this->apiVersion, 'object' => 'cohorts']
-            ),
+            '/api/' . $this->apiVersion . '/cohorts',
             json_encode(['cohort' => $data]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_GONE);
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     public function testCreateWithPutFails()
@@ -101,9 +97,8 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl($this->kernelBrowser, 'ilios_api_put', [
+            $this->getUrl($this->kernelBrowser, 'app_api_cohorts_put', [
                 'version' => $this->apiVersion,
-                'object' => 'cohorts',
                 'id' => $data['id']
             ]),
             json_encode(['cohort' => $data]),
@@ -119,16 +114,12 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'DELETE',
-            $this->getUrl(
-                $this->kernelBrowser,
-                'ilios_api_delete',
-                ['version' => $this->apiVersion, 'object' => 'cohorts', 'id' => $data['id']]
-            ),
+            '/api/' . $this->apiVersion . '/cohorts/' . $data['id'],
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_GONE);
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     /**
