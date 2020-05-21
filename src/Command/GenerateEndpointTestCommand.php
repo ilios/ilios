@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Doctrine\Common\Inflector\Inflector;
+use App\Classes\Inflector;
 use App\Service\EntityMetadata;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;

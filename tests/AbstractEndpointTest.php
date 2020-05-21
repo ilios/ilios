@@ -14,7 +14,7 @@ use App\Tests\Traits\JsonControllerTest;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Common\Inflector\Inflector;
+use App\Classes\Inflector;
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
 
