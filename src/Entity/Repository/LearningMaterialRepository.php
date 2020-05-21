@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\LearningMaterial;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
@@ -38,9 +40,76 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\LearningMaterial', 'x');
+            ->distinct()->from(LearningMaterial::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
+        return $this->queryForDTOs($qb);
+    }
+
+    /**
+     * Find all the file type learning materials
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return LearningMaterialInterface[]
+     */
+    public function findFileLearningMaterials($limit, $offset)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('DISTINCT x')->from('App\Entity\LearningMaterial', 'x');
+        $qb->where($qb->expr()->isNotNull('x.relativePath'));
+
+        $qb->setFirstResult($offset);
+        $qb->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find by a string query
+     * @return LearningMaterialDTO[]
+     */
+    public function findDTOsByQ(string $q, ?array $orderBy, ?int $limit, ?int $offset): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('DISTINCT x')->from(LearningMaterial::class, 'x');
+        $terms = explode(' ', $q);
+        $terms = array_filter($terms, 'strlen');
+        if (empty($terms)) {
+            return [];
+        }
+
+        foreach ($terms as $key => $term) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('x.title', "?{$key}"),
+                $qb->expr()->like('x.description', "?{$key}"),
+                $qb->expr()->like('x.originalAuthor', "?{$key}")
+            ))
+                ->setParameter($key, '%' . $term . '%');
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('x.' . $sort, $order);
+            }
+        }
+
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $this->queryForDTOs($qb);
+    }
+
+    /**
+     * @return LearningMaterialDTO[]
+     */
+    protected function queryForDTOs(QueryBuilder $qb): array
+    {
         /** @var LearningMaterialDTO[] $learningMaterialDTOs */
         $learningMaterialDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -97,69 +166,6 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
             }
         }
         return array_values($learningMaterialDTOs);
-    }
-
-    /**
-     * Find all the file type learning materials
-     * @param int $limit
-     * @param int $offset
-     *
-     * @return LearningMaterialInterface[]
-     */
-    public function findFileLearningMaterials($limit, $offset)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\LearningMaterial', 'x');
-        $qb->where($qb->expr()->isNotNull('x.relativePath'));
-
-        $qb->setFirstResult($offset);
-        $qb->setMaxResults($limit);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * Find by a string query
-     * @param string $q
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return LearningMaterialInterface[]
-     */
-    public function findByQ($q, $orderBy, $limit, $offset)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\LearningMaterial', 'x');
-        $terms = explode(' ', $q);
-        $terms = array_filter($terms, 'strlen');
-        if (empty($terms)) {
-            return [];
-        }
-
-        foreach ($terms as $key => $term) {
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('x.title', "?{$key}"),
-                $qb->expr()->like('x.description', "?{$key}"),
-                $qb->expr()->like('x.originalAuthor', "?{$key}")
-            ))
-                ->setParameter($key, '%' . $term . '%');
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb->getQuery()->getResult();
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Manager;
 
+use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
 use App\Entity\Repository\LearningMaterialRepository;
 
@@ -15,22 +16,13 @@ class LearningMaterialManager extends BaseManager
     /**
      * Use a query term to find learning materials
      *
-     * @param string $q
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     *
-     * @return LearningMaterialInterface[]
+     * @return LearningMaterialDTO[]
      */
-    public function findLearningMaterialsByQ(
-        $q,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
+    public function findLearningMaterialDTOsByQ(string $q, ?array $orderBy, ?int $limit, ?int $offset): array
+    {
         /** @var LearningMaterialRepository $repository */
         $repository = $this->getRepository();
-        return $repository->findByQ($q, $orderBy, $limit, $offset);
+        return $repository->findDTOsByQ($q, $orderBy, $limit, $offset);
     }
 
     /**
