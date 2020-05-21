@@ -6,7 +6,6 @@ namespace App\Controller\API;
 
 use App\Classes\BlankedLearningMaterial;
 use App\Classes\SessionUserInterface;
-use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
 use App\Entity\Manager\LearningMaterialManager;
 use App\Entity\Manager\V1CompatibleBaseManager;
@@ -68,6 +67,7 @@ class LearningMaterials
     public function getOne(
         string $version,
         int $id,
+        Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder,
         TokenStorageInterface $tokenStorage
@@ -95,7 +95,7 @@ class LearningMaterials
             ];
         }
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+        return $builder->buildResponseForGetOneRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 
     /**
@@ -154,7 +154,7 @@ class LearningMaterials
             $values[] = $this->decoratorFactory->create($object);
         }
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+        return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 
 
@@ -243,7 +243,7 @@ class LearningMaterials
         }
         $this->manager->flush();
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_CREATED);
+        return $builder->buildResponseForPostRequest($this->endpoint, $values, Response::HTTP_CREATED, $request);
     }
 
     /**
@@ -295,9 +295,13 @@ class LearningMaterials
 
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $this->decoratorFactory->create($entity), $code);
+        return $builder->buildResponseForPutRequest(
+            $this->endpoint,
+            $this->decoratorFactory->create($entity),
+            $code,
+            $request
+        );
     }
-
 
     /**
      * Handles DELETE requests to remove an element from the API

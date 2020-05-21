@@ -46,7 +46,8 @@ abstract class ReadOnlyController
         string $version,
         string $id,
         AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $builder
+        ApiResponseBuilder $builder,
+        Request $request
     ): Response {
         if ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
             $dto = $this->manager->findV1DTOBy(['id' => $id]);
@@ -60,7 +61,7 @@ abstract class ReadOnlyController
 
         $values = $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto) ? [$dto] : [];
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+        return $builder->buildResponseForGetOneRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 
     /**
@@ -98,6 +99,6 @@ abstract class ReadOnlyController
         //Re-index numerically index the array
         $values = array_values($filteredResults);
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+        return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 }

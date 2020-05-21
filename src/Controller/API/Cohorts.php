@@ -60,6 +60,6 @@ class Cohorts extends ReadOnlyController
 
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $entity, Response::HTTP_OK);
+        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
 }

@@ -95,7 +95,7 @@ class ProgramYears extends ReadWriteController
         }
         $this->manager->flush();
 
-        return $builder->buildPluralResponse($this->endpoint, $entities, Response::HTTP_CREATED);
+        return $builder->buildResponseForPostRequest($this->endpoint, $entities, Response::HTTP_CREATED, $request);
     }
 
     /**
@@ -120,13 +120,13 @@ class ProgramYears extends ReadWriteController
             $permission = AbstractVoter::EDIT;
             $data = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
             if (!$entity->isArchived() && $data->archived) {
-                return $this->archiveProgramYear($entity, $builder, $authorizationChecker);
+                return $this->archiveProgramYear($entity, $builder, $authorizationChecker, $request);
             }
             if ($entity->isLocked() && !$data->locked) {
-                return $this->unlockProgramYear($entity, $builder, $authorizationChecker);
+                return $this->unlockProgramYear($entity, $builder, $authorizationChecker, $request);
             }
             if (!$entity->isLocked() && $data->locked) {
-                return $this->lockProgramYear($entity, $builder, $authorizationChecker);
+                return $this->lockProgramYear($entity, $builder, $authorizationChecker, $request);
             }
         } else {
             $entity = $this->manager->create();
@@ -153,7 +153,7 @@ class ProgramYears extends ReadWriteController
 
         $this->manager->flush();
 
-        return $builder->buildSingularResponse($this->endpoint, $entity, $code);
+        return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
 
     /**
@@ -213,7 +213,8 @@ class ProgramYears extends ReadWriteController
     protected function archiveProgramYear(
         ProgramYearInterface $entity,
         ApiResponseBuilder $builder,
-        AuthorizationCheckerInterface $authorizationChecker
+        AuthorizationCheckerInterface $authorizationChecker,
+        Request $request
     ): Response {
         if (!$authorizationChecker->isGranted(AbstractVoter::ARCHIVE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
@@ -221,13 +222,14 @@ class ProgramYears extends ReadWriteController
         $entity->setArchived(true);
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $entity, Response::HTTP_OK);
+        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
 
     protected function lockProgramYear(
         ProgramYearInterface $entity,
         ApiResponseBuilder $builder,
-        AuthorizationCheckerInterface $authorizationChecker
+        AuthorizationCheckerInterface $authorizationChecker,
+        Request $request
     ): Response {
         if (!$authorizationChecker->isGranted(AbstractVoter::LOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
@@ -235,13 +237,14 @@ class ProgramYears extends ReadWriteController
         $entity->setLocked(true);
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $entity, Response::HTTP_OK);
+        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
 
     protected function unlockProgramYear(
         ProgramYearInterface $entity,
         ApiResponseBuilder $builder,
-        AuthorizationCheckerInterface $authorizationChecker
+        AuthorizationCheckerInterface $authorizationChecker,
+        Request $request
     ): Response {
         if (!$authorizationChecker->isGranted(AbstractVoter::UNLOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
@@ -249,6 +252,6 @@ class ProgramYears extends ReadWriteController
         $entity->setLocked(false);
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $entity, Response::HTTP_OK);
+        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
 }
