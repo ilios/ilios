@@ -169,7 +169,7 @@ class JsonApi implements EncoderInterface, DecoderInterface
     protected function extractSideLoadFields(array $context): array
     {
         $sideLoadFields = [];
-        if (array_key_exists('include', $context)) {
+        if (array_key_exists('include', $context) && !empty($context['include'])) {
             $fields = explode(',', $context['include']);
             $dotToTree = function (string $str) use (&$dotToTree) {
 
