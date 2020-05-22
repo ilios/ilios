@@ -48,6 +48,43 @@ trait JsonControllerTest
             );
         }
     }
+    /**
+     * Check if the response is valid
+     * tests the status code, headers, and the content
+     * @param Response $response
+     * @param int $statusCode
+     * @param bool $checkValidJson
+     */
+    protected function assertJsonApiResponse(Response $response, $statusCode, $checkValidJson = true)
+    {
+        $this->assertEquals(
+            $statusCode,
+            $response->getStatusCode(),
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 1000)
+        );
+
+        if ($checkValidJson) {
+            $this->assertTrue(
+                $response->headers->contains(
+                    'Content-Type',
+                    'application/vnd.api+json'
+                ),
+                "Content-type is not application/vnd.api+json. \n" .
+                "Headers: [\n" . $response->headers . ']' .
+                "Content: [\n" . substr($response->getContent(), 0, 1000) . ']'
+            );
+
+            $decode = json_decode($response->getContent());
+
+            $this->assertTrue(
+                ($decode != null && $decode != false),
+                'Invalid JSON: [' . $response->getContent() . ']'
+            );
+            $this->assertIsObject($decode);
+            $this->objectHasAttribute('data', $decode);
+            $this->objectHasAttribute('included', $decode);
+        }
+    }
 
 
     /**
@@ -112,6 +149,35 @@ trait JsonControllerTest
         $headers = [
             'HTTP_ACCEPT' => 'application/json',
             'CONTENT_TYPE' => 'application/json'
+        ];
+
+        if (! empty($token)) {
+            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $token;
+        }
+
+        $client->request(
+            $method,
+            $url,
+            [],
+            $files,
+            $headers,
+            $content
+        );
+    }
+
+    /**
+     * Create a JSON:API request
+     */
+    public function makeJsonApiRequest(
+        KernelBrowser $client,
+        string $method,
+        string $url,
+        ?string $content,
+        ?string $token,
+        array $files = []
+    ) {
+        $headers = [
+            'HTTP_ACCEPT' => 'application/vnd.api+json',
         ];
 
         if (! empty($token)) {

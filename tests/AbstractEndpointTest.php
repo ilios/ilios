@@ -145,6 +145,40 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
+     * Transform JSON:API response into our normal data shape and compare it
+     */
+    protected function compareJsonApiData(array $expected, object $result)
+    {
+        $transformed = [
+            'id' => (string) $result->id
+        ];
+        foreach ($result->attributes as $key => $value) {
+            if (!is_null($value)) {
+                $transformed[$key] = $value;
+            }
+        }
+        foreach ($result->relationships as $key => $obj) {
+            if (is_array($obj->data)) {
+                $transformed[$key] = [];
+                foreach ($obj->data as $item) {
+                    $transformed[$key][] = $item->id;
+                }
+            } else {
+                $transformed[$key] = $obj->data->id;
+            }
+        }
+
+        // Remove empty relationships as they won't be present in JSON:API
+        foreach ($expected as $key => $value) {
+            if (is_array($value) && empty($value)) {
+                unset($expected[$key]);
+            }
+        }
+
+        $this->compareData($expected, $transformed);
+    }
+
+    /**
      * @return DataLoaderInterface
      */
     protected function getDataLoader()
@@ -180,6 +214,19 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
+     * Create a JSON:API request
+     */
+    protected function createJsonApiRequest(
+        string $method,
+        string $url,
+        ?string $content,
+        ?string $token,
+        array $files = []
+    ) {
+        $this->makeJsonApiRequest($this->kernelBrowser, $method, $url, $content, $token, $files);
+    }
+
+    /**
      * Test getting a single value from the API
      * @return mixed
      */
@@ -199,6 +246,30 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
         }
         $this->compareData($data, $returnedData);
+
+        return $returnedData;
+    }
+
+    /**
+     * Test getting a single value from the JSON:API
+     * @return mixed
+     */
+    protected function getOneJsonApiTest()
+    {
+        $endpoint = $this->getPluralName();
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+        $returnedData = $this->getOneJsonApi($endpoint, (string) $data['id']);
+        $this->assertSame($responseKey = $this->getCamelCasedPluralName(), $returnedData->type);
+
+        foreach ($this->getTimeStampFields() as $field) {
+            $stamp = new DateTime($returnedData->attributes->$field);
+            unset($returnedData->attributes->$field);
+            $now = new DateTime();
+            $diff = $now->diff($stamp);
+            $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+        }
+        $this->compareJsonApiData($data, $returnedData);
 
         return $returnedData;
     }
@@ -239,6 +310,41 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->assertArrayHasKey($responseKey, $content);
         $this->assertCount(1, $content[$responseKey], var_export($content, true));
         return $content[$responseKey][0];
+    }
+
+    /**
+     * Get a single value from a JSON:API endpoint
+     */
+    protected function getOneJsonApi(string $endpoint, string $id): object
+    {
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            "app_api_${endpoint}_getone",
+            ['version' => $this->apiVersion, 'id' => $id]
+        );
+        $this->createJsonApiRequest(
+            'GET',
+            $url,
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
+            $this->fail("Unable to load url: {$url}");
+        }
+
+        $this->assertJsonApiResponse($response, Response::HTTP_OK);
+        $content = json_decode($response->getContent());
+        $this->assertCount(0, $content->included, var_export($content, true));
+        $this->assertIsObject($content->data);
+        $this->assertObjectHasAttribute('id', $content->data);
+        $this->assertObjectHasAttribute('type', $content->data);
+        $this->assertObjectHasAttribute('attributes', $content->data);
+        $this->assertObjectHasAttribute('relationships', $content->data);
+
+        return $content->data;
     }
 
     /**

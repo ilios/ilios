@@ -98,6 +98,12 @@ class AuthenticationTest extends ReadWriteEndpointTest
         );
     }
 
+    protected function compareJsonApiData(array $expected, object $result)
+    {
+        $this->assertEquals($expected['user'], $result->id);
+        $this->assertEquals($expected['username'], $result->attributes->username);
+    }
+
     public function testPostMultipleAuthenticationWithEmptyPassword()
     {
         $data = $this->createMany(101);
@@ -163,8 +169,8 @@ class AuthenticationTest extends ReadWriteEndpointTest
     }
 
     /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
+     * Overridden because authentication uses
+     * 'user' the ID
      * @inheritdoc
      */
     protected function getOneTest()
@@ -179,6 +185,21 @@ class AuthenticationTest extends ReadWriteEndpointTest
         return $returnedData;
     }
 
+    /**
+     * Overridden because authetication uses
+     * 'user' as the ID
+     */
+    protected function getOneJsonApiTest()
+    {
+        $endpoint = $this->getPluralName();
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+        $returnedData = $this->getOneJsonApi($endpoint, (string) $data['user']);
+        $this->assertSame($responseKey = $this->getCamelCasedPluralName(), $returnedData->type);
+        $this->compareJsonApiData($data, $returnedData);
+
+        return $returnedData;
+    }
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
