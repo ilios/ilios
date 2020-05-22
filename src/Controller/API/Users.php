@@ -55,7 +55,7 @@ class Users extends ReadWriteController
 
     /**
      * Handle the special 'q' parameter for courses
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,

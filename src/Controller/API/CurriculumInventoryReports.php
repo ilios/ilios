@@ -87,7 +87,7 @@ class CurriculumInventoryReports
 
     /**
      * Handles GET request for multiple entities
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,

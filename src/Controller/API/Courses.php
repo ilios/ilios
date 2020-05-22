@@ -40,7 +40,7 @@ class Courses extends ReadWriteController
 
     /**
      * Handle the special 'my' parameter for courses
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,

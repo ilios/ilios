@@ -57,7 +57,7 @@ class AcademicYears
     }
 
     /**
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,

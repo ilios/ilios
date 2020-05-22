@@ -30,7 +30,7 @@ class MeshDescriptors extends ReadOnlyController
 
     /**
      * Handle the special 'q' parameter
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,
