@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Annotation\DTO;
+use App\Annotation\Expose;
 use App\Annotation\Id;
 use App\Annotation\Related;
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -185,7 +186,7 @@ class EntityMetadata
             $exposed =  array_filter($properties, function (\ReflectionProperty $property) {
                 $annotation = $this->annotationReader->getPropertyAnnotation(
                     $property,
-                    'App\Annotation\Expose'
+                    Expose::class
                 );
 
                 return !is_null($annotation);
@@ -241,14 +242,18 @@ class EntityMetadata
             $relatedProperties = [];
 
             foreach ($properties as $property) {
-                $annotation = $this->annotationReader->getPropertyAnnotation(
+                $related = $this->annotationReader->getPropertyAnnotation(
                     $property,
                     Related::class
                 );
+                $exposed = $this->annotationReader->getPropertyAnnotation(
+                    $property,
+                    Expose::class
+                );
 
-                if ($annotation) {
+                if ($related && $exposed) {
                     $relatedProperties[$property->getName()] =
-                        $annotation->value ? $annotation->value : $property->getName();
+                        $related->value ? $related->value : $property->getName();
                 }
             }
 

@@ -34,8 +34,8 @@ class ApiResponseBuilder
         int $status,
         Request $request
     ): Response {
-        $contentType = $request->headers->get('content-type');
-        if ($contentType === 'application/vnd.api json') {
+        $contentTypes = $request->getAcceptableContentTypes();
+        if (in_array('application/vnd.api+json', $contentTypes)) {
             return $this->buildJsonApiResponse($values, $status, $request->query->get('include'), true);
         } else {
             return $this->buildJsonResponse(
@@ -51,8 +51,8 @@ class ApiResponseBuilder
         int $status,
         Request $request
     ): Response {
-        $contentType = $request->headers->get('content-type');
-        if ($contentType === 'application/vnd.api json') {
+        $contentTypes = $request->getAcceptableContentTypes();
+        if (in_array('application/vnd.api+json', $contentTypes)) {
             return $this->buildJsonApiResponse($values, $status, $request->query->get('include'), false);
         } else {
             return $this->buildJsonResponse(
@@ -68,8 +68,8 @@ class ApiResponseBuilder
         int $status,
         Request $request
     ): Response {
-        $contentType = $request->headers->get('content-type');
-        if ($contentType === 'application/vnd.api json') {
+        $contentTypes = $request->getAcceptableContentTypes();
+        if (in_array('application/vnd.api+json', $contentTypes)) {
             return $this->buildJsonApiResponse($values, $status, $request->query->get('include'), false);
         } else {
             return $this->buildJsonResponse(
@@ -85,8 +85,8 @@ class ApiResponseBuilder
         int $status,
         Request $request
     ): Response {
-        $contentType = $request->headers->get('content-type');
-        if ($contentType === 'application/vnd.api json') {
+        $contentTypes = $request->getAcceptableContentTypes();
+        if (in_array('application/vnd.api+json', $contentTypes)) {
             return $this->buildJsonApiResponse($value, $status, $request->query->get('include'), true);
         } else {
             return $this->buildJsonResponse(
@@ -114,10 +114,11 @@ class ApiResponseBuilder
     /**
      * Create a response for JSON:API api
      */
-    protected function buildJsonApiResponse($data, int $status, $include, $singleItem): Response
+    protected function buildJsonApiResponse($data, int $status, ?string $include, bool $singleItem): Response
     {
+        $parsedInclude = $include ? html_entity_decode($include) : '';
         $json = $this->serializer->serialize($data, 'json-api', [
-            'include' => $include,
+            'include' => $parsedInclude,
             'singleItem' => $singleItem
         ]);
         return new Response(

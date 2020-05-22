@@ -34,7 +34,7 @@ class DTO extends ObjectNormalizer
      * Overridden to remove null values
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, string $format = null, array $context = [])
     {
         $arr = parent::normalize($object, $format, $context);
 
@@ -49,7 +49,7 @@ class DTO extends ObjectNormalizer
      * into their eventual JSON representation
      * {@inheritdoc}
      */
-    protected function getAttributeValue($object, $property, $format = null, array $context = [])
+    protected function getAttributeValue($object, $property, string $format = null, array $context = [])
     {
         $reflection = new \ReflectionClass($object);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
