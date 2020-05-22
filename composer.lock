@@ -4582,16 +4582,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.25.3",
+            "version": "v3.25.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "b85ae033abbac44a1890f59ac1fd9f27fb787968"
+                "reference": "c845498f28bb8b2043e2c74114cb3c2887f8889e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/b85ae033abbac44a1890f59ac1fd9f27fb787968",
-                "reference": "b85ae033abbac44a1890f59ac1fd9f27fb787968",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/c845498f28bb8b2043e2c74114cb3c2887f8889e",
+                "reference": "c845498f28bb8b2043e2c74114cb3c2887f8889e",
                 "shasum": ""
             },
             "type": "library",
@@ -4635,7 +4635,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2020-05-14T20:58:52+00:00"
+            "time": "2020-05-21T19:00:57+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -9372,6 +9372,7 @@
         "symfony/web-link": 0,
         "symfony/yaml": 0,
         "fzaninotto/faker": 0,
+        "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0
     },
     "prefer-stable": false,
