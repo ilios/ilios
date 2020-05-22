@@ -37,6 +37,7 @@ class ObjectiveV1DTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("competencies")
      * @IS\Type("string")
      *
      */
@@ -72,7 +73,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("objectives")
      * @IS\Type("array<string>")
      *
      */
@@ -81,7 +82,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("objectives")
      * @IS\Type("array<string>")
      *
      */
@@ -90,7 +91,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("objectives")
      * @IS\Type("array<string>")
      *
      */
@@ -99,6 +100,7 @@ class ObjectiveV1DTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("objectives")
      * @IS\Type("string")
      *
      */
@@ -107,7 +109,7 @@ class ObjectiveV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("objectives")
      * @IS\Type("array<string>")
      *
      */

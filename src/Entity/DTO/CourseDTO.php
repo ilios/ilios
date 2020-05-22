@@ -96,7 +96,7 @@ class CourseDTO
      * @var int
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\Related("clerkshiptypes")
+     * @IS\Related("courseClerkshipTypes")
      */
     public $clerkshipType;
 
@@ -159,7 +159,7 @@ class CourseDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related("courselearningmaterials")
+     * @IS\Related("courseLearningMaterials")
      * @IS\Type("array<string>")
      */
     public $learningMaterials;

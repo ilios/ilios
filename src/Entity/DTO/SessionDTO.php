@@ -88,14 +88,15 @@ class SessionDTO
     /**
      * @var int
      * @IS\Expose
-     * @IS\Related("sessiontypes")
+     * @IS\Related("sessionTypes")
      * @IS\Type("string")
      */
     public $sessionType;
 
     /**
      * @var int
-     * @IS\Related
+     * @IS\Expose
+     * @IS\Related("courses")
      * @IS\Type("string")
      */
     public $course;
@@ -103,7 +104,7 @@ class SessionDTO
     /**
      * @var int
      * @IS\Expose
-     * @IS\Related("ilmsessions")
+     * @IS\Related("ilmSessions")
      * @IS\Type("string")
      */
     public $ilmSession;
@@ -135,7 +136,7 @@ class SessionDTO
     /**
      * @var int
      * @IS\Expose
-     * @IS\Related("sessiondescription")
+     * @IS\Related("sessionDescriptions")
      * @IS\Type("string")
      */
     public $sessionDescription;
@@ -143,7 +144,7 @@ class SessionDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related("sessionlearningmaterials")
+     * @IS\Related("sessionLearningMaterials")
      * @IS\Type("array<string>")
      */
     public $learningMaterials;

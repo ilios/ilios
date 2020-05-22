@@ -88,6 +88,7 @@ class SessionV1DTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("sessionTypes")
      * @IS\Type("string")
      */
     public $sessionType;
@@ -95,6 +96,7 @@ class SessionV1DTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("courses")
      * @IS\Type("string")
      */
     public $course;
@@ -102,6 +104,7 @@ class SessionV1DTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("ilmSessions")
      * @IS\Type("string")
      */
     public $ilmSession;
@@ -133,6 +136,7 @@ class SessionV1DTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("sessionDescriptions")
      * @IS\Type("string")
      */
     public $sessionDescription;
@@ -140,7 +144,7 @@ class SessionV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("sessionLearningMaterials")
      * @IS\Type("array<string>")
      */
     public $learningMaterials;
@@ -148,7 +152,7 @@ class SessionV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $administrators;
@@ -164,6 +168,7 @@ class SessionV1DTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("sessions")
      * @IS\Type("string")
      */
     public $postrequisite;
@@ -172,6 +177,7 @@ class SessionV1DTO
      * @var int[]
      * @IS\Expose
      * @IS\Related
+     * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
     public $prerequisites;

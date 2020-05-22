@@ -33,6 +33,7 @@ class SessionObjectiveDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("objectives")
      * @IS\Type("integer")
      */
     public $objective;

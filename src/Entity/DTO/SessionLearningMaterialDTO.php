@@ -57,6 +57,7 @@ class SessionLearningMaterialDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("learningMaterials")
      * @IS\Type("integer")
      */
     public $learningMaterial;

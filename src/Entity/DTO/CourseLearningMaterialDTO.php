@@ -58,7 +58,7 @@ class CourseLearningMaterialDTO
      * @var int
      *
      * @IS\Expose
-     * @IS\Related("learningmaterials")
+     * @IS\Related("learningMaterials")
      * @IS\Type("integer")
      */
     public $learningMaterial;
@@ -83,9 +83,6 @@ class CourseLearningMaterialDTO
     /**
      * Needed for Voting, not exposed in the API
      * @var int
-     *
-     * @IS\Related("schools")
-     * @IS\Type("integer")
      */
     public $school;
 

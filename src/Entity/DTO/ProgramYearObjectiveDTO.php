@@ -25,6 +25,7 @@ class ProgramYearObjectiveDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("objectives")
      * @IS\Type("integer")
      */
     public $objective;
@@ -50,6 +51,7 @@ class ProgramYearObjectiveDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("programYears")
      * @IS\Type("integer")
      */
     public $programYear;

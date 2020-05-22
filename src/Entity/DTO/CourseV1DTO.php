@@ -95,6 +95,7 @@ class CourseV1DTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("courseClerkshipTypes")
      * @IS\Type("string")
      */
     public $clerkshipType;
@@ -102,6 +103,7 @@ class CourseV1DTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("string")
      */
     public $school;
@@ -109,7 +111,7 @@ class CourseV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $directors;
@@ -117,7 +119,7 @@ class CourseV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $administrators;
@@ -157,7 +159,7 @@ class CourseV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("courseLearningMaterials")
      * @IS\Type("array<string>")
      */
     public $learningMaterials;
@@ -173,6 +175,7 @@ class CourseV1DTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("courses")
      * @IS\Type("string")
      */
     public $ancestor;
@@ -180,7 +183,7 @@ class CourseV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
     public $descendants;

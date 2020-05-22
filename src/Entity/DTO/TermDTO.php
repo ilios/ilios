@@ -41,6 +41,7 @@ class TermDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("terms")
      * @IS\Type("string")
      */
     public $parent;
@@ -48,7 +49,7 @@ class TermDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("terms")
      * @IS\Type("array<string>")
      */
     public $children;
@@ -80,6 +81,7 @@ class TermDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("vocabularies")
      * @IS\Type("string")
      */
     public $vocabulary;

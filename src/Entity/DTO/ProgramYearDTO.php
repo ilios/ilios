@@ -66,21 +66,23 @@ class ProgramYearDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("programs")
      * @IS\Type("string")
      */
     public $program;
 
     /**
-    * @var int
+     * @var int
      * @IS\Expose
-    * @IS\Type("string")
+     * @IS\Related("cohorts")
+     * @IS\Type("string")
     */
     public $cohort;
 
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $directors;
@@ -112,7 +114,7 @@ class ProgramYearDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("programYearStewards")
      * @IS\Type("array<string>")
      */
     public $stewards;

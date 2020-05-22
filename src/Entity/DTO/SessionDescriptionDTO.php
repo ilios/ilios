@@ -31,6 +31,7 @@ class SessionDescriptionDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("sessions")
      * @IS\Type("string")
      */
     public $session;

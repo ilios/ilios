@@ -41,6 +41,7 @@ class ReportDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("string")
      */
     public $school;
@@ -73,6 +74,7 @@ class ReportDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("users")
      * @IS\Type("string")
      */
     public $user;

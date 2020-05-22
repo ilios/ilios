@@ -25,6 +25,7 @@ class CurriculumInventorySequenceDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("curriculumInventoryReport")
      * @IS\Type("string")
      */
     public $report;

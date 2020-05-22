@@ -58,6 +58,7 @@ class SessionTypeDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("assessmentOptions")
      * @IS\Type("entity")
      */
     public $assessmentOption;

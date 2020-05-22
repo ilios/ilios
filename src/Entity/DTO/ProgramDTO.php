@@ -65,6 +65,7 @@ class ProgramDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("string")
      *
      */
@@ -91,7 +92,7 @@ class ProgramDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $directors;

@@ -101,7 +101,7 @@ class SchoolDTO
     /**
      * @var int
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("curriculumInventoryInstitutions")
      * @IS\Type("string")
      */
     public $curriculumInventoryInstitution;
@@ -133,7 +133,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("programYearStewards")
      * @IS\Type("array<string>")
      */
     public $stewards;

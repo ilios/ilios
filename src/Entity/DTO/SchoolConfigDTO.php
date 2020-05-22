@@ -38,6 +38,7 @@ class SchoolConfigDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("string")
      */
     public $school;

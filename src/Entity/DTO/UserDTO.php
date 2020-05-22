@@ -131,6 +131,7 @@ class UserDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("string")
      */
     public $school;
@@ -138,6 +139,7 @@ class UserDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("authentications")
      * @IS\Type("string")
      */
     public $authentication;
@@ -145,7 +147,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
     public $directedCourses;
@@ -153,7 +155,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
     public $administeredCourses;
@@ -169,7 +171,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("learnerGroups")
      * @IS\Type("array<string>")
      */
     public $instructedLearnerGroups;
@@ -185,7 +187,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("ilmSessions")
      * @IS\Type("array<string>")
      */
     public $instructorIlmSessions;
@@ -193,7 +195,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("ilmSession")
      * @IS\Type("array<string>")
      */
     public $learnerIlmSessions;
@@ -209,7 +211,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("offerings")
      * @IS\Type("array<string>")
      */
     public $instructedOfferings;
@@ -225,7 +227,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("userRoles")
      * @IS\Type("array<string>")
      */
     public $roles;
@@ -241,6 +243,7 @@ class UserDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("cohorts")
      * @IS\Type("string")
      */
     public $primaryCohort;
@@ -264,7 +267,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("schools")
      * @IS\Type("array<string>")
      */
     public $directedSchools;
@@ -272,7 +275,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("schools")
      * @IS\Type("array<string>")
      */
     public $administeredSchools;
@@ -280,7 +283,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
     public $administeredSessions;
@@ -288,7 +291,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("programs")
      * @IS\Type("array<string>")
      */
     public $directedPrograms;
@@ -296,7 +299,7 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("curriculumInventoryReports")
      * @IS\Type("array<string>")
      */
     public $administeredCurriculumInventoryReports;

@@ -33,6 +33,7 @@ class VocabularyDTO
      * @var string
      *
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("string")
      */
     public $school;

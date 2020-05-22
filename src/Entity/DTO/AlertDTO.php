@@ -53,7 +53,7 @@ class AlertDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related("alertchangetypes")
+     * @IS\Related("alertChangeTypes")
      * @IS\Type("array<string>")
      */
     public $changeTypes;

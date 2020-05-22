@@ -60,6 +60,7 @@ class OfferingDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("sessions")
      * @IS\Type("string")
      */
     public $session;
@@ -95,7 +96,7 @@ class OfferingDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $learners;
@@ -103,7 +104,7 @@ class OfferingDTO
     /**
      * @var array
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $instructors;
