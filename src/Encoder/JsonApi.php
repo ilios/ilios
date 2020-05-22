@@ -37,7 +37,7 @@ class JsonApi implements EncoderInterface, DecoderInterface
 
     public function encode($data, string $format, array $context = [])
     {
-        $shaped = $this->dataShaper->shapeData($data, $this->extractSideLoadFields($context));
+        $shaped = $this->dataShaper->shapeData($data, $context['sideLoadFields']);
 
         if (array_key_exists('singleItem', $context) && $context['singleItem']) {
             $data = $shaped['data'];
@@ -51,38 +51,5 @@ class JsonApi implements EncoderInterface, DecoderInterface
     public function supportsEncoding(string $format)
     {
         return self::FORMAT === $format;
-    }
-
-    protected function extractSideLoadFields(array $context): array
-    {
-        $sideLoadFields = [];
-        if (array_key_exists('include', $context) && !empty($context['include'])) {
-            $fields = explode(',', $context['include']);
-            $dotToTree = function (string $str) use (&$dotToTree) {
-
-                if ($str) {
-                    $parts = explode('.', $str);
-                    $key = array_shift($parts);
-                    return [ $key => $dotToTree(implode('.', $parts))];
-                }
-
-                return [];
-            };
-            $sideLoadFields = array_reduce(
-                array_map($dotToTree, $fields),
-                function (array $carry, array $tree) {
-                    $key = array_key_first($tree);
-                    if (!array_key_exists($key, $carry)) {
-                        $carry[$key] = [];
-                    }
-                    $carry[$key] = array_merge($carry[$key], $tree[$key]);
-
-                    return $carry;
-                },
-                []
-            );
-        }
-
-        return $sideLoadFields;
     }
 }

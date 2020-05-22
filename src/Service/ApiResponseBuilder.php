@@ -116,15 +116,44 @@ class ApiResponseBuilder
      */
     protected function buildJsonApiResponse($data, int $status, ?string $include, bool $singleItem): Response
     {
-        $parsedInclude = $include ? html_entity_decode($include) : '';
         $json = $this->serializer->serialize($data, 'json-api', [
-            'include' => $parsedInclude,
+            'sideLoadFields' => $this->extractJsonApiSideLoadFields($include),
             'singleItem' => $singleItem
         ]);
         return new Response(
             $json,
             $status,
             ['Content-type' => 'application/vnd.api+json']
+        );
+    }
+
+    protected function extractJsonApiSideLoadFields(?string $include): array
+    {
+        if (!$include) {
+            return [];
+        }
+        $fields = explode(',', html_entity_decode($include));
+        $dotToTree = function (string $str) use (&$dotToTree) {
+            if ($str) {
+                $parts = explode('.', $str);
+                $key = array_shift($parts);
+                return [ $key => $dotToTree(implode('.', $parts))];
+            }
+
+            return [];
+        };
+        return array_reduce(
+            array_map($dotToTree, $fields),
+            function (array $carry, array $tree) {
+                $key = array_key_first($tree);
+                if (!array_key_exists($key, $carry)) {
+                    $carry[$key] = [];
+                }
+                $carry[$key] = array_merge($carry[$key], $tree[$key]);
+
+                return $carry;
+            },
+            []
         );
     }
 }
