@@ -183,6 +183,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 $version = $releaseVersion;
             }
             $this->downloadAndExtractArchive(self::PRODUCTION, $version);
+            $this->copyStaticFilesIntoPublicDirectory();
         } catch (Exception $e) {
             print "\n\n**Warning: Unable to load frontend. Please run ilios:maintenance:update-frontend again.**\n\n\n";
         }
