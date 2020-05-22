@@ -30,12 +30,6 @@ class AuthenticationDTO
     */
     public $username;
 
-    /**
-     * @IS\Type("dateTime")
-     * @IS\Expose
-     */
-    protected $invalidateTokenIssuedBefore;
-
     public function __construct(
         $user,
         $username
