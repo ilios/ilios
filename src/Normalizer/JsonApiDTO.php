@@ -36,9 +36,9 @@ class JsonApiDTO implements NormalizerInterface
         $relatedProperties = $this->entityMetadata->extractRelated($reflection);
 
         $type = $this->entityMetadata->extractType($reflection);
+
         $idProperty = $this->entityMetadata->extractId($reflection);
         $id = $attributes[$idProperty];
-        unset($attributes[$idProperty]);
 
         $related = [];
         foreach ($relatedProperties as $attributeName => $relationshipType) {
@@ -52,6 +52,7 @@ class JsonApiDTO implements NormalizerInterface
 
             unset($attributes[$attributeName]);
         }
+        unset($attributes[$idProperty]);
 
         return [
             'id' => $id,
