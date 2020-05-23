@@ -25,6 +25,7 @@ trait GetEndpointTestable
     public function testGetAll()
     {
         $this->getAllTest();
+        $this->getAllJsonApiTest();
     }
 
     /**

@@ -385,6 +385,54 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         return $responses;
     }
+    /**
+     * Get getting every piece of data in the test DB
+     * @return mixed
+     */
+    protected function getAllJsonApiTest()
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $loader = $this->getDataLoader();
+        $data = $loader->getAll();
+        $this->createJsonApiRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_getall",
+                ['version' => $this->apiVersion]
+            ),
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonApiResponse($response, Response::HTTP_OK);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertCount(0, $content->included, var_export($content, true));
+        $this->assertIsArray($content->data);
+
+        $now = new DateTime();
+        foreach ($content->data as $i => $item) {
+            foreach ($this->getTimeStampFields() as $field) {
+                $stamp = new DateTime($item->attributes->$field);
+                unset($item->attributes->$field);
+                $now = new DateTime();
+                $diff = $now->diff($stamp);
+                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            }
+            $this->objectHasAttribute('id', $content->data);
+            $this->objectHasAttribute('type', $content->data);
+            $this->objectHasAttribute('attributes', $content->data);
+            $this->objectHasAttribute('relationships', $content->data);
+            
+            $this->compareJsonApiData($data[$i], $item);
+        }
+
+        return $content->data;
+    }
 
     /**
      * Test saving new data to the API
