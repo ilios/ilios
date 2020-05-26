@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class CurriculumInventoryAcademicLevelDTO
  *
- * @IS\DTO
+ * @IS\DTO("curriculumInventoryAcademicLevels")
  */
 class CurriculumInventoryAcademicLevelDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -50,6 +50,7 @@ class CurriculumInventoryAcademicLevelDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("curriculumInventoryReports")
      * @IS\Type("integer")
      */
     public $report;
@@ -58,6 +59,7 @@ class CurriculumInventoryAcademicLevelDTO
     * @var array
     *
     * @IS\Expose
+    * @IS\Related("curriculumInventorySequenceBlocks")
     * @IS\Type("array<string>")
     */
     public $sequenceBlocks;
@@ -66,8 +68,6 @@ class CurriculumInventoryAcademicLevelDTO
      * Needed for voting not exposed in the API
      *
      * @var int
-     *
-     * @IS\Type("integer")
      */
     public $school;
 

@@ -74,7 +74,7 @@ class Authentications
     /**
      * @Route("/{id}", methods={"GET"})
      */
-    public function getOne(string $version, int $id, ApiResponseBuilder $builder): Response
+    public function getOne(string $version, int $id, ApiResponseBuilder $builder, Request $request): Response
     {
         $dto = $this->manager->findDTOBy(['user' => $id]);
 
@@ -82,7 +82,7 @@ class Authentications
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $builder->buildPluralResponse('authentications', [$dto], Response::HTTP_OK);
+        return $builder->buildResponseForGetOneRequest('authentications', [$dto], Response::HTTP_OK, $request);
     }
 
     /**
@@ -158,12 +158,12 @@ class Authentications
         }
         $this->manager->flush();
 
-        return $builder->buildPluralResponse('authentications', $entities, Response::HTTP_CREATED);
+        return $builder->buildResponseForPostRequest('authentications', $entities, Response::HTTP_CREATED, $request);
     }
 
     /**
      * Handles GET request for multiple entities
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,
@@ -186,7 +186,7 @@ class Authentications
         //Re-index numerically index the array
         $values = array_values($filteredResults);
 
-        return $builder->buildPluralResponse('authentications', $values, Response::HTTP_OK);
+        return $builder->buildResponseForGetAllRequest('authentications', $values, Response::HTTP_OK, $request);
     }
 
     /**
@@ -250,7 +250,7 @@ class Authentications
 
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse('authentications', $entity, $code);
+        return $builder->buildResponseForPutRequest('authentications', $entity, $code, $request);
     }
 
     /**

@@ -72,11 +72,11 @@ class LearningMaterialDecoratorFactory
         $dto->courseLearningMaterials = $learningMaterial->getCourseLearningMaterials()
             ->map(function (StringableEntityInterface $courseLearningMaterial) {
                 return (string) $courseLearningMaterial;
-            });
+            })->toArray();
         $dto->sessionLearningMaterials = $learningMaterial->getSessionLearningMaterials()
             ->map(function (StringableEntityInterface $sessionLearningMaterial) {
                 return (string) $sessionLearningMaterial;
-            });
+            })->toArray();
 
         return $dto;
     }

@@ -10,13 +10,13 @@ use App\Annotation as IS;
  * Class LearningMaterialUserRoleDTO
  * Data transfer object for a learning material user role
  *
- * @IS\DTO
+ * @IS\DTO("learningMaterialUserRoles")
  */
 class LearningMaterialUserRoleDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */

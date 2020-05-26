@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class ProgramYearObjectiveDTO
  *
- * @IS\DTO
+ * @IS\DTO("programYearObjectives")
  */
 class ProgramYearObjectiveDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -25,6 +25,7 @@ class ProgramYearObjectiveDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("objectives")
      * @IS\Type("integer")
      */
     public $objective;
@@ -41,6 +42,7 @@ class ProgramYearObjectiveDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;
@@ -49,6 +51,7 @@ class ProgramYearObjectiveDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("programYears")
      * @IS\Type("integer")
      */
     public $programYear;

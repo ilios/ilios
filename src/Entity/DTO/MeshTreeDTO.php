@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class MeshTreeDTO
  *
- * @IS\DTO
+ * @IS\DTO("meshTrees")
  */
 class MeshTreeDTO
 {
     /**
      * @var string
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */

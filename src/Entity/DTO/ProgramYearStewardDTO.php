@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class ProgramYearStewardDTO
  *
- * @IS\DTO
+ * @IS\DTO("programYearStewards")
  */
 class ProgramYearStewardDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -25,6 +25,7 @@ class ProgramYearStewardDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("departments")
      * @IS\Type("string")
      */
     public $department;
@@ -33,6 +34,7 @@ class ProgramYearStewardDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("programYears")
      * @IS\Type("string")
      **/
     public $programYear;
@@ -41,6 +43,7 @@ class ProgramYearStewardDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("string")
      */
     public $school;

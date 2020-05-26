@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class SessionDTO
  * Data transfer object for a session.
  *
- * @IS\DTO
+ * @IS\DTO("sessions")
  */
 class SessionDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -87,6 +88,7 @@ class SessionDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("sessionTypes")
      * @IS\Type("string")
      */
     public $sessionType;
@@ -94,6 +96,7 @@ class SessionDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("courses")
      * @IS\Type("string")
      */
     public $course;
@@ -101,6 +104,7 @@ class SessionDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("ilmSessions")
      * @IS\Type("string")
      */
     public $ilmSession;
@@ -108,6 +112,7 @@ class SessionDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;
@@ -115,6 +120,7 @@ class SessionDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessionObjectives;
@@ -122,6 +128,7 @@ class SessionDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $meshDescriptors;
@@ -129,6 +136,7 @@ class SessionDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("sessionDescriptions")
      * @IS\Type("string")
      */
     public $sessionDescription;
@@ -136,6 +144,7 @@ class SessionDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("sessionLearningMaterials")
      * @IS\Type("array<string>")
      */
     public $learningMaterials;
@@ -143,6 +152,7 @@ class SessionDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $administrators;
@@ -150,6 +160,7 @@ class SessionDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $offerings;
@@ -157,6 +168,7 @@ class SessionDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("sessions")
      * @IS\Type("string")
      */
     public $postrequisite;
@@ -164,6 +176,7 @@ class SessionDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
     public $prerequisites;

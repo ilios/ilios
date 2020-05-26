@@ -9,13 +9,15 @@ use App\Annotation as IS;
 /**
  * Class Authentication
  *
- * @IS\DTO
+ * @IS\DTO("authentications")
  */
 class AuthenticationDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
+     * @IS\Related("users")
      * @IS\Type("string")
     */
     public $user;
@@ -27,12 +29,6 @@ class AuthenticationDTO
      *
     */
     public $username;
-
-    /**
-     * @IS\Type("dateTime")
-     * @IS\Expose
-     */
-    protected $invalidateTokenIssuedBefore;
 
     public function __construct(
         $user,

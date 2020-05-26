@@ -9,7 +9,7 @@ use App\Annotation as IS;
 /**
  * Class AcademicYear
  *
- * @IS\DTO
+ * @IS\DTO("academicYears")
  */
 
 class AcademicYear
@@ -17,10 +17,11 @@ class AcademicYear
     /**
      * @var string
      *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $id;
+    public $id;
 
     /**
      * @var string
@@ -28,7 +29,7 @@ class AcademicYear
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $title;
+    public $title;
 
     /**
      * Set the year and set both the id and title to it
@@ -38,23 +39,5 @@ class AcademicYear
     {
         $this->id = $year;
         $this->title = $year;
-    }
-
-    /**
-     * get the id
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * get the title
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 }

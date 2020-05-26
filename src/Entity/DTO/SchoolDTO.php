@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class SchoolDTO
  * Data transfer object for a school.
  *
- * @IS\DTO
+ * @IS\DTO("schools")
  */
 class SchoolDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -52,6 +53,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $competencies;
@@ -59,6 +61,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $courses;
@@ -66,6 +69,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $programs;
@@ -73,6 +77,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $departments;
@@ -80,6 +85,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $vocabularies;
@@ -87,6 +93,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $instructorGroups;
@@ -94,6 +101,7 @@ class SchoolDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("curriculumInventoryInstitutions")
      * @IS\Type("string")
      */
     public $curriculumInventoryInstitution;
@@ -101,6 +109,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessionTypes;
@@ -108,6 +117,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $directors;
@@ -115,6 +125,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $administrators;
@@ -122,6 +133,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("programYearStewards")
      * @IS\Type("array<string>")
      */
     public $stewards;
@@ -129,6 +141,7 @@ class SchoolDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("schoolConfigs")
      * @IS\Type("array<string>")
      */
     public $configurations;

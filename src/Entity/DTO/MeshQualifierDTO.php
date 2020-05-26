@@ -9,12 +9,13 @@ use App\Annotation as IS;
 /**
  * Class MeshQualifierDTO
  *
- * @IS\DTO
+ * @IS\DTO("meshQualifiers")
  */
 class MeshQualifierDTO
 {
     /**
      * @var string
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
@@ -44,6 +45,7 @@ class MeshQualifierDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $descriptors;

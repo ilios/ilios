@@ -30,7 +30,7 @@ class MeshDescriptors extends ReadOnlyController
 
     /**
      * Handle the special 'q' parameter
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,
@@ -56,7 +56,7 @@ class MeshDescriptors extends ReadOnlyController
             //Re-index numerically index the array
             $values = array_values($filteredResults);
 
-            return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+            return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
         }
 
         return parent::getAll($version, $request, $authorizationChecker, $builder);

@@ -73,6 +73,11 @@ class CurriculumInventoryExports
 
         $manager->flush();
 
-        return $builder->buildPluralResponse('curriculuminventoryexports', $entities, Response::HTTP_CREATED);
+        return $builder->buildResponseForPostRequest(
+            'curriculuminventoryexports',
+            $entities,
+            Response::HTTP_CREATED,
+            $request
+        );
     }
 }

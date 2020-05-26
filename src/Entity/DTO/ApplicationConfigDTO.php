@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class ApplicationConfigDTO
  * Data transfer object for an applicationConfig
  *
- * @IS\DTO
+ * @IS\DTO("applicationConfigs")
  */
 class ApplicationConfigDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */

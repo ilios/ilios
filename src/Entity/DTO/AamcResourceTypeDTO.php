@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class AamcResourceTypeDTO
  * Data transfer object for a aamcResourceType
  *
- * @IS\DTO
+ * @IS\DTO("aamcResourceTypes")
  */
 class AamcResourceTypeDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
@@ -40,6 +41,7 @@ class AamcResourceTypeDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;

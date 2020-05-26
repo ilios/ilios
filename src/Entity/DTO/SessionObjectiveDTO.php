@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class SessionObjectiveDTO
  *
- * @IS\DTO
+ * @IS\DTO("sessionObjectives")
  */
 class SessionObjectiveDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -33,6 +33,7 @@ class SessionObjectiveDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("objectives")
      * @IS\Type("integer")
      */
     public $objective;
@@ -49,6 +50,7 @@ class SessionObjectiveDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;

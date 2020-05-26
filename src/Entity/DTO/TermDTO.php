@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class TermDTO
  * Data transfer object for a session.
  *
- * @IS\DTO
+ * @IS\DTO("terms")
  */
 class TermDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -40,6 +41,7 @@ class TermDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("terms")
      * @IS\Type("string")
      */
     public $parent;
@@ -47,6 +49,7 @@ class TermDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("terms")
      * @IS\Type("array<string>")
      */
     public $children;
@@ -54,6 +57,7 @@ class TermDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $courses;
@@ -61,6 +65,7 @@ class TermDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $programYears;
@@ -68,6 +73,7 @@ class TermDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessions;
@@ -75,6 +81,7 @@ class TermDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("vocabularies")
      * @IS\Type("string")
      */
     public $vocabulary;
@@ -82,6 +89,7 @@ class TermDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $aamcResourceTypes;
@@ -102,6 +110,7 @@ class TermDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessionObjectives;
@@ -109,6 +118,7 @@ class TermDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $courseObjectives;
@@ -116,6 +126,7 @@ class TermDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $programYearObjectives;

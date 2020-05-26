@@ -66,6 +66,7 @@ class CurriculumInventoryReports
     public function getOne(
         string $version,
         int $id,
+        Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
@@ -81,12 +82,12 @@ class CurriculumInventoryReports
             $values = [$this->factory->create($dto)];
         }
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+        return $builder->buildResponseForGetOneRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 
     /**
      * Handles GET request for multiple entities
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,
@@ -114,7 +115,7 @@ class CurriculumInventoryReports
         //Re-index numerically index the array
         $values = array_values($values);
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+        return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 
     /**
@@ -181,7 +182,7 @@ class CurriculumInventoryReports
             return $factory->create($report);
         }, $entities);
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_CREATED);
+        return $builder->buildResponseForPostRequest($this->endpoint, $values, Response::HTTP_CREATED, $request);
     }
 
     /**
@@ -223,7 +224,7 @@ class CurriculumInventoryReports
 
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $this->factory->create($entity), $code);
+        return $builder->buildResponseForPutRequest($this->endpoint, $this->factory->create($entity), $code, $request);
     }
 
 
@@ -291,10 +292,11 @@ class CurriculumInventoryReports
 
         $newReport = $rollover->rollover($report, $name, $description, $year);
 
-        return $builder->buildPluralResponse(
+        return $builder->buildResponseForPostRequest(
             $this->endpoint,
             [$this->factory->create($newReport)],
-            Response::HTTP_CREATED
+            Response::HTTP_CREATED,
+            $request
         );
     }
 

@@ -10,13 +10,13 @@ use App\Annotation as IS;
  * Class IngestionExceptionDTO
  * Data transfer object for an ingestionException
  *
- * @IS\DTO
+ * @IS\DTO("ingestionExceptions")
  */
 class IngestionExceptionDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -33,6 +33,7 @@ class IngestionExceptionDTO
      * @var int
      * @IS\Expose
      *
+     * @IS\Related("users")
      * @IS\Type("string")
      */
     public $user;

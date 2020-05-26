@@ -13,12 +13,12 @@ class AcademicYearTest extends TestCase
     public function testConstructorSetsId()
     {
         $obj = new AcademicYear(15);
-        $this->assertSame($obj->getId(), 15);
+        $this->assertSame($obj->id, 15);
     }
 
     public function testConstructorSetsTitle()
     {
         $obj = new AcademicYear(15);
-        $this->assertSame($obj->getTitle(), 15);
+        $this->assertSame($obj->title, 15);
     }
 }

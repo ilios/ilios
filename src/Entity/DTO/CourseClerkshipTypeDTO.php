@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class CourseClerkshipTypeDTO
  * Data transfer object for a course clerkship types
  *
- * @IS\DTO
+ * @IS\DTO("courseClerkshipTypes")
  */
 class CourseClerkshipTypeDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -31,6 +32,7 @@ class CourseClerkshipTypeDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $courses;

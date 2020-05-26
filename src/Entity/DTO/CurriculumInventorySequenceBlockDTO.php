@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class CurriculumInventorySequenceBlockDTO
  *
- * @IS\DTO
+ * @IS\DTO("curriculumInventorySequenceBlocks")
  */
 class CurriculumInventorySequenceBlockDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -112,6 +112,7 @@ class CurriculumInventorySequenceBlockDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("curriculumInventoryAcademicLevels")
      * @IS\Type("string")
      */
     public $academicLevel;
@@ -120,6 +121,7 @@ class CurriculumInventorySequenceBlockDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("courses")
      * @IS\Type("string")
      */
     public $course;
@@ -128,6 +130,7 @@ class CurriculumInventorySequenceBlockDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("curriculumInventorySequenceBlocks")
      * @IS\Type("string")
      */
     public $parent;
@@ -136,6 +139,7 @@ class CurriculumInventorySequenceBlockDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related("curriculumInventorySequenceBlocks")
      * @IS\Type("array<string>")
      */
     public $children;
@@ -144,6 +148,7 @@ class CurriculumInventorySequenceBlockDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("curriculumInventoryReports")
      * @IS\Type("string")
      */
     public $report;
@@ -152,6 +157,7 @@ class CurriculumInventorySequenceBlockDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessions;
@@ -160,6 +166,7 @@ class CurriculumInventorySequenceBlockDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
     public $excludedSessions;
@@ -169,7 +176,6 @@ class CurriculumInventorySequenceBlockDTO
      *
      * @var int
      *
-     * @IS\Type("integer")
      */
     public $school;
 

@@ -9,13 +9,13 @@ use App\Annotation as IS;
 /**
  * Class SessionLearningMaterialDTO
  *
- * @IS\DTO
+ * @IS\DTO("sessionLearningMaterials")
  */
 class SessionLearningMaterialDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -57,6 +57,7 @@ class SessionLearningMaterialDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("learningMaterials")
      * @IS\Type("integer")
      */
     public $learningMaterial;
@@ -65,6 +66,7 @@ class SessionLearningMaterialDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $meshDescriptors;

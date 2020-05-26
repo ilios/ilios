@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Classes\BlankedLearningMaterial;
 use App\Classes\SessionUserInterface;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
@@ -68,6 +67,7 @@ class LearningMaterials
     public function getOne(
         string $version,
         int $id,
+        Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder,
         TokenStorageInterface $tokenStorage
@@ -95,12 +95,12 @@ class LearningMaterials
             ];
         }
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+        return $builder->buildResponseForGetOneRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 
     /**
      * Handles GET request for multiple entities
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,
@@ -112,22 +112,21 @@ class LearningMaterials
         $parameters = ApiRequestParser::extractParameters($request);
         $q = $request->get('q');
         if (null !== $q) {
-            /** @var LearningMaterialManager $manager */
-            $results = $this->manager->findLearningMaterialsByQ(
+            $dtos = $this->manager->findLearningMaterialDTOsByQ(
                 $q,
                 $parameters['orderBy'],
                 $parameters['limit'],
                 $parameters['offset']
             );
         } elseif ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
-            $results = $this->manager->findV1DTOsBy(
+            $dtos = $this->manager->findV1DTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],
                 $parameters['offset']
             );
         } else {
-            $results = $this->manager->findDTOsBy(
+            $dtos = $this->manager->findDTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],
@@ -135,8 +134,8 @@ class LearningMaterials
             );
         }
 
-        $filteredResults = array_filter($results, function ($object) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $object);
+        $filteredResults = array_filter($dtos, function (LearningMaterialDTO $dto) use ($authorizationChecker) {
+            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto);
         });
 
         /** @var SessionUserInterface $sessionUser */
@@ -145,16 +144,12 @@ class LearningMaterials
         $values = [];
         foreach ($filteredResults as $object) {
             if (! $sessionUser->performsNonLearnerFunction()) {
-                if ($object instanceof LearningMaterialInterface) {
-                    $object = new BlankedLearningMaterial($object);
-                } else {
-                    $object->clearMaterial();
-                }
+                $object->clearMaterial();
             }
             $values[] = $this->decoratorFactory->create($object);
         }
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+        return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 
 
@@ -243,7 +238,7 @@ class LearningMaterials
         }
         $this->manager->flush();
 
-        return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_CREATED);
+        return $builder->buildResponseForPostRequest($this->endpoint, $values, Response::HTTP_CREATED, $request);
     }
 
     /**
@@ -295,9 +290,13 @@ class LearningMaterials
 
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $this->decoratorFactory->create($entity), $code);
+        return $builder->buildResponseForPutRequest(
+            $this->endpoint,
+            $this->decoratorFactory->create($entity),
+            $code,
+            $request
+        );
     }
-
 
     /**
      * Handles DELETE requests to remove an element from the API

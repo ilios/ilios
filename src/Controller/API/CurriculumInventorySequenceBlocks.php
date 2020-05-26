@@ -66,7 +66,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         }
         $this->manager->flush();
 
-        return $builder->buildPluralResponse($this->endpoint, $entities, Response::HTTP_CREATED);
+        return $builder->buildResponseForPostRequest($this->endpoint, $entities, Response::HTTP_CREATED, $request);
     }
 
     /**
@@ -121,7 +121,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
 
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $entity, $code);
+        return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
 
 

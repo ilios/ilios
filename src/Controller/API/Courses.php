@@ -40,7 +40,7 @@ class Courses extends ReadWriteController
 
     /**
      * Handle the special 'my' parameter for courses
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,
@@ -79,7 +79,7 @@ class Courses extends ReadWriteController
             //Re-index numerically index the array
             $values = array_values($filteredResults);
 
-            return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+            return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
         }
 
         return parent::getAll($version, $request, $authorizationChecker, $builder);
@@ -106,13 +106,13 @@ class Courses extends ReadWriteController
         if ($entity) {
             $data = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
             if (!$entity->isArchived() && $data->archived) {
-                return $this->archiveCourse($entity, $builder, $authorizationChecker);
+                return $this->archiveCourse($entity, $builder, $authorizationChecker, $request);
             }
             if ($entity->isLocked() && !$data->locked) {
-                return $this->unlockCourse($entity, $builder, $authorizationChecker);
+                return $this->unlockCourse($entity, $builder, $authorizationChecker, $request);
             }
             if (!$entity->isLocked() && $data->locked) {
-                return $this->lockCourse($entity, $builder, $authorizationChecker);
+                return $this->lockCourse($entity, $builder, $authorizationChecker, $request);
             }
         }
 
@@ -170,14 +170,20 @@ class Courses extends ReadWriteController
         //pulling the DTO ensures we get all the new relationships
         $newCourseDTO = $this->manager->findDTOBy(['id' => $newCourse->getId()]);
 
-        return $builder->buildPluralResponse($this->endpoint, [$newCourseDTO], Response::HTTP_CREATED);
+        return $builder->buildResponseForPostRequest(
+            $this->endpoint,
+            [$newCourseDTO],
+            Response::HTTP_CREATED,
+            $request
+        );
     }
 
 
     protected function archiveCourse(
         CourseInterface $entity,
         ApiResponseBuilder $builder,
-        AuthorizationCheckerInterface $authorizationChecker
+        AuthorizationCheckerInterface $authorizationChecker,
+        Request $request
     ): Response {
         if (!$authorizationChecker->isGranted(AbstractVoter::ARCHIVE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
@@ -185,13 +191,14 @@ class Courses extends ReadWriteController
         $entity->setArchived(true);
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $entity, Response::HTTP_OK);
+        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
 
     protected function lockCourse(
         CourseInterface $entity,
         ApiResponseBuilder $builder,
-        AuthorizationCheckerInterface $authorizationChecker
+        AuthorizationCheckerInterface $authorizationChecker,
+        Request $request
     ): Response {
         if (!$authorizationChecker->isGranted(AbstractVoter::LOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
@@ -199,13 +206,14 @@ class Courses extends ReadWriteController
         $entity->setLocked(true);
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $entity, Response::HTTP_OK);
+        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
 
     protected function unlockCourse(
         CourseInterface $entity,
         ApiResponseBuilder $builder,
-        AuthorizationCheckerInterface $authorizationChecker
+        AuthorizationCheckerInterface $authorizationChecker,
+        Request $request
     ): Response {
         if (!$authorizationChecker->isGranted(AbstractVoter::UNLOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
@@ -213,6 +221,6 @@ class Courses extends ReadWriteController
         $entity->setLocked(false);
         $this->manager->update($entity, true, false);
 
-        return $builder->buildSingularResponse($this->endpoint, $entity, Response::HTTP_OK);
+        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
 }

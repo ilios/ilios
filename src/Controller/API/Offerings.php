@@ -96,7 +96,7 @@ class Offerings extends ReadWriteController
 
         $this->manager->flush();
 
-        return $builder->buildPluralResponse($this->endpoint, $entities, Response::HTTP_CREATED);
+        return $builder->buildResponseForPostRequest($this->endpoint, $entities, Response::HTTP_CREATED, $request);
     }
 
     /**
@@ -153,7 +153,7 @@ class Offerings extends ReadWriteController
             }
         }
 
-        return $builder->buildSingularResponse($this->endpoint, $entity, $code);
+        return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
 
     protected function createAlertForNewOffering(OfferingInterface $offering)

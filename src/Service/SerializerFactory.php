@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Encoder\JsonApi;
 use App\Normalizer\DTO;
 use App\Normalizer\Entity;
+use App\Normalizer\JsonApiDTO;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -25,11 +27,27 @@ class SerializerFactory
      * @param DTO $dtoNormalizer
      * @return Serializer
      */
-    public static function createSerializer(Entity $entityNormalizer, DTO $dtoNormalizer)
-    {
+    public static function createSerializer(
+        Entity $entityNormalizer,
+        DTO $dtoNormalizer,
+        JsonApiDTO $jsonApiDTO,
+        JsonApi $jsonApiEncoder
+    ) {
         $jsonEncoder = new JsonEncoder();
         $array = new ArrayDenormalizer();
         $dateTime = new DateTimeNormalizer();
-        return new Serializer([$array, $dateTime, $entityNormalizer, $dtoNormalizer], [$jsonEncoder]);
+        return new Serializer(
+            [
+                $array,
+                $dateTime,
+                $jsonApiDTO,
+                $entityNormalizer,
+                $dtoNormalizer
+            ],
+            [
+                $jsonApiEncoder,
+                $jsonEncoder
+            ]
+        );
     }
 }

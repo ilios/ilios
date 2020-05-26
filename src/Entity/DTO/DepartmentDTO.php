@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class AamcMethodDTO
  * Data transfer object for a aamcMethod
  *
- * @IS\DTO
+ * @IS\DTO("departments")
  */
 class DepartmentDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -31,6 +32,7 @@ class DepartmentDTO
     /**
      * @var int
      * @IS\Expose
+     * @IS\Related("schools")
      * @IS\Type("integer")
      */
     public $school;
@@ -38,6 +40,7 @@ class DepartmentDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("programYearStewards")
      * @IS\Type("array<string>")
      */
     public $stewards;

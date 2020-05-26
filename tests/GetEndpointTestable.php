@@ -16,6 +16,7 @@ trait GetEndpointTestable
     public function testGetOne()
     {
         $this->getOneTest();
+        $this->getOneJsonApiTest();
     }
 
     /**
@@ -24,6 +25,7 @@ trait GetEndpointTestable
     public function testGetAll()
     {
         $this->getAllTest();
+        $this->getAllJsonApiTest();
     }
 
     /**

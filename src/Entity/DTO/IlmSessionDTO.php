@@ -10,13 +10,13 @@ use App\Annotation as IS;
  * Class IlmSessionDTO
  * Data transfer object for a ilmSession
  *
- * @IS\DTO
+ * @IS\DTO("ilmSessions")
  */
 class IlmSessionDTO
 {
     /**
      * @var int
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -26,6 +26,7 @@ class IlmSessionDTO
      * @var int
      *
      * @IS\Expose
+     * @IS\Related("sessions")
      * @IS\Type("string")
      */
     public $session;
@@ -50,6 +51,7 @@ class IlmSessionDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $learnerGroups;
@@ -58,6 +60,7 @@ class IlmSessionDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $instructorGroups;
@@ -66,6 +69,7 @@ class IlmSessionDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $instructors;
@@ -74,6 +78,7 @@ class IlmSessionDTO
      * @var array
      *
      * @IS\Expose
+     * @IS\Related("users")
      * @IS\Type("array<string>")
      */
     public $learners;
@@ -82,8 +87,6 @@ class IlmSessionDTO
      * Needed for voting not exposed in the API
      *
      * @var int
-     *
-     * @IS\Type("integer")
      */
     public $course;
 
@@ -91,8 +94,6 @@ class IlmSessionDTO
      * Needed for voting not exposed in the API
      *
      * @var int
-     *
-     * @IS\Type("integer")
      */
     public $school;
 

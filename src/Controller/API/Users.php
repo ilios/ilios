@@ -55,7 +55,7 @@ class Users extends ReadWriteController
 
     /**
      * Handle the special 'q' parameter for courses
-     * @Route("/", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,
@@ -82,7 +82,7 @@ class Users extends ReadWriteController
             //Re-index numerically index the array
             $values = array_values($filteredResults);
 
-            return $builder->buildPluralResponse($this->endpoint, $values, Response::HTTP_OK);
+            return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
         }
 
         return parent::getAll($version, $request, $authorizationChecker, $builder);
@@ -135,7 +135,7 @@ class Users extends ReadWriteController
         }
         $this->manager->flush();
 
-        return $builder->buildPluralResponse($this->endpoint, $entities, Response::HTTP_CREATED);
+        return $builder->buildResponseForPostRequest($this->endpoint, $entities, Response::HTTP_CREATED, $request);
     }
 
     /**

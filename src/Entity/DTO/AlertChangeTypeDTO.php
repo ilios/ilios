@@ -10,12 +10,13 @@ use App\Annotation as IS;
  * Class AlertChangeTypeDTO
  * Data transfer object for a alertChangeType
  *
- * @IS\DTO
+ * @IS\DTO("alertChangeTypes")
  */
 class AlertChangeTypeDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -32,6 +33,7 @@ class AlertChangeTypeDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $alerts;

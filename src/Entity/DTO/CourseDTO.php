@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
-use App\Entity\CourseInterface;
 
 /**
  * Class CourseDTO
  * Data transfer object for a course
  *
- * @IS\DTO
+ * @IS\DTO("courses")
  */
 class CourseDTO
 {
     /**
      * @var int
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
@@ -96,6 +96,7 @@ class CourseDTO
      * @var int
      * @IS\Expose
      * @IS\Type("string")
+     * @IS\Related("courseClerkshipTypes")
      */
     public $clerkshipType;
 
@@ -103,6 +104,7 @@ class CourseDTO
      * @var int
      * @IS\Expose
      * @IS\Type("string")
+     * @IS\Related("schools")
      */
     public $school;
 
@@ -110,6 +112,7 @@ class CourseDTO
      * @var int[]
      * @IS\Expose
      * @IS\Type("array<string>")
+     * @IS\Related("users")
      */
     public $directors;
 
@@ -117,12 +120,14 @@ class CourseDTO
      * @var int[]
      * @IS\Expose
      * @IS\Type("array<string>")
+     * @IS\Related("users")
      */
     public $administrators;
 
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $cohorts;
@@ -130,6 +135,7 @@ class CourseDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $terms;
@@ -137,6 +143,7 @@ class CourseDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $courseObjectives;
@@ -144,6 +151,7 @@ class CourseDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $meshDescriptors;
@@ -151,6 +159,7 @@ class CourseDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("courseLearningMaterials")
      * @IS\Type("array<string>")
      */
     public $learningMaterials;
@@ -158,6 +167,7 @@ class CourseDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related
      * @IS\Type("array<string>")
      */
     public $sessions;
@@ -166,12 +176,14 @@ class CourseDTO
      * @var int
      * @IS\Expose
      * @IS\Type("string")
+     * @IS\Related("courses")
      */
     public $ancestor;
 
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
     public $descendants;

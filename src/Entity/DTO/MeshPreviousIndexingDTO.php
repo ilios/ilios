@@ -10,13 +10,13 @@ use App\Annotation as IS;
  * Class MeshPreviousIndexingDTO
  * Data transfer object for a MeSH descriptor.
  *
- * @IS\DTO
+ * @IS\DTO("meshPreviousIndexings")
  */
 class MeshPreviousIndexingDTO
 {
     /**
      * @var string
-     *
+     * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
