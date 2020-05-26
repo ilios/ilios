@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Normalizer\JsonApiDTO;
+use App\Normalizer\JsonApiDTONormalizer;
 
 class JsonApiDataShaper
 {
@@ -13,11 +13,11 @@ class JsonApiDataShaper
      */
     protected $entityManagerLookup;
     /**
-     * @var JsonApiDTO
+     * @var JsonApiDTONormalizer
      */
     protected $normalizer;
 
-    public function __construct(EntityManagerLookup $entityManagerLookup, JsonApiDTO $normalizer)
+    public function __construct(EntityManagerLookup $entityManagerLookup, JsonApiDTONormalizer $normalizer)
     {
         $this->entityManagerLookup = $entityManagerLookup;
         $this->normalizer = $normalizer;
