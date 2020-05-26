@@ -282,11 +282,6 @@ services:
       tags:
       - { name: doctrine.event_listener, event: onFlush }
 
-    App\EventListener\ValidApiObjectListener:
-      arguments:
-        $validApiObjects: '%ilios_api_valid_endpoints%'
-      tags: [{ name: kernel.event_listener, event: kernel.controller, method: onKernelController }]
-
     doctrine.annotation_cache_provider:
       class: Symfony\Component\Cache\DoctrineProvider
       arguments:
