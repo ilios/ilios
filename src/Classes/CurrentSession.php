@@ -21,7 +21,7 @@ class CurrentSession
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $userId;
+    public $userId;
 
     /**
      * Constructor
@@ -30,15 +30,5 @@ class CurrentSession
     public function __construct(SessionUserInterface $user)
     {
         $this->userId = $user->getId();
-    }
-
-    /**
-     * Get the user id
-     *
-     * @return int
-     */
-    public function getUserId()
-    {
-        return $this->userId;
     }
 }
