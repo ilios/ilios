@@ -2,75 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Endpoints;
+namespace App\Tests\Classes;
 
-use App\Classes\Inflector;
 use App\Service\InflectorFactory;
-use App\Tests\ReadWriteEndpointTest;
+use PHPUnit\Framework\TestCase;
 
-/**
- * AamcPcrses API endpoint Test.
- * @group api_5
- */
-class AamcPcrsTest extends ReadWriteEndpointTest
+class InflectorTest extends TestCase
 {
-    protected $testName =  'aamcPcrses';
-
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
-    {
-        return [
-            'App\Tests\Fixture\LoadAamcPcrsData',
-            'App\Tests\Fixture\LoadCompetencyData'
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'description' => ['description', $this->getFaker()->text],
-            'competencies' => ['competencies', [3]],
-            'id' => ['id', 'new-id', $skipped = true],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest()
-    {
-        return [];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest()
-    {
-        return [
-            'id' => [[0], ['id' => 'aamc-pcrs-comp-c0101']],
-            'description' => [[1], ['description' => 'second description']],
-            'competencies' => [[0], ['competencies' => [1]]],
-        ];
-    }
-
-    public function testPostTermAamcResourceType()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'aamcPcrses', 'competencies');
-    }
-
     /**
      * @group twice
      */
-    public function testInflection()
+    public function testInstanceInflection()
     {
         $singular = 'aamcPcrs';
         $plural = 'aamcPcrses';
@@ -97,7 +39,7 @@ class AamcPcrsTest extends ReadWriteEndpointTest
     /**
      * @group twice
      */
-    public function testLowerCaseInflection()
+    public function testLowerCaseInstanceInflection()
     {
         $singular = 'aamcpcrs';
         $plural = 'aamcpcrses';

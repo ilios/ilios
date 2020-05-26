@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\Inflector;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -24,13 +24,19 @@ class EndpointResponseNamer
     protected $pathToEntities;
 
     /**
+     * @var Inflector
+     */
+    protected $inflector;
+
+    /**
      * EndpointResponseNamer constructor.
      * Extracts the entity path from the Kernel
      * @param KernelInterface $kernel
      */
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel, Inflector $inflector)
     {
         $this->pathToEntities = $kernel->getProjectDir() . '/src/Entity';
+        $this->inflector = $inflector;
     }
 
     /**
@@ -72,11 +78,11 @@ class EndpointResponseNamer
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
             $name = $file->getBasename('.php');
-            $plural = Inflector::pluralize($name);
+            $plural = $this->inflector->pluralize($name);
             $key = strtolower($plural);
             $list[$key] = [
-                'plural' => Inflector::camelize($plural),
-                'singular' => Inflector::camelize($name),
+                'plural' => $this->inflector->camelize($plural),
+                'singular' => $this->inflector->camelize($name),
             ];
         }
 

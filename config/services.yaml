@@ -47,6 +47,9 @@ services:
     Alchemy\Zippy\Zippy:
         factory: ['Alchemy\Zippy\Zippy', 'load']
 
+    Doctrine\Inflector\Inflector:
+      factory: ['App\Service\InflectorFactory', 'create']
+
     App\Entity\Manager\:
       resource: '../src/Entity/Manager'
 

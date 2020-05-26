@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\Dotenv\Dotenv;
 use Doctrine\Common\Annotations\AnnotationReader;
 
@@ -36,17 +35,3 @@ $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = (int) $_SERVER['APP_DEBUG'] || filt
 
 AnnotationReader::addGlobalIgnoredName('covers');
 AnnotationReader::addGlobalIgnoredName('group');
-
-/**
- * Words which are difficult to inflect need custom
- * rules.  We set these up here so they are consistent across the
- * entire application.
- */
-Inflector::rules('singular', [
-    'rules' => ['/^aamc(p)crses$/i' => 'aamc\1crs'],
-    'uninflected' => ['aamcpcrs'],
-]);
-Inflector::rules('plural', [
-    'rules' => ['/^aamc(p)crs$/i' => 'aamc\1crses'],
-    'uninflected' => ['aamcpcrses'],
-]);

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Doctrine\Common\Inflector\Inflector;
 use App\Service\EntityMetadata;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Inflector\Inflector;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,6 +36,11 @@ class GenerateEndpointTestCommand extends Command
     protected $entityMetadata;
 
     /**
+     * @var Inflector
+     */
+    protected $inflector;
+
+    /**
      *
      * @param Environment $twig
      * @param ManagerRegistry $registry
@@ -44,12 +49,14 @@ class GenerateEndpointTestCommand extends Command
     public function __construct(
         Environment $twig,
         ManagerRegistry $registry,
-        EntityMetadata $entityMetadata
+        EntityMetadata $entityMetadata,
+        Inflector $inflector
     ) {
         parent::__construct();
         $this->twig = $twig;
         $this->registry   = $registry;
         $this->entityMetadata   = $entityMetadata;
+        $this->inflector = $inflector;
     }
 
     /**
@@ -100,7 +107,7 @@ class GenerateEndpointTestCommand extends Command
         $propertyReflection = $this->entityMetadata->extractReadOnlyProperties($reflection);
         $readOnlies = array_map($mapProperties, $propertyReflection);
 
-        $plural = Inflector::pluralize($entity);
+        $plural = $this->inflector->pluralize($entity);
         $endpoint = strtolower($plural);
         $template = 'generate/endpointTest.php.twig';
         $groupNumber = rand(1, 2);

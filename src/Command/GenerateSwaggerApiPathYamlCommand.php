@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\Inflector;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,11 +23,18 @@ class GenerateSwaggerApiPathYamlCommand extends Command
      */
     protected $twig;
 
+    /**
+     * @var Inflector
+     */
+    protected $inflector;
+
     public function __construct(
-        Environment $twig
+        Environment $twig,
+        Inflector $inflector
     ) {
         parent::__construct();
         $this->twig = $twig;
+        $this->inflector = $inflector;
     }
 
     /**
@@ -53,8 +60,8 @@ class GenerateSwaggerApiPathYamlCommand extends Command
     {
         $endpoint = $input->getArgument('endpointName');
 
-        $singular = Inflector::singularize($endpoint);
-        $plural = Inflector::pluralize($singular);
+        $singular = $this->inflector->singularize($endpoint);
+        $plural = $this->inflector->pluralize($singular);
         $template = 'generate/path.yml.twig';
 
         $content = $this->twig->render($template, [

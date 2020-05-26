@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Service\InflectorFactory;
 use App\Service\Timestamper;
 use DateTime;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use Doctrine\Inflector\Inflector;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use App\Tests\DataLoader\DataLoaderInterface;
@@ -14,7 +16,6 @@ use App\Tests\Traits\JsonControllerTest;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Common\Inflector\Inflector;
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
 
@@ -49,6 +50,11 @@ abstract class AbstractEndpointTest extends WebTestCase
      */
     protected $faker;
 
+    /**
+     * @var Inflector
+     */
+    private $inflector;
+
 
     public function setUp(): void
     {
@@ -63,6 +69,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $fixtures = array_merge($authFixtures, $testFixtures);
         $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
         ClockMock::register(Timestamper::class);
+        $this->inflector = InflectorFactory::create();
     }
 
     public function tearDown(): void
@@ -95,7 +102,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function getSingularName()
     {
         $pluralized = $this->getPluralName();
-        return Inflector::singularize($pluralized);
+        return $this->inflector->singularize($pluralized);
     }
 
     /**
@@ -112,7 +119,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function getCamelCasedSingularName()
     {
         $pluralized = $this->getCamelCasedPluralName();
-        return Inflector::singularize($pluralized);
+        return $this->inflector->singularize($pluralized);
     }
 
     /**
