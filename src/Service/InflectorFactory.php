@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Classes;
+namespace App\Service;
 
-use Doctrine\Inflector\InflectorFactory;
+use Doctrine\Inflector\Inflector as DoctrineInflector;
+use Doctrine\Inflector\InflectorFactory as DoctrineInflectorFactory;
 use Doctrine\Inflector\Rules\Pattern;
 use Doctrine\Inflector\Rules\Patterns;
 use Doctrine\Inflector\Rules\Ruleset;
@@ -16,14 +17,14 @@ use Doctrine\Inflector\Rules\Transformations;
  * Our own static proxy to the doctrine inflector
  * so we only have to defines rules in a single place.
  */
-class Inflector
+class InflectorFactory
 {
     protected static $inflector;
 
-    protected static function getInflector(): \Doctrine\Inflector\Inflector
+    public static function create(): DoctrineInflector
     {
         if (!self::$inflector) {
-            self::$inflector = InflectorFactory::create()
+            self::$inflector =  DoctrineInflectorFactory::create()
                 ->withSingularRules(
                     new Ruleset(
                         new Transformations(
@@ -46,20 +47,5 @@ class Inflector
         }
 
         return self::$inflector;
-    }
-
-    public static function singularize(string $word): string
-    {
-        return self::getInflector()->singularize($word);
-    }
-
-    public static function pluralize(string $word): string
-    {
-        return self::getInflector()->pluralize($word);
-    }
-
-    public static function camelize(string $word): string
-    {
-        return self::getInflector()->camelize($word);
     }
 }
