@@ -6,6 +6,7 @@ namespace App\Controller\API;
 
 use App\Classes\AcademicYear;
 use App\Entity\Manager\CourseManager;
+use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -25,7 +26,8 @@ class AcademicYears
         string $id,
         Request $request,
         CourseManager $courseManager,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        ApiResponseBuilder $builder
     ): Response {
         $years = $courseManager->getYears();
 
@@ -35,8 +37,8 @@ class AcademicYears
 
         $contentTypes = $request->getAcceptableContentTypes();
         if (in_array('application/vnd.api+json', $contentTypes)) {
-            $json = $serializer->serialize(new AcademicYear($id), 'json-api', [
-                'include' => $request->query->get('include'),
+            $json = $serializer->serialize([new AcademicYear($id)], 'json-api', [
+                'sideLoadFields' => $builder->extractJsonApiSideLoadFields($request->query->get('include')),
                 'singleItem' => true
             ]);
             return new Response(
@@ -63,7 +65,8 @@ class AcademicYears
         string $version,
         Request $request,
         CourseManager $courseManager,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        ApiResponseBuilder $builder
     ): Response {
         $years = array_map(function ($year) {
             return new AcademicYear($year);
@@ -72,7 +75,7 @@ class AcademicYears
         $contentTypes = $request->getAcceptableContentTypes();
         if (in_array('application/vnd.api+json', $contentTypes)) {
             $json = $serializer->serialize($years, 'json-api', [
-                'include' => $request->query->get('include'),
+                'sideLoadFields' => $builder->extractJsonApiSideLoadFields($request->query->get('include')),
                 'singleItem' => false
             ]);
             return new Response(
