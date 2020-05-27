@@ -106,16 +106,16 @@ class CalendarEvent
     /**
      * @var array
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
-    public $instructors = array();
+    public $instructors = [];
 
     /**
      * @var array
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<dto>")
      */
-    public $learningMaterials = array();
+    public $learningMaterials = [];
 
     /**
      * @var bool
@@ -204,44 +204,44 @@ class CalendarEvent
     /**
      * @var array
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array")
      */
-    public $sessionObjectives = array();
+    public $sessionObjectives = [];
 
     /**
      * @var array
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array")
      */
-    public $courseObjectives = array();
+    public $courseObjectives = [];
 
     /**
      * @var array
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array")
      */
-    public $competencies = array();
+    public $competencies = [];
 
     /**
      * @var []
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<dto>")
      */
-    public $postrequisites = array();
+    public $postrequisites = [];
 
     /**
      * @var []
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array")
      */
-    public $cohorts = array();
+    public $cohorts = [];
 
     /**
      * @var []
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<dto>")
      */
-    public $prerequisites = array();
+    public $prerequisites = [];
 
     /**
      * @var int
@@ -260,16 +260,16 @@ class CalendarEvent
     /**
      * @var array
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array")
      */
-    public $sessionTerms = array();
+    public $sessionTerms = [];
 
     /**
      * @var array
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array")
      */
-    public $courseTerms = array();
+    public $courseTerms = [];
 
     /**
      * Clean out all the data for draft or scheduled events

@@ -104,7 +104,7 @@ class CurriculumInventoryReportDecorator
      * @var string[]
      *
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $academicLevels;
 
@@ -112,7 +112,7 @@ class CurriculumInventoryReportDecorator
      * @var string[]
      *
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $sequenceBlocks;
 

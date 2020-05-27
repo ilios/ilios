@@ -24,7 +24,18 @@ namespace App\Annotation;
 class Type
 {
     /**
-     * @Enum({"integer", "float", "string", "boolean", "dateTime", "entity", "entityCollection", "array<string>"})
+     * @Enum({
+     *     "integer",
+     *     "float",
+     *     "string",
+     *     "boolean",
+     *     "dateTime",
+     *     "entity",
+     *     "entityCollection",
+     *     "array",
+     *     "array<string>",
+     *     "array<dto>",
+     * })
      */
     public $value;
 }
