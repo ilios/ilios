@@ -9,6 +9,7 @@ use App\Service\EntityManagerLookup;
 use App\Service\EntityMetadata;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
+use ReflectionProperty;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -71,7 +72,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
         $writableProperties = $this->entityMetadata->extractWritableProperties($reflection);
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
-        /** @var \ReflectionProperty $property */
+        /** @var ReflectionProperty $property */
         foreach ($writableProperties as $property) {
             $name = $property->getName();
             if (array_key_exists($name, $data)) {
@@ -97,16 +98,23 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
             }
         }
 
+
         if (count($data)) {
-            $extraFields = array_keys($data);
-            $writableFields = array_column($writableProperties, "name");
-            throw new InvalidInputWithSafeUserMessageException(
-                sprintf(
-                    'Recieved invalid input: %s. Only %s fields are allowed.',
-                    implode(',', $extraFields),
-                    implode(',', $writableFields)
-                )
-            );
+            $entityManager = $this->managerRegistry->getManagerForClass($property->class);
+            $metaData = $entityManager->getClassMetadata($property->class);
+            $identifier = $metaData->getSingleIdentifierFieldName();
+            unset($data[$identifier]);
+            if (count($data)) {
+                $extraFields = array_keys($data);
+                $writableFields = array_column($writableProperties, "name");
+                throw new InvalidInputWithSafeUserMessageException(
+                    sprintf(
+                        'Recieved invalid input: %s. Only %s fields are allowed.',
+                        implode(',', $extraFields),
+                        implode(',', $writableFields)
+                    )
+                );
+            }
         }
 
         return $entity;
@@ -118,7 +126,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
      * @param mixed $value
      * @return mixed
      */
-    protected function getDenormalizedValueForProperty(\ReflectionProperty $property, $value)
+    protected function getDenormalizedValueForProperty(ReflectionProperty $property, $value)
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if (in_array($type, ['entity', 'entityCollection'])) {
