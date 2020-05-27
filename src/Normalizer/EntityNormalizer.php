@@ -59,7 +59,9 @@ class EntityNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
         foreach ($exposedProperties as $property) {
             $name = $property->getName();
             $value = $propertyAccessor->getValue($object, $name);
-            $rhett[$name] = $this->convertValueByType($property, $value);
+            if (!is_null($value)) {
+                $rhett[$name] = $this->convertValueByType($property, $value);
+            }
         }
 
         return $rhett;
