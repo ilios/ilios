@@ -43,6 +43,11 @@ class EntityMetadata
     /**
      * @var array
      */
+    private $typeForProperties;
+
+    /**
+     * @var array
+     */
     private $idForClasses;
 
     /**
@@ -74,6 +79,7 @@ class EntityMetadata
     {
         $this->exposedPropertiesForClass = [];
         $this->typeForClasses = [];
+        $this->typeForProperties = [];
         $this->idForClasses = [];
         $this->relatedForClass = [];
 
@@ -183,7 +189,7 @@ class EntityMetadata
         if (!array_key_exists($className, $this->exposedPropertiesForClass)) {
             $properties = $reflection->getProperties();
 
-            $exposed =  array_filter($properties, function (\ReflectionProperty $property) {
+            $exposed =  array_filter($properties, function (ReflectionProperty $property) {
                 $annotation = $this->annotationReader->getPropertyAnnotation(
                     $property,
                     Expose::class
@@ -294,7 +300,7 @@ class EntityMetadata
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
-        return array_filter($exposedProperties, function (\ReflectionProperty $property) {
+        return array_filter($exposedProperties, function (ReflectionProperty $property) {
             return !$this->isPropertyReadOnly($property);
         });
     }
@@ -310,50 +316,51 @@ class EntityMetadata
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
-        return array_filter($exposedProperties, function (\ReflectionProperty $property) {
+        return array_filter($exposedProperties, function (ReflectionProperty $property) {
             return $this->isPropertyReadOnly($property);
         });
     }
 
     /**
      * Get the Type annotation of a property
-     *
-     * @param \ReflectionProperty $property
-     *
-     * @return mixed
-     *
-     * @throws \Exception
      */
-    public function getTypeOfProperty(\ReflectionProperty $property)
+    public function getTypeOfProperty(ReflectionProperty $property): string
     {
-        /** @var Type $typeAnnotation */
-        $typeAnnotation = $this->annotationReader->getPropertyAnnotation(
-            $property,
-            'App\Annotation\Type'
-        );
-
-        if (is_null($typeAnnotation)) {
-            throw new \Exception(
-                "Missing Type annotation on {$property->class}::{$property->getName()}"
+        $className = $property->class;
+        $propertyName = $property->getName();
+        $key = $className . $propertyName;
+        if (!array_key_exists($key, $this->typeForProperties)) {
+            /** @var Type $typeAnnotation */
+            $typeAnnotation = $this->annotationReader->getPropertyAnnotation(
+                $property,
+                Type::class
             );
+
+            if (is_null($typeAnnotation)) {
+                throw new \Exception(
+                    "Missing Type annotation on {$className}::{$propertyName}"
+                );
+            }
+
+            $this->typeForProperties[$key] = $typeAnnotation->value;
         }
 
-        return $typeAnnotation->value;
+        return $this->typeForProperties[$key];
     }
 
     /**
      * Check if a property has the ReadOnly annotation
      *
-     * @param \ReflectionProperty $property
+     * @param ReflectionProperty $property
      *
      * @return bool
      */
-    public function isPropertyReadOnly(\ReflectionProperty $property)
+    public function isPropertyReadOnly(ReflectionProperty $property)
     {
         /** @var ReadOnly $annotation */
         $annotation = $this->annotationReader->getPropertyAnnotation(
             $property,
-            'App\Annotation\ReadOnly'
+            ReadOnly::class
         );
 
         return !is_null($annotation);
@@ -362,11 +369,11 @@ class EntityMetadata
     /**
      * Check if a property has the RemoveMarkup annotation
      *
-     * @param \ReflectionProperty $property
+     * @param ReflectionProperty $property
      *
      * @return bool
      */
-    public function isPropertyRemoveMarkup(\ReflectionProperty $property)
+    public function isPropertyRemoveMarkup(ReflectionProperty $property)
     {
         /** @var ReadOnly $annotation */
         $annotation = $this->annotationReader->getPropertyAnnotation(

@@ -176,7 +176,7 @@ class UserMaterial
     /**
      * @var array
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $instructors = [];
 

@@ -34,6 +34,12 @@ interface ManagerInterface
     );
 
     /**
+     * Find a single entity by it's ID
+     * @param mixed $id
+     */
+    public function findOneById($id): ?object;
+
+    /**
      * Searches the data store for a single object by given criteria and sort order.
      *
      * @param array $criteria

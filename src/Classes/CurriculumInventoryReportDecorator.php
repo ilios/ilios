@@ -7,7 +7,6 @@ namespace App\Classes;
 use App\Entity\CurriculumInventoryAcademicLevelInterface;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
-use App\Entity\LearningMaterialInterface;
 use App\Annotation as IS;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -25,7 +24,7 @@ class CurriculumInventoryReportDecorator
      * @IS\Expose
      * @IS\Type("integer")
      */
-    protected $id;
+    public $id;
 
     /**
      * @var string
@@ -33,7 +32,7 @@ class CurriculumInventoryReportDecorator
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $name;
+    public $name;
 
     /**
      * @var string
@@ -41,7 +40,7 @@ class CurriculumInventoryReportDecorator
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $description;
+    public $description;
 
     /**
      * @var string
@@ -49,7 +48,7 @@ class CurriculumInventoryReportDecorator
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $sequence;
+    public $sequence;
 
     /**
      * @var string
@@ -57,7 +56,7 @@ class CurriculumInventoryReportDecorator
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $year;
+    public $year;
 
     /**
      * @var \DateTime
@@ -66,7 +65,7 @@ class CurriculumInventoryReportDecorator
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
-    protected $startDate;
+    public $startDate;
 
     /**
      * @var \DateTime
@@ -75,7 +74,7 @@ class CurriculumInventoryReportDecorator
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
-    protected $endDate;
+    public $endDate;
 
     /**
      * @var string
@@ -83,7 +82,7 @@ class CurriculumInventoryReportDecorator
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $program;
+    public $program;
 
     /**
      * @var string
@@ -91,7 +90,7 @@ class CurriculumInventoryReportDecorator
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $report;
+    public $report;
 
     /**
      * @var string
@@ -99,23 +98,23 @@ class CurriculumInventoryReportDecorator
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $export;
+    public $export;
 
     /**
      * @var string[]
      *
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
-    protected $academicLevels;
+    public $academicLevels;
 
     /**
      * @var string[]
      *
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
-    protected $sequenceBlocks;
+    public $sequenceBlocks;
 
     /**
      * @var string
@@ -123,7 +122,7 @@ class CurriculumInventoryReportDecorator
      * @IS\Expose
      * @IS\Type("string")
      */
-    protected $absoluteFileUri;
+    public $absoluteFileUri;
 
     /**
      * @param CurriculumInventoryReportInterface $report
@@ -158,109 +157,5 @@ class CurriculumInventoryReportDecorator
                 return (string) $level;
             });
         $this->academicLevels = $academicLevelIds->toArray();
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSequence()
-    {
-        return $this->sequence;
-    }
-
-    /**
-     * @return string
-     */
-    public function getYear()
-    {
-        return $this->year;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getStartDate()
-    {
-        return $this->startDate;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getEndDate()
-    {
-        return $this->endDate;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProgram()
-    {
-        return $this->program;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReport()
-    {
-        return $this->report;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExport()
-    {
-        return $this->export;
-    }
-
-    /**
-     * @return \string[]
-     */
-    public function getAcademicLevels()
-    {
-        return $this->academicLevels;
-    }
-
-    /**
-     * @return \string[]
-     */
-    public function getSequenceBlocks()
-    {
-        return $this->sequenceBlocks;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAbsoluteFileUri()
-    {
-        return $this->absoluteFileUri;
     }
 }

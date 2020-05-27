@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
-class JsonApi implements EncoderInterface, DecoderInterface
+class JsonApiEncoder implements EncoderInterface, DecoderInterface
 {
     use ContainerAwareTrait;
 

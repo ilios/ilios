@@ -10,7 +10,7 @@ use ReflectionClass;
 use ReflectionProperty;
 use DateTime;
 
-class JsonApiDTO implements NormalizerInterface
+class JsonApiDTONormalizer implements NormalizerInterface
 {
 
     /**

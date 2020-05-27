@@ -123,7 +123,7 @@ class ObjectiveDTO
     /**
      * @var bool
      * @IS\Expose
-     * @IS\Type("integer")
+     * @IS\Type("boolean")
      *
      */
     public $active;

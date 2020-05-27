@@ -100,6 +100,11 @@ class BaseManager implements ManagerInterface
         return $this->getRepository()->findOneBy($criteria);
     }
 
+    public function findOneById($id): ?object
+    {
+        return $this->getRepository()->find($id);
+    }
+
     /**
      * {@inheritdoc}
      */
