@@ -7,7 +7,6 @@ namespace App\Denormalizer;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Service\EntityManagerLookup;
 use App\Service\EntityMetadata;
-use App\Service\Logger;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -77,6 +76,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
             $name = $property->getName();
             if (array_key_exists($name, $data)) {
                 $value = $this->getDenormalizedValueForProperty($property, $data[$name]);
+                unset($data[$name]);
                 try {
                     $propertyAccessor->setValue($entity, $name, $value);
                 } catch (TypeError $exception) {
@@ -95,6 +95,18 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
                     );
                 }
             }
+        }
+
+        if (count($data)) {
+            $extraFields = array_keys($data);
+            $writableFields = array_column($writableProperties, "name");
+            throw new InvalidInputWithSafeUserMessageException(
+                sprintf(
+                    'Recieved invalid input: %s. Only %s fields are allowed.',
+                    implode(',', $extraFields),
+                    implode(',', $writableFields)
+                )
+            );
         }
 
         return $entity;
