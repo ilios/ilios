@@ -360,7 +360,7 @@ class EntityMetadata
         /** @var ReadOnly $annotation */
         $annotation = $this->annotationReader->getPropertyAnnotation(
             $property,
-            'App\Annotation\ReadOnly'
+            ReadOnly::class
         );
 
         return !is_null($annotation);

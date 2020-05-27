@@ -70,6 +70,12 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
 
         $reflection = new \ReflectionClass($type);
         $writableProperties = $this->entityMetadata->extractWritableProperties($reflection);
+        $readOnlyProperties = $this->entityMetadata->extractReadOnlyProperties($reflection);
+
+        //remove all the read only properties from the input
+        $readOnlyFields = array_column($readOnlyProperties, "name");
+        $data = array_diff_key($data, array_fill_keys($readOnlyFields, null));
+
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         /** @var ReflectionProperty $property */
@@ -98,23 +104,17 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
             }
         }
 
-
         if (count($data)) {
-            $entityManager = $this->managerRegistry->getManagerForClass($property->class);
-            $metaData = $entityManager->getClassMetadata($property->class);
-            $identifier = $metaData->getSingleIdentifierFieldName();
-            unset($data[$identifier]);
-            if (count($data)) {
-                $extraFields = array_keys($data);
-                $writableFields = array_column($writableProperties, "name");
-                throw new InvalidInputWithSafeUserMessageException(
-                    sprintf(
-                        'Recieved invalid input: %s. Only %s fields are allowed.',
-                        implode(',', $extraFields),
-                        implode(',', $writableFields)
-                    )
-                );
-            }
+            $extraFields = array_keys($data);
+            $writableFields = array_column($writableProperties, "name");
+            throw new InvalidInputWithSafeUserMessageException(
+                sprintf(
+                    'Recieved invalid input: %s. Only %s fields are allowed in %s.',
+                    implode(',', $extraFields),
+                    implode(',', $writableFields),
+                    $type
+                )
+            );
         }
 
         return $entity;
