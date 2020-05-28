@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Entity\Authentication;
 use App\Entity\Manager\AuthenticationManager;
 use App\Entity\Manager\UserManager;
 use App\RelationshipVoter\AbstractVoter;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -158,7 +160,9 @@ class Authentications
         }
         $this->manager->flush();
 
-        return $builder->buildResponseForPostRequest('authentications', $entities, Response::HTTP_CREATED, $request);
+        $dtos = $this->fetchDtosForEntities($entities);
+
+        return $builder->buildResponseForPostRequest('authentications', $dtos, Response::HTTP_CREATED, $request);
     }
 
     /**
@@ -279,5 +283,14 @@ class Authentications
         } catch (Exception $exception) {
             throw new RuntimeException("Failed to delete entity: " . $exception->getMessage());
         }
+    }
+
+    protected function fetchDtosForEntities(array $entities): array
+    {
+        $ids = array_map(function (Authentication $entity) {
+            return $entity->getUser()->getId();
+        }, $entities);
+
+        return $this->manager->findDTOsBy(['user' => $ids]);
     }
 }

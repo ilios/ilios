@@ -123,6 +123,33 @@ class ProgramYearTest extends ReadWriteEndpointTest
         return $fetchedResponseData;
     }
 
+    /**
+     * Test saving new data to the JSON:API
+     * @return mixed
+     */
+    protected function postJsonApiTest(object $postData, array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postOneJsonApi($postData);
+
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id);
+
+        $cohortId = $fetchedResponseData['cohort'];
+        $this->assertNotEmpty($cohortId);
+        unset($fetchedResponseData['cohort']);
+        $this->compareData($data, $fetchedResponseData);
+
+        $cohort = $this->getOne('cohorts', 'cohorts', $cohortId);
+        $program = $this->getOne('programs', 'programs', $fetchedResponseData['program']);
+
+        $this->assertEquals($cohort['programYear'], $fetchedResponseData['id']);
+        $this->assertEquals($cohort['title'], 'Class of ' . ($fetchedResponseData['startYear'] + $program['duration']));
+
+        return $fetchedResponseData;
+    }
+
     protected function postManyTest(array $data)
     {
         $endpoint = $this->getPluralName();
