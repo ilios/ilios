@@ -541,6 +541,46 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
+     * Test saving new data to the JSON:API
+     * @return mixed
+     */
+    protected function postManyJsonApiTest(object $postData, array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postManyJsonApi($postData);
+        $ids = array_column($responseData, 'id');
+        $filters = [
+            'filters[id]' => $ids
+        ];
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
+
+        usort($fetchedResponseData, function ($a, $b) {
+            if (is_string($a['id']) && is_string($b['id'])) {
+                return strnatcasecmp($a['id'], $b['id']);
+            }
+
+            return $a['id'] <=> $b['id'];
+        });
+
+        $now = new DateTime();
+        foreach ($data as $i => $datum) {
+            $response = $fetchedResponseData[$i];
+            foreach ($this->getTimeStampFields() as $field) {
+                $stamp = new DateTime($response[$field]);
+                unset($response[$field]);
+                $diff = $now->diff($stamp);
+                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            }
+
+            $this->compareData($datum, $response);
+        }
+
+        return $fetchedResponseData;
+    }
+
+    /**
      * POST a single item to the API
      *
      * @param string $endpoint to send to
@@ -623,6 +663,36 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
         return json_decode($response->getContent(), true)[$responseKey];
+    }
+
+    /**
+     * POST multiple items to the JSON:API
+     */
+    protected function postManyJsonApi(object $postData): array
+    {
+        $endpoint = strtolower($postData->data[0]->type);
+        $this->createJsonApiRequest(
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_post",
+                ['version' => $this->apiVersion]
+            ),
+            json_encode($postData),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonApiResponse($response, Response::HTTP_CREATED);
+        $obj = json_decode($response->getContent());
+        $this->assertIsArray($obj->data);
+        foreach ($obj->data as $data) {
+            $this->assertObjectHasAttribute('id', $data);
+            $this->assertObjectHasAttribute('type', $data);
+            $this->assertObjectHasAttribute('attributes', $data);
+            $this->assertObjectHasAttribute('relationships', $data);
+        }
+
+        return $obj->data;
     }
 
     /**

@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Service\EntityManagerLookup;
 use App\Service\EntityMetadata;
+use DateTime;
+use Exception;
 use Faker\Factory as FakerFactory;
 use ReflectionClass;
 
 /**
  * Abstract utilities for loading data
- *
- *
  */
 abstract class AbstractDataLoader implements DataLoaderInterface
 {
@@ -24,11 +25,17 @@ abstract class AbstractDataLoader implements DataLoaderInterface
      */
     protected $entityMetadata;
 
-    public function __construct(EntityMetadata $entityMetadata)
+    /**
+     * @var EntityManagerLookup
+     */
+    protected $entityManagerLookup;
+
+    public function __construct(EntityMetadata $entityMetadata, EntityManagerLookup $entityManagerLookup)
     {
         $this->faker = FakerFactory::create();
         $this->faker->seed(1234);
         $this->entityMetadata = $entityMetadata;
+        $this->entityManagerLookup = $entityManagerLookup;
     }
 
     /**
@@ -37,10 +44,6 @@ abstract class AbstractDataLoader implements DataLoaderInterface
      */
     abstract protected function getData();
 
-    /**
-     * [setup description]
-     * @return [type] [description]
-     */
     protected function setup()
     {
         if (!empty($this->data)) {
@@ -53,13 +56,13 @@ abstract class AbstractDataLoader implements DataLoaderInterface
 
     public function getOne()
     {
-        $this->setUp();
+        $this->setup();
         return array_values($this->data)[0];
     }
 
     public function getAll()
     {
-        $this->setUp();
+        $this->setup();
         return $this->data;
     }
 
@@ -70,7 +73,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
      */
     public function getFormattedDate($when)
     {
-        $dt = new \DateTime($when);
+        $dt = new DateTime($when);
         return $dt->format('c');
     }
 
@@ -80,7 +83,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
 
     public function createJsonApi(array $arr): object
     {
-        throw new \Exception('Not implemented');
+        throw new Exception('Not implemented');
     }
 
     /**
@@ -96,6 +99,19 @@ abstract class AbstractDataLoader implements DataLoaderInterface
         }
 
         return $data;
+    }
+
+    public function createBulkJsonApi(array $arr): object
+    {
+        $one = $this->createJsonApi($arr[0]);
+        $type = $one->data->type;
+        $class = $this->entityManagerLookup->getDtoClassForEndpoint($type);
+        $builder = \Closure::fromCallable([$this, 'buildJsonApiObject']);
+        $data = array_map(function (array $item) use ($builder, $class) {
+            return $builder($item, $class);
+        }, $arr);
+
+        return json_decode(json_encode(['data' => $data]), false);
     }
 
     /**

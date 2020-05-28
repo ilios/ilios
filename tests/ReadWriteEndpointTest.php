@@ -77,6 +77,18 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
     }
 
     /**
+     * Test POST several of this type of object
+     * using JSON:API
+     */
+    public function testPostManyJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->createMany(51);
+        $jsonApiData = $dataLoader->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data);
+    }
+
+    /**
      * @param string $key
      * @param mixed $value
      * @param bool $skipped

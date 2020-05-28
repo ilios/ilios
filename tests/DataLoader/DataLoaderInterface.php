@@ -41,4 +41,9 @@ interface DataLoaderInterface
      * Create a JSON:API compatible version
      */
     public function createJsonApi(array $arr): object;
+
+    /**
+     * JSON:API bulk compatible data
+     */
+    public function createBulkJsonApi(array $arr): object;
 }
