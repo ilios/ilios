@@ -46,6 +46,17 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
     }
 
     /**
+     * Test posting a single object
+     */
+    public function testPostOneJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $jsonApiData = $dataLoader->createJsonApi($data);
+        $this->postJsonApiTest($jsonApiData, $data);
+    }
+
+    /**
      * Test a failure when posting an object
      */
     public function testPostBad()

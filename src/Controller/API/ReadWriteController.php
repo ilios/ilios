@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Entity\Manager\ManagerInterface;
+use App\Entity\Manager\V1CompatibleBaseManager;
 use App\RelationshipVoter\AbstractVoter;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -54,7 +56,9 @@ abstract class ReadWriteController extends ReadOnlyController
         }
         $this->manager->flush();
 
-        return $builder->buildResponseForPostRequest($this->endpoint, $entities, Response::HTTP_CREATED, $request);
+        $dtos = $this->fetchDtosForEntities($entities);
+
+        return $builder->buildResponseForPostRequest($this->endpoint, $dtos, Response::HTTP_CREATED, $request);
     }
 
     /**
@@ -126,5 +130,17 @@ abstract class ReadWriteController extends ReadOnlyController
         } catch (Exception $exception) {
             throw new RuntimeException("Failed to delete entity: " . $exception->getMessage());
         }
+    }
+
+    protected function fetchDtosForEntities(array $entities): array
+    {
+        //read and deliver DTOs instead of Entities
+        $idField = $this->manager->getIdField();
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $ids = array_map(function ($entity) use ($idField, $propertyAccessor) {
+            return $propertyAccessor->getValue($entity, $idField);
+        }, $entities);
+
+        return $this->manager->findDTOsBy(['id' => $ids]);
     }
 }

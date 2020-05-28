@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\CohortDTO;
+
 class CohortData extends AbstractDataLoader
 {
     protected function getData()
@@ -78,5 +80,11 @@ class CohortData extends AbstractDataLoader
             'title' => null,
             'programYear' => null
         ];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, CohortDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

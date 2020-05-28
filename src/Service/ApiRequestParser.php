@@ -149,8 +149,15 @@ class ApiRequestParser
      */
     public function extractEntitiesFromPostRequest(Request $request, string $class, string $object): array
     {
+        $type = $request->getAcceptableContentTypes();
+        if (in_array("application/vnd.api+json", $type)) {
+            $json = $request->getContent();
+            return $this->serializer->deserialize($json, $class, 'json-api');
+        }
+
         $data = $this->extractPostDataFromRequest($request, $object);
         $json = json_encode($data);
+
         return $this->serializer->deserialize($json, $class, 'json');
     }
 

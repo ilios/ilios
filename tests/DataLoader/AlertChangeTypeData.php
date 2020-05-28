@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataLoader;
 
 use App\Entity\AlertChangeTypeInterface;
+use App\Entity\DTO\AlertChangeTypeDTO;
 
 class AlertChangeTypeData extends AbstractDataLoader
 {
@@ -78,5 +79,11 @@ class AlertChangeTypeData extends AbstractDataLoader
             'id' => $this->faker->text,
             'alerts' => [424524]
         ];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, AlertChangeTypeDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

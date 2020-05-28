@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\AuthenticationDTO;
+
 class AuthenticationData extends AbstractDataLoader
 {
     protected function getData()
@@ -45,5 +47,11 @@ class AuthenticationData extends AbstractDataLoader
     public function createMany($count)
     {
         throw new \Exception("Cannot auto create many Authentications.  Users have to be created first");
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, AuthenticationDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

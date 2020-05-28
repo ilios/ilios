@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\AlertDTO;
+
 class AlertData extends AbstractDataLoader
 {
     protected function getData()
@@ -62,5 +64,11 @@ class AlertData extends AbstractDataLoader
             'instigators' => [3234],
             'recipients' => [32434]
         ];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, AlertDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

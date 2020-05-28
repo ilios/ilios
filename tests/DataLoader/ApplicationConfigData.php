@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\ApplicationConfigDTO;
+
 class ApplicationConfigData extends AbstractDataLoader
 {
     protected function getData()
@@ -42,5 +44,11 @@ class ApplicationConfigData extends AbstractDataLoader
         return [
             'id' => 'dsfdsaf'
         ];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, ApplicationConfigDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

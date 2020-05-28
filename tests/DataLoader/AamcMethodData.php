@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\AamcMethodDTO;
+
 class AamcMethodData extends AbstractDataLoader
 {
     protected function getData()
@@ -55,5 +57,11 @@ class AamcMethodData extends AbstractDataLoader
         }
 
         return $data;
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, AamcMethodDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

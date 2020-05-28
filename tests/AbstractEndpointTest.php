@@ -471,6 +471,32 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
+     * Test saving new data to the JSON:API
+     * @return mixed
+     */
+    protected function postJsonApiTest(object $postData, array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postOneJsonApi($postData);
+
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id);
+
+        $now = new DateTime();
+        foreach ($this->getTimeStampFields() as $field) {
+            $stamp = new DateTime($fetchedResponseData[$field]);
+            unset($fetchedResponseData[$field]);
+            $diff = $now->diff($stamp);
+            $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+        }
+
+        $this->compareData($data, $fetchedResponseData);
+
+        return $fetchedResponseData;
+    }
+
+    /**
      * Test POSTing an array of similar items to the API
      * @param array $data
      * @return mixed
@@ -542,6 +568,34 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
         return json_decode($response->getContent(), true)[$responseKey][0];
+    }
+
+    /**
+     * POST a single item to the JSON:API
+     */
+    protected function postOneJsonApi(object $postData): object
+    {
+        $endpoint = strtolower($postData->data->type);
+        $this->createJsonApiRequest(
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_post",
+                ['version' => $this->apiVersion]
+            ),
+            json_encode($postData),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonApiResponse($response, Response::HTTP_CREATED);
+        $obj = json_decode($response->getContent());
+        $this->assertIsObject($obj->data);
+        $this->assertObjectHasAttribute('id', $obj->data);
+        $this->assertObjectHasAttribute('type', $obj->data);
+        $this->assertObjectHasAttribute('attributes', $obj->data);
+        $this->assertObjectHasAttribute('relationships', $obj->data);
+
+        return $obj->data;
     }
 
     /**

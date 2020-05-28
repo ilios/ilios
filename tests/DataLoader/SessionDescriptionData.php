@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\SessionDescriptionDTO;
+
 class SessionDescriptionData extends AbstractDataLoader
 {
     protected function getData()
@@ -37,5 +39,11 @@ class SessionDescriptionData extends AbstractDataLoader
         return [
             'session' => 11
         ];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, SessionDescriptionDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\AamcPcrsDTO;
+
 class AamcPcrsData extends AbstractDataLoader
 {
     protected function getData()
@@ -53,5 +55,11 @@ class AamcPcrsData extends AbstractDataLoader
         }
 
         return $data;
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, AamcPcrsDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

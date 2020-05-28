@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\InstructorGroupDTO;
+
 class InstructorGroupData extends AbstractDataLoader
 {
     protected function getData()
@@ -70,5 +72,11 @@ class InstructorGroupData extends AbstractDataLoader
     public function createInvalid()
     {
         return [];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, InstructorGroupDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }
