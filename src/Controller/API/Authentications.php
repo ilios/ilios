@@ -88,7 +88,7 @@ class Authentications
     /**
      * Along with taking input this also encodes the passwords
      * so they can be stored safely in the database
-     * @Route("/", methods={"POST"})
+     * @Route("", methods={"POST"})
      */
     public function post(
         string $version,

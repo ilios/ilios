@@ -56,7 +56,7 @@ class ProgramYears extends ReadWriteController
 
     /**
      * Create cohort to match the new program year
-     * @Route("/", methods={"POST"})
+     * @Route("", methods={"POST"})
      */
     public function post(
         string $version,

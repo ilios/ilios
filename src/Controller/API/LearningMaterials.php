@@ -158,7 +158,7 @@ class LearningMaterials
      * Connects file learning materials to the uploaded file
      * they are referencing and generate a token to use to link
      * to this learning material.
-     * @Route("/", methods={"POST"})
+     * @Route("", methods={"POST"})
      */
     public function post(
         string $version,
