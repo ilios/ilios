@@ -8,8 +8,8 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => 1,
             'name' => $this->faker->text(25),
             'aamcCode' => "{$this->faker->randomDigit}",
@@ -19,8 +19,8 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'addressZipCode' => $this->faker->postcode,
             'addressCountryCode' => 'UK',
             'school' => '1'
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 2,
             'name' => 'second institution',
             'aamcCode' => "14",
@@ -30,14 +30,14 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'addressZipCode' => '90210',
             'addressCountryCode' => 'BC',
             'school' => '2'
-        );
+        ];
 
         return $arr;
     }
 
     public function create()
     {
-        return array(
+        return [
             'id' => 3,
             'name' => $this->faker->text(25),
             'aamcCode' => "{$this->faker->randomDigit}",
@@ -47,7 +47,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'addressZipCode' => $this->faker->postcode,
             'addressCountryCode' => 'US',
             'school' => '3'
-        );
+        ];
     }
 
     public function createInvalid()

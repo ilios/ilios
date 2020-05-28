@@ -8,28 +8,28 @@ class MeshQualifierData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => '1',
             'name' => 'qual' . $this->faker->text(5),
             'descriptors' => ['abc1']
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => '2',
             'name' => 'second qualifier',
             'descriptors' => ['abc1']
-        );
+        ];
 
         return $arr;
     }
 
     public function create()
     {
-        return array(
+        return [
             'id' => '3',
             'name' => $this->faker->text(5),
             'descriptors' => []
-        );
+        ];
     }
 
     public function createInvalid()

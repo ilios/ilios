@@ -30,10 +30,10 @@ class UploadController extends AbstractController
         /** @var UploadedFile $uploadedFile */
         $uploadedFile = $request->files->get('file');
         if (is_null($uploadedFile)) {
-            return new JsonResponse(array(
+            return new JsonResponse([
                 'errors' => 'Unable to find file in the request. ' .
                             'The uploaded file may have exceeded the maximum allowed size'
-            ), JsonResponse::HTTP_BAD_REQUEST);
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
         if (!$uploadedFile->isValid()) {
             return new JsonResponse(['errors' => 'File failed to upload'], JsonResponse::HTTP_BAD_REQUEST);

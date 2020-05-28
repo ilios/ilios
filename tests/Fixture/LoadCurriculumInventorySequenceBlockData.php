@@ -69,10 +69,10 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
      */
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadCurriculumInventoryReportData',
             'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
             'App\Tests\Fixture\LoadSessionData',
-        );
+        ];
     }
 }

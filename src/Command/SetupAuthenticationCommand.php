@@ -54,7 +54,7 @@ class SetupAuthenticationCommand extends Command
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion(
             'How will your users authentication to Ilios (defaults to form)?: ',
-            array('form', 'cas', 'ldap', 'shibboleth'),
+            ['form', 'cas', 'ldap', 'shibboleth'],
             0
         );
         $question->setErrorMessage('Authentication %s is invalid.');
@@ -111,7 +111,7 @@ class SetupAuthenticationCommand extends Command
 
         $question = new ChoiceQuestion(
             'What version of CAS do you want to use (defaults to 3)?: ',
-            array(1, 2, 3),
+            [1, 2, 3],
             3
         );
         $question->setErrorMessage('Version %s is invalid.');

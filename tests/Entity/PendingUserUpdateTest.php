@@ -29,11 +29,11 @@ class PendingUserUpdateTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'type',
             'property',
             'value',
-        );
+        ];
         $this->object->setUser(new User());
         $this->validateNotBlanks($notBlank);
 
@@ -45,9 +45,9 @@ class PendingUserUpdateTest extends EntityBase
 
     public function testNotNullValidation()
     {
-        $notNull = array(
+        $notNull = [
             'user',
-        );
+        ];
 
         $this->object->setType('test');
         $this->object->setProperty('test');

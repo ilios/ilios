@@ -64,10 +64,10 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
             ->once()
             ->andReturn([$mockConfig]);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'school'         => '1'
-        ));
+        ]);
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/\sthe-name\s|\sthe-value\s/',
@@ -78,8 +78,8 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
     public function testSchoolRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
-        ));
+        ]);
     }
 }

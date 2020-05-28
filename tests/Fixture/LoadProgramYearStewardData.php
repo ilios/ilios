@@ -46,10 +46,10 @@ class LoadProgramYearStewardData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadSchoolData',
             'App\Tests\Fixture\LoadProgramYearData',
             'App\Tests\Fixture\LoadDepartmentData',
-        );
+        ];
     }
 }

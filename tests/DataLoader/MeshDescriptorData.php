@@ -8,8 +8,8 @@ class MeshDescriptorData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => 'abc1',
             'name' => 'desc1' . $this->faker->text,
             'annotation' => 'annotation1',
@@ -23,8 +23,8 @@ class MeshDescriptorData extends AbstractDataLoader
             'trees' => ['1', '2'],
             'previousIndexing' => '1',
             'deleted' => false,
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 'abc2',
             'name' => 'desc2' . $this->faker->text,
             'annotation' => 'annotation2' . $this->faker->text,
@@ -38,8 +38,8 @@ class MeshDescriptorData extends AbstractDataLoader
             'trees' => [],
             'previousIndexing' => '2',
             'deleted' => false,
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 'abc3',
             'name' => 'desc3',
             'annotation' => 'annotation3' . $this->faker->text,
@@ -52,14 +52,14 @@ class MeshDescriptorData extends AbstractDataLoader
             'qualifiers' => [],
             'trees' => [],
             'deleted' => false,
-        );
+        ];
 
         return $arr;
     }
 
     public function create()
     {
-        return array(
+        return [
             'id' => 'abc4',
             'name' => $this->faker->text(20),
             'annotation' => $this->faker->text,
@@ -72,14 +72,14 @@ class MeshDescriptorData extends AbstractDataLoader
             'qualifiers' => ['1'],
             'trees' => [],
             'deleted' => false,
-        );
+        ];
     }
 
     public function createInvalid()
     {
-        return array(
+        return [
             'id' => 'bad'
-        );
+        ];
     }
 
     /**

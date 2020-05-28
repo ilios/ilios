@@ -8,36 +8,36 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => 1,
             'name' => $this->faker->text(10),
             'description' => 'first description',
             'level' => 1,
             'report' => '1',
             'sequenceBlocks' => ['1'],
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 2,
             'name' => 'second name',
             'description' => $this->faker->text(100),
             'level' => 2,
             'report' => '1',
             'sequenceBlocks' => ['2', '3', '4', '5'],
-        );
+        ];
         return $arr;
     }
 
     public function create()
     {
-        $arr = array(
+        $arr = [
             'id' => 3,
             'name' => $this->faker->text(10),
             'description' => $this->faker->text(100),
             'level' => 3,
             'report' => '1',
             'sequenceBlocks' => []
-        );
+        ];
         return $arr;
     }
 

@@ -28,10 +28,10 @@ class AamcPcrsTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'id',
             'description'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setId('test');

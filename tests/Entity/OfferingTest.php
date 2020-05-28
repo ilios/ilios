@@ -31,11 +31,11 @@ class OfferingTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'room',
             'startDate',
             'endDate'
-        );
+        ];
         $this->object->setSession(m::mock('App\Entity\SessionInterface'));
 
         $this->validateNotBlanks($notBlank);
@@ -48,9 +48,9 @@ class OfferingTest extends EntityBase
 
     public function testNotNullValidation()
     {
-        $notNulls = array(
+        $notNulls = [
             'session'
-        );
+        ];
 
         $this->object->setRoom('RCF 112');
         $this->object->setStartDate(new \DateTime());

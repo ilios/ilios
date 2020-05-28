@@ -30,14 +30,14 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'title',
             'childSequenceOrder',
             'orderInSequence',
             'minimum',
             'maximum',
             'duration'
-        );
+        ];
         $this->object->setReport(m::mock('App\Entity\CurriculumInventoryReportInterface'));
         $this->validateNotBlanks($notBlank);
 
@@ -54,9 +54,9 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     public function testNotNullValidation()
     {
-        $notNulls = array(
+        $notNulls = [
             'report'
-        );
+        ];
         $this->object->setTitle('test title for the block max 200');
         $this->object->setChildSequenceOrder(1);
         $this->object->setOrderInSequence(2);

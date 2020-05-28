@@ -8,8 +8,8 @@ class AlertData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => 1,
             'tableRowId' => 1,
             'tableName' => 'course',
@@ -17,8 +17,8 @@ class AlertData extends AbstractDataLoader
             'changeTypes' => ['1'],
             'instigators' => ['1', '2'],
             'recipients' => ['1', '2']
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 2,
             'tableRowId' => 2,
             'tableName' => 'course',
@@ -27,8 +27,8 @@ class AlertData extends AbstractDataLoader
             'changeTypes' => ['1'],
             'instigators' => ['2'],
             'recipients' => []
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 3,
             'tableRowId' => 1,
             'tableName' => 'session',
@@ -36,7 +36,7 @@ class AlertData extends AbstractDataLoader
             'changeTypes' => [],
             'instigators' => [],
             'recipients' => ['2']
-        );
+        ];
 
         return $arr;
     }

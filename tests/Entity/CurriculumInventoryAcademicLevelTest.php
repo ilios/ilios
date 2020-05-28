@@ -28,10 +28,10 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'name',
             'level'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setName('50 char max name test');

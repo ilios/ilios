@@ -8,9 +8,9 @@ class UserData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'lastName' => $this->faker->lastName,
             'firstName' => $this->faker->firstName,
@@ -48,9 +48,9 @@ class UserData extends AbstractDataLoader
             'administeredCourses' => ['1'],
             'directedPrograms' => ['1'],
             'administeredCurriculumInventoryReports' => ['1'],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'lastName' => 'first',
             'middleName' => 'first',
@@ -87,9 +87,9 @@ class UserData extends AbstractDataLoader
             'administeredCourses' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'lastName' => 'second',
             'middleName' => $this->faker->firstName,
@@ -125,9 +125,9 @@ class UserData extends AbstractDataLoader
             'administeredCourses' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 4,
             'lastName' => $this->faker->lastName,
             'middleName' => $this->faker->firstName,
@@ -163,9 +163,9 @@ class UserData extends AbstractDataLoader
             'administeredCourses' => ['5'],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 5,
             'lastName' => $this->faker->lastName,
             'middleName' => $this->faker->firstName,
@@ -200,7 +200,7 @@ class UserData extends AbstractDataLoader
             'administeredCourses' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
-        );
+        ];
 
         return $arr;
     }

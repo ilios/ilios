@@ -8,9 +8,9 @@ class CourseData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => 'firstCourse',
             'level' => 1,
@@ -33,9 +33,9 @@ class CourseData extends AbstractDataLoader
             'learningMaterials' => ['1', '2', '4', '5', '6', '7', '8', '9', '10'],
             'sessions' => ['1', '2'],
             'descendants' => []
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => 'course 2',
             'level' => 1,
@@ -58,9 +58,9 @@ class CourseData extends AbstractDataLoader
             'learningMaterials' => [],
             'sessions' => ['3', '5', '6', '7', '8'],
             'descendants' => []
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'title' => 'third',
             'level' => 1,
@@ -82,9 +82,9 @@ class CourseData extends AbstractDataLoader
             'learningMaterials' => [],
             'sessions' => [],
             'descendants' => ['4']
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 4,
             'title' => 'fourth course',
             'level' => 3,
@@ -107,9 +107,9 @@ class CourseData extends AbstractDataLoader
             'sessions' => ["4"],
             'ancestor' => '3',
             'descendants' => []
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 5,
             'title' => 'fifth Course',
             'level' => 3,
@@ -131,7 +131,7 @@ class CourseData extends AbstractDataLoader
             'learningMaterials' => [],
             'sessions' => [],
             'descendants' => []
-        );
+        ];
 
         return $arr;
     }

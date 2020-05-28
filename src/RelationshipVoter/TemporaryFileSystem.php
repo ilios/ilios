@@ -18,7 +18,7 @@ class TemporaryFileSystem extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof FileSystem && in_array($attribute, array(self::CREATE));
+        return $subject instanceof FileSystem && in_array($attribute, [self::CREATE]);
     }
 
     /**

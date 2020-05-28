@@ -66,7 +66,7 @@ class UserManager extends BaseManager
         array $orderBy = null,
         $limit = null,
         $offset = null,
-        array $criteria = array()
+        array $criteria = []
     ) {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
@@ -138,7 +138,7 @@ class UserManager extends BaseManager
      * @return ArrayCollection
      * @throws Exception
      */
-    public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = array())
+    public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = [])
     {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();

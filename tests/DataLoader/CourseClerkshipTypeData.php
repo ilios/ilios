@@ -8,19 +8,19 @@ class CourseClerkshipTypeData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => $this->faker->text(10),
             'courses' => ['1', '2']
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => 'second clerkship type',
             'courses' => []
-        );
+        ];
 
 
         return $arr;

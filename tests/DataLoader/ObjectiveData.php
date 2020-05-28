@@ -8,9 +8,9 @@ class ObjectiveData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => 'first objective',
             'position' => 0,
@@ -23,9 +23,9 @@ class ObjectiveData extends AbstractDataLoader
             'children' => ['2'],
             'meshDescriptors' => [],
             'descendants' => ['8']
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => 'second objective',
             'position' => 0,
@@ -37,9 +37,9 @@ class ObjectiveData extends AbstractDataLoader
             'children' => ['3', '6'],
             'meshDescriptors' => ['abc1'],
             'descendants' => ['3']
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'title' => 'third objective',
             'position' => 0,
@@ -52,9 +52,9 @@ class ObjectiveData extends AbstractDataLoader
             'meshDescriptors' => [],
             'ancestor' => '2',
             'descendants' => []
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 4,
             'title' => 'fourth objective',
             'position' => 0,
@@ -66,9 +66,9 @@ class ObjectiveData extends AbstractDataLoader
             'children' => [],
             'meshDescriptors' => [],
             'descendants' => []
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 5,
             'title' => 'fifth objective',
             'position' => 0,
@@ -80,9 +80,9 @@ class ObjectiveData extends AbstractDataLoader
             'children' => [],
             'meshDescriptors' => ["abc1"],
             'descendants' => []
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 6,
             'title' => 'sixth objective',
             'position' => 0,
@@ -94,9 +94,9 @@ class ObjectiveData extends AbstractDataLoader
             'children' => [],
             'meshDescriptors' => ["abc1"],
             'descendants' => ['7']
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 7,
             'title' => 'seventh objective',
             'position' => 0,
@@ -109,8 +109,8 @@ class ObjectiveData extends AbstractDataLoader
             'meshDescriptors' => ["abc3"],
             'ancestor' => '6',
             'descendants' => []
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 8,
             'title' => 'eighth objective',
             'position' => 0,
@@ -123,12 +123,12 @@ class ObjectiveData extends AbstractDataLoader
             'meshDescriptors' => [],
             'ancestor' => '1',
             'descendants' => []
-        );
+        ];
 
         // unlinked objectives
 
         // link to this from new program-year objective
-        $arr[] = array(
+        $arr[] = [
             'id' => 9,
             'title' => 'ninth objective',
             'position' => 0,
@@ -140,10 +140,10 @@ class ObjectiveData extends AbstractDataLoader
             'children' => ['10'],
             'meshDescriptors' => [],
             'descendants' => []
-        );
+        ];
 
         // link to this from new course objective
-        $arr[] = array(
+        $arr[] = [
             'id' => 10,
             'title' => 'tenth objective',
             'position' => 0,
@@ -155,10 +155,10 @@ class ObjectiveData extends AbstractDataLoader
             'children' => ['11'],
             'meshDescriptors' => [],
             'descendants' => []
-        );
+        ];
 
         // link to this from new session objective
-        $arr[] = array(
+        $arr[] = [
             'id' => 11,
             'title' => 'eleventh objective',
             'position' => 0,
@@ -170,14 +170,14 @@ class ObjectiveData extends AbstractDataLoader
             'children' => [],
             'meshDescriptors' => [],
             'descendants' => []
-        );
+        ];
 
         return $arr;
     }
 
     public function create()
     {
-        return array(
+        return [
             'id' => 12,
             'title' => $this->faker->text,
             'position' => 0,
@@ -190,7 +190,7 @@ class ObjectiveData extends AbstractDataLoader
             'children' => [],
             'meshDescriptors' => [],
             'descendants' => []
-        );
+        ];
     }
 
     public function createInvalid()

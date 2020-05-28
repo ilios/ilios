@@ -8,9 +8,9 @@ class OfferingData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
@@ -21,9 +21,9 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => ['1'],
             'learners' => [],
             'instructors' => []
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
@@ -34,9 +34,9 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => [],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'room' => 'room 3',
             'site' => $this->faker->text(10),
@@ -47,9 +47,9 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => ['2'],
             'learners' => [],
             'instructors' => [],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 4,
             'room' => $this->faker->text(10),
             'site' => 'site 4',
@@ -60,9 +60,9 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => ['2'],
             'instructors' => [],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 5,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
@@ -73,9 +73,9 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => ["2"],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 6,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
@@ -86,9 +86,9 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => ['1'],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 7,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
@@ -99,9 +99,9 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => ['5'],
             'instructors' => [],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 8,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
@@ -112,7 +112,7 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => ['1'],
-        );
+        ];
 
 
         return $arr;
@@ -120,7 +120,7 @@ class OfferingData extends AbstractDataLoader
 
     public function create()
     {
-        return array(
+        return [
             'id' => 9,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
@@ -131,7 +131,7 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => [],
-        );
+        ];
     }
 
     public function createInvalid()

@@ -8,9 +8,9 @@ class LearnerGroupData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => $this->faker->text(25),
             'location' => $this->faker->text(25),
@@ -22,9 +22,9 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => ['2', '5'],
             'instructors' => ['1'],
             'descendants' => [],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => $this->faker->text(25),
             'cohort' => '2',
@@ -35,9 +35,9 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => ['2'],
             'instructors' => [],
             'descendants' => [],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'title' => 'third learner group',
             'cohort' => '1',
@@ -48,10 +48,10 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => ['2'],
             'instructors' => ['1'],
             'descendants' => ['4'],
-        );
+        ];
 
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 4,
             'title' => $this->faker->text(25),
             'location' => 'fourth location',
@@ -65,10 +65,10 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => [],
             'instructors' => [],
             'descendants' => [],
-        );
+        ];
 
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 5,
             'title' => $this->faker->text(25),
             'cohort' => '1',
@@ -79,7 +79,7 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => ['5'],
             'instructors' => [],
             'descendants' => [],
-        );
+        ];
 
 
         return $arr;
@@ -87,7 +87,7 @@ class LearnerGroupData extends AbstractDataLoader
 
     public function create()
     {
-        return array(
+        return [
             'id' => 6,
             'title' => $this->faker->text(25),
             'cohort' => "1",
@@ -99,7 +99,7 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => [],
             'instructors' => [],
             'descendants' => [],
-        );
+        ];
     }
 
     public function createInvalid()

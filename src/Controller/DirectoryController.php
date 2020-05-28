@@ -96,7 +96,7 @@ class DirectoryController extends AbstractController
             return $arr;
         }, $results);
 
-        return new JsonResponse(array('results' => $results));
+        return new JsonResponse(['results' => $results]);
     }
 
     public function findAction($id)
@@ -116,6 +116,6 @@ class DirectoryController extends AbstractController
             throw new \Exception('Unable to find ' . $user->getCampusId() . ' in the directory.');
         }
 
-        return new JsonResponse(array('result' => $userRecord));
+        return new JsonResponse(['result' => $userRecord]);
     }
 }

@@ -159,7 +159,7 @@ class CleanupStringsCommand extends Command
         $output->writeln("<info>Starting cleanup of objective titles...</info>");
         $progress->start();
         do {
-            $objectives = $this->objectiveManager->findBy(array(), array('id' => 'ASC'), $limit, $offset);
+            $objectives = $this->objectiveManager->findBy([], ['id' => 'ASC'], $limit, $offset);
             foreach ($objectives as $objective) {
                 $originalTitle = $objective->getTitle();
                 $cleanTitle = $this->purifier->purify($originalTitle);
@@ -196,7 +196,7 @@ class CleanupStringsCommand extends Command
         $progress->start();
         do {
             $materials = $this->learningMaterialManager
-                ->findBy(array(), array('id' => 'ASC'), $limit, $offset);
+                ->findBy([], ['id' => 'ASC'], $limit, $offset);
             foreach ($materials as $material) {
                 $original = $material->getDescription();
                 $clean = $this->purifier->purify($original);
@@ -232,7 +232,7 @@ class CleanupStringsCommand extends Command
         $output->writeln("<info>Starting cleanup of course learning material notes...</info>");
         $progress->start();
         do {
-            $materials = $this->courseLearningMaterialManager->findBy(array(), array('id' => 'ASC'), $limit, $offset);
+            $materials = $this->courseLearningMaterialManager->findBy([], ['id' => 'ASC'], $limit, $offset);
             foreach ($materials as $material) {
                 $original = $material->getNotes();
                 $clean = $this->purifier->purify($original);
@@ -268,7 +268,7 @@ class CleanupStringsCommand extends Command
         $output->writeln("<info>Starting cleanup of session learning material notes...</info>");
         $progress->start();
         do {
-            $materials = $this->sessionLearningMaterialManager->findBy(array(), array('id' => 'ASC'), $limit, $offset);
+            $materials = $this->sessionLearningMaterialManager->findBy([], ['id' => 'ASC'], $limit, $offset);
             foreach ($materials as $material) {
                 $original = $material->getNotes();
                 $clean = $this->purifier->purify($original);
@@ -304,7 +304,7 @@ class CleanupStringsCommand extends Command
         $output->writeln("<info>Starting cleanup of session descriptions...</info>");
         $progress->start();
         do {
-            $descriptions = $this->sessionDescriptionManager->findBy(array(), array('id' => 'ASC'), $limit, $offset);
+            $descriptions = $this->sessionDescriptionManager->findBy([], ['id' => 'ASC'], $limit, $offset);
             foreach ($descriptions as $description) {
                 $original = $description->getDescription();
                 $clean = $this->purifier->purify($original);

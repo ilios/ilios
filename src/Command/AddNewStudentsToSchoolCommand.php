@@ -134,7 +134,7 @@ class AddNewStudentsToSchoolCommand extends Command
             ];
         }, $newStudents);
         $table = new Table($output);
-        $table->setHeaders(array('Campus ID', 'First', 'Last', 'Email'))->setRows($rows);
+        $table->setHeaders(['Campus ID', 'First', 'Last', 'Email'])->setRows($rows);
         $table->render();
 
         $helper = $this->getHelper('question');
@@ -145,7 +145,7 @@ class AddNewStudentsToSchoolCommand extends Command
         );
 
         if ($helper->ask($input, $output, $question)) {
-            $studentRole = $this->userRoleManager->findOneBy(array('title' => 'Student'));
+            $studentRole = $this->userRoleManager->findOneBy(['title' => 'Student']);
             foreach ($newStudents as $userRecord) {
                 if (empty($userRecord['email'])) {
                     $output->writeln(

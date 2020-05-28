@@ -35,13 +35,13 @@ class LoadSessionData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
 
-            $properties = array(
+            $properties = [
                 'attireRequired' => 'setAttireRequired',
                 'equipmentRequired' => 'setEquipmentRequired',
                 'supplemental' => 'setSupplemental',
                 'attendanceRequired' => 'setAttendanceRequired',
                 'instructionalNotes' => 'setInstructionalNotes',
-            );
+            ];
             foreach ($properties as $key => $method) {
                 if (array_key_exists($key, $arr)) {
                     $entity->$method($arr[$key]);
@@ -55,10 +55,10 @@ class LoadSessionData extends AbstractFixture implements
             if (!empty($arr['course'])) {
                 $entity->setCourse($this->getReference('courses' . $arr['course']));
             }
-            $related = array(
+            $related = [
                 'terms' => 'addTerm',
                 'meshDescriptors' => 'addMeshDescriptor',
-            );
+            ];
             foreach ($related as $key => $method) {
                 foreach ($arr[$key] as $id) {
                     $entity->$method($this->getReference($key . $id));
@@ -89,12 +89,12 @@ class LoadSessionData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadSessionTypeData',
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadMeshDescriptorData',
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadUserData',
-        );
+        ];
     }
 }

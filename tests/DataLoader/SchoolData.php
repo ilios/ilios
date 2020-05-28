@@ -8,9 +8,9 @@ class SchoolData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => '1' . $this->faker->text(59),
             'templatePrefix' => $this->faker->text(8),
@@ -28,9 +28,9 @@ class SchoolData extends AbstractDataLoader
             'directors' => ['1'],
             'administrators' => ['1'],
             'configurations' => ['1', '2']
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => '2' . $this->faker->word,
             'templatePrefix' => $this->faker->text(8),
@@ -48,9 +48,9 @@ class SchoolData extends AbstractDataLoader
             'directors' => [],
             'administrators' => [],
             'configurations' => ['3']
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'title' => 'third school',
             'iliosAdministratorEmail' => $this->faker->email,
@@ -66,7 +66,7 @@ class SchoolData extends AbstractDataLoader
             'directors' => [],
             'administrators' => [],
             'configurations' => []
-        );
+        ];
 
 
         return $arr;
@@ -74,7 +74,7 @@ class SchoolData extends AbstractDataLoader
 
     public function create()
     {
-        return array(
+        return [
             'id' => 4,
             'title' => '4' . $this->faker->word,
             'templatePrefix' => $this->faker->text(8),
@@ -91,7 +91,7 @@ class SchoolData extends AbstractDataLoader
             'directors' => [],
             'administrators' => [],
             'configurations' => [],
-        );
+        ];
     }
 
     public function createInvalid()

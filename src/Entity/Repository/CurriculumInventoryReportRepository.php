@@ -164,7 +164,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      * @param array|int[] $eventIds
      * @return array
      */
-    public function getEventResourceTypes(CurriculumInventoryReportInterface $report, array $eventIds = array())
+    public function getEventResourceTypes(CurriculumInventoryReportInterface $report, array $eventIds = [])
     {
         if (empty($eventIds)) {
             return [];
@@ -192,7 +192,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      * @param array|int[] $eventIds
      * @return array
      */
-    public function getEventKeywords(CurriculumInventoryReportInterface $report, array $eventIds = array())
+    public function getEventKeywords(CurriculumInventoryReportInterface $report, array $eventIds = [])
     {
         $rhett = [];
 
@@ -241,7 +241,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      */
     public function getEventReferencesForSequenceBlocks(
         CurriculumInventoryReportInterface $report,
-        array $eventIds = array()
+        array $eventIds = []
     ) {
         if (empty($eventIds)) {
             return [];
@@ -325,7 +325,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      * @param array|int[] $sessionIds
      * @return array
      */
-    public function getSessionObjectives(CurriculumInventoryReportInterface $report, array $sessionIds = array())
+    public function getSessionObjectives(CurriculumInventoryReportInterface $report, array $sessionIds = [])
     {
         $rhett = [];
 
@@ -363,7 +363,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
      */
     public function getCompetencyObjectReferencesForEvents(
         CurriculumInventoryReportInterface $report,
-        array $eventIds = array()
+        array $eventIds = []
     ) {
         if (empty($eventIds)) {
             return [];

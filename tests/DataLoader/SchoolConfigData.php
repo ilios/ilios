@@ -8,25 +8,25 @@ class SchoolConfigData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => 1,
             'name' => '1' . $this->faker->text(50),
             'value' => $this->faker->text(100),
             'school' => '1',
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 2,
             'name' => 'second config',
             'value' => $this->faker->text(100),
             'school' => '1',
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 3,
             'name' => '3' . $this->faker->text(50),
             'value' => 'third value',
             'school' => '2',
-        );
+        ];
         return $arr;
     }
 

@@ -8,27 +8,27 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => $this->faker->text(10)
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => 'second lm user role'
-        );
+        ];
 
         return $arr;
     }
 
     public function create()
     {
-        return array(
+        return [
             'id' => 3,
             'title' => $this->faker->text(10)
-        );
+        ];
     }
 
     public function createInvalid()

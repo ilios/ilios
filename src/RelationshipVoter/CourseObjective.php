@@ -19,9 +19,9 @@ class CourseObjective extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof CourseObjectiveInterface && in_array($attribute, array(
+        return $subject instanceof CourseObjectiveInterface && in_array($attribute, [
                 self::VIEW, self::CREATE, self::EDIT, self::DELETE
-            ));
+            ]);
     }
 
     /**

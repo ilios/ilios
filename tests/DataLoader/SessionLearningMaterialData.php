@@ -8,9 +8,9 @@ class SessionLearningMaterialData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'required' => true,
             'publicNotes' => false,
@@ -21,9 +21,9 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'position' => 1,
             'startDate' => null,
             'endDate' => null,
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'required' => false,
             'publicNotes' => true,
@@ -34,9 +34,9 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'position' => 0,
             'startDate' => null,
             'endDate' => null,
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'required' => false,
             'publicNotes' => true,
@@ -47,9 +47,9 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'position' => 0,
             'startDate' => date_format(new \DateTime('2 days ago'), 'c'),
             'endDate' => null,
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 4,
             'required' => false,
             'publicNotes' => true,
@@ -60,9 +60,9 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'position' => 0,
             'startDate' => date_format(new \DateTime('+2 days'), 'c'),
             'endDate' => null,
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 5,
             'required' => false,
             'publicNotes' => true,
@@ -73,9 +73,9 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'position' => 0,
             'startDate' => null,
             'endDate' => date_format(new \DateTime('+ 2 days'), 'c'),
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 6,
             'required' => false,
             'publicNotes' => true,
@@ -86,9 +86,9 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'position' => 0,
             'startDate' => null,
             'endDate' => date_format(new \DateTime('2 days ago'), 'c'),
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 7,
             'required' => false,
             'publicNotes' => true,
@@ -99,9 +99,9 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'position' => 0,
             'startDate' => date_format(new \DateTime('2 days ago'), 'c'),
             'endDate' => date_format(new \DateTime('+2 days'), 'c'),
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 8,
             'required' => false,
             'publicNotes' => true,
@@ -112,7 +112,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'position' => 0,
             'startDate' => date_format(new \DateTime('4 days ago'), 'c'),
             'endDate' => date_format(new \DateTime('2 days ago'), 'c'),
-        );
+        ];
 
         return $arr;
     }

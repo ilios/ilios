@@ -8,11 +8,11 @@ class CurriculumInventoryReportData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
         $dt = $this->faker->dateTime;
         $dt->setTime(0, 0, 0);
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'program' => '1',
             'sequence' => '1',
@@ -24,9 +24,9 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'sequenceBlocks' => ['1', '2', '3', '4', '5'],
             'academicLevels' => ['1', '2'],
             'administrators' => ['1'],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'export' => '1',
             'program' => '1',
@@ -39,8 +39,8 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'sequenceBlocks' => [],
             'academicLevels' => [],
             'administrators' => [],
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 3,
             'export' => '2',
             'program' => '1',
@@ -52,7 +52,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'sequenceBlocks' => [],
             'academicLevels' => [],
             'administrators' => [],
-        );
+        ];
 
         return $arr;
     }
@@ -61,7 +61,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
     {
         $dt = $this->faker->dateTime;
         $dt->setTime(0, 0, 0);
-        return array(
+        return [
             'id' => 4,
             'program' => '2',
             'year' => $this->faker->date('Y'),
@@ -72,7 +72,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'sequenceBlocks' => [],
             'academicLevels' => [],
             'administrators' => [],
-        );
+        ];
     }
 
     public function createInvalid()

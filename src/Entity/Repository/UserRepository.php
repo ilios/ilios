@@ -47,7 +47,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
      * @param array $criteria
      * @return UserDTO[]
      */
-    public function findDTOsByQ($q, $orderBy, $limit, $offset, array $criteria = array())
+    public function findDTOsByQ($q, $orderBy, $limit, $offset, array $criteria = [])
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('u')->from('App\Entity\User', 'u');

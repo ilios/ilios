@@ -8,9 +8,9 @@ class CompetencyData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => 'first competency',
             'active' => true,
@@ -19,9 +19,9 @@ class CompetencyData extends AbstractDataLoader
             'children' => ['3'],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101'],
             'programYears' => ['1']
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => 'second competency',
             'active' => false,
@@ -30,9 +30,9 @@ class CompetencyData extends AbstractDataLoader
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102'],
             'programYears' => []
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'title' => 'third competency',
             'active' => true,
@@ -42,7 +42,7 @@ class CompetencyData extends AbstractDataLoader
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0102'],
             'programYears' => ['1']
-        );
+        ];
 
         return $arr;
     }

@@ -18,7 +18,7 @@ class UserEvent extends AbstractCalendarEvent
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof Event && in_array($attribute, array(self::VIEW, self::VIEW_DRAFT_CONTENTS));
+        return $subject instanceof Event && in_array($attribute, [self::VIEW, self::VIEW_DRAFT_CONTENTS]);
     }
 
     /**

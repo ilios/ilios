@@ -8,22 +8,22 @@ class ApplicationConfigData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => 1,
             'name' => '1' . $this->faker->text(50),
             'value' => $this->faker->text(100),
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 2,
             'name' => 'second name',
             'value' => $this->faker->text(100),
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 3,
             'name' => '2' . $this->faker->text(50),
             'value' => 'third value',
-        );
+        ];
 
         return $arr;
     }

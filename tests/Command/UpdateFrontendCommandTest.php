@@ -150,9 +150,9 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $this->fs->shouldReceive('copy')->with($frontendPath . 'one', $publicPath . 'one');
         $this->fs->shouldReceive('copy')->with($frontendPath . 'two', $publicPath . 'two');
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
-        ));
+        ]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
@@ -188,10 +188,10 @@ class UpdateFrontendCommandTest extends KernelTestCase
             ->with($frontendPath)
             ->andReturn([]);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             '--staging-build'         => true
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -228,10 +228,10 @@ class UpdateFrontendCommandTest extends KernelTestCase
             ->with($frontendPath)
             ->andReturn([]);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             '--at-version'         => 'foo.bar'
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -247,9 +247,9 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $this->fetch->shouldReceive('get')->with(UpdateFrontendCommand::PRODUCTION_CDN_ASSET_DOMAIN . $fileName, null)
             ->once()->andThrow(Exception::class);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
-        ));
+        ]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(

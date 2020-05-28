@@ -69,7 +69,7 @@ class ListRootUsersCommand extends Command
 
         $table = new Table($output);
         $table
-            ->setHeaders(array('Id', 'First', 'Last', 'Email', 'Phone Number', 'Enabled'))
+            ->setHeaders(['Id', 'First', 'Last', 'Email', 'Phone Number', 'Enabled'])
             ->setRows($rows)
         ;
         $table->render();

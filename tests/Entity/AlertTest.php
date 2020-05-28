@@ -28,10 +28,10 @@ class AlertTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'tableRowId',
             'tableName'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTableRowId(3215);

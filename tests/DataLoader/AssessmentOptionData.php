@@ -8,19 +8,19 @@ class AssessmentOptionData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'name' => $this->faker->word,
             'sessionTypes' => [1]
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'name' => 'second option',
             'sessionTypes' => [2]
-        );
+        ];
         return $arr;
     }
 

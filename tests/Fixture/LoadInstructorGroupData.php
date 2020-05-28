@@ -49,9 +49,9 @@ class LoadInstructorGroupData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadUserData',
             'App\Tests\Fixture\LoadSchoolData',
-        );
+        ];
     }
 }

@@ -85,7 +85,7 @@ class JsonWebTokenManager
     
     protected function decode($jwt)
     {
-        $decoded = JWT::decode($jwt, $this->jwtKey, array('HS256'));
+        $decoded = JWT::decode($jwt, $this->jwtKey, ['HS256']);
         return (array) $decoded;
     }
 
@@ -113,7 +113,7 @@ class JsonWebTokenManager
         $expires->add($interval);
         $canCreateOrUpdateUserInAnySchool = $this->permissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser);
 
-        $arr = array(
+        $arr = [
             'iss' => self::TOKEN_ISS,
             'aud' => self::TOKEN_AUD,
             'iat' => $now->format('U'),
@@ -122,7 +122,7 @@ class JsonWebTokenManager
             'is_root' => $sessionUser->isRoot(),
             'performs_non_learner_function' => $sessionUser->performsNonLearnerFunction(),
             'can_create_or_update_user_in_any_school' => $canCreateOrUpdateUserInAnySchool,
-        );
+        ];
 
         return JWT::encode($arr, $this->jwtKey);
     }

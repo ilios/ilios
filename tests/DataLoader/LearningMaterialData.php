@@ -14,9 +14,9 @@ class LearningMaterialData extends AbstractDataLoader
      */
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => 'firstlm' . $this->faker->text(30),
             'description' => 'desc1',
@@ -30,9 +30,9 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => ['1', '3'],
             'citation' => 'citation1',
             'mimetype' => 'citation',
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => 'secondlm' . $this->faker->text(30),
             'description' => 'desc2' . $this->faker->text,
@@ -46,9 +46,9 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => [2],
             'link' => 'http://example.com/example-file.txt',
             'mimetype' => 'link',
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'title' => 'thirdlm',
             'description' => 'desc3' . $this->faker->text,
@@ -63,9 +63,9 @@ class LearningMaterialData extends AbstractDataLoader
             'filename' => 'testfile.txt',
             'mimetype' => 'text/plain',
             'filesize' => 1000
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 4,
             'title' => 'fourthlm',
             'description' => 'desc4' . $this->faker->text,
@@ -80,9 +80,9 @@ class LearningMaterialData extends AbstractDataLoader
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
             'filesize' => 1000
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 5,
             'title' => 'fifthlm',
             'description' => 'desc5' . $this->faker->text,
@@ -97,9 +97,9 @@ class LearningMaterialData extends AbstractDataLoader
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
             'filesize' => 1000
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 6,
             'title' => 'sixthlm',
             'description' => 'desc6' . $this->faker->text,
@@ -114,9 +114,9 @@ class LearningMaterialData extends AbstractDataLoader
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
             'filesize' => 1000
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 7,
             'title' => 'seventhlm',
             'description' => 'desc7' . $this->faker->text,
@@ -131,9 +131,9 @@ class LearningMaterialData extends AbstractDataLoader
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
             'filesize' => 1000
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 8,
             'title' => 'eighthlm',
             'description' => 'desc8' . $this->faker->text,
@@ -148,8 +148,8 @@ class LearningMaterialData extends AbstractDataLoader
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
             'filesize' => 1000
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 9,
             'title' => 'ninthlm',
             'description' => 'desc9' . $this->faker->text,
@@ -164,8 +164,8 @@ class LearningMaterialData extends AbstractDataLoader
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
             'filesize' => 1000
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 10,
             'title' => 'tenthlm',
             'description' => 'desc10' . $this->faker->text,
@@ -180,7 +180,7 @@ class LearningMaterialData extends AbstractDataLoader
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
             'filesize' => 1000
-        );
+        ];
 
         return $arr;
     }
@@ -190,7 +190,7 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function create()
     {
-        return array(
+        return [
             'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
@@ -204,7 +204,7 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightPermission' => true,
             'citation' => $this->faker->text,
             'mimetype' => 'citation',
-        );
+        ];
     }
 
     /**
@@ -212,7 +212,7 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createCitation()
     {
-        return array(
+        return [
             'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
@@ -224,7 +224,7 @@ class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'citation' => $this->faker->text,
             'mimetype' => 'citation',
-        );
+        ];
     }
 
     /**
@@ -232,7 +232,7 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createLink()
     {
-        return array(
+        return [
             'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
@@ -244,7 +244,7 @@ class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'link' => $this->faker->url,
             'mimetype' => 'link',
-        );
+        ];
     }
 
     /**
@@ -252,7 +252,7 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createFile()
     {
-        return array(
+        return [
             'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
@@ -264,7 +264,7 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => [],
             'copyrightRationale' => $this->faker->text,
             'copyrightPermission' => true,
-        );
+        ];
     }
 
     /**
@@ -301,7 +301,7 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createInvalidLink()
     {
-        return array(
+        return [
             'id' => 11,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
@@ -312,7 +312,7 @@ class LearningMaterialData extends AbstractDataLoader
             'status' => "1",
             'owningUser' => "1",
             'link' => $this->faker->text(600), // too long
-        );
+        ];
     }
 
     public function createInvalidFile()

@@ -49,7 +49,7 @@ class DirectoryTest extends TestCase
     public function testFindByCampusId()
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
-        $this->ldapManager->shouldReceive('search')->with('(campusId=1234)')->andReturn(array(1));
+        $this->ldapManager->shouldReceive('search')->with('(campusId=1234)')->andReturn([1]);
 
         $result = $this->obj->findByCampusId(1234);
         $this->assertSame($result, 1);
@@ -61,7 +61,7 @@ class DirectoryTest extends TestCase
     public function testFindByCampusIds()
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
-        $this->ldapManager->shouldReceive('search')->with('(|(campusId=1234)(campusId=1235))')->andReturn(array(1));
+        $this->ldapManager->shouldReceive('search')->with('(|(campusId=1234)(campusId=1235))')->andReturn([1]);
 
         $result = $this->obj->findByCampusIds([1234, 1235]);
         $this->assertSame($result, [1]);
@@ -74,7 +74,7 @@ class DirectoryTest extends TestCase
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $this->ldapManager->shouldReceive('search')
-            ->with(m::mustBe('(|(campusId=1234)(campusId=1235))'))->andReturn(array(1));
+            ->with(m::mustBe('(|(campusId=1234)(campusId=1235))'))->andReturn([1]);
 
         $result = $this->obj->findByCampusIds([1234, 1235, 1234, 1235]);
         $this->assertSame($result, [1]);
@@ -117,10 +117,10 @@ class DirectoryTest extends TestCase
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $filter = '(&(|(sn=a*)(givenname=a*)(mail=a*)(campusId=a*))(|(sn=b*)(givenname=b*)(mail=b*)(campusId=b*)))';
-        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);
 
-        $result = $this->obj->find(array('a', 'b'));
-        $this->assertSame($result, array(1,2));
+        $result = $this->obj->find(['a', 'b']);
+        $this->assertSame($result, [1,2]);
     }
 
     /**
@@ -130,10 +130,10 @@ class DirectoryTest extends TestCase
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $filter = '(&(|(sn=a\2a*)(givenname=a\2a*)(mail=a\2a*)(campusId=a\2a*)))';
-        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);
 
-        $result = $this->obj->find(array('a*'));
-        $this->assertSame($result, array(1,2));
+        $result = $this->obj->find(['a*']);
+        $this->assertSame($result, [1,2]);
     }
 
     /**
@@ -142,9 +142,9 @@ class DirectoryTest extends TestCase
     public function testFindByLdapFilter()
     {
         $filter = '(one)(two)';
-        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);
 
         $result = $this->obj->findByLdapFilter($filter);
-        $this->assertSame($result, array(1,2));
+        $this->assertSame($result, [1,2]);
     }
 }

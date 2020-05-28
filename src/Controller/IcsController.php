@@ -62,7 +62,7 @@ class IcsController extends AbstractController
     public function indexAction(Request $request, $key)
     {
         /** @var User $user */
-        $user = $this->userManager->findOneBy(array('icsFeedKey' => $key));
+        $user = $this->userManager->findOneBy(['icsFeedKey' => $key]);
 
         if (!$user) {
             throw new NotFoundHttpException();

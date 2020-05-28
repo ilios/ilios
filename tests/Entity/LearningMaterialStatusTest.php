@@ -28,9 +28,9 @@ class LearningMaterialStatusTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'title'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');

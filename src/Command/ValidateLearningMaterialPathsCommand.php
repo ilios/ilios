@@ -99,7 +99,7 @@ class ValidateLearningMaterialPathsCommand extends Command
             }, $broken);
             $table = new Table($output);
             $table
-                ->setHeaders(array('Learning Material ID', 'Relative Path'))
+                ->setHeaders(['Learning Material ID', 'Relative Path'])
                 ->setRows($rows)
             ;
             $table->render();

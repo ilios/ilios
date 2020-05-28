@@ -8,9 +8,9 @@ class ProgramYearData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'startYear' => '2013',
             'locked' => false,
@@ -24,8 +24,8 @@ class ProgramYearData extends AbstractDataLoader
             'terms' => [],
             'programYearObjectives' => ['1', '2'],
             'stewards' => ['1', '2']
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 2,
             'startYear' => "2014",
             'locked' => false,
@@ -39,8 +39,8 @@ class ProgramYearData extends AbstractDataLoader
             'terms' => ['1', '4'],
             'programYearObjectives' => [],
             'stewards' => []
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 3,
             'startYear' => "2015",
             'locked' => false,
@@ -54,8 +54,8 @@ class ProgramYearData extends AbstractDataLoader
             'terms' => [],
             'programYearObjectives' => [],
             'stewards' => []
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 4,
             'startYear' => "2016",
             'locked' => true,
@@ -69,8 +69,8 @@ class ProgramYearData extends AbstractDataLoader
             'terms' => [],
             'programYearObjectives' => [],
             'stewards' => []
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 5,
             'startYear' => '2016',
             'locked' => false,
@@ -84,7 +84,7 @@ class ProgramYearData extends AbstractDataLoader
             'terms' => [],
             'programYearObjectives' => ['3'],
             'stewards' => []
-        );
+        ];
 
         return $arr;
     }

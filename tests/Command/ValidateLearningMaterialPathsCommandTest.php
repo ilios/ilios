@@ -70,9 +70,9 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
             ->shouldReceive('checkLearningMaterialFilePath')->with($badLm)->andReturn(false)->once()
         ;
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();

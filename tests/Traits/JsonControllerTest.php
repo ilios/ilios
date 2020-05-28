@@ -144,7 +144,7 @@ trait JsonControllerTest
         $url,
         $content = null,
         $token = null,
-        $files = array()
+        $files = []
     ) {
         $headers = [
             'HTTP_ACCEPT' => 'application/json',

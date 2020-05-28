@@ -29,11 +29,11 @@ class UserTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'lastName',
             'firstName',
             'email'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setLastName('Andrews');

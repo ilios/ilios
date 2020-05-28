@@ -55,7 +55,7 @@ class UploadControllerTest extends WebTestCase
             '/upload',
             null,
             $this->getAuthenticatedUserToken($client),
-            array('file' => $this->fakeTestFile)
+            ['file' => $this->fakeTestFile]
         );
         
         $response = $client->getResponse();
@@ -76,7 +76,7 @@ class UploadControllerTest extends WebTestCase
             '/upload',
             null,
             $this->getAuthenticatedUserToken($client),
-            array('nofile' => $this->fakeTestFile)
+            ['nofile' => $this->fakeTestFile]
         );
         
         $response = $client->getResponse();

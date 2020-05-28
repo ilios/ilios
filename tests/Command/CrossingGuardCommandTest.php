@@ -53,10 +53,10 @@ class CrossingGuardCommandTest extends KernelTestCase
     {
         $this->crossingGuard->shouldReceive('enable')->once();
         $this->crossingGuard->shouldReceive('isStopped')->once()->andReturn(true);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'action'         => 'down'
-        ));
+        ]);
         $output = $this->commandTester->getDisplay();
         $this->assertEquals(
             CrossingGuardCommand::ENABLED_MESSAGE,
@@ -68,10 +68,10 @@ class CrossingGuardCommandTest extends KernelTestCase
     {
         $this->crossingGuard->shouldReceive('disable')->once();
         $this->crossingGuard->shouldReceive('isStopped')->once()->andReturn(false);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'action'         => 'up'
-        ));
+        ]);
         $output = $this->commandTester->getDisplay();
         $this->assertEquals(
             CrossingGuardCommand::DISABLED_MESSAGE,
@@ -82,10 +82,10 @@ class CrossingGuardCommandTest extends KernelTestCase
     public function testStatusEnabled()
     {
         $this->crossingGuard->shouldReceive('isStopped')->once()->andReturn(true);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'action'         => 'status'
-        ));
+        ]);
         $output = $this->commandTester->getDisplay();
         $this->assertEquals(
             CrossingGuardCommand::ENABLED_MESSAGE,
@@ -96,10 +96,10 @@ class CrossingGuardCommandTest extends KernelTestCase
     public function testStatusDisabled()
     {
         $this->crossingGuard->shouldReceive('isStopped')->once()->andReturn(false);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'action'         => 'status'
-        ));
+        ]);
         $output = $this->commandTester->getDisplay();
         $this->assertEquals(
             CrossingGuardCommand::DISABLED_MESSAGE,

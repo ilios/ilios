@@ -8,21 +8,21 @@ class VocabularyData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => 1,
             'title' => $this->faker->text(100),
             'active' => true,
             'school' => '1',
             'terms' => ['1', '2', '3']
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 2,
             'title' => 'second vocabulary',
             'active' => false,
             'school' => '2',
             'terms' => ['4', '5', '6']
-        );
+        ];
         return $arr;
     }
 

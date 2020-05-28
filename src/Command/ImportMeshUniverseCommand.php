@@ -110,7 +110,7 @@ class ImportMeshUniverseCommand extends Command
         $descriptorIds = $descriptorSet->getDescriptorUis();
         $output->writeln("2/${steps}: Clearing database of existing MeSH data.");
         $this->manager->clearExistingData();
-        $existingDescriptors = $this->manager->findDTOsBy(array());
+        $existingDescriptors = $this->manager->findDTOsBy([]);
         $existingDescriptorIds = array_column($existingDescriptors, 'id');
         $updateDescriptorIds = array_intersect($existingDescriptorIds, $descriptorIds);
         $deletedDescriptorIds = array_diff($existingDescriptorIds, $descriptorIds);

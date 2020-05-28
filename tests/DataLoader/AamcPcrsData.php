@@ -8,17 +8,17 @@ class AamcPcrsData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => 'aamc-pcrs-comp-c0101',
             'description' => $this->faker->text,
             'competencies' => [1,2]
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 'aamc-pcrs-comp-c0102',
             'description' => 'second description',
             'competencies' => [2,3]
-        );
+        ];
 
         return $arr;
     }

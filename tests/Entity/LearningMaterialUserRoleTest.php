@@ -28,9 +28,9 @@ class LearningMaterialUserRoleTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'title'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test up to 60 char');

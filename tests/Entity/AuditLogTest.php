@@ -28,12 +28,12 @@ class AuditLogTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'action',
             'objectId',
             'objectClass',
             'valuesChanged'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setAction('test');

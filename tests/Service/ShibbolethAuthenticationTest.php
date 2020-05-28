@@ -119,7 +119,7 @@ class ShibbolethAuthenticationTest extends TestCase
         $request = m::mock(Request::class);
         $request->server = $serverBag;
         $this->authManager->shouldReceive('findOneBy')
-            ->with(array('username' => 'userid1'))->andReturn(null);
+            ->with(['username' => 'userid1'])->andReturn(null);
 
         $result = $this->obj->login($request);
 
@@ -145,7 +145,7 @@ class ShibbolethAuthenticationTest extends TestCase
         $authenticationEntity = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findOneBy')
-            ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
+            ->with(['username' => 'userid1'])->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
 
@@ -173,7 +173,7 @@ class ShibbolethAuthenticationTest extends TestCase
         $authenticationEntity = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->authManager->shouldReceive('findOneBy')
-            ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
+            ->with(['username' => 'userid1'])->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
 

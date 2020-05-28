@@ -8,8 +8,8 @@ class MeshConceptData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => '1',
             'name' => 'concept' . $this->faker->text,
             'preferred' => true,
@@ -18,8 +18,8 @@ class MeshConceptData extends AbstractDataLoader
             'registryNumber' => $this->faker->text(20),
             'terms' => ['1', '2'],
             'descriptors' => ['abc1']
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => '2',
             'name' => 'second concept',
             'preferred' => false,
@@ -28,14 +28,14 @@ class MeshConceptData extends AbstractDataLoader
             'registryNumber' => 'abcd',
             'terms' => [],
             'descriptors' => ['abc1']
-        );
+        ];
 
         return $arr;
     }
 
     public function create()
     {
-        return array(
+        return [
             'id' => '3',
             'name' => 'concept' . $this->faker->text(180),
             'preferred' => true,
@@ -44,14 +44,14 @@ class MeshConceptData extends AbstractDataLoader
             'registryNumber' => $this->faker->text(20),
             'terms' => ['1'],
             'descriptors' => []
-        );
+        ];
     }
 
     public function createInvalid()
     {
-        return array(
+        return [
             'id' => 'bad'
-        );
+        ];
     }
 
     /**

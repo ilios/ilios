@@ -28,9 +28,9 @@ class MeshConceptTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'name',
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setName('test_name');

@@ -87,10 +87,10 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         ;
         $this->commandTester->setInputs(['Yes']);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'pathToIlios2'         => __DIR__ . '/'
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -120,10 +120,10 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         ;
 
         $this->commandTester->setInputs(['Yes']);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'pathToIlios2'         => 'path'
-        ));
+        ]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
@@ -140,15 +140,15 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
     {
         $this->symfonyFileSystem->shouldReceive('exists')->with('badpath')->andReturn(false);
         $this->expectException(\Exception::class, "'badpath' does not exist");
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'pathToIlios2'         => 'badpath'
-        ));
+        ]);
     }
 
     public function testIlios2PathRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array('command' => self::COMMAND_NAME));
+        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

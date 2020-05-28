@@ -29,10 +29,10 @@ class SchoolTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'title',
             'iliosAdministratorEmail'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');

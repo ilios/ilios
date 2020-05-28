@@ -124,14 +124,14 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         $this->userManager
             ->shouldReceive('update')
             ->with($user)->once();
-        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($school);
+        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
         $role = m::mock('App\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)
             ->mock();
         $user->shouldReceive('addRole')->with($role);
         $this->userRoleManager
             ->shouldReceive('findOneBy')
-            ->with(array('title' => 'Student'))
+            ->with(['title' => 'Student'])
             ->andReturn($role);
         $this->userRoleManager
             ->shouldReceive('update')
@@ -141,11 +141,11 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         $this->authenticationManager->shouldReceive('update')->with($authentication, false);
 
         $this->commandTester->setInputs(['Yes']);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'   => self::COMMAND_NAME,
             'schoolId'    => 1,
             'filter'    => 'FILTER',
-        ));
+        ]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
@@ -173,30 +173,30 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 
     public function testBadSchoolId()
     {
-        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
+        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'School with id 1 could not be found.');
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'filter'         => 'FILTER',
             'schoolId'         => '1'
-        ));
+        ]);
     }
 
     public function testFilterRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'schoolId'         => '1'
-        ));
+        ]);
     }
 
     public function testSchoolRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'filter'         => '1',
-        ));
+        ]);
     }
 }

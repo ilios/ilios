@@ -8,11 +8,11 @@ class IlmSessionData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
         $dt = $this->faker->dateTime;
         $dt->setTime(0, 0, 0);
         $dt->setDate(2016, 1, 1);
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'hours' => $this->faker->randomFloat(2),
             'dueDate' => $dt->format('c'),
@@ -21,9 +21,9 @@ class IlmSessionData extends AbstractDataLoader
             'instructors' => [],
             'learners' => [],
             'session' => '5'
-        );
+        ];
         $dt->modify('+1 month');
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'hours' => 21.2,
             'dueDate' => $dt->format('c'),
@@ -32,10 +32,10 @@ class IlmSessionData extends AbstractDataLoader
             'instructors' => [],
             'learners' => [],
             'session' => '6'
-        );
+        ];
 
         $dt->modify('+1 month');
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'hours' => $this->faker->randomFloat(2),
             'dueDate' => $dt->format('c'),
@@ -44,10 +44,10 @@ class IlmSessionData extends AbstractDataLoader
             'instructors' => ['2'],
             'learners' => [],
             'session' => '7'
-        );
+        ];
 
         $dt->modify('+1 month');
-        $arr[] = array(
+        $arr[] = [
             'id' => 4,
             'hours' => $this->faker->randomFloat(2),
             'dueDate' => $dt->format('c'),
@@ -56,7 +56,7 @@ class IlmSessionData extends AbstractDataLoader
             'instructors' => [],
             'learners' => ['2'],
             'session' => '8'
-        );
+        ];
 
         return $arr;
     }
@@ -65,7 +65,7 @@ class IlmSessionData extends AbstractDataLoader
     {
         $dt = $this->faker->dateTime;
         $dt->setTime(0, 0, 0);
-        return array(
+        return [
             'id' => 5,
             'hours' => $this->faker->randomFloat(2),
             'dueDate' => $dt->format('c'),
@@ -74,7 +74,7 @@ class IlmSessionData extends AbstractDataLoader
             'instructors' => ['1', '2'],
             'learners' => ['1', '2'],
             'session' => '1'
-        );
+        ];
     }
 
     public function createInvalid()

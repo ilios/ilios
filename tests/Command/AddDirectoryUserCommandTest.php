@@ -86,8 +86,8 @@ class AddDirectoryUserCommandTest extends KernelTestCase
             ->mock();
         $authentication->shouldReceive('setUser')->with($user);
 
-        $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 'abc'))->andReturn(false);
-        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($school);
+        $this->userManager->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(false);
+        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
         $this->userManager->shouldReceive('create')->andReturn($user);
         $this->userManager->shouldReceive('update')->with($user);
         $this->authenticationManager->shouldReceive('create')->andReturn($authentication);
@@ -103,11 +103,11 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->commandTester->setInputs(['Yes']);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'campusId'         => 'abc',
             'schoolId'         => '1',
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -127,42 +127,42 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         $user = m::mock('App\Entity\UserInterface')
             ->shouldReceive('getId')->andReturn(1)
             ->mock();
-        $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn($user);
         $this->expectException(\Exception::class, 'User #1 with campus id 1 already exists.');
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',
             'schoolId'         => '1'
-        ));
+        ]);
     }
 
     public function testBadSchoolId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn(null);
-        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn(null);
+        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'School with id 1 could not be found.');
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',
             'schoolId'         => '1'
-        ));
+        ]);
     }
 
     public function testUserRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'schoolId'         => '1'
-        ));
+        ]);
     }
 
     public function testSchoolRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',
-        ));
+        ]);
     }
 }

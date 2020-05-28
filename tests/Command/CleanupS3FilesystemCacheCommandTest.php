@@ -70,9 +70,9 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
         $this->diskSpace->shouldReceive('totalSpace')->once()->with(self::CACHE_DIR)->andReturn(100);
 
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
-        ));
+        ]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
@@ -99,9 +99,9 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
         $this->filesystem->shouldReceive('delete')->with('file1');
         $this->filesystem->shouldReceive('delete')->with('file3');
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
-        ));
+        ]);
 
         $output = $this->commandTester->getDisplay();
 

@@ -70,7 +70,7 @@ class FindUserCommand extends Command
         }, $userRecords);
         $table = new Table($output);
         $table
-            ->setHeaders(array('Campus ID', 'First', 'Last', 'Email', 'Phone Number'))
+            ->setHeaders(['Campus ID', 'First', 'Last', 'Email', 'Phone Number'])
             ->setRows($rows)
         ;
         $table->render();

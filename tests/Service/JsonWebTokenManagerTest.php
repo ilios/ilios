@@ -146,7 +146,7 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertSame(false, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
     }
 
-    protected function buildToken(array $values = array(), $secretKey = 'ilios.jwt.key.secret')
+    protected function buildToken(array $values = [], $secretKey = 'ilios.jwt.key.secret')
     {
         $now = new DateTime();
         $default = [

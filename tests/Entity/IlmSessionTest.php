@@ -29,11 +29,11 @@ class IlmSessionTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'session',
             'hours',
             'dueDate'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setSession(new Session());
