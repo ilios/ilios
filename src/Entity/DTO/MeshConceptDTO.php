@@ -90,7 +90,6 @@ class MeshConceptDTO
      * @var array
      *
      * @IS\Expose
-     * @IS\Related
      * @IS\Related("meshDescriptors")
      * @IS\Type("array<string>")
      */

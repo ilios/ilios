@@ -83,7 +83,6 @@ class CurriculumInventoryReportDTO
      * @var array
      *
      * @IS\Expose
-     * @IS\Related
      * @IS\Related("curriculumInventorySequenceBlocks")
      * @IS\Type("array<string>")
      */

@@ -33,6 +33,7 @@ class MeshTreeDTO
      * @var string
      *
      * @IS\Expose
+     * @IS\Related("meshDescriptors")
      * @IS\Type("string")
      */
     public $descriptor;

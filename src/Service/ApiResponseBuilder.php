@@ -127,7 +127,7 @@ class ApiResponseBuilder
         );
     }
 
-    protected function extractJsonApiSideLoadFields(?string $include): array
+    public function extractJsonApiSideLoadFields(?string $include): array
     {
         if (!$include) {
             return [];

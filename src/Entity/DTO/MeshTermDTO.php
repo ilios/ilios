@@ -89,7 +89,7 @@ class MeshTermDTO
      * @var int[]
      *
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("meshConcepts")
      * @IS\Type("array<string>")
      */
     public $concepts;

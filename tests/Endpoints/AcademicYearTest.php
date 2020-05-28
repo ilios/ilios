@@ -48,6 +48,14 @@ class AcademicYearTest extends ReadEndpointTest
         $this->compareData($data, $returnedData);
     }
 
+    public function testGetOneJsonApi()
+    {
+        $academicYears = $this->getYears();
+        $data = $academicYears[0];
+        $returnedData = $this->getOneJsonApi('academicyears', (string) $data['id']);
+        $this->compareJsonApiData($data, $returnedData);
+    }
+
     public function testGetAll()
     {
         $endpoint = $this->getPluralName();
