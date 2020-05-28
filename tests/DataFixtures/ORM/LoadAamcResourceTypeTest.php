@@ -9,7 +9,7 @@ use App\Entity\AamcResourceTypeInterface;
 /**
  * Class LoadAamcResourceTypeDataTest
  */
-class LoadAamcResourceTypeDataTest extends AbstractDataFixtureTest
+class LoadAamcResourceTypeTest extends AbstractDataFixtureTest
 {
     /**
      * {@inheritdoc}
