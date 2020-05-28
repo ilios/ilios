@@ -176,7 +176,6 @@ class SessionV1DTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
      * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
