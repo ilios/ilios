@@ -93,7 +93,7 @@ class Users extends ReadWriteController
      * the created key.  This happens when new users are created and they don't have a
      * key yet.  Instead of using the blank key we need to keep the one that is generated
      * in the User entity constructor.
-     * @Route("/", methods={"POST"})
+     * @Route("", methods={"POST"})
      */
     public function post(
         string $version,

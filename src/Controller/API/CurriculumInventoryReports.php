@@ -122,7 +122,7 @@ class CurriculumInventoryReports
      * Handles POST which creates new data in the API
      * Along with the report create the Sequence and Levels that
      * are necessary for a Report to be at all valid
-     * @Route("/", methods={"POST"})
+     * @Route("", methods={"POST"})
      */
     public function post(
         string $version,

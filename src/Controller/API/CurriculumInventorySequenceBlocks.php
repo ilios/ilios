@@ -33,7 +33,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
 
     /**
      * Handles POST which creates new data in the API
-     * @Route("/", methods={"POST"})
+     * @Route("", methods={"POST"})
      */
     public function post(
         string $version,

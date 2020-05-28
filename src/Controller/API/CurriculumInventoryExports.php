@@ -30,7 +30,7 @@ class CurriculumInventoryExports
 {
     /**
      * Create the XML document for a curriculum inventory report
-     * @Route("/", methods={"POST"})
+     * @Route("", methods={"POST"})
      */
     public function post(
         string $version,
