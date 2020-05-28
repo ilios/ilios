@@ -45,7 +45,7 @@ class MeshQualifierDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Related
+     * @IS\Related("meshDescriptors")
      * @IS\Type("array<string>")
      */
     public $descriptors;
