@@ -18,18 +18,11 @@ class CurriculumInventoryReportDecoratorFactory
     protected $router;
 
     /**
-     * @var string
-     */
-    protected $entityDecoratorClassName;
-
-    /**
      * @param RouterInterface $router
-     * @param string $decoratorClassName
      */
-    public function __construct(RouterInterface $router, $decoratorClassName)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
-        $this->entityDecoratorClassName = $decoratorClassName;
     }
 
     /**
@@ -41,7 +34,8 @@ class CurriculumInventoryReportDecoratorFactory
         $report
     ) {
         if ($report instanceof CurriculumInventoryReportInterface) {
-            return new $this->entityDecoratorClassName($report, $this->router);
+            $dto = CurriculumInventoryReportDTO::createFromEntity($report);
+            return $this->decorateDto($dto);
         }
 
         if ($report instanceof CurriculumInventoryReportDTO) {

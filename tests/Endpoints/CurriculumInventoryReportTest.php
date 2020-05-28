@@ -167,6 +167,42 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         return $fetchedResponseData;
     }
 
+    /**
+     * Test saving new data to the JSON:API
+     * @return mixed
+     */
+    protected function postJsonApiTest(object $postData, array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postOneJsonApi($postData);
+
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id);
+
+        $this->assertNotEmpty($fetchedResponseData['absoluteFileUri']);
+        $this->assertEquals(
+            10,
+            count($fetchedResponseData['academicLevels']),
+            'There should be 10 academic levels ids.'
+        );
+        $this->assertNotEmpty($fetchedResponseData['sequence'], 'A sequence id should be present.');
+
+        unset($fetchedResponseData['sequence']);
+        unset($fetchedResponseData['academicLevels']);
+        // don't compare sequence and academic level ids.
+        if (array_key_exists('sequence', $data)) {
+            $fetchedResponseData['sequence'] = $data['sequence'];
+        }
+        if (array_key_exists('academicLevels', $data)) {
+            $fetchedResponseData['academicLevels'] = $data['academicLevels'];
+        }
+
+        $this->compareData($data, $fetchedResponseData);
+
+        return $fetchedResponseData;
+    }
+
     protected function postManyTest(array $data)
     {
         $endpoint = $this->getPluralName();
