@@ -21,12 +21,12 @@ class Report extends AbstractVoter
     {
         return $subject instanceof ReportInterface && in_array(
             $attribute,
-            array(
+            [
                         self::VIEW,
                         self::CREATE,
                         self::EDIT,
                         self::DELETE,
-                    )
+            ]
         );
     }
 

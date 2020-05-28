@@ -8,8 +8,8 @@ class TermData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => 1,
             'title' => $this->faker->text(100),
             'description' => $this->faker->text(200),
@@ -23,8 +23,8 @@ class TermData extends AbstractDataLoader
             'courseObjectives' => ['1', '2'],
             'programYearObjectives' => [],
             'sessionObjectives' => [],
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 2,
             'title' => 'second term',
             'description' => $this->faker->text(200),
@@ -39,8 +39,8 @@ class TermData extends AbstractDataLoader
             'courseObjectives' => [],
             'programYearObjectives' => ['1', '2'],
             'sessionObjectives' => [],
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 3,
             'title' => $this->faker->text(100),
             'description' => 'third description',
@@ -55,9 +55,9 @@ class TermData extends AbstractDataLoader
             'courseObjectives' => [],
             'programYearObjectives' => [],
             'sessionObjectives' => ['1', '2'],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 4,
             'title' => $this->faker->text(100),
             'description' => $this->faker->text(200),
@@ -71,8 +71,8 @@ class TermData extends AbstractDataLoader
             'courseObjectives' => ['1'],
             'programYearObjectives' => ['1'],
             'sessionObjectives' => ['1'],
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 5,
             'title' => $this->faker->text(100),
             'description' => $this->faker->text(200),
@@ -86,8 +86,8 @@ class TermData extends AbstractDataLoader
             'courseObjectives' => [],
             'programYearObjectives' => [],
             'sessionObjectives' => [],
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => 6,
             'title' => $this->faker->text(100),
             'description' => $this->faker->text(200),
@@ -101,7 +101,7 @@ class TermData extends AbstractDataLoader
             'courseObjectives' => [],
             'programYearObjectives' => [],
             'sessionObjectives' => [],
-        );
+        ];
 
         return $arr;
     }

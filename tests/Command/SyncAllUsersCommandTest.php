@@ -127,7 +127,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -138,9 +138,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->userManager->shouldReceive('update')->with($user, false)->once();
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -189,7 +189,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -201,9 +201,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -252,7 +252,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -264,9 +264,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -315,7 +315,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -327,9 +327,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -377,7 +377,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -397,9 +397,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -448,7 +448,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -460,9 +460,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -511,7 +511,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -523,9 +523,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -574,7 +574,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -587,9 +587,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->authenticationManager->shouldReceive('update')->with($authentication, false)->once();
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -640,7 +640,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -656,9 +656,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->authenticationManager->shouldReceive('update')->with($authentication, false)->once();
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -718,7 +718,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user1, $user2])
             ->once();
         $this->userManager
@@ -731,9 +731,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -774,7 +774,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -786,9 +786,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -829,7 +829,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -841,9 +841,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -884,7 +884,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -896,9 +896,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -939,7 +939,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -951,9 +951,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -1005,9 +1005,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->pendingUserUpdateManager->shouldReceive('update')->with($update, false)->once();
 
         $this->em->shouldReceive('flush')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -1055,7 +1055,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
         $this->userManager
@@ -1075,9 +1075,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
@@ -1131,7 +1131,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findBy')
-            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user1])
             ->once();
         $this->userManager->shouldReceive('update')->with($user1, false)->once();
@@ -1145,9 +1145,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();

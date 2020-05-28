@@ -37,13 +37,13 @@ class CourseTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'title',
             'level',
             'year',
             'startDate',
             'endDate',
-        );
+        ];
         $this->object->setSchool(new School());
         $this->validateNotBlanks($notBlank);
 
@@ -57,9 +57,9 @@ class CourseTest extends EntityBase
 
     public function testNotNullValidation()
     {
-        $notNull = array(
+        $notNull = [
             'school',
-        );
+        ];
         $this->object->setTitle('test');
         $this->object->setLevel(3);
         $this->object->setYear(2004);

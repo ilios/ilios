@@ -30,11 +30,11 @@ class CurriculumInventoryReportTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'year',
             'startDate',
             'endDate'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setYear(2001);

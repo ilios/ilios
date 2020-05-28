@@ -28,7 +28,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'name',
             'aamcCode',
             'addressStreet',
@@ -36,7 +36,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
             'addressStateOrProvince',
             'addressZipCode',
             'addressCountryCode'
-        );
+        ];
         $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
         $this->validateNotBlanks($notBlank);
 
@@ -52,9 +52,9 @@ class CurriculumInventoryInstitutionTest extends EntityBase
 
     public function testNotNullValidation()
     {
-        $notNull = array(
+        $notNull = [
             'school'
-        );
+        ];
         $this->object->setName('10lenMAX');
         $this->object->setAamcCode('ddd');
         $this->object->setAddressStreet('1123 A');

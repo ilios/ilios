@@ -8,30 +8,30 @@ class CurriculumInventorySequenceData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'report' => '1',
             'description' => $this->faker->text(100),
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'report' => '2',
             'description' => 'second description',
-        );
+        ];
 
         return $arr;
     }
 
     public function create()
     {
-        return array(
+        return [
             'id' => 3,
             'report' => '3',
             'description' => $this->faker->text(100),
-        );
+        ];
     }
 
     public function createInvalid()

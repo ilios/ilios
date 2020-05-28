@@ -108,7 +108,7 @@ class SyncFormerStudentsCommand extends Command
             ];
         })->toArray();
         $table = new Table($output);
-        $table->setHeaders(array('Campus ID', 'First', 'Last', 'Email'))->setRows($rows);
+        $table->setHeaders(['Campus ID', 'First', 'Last', 'Email'])->setRows($rows);
         $table->render();
 
         $helper = $this->getHelper('question');
@@ -120,7 +120,7 @@ class SyncFormerStudentsCommand extends Command
 
         if ($helper->ask($input, $output, $question)) {
             /* @var UserRoleInterface $formerStudentRole */
-            $formerStudentRole = $this->userRoleManager->findOneBy(array('title' => 'Former Student'));
+            $formerStudentRole = $this->userRoleManager->findOneBy(['title' => 'Former Student']);
             /* @var UserInterface $user */
             foreach ($usersToUpdate as $user) {
                 $formerStudentRole->addUser($user);

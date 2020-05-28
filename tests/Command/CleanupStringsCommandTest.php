@@ -89,8 +89,8 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setTitle')->with('<h1>html title</h1>')
             ->mock();
-        $this->objectiveManager->shouldReceive('findBy')->with(array(), array('id' => 'ASC'), 500, 1)
-            ->andReturn(array($cleanObjective, $dirtyObjective));
+        $this->objectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 1)
+            ->andReturn([$cleanObjective, $dirtyObjective]);
         $this->objectiveManager->shouldReceive('update')->with($dirtyObjective, false);
         $this->objectiveManager->shouldReceive('getTotalObjectiveCount')->andReturn(2);
 
@@ -100,10 +100,10 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->andReturn('<h1>html title</h1>');
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'           => self::COMMAND_NAME,
             '--objective-title' => true
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -123,8 +123,8 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('setDescription')->with('<h1>html title</h1>')
             ->mock();
         $this->learningMaterialManager->shouldReceive('findBy')
-            ->with(array(), array('id' => 'ASC'), 500, 1)
-            ->andReturn(array($clean, $dirty));
+            ->with([], ['id' => 'ASC'], 500, 1)
+            ->andReturn([$clean, $dirty]);
         $this->learningMaterialManager->shouldReceive('update')->with($dirty, false);
         $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->andReturn(2);
 
@@ -134,10 +134,10 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->andReturn('<h1>html title</h1>');
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'           => self::COMMAND_NAME,
             '--learningmaterial-description' => true
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -157,8 +157,8 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('setNotes')->with('<h1>html course note</h1>')
             ->mock();
         $this->courseLearningMaterialManager->shouldReceive('findBy')
-            ->with(array(), array('id' => 'ASC'), 500, 1)
-            ->andReturn(array($cleanCourse, $dirtyCourse));
+            ->with([], ['id' => 'ASC'], 500, 1)
+            ->andReturn([$cleanCourse, $dirtyCourse]);
         $this->courseLearningMaterialManager->shouldReceive('update')->with($dirtyCourse, false);
         $this->courseLearningMaterialManager->shouldReceive('getTotalCourseLearningMaterialCount')->andReturn(2);
 
@@ -176,8 +176,8 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('setNotes')->with('<h1>html session note</h1>')
             ->mock();
         $this->sessionLearningMaterialManager->shouldReceive('findBy')
-            ->with(array(), array('id' => 'ASC'), 500, 1)
-            ->andReturn(array($cleanSession, $dirtySession));
+            ->with([], ['id' => 'ASC'], 500, 1)
+            ->andReturn([$cleanSession, $dirtySession]);
         $this->sessionLearningMaterialManager->shouldReceive('update')
             ->with($dirtySession, false);
         $this->sessionLearningMaterialManager->shouldReceive('getTotalSessionLearningMaterialCount')->andReturn(2);
@@ -189,10 +189,10 @@ class CleanupStringsCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->twice();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'           => self::COMMAND_NAME,
             '--learningmaterial-note' => true
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -219,8 +219,8 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('setDescription')->with('<h1>html title</h1>')
             ->mock();
         $this->sessionDescriptionManager->shouldReceive('findBy')
-            ->with(array(), array('id' => 'ASC'), 500, 1)
-            ->andReturn(array($clean, $dirty));
+            ->with([], ['id' => 'ASC'], 500, 1)
+            ->andReturn([$clean, $dirty]);
         $this->sessionDescriptionManager->shouldReceive('update')->with($dirty, false);
         $this->sessionDescriptionManager->shouldReceive('getTotalSessionDescriptionCount')->andReturn(2);
 
@@ -230,10 +230,10 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->andReturn('<h1>html title</h1>');
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'           => self::COMMAND_NAME,
             '--session-description' => true
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();

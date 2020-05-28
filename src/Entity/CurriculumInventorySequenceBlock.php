@@ -572,12 +572,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $sortStrategy = $this->getChildSequenceOrder();
         switch ($sortStrategy) {
             case self::ORDERED:
-                usort($children, array(__CLASS__, 'compareSequenceBlocksWithOrderedStrategy'));
+                usort($children, [__CLASS__, 'compareSequenceBlocksWithOrderedStrategy']);
                 break;
             case self::UNORDERED:
             case self::PARALLEL:
             default:
-                usort($children, array(__CLASS__, 'compareSequenceBlocksWithDefaultStrategy'));
+                usort($children, [__CLASS__, 'compareSequenceBlocksWithDefaultStrategy']);
                 break;
         }
         return $children;

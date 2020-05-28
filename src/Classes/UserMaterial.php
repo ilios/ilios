@@ -17,7 +17,7 @@ class UserMaterial
      * A list of 'do not scrub' properties.
      * @var array
      */
-    protected static $doNotScrubProps = array(
+    protected static $doNotScrubProps = [
         'id',
         'courseLearningMaterial',
         'sessionLearningMaterial',
@@ -31,7 +31,7 @@ class UserMaterial
         'endDate',
         'isBlanked',
         'firstOfferingDate',
-    );
+    ];
 
     /**
      * @var int

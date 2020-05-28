@@ -87,7 +87,7 @@ class AddUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['Yes']);
 
         $this->commandTester->execute(
-            array(
+            [
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
@@ -98,7 +98,7 @@ class AddUserCommandTest extends KernelTestCase
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
                 '--isRoot' => 'yes',
-            )
+            ]
         );
 
         $this->checkOuput();
@@ -107,14 +107,14 @@ class AddUserCommandTest extends KernelTestCase
 
     public function testBadSchoolId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn(null);
-        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn(null);
+        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'School with id 1 could not be found.');
         $this->commandTester->execute(
-            array(
+            [
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
-            )
+            ]
         );
     }
 
@@ -125,7 +125,7 @@ class AddUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['first', 'Yes']);
 
         $this->commandTester->execute(
-            array(
+            [
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--lastName' => 'last',
@@ -135,7 +135,7 @@ class AddUserCommandTest extends KernelTestCase
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
                 '--isRoot' => 'yes',
-            )
+            ]
         );
 
         $this->checkOuput();
@@ -148,7 +148,7 @@ class AddUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['last', 'Yes']);
 
         $this->commandTester->execute(
-            array(
+            [
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
@@ -158,7 +158,7 @@ class AddUserCommandTest extends KernelTestCase
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
                 '--isRoot' => 'yes',
-            )
+            ]
         );
 
         $this->checkOuput();
@@ -171,7 +171,7 @@ class AddUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['email@example.com', 'Yes']);
 
         $this->commandTester->execute(
-            array(
+            [
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
@@ -181,7 +181,7 @@ class AddUserCommandTest extends KernelTestCase
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
                 '--isRoot' => 'yes',
-            )
+            ]
         );
 
         $this->checkOuput();
@@ -194,7 +194,7 @@ class AddUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['Yes', 'Yes']);
 
         $this->commandTester->execute(
-            array(
+            [
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
@@ -204,7 +204,7 @@ class AddUserCommandTest extends KernelTestCase
                 '--campusId' => 'abc',
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
-            )
+            ]
         );
 
         $this->checkOuput();
@@ -217,7 +217,7 @@ class AddUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['phone', 'Yes']);
 
         $this->commandTester->execute(
-            array(
+            [
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
@@ -227,7 +227,7 @@ class AddUserCommandTest extends KernelTestCase
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
                 '--isRoot' => 'yes',
-            )
+            ]
         );
 
         $this->checkOuput();
@@ -240,7 +240,7 @@ class AddUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['abc', 'Yes']);
 
         $this->commandTester->execute(
-            array(
+            [
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
@@ -250,7 +250,7 @@ class AddUserCommandTest extends KernelTestCase
                 '--username' => 'abc123',
                 '--password' => 'abc123pass',
                 '--isRoot' => 'yes',
-            )
+            ]
         );
 
         $this->checkOuput();
@@ -263,7 +263,7 @@ class AddUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['abc123', 'Yes']);
 
         $this->commandTester->execute(
-            array(
+            [
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
@@ -273,7 +273,7 @@ class AddUserCommandTest extends KernelTestCase
                 '--campusId' => 'abc',
                 '--password' => 'abc123pass',
                 '--isRoot' => 'yes',
-            )
+            ]
         );
 
         $this->checkOuput();
@@ -286,7 +286,7 @@ class AddUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['abc123pass', 'Yes']);
 
         $this->commandTester->execute(
-            array(
+            [
                 'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
@@ -296,7 +296,7 @@ class AddUserCommandTest extends KernelTestCase
                 '--campusId' => 'abc',
                 '--username' => 'abc123',
                 '--isRoot' => 'yes',
-            )
+            ]
         );
 
         $this->checkOuput();
@@ -334,9 +334,9 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->encoder->shouldReceive('encodePassword')->with($sessionUser, 'abc123pass')->andReturn('hashBlurb');
 
-        $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 'abc'))->andReturn(false);
-        $this->userManager->shouldReceive('findOneBy')->with(array('email' => 'email@example.com'))->andReturn(false);
-        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($school);
+        $this->userManager->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(false);
+        $this->userManager->shouldReceive('findOneBy')->with(['email' => 'email@example.com'])->andReturn(false);
+        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
         $this->userManager->shouldReceive('create')->andReturn($user);
         $this->userManager->shouldReceive('update')->with($user);
         $this->authenticationManager->shouldReceive('create')->andReturn($authentication);

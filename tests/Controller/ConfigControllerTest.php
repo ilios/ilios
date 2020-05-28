@@ -55,14 +55,14 @@ class ConfigControllerTest extends WebTestCase
         $container = $this->kernelBrowser->getContainer();
 
         $this->assertEquals(
-            array(
+            [
                 'type' => 'form',
                 'locale' => 'en',
                 'userSearchType' => 'local',
                 'apiVersion' => $container->getParameter('ilios_api_version'),
                 'trackingEnabled' => false,
                 'searchEnabled' => false,
-            ),
+            ],
             $data
         );
     }
@@ -86,7 +86,7 @@ class ConfigControllerTest extends WebTestCase
         $container = $this->kernelBrowser->getContainer();
 
         $this->assertEquals(
-            array(
+            [
                 'type' => 'form',
                 'locale' => 'en',
                 'userSearchType' => 'local',
@@ -94,7 +94,7 @@ class ConfigControllerTest extends WebTestCase
                 'trackingEnabled' => true,
                 'trackingCode' => '123-code!',
                 'searchEnabled' => false,
-            ),
+            ],
             $data
         );
 

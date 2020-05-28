@@ -19,9 +19,9 @@ class ProgramYearObjective extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof ProgramYearObjectiveInterface && in_array($attribute, array(
+        return $subject instanceof ProgramYearObjectiveInterface && in_array($attribute, [
                 self::VIEW, self::CREATE, self::EDIT, self::DELETE
-            ));
+            ]);
     }
 
     /**

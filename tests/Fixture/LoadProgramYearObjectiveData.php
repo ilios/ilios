@@ -49,10 +49,10 @@ class LoadProgramYearObjectiveData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadProgramYearData',
             'App\Tests\Fixture\LoadObjectiveData',
-        );
+        ];
     }
 }

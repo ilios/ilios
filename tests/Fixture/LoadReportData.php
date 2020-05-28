@@ -58,7 +58,7 @@ class LoadReportData extends AbstractFixture implements
      */
     public function getDependencies()
     {
-        return array('App\Tests\Fixture\LoadUserData');
-        return array('App\Tests\Fixture\LoadSchoolData');
+        return ['App\Tests\Fixture\LoadUserData'];
+        return ['App\Tests\Fixture\LoadSchoolData'];
     }
 }

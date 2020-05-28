@@ -87,7 +87,7 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
             ->with('FILTER')
             ->andReturn([$fakeDirectoryUser1, $fakeDirectoryUser2]);
         $this->userManager->shouldReceive('findUsersWhoAreNotFormerStudents')
-            ->with(array('abc', 'abc2'))
+            ->with(['abc', 'abc2'])
             ->andReturn(new ArrayCollection([$user]));
         $this->userManager->shouldReceive('update')
             ->with($user, false);
@@ -97,17 +97,17 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
         $user->shouldReceive('addRole')->with($role);
         $this->userRoleManager
             ->shouldReceive('findOneBy')
-            ->with(array('title' => 'Former Student'))
+            ->with(['title' => 'Former Student'])
             ->andReturn($role);
         $this->userRoleManager
             ->shouldReceive('update')
             ->with($role);
 
         $this->commandTester->setInputs(['Yes']);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'   => self::COMMAND_NAME,
             'filter'    => 'FILTER'
-        ));
+        ]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
@@ -136,6 +136,6 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
     public function testFilterRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array('command' => self::COMMAND_NAME));
+        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

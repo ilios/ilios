@@ -28,9 +28,9 @@ class MeshTreeTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'treeNumber'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTreeNumber('junk');

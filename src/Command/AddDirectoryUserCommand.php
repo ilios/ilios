@@ -106,8 +106,8 @@ class AddDirectoryUserCommand extends Command
 
         $table = new Table($output);
         $table
-            ->setHeaders(array('Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number'))
-            ->setRows(array(
+            ->setHeaders(['Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number'])
+            ->setRows([
                 [
                     $userRecord['campusId'],
                     $userRecord['firstName'],
@@ -116,7 +116,7 @@ class AddDirectoryUserCommand extends Command
                     $userRecord['username'],
                     $userRecord['telephoneNumber']
                 ]
-            ))
+            ])
         ;
         $table->render();
 

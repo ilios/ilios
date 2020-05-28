@@ -31,9 +31,9 @@ class CohortTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'title'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('up to sixty char');

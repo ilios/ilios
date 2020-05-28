@@ -54,10 +54,10 @@ class LoadSessionTypeData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadAamcMethodData',
             'App\Tests\Fixture\LoadAssessmentOptionData',
             'App\Tests\Fixture\LoadSchoolData',
-        );
+        ];
     }
 }

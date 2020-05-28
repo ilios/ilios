@@ -44,8 +44,8 @@ class LoadMeshPreviousIndexingData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadMeshDescriptorData',
-        );
+        ];
     }
 }

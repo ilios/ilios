@@ -49,10 +49,10 @@ class LoadCourseObjectiveData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadObjectiveData',
-        );
+        ];
     }
 }

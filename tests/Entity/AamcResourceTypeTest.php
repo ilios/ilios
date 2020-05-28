@@ -28,11 +28,11 @@ class AamcResourceTypeTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'id',
             'title',
             'description'
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('foo');

@@ -28,9 +28,9 @@ class CurriculumInventoryExportTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'document',
-        );
+        ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setDocument('text file super large test');

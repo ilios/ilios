@@ -54,10 +54,10 @@ class LoadProgramYearData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadProgramData',
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadCompetencyData',
-        );
+        ];
     }
 }

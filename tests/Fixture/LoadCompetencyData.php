@@ -53,9 +53,9 @@ class LoadCompetencyData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadAamcPcrsData',
             'App\Tests\Fixture\LoadSchoolData',
-        );
+        ];
     }
 }

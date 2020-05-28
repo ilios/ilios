@@ -28,9 +28,9 @@ class InstructorGroupTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'title'
-        );
+        ];
         $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
         $this->validateNotBlanks($notBlank);
 
@@ -40,9 +40,9 @@ class InstructorGroupTest extends EntityBase
 
     public function testNotNullValidation()
     {
-        $notNulls = array(
+        $notNulls = [
             'school'
-        );
+        ];
         $this->object->setTitle('test');
 
         $this->validateNotNulls($notNulls);

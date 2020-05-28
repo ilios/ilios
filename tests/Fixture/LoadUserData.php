@@ -88,13 +88,13 @@ class LoadUserData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadProgramYearData',
             'App\Tests\Fixture\LoadCohortData',
             'App\Tests\Fixture\LoadUserRoleData',
             'App\Tests\Fixture\LoadSchoolData',
             'App\Tests\Fixture\LoadProgramData',
             'App\Tests\Fixture\LoadCurriculumInventoryReportData',
-        );
+        ];
     }
 }

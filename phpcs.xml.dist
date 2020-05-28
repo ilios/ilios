@@ -10,6 +10,7 @@
 
     <rule ref="PSR12"/>
     <rule ref="Generic.PHP.RequireStrictTypes"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
     <rule ref="PHPCompatibility"/>
 
     <file>bin/</file>

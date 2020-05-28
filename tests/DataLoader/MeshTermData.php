@@ -8,8 +8,8 @@ class MeshTermData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
-        $arr[] = array(
+        $arr = [];
+        $arr[] = [
             'id' => '1',
             'meshTermUid' => 'tuid' . $this->faker->text(5),
             'name' => 'term' . $this->faker->text,
@@ -18,8 +18,8 @@ class MeshTermData extends AbstractDataLoader
             'recordPreferred' => false,
             'permuted' => true,
             'concepts' => ['1']
-        );
-        $arr[] = array(
+        ];
+        $arr[] = [
             'id' => '2',
             'meshTermUid' => 'uid2',
             'name' => 'second term',
@@ -28,7 +28,7 @@ class MeshTermData extends AbstractDataLoader
             'recordPreferred' => true,
             'permuted' => false,
             'concepts' => ['1']
-        );
+        ];
 
         return $arr;
     }
@@ -36,7 +36,7 @@ class MeshTermData extends AbstractDataLoader
     public function create()
     {
 
-        return array(
+        return [
             'id' => '3',
             'meshTermUid' => 'tuid123',
             'name' => $this->faker->text(192),
@@ -45,13 +45,13 @@ class MeshTermData extends AbstractDataLoader
             'recordPreferred' => true,
             'permuted' => true,
             'concepts' => ['1']
-        );
+        ];
     }
 
     public function createInvalid()
     {
-        return array(
+        return [
             'id' => 'bad'
-        );
+        ];
     }
 }

@@ -46,11 +46,11 @@ class AuthController extends AbstractController
             /** @var SessionUserInterface $sessionUser */
             $sessionUser = $token->getUser();
             if ($sessionUser instanceof SessionUserInterface) {
-                return new JsonResponse(array('userId' => $sessionUser->getId()), JsonResponse::HTTP_OK);
+                return new JsonResponse(['userId' => $sessionUser->getId()], JsonResponse::HTTP_OK);
             }
         }
 
-        return new JsonResponse(array('userId' => null), JsonResponse::HTTP_OK);
+        return new JsonResponse(['userId' => null], JsonResponse::HTTP_OK);
     }
     
     /**
@@ -71,11 +71,11 @@ class AuthController extends AbstractController
             if ($sessionUser instanceof SessionUserInterface) {
                 $ttl = $request->get('ttl') ? $request->get('ttl') : 'PT8H';
                 $jwt = $jwtManager->createJwtFromSessionUser($sessionUser, $ttl);
-                return new JsonResponse(array('jwt' => $jwt), JsonResponse::HTTP_OK);
+                return new JsonResponse(['jwt' => $jwt], JsonResponse::HTTP_OK);
             }
         }
 
-        return new JsonResponse(array('jwt' => null), JsonResponse::HTTP_OK);
+        return new JsonResponse(['jwt' => null], JsonResponse::HTTP_OK);
     }
 
     /**
@@ -127,7 +127,7 @@ class AuthController extends AbstractController
                 sleep(1);
                 $jwt = $jwtManager->createJwtFromSessionUser($sessionUser);
 
-                return new JsonResponse(array('jwt' => $jwt), JsonResponse::HTTP_OK);
+                return new JsonResponse(['jwt' => $jwt], JsonResponse::HTTP_OK);
             }
         }
 

@@ -52,13 +52,13 @@ class CreateUserTokenCommandTest extends KernelTestCase
     public function testNewDefaultToken()
     {
         $user = m::mock('App\Entity\UserInterface');
-        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, 'PT8H')->andReturn('123JWT');
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -71,14 +71,14 @@ class CreateUserTokenCommandTest extends KernelTestCase
     public function testNewTTLToken()
     {
         $user = m::mock('App\Entity\UserInterface');
-        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, '108Franks')->andReturn('123JWT');
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'       => '1',
             '--ttl'        => '108Franks'
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -90,17 +90,17 @@ class CreateUserTokenCommandTest extends KernelTestCase
 
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'No user with id #1');
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
-        ));
+        ]);
     }
 
     public function testUserRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array('command' => self::COMMAND_NAME));
+        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

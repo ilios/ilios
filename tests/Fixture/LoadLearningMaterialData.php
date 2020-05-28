@@ -86,10 +86,10 @@ class LoadLearningMaterialData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadLearningMaterialUserRoleData',
             'App\Tests\Fixture\LoadLearningMaterialStatusData',
             'App\Tests\Fixture\LoadUserData',
-        );
+        ];
     }
 }

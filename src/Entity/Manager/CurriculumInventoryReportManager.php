@@ -51,7 +51,7 @@ class CurriculumInventoryReportManager extends BaseManager
      * @return array An array of assoc. arrays, each sub-array representing a resource type.
      * @throws \Exception
      */
-    public function getEventResourceTypes(CurriculumInventoryReportInterface $report, array $eventIds = array())
+    public function getEventResourceTypes(CurriculumInventoryReportInterface $report, array $eventIds = [])
     {
         /** @var CurriculumInventoryReportRepository $repo */
         $repo = $this->getRepository();
@@ -67,7 +67,7 @@ class CurriculumInventoryReportManager extends BaseManager
      * @return array An array of assoc. arrays, each sub-array representing a keyword.
      * @throws \Exception
      */
-    public function getEventKeywords(CurriculumInventoryReportInterface $report, array $eventIds = array())
+    public function getEventKeywords(CurriculumInventoryReportInterface $report, array $eventIds = [])
     {
         /** @var CurriculumInventoryReportRepository $repo */
         $repo = $this->getRepository();
@@ -85,7 +85,7 @@ class CurriculumInventoryReportManager extends BaseManager
      */
     public function getEventReferencesForSequenceBlocks(
         CurriculumInventoryReportInterface $report,
-        array $eventIds = array()
+        array $eventIds = []
     ) {
         $rhett = [];
         /** @var CurriculumInventoryReportRepository $repo */
@@ -129,7 +129,7 @@ class CurriculumInventoryReportManager extends BaseManager
      *   the objective's id and title (keys: "objective_id" and "title").
      * @throws \Exception
      */
-    public function getSessionObjectives(CurriculumInventoryReportInterface $report, array $sessionIds = array())
+    public function getSessionObjectives(CurriculumInventoryReportInterface $report, array $sessionIds = [])
     {
         /** @var CurriculumInventoryReportRepository $repo */
         $repo = $this->getRepository();
@@ -250,7 +250,7 @@ class CurriculumInventoryReportManager extends BaseManager
     public function getCompetencyObjectReferencesForEvents(
         CurriculumInventoryReportInterface $report,
         array $consolidatedProgramObjectivesMap,
-        array $eventIds = array()
+        array $eventIds = []
     ) {
         $rhett = [];
 

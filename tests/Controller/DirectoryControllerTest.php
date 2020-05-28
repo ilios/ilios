@@ -114,7 +114,7 @@ class DirectoryControllerTest extends TestCase
         $fakeDirectoryUser['user'] = null;
 
         $this->assertEquals(
-            array('results' => array($fakeDirectoryUser)),
+            ['results' => [$fakeDirectoryUser]],
             json_decode($content, true),
             var_export($content, true)
         );
@@ -211,7 +211,7 @@ class DirectoryControllerTest extends TestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
         $this->assertEquals(
-            array('result' => $fakeDirectoryUser),
+            ['result' => $fakeDirectoryUser],
             json_decode($content, true),
             var_export($content, true)
         );

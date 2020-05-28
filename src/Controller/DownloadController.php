@@ -51,10 +51,10 @@ class DownloadController extends AbstractController
             throw new Exception('File not found for learning material #' . $learningMaterial->getId());
         }
 
-        $headers = array(
+        $headers = [
             'Content-Type' => $learningMaterial->getMimetype(),
             'Content-Disposition' => 'attachment; filename="' . $learningMaterial->getFilename() . '"'
-        );
+        ];
 
         // d/l PDFs inline if requested so.
         if ('application/pdf' === $headers['Content-Type'] && $request->query->has('inline')) {

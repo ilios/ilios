@@ -8,9 +8,9 @@ class SessionData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => 'session1Title',
             'attireRequired' => false,
@@ -28,9 +28,9 @@ class SessionData extends AbstractDataLoader
             'offerings' => ['1', '2'],
             'administrators' => ['1'],
             'prerequisites' => [],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => $this->faker->text(10),
             'attireRequired' => true,
@@ -52,9 +52,9 @@ class SessionData extends AbstractDataLoader
             'prerequisites' => [],
             'postrequisite' => '3',
 
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'title' => $this->faker->text(10),
             'attireRequired' => false,
@@ -72,9 +72,9 @@ class SessionData extends AbstractDataLoader
             'offerings' => ['6', '7', '8'],
             'administrators' => [],
             'prerequisites' => ['2', '4'],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 4,
             'title' => $this->faker->text(10),
             'equipmentRequired' => false,
@@ -93,11 +93,11 @@ class SessionData extends AbstractDataLoader
             'administrators' => [],
             'prerequisites' => [],
             'postrequisite' => '3',
-        );
+        ];
 
         for ($i = 5; $i <= 8; $i++) {
             $ilmSession = $i - 4;
-            $arr[] = array(
+            $arr[] = [
                 'id' => $i,
                 'title' => $this->faker->text(10),
                 'attireRequired' => false,
@@ -116,7 +116,7 @@ class SessionData extends AbstractDataLoader
                 'offerings' => [],
                 'administrators' => [],
                 'prerequisites' => [],
-            );
+            ];
         }
 
         return $arr;
@@ -124,7 +124,7 @@ class SessionData extends AbstractDataLoader
 
     public function create()
     {
-        return array(
+        return [
             'id' => 9,
             'title' => $this->faker->text(10),
             'attireRequired' => true,
@@ -143,7 +143,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => [],
             'administrators' => [],
             'prerequisites' => [],
-        );
+        ];
     }
 
     public function createInvalid()

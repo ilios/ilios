@@ -64,9 +64,9 @@ class ListConfigValuesCommandTest extends KernelTestCase
             ->once()
             ->andReturn([$mockConfig]);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/\sthe-name\s|\sthe-value\s/',
@@ -94,9 +94,9 @@ class ListConfigValuesCommandTest extends KernelTestCase
             ->once()
             ->andThrow($connectionException);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
-        ));
+        ]);
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/^Unable to connect to database./',

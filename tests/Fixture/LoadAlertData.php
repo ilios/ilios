@@ -57,10 +57,10 @@ class LoadAlertData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadAlertChangeTypeData',
             'App\Tests\Fixture\LoadSchoolData',
             'App\Tests\Fixture\LoadUserData'
-        );
+        ];
     }
 }

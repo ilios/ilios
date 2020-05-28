@@ -65,9 +65,9 @@ class RolloverCourseCommandTest extends KernelTestCase
             \RuntimeException::class,
             'Not enough arguments (missing: "courseId, newAcademicYear").'
         );
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
-        ));
+        ]);
     }
 
     public function testCommandPassesArgumentsAndDefaultOptions()
@@ -86,7 +86,7 @@ class RolloverCourseCommandTest extends KernelTestCase
             'newAcademicYear' => $newAcademicYear,
         ]);
 
-        $defaultOptions = array (
+        $defaultOptions = [
             'new-start-date' => null,
             'skip-course-learning-materials' => false,
             'skip-course-objectives' => false,
@@ -110,7 +110,7 @@ class RolloverCourseCommandTest extends KernelTestCase
             'no-interaction' => false,
             'env' => 'test',
             'no-debug' => false,
-        );
+        ];
 
         $this->service
             ->shouldHaveReceived('rolloverCourse')
@@ -120,7 +120,7 @@ class RolloverCourseCommandTest extends KernelTestCase
 
     public function testCommandPassesUserProvidedOptions()
     {
-        $customOptions = array (
+        $customOptions = [
             'new-start-date' => '2016-03-12',
             'skip-course-learning-materials' => true,
             'skip-course-objectives' => true,
@@ -145,7 +145,7 @@ class RolloverCourseCommandTest extends KernelTestCase
             'no-interaction' => false,
             'env' => 'test',
             'no-debug' => false,
-        );
+        ];
 
         $courseId  = '1';
         $newAcademicYear = '2017';

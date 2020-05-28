@@ -59,11 +59,11 @@ class SetConfigValueCommandTest extends KernelTestCase
             ->andReturn($mockConfig);
         $this->applicationConfigManager->shouldReceive('update')->with($mockConfig, true)->once();
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'name'         => 'foo',
             'value'        => 'bar',
-        ));
+        ]);
     }
 
     public function testSaveNewConfig()
@@ -75,28 +75,28 @@ class SetConfigValueCommandTest extends KernelTestCase
         $this->applicationConfigManager->shouldReceive('create')->once()->andReturn($mockConfig);
         $this->applicationConfigManager->shouldReceive('update')->with($mockConfig, true)->once();
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'name'         => 'foo',
             'value'        => 'bar',
-        ));
+        ]);
     }
 
     public function testNameRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'value'        => 'bar',
-        ));
+        ]);
     }
 
     public function testValueRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'name'         => 'foo',
-        ));
+        ]);
     }
 }

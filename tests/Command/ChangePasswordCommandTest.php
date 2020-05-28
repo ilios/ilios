@@ -84,7 +84,7 @@ class ChangePasswordCommandTest extends KernelTestCase
     public function testChangePassword()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['123456789']);
 
         $authentication = m::mock(AuthenticationInterface::class);
@@ -99,7 +99,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 
         $this->authenticationManager->shouldReceive('update')->with($authentication);
 
-        $this->commandTester->execute(array('command' => self::COMMAND_NAME, 'userId' => '1'));
+        $this->commandTester->execute(['command' => self::COMMAND_NAME, 'userId' => '1']);
 
 
         $output = $this->commandTester->getDisplay();
@@ -113,7 +113,7 @@ class ChangePasswordCommandTest extends KernelTestCase
     public function testChangePasswordOnLegacyAccount()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['123456789']);
 
         $authentication = m::mock(AuthenticationInterface::class);
@@ -129,7 +129,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 
         $this->authenticationManager->shouldReceive('update')->with($authentication);
 
-        $this->commandTester->execute(array('command' => self::COMMAND_NAME, 'userId' => '1'));
+        $this->commandTester->execute(['command' => self::COMMAND_NAME, 'userId' => '1']);
 
 
         $output = $this->commandTester->getDisplay();
@@ -142,7 +142,7 @@ class ChangePasswordCommandTest extends KernelTestCase
     public function testUserWithoutAuthentication()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['123456789']);
 
         $authentication = m::mock(AuthenticationInterface::class);
@@ -158,10 +158,10 @@ class ChangePasswordCommandTest extends KernelTestCase
 
         $this->authenticationManager->shouldReceive('update')->with($authentication);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -173,17 +173,17 @@ class ChangePasswordCommandTest extends KernelTestCase
 
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
-        ));
+        ]);
     }
 
     public function testUserRequired()
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute(array('command' => self::COMMAND_NAME));
+        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

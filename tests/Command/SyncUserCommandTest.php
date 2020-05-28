@@ -90,7 +90,7 @@ class SyncUserCommandTest extends KernelTestCase
             ->shouldReceive('setDisplayName')->with('display')
             ->shouldReceive('setPhone')->with('phone')
             ->mock();
-        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->userManager->shouldReceive('update')->with($user);
         $this->authenticationManager->shouldReceive('update')->with($authentication, false);
         $this->pendingUserUpdateManager->shouldReceive('delete')->with($pendingUpdate)->once();
@@ -106,10 +106,10 @@ class SyncUserCommandTest extends KernelTestCase
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->commandTester->setInputs(['Yes']);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
-        ));
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -125,17 +125,17 @@ class SyncUserCommandTest extends KernelTestCase
 
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'No user with id #1');
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
             'userId' => '1'
-        ));
+        ]);
     }
 
     public function testUserRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array('command' => self::COMMAND_NAME));
+        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

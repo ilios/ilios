@@ -28,9 +28,9 @@ class SessionTypeTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'title'
-        );
+        ];
         $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
 
         $this->validateNotBlanks($notBlank);
@@ -41,9 +41,9 @@ class SessionTypeTest extends EntityBase
 
     public function testNotNullValidation()
     {
-        $notNull = array(
+        $notNull = [
             'school'
-        );
+        ];
         $this->object->setTitle('test');
 
         $this->validateNotNulls($notNull);

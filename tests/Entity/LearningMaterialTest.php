@@ -34,9 +34,9 @@ class LearningMaterialTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'title'
-        );
+        ];
         $this->object->setUserRole(m::mock('App\Entity\LearningMaterialUserRoleInterface'));
         $this->object->setStatus(m::mock('App\Entity\LearningMaterialStatusInterface'));
         $this->object->setOwningUser(m::mock('App\Entity\UserInterface'));
@@ -49,11 +49,11 @@ class LearningMaterialTest extends EntityBase
 
     public function testNotNullValidation()
     {
-        $notNulls = array(
+        $notNulls = [
             'userRole',
             'status',
             'owningUser'
-        );
+        ];
         $this->object->setTitle('test');
 
         $this->validateNotNulls($notNulls);

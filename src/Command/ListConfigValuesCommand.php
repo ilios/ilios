@@ -77,7 +77,7 @@ class ListConfigValuesCommand extends Command
         } else {
             $table = new Table($output);
             $table->setHeaderTitle('Database Values');
-            $table->setHeaders(array('Name', 'Value'))
+            $table->setHeaders(['Name', 'Value'])
                 ->setRows(array_map(function (ApplicationConfig $config) {
                     return [$config->getName(), $config->getValue()];
                 }, $configs));
@@ -91,7 +91,7 @@ class ListConfigValuesCommand extends Command
         ];
         $table = new Table($output);
         $table->setHeaderTitle('Environment Values');
-        $table->setHeaders(array('Name', 'Value'));
+        $table->setHeaders(['Name', 'Value']);
         $table->setRows($rows);
         $table->render();
 

@@ -38,7 +38,7 @@ class EntityBase extends TestCase
                 ->getValidator();
         $errors = $validator->validate($this->object);
         $errorCount = count($errors);
-        $parsedErrors = array();
+        $parsedErrors = [];
         foreach ($errors as $error) {
             $constraintClass = get_class($error->getConstraint());
             //remove the namespace info
@@ -272,7 +272,7 @@ class EntityBase extends TestCase
      */
     protected function getArrayOfMockObjects($className, $count)
     {
-        $arr = array();
+        $arr = [];
         for ($i = 0; $i < $count; $i++) {
             $arr[] = m::mock($className);
         }

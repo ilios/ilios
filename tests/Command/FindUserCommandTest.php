@@ -56,12 +56,12 @@ class FindUserCommandTest extends KernelTestCase
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
         ];
-        $this->directory->shouldReceive('find')->with(array('a', 'b'))->andReturn(array($fakeDirectoryUser));
+        $this->directory->shouldReceive('find')->with(['a', 'b'])->andReturn([$fakeDirectoryUser]);
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
-            'searchTerms'         => array('a', 'b')
-        ));
+            'searchTerms'         => ['a', 'b']
+        ]);
 
 
         $output = $this->commandTester->getDisplay();
@@ -74,6 +74,6 @@ class FindUserCommandTest extends KernelTestCase
     public function testTermRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array('command' => self::COMMAND_NAME));
+        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

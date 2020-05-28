@@ -50,8 +50,8 @@ class LoadPendingUserUpdateData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadUserData'
-        );
+        ];
     }
 }

@@ -75,13 +75,13 @@ class LoadCourseData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadCohortData',
             'App\Tests\Fixture\LoadSchoolData',
             'App\Tests\Fixture\LoadUserData',
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadCourseClerkshipTypeData',
             'App\Tests\Fixture\LoadMeshDescriptorData',
-        );
+        ];
     }
 }

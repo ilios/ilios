@@ -21,9 +21,9 @@ class Objective extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof ObjectiveInterface && in_array($attribute, array(
+        return $subject instanceof ObjectiveInterface && in_array($attribute, [
                 self::VIEW, self::CREATE, self::EDIT, self::DELETE
-            ));
+            ]);
     }
 
     /**

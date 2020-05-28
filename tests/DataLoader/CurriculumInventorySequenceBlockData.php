@@ -10,10 +10,10 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
         $dt = $this->faker->dateTime;
         $dt->setTime(0, 0, 0);
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => 'Top Level Sequence Block 1',
             'description' => 'first description',
@@ -31,9 +31,9 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'sessions' => ['1'],
             'excludedSessions' => ['1'],
             'track' => true,
-        );
+        ];
         for ($i = 1; $i < 5; $i++) {
-            $arr[] = array(
+            $arr[] = [
                 'id' => $i + 1,
                 'title' => 'Nested Sequence Block ' . $i,
                 'report' => '1',
@@ -51,7 +51,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
                 'excludedSessions' => [],
                 'parent' => '1',
                 'track' => false,
-            );
+            ];
         }
 
         return $arr;
@@ -61,7 +61,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
     {
         $dt = $this->faker->dateTime;
         $dt->setTime(0, 0, 0);
-        return array(
+        return [
             'id' => 6,
             'title' => $this->faker->text(10),
             'report' => '1',
@@ -79,13 +79,13 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'excludedSessions' => [],
             'parent' => '1',
             'track' => true,
-        );
+        ];
     }
 
     public function createInvalid()
     {
-        return array(
+        return [
             'id' => 7,
-        );
+        ];
     }
 }

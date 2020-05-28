@@ -83,11 +83,11 @@ class InstallFirstUserCommandTest extends KernelTestCase
     public function testExecute()
     {
         $this->getReadyForInput();
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'  => self::COMMAND_NAME,
             '--school' => '1',
             '--email' => 'email@example.com',
-        ));
+        ]);
 
         $this->checkOuput();
     }
@@ -97,10 +97,10 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->userManager->shouldReceive('findOneBy')->with([])->andReturn(new User());
         $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'Sorry, at least one user record already exists.');
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
             '--school' => '1'
-        ));
+        ]);
     }
 
     public function testBadSchoolId()
@@ -108,20 +108,20 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->userManager->shouldReceive('findOneBy')->with([])->andReturn(null);
         $this->schoolManager->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([]);
         $this->expectException(\Exception::class, 'No schools found.');
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
             '--school' => '1'
-        ));
+        ]);
     }
 
     public function testAskForMissingSchools()
     {
         $this->getReadyForInput();
         $this->commandTester->setInputs(['0', 'Yes']);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
             '--email' => 'email@example.com',
-        ));
+        ]);
         $this->checkOuput();
     }
 
@@ -129,10 +129,10 @@ class InstallFirstUserCommandTest extends KernelTestCase
     {
         $this->getReadyForInput();
         $this->commandTester->setInputs(['email@example.com', 'Yes']);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
             '--school' => '1',
-        ));
+        ]);
         $this->checkOuput();
     }
 

@@ -46,8 +46,8 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadCurriculumInventoryReportData',
-        );
+        ];
     }
 }

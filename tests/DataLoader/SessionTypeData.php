@@ -8,9 +8,9 @@ class SessionTypeData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => $this->faker->text(50),
             'assessmentOption' => '1',
@@ -20,9 +20,9 @@ class SessionTypeData extends AbstractDataLoader
             'calendarColor' => $this->faker->hexColor,
             'assessment' => false,
             'active' => false,
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => 'second session type',
             'assessmentOption' => '2',
@@ -32,7 +32,7 @@ class SessionTypeData extends AbstractDataLoader
             'calendarColor' => '#0a1b2c',
             'assessment' => true,
             'active' => true,
-        );
+        ];
 
 
         return $arr;
@@ -40,7 +40,7 @@ class SessionTypeData extends AbstractDataLoader
 
     public function create()
     {
-        return array(
+        return [
             'id' => 3,
             'title' => $this->faker->text(50),
             'school' => '1',
@@ -49,7 +49,7 @@ class SessionTypeData extends AbstractDataLoader
             'calendarColor' => $this->faker->hexColor,
             'assessment' => false,
             'active' => false,
-        );
+        ];
     }
 
     public function createInvalid()

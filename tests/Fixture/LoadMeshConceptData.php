@@ -50,8 +50,8 @@ class LoadMeshConceptData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadMeshDescriptorData',
-        );
+        ];
     }
 }

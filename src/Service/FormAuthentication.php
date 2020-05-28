@@ -123,11 +123,11 @@ class FormAuthentication implements AuthenticationInterface
             $code = JsonResponse::HTTP_UNAUTHORIZED;
         }
 
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'error',
             'errors' => $errors,
             'jwt' => null,
-        ), $code);
+        ], $code);
     }
 
     /**
@@ -138,9 +138,9 @@ class FormAuthentication implements AuthenticationInterface
      */
     public function logout(Request $request)
     {
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'success'
-        ), JsonResponse::HTTP_OK);
+        ], JsonResponse::HTTP_OK);
     }
 
     /**

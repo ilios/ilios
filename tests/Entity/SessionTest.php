@@ -33,9 +33,9 @@ class SessionTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
 
-        );
+        ];
         $this->object->setSessionType(m::mock('App\Entity\SessionTypeInterface'));
         $this->object->setCourse(m::mock('App\Entity\CourseInterface'));
 
@@ -45,10 +45,10 @@ class SessionTest extends EntityBase
 
     public function testNotNullValidation()
     {
-        $notNull = array(
+        $notNull = [
             'sessionType',
             'course'
-        );
+        ];
         $this->validateNotNulls($notNull);
 
         $this->object->setSessionType(m::mock('App\Entity\SessionTypeInterface'));

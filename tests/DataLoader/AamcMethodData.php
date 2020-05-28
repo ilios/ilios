@@ -8,21 +8,21 @@ class AamcMethodData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => "AM001",
             'description' => $this->faker->text,
             'sessionTypes' => ['1', '2'],
             'active' => true,
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => "AM002",
             'description' => 'filterable description',
             'sessionTypes' => [],
             'active' => false,
-        );
+        ];
 
         return $arr;
     }

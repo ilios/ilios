@@ -66,12 +66,12 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
             ->andReturn($mockConfig);
         $this->schoolConfigManager->shouldReceive('update')->with($mockConfig, true)->once();
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'school'         => '1',
             'name'         => 'foo',
             'value'        => 'bar',
-        ));
+        ]);
     }
 
     public function testSaveNewConfig()
@@ -91,41 +91,41 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         $this->schoolConfigManager->shouldReceive('create')->once()->andReturn($mockConfig);
         $this->schoolConfigManager->shouldReceive('update')->with($mockConfig, true)->once();
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
             'school' => '1',
             'name' => 'foo',
             'value' => 'bar',
-        ));
+        ]);
     }
 
     public function testNameRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'school'         => '1',
             'value'        => 'bar',
-        ));
+        ]);
     }
 
     public function testValueRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'school'         => '1',
             'name'         => 'foo',
-        ));
+        ]);
     }
 
     public function testSchoolRequired()
     {
         $this->expectException(\RuntimeException::class);
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'name'         => 'foo',
             'value'         => 'bar',
-        ));
+        ]);
     }
 }

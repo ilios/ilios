@@ -44,8 +44,8 @@ class LoadCohortData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return array(
+        return [
             'App\Tests\Fixture\LoadProgramYearData'
-        );
+        ];
     }
 }

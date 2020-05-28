@@ -164,8 +164,8 @@ class AddUserCommand extends Command
 
         $table = new Table($output);
         $table
-            ->setHeaders(array('Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number', 'Is Root?'))
-            ->setRows(array(
+            ->setHeaders(['Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number', 'Is Root?'])
+            ->setRows([
                 [
                     $userRecord['campusId'],
                     $userRecord['firstName'],
@@ -175,7 +175,7 @@ class AddUserCommand extends Command
                     $userRecord['telephoneNumber'],
                     $userRecord['isRoot'] ? 'yes' : 'no',
                 ]
-            ))
+            ])
         ;
         $table->render();
 

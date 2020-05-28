@@ -32,9 +32,9 @@ class ProgramYearTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = array(
+        $notBlank = [
             'startYear',
-        );
+        ];
         $this->object->setProgram(m::mock('App\Entity\ProgramInterface'));
 
         $this->validateNotBlanks($notBlank);
@@ -45,9 +45,9 @@ class ProgramYearTest extends EntityBase
 
     public function testNotNullValidation()
     {
-        $notNull = array(
+        $notNull = [
             'program',
-        );
+        ];
         $this->object->setStartYear(3);
 
         $this->validateNotNulls($notNull);

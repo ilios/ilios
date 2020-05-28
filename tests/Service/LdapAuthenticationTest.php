@@ -107,12 +107,12 @@ class LdapAuthenticationTest extends TestCase
     {
         $obj = m::mock(
             LdapAuthentication::class . '[checkLdapPassword]',
-            array(
+            [
                 $this->authManager,
                 $this->jwtManager,
                 $this->config,
                 $this->sessionUserProvider
-            )
+            ]
         );
         $obj->shouldReceive('checkLdapPassword')->once()->andReturn(false);
         $arr = [
@@ -174,12 +174,12 @@ class LdapAuthenticationTest extends TestCase
         //and not deal with php global ldap functions
         $obj = m::mock(
             LdapAuthentication::class . '[checkLdapPassword]',
-            array(
+            [
                 $this->authManager,
                 $this->jwtManager,
                 $this->config,
                 $this->sessionUserProvider
-            )
+            ]
         );
         $obj->shouldReceive('checkLdapPassword')->once()->andReturn(true);
         $arr = [

@@ -8,28 +8,28 @@ class DepartmentData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
             'title' => $this->faker->text(50),
             'school' => '1',
             'stewards' => ['1']
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 2,
             'title' => 'second department',
             'school' => '1',
             'stewards' => ['2'],
-        );
+        ];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 3,
             'title' => $this->faker->text(50),
             'school' => '2',
             'stewards' => [],
-        );
+        ];
 
 
         return $arr;
@@ -37,12 +37,12 @@ class DepartmentData extends AbstractDataLoader
 
     public function create()
     {
-        return array(
+        return [
             'id' => 4,
             'title' => $this->faker->text(50),
             'school' => '1',
             'stewards' => []
-        );
+        ];
     }
 
     public function createInvalid()

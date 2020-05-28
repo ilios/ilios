@@ -49,7 +49,7 @@ class SwaggerDocsController extends AbstractController
             [],
             UrlGeneratorInterface::NETWORK_PATH
         );
-        return $this->render('swagger/index.html.twig', array('yamlRoute' => $yamlRoute));
+        return $this->render('swagger/index.html.twig', ['yamlRoute' => $yamlRoute]);
     }
 
     /**
