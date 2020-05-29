@@ -244,6 +244,44 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         return $fetchedResponseData;
     }
 
+    protected function postManyJsonApiTest(object $postData, array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postManyJsonApi($postData);
+        $ids = array_column($responseData, 'id');
+        $filters = [
+            'filters[id]' => $ids
+        ];
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
+
+        usort($fetchedResponseData, function ($a, $b) {
+            return $a['id'] <=> $b['id'];
+        });
+
+        foreach ($data as $i => $datum) {
+            $response = $fetchedResponseData[$i];
+
+            $this->assertNotEmpty($response['absoluteFileUri']);
+            $this->assertEquals(10, count($response['academicLevels']), 'There should be 10 academic levels ids.');
+            $this->assertNotEmpty($response['sequence'], 'A sequence id should be present.');
+            unset($response['sequence']);
+            unset($response['academicLevels']);
+            // don't compare sequence and academic level ids.
+            if (array_key_exists('sequence', $datum)) {
+                $response['sequence'] = $datum['sequence'];
+            }
+            if (array_key_exists('academicLevels', $datum)) {
+                $response['academicLevels'] = $datum['academicLevels'];
+            }
+
+            $this->compareData($datum, $response);
+        }
+
+        return $fetchedResponseData;
+    }
+
     protected function putTest(array $data, array $postData, $id, $new = false)
     {
         $endpoint = $this->getPluralName();
