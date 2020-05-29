@@ -189,6 +189,40 @@ class ProgramYearTest extends ReadWriteEndpointTest
         return $fetchedResponseData;
     }
 
+    protected function postManyJsonApiTest(object $postData, array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postManyJsonApi($postData);
+        $ids = array_column($responseData, 'id');
+        $filters = [
+            'filters[id]' => $ids,
+            'limit' => count($ids),
+        ];
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
+
+        usort($fetchedResponseData, function ($a, $b) {
+            return $a['id'] <=> $b['id'];
+        });
+
+        $program = $this->getOne('programs', 'programs', $data[0]['program']);
+        foreach ($data as $i => $datum) {
+            $response = $fetchedResponseData[$i];
+
+            $cohortId = $response['cohort'];
+            $this->assertNotEmpty($cohortId);
+            unset($response['cohort']);
+            $this->compareData($datum, $response);
+
+            $cohort = $this->getOne('cohorts', 'cohorts', $cohortId);
+            $this->assertEquals($cohort['programYear'], $response['id']);
+            $this->assertEquals($cohort['title'], 'Class of ' . ($response['startYear'] + $program['duration']));
+        }
+
+        return $fetchedResponseData;
+    }
+
     /**
      * Delete ProgramYear 3 explicitly as ProgramYear 1 is linked
      * to Program 1.  Since sqlite doesn't cascade this doesn't work

@@ -59,17 +59,14 @@ class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
         ];
     }
 
-
     /**
      * We need to create additional reports to go with each Sequence
      * however when new reports are created a sequence is automatically created
      * for them.  So we need to delete each of the new fresh sequences so we can create
      * new ones of our own and link them to the report.
-     * @inheritdoc
      */
-    public function testPostMany()
+    protected function createMany(int $count): array
     {
-        $count = 4;
         $reportDataLoader = $this->getContainer()->get(CurriculumInventoryReportData::class);
         $reports = $reportDataLoader->createMany($count);
         $savedReports = $this->postMany('curriculuminventoryreports', 'curriculumInventoryReports', $reports);
@@ -88,6 +85,19 @@ class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
             $data[] = $arr;
         }
 
+        return $data;
+    }
+
+    public function testPostMany()
+    {
+        $data = $this->createMany(4);
         $this->postManyTest($data);
+    }
+
+    public function testPostManyJsonApi()
+    {
+        $data = $this->createMany(4);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data);
     }
 }

@@ -68,10 +68,10 @@ class ProgramYearStewardTest extends ReadWriteEndpointTest
      * Creating many runs into UNIQUE constraints quick
      * so instead build a bunch of new departments to use
      */
-    public function testPostMany()
+    protected function createMany(int $count): array
     {
         $departmentDataLoader = $this->getContainer()->get(DepartmentData::class);
-        $departments = $departmentDataLoader->createMany(51);
+        $departments = $departmentDataLoader->createMany($count);
         $savedDepartments = $this->postMany('departments', 'departments', $departments);
 
         $dataLoader = $this->getDataLoader();
@@ -85,9 +85,22 @@ class ProgramYearStewardTest extends ReadWriteEndpointTest
             $data[] = $arr;
         }
 
+        return $data;
+    }
 
+    public function testPostMany()
+    {
+        $data = $this->createMany(51);
         $this->postManyTest($data);
     }
+
+    public function testPostManyJsonApi()
+    {
+        $data = $this->createMany(10);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data);
+    }
+
 
     /**
      * Override this so we don't change any values.  Changing something

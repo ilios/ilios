@@ -70,31 +70,41 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function testPostMany()
+    protected function createMany(int $count): array
     {
-        $n = 10;
         $objectiveDataLoader = $this->getContainer()->get(ObjectiveData::class);
-        $objectives = $objectiveDataLoader->createMany($n);
+        $objectives = $objectiveDataLoader->createMany($count);
         $savedObjectives = $this->postMany('objectives', 'objectives', $objectives);
 
         $sessionDataLoader = $this->getContainer()->get(SessionData::class);
-        $sessions = $sessionDataLoader->createMany($n);
+        $sessions = $sessionDataLoader->createMany($count);
         $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
 
         $dataLoader = $this->getDataLoader();
 
         $data = [];
-        for ($i = 0; $i < $n; $i++) {
+        for ($i = 0; $i < $count; $i++) {
             $arr = $dataLoader->create();
             $arr['id'] += $i;
             $arr['session'] = $savedSessions[$i]['id'];
             $arr['objective'] = $savedObjectives[$i]['id'];
             $data[] = $arr;
         }
+
+        return $data;
+    }
+
+    public function testPostMany()
+    {
+        $data = $this->createMany(10);
         $this->postManyTest($data);
+    }
+
+    public function testPostManyJsonApi()
+    {
+        $data = $this->createMany(10);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data);
     }
 
     /**
