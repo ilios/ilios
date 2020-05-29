@@ -70,15 +70,12 @@ class IlmSessionTest extends ReadWriteEndpointTest
         ];
     }
 
-
     /**
      * We need to create additional sessions to
      * go with each new IlmSession
-     * @inheritdoc
      */
-    public function testPostMany()
+    protected function createMany(int $count): array
     {
-        $count = 51;
         $sessionDataLoader = $this->getContainer()->get(SessionData::class);
         $sessions = $sessionDataLoader->createMany($count);
         $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
@@ -94,7 +91,20 @@ class IlmSessionTest extends ReadWriteEndpointTest
             $data[] = $arr;
         }
 
+        return $data;
+    }
+
+    public function testPostMany()
+    {
+        $data = $this->createMany(51);
         $this->postManyTest($data);
+    }
+
+    public function testPostManyJsonApi()
+    {
+        $data = $this->createMany(10);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data);
     }
 
     public function testDueDateInSystemTimeZone()

@@ -69,12 +69,8 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function testPostMany()
+    protected function createMany(int $n): array
     {
-        $n = 10;
         $objectiveDataLoader = $this->getContainer()->get(ObjectiveData::class);
         $objectives = $objectiveDataLoader->createMany($n);
         $savedObjectives = $this->postMany('objectives', 'objectives', $objectives);
@@ -93,7 +89,24 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
             $arr['objective'] = $savedObjectives[$i]['id'];
             $data[] = $arr;
         }
+
+        return $data;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function testPostMany()
+    {
+        $data = $this->createMany(10);
         $this->postManyTest($data);
+    }
+
+    public function testPostManyJsonApi()
+    {
+        $data = $this->createMany(10);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data);
     }
 
     /**

@@ -172,4 +172,10 @@ class BaseManager implements ManagerInterface
         $class = $this->getClass();
         return new $class();
     }
+
+    public function getIdField(): string
+    {
+        $meta = $this->em->getClassMetadata($this->class);
+        return $meta->getSingleIdentifierFieldName();
+    }
 }

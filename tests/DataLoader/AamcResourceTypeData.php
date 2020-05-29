@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\AamcResourceTypeDTO;
+
 /**
  * Class AamcResourceTypeData
  */
@@ -66,5 +68,11 @@ class AamcResourceTypeData extends AbstractDataLoader
         }
 
         return $data;
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, AamcResourceTypeDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

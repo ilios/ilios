@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\CompetencyDTO;
+
 class CompetencyData extends AbstractDataLoader
 {
     protected function getData()
@@ -67,5 +69,11 @@ class CompetencyData extends AbstractDataLoader
         return [
             'school' => 11
         ];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, CompetencyDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

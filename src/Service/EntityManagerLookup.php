@@ -76,4 +76,17 @@ class EntityManagerLookup
     {
         return ucfirst($this->endpointResponseNamer->getSingularName($name));
     }
+
+    public function getDtoClassForEndpoint(string $endPoint): string
+    {
+        $entityName = $this->getEntityName($endPoint);
+        $name = "App\\Entity\\DTO\\${entityName}DTO";
+        if (!class_exists($name)) {
+            throw new Exception(
+                sprintf('The DTO \'%s\' does not exist.', $name)
+            );
+        }
+
+        return $name;
+    }
 }

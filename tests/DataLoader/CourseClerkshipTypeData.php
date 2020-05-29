@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\CourseClerkshipTypeDTO;
+
 class CourseClerkshipTypeData extends AbstractDataLoader
 {
     protected function getData()
@@ -38,5 +40,11 @@ class CourseClerkshipTypeData extends AbstractDataLoader
     public function createInvalid()
     {
         return [];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, CourseClerkshipTypeDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

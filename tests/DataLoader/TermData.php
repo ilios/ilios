@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\TermDTO;
+
 class TermData extends AbstractDataLoader
 {
     protected function getData()
@@ -130,5 +132,11 @@ class TermData extends AbstractDataLoader
         return [
             'vocabulary' => 11
         ];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, TermDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

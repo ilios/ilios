@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataLoader;
 
 use App\Entity\CurriculumInventorySequenceBlockInterface;
+use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
 
 class CurriculumInventorySequenceBlockData extends AbstractDataLoader
 {
@@ -87,5 +88,11 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
         return [
             'id' => 7,
         ];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, CurriculumInventorySequenceBlockDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

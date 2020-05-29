@@ -68,31 +68,44 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function testPostMany()
+    protected function createMany(int $count): array
     {
-        $n = 10;
         $objectiveDataLoader = $this->getContainer()->get(ObjectiveData::class);
-        $objectives = $objectiveDataLoader->createMany($n);
+        $objectives = $objectiveDataLoader->createMany($count);
         $savedObjectives = $this->postMany('objectives', 'objectives', $objectives);
 
         $programYearDataLoader = $this->getContainer()->get(ProgramYearData::class);
-        $programYears = $programYearDataLoader->createMany($n);
+        $programYears = $programYearDataLoader->createMany($count);
         $savedProgramYears = $this->postMany('programyears', 'programYears', $programYears);
 
         $dataLoader = $this->getDataLoader();
 
         $data = [];
-        for ($i = 0; $i < $n; $i++) {
+        for ($i = 0; $i < $count; $i++) {
             $arr = $dataLoader->create();
             $arr['id'] += $i;
             $arr['programYear'] = $savedProgramYears[$i]['id'];
             $arr['objective'] = $savedObjectives[$i]['id'];
             $data[] = $arr;
         }
+
+        return $data;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function testPostMany()
+    {
+        $data = $this->createMany(10);
         $this->postManyTest($data);
+    }
+
+    public function testPostManyJsonApi()
+    {
+        $data = $this->createMany(10);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data);
     }
 
     /**

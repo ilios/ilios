@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialStatusInterface;
 
 class LearningMaterialData extends AbstractDataLoader
@@ -318,5 +319,11 @@ class LearningMaterialData extends AbstractDataLoader
     public function createInvalidFile()
     {
         throw new \Exception('Not implemented yet');
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, LearningMaterialDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

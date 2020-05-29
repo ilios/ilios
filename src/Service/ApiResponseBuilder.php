@@ -70,7 +70,9 @@ class ApiResponseBuilder
     ): Response {
         $contentTypes = $request->getAcceptableContentTypes();
         if (in_array('application/vnd.api+json', $contentTypes)) {
-            return $this->buildJsonApiResponse($values, $status, $request->query->get('include'), false);
+            //POST data can be one or multiple and that changes the way the response is created
+            $isSingleItem = count($values) === 1;
+            return $this->buildJsonApiResponse($values, $status, $request->query->get('include'), $isSingleItem);
         } else {
             return $this->buildJsonResponse(
                 [ $this->endpointResponseNamer->getPluralName($object) => $values],

@@ -167,6 +167,42 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         return $fetchedResponseData;
     }
 
+    /**
+     * Test saving new data to the JSON:API
+     * @return mixed
+     */
+    protected function postJsonApiTest(object $postData, array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postOneJsonApi($postData);
+
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id);
+
+        $this->assertNotEmpty($fetchedResponseData['absoluteFileUri']);
+        $this->assertEquals(
+            10,
+            count($fetchedResponseData['academicLevels']),
+            'There should be 10 academic levels ids.'
+        );
+        $this->assertNotEmpty($fetchedResponseData['sequence'], 'A sequence id should be present.');
+
+        unset($fetchedResponseData['sequence']);
+        unset($fetchedResponseData['academicLevels']);
+        // don't compare sequence and academic level ids.
+        if (array_key_exists('sequence', $data)) {
+            $fetchedResponseData['sequence'] = $data['sequence'];
+        }
+        if (array_key_exists('academicLevels', $data)) {
+            $fetchedResponseData['academicLevels'] = $data['academicLevels'];
+        }
+
+        $this->compareData($data, $fetchedResponseData);
+
+        return $fetchedResponseData;
+    }
+
     protected function postManyTest(array $data)
     {
         $endpoint = $this->getPluralName();
@@ -178,6 +214,44 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $filters = [
             'filters[id]' => $ids,
             'limit' => count($ids)
+        ];
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
+
+        usort($fetchedResponseData, function ($a, $b) {
+            return $a['id'] <=> $b['id'];
+        });
+
+        foreach ($data as $i => $datum) {
+            $response = $fetchedResponseData[$i];
+
+            $this->assertNotEmpty($response['absoluteFileUri']);
+            $this->assertEquals(10, count($response['academicLevels']), 'There should be 10 academic levels ids.');
+            $this->assertNotEmpty($response['sequence'], 'A sequence id should be present.');
+            unset($response['sequence']);
+            unset($response['academicLevels']);
+            // don't compare sequence and academic level ids.
+            if (array_key_exists('sequence', $datum)) {
+                $response['sequence'] = $datum['sequence'];
+            }
+            if (array_key_exists('academicLevels', $datum)) {
+                $response['academicLevels'] = $datum['academicLevels'];
+            }
+
+            $this->compareData($datum, $response);
+        }
+
+        return $fetchedResponseData;
+    }
+
+    protected function postManyJsonApiTest(object $postData, array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postManyJsonApi($postData);
+        $ids = array_column($responseData, 'id');
+        $filters = [
+            'filters[id]' => $ids
         ];
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
@@ -269,10 +343,10 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $newReport = $data[0];
 
         // compare reports
-        $this->assertSame($report['name'], $newReport['name']);
-        $this->assertSame($report['description'], $newReport['description']);
-        $this->assertSame($report['year'], $newReport['year']);
-        $this->assertSame($report['program'], $newReport['program']);
+        $this->assertEquals($report['name'], $newReport['name']);
+        $this->assertEquals($report['description'], $newReport['description']);
+        $this->assertEquals($report['year'], $newReport['year']);
+        $this->assertEquals($report['program'], $newReport['program']);
         $this->assertEquals('07/01/' . $report['year'], date_create($newReport['startDate'])->format('m/d/Y'));
         $this->assertEquals('06/30/' . ($report['year'] + 1), date_create($newReport['endDate'])->format('m/d/Y'));
         $this->assertArrayNotHasKey('export', $newReport);

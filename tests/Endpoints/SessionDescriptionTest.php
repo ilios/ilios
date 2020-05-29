@@ -60,15 +60,12 @@ class SessionDescriptionTest extends ReadWriteEndpointTest
         ];
     }
 
-
     /**
      * We need to create additional sessions to
      * go with each new SessionDescription
-     * @inheritdoc
      */
-    public function testPostMany()
+    protected function createMany(int $count): array
     {
-        $count = 51;
         $sessionDataLoader = $this->getContainer()->get(SessionData::class);
         $sessions = $sessionDataLoader->createMany($count);
         $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
@@ -84,6 +81,19 @@ class SessionDescriptionTest extends ReadWriteEndpointTest
             $data[] = $arr;
         }
 
+        return $data;
+    }
+
+    public function testPostMany()
+    {
+        $data = $this->createMany(51);
         $this->postManyTest($data);
+    }
+
+    public function testPostManyJsonApi()
+    {
+        $data = $this->createMany(10);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data);
     }
 }

@@ -135,7 +135,9 @@ class Users extends ReadWriteController
         }
         $this->manager->flush();
 
-        return $builder->buildResponseForPostRequest($this->endpoint, $entities, Response::HTTP_CREATED, $request);
+        $dtos = $this->fetchDtosForEntities($entities);
+
+        return $builder->buildResponseForPostRequest($this->endpoint, $dtos, Response::HTTP_CREATED, $request);
     }
 
     /**

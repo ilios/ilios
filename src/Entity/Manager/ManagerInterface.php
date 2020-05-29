@@ -99,4 +99,10 @@ interface ManagerInterface
      * @return object A new entity.
      */
     public function create();
+
+    /**
+     * Get the ID field for this type of entity
+     * Usualy it is "id", but sometimes it isn't
+     */
+    public function getIdField(): string;
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\ProgramYearStewardDTO;
+
 class ProgramYearStewardData extends AbstractDataLoader
 {
     protected function getData()
@@ -39,5 +41,11 @@ class ProgramYearStewardData extends AbstractDataLoader
         return [
             'programYear' => 11
         ];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, ProgramYearStewardDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

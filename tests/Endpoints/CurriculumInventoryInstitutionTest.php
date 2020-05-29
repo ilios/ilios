@@ -72,32 +72,45 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
         ];
     }
 
-
-    /**
-     * We need to create additional schools to
-     * go with each new CI institution
-     * @inheritdoc
-     */
-    public function testPostMany()
+    protected function createMany(int $count): array
     {
-        $this->markTestSkipped(
-            'In order to write these we need write permissions in the school.' .
-            'This seems like too much of a pain to test this right now.'
-        );
-        $count = 26;
         $schoolDataLoader = $this->getContainer()->get(SchoolData::class);
         $schools = $schoolDataLoader->createMany($count);
         $savedSchools = $this->postMany('schools', 'schools', $schools);
 
         $dataLoader = $this->getDataLoader();
-
-        $data = array_map(function (array $school) use ($dataLoader) {
+        $id = $dataLoader->create()['id'];
+        $data = [];
+        foreach ($savedSchools as $school) {
             $arr = $dataLoader->create();
             $arr['school'] = (string) $school['id'];
+            $arr['id'] = $id;
+            $id++;
 
-            return $arr;
-        }, $savedSchools);
+            $data[] = $arr;
+        }
 
+        return $data;
+    }
+
+    /**
+     * We need to create additional schools to
+     * go with each new CI institution
+     */
+    public function testPostMany()
+    {
+        $data = $this->createMany(26);
         $this->postManyTest($data);
+    }
+
+    /**
+     * We need to create additional schools to
+     * go with each new CI institution
+     */
+    public function testPostManyJsonApi()
+    {
+        $data = $this->createMany(26);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data);
     }
 }

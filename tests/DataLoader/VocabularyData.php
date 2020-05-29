@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\VocabularyDTO;
+
 class VocabularyData extends AbstractDataLoader
 {
     protected function getData()
@@ -42,5 +44,11 @@ class VocabularyData extends AbstractDataLoader
         return [
             'school' => 555,
         ];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, VocabularyDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

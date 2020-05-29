@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\CurriculumInventoryAcademicLevelDTO;
+
 class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
 {
     protected function getData()
@@ -57,5 +59,11 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
         }
 
         return $data;
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, CurriculumInventoryAcademicLevelDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

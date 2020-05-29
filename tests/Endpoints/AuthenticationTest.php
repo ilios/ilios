@@ -87,6 +87,34 @@ class AuthenticationTest extends ReadWriteEndpointTest
         return $data;
     }
 
+    protected function createBulkJsonApi($arr): object
+    {
+        $data = array_map(function (array $user) {
+            $rhett = [
+                'id' => (string) $user['user'],
+                'type' => 'authentications',
+                'attributes' => [
+                    'username' => $user['username'],
+                ],
+                'relationships' => [
+                    'user' => [
+                        'data' => [
+                            'id' => $user['user'],
+                            'type' => 'users'
+                        ]
+                    ]
+                ]
+            ];
+            if (array_key_exists('password', $user)) {
+                $rhett['attributes']['password'] = $user['password'];
+            }
+
+            return $rhett;
+        }, $arr);
+
+        return json_decode(json_encode(['data' => $data]), false);
+    }
+
     protected function compareData(array $expected, array $result)
     {
         unset($expected['passwordSha256']);
@@ -114,6 +142,18 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $this->postManyTest($data);
     }
 
+    public function testPostMultipleAuthenticationWithEmptyPasswordJsonApi()
+    {
+        $arr = $this->createMany(101);
+        $arr = array_map(function ($item) {
+            unset($item['password']);
+            return $item;
+        }, $arr);
+
+        $data = $this->createBulkJsonApi($arr);
+        $this->postManyJsonApiTest($data, $arr);
+    }
+
     public function testPostAuthenticationWithEmptyPassword()
     {
         $dataLoader = $this->getDataLoader();
@@ -121,6 +161,16 @@ class AuthenticationTest extends ReadWriteEndpointTest
         unset($data['password']);
 
         $this->postTest($data, $data);
+    }
+
+    public function testPostAuthenticationWithEmptyPasswordJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $arr = $dataLoader->create();
+        unset($arr['password']);
+        $data = $dataLoader->createJsonApi($arr);
+
+        $this->postJsonApiTest($data, $arr);
     }
 
     public function testPutAuthenticationWithNewUsernameAndPassword()
@@ -154,6 +204,17 @@ class AuthenticationTest extends ReadWriteEndpointTest
         unset($data['password']);
 
         $this->postTest($data, $data);
+    }
+
+    public function testPostAuthenticationWithNoUsernameOrPasswordJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $arr = $dataLoader->create();
+        unset($arr['username']);
+        unset($arr['password']);
+        $data = $dataLoader->createJsonApi($arr);
+
+        $this->postJsonApiTest($data, $arr);
     }
 
     /**
@@ -259,6 +320,19 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $this->postManyTest($data);
     }
 
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     */
+    public function testPostManyJsonApi()
+    {
+        $arr = $this->createMany(10);
+        $data = $this->createBulkJsonApi($arr);
+        $this->postManyJsonApiTest($data, $arr);
+    }
+
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
@@ -311,6 +385,30 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $filters = [
             'filters[user]' => $ids,
             'limit' => count($ids)
+        ];
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
+
+        foreach ($data as $i => $datum) {
+            $response = $fetchedResponseData[$i];
+            $this->compareData($datum, $response);
+        }
+
+        return $fetchedResponseData;
+    }
+
+    /**
+     * Test saving new data to the JSON:API
+     * @return mixed
+     */
+    protected function postManyJsonApiTest(object $postData, array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postManyJsonApi($postData);
+        $ids = array_column($responseData, 'id');
+        $filters = [
+            'filters[user]' => $ids
         ];
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);

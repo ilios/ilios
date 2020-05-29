@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\IlmSessionDTO;
+
 class IlmSessionData extends AbstractDataLoader
 {
     protected function getData()
@@ -80,5 +82,11 @@ class IlmSessionData extends AbstractDataLoader
     public function createInvalid()
     {
         return [];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, IlmSessionDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\ObjectiveDTO;
+
 class ObjectiveData extends AbstractDataLoader
 {
     protected function getData()
@@ -196,5 +198,11 @@ class ObjectiveData extends AbstractDataLoader
     public function createInvalid()
     {
         return [];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        $item = $this->buildJsonApiObject($arr, ObjectiveDTO::class);
+        return json_decode(json_encode(['data' => $item]), false);
     }
 }

@@ -46,6 +46,17 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
     }
 
     /**
+     * Test posting a single object
+     */
+    public function testPostOneJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $jsonApiData = $dataLoader->createJsonApi($data);
+        $this->postJsonApiTest($jsonApiData, $data);
+    }
+
+    /**
      * Test a failure when posting an object
      */
     public function testPostBad()
@@ -63,6 +74,18 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->createMany(51);
         $this->postManyTest($data);
+    }
+
+    /**
+     * Test POST several of this type of object
+     * using JSON:API
+     */
+    public function testPostManyJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->createMany(51);
+        $jsonApiData = $dataLoader->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data);
     }
 
     /**

@@ -335,10 +335,6 @@ services:
       - { name: kernel.event_listener, event: kernel.response, method: flush }
       - { name: kernel.event_listener, event: console.terminate, method: flush }
 
-    App\Service\CurriculumInventoryReportDecoratorFactory:
-      arguments:
-        $decoratorClassName: '\App\Classes\CurriculumInventoryReportDecorator'
-
     App\Service\Timestamper:
       tags:
       - { name: kernel.event_listener, event: kernel.response, method: flush }

@@ -21,12 +21,19 @@ class ApiRequestParser
      */
     protected $serializer;
 
+    /**
+     * @var JsonApiDataShaper
+     */
+    protected $dataShaper;
+
     public function __construct(
         EndpointResponseNamer $endpointResponseNamer,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        JsonApiDataShaper $dataShaper
     ) {
         $this->endpointResponseNamer = $endpointResponseNamer;
         $this->serializer = $serializer;
+        $this->dataShaper = $dataShaper;
     }
 
     /**
@@ -66,6 +73,24 @@ class ApiRequestParser
         $data = false;
         $str = $request->getContent();
         $obj = json_decode($str);
+
+        $type = $request->getAcceptableContentTypes();
+        if (in_array("application/vnd.api+json", $type)) {
+            if (!property_exists($obj, 'data')) {
+                throw new BadRequestHttpException(
+                    "The required 'data' value was not found in request."
+                );
+            }
+
+            $data = is_array($obj->data) ? $obj->data : [$obj->data];
+            $dataShaper = $this->dataShaper;
+
+            return array_map(function ($data) use ($dataShaper) {
+                $shaped = $dataShaper->flattenJsonApiData($data);
+                return json_decode(json_encode($shaped), false);
+            }, $data);
+        }
+
 
         $singularResponseKey = $this->endpointResponseNamer->getSingularName($object);
         $pluralResponseKey = $this->endpointResponseNamer->getPluralName($object);
@@ -149,8 +174,15 @@ class ApiRequestParser
      */
     public function extractEntitiesFromPostRequest(Request $request, string $class, string $object): array
     {
+        $type = $request->getAcceptableContentTypes();
+        if (in_array("application/vnd.api+json", $type)) {
+            $json = $request->getContent();
+            return $this->serializer->deserialize($json, $class, 'json-api');
+        }
+
         $data = $this->extractPostDataFromRequest($request, $object);
         $json = json_encode($data);
+
         return $this->serializer->deserialize($json, $class, 'json');
     }
 

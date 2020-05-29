@@ -203,7 +203,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
 
     public function supportsDenormalization($data, string $type, string $format = null)
     {
-        return $format === 'json' && $this->entityMetadata->isAnIliosEntity($type);
+        return $this->entityMetadata->isAnIliosEntity($type);
     }
 
     public function hasCacheableSupportsMethod(): bool

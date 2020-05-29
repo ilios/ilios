@@ -18,22 +18,32 @@ interface DataLoaderInterface
      */
     public function getAll();
 
-     /**
-      * Create a sample of this item
-      * @return array
-      */
+    /**
+     * Create a sample of this item
+     * @return array
+     */
     public function create();
 
-      /**
-       * Create an invalid sample of this item
-       * @return array
-       */
+    /**
+     * Create an invalid sample of this item
+     * @return array
+     */
     public function createInvalid();
 
-      /**
-       * Create multiple samples of this item
-       * @param int $count
-       * @return array
-       */
+    /**
+     * Create multiple samples of this item
+     * @param int $count
+     * @return array
+     */
     public function createMany($count);
+
+    /**
+     * Create a JSON:API compatible version
+     */
+    public function createJsonApi(array $arr): object;
+
+    /**
+     * JSON:API bulk compatible data
+     */
+    public function createBulkJsonApi(array $arr): object;
 }
