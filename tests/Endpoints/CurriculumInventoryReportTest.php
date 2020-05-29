@@ -343,10 +343,10 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $newReport = $data[0];
 
         // compare reports
-        $this->assertSame($report['name'], $newReport['name']);
-        $this->assertSame($report['description'], $newReport['description']);
-        $this->assertSame($report['year'], $newReport['year']);
-        $this->assertSame($report['program'], $newReport['program']);
+        $this->assertEquals($report['name'], $newReport['name']);
+        $this->assertEquals($report['description'], $newReport['description']);
+        $this->assertEquals($report['year'], $newReport['year']);
+        $this->assertEquals($report['program'], $newReport['program']);
         $this->assertEquals('07/01/' . $report['year'], date_create($newReport['startDate'])->format('m/d/Y'));
         $this->assertEquals('06/30/' . ($report['year'] + 1), date_create($newReport['endDate'])->format('m/d/Y'));
         $this->assertArrayNotHasKey('export', $newReport);
