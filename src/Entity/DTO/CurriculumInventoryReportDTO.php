@@ -44,7 +44,7 @@ class CurriculumInventoryReportDTO
      * @var int
      *
      * @IS\Expose
-     * @IS\Type("integer")
+     * @IS\Type("string")
      */
     public $year;
 
