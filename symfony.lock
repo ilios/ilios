@@ -333,15 +333,6 @@
     "sentry/sentry": {
         "version": "2.3.0"
     },
-    "setasign/fpdf": {
-        "version": "1.8.2"
-    },
-    "setasign/fpdi": {
-        "version": "v2.2.0"
-    },
-    "setasign/fpdi-fpdf": {
-        "version": "v2.2.0"
-    },
     "squizlabs/php_codesniffer": {
         "version": "3.0",
         "recipe": {
