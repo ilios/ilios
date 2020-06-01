@@ -1,0 +1,40 @@
+name: Update Dependencies
+
+on:
+  schedule:
+    - cron: '15 14 * * 1' # weekly, on Monday morning (UTC)
+
+jobs:
+  update:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use PHP 7.4
+      uses: shivammathur/setup-php@v1
+      with:
+        coverage: none
+        php-version: 7.4
+    - name: install composer-lock-diff
+      run: composer global require davidrjonas/composer-lock-diff
+    - name: update dependencies
+      run: composer update
+    - name: Prepare Messages
+      id: vars
+      run: |
+        echo ::set-output name=pr_title::"Update Dependencies"
+        echo ::set-output name=commit_message::"$(composer-lock-diff --md)"
+        echo ::set-output name=pr_body::"$(composer-lock-diff --md)  \
+          by [create-pull-request](https://github.com/peter-evans/create-pull-request)."
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v2
+      with:
+          token: ${{ secrets.ZORGBORT_TOKEN }}
+          title: ${{ steps.vars.outputs.pr_title }}
+          body: ${{ steps.vars.outputs.pr_body }}
+          commit-message: ${{ steps.vars.outputs.commit-message }}
+          branch: auto-update-dependencies
+          committer: Zorgbort <info@iliosproject.org>
+          author: Zorgbort <info@iliosproject.org>
+          labels: dependencies
