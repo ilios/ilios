@@ -145,6 +145,18 @@ class ApiRequestParser
         $str = $request->getContent();
         $obj = json_decode($str);
 
+        $type = $request->getAcceptableContentTypes();
+        if (in_array("application/vnd.api+json", $type)) {
+            if (!property_exists($obj, 'data')) {
+                throw new BadRequestHttpException(
+                    "The required 'data' value was not found in request."
+                );
+            }
+
+            return json_decode(json_encode($this->dataShaper->flattenJsonApiData($obj->data)), false);
+        }
+
+
         $key = $this->endpointResponseNamer->getSingularName($object);
         if (property_exists($obj, $key)) {
             $data = $obj->$key;
@@ -191,8 +203,15 @@ class ApiRequestParser
      */
     public function extractEntityFromPutRequest(Request $request, object $entity, string $object): object
     {
-        $data = $this->extractPutDataFromRequest($request, $object);
+        $type = $request->getAcceptableContentTypes();
+        if (in_array("application/vnd.api+json", $type)) {
+            $obj = json_decode($request->getContent());
+            $data = $this->dataShaper->flattenJsonApiData($obj->data);
+        } else {
+            $data = $this->extractPutDataFromRequest($request, $object);
+        }
         $json = json_encode($data);
+
         return $this->serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
     }
 }

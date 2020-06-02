@@ -11,6 +11,7 @@ use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -75,8 +76,11 @@ abstract class ReadWriteController extends ReadOnlyController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $type = $request->getAcceptableContentTypes();
+        if (in_array("application/vnd.api+json", $type)) {
+            throw new BadRequestHttpException("PUT is not allowed for JSON:API requests, use PATCH instead");
+        }
         $entity = $this->manager->findOneBy(['id' => $id]);
-
         if ($entity) {
             $code = Response::HTTP_OK;
             $permission = AbstractVoter::EDIT;
@@ -101,6 +105,49 @@ abstract class ReadWriteController extends ReadOnlyController
         $this->manager->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
+    }
+
+    /**
+     * Modifies a single object in the API.  Can also create and
+     * object if it does not yet exist.
+     * @Route("/{id}", methods={"PATCH"})
+     */
+    public function patch(
+        string $version,
+        string $id,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        $type = $request->getAcceptableContentTypes();
+        if (!in_array("application/vnd.api+json", $type)) {
+            throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
+        }
+
+        $entity = $this->manager->findOneBy(['id' => $id]);
+
+        if (!$entity) {
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+
+        $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
+
+        $errors = $validator->validate($entity);
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+
+            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
+        }
+        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
+            throw new AccessDeniedException('Unauthorized access!');
+        }
+
+        $this->manager->update($entity, true, false);
+
+        $dtos = $this->fetchDtosForEntities([$entity]);
+        return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
     }
 
 

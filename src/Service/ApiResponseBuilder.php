@@ -88,14 +88,19 @@ class ApiResponseBuilder
         Request $request
     ): Response {
         $contentTypes = $request->getAcceptableContentTypes();
-        if (in_array('application/vnd.api+json', $contentTypes)) {
-            return $this->buildJsonApiResponse($value, $status, $request->query->get('include'), true);
-        } else {
-            return $this->buildJsonResponse(
-                [ $this->endpointResponseNamer->getSingularName($object) => $value],
-                $status
-            );
-        }
+        return $this->buildJsonResponse(
+            [ $this->endpointResponseNamer->getSingularName($object) => $value],
+            $status
+        );
+    }
+
+    public function buildResponseForPatchRequest(
+        string $object,
+        object $value,
+        int $status,
+        Request $request
+    ): Response {
+        return $this->buildJsonApiResponse([$value], $status, null, true);
     }
 
     /**
