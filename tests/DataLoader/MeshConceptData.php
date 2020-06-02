@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\MeshConceptDTO;
+
 class MeshConceptData extends AbstractDataLoader
 {
     protected function getData()
@@ -67,5 +69,10 @@ class MeshConceptData extends AbstractDataLoader
 
             return $arr;
         }, $data);
+    }
+
+    public function getDtoClass(): string
+    {
+        return MeshConceptDTO::class;
     }
 }

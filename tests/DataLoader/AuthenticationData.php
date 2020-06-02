@@ -49,9 +49,8 @@ class AuthenticationData extends AbstractDataLoader
         throw new \Exception("Cannot auto create many Authentications.  Users have to be created first");
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, AuthenticationDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return AuthenticationDTO::class;
     }
 }

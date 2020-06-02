@@ -76,9 +76,8 @@ class ProgramData extends AbstractDataLoader
         return [];
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, ProgramDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return ProgramDTO::class;
     }
 }

@@ -49,9 +49,8 @@ class SchoolConfigData extends AbstractDataLoader
         ];
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, SchoolConfigDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return SchoolConfigDTO::class;
     }
 }

@@ -74,9 +74,8 @@ class InstructorGroupData extends AbstractDataLoader
         return [];
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, InstructorGroupDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return InstructorGroupDTO::class;
     }
 }

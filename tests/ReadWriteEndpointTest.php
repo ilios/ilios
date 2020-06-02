@@ -123,6 +123,28 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
     }
 
     /**
+     * @dataProvider putsToTest
+     * @param mixed $value
+     */
+    public function testPatchJsonApi(string $key, $value, bool $skipped = false)
+    {
+
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $data[$key] = $value;
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        //When we remove a value in a test we shouldn't expect it back
+        if (null === $value) {
+            unset($data[$key]);
+        }
+        $this->patchJsonApiTest($data, $jsonApiData);
+    }
+
+    /**
      * Test PUTing each test data item to ensure
      * they all are saved as we would expect
      */

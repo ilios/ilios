@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\MeshDescriptorDTO;
+
 class MeshDescriptorData extends AbstractDataLoader
 {
     protected function getData()
@@ -96,5 +98,10 @@ class MeshDescriptorData extends AbstractDataLoader
         }
 
         return $data;
+    }
+
+    public function getDtoClass(): string
+    {
+        return MeshDescriptorDTO::class;
     }
 }

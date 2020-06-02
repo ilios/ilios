@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\MeshTreeDTO;
+
 class MeshTreeData extends AbstractDataLoader
 {
     protected function getData()
@@ -37,5 +39,10 @@ class MeshTreeData extends AbstractDataLoader
         return [
             'id' => 'bad'
         ];
+    }
+
+    public function getDtoClass(): string
+    {
+        return MeshTreeDTO::class;
     }
 }

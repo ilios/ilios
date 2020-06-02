@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\MeshPreviousIndexingDTO;
+
 class MeshPreviousIndexingData extends AbstractDataLoader
 {
     protected function getData()
@@ -37,5 +39,10 @@ class MeshPreviousIndexingData extends AbstractDataLoader
         return [
             'id' => 'bad'
         ];
+    }
+
+    public function getDtoClass(): string
+    {
+        return MeshPreviousIndexingDTO::class;
     }
 }

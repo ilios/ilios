@@ -321,9 +321,8 @@ class LearningMaterialData extends AbstractDataLoader
         throw new \Exception('Not implemented yet');
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, LearningMaterialDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return LearningMaterialDTO::class;
     }
 }
