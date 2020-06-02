@@ -136,12 +136,15 @@ abstract class AbstractDataLoader implements DataLoaderInterface
             if (array_key_exists($attributeName, $attributes)) {
                 $value = $attributes[$attributeName];
                 if (is_array($value)) {
+                    $relationships[$attributeName]['data'] = [];
                     foreach ($value as $relId) {
                         $relationships[$attributeName]['data'][] = [
                             'type' => $relationshipType,
                             'id' => $relId,
                         ];
                     }
+                } elseif (is_null($value)) {
+                    $relationships[$attributeName]['data'] = null;
                 } else {
                     $relationships[$attributeName]['data'] = [
                         'type' => $relationshipType,
