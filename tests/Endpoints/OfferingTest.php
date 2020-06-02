@@ -62,7 +62,7 @@ class OfferingTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
-            'session' => ['session', 2, AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
+            'session' => ['session', AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
         ];
     }
 
