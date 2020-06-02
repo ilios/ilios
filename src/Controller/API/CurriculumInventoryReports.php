@@ -17,6 +17,7 @@ use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use App\Service\CurriculumInventoryReportDecoratorFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -225,6 +226,50 @@ class CurriculumInventoryReports
         $this->manager->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $this->factory->create($entity), $code, $request);
+    }
+
+    /**
+     * Modifies a single object in the API.  Can also create and
+     * object if it does not yet exist.
+     * @Route("/{id}", methods={"PATCH"})
+     */
+    public function patch(
+        string $version,
+        string $id,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        $type = $request->getAcceptableContentTypes();
+        if (!in_array("application/vnd.api+json", $type)) {
+            throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
+        }
+
+        $entity = $this->manager->findOneBy(['id' => $id]);
+
+        if (!$entity) {
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+
+        $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
+
+        $errors = $validator->validate($entity);
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+
+            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
+        }
+        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
+            throw new AccessDeniedException('Unauthorized access!');
+        }
+
+        $this->manager->update($entity, true, false);
+
+        $dto = $this->factory->create($entity);
+
+        return $builder->buildResponseForPatchRequest($this->endpoint, $dto, Response::HTTP_OK, $request);
     }
 
 

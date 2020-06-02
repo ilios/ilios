@@ -17,6 +17,7 @@ use App\Service\LearningMaterialDecoratorFactory;
 use App\Service\TemporaryFileSystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -294,6 +295,62 @@ class LearningMaterials
             $this->endpoint,
             $this->decoratorFactory->create($entity),
             $code,
+            $request
+        );
+    }
+
+    /**
+     * When saving a learning material do not allow
+     * the modification of file fields.  These are not
+     * technically read only, but should not be writable when saved.
+     * @Route("/{id}", methods={"PATCH"})
+     */
+    public function patch(
+        string $version,
+        int $id,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder,
+        SerializerInterface $serializer
+    ): Response {
+        $type = $request->getAcceptableContentTypes();
+        if (!in_array("application/vnd.api+json", $type)) {
+            throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
+        }
+        /** @var LearningMaterialInterface $entity */
+        $entity = $this->manager->findOneBy(['id' => $id]);
+
+        if (!$entity) {
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+
+        $data = $requestParser->extractPutDataFromRequest($request, 'learningmaterials');
+        unset($data->fileHash);
+        unset($data->mimetype);
+        unset($data->relativePath);
+        unset($data->filesize);
+
+        $json = json_encode($data);
+        $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
+
+        $errors = $validator->validate($entity);
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+
+            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
+        }
+        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
+            throw new AccessDeniedException('Unauthorized access!');
+        }
+
+        $this->manager->update($entity, true, false);
+
+        return $builder->buildResponseForPatchRequest(
+            $this->endpoint,
+            $this->decoratorFactory->create($entity),
+            Response::HTTP_OK,
             $request
         );
     }
