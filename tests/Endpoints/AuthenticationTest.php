@@ -185,6 +185,19 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $this->putTest($data, $data, $data['user']);
     }
 
+    public function testPutAuthenticationWithNewUsernameAndPasswordJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        unset($data['passwordSha256']);
+        unset($data['passwordBcrypt']);
+        $data['username'] = 'somethingnew';
+        $data['password'] = 'somethingnew';
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        $this->patchJsonApiTest($data, $jsonApiData);
+    }
+
     public function testPostAuthenticationForUserWithNonPrimarySchool()
     {
         $dataLoader = $this->getDataLoader();
