@@ -164,6 +164,26 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
     }
 
     /**
+     * Test PATCHINGing each test data item to ensure
+     * they all are saved as we would expect
+     */
+    public function testPatchForAllDataJsonApi()
+    {
+        $putsToTest = $this->putsToTest();
+        $firstPut = array_shift($putsToTest);
+        $changeKey = $firstPut[0];
+        $changeValue = $firstPut[1];
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        foreach ($all as $data) {
+            $data[$changeKey] = $changeValue;
+            $jsonApiData = $dataLoader->createJsonApi($data);
+
+            $this->patchJsonApiTest($data, $jsonApiData);
+        }
+    }
+
+    /**
      * @param string|null $key
      * @param mixed|null $id
      * @param mixed|null $value

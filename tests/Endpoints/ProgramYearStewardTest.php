@@ -117,6 +117,21 @@ class ProgramYearStewardTest extends ReadWriteEndpointTest
     }
 
     /**
+     * Override this so we don't change any values.  Changing something
+     * like department or school causes key conflicts and there isn't really
+     * anything non-unique to change here.
+     */
+    public function testPatchForAllDataJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        foreach ($all as $data) {
+            $jsonApiData = $dataLoader->createJsonApi($data);
+            $this->patchJsonApiTest($data, $jsonApiData);
+        }
+    }
+
+    /**
      * Tests creation of a new steward at the school level, without department.
      */
     public function testPostStewardWithoutDepartment()

@@ -321,6 +321,25 @@ class AuthenticationTest extends ReadWriteEndpointTest
         }
     }
 
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     */
+    public function testPatchForAllDataJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $faker = $this->getFaker();
+        foreach ($all as $data) {
+            $data['username'] = $faker->text(50);
+            unset($data['passwordSha256']);
+            unset($data['passwordBcrypt']);
+            $jsonApiData = $dataLoader->createJsonApi($data);
+            $this->patchJsonApiTest($data, $jsonApiData);
+        }
+    }
+
 
     /**
      * Overridden because authentication users

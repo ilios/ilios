@@ -319,6 +319,25 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         }
     }
 
+    public function testPatchForAllDataJsonApi()
+    {
+        $putsToTest = $this->putsToTest();
+
+        $firstPut = array_shift($putsToTest);
+        $changeKey = $firstPut[0];
+        $changeValue = $firstPut[1];
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $nonExportedReports = array_filter($all, function ($report) {
+            return !array_key_exists('export', $report);
+        });
+        foreach ($nonExportedReports as $data) {
+            $data[$changeKey] = $changeValue;
+            $jsonApiData = $dataLoader->createJsonApi($data);
+            $this->patchJsonApiTest($data, $jsonApiData);
+        }
+    }
+
     public function testRolloverCurriculumInventoryReport()
     {
         $dataLoader = $this->getDataLoader();

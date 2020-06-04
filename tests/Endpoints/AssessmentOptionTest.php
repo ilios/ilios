@@ -70,4 +70,16 @@ class AssessmentOptionTest extends ReadWriteEndpointTest
             $this->putTest($data, $data, $data['id']);
         }
     }
+
+    public function testPatchForAllDataJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $faker = $this->getFaker();
+        foreach ($all as $data) {
+            $data['name'] = $faker->word;
+            $jsonApiData = $dataLoader->createJsonApi($data);
+            $this->patchJsonApiTest($data, $jsonApiData);
+        }
+    }
 }

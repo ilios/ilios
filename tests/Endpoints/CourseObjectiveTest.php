@@ -129,6 +129,27 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         }
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function testPatchForAllDataJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+
+        $n = count($all);
+        $termsDataLoader = $this->getContainer()->get(TermData::class);
+        $terms = $termsDataLoader->createMany($n);
+        $savedTerms = $this->postMany('terms', 'terms', $terms);
+
+        for ($i = 0; $i < $n; $i++) {
+            $data = $all[$i];
+            $data['terms'][] = $savedTerms[$i]['id'];
+            $jsonApiData = $dataLoader->createJsonApi($data);
+            $this->patchJsonApiTest($data, $jsonApiData);
+        }
+    }
+
     public function testRemoveLinksFromOrphanedObjectives()
     {
         $dataLoader = $this->getContainer()->get(ObjectiveData::class);
