@@ -49,6 +49,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'program' => ['program', $this->getFaker()->text, $skipped = true],
             'academicLevels' => ['academicLevels', [1], $skipped = true],
             'administrators' => ['administrators', [1]],
+            'removeAdministrators' => ['administrators', []],
 
         ];
     }
