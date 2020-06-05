@@ -181,6 +181,20 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     }
 
     /**
+     * @dataProvider qsToTest
+     */
+    public function testFindByQJsonApi(string $q, array $dataKeys)
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $expectedData = array_map(function ($i) use ($all) {
+            return $all[$i];
+        }, $dataKeys);
+        $filters = ['q' => $q];
+        $this->jsonApiFilterTest($filters, $expectedData);
+    }
+
+    /**
      * Ensure offset and limit work
      */
     public function testFindByQWithLimit()
@@ -215,6 +229,16 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         $this->filterTest($filters, [$all[0]]);
         $filters = ['q' => 'lm', 'offset' => 3, 'limit' => 1];
         $this->filterTest($filters, [$all[3]]);
+    }
+
+    public function testFindByQWithOffsetAndLimitJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['title'], 'offset' => 0, 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'lm', 'offset' => 3, 'limit' => 1];
+        $this->jsonApiFilterTest($filters, [$all[3]]);
     }
 
     /**

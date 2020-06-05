@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Manager;
 
+use App\Entity\DTO\MeshDescriptorDTO;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Entity\MeshDescriptorInterface;
 use App\Entity\Repository\MeshDescriptorRepository;
@@ -37,22 +38,17 @@ class MeshDescriptorManager extends BaseManager
     }
 
     /**
-     * @param string $q
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     *
-     * @return MeshDescriptorInterface[]
+     * @return MeshDescriptorDTO[]
      */
-    public function findMeshDescriptorsByQ(
-        $q,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
+    public function findMeshDescriptorDtosByQ(
+        string $q,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): array {
         /** @var MeshDescriptorRepository $repository */
         $repository = $this->getRepository();
-        return $repository->findByQ($q, $orderBy, $limit, $offset);
+        return $repository->findDTOsByQ($q, $orderBy, $limit, $offset);
     }
 
     /**

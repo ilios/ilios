@@ -185,6 +185,20 @@ class UserTest extends ReadWriteEndpointTest
     }
 
     /**
+     * @dataProvider qsToTest
+     */
+    public function testFindByQJsonApi(string $q, array $dataKeys)
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $expectedData = array_map(function ($i) use ($all) {
+            return $all[$i];
+        }, $dataKeys);
+        $filters = ['q' => $q];
+        $this->jsonApiFilterTest($filters, $expectedData);
+    }
+
+    /**
      * Ensure offset and limit work
      */
     public function testFindByQWithLimit()
@@ -219,6 +233,16 @@ class UserTest extends ReadWriteEndpointTest
         $this->filterTest($filters, [$all[0]]);
         $filters = ['q' => 'school.edu', 'offset' => 2, 'limit' => 2];
         $this->filterTest($filters, [$all[2], $all[3]]);
+    }
+
+    public function testFindByQWithOffsetAndLimitJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['firstName'], 'offset' => 0, 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'school.edu', 'offset' => 2, 'limit' => 2];
+        $this->jsonApiFilterTest($filters, [$all[2], $all[3]]);
     }
 
     public function findUsersWithRoleOne()
