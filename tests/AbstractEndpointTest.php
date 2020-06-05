@@ -431,6 +431,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         return $responses;
     }
+
     /**
      * Get getting every piece of data in the test DB
      * @return mixed
@@ -438,7 +439,6 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function getAllJsonApiTest()
     {
         $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
         $loader = $this->getDataLoader();
         $data = $loader->getAll();
         $this->createJsonApiRequest(
@@ -474,6 +474,53 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->objectHasAttribute('attributes', $content->data);
             $this->objectHasAttribute('relationships', $content->data);
             
+            $this->compareJsonApiData($data[$i], $item);
+        }
+
+        return $content->data;
+    }
+
+    /**
+     * Get getting every piece of data in the test DB
+     * @return mixed
+     */
+    protected function getAllWithLimitAndOffsetJsonApiTest()
+    {
+        $endpoint = $this->getPluralName();
+        $loader = $this->getDataLoader();
+        $data = $loader->getAll();
+        $this->createJsonApiRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_getall",
+                ['version' => $this->apiVersion, 'limit' => 1, 'offset' => 0]
+            ),
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonApiResponse($response, Response::HTTP_OK);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertCount(0, $content->included, var_export($content, true));
+        $this->assertIsArray($content->data);
+
+        $now = new DateTime();
+        foreach ($content->data as $i => $item) {
+            foreach ($this->getTimeStampFields() as $field) {
+                $stamp = new DateTime($item->attributes->$field);
+                unset($item->attributes->$field);
+                $diff = $now->diff($stamp);
+                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            }
+            $this->objectHasAttribute('id', $content->data);
+            $this->objectHasAttribute('type', $content->data);
+            $this->objectHasAttribute('attributes', $content->data);
+            $this->objectHasAttribute('relationships', $content->data);
+
             $this->compareJsonApiData($data[$i], $item);
         }
 
@@ -1017,6 +1064,49 @@ abstract class AbstractEndpointTest extends WebTestCase
         );
         foreach ($expectedData as $i => $data) {
             $this->compareData($data, $responseData[$i]);
+        }
+    }
+
+    /**
+     * Test that a filter returns the expected data
+     */
+    protected function jsonApiFilterTest(array $filters, array $expectedData)
+    {
+        $endpoint = $this->getPluralName();
+        $parameters = array_merge([
+            'version' => $this->apiVersion,
+        ], $filters);
+        $this->createJsonApiRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_getall",
+                $parameters
+            ),
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonApiResponse($response, Response::HTTP_OK);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertCount(0, $content->included, var_export($content, true));
+        $this->assertIsArray($content->data);
+
+        $this->assertEquals(
+            count($expectedData),
+            count($content->data),
+            'Wrong Number of responses returned from filter got: ' . var_export($content->data, true)
+        );
+        foreach ($expectedData as $i => $data) {
+            $responseData = $content->data[$i];
+            foreach ($this->getTimeStampFields() as $field) {
+                unset($data[$field]);
+                unset($responseData->attributes->$field);
+            }
+            $this->compareJsonApiData($data, $responseData);
         }
     }
 

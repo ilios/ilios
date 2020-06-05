@@ -31,13 +31,9 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
     /**
      * Find by a string query.
      *
-     * @param string $q
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return MeshDescriptorInterface[]
+     * @return MeshDescriptorDTO[]
      */
-    public function findByQ($q, $orderBy, $limit, $offset)
+    public function findDTOsByQ(string $q, ?array $orderBy, ?int $limit, ?int $offset): array
     {
         $terms = explode(' ', $q);
         $terms = array_filter($terms, 'strlen');
@@ -78,17 +74,17 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
             $qb->setFirstResult($offset);
         }
         $query = $qb->getQuery();
-        $query->useResultCache(true);
+        $query->enableResultCache(3600);
 
-        $results = $query->getResult();
+        $dtos = $this->createDTOs($query);
 
         // Unfortunately, we can't let Doctrine limit the fetch here because of all the joins
         // it returns many less than the desired number.
         if ($limit) {
-            $results = array_slice($results, 0, $limit);
+            $dtos = array_slice($dtos, 0, $limit);
         }
 
-        return $results;
+        return $dtos;
     }
 
     /**
@@ -127,8 +123,17 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
         $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from('App\Entity\MeshDescriptor', 'm');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
+        return $this->createDTOs($qb->getQuery());
+    }
+
+    /**
+     * Hydrate as DTOs
+     * @return MeshDescriptorDTO[]
+     */
+    protected function createDTOs(AbstractQuery $query): array
+    {
         $descriptorDTOs = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+        foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $descriptorDTOs[$arr['id']] = new MeshDescriptorDTO(
                 $arr['id'],
                 $arr['name'],
@@ -139,9 +144,8 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
             );
         }
         $descriptorIds = array_keys($descriptorDTOs);
-
-        $qb = $this->_em->createQueryBuilder()
-            ->select('p.id AS prevId, m.id AS descriptorId')
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('p.id AS prevId, m.id AS descriptorId')
             ->from('App\Entity\MeshPreviousIndexing', 'p')
             ->join('p.descriptor', 'm')
             ->where($qb->expr()->in('m.id', ':descriptorIds'))

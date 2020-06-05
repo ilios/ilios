@@ -27,6 +27,7 @@ trait GetEndpointTestable
         $this->getAllTest();
         $this->getAllWithLimitAndOffsetTest();
         $this->getAllJsonApiTest();
+        $this->getAllWithLimitAndOffsetJsonApiTest();
     }
 
     /**

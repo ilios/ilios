@@ -97,6 +97,20 @@ class MeshDescriptorTest extends AbstractMeshTest
     }
 
     /**
+     * @dataProvider qsToTest
+     */
+    public function testFindByQJsonApi(string $q, array $dataKeys)
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $expectedData = array_map(function ($i) use ($all) {
+            return $all[$i];
+        }, $dataKeys);
+        $filters = ['q' => $q];
+        $this->jsonApiFilterTest($filters, $expectedData);
+    }
+
+    /**
      * Ensure offset and limit work
      */
     public function testFindByQWithLimit()
@@ -131,5 +145,15 @@ class MeshDescriptorTest extends AbstractMeshTest
         $this->filterTest($filters, [$all[0]]);
         $filters = ['q' => 'desc', 'offset' => 1, 'limit' => 1];
         $this->filterTest($filters, [$all[1]]);
+    }
+
+    public function testFindByQWithOffsetAndLimitJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['name'], 'offset' => 0, 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'desc', 'offset' => 1, 'limit' => 1];
+        $this->jsonApiFilterTest($filters, [$all[1]]);
     }
 }

@@ -42,7 +42,7 @@ class MeshDescriptors extends ReadOnlyController
         $parameters = ApiRequestParser::extractParameters($request);
 
         if (null !== $q && '' !== $q) {
-            $dtos = $this->manager->findMeshDescriptorsByQ(
+            $dtos = $this->manager->findMeshDescriptorDtosByQ(
                 $q,
                 $parameters['orderBy'],
                 $parameters['limit'],
