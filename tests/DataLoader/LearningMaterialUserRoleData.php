@@ -38,9 +38,8 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
         return [];
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, LearningMaterialUserRoleDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return LearningMaterialUserRoleDTO::class;
     }
 }

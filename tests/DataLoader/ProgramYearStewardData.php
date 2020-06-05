@@ -43,9 +43,8 @@ class ProgramYearStewardData extends AbstractDataLoader
         ];
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, ProgramYearStewardDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return ProgramYearStewardDTO::class;
     }
 }

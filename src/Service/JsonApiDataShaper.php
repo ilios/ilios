@@ -81,11 +81,12 @@ class JsonApiDataShaper
         if (property_exists($data, 'relationships')) {
             foreach ($data->relationships as $key => $rel) {
                 if (is_array($rel->data)) {
+                    $rhett[$key] = [];
                     foreach ($rel->data as $r2) {
                         $rhett[$key][] = $r2->id;
                     }
                 } else {
-                    $rhett[$key] = $rel->data->id;
+                    $rhett[$key] = is_null($rel->data) ? null : $rel->data->id;
                 }
             }
         }

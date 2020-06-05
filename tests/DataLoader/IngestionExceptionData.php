@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\IngestionExceptionDTO;
+use Exception;
+
 class IngestionExceptionData extends AbstractDataLoader
 {
     protected function getData()
@@ -25,11 +28,21 @@ class IngestionExceptionData extends AbstractDataLoader
 
     public function create()
     {
-        throw new \Exception('Not implemented.');
+        throw new Exception('Not implemented.');
     }
 
     public function createInvalid()
     {
-        throw new \Exception('Not implemented.');
+        throw new Exception('Not implemented.');
+    }
+
+    public function getDtoClass(): string
+    {
+        return IngestionExceptionDTO::class;
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        throw new Exception('Not implemented');
     }
 }

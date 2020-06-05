@@ -53,7 +53,6 @@ abstract class AbstractDataLoader implements DataLoaderInterface
         $this->data = $this->getData();
     }
 
-
     public function getOne()
     {
         $this->setup();
@@ -83,7 +82,8 @@ abstract class AbstractDataLoader implements DataLoaderInterface
 
     public function createJsonApi(array $arr): object
     {
-        throw new Exception('Not implemented');
+        $item = $this->buildJsonApiObject($arr, $this->getDtoClass());
+        return json_decode(json_encode(['data' => $item]), false);
     }
 
     /**
@@ -103,9 +103,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
 
     public function createBulkJsonApi(array $arr): object
     {
-        $one = $this->createJsonApi($arr[0]);
-        $type = $one->data->type;
-        $class = $this->entityManagerLookup->getDtoClassForEndpoint($type);
+        $class = $this->getDtoClass();
         $builder = \Closure::fromCallable([$this, 'buildJsonApiObject']);
         $data = array_map(function (array $item) use ($builder, $class) {
             return $builder($item, $class);
@@ -138,12 +136,15 @@ abstract class AbstractDataLoader implements DataLoaderInterface
             if (array_key_exists($attributeName, $attributes)) {
                 $value = $attributes[$attributeName];
                 if (is_array($value)) {
+                    $relationships[$attributeName]['data'] = [];
                     foreach ($value as $relId) {
                         $relationships[$attributeName]['data'][] = [
                             'type' => $relationshipType,
                             'id' => $relId,
                         ];
                     }
+                } elseif (is_null($value)) {
+                    $relationships[$attributeName]['data'] = null;
                 } else {
                     $relationships[$attributeName]['data'] = [
                         'type' => $relationshipType,

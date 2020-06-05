@@ -15,6 +15,7 @@ use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -255,6 +256,78 @@ class Authentications
         $this->manager->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest('authentications', $entity, $code, $request);
+    }
+
+    /**
+     * Along with taking user input, this also encodes passwords so they
+     * can be stored safely in the database
+     * @Route("/{id}", methods={"PATCH"})
+     */
+    public function patch(
+        string $version,
+        int $id,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+
+        $type = $request->getAcceptableContentTypes();
+        if (!in_array("application/vnd.api+json", $type)) {
+            throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
+        }
+
+        /** @var Authentication $entity */
+        $entity = $this->manager->findOneBy(['user' => $id]);
+
+        if (!$entity) {
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+
+        $authObject = $requestParser->extractPutDataFromRequest($request, 'authentications');
+        if (!empty($authObject->password) && !empty($authObject->user)) {
+            /** @var UserInterface $user */
+            $user = $this->userManager->findOneBy(['id' => $authObject->user]);
+            if ($user) {
+                //set the password to null to reset the encoder
+                //so we don't use the legacy one
+                $entity->setPasswordSha256(null);
+                $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
+                $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
+            }
+        }
+        unset($authObject->password);
+
+        $json = json_encode($authObject);
+        $this->serializer->deserialize(
+            $json,
+            get_class($entity),
+            'json',
+            ['object_to_populate' => $entity]
+        );
+        if (isset($encodedPassword)) {
+            $entity->setPasswordHash($encodedPassword);
+        }
+
+
+
+        $requestParser->extractEntityFromPutRequest($request, $entity, 'authtntications');
+
+        $errors = $validator->validate($entity);
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+
+            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
+        }
+        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
+            throw new AccessDeniedException('Unauthorized access!');
+        }
+
+        $this->manager->update($entity, true, false);
+
+        $dtos = $this->fetchDtosForEntities([$entity]);
+        return $builder->buildResponseForPatchRequest('authentications', $dtos[0], Response::HTTP_OK, $request);
     }
 
     /**

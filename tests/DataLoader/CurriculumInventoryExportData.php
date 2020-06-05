@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use Exception;
+
 class CurriculumInventoryExportData extends AbstractDataLoader
 {
     protected function getData()
@@ -36,5 +38,15 @@ class CurriculumInventoryExportData extends AbstractDataLoader
     public function createInvalid()
     {
         return [];
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        throw new Exception('Not implemented');
+    }
+
+    public function getDtoClass(): string
+    {
+        throw new Exception('No DTO Exists');
     }
 }

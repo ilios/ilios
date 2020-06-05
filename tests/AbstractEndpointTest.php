@@ -834,6 +834,59 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
+     * PUT a single item to the JSON:API
+     */
+    protected function patchOneJsonApi(object $data): object
+    {
+        $endpoint = strtolower($data->data->type);
+        $this->createJsonApiRequest(
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_patch",
+                ['version' => $this->apiVersion, 'id' => $data->data->id]
+            ),
+            json_encode($data),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonApiResponse($response, Response::HTTP_OK);
+        $obj = json_decode($response->getContent());
+        $this->assertIsObject($obj->data);
+        $this->assertObjectHasAttribute('id', $obj->data);
+        $this->assertObjectHasAttribute('type', $obj->data);
+        $this->assertObjectHasAttribute('attributes', $obj->data);
+        $this->assertObjectHasAttribute('relationships', $obj->data);
+
+        return $obj->data;
+    }
+
+    /**
+     * Test putting a  single value to the API
+     */
+    protected function patchJsonApiTest(array $data, object $postData)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->patchOneJsonApi($postData);
+
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id);
+
+        $now = new DateTime();
+        foreach ($this->getTimeStampFields() as $field) {
+            $stamp = new DateTime($fetchedResponseData[$field]);
+            unset($fetchedResponseData[$field]);
+            $diff = $now->diff($stamp);
+            $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+        }
+
+        $this->compareData($data, $fetchedResponseData);
+
+        return $fetchedResponseData;
+    }
+
+    /**
      * Test deleting an object from the API
      *
      * @param $id

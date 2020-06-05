@@ -59,9 +59,8 @@ class AamcMethodData extends AbstractDataLoader
         return $data;
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, AamcMethodDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return AamcMethodDTO::class;
     }
 }

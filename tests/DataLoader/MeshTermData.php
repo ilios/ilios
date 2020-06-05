@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\MeshTermDTO;
+
 class MeshTermData extends AbstractDataLoader
 {
     protected function getData()
@@ -53,5 +55,10 @@ class MeshTermData extends AbstractDataLoader
         return [
             'id' => 'bad'
         ];
+    }
+
+    public function getDtoClass(): string
+    {
+        return MeshTermDTO::class;
     }
 }

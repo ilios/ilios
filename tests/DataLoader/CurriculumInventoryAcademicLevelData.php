@@ -61,9 +61,8 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
         return $data;
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, CurriculumInventoryAcademicLevelDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return CurriculumInventoryAcademicLevelDTO::class;
     }
 }

@@ -46,4 +46,9 @@ interface DataLoaderInterface
      * JSON:API bulk compatible data
      */
     public function createBulkJsonApi(array $arr): object;
+
+    /**
+     * Get the DTO for a data type
+     */
+    public function getDtoClass(): string;
 }

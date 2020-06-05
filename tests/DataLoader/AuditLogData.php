@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
-use App\Tests\DataLoader\AbstractDataLoader;
+use Exception;
 
 /**
  * Class AuditLogData
@@ -47,20 +47,30 @@ class AuditLogData extends AbstractDataLoader
     /**
      * Not implemented.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function create()
     {
-        throw new \Exception('Not implemented');
+        throw new Exception('Not implemented');
     }
 
     /**
      * Not implemented.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function createInvalid()
     {
-        throw new \Exception('Not implemented');
+        throw new Exception('Not implemented');
+    }
+
+    public function getDtoClass(): string
+    {
+        throw new Exception('Not implemented');
+    }
+
+    public function createJsonApi(array $arr): object
+    {
+        throw new Exception('Not implemented');
     }
 }

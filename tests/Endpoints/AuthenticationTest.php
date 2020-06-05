@@ -185,6 +185,19 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $this->putTest($data, $data, $data['user']);
     }
 
+    public function testPutAuthenticationWithNewUsernameAndPasswordJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        unset($data['passwordSha256']);
+        unset($data['passwordBcrypt']);
+        $data['username'] = 'somethingnew';
+        $data['password'] = 'somethingnew';
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        $this->patchJsonApiTest($data, $jsonApiData);
+    }
+
     public function testPostAuthenticationForUserWithNonPrimarySchool()
     {
         $dataLoader = $this->getDataLoader();
@@ -305,6 +318,25 @@ class AuthenticationTest extends ReadWriteEndpointTest
             unset($data['passwordBcrypt']);
 
             $this->putTest($data, $data, $data['user']);
+        }
+    }
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     */
+    public function testPatchForAllDataJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $faker = $this->getFaker();
+        foreach ($all as $data) {
+            $data['username'] = $faker->text(50);
+            unset($data['passwordSha256']);
+            unset($data['passwordBcrypt']);
+            $jsonApiData = $dataLoader->createJsonApi($data);
+            $this->patchJsonApiTest($data, $jsonApiData);
         }
     }
 

@@ -59,9 +59,8 @@ class SessionTypeData extends AbstractDataLoader
         return [];
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, SessionTypeDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return SessionTypeDTO::class;
     }
 }

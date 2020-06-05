@@ -67,6 +67,8 @@ class CourseTest extends ReadWriteEndpointTest
             'removeClerkshipType' => ['clerkshipType', null],
             'school' => ['school', 2],
             'directors' => ['directors', [2]],
+            'removeDirectors' => ['directors', []],
+            'replaceDirectors' => ['directors', [4]],
             'administrators' => ['administrators', [2]],
             'cohorts' => ['cohorts', [2]],
             'terms' => ['terms', [2]],

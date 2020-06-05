@@ -42,9 +42,8 @@ class CourseClerkshipTypeData extends AbstractDataLoader
         return [];
     }
 
-    public function createJsonApi(array $arr): object
+    public function getDtoClass(): string
     {
-        $item = $this->buildJsonApiObject($arr, CourseClerkshipTypeDTO::class);
-        return json_decode(json_encode(['data' => $item]), false);
+        return CourseClerkshipTypeDTO::class;
     }
 }

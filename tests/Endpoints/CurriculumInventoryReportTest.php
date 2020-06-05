@@ -49,6 +49,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'program' => ['program', $this->getFaker()->text, $skipped = true],
             'academicLevels' => ['academicLevels', [1], $skipped = true],
             'administrators' => ['administrators', [1]],
+            'removeAdministrators' => ['administrators', []],
 
         ];
     }
@@ -316,6 +317,25 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             $data[$changeKey] = $changeValue;
 
             $this->putTest($data, $data, $data['id']);
+        }
+    }
+
+    public function testPatchForAllDataJsonApi()
+    {
+        $putsToTest = $this->putsToTest();
+
+        $firstPut = array_shift($putsToTest);
+        $changeKey = $firstPut[0];
+        $changeValue = $firstPut[1];
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $nonExportedReports = array_filter($all, function ($report) {
+            return !array_key_exists('export', $report);
+        });
+        foreach ($nonExportedReports as $data) {
+            $data[$changeKey] = $changeValue;
+            $jsonApiData = $dataLoader->createJsonApi($data);
+            $this->patchJsonApiTest($data, $jsonApiData);
         }
     }
 

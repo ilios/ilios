@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Entity\DTO\MeshQualifierDTO;
+
 class MeshQualifierData extends AbstractDataLoader
 {
     protected function getData()
@@ -50,5 +52,10 @@ class MeshQualifierData extends AbstractDataLoader
 
             return $arr;
         }, $data);
+    }
+
+    public function getDtoClass(): string
+    {
+        return MeshQualifierDTO::class;
     }
 }
