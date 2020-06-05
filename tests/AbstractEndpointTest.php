@@ -392,6 +392,45 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         return $responses;
     }
+
+    /**
+     * Get with limit and offset
+     * @return mixed
+     */
+    protected function getAllWithLimitAndOffsetTest()
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $loader = $this->getDataLoader();
+        $data = $loader->getAll();
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_getall",
+                ['version' => $this->apiVersion, 'limit' => 1, 'offset' => 0]
+            ),
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+        $responses = json_decode($response->getContent(), true)[$responseKey];
+
+        $now = new DateTime();
+        foreach ($responses as $i => $response) {
+            foreach ($this->getTimeStampFields() as $field) {
+                $stamp = new DateTime($response[$field]);
+                unset($response[$field]);
+                $diff = $now->diff($stamp);
+                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            }
+            $this->compareData($data[$i], $response);
+        }
+
+        return $responses;
+    }
     /**
      * Get getting every piece of data in the test DB
      * @return mixed

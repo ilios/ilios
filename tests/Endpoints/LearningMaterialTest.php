@@ -181,6 +181,43 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     }
 
     /**
+     * Ensure offset and limit work
+     */
+    public function testFindByQWithLimit()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['title'], 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'lm', 'limit' => 2];
+        $this->filterTest($filters, [$all[0], $all[1]]);
+    }
+
+    /**
+     * Ensure offset and limit work
+     */
+    public function testFindByQWithOffset()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['title'], 'offset' => 0];
+        $this->filterTest($filters, [$all[0]]);
+    }
+
+    /**
+     * Ensure offset and limit work
+     */
+    public function testFindByQWithOffsetAndLimit()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['title'], 'offset' => 0, 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'lm', 'offset' => 3, 'limit' => 1];
+        $this->filterTest($filters, [$all[3]]);
+    }
+
+    /**
      * @covers \App\Controller\LearningMaterialController::getAllAction
      */
     public function testFindByQAsLearner()

@@ -42,8 +42,8 @@ class ApiRequestParser
     public static function extractParameters(Request $request): array
     {
         $parameters = [
-            'offset' => $request->query->get('offset'),
-            'limit' => $request->query->get('limit'),
+            'offset' => $request->query->has('offset') ? (int) $request->query->get('offset') : null,
+            'limit' => $request->query->has('limit') ? (int) $request->query->get('limit') : null,
             'orderBy' => $request->query->get('order_by'),
             'criteria' => []
         ];
