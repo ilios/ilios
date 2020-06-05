@@ -95,4 +95,41 @@ class MeshDescriptorTest extends AbstractMeshTest
         $filters = ['q' => $q];
         $this->filterTest($filters, $expectedData);
     }
+
+    /**
+     * Ensure offset and limit work
+     */
+    public function testFindByQWithLimit()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['name'], 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'desc', 'limit' => 2];
+        $this->filterTest($filters, [$all[0], $all[1]]);
+    }
+
+    /**
+     * Ensure offset and limit work
+     */
+    public function testFindByQWithOffset()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['name'], 'offset' => 0];
+        $this->filterTest($filters, [$all[0]]);
+    }
+
+    /**
+     * Ensure offset and limit work
+     */
+    public function testFindByQWithOffsetAndLimit()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['name'], 'offset' => 0, 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'desc', 'offset' => 1, 'limit' => 1];
+        $this->filterTest($filters, [$all[1]]);
+    }
 }
