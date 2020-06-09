@@ -16,6 +16,7 @@ use App\Tests\TestCase;
  */
 class EntityBase extends TestCase
 {
+    protected $object;
 
     /**
      * Remove all mock objects
