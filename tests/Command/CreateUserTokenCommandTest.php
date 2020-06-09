@@ -25,6 +25,11 @@ class CreateUserTokenCommandTest extends KernelTestCase
     protected $userManager;
     protected $commandTester;
 
+    /**
+     * @var JsonWebTokenManager|m\LegacyMockInterface|m\MockInterface
+     */
+    protected $jwtManager;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -47,6 +52,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
         parent::tearDown();
         unset($this->userManager);
         unset($this->commandTester);
+        unset($this->jwtManager);
     }
 
     public function testNewDefaultToken()
