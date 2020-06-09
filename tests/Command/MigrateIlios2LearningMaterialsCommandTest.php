@@ -28,6 +28,11 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
     protected $iliosFileSystem;
     protected $learningMaterialManager;
 
+    /**
+     * @var CommandTester
+     */
+    private $commandTester;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -45,7 +50,6 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
-        $this->questionHelper = $command->getHelper('question');
     }
 
     /**
