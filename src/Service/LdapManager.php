@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Dreamscapes\Ldap\Core\Ldap;
+use Exception;
 
 class LdapManager
 {
@@ -90,7 +91,7 @@ class LdapManager
      * @param string $filter
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function search($filter)
     {
@@ -165,8 +166,8 @@ class LdapManager
                     return strcmp($arr1['lastName'], $arr2['lastName']);
                 });
             }
-        } catch (\UserException $e) {
-            throw new \Exception("Failed to search external user source: {$e->getMessage()}");
+        } catch (Exception $e) {
+            throw new Exception("Failed to search external user source: {$e->getMessage()}");
         }
     
         return $rhett;
