@@ -8,6 +8,7 @@ use App\Command\ListSchoolConfigValuesCommand;
 use App\Entity\Manager\SchoolConfigManager;
 use App\Entity\Manager\SchoolManager;
 use App\Entity\SchoolConfigInterface;
+use App\Entity\SchoolInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
