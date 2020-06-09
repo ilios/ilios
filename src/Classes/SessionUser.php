@@ -93,6 +93,11 @@ class SessionUser implements SessionUserInterface
     /**
      * @var array
      */
+    protected $instructorGroupSchoolIds;
+
+    /**
+     * @var array
+     */
     protected $directedProgramAndSchoolIds;
 
     /**
