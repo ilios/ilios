@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\CreatedAtEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,6 +29,7 @@ class MeshConcept implements MeshConceptInterface
     use NameableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
+    use CreatedAtEntity;
 
 
     /**

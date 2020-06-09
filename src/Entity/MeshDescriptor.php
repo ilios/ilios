@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\CreatedAtEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\ConceptsEntity;
 use App\Traits\ObjectivesEntity;
@@ -36,6 +37,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     use SessionsEntity;
     use ObjectivesEntity;
     use ConceptsEntity;
+    use CreatedAtEntity;
 
     /**
      * @var string

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\CreatedAtEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -28,6 +29,7 @@ class MeshQualifier implements MeshQualifierInterface
     use TimestampableEntity;
     use NameableEntity;
     use StringableIdEntity;
+    use CreatedAtEntity;
 
     /**
      * @var string

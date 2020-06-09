@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\CreatedAtEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\ConceptsEntity;
 use App\Annotation as IS;
@@ -35,6 +36,7 @@ class MeshTerm implements MeshTermInterface
     use StringableIdEntity;
     use TimestampableEntity;
     use ConceptsEntity;
+    use CreatedAtEntity;
 
     /**
      * @var int
