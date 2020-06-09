@@ -40,7 +40,7 @@ class LdapManager
         $this->config = $config;
 
         $this->ldap = null;
-        $this->connectionCreatedAt = null;
+        $this->connectionLastUsed = null;
     }
     
     /**
