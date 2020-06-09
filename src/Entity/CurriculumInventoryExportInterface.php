@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Traits\BlameableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\TimestampableEntityInterface;
 use App\Entity\CurriculumInventoryReportInterface;
 
 /**
