@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ConceptsEntityInterface;
+use App\Traits\CreatedAtEntityInterface;
 use App\Traits\NameableEntityInterface;
 use App\Traits\TimestampableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
@@ -16,7 +17,8 @@ interface MeshTermInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
     TimestampableEntityInterface,
-    ConceptsEntityInterface
+    ConceptsEntityInterface,
+    CreatedAtEntityInterface
 {
 
     /**

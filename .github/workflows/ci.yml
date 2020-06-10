@@ -43,6 +43,15 @@ jobs:
       run: bin/console lint:twig templates custom
     - name: security check
       run: bin/console security:check
+    - name: phpstan src
+      run: |
+        bin/console cache:warmup --env=dev
+        vendor/bin/phpstan analyse --no-progress
+    - name: phpstan tests
+      run: |
+        bin/console cache:warmup --env=test
+        bin/phpunit install
+        vendor/bin/phpstan analyse -c tests/phpstan.neon.dist tests --no-progress
 
   fast_tests:
     name: Fast Tests

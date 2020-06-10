@@ -305,6 +305,11 @@ class UserDTO
     public $administeredCurriculumInventoryReports;
 
     /**
+     * @var array
+     */
+    public $auditLogs;
+
+    /**
      * For index use, not public
      * @var string
      */

@@ -282,7 +282,7 @@ class Authentications
         $entity = $this->manager->findOneBy(['user' => $id]);
 
         if (!$entity) {
-            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+            throw new NotFoundHttpException(sprintf("authentications/%s was not found.", $id));
         }
 
         $authObject = $requestParser->extractPutDataFromRequest($request, 'authentications');

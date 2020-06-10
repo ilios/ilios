@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\InstructorsEntity;
@@ -91,7 +92,7 @@ class Offering implements OfferingInterface
     protected $site;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="start_date", type="datetime")
      *
@@ -103,7 +104,7 @@ class Offering implements OfferingInterface
     protected $startDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="end_date", type="datetime")
      *
@@ -115,7 +116,7 @@ class Offering implements OfferingInterface
     protected $endDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="last_updated_on", type="datetime")
      *
@@ -222,7 +223,7 @@ class Offering implements OfferingInterface
      */
     public function __construct()
     {
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
         $this->learnerGroups = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->learners = new ArrayCollection();
@@ -262,15 +263,15 @@ class Offering implements OfferingInterface
     }
 
     /**
-     * @param \DateTime $startDate
+     * @param DateTime $startDate
      */
-    public function setStartDate(\DateTime $startDate = null)
+    public function setStartDate(DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getStartDate()
     {
@@ -278,27 +279,19 @@ class Offering implements OfferingInterface
     }
 
     /**
-     * @param \DateTime $endDate
+     * @param DateTime $endDate
      */
-    public function setEndDate(\DateTime $endDate = null)
+    public function setEndDate(DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getEndDate()
     {
         return $this->endDate;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Traits\IdentifiableEntityInterface;
@@ -49,29 +50,24 @@ interface OfferingInterface extends
     public function getSite();
 
     /**
-     * @param \DateTime $startDate
+     * @param DateTime $startDate
      */
-    public function setStartDate(\DateTime $startDate);
+    public function setStartDate(DateTime $startDate);
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getStartDate();
 
     /**
-     * @param \DateTime $endDate
+     * @param DateTime $endDate
      */
-    public function setEndDate(\DateTime $endDate);
+    public function setEndDate(DateTime $endDate);
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getEndDate();
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt();
 
     /**
      * @param SessionInterface $session

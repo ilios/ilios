@@ -1,0 +1,13 @@
+parameters:
+    symfony:
+        container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
+        console_application_loader: tests/console-loader.php
+    paths:
+        - src
+    level: 0
+    reportUnmatchedIgnoredErrors: true
+    ignoreErrors:
+        -
+            message: '#has invalid typehint type Composer\\\Script\\Event#'
+            paths:
+                - src/Composer/*
