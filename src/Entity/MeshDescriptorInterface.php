@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\CreatedAtEntityInterface;
+use App\Traits\CourseObjectivesEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
+use App\Traits\ProgramYearObjectivesEntityInterface;
+use App\Traits\SessionObjectivesEntityInterface;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Traits\ConceptsEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\NameableEntityInterface;
@@ -28,7 +30,10 @@ interface MeshDescriptorInterface extends
     ObjectivesEntityInterface,
     ConceptsEntityInterface,
     IndexableCoursesEntityInterface,
-    CreatedAtEntityInterface
+    CreatedAtEntityInterface,
+    SessionObjectivesEntityInterface,
+    CourseObjectivesEntityInterface,
+    ProgramYearObjectivesEntityInterface
 {
     /**
      * @param string $annotation
@@ -56,7 +61,7 @@ interface MeshDescriptorInterface extends
     public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
 
     /**
-     * @return ArrayCollection|SessionLearningMaterialInterface[]
+     * @return Collection
      */
     public function getSessionLearningMaterials();
 
@@ -76,7 +81,7 @@ interface MeshDescriptorInterface extends
     public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
 
     /**
-     * @return ArrayCollection|CourseLearningMaterialInterface[]
+     * @return Collection
      */
     public function getCourseLearningMaterials();
 
@@ -96,7 +101,7 @@ interface MeshDescriptorInterface extends
     public function removeQualifier(MeshQualifierInterface $qualifier);
 
     /**
-     * @return ArrayCollection|MeshQualifierInterface[]
+     * @return Collection
      */
     public function getQualifiers();
 
@@ -116,7 +121,7 @@ interface MeshDescriptorInterface extends
     public function removeTree(MeshTreeInterface $tree);
 
     /**
-     * @return ArrayCollection|MeshTreeInterface[]
+     * @return Collection
      */
     public function getTrees();
 

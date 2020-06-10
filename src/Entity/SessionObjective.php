@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Annotation as IS;
+use App\Traits\ActivatableEntity;
 use App\Traits\IdentifiableEntity;
+use App\Traits\MeshDescriptorsEntity;
 use App\Traits\ObjectiveRelationshipEntity;
 use App\Traits\SessionConsolidationEntity;
 use App\Traits\StringableIdEntity;
+use App\Traits\TitledEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -33,6 +37,9 @@ class SessionObjective implements SessionObjectiveInterface
     use StringableIdEntity;
     use SessionConsolidationEntity;
     use ObjectiveRelationshipEntity;
+    use TitledEntity;
+    use MeshDescriptorsEntity;
+    use ActivatableEntity;
 
     /**
      * @var int
@@ -93,7 +100,7 @@ class SessionObjective implements SessionObjectiveInterface
     protected $objective;
 
     /**
-     * @var ArrayCollection|TermInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="Term", inversedBy="sessionObjectives")
      * @ORM\JoinTable(name="session_objective_x_term",
@@ -112,11 +119,87 @@ class SessionObjective implements SessionObjectiveInterface
     protected $terms;
 
     /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CourseObjective", inversedBy="children")
+     * @ORM\JoinTable("session_objective_x_course_objective",
+     *   joinColumns={@ORM\JoinColumn(name="session_objective_id", referencedColumnName="session_objective_id")},
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id")
+     *   }
+     * )
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $parents;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="sessionObjectives")
+     * @ORM\JoinTable(name="session_objective_x_mesh",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="session_objective_id", referencedColumnName="session_objective_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *   }
+     * )
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $meshDescriptors;
+
+    /**
+     * @var SessionObjectiveInterface
+     *
+     * @ORM\ManyToOne(targetEntity="SessionObjective", inversedBy="descendants")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ancestor_id", referencedColumnName="session_objective_id")
+     * })
+     *
+     * @IS\Expose
+     * @IS\Type("entity")
+     */
+    protected $ancestor;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\OneToMany(targetEntity="SessionObjective", mappedBy="ancestor")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $descendants;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    protected $active;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->terms = new ArrayCollection();
+        $this->parents = new ArrayCollection();
+        $this->meshDescriptors = new ArrayCollection();
+        $this->descendants = new ArrayCollection();
     }
 
     /**
@@ -141,5 +224,107 @@ class SessionObjective implements SessionObjectiveInterface
     public function getIndexableCourses(): array
     {
         return [$this->session->getCourse()];
+    }
+
+    /**
+     * @param Collection $parents
+     */
+    public function setParents(Collection $parents)
+    {
+        $this->parents = new ArrayCollection();
+
+        foreach ($parents as $parent) {
+            $this->addParent($parent);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addParent(CourseObjectiveInterface $parent)
+    {
+        if (!$this->parents->contains($parent)) {
+            $this->parents->add($parent);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeParent(CourseObjectiveInterface $parent)
+    {
+        $this->parents->removeElement($parent);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getParents()
+    {
+        return $this->parents;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setAncestor(SessionObjectiveInterface $ancestor = null)
+    {
+        $this->ancestor = $ancestor;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAncestor()
+    {
+        return $this->ancestor;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAncestorOrSelf()
+    {
+        $ancestor = $this->getAncestor();
+
+        return $ancestor ? $ancestor : $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setDescendants(Collection $descendants)
+    {
+        $this->descendants = new ArrayCollection();
+
+        foreach ($descendants as $descendant) {
+            $this->addDescendant($descendant);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addDescendant(SessionObjectiveInterface $descendant)
+    {
+        if (!$this->descendants->contains($descendant)) {
+            $this->descendants->add($descendant);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeDescendant(SessionObjectiveInterface $descendant)
+    {
+        $this->descendants->removeElement($descendant);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDescendants()
+    {
+        return $this->descendants;
     }
 }

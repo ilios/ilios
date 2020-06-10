@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Annotation as IS;
+use App\Traits\ActivatableEntity;
 use App\Traits\IdentifiableEntity;
+use App\Traits\MeshDescriptorsEntity;
 use App\Traits\ObjectiveRelationshipEntity;
 use App\Traits\StringableIdEntity;
+use App\Traits\TitledEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,6 +35,9 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use ObjectiveRelationshipEntity;
+    use TitledEntity;
+    use MeshDescriptorsEntity;
+    use ActivatableEntity;
 
     /**
      * @var int
@@ -91,7 +98,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     protected $objective;
 
     /**
-     * @var ArrayCollection|TermInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="Term", inversedBy="programYearObjectives")
      * @ORM\JoinTable(name="program_year_objective_x_term",
@@ -112,15 +119,116 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     protected $terms;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="text")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+     * @IS\RemoveMarkup
+     */
+    protected $title;
+
+    /**
+     * @var CompetencyInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Competency", inversedBy="programYearObjectives")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="competency_id", referencedColumnName="competency_id")
+     * })
+     *
+     * @IS\Expose
+     * @IS\Type("entity")
+     */
+    protected $competency;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CourseObjective", mappedBy="parents")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $children;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="programYearObjectives")
+     * @ORM\JoinTable(name="program_year_objective_x_mesh",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="program_year_objective_id", referencedColumnName="program_year_objective_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *   }
+     * )
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $meshDescriptors;
+
+    /**
+     * @var ProgramYearObjectiveInterface
+     *
+     * @ORM\ManyToOne(targetEntity="ProgramYearObjective", inversedBy="descendants")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ancestor_id", referencedColumnName="program_year_objective_id")
+     * })
+     *
+     * @IS\Expose
+     * @IS\Type("entity")
+     */
+    protected $ancestor;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\OneToMany(targetEntity="ProgramYearObjective", mappedBy="ancestor")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $descendants;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    protected $active;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->terms = new ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->meshDescriptors = new ArrayCollection();
+        $this->descendants = new ArrayCollection();
     }
 
     /**
-     * @param ProgramYearInterface $programYear
+     * @inheritdoc
      */
     public function setProgramYear(ProgramYearInterface $programYear): void
     {
@@ -128,10 +236,132 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     }
 
     /**
-     * @return ProgramYearInterface
+     * @inheritdoc
      */
     public function getProgramYear(): ProgramYearInterface
     {
         return $this->programYear;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCompetency(CompetencyInterface $competency = null)
+    {
+        $this->competency = $competency;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCompetency()
+    {
+        return $this->competency;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setChildren(Collection $children)
+    {
+        $this->children = new ArrayCollection();
+
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addChild(CourseObjectiveInterface $child)
+    {
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+            $child->addParent($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeChild(CourseObjectiveInterface $child)
+    {
+        if ($this->children->contains($child)) {
+            $this->children->removeElement($child);
+            $child->removeParent($this);
+        }
+    }
+
+    /**
+     * @return ArrayCollection|CourseObjectiveInterface[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setAncestor(ProgramYearObjectiveInterface $ancestor = null)
+    {
+        $this->ancestor = $ancestor;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAncestor()
+    {
+        return $this->ancestor;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAncestorOrSelf()
+    {
+        $ancestor = $this->getAncestor();
+
+        return $ancestor ? $ancestor : $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setDescendants(Collection $descendants)
+    {
+        $this->descendants = new ArrayCollection();
+
+        foreach ($descendants as $descendant) {
+            $this->addDescendant($descendant);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addDescendant(ProgramYearObjectiveInterface $descendant)
+    {
+        if (!$this->descendants->contains($descendant)) {
+            $this->descendants->add($descendant);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeDescendant(ProgramYearObjectiveInterface $descendant)
+    {
+        $this->descendants->removeElement($descendant);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDescendants()
+    {
+        return $this->descendants;
     }
 }
