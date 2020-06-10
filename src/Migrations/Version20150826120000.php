@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Ilios\Migrations;
+namespace App\Migrations;
 
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
@@ -11,7 +11,7 @@ use Doctrine\DBAL\Schema\Schema;
  */
 class Version20150826120000 extends AbstractMigration
 {
-    
+
     /**
      * @param Schema $schema
      */
@@ -39,7 +39,7 @@ class Version20150826120000 extends AbstractMigration
         $this->addSql('ALTER TABLE mesh_term DROP PRIMARY KEY');
         $this->addSql('ALTER TABLE mesh_term ADD mesh_term_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL');
         $this->addSql('CREATE UNIQUE INDEX mesh_term_uid_name ON mesh_term (mesh_term_uid, name)');
-        
+
         $this->addSql('ALTER TABLE `mesh_tree_x_descriptor` CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci');
         $this->addSql('ALTER TABLE `mesh_tree_x_descriptor` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci');
         $this->addSql('CREATE INDEX IDX_A7706041CDB3C93B ON mesh_tree_x_descriptor (mesh_descriptor_uid)');
@@ -80,8 +80,8 @@ class Version20150826120000 extends AbstractMigration
             'CHANGE mesh_descriptor_uid mesh_descriptor_uid ' .
             'VARCHAR(9) NOT NULL COLLATE utf8_unicode_ci'
         );
-        
-        
+
+
         $this->addSql('ALTER TABLE mesh_term MODIFY mesh_term_id INT NOT NULL');
         $this->addSql('ALTER TABLE mesh_term DROP PRIMARY KEY');
         $this->addSql('ALTER TABLE mesh_term DROP mesh_term_id');

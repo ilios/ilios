@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Ilios\Migrations;
+namespace App\Migrations;
 
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
@@ -29,7 +29,7 @@ class Version20150826130000 extends AbstractMigration
             $insertSql .= implode(',', $values);
             unset($values);
         }
-        
+
         $this->addSql('DROP INDEX IDX_100AC50F17293A95 ON mesh_concept_x_term');
         $this->addSql('TRUNCATE mesh_concept_x_term');
         $this->addSql('ALTER TABLE mesh_concept_x_term DROP PRIMARY KEY');
@@ -73,12 +73,12 @@ class Version20150826130000 extends AbstractMigration
             $insertSql .= implode(',', $values);
             unset($values);
         }
-        
+
         $this->addSql('TRUNCATE mesh_concept_x_term');
         $this->addSql('ALTER TABLE mesh_concept_x_term DROP FOREIGN KEY FK_100AC50F928873C');
         $this->addSql('ALTER TABLE mesh_concept_x_term DROP FOREIGN KEY FK_100AC50FE34D9FF5');
         $this->addSql('DROP INDEX IDX_100AC50F928873C ON mesh_concept_x_term');
-        
+
         $this->addSql('ALTER TABLE mesh_concept_x_term DROP PRIMARY KEY');
         $this->addSql(
             'ALTER TABLE mesh_concept_x_term ' .

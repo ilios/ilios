@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Ilios\Migrations;
+namespace App\Migrations;
 
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
@@ -35,7 +35,7 @@ class Version20150826215733 extends AbstractMigration
             'REFERENCES session (session_id) ON DELETE CASCADE'
         );
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8C070D9613FECDF ON ilm_session_facet (session_id)');
-        
+
         $this->addSql('ALTER TABLE session DROP FOREIGN KEY FK_D044D5D4504270C1');
         $this->addSql('DROP INDEX UNIQ_D044D5D4504270C1 ON session');
         $this->addSql('DROP INDEX session_ibfk_3 ON session');

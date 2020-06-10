@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Ilios\Migrations;
+namespace App\Migrations;
 
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
