@@ -119,6 +119,24 @@ class SessionObjective implements SessionObjectiveInterface
     protected $terms;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="text")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+     * @IS\RemoveMarkup
+     */
+    protected $title;
+
+    /**
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="CourseObjective", inversedBy="children")

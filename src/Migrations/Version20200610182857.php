@@ -47,7 +47,7 @@ final class Version20200610182857 extends AbstractMigration
         $this->addSql('ALTER TABLE program_year_x_objective ADD CONSTRAINT FK_FF29E643C671CEA1 FOREIGN KEY (ancestor_id) REFERENCES program_year_x_objective (program_year_objective_id)');
         $this->addSql('CREATE INDEX IDX_FF29E643FB9F58C ON program_year_x_objective (competency_id)');
         $this->addSql('CREATE INDEX IDX_FF29E643C671CEA1 ON program_year_x_objective (ancestor_id)');
-        $this->addSql('ALTER TABLE session_x_objective ADD ancestor_id INT DEFAULT NULL, ADD active TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE session_x_objective ADD ancestor_id INT DEFAULT NULL, ADD title LONGTEXT NOT NULL, ADD active TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE session_x_objective ADD CONSTRAINT FK_C4BF2447C671CEA1 FOREIGN KEY (ancestor_id) REFERENCES session_x_objective (session_objective_id)');
         $this->addSql('CREATE INDEX IDX_C4BF2447C671CEA1 ON session_x_objective (ancestor_id)');
     }
