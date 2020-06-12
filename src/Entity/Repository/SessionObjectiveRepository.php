@@ -46,7 +46,12 @@ class SessionObjectiveRepository extends EntityRepository implements DTOReposito
         /** @var SessionObjectiveDTO[] $sessionObjectiveDTOs */
         $sessionObjectiveDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $sessionObjectiveDTOs[$arr['id']] = new SessionObjectiveDTO($arr['id'], $arr['position']);
+            $sessionObjectiveDTOs[$arr['id']] = new SessionObjectiveDTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['position'],
+                $arr['active'],
+            );
         }
         $sessionObjectiveIds = array_keys($sessionObjectiveDTOs);
 
@@ -56,7 +61,7 @@ class SessionObjectiveRepository extends EntityRepository implements DTOReposito
                 'course.id AS courseId, course.locked AS courseIsLocked, course.archived AS courseIsArchived, ' .
                 'school.id AS schoolId'
             )
-            ->from('App\Entity\SessionObjective', 'x')
+            ->from(SessionObjective::class, 'x')
             ->join('x.session', 'session')
             ->join('session.course', 'course')
             ->join('course.school', 'school')
@@ -73,8 +78,21 @@ class SessionObjectiveRepository extends EntityRepository implements DTOReposito
             $sessionObjectiveDTOs[$arr['xId']]->objective = (int) $arr['objectiveId'];
         }
 
+        $qb = $this->_em->createQueryBuilder()
+            ->select('x.id as id, a.id as ancestorId')
+            ->from(SessionObjective::class, 'x')
+            ->leftJoin('x.ancestor', 'a')
+            ->where($qb->expr()->in('x.id', ':ids'))
+            ->setParameter('ids', $sessionObjectiveIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $sessionObjectiveDTOs[$arr['id']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
+        }
+
         $related = [
-            'terms'
+            'terms',
+            'parents',
+            'meshDescriptors',
+            'descendants'
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
