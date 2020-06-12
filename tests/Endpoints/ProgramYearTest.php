@@ -413,8 +413,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
                 'fourth',
                 'second objective',
             ],
-            ['Miss', '2013 - 2014', 'second objective', null, null, null, 'third objective',],
-            ['Miss', '2013 - 2014', 'second objective', null, null, null, 'sixth objective',],
         ];
 
         $actual = array_map('str_getcsv', explode(PHP_EOL, trim($response->getContent())));
