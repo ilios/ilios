@@ -22,9 +22,23 @@ class CourseObjectiveDTO
     public $id;
 
     /**
-     * @var int
-     *
+     * @var string
      * @IS\Expose
+     * @IS\Type("string")
+     *
+     */
+    public $title;
+
+    /**
+     * @var bool
+     * @IS\Expose
+     * @IS\Type("boolean")
+     *
+     */
+    public $active;
+
+    /**
+     * @var int
      * @IS\Related("objectives")
      * @IS\Type("integer")
      */
@@ -74,16 +88,69 @@ class CourseObjectiveDTO
      */
     public $courseIsArchived;
 
+    /**
+     * @var int[]
+     * @IS\Expose
+     * @IS\Related("programYearObjectives")
+     * @IS\Type("array<string>")
+     *
+     */
+    public $parents;
+
+    /**
+     * @var int[]
+     * @IS\Expose
+     * @IS\Related("sessionObjectives")
+     * @IS\Type("array<string>")
+     *
+     */
+    public $children;
+
+    /**
+     * @var int[]
+     * @IS\Expose
+     * @IS\Related
+     * @IS\Type("array<string>")
+     *
+     */
+    public $meshDescriptors;
+
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Related("courseObjectives")
+     * @IS\Type("string")
+     *
+     */
+    public $ancestor;
+
+    /**
+     * @var int[]
+     * @IS\Expose
+     * @IS\Related("courseObjectives")
+     * @IS\Type("array<string>")
+     *
+     */
+    public $descendants;
 
     /**
      * Constructor
      * @param int $id
+     * @param string $title
      * @param int $position
+     * @param bool $active
      */
-    public function __construct($id, $position)
+    public function __construct($id, $title, $position, $active)
     {
         $this->id = $id;
+        $this->title = $title;
         $this->position = $position;
+        $this->active = $active;
+
         $this->terms = [];
+        $this->meshDescriptors = [];
+        $this->parents = [];
+        $this->children = [];
+        $this->descendants = [];
     }
 }
