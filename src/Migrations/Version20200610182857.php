@@ -101,6 +101,6 @@ final class Version20200610182857 extends AbstractMigration
         $this->addSql('ALTER TABLE program_year_x_objective DROP competency_id, DROP ancestor_id, DROP title, DROP active');
         $this->addSql('ALTER TABLE session_x_objective DROP FOREIGN KEY FK_C4BF2447C671CEA1');
         $this->addSql('DROP INDEX IDX_C4BF2447C671CEA1 ON session_x_objective');
-        $this->addSql('ALTER TABLE session_x_objective DROP ancestor_id, DROP active');
+        $this->addSql('ALTER TABLE session_x_objective DROP ancestor_id, DROP title, DROP active');
     }
 }
