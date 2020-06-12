@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84d8ac25df0e5676c7a1fa661277ea44",
+    "content-hash": "9fd5166cdc06f308a22957e119bd84b8",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -11046,6 +11046,7 @@
         "firebase/php-jwt": 0,
         "symfony/asset": 0,
         "symfony/console": 0,
+        "symfony/doctrine-messenger": 0,
         "symfony/dotenv": 0,
         "symfony/framework-bundle": 0,
         "symfony/http-client": 0,
