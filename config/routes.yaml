@@ -45,10 +45,6 @@ ilios_api_currentsession:
   requirements:
     version: "%ilios_api_valid_api_versions%"
 
-api:
-  resource: '../src/Controller/API'
-  type: annotation
-
 ilios_apiinfo:
   path: /api
   controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction

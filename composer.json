@@ -35,6 +35,7 @@
     "symfony/apache-pack": "^1.0",
     "symfony/asset": "@stable",
     "symfony/console": "@stable",
+    "symfony/doctrine-messenger": "@stable",
     "symfony/dotenv": "@stable",
     "symfony/flex": "^1.1",
     "symfony/framework-bundle": "@stable",
@@ -116,7 +117,7 @@
   "extra": {
     "symfony": {
       "allow-contrib": true,
-      "require": "5.0.*"
+      "require": "5.1.*"
     }
   }
 }
