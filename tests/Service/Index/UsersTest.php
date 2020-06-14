@@ -104,7 +104,6 @@ class UsersTest extends TestCase
                 [
                     'index' => [
                         '_index' => Users::INDEX,
-                        '_type' => '_doc',
                         '_id' => $user1->id
                     ]
                 ],
@@ -124,7 +123,6 @@ class UsersTest extends TestCase
                 [
                     'index' => [
                         '_index' => Users::INDEX,
-                        '_type' => '_doc',
                         '_id' => $user2->id
                     ]
                 ],

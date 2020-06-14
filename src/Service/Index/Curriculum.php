@@ -52,7 +52,6 @@ class Curriculum extends ElasticSearchBase
         }, []);
 
         $params = [
-            'type' => '_doc',
             'index' => self::INDEX,
             'body' => [
                 'suggest' => $suggest,
@@ -161,7 +160,6 @@ class Curriculum extends ElasticSearchBase
         $materialsById = [];
         if (!empty($learningMaterialIds)) {
             $params = [
-                'type' => '_doc',
                 'index' => LearningMaterials::INDEX,
                 'body' => [
                     'query' => [
@@ -448,78 +446,76 @@ class Curriculum extends ElasticSearchBase
                 'number_of_replicas' => 0,
             ],
             'mappings' => [
-                '_doc' => [
-                    '_meta' => [
-                        'version' => '1',
+                '_meta' => [
+                    'version' => '1',
+                ],
+                'properties' => [
+                    'courseId' => [
+                        'type' => 'keyword',
                     ],
-                    'properties' => [
-                        'courseId' => [
-                            'type' => 'keyword',
+                    'school' => [
+                        'type' => 'keyword',
+                        'fields' => [
+                            'cmp' => [
+                                'type' => 'completion'
+                            ]
                         ],
-                        'school' => [
-                            'type' => 'keyword',
-                            'fields' => [
-                                'cmp' => [
-                                    'type' => 'completion'
-                                ]
-                            ],
+                    ],
+                    'courseYear' => [
+                        'type' => 'keyword',
+                    ],
+                    'courseTitle' => $txtTypeFieldWithCompletion,
+                    'courseTerms' => $txtTypeFieldWithCompletion,
+                    'courseObjectives'  => $txtTypeField,
+                    'courseLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
+                    'courseLearningMaterialDescriptions'  => $txtTypeField,
+                    'courseLearningMaterialCitation'  => $txtTypeField,
+                    'courseLearningMaterialAttachments'  => $txtTypeField,
+                    'courseMeshDescriptorIds' => [
+                        'type' => 'keyword',
+                        'fields' => [
+                            'cmp' => [
+                                'type' => 'completion',
+                                // we have to override the analyzer here because the default strips
+                                // out numbers and mesh ids are mostly numbers
+                                'analyzer' => 'standard',
+                            ]
                         ],
-                        'courseYear' => [
-                            'type' => 'keyword',
+                    ],
+                    'courseMeshDescriptorNames' => $txtTypeFieldWithCompletion,
+                    'courseMeshDescriptorAnnotations' => $txtTypeField,
+                    'sessionId' => [
+                        'type' => 'keyword',
+                    ],
+                    'sessionTitle' => $txtTypeFieldWithCompletion,
+                    'sessionDescription' => $txtTypeField,
+                    'sessionType' => [
+                        'type' => 'keyword',
+                        'fields' => [
+                            'cmp' => [
+                                'type' => 'completion'
+                            ]
                         ],
-                        'courseTitle' => $txtTypeFieldWithCompletion,
-                        'courseTerms' => $txtTypeFieldWithCompletion,
-                        'courseObjectives'  => $txtTypeField,
-                        'courseLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
-                        'courseLearningMaterialDescriptions'  => $txtTypeField,
-                        'courseLearningMaterialCitation'  => $txtTypeField,
-                        'courseLearningMaterialAttachments'  => $txtTypeField,
-                        'courseMeshDescriptorIds' => [
-                            'type' => 'keyword',
-                            'fields' => [
-                                'cmp' => [
-                                    'type' => 'completion',
-                                    // we have to override the analyzer here because the default strips
-                                    // out numbers and mesh ids are mostly numbers
-                                    'analyzer' => 'standard',
-                                ]
-                            ],
+                    ],
+                    'sessionTerms' => $txtTypeFieldWithCompletion,
+                    'sessionObjectives'  => $txtTypeField,
+                    'sessionLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
+                    'sessionLearningMaterialDescriptions'  => $txtTypeField,
+                    'sessionLearningMaterialCitation'  => $txtTypeField,
+                    'sessionLearningMaterialAttachments'  => $txtTypeField,
+                    'sessionMeshDescriptorIds' => [
+                        'type' => 'keyword',
+                        'fields' => [
+                            'cmp' => [
+                                'type' => 'completion',
+                                // we have to override the analyzer here because the default strips
+                                // out numbers and mesh ids are mostly numbers
+                                'analyzer' => 'standard',
+                            ]
                         ],
-                        'courseMeshDescriptorNames' => $txtTypeFieldWithCompletion,
-                        'courseMeshDescriptorAnnotations' => $txtTypeField,
-                        'sessionId' => [
-                            'type' => 'keyword',
-                        ],
-                        'sessionTitle' => $txtTypeFieldWithCompletion,
-                        'sessionDescription' => $txtTypeField,
-                        'sessionType' => [
-                            'type' => 'keyword',
-                            'fields' => [
-                                'cmp' => [
-                                    'type' => 'completion'
-                                ]
-                            ],
-                        ],
-                        'sessionTerms' => $txtTypeFieldWithCompletion,
-                        'sessionObjectives'  => $txtTypeField,
-                        'sessionLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
-                        'sessionLearningMaterialDescriptions'  => $txtTypeField,
-                        'sessionLearningMaterialCitation'  => $txtTypeField,
-                        'sessionLearningMaterialAttachments'  => $txtTypeField,
-                        'sessionMeshDescriptorIds' => [
-                            'type' => 'keyword',
-                            'fields' => [
-                                'cmp' => [
-                                    'type' => 'completion',
-                                    // we have to override the analyzer here because the default strips
-                                    // out numbers and mesh ids are mostly numbers
-                                    'analyzer' => 'standard',
-                                ]
-                            ],
-                        ],
-                        'sessionMeshDescriptorNames' => $txtTypeFieldWithCompletion,
-                        'sessionMeshDescriptorAnnotations' => $txtTypeField,
-                    ]
+                    ],
+                    'sessionMeshDescriptorNames' => $txtTypeFieldWithCompletion,
+                    'sessionMeshDescriptorAnnotations' => $txtTypeField,
                 ]
             ]
         ];
