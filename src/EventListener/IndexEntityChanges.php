@@ -10,6 +10,7 @@ use App\Entity\LearningMaterialInterface;
 use App\Entity\SessionInterface;
 use App\Entity\UserInterface;
 use App\Message\CourseIndexRequest;
+use App\Message\LearningMaterialIndexRequest;
 use App\Message\UserIndexRequest;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
@@ -175,8 +176,8 @@ class IndexEntityChanges
 
     protected function indexLearningMaterial(LearningMaterialInterface $lm)
     {
-        //temporarily disable indexing learning materials while we figure out performance
-//        if ($this->index->isEnabled()) {
+//        temporarily disable indexing learning materials while we figure out performance
+//        if ($this->learningMaterialsIndex->isEnabled()) {
 //            $this->bus->dispatch(new LearningMaterialIndexRequest($lm->getId()));
 //        }
     }
