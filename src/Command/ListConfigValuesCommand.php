@@ -89,6 +89,11 @@ class ListConfigValuesCommand extends Command
           ['Kernel Secret', $this->kernelSecret],
           ['Database URL', $this->databaseUrl],
         ];
+        foreach ($_ENV as $key => $value) {
+            if (strpos($key, "ILIOS_") === 0) {
+                $rows[] = [$key, $value];
+            }
+        }
         $table = new Table($output);
         $table->setHeaderTitle('Environment Values');
         $table->setHeaders(['Name', 'Value']);
