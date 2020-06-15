@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/api/v1/objectives")
  */
-class Objectives extends ReadWriteController
+class Objectives extends ReadOnlyController
 {
     public function __construct(ObjectiveManager $manager)
     {
