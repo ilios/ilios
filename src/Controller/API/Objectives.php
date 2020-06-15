@@ -8,7 +8,7 @@ use App\Entity\Manager\ObjectiveManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/objectives")
+ * @Route("/api/v1/objectives")
  */
 class Objectives extends ReadWriteController
 {
