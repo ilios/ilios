@@ -96,6 +96,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      *
      * @IS\Expose
      * @IS\Type("entity")
+     * @IS\ReadOnly()
      */
     protected $objective;
 

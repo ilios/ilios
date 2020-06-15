@@ -96,6 +96,7 @@ class CourseObjective implements CourseObjectiveInterface
      *
      * @IS\Expose
      * @IS\Type("entity")
+     * @IS\ReadOnly()
      */
     protected $objective;
 

@@ -98,6 +98,7 @@ class SessionObjective implements SessionObjectiveInterface
      *
      * @IS\Expose
      * @IS\Type("entity")
+     * @IS\Expose
      */
     protected $objective;
 

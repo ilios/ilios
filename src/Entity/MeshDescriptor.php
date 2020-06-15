@@ -148,6 +148,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
+     * @IS\Expose
      */
     protected $objectives;
 
