@@ -13,6 +13,7 @@
     "ext-zlib": "*",
     "danielstjules/stringy": "^3.1",
     "doctrine/doctrine-fixtures-bundle": "^3.0",
+    "doctrine/doctrine-migrations-bundle": "^2.0",
     "doctrine/inflector": "^1.4",
     "dreamscapes/ldap-core": "^3.1",
     "easycorp/easy-log-handler": "^1.0",
