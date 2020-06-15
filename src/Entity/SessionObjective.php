@@ -6,10 +6,11 @@ namespace App\Entity;
 
 use App\Annotation as IS;
 use App\Traits\ActivatableEntity;
+use App\Traits\CategorizableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\MeshDescriptorsEntity;
-use App\Traits\ObjectiveRelationshipEntity;
 use App\Traits\SessionConsolidationEntity;
+use App\Traits\SortableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -36,10 +37,11 @@ class SessionObjective implements SessionObjectiveInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use SessionConsolidationEntity;
-    use ObjectiveRelationshipEntity;
     use TitledEntity;
     use MeshDescriptorsEntity;
     use ActivatableEntity;
+    use CategorizableEntity;
+    use SortableEntity;
 
     /**
      * @var int
@@ -344,5 +346,21 @@ class SessionObjective implements SessionObjectiveInterface
     public function getDescendants()
     {
         return $this->descendants;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setObjective(ObjectiveInterface $objective): void
+    {
+        $this->objective = $objective;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getObjective(): ObjectiveInterface
+    {
+        return $this->objective;
     }
 }
