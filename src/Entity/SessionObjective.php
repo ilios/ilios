@@ -223,7 +223,7 @@ class SessionObjective implements SessionObjectiveInterface
     }
 
     /**
-     * @param SessionInterface $session
+     * @inheritdoc
      */
     public function setSession(SessionInterface $session): void
     {
@@ -231,7 +231,7 @@ class SessionObjective implements SessionObjectiveInterface
     }
 
     /**
-     * @return SessionInterface
+     * @inheritdoc
      */
     public function getSession(): SessionInterface
     {
@@ -247,7 +247,7 @@ class SessionObjective implements SessionObjectiveInterface
     }
 
     /**
-     * @param Collection $parents
+     * @inheritdoc
      */
     public function setParents(Collection $parents)
     {
@@ -265,6 +265,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         if (!$this->parents->contains($parent)) {
             $this->parents->add($parent);
+            $this->getObjective()->addParent($parent->getObjective());
         }
     }
 
@@ -274,6 +275,7 @@ class SessionObjective implements SessionObjectiveInterface
     public function removeParent(CourseObjectiveInterface $parent)
     {
         $this->parents->removeElement($parent);
+        $this->getObjective()->removeParent($parent->getObjective());
     }
 
     /**
@@ -290,6 +292,7 @@ class SessionObjective implements SessionObjectiveInterface
     public function setAncestor(SessionObjectiveInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
+        $this->getObjective()->setAncestor($ancestor->getObjective());
     }
 
     /**
@@ -329,6 +332,8 @@ class SessionObjective implements SessionObjectiveInterface
     {
         if (!$this->descendants->contains($descendant)) {
             $this->descendants->add($descendant);
+            $objective = $descendant->getObjective();
+            $this->getObjective()->addDescendant($objective);
         }
     }
 
@@ -338,6 +343,8 @@ class SessionObjective implements SessionObjectiveInterface
     public function removeDescendant(SessionObjectiveInterface $descendant)
     {
         $this->descendants->removeElement($descendant);
+        $objective = $descendant->getObjective();
+        $this->getObjective()->removeDescendant($objective);
     }
 
     /**
@@ -361,6 +368,97 @@ class SessionObjective implements SessionObjectiveInterface
      */
     public function getObjective(): ObjectiveInterface
     {
+        if ($this->objective) {
+            $this->objective = $this->createObjectiveFromThis();
+        }
         return $this->objective;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        $this->getObjective()->setTitle($title);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        $this->getObjective()->setPosition($position);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+        $this->getObjective()->setActive($active);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setMeshDescriptors(Collection $meshDescriptors)
+    {
+        $this->meshDescriptors = new ArrayCollection();
+
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+            $this->getObjective()->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    {
+        if (!$this->meshDescriptors->contains($meshDescriptor)) {
+            $this->meshDescriptors->add($meshDescriptor);
+            $this->getObjective()->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    {
+        $this->meshDescriptors->removeElement($meshDescriptor);
+        $this->getObjective()->removeMeshDescriptor($meshDescriptor);
+    }
+
+    /**
+     * @return ObjectiveInterface
+     */
+    protected function createObjectiveFromThis(): ObjectiveInterface
+    {
+        $objective = new Objective();
+        $objective->addSessionObjective($this);
+        $objective->setTitle($this->getTitle());
+        $objective->setPosition($this->getPosition());
+        $objective->setActive($this->isActive());
+        $objective->setMeshDescriptors($this->getMeshDescriptors());
+        $descendants = $this->getDescendants();
+        /* @var SessionObjectiveInterface $descendant */
+        foreach ($descendants as $descendant) {
+            $objective->addDescendant($descendant->getObjective());
+        }
+        $ancestor = $this->getAncestor();
+        if ($ancestor) {
+            $objective->setAncestor($ancestor->getObjective());
+        }
+        $parents = $this->getParents();
+        /* @var CourseObjectiveInterface $parent */
+        foreach ($parents as $parent) {
+            $objective->addParent($parent->getObjective());
+        }
+        return $objective;
     }
 }

@@ -251,6 +251,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function setCompetency(CompetencyInterface $competency = null)
     {
         $this->competency = $competency;
+        $this->getObjective()->setCompetency($competency);
     }
 
     /**
@@ -281,6 +282,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         if (!$this->children->contains($child)) {
             $this->children->add($child);
             $child->addParent($this);
+            $this->getObjective()->addChild($child->getObjective());
         }
     }
 
@@ -292,11 +294,12 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         if ($this->children->contains($child)) {
             $this->children->removeElement($child);
             $child->removeParent($this);
+            $this->getObjective()->removeChild($child->getObjective());
         }
     }
 
     /**
-     * @return ArrayCollection|CourseObjectiveInterface[]
+     * @inheritdoc
      */
     public function getChildren()
     {
@@ -309,6 +312,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function setAncestor(ProgramYearObjectiveInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
+        $this->getObjective()->setAncestor($ancestor->getObjective());
     }
 
     /**
@@ -348,6 +352,8 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         if (!$this->descendants->contains($descendant)) {
             $this->descendants->add($descendant);
+            $objective = $descendant->getObjective();
+            $this->getObjective()->addDescendant($objective);
         }
     }
 
@@ -357,6 +363,8 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function removeDescendant(ProgramYearObjectiveInterface $descendant)
     {
         $this->descendants->removeElement($descendant);
+        $objective = $descendant->getObjective();
+        $this->getObjective()->removeDescendant($objective);
     }
 
     /**
@@ -380,6 +388,99 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      */
     public function getObjective(): ObjectiveInterface
     {
+        if ($this->objective) {
+            $this->objective = $this->createObjectiveFromThis();
+        }
         return $this->objective;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        $this->getObjective()->setTitle($title);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        $this->getObjective()->setPosition($position);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+        $this->getObjective()->setActive($active);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setMeshDescriptors(Collection $meshDescriptors)
+    {
+        $this->meshDescriptors = new ArrayCollection();
+
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+            $this->getObjective()->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    {
+        if (!$this->meshDescriptors->contains($meshDescriptor)) {
+            $this->meshDescriptors->add($meshDescriptor);
+            $this->getObjective()->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    {
+        $this->meshDescriptors->removeElement($meshDescriptor);
+        $this->getObjective()->removeMeshDescriptor($meshDescriptor);
+    }
+
+    /**
+     * @return ObjectiveInterface
+     */
+    protected function createObjectiveFromThis(): ObjectiveInterface
+    {
+        $objective = new Objective();
+        $objective->addProgramYearObjective($this);
+        $objective->setTitle($this->getTitle());
+        $objective->setPosition($this->getPosition());
+        $objective->setActive($this->isActive());
+        $objective->setCompetency($this->getCompetency());
+        $objective->setMeshDescriptors($this->getMeshDescriptors());
+        $descendants = $this->getDescendants();
+        /* @var CourseObjectiveInterface $descendant */
+        foreach ($descendants as $descendant) {
+            $objective->addDescendant($descendant->getObjective());
+        }
+        $ancestor = $this->getAncestor();
+        if ($ancestor) {
+            $objective->setAncestor($ancestor->getObjective());
+        }
+
+        $children = $this->getChildren();
+        /* @var ProgramYearObjectiveInterface $parent */
+        foreach ($children as $child) {
+            $objective->addChild($child->getObjective());
+        }
+        return $objective;
     }
 }
