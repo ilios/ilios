@@ -168,7 +168,6 @@ class ElasticSearchBase
             foreach ($chunk as $item) {
                 $body[] = ['index' => [
                     '_index' => $index,
-                    '_type' => '_doc',
                     '_id' => $item['id']
                 ]];
                 $body[] = $item;

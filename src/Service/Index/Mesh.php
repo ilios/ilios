@@ -24,7 +24,6 @@ class Mesh extends ElasticSearchBase
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
         $params = [
-            'type' => '_doc',
             'index' => self::INDEX,
             'body' => [
                 'query' => [
@@ -103,10 +102,8 @@ class Mesh extends ElasticSearchBase
                 'number_of_replicas' => 0,
             ],
             'mappings' => [
-                '_doc' => [
-                    '_meta' => [
-                        'version' => '1',
-                    ],
+                '_meta' => [
+                    'version' => '1',
                 ],
             ],
         ];

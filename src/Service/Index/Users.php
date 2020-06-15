@@ -92,7 +92,6 @@ class Users extends ElasticSearchBase
 
 
         $params = [
-            'type' => '_doc',
             'index' => self::INDEX,
             'size' => $size,
             'body' => [
@@ -166,102 +165,100 @@ class Users extends ElasticSearchBase
                 'number_of_replicas' => 0,
             ],
             'mappings' => [
-                '_doc' => [
-                    '_meta' => [
-                        'version' => '1',
+                '_meta' => [
+                    'version' => '1',
+                ],
+                'properties' => [
+                    'id' => [
+                        'type' => 'keyword',
                     ],
-                    'properties' => [
-                        'id' => [
-                            'type' => 'keyword',
+                    'firstName' => [
+                        'type' => 'text',
+                        'analyzer' => 'edge_ngram_analyzer',
+                        'search_analyzer' => 'string_search_analyzer',
+                        'fields' => [
+                            'raw' => [
+                                'type' => 'keyword',
+                            ]
                         ],
-                        'firstName' => [
-                            'type' => 'text',
-                            'analyzer' => 'edge_ngram_analyzer',
-                            'search_analyzer' => 'string_search_analyzer',
-                            'fields' => [
-                                'raw' => [
-                                    'type' => 'keyword',
-                                ]
+                    ],
+                    'middleName' => [
+                        'type' => 'text',
+                        'analyzer' => 'edge_ngram_analyzer',
+                        'search_analyzer' => 'string_search_analyzer',
+                        'fields' => [
+                            'raw' => [
+                                'type' => 'keyword',
+                            ]
+                        ],
+                    ],
+                    'lastName' => [
+                        'type' => 'text',
+                        'analyzer' => 'edge_ngram_analyzer',
+                        'search_analyzer' => 'string_search_analyzer',
+                        'fields' => [
+                            'raw' => [
+                                'type' => 'keyword',
+                            ]
+                        ],
+                    ],
+                    'displayName' => [
+                        'type' => 'text',
+                        'analyzer' => 'edge_ngram_analyzer',
+                        'search_analyzer' => 'string_search_analyzer',
+                        'fields' => [
+                            'raw' => [
+                                'type' => 'keyword',
+                            ],
+                            'cmp' => [
+                                'type' => 'completion'
                             ],
                         ],
-                        'middleName' => [
-                            'type' => 'text',
-                            'analyzer' => 'edge_ngram_analyzer',
-                            'search_analyzer' => 'string_search_analyzer',
-                            'fields' => [
-                                'raw' => [
-                                    'type' => 'keyword',
-                                ]
+                    ],
+                    'fullName' => [
+                        'type' => 'completion'
+                    ],
+                    'fullNameLastFirst' => [
+                        'type' => 'completion'
+                    ],
+                    'username' => [
+                        'type' => 'text',
+                        'analyzer' => 'edge_ngram_analyzer',
+                        'search_analyzer' => 'string_search_analyzer',
+                        'fields' => [
+                            'raw' => [
+                                'type' => 'keyword',
+                            ],
+                            'cmp' => [
+                                'type' => 'completion'
                             ],
                         ],
-                        'lastName' => [
-                            'type' => 'text',
-                            'analyzer' => 'edge_ngram_analyzer',
-                            'search_analyzer' => 'string_search_analyzer',
-                            'fields' => [
-                                'raw' => [
-                                    'type' => 'keyword',
-                                ]
+                    ],
+                    'campusId' => [
+                        'type' => 'keyword',
+                        'fields' => [
+                            'cmp' => [
+                                'type' => 'completion'
+                            ]
+                        ],
+                    ],
+                    'email' => [
+                        'type' => 'text',
+                        'analyzer' => 'standard',
+                        'search_analyzer' => 'email_address',
+                        'fields' => [
+                            'cmp' => [
+                                'type' => 'completion',
                             ],
+                            'email' => [
+                                'type' => 'text',
+                                'analyzer' => 'email_address',
+                            ]
                         ],
-                        'displayName' => [
-                            'type' => 'text',
-                            'analyzer' => 'edge_ngram_analyzer',
-                            'search_analyzer' => 'string_search_analyzer',
-                            'fields' => [
-                                'raw' => [
-                                    'type' => 'keyword',
-                                ],
-                                'cmp' => [
-                                    'type' => 'completion'
-                                ],
-                            ],
-                        ],
-                        'fullName' => [
-                            'type' => 'completion'
-                        ],
-                        'fullNameLastFirst' => [
-                            'type' => 'completion'
-                        ],
-                        'username' => [
-                            'type' => 'text',
-                            'analyzer' => 'edge_ngram_analyzer',
-                            'search_analyzer' => 'string_search_analyzer',
-                            'fields' => [
-                                'raw' => [
-                                    'type' => 'keyword',
-                                ],
-                                'cmp' => [
-                                    'type' => 'completion'
-                                ],
-                            ],
-                        ],
-                        'campusId' => [
-                            'type' => 'keyword',
-                            'fields' => [
-                                'cmp' => [
-                                    'type' => 'completion'
-                                ]
-                            ],
-                        ],
-                        'email' => [
-                            'type' => 'text',
-                            'analyzer' => 'standard',
-                            'search_analyzer' => 'email_address',
-                            'fields' => [
-                                'cmp' => [
-                                    'type' => 'completion',
-                                ],
-                                'email' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'email_address',
-                                ]
-                            ],
-                        ],
-                        'enabled' => [
-                            'type' => 'boolean',
-                        ],
-                    ]
+                    ],
+                    'enabled' => [
+                        'type' => 'boolean',
+                    ],
                 ]
             ]
         ];

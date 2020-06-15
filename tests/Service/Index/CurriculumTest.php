@@ -93,7 +93,6 @@ class CurriculumTest extends TestCase
                 [
                     'index' => [
                         '_index' => Curriculum::INDEX,
-                        '_type' => '_doc',
                         '_id' => 1
                     ]
                 ],
@@ -103,7 +102,6 @@ class CurriculumTest extends TestCase
                 [
                     'index' => [
                         '_index' => Curriculum::INDEX,
-                        '_type' => '_doc',
                         '_id' => 2
                     ]
                 ],
@@ -113,7 +111,6 @@ class CurriculumTest extends TestCase
                 [
                     'index' => [
                         '_index' => Curriculum::INDEX,
-                        '_type' => '_doc',
                         '_id' => 3
                     ]
                 ],

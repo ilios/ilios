@@ -21,6 +21,7 @@ services:
     elasticsearch:
         build: ./docker/elasticsearch-dev
         environment:
+            - discovery.type=single-node
             - http.cors.enabled=true
             - http.cors.allow-origin=http://localhost:1358
             - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization

@@ -72,7 +72,6 @@ class LearningMaterials extends ElasticSearchBase
         $results = array_map(function (array $arr) {
             $params = [
                 'index' => self::INDEX,
-                'type' => '_doc',
                 'pipeline' => 'learning_materials',
                 'body' => [
                     'learningMaterialId' => $arr['id'],
@@ -142,18 +141,16 @@ class LearningMaterials extends ElasticSearchBase
     {
         return [
             'mappings' => [
-                '_doc' => [
-                    '_meta' => [
-                        'version' => '1',
+                '_meta' => [
+                    'version' => '1',
+                ],
+                'properties' => [
+                    'learningMaterialId' => [
+                        'type' => 'integer'
                     ],
-                    'properties' => [
-                        'learningMaterialId' => [
-                            'type' => 'integer'
-                        ],
-                        'material' => [
-                            'type' => 'object'
-                        ],
-                    ]
+                    'material' => [
+                        'type' => 'object'
+                    ],
                 ]
             ]
         ];
