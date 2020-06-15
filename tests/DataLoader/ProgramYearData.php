@@ -24,7 +24,7 @@ class ProgramYearData extends AbstractDataLoader
             'directors' => ['1'],
             'competencies' => ['1', '3'],
             'terms' => [],
-            'programYearObjectives' => ['1', '2'],
+            'programYearObjectives' => ['1'],
             'stewards' => ['1', '2']
         ];
         $arr[] = [
@@ -84,7 +84,7 @@ class ProgramYearData extends AbstractDataLoader
             'directors' => [],
             'competencies' => [],
             'terms' => [],
-            'programYearObjectives' => ['3'],
+            'programYearObjectives' => ['2'],
             'stewards' => []
         ];
 

@@ -60,11 +60,11 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'ids' => [[1, 2], ['id' => [2, 3]]],
-            'programYear' => [[0, 1], ['programYear' => 1]],
-            'objective' => [[2], ['objective' => 8]],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'programYear' => [[0], ['programYear' => 1]],
+            'objective' => [[1], ['objective' => 8]],
             'terms' => [[0, 1], ['terms' => [2]]],
-            'position' => [[0, 1, 2], ['position' => 0]],
+            'position' => [[0, 1], ['position' => 0]],
         ];
     }
 

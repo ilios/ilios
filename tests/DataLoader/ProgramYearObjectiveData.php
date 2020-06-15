@@ -23,17 +23,9 @@ class ProgramYearObjectiveData extends AbstractDataLoader
         $arr[] = [
             'id' => 2,
             'position' => 0,
-            'programYear' => '1',
-            'objective' => '2',
-            'terms' => ['2'],
-        ];
-
-        $arr[] = [
-            'id' => 3,
-            'position' => 0,
             'programYear' => '5',
             'objective' => '8',
-            'terms' => [],
+            'terms' => ['2'],
         ];
 
         return $arr;
@@ -42,7 +34,7 @@ class ProgramYearObjectiveData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 4,
+            'id' => 3,
             'position' => 0,
             'programYear' => '2',
             'objective' => '9',
