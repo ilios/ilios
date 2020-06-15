@@ -23,17 +23,22 @@ jobs:
     - name: Prepare Messages
       id: vars
       run: |
+        lockDiff="$(composer-lock-diff --md)"
+        # We have to manually escape new lines
+        lockDiff="${lockDiff//$'\n'/'%0A'}"
         echo ::set-output name=pr_title::"Update Dependencies"
-        echo ::set-output name=commit_message::"$(composer-lock-diff --md)"
-        echo ::set-output name=pr_body::"$(composer-lock-diff --md)  \
-          by [create-pull-request](https://github.com/peter-evans/create-pull-request)."
+        echo ::set-output name=commit_message::"Update Dependencies \
+
+
+        ${lockDiff}."
+        echo ::set-output name=pr_body::"${lockDiff}"
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v2
       with:
-          token: ${{ secrets.ZORGBORT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.vars.outputs.pr_title }}
           body: ${{ steps.vars.outputs.pr_body }}
-          commit-message: ${{ steps.vars.outputs.commit-message }}
+          commit-message: ${{ steps.vars.outputs.commit_message }}
           branch: auto-update-dependencies
           committer: Zorgbort <info@iliosproject.org>
           author: Zorgbort <info@iliosproject.org>
