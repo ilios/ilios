@@ -40,8 +40,7 @@ class UpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->queueUsers($output);
-        //temporarily disable LM indexing for performance reasons.
-//        $this->queueLearningMaterials($output);
+        $this->queueLearningMaterials($output);
         $this->queueCourses($output);
         $this->queueMesh($output);
 
