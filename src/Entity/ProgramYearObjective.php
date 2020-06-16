@@ -389,7 +389,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      */
     public function getObjective(): ObjectiveInterface
     {
-        if ($this->objective) {
+        if (! $this->objective) {
             $this->objective = $this->createObjectiveFromThis();
         }
         return $this->objective;
