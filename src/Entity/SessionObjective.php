@@ -217,6 +217,8 @@ class SessionObjective implements SessionObjectiveInterface
      */
     public function __construct()
     {
+        $this->position = 0;
+        $this->active = true;
         $this->terms = new ArrayCollection();
         $this->parents = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();

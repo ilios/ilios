@@ -224,6 +224,8 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      */
     public function __construct()
     {
+        $this->position = 0;
+        $this->active = true;
         $this->terms = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();

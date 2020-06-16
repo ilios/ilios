@@ -227,6 +227,8 @@ class CourseObjective implements CourseObjectiveInterface
      */
     public function __construct()
     {
+        $this->position = 0;
+        $this->active = true;
         $this->terms = new ArrayCollection();
         $this->parents = new ArrayCollection();
         $this->children = new ArrayCollection();
