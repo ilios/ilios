@@ -79,6 +79,21 @@ FROM php-base as fpm
 MAINTAINER Ilios Project Team <support@iliosproject.org>
 
 ###############################################################################
+# FPM configured for development
+# Runs a dev environment and composer dependencies
+###############################################################################
+FROM fpm as fpm-dev
+MAINTAINER Ilios Project Team <support@iliosproject.org>
+ENV APP_ENV dev
+ENV APP_DEBUG true
+
+RUN /usr/bin/composer install \
+  --working-dir /var/www/ilios \
+  --no-progress \
+  --no-suggest \
+  --no-interaction
+
+###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
 ###############################################################################
 FROM php-base as admin
