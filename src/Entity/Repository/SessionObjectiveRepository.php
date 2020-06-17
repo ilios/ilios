@@ -90,7 +90,7 @@ class SessionObjectiveRepository extends EntityRepository implements DTOReposito
 
         $related = [
             'terms',
-            'parents',
+            'courseObjectives',
             'meshDescriptors',
             'descendants'
         ];

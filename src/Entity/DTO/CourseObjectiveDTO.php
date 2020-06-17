@@ -95,7 +95,7 @@ class CourseObjectiveDTO
      * @IS\Type("array<string>")
      *
      */
-    public $parents;
+    public $programYearObjectives;
 
     /**
      * @var int[]
@@ -104,7 +104,7 @@ class CourseObjectiveDTO
      * @IS\Type("array<string>")
      *
      */
-    public $children;
+    public $sessionObjectives;
 
     /**
      * @var int[]
@@ -149,8 +149,8 @@ class CourseObjectiveDTO
 
         $this->terms = [];
         $this->meshDescriptors = [];
-        $this->parents = [];
-        $this->children = [];
+        $this->programYearObjectives = [];
+        $this->sessionObjectives = [];
         $this->descendants = [];
     }
 }

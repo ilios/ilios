@@ -32,44 +32,44 @@ interface CourseObjectiveInterface extends
     public function getCourse(): CourseInterface;
 
     /**
-     * @param Collection $parents
+     * @param Collection $programYearObjectives
      */
-    public function setParents(Collection $parents);
+    public function setProgramYearObjectives(Collection $programYearObjectives);
 
     /**
-     * @param ProgramYearObjectiveInterface $parent
+     * @param ProgramYearObjectiveInterface $programYearObjective
      */
-    public function addParent(ProgramYearObjectiveInterface $parent);
+    public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective);
 
     /**
-     * @param ProgramYearObjectiveInterface $parent
+     * @param ProgramYearObjectiveInterface $programYearObjective
      */
-    public function removeParent(ProgramYearObjectiveInterface $parent);
-
-    /**
-     * @return Collection
-     */
-    public function getParents();
-
-    /**
-     * @param Collection $children
-     */
-    public function setChildren(Collection $children);
-
-    /**
-     * @param SessionObjectiveInterface $child
-     */
-    public function addChild(SessionObjectiveInterface $child);
-
-    /**
-     * @param SessionObjectiveInterface $child
-     */
-    public function removeChild(SessionObjectiveInterface $child);
+    public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective);
 
     /**
      * @return Collection
      */
-    public function getChildren();
+    public function getProgramYearObjectives();
+
+    /**
+     * @param Collection $sessionObjectives
+     */
+    public function setSessionObjectives(Collection $sessionObjectives);
+
+    /**
+     * @param SessionObjectiveInterface $sessionObjective
+     */
+    public function addSessionObjective(SessionObjectiveInterface $sessionObjective);
+
+    /**
+     * @param SessionObjectiveInterface $sessionObjective
+     */
+    public function removeSessionObjective(SessionObjectiveInterface $sessionObjective);
+
+    /**
+     * @return Collection
+     */
+    public function getSessionObjectives();
 
     /**
      * @param CourseObjectiveInterface $ancestor

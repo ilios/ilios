@@ -109,7 +109,7 @@ class SessionObjectiveDTO
      * @IS\Type("array<string>")
      *
      */
-    public $parents;
+    public $courseObjectives;
 
 
     /**
@@ -155,7 +155,7 @@ class SessionObjectiveDTO
 
         $this->terms = [];
         $this->meshDescriptors = [];
-        $this->parents = [];
+        $this->courseObjectives = [];
         $this->descendants = [];
     }
 }

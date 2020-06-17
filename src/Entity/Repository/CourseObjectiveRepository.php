@@ -88,8 +88,8 @@ class CourseObjectiveRepository extends EntityRepository implements DTORepositor
 
         $related = [
             'terms',
-            'parents',
-            'children',
+            'programYearObjectives',
+            'sessionObjectives',
             'meshDescriptors',
             'descendants'
         ];

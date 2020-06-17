@@ -33,24 +33,24 @@ interface SessionObjectiveInterface extends
     public function getSession(): SessionInterface;
 
     /**
-     * @param Collection $parents
+     * @param Collection $courseObjectives
      */
-    public function setParents(Collection $parents);
+    public function setCourseObjectives(Collection $courseObjectives);
 
     /**
-     * @param CourseObjectiveInterface $parent
+     * @param CourseObjectiveInterface $courseObjective
      */
-    public function addParent(CourseObjectiveInterface $parent);
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective);
 
     /**
-     * @param CourseObjectiveInterface $parent
+     * @param CourseObjectiveInterface $courseObjective
      */
-    public function removeParent(CourseObjectiveInterface $parent);
+    public function removeCourseObjective(CourseObjectiveInterface $courseObjective);
 
     /**
      * @return Collection
      */
-    public function getParents();
+    public function getCourseObjectives();
 
     /**
      * @param SessionObjectiveInterface $ancestor

@@ -103,7 +103,7 @@ class ProgramYearObjectiveDTO
      * @IS\Type("array<string>")
      *
      */
-    public $children;
+    public $courseObjectives;
 
     /**
      * @var int[]
@@ -149,7 +149,7 @@ class ProgramYearObjectiveDTO
 
         $this->terms = [];
         $this->meshDescriptors = [];
-        $this->children = [];
+        $this->courseObjectives = [];
         $this->descendants = [];
     }
 }

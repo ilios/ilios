@@ -154,13 +154,13 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="CourseObjective", mappedBy="parents")
+     * @ORM\ManyToMany(targetEntity="CourseObjective", mappedBy="programYearObjectives")
      * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $children;
+    protected $courseObjectives;
 
     /**
      * @var Collection
@@ -226,7 +226,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         $this->position = 0;
         $this->active = true;
         $this->terms = new ArrayCollection();
-        $this->children = new ArrayCollection();
+        $this->courseObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
     }
@@ -267,45 +267,45 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     /**
      * @inheritdoc
      */
-    public function setChildren(Collection $children)
+    public function setCourseObjectives(Collection $courseObjectives)
     {
-        $this->children = new ArrayCollection();
+        $this->courseObjectives = new ArrayCollection();
 
-        foreach ($children as $child) {
-            $this->addChild($child);
+        foreach ($courseObjectives as $courseObjective) {
+            $this->addCourseObjective($courseObjective);
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function addChild(CourseObjectiveInterface $child)
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective)
     {
-        if (!$this->children->contains($child)) {
-            $this->children->add($child);
-            $child->addParent($this);
-            $this->getObjective()->addChild($child->getObjective());
+        if (!$this->courseObjectives->contains($courseObjective)) {
+            $this->courseObjectives->add($courseObjective);
+            $courseObjective->addProgramYearObjective($this);
+            $this->getObjective()->addChild($courseObjective->getObjective());
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function removeChild(CourseObjectiveInterface $child)
+    public function removeCourseObjective(CourseObjectiveInterface $courseObjective)
     {
-        if ($this->children->contains($child)) {
-            $this->children->removeElement($child);
-            $child->removeParent($this);
-            $this->getObjective()->removeChild($child->getObjective());
+        if ($this->courseObjectives->contains($courseObjective)) {
+            $this->courseObjectives->removeElement($courseObjective);
+            $courseObjective->removeProgramYearObjective($this);
+            $this->getObjective()->removeChild($courseObjective->getObjective());
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function getChildren()
+    public function getCourseObjectives()
     {
-        return $this->children;
+        return $this->courseObjectives;
     }
 
     /**
@@ -478,10 +478,10 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
             $objective->setAncestor($ancestor->getObjective());
         }
 
-        $children = $this->getChildren();
-        /* @var ProgramYearObjectiveInterface $parent */
-        foreach ($children as $child) {
-            $objective->addChild($child->getObjective());
+        $courseObjectives = $this->getCourseObjectives();
+        /* @var CourseObjectiveInterface $courseObjective */
+        foreach ($courseObjectives as $courseObjective) {
+            $objective->addChild($courseObjective->getObjective());
         }
         return $objective;
     }

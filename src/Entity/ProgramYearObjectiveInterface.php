@@ -40,24 +40,24 @@ interface ProgramYearObjectiveInterface extends
     public function getCompetency();
 
     /**
-     * @param Collection $children
+     * @param Collection $courseObjectives
      */
-    public function setChildren(Collection $children);
+    public function setCourseObjectives(Collection $courseObjectives);
 
     /**
-     * @param CourseObjectiveInterface $child
+     * @param CourseObjectiveInterface $courseObjective
      */
-    public function addChild(CourseObjectiveInterface $child);
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective);
 
     /**
-     * @param CourseObjectiveInterface $child
+     * @param CourseObjectiveInterface $courseObjective
      */
-    public function removeChild(CourseObjectiveInterface $child);
+    public function removeCourseObjective(CourseObjectiveInterface $courseObjective);
 
     /**
      * @return Collection
      */
-    public function getChildren();
+    public function getCourseObjectives();
 
     /**
      * @param ProgramYearObjectiveInterface $ancestor

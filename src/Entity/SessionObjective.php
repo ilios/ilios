@@ -141,7 +141,7 @@ class SessionObjective implements SessionObjectiveInterface
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="CourseObjective", inversedBy="children")
+     * @ORM\ManyToMany(targetEntity="CourseObjective", inversedBy="sessionObjectives")
      * @ORM\JoinTable("session_objective_x_course_objective",
      *   joinColumns={@ORM\JoinColumn(name="session_objective_id", referencedColumnName="session_objective_id")},
      *   inverseJoinColumns={
@@ -153,7 +153,7 @@ class SessionObjective implements SessionObjectiveInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $parents;
+    protected $courseObjectives;
 
     /**
      * @var Collection
@@ -219,7 +219,7 @@ class SessionObjective implements SessionObjectiveInterface
         $this->position = 0;
         $this->active = true;
         $this->terms = new ArrayCollection();
-        $this->parents = new ArrayCollection();
+        $this->courseObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
     }
@@ -251,41 +251,41 @@ class SessionObjective implements SessionObjectiveInterface
     /**
      * @inheritdoc
      */
-    public function setParents(Collection $parents)
+    public function setCourseObjectives(Collection $courseObjectives)
     {
-        $this->parents = new ArrayCollection();
+        $this->courseObjectives = new ArrayCollection();
 
-        foreach ($parents as $parent) {
-            $this->addParent($parent);
+        foreach ($courseObjectives as $courseObjective) {
+            $this->addCourseObjective($courseObjective);
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function addParent(CourseObjectiveInterface $parent)
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective)
     {
-        if (!$this->parents->contains($parent)) {
-            $this->parents->add($parent);
-            $this->getObjective()->addParent($parent->getObjective());
+        if (!$this->courseObjectives->contains($courseObjective)) {
+            $this->courseObjectives->add($courseObjective);
+            $this->getObjective()->addParent($courseObjective->getObjective());
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function removeParent(CourseObjectiveInterface $parent)
+    public function removeCourseObjective(CourseObjectiveInterface $courseObjective)
     {
-        $this->parents->removeElement($parent);
-        $this->getObjective()->removeParent($parent->getObjective());
+        $this->courseObjectives->removeElement($courseObjective);
+        $this->getObjective()->removeParent($courseObjective->getObjective());
     }
 
     /**
      * @inheritdoc
      */
-    public function getParents()
+    public function getCourseObjectives()
     {
-        return $this->parents;
+        return $this->courseObjectives;
     }
 
     /**
@@ -456,10 +456,10 @@ class SessionObjective implements SessionObjectiveInterface
         if ($ancestor) {
             $objective->setAncestor($ancestor->getObjective());
         }
-        $parents = $this->getParents();
-        /* @var CourseObjectiveInterface $parent */
-        foreach ($parents as $parent) {
-            $objective->addParent($parent->getObjective());
+        $courseObjectives = $this->getCourseObjectives();
+        /* @var CourseObjectiveInterface $courseObjectives */
+        foreach ($courseObjectives as $courseObjective) {
+            $objective->addParent($courseObjectives->getObjective());
         }
         return $objective;
     }

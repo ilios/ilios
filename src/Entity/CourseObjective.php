@@ -140,7 +140,7 @@ class CourseObjective implements CourseObjectiveInterface
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="ProgramYearObjective", inversedBy="children")
+     * @ORM\ManyToMany(targetEntity="ProgramYearObjective", inversedBy="courseObjectives")
      * @ORM\JoinTable("course_objective_x_program_year_objective",
      *   joinColumns={@ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id")},
      *   inverseJoinColumns={
@@ -152,18 +152,18 @@ class CourseObjective implements CourseObjectiveInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $parents;
+    protected $programYearObjectives;
 
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="SessionObjective", mappedBy="parents")
+     * @ORM\ManyToMany(targetEntity="SessionObjective", mappedBy="courseObjectives")
      * @ORM\OrderBy({"id" = "ASC"})
      *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    protected $children;
+    protected $sessionObjectives;
 
     /**
      * @var Collection
@@ -229,8 +229,8 @@ class CourseObjective implements CourseObjectiveInterface
         $this->position = 0;
         $this->active = true;
         $this->terms = new ArrayCollection();
-        $this->parents = new ArrayCollection();
-        $this->children = new ArrayCollection();
+        $this->programYearObjectives = new ArrayCollection();
+        $this->sessionObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
     }
@@ -260,87 +260,87 @@ class CourseObjective implements CourseObjectiveInterface
     }
 
     /**
-     * @param Collection $parents
+     * @inheritdoc
      */
-    public function setParents(Collection $parents)
+    public function setProgramYearObjectives(Collection $programYearObjectives)
     {
-        $this->parents = new ArrayCollection();
+        $this->programYearObjectives = new ArrayCollection();
 
-        foreach ($parents as $parent) {
-            $this->addParent($parent);
+        foreach ($programYearObjectives as $programYearObjective) {
+            $this->addProgramYearObjective($programYearObjective);
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function addParent(ProgramYearObjectiveInterface $parent)
+    public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective)
     {
-        if (!$this->parents->contains($parent)) {
-            $this->parents->add($parent);
-            $this->getObjective()->addParent($parent->getObjective());
+        if (!$this->programYearObjectives->contains($programYearObjective)) {
+            $this->programYearObjectives->add($programYearObjective);
+            $this->getObjective()->addParent($programYearObjective->getObjective());
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function removeParent(ProgramYearObjectiveInterface $parent)
+    public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective)
     {
-        $this->parents->removeElement($parent);
-        $this->getObjective()->removeParent($parent->getObjective());
+        $this->programYearObjectives->removeElement($programYearObjective);
+        $this->getObjective()->removeParent($programYearObjective->getObjective());
     }
 
     /**
      * @inheritdoc
      */
-    public function getParents()
+    public function getProgramYearObjectives()
     {
-        return $this->parents;
+        return $this->programYearObjectives;
     }
 
     /**
      * @inheritdoc
      */
-    public function setChildren(Collection $children)
+    public function setSessionObjectives(Collection $sessionObjectives)
     {
-        $this->children = new ArrayCollection();
+        $this->sessionObjectives = new ArrayCollection();
 
-        foreach ($children as $child) {
-            $this->addChild($child);
+        foreach ($sessionObjectives as $sessionObjective) {
+            $this->addSessionObjective($sessionObjective);
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function addChild(SessionObjectiveInterface $child)
+    public function addSessionObjective(SessionObjectiveInterface $sessionObjective)
     {
-        if (!$this->children->contains($child)) {
-            $this->children->add($child);
-            $child->addParent($this);
-            $this->getObjective()->addChild($child->getObjective());
+        if (!$this->sessionObjectives->contains($sessionObjective)) {
+            $this->sessionObjectives->add($sessionObjective);
+            $sessionObjective->addCourseObjective($this);
+            $this->getObjective()->addChild($sessionObjective->getObjective());
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function removeChild(SessionObjectiveInterface $child)
+    public function removeSessionObjective(SessionObjectiveInterface $sessionObjective)
     {
-        if ($this->children->contains($child)) {
-            $this->children->removeElement($child);
-            $child->removeParent($this);
-            $this->getObjective()->removeChild($child->getObjective());
+        if ($this->sessionObjectives->contains($sessionObjective)) {
+            $this->sessionObjectives->removeElement($sessionObjective);
+            $sessionObjective->removeCourseObjective($this);
+            $this->getObjective()->removeChild($sessionObjective->getObjective());
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function getChildren()
+    public function getSessionObjectives()
     {
-        return $this->children;
+        return $this->sessionObjectives;
     }
 
     /**
@@ -512,15 +512,15 @@ class CourseObjective implements CourseObjectiveInterface
         if ($ancestor) {
             $objective->setAncestor($ancestor->getObjective());
         }
-        $parents = $this->getParents();
-        /* @var SessionObjectiveInterface $parent */
-        foreach ($parents as $parent) {
-            $objective->addParent($parent->getObjective());
+        $programYearObjectives = $this->getProgramYearObjectives();
+        /* @var ProgramYearObjectiveInterface $programYearObjective */
+        foreach ($programYearObjectives as $programYearObjective) {
+            $objective->addParent($programYearObjective->getObjective());
         }
-        $children = $this->getChildren();
-        /* @var ProgramYearObjectiveInterface $parent */
-        foreach ($children as $child) {
-            $objective->addChild($child->getObjective());
+        $sessionObjectives = $this->getSessionObjectives();
+        /* @var SessionObjectiveInterface $sessionObjective */
+        foreach ($sessionObjectives as $sessionObjective) {
+            $objective->addChild($sessionObjective->getObjective());
         }
         return $objective;
     }
