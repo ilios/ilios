@@ -94,7 +94,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      *   @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", nullable=false)
      * })
      *
-     * @IS\Expose
      * @IS\Type("entity")
      * @IS\ReadOnly()
      */
