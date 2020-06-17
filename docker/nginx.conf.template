@@ -9,9 +9,15 @@ server {
         try_files $uri /index.php$is_args$args;
     }
 
-    # cache fingerprinted assets forever
+    # cache fingerprinted ilios assets forever
     # ex: sunburst-white-background192-68bd609abe5ea5043e544352c4ca9942.png
     location ~* "[a-z\-0-9]+-[a-z0-9]{30,}\.(css|js|png|svg)$" {
+        gzip_static on;
+        expires max;
+    }
+    # cache fingerprinted webpack chunk assets forever
+    # ex: assets/chunk.56bf0f0960e34acefd19.js
+    location ~* "assets/chunk\.[a-z0-9\.]{15,}\.js$" {
         gzip_static on;
         expires max;
     }
