@@ -8,11 +8,13 @@ services:
 #        build:
 #            context: .
 #            target: nginx
+#        environment:
+#            - FPM_CONTAINERS=php:9000
 #        ports:
 #            - "8000:80"
 #        volumes:
 #            - ./:/var/www/ilios:delegated
-#    fpm:
+#    php:
 #        build:
 #            context: .
 #            target: fpm-dev

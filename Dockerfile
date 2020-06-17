@@ -19,7 +19,8 @@ COPY ./docker/monolog.yaml /src/config/packages/prod
 FROM nginx:1.19-alpine as nginx
 MAINTAINER Ilios Project Team <support@iliosproject.org>
 COPY --from=src /src /var/www/ilios
-COPY docker/default-nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
+ENV FPM_CONTAINERS=fpm:9000
 
 ###############################################################################
 # Dependencies we need in all PHP containers
