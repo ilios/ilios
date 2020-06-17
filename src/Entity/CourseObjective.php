@@ -89,7 +89,7 @@ class CourseObjective implements CourseObjectiveInterface
      *
      * @Assert\NotNull()
      *
-     * @ORM\ManyToOne(targetEntity="Objective", inversedBy="courseObjectives")
+     * @ORM\ManyToOne(targetEntity="Objective", inversedBy="courseObjectives", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", nullable=false)
      * })

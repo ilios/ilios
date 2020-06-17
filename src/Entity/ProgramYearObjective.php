@@ -89,7 +89,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      *
      * @Assert\NotNull()
      *
-     * @ORM\ManyToOne(targetEntity="Objective", inversedBy="programYearObjectives")
+     * @ORM\ManyToOne(targetEntity="Objective", inversedBy="programYearObjectives", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", nullable=false)
      * })

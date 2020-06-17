@@ -91,7 +91,7 @@ class SessionObjective implements SessionObjectiveInterface
      *
      * @Assert\NotNull()
      *
-     * @ORM\ManyToOne(targetEntity="Objective", inversedBy="sessionObjectives")
+     * @ORM\ManyToOne(targetEntity="Objective", inversedBy="sessionObjectives", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", nullable=false)
      * })
