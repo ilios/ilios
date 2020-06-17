@@ -140,6 +140,10 @@ class LearningMaterials extends ElasticSearchBase
     public static function getMapping(): array
     {
         return [
+            'settings' => [
+                'number_of_shards' => 1,
+                'number_of_replicas' => 0,
+            ],
             'mappings' => [
                 '_meta' => [
                     'version' => '1',
