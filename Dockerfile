@@ -1,56 +1,40 @@
-# Start with the official Composer image and name it 'composer' for reference
-FROM composer AS composer
+###############################################################################
+# Contains all of the ilios src code for use in other containers
+###############################################################################
+FROM scratch as src
+COPY composer.* symfony.lock LICENSE /src/
+COPY config /src/config/
+COPY custom /src/custom/
+COPY src /src/src/
+COPY templates /src/templates/
+COPY bin/console /src/bin/
+COPY public/index.php public/theme-overrides /src/public/
 
-# get the proper 'PHP' image from the official PHP repo at
-FROM php:7.4-apache
+# Override monolog to send errors to stdout
+COPY ./docker/monolog.yaml /src/config/packages/prod
 
-# copy the Composer PHAR from the Composer image into the apache-php image
-COPY --from=composer /usr/bin/composer /usr/bin/composer
-
-# Now that all the 'FROM' values are set, set the maintainer
+###############################################################################
+# Nginx Configured to Run Ilios from an FPM host
+###############################################################################
+FROM nginx:1.19-alpine as nginx
 MAINTAINER Ilios Project Team <support@iliosproject.org>
+COPY --from=src /src /var/www/ilios
+COPY docker/default-nginx.conf /etc/nginx/conf.d/default.conf
 
-ENV \
-COMPOSER_HOME=/tmp \
-COMPOSER_ALLOW_SUPERUSER=true \
-APP_ENV=prod \
-ILIOS_DATABASE_URL="mysql://ilios:ilios@db/ilios?serverVersion=5.7" \
-ILIOS_MAILER_URL=null://localhost \
-ILIOS_LOCALE=en \
-ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
-ILIOS_AUTHENTICATION_TYPE=form \
-ILIOS_LEGACY_PASSWORD_SALT=null \
-ILIOS_FILE_SYSTEM_STORAGE_PATH=/data \
-ILIOS_INSTITUTION_DOMAIN=example.com \
-ILIOS_SUPPORTING_LINK=null \
-ILIOS_LDAP_AUTHENTICATION_HOST=null \
-ILIOS_LDAP_AUTHENTICATION_PORT=null \
-ILIOS_LDAP_AUTHENTICATION_BIND_TEMPLATE=null \
-ILIOS_LDAP_DIRECTORY_URL=null \
-ILIOS_LDAP_DIRECTORY_USER=null \
-ILIOS_LDAP_DIRECTORY_PASSWORD=null \
-ILIOS_LDAP_DIRECTORY_SEARCH_BASE=null \
-ILIOS_LDAP_DIRECTORY_CAMPUS_ID_PROPERTY=null \
-ILIOS_LDAP_DIRECTORY_DISPLAY_NAME_PROPERTY=null \
-ILIOS_LDAP_DIRECTORY_USERNAME_PROPERTY=null \
-ILIOS_SHIBBOLETH_AUTHENTICATION_LOGIN_PATH=null \
-ILIOS_SHIBBOLETH_AUTHENTICATION_LOGOUT_PATH=null \
-ILIOS_SHIBBOLETH_AUTHENTICATION_USER_ID_ATTRIBUTE=null \
-ILIOS_TIMEZONE='America/Los_Angeles' \
-ILIOS_REQUIRE_SECURE_CONNECTION=true \
-ILIOS_KEEP_FRONTEND_UPDATED=true \
-ILIOS_FRONTEND_RELEASE_VERSION=null \
-ILIOS_CAS_AUTHENTICATION_SERVER=null \
-ILIOS_CAS_AUTHENTICATION_VERSION=3 \
-ILIOS_CAS_AUTHENTICATION_VERIFY_SSL=false \
-ILIOS_CAS_AUTHENTICATION_CERTIFICATE_PATH=null \
-ILIOS_ENABLE_TRACKING=false \
-ILIOS_TRACKING_CODE=UA-XXXXXXXX-1
+###############################################################################
+# Dependencies we need in all PHP containers
+# Production ready composer pacakges installed
+###############################################################################
+FROM php:7.4-fpm as php-base
+MAINTAINER Ilios Project Team <support@iliosproject.org>
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=src /src /var/www/ilios
+COPY ./docker/php.ini $PHP_INI_DIR
 
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
     apt-get update \
-    && apt-get install sudo libldap2-dev zlib1g-dev libicu-dev libzip-dev libzip4 -y \
+    && apt-get install libldap2-dev zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
@@ -60,50 +44,158 @@ RUN \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && docker-php-ext-enable opcache \
-    # enable modules
-    && a2enmod rewrite socache_shmcb mpm_prefork http2 deflate headers \
     && rm -rf /var/lib/apt/lists/* \
     # remove the apt source files to save space
     && apt-get purge libldap2-dev zlib1g-dev libicu-dev -y \
     && apt-get autoremove -y
 
-# copy configuration into the default locations
-COPY ./docker/php.ini $PHP_INI_DIR
-COPY ./docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
-
-# create the volume that will store the learning materials
-VOLUME $ILIOS_FILE_SYSTEM_STORAGE_PATH
-
-# copy the contents of the current directory to the /var/www/ilios directory
-COPY . /var/www/ilios
-
-# Override monolog to send errors to stdout
-COPY ./docker/monolog.yaml /var/www/ilios/config/packages/prod
-
-# add our own entrypoint scripts
-COPY ./docker/ilios-entrypoint /usr/local/bin/
+ENV \
+COMPOSER_HOME=/tmp \
+APP_ENV=prod \
+APP_DEBUG=false \
+ILIOS_MAILER_URL=null \
+ILIOS_LOCALE=en \
+ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
+ILIOS_REQUIRE_SECURE_CONNECTION=false
 
 WORKDIR /var/www/ilios
-
-RUN chown -R www-data:www-data /var/www/ilios
-
-# Switch to the www-data user so everything installed after this can be read by apache
-USER www-data
-
-RUN \
-    /usr/bin/composer install \
-    --working-dir /var/www/ilios \
+RUN /usr/bin/touch .env
+RUN /usr/bin/composer install \
     --prefer-dist \
     --no-dev \
     --no-progress \
     --no-interaction \
     --no-suggest \
     --classmap-authoritative \
-    && /usr/bin/composer dump-env $APP_ENV \
-    && /usr/bin/composer clear-cache \
-    && /var/www/ilios/bin/console assets:install
+    #creates an empty env.php file, real ENV values will control the app
+    && /usr/bin/composer dump-env prod \
+    && /usr/bin/composer clear-cache
+
+###############################################################################
+# FPM configured to run ilios
+# Really just a wrapper around php-base, but here in case we need to modify it
+###############################################################################
+FROM php-base as fpm
+MAINTAINER Ilios Project Team <support@iliosproject.org>
+
+###############################################################################
+# Admin container, allows SSH access so it can be deployed as a bastion server
+###############################################################################
+FROM php-base as admin
+MAINTAINER Ilios Project Team <support@iliosproject.org>
+
+# semi-colon seperates list of github users that can SSH in
+ENV GITHUB_ACCOUNT_SSH_USERS=''
+
+RUN apt-get update && \
+    apt-get install -y wget openssh-server sudo netcat default-mysql-client vim telnet && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get autoremove -y
+
+# This doesn't get created automatically, don't know why
+RUN mkdir /run/sshd
+
+# Remove password based authentication for SSH
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+# Pass environmental variables to SSH sessions
+RUN sed -i 's/#PermitUserEnvironment no/PermitUserEnvironment yes/' /etc/ssh/sshd_config
+
+# allow users in the sudo group to do wo without a password
+RUN /bin/echo "%sudo ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/no-password-group
+
+COPY docker/admin-entrypoint /entrypoint
+
+# expose the ssh port
+EXPOSE 22
+ENTRYPOINT /entrypoint
+
+HEALTHCHECK CMD nc -vz 127.0.0.1 22 || exit 1
+
+###############################################################################
+# Single purpose container that migrates the databse and then dies
+# Should be one once on a new deployment
+###############################################################################
+FROM php-base as migrate-database
+ENTRYPOINT ["/var/www/ilios/bin/console"]
+CMD ["doctrine:migrations:migrate", "-n"]
+
+###############################################################################
+# Single purpose container to updates the frontend
+# Can be run on a schedule as needed and MUST share /var/www/ilios with the
+# fpm and nginx containers in order to provide the shared static files that
+# have to be in sync
+###############################################################################
+FROM php-base as update-frontend
+ENTRYPOINT ["/var/www/ilios/bin/console"]
+CMD ["ilios:update-frontend"]
+
+###############################################################################
+# Single purpose container that starts a message consumer
+# Should be setup to run and restart itself when it shuts down which it will
+# do every hour
+###############################################################################
+FROM php-base as consume-messages
+ENTRYPOINT ["/var/www/ilios/bin/console"]
+CMD ["messenger:consume", "async", "--time-limit=3600"]
+
+###############################################################################
+# Our original and still relevant apache based runtime, includes everything in
+# a single container
+###############################################################################
+FROM php:7.4-apache as php-apache
+MAINTAINER Ilios Project Team <support@iliosproject.org>
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=src /src /var/www/ilios
+
+# configure Apache and the PHP extensions required for Ilios and delete the source files after install
+RUN \
+    apt-get update \
+    && apt-get install libldap2-dev zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y \
+    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
+    && docker-php-ext-install ldap \
+    && docker-php-ext-install zip \
+    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install intl \
+    && pecl channel-update pecl.php.net \
+    && pecl install apcu \
+    && docker-php-ext-enable apcu \
+    && docker-php-ext-enable opcache \
+    && rm -rf /var/lib/apt/lists/* \
+    # remove the apt source files to save space
+    && apt-get purge libldap2-dev zlib1g-dev libicu-dev -y \
+    && apt-get autoremove -y
+
+COPY ./docker/php.ini $PHP_INI_DIR
+COPY ./docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
+
+# add our own entrypoint scripts
+COPY docker/php-apache-entrypoint /usr/local/bin/
+
+ENV \
+COMPOSER_HOME=/tmp \
+APP_ENV=prod \
+APP_DEBUG=false \
+ILIOS_MAILER_URL=null \
+ILIOS_LOCALE=en \
+ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
+ILIOS_REQUIRE_SECURE_CONNECTION=false
+
+WORKDIR /var/www/ilios
+RUN /usr/bin/touch .env
+RUN /usr/bin/composer install \
+    --prefer-dist \
+    --no-dev \
+    --no-progress \
+    --no-interaction \
+    --no-suggest \
+    --classmap-authoritative \
+    #creates an empty env.php file, real ENV values will control the app
+    && /usr/bin/composer dump-env prod \
+    && /usr/bin/composer clear-cache
 
 USER root
-ENTRYPOINT ["ilios-entrypoint"]
+RUN chown -R www-data:www-data /var/www/ilios
+ENTRYPOINT ["php-apache-entrypoint"]
 CMD ["apache2-foreground"]
 EXPOSE 80
