@@ -10,9 +10,6 @@ use App\Service\Config;
 use App\Service\NonCachingIliosFileSystem;
 use Elasticsearch\Client;
 use Psr\Log\LoggerInterface;
-use setasign\Fpdi\Fpdi;
-use setasign\Fpdi\FpdiException;
-use setasign\Fpdi\PdfParser\StreamReader;
 use InvalidArgumentException;
 use SplFileInfo;
 
@@ -153,6 +150,9 @@ class LearningMaterials extends ElasticSearchBase
                         'attachment' => [
                             'field' => 'data',
                             'target_field' => 'material',
+                        ],
+                        'remove' => [
+                            'field' => 'data'
                         ]
                     ]
                 ]
