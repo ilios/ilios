@@ -472,7 +472,7 @@ class Curriculum extends OpenSearchBase
             'settings' => [
                 'analysis' => self::getAnalyzers(),
                 'max_ngram_diff' =>  15,
-                'number_of_shards' => 1,
+                'number_of_shards' => 2,
                 'number_of_replicas' => 0,
                 'default_pipeline' => 'curriculum',
             ],
