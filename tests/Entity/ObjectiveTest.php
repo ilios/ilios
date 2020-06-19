@@ -48,10 +48,12 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Course::__construct
+     * @covers \App\Entity\Objective::__construct
      */
     public function testConstructor()
     {
+        $this->assertEquals(0, $this->object->getPosition());
+        $this->assertEquals(true, $this->object->isActive());
         $this->assertEmpty($this->object->getMeshDescriptors());
         $this->assertEmpty($this->object->getSessionObjectives());
         $this->assertEmpty($this->object->getCourseObjectives());

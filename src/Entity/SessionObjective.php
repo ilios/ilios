@@ -222,6 +222,7 @@ class SessionObjective implements SessionObjectiveInterface
         $this->courseObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
+        $this->objective = new Objective();
     }
 
     /**
@@ -370,9 +371,6 @@ class SessionObjective implements SessionObjectiveInterface
      */
     public function getObjective(): ObjectiveInterface
     {
-        if (! $this->objective) {
-            $this->objective = $this->createObjectiveFromThis();
-        }
         return $this->objective;
     }
 
@@ -434,33 +432,5 @@ class SessionObjective implements SessionObjectiveInterface
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
         $this->getObjective()->removeMeshDescriptor($meshDescriptor);
-    }
-
-    /**
-     * @return ObjectiveInterface
-     */
-    protected function createObjectiveFromThis(): ObjectiveInterface
-    {
-        $objective = new Objective();
-        $objective->addSessionObjective($this);
-        $objective->setTitle($this->getTitle());
-        $objective->setPosition($this->getPosition());
-        $objective->setActive($this->isActive());
-        $objective->setMeshDescriptors($this->getMeshDescriptors());
-        $descendants = $this->getDescendants();
-        /* @var SessionObjectiveInterface $descendant */
-        foreach ($descendants as $descendant) {
-            $objective->addDescendant($descendant->getObjective());
-        }
-        $ancestor = $this->getAncestor();
-        if ($ancestor) {
-            $objective->setAncestor($ancestor->getObjective());
-        }
-        $courseObjectives = $this->getCourseObjectives();
-        /* @var CourseObjectiveInterface $courseObjectives */
-        foreach ($courseObjectives as $courseObjective) {
-            $objective->addParent($courseObjectives->getObjective());
-        }
-        return $objective;
     }
 }

@@ -233,6 +233,7 @@ class CourseObjective implements CourseObjectiveInterface
         $this->sessionObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
+        $this->objective = new Objective();
     }
 
     /**
@@ -426,9 +427,6 @@ class CourseObjective implements CourseObjectiveInterface
      */
     public function getObjective(): ObjectiveInterface
     {
-        if (! $this->objective) {
-            $this->objective = $this->createObjectiveFromThis();
-        }
         return $this->objective;
     }
 
@@ -490,38 +488,5 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
         $this->getObjective()->removeMeshDescriptor($meshDescriptor);
-    }
-
-    /**
-     * @return ObjectiveInterface
-     */
-    protected function createObjectiveFromThis(): ObjectiveInterface
-    {
-        $objective = new Objective();
-        $objective->addCourseObjective($this);
-        $objective->setTitle($this->getTitle());
-        $objective->setPosition($this->getPosition());
-        $objective->setActive($this->isActive());
-        $objective->setMeshDescriptors($this->getMeshDescriptors());
-        $descendants = $this->getDescendants();
-        /* @var CourseObjectiveInterface $descendant */
-        foreach ($descendants as $descendant) {
-            $objective->addDescendant($descendant->getObjective());
-        }
-        $ancestor = $this->getAncestor();
-        if ($ancestor) {
-            $objective->setAncestor($ancestor->getObjective());
-        }
-        $programYearObjectives = $this->getProgramYearObjectives();
-        /* @var ProgramYearObjectiveInterface $programYearObjective */
-        foreach ($programYearObjectives as $programYearObjective) {
-            $objective->addParent($programYearObjective->getObjective());
-        }
-        $sessionObjectives = $this->getSessionObjectives();
-        /* @var SessionObjectiveInterface $sessionObjective */
-        foreach ($sessionObjectives as $sessionObjective) {
-            $objective->addChild($sessionObjective->getObjective());
-        }
-        return $objective;
     }
 }
