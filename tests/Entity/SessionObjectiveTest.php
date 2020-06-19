@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\CourseObjective;
+use App\Entity\MeshDescriptor;
 use App\Entity\Session;
 use App\Entity\SessionObjective;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -38,16 +39,6 @@ class SessionObjectiveTest extends EntityBase
         $this->assertEmpty($this->object->getMeshDescriptors());
         $this->assertEmpty($this->object->getCourseObjectives());
         $this->assertEmpty($this->object->getDescendants());
-        $this->assertEmpty($this->object->getCourseObjectives());
-        $this->assertEmpty($this->object->getDescendants());
-        $objective = $this->object->getObjective();
-        $this->assertEquals(0, $objective->getPosition());
-        $this->assertEquals(true, $objective->isActive());
-        $this->assertEmpty($objective->getMeshDescriptors());
-        $this->assertEmpty($objective->getCourseObjectives());
-        $this->assertEmpty($objective->getDescendants());
-        $this->assertEmpty($objective->getCourseObjectives());
-        $this->assertEmpty($objective->getDescendants());
     }
 
     public function testNotBlankValidation()
@@ -136,7 +127,12 @@ class SessionObjectiveTest extends EntityBase
      */
     public function testAddMeshDescriptor()
     {
-        $this->entityCollectionAddTest('meshDescriptor', 'MeshDescriptor');
+        $meshDescriptor = new MeshDescriptor();
+        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertEmpty($this->object->getObjective()->getMeshDescriptors());
+        $this->object->addMeshDescriptor($meshDescriptor);
+        $this->assertEquals($meshDescriptor, $this->object->getMeshDescriptors()->first());
+        $this->assertEquals($meshDescriptor, $this->object->getObjective()->getMeshDescriptors()->first());
     }
 
     /**
@@ -144,7 +140,15 @@ class SessionObjectiveTest extends EntityBase
      */
     public function testRemoveMeshDescriptor()
     {
-        $this->entityCollectionRemoveTest('meshDescriptor', 'MeshDescriptor');
+        $meshDescriptor = new MeshDescriptor();
+        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertEmpty($this->object->getObjective()->getMeshDescriptors());
+        $this->object->addMeshDescriptor($meshDescriptor);
+        $this->assertEquals($meshDescriptor, $this->object->getMeshDescriptors()->first());
+        $this->assertEquals($meshDescriptor, $this->object->getObjective()->getMeshDescriptors()->first());
+        $this->object->removeMeshDescriptor($meshDescriptor);
+        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertEmpty($this->object->getObjective()->getMeshDescriptors());
     }
 
     /**
@@ -152,7 +156,15 @@ class SessionObjectiveTest extends EntityBase
      */
     public function testGetMeshDescriptors()
     {
-        $this->entityCollectionSetTest('meshDescriptor', 'MeshDescriptor');
+        $meshDescriptors = [];
+        for ($i = 0; $i < 10; $i++) {
+            $meshDescriptors[] = new MeshDescriptor();
+        }
+        $this->object->setMeshDescriptors(new ArrayCollection($meshDescriptors));
+        $returnedMeshDescriptors = $this->object->getMeshDescriptors();
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->assertTrue($returnedMeshDescriptors->contains($meshDescriptor));
+        }
     }
 
     /**
@@ -181,7 +193,7 @@ class SessionObjectiveTest extends EntityBase
         $courseObjective = new CourseObjective();
         $this->assertEmpty($this->object->getCourseObjectives());
         $this->object->addCourseObjective($courseObjective);
-        $this->assertCount(1, $this->object->getCourseObjectives());
+        $this->assertEquals($courseObjective, $this->object->getCourseObjectives()->first());
         $this->object->removeCourseObjective($courseObjective);
         $this->assertEmpty($this->object->getCourseObjectives());
         $this->assertEmpty($this->object->getObjective()->getParents());
@@ -241,8 +253,8 @@ class SessionObjectiveTest extends EntityBase
     {
         $descendant = new SessionObjective();
         $this->assertEmpty($this->object->getDescendants());
+        $this->assertEmpty($this->object->getObjective()->getDescendants());
         $this->object->addDescendant($descendant);
-        $this->assertCount(1, $this->object->getDescendants());
         $this->assertEquals($descendant, $this->object->getDescendants()->first());
         $this->assertEquals($descendant->getObjective(), $this->object->getObjective()->getDescendants()->first());
     }
@@ -254,8 +266,10 @@ class SessionObjectiveTest extends EntityBase
     {
         $descendant = new SessionObjective();
         $this->assertEmpty($this->object->getDescendants());
+        $this->assertEmpty($this->object->getObjective()->getDescendants());
         $this->object->addDescendant($descendant);
-        $this->assertCount(1, $this->object->getDescendants());
+        $this->assertEquals($descendant, $this->object->getDescendants()->first());
+        $this->assertEquals($descendant->getObjective(), $this->object->getObjective()->getDescendants()->first());
         $this->object->removeDescendant($descendant);
         $this->assertEmpty($this->object->getDescendants());
         $this->assertEmpty($this->object->getObjective()->getDescendants());
@@ -284,8 +298,9 @@ class SessionObjectiveTest extends EntityBase
      */
     public function testSetActive()
     {
-        $isActive = false;
-        $this->object->setActive($isActive);
+        $this->assertTrue($this->object->isActive());
+        $this->assertTrue($this->object->getObjective()->isActive());
+        $this->object->setActive(false);
         $this->assertFalse($this->object->isActive());
         $this->assertFalse($this->object->getObjective()->isActive());
     }
