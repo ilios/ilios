@@ -148,7 +148,7 @@ class IndexController extends AbstractController
         $links = [];
         foreach ($json->link as $obj) {
             $arr = [
-                'href' => ltrim($obj->href, '/'),
+                'href' => $obj->href,
             ];
             switch ($obj->rel) {
                 case 'preload':
@@ -172,7 +172,7 @@ class IndexController extends AbstractController
 
         $scripts = array_map(function ($obj) {
             return [
-                'src' => property_exists($obj, 'src') ? ltrim($obj->src, '/') : null,
+                'src' => property_exists($obj, 'src') ? $obj->src : null,
                 'content' => property_exists($obj, 'content') ? $obj->content : null,
             ];
         }, $json->script);
