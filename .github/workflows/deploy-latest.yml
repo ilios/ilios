@@ -1,0 +1,23 @@
+name: Deploy Containers
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy-latest-containers:
+    name: Github Registry as latest
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: [php-apache, nginx, fpm, fpm-dev, admin, migrate-database, update-frontend, consume-messages]
+    steps:
+    - uses: actions/checkout@v2
+    - name: ${{ matrix.image }} to Github Registry
+      uses: elgohr/Publish-Docker-Github-Action@2.17
+      with:
+        name: ilios/ilios/${{ matrix.image }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        buildoptions: "--target ${{ matrix.image }}"

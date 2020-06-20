@@ -160,7 +160,7 @@ CMD ["ilios:update-frontend"]
 ###############################################################################
 FROM php-base as consume-messages
 ENTRYPOINT ["/var/www/ilios/bin/console"]
-CMD ["messenger:consume", "async", "--time-limit=3600"]
+CMD ["messenger:consume", "async"]
 
 ###############################################################################
 # Our original and still relevant apache based runtime, includes everything in
