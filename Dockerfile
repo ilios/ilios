@@ -88,6 +88,9 @@ FROM fpm as fpm-dev
 MAINTAINER Ilios Project Team <support@iliosproject.org>
 ENV APP_ENV dev
 ENV APP_DEBUG true
+# Remove opcache production only optimizations
+RUN sed -i '/^opcache\.preload/d' "$PHP_INI_DIR/php.ini"
+RUN sed -i '/^opcache\.validate_timestamps/d' "$PHP_INI_DIR/php.ini"
 
 RUN /usr/bin/composer install \
   --working-dir /var/www/ilios \
