@@ -33,7 +33,7 @@ server {
     #Symfony Docs on nginx: https://symfony.com/doc/current/setup/web_server_configuration.html#nginx
     # pass the PHP scripts to FastCGI server listening on :9000
     location ~ ^/index\.php(/|$) {
-        fastcgi_pass   ${FPM_CONTAINERS};
+        fastcgi_pass ${FPM_CONTAINERS};
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
 

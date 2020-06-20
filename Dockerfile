@@ -72,6 +72,8 @@ RUN /usr/bin/composer install \
     && /usr/bin/composer clear-cache
 
 COPY ./docker/php.ini $PHP_INI_DIR
+#Override the default entrypoint script with our own
+COPY docker/php-fpm-entrypoint /usr/local/bin/docker-php-entrypoint
 
 ###############################################################################
 # FPM configured to run ilios
