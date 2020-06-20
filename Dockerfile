@@ -71,7 +71,8 @@ RUN /usr/bin/composer install \
     && /usr/bin/composer dump-env prod \
     && /usr/bin/composer clear-cache
 
-COPY ./docker/php.ini $PHP_INI_DIR
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY ./docker/php.ini $PHP_INI_DIR/conf.d/ilios.ini
 #Override the default entrypoint script with our own
 COPY docker/php-fpm-entrypoint /usr/local/bin/docker-php-entrypoint
 
