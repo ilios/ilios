@@ -30,7 +30,6 @@ FROM php:7.4-fpm as php-base
 MAINTAINER Ilios Project Team <support@iliosproject.org>
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src /var/www/ilios
-COPY ./docker/php.ini $PHP_INI_DIR
 
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
@@ -71,6 +70,8 @@ RUN /usr/bin/composer install \
     #creates an empty env.php file, real ENV values will control the app
     && /usr/bin/composer dump-env prod \
     && /usr/bin/composer clear-cache
+
+COPY ./docker/php.ini $PHP_INI_DIR
 
 ###############################################################################
 # FPM configured to run ilios
