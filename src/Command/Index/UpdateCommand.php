@@ -12,6 +12,7 @@ use App\Repository\CourseRepository;
 use App\Repository\LearningMaterialRepository;
 use App\Repository\MeshDescriptorRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,13 +33,15 @@ class UpdateCommand extends Command
         protected CourseRepository $courseRepository,
         protected MeshDescriptorRepository $descriptorRepository,
         protected LearningMaterialRepository $learningMaterialRepository,
-        protected MessageBusInterface $bus
+        protected MessageBusInterface $bus,
+        protected EntityManagerInterface $entityManager,
     ) {
         parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->clearIndexQueue($output);
         $this->queueUsers($output);
         //temporarily disable LM indexing for performance reasons.
 //        $this->queueLearningMaterials($output);
@@ -46,6 +49,15 @@ class UpdateCommand extends Command
         $this->queueMesh($output);
 
         return Command::SUCCESS;
+    }
+
+    protected function clearIndexQueue(OutputInterface $output): void
+    {
+        $sql = 'DELETE FROM messenger_messages WHERE queue_name="search"';
+        $conn = $this->entityManager->getConnection();
+        $removed = $conn->executeStatement($sql);
+
+        $output->writeln("<info>Cleared ${removed} Existing search requests from queue.</info>");
     }
 
     protected function queueUsers(OutputInterface $output): void
