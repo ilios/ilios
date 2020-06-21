@@ -18,6 +18,7 @@ use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\UnitOfWork;
 use Mockery as m;
 use stdClass;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -33,6 +34,8 @@ class IndexEntityChangesTest extends TestCase
 
     protected m\MockInterface $bus;
 
+    protected m\MockInterface $logger;
+
     protected IndexEntityChanges $indexEntityChanges;
 
     protected function setUp(): void
@@ -42,12 +45,14 @@ class IndexEntityChangesTest extends TestCase
         $this->meshIndex = m::mock(Mesh::class);
         $this->usersIndex = m::mock(Users::class);
         $this->bus = m::mock(MessageBusInterface::class);
+        $this->logger = m::mock(LoggerInterface::class);
         $this->indexEntityChanges = new IndexEntityChanges(
             $this->curriculumIndex,
             $this->learningMaterialIndex,
             $this->meshIndex,
             $this->usersIndex,
-            $this->bus
+            $this->bus,
+            $this->logger
         );
     }
 
@@ -111,7 +116,7 @@ class IndexEntityChangesTest extends TestCase
             ->withArgs(fn (UserIndexRequest $request) => in_array($userId, $request->getUserIds()))
             ->andReturn(new Envelope(new stdClass()))
             ->once();
-
+        $this->logger->shouldReceive('debug')->once();
         $this->indexEntityChanges->postUpdate($args);
     }
 }
