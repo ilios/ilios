@@ -4,15 +4,18 @@ framework:
 
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
-       async: "doctrine://default"
-       failed: "doctrine://default"
+      search:
+        dsn: "doctrine://default"
+        options:
+          queue_name: search
+      failed: "doctrine://default"
 
     routing:
       # Route your messages to the transports
-       'App\Message\CourseIndexRequest': async
-       'App\Message\UserIndexRequest': async
-       'App\Message\MeshDescriptorIndexRequest': async
-       'App\Message\LearningMaterialIndexRequest': async
+       'App\Message\CourseIndexRequest': search
+       'App\Message\UserIndexRequest': search
+       'App\Message\MeshDescriptorIndexRequest': search
+       'App\Message\LearningMaterialIndexRequest': search
 
     default_bus: messenger.bus.default
     buses:

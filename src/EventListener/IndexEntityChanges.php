@@ -19,6 +19,7 @@ use App\Service\Index\Users;
 use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
@@ -51,6 +52,10 @@ class IndexEntityChanges
      * @var MessageBusInterface
      */
     protected $bus;
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     /**
      * @param Curriculum $curriculumIndex
@@ -59,19 +64,22 @@ class IndexEntityChanges
      * @param Users $usersIndex
      * ACHTUNG!!! Do NOT change the name of $dispatchBus it tells the dependency injection system what bus to inject!!!
      * @param MessageBusInterface $dispatchBus
+     * @param LoggerInterface $logger
      */
     public function __construct(
         Curriculum $curriculumIndex,
         LearningMaterials $learningMaterialsIndex,
         Mesh $meshIndex,
         Users $usersIndex,
-        MessageBusInterface $dispatchBus
+        MessageBusInterface $dispatchBus,
+        LoggerInterface $logger
     ) {
         $this->bus = $dispatchBus;
         $this->curriculumIndex = $curriculumIndex;
         $this->meshIndex = $meshIndex;
         $this->usersIndex = $usersIndex;
         $this->learningMaterialsIndex = $learningMaterialsIndex;
+        $this->logger = $logger;
     }
 
     public function postPersist(LifecycleEventArgs $args)
@@ -153,6 +161,7 @@ class IndexEntityChanges
     protected function indexUser(UserInterface $user)
     {
         if ($this->usersIndex->isEnabled()) {
+            $this->logger->log('debug', 'Indexing User ' . $user->getId());
             $this->bus->dispatch(new UserIndexRequest([$user->getId()]));
         }
     }
@@ -167,6 +176,7 @@ class IndexEntityChanges
             $courseIds = array_map(function (CourseInterface $course) {
                 return $course->getId();
             }, $courses);
+            $this->logger->log('debug', 'Indexing Courses [' . implode(', ', $courseIds) . ']');
             $chunks = array_chunk($courseIds, CourseIndexRequest::MAX_COURSES);
             foreach ($chunks as $ids) {
                 $this->bus->dispatch(new CourseIndexRequest($ids));
@@ -177,6 +187,7 @@ class IndexEntityChanges
     protected function indexLearningMaterial(LearningMaterialInterface $lm)
     {
         if ($this->learningMaterialsIndex->isEnabled()) {
+            $this->logger->log('debug', 'Indexing Material ' . $lm->getId());
             $this->bus->dispatch(new LearningMaterialIndexRequest($lm->getId()));
         }
     }
