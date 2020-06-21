@@ -21,6 +21,7 @@ use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PreRemoveEventArgs;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
@@ -37,7 +38,8 @@ class IndexEntityChanges
         protected LearningMaterials $learningMaterialsIndex,
         protected Mesh $meshIndex,
         protected Users $usersIndex,
-        protected MessageBusInterface $bus
+        protected MessageBusInterface $bus,
+        protected LoggerInterface $logger,
     ) {
     }
 
@@ -119,6 +121,7 @@ class IndexEntityChanges
     protected function indexUser(UserInterface $user): void
     {
         if ($this->usersIndex->isEnabled()) {
+            $this->logger->log('debug', 'Indexing User ' . $user->getId());
             $this->bus->dispatch(new UserIndexRequest([$user->getId()]));
         }
     }
@@ -133,6 +136,7 @@ class IndexEntityChanges
             $courseIds = array_map(fn(CourseInterface $course) => $course->getId(), $courses);
             $chunks = array_chunk($courseIds, CourseIndexRequest::MAX_COURSES);
             foreach ($chunks as $ids) {
+                $this->logger->log('debug', 'Indexing Courses [' . implode(', ', $ids) . ']');
                 $this->bus->dispatch(new CourseIndexRequest($ids));
             }
         }
@@ -141,6 +145,7 @@ class IndexEntityChanges
     protected function indexLearningMaterial(LearningMaterialInterface $lm)
     {
         if ($this->learningMaterialsIndex->isEnabled()) {
+            $this->logger->log('debug', 'Indexing Material ' . $lm->getId());
             $this->bus->dispatch(new LearningMaterialIndexRequest($lm->getId()));
         }
     }
