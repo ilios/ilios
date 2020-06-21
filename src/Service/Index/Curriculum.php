@@ -251,10 +251,7 @@ class Curriculum extends OpenSearchBase
             'sessionLearningMaterialAttachments',
         ];
 
-        $mustMatch = array_map(fn($field) => [ 'match_phrase_prefix' => [ $field => [
-            'query' => $query,
-            '_name' => $field,
-        ] ] ], $mustFields);
+        $mustMatch = [];
 
         /**
          * Keyword index types cannot user the match_phrase_prefix query
@@ -266,6 +263,20 @@ class Curriculum extends OpenSearchBase
                 '_name' => $field,
             ] ] ];
         }
+
+        $mustMatch = array_reduce(
+            $mustFields,
+            function (array $carry, string $field) use ($query) {
+                $matches = array_map(function (string $type) use ($field, $query) {
+                    $fullField = "${field}.${type}";
+                    return [ 'match_phrase_prefix' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
+                }, ['english', 'french', 'spanish']);
+
+                return array_merge($carry, $matches);
+            },
+            $mustMatch
+        );
+
 
         /**
          * At least one of the mustMatch queries has to be a match
@@ -281,18 +292,12 @@ class Curriculum extends OpenSearchBase
          * users enter a complete word like move it will score higher than
          * than a partial match on movement
          */
-        $should = array_reduce(
-            $shouldFields,
-            function (array $carry, string $field) use ($query) {
-                $matches = array_map(function (string $type) use ($field, $query) {
-                    $fullField = "{$field}.{$type}";
-                    return [ 'match' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
-                }, ['english', 'raw']);
-
-                return array_merge($carry, $matches);
-            },
-            []
-        );
+        $should = array_map(function ($field) use ($query) {
+            return [ 'match' => [ "${field}.raw" => [
+                'query' => $query,
+                '_name' => $field,
+            ] ] ];
+        }, $mustFields);
 
         return [
             'bool' => [
@@ -401,6 +406,14 @@ class Curriculum extends OpenSearchBase
                 'english' => [
                     'type' => 'text',
                     'analyzer' => 'english',
+                ],
+                'french' => [
+                    'type' => 'text',
+                    'analyzer' => 'french',
+                ],
+                'spanish' => [
+                    'type' => 'text',
+                    'analyzer' => 'spanish',
                 ],
                 'raw' => [
                     'type' => 'text',
