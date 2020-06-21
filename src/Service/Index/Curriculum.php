@@ -251,50 +251,33 @@ class Curriculum extends OpenSearchBase
     protected function buildCurriculumSearch(string $query): array
     {
         $mustFields = [
+            'courseTitle',
+            'courseTerms',
+            'courseObjectives',
+            'courseLearningMaterialTitles',
+            'courseLearningMaterialDescriptions',
+            'courseLearningMaterialCitation',
+            'courseMeshDescriptorNames',
+            'courseMeshDescriptorAnnotations',
+            'courseLearningMaterialAttachments',
+            'sessionTitle',
+            'sessionDescription',
+            'sessionTerms',
+            'sessionObjectives',
+            'sessionLearningMaterialTitles',
+            'sessionLearningMaterialDescriptions',
+            'sessionLearningMaterialCitation',
+            'sessionMeshDescriptorNames',
+            'sessionMeshDescriptorAnnotations',
+            'sessionLearningMaterialAttachments',
+        ];
+        $keywordFields = [
             'courseId',
             'courseYear',
-            'courseTitle',
-            'courseTitle.ngram',
-            'courseTerms',
-            'courseTerms.ngram',
-            'courseObjectives',
-            'courseObjectives.ngram',
-            'courseLearningMaterialTitles',
-            'courseLearningMaterialTitles.ngram',
-            'courseLearningMaterialDescriptions',
-            'courseLearningMaterialDescriptions.ngram',
-            'courseLearningMaterialCitation',
-            'courseLearningMaterialCitation.ngram',
             'courseMeshDescriptorIds',
-            'courseMeshDescriptorNames',
-            'courseMeshDescriptorNames.ngram',
-            'courseMeshDescriptorAnnotations',
-            'courseMeshDescriptorAnnotations.ngram',
-            'courseLearningMaterialAttachments',
-            'courseLearningMaterialAttachments.ngram',
             'sessionId',
-            'sessionTitle',
-            'sessionTitle.ngram',
-            'sessionDescription',
-            'sessionDescription.ngram',
             'sessionType',
-            'sessionTerms',
-            'sessionTerms.ngram',
-            'sessionObjectives',
-            'sessionObjectives.ngram',
-            'sessionLearningMaterialTitles',
-            'sessionLearningMaterialTitles.ngram',
-            'sessionLearningMaterialDescriptions',
-            'sessionLearningMaterialDescriptions.ngram',
-            'sessionLearningMaterialCitation',
-            'sessionLearningMaterialCitation.ngram',
             'sessionMeshDescriptorIds',
-            'sessionMeshDescriptorNames',
-            'sessionMeshDescriptorNames.ngram',
-            'sessionMeshDescriptorAnnotations',
-            'sessionMeshDescriptorAnnotations.ngram',
-            'sessionLearningMaterialAttachments',
-            'sessionLearningMaterialAttachments.ngram',
         ];
 
         $shouldFields = [
@@ -314,10 +297,21 @@ class Curriculum extends OpenSearchBase
             'sessionLearningMaterialAttachments',
         ];
 
-        $mustMatch = array_map(fn($field) => [ 'match' => [ $field => [
+        $mustMatch = array_map(fn($field) => [ 'match_phrase_prefix' => [ $field => [
             'query' => $query,
             '_name' => $field,
         ] ] ], $mustFields);
+
+        /**
+         * Keyword index types cannot user the match_phrase_prefix query
+         * So they have to be added using the match query
+         */
+        foreach ($keywordFields as $field) {
+            $mustMatch[] = [ 'match' => [ $field => [
+                'query' => $query,
+                '_name' => $field,
+            ] ] ];
+        }
 
         /**
          * At least one of the mustMatch queries has to be a match
@@ -450,11 +444,6 @@ class Curriculum extends OpenSearchBase
             'type' => 'text',
             'analyzer' => 'standard',
             'fields' => [
-                'ngram' => [
-                    'type' => 'text',
-                    'analyzer' => 'ngram_analyzer',
-                    'search_analyzer' => 'string_search_analyzer',
-                ],
                 'english' => [
                     'type' => 'text',
                     'analyzer' => 'english',
@@ -470,8 +459,6 @@ class Curriculum extends OpenSearchBase
 
         return [
             'settings' => [
-                'analysis' => self::getAnalyzers(),
-                'max_ngram_diff' =>  15,
                 'number_of_shards' => 2,
                 'number_of_replicas' => 0,
                 'default_pipeline' => 'curriculum',
@@ -568,34 +555,6 @@ class Curriculum extends OpenSearchBase
                             'field' => '_source.ingestTime',
                             'value' => '{{_ingest.timestamp}}',
                         ],
-                    ],
-                ],
-            ],
-        ];
-    }
-
-    protected static function getAnalyzers(): array
-    {
-        return [
-            'analyzer' => [
-                'ngram_analyzer' => [
-                    'tokenizer' => 'ngram_tokenizer',
-                    'filter' => ['lowercase'],
-                ],
-                'string_search_analyzer' => [
-                    'type' => 'custom',
-                    'tokenizer' => 'keyword',
-                    'filter' => ['lowercase', 'word_delimiter'],
-                ],
-            ],
-            'tokenizer' => [
-                'ngram_tokenizer' => [
-                    'type' => 'ngram',
-                    'min_gram' => 3,
-                    'max_gram' => 15,
-                    'token_chars' => [
-                        'letter',
-                        'digit',
                     ],
                 ],
             ],
