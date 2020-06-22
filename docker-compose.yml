@@ -30,3 +30,9 @@ services:
             - http.max_content_length=300mb
         ports:
             - "9200:9200"
+    kibana:
+        image: kibana:7.7.1
+        environment:
+            ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+        ports:
+            - "5601:5601"
