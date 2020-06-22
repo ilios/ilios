@@ -8,7 +8,7 @@ use App\Entity\Manager\AamcPcrsManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/aamcpcrses")
+ * @Route("/api/{version<v1|v3>}/aamcpcrses")
  */
 class AamcPcrses extends ReadWriteController
 {

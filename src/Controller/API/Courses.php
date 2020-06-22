@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/api/{version<v1|v2>}/courses")
+ * @Route("/api/{version<v1|v3>}/courses")
  */
 class Courses extends ReadWriteController
 {

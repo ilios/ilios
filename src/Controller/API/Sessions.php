@@ -8,7 +8,7 @@ use App\Entity\Manager\SessionManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/sessions")
+ * @Route("/api/{version<v1|v3>}/sessions")
  */
 class Sessions extends ReadWriteController
 {

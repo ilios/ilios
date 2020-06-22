@@ -8,7 +8,7 @@ use App\Entity\Manager\MeshTermManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/meshterms")
+ * @Route("/api/{version<v1|v3>}/meshterms")
  */
 class MeshTerms extends ReadOnlyController
 {

@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * @Route("/api/{version<v1|v2>}/meshdescriptors")
+ * @Route("/api/{version<v1|v3>}/meshdescriptors")
  */
 class MeshDescriptors extends ReadOnlyController
 {

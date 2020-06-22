@@ -8,7 +8,7 @@ use App\Entity\Manager\CompetencyManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/competencies")
+ * @Route("/api/{version<v1|v3>}/competencies")
  */
 class Competencies extends ReadWriteController
 {

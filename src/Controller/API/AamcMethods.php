@@ -8,7 +8,7 @@ use App\Entity\Manager\AamcMethodManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/aamcmethods")
+ * @Route("/api/{version<v1|v3>}/aamcmethods")
  */
 class AamcMethods extends ReadWriteController
 {

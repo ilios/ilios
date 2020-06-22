@@ -8,7 +8,7 @@ use App\Entity\Manager\CurriculumInventoryAcademicLevelManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/curriculuminventoryacademiclevels")
+ * @Route("/api/{version<v1|v3>}/curriculuminventoryacademiclevels")
  */
 class CurriculumInventoryAcademicLevels extends ReadWriteController
 {

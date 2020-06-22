@@ -8,7 +8,7 @@ use App\Entity\Manager\LearningMaterialStatusManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/learningmaterialstatuses")
+ * @Route("/api/{version<v1|v3>}/learningmaterialstatuses")
  */
 class LearningMaterialStatuses extends ReadWriteController
 {

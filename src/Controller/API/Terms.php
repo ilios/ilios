@@ -8,7 +8,7 @@ use App\Entity\Manager\TermManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/terms")
+ * @Route("/api/{version<v1|v3>}/terms")
  */
 class Terms extends ReadWriteController
 {

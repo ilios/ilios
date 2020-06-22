@@ -8,7 +8,7 @@ use App\Entity\Manager\MeshTreeManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/meshtrees")
+ * @Route("/api/{version<v1|v3>}/meshtrees")
  */
 class MeshTrees extends ReadOnlyController
 {

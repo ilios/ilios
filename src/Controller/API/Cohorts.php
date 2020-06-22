@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/api/{version<v1|v2>}/cohorts")
+ * @Route("/api/{version<v1|v3>}/cohorts")
  */
 class Cohorts extends ReadOnlyController
 {
