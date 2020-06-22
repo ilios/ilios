@@ -11,7 +11,7 @@ class CourseIndexRequest
 {
     private array $courseIds;
     private DateTime $createdAt;
-    public const int MAX_COURSES = 50;
+    public const int MAX_COURSES = 500;
 
     /**
      * CourseIndexRequest constructor.

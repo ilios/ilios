@@ -343,7 +343,7 @@ class Curriculum extends OpenSearchBase
                 'query' => $query,
                 '_name' => $field,
             ] ] ];
-        }, $mustFields);
+        }, $shouldFields);
 
         return [
             'bool' => [
