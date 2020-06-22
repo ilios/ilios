@@ -101,23 +101,7 @@ class Curriculum extends OpenSearchBase
             return array_merge($carry, $sessionsWithMaterials);
         }, []);
 
-        $result = $this->doBulkIndex(self::INDEX, $input);
-
-        if ($result['errors']) {
-            $errors = array_map(function (array $item) {
-                if (array_key_exists('error', $item['index'])) {
-                    return $item['index']['error']['reason'];
-                }
-
-                return null;
-            }, $result['items']);
-            $clean = array_filter($errors);
-            $str = join(';', array_unique($clean));
-            $count = count($clean);
-            throw new Exception("Failed to index all courses {$count} errors. Error text: {$str}");
-        }
-
-        return true;
+        return $this->doBulkIndex(self::INDEX, $input);
     }
 
     protected function findSkippableCourseIds(array $ids, DateTime $stamp): array
@@ -547,7 +531,7 @@ class Curriculum extends OpenSearchBase
                     ],
                     'sessionMeshDescriptorNames' => $txtTypeFieldWithCompletion,
                     'sessionMeshDescriptorAnnotations' => $txtTypeField,
-                    'ingestedTime' => [
+                    'ingestTime' => [
                         'type' => 'date',
                         'format' => 'date_optional_time||basic_date_time_no_millis||epoch_second||epoch_millis',
                     ],
