@@ -59,40 +59,45 @@ DirectoryIndex index.php
         # and the client accepts brotli.
         RewriteCond "%{HTTP:Accept-encoding}" "br"
         RewriteCond "%{REQUEST_FILENAME}\.br" "-s"
-        RewriteRule "^(.*)\.(js|css|svg|txt)"              "$1\.$2\.br" [QSA]
+        RewriteRule "^(.*)\.(js|css|svg|txt|webmanifest)"              "$1\.$2\.br" [QSA]
 
         # Serve correct content types, and prevent double compression.
         RewriteRule "\.css\.br$" "-" [T=text/css,E=no-brotli:1,E=no-gzip:1]
         RewriteRule "\.js\.br$"  "-" [T=text/javascript,E=no-brotli:1,E=no-gzip:1]
         RewriteRule "\.svg\.br$"  "-" [T=image/svg+xml,E=no-brotli:1,E=no-gzip:1]
         RewriteRule "\.txt\.br$"  "-" [T=text/plain,E=no-brotli:1,E=no-gzip:1]
+        RewriteRule "\.webmanifest\.br$"  "-" [T=application/manifest+json,E=no-brotli:1,E=no-gzip:1]
 
 
         # Serve gzip compressed CSS and JS files if they exist
         # and the client accepts gzip.
         RewriteCond "%{HTTP:Accept-encoding}" "gzip"
         RewriteCond "%{REQUEST_FILENAME}\.gz" "-s"
-        RewriteRule "^(.*)\.(js|css|svg|txt)"              "$1\.$2\.gz" [QSA]
+        RewriteRule "^(.*)\.(js|css|svg|txt|webmanifest)"              "$1\.$2\.gz" [QSA]
 
         # Serve correct content types, and prevent double compression.
         RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1,E=no-brotli:1]
         RewriteRule "\.js\.gz$"  "-" [T=text/javascript,E=no-gzip:1,E=no-brotli:1]
         RewriteRule "\.svg\.gz$"  "-" [T=image/svg+xml,E=no-gzip:1,E=no-brotli:1]
         RewriteRule "\.txt\.gz$"  "-" [T=text/plain,E=no-gzip:1,E=no-brotli:1]
+        RewriteRule "\.webmanifest\.gz$"  "-" [T=application/manifest+json,E=no-brotli:1,E=no-gzip:1]
 
 
-        <FilesMatch "(\.js\.br|\.css\.br|\.svg\.br|\.txt\.br)$">
+        <FilesMatch "(\.js\.br|\.css\.br|\.svg\.br|\.txt\.br|.webmanifest\.br)$">
           # Serve correct encoding type.
           Header append Content-Encoding br
+          RemoveLanguage .br
+
 
           # Force proxies to cache brotli &
           # non-brotli css/js files separately.
           Header append Vary Accept-Encoding
         </FilesMatch>
 
-        <FilesMatch "(\.js\.gz|\.css\.gz|\.svg\.gz|\.txt\.gz)$">
+        <FilesMatch "(\.js\.gz|\.css\.gz|\.svg\.gz|\.txt\.gz|.webmanifest\.gz)$">
           # Serve correct encoding type.
           Header append Content-Encoding gzip
+          RemoveLanguage .gz
 
           # Force proxies to cache brotli &
           # non-brotli css/js files separately.
