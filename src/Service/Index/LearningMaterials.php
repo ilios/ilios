@@ -145,6 +145,10 @@ class LearningMaterials extends ElasticSearchBase
                     'material' => [
                         'type' => 'object'
                     ],
+                    'ingestTime' => [
+                        'type' => 'date',
+                        'format' => 'date_optional_time||basic_date_time_no_millis||epoch_second||epoch_millis'
+                    ],
                 ]
             ]
         ];
@@ -166,7 +170,7 @@ class LearningMaterials extends ElasticSearchBase
                             'field' => 'data'
                         ],
                         'set' => [
-                            'field' => '_source.ingest_time',
+                            'field' => '_source.ingestTime',
                             'value' => '{{_ingest.timestamp}}',
                         ],
                     ]
