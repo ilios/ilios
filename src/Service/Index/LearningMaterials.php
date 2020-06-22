@@ -43,13 +43,22 @@ class LearningMaterials extends ElasticSearchBase
             }
         }
 
-        $extractedMaterials = array_reduce($materials, function ($materials, LearningMaterialDTO $lm) {
-            foreach ($this->extractLearningMaterialData($lm) as $data) {
+        $existingMaterialIds = $this->findByIds(array_column($materials, 'id'));
+
+        // The contents of LMs don't change so we shouldn't index them twice
+        $newMaterials = array_filter($materials, function (LearningMaterialDTO $lm) use ($existingMaterialIds) {
+            return !in_array($lm->id, $existingMaterialIds);
+        });
+
+        $extractedMaterials = array_reduce($newMaterials, function ($materials, LearningMaterialDTO $lm) {
+            $data = $this->extractLearningMaterialData($lm);
+            if ($data) {
                 $materials[] = [
                     'id' => $lm->id,
                     'data' => $data
                 ];
             }
+
             return $materials;
         }, []);
 
@@ -57,6 +66,7 @@ class LearningMaterials extends ElasticSearchBase
             $params = [
                 'index' => self::INDEX,
                 'pipeline' => 'learning_materials',
+                'id' => $arr['id'],
                 'body' => [
                     'learningMaterialId' => $arr['id'],
                     'data' => $arr['data'],
@@ -68,6 +78,25 @@ class LearningMaterials extends ElasticSearchBase
         $errors = array_filter($results, fn($result) => $result['result'] === 'error');
 
         return empty($errors);
+    }
+
+    protected function findByIds(array $ids): array
+    {
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'ids' => [
+                        'values' => $ids,
+                    ]
+                ],
+                "_source" => ['_id']
+            ]
+        ];
+        $results = $this->doSearch($params);
+        return array_map(function (array $item) {
+            return (int) $item['_id'];
+        }, $results['hits']['hits']);
     }
 
     /**
@@ -90,30 +119,26 @@ class LearningMaterials extends ElasticSearchBase
     /**
      * Base64 encodes learning material contents for indexing
      * Files larger than the upload limit are ignored
-     *
-     * @param LearningMaterialDTO $dto
      */
-    protected function extractLearningMaterialData(LearningMaterialDTO $dto): array
+    protected function extractLearningMaterialData(LearningMaterialDTO $dto): ?string
     {
         //skip files without useful text content
         if ($dto->mimetype && preg_match('/image|video|audio/', $dto->mimetype)) {
-            return [];
+            return null;
         }
         $info = new SplFileInfo($dto->filename);
         $extension = $info->getExtension();
         if (in_array($extension, ['mp3', 'mov'])) {
-            return [];
+            return null;
         }
 
         $data = $this->nonCachingIliosFileSystem->getFileContents($dto->relativePath);
         $encodedData = base64_encode($data);
         if (strlen($encodedData) < $this->uploadLimit) {
-            return [
-                $encodedData
-            ];
+            return $encodedData;
         }
 
-        return [];
+        return null;
     }
 
     public static function getMapping(): array
@@ -153,7 +178,11 @@ class LearningMaterials extends ElasticSearchBase
                         ],
                         'remove' => [
                             'field' => 'data'
-                        ]
+                        ],
+                        'set' => [
+                            'field' => '_source.ingest_time',
+                            'value' => '{{_ingest.timestamp}}',
+                        ],
                     ]
                 ]
             ]
