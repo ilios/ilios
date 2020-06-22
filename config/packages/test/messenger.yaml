@@ -1,4 +1,4 @@
 framework:
   messenger:
     transports:
-      search: 'in-memory:///'
+      async: 'in-memory:///'
