@@ -102,10 +102,10 @@ class ElasticSearchBase
      * front of every item. This allows bulk indexing on many types at the same time, and
      * this convenience method takes care of that for us.
      */
-    protected function doBulkIndex(string $index, array $items): array
+    protected function doBulkIndex(string $index, array $items): bool
     {
         if (!$this->enabled || empty($items)) {
-            return ['errors' => false];
+            return true;
         }
 
         $totalItems = count($items);
@@ -168,6 +168,20 @@ class ElasticSearchBase
             $results['items'] = array_merge($results['items'], $rhett['items']);
         }
 
-        return $results;
+        if ($results['errors']) {
+            $errors = array_map(function (array $item) {
+                if (array_key_exists('error', $item['index'])) {
+                    return $item['index']['error']['reason'];
+                }
+
+                return null;
+            }, $results['items']);
+            $clean = array_filter($errors);
+            $str = join(';', array_unique($clean));
+            $count = count($clean);
+            throw new Exception("Failed to bulk index ${index} ${count} errors. Error text: ${str}");
+        }
+
+        return true;
     }
 }
