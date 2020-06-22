@@ -104,16 +104,16 @@ class Mesh extends OpenSearchBase
                     'annotation' => $txtTypeField,
                     'previousIndexing' => $txtTypeField,
                     'terms' => [
-                        'type' => 'keyword'
+                        'type' => 'keyword',
                     ],
                     'concepts' => [
-                        'type' => 'keyword'
+                        'type' => 'keyword',
                     ],
                     'scopeNotes' => $txtTypeField,
                     'casn1Names' => [
-                        'type' => 'keyword'
+                        'type' => 'keyword',
                     ],
-                ]
+                ],
             ],
         ];
     }
