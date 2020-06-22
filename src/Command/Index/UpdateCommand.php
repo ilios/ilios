@@ -12,7 +12,6 @@ use App\Repository\CourseRepository;
 use App\Repository\LearningMaterialRepository;
 use App\Repository\MeshDescriptorRepository;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,7 +30,6 @@ class UpdateCommand extends Command
         protected MeshDescriptorRepository $descriptorRepository,
         protected LearningMaterialRepository $learningMaterialRepository,
         protected MessageBusInterface $bus,
-        protected EntityManagerInterface $entityManager,
     ) {
         parent::__construct();
     }
@@ -45,24 +43,12 @@ class UpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->clearIndexQueue($output);
         $this->queueUsers($output);
         $this->queueLearningMaterials($output);
         $this->queueCourses($output);
         $this->queueMesh($output);
 
         return 0;
-    }
-
-
-
-    protected function clearIndexQueue(OutputInterface $output)
-    {
-        $sql = 'DELETE FROM messenger_messages WHERE queue_name="search"';
-        $conn = $this->entityManager->getConnection();
-        $removed = $conn->executeStatement($sql);
-
-        $output->writeln("<info>Cleared ${removed} Existing search requests from queue.</info>");
     }
 
     protected function queueUsers(OutputInterface $output)
