@@ -60,22 +60,7 @@ class LearningMaterials extends OpenSearchBase
             return $materials;
         }, []);
 
-        $results = array_map(function (array $arr) {
-            $params = [
-                'index' => self::INDEX,
-                'pipeline' => 'learning_materials',
-                'id' => $arr['id'],
-                'body' => [
-                    'learningMaterialId' => $arr['id'],
-                    'data' => $arr['data'],
-                ],
-            ];
-            return $this->client->index($params);
-        }, $extractedMaterials);
-
-        $errors = array_filter($results, fn($result) => $result['result'] === 'error');
-
-        return empty($errors);
+        return $this->doBulkIndex(self::INDEX, $extractedMaterials);
     }
 
     protected function findByIds(array $ids): array
@@ -145,6 +130,7 @@ class LearningMaterials extends OpenSearchBase
             'settings' => [
                 'number_of_shards' => 5,
                 'number_of_replicas' => 0,
+                'default_pipeline' => 'learning_materials',
             ],
             'mappings' => [
                 '_meta' => [

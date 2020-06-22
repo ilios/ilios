@@ -146,7 +146,7 @@ class IndexEntityChanges
     {
         if ($this->learningMaterialsIndex->isEnabled()) {
             $this->logger->log('debug', 'Indexing Material ' . $lm->getId());
-            $this->bus->dispatch(new LearningMaterialIndexRequest($lm->getId()));
+            $this->bus->dispatch(new LearningMaterialIndexRequest([$lm->getId()]));
         }
     }
 }
