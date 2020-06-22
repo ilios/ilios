@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command\Index;
 
 use App\Service\Index\Manager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,12 +22,19 @@ class DropCommand extends Command
      */
     protected $indexManager;
 
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
     public function __construct(
-        Manager $manager
+        Manager $manager,
+        EntityManagerInterface $entityManager
     ) {
         parent::__construct();
 
         $this->indexManager = $manager;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -60,10 +68,20 @@ class DropCommand extends Command
             $output->writeln('<error>All data will be lost!</error>');
             return 2;
         }
+        $this->clearIndexQueue($output);
         $output->writeln("<info>Dropping the index.</info>");
         $this->indexManager->drop();
         $output->writeln("<info>Ok.</info>");
 
         return 0;
+    }
+
+    protected function clearIndexQueue(OutputInterface $output)
+    {
+        $sql = 'DELETE FROM messenger_messages WHERE queue_name="search"';
+        $conn = $this->entityManager->getConnection();
+        $removed = $conn->executeUpdate($sql);
+
+        $output->writeln("<info>Cleared ${removed} existing index messages from queue.</info>");
     }
 }

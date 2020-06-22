@@ -50,18 +50,12 @@ class UpdateCommand extends Command
      */
     protected $bus;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
     public function __construct(
         UserManager $userManager,
         CourseManager $courseManager,
         MeshDescriptorManager $descriptorManager,
         LearningMaterialManager $learningMaterialManager,
-        MessageBusInterface $bus,
-        EntityManagerInterface $entityManager
+        MessageBusInterface $bus
     ) {
         parent::__construct();
 
@@ -70,7 +64,6 @@ class UpdateCommand extends Command
         $this->descriptorManager = $descriptorManager;
         $this->learningMaterialManager = $learningMaterialManager;
         $this->bus = $bus;
-        $this->entityManager = $entityManager;
     }
     
     /**
@@ -88,24 +81,12 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->clearIndexQueue($output);
         $this->queueUsers($output);
         $this->queueLearningMaterials($output);
         $this->queueCourses($output);
         $this->queueMesh($output);
 
         return 0;
-    }
-
-
-
-    protected function clearIndexQueue(OutputInterface $output)
-    {
-        $sql = 'DELETE FROM messenger_messages WHERE queue_name="search"';
-        $conn = $this->entityManager->getConnection();
-        $removed = $conn->executeUpdate($sql);
-
-        $output->writeln("<info>Cleared ${removed} Existing search requests from queue.</info>");
     }
 
     protected function queueUsers(OutputInterface $output)
