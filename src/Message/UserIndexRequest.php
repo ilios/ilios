@@ -9,7 +9,7 @@ use InvalidArgumentException;
 class UserIndexRequest
 {
     private array $userIds;
-    public const int MAX_USERS = 250;
+    public const int MAX_USERS = 500;
 
     /**
      * @param int[] $userIds
