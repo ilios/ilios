@@ -21,7 +21,6 @@ class SessionObjectiveData extends AbstractDataLoader
             'terms' => ['3', '4'],
             'meshDescriptors' => [],
             'courseObjectives' => [],
-            'ancestor' => null,
             'descendants' => []
         ];
 
@@ -34,7 +33,6 @@ class SessionObjectiveData extends AbstractDataLoader
             'terms' => ['3'],
             'meshDescriptors' => [],
             'courseObjectives' => [],
-            'ancestor' => null,
             'descendants' => []
         ];
 
@@ -47,7 +45,6 @@ class SessionObjectiveData extends AbstractDataLoader
             'terms' => [],
             'meshDescriptors' => [],
             'courseObjectives' => [],
-            'ancestor' => null,
             'descendants' => []
         ];
 
@@ -65,7 +62,6 @@ class SessionObjectiveData extends AbstractDataLoader
             'terms' => [],
             'meshDescriptors' => [],
             'courseObjectives' => [],
-            'ancestor' => null,
             'descendants' => []
         ];
     }

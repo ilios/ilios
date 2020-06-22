@@ -22,7 +22,6 @@ class CourseObjectiveData extends AbstractDataLoader
             'meshDescriptors' => [],
             'sessionObjectives' => [],
             'programYearObjectives' => [],
-            'ancestor' => null,
             'descendants' => []
         ];
 
@@ -36,7 +35,6 @@ class CourseObjectiveData extends AbstractDataLoader
             'meshDescriptors' => [],
             'sessionObjectives' => [],
             'programYearObjectives' => [],
-            'ancestor' => null,
             'descendants' => []
         ];
 
@@ -50,7 +48,6 @@ class CourseObjectiveData extends AbstractDataLoader
             'meshDescriptors' => [],
             'sessionObjectives' => [],
             'programYearObjectives' => [],
-            'ancestor' => null,
             'descendants' => []
         ];
 
@@ -64,7 +61,6 @@ class CourseObjectiveData extends AbstractDataLoader
             'meshDescriptors' => [],
             'sessionObjectives' => [],
             'programYearObjectives' => [],
-            'ancestor' => null,
             'descendants' => []
         ];
 
@@ -78,7 +74,6 @@ class CourseObjectiveData extends AbstractDataLoader
             'meshDescriptors' => [],
             'sessionObjectives' => [],
             'programYearObjectives' => [],
-            'ancestor' => null,
             'descendants' => []
         ];
 
@@ -97,7 +92,6 @@ class CourseObjectiveData extends AbstractDataLoader
             'meshDescriptors' => [],
             'sessionObjectives' => [],
             'programYearObjectives' => [],
-            'ancestor' => null,
             'descendants' => []
         ];
     }
