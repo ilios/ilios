@@ -66,114 +66,114 @@ class ObjectiveV1Test extends V1ReadEndpointTest
         $programYearData = $programYearDataLoader->create();
         unset($programYearData['id']);
 
-        $v2ObjectiveInSession = $this->postOne(
+        $v3ObjectiveInSession = $this->postOne(
             'objectives',
             'objective',
             'objectives',
             $objectiveInSessionData,
-            'v2'
+            'v3'
         );
-        $v2ObjectiveInCourse = $this->postOne(
+        $v3ObjectiveInCourse = $this->postOne(
             'objectives',
             'objective',
             'objectives',
             $objectiveInCourseData,
-            'v2'
+            'v3'
         );
-        $v2ObjectiveInProgramYear = $this->postOne(
+        $v3ObjectiveInProgramYear = $this->postOne(
             'objectives',
             'objective',
             'objectives',
             $objectiveInProgramYearData,
-            'v2'
+            'v3'
         );
 
-        $v2Courses = $this->postMany(
+        $v3Courses = $this->postMany(
             'courses',
             'courses',
             [ $courseData1, $courseData2 ],
-            'v2'
+            'v3'
         );
-        $v2Session = $this->postOne(
+        $v3Session = $this->postOne(
             'sessions',
             'session',
             'sessions',
             $sessionData,
-            'v2'
+            'v3'
         );
-        $v2ProgramYear = $this->postOne(
+        $v3ProgramYear = $this->postOne(
             'programyears',
             'programYear',
             'programYears',
             $programYearData,
-            'v2'
+            'v3'
         );
 
         $courseObjectiveData1 = $courseObjectiveDataLoader->create();
         unset($courseObjectiveData1['id']);
-        $courseObjectiveData1['objective'] = $v2ObjectiveInCourse['id'];
-        $courseObjectiveData1['course'] = $v2Courses[0]['id'];
+        $courseObjectiveData1['objective'] = $v3ObjectiveInCourse['id'];
+        $courseObjectiveData1['course'] = $v3Courses[0]['id'];
         $courseObjectiveData1['position'] = 3;
         $courseObjectiveData2 = $courseObjectiveDataLoader->create();
         unset($courseObjectiveData2['id']);
-        $courseObjectiveData2['objective'] = $v2ObjectiveInCourse['id'];
-        $courseObjectiveData2['course'] = $v2Courses[1]['id'];
+        $courseObjectiveData2['objective'] = $v3ObjectiveInCourse['id'];
+        $courseObjectiveData2['course'] = $v3Courses[1]['id'];
         $courseObjectiveData2['position'] = 5;
         $sessionObjectiveData = $sessionObjectiveDataLoader->create();
         unset($sessionObjectiveData['id']);
-        $sessionObjectiveData['objective'] = $v2ObjectiveInSession['id'];
-        $sessionObjectiveData['session'] = $v2Session['id'];
+        $sessionObjectiveData['objective'] = $v3ObjectiveInSession['id'];
+        $sessionObjectiveData['session'] = $v3Session['id'];
         $sessionObjectiveData['position'] = 3;
         $programYearObjectiveData = $programYearObjectiveDataLoader->create();
         unset($programYearObjectiveData['id']);
-        $programYearObjectiveData['objective'] = $v2ObjectiveInProgramYear['id'];
-        $programYearObjectiveData['programYear'] = $v2ProgramYear['id'];
+        $programYearObjectiveData['objective'] = $v3ObjectiveInProgramYear['id'];
+        $programYearObjectiveData['programYear'] = $v3ProgramYear['id'];
 
         $this->postMany(
             'courseobjectives',
             'courseObjectives',
             [ $courseObjectiveData1, $courseObjectiveData2 ],
-            'v2'
+            'v3'
         );
         $this->postOne(
             'sessionobjectives',
             'sessionObjective',
             'sessionObjectives',
             $sessionObjectiveData,
-            'v2'
+            'v3'
         );
         $this->postOne(
             'programyearobjectives',
             'programYearObjective',
             'programYearObjectives',
             $programYearObjectiveData,
-            'v2'
+            'v3'
         );
 
-        $v1ObjectiveInCourse = $this->getOne('objectives', 'objectives', $v2ObjectiveInCourse['id']);
-        $this->assertEquals($v1ObjectiveInCourse['id'], $v2ObjectiveInCourse['id']);
-        $this->assertEquals($v1ObjectiveInCourse['title'], $v2ObjectiveInCourse['title']);
-        $this->assertEquals($v1ObjectiveInCourse['competency'], $v2ObjectiveInCourse['competency']);
-        $this->assertEquals($v1ObjectiveInCourse['parents'], $v2ObjectiveInCourse['parents']);
-        $this->assertEquals($v1ObjectiveInCourse['children'], $v2ObjectiveInCourse['children']);
-        $this->assertEquals($v1ObjectiveInCourse['descendants'], $v2ObjectiveInCourse['descendants']);
-        $this->assertEquals($v1ObjectiveInCourse['meshDescriptors'], $v2ObjectiveInCourse['meshDescriptors']);
-        $this->assertEquals($v1ObjectiveInCourse['active'], $v2ObjectiveInCourse['active']);
+        $v1ObjectiveInCourse = $this->getOne('objectives', 'objectives', $v3ObjectiveInCourse['id']);
+        $this->assertEquals($v1ObjectiveInCourse['id'], $v3ObjectiveInCourse['id']);
+        $this->assertEquals($v1ObjectiveInCourse['title'], $v3ObjectiveInCourse['title']);
+        $this->assertEquals($v1ObjectiveInCourse['competency'], $v3ObjectiveInCourse['competency']);
+        $this->assertEquals($v1ObjectiveInCourse['parents'], $v3ObjectiveInCourse['parents']);
+        $this->assertEquals($v1ObjectiveInCourse['children'], $v3ObjectiveInCourse['children']);
+        $this->assertEquals($v1ObjectiveInCourse['descendants'], $v3ObjectiveInCourse['descendants']);
+        $this->assertEquals($v1ObjectiveInCourse['meshDescriptors'], $v3ObjectiveInCourse['meshDescriptors']);
+        $this->assertEquals($v1ObjectiveInCourse['active'], $v3ObjectiveInCourse['active']);
         $this->assertEquals($v1ObjectiveInCourse['position'], $courseObjectiveData1['position']);
         $this->assertCount(2, $v1ObjectiveInCourse['courses']);
-        $this->assertEquals($v1ObjectiveInCourse['courses'][0], $v2Courses[0]['id']);
-        $this->assertEquals($v1ObjectiveInCourse['courses'][1], $v2Courses[1]['id']);
+        $this->assertEquals($v1ObjectiveInCourse['courses'][0], $v3Courses[0]['id']);
+        $this->assertEquals($v1ObjectiveInCourse['courses'][1], $v3Courses[1]['id']);
         $this->assertEmpty($v1ObjectiveInCourse['sessions']);
         $this->assertEmpty($v1ObjectiveInCourse['programYears']);
 
-        $v2ObjectiveInSession = $this->getOne('objectives', 'objectives', $v2ObjectiveInSession['id']);
-        $this->assertCount(1, $v2ObjectiveInSession['sessions']);
-        $this->assertEquals($v2ObjectiveInSession['sessions'][0], $v2Session['id']);
-        $this->assertEquals($v2ObjectiveInSession['position'], $sessionObjectiveData['position']);
+        $v3ObjectiveInSession = $this->getOne('objectives', 'objectives', $v3ObjectiveInSession['id']);
+        $this->assertCount(1, $v3ObjectiveInSession['sessions']);
+        $this->assertEquals($v3ObjectiveInSession['sessions'][0], $v3Session['id']);
+        $this->assertEquals($v3ObjectiveInSession['position'], $sessionObjectiveData['position']);
 
-        $v1ObjectiveInProgramYear = $this->getOne('objectives', 'objectives', $v2ObjectiveInProgramYear['id']);
+        $v1ObjectiveInProgramYear = $this->getOne('objectives', 'objectives', $v3ObjectiveInProgramYear['id']);
         $this->assertCount(1, $v1ObjectiveInProgramYear['programYears']);
-        $this->assertEquals($v1ObjectiveInProgramYear['programYears'][0], $v2ProgramYear['id']);
+        $this->assertEquals($v1ObjectiveInProgramYear['programYears'][0], $v3ProgramYear['id']);
         $this->assertEquals($v1ObjectiveInProgramYear['position'], 0);
     }
 }

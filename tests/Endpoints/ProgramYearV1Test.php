@@ -45,26 +45,26 @@ class ProgramYearV1Test extends V1ReadEndpointTest
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $v1ProgramYear = $this->getOne($endpoint, $responseKey, $programYearData['id']);
-        $v2ProgramYear = $this->getOne($endpoint, $responseKey, $programYearData['id'], 'v2');
+        $v3ProgramYear = $this->getOne($endpoint, $responseKey, $programYearData['id'], 'v3');
         $programYearObjective = $this->getOne(
             'programyearobjectives',
             'programYearObjectives',
-            $v2ProgramYear['programYearObjectives'][0],
-            'v2'
+            $v3ProgramYear['programYearObjectives'][0],
+            'v3'
         );
-        $this->assertEquals($v2ProgramYear['id'], $v1ProgramYear['id']);
-        $this->assertEquals($v2ProgramYear['startYear'], $v1ProgramYear['startYear']);
-        $this->assertEquals($v2ProgramYear['locked'], $v1ProgramYear['locked']);
-        $this->assertEquals($v2ProgramYear['archived'], $v1ProgramYear['archived']);
-        $this->assertEquals($v2ProgramYear['publishedAsTbd'], $v1ProgramYear['publishedAsTbd']);
-        $this->assertEquals($v2ProgramYear['published'], $v1ProgramYear['published']);
-        $this->assertEquals($v2ProgramYear['program'], $v1ProgramYear['program']);
-        $this->assertEquals($v2ProgramYear['cohort'], $v1ProgramYear['cohort']);
-        $this->assertEquals($v2ProgramYear['directors'], $v1ProgramYear['directors']);
-        $this->assertEquals($v2ProgramYear['competencies'], $v1ProgramYear['competencies']);
-        $this->assertEquals($v2ProgramYear['terms'], $v1ProgramYear['terms']);
-        $this->assertEquals($v2ProgramYear['stewards'], $v1ProgramYear['stewards']);
-        $this->assertEquals(count($v2ProgramYear['programYearObjectives']), count($v1ProgramYear['objectives']));
+        $this->assertEquals($v3ProgramYear['id'], $v1ProgramYear['id']);
+        $this->assertEquals($v3ProgramYear['startYear'], $v1ProgramYear['startYear']);
+        $this->assertEquals($v3ProgramYear['locked'], $v1ProgramYear['locked']);
+        $this->assertEquals($v3ProgramYear['archived'], $v1ProgramYear['archived']);
+        $this->assertEquals($v3ProgramYear['publishedAsTbd'], $v1ProgramYear['publishedAsTbd']);
+        $this->assertEquals($v3ProgramYear['published'], $v1ProgramYear['published']);
+        $this->assertEquals($v3ProgramYear['program'], $v1ProgramYear['program']);
+        $this->assertEquals($v3ProgramYear['cohort'], $v1ProgramYear['cohort']);
+        $this->assertEquals($v3ProgramYear['directors'], $v1ProgramYear['directors']);
+        $this->assertEquals($v3ProgramYear['competencies'], $v1ProgramYear['competencies']);
+        $this->assertEquals($v3ProgramYear['terms'], $v1ProgramYear['terms']);
+        $this->assertEquals($v3ProgramYear['stewards'], $v1ProgramYear['stewards']);
+        $this->assertEquals(count($v3ProgramYear['programYearObjectives']), count($v1ProgramYear['objectives']));
         $this->assertEquals($programYearObjective['objective'], $v1ProgramYear['objectives'][0]);
     }
 }

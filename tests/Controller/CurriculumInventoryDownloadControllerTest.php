@@ -25,7 +25,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
      */
     protected $kernelBrowser;
 
-    protected $apiVersion = 'v2';
+    protected $apiVersion = 'v3';
 
     /**
      * @inheritdoc

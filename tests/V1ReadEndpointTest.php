@@ -33,10 +33,10 @@ abstract class V1ReadEndpointTest extends ReadEndpointTest
             "app_api_${endpoint}_getall",
             ['version' => $this->apiVersion]
         );
-        $v2url = $this->getUrl(
+        $v3url = $this->getUrl(
             $this->kernelBrowser,
             "app_api_${endpoint}_getall",
-            ['version' => 'v2']
+            ['version' => 'v3']
         );
         $this->createJsonRequest(
             'GET',
@@ -48,19 +48,19 @@ abstract class V1ReadEndpointTest extends ReadEndpointTest
 
         $this->createJsonRequest(
             'GET',
-            $v2url,
+            $v3url,
             null,
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
-        $v2Response = $this->kernelBrowser->getResponse();
+        $v3Response = $this->kernelBrowser->getResponse();
 
         $v1Data = json_decode($v1Response->getContent(), true)[$responseKey];
-        $v2Data = json_decode($v2Response->getContent(), true)[$responseKey];
+        $v3Data = json_decode($v3Response->getContent(), true)[$responseKey];
 
         $this->assertNotEmpty($v1Data);
-        $this->assertEquals(count($v2Data), count($v1Data));
+        $this->assertEquals(count($v3Data), count($v1Data));
         $v1Ids = array_column($v1Data, 'id');
-        $v2Ids = array_column($v1Data, 'id');
-        $this->assertEquals($v2Ids, $v1Ids);
+        $v3Ids = array_column($v1Data, 'id');
+        $this->assertEquals($v3Ids, $v1Ids);
     }
 }

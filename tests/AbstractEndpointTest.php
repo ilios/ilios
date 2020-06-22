@@ -28,7 +28,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     use FixturesTrait;
     use GetUrlTrait;
 
-    protected $apiVersion = 'v2';
+    protected $apiVersion = 'v3';
 
     /**
      * @var string|null the name of this endpoint (plural)
@@ -508,7 +508,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->objectHasAttribute('type', $content->data);
             $this->objectHasAttribute('attributes', $content->data);
             $this->objectHasAttribute('relationships', $content->data);
-            
+
             $this->compareJsonApiData($data[$i], $item);
         }
 

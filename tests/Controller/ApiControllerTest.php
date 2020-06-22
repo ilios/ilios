@@ -15,7 +15,7 @@ class ApiControllerTest extends WebTestCase
     use JsonControllerTest;
     use FixturesTrait;
 
-    protected $apiVersion = 'v2';
+    protected $apiVersion = 'v3';
 
     /**
      * @var KernelBrowser

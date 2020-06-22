@@ -24,7 +24,7 @@ class IcsControllerTest extends WebTestCase
     use FixturesTrait;
     use GetUrlTrait;
 
-    protected $apiVersion = 'v2';
+    protected $apiVersion = 'v3';
 
     /**
      * @var ProxyReferenceRepository
