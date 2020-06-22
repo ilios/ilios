@@ -3,18 +3,18 @@ framework:
     failure_transport: failed
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
-      search:
+      async:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
-          queue_name: search
+          queue_name: async
       failed: '%env(MESSENGER_TRANSPORT_DSN)%?queue_name=failed'
 
     routing:
-      # Route your messages to the transports
-       'App\Message\CourseIndexRequest': search
-       'App\Message\UserIndexRequest': search
-       'App\Message\MeshDescriptorIndexRequest': search
-       'App\Message\LearningMaterialIndexRequest': search
+       # Route your messages to the transports
+       'App\Message\CourseIndexRequest': async
+       'App\Message\UserIndexRequest': async
+       'App\Message\MeshDescriptorIndexRequest': async
+       'App\Message\LearningMaterialIndexRequest': async
        'App\Message\LearningMaterialTextExtractionRequest': async
        'App\Message\CourseDeleteRequest': async
        'App\Message\SessionDeleteRequest': async
@@ -45,5 +45,5 @@ when@test:
            transports:
                # replace with your transport name here (e.g., my_transport: 'in-memory://')
                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-               search: 'in-memory://'
+               async: 'in-memory://'
                failed: 'in-memory://'
