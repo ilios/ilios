@@ -16,7 +16,6 @@ class MeshDescriptorData extends AbstractDataLoader
             'name' => 'desc1' . $this->faker->text,
             'annotation' => 'annotation1',
             'courses' => ["1"],
-            'objectives' => ['2', '5', '6'],
             'sessionLearningMaterials' => ['1'],
             'courseLearningMaterials' => ['1', '3'],
             'sessions' => ['1'],
@@ -25,13 +24,15 @@ class MeshDescriptorData extends AbstractDataLoader
             'trees' => ['1', '2'],
             'previousIndexing' => '1',
             'deleted' => false,
+            'sessionObjectives' => [],
+            'courseObjectives' => [],
+            'programYearObjectives' => []
         ];
         $arr[] = [
             'id' => 'abc2',
             'name' => 'desc2' . $this->faker->text,
             'annotation' => 'annotation2' . $this->faker->text,
             'courses' => [],
-            'objectives' => [],
             'sessionLearningMaterials' => ["2", "3", "4", "5", "6", "7", "8"],
             'courseLearningMaterials' => [],
             'sessions' => ["3"],
@@ -40,13 +41,15 @@ class MeshDescriptorData extends AbstractDataLoader
             'trees' => [],
             'previousIndexing' => '2',
             'deleted' => false,
+            'sessionObjectives' => [],
+            'courseObjectives' => [],
+            'programYearObjectives' => []
         ];
         $arr[] = [
             'id' => 'abc3',
             'name' => 'desc3',
             'annotation' => 'annotation3' . $this->faker->text,
             'courses' => [],
-            'objectives' => ['7'],
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
             'sessions' => [],
@@ -54,6 +57,9 @@ class MeshDescriptorData extends AbstractDataLoader
             'qualifiers' => [],
             'trees' => [],
             'deleted' => false,
+            'sessionObjectives' => [],
+            'courseObjectives' => [],
+            'programYearObjectives' => []
         ];
 
         return $arr;
@@ -66,7 +72,6 @@ class MeshDescriptorData extends AbstractDataLoader
             'name' => $this->faker->text(20),
             'annotation' => $this->faker->text,
             'courses' => ['1'],
-            'objectives' => ['1'],
             'sessionLearningMaterials' => ['1'],
             'courseLearningMaterials' => ['1'],
             'sessions' => ['1'],
@@ -74,6 +79,9 @@ class MeshDescriptorData extends AbstractDataLoader
             'qualifiers' => ['1'],
             'trees' => [],
             'deleted' => false,
+            'sessionObjectives' => [],
+            'courseObjectives' => [],
+            'programYearObjectives' => [],
         ];
     }
 

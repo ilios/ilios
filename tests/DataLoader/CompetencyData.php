@@ -17,10 +17,10 @@ class CompetencyData extends AbstractDataLoader
             'title' => 'first competency',
             'active' => true,
             'school' => "1",
-            'objectives' => [],
             'children' => ['3'],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101'],
-            'programYears' => ['1']
+            'programYears' => ['1'],
+            'programYearObjectives' => [],
         ];
 
         $arr[] = [
@@ -28,10 +28,11 @@ class CompetencyData extends AbstractDataLoader
             'title' => 'second competency',
             'active' => false,
             'school' => "1",
-            'objectives' => [],
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102'],
-            'programYears' => []
+            'programYears' => [],
+            'programYearObjectives' => [],
+
         ];
 
         $arr[] = [
@@ -39,11 +40,11 @@ class CompetencyData extends AbstractDataLoader
             'title' => 'third competency',
             'active' => true,
             'school' => "1",
-            'objectives' => ['1'],
             'parent' => "1",
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0102'],
-            'programYears' => ['1']
+            'programYears' => ['1'],
+            'programYearObjectives' => [],
         ];
 
         return $arr;
@@ -56,11 +57,11 @@ class CompetencyData extends AbstractDataLoader
             'title' => $this->faker->text,
             'active' => true,
             'school' => "1",
-            'objectives' => [],
             'parent' => "1",
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0102'],
-            'programYears' => ['1']
+            'programYears' => ['1'],
+            'programYearObjectives' => [],
         ];
     }
 

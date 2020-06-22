@@ -15,25 +15,40 @@ class SessionObjectiveData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'position' => 0,
+            'active' => true,
+            'title' => 'session objective 1',
             'session' => '1',
-            'objective' => '3',
             'terms' => ['3', '4'],
+            'meshDescriptors' => [],
+            'courseObjectives' => [],
+            'ancestor' => null,
+            'descendants' => []
         ];
 
         $arr[] = [
             'id' => 2,
             'position' => 0,
+            'active' => true,
+            'title' => 'session objective 2',
             'session' => '4',
-            'objective' => '6',
             'terms' => ['3'],
+            'meshDescriptors' => [],
+            'courseObjectives' => [],
+            'ancestor' => null,
+            'descendants' => []
         ];
 
         $arr[] = [
             'id' => 3,
             'position' => 0,
+            'active' => true,
+            'title' => 'session objective 3',
             'session' => '4',
-            'objective' => '7',
             'terms' => [],
+            'meshDescriptors' => [],
+            'courseObjectives' => [],
+            'ancestor' => null,
+            'descendants' => []
         ];
 
         return $arr;
@@ -44,9 +59,14 @@ class SessionObjectiveData extends AbstractDataLoader
         return [
             'id' => 4,
             'position' => 0,
+            'active' => true,
+            'title' => 'session objective 4',
             'session' => '1',
-            'objective' => '11',
             'terms' => [],
+            'meshDescriptors' => [],
+            'courseObjectives' => [],
+            'ancestor' => null,
+            'descendants' => []
         ];
     }
 

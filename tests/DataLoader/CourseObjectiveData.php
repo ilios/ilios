@@ -15,41 +15,71 @@ class CourseObjectiveData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'position' => 0,
+            'active' => true,
+            'title' => 'course objective 1',
             'course' => '1',
-            'objective' => '2',
             'terms' => ['1', '4'],
+            'meshDescriptors' => [],
+            'sessionObjectives' => [],
+            'programYearObjectives' => [],
+            'ancestor' => null,
+            'descendants' => []
         ];
 
         $arr[] = [
             'id' => 2,
             'position' => 0,
+            'active' => true,
+            'title' => 'course objective 2',
             'course' => '2',
-            'objective' => '2',
             'terms' => ['1'],
+            'meshDescriptors' => [],
+            'sessionObjectives' => [],
+            'programYearObjectives' => [],
+            'ancestor' => null,
+            'descendants' => []
         ];
 
         $arr[] = [
             'id' => 3,
             'position' => 0,
+            'active' => true,
+            'title' => 'course objective 3',
             'course' => '4',
-            'objective' => '2',
             'terms' => [],
+            'meshDescriptors' => [],
+            'sessionObjectives' => [],
+            'programYearObjectives' => [],
+            'ancestor' => null,
+            'descendants' => []
         ];
 
         $arr[] = [
             'id' => 4,
             'position' => 0,
+            'active' => true,
+            'title' => 'course objective 4',
             'course' => '2',
-            'objective' => '4',
             'terms' => [],
+            'meshDescriptors' => [],
+            'sessionObjectives' => [],
+            'programYearObjectives' => [],
+            'ancestor' => null,
+            'descendants' => []
         ];
 
         $arr[] = [
             'id' => 5,
             'position' => 0,
+            'active' => true,
+            'title' => 'course objective 5',
             'course' => '3',
-            'objective' => '5',
             'terms' => [],
+            'meshDescriptors' => [],
+            'sessionObjectives' => [],
+            'programYearObjectives' => [],
+            'ancestor' => null,
+            'descendants' => []
         ];
 
         return $arr;
@@ -60,9 +90,15 @@ class CourseObjectiveData extends AbstractDataLoader
         return [
             'id' => 6,
             'position' => 0,
+            'active' => true,
+            'title' => 'course objective 6',
             'course' => '1',
-            'objective' => '10',
             'terms' => [],
+            'meshDescriptors' => [],
+            'sessionObjectives' => [],
+            'programYearObjectives' => [],
+            'ancestor' => null,
+            'descendants' => []
         ];
     }
 

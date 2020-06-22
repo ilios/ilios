@@ -34,10 +34,20 @@ class LoadProgramYearObjectiveData extends AbstractFixture implements
             $entity = new ProgramYearObjective();
             $entity->setId($arr['id']);
             $entity->setPosition($arr['position']);
-            $entity->setObjective($this->getReference('objectives' . $arr['objective']));
+            $entity->setActive($arr['active']);
+            $entity->setTitle($arr['title']);
             $entity->setProgramYear($this->getReference('programYears' . $arr['programYear']));
             foreach ($arr['terms'] as $id) {
                 $entity->addTerm($this->getReference('terms' . $id));
+            }
+            foreach ($arr['meshDescriptors'] as $id) {
+                $entity->addTerm($this->getReference('meshDescriptors' . $id));
+            }
+            if (array_key_exists('ancestor', $arr)) {
+                $entity->setAncestor($this->getReference('programYearObjectives' . $arr['ancestor']));
+            }
+            if (array_key_exists('competency', $arr)) {
+                $entity->setAncestor($this->getReference('competencies' . $arr['ancestor']));
             }
             $manager->persist($entity);
 
@@ -50,9 +60,9 @@ class LoadProgramYearObjectiveData extends AbstractFixture implements
     public function getDependencies()
     {
         return [
+            'App\Tests\Fixture\LoadMeshDescriptorData',
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadProgramYearData',
-            'App\Tests\Fixture\LoadObjectiveData',
         ];
     }
 }

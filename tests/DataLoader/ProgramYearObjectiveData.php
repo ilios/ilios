@@ -15,17 +15,29 @@ class ProgramYearObjectiveData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'position' => 0,
+            'active' => true,
+            'title' => 'program year objective 1',
             'programYear' => '1',
-            'objective' => '1',
             'terms' => ['2', '4'],
+            'meshDescriptors' => [],
+            'courseObjectives' => [],
+            'ancestor' => null,
+            'descendants' => [],
+            'competency' => null,
         ];
 
         $arr[] = [
             'id' => 2,
             'position' => 0,
+            'active' => true,
+            'title' => 'program year objective 2',
             'programYear' => '5',
-            'objective' => '8',
             'terms' => ['2'],
+            'meshDescriptors' => [],
+            'courseObjectives' => [],
+            'ancestor' => null,
+            'descendants' => [],
+            'competency' => null,
         ];
 
         return $arr;
@@ -36,9 +48,15 @@ class ProgramYearObjectiveData extends AbstractDataLoader
         return [
             'id' => 3,
             'position' => 0,
+            'active' => true,
+            'title' => 'program year objective 3',
             'programYear' => '2',
-            'objective' => '9',
             'terms' => [],
+            'meshDescriptors' => [],
+            'courseObjectives' => [],
+            'ancestor' => null,
+            'descendants' => [],
+            'competency' => null,
         ];
     }
 
