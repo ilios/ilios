@@ -79,13 +79,17 @@ class Mesh extends OpenSearchBase
             ];
         }, $descriptors);
 
-        $result = $this->doBulkIndex(self::INDEX, $input);
-        return !$result['errors'];
+        return $this->doBulkIndex(self::INDEX, $input);
     }
 
 
     public static function getMapping(): array
     {
+        $txtTypeField = [
+            'type' => 'text',
+            'analyzer' => 'english',
+        ];
+
         return [
             'settings' => [
                 'number_of_shards' => 1,
@@ -95,6 +99,21 @@ class Mesh extends OpenSearchBase
                 '_meta' => [
                     'version' => '1',
                 ],
+                'properties' => [
+                    'name' => $txtTypeField,
+                    'annotation' => $txtTypeField,
+                    'previousIndexing' => $txtTypeField,
+                    'terms' => [
+                        'type' => 'keyword'
+                    ],
+                    'concepts' => [
+                        'type' => 'keyword'
+                    ],
+                    'scopeNotes' => $txtTypeField,
+                    'casn1Names' => [
+                        'type' => 'keyword'
+                    ],
+                ]
             ],
         ];
     }
