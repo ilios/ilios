@@ -23,7 +23,6 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadSessionData',

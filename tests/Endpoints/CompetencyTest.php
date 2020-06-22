@@ -22,7 +22,6 @@ class CompetencyTest extends ReadWriteEndpointTest
         return [
             'App\Tests\Fixture\LoadSchoolData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadCompetencyData',
             'App\Tests\Fixture\LoadSessionData',
             'App\Tests\Fixture\LoadSessionTypeData',

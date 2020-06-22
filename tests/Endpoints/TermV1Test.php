@@ -32,7 +32,6 @@ class TermV1Test extends V1ReadEndpointTest
             'App\Tests\Fixture\LoadCourseLearningMaterialData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
             'App\Tests\Fixture\LoadMeshDescriptorData',
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadSessionObjectiveData',
             'App\Tests\Fixture\LoadCourseObjectiveData',

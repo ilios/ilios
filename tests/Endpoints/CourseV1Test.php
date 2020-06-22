@@ -26,7 +26,6 @@ class CourseV1Test extends V1ReadEndpointTest
             'App\Tests\Fixture\LoadUserData',
             'App\Tests\Fixture\LoadCohortData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadCourseLearningMaterialData',
             'App\Tests\Fixture\LoadSessionData',
             'App\Tests\Fixture\LoadSessionDescriptionData',

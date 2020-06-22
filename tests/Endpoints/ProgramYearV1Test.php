@@ -26,7 +26,6 @@ class ProgramYearV1Test extends V1ReadEndpointTest
             'App\Tests\Fixture\LoadUserData',
             'App\Tests\Fixture\LoadCompetencyData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadProgramYearStewardData',
             'App\Tests\Fixture\LoadSessionData',
             'App\Tests\Fixture\LoadCourseData',

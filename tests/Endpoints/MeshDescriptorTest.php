@@ -21,7 +21,6 @@ class MeshDescriptorTest extends AbstractMeshTest
         return [
             'App\Tests\Fixture\LoadMeshDescriptorData',
             'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadSessionData',
             'App\Tests\Fixture\LoadMeshConceptData',
             'App\Tests\Fixture\LoadMeshTreeData',

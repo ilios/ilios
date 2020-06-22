@@ -26,7 +26,6 @@ class ObjectiveV1Test extends V1ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadCompetencyData',
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadProgramYearData',
