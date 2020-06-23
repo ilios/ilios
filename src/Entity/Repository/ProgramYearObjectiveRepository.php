@@ -90,7 +90,6 @@ class ProgramYearObjectiveRepository extends EntityRepository implements DTORepo
             'terms',
             'meshDescriptors',
             'courseObjectives',
-            'meshDescriptors',
             'descendants'
         ];
         foreach ($related as $rel) {
