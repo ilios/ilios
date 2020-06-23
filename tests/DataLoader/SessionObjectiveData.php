@@ -19,7 +19,7 @@ class SessionObjectiveData extends AbstractDataLoader
             'title' => 'session objective 1',
             'session' => '1',
             'terms' => ['3', '4'],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ['abc2'],
             'courseObjectives' => [],
             'descendants' => []
         ];
@@ -31,7 +31,7 @@ class SessionObjectiveData extends AbstractDataLoader
             'title' => 'session objective 2',
             'session' => '4',
             'terms' => ['3'],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ['abc1'],
             'courseObjectives' => [],
             'descendants' => []
         ];
@@ -43,7 +43,7 @@ class SessionObjectiveData extends AbstractDataLoader
             'title' => 'session objective 3',
             'session' => '4',
             'terms' => [],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ['abc3'],
             'courseObjectives' => [],
             'descendants' => []
         ];

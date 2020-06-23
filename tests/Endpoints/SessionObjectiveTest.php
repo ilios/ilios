@@ -22,6 +22,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
+            'App\Tests\Fixture\LoadMeshDescriptorData',
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadSessionData',
@@ -43,7 +44,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             'notActive' => ['active', false],
             'session' => ['session', 2],
             'terms' => ['terms', [1, 4]],
-            'meshDescriptors' => ['meshDescriptors', ['abc2']],
+            'meshDescriptors' => ['meshDescriptors', ['abc3']],
             // @todo add entries for course objectives, ancestor, descendants [ST 2020/06/22]
         ];
     }
@@ -71,7 +72,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             'title' => [[1], ['title' => 'session objective 2']],
             'active' => [[0, 1, 2], ['active' => 1]],
             'notActive' => [[], ['active' => 0]],
-            // @todo add filters for ancestor, descendants, course objectives, mesh descriptors [ST 2020/06/22]
+            // @todo add filter for ancestor. [ST 2020/06/22]
         ];
     }
 

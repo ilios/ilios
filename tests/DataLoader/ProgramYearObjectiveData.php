@@ -19,7 +19,7 @@ class ProgramYearObjectiveData extends AbstractDataLoader
             'title' => 'program year objective 1',
             'programYear' => '1',
             'terms' => ['2', '4'],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ['abc1'],
             'courseObjectives' => [],
             'descendants' => [],
         ];
@@ -31,7 +31,7 @@ class ProgramYearObjectiveData extends AbstractDataLoader
             'title' => 'program year objective 2',
             'programYear' => '5',
             'terms' => ['2'],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ['abc3'],
             'courseObjectives' => [],
             'descendants' => [],
         ];

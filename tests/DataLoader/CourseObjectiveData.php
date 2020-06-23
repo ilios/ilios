@@ -19,7 +19,7 @@ class CourseObjectiveData extends AbstractDataLoader
             'title' => 'course objective 1',
             'course' => '1',
             'terms' => ['1', '4'],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ['abc1'],
             'sessionObjectives' => [],
             'programYearObjectives' => [],
             'descendants' => []
@@ -32,7 +32,7 @@ class CourseObjectiveData extends AbstractDataLoader
             'title' => 'course objective 2',
             'course' => '2',
             'terms' => ['1'],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ['abc1'],
             'sessionObjectives' => [],
             'programYearObjectives' => [],
             'descendants' => []
@@ -45,7 +45,7 @@ class CourseObjectiveData extends AbstractDataLoader
             'title' => 'course objective 3',
             'course' => '4',
             'terms' => [],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ['abc3'],
             'sessionObjectives' => [],
             'programYearObjectives' => [],
             'descendants' => []
@@ -58,7 +58,7 @@ class CourseObjectiveData extends AbstractDataLoader
             'title' => 'course objective 4',
             'course' => '2',
             'terms' => [],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ['abc2'],
             'sessionObjectives' => [],
             'programYearObjectives' => [],
             'descendants' => []

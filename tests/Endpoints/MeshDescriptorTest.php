@@ -31,6 +31,7 @@ class MeshDescriptorTest extends AbstractMeshTest
             'App\Tests\Fixture\LoadCourseLearningMaterialData',
             'App\Tests\Fixture\LoadCourseObjectiveData',
             'App\Tests\Fixture\LoadSessionObjectiveData',
+            'App\Tests\Fixture\LoadProgramYearObjectiveData',
         ];
     }
 
@@ -45,7 +46,6 @@ class MeshDescriptorTest extends AbstractMeshTest
             'name' => [[2], ['name' => 'desc3']],
             'annotation' => [[0], ['annotation' => 'annotation1']],
             'courses' => [[0, 1], ['courses' => [2, 3]]],
-            'objectives' => [[0], ['objectives' => [1]], $skipped = true],
             'sessions' => [[1], ['sessions' => [3]]],
             'concepts' => [[0], ['concepts' => [1]], $skipped = true],
             'qualifiers' => [[0], ['qualifiers' => [1]], $skipped = true],

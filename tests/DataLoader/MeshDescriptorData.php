@@ -24,9 +24,9 @@ class MeshDescriptorData extends AbstractDataLoader
             'trees' => ['1', '2'],
             'previousIndexing' => '1',
             'deleted' => false,
-            'sessionObjectives' => [],
-            'courseObjectives' => [],
-            'programYearObjectives' => []
+            'sessionObjectives' => ['2'],
+            'courseObjectives' => ['1', '2'],
+            'programYearObjectives' => ['1']
         ];
         $arr[] = [
             'id' => 'abc2',
@@ -41,8 +41,8 @@ class MeshDescriptorData extends AbstractDataLoader
             'trees' => [],
             'previousIndexing' => '2',
             'deleted' => false,
-            'sessionObjectives' => [],
-            'courseObjectives' => [],
+            'sessionObjectives' => ['1'],
+            'courseObjectives' => ['4'],
             'programYearObjectives' => []
         ];
         $arr[] = [
@@ -57,9 +57,9 @@ class MeshDescriptorData extends AbstractDataLoader
             'qualifiers' => [],
             'trees' => [],
             'deleted' => false,
-            'sessionObjectives' => [],
-            'courseObjectives' => [],
-            'programYearObjectives' => []
+            'sessionObjectives' => ['3'],
+            'courseObjectives' => ['3'],
+            'programYearObjectives' => ['2']
         ];
 
         return $arr;

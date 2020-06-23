@@ -22,6 +22,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
+            'App\Tests\Fixture\LoadMeshDescriptorData',
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadSessionData',
@@ -70,7 +71,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
             'title' => [[1], ['title' => 'program year objective 2']],
             'active' => [[0, 1], ['active' => 1]],
             'notActive' => [[], ['active' => 0]],
-            // @todo add filters for ancestor, descendants, course objectives, competency, mesh desc. [ST 2020/06/22]
+            // @todo add filters for ancestor and competency. [ST 2020/06/22]
         ];
     }
 
