@@ -41,7 +41,7 @@ class LoadSessionObjectiveData extends AbstractFixture implements
                 $entity->addTerm($this->getReference('terms' . $id));
             }
             foreach ($arr['meshDescriptors'] as $id) {
-                $entity->addTerm($this->getReference('meshDescriptors' . $id));
+                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
             }
             if (array_key_exists('ancestor', $arr)) {
                 $entity->setAncestor($this->getReference('sessionObjectives' . $arr['ancestor']));
