@@ -88,8 +88,8 @@ class Competency implements CompetencyInterface
      * @ORM\OneToMany(targetEntity="Objective", mappedBy="competency")
      * @ORM\OrderBy({"id" = "ASC"})
      *
-     * @IS\Expose
      * @IS\Type("entityCollection")
+     * @IS\ReadOnly()
      */
     protected $objectives;
 
