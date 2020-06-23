@@ -164,6 +164,9 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
             'trees',
             'sessionLearningMaterials',
             'courseLearningMaterials',
+            'sessionObjectives',
+            'courseObjectives',
+            'programYearObjectives',
         ];
 
         foreach ($related as $rel) {
@@ -349,10 +352,9 @@ EOL;
             $ids = is_array($criteria['sessions']) ?
                 $criteria['sessions'] : [$criteria['sessions']];
             $qb->leftJoin('m.sessions', 'session');
-            $qb->leftJoin('m.objectives', 'objective');
+            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('m.sessionLearningMaterials', 'slm');
             $qb->leftJoin('slm.session', 'session2');
-            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session3');
 
             $qb->andWhere(
@@ -369,14 +371,13 @@ EOL;
             $ids = is_array($criteria['courses']) ?
                 $criteria['courses'] : [$criteria['courses']];
             $qb->leftJoin('m.courses', 'course');
-            $qb->leftJoin('m.objectives', 'objective');
             $qb->leftJoin('m.sessions', 'session');
             $qb->leftJoin('m.courseLearningMaterials', 'clm');
-            $qb->leftJoin('objective.courseObjectives', 'courseObjective');
+            $qb->leftJoin('m.courseObjectives', 'courseObjective');
             $qb->leftJoin('courseObjective.course', 'course2');
             $qb->leftJoin('clm.course', 'course3');
             $qb->leftJoin('session.course', 'course4');
-            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session2');
             $qb->leftJoin('session2.course', 'course5');
             $qb->leftJoin('m.sessionLearningMaterials', 'slm');
@@ -400,12 +401,11 @@ EOL;
                 $criteria['sessionTypes'] : [$criteria['sessionTypes']];
 
             $qb->leftJoin('m.sessions', 'session');
-            $qb->leftJoin('m.objectives', 'objective');
             $qb->leftJoin('m.sessionLearningMaterials', 'slm');
             $qb->leftJoin('session.sessionType', 'sessionType');
             $qb->leftJoin('slm.session', 'session2');
             $qb->leftJoin('session2.sessionType', 'sessionType2');
-            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session3');
 
             $qb->leftJoin('session3.sessionType', 'sessionType3');
@@ -439,11 +439,10 @@ EOL;
             $ids = is_array($criteria['terms']) ?
                 $criteria['terms'] : [$criteria['terms']];
             $qb->leftJoin('m.courses', 'course');
-            $qb->leftJoin('m.objectives', 'objective');
             $qb->leftJoin('m.sessions', 'session');
             $qb->leftJoin('m.courseLearningMaterials', 'clm');
             $qb->leftJoin('course.terms', 'terms');
-            $qb->leftJoin('objective.courseObjectives', 'courseObjectives');
+            $qb->leftJoin('m.courseObjectives', 'courseObjectives');
             $qb->leftJoin('courseObjectives.course', 'course2');
             $qb->leftJoin('course2.terms', 'terms2');
             $qb->leftJoin('clm.course', 'course3');
@@ -451,7 +450,7 @@ EOL;
             $qb->leftJoin('session.course', 'course4');
             $qb->leftJoin('session.terms', 'terms4');
             $qb->leftJoin('course4.terms', 'terms5');
-            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session2');
             $qb->leftJoin('session2.course', 'course5');
             $qb->leftJoin('session2.terms', 'terms6');
@@ -536,6 +535,9 @@ AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_learning
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM objective_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_objective_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_objective_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM program_year_objective_x_mesh)
 AND mesh_descriptor_uid NOT IN (
   SELECT prepositional_object_table_row_id FROM report where prepositional_object = 'mesh term'
 )
