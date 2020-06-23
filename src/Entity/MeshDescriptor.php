@@ -146,9 +146,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\ManyToMany(targetEntity="Objective", mappedBy="meshDescriptors")
      * @ORM\OrderBy({"id" = "ASC"})
      *
-     * @IS\Expose
      * @IS\Type("entityCollection")
-     * @IS\Expose
+     * @IS\ReadOnly()
      */
     protected $objectives;
 
