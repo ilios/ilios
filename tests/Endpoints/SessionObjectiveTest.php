@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Tests\DataLoader\ObjectiveData;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\DataLoader\TermData;
 use App\Tests\ReadWriteEndpointTest;
@@ -39,9 +38,13 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
+            'title' => ['title', $this->getFaker()->text],
+            'position' => ['position', $this->getFaker()->randomDigit],
+            'notActive' => ['active', false],
             'session' => ['session', 2],
-            'objective' => ['objective', 2],
             'terms' => ['terms', [1, 4]],
+            'meshDescriptors' => ['meshDescriptors', ['abc2']],
+            // @todo add entries for course objectives, ancestor, descendants [ST 2020/06/22]
         ];
     }
 
@@ -62,19 +65,18 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
             'session' => [[1, 2], ['session' => 4]],
-            'objective' => [[2], ['objective' => 7]],
             'terms' => [[0, 1], ['terms' => [3]]],
             'position' => [[0, 1, 2], ['position' => 0]],
             'courses' => [[1, 2], ['courses' => 4]],
+            'title' => [[1], ['title' => 'session objective 2']],
+            'active' => [[0, 1, 2], ['active' => 1]],
+            'notActive' => [[], ['active' => 0]],
+            // @todo add filters for ancestor, descendants, course objectives, mesh descriptors [ST 2020/06/22]
         ];
     }
 
     protected function createMany(int $count): array
     {
-        $objectiveDataLoader = $this->getContainer()->get(ObjectiveData::class);
-        $objectives = $objectiveDataLoader->createMany($count);
-        $savedObjectives = $this->postMany('objectives', 'objectives', $objectives);
-
         $sessionDataLoader = $this->getContainer()->get(SessionData::class);
         $sessions = $sessionDataLoader->createMany($count);
         $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
@@ -86,7 +88,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             $arr = $dataLoader->create();
             $arr['id'] += $i;
             $arr['session'] = $savedSessions[$i]['id'];
-            $arr['objective'] = $savedObjectives[$i]['id'];
+            $arr['title'] = 'Session Objective ' . $arr['id'];
             $data[] = $arr;
         }
 
@@ -125,40 +127,41 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             $this->putTest($data, $data, $data['id']);
         }
     }
-
     public function testRemoveLinksFromOrphanedObjectives()
     {
-        $dataLoader = $this->getContainer()->get(ObjectiveData::class);
-        $arr = $dataLoader->create();
-        $arr['parents'] = ['1'];
-        $arr['children'] = ['7', '8'];
-        $arr['competency'] = 1;
-        $arr['programYearObjectives'] = [];
-        $arr['courseObjectives'] = [];
-        $arr['sessionObjectives'] = [];
-        unset($arr['id']);
-        $objective = $this->postOne('objectives', 'objective', 'objectives', $arr);
-        $dataLoader = $this->getContainer()->get(SessionData::class);
-        $arr = $dataLoader->create();
-        $session = $this->postOne('sessions', 'session', 'sessions', $arr);
-
-        $dataLoader = $this->getDataLoader();
-        $arr = $dataLoader->create();
-        $arr['session'] = $session['id'];
-        $arr['objective'] = $objective['id'];
-        unset($arr['id']);
-        $sessionObjective = $this->postOne('sessionobjectives', 'sessionObjective', 'sessionObjectives', $arr);
-
-        $this->assertNotEmpty($objective['parents'], 'parents have been created');
-        $this->assertNotEmpty($objective['children'], 'children have been created');
-        $this->assertArrayHasKey('competency', $objective);
-
-        $this->deleteTest($sessionObjective['id']);
-
-        $objective = $this->getOne('objectives', 'objectives', $objective['id']);
-
-        $this->assertEmpty($objective['parents'], 'parents have been removed');
-        $this->assertEmpty($objective['children'], 'children have been removed');
-        $this->assertArrayNotHasKey('competency', $objective);
+        // @todo re-implement or remove this. [ST 2020/06/22]
+        $this->markTestSkipped('tbd');
+//        $dataLoader = $this->getContainer()->get(ObjectiveData::class);
+//        $arr = $dataLoader->create();
+//        $arr['parents'] = ['1'];
+//        $arr['children'] = ['7', '8'];
+//        $arr['competency'] = 1;
+//        $arr['programYearObjectives'] = [];
+//        $arr['courseObjectives'] = [];
+//        $arr['sessionObjectives'] = [];
+//        unset($arr['id']);
+//        $objective = $this->postOne('objectives', 'objective', 'objectives', $arr);
+//        $dataLoader = $this->getContainer()->get(SessionData::class);
+//        $arr = $dataLoader->create();
+//        $session = $this->postOne('sessions', 'session', 'sessions', $arr);
+//
+//        $dataLoader = $this->getDataLoader();
+//        $arr = $dataLoader->create();
+//        $arr['session'] = $session['id'];
+//        $arr['objective'] = $objective['id'];
+//        unset($arr['id']);
+//        $sessionObjective = $this->postOne('sessionobjectives', 'sessionObjective', 'sessionObjectives', $arr);
+//
+//        $this->assertNotEmpty($objective['parents'], 'parents have been created');
+//        $this->assertNotEmpty($objective['children'], 'children have been created');
+//        $this->assertArrayHasKey('competency', $objective);
+//
+//        $this->deleteTest($sessionObjective['id']);
+//
+//        $objective = $this->getOne('objectives', 'objectives', $objective['id']);
+//
+//        $this->assertEmpty($objective['parents'], 'parents have been removed');
+//        $this->assertEmpty($objective['children'], 'children have been removed');
+//        $this->assertArrayNotHasKey('competency', $objective);
     }
 }
