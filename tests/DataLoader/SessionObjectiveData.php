@@ -21,7 +21,7 @@ class SessionObjectiveData extends AbstractDataLoader
             'terms' => ['3', '4'],
             'meshDescriptors' => ['abc2'],
             'courseObjectives' => [],
-            'descendants' => []
+            'descendants' => ['3']
         ];
 
         $arr[] = [
@@ -45,7 +45,8 @@ class SessionObjectiveData extends AbstractDataLoader
             'terms' => [],
             'meshDescriptors' => ['abc3'],
             'courseObjectives' => [],
-            'descendants' => []
+            'descendants' => [],
+            'ancestor' => '1',
         ];
 
         return $arr;

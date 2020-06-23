@@ -45,7 +45,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
             'programYear' => ['programYear', 2],
             'terms' => ['terms', [1, 4]],
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
-            // @todo add entries for course objectives, ancestor, descendants, competency [ST 2020/06/22]
+            // @todo add entries for course objectives, competency [ST 2020/06/22]
         ];
     }
 
@@ -71,7 +71,8 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
             'title' => [[1], ['title' => 'program year objective 2']],
             'active' => [[0, 1], ['active' => 1]],
             'notActive' => [[], ['active' => 0]],
-            // @todo add filters for ancestor and competency. [ST 2020/06/22]
+            'ancestor' => [[1], ['ancestor' => 1]],
+            // @todo add filters for and competency. [ST 2020/06/22]
         ];
     }
 

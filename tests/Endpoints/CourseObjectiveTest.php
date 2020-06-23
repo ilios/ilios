@@ -45,7 +45,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
             'course' => ['course', 1],
             'terms' => ['terms', [1, 4]],
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
-            // @todo add entries for py/session objectives, ancestor, descendants [ST 2020/06/22]
+            // @todo add entries for py/session objectives [ST 2020/06/22]
         ];
     }
 
@@ -71,7 +71,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
             'title' => [[1], ['title' => 'course objective 2']],
             'active' => [[0, 1, 2, 3, 4], ['active' => 1]],
             'notActive' => [[], ['active' => 0]],
-            // @todo add filter for ancestor. [ST 2020/06/22]
+            'ancestor' => [[1], ['ancestor' => [1]]]
         ];
     }
 
