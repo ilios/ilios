@@ -102,7 +102,7 @@ class OpenSearchBase
      * front of every item. This allows bulk indexing on many types at the same time, and
      * this convenience method takes care of that for us.
      */
-    protected function doBulkIndex(string $index, array $items): bool
+    protected function doBulkIndex(string $index, array $items, $syncUpdate = false): bool
     {
         if (!$this->enabled || empty($items)) {
             return true;
@@ -160,7 +160,11 @@ class OpenSearchBase
                 ]];
                 $body[] = $item;
             }
-            $rhett = $this->doBulk(['body' => $body]);
+            $params = [
+                'refresh' => $syncUpdate,
+                'body' => $body,
+            ];
+            $rhett = $this->doBulk($params);
             $results['took'] += $rhett['took'];
             if ($rhett['errors']) {
                 $results['errors'] = true;

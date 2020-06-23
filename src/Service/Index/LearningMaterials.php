@@ -53,6 +53,7 @@ class LearningMaterials extends OpenSearchBase
             if ($data) {
                 $materials[] = [
                     'id' => $lm->id,
+                    'learningMaterialId' => $lm->id,
                     'data' => $data,
                 ];
             }
@@ -60,7 +61,12 @@ class LearningMaterials extends OpenSearchBase
             return $materials;
         }, []);
 
-        return $this->doBulkIndex(self::INDEX, $extractedMaterials);
+        $this->doBulkIndex(self::INDEX, $extractedMaterials, true);
+        $this->client->enrich()->executePolicy([
+            'name' => 'materials-policy',
+        ]);
+
+        return true;
     }
 
     protected function findByIds(array $ids): array
@@ -164,13 +170,41 @@ class LearningMaterials extends OpenSearchBase
                             'field' => 'data',
                             'target_field' => 'material',
                         ],
+                    ],
+                    [
                         'remove' => [
                             'field' => 'data',
                         ],
+                    ],
+                    [
                         'set' => [
                             'field' => '_source.ingestTime',
                             'value' => '{{_ingest.timestamp}}',
                         ],
+                    ],
+                    [
+                        'rename' => [
+                            'field' => 'material.content',
+                            'target_field' => 'content',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public static function getEnrichPolicies(): array
+    {
+        return [
+            [
+                'name' => 'materials-policy',
+                'body' => [
+                    'match' => [
+                        'indices' => [
+                            self::INDEX,
+                        ],
+                        'match_field' => 'learningMaterialId',
+                        'enrich_fields' => ['content'],
                     ],
                 ],
             ],
