@@ -5,7 +5,18 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\CleanupStringsCommand;
+use App\Entity\CourseObjectiveInterface;
+use App\Entity\Manager\CourseLearningMaterialManager;
+use App\Entity\Manager\CourseObjectiveManager;
+use App\Entity\Manager\LearningMaterialManager;
+use App\Entity\Manager\ProgramYearObjectiveManager;
+use App\Entity\Manager\SessionDescriptionManager;
+use App\Entity\Manager\SessionLearningMaterialManager;
+use App\Entity\Manager\SessionObjectiveManager;
+use App\Entity\ProgramYearObjectiveInterface;
+use App\Entity\SessionObjectiveInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use HTMLPurifier;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -24,7 +35,9 @@ class CleanupStringsCommandTest extends KernelTestCase
 
     protected $purifier;
     protected $em;
-    protected $objectiveManager;
+    protected $sessionObjectiveManager;
+    protected $courseObjectiveManager;
+    protected $programYearObjectiveManager;
     protected $learningMaterialManager;
     protected $courseLearningMaterialManager;
     protected $sessionLearningMaterialManager;
@@ -34,28 +47,26 @@ class CleanupStringsCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->purifier = m::mock('HTMLPurifier');
-        $this->objectiveManager = m::mock('App\Entity\Manager\ObjectiveManager');
-        $this->learningMaterialManager = m::mock('App\Entity\Manager\LearningMaterialManager');
-        $this->courseLearningMaterialManager = m::mock(
-            'App\Entity\Manager\CourseLearningMaterialManager'
-        );
-        $this->sessionLearningMaterialManager = m::mock(
-            'App\Entity\Manager\SessionLearningMaterialManager'
-        );
-        $this->sessionDescriptionManager = m::mock(
-            'App\Entity\Manager\SessionDescriptionManager'
-        );
+        $this->purifier = m::mock(HTMLPurifier::class);
+        $this->sessionObjectiveManager = m::mock(SessionObjectiveManager::class);
+        $this->courseObjectiveManager = m::mock(CourseObjectiveManager::class);
+        $this->programYearObjectiveManager = m::mock(ProgramYearObjectiveManager::class);
+        $this->learningMaterialManager = m::mock(LearningMaterialManager::class);
+        $this->courseLearningMaterialManager = m::mock(CourseLearningMaterialManager::class);
+        $this->sessionLearningMaterialManager = m::mock(SessionLearningMaterialManager::class);
+        $this->sessionDescriptionManager = m::mock(SessionDescriptionManager::class);
         $this->em = m::mock(EntityManagerInterface::class);
 
         $command = new CleanupStringsCommand(
             $this->purifier,
             $this->em,
-            $this->objectiveManager,
             $this->learningMaterialManager,
             $this->courseLearningMaterialManager,
             $this->sessionLearningMaterialManager,
-            $this->sessionDescriptionManager
+            $this->sessionDescriptionManager,
+            $this->sessionObjectiveManager,
+            $this->courseObjectiveManager,
+            $this->programYearObjectiveManager
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -72,7 +83,9 @@ class CleanupStringsCommandTest extends KernelTestCase
         parent::tearDown();
         unset($this->purifier);
         unset($this->em);
-        unset($this->objectiveManager);
+        unset($this->sessionObjectiveManager);
+        unset($this->courseObjectiveManager);
+        unset($this->programYearObjectiveManager);
         unset($this->learningMaterialManager);
         unset($this->courseLearningMaterialManager);
         unset($this->sessionLearningMaterialManager);
@@ -82,24 +95,52 @@ class CleanupStringsCommandTest extends KernelTestCase
 
     public function testObjectiveTitle()
     {
-        $cleanObjective = m::mock('App\Entity\ObjectiveInterface')
+        $cleanSessionObjective = m::mock(SessionObjectiveInterface::class)
             ->shouldReceive('getTitle')->andReturn('clean title')
             ->mock();
-        $dirtyObjective = m::mock('App\Entity\ObjectiveInterface')
+        $dirtySessionObjective = m::mock(SessionObjectiveInterface::class)
             ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setTitle')->with('<h1>html title</h1>')
             ->mock();
-        $this->objectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 1)
-            ->andReturn([$cleanObjective, $dirtyObjective]);
-        $this->objectiveManager->shouldReceive('update')->with($dirtyObjective, false);
-        $this->objectiveManager->shouldReceive('getTotalObjectiveCount')->andReturn(2);
+        $this->sessionObjectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 1)
+            ->andReturn([$cleanSessionObjective, $dirtySessionObjective]);
+        $this->sessionObjectiveManager->shouldReceive('update')->with($dirtySessionObjective, false);
+        $this->sessionObjectiveManager->shouldReceive('getTotalObjectiveCount')->andReturn(2);
 
-        $this->purifier->shouldReceive('purify')->with('clean title')->andReturn('clean title');
+        $cleanCourseObjective = m::mock(CourseObjectiveInterface::class)
+            ->shouldReceive('getTitle')->andReturn('clean title')
+            ->mock();
+        $dirtyCourseObjective = m::mock(CourseObjectiveInterface::class)
+            ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
+            ->shouldReceive('setTitle')->with('<h1>html title</h1>')
+            ->mock();
+        $this->courseObjectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 1)
+            ->andReturn([$cleanCourseObjective, $dirtyCourseObjective]);
+        $this->courseObjectiveManager->shouldReceive('update')->with($dirtyCourseObjective, false);
+        $this->courseObjectiveManager->shouldReceive('getTotalObjectiveCount')->andReturn(2);
+
+        $cleanPyObjective = m::mock(ProgramYearObjectiveInterface::class)
+            ->shouldReceive('getTitle')->andReturn('clean title')
+            ->mock();
+        $dirtyProgramYearObjective = m::mock(ProgramYearObjectiveInterface::class)
+            ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
+            ->shouldReceive('setTitle')->with('<h1>html title</h1>')
+            ->mock();
+        $this->programYearObjectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 1)
+            ->andReturn([$cleanPyObjective, $dirtyProgramYearObjective]);
+        $this->programYearObjectiveManager->shouldReceive('update')->with($dirtyProgramYearObjective, false);
+        $this->programYearObjectiveManager->shouldReceive('getTotalObjectiveCount')->andReturn(2);
+
+        $this->purifier->shouldReceive('purify')
+            ->with('clean title')
+            ->andReturn('clean title')
+            ->times(3);
         $this->purifier->shouldReceive('purify')
             ->with('<script>alert();</script><h1>html title</h1>')
-            ->andReturn('<h1>html title</h1>');
-        $this->em->shouldReceive('flush')->once();
-        $this->em->shouldReceive('clear')->once();
+            ->andReturn('<h1>html title</h1>')
+            ->times(3);
+        $this->em->shouldReceive('flush')->times(3);
+        $this->em->shouldReceive('clear')->times(3);
         $this->commandTester->execute([
             'command'           => self::COMMAND_NAME,
             '--objective-title' => true
@@ -108,7 +149,7 @@ class CleanupStringsCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/1 Objective Titles updated/',
+            '/3 Objective Titles updated/',
             $output
         );
     }

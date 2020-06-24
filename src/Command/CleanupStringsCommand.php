@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\Manager\CourseObjectiveManager;
+use App\Entity\Manager\ProgramYearObjectiveManager;
+use App\Entity\Manager\SessionObjectiveManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use HTMLPurifier;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
-use App\Entity\Manager\ObjectiveManager;
 use App\Entity\Manager\LearningMaterialManager;
 use App\Entity\Manager\CourseLearningMaterialManager;
 use App\Entity\Manager\SessionLearningMaterialManager;
@@ -24,7 +28,7 @@ use App\Entity\Manager\SessionDescriptionManager;
 class CleanupStringsCommand extends Command
 {
     /**
-     * @var \HTMLPurifier
+     * @var HTMLPurifier
      */
     protected $purifier;
 
@@ -34,9 +38,19 @@ class CleanupStringsCommand extends Command
     protected $em;
 
     /**
-     * @var ObjectiveManager
+     * @var SessionObjectiveManager
      */
-    protected $objectiveManager;
+    protected $sessionObjectiveManager;
+
+    /**
+     * @var CourseObjectiveManager
+     */
+    protected $courseObjectiveManager;
+
+    /**
+     * @var ProgramYearObjectiveManager
+     */
+    protected $programYearObjectiveManager;
 
     /**
      * @var LearningMaterialManager
@@ -67,21 +81,25 @@ class CleanupStringsCommand extends Command
     private const QUERY_LIMIT = 500;
 
     public function __construct(
-        \HTMLPurifier $purifier,
+        HTMLPurifier $purifier,
         EntityManagerInterface $em,
-        ObjectiveManager $objectiveManager,
         LearningMaterialManager $learningMaterialManager,
         CourseLearningMaterialManager $courseLearningMaterialManager,
         SessionLearningMaterialManager $sessionLearningMaterialManager,
-        SessionDescriptionManager $sessionDescriptionManager
+        SessionDescriptionManager $sessionDescriptionManager,
+        SessionObjectiveManager $sessionObjectiveManager,
+        CourseObjectiveManager $courseObjectiveManager,
+        ProgramYearObjectiveManager $programYearObjectiveManager
     ) {
         $this->purifier = $purifier;
         $this->em = $em;
-        $this->objectiveManager = $objectiveManager;
         $this->learningMaterialManager = $learningMaterialManager;
         $this->courseLearningMaterialManager = $courseLearningMaterialManager;
         $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
         $this->sessionDescriptionManager = $sessionDescriptionManager;
+        $this->sessionObjectiveManager = $sessionObjectiveManager;
+        $this->courseObjectiveManager = $courseObjectiveManager;
+        $this->programYearObjectiveManager = $programYearObjectiveManager;
 
         parent::__construct();
     }
@@ -147,34 +165,47 @@ class CleanupStringsCommand extends Command
     /**
      * Purify objective titles
      * @param OutputInterface $output
+     * @throws Exception
      */
     protected function purifyObjectiveTitle(OutputInterface $output)
     {
         $cleanedTitles = 0;
-        $offset = 1;
         $limit = self::QUERY_LIMIT;
-        $totalObjectives = $this->objectiveManager->getTotalObjectiveCount();
+        $totalObjectives = $this->sessionObjectiveManager->getTotalObjectiveCount();
+        $totalObjectives += $this->courseObjectiveManager->getTotalObjectiveCount();
+        $totalObjectives += $this->programYearObjectiveManager->getTotalObjectiveCount();
+
         $progress = new ProgressBar($output, $totalObjectives);
         $progress->setRedrawFrequency(208);
         $output->writeln("<info>Starting cleanup of objective titles...</info>");
         $progress->start();
-        do {
-            $objectives = $this->objectiveManager->findBy([], ['id' => 'ASC'], $limit, $offset);
-            foreach ($objectives as $objective) {
-                $originalTitle = $objective->getTitle();
-                $cleanTitle = $this->purifier->purify($originalTitle);
-                if ($originalTitle != $cleanTitle) {
-                    $cleanedTitles++;
-                    $objective->setTitle($cleanTitle);
-                    $this->objectiveManager->update($objective, false);
-                }
-                $progress->advance();
-            }
+        $objectiveManagers = [
+            $this->sessionObjectiveManager,
+            $this->courseObjectiveManager,
+            $this->programYearObjectiveManager
+        ];
 
-            $offset += $limit;
-            $this->em->flush();
-            $this->em->clear();
-        } while (count($objectives) == $limit);
+        foreach ($objectiveManagers as $objectiveManager) {
+            $offset = 1;
+            do {
+                $objectives = $objectiveManager->findBy([], ['id' => 'ASC'], $limit, $offset);
+                foreach ($objectives as $objective) {
+                    $originalTitle = $objective->getTitle();
+                    $cleanTitle = $this->purifier->purify($originalTitle);
+                    if ($originalTitle != $cleanTitle) {
+                        $cleanedTitles++;
+                        $objective->setTitle($cleanTitle);
+                        $objectiveManager->update($objective, false);
+                    }
+                    $progress->advance();
+                }
+
+                $offset += $limit;
+                $this->em->flush();
+                $this->em->clear();
+            } while (count($objectives) == $limit);
+        }
+
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleanedTitles} Objective Titles updated.</info>");
