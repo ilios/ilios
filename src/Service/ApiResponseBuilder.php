@@ -156,7 +156,7 @@ class ApiResponseBuilder
                 if (!array_key_exists($key, $carry)) {
                     $carry[$key] = [];
                 }
-                $carry[$key] = array_merge($carry[$key], $tree[$key]);
+                $carry[$key] = array_merge_recursive($carry[$key], $tree[$key]);
 
                 return $carry;
             },
