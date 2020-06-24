@@ -7,7 +7,6 @@ namespace App\Entity\Repository;
 use App\Entity\LearningMaterial;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
@@ -20,7 +19,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\LearningMaterial', 'x');
+        $qb->select('DISTINCT x')->from(LearningMaterial::class, 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -56,7 +55,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
     public function findFileLearningMaterials($limit, $offset)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\LearningMaterial', 'x');
+        $qb->select('DISTINCT x')->from(LearningMaterial::class, 'x');
         $qb->where($qb->expr()->isNotNull('x.relativePath'));
 
         $qb->setFirstResult($offset);
@@ -136,7 +135,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
             ->select(
                 'x.id as xId, userRole.id as userRoleId, owningUser.id as owningUserId, status.id as statusId'
             )
-            ->from('App\Entity\LearningMaterial', 'x')
+            ->from(LearningMaterial::class, 'x')
             ->join('x.userRole', 'userRole')
             ->join('x.owningUser', 'owningUser')
             ->join('x.status', 'status')
@@ -156,7 +155,7 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS learningMaterialId')
-                ->from('App\Entity\LearningMaterial', 'x')
+                ->from(LearningMaterial::class, 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')
@@ -278,11 +277,9 @@ class LearningMaterialRepository extends EntityRepository implements DTOReposito
             $qb->leftJoin('m_session.meshDescriptors', 'm_sessMeshDescriptor');
             $qb->leftJoin('m_course.meshDescriptors', 'm_courseMeshDescriptor');
             $qb->leftJoin('m_session.sessionObjectives', 'm_sSessionObjective');
-            $qb->leftJoin('m_sSessionObjective.objective', 'm_sObjective');
-            $qb->leftJoin('m_sObjective.meshDescriptors', 'm_sObjectiveMeshDescriptors');
+            $qb->leftJoin('m_sSessionObjective.meshDescriptors', 'm_sObjectiveMeshDescriptors');
             $qb->leftJoin('m_course.courseObjectives', 'm_cCourseObjective');
-            $qb->leftJoin('m_cCourseObjective.objective', 'm_cObjective');
-            $qb->leftJoin('m_cObjective.meshDescriptors', 'm_cObjectiveMeshDescriptors');
+            $qb->leftJoin('m_cCourseObjective.meshDescriptors', 'm_cObjectiveMeshDescriptors');
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->in('m_slmMeshDescriptor.id', ':meshDescriptors'),
                 $qb->expr()->in('m_clmMeshDescriptor.id', ':meshDescriptors'),
