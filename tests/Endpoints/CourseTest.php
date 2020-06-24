@@ -716,4 +716,28 @@ class CourseTest extends ReadWriteEndpointTest
             $this->assertArrayNotHasKey('competency', $arr);
         }
     }
+
+    public function testIncludeBothProgramYearProgramAndObjectivesWithCohort()
+    {
+        $includes = $this->getJsonApiIncludes(
+            'courses',
+            '1',
+            'cohorts.programYear.program,cohorts.programYear.programYearObjectives.objective'
+        );
+
+
+        $this->assertArrayHasKey('programYears', $includes);
+        $this->assertArrayHasKey('programs', $includes);
+        $this->assertArrayHasKey('programYearObjectives', $includes);
+        $this->assertArrayHasKey('objectives', $includes);
+
+        $this->assertIsArray($includes['programYears']);
+        $this->assertEquals(["1"], $includes['programYears']);
+        $this->assertIsArray($includes['programs']);
+        $this->assertEquals(["1"], $includes['programs']);
+        $this->assertIsArray($includes['programYearObjectives']);
+        $this->assertEquals(["1"], $includes['programYearObjectives']);
+        $this->assertIsArray($includes['objectives']);
+        $this->assertEquals(["1"], $includes['objectives']);
+    }
 }

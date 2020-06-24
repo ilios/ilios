@@ -354,6 +354,40 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $content->data;
     }
 
+    protected function getJsonApiIncludes(string $endpoint, string $id, string $include): array
+    {
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            "app_api_${endpoint}_getone",
+            ['version' => $this->apiVersion, 'id' => $id, 'include' => $include]
+        );
+        $this->createJsonApiRequest(
+            'GET',
+            $url,
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
+            $this->fail("Unable to load url: {$url}");
+        }
+
+        $this->assertJsonApiResponse($response, Response::HTTP_OK);
+        $content = json_decode($response->getContent());
+        $this->assertObjectHasAttribute('included', $content);
+
+        return array_reduce($content->included, function (array $carry, object $obj) {
+            if (!array_key_exists($obj->type, $carry)) {
+                $carry[$obj->type] = [];
+            }
+            $carry[$obj->type][] = $obj->id;
+
+            return $carry;
+        }, []);
+    }
+
     /**
      * Get getting every piece of data in the test DB
      * @return mixed
