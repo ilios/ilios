@@ -22,6 +22,7 @@ class ProgramYearObjectiveData extends AbstractDataLoader
             'meshDescriptors' => ['abc1'],
             'courseObjectives' => [],
             'descendants' => ['2'],
+            'competency' => '1',
         ];
 
         $arr[] = [
@@ -34,7 +35,8 @@ class ProgramYearObjectiveData extends AbstractDataLoader
             'meshDescriptors' => ['abc3'],
             'courseObjectives' => [],
             'descendants' => [],
-            'ancestor' => '1'
+            'ancestor' => '1',
+            'competency' => '2'
         ];
 
         return $arr;

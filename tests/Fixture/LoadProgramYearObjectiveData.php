@@ -47,7 +47,7 @@ class LoadProgramYearObjectiveData extends AbstractFixture implements
                 $entity->setAncestor($this->getReference('programYearObjectives' . $arr['ancestor']));
             }
             if (array_key_exists('competency', $arr)) {
-                $entity->setCompetency($this->getReference('competencies' . $arr['ancestor']));
+                $entity->setCompetency($this->getReference('competencies' . $arr['competency']));
             }
             $manager->persist($entity);
 

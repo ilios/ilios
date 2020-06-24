@@ -20,7 +20,7 @@ class CompetencyData extends AbstractDataLoader
             'children' => ['3'],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101'],
             'programYears' => ['1'],
-            'programYearObjectives' => [],
+            'programYearObjectives' => ['1'],
         ];
 
         $arr[] = [
@@ -31,7 +31,7 @@ class CompetencyData extends AbstractDataLoader
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102'],
             'programYears' => [],
-            'programYearObjectives' => [],
+            'programYearObjectives' => ['2'],
 
         ];
 

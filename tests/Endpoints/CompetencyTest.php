@@ -42,7 +42,6 @@ class CompetencyTest extends ReadWriteEndpointTest
         return [
             'title' => ['title', $this->getFaker()->text],
             'school' => ['school', 3],
-            'objectives' => ['objectives', [1], $skipped = true],
             'parent' => ['parent', 2],
             'children' => ['children', [1], $skipped = true],
             'aamcPcrses' => ['aamcPcrses', ['aamc-pcrs-comp-c0102']],
@@ -72,7 +71,6 @@ class CompetencyTest extends ReadWriteEndpointTest
             'title' => [[2], ['title' => 'third competency']],
             'school' => [[0, 1, 2], ['school' => 1]],
             'schools' => [[0, 1, 2], ['schools' => [1]]],
-            'objectives' => [[2], ['objectives' => 1], $skipped = true],
             'parent' => [[2], ['parent' => 1], $skipped = true],
             'children' => [[0], ['children' => 3], $skipped = true],
             'aamcPcrses' => [[1], ['aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102']], $skipped = true],
