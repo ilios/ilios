@@ -297,14 +297,12 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface,
             $qb->leftJoin('t.courses', 'cm_course');
             $qb->leftJoin('t.sessions', 'cm_session');
             $qb->leftJoin('cm_course.courseObjectives', 'cm_course_x_objective');
-            $qb->leftJoin('cm_course_x_objective.objective', 'cm_course_objective');
-            $qb->leftJoin('cm_course_objective.parents', 'cm_program_year_objective');
+            $qb->leftJoin('cm_course_x_objective.programYearObjectives', 'cm_program_year_objective');
             $qb->leftJoin('cm_program_year_objective.competency', 'cm_competency');
             $qb->leftJoin('cm_competency.parent', 'cm_competency2');
             $qb->leftJoin('cm_session.sessionObjectives', 'cm_session_x_objective');
-            $qb->leftJoin('cm_session_x_objective.objective', 'cm_session_objective');
-            $qb->leftJoin('cm_session_objective.parents', 'cm_course_objective2');
-            $qb->leftJoin('cm_course_objective2.parents', 'cm_program_year_objective2');
+            $qb->leftJoin('cm_session_x_objective.courseObjectives', 'cm_course_objective2');
+            $qb->leftJoin('cm_course_objective2.programYearObjectives', 'cm_program_year_objective2');
             $qb->leftJoin('cm_program_year_objective2.competency', 'cm_competency3');
             $qb->leftJoin('cm_competency3.parent', 'cm_competency4');
             $qb->andWhere(
@@ -334,14 +332,11 @@ class TermRepository extends EntityRepository implements DTORepositoryInterface,
             $qb->leftJoin('m_course2.learningMaterials', 'm_clm2');
             $qb->leftJoin('m_clm.meshDescriptors', 'm_meshDescriptor6');
             $qb->leftJoin('m_course.courseObjectives', 'm_course_x_objective');
-            $qb->leftJoin('m_course_x_objective.objective', 'm_objective');
-            $qb->leftJoin('m_objective.meshDescriptors', 'm_meshDescriptor7');
+            $qb->leftJoin('m_course_x_objective.meshDescriptors', 'm_meshDescriptor7');
             $qb->leftJoin('m_session.sessionObjectives', 'm_session_x_objective');
-            $qb->leftJoin('m_session_x_objective.objective', 'm_objective2');
-            $qb->leftJoin('m_objective2.meshDescriptors', 'm_meshDescriptor8');
+            $qb->leftJoin('m_session_x_objective.meshDescriptors', 'm_meshDescriptor8');
             $qb->leftJoin('m_course2.courseObjectives', 'm_course_x_objective2');
-            $qb->leftJoin('m_course_x_objective2.objective', 'm_objective3');
-            $qb->leftJoin('m_objective3.meshDescriptors', 'm_meshDescriptor9');
+            $qb->leftJoin('m_course_x_objective2.meshDescriptors', 'm_meshDescriptor9');
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->in('m_meshDescriptor.id', ':meshDescriptors'),
