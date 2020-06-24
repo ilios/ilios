@@ -151,15 +151,7 @@ class ApiResponseBuilder
         };
         return array_reduce(
             array_map($dotToTree, $fields),
-            function (array $carry, array $tree) {
-                $key = array_key_first($tree);
-                if (!array_key_exists($key, $carry)) {
-                    $carry[$key] = [];
-                }
-                $carry[$key] = array_merge_recursive($carry[$key], $tree[$key]);
-
-                return $carry;
-            },
+            'array_merge_recursive',
             []
         );
     }

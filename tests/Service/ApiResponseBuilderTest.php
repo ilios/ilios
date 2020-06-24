@@ -32,6 +32,40 @@ class ApiResponseBuilderTest extends TestCase
         unset($this->obj);
     }
 
+    public function testSimpleTree()
+    {
+        $input = 'cohorts,objective';
+        $tree = $this->obj->extractJsonApiSideLoadFields($input);
+        $expected = [
+            'cohorts' => [],
+            'objective' => [],
+        ];
+        $this->assertEquals($expected, $tree);
+    }
+
+    public function testTwoLevelTree()
+    {
+        $input = 'cohorts.green,objective.green';
+        $tree = $this->obj->extractJsonApiSideLoadFields($input);
+        $expected = [
+            'cohorts' => [
+                'green' => []
+            ],
+            'objective' => [
+                'green' => []
+            ],
+        ];
+        $this->assertEquals($expected, $tree);
+    }
+
+    public function testEmptyTree()
+    {
+        $input = '';
+        $tree = $this->obj->extractJsonApiSideLoadFields($input);
+        $expected = [];
+        $this->assertEquals($expected, $tree);
+    }
+
     public function testDoubleTopLevelTree()
     {
         $input = 'cohorts.programYear.program,cohorts.programYear.programYearObjectives.objective';
@@ -60,6 +94,78 @@ class ApiResponseBuilderTest extends TestCase
                         'school' => [],
                         'directors' => [],
                     ],
+                ],
+            ]
+        ];
+        $this->assertEquals($expected, $tree);
+    }
+
+    public function testCourseSessionTree()
+    {
+        $sessionRelationships = [
+            'learningMaterials.learningMaterial.owningUser',
+            'sessionObjectives.objective.parents',
+            'sessionObjectives.objective.meshDescriptors',
+            'sessionObjectives.terms.vocabulary',
+            'offerings.learners',
+            'offerings.instructors',
+            'offerings.instructorGroups.users',
+            'offerings.learnerGroups.users',
+            'ilmSession.learners',
+            'ilmSession.instructors',
+            'ilmSession.instructorGroups.users',
+            'ilmSession.learnerGroups.users',
+            'sessionDescription',
+            'terms.vocabulary',
+            'meshDescriptors.trees',
+        ];
+        $input = array_reduce($sessionRelationships, function ($carry, $item) {
+            return "${carry}sessions.${item},";
+        }, '');
+
+        $tree = $this->obj->extractJsonApiSideLoadFields($input);
+        $expected = [
+            'sessions' => [
+                'learningMaterials' => [
+                    'learningMaterial' => [
+                        'owningUser' => [],
+                    ]
+                ],
+                'sessionObjectives' => [
+                    'objective' => [
+                        'parents' => [],
+                        'meshDescriptors' => [],
+                    ],
+                    'terms' => [
+                        'vocabulary' => []
+                    ],
+                ],
+                'offerings' => [
+                    'learners' => [],
+                    'instructors' => [],
+                    'instructorGroups' => [
+                        'users' => []
+                    ],
+                    'learnerGroups' => [
+                        'users' => []
+                    ]
+                ],
+                'ilmSession' => [
+                    'learners' => [],
+                    'instructors' => [],
+                    'instructorGroups' => [
+                        'users' => []
+                    ],
+                    'learnerGroups' => [
+                        'users' => []
+                    ]
+                ],
+                'sessionDescription' => [],
+                'terms' => [
+                    'vocabulary' => []
+                ],
+                'meshDescriptors' => [
+                    'trees' => []
                 ],
             ]
         ];
