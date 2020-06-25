@@ -725,19 +725,89 @@ class CourseTest extends ReadWriteEndpointTest
             'cohorts.programYear.program,cohorts.programYear.programYearObjectives.objective'
         );
 
-
         $this->assertArrayHasKey('programYears', $includes);
         $this->assertArrayHasKey('programs', $includes);
         $this->assertArrayHasKey('programYearObjectives', $includes);
         $this->assertArrayHasKey('objectives', $includes);
 
         $this->assertIsArray($includes['programYears']);
-        $this->assertEquals(["1"], $includes['programYears']);
+        $this->assertEquals(['1'], $includes['programYears']);
         $this->assertIsArray($includes['programs']);
-        $this->assertEquals(["1"], $includes['programs']);
+        $this->assertEquals(['1'], $includes['programs']);
         $this->assertIsArray($includes['programYearObjectives']);
-        $this->assertEquals(["1"], $includes['programYearObjectives']);
+        $this->assertEquals(['1'], $includes['programYearObjectives']);
         $this->assertIsArray($includes['objectives']);
-        $this->assertEquals(["1"], $includes['objectives']);
+        $this->assertEquals(['1'], $includes['objectives']);
+    }
+
+    public function testIncludeSessionDetails()
+    {
+        $sessionRelationships = [
+            'learningMaterials.learningMaterial.owningUser',
+            'sessionObjectives.objective.parents',
+            'sessionObjectives.objective.meshDescriptors',
+            'sessionObjectives.terms.vocabulary',
+            'offerings.learners',
+            'offerings.instructors',
+            'offerings.instructorGroups.users',
+            'offerings.learnerGroups.users',
+            'ilmSession.learners',
+            'ilmSession.instructors',
+            'ilmSession.instructorGroups.users',
+            'ilmSession.learnerGroups.users',
+            'sessionDescription',
+            'terms.vocabulary',
+            'meshDescriptors.trees',
+        ];
+        $sessionIncludes = array_reduce($sessionRelationships, function ($carry, $item) {
+            return "${carry}sessions.${item},";
+        }, '');
+
+        $includes = $this->getJsonApiIncludes(
+            'courses',
+            '1',
+            $sessionIncludes
+        );
+
+        $this->assertArrayHasKey('sessions', $includes);
+        $this->assertArrayHasKey('terms', $includes);
+        $this->assertArrayHasKey('vocabularies', $includes);
+        $this->assertArrayHasKey('sessionObjectives', $includes);
+        $this->assertArrayHasKey('objectives', $includes);
+        $this->assertArrayHasKey('meshDescriptors', $includes);
+        $this->assertArrayHasKey('sessionDescriptions', $includes);
+        $this->assertArrayHasKey('sessionLearningMaterials', $includes);
+        $this->assertArrayHasKey('learningMaterials', $includes);
+        $this->assertArrayHasKey('users', $includes);
+        $this->assertArrayHasKey('offerings', $includes);
+        $this->assertArrayHasKey('learnerGroups', $includes);
+        $this->assertArrayHasKey('instructorGroups', $includes);
+
+        $this->assertIsArray($includes['sessions']);
+        $this->assertEquals(['1', '2'], $includes['sessions']);
+        $this->assertIsArray($includes['terms']);
+        $this->assertEquals(['1', '2', '3', '4', '5'], $includes['terms']);
+        $this->assertIsArray($includes['vocabularies']);
+        $this->assertEquals(['1', '2'], $includes['vocabularies']);
+        $this->assertIsArray($includes['sessionObjectives']);
+        $this->assertEquals(['1'], $includes['sessionObjectives']);
+        $this->assertIsArray($includes['objectives']);
+        $this->assertEquals(['2', '3'], $includes['objectives']);
+        $this->assertIsArray($includes['meshDescriptors']);
+        $this->assertEquals(['abc1'], $includes['meshDescriptors']);
+        $this->assertIsArray($includes['sessionDescriptions']);
+        $this->assertEquals(['1', '2'], $includes['sessionDescriptions']);
+        $this->assertIsArray($includes['sessionLearningMaterials']);
+        $this->assertEquals(['1'], $includes['sessionLearningMaterials']);
+        $this->assertIsArray($includes['learningMaterials']);
+        $this->assertEquals(['1'], $includes['learningMaterials']);
+        $this->assertIsArray($includes['users']);
+        $this->assertEquals(['1', '2', '4', '5'], $includes['users']);
+        $this->assertIsArray($includes['offerings']);
+        $this->assertEquals(['1', '2', '3', '4', '5'], $includes['offerings']);
+        $this->assertIsArray($includes['learnerGroups']);
+        $this->assertEquals(['1', '2', '5'], $includes['learnerGroups']);
+        $this->assertIsArray($includes['instructorGroups']);
+        $this->assertEquals(['1', '2'], $includes['instructorGroups']);
     }
 }

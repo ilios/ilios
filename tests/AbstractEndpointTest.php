@@ -383,6 +383,7 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $carry[$obj->type] = [];
             }
             $carry[$obj->type][] = $obj->id;
+            sort($carry[$obj->type]);
 
             return $carry;
         }, []);
