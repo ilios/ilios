@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\CourseObjective;
+use App\Entity\CurriculumInventoryReport;
+use App\Entity\ProgramYearObjective;
+use App\Entity\Session;
+use App\Entity\SessionObjective;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
@@ -22,7 +27,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\CurriculumInventoryReport', 'x');
+        $qb->select('DISTINCT x')->from(CurriculumInventoryReport::class, 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -42,7 +47,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\CurriculumInventoryReport', 'x');
+            ->distinct()->from(CurriculumInventoryReport::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var CurriculumInventoryReportDTO[] $curriculumInventoryReportDTOs */
@@ -66,7 +71,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
                 'export.id AS exportId, sequence.id AS sequenceId, program.id AS programId, ' .
                 'school.id AS schoolId'
             )
-            ->from('App\Entity\CurriculumInventoryReport', 'x')
+            ->from(CurriculumInventoryReport::class, 'x')
             ->join('x.program', 'program')
             ->join('program.school', 'school')
             ->leftJoin('x.sequence', 'sequence')
@@ -89,7 +94,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS curriculumInventoryReportId')
-                ->from('App\Entity\CurriculumInventoryReport', 'x')
+                ->from(CurriculumInventoryReport::class, 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')
@@ -173,7 +178,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $qb = $this->_em->createQueryBuilder();
         $qb->select('s.id AS event_id, art.id AS resource_type_id, art.title AS resource_type_title')
             ->distinct()
-            ->from('App\Entity\Session', 's')
+            ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->join('c.sequenceBlocks', 'sb')
             ->join('sb.report', 'r')
@@ -202,7 +207,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select("s.id AS event_id, md.id, 'MeSH' AS source, md.name")
-            ->from('App\Entity\Session', 's')
+            ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->join('c.sequenceBlocks', 'sb')
             ->join('sb.report', 'r')
@@ -215,7 +220,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $queries[] = $qb->getQuery();
         $qb = $this->_em->createQueryBuilder();
         $qb->select("s.id AS event_id, t.id, v.title AS source, t.title AS name")
-            ->from('App\Entity\Session', 's')
+            ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->join('c.sequenceBlocks', 'sb')
             ->join('sb.report', 'r')
@@ -249,7 +254,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('sb.id, s.id AS event_id, s.supplemental AS optional')
-            ->from('App\Entity\Session', 's')
+            ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->join('c.sequenceBlocks', 'sb')
             ->join('sb.report', 'r')
@@ -270,7 +275,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $qb = $this->_em->createQueryBuilder();
         $qb->select('o.id, o.title, a.id AS ancestor_id')
             ->distinct()
-            ->from('App\Entity\CurriculumInventoryReport', 'r')
+            ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.program', 'p')
             ->join('p.school', 's')
             ->join('r.sequenceBlocks', 'sb')
@@ -279,8 +284,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('co.programYear', 'py')
             ->join('py.program', 'p2')
             ->join('p2.school', 's2')
-            ->join('py.programYearObjectives', 'pyxo')
-            ->join('pyxo.objective', 'o')
+            ->join('py.programYearObjectives', 'o')
             ->leftJoin('o.ancestor', 'a')
             ->where($qb->expr()->eq('s.id', 's2.id'))
             ->andWhere($qb->expr()->eq('r.id', ':id'))
@@ -303,12 +307,11 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $qb = $this->_em->createQueryBuilder();
         $qb->select('o.id, o.title')
             ->distinct()
-            ->from('App\Entity\CurriculumInventoryReport', 'r')
+            ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.program', 'p')
             ->join('r.sequenceBlocks', 'sb')
             ->join('sb.course', 'c')
-            ->join('c.courseObjectives', 'cxo')
-            ->join('cxo.objective', 'o')
+            ->join('c.courseObjectives', 'o')
             ->where($qb->expr()->eq('r.id', ':id'))
             ->setParameter('id', $report->getId());
 
@@ -336,13 +339,12 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $qb = $this->_em->createQueryBuilder();
         $qb->select('o.id, o.title')
             ->distinct()
-            ->from('App\Entity\CurriculumInventoryReport', 'r')
+            ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.program', 'p')
             ->join('r.sequenceBlocks', 'sb')
             ->join('sb.course', 'c')
             ->join('c.sessions', 's')
-            ->join('s.sessionObjectives', 'sxo')
-            ->join('sxo.objective', 'o')
+            ->join('s.sessionObjectives', 'o')
             ->where($qb->expr()->eq('r.id', ':id'))
             ->andWhere($qb->expr()->in('s.id', ':sessionIds'))
             ->setParameter('id', $report->getId())
@@ -375,15 +377,14 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             . 'po.id AS program_objective_id'
         )
             ->distinct()
-            ->from('App\Entity\CurriculumInventoryReport', 'r')
+            ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.program', 'p')
             ->join('r.sequenceBlocks', 'sb')
             ->join('sb.course', 'c')
             ->join('c.sessions', 's')
-            ->leftJoin('s.sessionObjectives', 'sxo')
-            ->leftJoin('sxo.objective', 'so')
-            ->leftJoin('so.parents', 'co')
-            ->leftJoin('co.parents', 'po')
+            ->leftJoin('s.sessionObjectives', 'so')
+            ->leftJoin('so.courseObjectives', 'co')
+            ->leftJoin('co.programYearObjectives', 'po')
             ->where($qb->expr()->eq('r.id', ':id'))
             ->andWhere($qb->expr()->in('s.id', ':eventIds'))
             ->setParameter('id', $report->getId())
@@ -401,14 +402,13 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $qb = $this->_em->createQueryBuilder();
         $qb->select('sb.id, co.id AS course_objective_id, po.id AS program_objective_id')
             ->distinct()
-            ->from('App\Entity\CurriculumInventoryReport', 'r')
+            ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.program', 'p')
             ->join('p.school', 's')
             ->join('r.sequenceBlocks', 'sb')
             ->join('sb.course', 'c')
-            ->leftJoin('c.courseObjectives', 'cxo')
-            ->leftJoin('cxo.objective', 'co')
-            ->leftJoin('co.parents', 'po')
+            ->leftJoin('c.courseObjectives', 'co')
+            ->leftJoin('co.programYearObjectives', 'po')
             ->where($qb->expr()->eq('r.id', ':id'))
             ->setParameter('id', $report->getId());
 
@@ -429,7 +429,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $qb = $this->_em->createQueryBuilder();
         $qb->select('o.id as objective_id, am.id AS pcrs_id')
             ->distinct()
-            ->from('App\Entity\Objective', 'o')
+            ->from(ProgramYearObjective::class, 'o')
             ->join('o.competency', 'c')
             ->join('c.aamcPcrses', 'am')
             ->where($qb->expr()->in('am.id', ':pcrs'))
@@ -454,11 +454,10 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('o.id AS objective_id, p.id AS parent_objective_id')
+        $qb->select('o.id AS objective_id, p.id AS program_objective_id')
             ->distinct()
-            ->from('App\Entity\Objective', 'o')
-            ->join('o.courseObjectives', 'cxo')
-            ->join('o.parents', 'p')
+            ->from(CourseObjective::class, 'o')
+            ->join('o.programYearObjectives', 'p')
             ->where($qb->expr()->in('p.id', ':programObjectiveIds'))
             ->andWhere($qb->expr()->in('o.id', ':courseObjectiveIds'))
             ->setParameter(':courseObjectiveIds', $courseObjectiveIds)
@@ -481,12 +480,11 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         }
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('o.id AS objective_id, p.id AS parent_objective_id')
+        $qb->select('o.id AS objective_id, c.id AS course_objective_id')
             ->distinct()
-            ->from('App\Entity\Objective', 'o')
-            ->join('o.sessionObjectives', 'sxo')
-            ->join('o.parents', 'p')
-            ->where($qb->expr()->in('p.id', ':courseObjectiveIds'))
+            ->from(SessionObjective::class, 'o')
+            ->join('o.courseObjectives', 'c')
+            ->where($qb->expr()->in('c.id', ':courseObjectiveIds'))
             ->andWhere($qb->expr()->in('o.id', ':sessionObjectiveIds'))
             ->setParameter(':sessionObjectiveIds', $sessionObjectiveIds)
             ->setParameter(':courseObjectiveIds', $courseObjectiveIds);
@@ -503,7 +501,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $rhett = [];
         $qb = $this->_em->createQueryBuilder();
         $qb->select('am.id AS pcrs_id, am.description')
-            ->from('App\Entity\CurriculumInventoryReport', 'r')
+            ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.program', 'p')
             ->join('p.school', 's')
             ->join('r.sequenceBlocks', 'sb')
@@ -511,8 +509,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('c.cohorts', 'co')
             ->join('co.programYear', 'py')
             ->join('py.programYearObjectives', 'pyxo')
-            ->join('pyxo.objective', 'o')
-            ->join('o.competency', 'cm')
+            ->join('pyxo.competency', 'cm')
             ->join('cm.school', 's2')
             ->join('cm.parent', 'cm2')
             ->join('cm2.aamcPcrses', 'am')
@@ -523,7 +520,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('am.id AS pcrs_id, am.description')
-            ->from('App\Entity\CurriculumInventoryReport', 'r')
+            ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.program', 'p')
             ->join('p.school', 's')
             ->join('r.sequenceBlocks', 'sb')
@@ -531,8 +528,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('c.cohorts', 'co')
             ->join('co.programYear', 'py')
             ->join('py.programYearObjectives', 'pyxo')
-            ->join('pyxo.objective', 'o')
-            ->join('o.competency', 'cm')
+            ->join('pyxo.competency', 'cm')
             ->join('cm.school', 's2')
             ->join('cm.aamcPcrses', 'am')
             ->where($qb->expr()->eq('s.id', 's2.id'))
@@ -564,7 +560,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             's.id AS event_id, s.title, sd.description, am.id AS method_id,'
             . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, sf.hours'
         )
-            ->from('App\Entity\Session', 's')
+            ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->join('s.ilmSession', 'sf')
             ->join('c.sequenceBlocks', 'sb')
@@ -606,7 +602,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             's.id AS event_id, s.title, sd.description, am.id AS method_id,'
             . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, o.startDate, o.endDate'
         )
-            ->from('App\Entity\Session', 's')
+            ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->join('c.sequenceBlocks', 'sb')
             ->join('sb.report', 'r')
@@ -643,7 +639,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             's.id AS event_id, s.title, sd.description, am.id AS method_id, sf.hours as ilm_hours,'
             . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, o.startDate, o.endDate'
         )
-            ->from('App\Entity\Session', 's')
+            ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->join('c.sequenceBlocks', 'sb')
             ->join('sb.report', 'r')
@@ -675,7 +671,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $qb = $this->_em->createQueryBuilder();
         $qb->select('s.id')
             ->distinct()
-            ->from('App\Entity\CurriculumInventoryReport', 'r')
+            ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.sequenceBlocks', 'sb')
             ->join('sb.sessions', 's')
             ->where($qb->expr()->eq('r.id', ':id'))
@@ -695,7 +691,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
         $qb = $this->_em->createQueryBuilder();
         $qb->select('s.id')
             ->distinct()
-            ->from('App\Entity\CurriculumInventoryReport', 'r')
+            ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.sequenceBlocks', 'sb')
             ->join('sb.excludedSessions', 's')
             ->where($qb->expr()->eq('r.id', ':id'))
