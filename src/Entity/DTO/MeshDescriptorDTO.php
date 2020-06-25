@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class MeshDescriptorDTO
@@ -37,14 +38,14 @@ class MeshDescriptorDTO
     public $annotation;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
     public $createdAt;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
@@ -158,8 +159,8 @@ class MeshDescriptorDTO
      * @param string $id
      * @param string $name
      * @param string $annotation
-     * @param \DateTime $createdAt
-     * @param \DateTime $updatedAt
+     * @param DateTime $createdAt
+     * @param DateTime $updatedAt
      * @param bool $deleted
      */
     public function __construct(
