@@ -11,10 +11,13 @@ class JsonApiData
 {
     protected $data = [];
     protected $includes = [];
+    protected $sideLoadCandidates = [];
+
     /**
      * @var EntityManagerLookup
      */
     protected $entityManagerLookup;
+
     /**
      * @var JsonApiDTONormalizer
      */
@@ -33,6 +36,7 @@ class JsonApiData
             $this->data[] = $shapedItem;
             $this->extractSideLoadData($shapedItem['relationships'], $sideLoadFields);
         }
+        $this->executeSideLoad();
     }
 
     public function toArray(): array
@@ -42,7 +46,6 @@ class JsonApiData
             'included' => $this->includes
         ];
     }
-
 
     protected function shapeItem(array $item): array
     {
@@ -105,7 +108,7 @@ class JsonApiData
                 $type = $this->getTypeForData($r['data']);
                 $ids = $this->getIdsForData($r['data']);
 
-                $this->sideLoad($type, $ids, $sideLoadFields[$key]);
+                $this->prepareSideLoad($type, $ids, $sideLoadFields[$key]);
             }
         }
     }
@@ -123,19 +126,62 @@ class JsonApiData
         }, []);
     }
 
-    protected function sideLoad(string $type, array $ids, array $sideLoadFields): void
+    protected function getIncluded(string $id, string $type): ?array
     {
-        $alreadyIncluded = $this->getIncludedIdsByType();
-        $newIds = array_key_exists($type, $alreadyIncluded) ? array_diff($ids, $alreadyIncluded[$type]) : $ids;
-        if (count($newIds)) {
-            $manager = $this->entityManagerLookup->getManagerForEndpoint($type);
-            $dtos = $manager->findDTOsBy(['id' => $newIds]);
-            foreach ($dtos as $dto) {
-                $data = $this->normalizer->normalize($dto, 'json-api');
-                $shaped = $this->shapeItem($data);
-                $this->includes[] = $shaped;
-                $this->extractSideLoadData($shaped['relationships'], $sideLoadFields);
+        foreach ($this->includes as $item) {
+            if ($item['type'] === $type && $item['id'] === $id) {
+                return $item;
             }
+        }
+
+        return null;
+    }
+
+    protected function prepareSideLoad(string $type, array $ids, array $sideLoadFields): void
+    {
+        if (!array_key_exists($type, $this->sideLoadCandidates)) {
+            $this->sideLoadCandidates[$type] = [];
+        }
+        foreach ($ids as $id) {
+            if (!array_key_exists($id, $this->sideLoadCandidates[$type])) {
+                $this->sideLoadCandidates[$type][$id] = [];
+            }
+            $this->sideLoadCandidates[$type][$id][] = $sideLoadFields;
+        }
+    }
+
+    /**
+     * Execute a batch of side loaded data
+     * By batching up each layer of data we save significant numbers of database queries
+     * and make this process much much faster. This method takes a batch and includes it in the final
+     * output
+     */
+    protected function executeSideLoad(): void
+    {
+        $sideLoadCandidates = $this->sideLoadCandidates;
+        $this->sideLoadCandidates = [];
+        foreach ($sideLoadCandidates as $type => $candidates) {
+            $ids = array_keys($candidates);
+            $alreadyIncluded = $this->getIncludedIdsByType();
+            $newIds = array_key_exists($type, $alreadyIncluded) ? array_diff($ids, $alreadyIncluded[$type]) : $ids;
+            if (count($newIds)) {
+                $manager = $this->entityManagerLookup->getManagerForEndpoint($type);
+                $dtos = $manager->findDTOsBy(['id' => $newIds]);
+                foreach ($dtos as $dto) {
+                    $data = $this->normalizer->normalize($dto, 'json-api');
+                    $shaped = $this->shapeItem($data);
+                    $this->includes[] = $shaped;
+                }
+            }
+            foreach ($ids as $id) {
+                $item = $this->getIncluded((string) $id, $type);
+                foreach ($candidates[$id] as $sideLoadFields) {
+                    $this->extractSideLoadData($item['relationships'], $sideLoadFields);
+                }
+            }
+        }
+        if (count($this->sideLoadCandidates)) {
+            $this->executeSideLoad();
         }
     }
 }
