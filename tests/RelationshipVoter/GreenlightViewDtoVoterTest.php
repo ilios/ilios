@@ -7,6 +7,7 @@ namespace App\Tests\RelationshipVoter;
 use App\Entity\DTO\CourseObjectiveDTO;
 use App\Entity\DTO\CourseV1DTO;
 use App\Entity\DTO\LearningMaterialDTO;
+use App\Entity\DTO\MeshDescriptorV1DTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
 use App\Entity\DTO\ProgramYearV1DTO;
 use App\Entity\DTO\SessionObjectiveDTO;
@@ -97,6 +98,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [LearningMaterialUserRoleDTO::class],
             [MeshConceptDTO::class],
             [MeshDescriptorDTO::class],
+            [MeshDescriptorV1DTO::class],
             [MeshPreviousIndexingDTO::class],
             [MeshQualifierDTO::class],
             [MeshTermDTO::class],

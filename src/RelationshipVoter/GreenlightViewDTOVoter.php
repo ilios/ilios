@@ -28,6 +28,7 @@ use App\Entity\DTO\LearningMaterialStatusDTO;
 use App\Entity\DTO\LearningMaterialUserRoleDTO;
 use App\Entity\DTO\MeshConceptDTO;
 use App\Entity\DTO\MeshDescriptorDTO;
+use App\Entity\DTO\MeshDescriptorV1DTO;
 use App\Entity\DTO\MeshPreviousIndexingDTO;
 use App\Entity\DTO\MeshQualifierDTO;
 use App\Entity\DTO\MeshTermDTO;
@@ -86,6 +87,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof LearningMaterialUserRoleDTO
                 || $subject instanceof MeshConceptDTO
                 || $subject instanceof MeshDescriptorDTO
+                || $subject instanceof MeshDescriptorV1DTO
                 || $subject instanceof MeshPreviousIndexingDTO
                 || $subject instanceof MeshQualifierDTO
                 || $subject instanceof MeshTermDTO
