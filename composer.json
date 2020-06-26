@@ -55,7 +55,7 @@
     "symfony/yaml": "@stable"
   },
   "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
     "fzaninotto/faker": "@stable",
     "liip/test-fixtures-bundle": "~1.9.1",
     "mockery/mockery": "@stable",
