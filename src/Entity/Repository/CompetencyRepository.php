@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Repository;
 
 use App\Entity\Competency;
+use App\Entity\DTO\CompetencyV1DTO;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -40,7 +41,7 @@ class CompetencyRepository extends EntityRepository implements DTORepositoryInte
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('App\Entity\Competency', 'c');
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Competency::class, 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $competencyDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -53,7 +54,7 @@ class CompetencyRepository extends EntityRepository implements DTORepositoryInte
         $competencyIds = array_keys($competencyDTOs);
         $qb = $this->_em->createQueryBuilder()
             ->select('c.id as competencyId, s.id as schoolId, p.id as parentId')
-            ->from('App\Entity\Competency', 'c')
+            ->from(Competency::class, 'c')
             ->join('c.school', 's')
             ->leftJoin('c.parent', 'p')
             ->where($qb->expr()->in('c.id', ':ids'))
@@ -71,7 +72,61 @@ class CompetencyRepository extends EntityRepository implements DTORepositoryInte
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, c.id AS competencyId')->from('App\Entity\Competency', 'c')
+                ->select('r.id AS relId, c.id AS competencyId')->from(Competency::class, 'c')
+                ->join("c.{$rel}", 'r')
+                ->where($qb->expr()->in('c.id', ':competencyIds'))
+                ->orderBy('relId')
+                ->setParameter('competencyIds', $competencyIds);
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $competencyDTOs[$arr['competencyId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+        return array_values($competencyDTOs);
+    }
+
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Competency::class, 'c');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $competencyDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $competencyDTOs[$arr['id']] = new CompetencyV1DTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['active']
+            );
+        }
+        $competencyIds = array_keys($competencyDTOs);
+        $qb = $this->_em->createQueryBuilder()
+            ->select('c.id as competencyId, s.id as schoolId, p.id as parentId')
+            ->from(Competency::class, 'c')
+            ->join('c.school', 's')
+            ->leftJoin('c.parent', 'p')
+            ->where($qb->expr()->in('c.id', ':ids'))
+            ->setParameter('ids', $competencyIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $competencyDTOs[$arr['competencyId']]->school = (int) $arr['schoolId'];
+            $competencyDTOs[$arr['competencyId']]->parent = $arr['parentId'] ? (int)$arr['parentId'] : null;
+        }
+        $related = [
+            'objectives',
+            'children',
+            'aamcPcrses',
+            'programYears'
+        ];
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, c.id AS competencyId')->from(Competency::class, 'c')
                 ->join("c.{$rel}", 'r')
                 ->where($qb->expr()->in('c.id', ':competencyIds'))
                 ->orderBy('relId')

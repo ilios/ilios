@@ -11,6 +11,7 @@ use App\Entity\DTO\AamcResourceTypeDTO;
 use App\Entity\DTO\AssessmentOptionDTO;
 use App\Entity\DTO\CohortDTO;
 use App\Entity\DTO\CompetencyDTO;
+use App\Entity\DTO\CompetencyV1DTO;
 use App\Entity\DTO\CourseClerkshipTypeDTO;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\CourseObjectiveDTO;
@@ -70,6 +71,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof AssessmentOptionDTO
                 || $subject instanceof CohortDTO
                 || $subject instanceof CompetencyDTO
+                || $subject instanceof CompetencyV1DTO
                 || $subject instanceof CourseDTO
                 || $subject instanceof CourseV1DTO
                 || $subject instanceof CourseClerkshipTypeDTO

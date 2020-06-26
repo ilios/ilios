@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
+use App\Entity\DTO\CompetencyV1DTO;
 use App\Entity\DTO\CourseObjectiveDTO;
 use App\Entity\DTO\CourseV1DTO;
 use App\Entity\DTO\LearningMaterialDTO;
@@ -81,6 +82,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [AssessmentOptionDTO::class],
             [CohortDTO::class],
             [CompetencyDTO::class],
+            [CompetencyV1DTO::class],
             [CourseDTO::class],
             [CourseV1DTO::class],
             [CourseClerkshipTypeDTO::class],
