@@ -10,6 +10,7 @@
     "ext-dom": "*",
     "ext-iconv": "*",
     "ext-json": "*",
+    "ext-pdo": "*",
     "ext-zlib": "*",
     "danielstjules/stringy": "^3.1",
     "doctrine/doctrine-fixtures-bundle": "^3.0",
