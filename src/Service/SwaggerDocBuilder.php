@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use Exception;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -86,7 +86,7 @@ class SwaggerDocBuilder
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getSection($dir)
     {
@@ -99,7 +99,7 @@ class SwaggerDocBuilder
         foreach ($files as $file) {
             $contents = Yaml::parse($file->getContents());
             if (!is_array($contents)) {
-                throw new \Exception(
+                throw new Exception(
                     "{$file->getRealPath()} is not valid YAML"
                 );
             }
