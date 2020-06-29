@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Entity\Alert;
 use App\Entity\AlertChangeTypeInterface;
 use App\Tests\DataLoader\InstructorGroupData;
 use App\Tests\DataLoader\LearnerGroupData;
@@ -126,6 +127,123 @@ class OfferingTest extends ReadWriteEndpointTest
     {
         $this->skipDates = true;
         $this->getAllTest();
+    }
+
+    /**
+     * @dataProvider changeTypePutsToTest
+     */
+    public function testPutTriggerChangeType(string $key, $value, int $changeType)
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        if (array_key_exists($key, $data) and $data[$key] == $value) {
+            $this->fail(
+                "This value is already set for {$key}. " .
+                "Modify " . get_class($this) . '::putsToTest'
+            );
+        }
+        //extract the ID before changing anything in case
+        // the key we are changing is the ID
+        $id = $data['id'];
+        $data[$key] = $value;
+
+        $postData = $data;
+        $this->putTest($data, $postData, $id, false);
+        $this->checkAlertChange($id, $changeType, 2, 1);
+    }
+
+    /**
+     * @dataProvider changeTypePutsToTest
+     */
+    public function testPatchJsonApiTriggerChangeType(string $key, $value, int $changeType)
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $id = $data['id'];
+        $data[$key] = $value;
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        //When we remove a value in a test we shouldn't expect it back
+        if (null === $value) {
+            unset($data[$key]);
+        }
+        $this->patchJsonApiTest($data, $jsonApiData);
+        $this->checkAlertChange($id, $changeType, 2, 1);
+    }
+
+    /**
+     * Look in the database for created alerts since the don't have an API endpoint to query
+     */
+    protected function checkAlertChange(int $id, int $expectedChangeType, int $instigator, int $recipient)
+    {
+        $entityManager = $this->kernelBrowser->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        /** @var Alert[] $alerts */
+        $alerts = $entityManager
+            ->getRepository(Alert::class)
+            ->findBy([
+                'tableRowId' => $id,
+                'tableName' => 'offering',
+                'dispatched' => '0',
+            ]);
+        $this->assertIsArray($alerts);
+        $this->assertCount(1, $alerts, "Alert was returned");
+        $alert = $alerts[0];
+
+        $changeTypes = $alert->getChangeTypes();
+        $instigators = $alert->getInstigators();
+        $recipients = $alert->getRecipients();
+        $this->assertCount(1, $changeTypes);
+        $this->assertEquals($changeTypes[0]->getId(), $expectedChangeType);
+
+        $this->assertCount(1, $instigators);
+        $this->assertCount(1, $recipients);
+
+        if ($instigator) {
+            $this->assertEquals($instigator, $instigators[0]->getId());
+        }
+        if ($recipient) {
+            $this->assertEquals($recipient, $recipients[0]->getId());
+        }
+        $entityManager->close();
+    }
+
+    /**
+     * Check for updated alerts in addition to other info
+     * @inheritdoc
+     */
+    protected function postTest(array $data, array $postData)
+    {
+        $responseData = parent::postTest($data, $postData);
+        //Instigator and school values are hard coded in test fixture data
+        $this->checkAlertChange(
+            $responseData['id'],
+            AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
+            $instigator = 2,
+            $school = 1
+        );
+
+        return $responseData;
+    }
+
+    /**
+     * Check for updated alerts in addition to other info
+     * @inheritdoc
+     */
+    protected function postJsonApiTest(object $postData, array $data)
+    {
+        $responseData = parent::postJsonApiTest($postData, $data);
+        //Instigator and school values are hard coded in test fixture data
+        $this->checkAlertChange(
+            $responseData['id'],
+            AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
+            $instigator = 2,
+            $school = 1
+        );
+
+        return $responseData;
     }
 
     /**
