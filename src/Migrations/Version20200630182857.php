@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Adds relationships to x-objectives, based on how objectives are wired up.
  */
-final class Version20200616182857 extends AbstractMigration
+final class Version20200630182857 extends AbstractMigration
 {
     public function getDescription() : string
     {
