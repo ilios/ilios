@@ -37,6 +37,13 @@ class OfferingDTO
     public $site;
 
     /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $url;
+
+    /**
      * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
@@ -118,11 +125,12 @@ class OfferingDTO
      * @param $endDate
      * @param $updatedAt
      */
-    public function __construct($id, $room, $site, $startDate, $endDate, $updatedAt)
+    public function __construct($id, $room, $site, $url, $startDate, $endDate, $updatedAt)
     {
         $this->id = $id;
         $this->room = $room;
         $this->site = $site;
+        $this->url = $url;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->updatedAt = $updatedAt;

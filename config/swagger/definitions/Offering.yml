@@ -11,6 +11,9 @@ Offering:
   site:
    description: Site
    type: string
+  url:
+   description: URL for Virtual Session
+   type: string
   startDate:
    description: Startdate
    type: string
