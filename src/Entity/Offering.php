@@ -92,6 +92,22 @@ class Offering implements OfferingInterface
     protected $site;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=2000, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      max = 2000,
+     * )
+     * @Assert\Url
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    protected $url;
+
+    /**
      * @var DateTime
      *
      * @ORM\Column(name="start_date", type="datetime")
@@ -262,6 +278,16 @@ class Offering implements OfferingInterface
         return $this->site;
     }
 
+    public function setUrl(?string $url)
+    {
+        $this->url = $url;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
     /**
      * @param DateTime $startDate
      */
@@ -346,6 +372,7 @@ class Offering implements OfferingInterface
         sort($learnerGroupIds);
         $room = $this->getRoom();
         $site = $this->getSite();
+        $url = $this->getUrl();
         $startDate = $this->getStartDate()->getTimestamp();
         $endDate = $this->getEndDate()->getTimestamp();
 
@@ -358,6 +385,7 @@ class Offering implements OfferingInterface
             'endDate' => $endDate,
             'room' => $room,
             'site' => $site,
+            'url' => $url,
         ];
     }
 

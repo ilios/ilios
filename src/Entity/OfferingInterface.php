@@ -49,6 +49,10 @@ interface OfferingInterface extends
      */
     public function getSite();
 
+    public function setUrl(?string $url);
+
+    public function getUrl(): ?string;
+
     /**
      * @param DateTime $startDate
      */

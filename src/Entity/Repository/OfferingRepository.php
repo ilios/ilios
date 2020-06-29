@@ -50,7 +50,7 @@ class OfferingRepository extends EntityRepository implements DTORepositoryInterf
         if (array_key_exists('updatedAt', $criteria)) {
             $criteria['updatedAt'] = new DateTime($criteria['updatedAt']);
         }
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\Offering', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Offering::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $offeringDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -58,6 +58,7 @@ class OfferingRepository extends EntityRepository implements DTORepositoryInterf
                 $arr['id'],
                 $arr['room'],
                 $arr['site'],
+                $arr['url'],
                 $arr['startDate'],
                 $arr['endDate'],
                 $arr['updatedAt']

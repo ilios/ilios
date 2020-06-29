@@ -134,6 +134,7 @@ class ChangeAlertHandlerTest extends TestCase
         $offering->setEndDate(new \DateTime());
         $offering->setRoom('Room A');
         $offering->setSite('Site A');
+        $offering->setUrl('http://example.edu');
 
         $instigator = new User();
         $instigator->setId(1);
@@ -147,6 +148,7 @@ class ChangeAlertHandlerTest extends TestCase
             'endDate' => (new \DateTime('+1 year'))->getTimestamp(),
             'site' => 'some other site',
             'room' => 'some other room',
+            'url' => 'http://example.com',
         ];
 
         $alert = new Alert();
@@ -176,7 +178,7 @@ class ChangeAlertHandlerTest extends TestCase
         $this->mockAlertChangeTypeManager
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_LOCATION]])
-            ->times(2)
+            ->times(3)
             ->andReturn($locationChangeType);
 
         $this->mockAlertChangeTypeManager
@@ -218,6 +220,7 @@ class ChangeAlertHandlerTest extends TestCase
         $offering->setEndDate(new \DateTime());
         $offering->setRoom('Room A');
         $offering->setSite('Site A');
+        $offering->setUrl('http://example.edu');
 
         $instigator = new User();
         $instigator->setId(1);
@@ -231,6 +234,7 @@ class ChangeAlertHandlerTest extends TestCase
             'endDate' => (new \DateTime('+1 year'))->getTimestamp(),
             'site' => 'some other site',
             'room' => 'some other room',
+            'url' => null,
         ];
 
         $alert = new Alert();
@@ -263,7 +267,7 @@ class ChangeAlertHandlerTest extends TestCase
         $this->mockAlertChangeTypeManager
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_LOCATION]])
-            ->times(2)
+            ->times(3)
             ->andReturn($locationChangeType);
 
         $this->mockAlertChangeTypeManager

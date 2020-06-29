@@ -93,6 +93,32 @@ class OfferingTest extends EntityBase
     }
 
     /**
+     * @covers \App\Entity\Offering::setUrl
+     * @covers \App\Entity\Offering::getUrl
+     */
+    public function testSetUrl()
+    {
+        $this->basicSetTest('url', 'string');
+    }
+
+    public function testValidateUrl()
+    {
+        $this->object->setUrl('something');
+        $errors = $this->validate(5);
+        $this->assertTrue(
+            array_key_exists('url', $errors),
+            "url key not found in errors: " . var_export(array_keys($errors), true)
+        );
+        $this->assertSame('Url', $errors['url']);
+
+        $this->object->setUrl('http://example.edu');
+        $this->validate(4);
+
+        $this->object->setUrl(null);
+        $this->validate(4);
+    }
+
+    /**
      * @covers \App\Entity\Offering::setStartDate
      * @covers \App\Entity\Offering::getStartDate
      */

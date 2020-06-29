@@ -83,6 +83,9 @@ class ChangeAlertHandler
         if ($updatedProperties['room'] !== $originalProperties['room']) {
             $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LOCATION;
         }
+        if ($updatedProperties['url'] !== $originalProperties['url']) {
+            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LOCATION;
+        }
         if ($updatedProperties['site'] !== $originalProperties['site']) {
             $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LOCATION;
         }
