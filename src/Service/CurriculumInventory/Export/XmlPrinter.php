@@ -171,7 +171,7 @@ class XmlPrinter
         $languageNode = $dom->createElement('Language', 'en-US');
         $rootNode->appendChild($languageNode);
         $descriptionNode = $dom->createElement('Description');
-        $descriptionNode->appendChild($dom->createTextNode($report->getDescription()));
+        $descriptionNode->appendChild($dom->createTextNode($report->getDescription() ?: ''));
         $rootNode->appendChild($descriptionNode);
 
         if ($inventory['supporting_link']) {
