@@ -15,7 +15,9 @@ use App\Service\ApiResponseBuilder;
 use App\Service\ChangeAlertHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -104,6 +106,9 @@ class Offerings extends ReadWriteController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
+     *
+     * For offerings it also records an alert for the change
+     *
      * @Route("/{id}", methods={"PUT"})
      */
     public function put(
@@ -153,9 +158,70 @@ class Offerings extends ReadWriteController
                     $alertProperties
                 );
             }
+            $this->manager->flush();
         }
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
+    }
+
+
+
+    /**
+     * Modifies a single object in the API.  Can also create and
+     * object if it does not yet exist.
+     *
+     * For offerings it also records an alert for the change
+     *
+     * @Route("/{id}", methods={"PATCH"})
+     */
+    public function patch(
+        string $version,
+        string $id,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        $type = $request->getAcceptableContentTypes();
+        if (!in_array("application/vnd.api+json", $type)) {
+            throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
+        }
+
+        /** @var OfferingInterface $entity */
+        $entity = $this->manager->findOneBy(['id' => $id]);
+
+        if (!$entity) {
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+        // capture the values of offering properties pre-update
+        $alertProperties = $entity->getAlertProperties();
+
+        $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
+
+        $errors = $validator->validate($entity);
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+
+            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
+        }
+        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
+            throw new AccessDeniedException('Unauthorized access!');
+        }
+
+        $this->manager->update($entity, true, false);
+
+        $session = $entity->getSession();
+        if ($session && $session->isPublished()) {
+            $this->createOrUpdateAlertForUpdatedOffering(
+                $entity,
+                $alertProperties
+            );
+            $this->manager->flush();
+        }
+
+        $dtos = $this->fetchDtosForEntities([$entity]);
+        return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
     }
 
     protected function createAlertForNewOffering(OfferingInterface $offering)
