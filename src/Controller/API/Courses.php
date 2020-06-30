@@ -129,7 +129,7 @@ class Courses extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v3>}/courses/{id}", methods={"POST"})
+     * @Route("/api/{version<v3>}/courses", methods={"POST"})
      */
     public function post(
         string $version,
