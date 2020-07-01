@@ -235,54 +235,56 @@ class SessionTest extends ReadWriteEndpointTest
         $this->postTest($data, $postData);
     }
 
-    public function testRemoveLinksFromOrphanedObjectives()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $id = $data['id'];
-        $self = $this;
+// @todo re-implement or remove [ST 2020/07/01]
 
-        //create data we an depend on
-        $dataLoader = $this->getContainer()->get(ObjectiveData::class);
-        $create = [];
-        for ($i = 0; $i < 2; $i++) {
-            $arr = $dataLoader->create();
-            $arr['parents'] = ['1'];
-            $arr['children'] = ['7', '8'];
-            $arr['competency'] = 1;
-            $arr['programYearObjectives'] = [];
-            $arr['courseObjectives'] = [];
-            $arr['sessionObjectives'] = [];
-            unset($arr['id']);
-            $create[] = $arr;
-        }
-        $newObjectives = $this->postMany('objectives', 'objectives', $create);
-        $dataLoader = $this->getContainer()->get(SessionObjectiveData::class);
-        $create = [];
-        foreach ($newObjectives as $objective) {
-            $arr = $dataLoader->create();
-            unset($arr['id']);
-            $arr['session'] = $id;
-            $arr['objective'] = $objective['id'];
-            $create[] = $arr;
-        }
-        $this->postMany('sessionobjectives', 'sessionObjectives', $create);
-
-        $getObjectives = function ($id) use ($self) {
-            return $self->getOne('objectives', 'objectives', $id);
-        };
-        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
-        foreach ($objectives as $arr) {
-            $this->assertNotEmpty($arr['parents'], 'parents have been created');
-            $this->assertNotEmpty($arr['children'], 'children have been created');
-            $this->assertArrayHasKey('competency', $arr);
-        }
-        $this->deleteTest($id);
-        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
-        foreach ($objectives as $arr) {
-            $this->assertEmpty($arr['parents'], 'parents have been removed');
-            $this->assertEmpty($arr['children'], 'children have been removed');
-            $this->assertArrayNotHasKey('competency', $arr);
-        }
-    }
+//    public function testRemoveLinksFromOrphanedObjectives()
+//    {
+//        $dataLoader = $this->getDataLoader();
+//        $data = $dataLoader->getOne();
+//        $id = $data['id'];
+//        $self = $this;
+//
+//        //create data we an depend on
+//        $dataLoader = $this->getContainer()->get(ObjectiveData::class);
+//        $create = [];
+//        for ($i = 0; $i < 2; $i++) {
+//            $arr = $dataLoader->create();
+//            $arr['parents'] = ['1'];
+//            $arr['children'] = ['7', '8'];
+//            $arr['competency'] = 1;
+//            $arr['programYearObjectives'] = [];
+//            $arr['courseObjectives'] = [];
+//            $arr['sessionObjectives'] = [];
+//            unset($arr['id']);
+//            $create[] = $arr;
+//        }
+//        $newObjectives = $this->postMany('objectives', 'objectives', $create);
+//        $dataLoader = $this->getContainer()->get(SessionObjectiveData::class);
+//        $create = [];
+//        foreach ($newObjectives as $objective) {
+//            $arr = $dataLoader->create();
+//            unset($arr['id']);
+//            $arr['session'] = $id;
+//            $arr['objective'] = $objective['id'];
+//            $create[] = $arr;
+//        }
+//        $this->postMany('sessionobjectives', 'sessionObjectives', $create);
+//
+//        $getObjectives = function ($id) use ($self) {
+//            return $self->getOne('objectives', 'objectives', $id);
+//        };
+//        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
+//        foreach ($objectives as $arr) {
+//            $this->assertNotEmpty($arr['parents'], 'parents have been created');
+//            $this->assertNotEmpty($arr['children'], 'children have been created');
+//            $this->assertArrayHasKey('competency', $arr);
+//        }
+//        $this->deleteTest($id);
+//        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
+//        foreach ($objectives as $arr) {
+//            $this->assertEmpty($arr['parents'], 'parents have been removed');
+//            $this->assertEmpty($arr['children'], 'children have been removed');
+//            $this->assertArrayNotHasKey('competency', $arr);
+//        }
+//    }
 }
