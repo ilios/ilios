@@ -51,6 +51,11 @@ class ProgramYearV1Test extends V1ReadEndpointTest
             $v3ProgramYear['programYearObjectives'][0],
             'v3'
         );
+        $objective = $this->getFiltered(
+            'objectives',
+            'objectives',
+            ['filters[programYearObjectives]' => $programYearObjective['id']]
+        )[0];
         $this->assertEquals($v3ProgramYear['id'], $v1ProgramYear['id']);
         $this->assertEquals($v3ProgramYear['startYear'], $v1ProgramYear['startYear']);
         $this->assertEquals($v3ProgramYear['locked'], $v1ProgramYear['locked']);
@@ -64,6 +69,6 @@ class ProgramYearV1Test extends V1ReadEndpointTest
         $this->assertEquals($v3ProgramYear['terms'], $v1ProgramYear['terms']);
         $this->assertEquals($v3ProgramYear['stewards'], $v1ProgramYear['stewards']);
         $this->assertEquals(count($v3ProgramYear['programYearObjectives']), count($v1ProgramYear['objectives']));
-        $this->assertEquals($programYearObjective['objective'], $v1ProgramYear['objectives'][0]);
+        $this->assertEquals($objective['id'], $v1ProgramYear['objectives'][0]);
     }
 }

@@ -55,6 +55,11 @@ class CourseV1Test extends V1ReadEndpointTest
             $v3Course['courseObjectives'][0],
             'v3'
         );
+        $objective = $this->getFiltered(
+            'objectives',
+            'objectives',
+            ['filters[courseObjectives]' => $courseObjective['id']]
+        )[0];
         $this->assertEquals($v3Course['id'], $v1Course['id']);
         $this->assertEquals($v3Course['title'], $v1Course['title']);
         $this->assertEquals($v3Course['level'], $v1Course['level']);
@@ -75,7 +80,7 @@ class CourseV1Test extends V1ReadEndpointTest
         $this->assertEquals($v3Course['sessions'], $v1Course['sessions']);
         $this->assertEquals($v3Course['descendants'], $v1Course['descendants']);
         $this->assertEquals(count($v3Course['courseObjectives']), count($v1Course['objectives']));
-        $this->assertEquals($courseObjective['objective'], $v1Course['objectives'][0]);
+        $this->assertEquals($objective['id'], $v1Course['objectives'][0]);
     }
 
     /**

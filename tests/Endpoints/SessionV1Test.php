@@ -50,6 +50,11 @@ class SessionV1Test extends V1ReadEndpointTest
             $v3Session['sessionObjectives'][0],
             'v3'
         );
+        $objective = $this->getFiltered(
+            'objectives',
+            'objectives',
+            ['filters[sessionObjectives]' => $sessionObjective['id']]
+        )[0];
         $this->assertEquals($v3Session['id'], $v1Session['id']);
         $this->assertEquals($v3Session['title'], $v1Session['title']);
         $this->assertEquals($v3Session['attireRequired'], $v1Session['attireRequired']);
@@ -67,6 +72,6 @@ class SessionV1Test extends V1ReadEndpointTest
         $this->assertEquals($v3Session['offerings'], $v1Session['offerings']);
         $this->assertEquals($v3Session['prerequisites'], $v1Session['prerequisites']);
         $this->assertEquals(count($v3Session['sessionObjectives']), count($v1Session['objectives']));
-        $this->assertEquals($sessionObjective['objective'], $v1Session['objectives'][0]);
+        $this->assertEquals($objective['id'], $v1Session['objectives'][0]);
     }
 }
