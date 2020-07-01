@@ -24,7 +24,6 @@ use App\Entity\SessionInterface;
 use App\Entity\Manager\SessionDescriptionManager;
 use App\Entity\SessionDescriptionInterface;
 use App\Entity\SessionLearningMaterialInterface;
-use App\Entity\ObjectiveInterface;
 use App\Entity\SessionObjectiveInterface;
 use DateInterval;
 use DateTime;
@@ -277,7 +276,7 @@ class CourseRollover
      * @param CourseInterface $origCourse
      * @param int $daysOffset
      * @param array $options
-     * @param ObjectiveInterface[] $newCourseObjectives
+     * @param CourseObjectiveInterface[] $newCourseObjectives
      * @throws Exception
      */
     protected function rolloverSessions(
@@ -556,7 +555,7 @@ class CourseRollover
         $programYear = $cohort->getProgramYear();
         $programYearObjectives = $programYear->getProgramYearObjectives();
 
-        /** @var ObjectiveInterface $parent */
+        /** @var ProgramYearObjectiveInterface $parent */
         foreach ($courseObjective->getProgramYearObjectives() as $programYearObjective) {
             $ancestorId = $programYearObjective->getAncestorOrSelf()->getId();
             $newProgramYearObjectives = $programYearObjectives->filter(
@@ -573,7 +572,7 @@ class CourseRollover
     /**
      * @param SessionInterface $newSession
      * @param SessionInterface $origSession
-     * @param ObjectiveInterface[] $newCourseObjectives
+     * @param CourseObjectiveInterface[] $newCourseObjectives
      */
     protected function rolloverSessionObjectives(
         SessionInterface $newSession,
