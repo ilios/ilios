@@ -50,36 +50,4 @@ Email: info@iliosproject.org
 
 # Development of Ilios
 
-### Install Docker
-
-You will need Docker and Docker compose:
-
-- [OS X](https://www.docker.com/docker-mac)
-- [Windows](https://www.docker.com/docker-windows)
-- [Ubuntu](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
-
-Then install [Symfony](https://symfony.com/download)
-
-### Running a local development server
-
-From your ILIOS_CODE directory run:
-
-```bash
-$ docker-compose pull
-$ docker-compose up -d
-$ symfony server:start -d
-```
-
-### Accessing Ilios
-
-You should now be able to access your newly-Dockerized instance of Ilios 
-by visiting [http://localhost:8000](http://localhost:8000) in your browser.
-
-### Shutting down the development server
-
-From your ILIOS_CODE directory run:
-
-```bash
-$ symfony server:stop
-$ docker-compose down
-```
+To get a development instance of Ilios up and running quickly, please review our documentation at https://github.com/ilios/ilios/blob/master/docs/update.md for what is recommended and required.
