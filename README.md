@@ -50,4 +50,4 @@ Email: info@iliosproject.org
 
 # Development of Ilios
 
-To get a development instance of Ilios up and running quickly, please review our documentation at https://github.com/ilios/ilios/blob/master/docs/update.md for what is recommended and required.
+To get a development instance of Ilios up and running quickly, please review the steps in our [Quick Setup Guide for Ilios](https://github.com/ilios/ilios/blob/master/docs/ilios_quick_setup_for_admins.md) for what is recommended and required.
