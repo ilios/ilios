@@ -9,6 +9,7 @@ use App\Entity\DTO\CourseObjectiveDTO;
 use App\Entity\DTO\CourseV1DTO;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\DTO\MeshDescriptorV1DTO;
+use App\Entity\DTO\ObjectiveV1DTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
 use App\Entity\DTO\ProgramYearV1DTO;
 use App\Entity\DTO\SessionObjectiveDTO;
@@ -41,7 +42,6 @@ use App\Entity\DTO\MeshPreviousIndexingDTO;
 use App\Entity\DTO\MeshQualifierDTO;
 use App\Entity\DTO\MeshTermDTO;
 use App\Entity\DTO\MeshTreeDTO;
-use App\Entity\DTO\ObjectiveDTO;
 use App\Entity\DTO\ProgramDTO;
 use App\Entity\DTO\ProgramYearDTO;
 use App\Entity\DTO\ProgramYearStewardDTO;
@@ -105,7 +105,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [MeshQualifierDTO::class],
             [MeshTermDTO::class],
             [MeshTreeDTO::class],
-            [ObjectiveDTO::class],
+            [ObjectiveV1DTO::class],
             [ProgramDTO::class],
             [ProgramYearDTO::class],
             [ProgramYearV1DTO::class],
