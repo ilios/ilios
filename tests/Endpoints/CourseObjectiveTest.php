@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Tests\DataLoader\CourseData;
+use App\Tests\DataLoader\CourseObjectiveData;
 use App\Tests\DataLoader\TermData;
 use App\Tests\ReadWriteEndpointTest;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * CourseObjectiveTest API endpoint Test.
@@ -188,5 +190,80 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
 //        $this->assertEmpty($objective['parents'], 'parents have been removed');
 //        $this->assertEmpty($objective['children'], 'children have been removed');
 //        $this->assertArrayNotHasKey('competency', $objective);
+    }
+
+    /**
+     * @dataProvider inputSanitationTestProvider
+     *
+     * @param string $input A given objective title as un-sanitized input.
+     * @param string $output The expected sanitized objective title output as returned from the server.
+     *
+     */
+    public function testInputSanitation($input, $output)
+    {
+        $postData = $this->getContainer()->get(CourseObjectiveData::class)
+            ->create();
+        $postData['title'] = $input;
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl($this->kernelBrowser, 'app_api_courseobjectives_post', [
+                'version' => $this->apiVersion
+            ]),
+            json_encode(['courseObjectives' => [$postData]]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_CREATED);
+        $this->assertEquals(
+            json_decode($response->getContent(), true)['courseObjectives'][0]['title'],
+            $output,
+            $response->getContent()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function inputSanitationTestProvider()
+    {
+        return [
+            ['foo', 'foo'],
+            ['<p>foo</p>', '<p>foo</p>'],
+            ['<ul><li>foo</li></ul>', '<ul><li>foo</li></ul>'],
+            ['<script>alert("hello");</script><p>foo</p>', '<p>foo</p>'],
+            [
+                '<a href="https://iliosproject.org" target="_blank">Ilios</a>',
+                '<a href="https://iliosproject.org" target="_blank" rel="noreferrer noopener">Ilios</a>'
+            ],
+        ];
+    }
+
+    /**
+     * Assert that a POST request fails if form validation fails due to input sanitation.
+     */
+    public function testInputSanitationFailure()
+    {
+        $postData = $this->getContainer()->get(CourseObjectiveData::class)
+            ->create();
+        // this markup will get stripped out, leaving a blank string as input.
+        // which in turn will cause the form validation to fail.
+        $postData['title'] = '<iframe></iframe>';
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl($this->kernelBrowser, 'app_api_courseobjectives_post', [
+                'version' => $this->apiVersion
+            ]),
+            json_encode(['courseObjectives' => [$postData]]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 }
