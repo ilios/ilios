@@ -24,6 +24,9 @@ use App\Entity\SessionType;
 use App\Entity\User;
 use App\Entity\UserInterface;
 use App\Service\Config;
+use DateTime;
+use DateTimeZone;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -148,7 +151,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             );
         }
 
-        $timezone = new \DateTimeZone($this->timezone);
+        $timezone = new DateTimeZone($this->timezone);
         $startDate = $offering->getStartDate()->setTimezone($timezone);
         $endDate = $offering->getEndDate()->setTimezone($timezone);
 
@@ -444,10 +447,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
      */
     public function testExecuteWithMissingInput()
     {
-        $this->expectException(\RuntimeException::class, 'Not enough arguments');
+        $this->expectException(RuntimeException::class, 'Not enough arguments');
         $this->commandTester->execute([]);
 
-        $this->expectException(\RuntimeException::class, 'Not enough arguments');
+        $this->expectException(RuntimeException::class, 'Not enough arguments');
         $this->commandTester->execute([
             'sender' => 'foo@bar.com',
             'base_url' => null,
@@ -495,12 +498,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $i = 0;
         foreach (['A', 'B', 'C'] as $letter) {
-            $courseObjective = new Objective();
+            $courseObjective = new CourseObjective();
             $courseObjective->setId(++$i);
             $courseObjective->setTitle("Course <i>Objective</i> '{$letter}'");
-            $courseXObjective = new CourseObjective();
-            $courseXObjective->setObjective($courseObjective);
-            $course->addCourseObjective($courseXObjective);
+            $course->addCourseObjective($courseObjective);
         }
 
         $session = new Session();
@@ -515,12 +516,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $i = 0;
         foreach (['A', 'B', 'C'] as $letter) {
-            $sessionObjective = new Objective();
+            $sessionObjective = new SessionObjective();
             $sessionObjective->setId(++$i);
             $sessionObjective->setTitle("Session Objective <strong>{$letter}</strong>");
-            $sessionXObjective = new SessionObjective();
-            $sessionXObjective->setObjective($sessionObjective);
-            $session->addSessionObjective($sessionXObjective);
+            $session->addSessionObjective($sessionObjective);
         }
 
         $instructor1 = new User();
@@ -550,8 +549,8 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $offering = new Offering();
         $offering->setId(1);
-        $offering->setStartDate(new \DateTime('2015-09-28 03:45:00', new \DateTimeZone('UTC')));
-        $offering->setEndDate(new \DateTime('2015-09-28 05:45:00', new \DateTimeZone('UTC')));
+        $offering->setStartDate(new DateTime('2015-09-28 03:45:00', new DateTimeZone('UTC')));
+        $offering->setEndDate(new DateTime('2015-09-28 05:45:00', new DateTimeZone('UTC')));
         $offering->setSession($session);
         $offering->addInstructor($instructor1);
         $offering->addInstructorGroup($instructorGroup);
