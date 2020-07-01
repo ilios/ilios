@@ -1,4 +1,4 @@
-# Ilios Development Instance - Quick Ilios Setup Steps for Developers and Sys Admins
+# Ilios Development Instance - Quick Setup Steps for Developers and Sys Admins
 
 If you want to work on a development instance of Ilios using a copy of your school’s own Ilios production database, or a copy of the Ilios Demo Database, here is a quick guide to the steps experienced sysadmins and developers will need to perform to get up and running in no time:
 
