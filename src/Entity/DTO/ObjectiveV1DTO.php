@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
-use App\Entity\Manager\CourseObjectiveManager;
-use App\Entity\Manager\ProgramYearObjectiveManager;
-use App\Entity\Manager\SessionObjectiveManager;
-use App\Entity\DTO\ObjectiveDTO as CurrentDTO;
 
 /**
- * Class ObjectiveDTO
+ * Class ObjectiveV1DTO
  * Data transfer object for a Objective
  *
  * @IS\DTO
