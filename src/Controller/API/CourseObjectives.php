@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @package App\Controller\API
- * @Route("/api/{version<v3>/courseobjectives"}
+ * @Route("/api/{version<v3>}/courseobjectives")
  */
 class CourseObjectives extends ReadWriteController
 {
