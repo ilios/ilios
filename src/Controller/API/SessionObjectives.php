@@ -21,7 +21,7 @@ class SessionObjectives extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/sessionobjectives/{id}", methods={"GET"})
+     * @Route("/api/{version<v3>}/sessionobjectives/{id}", methods={"GET"})
      */
     public function getOne(
         string $version,
@@ -34,7 +34,7 @@ class SessionObjectives extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/sessionobjectives", methods={"GET"})
+     * @Route("/api/{version<v3>}/sessionobjectives", methods={"GET"})
      */
     public function getAll(
         string $version,

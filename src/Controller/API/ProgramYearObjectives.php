@@ -21,7 +21,7 @@ class ProgramYearObjectives extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/programyearobjectives/{id}", methods={"GET"})
+     * @Route("/api/{version<v3>}/programyearobjectives/{id}", methods={"GET"})
      */
     public function getOne(
         string $version,
@@ -34,7 +34,7 @@ class ProgramYearObjectives extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/programyearobjectives", methods={"GET"})
+     * @Route("/api/{version<v3>}/programyearobjectives", methods={"GET"})
      */
     public function getAll(
         string $version,

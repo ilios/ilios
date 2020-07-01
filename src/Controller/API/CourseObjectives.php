@@ -21,7 +21,7 @@ class CourseObjectives extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/courseobjectives/{id}", methods={"GET"})
+     * @Route("/api/{version<v3>}/courseobjectives/{id}", methods={"GET"})
      */
     public function getOne(
         string $version,
@@ -34,7 +34,7 @@ class CourseObjectives extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/courseobjectives", methods={"GET"})
+     * @Route("/api/{version<v3>}/courseobjectives", methods={"GET"})
      */
     public function getAll(
         string $version,
