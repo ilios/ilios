@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\CourseObjectivesEntity;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,6 @@ use App\Traits\CategorizableEntity;
 use App\Traits\CohortsEntity;
 use App\Traits\DirectorsEntity;
 use App\Traits\MeshDescriptorsEntity;
-use App\Traits\ObjectivesEntity;
 use App\Traits\PublishableEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -117,7 +117,7 @@ class Course implements CourseInterface
     protected $year;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(type="date", name="start_date")
      *
      * @Assert\NotBlank()
@@ -128,7 +128,7 @@ class Course implements CourseInterface
     protected $startDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="date", name="end_date")
      *
@@ -454,7 +454,7 @@ class Course implements CourseInterface
     /**
      * @inheritdoc
      */
-    public function setStartDate(\DateTime $startDate = null)
+    public function setStartDate(DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
@@ -470,7 +470,7 @@ class Course implements CourseInterface
     /**
      * @inheritdoc
      */
-    public function setEndDate(\DateTime $endDate = null)
+    public function setEndDate(DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }

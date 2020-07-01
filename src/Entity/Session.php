@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\SessionObjectivesEntity;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\AdministratorsEntity;
 use App\Traits\CategorizableEntity;
@@ -156,7 +157,7 @@ class Session implements SessionInterface
     protected $published;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="last_updated_on", type="datetime")
      *
@@ -388,7 +389,7 @@ class Session implements SessionInterface
         $this->administrators = new ArrayCollection();
         $this->prerequisites = new ArrayCollection();
 
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     /**
