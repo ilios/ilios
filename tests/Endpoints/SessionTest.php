@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\LearningMaterialData;
-use App\Tests\DataLoader\ObjectiveData;
 use App\Tests\DataLoader\SessionDescriptionData;
 use App\Tests\DataLoader\SessionLearningMaterialData;
 use App\Tests\DataLoader\SessionObjectiveData;

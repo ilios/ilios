@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\DataLoader\ProgramYearObjectiveData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\ObjectiveData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
