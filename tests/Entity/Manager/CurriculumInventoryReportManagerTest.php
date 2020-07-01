@@ -286,11 +286,11 @@ class CurriculumInventoryReportManagerTest extends TestCase
     public function testGetSessionObjectivesToCourseObjectivesRelations()
     {
         $objectiveRelationships = [
-            ['objective_id' => 10, 'parent_objective_id' => 20],
-            ['objective_id' => 11, 'parent_objective_id' => 21],
+            ['objective_id' => 10, 'course_objective_id' => 20],
+            ['objective_id' => 11, 'course_objective_id' => 21],
         ];
 
-        $courseObjectiveIds = array_column($objectiveRelationships, 'parent_objective_id');
+        $courseObjectiveIds = array_column($objectiveRelationships, 'course_objective_id');
         $sessionObjectiveIds = array_column($objectiveRelationships, 'objective_id');
 
         $this->repository->shouldReceive('getSessionObjectivesToCourseObjectivesRelations')
@@ -315,14 +315,14 @@ class CurriculumInventoryReportManagerTest extends TestCase
     public function testGetCourseObjectivesToProgramObjectivesRelations()
     {
         $objectiveRelationships = [
-            ['objective_id' => 10, 'parent_objective_id' => 20],
-            ['objective_id' => 11, 'parent_objective_id' => 21],
-            ['objective_id' => 12, 'parent_objective_id' => 22],
+            ['objective_id' => 10, 'program_objective_id' => 20],
+            ['objective_id' => 11, 'program_objective_id' => 21],
+            ['objective_id' => 12, 'program_objective_id' => 22],
         ];
 
         $consolidatedProgramObjectivesMap = [22 => 41];
 
-        $programObjectiveIds = array_column($objectiveRelationships, 'parent_objective_id');
+        $programObjectiveIds = array_column($objectiveRelationships, 'program_objective_id');
         $courseObjectiveIds = array_column($objectiveRelationships, 'objective_id');
 
         $this->repository->shouldReceive('getCourseObjectivesToProgramObjectivesRelations')
