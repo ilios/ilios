@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * @Route("/api/v1/objectives")
+ * @Route("/api/{version<v1>}/objectives")
  */
 class Objectives extends ReadOnlyController
 {
