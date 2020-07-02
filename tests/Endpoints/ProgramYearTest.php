@@ -402,17 +402,15 @@ class ProgramYearTest extends ReadWriteEndpointTest
                 'course_shortname',
                 'mapped_course_objective',
             ],
-            ['Miss', '2013 - 2014', 'first objective', 'third competency', 'firstCourse', 'first', 'second objective',],
-            ['Miss', '2013 - 2014', 'first objective', 'third competency', 'course 2', 'second', 'second objective',],
             [
                 'Miss',
                 '2013 - 2014',
-                'first objective',
-                'third competency',
-                'fourth course',
-                'fourth',
-                'second objective',
-            ],
+                'program year objective 1',
+                'first competency',
+                'firstCourse',
+                'first',
+                'course objective 1'
+            ]
         ];
 
         $actual = array_map('str_getcsv', explode(PHP_EOL, trim($response->getContent())));
