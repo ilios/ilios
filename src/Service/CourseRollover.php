@@ -555,7 +555,7 @@ class CourseRollover
         $programYear = $cohort->getProgramYear();
         $programYearObjectives = $programYear->getProgramYearObjectives();
 
-        /** @var ProgramYearObjectiveInterface $parent */
+        /** @var ProgramYearObjectiveInterface $programYearObjective */
         foreach ($courseObjective->getProgramYearObjectives() as $programYearObjective) {
             $ancestorId = $programYearObjective->getAncestorOrSelf()->getId();
             $newProgramYearObjectives = $programYearObjectives->filter(
