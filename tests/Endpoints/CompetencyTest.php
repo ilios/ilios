@@ -77,10 +77,10 @@ class CompetencyTest extends ReadWriteEndpointTest
             'programYears' => [[0, 2], ['programYears' => [1]], $skipped = true],
             'notActive' => [[1], ['active' => false]],
             'active' => [[0, 2], ['active' => true]],
-            'terms' => [[0, 2], ['terms' => [1, 2, 3]]],
-            'sessions' => [[0, 2], ['sessions' => [1]]],
-            'sessionTypes' => [[0, 2], ['sessionTypes' => [1]]],
-            'courses' => [[0, 2], ['courses' => [1]]],
+            'terms' => [[0], ['terms' => [1]]],
+            'sessions' => [[0], ['sessions' => [1]]],
+            'sessionTypes' => [[0], ['sessionTypes' => [1]]],
+            'courses' => [[0], ['courses' => [1]]],
         ];
     }
 

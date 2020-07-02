@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Tests\ReadWriteEndpointTest;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Term API endpoint Test.
@@ -92,7 +91,7 @@ class TermTest extends ReadWriteEndpointTest
             'instructors' => [[0, 1, 3, 4], ['instructors' => [2]]],
             'instructorGroups' => [[0, 1, 3, 4], ['instructorGroups' => [1, 2, 3]]],
             'learningMaterials' => [[0, 1, 2, 4, 5], ['learningMaterials' => [1, 2, 3]]],
-            'competencies' => [[0, 1, 2, 3, 4, 5], ['competencies' => [1, 2]]],
+            'competencies' => [[0, 1, 4], ['competencies' => [1, 2]]],
             'meshDescriptors' => [[0, 1, 2, 3, 4, 5], ['meshDescriptors' => ['abc1', 'abc2', 'abc3']]],
             'programs' => [[0, 3], ['programs' => [1]]],
             'schools' => [[0, 1, 2], ['schools' => [1]]],
