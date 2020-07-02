@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Tests\DataLoader\CourseObjectiveData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\OfferingData;
@@ -114,7 +113,7 @@ class CourseTest extends ReadWriteEndpointTest
             'administrators' => [[0], ['administrators' => [1]], $skipped = true],
             'cohorts' => [[2], ['cohorts' => [2]], $skipped = true],
             'terms' => [[0, 1], ['terms' => [1]]],
-            'meshDescriptors' => [[0, 1, 2, 3], ['meshDescriptors' => ['abc1', 'abc2']]],
+            'meshDescriptors' => [[0, 1, 3], ['meshDescriptors' => ['abc1', 'abc2']]],
             'learningMaterials' => [[0, 1, 3], ['learningMaterials' => [1, 3]]],
             'sessions' => [[1], ['sessions' => [3]]],
             'ancestor' => [[3], ['ancestor' => 3]],
@@ -124,7 +123,7 @@ class CourseTest extends ReadWriteEndpointTest
             'instructors' => [[0, 1, 3], ['instructors' => [1, 2]]],
             'instructorGroups' => [[0, 1], ['instructorGroups' => [1]]],
             'programYears' => [[2], ['programYears' => [2]]],
-            'competencies' => [[0, 1, 3], ['competencies' => [1]]],
+            'competencies' => [[0], ['competencies' => [1]]],
             'yearAndLevel' => [[3, 4], ['level' => 3, 'year' => 2013]],
             'yearAndSchool' => [[3, 4], ['school' => 2, 'year' => 2013]],
         ];
@@ -464,13 +463,10 @@ class CourseTest extends ReadWriteEndpointTest
             'courseObjectives',
             ['filters[id]' => $newCourse['courseObjectives']]
         );
-        $oldObjectiveIds = array_column($oldCourseObjectiveData, 'objective');
-        $newObjectiveIds = array_column($newCourseObjectivesData, 'objective');
-        $oldObjectiveData = $this->getFiltered('objectives', 'objectives', ['filters[id]' => $oldObjectiveIds]);
-        $newObjectiveData = $this->getFiltered('objectives', 'objectives', ['filters[id]' => $newObjectiveIds]);
-        $this->assertCount(count($oldObjectiveData), $newObjectiveData);
-        $this->assertCount(1, $newObjectiveData[0]['parents']);
-        $this->assertSame('8', $newObjectiveData[0]['parents'][0]);
+
+        $this->assertCount(count($oldCourseObjectiveData), $newCourseObjectivesData);
+        $this->assertCount(1, $newCourseObjectivesData[0]['programYearObjectives']);
+        $this->assertEquals('2', $newCourseObjectivesData[0]['programYearObjectives'][0]);
     }
 
     protected function rolloverCourse(array $rolloverDetails)
@@ -627,12 +623,19 @@ class CourseTest extends ReadWriteEndpointTest
         $data = $dataLoader->getOne();
         $courseObjectiveId = $data['courseObjectives'][0];
         $courseObjective = $this->getOne('courseobjectives', 'courseObjectives', $courseObjectiveId);
-        $objectiveId = $courseObjective['objective'];
+        $sessionObjectiveId = $courseObjective['sessionObjectives'][0];
+        $sessionObjective = $this->getOne('sessionobjectives', 'sessionObjectives', $sessionObjectiveId);
+        // session objective is linked to course objective
+        $this->assertTrue(in_array($courseObjective['id'], $sessionObjective['courseObjectives']));
+
+        // remove course objective
         $data['courseObjectives'] = [];
         $postData = $data;
         $this->putOne('courses', 'course', $postData['id'], $postData);
-        $result = $this->getOne('objectives', 'objectives', $objectiveId);
-        $this->assertEquals($result['children'], ['6']);
+
+        // verify that session objective is no longer linked to removed course objective
+        $sessionObjective = $this->getOne('sessionobjectives', 'sessionObjectives', $sessionObjectiveId);
+        $this->assertFalse(in_array($courseObjective['id'], $sessionObjective['courseObjectives']));
     }
 
     public function testPutCourseWithBadSchoolId()
@@ -722,13 +725,12 @@ class CourseTest extends ReadWriteEndpointTest
         $includes = $this->getJsonApiIncludes(
             'courses',
             '1',
-            'cohorts.programYear.program,cohorts.programYear.programYearObjectives.objective'
+            'cohorts.programYear.program,cohorts.programYear.programYearObjectives'
         );
 
         $this->assertArrayHasKey('programYears', $includes);
         $this->assertArrayHasKey('programs', $includes);
         $this->assertArrayHasKey('programYearObjectives', $includes);
-        $this->assertArrayHasKey('objectives', $includes);
 
         $this->assertIsArray($includes['programYears']);
         $this->assertEquals(['1'], $includes['programYears']);
@@ -736,16 +738,14 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertEquals(['1'], $includes['programs']);
         $this->assertIsArray($includes['programYearObjectives']);
         $this->assertEquals(['1'], $includes['programYearObjectives']);
-        $this->assertIsArray($includes['objectives']);
-        $this->assertEquals(['1'], $includes['objectives']);
     }
 
     public function testIncludeSessionDetails()
     {
         $sessionRelationships = [
             'learningMaterials.learningMaterial.owningUser',
-            'sessionObjectives.objective.parents',
-            'sessionObjectives.objective.meshDescriptors',
+            'sessionObjectives.courseObjectives',
+            'sessionObjectives.meshDescriptors',
             'sessionObjectives.terms.vocabulary',
             'offerings.learners',
             'offerings.instructors',
@@ -773,7 +773,7 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertArrayHasKey('terms', $includes);
         $this->assertArrayHasKey('vocabularies', $includes);
         $this->assertArrayHasKey('sessionObjectives', $includes);
-        $this->assertArrayHasKey('objectives', $includes);
+        $this->assertArrayHasKey('courseObjectives', $includes);
         $this->assertArrayHasKey('meshDescriptors', $includes);
         $this->assertArrayHasKey('sessionDescriptions', $includes);
         $this->assertArrayHasKey('sessionLearningMaterials', $includes);
@@ -791,10 +791,10 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertEquals(['1', '2'], $includes['vocabularies']);
         $this->assertIsArray($includes['sessionObjectives']);
         $this->assertEquals(['1'], $includes['sessionObjectives']);
-        $this->assertIsArray($includes['objectives']);
-        $this->assertEquals(['2', '3'], $includes['objectives']);
+        $this->assertIsArray($includes['courseObjectives']);
+        $this->assertEquals(['1'], $includes['courseObjectives']);
         $this->assertIsArray($includes['meshDescriptors']);
-        $this->assertEquals(['abc1'], $includes['meshDescriptors']);
+        $this->assertEquals(['abc1', 'abc2'], $includes['meshDescriptors']);
         $this->assertIsArray($includes['sessionDescriptions']);
         $this->assertEquals(['1', '2'], $includes['sessionDescriptions']);
         $this->assertIsArray($includes['sessionLearningMaterials']);
