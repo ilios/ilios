@@ -399,19 +399,15 @@ class CourseTest extends EntityBase
      */
     public function testRemoveObjectiveWithSessionChildren()
     {
-        $courseObjective = m::mock(ObjectiveInterface::class);
-        $courseXObjective = m::mock(CourseObjectiveInterface::class);
-        $courseXObjective->shouldReceive('getObjective')->andReturn($courseObjective)->once();
-        $sessionObjective = m::mock(ObjectiveInterface::class);
-        $sessionObjective->shouldReceive('removeParent')->with($courseObjective)->once();
-        $sessionXObjective = m::mock(SessionObjectiveInterface::class);
-        $sessionXObjective->shouldReceive('getObjective')->andReturn($sessionObjective)->once();
+        $courseObjective = m::mock(CourseObjectiveInterface::class);
+        $sessionObjective = m::mock(SessionObjectiveInterface::class);
+        $sessionObjective->shouldReceive('removeCourseObjective')->with($courseObjective)->once();
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getSessionObjectives')
-            ->andReturn(new ArrayCollection([$sessionXObjective]))->once();
+            ->andReturn(new ArrayCollection([$sessionObjective]))->once();
         $this->object->addSession($session);
-        $this->object->addCourseObjective($courseXObjective);
-        $this->object->removeCourseObjective($courseXObjective);
+        $this->object->addCourseObjective($courseObjective);
+        $this->object->removeCourseObjective($courseObjective);
     }
 
     /**
