@@ -121,8 +121,8 @@ class SessionTest extends ReadWriteEndpointTest
 //            'ilmSession' => [[0], ['ilmSessions' => [1]]],
             'terms' => [[1], ['terms' => 1]],
             'termsMultiple' => [[0], ['terms' => [2, 5]]],
-            'meshDescriptors' => [[2], ['meshDescriptors' => ['abc2']]],
-            'meshDescriptorsMultiple' => [[2, 3], ['meshDescriptors' => ['abc2', 'abc3']]],
+            'meshDescriptors' => [[3], ['meshDescriptors' => ['abc3']]],
+            'meshDescriptorsMultiple' => [[0, 2, 3], ['meshDescriptors' => ['abc2', 'abc3']]],
 //            'sessionDescription' => [[0], ['sessionDescription' => 1]],
             'learningMaterials' => [[0], ['learningMaterials' => [1]]],
 //            'offerings' => [[0], ['offerings' => 1]],
@@ -131,7 +131,7 @@ class SessionTest extends ReadWriteEndpointTest
             'programs' => [[3], ['programs' => [2]]],
             'instructors' => [[0, 1, 4, 5, 6], ['instructors' => [2]]],
             'instructorGroups' => [[0, 4], ['instructorGroups' => [1]]],
-            'competencies' => [[0, 3], ['competencies' => [1]]],
+            'competencies' => [[0], ['competencies' => [1]]],
             'schools' => [[3], ['schools' => [2]]],
         ];
     }
