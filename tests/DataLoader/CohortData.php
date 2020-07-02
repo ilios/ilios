@@ -50,7 +50,7 @@ class CohortData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 5,
-            'title' => "Class of 2019",
+            'title' => "Class of 2021",
             'programYear' => '5',
             'courses' => [],
             'learnerGroups' => [],
