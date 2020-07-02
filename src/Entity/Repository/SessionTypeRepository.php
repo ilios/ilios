@@ -161,7 +161,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
             $qb->join('st.sessions', 'c_session');
             $qb->join('c_session.sessionObjectives', 'c_session_x_objective');
             $qb->join('c_session_x_objective.courseObjectives', 'c_course_objective');
-            $qb->join('c_course_objective.programObjectives', 'c_program_year_objective');
+            $qb->join('c_course_objective.programYearObjectives', 'c_program_year_objective');
             $qb->leftJoin('c_program_year_objective.competency', 'c_competency');
             $qb->leftJoin('c_competency.parent', 'c_competency2');
             $qb->andWhere($qb->expr()->orX(
