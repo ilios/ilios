@@ -47,7 +47,8 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
             'course' => ['course', 1],
             'terms' => ['terms', [1, 4]],
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
-            // @todo add entries for py/session objectives [ST 2020/06/22]
+            'programYearObjectives' => ['programYearObjectives', [2]],
+            'sessionObjectives' => ['sessionObjectives', [2, 3]]
         ];
     }
 

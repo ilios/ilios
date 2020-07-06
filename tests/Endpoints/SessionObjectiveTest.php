@@ -47,7 +47,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             'session' => ['session', 2],
             'terms' => ['terms', [1, 4]],
             'meshDescriptors' => ['meshDescriptors', ['abc3']],
-            // @todo add entry for course objectives [ST 2020/06/22]
+            'courseObjectives' => ['courseObjectives', [2]],
         ];
     }
 

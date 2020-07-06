@@ -48,7 +48,8 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
             'terms' => ['terms', [1, 4]],
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
             'competency' => ['competency', 2],
-            // @todo add entries for course objectives [ST 2020/06/22]
+            'courseObjectives' => ['courseObjectives', [2]]
+
         ];
     }
 
