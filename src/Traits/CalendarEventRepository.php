@@ -44,6 +44,7 @@ trait CalendarEventRepository
         $event->endDate = $arr['endDate'];
         $event->offering = $arr['id'];
         $event->location = $arr['room'];
+        $event->url = $arr['url'];
         $event->color = $arr['calendarColor'];
         $event->lastModified = max($arr['offeringUpdatedAt'], $arr['sessionUpdatedAt']);
         $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];

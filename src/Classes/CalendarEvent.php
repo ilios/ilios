@@ -83,6 +83,13 @@ class CalendarEvent
     public $location;
 
     /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     **/
+    public $url;
+
+    /**
      * @var DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
@@ -285,6 +292,7 @@ class CalendarEvent
             $this->ilmSession = null;
             $this->color = null;
             $this->location = null;
+            $this->url = null;
             $this->attireRequired = null;
             $this->equipmentRequired = null;
             $this->supplemental = null;
