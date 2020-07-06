@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Entity\OfferingInterface;
-use App\Tests\DataLoader\VocabularyData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\CourseData;
 use App\Tests\DataLoader\IlmSessionData;
@@ -143,6 +142,7 @@ class UsereventTest extends AbstractEndpointTest
             $offerings[2]['endDate'],
             'endDate is correct for event 0'
         );
+        $this->assertArrayNotHasKey('url', $events[0]);
         $this->assertEquals($events[0]['courseTitle'], $courses[0]['title'], 'title is correct for event 0');
         $this->assertEquals($events[0]['course'], $courses[0]['id'], 'id is correct for event 0');
         $this->assertEquals(
@@ -225,6 +225,7 @@ class UsereventTest extends AbstractEndpointTest
             'startDate is correct for event 1'
         );
         $this->assertEquals($events[1]['endDate'], $offerings[3]['endDate'], 'endDate is correct for event 1');
+        $this->assertArrayNotHasKey('url', $events[1]);
         $this->assertEquals($events[1]['courseTitle'], $courses[0]['title'], 'title is correct for event 1');
         $this->assertEquals($events[1]['course'], $courses[0]['id'], 'id is correct for event 1');
         $this->assertEquals(
@@ -305,6 +306,11 @@ class UsereventTest extends AbstractEndpointTest
             'startDate is correct for event 2'
         );
         $this->assertEquals($events[2]['endDate'], $offerings[4]['endDate'], 'endDate is correct for event 2');
+        $this->assertEquals(
+            $events[2]['url'],
+            $offerings[4]['url'],
+            'url is correct for event 2'
+        );
         $this->assertEquals($events[2]['courseTitle'], $courses[0]['title'], 'title is correct for event 2');
         $this->assertEquals($events[2]['course'], $courses[0]['id'], 'id is correct for event 2');
         $this->assertEquals(
@@ -381,6 +387,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[3]['offering'], 6, 'offering is correct for event 3');
         $this->assertEquals($events[3]['startDate'], $offerings[5]['startDate'], 'startDate is correct for event 3');
         $this->assertEquals($events[3]['endDate'], $offerings[5]['endDate'], 'endDate is correct for event 3');
+        $this->assertArrayNotHasKey('url', $events[3]);
         $this->assertEquals($events[3]['courseTitle'], $courses[1]['title'], 'title is correct for event 3');
         $this->assertEquals($events[3]['course'], $courses[1]['id'], 'id is correct for event 3');
         $this->assertEquals(
@@ -455,6 +462,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[4]['offering'], 7, 'offering is correct for event 4');
         $this->assertEquals($events[4]['startDate'], $offerings[6]['startDate'], 'startDate is correct for event 4');
         $this->assertEquals($events[4]['endDate'], $offerings[6]['endDate'], 'endDate is correct for event 4');
+        $this->assertArrayNotHasKey('url', $events[4]);
         $this->assertEquals($events[4]['courseTitle'], $courses[1]['title'], 'title is correct for event 4');
         $this->assertEquals($events[4]['course'], $courses[1]['id'], 'id is correct for event 4');
         $this->assertEquals(
@@ -529,6 +537,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[5]['ilmSession'], 1, 'ilmSession is correct for 5');
         $this->assertEquals($events[5]['startDate'], $ilmSessions[0]['dueDate'], 'dueDate is correct for 5');
         $this->assertEquals($events[5]['courseTitle'], $courses[1]['title'], 'title is correct for 5');
+        $this->assertArrayNotHasKey('url', $events[5]);
         $this->assertEquals($events[5]['course'], $courses[1]['id'], 'id is correct for 5');
         $this->assertEquals(
             $events[5]['courseExternalId'],
@@ -589,6 +598,7 @@ class UsereventTest extends AbstractEndpointTest
 
         $this->assertEquals($events[6]['ilmSession'], 2, 'ilmSession is correct for event 6');
         $this->assertEquals($events[6]['startDate'], $ilmSessions[1]['dueDate'], 'dueDate is correct for event 6');
+        $this->assertArrayNotHasKey('url', $events[6]);
         $this->assertEquals($events[6]['courseTitle'], $courses[1]['title'], 'title is correct for event 6');
         $this->assertEquals($events[6]['course'], $courses[1]['id'], 'id is correct for event 6');
         $this->assertEquals(
@@ -650,6 +660,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEquals($events[7]['ilmSession'], 3, 'ilmSession is correct for event 7');
         $this->assertEquals($events[7]['startDate'], $ilmSessions[2]['dueDate'], 'dueDate is correct for event 7');
         $this->assertEquals($events[7]['courseTitle'], $courses[1]['title'], 'title is correct for event 7');
+        $this->assertArrayNotHasKey('url', $events[7]);
         $this->assertEquals($events[7]['course'], $courses[1]['id'], 'id is correct for event 7');
         $this->assertEquals(
             $events[7]['courseExternalId'],
@@ -709,6 +720,7 @@ class UsereventTest extends AbstractEndpointTest
 
         $this->assertEquals($events[8]['ilmSession'], 4, 'ilmSession is correct for event 8');
         $this->assertEquals($events[8]['startDate'], $ilmSessions[3]['dueDate'], 'dueDate is correct for event 8');
+        $this->assertArrayNotHasKey('url', $events[8]);
         $this->assertEquals($events[8]['courseTitle'], $courses[1]['title'], 'title is correct for event 8');
         $this->assertEquals($events[8]['course'], $courses[1]['id'], 'id is correct for event 8');
         $this->assertEquals(
@@ -767,6 +779,11 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEmpty($events[8]['postrequisites']);
         $this->assertEmpty($events[8]['prerequisites']);
 
+        $this->assertEquals(
+            $events[9]['url'],
+            $offerings[0]['url'],
+            'url is correct for event 9'
+        );
         $this->assertEquals($events[9]['startDate'], $offerings[0]['startDate'], 'startDate is correct for event 9');
         $this->assertEquals($events[9]['endDate'], $offerings[0]['endDate'], 'endDate is correct for event 9');
         $this->assertEquals(
@@ -858,6 +875,7 @@ class UsereventTest extends AbstractEndpointTest
             $offering->getEndDate()->format('c'),
             'endDate is correct for event 10'
         );
+        $this->assertArrayNotHasKey('url', $events[10]);
         $this->assertEquals(
             $events[10]['sessionTypeTitle'],
             $sessionTypes[1]['title'],

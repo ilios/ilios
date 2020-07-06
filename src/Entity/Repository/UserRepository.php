@@ -344,7 +344,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
 
         $qb = $this->_em->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, o.id, o.startDate, o.endDate, o.room, ' .
-            'o.updatedAt AS offeringUpdatedAt, s.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, ' .
+            'o.url, o.updatedAt AS offeringUpdatedAt, s.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
@@ -471,7 +471,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $results = [];
         $joins = $this->getUserToOfferingJoins();
         $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
-            'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
+            'o.id, o.startDate, o.endDate, o.room, o.url, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
@@ -606,7 +606,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $results = [];
         $joins = $this->getUserToOfferingJoins();
         $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
-            'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
+            'o.id, o.startDate, o.endDate, o.room, o.url, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
