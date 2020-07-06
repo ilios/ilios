@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CourseObjectiveTest extends ReadWriteEndpointTest
 {
+    use LegacyObjectiveTestTrait;
+
     protected $testName =  'courseObjectives';
 
     /**
@@ -157,40 +159,21 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
 
     public function testRemoveLinksFromOrphanedObjectives()
     {
-        // @todo re-implement or remove this. [ST 2020/06/22]
-        $this->markTestSkipped('tbd');
-//        $dataLoader = $this->getContainer()->get(ObjectiveData::class);
-//        $arr = $dataLoader->create();
-//        $arr['parents'] = ['1'];
-//        $arr['children'] = ['7', '8'];
-//        $arr['competency'] = 1;
-//        $arr['programYearObjectives'] = [];
-//        $arr['courseObjectives'] = [];
-//        $arr['sessionObjectives'] = [];
-//        unset($arr['id']);
-//        $objective = $this->postOne('objectives', 'objective', 'objectives', $arr);
-//        $dataLoader = $this->getContainer()->get(CourseData::class);
-//        $arr = $dataLoader->create();
-//        $course = $this->postOne('courses', 'course', 'courses', $arr);
-//
-//        $dataLoader = $this->getDataLoader();
-//        $arr = $dataLoader->create();
-//        $arr['course'] = $course['id'];
-//        $arr['objective'] = $objective['id'];
-//        unset($arr['id']);
-//        $courseObjective = $this->postOne('courseobjectives', 'courseObjective', 'courseObjectives', $arr);
-//
-//        $this->assertNotEmpty($objective['parents'], 'parents have been created');
-//        $this->assertNotEmpty($objective['children'], 'children have been created');
-//        $this->assertArrayHasKey('competency', $objective);
-//
-//        $this->deleteTest($courseObjective['id']);
-//
-//        $objective = $this->getOne('objectives', 'objectives', $objective['id']);
-//
-//        $this->assertEmpty($objective['parents'], 'parents have been removed');
-//        $this->assertEmpty($objective['children'], 'children have been removed');
-//        $this->assertArrayNotHasKey('competency', $objective);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $courseObjectiveId = $data['id'];
+
+        $objective = $this->getObjectiveForXObjective($courseObjectiveId, 'courseObjectives');
+        $this->assertNotEmpty($objective['children']);
+        $this->assertNotEmpty($objective['parents']);
+        $this->assertNotEmpty($objective['courses']);
+
+        $this->deleteTest($courseObjectiveId);
+
+        $objective = $this->getOne('objectives', 'objectives', $objective['id'], 'v1');
+        $this->assertEmpty($objective['children']);
+        $this->assertEmpty($objective['parents']);
+        $this->assertEmpty($objective['courses']);
     }
 
     /**

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Tests\DataLoader\ProgramYearObjectiveData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\ReadWriteEndpointTest;
 
@@ -14,6 +13,8 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class ProgramYearTest extends ReadWriteEndpointTest
 {
+    use LegacyObjectiveTestTrait;
+
     protected $testName = 'programYears';
 
     /**
@@ -313,58 +314,25 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $this->assertFalse($response['locked']);
     }
 
-// @todo re-implement or remove [ST 2020/07/01]
+    public function testRemoveLinksFromOrphanedObjectives()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $programYearId = $data['id'];
+        $programYearObjectiveId = (int) $data['programYearObjectives'][0];
 
-//    public function testRemoveLinksFromOrphanedObjectives()
-//    {
-//        $dataLoader = $this->getDataLoader();
-//        $data = $dataLoader->getOne();
-//        $id = $data['id'];
-//        $self = $this;
-//
-//        //create data we an depend on
-//        $dataLoader = $this->getContainer()->get(ObjectiveData::class);
-//        $create = [];
-//        for ($i = 0; $i < 2; $i++) {
-//            $arr = $dataLoader->create();
-//            $arr['parents'] = ['1'];
-//            $arr['children'] = ['7', '8'];
-//            $arr['competency'] = 1;
-//            $arr['programYearObjectives'] = [];
-//            $arr['courseObjectives'] = [];
-//            $arr['sessionObjectives'] = [];
-//            unset($arr['id']);
-//            $create[] = $arr;
-//        }
-//        $newObjectives = $this->postMany('objectives', 'objectives', $create);
-//        $dataLoader = $this->getContainer()->get(ProgramYearObjectiveData::class);
-//        $create = [];
-//        foreach ($newObjectives as $objective) {
-//            $arr = $dataLoader->create();
-//            unset($arr['id']);
-//            $arr['programYear'] = $id;
-//            $arr['objective'] = $objective['id'];
-//            $create[] = $arr;
-//        }
-//        $this->postMany('programyearobjectives', 'programYearObjectives', $create);
-//
-//        $getObjectives = function ($id) use ($self) {
-//            return $self->getOne('objectives', 'objectives', $id);
-//        };
-//        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
-//        foreach ($objectives as $arr) {
-//            $this->assertNotEmpty($arr['parents'], 'parents have been created');
-//            $this->assertNotEmpty($arr['children'], 'children have been created');
-//            $this->assertArrayHasKey('competency', $arr);
-//        }
-//        $this->deleteTest($id);
-//        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
-//        foreach ($objectives as $arr) {
-//            $this->assertEmpty($arr['parents'], 'parents have been removed');
-//            $this->assertEmpty($arr['children'], 'children have been removed');
-//            $this->assertArrayNotHasKey('competency', $arr);
-//        }
-//    }
+        $objective = $this->getObjectiveForXObjective($programYearObjectiveId, 'programYearObjectives');
+        $this->assertNotEmpty($objective['children']);
+        $this->assertNotEmpty($objective['programYears']);
+        $this->assertNotEmpty($objective['competency']);
+
+        $this->deleteTest($programYearId);
+
+        $objective = $this->getOne('objectives', 'objectives', $objective['id'], 'v1');
+        $this->assertEmpty($objective['children']);
+        $this->assertEmpty($objective['programYears']);
+        $this->assertArrayNotHasKey('competency', $objective);
+    }
 
     /**
      * @covers \App\Controller\ProgramYearController::downloadCourseObjectivesReportAction
