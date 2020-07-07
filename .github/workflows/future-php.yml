@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Use PHP 7.4
+    - name: Use PHP 8.0
       uses: shivammathur/setup-php@v1
       with:
-        php-version: 7.4
+        php-version: 8.0
         coverage: none
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
