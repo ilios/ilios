@@ -235,7 +235,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3.0"
+        "version": "7.4.0"
     },
     "php-http/client-common": {
         "version": "2.1.0"
@@ -726,6 +726,9 @@
     },
     "twig/twig": {
         "version": "v3.0.3"
+    },
+    "webimpress/safe-writer": {
+        "version": "2.0.1"
     },
     "webmozart/assert": {
         "version": "1.8.0"
