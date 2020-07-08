@@ -20,11 +20,11 @@ SessionObjective:
     ancestor:
       description: Ancestor
       type: string
-      descendants:
-        description: Descendants
-        type: array
-        items:
-          type: string
+    descendants:
+      description: Descendants
+      type: array
+      items:
+        type: string
     terms:
       description: Terms
       type: array
