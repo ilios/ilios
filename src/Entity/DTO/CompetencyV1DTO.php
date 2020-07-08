@@ -7,8 +7,8 @@ namespace App\Entity\DTO;
 use App\Annotation as IS;
 
 /**
- * Class CompetencyDTO
- * Data transfer object for a competency
+ * Class CompetencyV1DTO
+ * Data transfer object for a competency (API v1)
  *
  * @IS\DTO("competencies")
  */
