@@ -171,8 +171,14 @@
     "jean85/pretty-package-versions": {
         "version": "1.2"
     },
+    "laminas/laminas-code": {
+        "version": "3.4.1"
+    },
     "laminas/laminas-diagnostics": {
         "version": "1.6.0"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.2.1"
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.4"
