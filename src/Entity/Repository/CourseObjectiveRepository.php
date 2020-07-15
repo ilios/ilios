@@ -130,9 +130,16 @@ class CourseObjectiveRepository extends EntityRepository implements DTORepositor
             $qb->andWhere($qb->expr()->in('st.id', ':terms'));
             $qb->setParameter(':terms', $ids);
         }
+        if (array_key_exists('courses', $criteria)) {
+            $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
+            $qb->join('x.course', 'c');
+            $qb->andWhere($qb->expr()->in('c.id', ':courses'));
+            $qb->setParameter(':courses', $ids);
+        }
 
         //cleanup all the possible relationship filters
         unset($criteria['terms']);
+        unset($criteria['courses']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {

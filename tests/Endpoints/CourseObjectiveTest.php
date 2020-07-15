@@ -71,6 +71,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
             'course' => [[1, 3], ['course' => 2]],
+            'courses' => [[1, 3], ['courses' => [2]]],
             'terms' => [[0, 1], ['terms' => [1]]],
             'position' => [[0, 1, 2, 3, 4], ['position' => 0]],
             'title' => [[1], ['title' => 'course objective 2']],

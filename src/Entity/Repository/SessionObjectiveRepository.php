@@ -144,9 +144,17 @@ class SessionObjectiveRepository extends EntityRepository implements DTOReposito
             $qb->setParameter(':terms', $ids);
         }
 
+        if (array_key_exists('sessions', $criteria)) {
+            $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
+            $qb->join('x.session', 's');
+            $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
+            $qb->setParameter(':sessions', $ids);
+        }
+
         //cleanup all the possible relationship filters
         unset($criteria['courses']);
         unset($criteria['terms']);
+        unset($criteria['sessions']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
