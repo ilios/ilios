@@ -6,6 +6,7 @@ namespace App\Traits;
 
 use App\Entity\Course;
 use App\Entity\Session;
+use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use App\Classes\CalendarEvent;
@@ -127,8 +128,8 @@ trait CalendarEventRepository
         }
 
         $qb = $em->createQueryBuilder();
-        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName')
-            ->from('App\Entity\User', 'u');
+        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName, u.displayName')
+            ->from(User::class, 'u');
         $qb->leftJoin('u.instructedOfferings', 'o');
         $qb->where(
             $qb->expr()->in('o.id', ':offerings')
@@ -138,8 +139,8 @@ trait CalendarEventRepository
 
 
         $qb = $em->createQueryBuilder();
-        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName')
-            ->from('App\Entity\User', 'u');
+        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName, u.displayName')
+            ->from(User::class, 'u');
         $qb->leftJoin('u.instructorGroups', 'ig');
         $qb->leftJoin('ig.offerings', 'o');
         $qb->where(
@@ -155,7 +156,8 @@ trait CalendarEventRepository
             if (! array_key_exists($result['oId'], $offeringInstructors)) {
                 $offeringInstructors[$result['oId']] = [];
             }
-            $offeringInstructors[$result['oId']][$result['userId']] = $result['firstName'] . ' ' . $result['lastName'];
+            $name = $result['displayName'] ?? $result['firstName'] . ' ' . $result['lastName'];
+            $offeringInstructors[$result['oId']][$result['userId']] = $name;
         }
         return $offeringInstructors;
     }
@@ -174,8 +176,8 @@ trait CalendarEventRepository
         }
 
         $qb = $em->createQueryBuilder();
-        $qb->select('ilm.id AS ilmId, u.id AS userId, u.firstName, u.lastName')
-            ->from('App\Entity\User', 'u');
+        $qb->select('ilm.id AS ilmId, u.id AS userId, u.firstName, u.lastName, u.displayName')
+            ->from(User::class, 'u');
         $qb->leftJoin('u.instructorIlmSessions', 'ilm');
         $qb->where(
             $qb->expr()->in('ilm.id', ':ilms')
@@ -184,8 +186,8 @@ trait CalendarEventRepository
         $instructedIlms = $qb->getQuery()->getArrayResult();
 
         $qb = $em->createQueryBuilder();
-        $qb->select('ilm.id AS ilmId, u.id AS userId, u.firstName, u.lastName')
-            ->from('App\Entity\User', 'u');
+        $qb->select('ilm.id AS ilmId, u.id AS userId, u.firstName, u.lastName, u.displayName')
+            ->from(User::class, 'u');
         $qb->leftJoin('u.instructorGroups', 'ig');
         $qb->leftJoin('ig.ilmSessions', 'ilm');
         $qb->where(
@@ -201,7 +203,8 @@ trait CalendarEventRepository
             if (! array_key_exists($result['ilmId'], $ilmInstructors)) {
                 $ilmInstructors[$result['ilmId']] = [];
             }
-            $ilmInstructors[$result['ilmId']][$result['userId']] = $result['firstName'] . ' ' . $result['lastName'];
+            $name = $result['displayName'] ?? $result['firstName'] . ' ' . $result['lastName'];
+            $ilmInstructors[$result['ilmId']][$result['userId']] = $name;
         }
         return $ilmInstructors;
     }
