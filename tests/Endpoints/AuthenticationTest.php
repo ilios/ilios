@@ -44,6 +44,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     {
         return [
             'username' => ['username', $this->getFaker()->text(100)],
+            'password' => ['password', $this->getFaker()->password],
         ];
     }
 
