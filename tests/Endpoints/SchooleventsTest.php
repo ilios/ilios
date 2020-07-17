@@ -11,6 +11,7 @@ use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\OfferingData;
 use App\Tests\DataLoader\SchoolData;
 use App\Tests\DataLoader\SessionData;
+use App\Tests\DataLoader\UserData;
 use App\Tests\AbstractEndpointTest;
 use DateTime;
 
@@ -548,6 +549,19 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($sessionId, $events[0]['session']);
         $this->assertEquals(2, $events[1]['offering']);
         $this->assertEquals($sessionId, $events[1]['session']);
+    }
+
+    public function testAttachedInstructorsUseDisplayName()
+    {
+        $school = $this->getContainer()->get(SchoolData::class)->getOne();
+        $events = $this->getEvents($school['id'], 0, 100000000000);
+        $users = $this->getContainer()->get(UserData::class)->getAll();
+
+        $this->assertEquals($events[0]['offering'], 3);
+
+        $this->assertEquals(2, count($events[0]['instructors']));
+        $this->assertEquals($users[1]['displayName'], $events[0]['instructors'][0]);
+        $this->assertEquals($users[3]['displayName'], $events[0]['instructors'][1]);
     }
 
     protected function getEvents($schoolId, $from, $to, $userId = null)
