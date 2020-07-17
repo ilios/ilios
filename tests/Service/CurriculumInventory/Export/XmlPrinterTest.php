@@ -230,19 +230,9 @@ class XmlPrinterTest extends TestCase
             'Program Objective 1',
             (string) $xml->Expectations->CompetencyObject[0]->children('lom', true)->lom->general->title->string
         );
-        // We're accessing the <co:Category> element's "term" attribute.
-        // The element is apparently is not namespaced. Or at least Simple XML does not pick it up as such.
-        // Instead, it is available in the default namespace, but since its variable name is
-        // "co:Category", we can't get to it via arrow notation.
-        // So we grab it by its index instead, it's the first/only child in the default namespace.
-        // The alternative would be to use curly braces, but their use is deprecated as of PHP 7.4.
-        //
-        // $xml->Expectations->CompetencyObject[0]->children()->{'co:Category'}
-        //
-        // Super weak. A ham of shame is coming your way, PHP. [ST 2020/07/17]
         $this->assertEquals(
             'program-level-competency',
-            (string) $xml->Expectations->CompetencyObject[0]->children()[0]->attributes()['term']
+            (string) $xml->Expectations->CompetencyObject[0]->children('co', true)->Category->attributes()['term']
         );
         $this->assertEquals(
             'http://example.university.edu/course_objective/1',
@@ -254,7 +244,7 @@ class XmlPrinterTest extends TestCase
         );
         $this->assertEquals(
             'sequence-block-level-competency',
-            (string) $xml->Expectations->CompetencyObject[1]->children()[0]->attributes()['term']
+            (string) $xml->Expectations->CompetencyObject[1]->children('co', true)->Category->attributes()['term']
         );
         $this->assertEquals(
             'http://example.university.edu/session_objective/1',
@@ -266,7 +256,7 @@ class XmlPrinterTest extends TestCase
         );
         $this->assertEquals(
             'event-level-competency',
-            (string) $xml->Expectations->CompetencyObject[2]->children()[0]->attributes()['term']
+            (string) $xml->Expectations->CompetencyObject[2]->children('co', true)->Category->attributes()['term']
         );
     }
 }

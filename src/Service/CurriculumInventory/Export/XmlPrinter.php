@@ -782,7 +782,7 @@ class XmlPrinter
         $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
         $lomTitleNode->appendChild($lomStringNode);
         $lomStringNode->appendChild($dom->createTextNode(trim(strip_tags($title))));
-        $categoryNode = $dom->createElement('co:Category');
+        $categoryNode = $dom->createElementNS('http://ns.medbiq.org/competencyobject/v1/', 'Category');
         $competencyObjectNode->appendChild($categoryNode);
         $categoryNode->setAttribute('term', $category);
     }
