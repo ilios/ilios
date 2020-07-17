@@ -4812,16 +4812,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.28.0",
+            "version": "v3.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "3cef22736827b933b0f116e33847a47f7724bd16"
+                "reference": "9bca433ab2498fdc3d7ffb7d2ede4a12b8d5c269"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/3cef22736827b933b0f116e33847a47f7724bd16",
-                "reference": "3cef22736827b933b0f116e33847a47f7724bd16",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/9bca433ab2498fdc3d7ffb7d2ede4a12b8d5c269",
+                "reference": "9bca433ab2498fdc3d7ffb7d2ede4a12b8d5c269",
                 "shasum": ""
             },
             "type": "library",
@@ -4865,7 +4865,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2020-06-29T12:43:36+00:00"
+            "time": "2020-07-17T02:37:48+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
