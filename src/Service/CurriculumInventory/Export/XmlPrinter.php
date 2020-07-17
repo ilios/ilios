@@ -9,7 +9,9 @@ use App\Entity\CurriculumInventoryAcademicLevelInterface;
 use App\Entity\CurriculumInventoryInstitutionInterface;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
-use App\Entity\ProgramInterface;
+use DOMDocument;
+use DOMElement;
+use Exception;
 
 /**
  * XML printer for Curriculum Inventory reporting.
@@ -49,11 +51,12 @@ class XmlPrinter
      *             'events' ... maps sequence blocks to events
      *             'competency_objects' .. maps sequence blocks to competency objects
      *
-     * @return \DOMDocument The generated XML document.
+     * @return DOMDocument The generated XML document.
+     * @throws Exception
      */
     public function print(array $inventory)
     {
-        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $rootNode = $dom->createElementNS('http://ns.medbiq.org/curriculuminventory/v1/', 'CurriculumInventory');
@@ -144,7 +147,6 @@ class XmlPrinter
         //
         // Program
         //
-        /** @var ProgramInterface $program */
         $program = $report->getProgram();
 
         $programNode = $dom->createElement('Program');
@@ -190,10 +192,10 @@ class XmlPrinter
             $eventTitleNode = $dom->createElement('Title');
             $eventNode->appendChild($eventTitleNode);
             $eventTitleNode->appendChild($dom->createTextNode($event['title']));
-            $duration = str_pad($event['duration'], 2, '0', STR_PAD_LEFT);
+            $duration = str_pad((string) $event['duration'], 2, '0', STR_PAD_LEFT);
             $eventDurationNode = $dom->createElement('EventDuration', 'PT' . $duration . 'M');
             $eventNode->appendChild($eventDurationNode);
-            if ('' !== trim($event['description'])) {
+            if (is_string($event['description']) && '' !== trim($event['description'])) {
                 $descriptionNode = $dom->createElement('Description');
                 $eventNode->appendChild($descriptionNode);
                 $descriptionNode->appendChild($dom->createTextNode(trim(strip_tags($event['description']))));
@@ -204,7 +206,7 @@ class XmlPrinter
                     $keywordNode = $dom->createElement('Keyword');
                     $eventNode->appendChild($keywordNode);
                     $keywordNode->setAttribute('hx:source', $keyword['source']);
-                    $keywordNode->setAttribute('hx:id', $keyword['id']);
+                    $keywordNode->setAttribute('hx:id', (string) $keyword['id']);
                     $descriptorNode = $dom->createElementNS('http://ns.medbiq.org/lom/extend/v1/', 'string');
                     $keywordNode->appendChild($descriptorNode);
                     $descriptorNode->appendChild($dom->createTextNode($keyword['name']));
@@ -356,11 +358,12 @@ class XmlPrinter
         foreach ($iterator as $level) {
             $levelNode = $dom->createElement('Level');
             $academicLevelsNode->appendChild($levelNode);
-            $levelNode->setAttribute('number', $level->getLevel());
+            $levelNode->setAttribute('number', (string) $level->getLevel());
             $labelNode = $dom->createElement('Label');
             $levelNode->appendChild($labelNode);
             $labelNode->appendChild($dom->createTextNode($level->getName()));
-            if ('' !== trim($level->getDescription())) {
+            $description = $level->getDescription();
+            if (is_string($description) && '' !== trim($description)) {
                 $descriptionNode = $dom->createElement('Description');
                 $levelNode->appendChild($descriptionNode);
                 $descriptionNode->appendChild($dom->createTextNode($level->getDescription()));
@@ -374,7 +377,8 @@ class XmlPrinter
         $sequenceNode = $dom->createElement('Sequence');
 
         $rootNode->appendChild($sequenceNode);
-        if ('' !== trim($sequence->getDescription())) {
+        $description = $sequence->getDescription();
+        if (is_string($description) && '' !== trim($description)) {
             $sequenceDescriptionNode = $dom->createElement('Description');
             $sequenceNode->appendChild($sequenceDescriptionNode);
             $sequenceDescriptionNode->appendChild($dom->createTextNode($sequence->getDescription()));
@@ -417,16 +421,16 @@ class XmlPrinter
     /**
      * Creates the competency framework node and child-nodes, and adds them to a given parent node (<Expectations>).
      *
-     * @param \DOMDocument $dom
-     * @param \DOMElement $parentNode
+     * @param DOMDocument $dom
+     * @param DOMElement $parentNode
      * @param CurriculumInventoryReportInterface $report
      * @param string $reportId
      * @param string $institutionDomain
      * @param array $expectations
      */
     protected function createCompetencyFrameworkNode(
-        \DOMDocument $dom,
-        \DOMElement $parentNode,
+        DOMDocument $dom,
+        DOMElement $parentNode,
         CurriculumInventoryReportInterface $report,
         $reportId,
         $institutionDomain,
@@ -548,23 +552,23 @@ class XmlPrinter
     /**
      * Recursively creates and appends sequence block nodes to the XML document.
      *
-     * @param \DOMDocument $dom the document object
-     * @param \DOMElement $sequenceNode the sequence DOM node to append to
+     * @param DOMDocument $dom the document object
+     * @param DOMElement $sequenceNode the sequence DOM node to append to
      * @param CurriculumInventorySequenceBlockInterface $block the current sequence block
      * @param array $eventReferences A reference map of sequence blocks to events.
      * @param array $competencyObjectReferences A reference map of sequence blocks to competency objects.
      * @param string $institutionDomain
-     * @param \DOMElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block.
+     * @param DOMElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block.
      * @param int $order of this sequence block in relation to other nested sequence blocks. '0' if n/a.
      */
     protected function createSequenceBlockNode(
-        \DOMDocument $dom,
-        \DOMElement $sequenceNode,
+        DOMDocument $dom,
+        DOMElement $sequenceNode,
         CurriculumInventorySequenceBlockInterface $block,
         array $eventReferences,
         array $competencyObjectReferences,
         $institutionDomain,
-        \DOMElement $parentSequenceBlockNode = null,
+        DOMElement $parentSequenceBlockNode = null,
         $order = 0
     ) {
         $sequenceBlockNode = $dom->createElement('SequenceBlock');
@@ -575,10 +579,10 @@ class XmlPrinter
             $sequenceBlockReferenceNode = $dom->createElement('SequenceBlockReference', $ref);
             $parentSequenceBlockNode->appendChild($sequenceBlockReferenceNode);
             if ($order) {
-                $sequenceBlockReferenceNode->setAttribute('order', $order);
+                $sequenceBlockReferenceNode->setAttribute('order', (string) $order);
             }
         }
-        $sequenceBlockNode->setAttribute('id', $block->getId());
+        $sequenceBlockNode->setAttribute('id', (string) $block->getId());
         switch ($block->getRequired()) {
             case CurriculumInventorySequenceBlockInterface::OPTIONAL:
                 $sequenceBlockNode->setAttribute('required', 'Optional');
@@ -604,12 +608,12 @@ class XmlPrinter
 
         $min = $block->getMinimum();
         if ($min) {
-            $sequenceBlockNode->setAttribute('minimum', $min);
+            $sequenceBlockNode->setAttribute('minimum', (string) $min);
         }
 
         $max = $block->getMaximum();
         if ($max) {
-            $sequenceBlockNode->setAttribute('maximum', $max);
+            $sequenceBlockNode->setAttribute('maximum', (string) $max);
         }
 
         if ($block->hasTrack()) {
@@ -622,7 +626,8 @@ class XmlPrinter
         $sequenceBlockNode->appendChild($titleNode);
         $titleNode->appendChild($dom->createTextNode($block->getTitle()));
 
-        if ('' !== trim($block->getDescription())) {
+        $description = $block->getDescription();
+        if (is_string($description) && '' !== trim($description)) {
             $descriptionNode = $dom->createElement('Description');
             $sequenceBlockNode->appendChild($descriptionNode);
             $descriptionNode->appendChild($dom->createTextNode($block->getDescription()));
@@ -752,13 +757,13 @@ class XmlPrinter
      * Creates a "CompetencyObject" DOM node and populates it with given values,
      * then appends it to the given parent node.
      *
-     * @param \DOMDocument $dom The document object.
-     * @param \DOMElement $parentNode The parent node.
+     * @param DOMDocument $dom The document object.
+     * @param DOMElement $parentNode The parent node.
      * @param string $title The competency object's title.
      * @param string $uri An URI that uniquely identifies the competency object.
      * @param string $category 'program-level-competency', 'sequence-block-level-competency or 'event-level-competency'.
      */
-    protected function createCompetencyObjectNode(\DOMDocument $dom, \DOMElement $parentNode, $title, $uri, $category)
+    protected function createCompetencyObjectNode(DOMDocument $dom, DOMElement $parentNode, $title, $uri, $category)
     {
         $competencyObjectNode = $dom->createElement('CompetencyObject');
         $parentNode->appendChild($competencyObjectNode);
@@ -787,12 +792,12 @@ class XmlPrinter
      * Creates a "CompetencyObjectReference" DOM node and populates it with given values,
      * then appends it to the given parent node.
      *
-     * @param \DOMDocument $dom The document object.
-     * @param \DOMElement $parentNode The parent node.
+     * @param DOMDocument $dom The document object.
+     * @param DOMElement $parentNode The parent node.
      * @param string $uri An URI that uniquely identifies the competency object.
      * @see Ilios_CurriculumInventory_Exporter::_createCompetencyObjectUri
      */
-    protected function createCompetencyObjectReferenceNode(\DOMDocument $dom, \DOMElement $parentNode, $uri)
+    protected function createCompetencyObjectReferenceNode(DOMDocument $dom, DOMElement $parentNode, $uri)
     {
         $ref =
             "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry='{$uri}']";
@@ -801,11 +806,11 @@ class XmlPrinter
     }
 
     /**
-     * @param \DOMDocument $dom
-     * @param \DOMElement $parentNode
+     * @param DOMDocument $dom
+     * @param DOMElement $parentNode
      * @param string $uri
      */
-    protected function createCompetencyFrameworkIncludesNode(\DOMDocument $dom, \DOMElement $parentNode, $uri)
+    protected function createCompetencyFrameworkIncludesNode(DOMDocument $dom, DOMElement $parentNode, $uri)
     {
         $includesNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Includes');
         $parentNode->appendChild($includesNode);
@@ -816,15 +821,15 @@ class XmlPrinter
     }
 
     /**
-     * @param \DOMDocument $dom
-     * @param \DOMElement $parentNode
+     * @param DOMDocument $dom
+     * @param DOMElement $parentNode
      * @param string $relUri1
      * @param string $relUri2
      * @param string $relationshipUri
      */
     protected function createCompetencyFrameworkRelationNode(
-        \DOMDocument $dom,
-        \DOMElement $parentNode,
+        DOMDocument $dom,
+        DOMElement $parentNode,
         $relUri1,
         $relUri2,
         $relationshipUri
