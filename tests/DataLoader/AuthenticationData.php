@@ -53,4 +53,17 @@ class AuthenticationData extends AbstractDataLoader
     {
         return AuthenticationDTO::class;
     }
+
+    /**
+     * Overwrite this so that password will be included in the request when it is set
+     * even though password isn't an exposed property of the DTO
+     */
+    protected function buildJsonApiObject(array $arr, string $dtoClass): array
+    {
+        $rhett = parent::buildJsonApiObject($arr, $dtoClass);
+        if (array_key_exists('password', $arr)) {
+            $rhett['attributes']['password'] = $arr['password'];
+        }
+        return $rhett;
+    }
 }

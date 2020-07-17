@@ -310,10 +310,6 @@ class Authentications
             $entity->setPasswordHash($encodedPassword);
         }
 
-
-
-        $requestParser->extractEntityFromPutRequest($request, $entity, 'authtntications');
-
         $errors = $validator->validate($entity);
         if (count($errors) > 0) {
             $errorsString = (string) $errors;
