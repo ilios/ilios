@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\SessionObjectivesEntity;
+use App\Traits\StudentAdvisorsEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\AdministratorsEntity;
@@ -49,6 +50,7 @@ class Session implements SessionInterface
     use MeshDescriptorsEntity;
     use SequenceBlocksEntity;
     use AdministratorsEntity;
+    use StudentAdvisorsEntity;
     use SessionObjectivesEntity;
 
     /**
@@ -345,6 +347,25 @@ class Session implements SessionInterface
     protected $administrators;
 
     /**
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="studentAdvisedSessions"))
+     * @ORM\JoinTable(name="session_student_advisor",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     *   }
+     * )
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $studentAdvisors;
+
+    /**
      * @var SessionInterface
      *
      * @ORM\ManyToOne(targetEntity="Session", inversedBy="prerequisites")
@@ -387,6 +408,7 @@ class Session implements SessionInterface
         $this->sequenceBlocks = new ArrayCollection();
         $this->excludedSequenceBlocks = new ArrayCollection();
         $this->administrators = new ArrayCollection();
+        $this->studentAdvisors = new ArrayCollection();
         $this->prerequisites = new ArrayCollection();
 
         $this->updatedAt = new DateTime();
@@ -613,6 +635,22 @@ class Session implements SessionInterface
         if ($this->administrators->contains($administrator)) {
             $this->administrators->removeElement($administrator);
             $administrator->removeAdministeredSession($this);
+        }
+    }
+
+    public function addStudentAdvisor(UserInterface $studentAdvisor)
+    {
+        if (!$this->studentAdvisors->contains($studentAdvisor)) {
+            $this->studentAdvisors->add($studentAdvisor);
+            $studentAdvisor->addStudentAdvisedSession($this);
+        }
+    }
+
+    public function removeStudentAdvisor(UserInterface $studentAdvisor)
+    {
+        if ($this->studentAdvisors->contains($studentAdvisor)) {
+            $this->studentAdvisors->removeElement($studentAdvisor);
+            $studentAdvisor->removeStudentAdvisedSession($this);
         }
     }
 

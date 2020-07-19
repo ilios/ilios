@@ -72,6 +72,7 @@ class SessionTest extends ReadWriteEndpointTest
             'learningMaterials' => ['learningMaterials', [2], $skipped = true],
             'offerings' => ['offerings', [1], $skipped = true],
             'administrators' => ['administrators', [2]],
+            'studentAdvisors' => ['studentAdvisors', [1]],
             'postrequisite' => ['postrequisite', 2],
             'emptyPostrequisite' => ['postrequisite', null],
             'prerequisites' => ['prerequisites', [2]],

@@ -59,6 +59,9 @@ class LoadCourseData extends AbstractFixture implements
             foreach ($arr['administrators'] as $id) {
                 $entity->addAdministrator($this->getReference('users' . $id));
             }
+            foreach ($arr['studentAdvisors'] as $id) {
+                $entity->addStudentAdvisor($this->getReference('users' . $id));
+            }
             foreach ($arr['terms'] as $id) {
                 $entity->addTerm($this->getReference('terms' . $id));
             }

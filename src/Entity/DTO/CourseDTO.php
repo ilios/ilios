@@ -127,6 +127,14 @@ class CourseDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Type("array<string>")
+     * @IS\Related("users")
+     */
+    public $studentAdvisors;
+
+    /**
+     * @var int[]
+     * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
@@ -215,6 +223,7 @@ class CourseDTO
 
         $this->directors = [];
         $this->administrators = [];
+        $this->studentAdvisors = [];
         $this->cohorts = [];
         $this->terms = [];
         $this->courseObjectives = [];

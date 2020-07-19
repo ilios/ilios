@@ -62,6 +62,8 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getPendingUserUpdates());
         $this->assertEmpty($this->object->getAdministeredSessions());
         $this->assertEmpty($this->object->getAdministeredCourses());
+        $this->assertEmpty($this->object->getStudentAdvisedCourses());
+        $this->assertEmpty($this->object->getStudentAdvisedSessions());
         $this->assertEmpty($this->object->getDirectedSchools());
         $this->assertEmpty($this->object->getAdministeredSchools());
         $this->assertEmpty($this->object->getDirectedPrograms());
@@ -254,6 +256,38 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers \App\Entity\User::addStudentAdvisedCourse
+     */
+    public function testAddStudentAdvisedCourse()
+    {
+        $this->entityCollectionAddTest('studentAdvisedCourse', 'Course', false, false, 'addStudentAdvisor');
+    }
+
+    /**
+     * @covers \App\Entity\User::removeStudentAdvisedCourse
+     */
+    public function testRemoveStudentAdvisedCourse()
+    {
+        $this->entityCollectionRemoveTest(
+            'studentAdvisedCourse',
+            'Course',
+            false,
+            false,
+            false,
+            'removeStudentAdvisor'
+        );
+    }
+
+    /**
+     * @covers \App\Entity\User::getStudentAdvisedCourses
+     * @covers \App\Entity\User::setStudentAdvisedCourses
+     */
+    public function testGetStudentAdvisedCourses()
+    {
+        $this->entityCollectionSetTest('studentAdvisedCourse', 'Course', false, false, 'addStudentAdvisor');
+    }
+
+    /**
      * @covers \App\Entity\User::addAdministeredSession
      */
     public function testAddAdministeredSession()
@@ -276,6 +310,38 @@ class UserTest extends EntityBase
     public function testGetAdministeredSessions()
     {
         $this->entityCollectionSetTest('administeredSession', 'Session', false, false, 'addAdministrator');
+    }
+
+    /**
+     * @covers \App\Entity\User::addStudentAdvisedSession
+     */
+    public function testAddStudentAdvisedSession()
+    {
+        $this->entityCollectionAddTest('studentAdvisedSession', 'Session', false, false, 'addStudentAdvisor');
+    }
+
+    /**
+     * @covers \App\Entity\User::removeStudentAdvisedSession
+     */
+    public function testRemoveStudentAdvisedSession()
+    {
+        $this->entityCollectionRemoveTest(
+            'studentAdvisedSession',
+            'Session',
+            false,
+            false,
+            false,
+            'removeStudentAdvisor'
+        );
+    }
+
+    /**
+     * @covers \App\Entity\User::getStudentAdvisedSessions
+     * @covers \App\Entity\User::setStudentAdvisedSessions
+     */
+    public function testGetStudentAdvisedSessions()
+    {
+        $this->entityCollectionSetTest('studentAdvisedSession', 'Session', false, false, 'addStudentAdvisor');
     }
 
     /**
