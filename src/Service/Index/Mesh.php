@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Index;
 
 use App\Classes\ElasticSearchBase;
+use DateTime;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Exception;
@@ -42,10 +43,6 @@ class Mesh extends ElasticSearchBase
         }, $results['hits']['hits']);
     }
 
-    /**
-     * @param Descriptor[] $descriptors
-     * @return bool
-     */
     public function index(array $descriptors): bool
     {
         foreach ($descriptors as $descriptor) {
@@ -89,13 +86,17 @@ class Mesh extends ElasticSearchBase
             ];
         }, $descriptors);
 
-        $result = $this->doBulkIndex(self::INDEX, $input);
-        return !$result['errors'];
+        return $this->doBulkIndex(self::INDEX, $input);
     }
 
 
     public static function getMapping(): array
     {
+        $txtTypeField = [
+            'type' => 'text',
+            'analyzer' => 'english',
+        ];
+
         return [
             'settings' => [
                 'number_of_shards' => 1,
@@ -105,6 +106,21 @@ class Mesh extends ElasticSearchBase
                 '_meta' => [
                     'version' => '1',
                 ],
+                'properties' => [
+                    'name' => $txtTypeField,
+                    'annotation' => $txtTypeField,
+                    'previousIndexing' => $txtTypeField,
+                    'terms' => [
+                        'type' => 'keyword'
+                    ],
+                    'concepts' => [
+                        'type' => 'keyword'
+                    ],
+                    'scopeNotes' => $txtTypeField,
+                    'casn1Names' => [
+                        'type' => 'keyword'
+                    ],
+                ]
             ],
         ];
     }

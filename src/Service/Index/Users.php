@@ -6,6 +6,7 @@ namespace App\Service\Index;
 
 use App\Classes\ElasticSearchBase;
 use App\Entity\DTO\UserDTO;
+use DateTime;
 use InvalidArgumentException;
 use Exception;
 
@@ -16,6 +17,7 @@ class Users extends ElasticSearchBase
     /**
      * @param UserDTO[] $users
      * @return bool
+     * @throws Exception
      */
     public function index(array $users): bool
     {
@@ -30,6 +32,7 @@ class Users extends ElasticSearchBase
                 );
             }
         }
+
         $input = array_map(function (UserDTO $user) {
             return [
                 'id' => $user->id,
@@ -46,9 +49,7 @@ class Users extends ElasticSearchBase
             ];
         }, $users);
 
-        $result = $this->doBulkIndex(self::INDEX, $input);
-
-        return !$result['errors'];
+        return $this->doBulkIndex(self::INDEX, $input);
     }
 
     /**
@@ -160,6 +161,7 @@ class Users extends ElasticSearchBase
         return [
             'settings' => [
                 'analysis' => self::getAnalyzers(),
+                'default_pipeline' => 'users',
                 'max_ngram_diff' =>  15,
                 'number_of_shards' => 1,
                 'number_of_replicas' => 0,
@@ -259,6 +261,10 @@ class Users extends ElasticSearchBase
                     'enabled' => [
                         'type' => 'boolean',
                     ],
+                    'ingestTime' => [
+                        'type' => 'date',
+                        'format' => 'date_optional_time||basic_date_time_no_millis||epoch_second||epoch_millis'
+                    ],
                 ]
             ]
         ];
@@ -294,6 +300,24 @@ class Users extends ElasticSearchBase
                     ],
                 ],
             ],
+        ];
+    }
+
+    public static function getPipeline(): array
+    {
+        return [
+            'id' => 'users',
+            'body' => [
+                'description' => 'Set Ingest Time',
+                'processors' => [
+                    [
+                        'set' => [
+                            'field' => '_source.ingestTime',
+                            'value' => '{{_ingest.timestamp}}',
+                        ],
+                    ],
+                ]
+            ]
         ];
     }
 }

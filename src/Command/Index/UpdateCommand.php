@@ -12,6 +12,7 @@ use App\Message\CourseIndexRequest;
 use App\Message\LearningMaterialIndexRequest;
 use App\Message\MeshDescriptorIndexRequest;
 use App\Message\UserIndexRequest;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -81,8 +82,7 @@ class UpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->queueUsers($output);
-        //temporarily disable LM indexing for performance reasons.
-//        $this->queueLearningMaterials($output);
+        $this->queueLearningMaterials($output);
         $this->queueCourses($output);
         $this->queueMesh($output);
 
@@ -115,8 +115,9 @@ class UpdateCommand extends Command
     {
         $allIds = $this->learningMaterialManager->getFileLearningMaterialIds();
         $count = count($allIds);
-        foreach ($allIds as $id) {
-            $this->bus->dispatch(new LearningMaterialIndexRequest($id));
+        $chunks = array_chunk($allIds, LearningMaterialIndexRequest::MAX_MATERIALS);
+        foreach ($chunks as $ids) {
+            $this->bus->dispatch(new LearningMaterialIndexRequest($ids));
         }
         $output->writeln("<info>${count} learning materials have been queued for indexing.</info>");
     }

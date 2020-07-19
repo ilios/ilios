@@ -4,11 +4,14 @@ framework:
 
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
-       async: "doctrine://default"
-       failed: "doctrine://default"
+      async:
+        dsn: "doctrine://default"
+        options:
+          queue_name: search
+      failed: "doctrine://default"
 
     routing:
-      # Route your messages to the transports
+       # Route your messages to the transports
        'App\Message\CourseIndexRequest': async
        'App\Message\UserIndexRequest': async
        'App\Message\MeshDescriptorIndexRequest': async

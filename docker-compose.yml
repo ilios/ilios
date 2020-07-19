@@ -14,6 +14,7 @@ services:
 #            - ILIOS_ERROR_CAPTURE_ENABLED=false
 #            - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
 #            - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
+#            - ILIOS_ELASTICSEARCH_UPLOAD_LIMIT=300000000
 #        ports:
 #            - "8000:80"
 #        volumes:
@@ -26,6 +27,12 @@ services:
             - http.cors.allow-origin=http://localhost:1358
             - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
             - http.cors.allow-credentials=true
-            - http.max_content_length=10mb #matches the AWS ElasticSearch limit
+            - http.max_content_length=300mb
         ports:
             - "9200:9200"
+    kibana:
+        image: kibana:7.7.1
+        environment:
+            ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+        ports:
+            - "5601:5601"

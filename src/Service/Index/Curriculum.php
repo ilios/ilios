@@ -6,6 +6,7 @@ namespace App\Service\Index;
 
 use App\Classes\ElasticSearchBase;
 use App\Classes\IndexableCourse;
+use DateTime;
 use Exception;
 
 class Curriculum extends ElasticSearchBase
@@ -81,7 +82,7 @@ class Curriculum extends ElasticSearchBase
      * @param IndexableCourse[] $courses
      * @return bool
      */
-    public function index(array $courses): bool
+    public function index(array $courses, DateTime $requestCreatedAt): bool
     {
         foreach ($courses as $course) {
             if (!$course instanceof IndexableCourse) {
@@ -94,28 +95,63 @@ class Curriculum extends ElasticSearchBase
                 );
             }
         }
+        $courseIds = array_map(function (IndexableCourse $idx) {
+            return $idx->courseDTO->id;
+        }, $courses);
 
-        $input = array_reduce($courses, function (array $carry, IndexableCourse $item) {
+        $skipCourseIds = $this->findSkippableCourseIds($courseIds, $requestCreatedAt);
+        $coursesToIndex = array_filter($courses, function (IndexableCourse $idx) use ($skipCourseIds) {
+            return !in_array($idx->courseDTO->id, $skipCourseIds);
+        });
+
+        $input = array_reduce($coursesToIndex, function (array $carry, IndexableCourse $item) {
             $sessions = $item->createIndexObjects();
-            $sessionsWithMaterials = $this->attachLearningMaterialsToSession($sessions);
-            return array_merge($carry, $sessionsWithMaterials);
+            return array_merge($carry, $sessions);
         }, []);
 
-        $result = $this->doBulkIndex(self::INDEX, $input);
+        return $this->doBulkIndex(self::INDEX, $input);
+    }
 
-        if ($result['errors']) {
-            $errors = array_map(function (array $item) {
-                if (array_key_exists('error', $item['index'])) {
-                    return $item['index']['error']['reason'];
-                }
-            }, $result['items']);
-            $clean = array_filter($errors);
-            $str = join(';', array_unique($clean));
-            $count = count($clean);
-            throw new Exception("Failed to index all courses ${count} errors. Error text: ${str}");
-        }
+    protected function findSkippableCourseIds(array $ids, DateTime $stamp): array
+    {
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'filter' => [
+                            [
+                                'range' => [
+                                    'ingestTime' => [
+                                        'gte' => $stamp->format('c')
+                                    ]
+                                ],
+                            ],
+                            [
+                                'terms' => [
+                                    'courseId' => $ids
+                                ]
+                            ],
+                        ]
+                    ]
+                ],
+                'aggs' => [
+                    'courseId' => [
+                        'terms' => [
+                            'field' => 'courseId',
+                            'size' => 10000,
+                        ]
+                    ],
+                ],
+                'size' => 0,
+            ]
+        ];
+        $results = $this->doSearch($params);
+        $courseIds =  array_column($results['aggregations']['courseId']['buckets'], 'key');
 
-        return true;
+        $newIds = array_map('intval', $courseIds);
+
+        return array_intersect($ids, $newIds);
     }
 
     /**
@@ -152,63 +188,6 @@ class Curriculum extends ElasticSearchBase
         return $result['result'] === 'deleted';
     }
 
-    protected function attachLearningMaterialsToSession(array $sessions): array
-    {
-        $courseIds = array_column($sessions, 'courseFileLearningMaterialIds');
-        $sessionIds = array_column($sessions, 'sessionFileLearningMaterialIds');
-        $learningMaterialIds = array_values(array_unique(array_merge([], ...$courseIds, ...$sessionIds)));
-        $materialsById = [];
-        if (!empty($learningMaterialIds)) {
-            $params = [
-                'index' => LearningMaterials::INDEX,
-                'body' => [
-                    'query' => [
-                        'terms' => [
-                            'learningMaterialId' => $learningMaterialIds
-                        ]
-                    ],
-                    "_source" => [
-                        'learningMaterialId',
-                        'material.content',
-                    ]
-                ]
-            ];
-            $results = $this->client->search($params);
-
-            $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
-                $result = $hit['_source'];
-                $id = $result['learningMaterialId'];
-
-                if (array_key_exists('material', $result)) {
-                    $carry[$id][] = $result['material']['content'];
-                }
-
-                return $carry;
-            }, []);
-        }
-
-        return array_map(function (array $session) use ($materialsById) {
-            foreach ($session['sessionFileLearningMaterialIds'] as $id) {
-                if (array_key_exists($id, $materialsById)) {
-                    foreach ($materialsById[$id] as $value) {
-                        $session['sessionLearningMaterialAttachments'][] = $value;
-                    }
-                }
-            }
-            unset($session['sessionFileLearningMaterialIds']);
-            foreach ($session['courseFileLearningMaterialIds'] as $id) {
-                if (array_key_exists($id, $materialsById)) {
-                    foreach ($materialsById[$id] as $value) {
-                        $session['courseLearningMaterialAttachments'][] = $value;
-                    }
-                }
-            }
-            unset($session['courseFileLearningMaterialIds']);
-
-            return $session;
-        }, $sessions);
-    }
-
     /**
      * Construct the query to search the curriculum
      * @param string $query
@@ -217,50 +196,33 @@ class Curriculum extends ElasticSearchBase
     protected function buildCurriculumSearch(string $query): array
     {
         $mustFields = [
+            'courseTitle',
+            'courseTerms',
+            'courseObjectives',
+            'courseLearningMaterialTitles',
+            'courseLearningMaterialDescriptions',
+            'courseLearningMaterialCitations',
+            'courseMeshDescriptorNames',
+            'courseMeshDescriptorAnnotations',
+            'courseLearningMaterialAttachments',
+            'sessionTitle',
+            'sessionDescription',
+            'sessionTerms',
+            'sessionObjectives',
+            'sessionLearningMaterialTitles',
+            'sessionLearningMaterialDescriptions',
+            'sessionLearningMaterialCitations',
+            'sessionMeshDescriptorNames',
+            'sessionMeshDescriptorAnnotations',
+            'sessionLearningMaterialAttachments.content',
+        ];
+        $keywordFields = [
             'courseId',
             'courseYear',
-            'courseTitle',
-            'courseTitle.ngram',
-            'courseTerms',
-            'courseTerms.ngram',
-            'courseObjectives',
-            'courseObjectives.ngram',
-            'courseLearningMaterialTitles',
-            'courseLearningMaterialTitles.ngram',
-            'courseLearningMaterialDescriptions',
-            'courseLearningMaterialDescriptions.ngram',
-            'courseLearningMaterialCitation',
-            'courseLearningMaterialCitation.ngram',
             'courseMeshDescriptorIds',
-            'courseMeshDescriptorNames',
-            'courseMeshDescriptorNames.ngram',
-            'courseMeshDescriptorAnnotations',
-            'courseMeshDescriptorAnnotations.ngram',
-            'courseLearningMaterialAttachments',
-            'courseLearningMaterialAttachments.ngram',
             'sessionId',
-            'sessionTitle',
-            'sessionTitle.ngram',
-            'sessionDescription',
-            'sessionDescription.ngram',
             'sessionType',
-            'sessionTerms',
-            'sessionTerms.ngram',
-            'sessionObjectives',
-            'sessionObjectives.ngram',
-            'sessionLearningMaterialTitles',
-            'sessionLearningMaterialTitles.ngram',
-            'sessionLearningMaterialDescriptions',
-            'sessionLearningMaterialDescriptions.ngram',
-            'sessionLearningMaterialCitation',
-            'sessionLearningMaterialCitation.ngram',
             'sessionMeshDescriptorIds',
-            'sessionMeshDescriptorNames',
-            'sessionMeshDescriptorNames.ngram',
-            'sessionMeshDescriptorAnnotations',
-            'sessionMeshDescriptorAnnotations.ngram',
-            'sessionLearningMaterialAttachments',
-            'sessionLearningMaterialAttachments.ngram',
         ];
 
         $shouldFields = [
@@ -277,15 +239,35 @@ class Curriculum extends ElasticSearchBase
             'sessionObjectives',
             'sessionLearningMaterialTitles',
             'sessionLearningMaterialDescriptions',
-            'sessionLearningMaterialAttachments',
+            'sessionLearningMaterialAttachments.content',
         ];
 
-        $mustMatch = array_map(function ($field) use ($query) {
-            return [ 'match' => [ $field => [
+        $mustMatch = [];
+
+        /**
+         * Keyword index types cannot user the match_phrase_prefix query
+         * So they have to be added using the match query
+         */
+        foreach ($keywordFields as $field) {
+            $mustMatch[] = [ 'match' => [ $field => [
                 'query' => $query,
                 '_name' => $field,
             ] ] ];
-        }, $mustFields);
+        }
+
+        $mustMatch = array_reduce(
+            $mustFields,
+            function (array $carry, string $field) use ($query) {
+                $matches = array_map(function (string $type) use ($field, $query) {
+                    $fullField = "${field}.${type}";
+                    return [ 'match_phrase_prefix' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
+                }, ['english', 'french', 'spanish']);
+
+                return array_merge($carry, $matches);
+            },
+            $mustMatch
+        );
+
 
         /**
          * At least one of the mustMatch queries has to be a match
@@ -301,18 +283,12 @@ class Curriculum extends ElasticSearchBase
          * users enter a complete word like move it will score higher than
          * than a partial match on movement
          */
-        $should = array_reduce(
-            $shouldFields,
-            function (array $carry, string $field) use ($query) {
-                $matches = array_map(function (string $type) use ($field, $query) {
-                    $fullField = "${field}.${type}";
-                    return [ 'match' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
-                }, ['english', 'raw']);
-
-                return array_merge($carry, $matches);
-            },
-            []
-        );
+        $should = array_map(function ($field) use ($query) {
+            return [ 'match' => [ "${field}" => [
+                'query' => $query,
+                '_name' => $field,
+            ] ] ];
+        }, $shouldFields);
 
         return [
             'bool' => [
@@ -420,18 +396,17 @@ class Curriculum extends ElasticSearchBase
             'type' => 'text',
             'analyzer' => 'standard',
             'fields' => [
-                'ngram' => [
-                    'type' => 'text',
-                    'analyzer' => 'ngram_analyzer',
-                    'search_analyzer' => 'string_search_analyzer',
-                ],
                 'english' => [
                     'type' => 'text',
                     'analyzer' => 'english',
                 ],
-                'raw' => [
+                'french' => [
                     'type' => 'text',
-                    'analyzer' => 'keyword',
+                    'analyzer' => 'french',
+                ],
+                'spanish' => [
+                    'type' => 'text',
+                    'analyzer' => 'spanish',
                 ]
             ],
         ];
@@ -440,10 +415,9 @@ class Curriculum extends ElasticSearchBase
 
         return [
             'settings' => [
-                'analysis' => self::getAnalyzers(),
-                'max_ngram_diff' =>  15,
-                'number_of_shards' => 1,
+                'number_of_shards' => 2,
                 'number_of_replicas' => 0,
+                'default_pipeline' => 'curriculum',
             ],
             'mappings' => [
                 '_meta' => [
@@ -469,8 +443,12 @@ class Curriculum extends ElasticSearchBase
                     'courseObjectives'  => $txtTypeField,
                     'courseLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
                     'courseLearningMaterialDescriptions'  => $txtTypeField,
-                    'courseLearningMaterialCitation'  => $txtTypeField,
-                    'courseLearningMaterialAttachments'  => $txtTypeField,
+                    'courseLearningMaterialCitations'  => $txtTypeField,
+                    'courseLearningMaterialAttachments' => [
+                        'properties' => [
+                            'content' => $txtTypeField
+                        ]
+                    ],
                     'courseMeshDescriptorIds' => [
                         'type' => 'keyword',
                         'fields' => [
@@ -501,8 +479,12 @@ class Curriculum extends ElasticSearchBase
                     'sessionObjectives'  => $txtTypeField,
                     'sessionLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
                     'sessionLearningMaterialDescriptions'  => $txtTypeField,
-                    'sessionLearningMaterialCitation'  => $txtTypeField,
-                    'sessionLearningMaterialAttachments'  => $txtTypeField,
+                    'sessionLearningMaterialCitations'  => $txtTypeField,
+                    'sessionLearningMaterialAttachments' => [
+                        'properties' => [
+                            'content' => $txtTypeField
+                        ]
+                    ],
                     'sessionMeshDescriptorIds' => [
                         'type' => 'keyword',
                         'fields' => [
@@ -516,36 +498,46 @@ class Curriculum extends ElasticSearchBase
                     ],
                     'sessionMeshDescriptorNames' => $txtTypeFieldWithCompletion,
                     'sessionMeshDescriptorAnnotations' => $txtTypeField,
+                    'ingestTime' => [
+                        'type' => 'date',
+                        'format' => 'date_optional_time||basic_date_time_no_millis||epoch_second||epoch_millis'
+                    ],
                 ]
             ]
         ];
     }
 
-    protected static function getAnalyzers(): array
+    public static function getPipeline(): array
     {
         return [
-            'analyzer' => [
-                'ngram_analyzer' => [
-                    'tokenizer' => 'ngram_tokenizer',
-                    'filter' => ['lowercase'],
-                ],
-                'string_search_analyzer' => [
-                    'type' => 'custom',
-                    'tokenizer' => 'keyword',
-                    'filter' => ['lowercase', 'word_delimiter'],
-                ],
-            ],
-            'tokenizer' => [
-                'ngram_tokenizer' => [
-                    'type' => 'ngram',
-                    'min_gram' => 3,
-                    'max_gram' => 15,
-                    'token_chars' => [
-                        'letter',
-                        'digit'
+            'id' => 'curriculum',
+            'body' => [
+                'description' => 'Curriculum Data',
+                'processors' => [
+                    [
+                        'set' => [
+                            'field' => '_source.ingestTime',
+                            'value' => '{{_ingest.timestamp}}',
+                        ],
                     ],
-                ],
-            ],
+                    [
+                        'enrich' => [
+                            'policy_name' => 'materials-policy',
+                            'field' => 'sessionFileLearningMaterialIds',
+                            'target_field' => 'sessionLearningMaterialAttachments',
+                            'max_matches' => 128, //ES Maximum
+                        ]
+                    ],
+                    [
+                        'enrich' => [
+                            'policy_name' => 'materials-policy',
+                            'field' => 'courseFileLearningMaterialIds',
+                            'target_field' => 'courseLearningMaterialAttachments',
+                            'max_matches' => 128, //ES Maximum
+                        ]
+                    ],
+                ]
+            ]
         ];
     }
 }
