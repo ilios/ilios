@@ -57,7 +57,7 @@ final class Version20200630182857 extends AbstractMigration
         // copy title and active flag from objectives to linked x-objectives
         $this->addSql('UPDATE session_x_objective sxo JOIN objective o ON o.objective_id = sxo.objective_id SET sxo.title = o.title, sxo.active = o.active');
         $this->addSql('UPDATE course_x_objective cxo JOIN objective o ON o.objective_id = cxo.objective_id SET cxo.title = o.title, cxo.active = o.active');
-        $this->addSql('UPDATE program_year_x_objective pyxo JOIN objective o ON o.objective_id = pyxo.objective_id SET pyxo.title = o.title, pyxo.active = o.active');
+        $this->addSql('UPDATE program_year_x_objective pyxo JOIN objective o ON o.objective_id = pyxo.objective_id SET pyxo.title = o.title, pyxo.active = o.active, pyxo.competency_id = o.competency_id');
 
         // copy mesh associations
         $this->addSql('INSERT INTO session_objective_x_mesh (session_objective_id, mesh_descriptor_uid) SELECT sxo.session_objective_id, oxm.mesh_descriptor_uid FROM session_x_objective sxo JOIN objective o ON sxo.objective_id = o.objective_id JOIN objective_x_mesh oxm ON o.objective_id = oxm.objective_id');
