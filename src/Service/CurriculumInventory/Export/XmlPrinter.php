@@ -67,7 +67,7 @@ class XmlPrinter
         );
         $rootNode->setAttributeNS(
             'http://www.w3.org/2001/XMLSchema-instance',
-            'schemaLocation',
+            'xsi:schemaLocation',
             'http://ns.medbiq.org/curriculuminventory/v1/curriculuminventory.xsd'
         );
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:lom', 'http://ltsc.ieee.org/xsd/LOM');
@@ -205,9 +205,17 @@ class XmlPrinter
                 foreach ($event['keywords'] as $keyword) {
                     $keywordNode = $dom->createElement('Keyword');
                     $eventNode->appendChild($keywordNode);
-                    $keywordNode->setAttribute('hx:source', $keyword['source']);
-                    $keywordNode->setAttribute('hx:id', (string) $keyword['id']);
-                    $descriptorNode = $dom->createElementNS('http://ns.medbiq.org/lom/extend/v1/', 'string');
+                    $keywordNode->setAttributeNS(
+                        'http://ns.medbiq.org/lom/extend/v1/',
+                        'hx:source',
+                        $keyword['source']
+                    );
+                    $keywordNode->setAttributeNS(
+                        'http://ns.medbiq.org/lom/extend/v1/',
+                        'hx:id',
+                        (string) $keyword['id']
+                    );
+                    $descriptorNode = $dom->createElementNS('http://ns.medbiq.org/lom/extend/v1/', 'hx:string');
                     $keywordNode->appendChild($descriptorNode);
                     $descriptorNode->appendChild($dom->createTextNode($keyword['name']));
                 }
@@ -767,22 +775,22 @@ class XmlPrinter
     {
         $competencyObjectNode = $dom->createElement('CompetencyObject');
         $parentNode->appendChild($competencyObjectNode);
-        $lomNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom');
+        $lomNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:lom');
         $competencyObjectNode->appendChild($lomNode);
-        $lomGeneralNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'general');
+        $lomGeneralNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:general');
         $lomNode->appendChild($lomGeneralNode);
-        $lomIdentifierNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'identifier');
+        $lomIdentifierNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:identifier');
         $lomGeneralNode->appendChild($lomIdentifierNode);
-        $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'catalog', 'URI');
+        $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:catalog', 'URI');
         $lomIdentifierNode->appendChild($lomCatalogNode);
-        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'entry', $uri);
+        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:entry', $uri);
         $lomIdentifierNode->appendChild($lomEntryNode);
-        $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'title');
+        $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:title');
         $lomGeneralNode->appendChild($lomTitleNode);
-        $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
+        $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:string');
         $lomTitleNode->appendChild($lomStringNode);
         $lomStringNode->appendChild($dom->createTextNode(trim(strip_tags($title))));
-        $categoryNode = $dom->createElement('co:Category');
+        $categoryNode = $dom->createElementNS('http://ns.medbiq.org/competencyobject/v1/', 'co:Category');
         $competencyObjectNode->appendChild($categoryNode);
         $categoryNode->setAttribute('term', $category);
     }
@@ -834,21 +842,25 @@ class XmlPrinter
         $relUri2,
         $relationshipUri
     ) {
-        $relationNode = $dom->createElement('cf:Relation');
+        $relationNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Relation');
         $parentNode->appendChild($relationNode);
-        $referenceNode = $dom->createElement('cf:Reference1');
+        $referenceNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Reference1');
         $relationNode->appendChild($referenceNode);
-        $catalogNode = $dom->createElement('cf:Catalog', 'URI');
+        $catalogNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Catalog', 'URI');
         $referenceNode->appendChild($catalogNode);
-        $entryNode = $dom->createElement('cf:Entry', $relUri1);
+        $entryNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Entry', $relUri1);
         $referenceNode->appendChild($entryNode);
-        $relationshipNode = $dom->createElement('cf:Relationship', $relationshipUri);
+        $relationshipNode = $dom->createElementNS(
+            'http://ns.medbiq.org/competencyframework/v1/',
+            'cf:Relationship',
+            $relationshipUri
+        );
         $relationNode->appendChild($relationshipNode);
-        $referenceNode = $dom->createElement('cf:Reference2');
+        $referenceNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Reference2');
         $relationNode->appendChild($referenceNode);
-        $catalogNode = $dom->createElement('cf:Catalog', 'URI');
+        $catalogNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Catalog', 'URI');
         $referenceNode->appendChild($catalogNode);
-        $entryNode = $dom->createElement('cf:Entry', $relUri2);
+        $entryNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Entry', $relUri2);
         $referenceNode->appendChild($entryNode);
     }
 
