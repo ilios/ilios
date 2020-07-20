@@ -180,7 +180,7 @@ class XmlPrinterTest extends TestCase
         $this->assertEquals('DRS Curriculum Map 2019-2020', (string)$xml->Title);
 
         // <ReportDate>, <ReportingStartDate>, <ReportingEndDate>
-        $this->assertEquals('2020-07-17', (string)$xml->ReportDate);
+        $this->assertEquals(date('Y-m-d'), (string)$xml->ReportDate);
         $this->assertEquals('2019-07-01', (string)$xml->ReportingStartDate);
         $this->assertEquals('2020-06-30', (string)$xml->ReportingEndDate);
 
