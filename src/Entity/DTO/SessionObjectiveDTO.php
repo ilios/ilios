@@ -39,8 +39,8 @@ class SessionObjectiveDTO
 
     /**
      * @var int
-     *
      * @IS\Expose
+     * @IS\Related("sessions")
      * @IS\Type("integer")
      */
     public $session;
