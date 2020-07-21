@@ -222,7 +222,6 @@ class ProgramYear implements ProgramYearInterface
      * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="programYear")
      * @ORM\OrderBy({"id" = "ASC"})
      *
-     * @IS\Expose
      * @IS\Type("entityCollection")
      */
     protected $stewards;
