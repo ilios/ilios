@@ -3224,16 +3224,16 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.12.3",
+            "version": "2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "3ed60d7201e71a6147d8c6dcea9a00a69cf9daa8"
+                "reference": "653b8578557385cf3fee4879d3bc3cb31d405020"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/3ed60d7201e71a6147d8c6dcea9a00a69cf9daa8",
-                "reference": "3ed60d7201e71a6147d8c6dcea9a00a69cf9daa8",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/653b8578557385cf3fee4879d3bc3cb31d405020",
+                "reference": "653b8578557385cf3fee4879d3bc3cb31d405020",
                 "shasum": ""
             },
             "require": {
@@ -3245,7 +3245,7 @@
                 "doctrine/doctrine-migrations-bundle": "^2.0",
                 "doctrine/migrations": "^2.0",
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "guzzlehttp/guzzle": "^5.3.2 || ^6.3.3",
+                "guzzlehttp/guzzle": "^5.3.2 || ^6.3.3 || ^7.0.1",
                 "matthiasnoback/symfony-dependency-injection-test": "^3.0 || ^4.0",
                 "phpunit/phpunit": "^7.0 || ^8.0",
                 "sensiolabs/security-checker": "^5.0 || ^6.0",
@@ -3301,7 +3301,7 @@
                 "monitor",
                 "monitoring"
             ],
-            "time": "2020-07-02T19:37:30+00:00"
+            "time": "2020-07-21T11:03:09+00:00"
         },
         {
             "name": "monolog/monolog",
