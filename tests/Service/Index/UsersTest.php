@@ -43,12 +43,12 @@ class UsersTest extends TestCase
     public function testSetup()
     {
         $obj1 = new Users($this->config, $this->client);
-        self::assertTrue($obj1 instanceof Users);
-        self::assertTrue($obj1->isEnabled());
+        $this->assertTrue($obj1 instanceof Users);
+        $this->assertTrue($obj1->isEnabled());
 
         $obj2 = new Users($this->config, null);
-        self::assertTrue($obj2 instanceof Users);
-        self::assertFalse($obj2->isEnabled());
+        $this->assertTrue($obj2 instanceof Users);
+        $this->assertFalse($obj2->isEnabled());
     }
 
     public function testIndexUsersThrowsWhenNotDTO()
@@ -70,7 +70,7 @@ class UsersTest extends TestCase
             m::mock(UserDTO::class),
             m::mock(UserDTO::class)
         ];
-        self::assertTrue($obj->index($users));
+        $this->assertTrue($obj->index($users));
     }
 
 

@@ -43,12 +43,12 @@ class CurriculumTest extends TestCase
     public function testSetup()
     {
         $obj1 = new Curriculum($this->config, $this->client);
-        self::assertTrue($obj1 instanceof Curriculum);
-        self::assertTrue($obj1->isEnabled());
+        $this->assertTrue($obj1 instanceof Curriculum);
+        $this->assertTrue($obj1->isEnabled());
 
         $obj2 = new Curriculum($this->config, null);
-        self::assertTrue($obj2 instanceof Curriculum);
-        self::assertFalse($obj2->isEnabled());
+        $this->assertTrue($obj2 instanceof Curriculum);
+        $this->assertFalse($obj2->isEnabled());
     }
 
 
@@ -71,7 +71,7 @@ class CurriculumTest extends TestCase
         $mockDto = m::mock(CourseDTO::class);
         $mockCourse->courseDTO = $mockDto;
         $mockCourse->shouldReceive('createIndexObjects')->andReturn([]);
-        self::assertTrue($obj->index([$mockCourse]));
+        $this->assertTrue($obj->index([$mockCourse]));
     }
 
     public function testIndexCourses()

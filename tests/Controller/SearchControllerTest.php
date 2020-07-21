@@ -118,9 +118,9 @@ class SearchControllerTest extends TestCase
 
         $response = $this->controller->curriculumSearch($request);
         $content = $response->getContent();
-        self::assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
-        self::assertEquals(
+        $this->assertEquals(
             ['results' => [$result]],
             json_decode($content, true),
             var_export($content, true)
@@ -153,9 +153,9 @@ class SearchControllerTest extends TestCase
 
         $response = $this->controller->curriculumSearch($request);
         $content = $response->getContent();
-        self::assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
-        self::assertEquals(
+        $this->assertEquals(
             ['results' => [$result]],
             json_decode($content, true),
             var_export($content, true)
@@ -201,9 +201,9 @@ class SearchControllerTest extends TestCase
 
         $response = $this->controller->userSearch($request);
         $content = $response->getContent();
-        self::assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
-        self::assertEquals(
+        $this->assertEquals(
             ['results' => [$result]],
             json_decode($content, true),
             var_export($content, true)
@@ -236,9 +236,9 @@ class SearchControllerTest extends TestCase
 
         $response = $this->controller->userSearch($request);
         $content = $response->getContent();
-        self::assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
-        self::assertEquals(
+        $this->assertEquals(
             ['results' => [$result]],
             json_decode($content, true),
             var_export($content, true)
@@ -268,9 +268,9 @@ class SearchControllerTest extends TestCase
 
         $response = $this->controller->userSearch($request);
         $content = $response->getContent();
-        self::assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
-        self::assertEquals(
+        $this->assertEquals(
             ['results' => [$result]],
             json_decode($content, true),
             var_export($content, true)

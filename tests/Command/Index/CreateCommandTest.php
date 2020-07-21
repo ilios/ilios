@@ -56,7 +56,7 @@ class CreateCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        self::assertRegExp(
+        $this->assertRegExp(
             '/Done./',
             $output
         );
