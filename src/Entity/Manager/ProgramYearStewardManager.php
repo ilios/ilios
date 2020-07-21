@@ -7,6 +7,6 @@ namespace App\Entity\Manager;
 /**
  * Class ProgramYearStewardManager
  */
-class ProgramYearStewardManager extends V1CompatibleBaseManager
+class ProgramYearStewardManager extends BaseManager
 {
 }
