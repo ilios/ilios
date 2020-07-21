@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\CreatedAtEntity;
+use App\Traits\CourseObjectivesEntity;
+use App\Traits\ProgramYearObjectivesEntity;
+use App\Traits\SessionObjectivesEntity;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\ConceptsEntity;
 use App\Traits\ObjectivesEntity;
@@ -38,6 +42,9 @@ class MeshDescriptor implements MeshDescriptorInterface
     use ObjectivesEntity;
     use ConceptsEntity;
     use CreatedAtEntity;
+    use SessionObjectivesEntity;
+    use CourseObjectivesEntity;
+    use ProgramYearObjectivesEntity;
 
     /**
      * @var string
@@ -94,6 +101,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $annotation;
 
     /**
+     * @var DateTime
      * @ORM\Column(name="created_at", type="datetime")
      *
      * @IS\Expose
@@ -103,6 +111,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $createdAt;
 
     /**
+     * @var DateTime
      * @ORM\Column(name="updated_at", type="datetime")
      *
      * @IS\Expose
@@ -121,7 +130,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $deleted;
 
     /**
-     * @var ArrayCollection|CourseInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="meshDescriptors")
      * @ORM\OrderBy({"id" = "ASC"})
@@ -132,18 +141,18 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $courses;
 
     /**
-     * @var ArrayCollection|ObjectiveInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="Objective", mappedBy="meshDescriptors")
      * @ORM\OrderBy({"id" = "ASC"})
      *
-     * @IS\Expose
      * @IS\Type("entityCollection")
+     * @IS\ReadOnly()
      */
     protected $objectives;
 
     /**
-     * @var ArrayCollection|SessionInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="meshDescriptors")
      * @ORM\OrderBy({"id" = "ASC"})
@@ -154,7 +163,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $sessions;
 
     /**
-     * @var ArrayCollection|MeshConceptInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="descriptors")
      * @ORM\OrderBy({"id" = "ASC"})
@@ -165,7 +174,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $concepts;
 
     /**
-     * @var ArrayCollection|MeshQualifierInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="MeshQualifier", mappedBy="descriptors")
      * @ORM\OrderBy({"id" = "ASC"})
@@ -176,7 +185,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $qualifiers;
 
     /**
-     * @var ArrayCollection|MeshTreeInterface[]
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="MeshTree", mappedBy="descriptor")
      * @ORM\OrderBy({"id" = "ASC"})
@@ -187,7 +196,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $trees;
 
     /**
-     * @var ArrayCollection|SessionLearningMaterialInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="SessionLearningMaterial", mappedBy="meshDescriptors")
      * @ORM\OrderBy({"id" = "ASC"})
@@ -198,7 +207,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $sessionLearningMaterials;
 
     /**
-     * @var ArrayCollection|CourseLearningMaterialInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="CourseLearningMaterial", mappedBy="meshDescriptors")
      * @ORM\OrderBy({"id" = "ASC"})
@@ -219,6 +228,39 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $previousIndexing;
 
     /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="SessionObjective", mappedBy="meshDescriptors")
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $sessionObjectives;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CourseObjective", mappedBy="meshDescriptors")
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $courseObjectives;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ProgramYearObjective", mappedBy="meshDescriptors")
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $programYearObjectives;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -228,11 +270,14 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->sessions = new ArrayCollection();
         $this->sessionLearningMaterials = new ArrayCollection();
         $this->courseLearningMaterials = new ArrayCollection();
+        $this->programYearObjectives = new ArrayCollection();
+        $this->courseObjectives = new ArrayCollection();
+        $this->sessionObjectives = new ArrayCollection();
         $this->trees = new ArrayCollection();
         $this->concepts = new ArrayCollection();
         $this->qualifiers = new ArrayCollection();
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
         $this->deleted = false;
     }
 
@@ -275,7 +320,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param Collection $sessionLearningMaterials
+     * @inheritdoc
      */
     public function setSessionLearningMaterials(Collection $sessionLearningMaterials)
     {
@@ -287,7 +332,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     * @inheritdoc
      */
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
     {
@@ -298,7 +343,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     * @inheritdoc
      */
     public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
     {
@@ -309,7 +354,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @return ArrayCollection|SessionLearningMaterialInterface[]
+     * @inheritdoc
      */
     public function getSessionLearningMaterials()
     {
@@ -317,7 +362,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param Collection $courseLearningMaterials
+     * @inheritdoc
      */
     public function setCourseLearningMaterials(Collection $courseLearningMaterials)
     {
@@ -329,7 +374,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     * @inheritdoc
      */
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
     {
@@ -340,7 +385,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     * @inheritdoc
      */
     public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
     {
@@ -351,7 +396,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @return ArrayCollection|CourseLearningMaterialInterface[]
+     * @inheritdoc
      */
     public function getCourseLearningMaterials()
     {
@@ -359,7 +404,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param Collection $qualifiers
+     * @inheritdoc
      */
     public function setQualifiers(Collection $qualifiers)
     {
@@ -371,7 +416,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param MeshQualifierInterface $qualifier
+     * @inheritdoc
      */
     public function addQualifier(MeshQualifierInterface $qualifier)
     {
@@ -382,7 +427,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param MeshQualifierInterface $qualifier
+     * @inheritdoc
      */
     public function removeQualifier(MeshQualifierInterface $qualifier)
     {
@@ -393,7 +438,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @return ArrayCollection|MeshQualifierInterface[]
+     * @inheritdoc
      */
     public function getQualifiers()
     {
@@ -401,7 +446,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param Collection $trees
+     * @inheritdoc
      */
     public function setTrees(Collection $trees)
     {
@@ -413,7 +458,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param MeshTreeInterface $tree
+     * @inheritdoc
      */
     public function addTree(MeshTreeInterface $tree)
     {
@@ -433,7 +478,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @return ArrayCollection|MeshTreeInterface[]
+     * @inheritdoc
      */
     public function getTrees()
     {
@@ -441,7 +486,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param MeshPreviousIndexingInterface $previousIndexing
+     * @inheritdoc
      */
     public function setPreviousIndexing(MeshPreviousIndexingInterface $previousIndexing = null)
     {
@@ -449,7 +494,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @return MeshPreviousIndexingInterface
+     * @inheritdoc
      */
     public function getPreviousIndexing()
     {

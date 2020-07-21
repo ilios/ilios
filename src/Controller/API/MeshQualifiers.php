@@ -8,7 +8,7 @@ use App\Entity\Manager\MeshQualifierManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/meshqualifiers")
+ * @Route("/api/{version<v1|v3>}/meshqualifiers")
  */
 class MeshQualifiers extends ReadOnlyController
 {

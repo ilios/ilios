@@ -46,7 +46,12 @@ class CourseObjectiveRepository extends EntityRepository implements DTORepositor
         /** @var CourseObjectiveDTO[] $courseObjectiveDTOs */
         $courseObjectiveDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $courseObjectiveDTOs[$arr['id']] = new CourseObjectiveDTO($arr['id'], $arr['position']);
+            $courseObjectiveDTOs[$arr['id']] = new CourseObjectiveDTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['position'],
+                $arr['active']
+            );
         }
         $courseObjectiveIds = array_keys($courseObjectiveDTOs);
 
@@ -56,7 +61,7 @@ class CourseObjectiveRepository extends EntityRepository implements DTORepositor
                 'course.id AS courseId, course.locked AS courseIsLocked, course.archived AS courseIsArchived, ' .
                 'school.id AS schoolId'
             )
-            ->from('App\Entity\CourseObjective', 'x')
+            ->from(CourseObjective::class, 'x')
             ->join('x.course', 'course')
             ->join('course.school', 'school')
             ->join('x.objective', 'objective')
@@ -71,13 +76,27 @@ class CourseObjectiveRepository extends EntityRepository implements DTORepositor
             $courseObjectiveDTOs[$arr['xId']]->objective = (int) $arr['objectiveId'];
         }
 
+        $qb = $this->_em->createQueryBuilder()
+            ->select('x.id as id, a.id as ancestorId')
+            ->from(CourseObjective::class, 'x')
+            ->leftJoin('x.ancestor', 'a')
+            ->where($qb->expr()->in('x.id', ':ids'))
+            ->setParameter('ids', $courseObjectiveIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $courseObjectiveDTOs[$arr['id']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
+        }
+
         $related = [
-            'terms'
+            'terms',
+            'programYearObjectives',
+            'sessionObjectives',
+            'meshDescriptors',
+            'descendants'
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS courseObjectiveId')
-                ->from('App\Entity\CourseObjective', 'x')
+                ->from(CourseObjective::class, 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')
@@ -111,9 +130,16 @@ class CourseObjectiveRepository extends EntityRepository implements DTORepositor
             $qb->andWhere($qb->expr()->in('st.id', ':terms'));
             $qb->setParameter(':terms', $ids);
         }
+        if (array_key_exists('courses', $criteria)) {
+            $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
+            $qb->join('x.course', 'c');
+            $qb->andWhere($qb->expr()->in('c.id', ':courses'));
+            $qb->setParameter(':courses', $ids);
+        }
 
         //cleanup all the possible relationship filters
         unset($criteria['terms']);
+        unset($criteria['courses']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {

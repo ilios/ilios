@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Traits\ProgramYearObjectivesEntityInterface;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\ActivatableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Entity\AamcPcrsInterface;
-use App\Entity\SchoolInterface;
-use App\Entity\ProgramYearInterface;
 use App\Traits\ObjectivesEntityInterface;
 use App\Traits\SchoolEntityInterface;
 use App\Traits\TitledEntityInterface;
@@ -26,7 +23,8 @@ interface CompetencyInterface extends
     SchoolEntityInterface,
     LoggableEntityInterface,
     ActivatableEntityInterface,
-    ObjectivesEntityInterface
+    ObjectivesEntityInterface,
+    ProgramYearObjectivesEntityInterface
 {
     /**
      * @param CompetencyInterface $parent
@@ -54,7 +52,7 @@ interface CompetencyInterface extends
     public function removeChild(CompetencyInterface $child);
 
     /**
-     * @return ArrayCollection|CompetencyInterface[]
+     * @return Collection
      */
     public function getChildren();
 
@@ -79,7 +77,7 @@ interface CompetencyInterface extends
     public function removeAamcPcrs(AamcPcrsInterface $aamcPcrs);
 
     /**
-     * @return ArrayCollection|AamcPcrsInterface[]
+     * @return Collection
      */
     public function getAamcPcrses();
 }

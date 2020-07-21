@@ -6,7 +6,6 @@ namespace App\Entity\Manager;
 
 use App\Entity\DTO\MeshDescriptorDTO;
 use App\Service\MeshDescriptorSetTransmogrifier;
-use App\Entity\MeshDescriptorInterface;
 use App\Entity\Repository\MeshDescriptorRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
@@ -16,7 +15,7 @@ use Ilios\MeSH\Model\DescriptorSet;
 /**
  * Class MeshDescriptorManager
  */
-class MeshDescriptorManager extends BaseManager
+class MeshDescriptorManager extends V1CompatibleBaseManager
 {
     /**
      * @var MeshDescriptorSetTransmogrifier $transmogrifier
@@ -38,9 +37,14 @@ class MeshDescriptorManager extends BaseManager
     }
 
     /**
-     * @return MeshDescriptorDTO[]
+     * @param string $q
+     * @param array|null $orderBy
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return array
+     * @throws Exception
      */
-    public function findMeshDescriptorDtosByQ(
+    public function findMeshDescriptorDTOsByQ(
         string $q,
         ?array $orderBy,
         ?int $limit,
@@ -49,6 +53,25 @@ class MeshDescriptorManager extends BaseManager
         /** @var MeshDescriptorRepository $repository */
         $repository = $this->getRepository();
         return $repository->findDTOsByQ($q, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * @param string $q
+     * @param array|null $orderBy
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return array
+     * @throws Exception
+     */
+    public function findMeshDescriptorV1DTOsByQ(
+        string $q,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): array {
+        /** @var MeshDescriptorRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findV1DTOsByQ($q, $orderBy, $limit, $offset);
     }
 
     /**

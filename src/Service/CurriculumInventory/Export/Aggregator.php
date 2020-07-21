@@ -9,6 +9,7 @@ use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\Manager\CurriculumInventoryInstitutionManager;
 use App\Entity\Manager\CurriculumInventoryReportManager;
 use App\Service\Config;
+use Exception;
 
 /**
  * Data aggregator for Curriculum Inventory reporting.
@@ -141,25 +142,25 @@ class Aggregator
      *             'events' ... maps sequence blocks to events
      *             'competency_objects' .. maps sequence blocks to competency objects
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getData(CurriculumInventoryReportInterface $invReport)
     {
         // report validation
         $program = $invReport->getProgram();
         if (! $program) {
-            throw new \Exception('No program found for report with id = ' . $invReport->getId() . '.');
+            throw new Exception('No program found for report with id = ' . $invReport->getId() . '.');
         }
 
         $school  = $program->getSchool();
         if (! $school) {
-            throw new \Exception('No school found for program with id = ' . $program->getId() . '.');
+            throw new Exception('No school found for program with id = ' . $program->getId() . '.');
         }
 
         /** @var CurriculumInventoryInstitutionInterface $institution */
         $institution = $this->institutionManager->findOneBy(['school' => $school->getId()]);
         if (! $institution) {
-            throw new \Exception(
+            throw new Exception(
                 'No curriculum inventory institution found for school with id = ' . $school->getId() . '.'
             );
         }

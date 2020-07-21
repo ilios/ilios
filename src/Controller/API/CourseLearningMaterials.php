@@ -8,7 +8,7 @@ use App\Entity\Manager\CourseLearningMaterialManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/courselearningmaterials")
+ * @Route("/api/{version<v1|v3>}/courselearningmaterials")
  */
 class CourseLearningMaterials extends ReadWriteController
 {

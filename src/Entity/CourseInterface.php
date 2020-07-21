@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Traits\CourseObjectivesEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
@@ -16,7 +17,6 @@ use App\Traits\DirectorsEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\LockableEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
-use App\Traits\ObjectivesEntityInterface;
 use App\Traits\PublishableEntityInterface;
 use App\Traits\SchoolEntityInterface;
 use App\Traits\TitledEntityInterface;
@@ -65,22 +65,22 @@ interface CourseInterface extends
     public function getYear();
 
     /**
-     * @param \DateTime $startDate
+     * @param DateTime $startDate
      */
-    public function setStartDate(\DateTime $startDate);
+    public function setStartDate(DateTime $startDate);
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getStartDate();
 
     /**
-     * @param \DateTime $endDate
+     * @param DateTime $endDate
      */
-    public function setEndDate(\DateTime $endDate);
+    public function setEndDate(DateTime $endDate);
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getEndDate();
 

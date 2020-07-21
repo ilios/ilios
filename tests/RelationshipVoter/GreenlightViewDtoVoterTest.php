@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
+use App\Entity\DTO\CompetencyV1DTO;
 use App\Entity\DTO\CourseObjectiveDTO;
 use App\Entity\DTO\CourseV1DTO;
 use App\Entity\DTO\LearningMaterialDTO;
+use App\Entity\DTO\MeshDescriptorV1DTO;
+use App\Entity\DTO\ObjectiveV1DTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
 use App\Entity\DTO\ProgramYearV1DTO;
 use App\Entity\DTO\SessionObjectiveDTO;
@@ -39,7 +42,6 @@ use App\Entity\DTO\MeshPreviousIndexingDTO;
 use App\Entity\DTO\MeshQualifierDTO;
 use App\Entity\DTO\MeshTermDTO;
 use App\Entity\DTO\MeshTreeDTO;
-use App\Entity\DTO\ObjectiveDTO;
 use App\Entity\DTO\ProgramDTO;
 use App\Entity\DTO\ProgramYearDTO;
 use App\Entity\DTO\ProgramYearStewardDTO;
@@ -80,6 +82,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [AssessmentOptionDTO::class],
             [CohortDTO::class],
             [CompetencyDTO::class],
+            [CompetencyV1DTO::class],
             [CourseDTO::class],
             [CourseV1DTO::class],
             [CourseClerkshipTypeDTO::class],
@@ -97,11 +100,12 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [LearningMaterialUserRoleDTO::class],
             [MeshConceptDTO::class],
             [MeshDescriptorDTO::class],
+            [MeshDescriptorV1DTO::class],
             [MeshPreviousIndexingDTO::class],
             [MeshQualifierDTO::class],
             [MeshTermDTO::class],
             [MeshTreeDTO::class],
-            [ObjectiveDTO::class],
+            [ObjectiveV1DTO::class],
             [ProgramDTO::class],
             [ProgramYearDTO::class],
             [ProgramYearV1DTO::class],

@@ -28,11 +28,6 @@ Meshdescriptor:
    type: array
    items:
     type: string
-  objectives:
-   description: Objectives
-   type: array
-   items:
-    type: string
   sessions:
    description: Sessions
    type: array
@@ -66,3 +61,18 @@ Meshdescriptor:
   previousIndexing:
    description: Previousindexing
    type: string
+  sessionObjectives:
+   description: Session objectives
+   type: array
+   items:
+    type: string
+  courseObjectives:
+   description: Course objectives
+   type: array
+   items:
+    type: string
+  programYearObjectives:
+   description: Session objectives
+   type: array
+   items:
+    type: string

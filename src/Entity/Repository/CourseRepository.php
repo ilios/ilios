@@ -687,8 +687,7 @@ EOL;
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
             $qb->join('c.courseObjectives', 'c_course_objective');
-            $qb->join('c_course_objective.objective', 'c_objective');
-            $qb->join('c_objective.parents', 'c_program_year_objective');
+            $qb->join('c_course_objective.programYearObjectives', 'c_program_year_objective');
             $qb->leftJoin('c_program_year_objective.competency', 'c_competency');
             $qb->leftJoin('c_competency.parent', 'c_competency2');
             $qb->andWhere($qb->expr()->orX(
@@ -705,11 +704,9 @@ EOL;
             $qb->leftJoin('c.sessions', 'm_session');
             $qb->leftJoin('m_session.meshDescriptors', 'm_sessMeshDescriptor');
             $qb->leftJoin('c.courseObjectives', 'm_cObjective');
-            $qb->leftJoin('m_cObjective.objective', 'm_Objective');
-            $qb->leftJoin('m_Objective.meshDescriptors', 'm_cObjectiveMeshDescriptor');
+            $qb->leftJoin('m_cObjective.meshDescriptors', 'm_cObjectiveMeshDescriptor');
             $qb->leftJoin('m_session.sessionObjectives', 'm_sObjective');
-            $qb->leftJoin('m_sObjective.objective', 'm_Objective2');
-            $qb->leftJoin('m_Objective2.meshDescriptors', 'm_sObjectiveMeshDescriptors');
+            $qb->leftJoin('m_sObjective.meshDescriptors', 'm_sObjectiveMeshDescriptors');
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->in('m_meshDescriptor.id', ':meshDescriptors'),
                 $qb->expr()->in('m_sessMeshDescriptor.id', ':meshDescriptors'),

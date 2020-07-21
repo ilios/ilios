@@ -8,7 +8,7 @@ use App\Entity\Manager\LearnerGroupManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/learnergroups")
+ * @Route("/api/{version<v1|v3>}/learnergroups")
  */
 class LearnerGroups extends ReadWriteController
 {

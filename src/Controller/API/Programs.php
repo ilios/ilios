@@ -8,7 +8,7 @@ use App\Entity\Manager\ProgramManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/programs")
+ * @Route("/api/{version<v1|v3>}/programs")
  */
 class Programs extends ReadWriteController
 {

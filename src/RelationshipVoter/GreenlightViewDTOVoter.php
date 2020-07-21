@@ -11,6 +11,7 @@ use App\Entity\DTO\AamcResourceTypeDTO;
 use App\Entity\DTO\AssessmentOptionDTO;
 use App\Entity\DTO\CohortDTO;
 use App\Entity\DTO\CompetencyDTO;
+use App\Entity\DTO\CompetencyV1DTO;
 use App\Entity\DTO\CourseClerkshipTypeDTO;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\CourseObjectiveDTO;
@@ -28,11 +29,12 @@ use App\Entity\DTO\LearningMaterialStatusDTO;
 use App\Entity\DTO\LearningMaterialUserRoleDTO;
 use App\Entity\DTO\MeshConceptDTO;
 use App\Entity\DTO\MeshDescriptorDTO;
+use App\Entity\DTO\MeshDescriptorV1DTO;
 use App\Entity\DTO\MeshPreviousIndexingDTO;
 use App\Entity\DTO\MeshQualifierDTO;
 use App\Entity\DTO\MeshTermDTO;
 use App\Entity\DTO\MeshTreeDTO;
-use App\Entity\DTO\ObjectiveDTO;
+use App\Entity\DTO\ObjectiveV1DTO;
 use App\Entity\DTO\ProgramDTO;
 use App\Entity\DTO\ProgramYearDTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
@@ -48,7 +50,6 @@ use App\Entity\DTO\SessionV1DTO;
 use App\Entity\DTO\TermDTO;
 use App\Entity\DTO\TermV1DTO;
 use App\Entity\DTO\UserRoleDTO;
-use App\Entity\DTO\ObjectiveV1DTO;
 use App\Entity\DTO\VocabularyDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -69,6 +70,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof AssessmentOptionDTO
                 || $subject instanceof CohortDTO
                 || $subject instanceof CompetencyDTO
+                || $subject instanceof CompetencyV1DTO
                 || $subject instanceof CourseDTO
                 || $subject instanceof CourseV1DTO
                 || $subject instanceof CourseClerkshipTypeDTO
@@ -86,11 +88,11 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof LearningMaterialUserRoleDTO
                 || $subject instanceof MeshConceptDTO
                 || $subject instanceof MeshDescriptorDTO
+                || $subject instanceof MeshDescriptorV1DTO
                 || $subject instanceof MeshPreviousIndexingDTO
                 || $subject instanceof MeshQualifierDTO
                 || $subject instanceof MeshTermDTO
                 || $subject instanceof MeshTreeDTO
-                || $subject instanceof ObjectiveDTO
                 || $subject instanceof ObjectiveV1DTO
                 || $subject instanceof ProgramDTO
                 || $subject instanceof ProgramYearDTO

@@ -7,12 +7,12 @@ namespace App\Entity\DTO;
 use App\Annotation as IS;
 
 /**
- * Class CompetencyDTO
- * Data transfer object for a competency
+ * Class CompetencyV1DTO
+ * Data transfer object for a competency (API v1)
  *
  * @IS\DTO("competencies")
  */
-class CompetencyDTO
+class CompetencyV1DTO
 {
     /**
      * @var int
@@ -40,18 +40,11 @@ class CompetencyDTO
 
     /**
      * @var int[]
+     * @IS\Expose
      * @IS\Related("objectives")
      * @IS\Type("array<string>")
      */
     public $objectives;
-
-    /**
-     * @var int[]
-     * @IS\Expose
-     * @IS\Related("programYearObjectives")
-     * @IS\Type("array<string>")
-     */
-    public $programYearObjectives;
 
     /**
      * @var int
@@ -103,7 +96,6 @@ class CompetencyDTO
         $this->active = $active;
 
         $this->objectives = [];
-        $this->programYearObjectives = [];
         $this->children = [];
         $this->aamcPcrses = [];
         $this->programYears = [];

@@ -8,7 +8,7 @@ use App\Entity\Manager\ReportManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/reports")
+ * @Route("/api/{version<v1|v3>}/reports")
  */
 class Reports extends ReadWriteController
 {

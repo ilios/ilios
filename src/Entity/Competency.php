@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\ProgramYearObjectivesEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -34,6 +35,7 @@ class Competency implements CompetencyInterface
     use StringableIdEntity;
     use ActivatableEntity;
     use ObjectivesEntity;
+    use ProgramYearObjectivesEntity;
 
     /**
      * @var int
@@ -82,12 +84,12 @@ class Competency implements CompetencyInterface
     protected $school;
 
     /**
-     * @var ArrayCollection|ObjectiveInterface[]
+     * @var Collection
      * @ORM\OneToMany(targetEntity="Objective", mappedBy="competency")
      * @ORM\OrderBy({"id" = "ASC"})
      *
-     * @IS\Expose
      * @IS\Type("entityCollection")
+     * @IS\ReadOnly()
      */
     protected $objectives;
 
@@ -105,7 +107,7 @@ class Competency implements CompetencyInterface
     protected $parent;
 
     /**
-     * @var ArrayCollection|CompetencyInterface[]
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="Competency", mappedBy="parent")
      * @ORM\OrderBy({"id" = "ASC"})
@@ -116,7 +118,7 @@ class Competency implements CompetencyInterface
     protected $children;
 
     /**
-     * @var ArrayCollection|AamcPcrsInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="AamcPcrs", inversedBy="competencies")
      * @ORM\JoinTable(name="competency_x_aamc_pcrs",
@@ -135,7 +137,7 @@ class Competency implements CompetencyInterface
     protected $aamcPcrses;
 
     /**
-     * @var ArrayCollection|ProgramYearInterface[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="competencies")
      * @ORM\OrderBy({"id" = "ASC"})
@@ -159,6 +161,16 @@ class Competency implements CompetencyInterface
     protected $active;
 
     /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="ProgramYearObjective", mappedBy="competency")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $programYearObjectives;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -167,6 +179,7 @@ class Competency implements CompetencyInterface
         $this->programYears = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->objectives = new ArrayCollection();
+        $this->programYearObjectives = new ArrayCollection();
         $this->active = true;
     }
 

@@ -8,7 +8,7 @@ use App\Entity\Manager\UserRoleManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/userroles")
+ * @Route("/api/{version<v1|v3>}/userroles")
  */
 class UserRoles extends ReadWriteController
 {

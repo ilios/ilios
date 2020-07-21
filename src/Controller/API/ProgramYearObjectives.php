@@ -8,7 +8,8 @@ use App\Entity\Manager\ProgramYearObjectiveManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/programyearobjectives")
+ * @package App\Controller\API
+ * @Route("/api/{version<v3>}/programyearobjectives")
  */
 class ProgramYearObjectives extends ReadWriteController
 {

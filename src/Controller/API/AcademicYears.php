@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * @Route("/api/{version<v1|v2>}/academicyears")
+ * @Route("/api/{version<v1|v3>}/academicyears")
  */
 class AcademicYears
 {

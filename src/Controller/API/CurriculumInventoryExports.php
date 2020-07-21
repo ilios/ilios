@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/api/{version<v1|v2>}/curriculuminventoryexports")
+ * @Route("/api/{version<v1|v3>}/curriculuminventoryexports")
  */
 class CurriculumInventoryExports
 {

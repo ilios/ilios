@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\SessionType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -18,7 +19,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT st')->from('App\Entity\SessionType', 'st');
+        $qb->select('DISTINCT st')->from(SessionType::class, 'st');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -40,7 +41,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
         $qb = $this->_em->createQueryBuilder()
             ->select('st')
             ->distinct()
-            ->from('App\Entity\SessionType', 'st');
+            ->from(SessionType::class, 'st');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $sessionTypeDTOs = [];
@@ -57,7 +58,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
 
         $qb = $this->_em->createQueryBuilder()
             ->select('st.id as sessionTypeId, s.id as schoolId, a.id as assessmentOptionId')
-            ->from('App\Entity\SessionType', 'st')
+            ->from(SessionType::class, 'st')
             ->join('st.school', 's')
             ->leftJoin('st.assessmentOption', 'a')
             ->where($qb->expr()->in('st.id', ':ids'))
@@ -76,7 +77,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS sessionTypeId')->from('App\Entity\SessionType', 'x')
+                ->select('r.id AS relId, x.id AS sessionTypeId')->from(SessionType::class, 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':sessionTypeIds'))
                 ->orderBy('relId')
@@ -159,9 +160,8 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
             $qb->join('st.sessions', 'c_session');
             $qb->join('c_session.sessionObjectives', 'c_session_x_objective');
-            $qb->join('c_session_x_objective.objective', 'c_session_objective');
-            $qb->join('c_session_objective.parents', 'c_course_objective');
-            $qb->join('c_course_objective.parents', 'c_program_year_objective');
+            $qb->join('c_session_x_objective.courseObjectives', 'c_course_objective');
+            $qb->join('c_course_objective.programYearObjectives', 'c_program_year_objective');
             $qb->leftJoin('c_program_year_objective.competency', 'c_competency');
             $qb->leftJoin('c_competency.parent', 'c_competency2');
             $qb->andWhere($qb->expr()->orX(
@@ -177,8 +177,7 @@ class SessionTypeRepository extends EntityRepository implements DTORepositoryInt
             $qb->leftJoin('st.sessions', 'm_session');
             $qb->leftJoin('m_session.meshDescriptors', 'm_meshDescriptor');
             $qb->leftJoin('m_session.sessionObjectives', 'm_session_x_objective');
-            $qb->leftJoin('m_session_x_objective.objective', 'm_objective');
-            $qb->leftJoin('m_objective.meshDescriptors', 'm_objectiveMeshDescriptor');
+            $qb->leftJoin('m_session_x_objective.meshDescriptors', 'm_objectiveMeshDescriptor');
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->in('m_meshDescriptor.id', ':meshDescriptors'),

@@ -35,7 +35,7 @@ use RuntimeException;
  * otherwise the method bodies are copied from
  * the top level API Read and ReadWrite controllers
  *
- * @Route("/api/{version<v1|v2>}/learningmaterials")
+ * @Route("/api/{version<v1|v3>}/learningmaterials")
  */
 
 class LearningMaterials

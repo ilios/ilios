@@ -33,12 +33,12 @@ The learners participating in this session are:
 {% endfor %}
 
 The learning objectives listed for this session are:
-{% for objective in offering.session.objectives %}
+{% for objective in offering.session.sessionObjectives %}
 - {{ objective.title|striptags|trim|raw }}
 {% endfor %}
 
 The learning objectives listed for this course are:
-{% for objective in offering.session.course.objectives %}
+{% for objective in offering.session.course.courseObjectives %}
 - {{ objective.title|striptags|trim|raw }}
 {% endfor %}
 

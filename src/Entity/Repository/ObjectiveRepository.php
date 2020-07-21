@@ -9,7 +9,6 @@ use App\Entity\Objective;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-use App\Entity\DTO\ObjectiveDTO;
 
 class ObjectiveRepository extends EntityRepository implements DTORepositoryInterface
 {
@@ -46,50 +45,7 @@ class ObjectiveRepository extends EntityRepository implements DTORepositoryInter
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('o')->distinct()->from(Objective::class, 'o');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-        $objectiveDTOs = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $objectiveDTOs[$arr['id']] = new ObjectiveDTO(
-                $arr['id'],
-                $arr['title'],
-                $arr['position'],
-                $arr['active']
-            );
-        }
-        $objectiveIds = array_keys($objectiveDTOs);
-        $qb = $this->_em->createQueryBuilder()
-            ->select('o.id as objectiveId, c.id as competencyId, a.id as ancestorId')
-            ->from('App\Entity\Objective', 'o')
-            ->leftJoin('o.competency', 'c')
-            ->leftJoin('o.ancestor', 'a')
-            ->where($qb->expr()->in('o.id', ':ids'))
-            ->setParameter('ids', $objectiveIds);
-        foreach ($qb->getQuery()->getResult() as $arr) {
-            $objectiveDTOs[$arr['objectiveId']]->competency = $arr['competencyId'] ? (int)$arr['competencyId'] : null;
-            $objectiveDTOs[$arr['objectiveId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
-        }
-        $related = [
-            'courseObjectives',
-            'programYearObjectives',
-            'sessionObjectives',
-            'parents',
-            'children',
-            'meshDescriptors',
-            'descendants'
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, o.id AS objectiveId')->from('App\Entity\Objective', 'o')
-                ->join("o.{$rel}", 'r')
-                ->where($qb->expr()->in('o.id', ':objectiveIds'))
-                ->orderBy('relId')
-                ->setParameter('objectiveIds', $objectiveIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $objectiveDTOs[$arr['objectiveId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($objectiveDTOs);
+        return $this->findV1DTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

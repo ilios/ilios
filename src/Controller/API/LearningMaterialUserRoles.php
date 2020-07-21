@@ -8,7 +8,7 @@ use App\Entity\Manager\LearningMaterialUserRoleManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/learningmaterialuserroles")
+ * @Route("/api/{version<v1|v3>}/learningmaterialuserroles")
  */
 class LearningMaterialUserRoles extends ReadWriteController
 {

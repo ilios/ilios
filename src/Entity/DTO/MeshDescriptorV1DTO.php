@@ -8,12 +8,12 @@ use App\Annotation as IS;
 use DateTime;
 
 /**
- * Class MeshDescriptorDTO
+ * Class MeshDescriptorV1DTO
  * Data transfer object for a MeSH descriptor.
  *
  * @IS\DTO("meshDescriptors")
  */
-class MeshDescriptorDTO
+class MeshDescriptorV1DTO
 {
     /**
      * @var string
@@ -61,35 +61,11 @@ class MeshDescriptorDTO
 
     /**
      * @var int[]
+     * @IS\Expose
      * @IS\Related("objectives")
      * @IS\Type("array<string>")
      */
     public $objectives;
-
-    /**
-     * @var int[]
-     * @IS\Expose
-     * @IS\Related("sessionObjectives")
-     * @IS\Type("array<string>")
-     */
-    public $sessionObjectives;
-
-    /**
-     * @var int[]
-     * @IS\Expose
-     * @IS\Related("courseObjectives")
-     * @IS\Type("array<string>")
-     */
-    public $courseObjectives;
-
-    /**
-     * @var int[]
-     * @IS\Expose
-     * @IS\Related("programYearObjectives")
-     * @IS\Type("array<string>")
-     */
-    public $programYearObjectives;
-
 
     /**
      * @var int[]
@@ -186,8 +162,5 @@ class MeshDescriptorDTO
         $this->trees = [];
         $this->sessionLearningMaterials = [];
         $this->courseLearningMaterials = [];
-        $this->sessionObjectives = [];
-        $this->courseObjectives = [];
-        $this->programYearObjectives = [];
     }
 }

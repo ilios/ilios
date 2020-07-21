@@ -80,7 +80,7 @@ interface ObjectiveInterface extends
     public function removeChild(ObjectiveInterface $child);
 
     /**
-     * @return ObjectiveInterface[]
+     * @return Collection
      */
     public function getChildren();
 
@@ -115,7 +115,7 @@ interface ObjectiveInterface extends
     public function removeDescendant(ObjectiveInterface $child);
 
     /**
-     * @return ArrayCollection|ObjectiveInterface[]
+     * @return Collection
      */
     public function getDescendants();
 

@@ -33,7 +33,7 @@ use RuntimeException;
  * before they can be sent, otherwise the method bodies are copied from
  * the top level API Read and ReadWrite controllers
  *
- * @Route("/api/{version<v1|v2>}/curriculuminventoryreports")
+ * @Route("/api/{version<v1|v3>}/curriculuminventoryreports")
  */
 class CurriculumInventoryReports
 {

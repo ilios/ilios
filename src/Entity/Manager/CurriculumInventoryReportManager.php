@@ -326,11 +326,11 @@ class CurriculumInventoryReportManager extends BaseManager
 
         foreach ($rows as $row) {
             $rhett['relations'][] = [
-                'rel1' => $row['parent_objective_id'],
+                'rel1' => $row['course_objective_id'],
                 'rel2' => $row['objective_id'],
             ];
             $rhett['session_objective_ids'][] = $row['objective_id'];
-            $rhett['course_objective_ids'][] = $row['parent_objective_id'];
+            $rhett['course_objective_ids'][] = $row['course_objective_id'];
         }
 
         // dedupe
@@ -367,7 +367,7 @@ class CurriculumInventoryReportManager extends BaseManager
         );
 
         foreach ($rows as $row) {
-            $programObjectiveId = $row['parent_objective_id'];
+            $programObjectiveId = $row['program_objective_id'];
             $courseObjectiveId = $row['objective_id'];
             if (array_key_exists($programObjectiveId, $consolidatedProgramObjectivesMap)) {
                 $programObjectiveId = $consolidatedProgramObjectivesMap[$programObjectiveId];

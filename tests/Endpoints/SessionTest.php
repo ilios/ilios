@@ -6,10 +6,8 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\LearningMaterialData;
-use App\Tests\DataLoader\ObjectiveData;
 use App\Tests\DataLoader\SessionDescriptionData;
 use App\Tests\DataLoader\SessionLearningMaterialData;
-use App\Tests\DataLoader\SessionObjectiveData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -19,6 +17,8 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class SessionTest extends ReadWriteEndpointTest
 {
+    use LegacyObjectiveTestTrait;
+
     protected $testName =  'sessions';
 
     /**
@@ -122,8 +122,8 @@ class SessionTest extends ReadWriteEndpointTest
 //            'ilmSession' => [[0], ['ilmSessions' => [1]]],
             'terms' => [[1], ['terms' => 1]],
             'termsMultiple' => [[0], ['terms' => [2, 5]]],
-            'meshDescriptors' => [[2], ['meshDescriptors' => ['abc2']]],
-            'meshDescriptorsMultiple' => [[2, 3], ['meshDescriptors' => ['abc2', 'abc3']]],
+            'meshDescriptors' => [[3], ['meshDescriptors' => ['abc3']]],
+            'meshDescriptorsMultiple' => [[0, 2, 3], ['meshDescriptors' => ['abc2', 'abc3']]],
 //            'sessionDescription' => [[0], ['sessionDescription' => 1]],
             'learningMaterials' => [[0], ['learningMaterials' => [1]]],
 //            'offerings' => [[0], ['offerings' => 1]],
@@ -132,7 +132,7 @@ class SessionTest extends ReadWriteEndpointTest
             'programs' => [[3], ['programs' => [2]]],
             'instructors' => [[0, 1, 4, 5, 6], ['instructors' => [2]]],
             'instructorGroups' => [[0, 4], ['instructorGroups' => [1]]],
-            'competencies' => [[0, 3], ['competencies' => [1]]],
+            'competencies' => [[0], ['competencies' => [1]]],
             'schools' => [[3], ['schools' => [2]]],
         ];
     }
@@ -240,50 +240,17 @@ class SessionTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        $id = $data['id'];
-        $self = $this;
+        $sessionId = $data['id'];
+        $sessionObjectiveId = (int) $data['sessionObjectives'][0];
 
-        //create data we an depend on
-        $dataLoader = $this->getContainer()->get(ObjectiveData::class);
-        $create = [];
-        for ($i = 0; $i < 2; $i++) {
-            $arr = $dataLoader->create();
-            $arr['parents'] = ['1'];
-            $arr['children'] = ['7', '8'];
-            $arr['competency'] = 1;
-            $arr['programYearObjectives'] = [];
-            $arr['courseObjectives'] = [];
-            $arr['sessionObjectives'] = [];
-            unset($arr['id']);
-            $create[] = $arr;
-        }
-        $newObjectives = $this->postMany('objectives', 'objectives', $create);
-        $dataLoader = $this->getContainer()->get(SessionObjectiveData::class);
-        $create = [];
-        foreach ($newObjectives as $objective) {
-            $arr = $dataLoader->create();
-            unset($arr['id']);
-            $arr['session'] = $id;
-            $arr['objective'] = $objective['id'];
-            $create[] = $arr;
-        }
-        $this->postMany('sessionobjectives', 'sessionObjectives', $create);
+        $objective = $this->getObjectiveForXObjective($sessionObjectiveId, 'sessionObjectives');
+        $this->assertNotEmpty($objective['parents']);
+        $this->assertNotEmpty($objective['sessions']);
 
-        $getObjectives = function ($id) use ($self) {
-            return $self->getOne('objectives', 'objectives', $id);
-        };
-        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
-        foreach ($objectives as $arr) {
-            $this->assertNotEmpty($arr['parents'], 'parents have been created');
-            $this->assertNotEmpty($arr['children'], 'children have been created');
-            $this->assertArrayHasKey('competency', $arr);
-        }
-        $this->deleteTest($id);
-        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
-        foreach ($objectives as $arr) {
-            $this->assertEmpty($arr['parents'], 'parents have been removed');
-            $this->assertEmpty($arr['children'], 'children have been removed');
-            $this->assertArrayNotHasKey('competency', $arr);
-        }
+        $this->deleteTest($sessionId);
+
+        $objective = $this->getOne('objectives', 'objectives', $objective['id'], 'v1');
+        $this->assertEmpty($objective['parents']);
+        $this->assertEmpty($objective['sessions']);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\DTO\MeshDescriptorV1DTO;
 use App\Entity\MeshConcept;
 use App\Entity\MeshDescriptor;
 use App\Entity\MeshPreviousIndexing;
@@ -14,72 +15,68 @@ use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\MeshDescriptorDTO;
-use App\Entity\MeshDescriptorInterface;
+use Exception;
 use Ilios\MeSH\Model\AllowableQualifier;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\Term;
+use PDO;
 
 /**
  * Class MeshDescriptorRepository
  */
 class MeshDescriptorRepository extends EntityRepository implements DTORepositoryInterface
 {
-
     /**
      * Find by a string query.
      *
-     * @return MeshDescriptorDTO[]
+     * @param string $q
+     * @param array|null $orderBy
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return MeshDescriptorDTO[]|array
      */
     public function findDTOsByQ(string $q, ?array $orderBy, ?int $limit, ?int $offset): array
     {
-        $terms = explode(' ', $q);
-        $terms = array_filter($terms, 'strlen');
+        $terms = $this->getTermsFromQ($q);
         if (empty($terms)) {
             return [];
         }
 
-        $qb = $this->_em->createQueryBuilder()
-            ->select('DISTINCT d')
-            ->from('App\Entity\MeshDescriptor', 'd')
-            ->leftJoin('d.previousIndexing', 'pi')
-            ->leftJoin('d.concepts', 'c')
-            ->leftJoin('c.terms', 't')
-            ->andWhere('d.deleted = false');
-
-        foreach ($terms as $key => $term) {
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('d.id', "?{$key}"),
-                $qb->expr()->like('d.name', "?{$key}"),
-                $qb->expr()->like('d.annotation', "?{$key}"),
-                $qb->expr()->like('pi.previousIndexing', "?{$key}"),
-                $qb->expr()->like('t.name', "?{$key}"),
-                $qb->expr()->like('c.name', "?{$key}"),
-                $qb->expr()->like('c.scopeNote', "?{$key}"),
-                $qb->expr()->like('c.casn1Name', "?{$key}")
-            ))
-            ->setParameter($key, '%' . $term . '%');
-        }
-        if (empty($orderBy)) {
-            $orderBy = ['name' => 'ASC', 'id' => 'ASC'];
-        }
-
-        foreach ($orderBy as $sort => $order) {
-            $qb->addOrderBy('d.' . $sort, $order);
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-        $query = $qb->getQuery();
-        $query->enableResultCache(3600);
-
+        $query = $this->getQueryForFindByQ($terms, $orderBy, $offset);
         $dtos = $this->createDTOs($query);
 
         // Unfortunately, we can't let Doctrine limit the fetch here because of all the joins
         // it returns many less than the desired number.
+        if ($limit) {
+            $dtos = array_slice($dtos, 0, $limit);
+        }
+
+        return $dtos;
+    }
+
+    /**
+     * Find by a string query.
+     *
+     * @param string $q
+     * @param array|null $orderBy
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return MeshDescriptorDTO[]|array
+     */
+    public function findV1DTOsByQ(string $q, ?array $orderBy, ?int $limit, ?int $offset): array
+    {
+        $terms = $this->getTermsFromQ($q);
+        if (empty($terms)) {
+            return [];
+        }
+
+        $query = $this->getQueryForFindByQ($terms, $orderBy, $offset);
+        $dtos = $this->createV1DTOs($query);
+
         if ($limit) {
             $dtos = array_slice($dtos, 0, $limit);
         }
@@ -101,7 +98,7 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
     {
         $qb = $this->_em->createQueryBuilder();
 
-        $qb->select('DISTINCT m')->from('App\Entity\MeshDescriptor', 'm');
+        $qb->select('DISTINCT m')->from(MeshDescriptor::class, 'm');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -120,14 +117,33 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from('App\Entity\MeshDescriptor', 'm');
+        $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from(MeshDescriptor::class, 'm');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $this->createDTOs($qb->getQuery());
     }
 
     /**
+     * Find and hydrate as DTOs for API v1.
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from(MeshDescriptor::class, 'm');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        return $this->createV1DTOs($qb->getQuery());
+    }
+
+    /**
      * Hydrate as DTOs
+     * @param AbstractQuery $query
      * @return MeshDescriptorDTO[]
      */
     protected function createDTOs(AbstractQuery $query): array
@@ -164,11 +180,14 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
             'trees',
             'sessionLearningMaterials',
             'courseLearningMaterials',
+            'sessionObjectives',
+            'courseObjectives',
+            'programYearObjectives',
         ];
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, m.id AS descriptorId')->from('App\Entity\MeshDescriptor', 'm')
+                ->select('r.id AS relId, m.id AS descriptorId')->from(MeshDescriptor::class, 'm')
                 ->join("m.{$rel}", 'r')
                 ->where($qb->expr()->in('m.id', ':descriptorIds'))
                 ->orderBy('relId')
@@ -180,6 +199,114 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
         }
 
         return array_values($descriptorDTOs);
+    }
+
+    /**
+     * Hydrate as DTOs for API v1.
+     * @param AbstractQuery $query
+     * @return MeshDescriptorDTO[]
+     */
+    protected function createV1DTOs(AbstractQuery $query): array
+    {
+        $descriptorDTOs = [];
+        foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $descriptorDTOs[$arr['id']] = new MeshDescriptorV1DTO(
+                $arr['id'],
+                $arr['name'],
+                $arr['annotation'],
+                $arr['createdAt'],
+                $arr['updatedAt'],
+                $arr['deleted']
+            );
+        }
+        $descriptorIds = array_keys($descriptorDTOs);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('p.id AS prevId, m.id AS descriptorId')
+            ->from('App\Entity\MeshPreviousIndexing', 'p')
+            ->join('p.descriptor', 'm')
+            ->where($qb->expr()->in('m.id', ':descriptorIds'))
+            ->setParameter('descriptorIds', $descriptorIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $descriptorDTOs[$arr['descriptorId']]->previousIndexing = (int) $arr['prevId'];
+        }
+
+        $related = [
+            'courses',
+            'objectives',
+            'sessions',
+            'concepts',
+            'qualifiers',
+            'trees',
+            'sessionLearningMaterials',
+            'courseLearningMaterials',
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, m.id AS descriptorId')->from(MeshDescriptor::class, 'm')
+                ->join("m.{$rel}", 'r')
+                ->where($qb->expr()->in('m.id', ':descriptorIds'))
+                ->orderBy('relId')
+                ->setParameter('descriptorIds', $descriptorIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $descriptorDTOs[$arr['descriptorId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        return array_values($descriptorDTOs);
+    }
+
+
+    protected function getTermsFromQ(string $q)
+    {
+        $terms = explode(' ', $q);
+        return array_filter($terms, 'strlen');
+    }
+    /**
+     * @param array $terms
+     * @param array|null $orderBy
+     * @param int|null $offset
+     * @return Query
+     */
+    protected function getQueryForFindByQ(array $terms, ?array $orderBy, ?int $offset)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('DISTINCT d')
+            ->from(MeshDescriptor::class, 'd')
+            ->leftJoin('d.previousIndexing', 'pi')
+            ->leftJoin('d.concepts', 'c')
+            ->leftJoin('c.terms', 't')
+            ->andWhere('d.deleted = false');
+
+        foreach ($terms as $key => $term) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('d.id', "?{$key}"),
+                $qb->expr()->like('d.name', "?{$key}"),
+                $qb->expr()->like('d.annotation', "?{$key}"),
+                $qb->expr()->like('pi.previousIndexing', "?{$key}"),
+                $qb->expr()->like('t.name', "?{$key}"),
+                $qb->expr()->like('c.name', "?{$key}"),
+                $qb->expr()->like('c.scopeNote', "?{$key}"),
+                $qb->expr()->like('c.casn1Name', "?{$key}")
+            ))
+                ->setParameter($key, '%' . $term . '%');
+        }
+        if (empty($orderBy)) {
+            $orderBy = ['name' => 'ASC', 'id' => 'ASC'];
+        }
+
+        foreach ($orderBy as $sort => $order) {
+            $qb->addOrderBy('d.' . $sort, $order);
+        }
+
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+        $query = $qb->getQuery();
+        $query->enableResultCache(3600);
+        return $query;
     }
 
     /**
@@ -349,10 +476,9 @@ EOL;
             $ids = is_array($criteria['sessions']) ?
                 $criteria['sessions'] : [$criteria['sessions']];
             $qb->leftJoin('m.sessions', 'session');
-            $qb->leftJoin('m.objectives', 'objective');
+            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('m.sessionLearningMaterials', 'slm');
             $qb->leftJoin('slm.session', 'session2');
-            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session3');
 
             $qb->andWhere(
@@ -369,14 +495,13 @@ EOL;
             $ids = is_array($criteria['courses']) ?
                 $criteria['courses'] : [$criteria['courses']];
             $qb->leftJoin('m.courses', 'course');
-            $qb->leftJoin('m.objectives', 'objective');
             $qb->leftJoin('m.sessions', 'session');
             $qb->leftJoin('m.courseLearningMaterials', 'clm');
-            $qb->leftJoin('objective.courseObjectives', 'courseObjective');
+            $qb->leftJoin('m.courseObjectives', 'courseObjective');
             $qb->leftJoin('courseObjective.course', 'course2');
             $qb->leftJoin('clm.course', 'course3');
             $qb->leftJoin('session.course', 'course4');
-            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session2');
             $qb->leftJoin('session2.course', 'course5');
             $qb->leftJoin('m.sessionLearningMaterials', 'slm');
@@ -400,12 +525,11 @@ EOL;
                 $criteria['sessionTypes'] : [$criteria['sessionTypes']];
 
             $qb->leftJoin('m.sessions', 'session');
-            $qb->leftJoin('m.objectives', 'objective');
             $qb->leftJoin('m.sessionLearningMaterials', 'slm');
             $qb->leftJoin('session.sessionType', 'sessionType');
             $qb->leftJoin('slm.session', 'session2');
             $qb->leftJoin('session2.sessionType', 'sessionType2');
-            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session3');
 
             $qb->leftJoin('session3.sessionType', 'sessionType3');
@@ -439,11 +563,10 @@ EOL;
             $ids = is_array($criteria['terms']) ?
                 $criteria['terms'] : [$criteria['terms']];
             $qb->leftJoin('m.courses', 'course');
-            $qb->leftJoin('m.objectives', 'objective');
             $qb->leftJoin('m.sessions', 'session');
             $qb->leftJoin('m.courseLearningMaterials', 'clm');
             $qb->leftJoin('course.terms', 'terms');
-            $qb->leftJoin('objective.courseObjectives', 'courseObjectives');
+            $qb->leftJoin('m.courseObjectives', 'courseObjectives');
             $qb->leftJoin('courseObjectives.course', 'course2');
             $qb->leftJoin('course2.terms', 'terms2');
             $qb->leftJoin('clm.course', 'course3');
@@ -451,7 +574,7 @@ EOL;
             $qb->leftJoin('session.course', 'course4');
             $qb->leftJoin('session.terms', 'terms4');
             $qb->leftJoin('course4.terms', 'terms5');
-            $qb->leftJoin('objective.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session2');
             $qb->leftJoin('session2.course', 'course5');
             $qb->leftJoin('session2.terms', 'terms6');
@@ -513,7 +636,7 @@ EOL;
 
     /**
      * Gut the MeSH tables, leaving only descriptor records in place that are somehow wired up to the rest of Ilios.
-     * @throws \Exception
+     * @throws Exception
      */
     public function clearExistingData()
     {
@@ -536,13 +659,16 @@ AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_learning
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM objective_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_objective_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_objective_x_mesh)
+AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM program_year_objective_x_mesh)
 AND mesh_descriptor_uid NOT IN (
   SELECT prepositional_object_table_row_id FROM report where prepositional_object = 'mesh term'
 )
 EOL;
             $conn->query($sql);
             $conn->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $conn->rollBack();
             throw $e;
         }
@@ -550,8 +676,7 @@ EOL;
 
     /**
      * @param array $data
-     * @param array $existingDescriptorIds
-     * @throws \Exception
+     * @throws Exception
      */
     public function upsertMeshUniverse(array $data)
     {
@@ -571,10 +696,10 @@ EOL;
                         'created_at' => $now,
                         'updated_at' => $now,
                     ], [
-                        \PDO::PARAM_STR,
-                        \PDO::PARAM_STR,
-                        \PDO::PARAM_STR,
-                        \PDO::PARAM_BOOL,
+                        PDO::PARAM_STR,
+                        PDO::PARAM_STR,
+                        PDO::PARAM_STR,
+                        PDO::PARAM_BOOL,
                         'datetime',
                         'datetime',
                     ]);
@@ -588,8 +713,8 @@ EOL;
                 ], [
                     'mesh_descriptor_uid' => $descriptor->getUi()
                 ], [
-                    \PDO::PARAM_STR,
-                    \PDO::PARAM_STR,
+                    PDO::PARAM_STR,
+                    PDO::PARAM_STR,
                     'datetime',
                 ]);
             }
@@ -601,8 +726,8 @@ EOL;
                     'created_at' => $now,
                     'updated_at' => $now,
                 ], [
-                    \PDO::PARAM_STR,
-                    \PDO::PARAM_STR,
+                    PDO::PARAM_STR,
+                    PDO::PARAM_STR,
                     'datetime',
                     'datetime'
                 ]);
@@ -619,12 +744,12 @@ EOL;
                     'created_at' => $now,
                     'updated_at' => $now,
                 ], [
-                    \PDO::PARAM_STR,
-                    \PDO::PARAM_STR,
-                    \PDO::PARAM_BOOL,
-                    \PDO::PARAM_STR,
-                    \PDO::PARAM_STR,
-                    \PDO::PARAM_STR,
+                    PDO::PARAM_STR,
+                    PDO::PARAM_STR,
+                    PDO::PARAM_BOOL,
+                    PDO::PARAM_STR,
+                    PDO::PARAM_STR,
+                    PDO::PARAM_STR,
                     'datetime',
                     'datetime'
                 ]);
@@ -643,13 +768,13 @@ EOL;
                     'created_at' => $now,
                     'updated_at' => $now,
                 ], [
-                    \PDO::PARAM_INT,
-                    \PDO::PARAM_STR,
-                    \PDO::PARAM_STR,
-                    \PDO::PARAM_STR,
-                    \PDO::PARAM_BOOL,
-                    \PDO::PARAM_BOOL,
-                    \PDO::PARAM_BOOL,
+                    PDO::PARAM_INT,
+                    PDO::PARAM_STR,
+                    PDO::PARAM_STR,
+                    PDO::PARAM_STR,
+                    PDO::PARAM_BOOL,
+                    PDO::PARAM_BOOL,
+                    PDO::PARAM_BOOL,
                     'datetime',
                     'datetime',
                 ]);
@@ -691,7 +816,7 @@ EOL;
             }
 
             $conn->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $conn->rollBack();
             throw $e;
         }
@@ -704,7 +829,7 @@ EOL;
     public function flagDescriptorsAsDeleted(array $ids)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->update('App\Entity\MeshDescriptor', 'm');
+        $qb->update(MeshDescriptor::class, 'm');
         $qb->set('m.deleted', ':deleted');
         $qb->where($qb->expr()->in('m.id', ':ids'));
         $qb->setParameter(':deleted', true);
@@ -799,9 +924,9 @@ EOL;
                 $concept->setName($arr['name']);
                 $concept->setCasn1Name($arr['casn1Name']);
                 $concept->setScopeNote($arr['scopeNote']);
-                foreach ($arr['terms'] as $arr) {
+                foreach ($arr['terms'] as $a) {
                     $term = new Term();
-                    $term->setName($arr['name']);
+                    $term->setName($a['name']);
                     $concept->addTerm($term);
                 }
                 $descriptor->addConcept($concept);

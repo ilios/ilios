@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use Exception;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -86,7 +86,7 @@ class SwaggerDocBuilder
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getSection($dir)
     {
@@ -99,7 +99,7 @@ class SwaggerDocBuilder
         foreach ($files as $file) {
             $contents = Yaml::parse($file->getContents());
             if (!is_array($contents)) {
-                throw new \Exception(
+                throw new Exception(
                     "{$file->getRealPath()} is not valid YAML"
                 );
             }
@@ -129,7 +129,7 @@ class SwaggerDocBuilder
 
         $arr['host'] = $request->getHttpHost();
         $arr['schemes'] = ['https'];
-        $arr['basePath'] = '/api/v1';
+        $arr['basePath'] = '/api/v3';
         $arr['produces'] = ['application/json'];
 
         return $arr;
@@ -149,7 +149,7 @@ class SwaggerDocBuilder
         );
         $userApiUrl = $this->router->generate(
             'app_api_users_getall',
-            ['version' => 'v1'],
+            ['version' => 'v3'],
             UrlGenerator::ABSOLUTE_URL
         );
         $template = 'swagger/description.markdown.twig';

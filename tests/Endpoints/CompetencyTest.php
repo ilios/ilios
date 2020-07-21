@@ -22,7 +22,6 @@ class CompetencyTest extends ReadWriteEndpointTest
         return [
             'App\Tests\Fixture\LoadSchoolData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadCompetencyData',
             'App\Tests\Fixture\LoadSessionData',
             'App\Tests\Fixture\LoadSessionTypeData',
@@ -43,7 +42,6 @@ class CompetencyTest extends ReadWriteEndpointTest
         return [
             'title' => ['title', $this->getFaker()->text],
             'school' => ['school', 3],
-            'objectives' => ['objectives', [1], $skipped = true],
             'parent' => ['parent', 2],
             'children' => ['children', [1], $skipped = true],
             'aamcPcrses' => ['aamcPcrses', ['aamc-pcrs-comp-c0102']],
@@ -73,17 +71,16 @@ class CompetencyTest extends ReadWriteEndpointTest
             'title' => [[2], ['title' => 'third competency']],
             'school' => [[0, 1, 2], ['school' => 1]],
             'schools' => [[0, 1, 2], ['schools' => [1]]],
-            'objectives' => [[2], ['objectives' => 1], $skipped = true],
             'parent' => [[2], ['parent' => 1], $skipped = true],
             'children' => [[0], ['children' => 3], $skipped = true],
             'aamcPcrses' => [[1], ['aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102']], $skipped = true],
             'programYears' => [[0, 2], ['programYears' => [1]], $skipped = true],
             'notActive' => [[1], ['active' => false]],
             'active' => [[0, 2], ['active' => true]],
-            'terms' => [[0, 2], ['terms' => [1, 2, 3]]],
-            'sessions' => [[0, 2], ['sessions' => [1]]],
-            'sessionTypes' => [[0, 2], ['sessionTypes' => [1]]],
-            'courses' => [[0, 2], ['courses' => [1]]],
+            'terms' => [[0], ['terms' => [1]]],
+            'sessions' => [[0], ['sessions' => [1]]],
+            'sessionTypes' => [[0], ['sessionTypes' => [1]]],
+            'courses' => [[0], ['courses' => [1]]],
         ];
     }
 

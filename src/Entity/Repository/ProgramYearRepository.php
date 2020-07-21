@@ -284,20 +284,18 @@ class ProgramYearRepository extends EntityRepository implements DTORepositoryInt
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
-            "p.title AS program_title, py.startYear AS matriculation_year, o.title AS program_year_objective," .
+            "p.title AS program_title, py.startYear AS matriculation_year, pyo.title AS program_year_objective," .
                 "cmp.title AS competency, c.title AS course_title, c.externalId AS course_shortname," .
                 "co.title AS mapped_course_objective"
         )
             ->from(ProgramYear::class, 'py')
             ->join('py.program', 'p')
             ->join('py.programYearObjectives', 'pyo')
-            ->join('pyo.objective', 'o')
-            ->leftJoin('o.competency', 'cmp')
-            ->leftJoin('o.children', 'co')
-            ->leftJoin('co.courseObjectives', 'cxo')
-            ->leftJoin('cxo.course', 'c')
+            ->leftJoin('pyo.competency', 'cmp')
+            ->leftJoin('pyo.courseObjectives', 'co')
+            ->leftJoin('co.course', 'c')
             ->where($qb->expr()->eq('py.id', ':id'))
-            ->orderBy('o.id', 'ASC')
+            ->orderBy('pyo.id', 'ASC')
             ->addOrderBy('cmp.id', 'ASC')
             ->addOrderBy('c.id', 'ASC')
             ->addOrderBy('co.id', 'ASC')

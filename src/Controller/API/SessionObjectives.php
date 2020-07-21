@@ -8,7 +8,8 @@ use App\Entity\Manager\SessionObjectiveManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/sessionobjectives")
+ * @package App\Controller\API
+ * @Route("/api/{version<v3>}/sessionobjectives")
  */
 class SessionObjectives extends ReadWriteController
 {

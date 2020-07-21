@@ -8,7 +8,7 @@ use App\Entity\Manager\SchoolManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/schools")
+ * @Route("/api/{version<v1|v3>}/schools")
  */
 class Schools extends ReadWriteController
 {

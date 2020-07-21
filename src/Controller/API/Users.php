@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * as well as special handling for ICS feed keys
  * so users needs its own controller
  *
- * @Route("/api/{version<v1|v2>}/users")
+ * @Route("/api/{version<v1|v3>}/users")
  */
 
 class Users extends ReadWriteController

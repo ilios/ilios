@@ -8,7 +8,7 @@ use App\Entity\Manager\CourseClerkshipTypeManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/courseclerkshiptypes")
+ * @Route("/api/{version<v1|v3>}/courseclerkshiptypes")
  */
 class CourseClerkshipTypes extends ReadWriteController
 {

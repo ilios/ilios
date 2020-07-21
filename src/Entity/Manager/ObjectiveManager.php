@@ -10,11 +10,4 @@ namespace App\Entity\Manager;
 
 class ObjectiveManager extends V1CompatibleBaseManager
 {
-    /**
-     * @return int
-     */
-    public function getTotalObjectiveCount()
-    {
-        return $this->em->createQuery('SELECT COUNT(o.id) FROM App\Entity\Objective o')->getSingleScalarResult();
-    }
 }

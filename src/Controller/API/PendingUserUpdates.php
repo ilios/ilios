@@ -8,7 +8,7 @@ use App\Entity\Manager\PendingUserUpdateManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/pendinguserupdates")
+ * @Route("/api/{version<v1|v3>}/pendinguserupdates")
  */
 class PendingUserUpdates extends ReadWriteController
 {

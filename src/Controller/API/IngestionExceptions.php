@@ -8,7 +8,7 @@ use App\Entity\Manager\IngestionExceptionManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/ingestionexceptions")
+ * @Route("/api/{version<v1|v3>}/ingestionexceptions")
  */
 class IngestionExceptions extends ReadOnlyController
 {

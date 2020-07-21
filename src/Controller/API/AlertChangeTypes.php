@@ -8,7 +8,7 @@ use App\Entity\Manager\AlertChangeTypeManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/alertchangetypes")
+ * @Route("/api/{version<v1|v3>}/alertchangetypes")
  */
 class AlertChangeTypes extends ReadWriteController
 {

@@ -8,7 +8,7 @@ use App\Entity\Manager\ProgramYearStewardManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/programyearstewards")
+ * @Route("/api/{version<v1|v3>}/programyearstewards")
  */
 class ProgramYearStewards extends ReadWriteController
 {

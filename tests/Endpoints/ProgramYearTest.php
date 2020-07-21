@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Tests\DataLoader\ProgramYearObjectiveData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\ObjectiveData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -15,6 +13,8 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class ProgramYearTest extends ReadWriteEndpointTest
 {
+    use LegacyObjectiveTestTrait;
+
     protected $testName = 'programYears';
 
     /**
@@ -29,7 +29,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadUserData',
             'App\Tests\Fixture\LoadCompetencyData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadObjectiveData',
             'App\Tests\Fixture\LoadProgramYearStewardData',
             'App\Tests\Fixture\LoadSessionData',
             'App\Tests\Fixture\LoadCourseData',
@@ -319,51 +318,20 @@ class ProgramYearTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        $id = $data['id'];
-        $self = $this;
+        $programYearId = $data['id'];
+        $programYearObjectiveId = (int) $data['programYearObjectives'][0];
 
-        //create data we an depend on
-        $dataLoader = $this->getContainer()->get(ObjectiveData::class);
-        $create = [];
-        for ($i = 0; $i < 2; $i++) {
-            $arr = $dataLoader->create();
-            $arr['parents'] = ['1'];
-            $arr['children'] = ['7', '8'];
-            $arr['competency'] = 1;
-            $arr['programYearObjectives'] = [];
-            $arr['courseObjectives'] = [];
-            $arr['sessionObjectives'] = [];
-            unset($arr['id']);
-            $create[] = $arr;
-        }
-        $newObjectives = $this->postMany('objectives', 'objectives', $create);
-        $dataLoader = $this->getContainer()->get(ProgramYearObjectiveData::class);
-        $create = [];
-        foreach ($newObjectives as $objective) {
-            $arr = $dataLoader->create();
-            unset($arr['id']);
-            $arr['programYear'] = $id;
-            $arr['objective'] = $objective['id'];
-            $create[] = $arr;
-        }
-        $this->postMany('programyearobjectives', 'programYearObjectives', $create);
+        $objective = $this->getObjectiveForXObjective($programYearObjectiveId, 'programYearObjectives');
+        $this->assertNotEmpty($objective['children']);
+        $this->assertNotEmpty($objective['programYears']);
+        $this->assertNotEmpty($objective['competency']);
 
-        $getObjectives = function ($id) use ($self) {
-            return $self->getOne('objectives', 'objectives', $id);
-        };
-        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
-        foreach ($objectives as $arr) {
-            $this->assertNotEmpty($arr['parents'], 'parents have been created');
-            $this->assertNotEmpty($arr['children'], 'children have been created');
-            $this->assertArrayHasKey('competency', $arr);
-        }
-        $this->deleteTest($id);
-        $objectives = array_map($getObjectives, array_column($newObjectives, 'id'));
-        foreach ($objectives as $arr) {
-            $this->assertEmpty($arr['parents'], 'parents have been removed');
-            $this->assertEmpty($arr['children'], 'children have been removed');
-            $this->assertArrayNotHasKey('competency', $arr);
-        }
+        $this->deleteTest($programYearId);
+
+        $objective = $this->getOne('objectives', 'objectives', $objective['id'], 'v1');
+        $this->assertEmpty($objective['children']);
+        $this->assertEmpty($objective['programYears']);
+        $this->assertArrayNotHasKey('competency', $objective);
     }
 
     /**
@@ -402,17 +370,15 @@ class ProgramYearTest extends ReadWriteEndpointTest
                 'course_shortname',
                 'mapped_course_objective',
             ],
-            ['Miss', '2013 - 2014', 'first objective', 'third competency', 'firstCourse', 'first', 'second objective',],
-            ['Miss', '2013 - 2014', 'first objective', 'third competency', 'course 2', 'second', 'second objective',],
             [
                 'Miss',
                 '2013 - 2014',
-                'first objective',
-                'third competency',
-                'fourth course',
-                'fourth',
-                'second objective',
-            ],
+                'program year objective 1',
+                'first competency',
+                'firstCourse',
+                'first',
+                'course objective 1'
+            ]
         ];
 
         $actual = array_map('str_getcsv', explode(PHP_EOL, trim($response->getContent())));

@@ -46,7 +46,12 @@ class ProgramYearObjectiveRepository extends EntityRepository implements DTORepo
         /** @var ProgramYearObjectiveDTO[] $programYearObjectiveDTOs */
         $programYearObjectiveDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $programYearObjectiveDTOs[$arr['id']] = new ProgramYearObjectiveDTO($arr['id'], $arr['position']);
+            $programYearObjectiveDTOs[$arr['id']] = new ProgramYearObjectiveDTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['position'],
+                $arr['active']
+            );
         }
         $programYearObjectiveIds = array_keys($programYearObjectiveDTOs);
 
@@ -56,7 +61,7 @@ class ProgramYearObjectiveRepository extends EntityRepository implements DTORepo
                 'programYear.id AS programYearId, programYear.locked AS programYearIsLocked, ' .
                 'programYear.archived AS programYearIsArchived'
             )
-            ->from('App\Entity\ProgramYearObjective', 'x')
+            ->from(ProgramYearObjective::class, 'x')
             ->join('x.programYear', 'programYear')
             ->join('x.objective', 'objective')
             ->where($qb->expr()->in('x.id', ':ids'))
@@ -69,13 +74,28 @@ class ProgramYearObjectiveRepository extends EntityRepository implements DTORepo
             $programYearObjectiveDTOs[$arr['xId']]->objective = (int) $arr['objectiveId'];
         }
 
+        $qb = $this->_em->createQueryBuilder()
+            ->select('x.id as id, c.id as competencyId, a.id as ancestorId')
+            ->from(ProgramYearObjective::class, 'x')
+            ->leftJoin('x.competency', 'c')
+            ->leftJoin('x.ancestor', 'a')
+            ->where($qb->expr()->in('x.id', ':ids'))
+            ->setParameter('ids', $programYearObjectiveIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $programYearObjectiveDTOs[$arr['id']]->competency = $arr['competencyId'] ? (int)$arr['competencyId'] : null;
+            $programYearObjectiveDTOs[$arr['id']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
+        }
+
         $related = [
-            'terms'
+            'terms',
+            'meshDescriptors',
+            'courseObjectives',
+            'descendants'
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
                 ->select('r.id AS relId, x.id AS programYearObjectiveId')
-                ->from('App\Entity\ProgramYearObjective', 'x')
+                ->from(ProgramYearObjective::class, 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')

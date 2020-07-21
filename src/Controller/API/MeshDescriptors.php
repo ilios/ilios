@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * @Route("/api/{version<v1|v2>}/meshdescriptors")
+ * @Route("/api/{version<v1|v3>}/meshdescriptors")
  */
 class MeshDescriptors extends ReadOnlyController
 {
@@ -42,12 +42,21 @@ class MeshDescriptors extends ReadOnlyController
         $parameters = ApiRequestParser::extractParameters($request);
 
         if (null !== $q && '' !== $q) {
-            $dtos = $this->manager->findMeshDescriptorDtosByQ(
-                $q,
-                $parameters['orderBy'],
-                $parameters['limit'],
-                $parameters['offset']
-            );
+            if ('v1' === $version) {
+                $dtos = $this->manager->findMeshDescriptorV1DTOsByQ(
+                    $q,
+                    $parameters['orderBy'],
+                    $parameters['limit'],
+                    $parameters['offset']
+                );
+            } else {
+                $dtos = $this->manager->findMeshDescriptorDTOsByQ(
+                    $q,
+                    $parameters['orderBy'],
+                    $parameters['limit'],
+                    $parameters['offset']
+                );
+            }
 
             $filteredResults = array_filter($dtos, function ($object) use ($authorizationChecker) {
                 return $authorizationChecker->isGranted(AbstractVoter::VIEW, $object);

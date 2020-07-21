@@ -8,7 +8,7 @@ use App\Entity\Manager\AamcResourceTypeManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/aamcresourcetypes")
+ * @Route("/api/{version<v1|v3>}/aamcresourcetypes")
  */
 class AamcResourceTypes extends ReadWriteController
 {

@@ -8,7 +8,7 @@ use App\Entity\Manager\DepartmentManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/departments")
+ * @Route("/api/{version<v1|v3>}/departments")
  */
 class Departments extends ReadWriteController
 {

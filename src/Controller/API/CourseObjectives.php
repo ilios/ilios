@@ -8,7 +8,8 @@ use App\Entity\Manager\CourseObjectiveManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v2>}/courseobjectives")
+ * @package App\Controller\API
+ * @Route("/api/{version<v3>}/courseobjectives")
  */
 class CourseObjectives extends ReadWriteController
 {
