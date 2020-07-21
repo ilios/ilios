@@ -235,6 +235,28 @@ interface UserInterface extends
      */
     public function getAdministeredCourses();
 
+    public function setStudentAdvisedCourses(Collection $studentAdvisedCourses);
+
+    public function addStudentAdvisedCourse(CourseInterface $studentAdvisedCourse);
+
+    public function removeStudentAdvisedCourse(CourseInterface $studentAdvisedCourse);
+
+    /**
+     * @return ArrayCollection|CourseInterface[]
+     */
+    public function getStudentAdvisedCourses();
+
+    public function setStudentAdvisedSessions(Collection $studentAdvisedSessions);
+
+    public function addStudentAdvisedSession(SessionInterface $studentAdvisedSession);
+
+    public function removeStudentAdvisedSession(SessionInterface $studentAdvisedSession);
+
+    /**
+     * @return ArrayCollection|SessionInterface[]
+     */
+    public function getStudentAdvisedSessions();
+
     /**
      * @param int $courseId
      * @return bool

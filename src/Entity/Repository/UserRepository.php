@@ -1001,6 +1001,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $related = [
             'directedCourses',
             'administeredCourses',
+            'studentAdvisedCourses',
             'learnerGroups',
             'instructedLearnerGroups',
             'instructorGroups',
@@ -1017,6 +1018,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             'directedSchools',
             'administeredSchools',
             'administeredSessions',
+            'studentAdvisedSessions',
             'directedPrograms',
             'administeredCurriculumInventoryReports',
         ];

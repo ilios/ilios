@@ -53,6 +53,11 @@ Course:
    type: array
    items:
     type: string
+  studentAdvisors:
+   description: Student Advisors
+   type: array
+   items:
+    type: string
   cohorts:
    description: Cohorts
    type: array

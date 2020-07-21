@@ -138,6 +138,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
             'learningMaterials',
             'offerings',
             'administrators',
+            'studentAdvisors',
             'prerequisites'
         ];
 

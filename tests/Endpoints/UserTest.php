@@ -63,6 +63,8 @@ class UserTest extends ReadWriteEndpointTest
             'directedCourses' => ['directedCourses', [2]],
             'administeredCourses' => ['administeredCourses', [1, 2]],
             'administeredSessions' => ['administeredSessions', [2]],
+            'studentAdvisedCourses' => ['studentAdvisedCourses', [2]],
+            'studentAdvisedSessions' => ['studentAdvisedSessions', [2]],
             'learnerGroups' => ['learnerGroups', [1]],
             'instructedLearnerGroups' => ['instructedLearnerGroups', [1]],
             'instructorGroups' => ['instructorGroups', [1]],

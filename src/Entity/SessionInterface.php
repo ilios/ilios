@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Traits\IndexableCoursesEntityInterface;
 use App\Traits\SessionObjectivesEntityInterface;
+use App\Traits\StudentAdvisorsEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
@@ -34,6 +35,7 @@ interface SessionInterface extends
     MeshDescriptorsEntityInterface,
     SequenceBlocksEntityInterface,
     AdministratorsEntityInterface,
+    StudentAdvisorsEntityInterface,
     IndexableCoursesEntityInterface,
     SessionObjectivesEntityInterface
 {

@@ -69,6 +69,7 @@ class CourseTest extends ReadWriteEndpointTest
             'removeDirectors' => ['directors', []],
             'replaceDirectors' => ['directors', [4]],
             'administrators' => ['administrators', [2]],
+            'studentAdvisors' => ['studentAdvisors', [1]],
             'cohorts' => ['cohorts', [2]],
             'terms' => ['terms', [2]],
             'courseObjectives' => ['courseObjectives', [1]],

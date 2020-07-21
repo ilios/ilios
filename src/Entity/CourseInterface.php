@@ -19,6 +19,7 @@ use App\Traits\LockableEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\PublishableEntityInterface;
 use App\Traits\SchoolEntityInterface;
+use App\Traits\StudentAdvisorsEntityInterface;
 use App\Traits\TitledEntityInterface;
 use App\Traits\StringableEntityInterface;
 use App\Traits\SessionsEntityInterface;
@@ -34,6 +35,7 @@ interface CourseInterface extends
     ArchivableEntityInterface,
     SessionsEntityInterface,
     SchoolEntityInterface,
+    StudentAdvisorsEntityInterface,
     LoggableEntityInterface,
     PublishableEntityInterface,
     CategorizableEntityInterface,

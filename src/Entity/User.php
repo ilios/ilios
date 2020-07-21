@@ -352,6 +352,17 @@ class User implements UserInterface
     protected $administeredCourses;
 
     /**
+     * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="studentAdvisors")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $studentAdvisedCourses;
+
+    /**
      * @var ArrayCollection|SessionInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="administrators")
@@ -361,6 +372,17 @@ class User implements UserInterface
      * @IS\Type("entityCollection")
      */
     protected $administeredSessions;
+
+    /**
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Session", mappedBy="studentAdvisors")
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $studentAdvisedSessions;
 
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
@@ -602,6 +624,8 @@ class User implements UserInterface
         $this->auditLogs = new ArrayCollection();
         $this->administeredSessions = new ArrayCollection();
         $this->administeredCourses = new ArrayCollection();
+        $this->studentAdvisedCourses = new ArrayCollection();
+        $this->studentAdvisedSessions = new ArrayCollection();
         $this->learnerIlmSessions = new ArrayCollection();
         $this->directedSchools = new ArrayCollection();
         $this->administeredSchools = new ArrayCollection();
@@ -943,6 +967,46 @@ class User implements UserInterface
     }
 
     /**
+     * @param Collection $courses
+     */
+    public function setStudentAdvisedCourses(Collection $courses)
+    {
+        $this->studentAdvisedCourses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addStudentAdvisedCourse($course);
+        }
+    }
+
+    /**
+     * @param CourseInterface $course
+     */
+    public function addStudentAdvisedCourse(CourseInterface $course)
+    {
+        if (!$this->studentAdvisedCourses->contains($course)) {
+            $this->studentAdvisedCourses->add($course);
+            $course->addStudentAdvisor($this);
+        }
+    }
+
+    /**
+     * @param CourseInterface $course
+     */
+    public function removeStudentAdvisedCourse(CourseInterface $course)
+    {
+        $this->studentAdvisedCourses->removeElement($course);
+        $course->removeStudentAdvisor($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStudentAdvisedCourses()
+    {
+        return $this->studentAdvisedCourses;
+    }
+
+    /**
      * @param Collection $sessions
      */
     public function setAdministeredSessions(Collection $sessions)
@@ -980,6 +1044,46 @@ class User implements UserInterface
     public function getAdministeredSessions()
     {
         return $this->administeredSessions;
+    }
+
+    /**
+     * @param Collection $sessions
+     */
+    public function setStudentAdvisedSessions(Collection $sessions)
+    {
+        $this->studentAdvisedSessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addStudentAdvisedSession($session);
+        }
+    }
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function addStudentAdvisedSession(SessionInterface $session)
+    {
+        if (!$this->studentAdvisedSessions->contains($session)) {
+            $this->studentAdvisedSessions->add($session);
+            $session->addStudentAdvisor($this);
+        }
+    }
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function removeStudentAdvisedSession(SessionInterface $session)
+    {
+        $this->studentAdvisedSessions->removeElement($session);
+        $session->removeStudentAdvisor($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStudentAdvisedSessions()
+    {
+        return $this->studentAdvisedSessions;
     }
 
     /**

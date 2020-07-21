@@ -29,6 +29,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => ['1'],
             'offerings' => ['1', '2'],
             'administrators' => ['1'],
+            'studentAdvisors' => [],
             'prerequisites' => [],
         ];
 
@@ -51,6 +52,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => [],
             'offerings' => ['3', '4', '5'],
             'administrators' => [],
+            'studentAdvisors' => [],
             'prerequisites' => [],
             'postrequisite' => '3',
 
@@ -73,6 +75,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => ['2', '3', '4', '5', '6', '7', '8'],
             'offerings' => ['6', '7', '8'],
             'administrators' => [],
+            'studentAdvisors' => [],
             'prerequisites' => ['2', '4'],
         ];
 
@@ -93,6 +96,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => [],
             'offerings' => [],
             'administrators' => [],
+            'studentAdvisors' => ['3'],
             'prerequisites' => [],
             'postrequisite' => '3',
         ];
@@ -117,6 +121,7 @@ class SessionData extends AbstractDataLoader
                 'learningMaterials' => [],
                 'offerings' => [],
                 'administrators' => [],
+                'studentAdvisors' => [],
                 'prerequisites' => [],
             ];
         }
@@ -144,6 +149,7 @@ class SessionData extends AbstractDataLoader
             'learningMaterials' => [],
             'offerings' => [],
             'administrators' => [],
+            'studentAdvisors' => [],
             'prerequisites' => [],
         ];
     }

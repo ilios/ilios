@@ -73,6 +73,11 @@ Session:
    type: array
    items:
     type: string
+  studentAdvisors:
+   description: Student Advisors
+   type: array
+   items:
+    type: string
   postrequisite:
    description: Postrequisite
    type: string

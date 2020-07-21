@@ -160,6 +160,14 @@ class SessionDTO
     /**
      * @var int[]
      * @IS\Expose
+     * @IS\Related("users")
+     * @IS\Type("array<string>")
+     */
+    public $studentAdvisors;
+
+    /**
+     * @var int[]
+     * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
@@ -216,6 +224,7 @@ class SessionDTO
         $this->learningMaterials = [];
         $this->offerings = [];
         $this->administrators = [];
+        $this->studentAdvisors = [];
         $this->prerequisites = [];
     }
 }

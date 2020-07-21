@@ -67,6 +67,8 @@ class SessionTest extends EntityBase
         $this->assertEmpty($this->object->getTerms());
         $this->assertEmpty($this->object->getSequenceBlocks());
         $this->assertEmpty($this->object->getPrerequisites());
+        $this->assertEmpty($this->object->getAdministrators());
+        $this->assertEmpty($this->object->getStudentAdvisors());
     }
 
     /**
@@ -381,6 +383,31 @@ class SessionTest extends EntityBase
     public function testSetAdministrators()
     {
         $this->entityCollectionSetTest('administrator', 'User', false, false, 'addAdministeredSession');
+    }
+
+    /**
+     * @covers \App\Entity\Session::addStudentAdvisor
+     */
+    public function testAddStudentAdvisor()
+    {
+        $this->entityCollectionAddTest('studentAdvisor', 'User', false, false, 'addStudentAdvisedSession');
+    }
+
+    /**
+     * @covers \App\Entity\Session::removeStudentAdvisor
+     */
+    public function testRemoveStudentAdvisor()
+    {
+        $this->entityCollectionRemoveTest('studentAdvisor', 'User', false, false, false, 'removeStudentAdvisedSession');
+    }
+
+    /**
+     * @covers \App\Entity\Session::getStudentAdvisors
+     * @covers \App\Entity\Session::setStudentAdvisors
+     */
+    public function testSetStudentAdvisors()
+    {
+        $this->entityCollectionSetTest('studentAdvisor', 'User', false, false, 'addStudentAdvisedSession');
     }
 
     /**

@@ -163,6 +163,14 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related("courses")
+     * @IS\Type("array<string>")
+     */
+    public $studentAdvisedCourses;
+
+    /**
+     * @var array
+     * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
@@ -291,6 +299,14 @@ class UserDTO
     /**
      * @var array
      * @IS\Expose
+     * @IS\Related("sessions")
+     * @IS\Type("array<string>")
+     */
+    public $studentAdvisedSessions;
+
+    /**
+     * @var array
+     * @IS\Expose
      * @IS\Related("programs")
      * @IS\Type("array<string>")
      */
@@ -352,6 +368,8 @@ class UserDTO
 
         $this->directedCourses = [];
         $this->administeredCourses = [];
+        $this->studentAdvisedCourses = [];
+        $this->studentAdvisedSessions = [];
         $this->learnerGroups = [];
         $this->instructedLearnerGroups = [];
         $this->instructorGroups = [];

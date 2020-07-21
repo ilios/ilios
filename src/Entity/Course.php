@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\CourseObjectivesEntity;
+use App\Traits\StudentAdvisorsEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -52,6 +53,7 @@ class Course implements CourseInterface
     use MeshDescriptorsEntity;
     use DirectorsEntity;
     use AdministratorsEntity;
+    use StudentAdvisorsEntity;
     use CourseObjectivesEntity;
 
     /**
@@ -275,6 +277,25 @@ class Course implements CourseInterface
     protected $administrators;
 
     /**
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="studentAdvisedCourses"))
+     * @ORM\JoinTable(name="course_student_advisor",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     *   }
+     * )
+     * @ORM\OrderBy({"id" = "ASC"})
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    protected $studentAdvisors;
+
+    /**
      * @var ArrayCollection|CohortInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Cohort", inversedBy="courses")
@@ -405,6 +426,7 @@ class Course implements CourseInterface
     {
         $this->directors = new ArrayCollection();
         $this->administrators = new ArrayCollection();
+        $this->studentAdvisors = new ArrayCollection();
         $this->cohorts = new ArrayCollection();
         $this->terms = new ArrayCollection();
         $this->courseObjectives = new ArrayCollection();
@@ -705,6 +727,22 @@ class Course implements CourseInterface
         if ($this->administrators->contains($administrator)) {
             $this->administrators->removeElement($administrator);
             $administrator->removeAdministeredCourse($this);
+        }
+    }
+
+    public function addStudentAdvisor(UserInterface $studentAdvisor)
+    {
+        if (!$this->studentAdvisors->contains($studentAdvisor)) {
+            $this->studentAdvisors->add($studentAdvisor);
+            $studentAdvisor->addStudentAdvisedCourse($this);
+        }
+    }
+
+    public function removeStudentAdvisor(UserInterface $studentAdvisor)
+    {
+        if ($this->studentAdvisors->contains($studentAdvisor)) {
+            $this->studentAdvisors->removeElement($studentAdvisor);
+            $studentAdvisor->removeStudentAdvisedCourse($this);
         }
     }
 

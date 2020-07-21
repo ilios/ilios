@@ -48,6 +48,8 @@ class UserData extends AbstractDataLoader
             'administeredSchools' => ['1'],
             'administeredSessions' => ['1'],
             'administeredCourses' => ['1'],
+            'studentAdvisedCourses' => [],
+            'studentAdvisedSessions' => [],
             'directedPrograms' => ['1'],
             'administeredCurriculumInventoryReports' => ['1'],
         ];
@@ -87,6 +89,8 @@ class UserData extends AbstractDataLoader
             'administeredSchools' => [],
             'administeredSessions' => [],
             'administeredCourses' => [],
+            'studentAdvisedCourses' => ['1'],
+            'studentAdvisedSessions' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
         ];
@@ -125,6 +129,8 @@ class UserData extends AbstractDataLoader
             'administeredSchools' => [],
             'administeredSessions' => [],
             'administeredCourses' => [],
+            'studentAdvisedCourses' => ['3'],
+            'studentAdvisedSessions' => ['4'],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
         ];
@@ -163,6 +169,8 @@ class UserData extends AbstractDataLoader
             'administeredSchools' => [],
             'administeredSessions' => [],
             'administeredCourses' => ['5'],
+            'studentAdvisedCourses' => [],
+            'studentAdvisedSessions' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
         ];
@@ -200,6 +208,8 @@ class UserData extends AbstractDataLoader
             'administeredSchools' => [],
             'administeredSessions' => [],
             'administeredCourses' => [],
+            'studentAdvisedCourses' => [],
+            'studentAdvisedSessions' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
         ];
@@ -242,6 +252,8 @@ class UserData extends AbstractDataLoader
             'administeredSchools' => [],
             'administeredSessions' => [],
             'administeredCourses' => [],
+            'studentAdvisedCourses' => [],
+            'studentAdvisedSessions' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
         ];

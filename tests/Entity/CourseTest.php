@@ -85,6 +85,7 @@ class CourseTest extends EntityBase
         $this->assertEmpty($this->object->getTerms());
         $this->assertEmpty($this->object->getDescendants());
         $this->assertEmpty($this->object->getAdministrators());
+        $this->assertEmpty($this->object->getStudentAdvisors());
     }
 
     /**
@@ -392,6 +393,31 @@ class CourseTest extends EntityBase
     public function testSetAdministrators()
     {
         $this->entityCollectionSetTest('administrator', 'User', false, false, 'addAdministeredCourse');
+    }
+
+    /**
+     * @covers \App\Entity\Course::addStudentAdvisor
+     */
+    public function testAddStudentAdvisor()
+    {
+        $this->entityCollectionAddTest('studentAdvisor', 'User', false, false, 'addStudentAdvisedCourse');
+    }
+
+    /**
+     * @covers \App\Entity\Course::removeStudentAdvisor
+     */
+    public function testRemoveStudentAdvisor()
+    {
+        $this->entityCollectionRemoveTest('studentAdvisor', 'User', false, false, false, 'removeStudentAdvisedCourse');
+    }
+
+    /**
+     * @covers \App\Entity\Course::getStudentAdvisors
+     * @covers \App\Entity\Course::setStudentAdvisors
+     */
+    public function testSetStudentAdvisors()
+    {
+        $this->entityCollectionSetTest('studentAdvisor', 'User', false, false, 'addStudentAdvisedCourse');
     }
 
     /**

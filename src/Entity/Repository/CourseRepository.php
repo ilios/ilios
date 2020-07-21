@@ -493,6 +493,7 @@ EOL;
         $related = [
             'directors',
             'administrators',
+            'studentAdvisors',
             'cohorts',
             'terms',
             'courseObjectives',
