@@ -53,17 +53,27 @@ User:
    description: School
    type: string
   directedCourses:
-   description: Directedcourses
+   description: Courses as a Director
    type: array
    items:
     type: string
   administeredCourses:
-   description: Administeredcourses
+   description: Courses as an Administrator
+   type: array
+   items:
+    type: string
+  studentAdvisedCourses:
+   description: Courses as a Student Advisor
    type: array
    items:
     type: string
   administeredSessions:
-   description: Administeredsessions
+   description: Sessions as an Administrator
+   type: array
+   items:
+    type: string
+  studentAdvisedSessions:
+   description: Sessions as a Student Advisor
    type: array
    items:
     type: string
