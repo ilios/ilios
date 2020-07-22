@@ -15,7 +15,7 @@ use Exception;
 /**
  * Class SchoolManager
  */
-class SchoolManager extends BaseManager
+class SchoolManager extends V1CompatibleBaseManager
 {
     /**
      * @var UserMaterialFactory
