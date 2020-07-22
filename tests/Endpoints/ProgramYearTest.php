@@ -102,6 +102,9 @@ class ProgramYearTest extends ReadWriteEndpointTest
     protected function postTest(array $data, array $postData)
     {
         unset($postData['stewards']);
+        unset($postData['published']);
+        unset($postData['publishedAsTbd']);
+
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $postKey = $this->getCamelCasedSingularName();
@@ -154,18 +157,24 @@ class ProgramYearTest extends ReadWriteEndpointTest
     protected function putTest(array $data, array $postData, $id, $new = false)
     {
         unset($postData['stewards']);
+        unset($postData['published']);
+        unset($postData['publishedAsTbd']);
         return parent::putTest($data, $postData, $id, $new);
     }
 
     protected function patchJsonApiTest(array $data, object $postData)
     {
         unset($data['stewards']);
+        unset($data['published']);
+        unset($data['publishedAsTbd']);
         return parent::patchJsonApiTest($data, $postData);
     }
 
     protected function compareData(array $expected, array $result)
     {
         unset($expected['stewards']);
+        unset($expected['published']);
+        unset($expected['publishedAsTbd']);
         parent::compareData($expected, $result);
     }
 
@@ -173,6 +182,8 @@ class ProgramYearTest extends ReadWriteEndpointTest
     {
         $data = array_map(function ($item) {
             unset($item['stewards']);
+            unset($item['published']);
+            unset($item['publishedAsTbd']);
             return $item;
         }, $data);
         $endpoint = $this->getPluralName();
@@ -261,6 +272,8 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         unset($data['stewards']);
+        unset($data['published']);
+        unset($data['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -282,6 +295,8 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $data = $dataLoader->create();
         $postData = $dataLoader->create();
         unset($postData['stewards']);
+        unset($postData['published']);
+        unset($postData['publishedAsTbd']);
         $postData['cohort'] = null;
         $this->postTest($data, $postData);
     }
@@ -291,6 +306,8 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         unset($data['stewards']);
+        unset($data['published']);
+        unset($data['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -311,6 +328,8 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         unset($data['stewards']);
+        unset($data['published']);
+        unset($data['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -330,6 +349,8 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         unset($data['stewards']);
+        unset($data['published']);
+        unset($data['publishedAsTbd']);
         //lock programYear
         $data['locked'] = true;
         $response = $this->putOne('programyears', 'programYear', $data['id'], $data);
@@ -347,6 +368,8 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         unset($data['stewards']);
+        unset($data['published']);
+        unset($data['publishedAsTbd']);
         $programYearId = $data['id'];
         $programYearObjectiveId = (int) $data['programYearObjectives'][0];
 
