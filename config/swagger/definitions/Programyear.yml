@@ -48,8 +48,3 @@ Programyear:
    type: array
    items:
     type: string
-  stewards:
-   description: Stewards
-   type: array
-   items:
-    type: string

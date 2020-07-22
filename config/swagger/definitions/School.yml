@@ -52,11 +52,6 @@ School:
    type: array
    items:
     type: string
-  stewards:
-   description: Stewards
-   type: array
-   items:
-    type: string
   directors:
    description: Directors
    type: array
