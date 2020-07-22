@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\DTO\SchoolV1DTO;
 use App\Entity\School;
 use App\Entity\Session;
+use DateTime;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\DBAL\Types\Type as DoctrineType;
 use Doctrine\ORM\AbstractQuery;
@@ -19,7 +21,7 @@ use App\Traits\CalendarEventRepository;
 /**
  * Class SchoolRepository
  */
-class SchoolRepository extends EntityRepository implements DTORepositoryInterface
+class SchoolRepository extends EntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
 {
     use CalendarEventRepository;
 
@@ -44,14 +46,7 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
     }
 
     /**
-     * Find and hydrate as DTOs
-     *
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
-     * @return array
+     * @inheritdoc
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
@@ -68,48 +63,29 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
                 $arr['changeAlertRecipients']
             );
         }
-        $schoolIds = array_keys($schoolDTOs);
+        return $this->attachAssociationsToDTOs($schoolDTOs);
+    }
 
-        $qb = $this->_em->createQueryBuilder()
-            ->select('s.id as schoolId, c.id as curriculumInventoryInstitutionId')
-            ->from('App\Entity\School', 's')
-            ->leftJoin('s.curriculumInventoryInstitution', 'c')
-            ->where($qb->expr()->in('s.id', ':ids'))
-            ->setParameter('ids', $schoolIds);
 
-        foreach ($qb->getQuery()->getResult() as $arr) {
-            $schoolDTOs[$arr['schoolId']]->curriculumInventoryInstitution =
-                $arr['curriculumInventoryInstitutionId'] ? $arr['curriculumInventoryInstitutionId'] : null;
+    /**
+     * @inheritdoc
+     */
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('App\Entity\School', 's');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $schoolDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $schoolDTOs[$arr['id']] = new SchoolV1DTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['templatePrefix'],
+                $arr['iliosAdministratorEmail'],
+                $arr['changeAlertRecipients']
+            );
         }
-
-        $related = [
-            'competencies',
-            'courses',
-            'programs',
-            'departments',
-            'vocabularies',
-            'instructorGroups',
-            'sessionTypes',
-            'stewards',
-            'directors',
-            'administrators',
-            'configurations'
-        ];
-
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, s.id AS schoolId')->from('App\Entity\School', 's')
-                ->join("s.{$rel}", 'r')
-                ->where($qb->expr()->in('s.id', ':schoolIds'))
-                ->orderBy('relId')
-                ->setParameter('schoolIds', $schoolIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $schoolDTOs[$arr['schoolId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        return array_values($schoolDTOs);
+        return $this->attachAssociationsToDTOs($schoolDTOs);
     }
 
 
@@ -145,12 +121,12 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
      * Find all of the events for a user id between two dates.
      *
      * @param int $id
-     * @param \DateTime $from
-     * @param \DateTime $to
+     * @param DateTime $from
+     * @param DateTime $to
      *
      * @return SchoolEvent[]
      */
-    public function findEventsForSchool($id, \DateTime $from, \DateTime $to)
+    public function findEventsForSchool($id, DateTime $from, DateTime $to)
     {
         $offeringEvents = [];
         $groupEvents = $this->getOfferingEventsFor($id, $from, $to);
@@ -200,15 +176,15 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
      * Use the query builder to get a set of offering based school events.
      *
      * @param int $id
-     * @param \DateTime $from
-     * @param \DateTime $to
+     * @param DateTime $from
+     * @param DateTime $to
      *
      * @return CalendarEvent[]
      */
     protected function getOfferingEventsFor(
         $id,
-        \DateTime $from,
-        \DateTime $to
+        DateTime $from,
+        DateTime $to
     ) {
         $qb = $this->_em->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
@@ -248,15 +224,15 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
      * Use the query builder to get a set of ILMSession based user events.
      *
      * @param int $id
-     * @param \DateTime $from
-     * @param \DateTime $to
+     * @param DateTime $from
+     * @param DateTime $to
      *
      * @return CalendarEvent[]
      */
     protected function getIlmSessionEventsFor(
         $id,
-        \DateTime $from,
-        \DateTime $to
+        DateTime $from,
+        DateTime $to
     ) {
 
         $qb = $this->_em->createQueryBuilder();
@@ -632,5 +608,55 @@ class SchoolRepository extends EntityRepository implements DTORepositoryInterfac
         }
 
         return $qb;
+    }
+
+    /**
+     * @param array $schoolDTOs
+     * @return array
+     */
+    protected function attachAssociationsToDTOs(array $schoolDTOs): array
+    {
+        $schoolIds = array_keys($schoolDTOs);
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('s.id as schoolId, c.id as curriculumInventoryInstitutionId')
+            ->from('App\Entity\School', 's')
+            ->leftJoin('s.curriculumInventoryInstitution', 'c')
+            ->where($qb->expr()->in('s.id', ':ids'))
+            ->setParameter('ids', $schoolIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $schoolDTOs[$arr['schoolId']]->curriculumInventoryInstitution =
+                $arr['curriculumInventoryInstitutionId'] ? $arr['curriculumInventoryInstitutionId'] : null;
+        }
+
+        $related = [
+            'competencies',
+            'courses',
+            'programs',
+            'departments',
+            'vocabularies',
+            'instructorGroups',
+            'sessionTypes',
+            'stewards',
+            'directors',
+            'administrators',
+            'configurations'
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, s.id AS schoolId')->from('App\Entity\School', 's')
+                ->join("s.{$rel}", 'r')
+                ->where($qb->expr()->in('s.id', ':schoolIds'))
+                ->orderBy('relId')
+                ->setParameter('schoolIds', $schoolIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $schoolDTOs[$arr['schoolId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        return array_values($schoolDTOs);
     }
 }

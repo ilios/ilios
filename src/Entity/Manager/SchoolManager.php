@@ -8,17 +8,19 @@ use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent;
 use App\Entity\Repository\SchoolRepository;
 use App\Service\UserMaterialFactory;
+use DateTime;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * Class SchoolManager
  */
-class SchoolManager extends BaseManager
+class SchoolManager extends V1CompatibleBaseManager
 {
     /**
      * @var UserMaterialFactory
      */
-    protected $factory;
+    protected UserMaterialFactory $factory;
 
     /**
      * @param ManagerRegistry $registry
@@ -33,12 +35,12 @@ class SchoolManager extends BaseManager
 
     /**
      * @param int $schoolId
-     * @param \DateTime $from
-     * @param \DateTime $to
+     * @param DateTime $from
+     * @param DateTime $to
      * @return SchoolEvent[]
-     * @throws \Exception
+     * @throws Exception
      */
-    public function findEventsForSchool($schoolId, \DateTime $from, \DateTime $to)
+    public function findEventsForSchool($schoolId, DateTime $from, DateTime $to): array
     {
         /** @var SchoolRepository $repository */
         $repository = $this->getRepository();
@@ -49,7 +51,7 @@ class SchoolManager extends BaseManager
      * @param int $schoolId
      * @param int $sessionId
      * @return SchoolEvent[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function findSessionEventsForSchool(int $schoolId, int $sessionId): array
     {
@@ -63,9 +65,9 @@ class SchoolManager extends BaseManager
      *
      * @param CalendarEvent[] $events
      * @return CalendarEvent[]
-     * @throws \Exception
+     * @throws Exception
      */
-    public function addInstructorsToEvents(array $events)
+    public function addInstructorsToEvents(array $events): array
     {
         /** @var SchoolRepository $repository */
         $repository = $this->getRepository();
@@ -77,9 +79,9 @@ class SchoolManager extends BaseManager
      *
      * @param CalendarEvent[] $events
      * @return CalendarEvent[]
-     * @throws \Exception
+     * @throws Exception
      */
-    public function addMaterialsToEvents(array $events)
+    public function addMaterialsToEvents(array $events): array
     {
         /** @var SchoolRepository $repository */
         $repository = $this->getRepository();
@@ -91,9 +93,9 @@ class SchoolManager extends BaseManager
      *
      * @param CalendarEvent[] $events
      * @return CalendarEvent[]
-     * @throws \Exception
+     * @throws Exception
      */
-    public function addSessionDataToEvents(array $events)
+    public function addSessionDataToEvents(array $events): array
     {
         /** @var SchoolRepository $repository */
         $repository = $this->getRepository();
@@ -104,7 +106,7 @@ class SchoolManager extends BaseManager
      * @param int $id
      * @param array $events
      * @return array
-     * @throws \Exception
+     * @throws Exception
      * @see SchoolRepository::addPreAndPostRequisites()
      */
     public function addPreAndPostRequisites($id, array $events): array
@@ -118,6 +120,7 @@ class SchoolManager extends BaseManager
      * Get all the IDs for every school
      *
      * @return int[]
+     * @throws Exception
      */
     public function getIds(): array
     {

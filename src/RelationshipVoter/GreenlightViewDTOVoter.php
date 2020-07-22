@@ -42,6 +42,7 @@ use App\Entity\DTO\ProgramYearStewardDTO;
 use App\Entity\DTO\ProgramYearV1DTO;
 use App\Entity\DTO\SchoolConfigDTO;
 use App\Entity\DTO\SchoolDTO;
+use App\Entity\DTO\SchoolV1DTO;
 use App\Entity\DTO\SessionDescriptionDTO;
 use App\Entity\DTO\SessionDTO;
 use App\Entity\DTO\SessionObjectiveDTO;
@@ -101,6 +102,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof ProgramYearStewardDTO
                 || $subject instanceof SchoolDTO
                 || $subject instanceof SchoolConfigDTO
+                || $subject instanceof SchoolV1DTO
                 || $subject instanceof SessionDTO
                 || $subject instanceof SessionV1DTO
                 || $subject instanceof SessionDescriptionDTO

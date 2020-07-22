@@ -12,7 +12,7 @@ use App\Annotation as IS;
  *
  * @IS\DTO("schools")
  */
-class SchoolDTO
+class SchoolV1DTO
 {
     /**
      * @var int
@@ -132,6 +132,7 @@ class SchoolDTO
 
     /**
      * @var int[]
+     * @IS\Expose
      * @IS\Related("programYearStewards")
      * @IS\Type("array<string>")
      */

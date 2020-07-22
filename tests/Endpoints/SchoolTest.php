@@ -104,4 +104,41 @@ class SchoolTest extends ReadWriteEndpointTest
     {
         $this->assertTrue(true);
     }
+
+    protected function compareData(array $expected, array $result)
+    {
+        unset($expected['stewards']);
+        parent::compareData($expected, $result);
+    }
+
+    protected function putTest(array $data, array $postData, $id, $new = false)
+    {
+        unset($postData['stewards']);
+        return parent::putTest($data, $postData, $id, $new);
+    }
+
+    protected function postTest(array $data, array $postData)
+    {
+        unset($postData['stewards']);
+        return parent::postTest($data, $postData);
+    }
+
+
+    protected function postManyTest(array $data)
+    {
+        $data = array_map(
+            function ($item) {
+                unset($item['stewards']);
+                return $item;
+            },
+            $data
+        );
+        return parent::postManyTest($data);
+    }
+
+    protected function patchJsonApiTest(array $data, object $postData)
+    {
+        unset($data['stewards']);
+        return parent::patchJsonApiTest($data, $postData);
+    }
 }
