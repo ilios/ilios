@@ -108,18 +108,21 @@ class SchoolTest extends ReadWriteEndpointTest
     protected function compareData(array $expected, array $result)
     {
         unset($expected['stewards']);
+        unset($expected['departments']);
         parent::compareData($expected, $result);
     }
 
     protected function putTest(array $data, array $postData, $id, $new = false)
     {
         unset($postData['stewards']);
+        unset($postData['departments']);
         return parent::putTest($data, $postData, $id, $new);
     }
 
     protected function postTest(array $data, array $postData)
     {
         unset($postData['stewards']);
+        unset($postData['departments']);
         return parent::postTest($data, $postData);
     }
 
@@ -129,6 +132,7 @@ class SchoolTest extends ReadWriteEndpointTest
         $data = array_map(
             function ($item) {
                 unset($item['stewards']);
+                unset($item['departments']);
                 return $item;
             },
             $data
@@ -139,6 +143,7 @@ class SchoolTest extends ReadWriteEndpointTest
     protected function patchJsonApiTest(array $data, object $postData)
     {
         unset($data['stewards']);
+        unset($data['departments']);
         return parent::patchJsonApiTest($data, $postData);
     }
 }
