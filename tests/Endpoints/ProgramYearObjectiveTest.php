@@ -86,6 +86,10 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
     {
         $programYearDataLoader = $this->getContainer()->get(ProgramYearData::class);
         $programYears = $programYearDataLoader->createMany($count);
+        $programYears = array_map(function ($programYear) {
+            unset($programYear['stewards']);
+            return $programYear;
+        }, $programYears);
         $savedProgramYears = $this->postMany('programyears', 'programYears', $programYears);
 
         $dataLoader = $this->getDataLoader();
