@@ -12,6 +12,7 @@ use App\Entity\DTO\MeshDescriptorV1DTO;
 use App\Entity\DTO\ObjectiveV1DTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
 use App\Entity\DTO\ProgramYearV1DTO;
+use App\Entity\DTO\SchoolV1DTO;
 use App\Entity\DTO\SessionObjectiveDTO;
 use App\Entity\DTO\SessionV1DTO;
 use App\Entity\DTO\TermV1DTO;
@@ -113,6 +114,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [ProgramYearStewardDTO::class],
             [SchoolDTO::class],
             [SchoolConfigDTO::class],
+            [SchoolV1DTO::class],
             [SessionDTO::class],
             [SessionV1DTO::class],
             [SessionDescriptionDTO::class],
