@@ -29,11 +29,6 @@ School:
    type: array
    items:
     type: string
-  departments:
-   description: Departments
-   type: array
-   items:
-    type: string
   vocabularies:
    description: Vocabularies
    type: array
