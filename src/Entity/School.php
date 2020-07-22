@@ -230,7 +230,6 @@ class School implements SchoolInterface
      * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="school")
      * @ORM\OrderBy({"id" = "ASC"})
      *
-     * @IS\Expose
      * @IS\Type("entityCollection")
      */
     protected $stewards;
@@ -350,7 +349,7 @@ class School implements SchoolInterface
     {
         return $this->changeAlertRecipients;
     }
-    
+
     /**
      * @param string $curriculumInventoryInstitution
      */
