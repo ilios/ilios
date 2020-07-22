@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\ReadEndpointTest;
 
 /**
  * Department API endpoint Test.
  * @group api_2
  */
-class DepartmentTest extends ReadWriteEndpointTest
+class DepartmentTest extends ReadEndpointTest
 {
     protected $testName =  'departments';
 
+    protected $apiVersion = 'v1';
     /**
      * @inheritdoc
      */

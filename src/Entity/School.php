@@ -176,7 +176,6 @@ class School implements SchoolInterface
      * @ORM\OneToMany(targetEntity="Department", mappedBy="school")
      * @ORM\OrderBy({"id" = "ASC"})
      *
-     * @IS\Expose
      * @IS\Type("entityCollection")
      */
     protected $departments;

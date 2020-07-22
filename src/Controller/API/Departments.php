@@ -8,9 +8,9 @@ use App\Entity\Manager\DepartmentManager;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/departments")
+ * @Route("/api/{version<v1>}/departments")
  */
-class Departments extends ReadWriteController
+class Departments extends ReadOnlyController
 {
     public function __construct(DepartmentManager $manager)
     {
