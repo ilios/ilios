@@ -10,6 +10,7 @@ use App\Entity\DTO\CourseV1DTO;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\DTO\MeshDescriptorV1DTO;
 use App\Entity\DTO\ObjectiveV1DTO;
+use App\Entity\DTO\ProgramV1DTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
 use App\Entity\DTO\ProgramYearV1DTO;
 use App\Entity\DTO\SchoolV1DTO;
@@ -108,6 +109,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [MeshTreeDTO::class],
             [ObjectiveV1DTO::class],
             [ProgramDTO::class],
+            [ProgramV1DTO::class],
             [ProgramYearDTO::class],
             [ProgramYearV1DTO::class],
             [ProgramYearObjectiveDTO::class],
