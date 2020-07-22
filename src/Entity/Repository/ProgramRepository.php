@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\DTO\ProgramV1DTO;
+use App\Entity\Program;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\ProgramDTO;
 
-class ProgramRepository extends EntityRepository implements DTORepositoryInterface
+class ProgramRepository extends EntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
 {
     /**
      * Custom findBy so we can filter by related entities
@@ -24,27 +26,19 @@ class ProgramRepository extends EntityRepository implements DTORepositoryInterfa
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT p')->from('App\Entity\Program', 'p');
+        $qb->select('DISTINCT p')->from(Program::class, 'p');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $qb->getQuery()->getResult();
     }
 
-
     /**
-     * Find and hydrate as DTOs
-     *
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
-     * @return array
+     * @inheritdoc
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from('App\Entity\Program', 'p');
+        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from(Program::class, 'p');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $programDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -57,33 +51,28 @@ class ProgramRepository extends EntityRepository implements DTORepositoryInterfa
                 $arr['published']
             );
         }
-        $programIds = array_keys($programDTOs);
-        $qb = $this->_em->createQueryBuilder()
-            ->select('p.id as programId, s.id as schoolId')
-            ->from('App\Entity\Program', 'p')
-            ->join('p.school', 's')
-            ->where($qb->expr()->in('p.id', ':ids'))
-            ->setParameter('ids', $programIds);
-        foreach ($qb->getQuery()->getResult() as $arr) {
-            $programDTOs[$arr['programId']]->school = (int) $arr['schoolId'];
+        return $this->attachAssociationsToDTOs($programDTOs);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from(Program::class, 'p');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $programDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $programDTOs[$arr['id']] = new ProgramV1DTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['shortTitle'],
+                $arr['duration'],
+                $arr['publishedAsTbd'],
+                $arr['published']
+            );
         }
-        $related = [
-            'programYears',
-            'curriculumInventoryReports',
-            'directors'
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, p.id AS programId')->from('App\Entity\Program', 'p')
-                ->join("p.{$rel}", 'r')
-                ->where($qb->expr()->in('p.id', ':programIds'))
-                ->orderBy('relId')
-                ->setParameter('programIds', $programIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $programDTOs[$arr['programId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($programDTOs);
+        return $this->attachAssociationsToDTOs($programDTOs);
     }
 
 
@@ -164,5 +153,40 @@ class ProgramRepository extends EntityRepository implements DTORepositoryInterfa
         }
 
         return $qb;
+    }
+
+    /**
+     * @param array $programDTOs
+     * @return array
+     */
+    protected function attachAssociationsToDTOs(array $programDTOs): array
+    {
+        $programIds = array_keys($programDTOs);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('p.id as programId, s.id as schoolId')
+            ->from(Program::class, 'p')
+            ->join('p.school', 's')
+            ->where($qb->expr()->in('p.id', ':ids'))
+            ->setParameter('ids', $programIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $programDTOs[$arr['programId']]->school = (int) $arr['schoolId'];
+        }
+        $related = [
+            'programYears',
+            'curriculumInventoryReports',
+            'directors'
+        ];
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, p.id AS programId')->from(Program::class, 'p')
+                ->join("p.{$rel}", 'r')
+                ->where($qb->expr()->in('p.id', ':programIds'))
+                ->orderBy('relId')
+                ->setParameter('programIds', $programIds);
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $programDTOs[$arr['programId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+        return array_values($programDTOs);
     }
 }

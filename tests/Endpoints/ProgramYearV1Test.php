@@ -60,8 +60,6 @@ class ProgramYearV1Test extends V1ReadEndpointTest
         $this->assertEquals($v3ProgramYear['startYear'], $v1ProgramYear['startYear']);
         $this->assertEquals($v3ProgramYear['locked'], $v1ProgramYear['locked']);
         $this->assertEquals($v3ProgramYear['archived'], $v1ProgramYear['archived']);
-        $this->assertEquals($v3ProgramYear['publishedAsTbd'], $v1ProgramYear['publishedAsTbd']);
-        $this->assertEquals($v3ProgramYear['published'], $v1ProgramYear['published']);
         $this->assertEquals($v3ProgramYear['program'], $v1ProgramYear['program']);
         $this->assertEquals($v3ProgramYear['cohort'], $v1ProgramYear['cohort']);
         $this->assertEquals($v3ProgramYear['directors'], $v1ProgramYear['directors']);
@@ -70,5 +68,7 @@ class ProgramYearV1Test extends V1ReadEndpointTest
         $this->assertEquals(count($v3ProgramYear['programYearObjectives']), count($v1ProgramYear['objectives']));
         $this->assertEquals($objective['id'], $v1ProgramYear['objectives'][0]);
         $this->assertEquals($programYearData['stewards'], $v1ProgramYear['stewards']);
+        $this->assertEquals($programYearData['published'], $v1ProgramYear['published']);
+        $this->assertEquals($programYearData['publishedAsTbd'], $v1ProgramYear['publishedAsTbd']);
     }
 }

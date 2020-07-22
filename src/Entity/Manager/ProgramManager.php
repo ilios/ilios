@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Manager;
 
-class ProgramManager extends BaseManager
+class ProgramManager extends V1CompatibleBaseManager
 {
 }

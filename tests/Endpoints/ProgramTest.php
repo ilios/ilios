@@ -100,6 +100,8 @@ class ProgramTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
+        unset($program['published']);
+        unset($program['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -119,6 +121,8 @@ class ProgramTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
+        unset($program['published']);
+        unset($program['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -138,6 +142,8 @@ class ProgramTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
+        unset($program['published']);
+        unset($program['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -157,6 +163,8 @@ class ProgramTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
+        unset($program['published']);
+        unset($program['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -169,5 +177,47 @@ class ProgramTest extends ReadWriteEndpointTest
                 ['version' => $this->apiVersion, 'id' => $program['id']]
             )
         );
+    }
+
+    protected function compareData(array $expected, array $result)
+    {
+        unset($expected['published']);
+        unset($expected['publishedAsTbd']);
+        parent::compareData($expected, $result);
+    }
+
+    protected function putTest(array $data, array $postData, $id, $new = false)
+    {
+        unset($postData['published']);
+        unset($postData['publishedAsTbd']);
+        return parent::putTest($data, $postData, $id, $new);
+    }
+
+    protected function postTest(array $data, array $postData)
+    {
+        unset($postData['published']);
+        unset($postData['publishedAsTbd']);
+        return parent::postTest($data, $postData);
+    }
+
+
+    protected function postManyTest(array $data)
+    {
+        $data = array_map(
+            function ($item) {
+                unset($item['published']);
+                unset($item['publishedAsTbd']);
+                return $item;
+            },
+            $data
+        );
+        return parent::postManyTest($data);
+    }
+
+    protected function patchJsonApiTest(array $data, object $postData)
+    {
+        unset($data['published']);
+        unset($data['publishedAsTbd']);
+        return parent::patchJsonApiTest($data, $postData);
     }
 }

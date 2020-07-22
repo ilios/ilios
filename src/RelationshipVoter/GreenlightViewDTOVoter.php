@@ -36,6 +36,7 @@ use App\Entity\DTO\MeshTermDTO;
 use App\Entity\DTO\MeshTreeDTO;
 use App\Entity\DTO\ObjectiveV1DTO;
 use App\Entity\DTO\ProgramDTO;
+use App\Entity\DTO\ProgramV1DTO;
 use App\Entity\DTO\ProgramYearDTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
 use App\Entity\DTO\ProgramYearStewardDTO;
@@ -96,6 +97,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
                 || $subject instanceof MeshTreeDTO
                 || $subject instanceof ObjectiveV1DTO
                 || $subject instanceof ProgramDTO
+                || $subject instanceof ProgramV1DTO
                 || $subject instanceof ProgramYearDTO
                 || $subject instanceof ProgramYearV1DTO
                 || $subject instanceof ProgramYearObjectiveDTO
