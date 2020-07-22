@@ -132,7 +132,6 @@ class SchoolDTO
 
     /**
      * @var int[]
-     * @IS\Expose
      * @IS\Related("programYearStewards")
      * @IS\Type("array<string>")
      */
