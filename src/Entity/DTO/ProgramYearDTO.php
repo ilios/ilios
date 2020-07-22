@@ -113,7 +113,6 @@ class ProgramYearDTO
 
     /**
      * @var int[]
-     * @IS\Expose
      * @IS\Related("programYearStewards")
      * @IS\Type("array<string>")
      */

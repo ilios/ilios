@@ -67,8 +67,8 @@ class ProgramYearV1Test extends V1ReadEndpointTest
         $this->assertEquals($v3ProgramYear['directors'], $v1ProgramYear['directors']);
         $this->assertEquals($v3ProgramYear['competencies'], $v1ProgramYear['competencies']);
         $this->assertEquals($v3ProgramYear['terms'], $v1ProgramYear['terms']);
-        $this->assertEquals($v3ProgramYear['stewards'], $v1ProgramYear['stewards']);
         $this->assertEquals(count($v3ProgramYear['programYearObjectives']), count($v1ProgramYear['objectives']));
         $this->assertEquals($objective['id'], $v1ProgramYear['objectives'][0]);
+        $this->assertEquals($programYearData['stewards'], $v1ProgramYear['stewards']);
     }
 }

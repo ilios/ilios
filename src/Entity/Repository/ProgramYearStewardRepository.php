@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Repository;
 
+use App\Entity\ProgramYearSteward;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -20,7 +21,7 @@ class ProgramYearStewardRepository extends EntityRepository implements DTOReposi
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\ProgramYearSteward', 'x');
+        $qb->select('DISTINCT x')->from(ProgramYearSteward::class, 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -40,7 +41,7 @@ class ProgramYearStewardRepository extends EntityRepository implements DTOReposi
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\ProgramYearSteward', 'x');
+            ->distinct()->from(ProgramYearSteward::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         /** @var ProgramYearStewardDTO[] $programYearStewardDTOs */
@@ -58,7 +59,7 @@ class ProgramYearStewardRepository extends EntityRepository implements DTOReposi
                 'programYear.id AS programYearId, school.id AS schoolId, ' .
                 'owningProgram.id AS owningProgramId, owningSchool.id AS owningSchoolId'
             )
-            ->from('App\Entity\ProgramYearSteward', 'x')
+            ->from(ProgramYearSteward::class, 'x')
             ->join('x.programYear', 'programYear')
             ->join('programYear.program', 'owningProgram')
             ->join('owningProgram.school', 'owningSchool')

@@ -157,6 +157,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $allProgramYears = $programYearDataLoader->getAll();
         $programYearsById = [];
         foreach ($allProgramYears as $arr) {
+            unset($arr['stewards']);
             $programYearsById[$arr['id']] = $arr;
         }
 
