@@ -40,7 +40,6 @@ class ProgramDTO
 
     /**
      * @var int
-     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -48,7 +47,6 @@ class ProgramDTO
 
     /**
      * @var bool
-     * @IS\Expose
      * @IS\Type("boolean")
      * @deprecated
      */

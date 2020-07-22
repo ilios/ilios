@@ -104,7 +104,6 @@ class Program implements ProgramInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @IS\Expose
      * @IS\Type("boolean")
      *
      * @deprecated
@@ -119,7 +118,6 @@ class Program implements ProgramInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @IS\Expose
      * @IS\Type("boolean")
      *
      * @deprecated

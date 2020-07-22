@@ -49,7 +49,6 @@ class ProgramYearDTO
 
     /**
      * @var bool
-     * @IS\Expose
      * @IS\Type("boolean")
      * @deprecated
      */
@@ -57,7 +56,6 @@ class ProgramYearDTO
 
     /**
      * @var bool
-     * @IS\Expose
      * @IS\Type("boolean")
      * @deprecated
      */
