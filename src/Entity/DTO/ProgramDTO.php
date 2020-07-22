@@ -40,8 +40,8 @@ class ProgramDTO
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
-     *
      */
     public $duration;
 
@@ -54,7 +54,6 @@ class ProgramDTO
 
     /**
      * @var bool
-     * @IS\Expose
      * @IS\Type("boolean")
      * @deprecated
      */
