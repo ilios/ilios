@@ -158,6 +158,8 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $programYearsById = [];
         foreach ($allProgramYears as $arr) {
             unset($arr['stewards']);
+            unset($arr['published']);
+            unset($arr['publishedAsTbd']);
             $programYearsById[$arr['id']] = $arr;
         }
 
