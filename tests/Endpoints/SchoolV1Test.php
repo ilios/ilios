@@ -7,7 +7,7 @@ namespace App\Tests\Endpoints;
 use App\Tests\V1ReadEndpointTest;
 
 /**
- * School API endpoint Test.
+ * School API v1 endpoint Test.
  * @group api_5
  */
 class SchoolV1Test extends V1ReadEndpointTest
@@ -31,31 +31,6 @@ class SchoolV1Test extends V1ReadEndpointTest
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadReportData',
             'App\Tests\Fixture\LoadInstructorGroupData',
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'iliosAdministratorEmail' => ['iliosAdministratorEmail', $this->getFaker()->email],
-            'title' => ['title', $this->getFaker()->text(60)],
-            'templatePrefix' => ['templatePrefix', $this->getFaker()->text(8)],
-            'changeAlertRecipients' => ['changeAlertRecipients', $this->getFaker()->email],
-            'competencies' => ['competencies', [1], $skipped = true],
-            'courses' => ['courses', [1], $skipped = true],
-            'programs' => ['programs', [1], $skipped = true],
-            'departments' => ['departments', [1], $skipped = true],
-            'vocabularies' => ['vocabularies', [2], $skipped = true],
-            'instructorGroups' => ['instructorGroups', [1], $skipped = true],
-            'curriculumInventoryInstitution' => ['curriculumInventoryInstitution', 3, $skipped = true],
-            'sessionTypes' => ['sessionTypes', [1], $skipped = true],
-            'stewards' => ['stewards', [1], $skipped = true],
-            'directors' => ['directors', [2]],
-            'administrators' => ['administrators', [2]],
-            'configurations' => ['configurations', [1], $skipped = true],
         ];
     }
 
@@ -93,15 +68,5 @@ class SchoolV1Test extends V1ReadEndpointTest
             'administrators' => [[0], ['administrators' => [1]], $skipped = true],
             'configurations' => [[0], ['configurations' => [1]], $skipped = true],
         ];
-    }
-
-    /**
-     * We can't test deleting schools as sqlite doesn't enforce FK cascades
-     * This leaves us with bad data in the database which fails the tests
-     * when the SessionUser attempts to build its permission tree
-     */
-    public function testDelete()
-    {
-        $this->assertTrue(true);
     }
 }
