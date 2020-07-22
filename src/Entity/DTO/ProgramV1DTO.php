@@ -7,12 +7,11 @@ namespace App\Entity\DTO;
 use App\Annotation as IS;
 
 /**
- * Class ProgramDTO
- * Data transfer object for a Program
+ * Data transfer object for the Program API v1 endpoint.
  *
  * @IS\DTO("programs")
  */
-class ProgramDTO
+class ProgramV1DTO
 {
     /**
      * @var int
