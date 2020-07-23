@@ -216,6 +216,7 @@ class SessionDTO
     ) {
         $this->id = $id;
         $this->title = $title;
+        $this->description = $description;
         $this->attireRequired = $attireRequired;
         $this->equipmentRequired = $equipmentRequired;
         $this->supplemental = $supplemental;
