@@ -9,6 +9,8 @@ use App\Entity\Session;
 use DateTime;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\SessionDTO;
 
@@ -377,5 +379,16 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
         }
 
         return $qb;
+    }
+
+    /**
+     * @return int
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function getTotalSessionCount(): int
+    {
+        return (int) $this->_em->createQuery('SELECT COUNT(s.id) FROM App\Entity\Session s')
+            ->getSingleScalarResult();
     }
 }
