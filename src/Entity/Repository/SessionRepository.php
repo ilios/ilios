@@ -58,6 +58,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
             $sessionDTOs[$arr['id']] = new SessionDTO(
                 $arr['id'],
                 $arr['title'],
+                $arr['description'],
                 $arr['attireRequired'],
                 $arr['equipmentRequired'],
                 $arr['supplemental'],
