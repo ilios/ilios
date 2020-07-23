@@ -574,7 +574,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->andWhere($qb->expr()->eq('r.id', ':id'))
             ->groupBy('s.id')
             ->addGroupBy('s.title')
-            ->addGroupBy('sd.description')
+            ->addGroupBy('s.description')
             ->addGroupBy('am.id')
             ->addGroupBy('st.assessment')
             ->setParameter(':id', $report->getId());
