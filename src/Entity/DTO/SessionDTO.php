@@ -86,6 +86,13 @@ class SessionDTO
     public $updatedAt;
 
     /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $description;
+
+    /**
      * @var int
      * @IS\Expose
      * @IS\Related("sessionTypes")
@@ -197,6 +204,7 @@ class SessionDTO
     public function __construct(
         $id,
         $title,
+        $description,
         $attireRequired,
         $equipmentRequired,
         $supplemental,
