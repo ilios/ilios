@@ -10,7 +10,6 @@ use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadOfferingData;
-use App\Tests\Fixture\LoadSessionDescriptionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\GetUrlTrait;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
@@ -54,7 +53,6 @@ class DownloadControllerTest extends WebTestCase
             LoadOfferingData::class,
             LoadCourseLearningMaterialData::class,
             LoadSessionLearningMaterialData::class,
-            LoadSessionDescriptionData::class,
             LoadApplicationConfigData::class,
         ])->getReferenceRepository();
     }

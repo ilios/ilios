@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\OfferingData;
 use App\Tests\DataLoader\SessionData;
-use App\Tests\DataLoader\SessionDescriptionData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -35,7 +34,6 @@ class CourseTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadTermData',
             'App\Tests\Fixture\LoadCourseLearningMaterialData',
             'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadSessionDescriptionData',
             'App\Tests\Fixture\LoadOfferingData',
             'App\Tests\Fixture\LoadProgramYearData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
@@ -271,25 +269,6 @@ class CourseTest extends ReadWriteEndpointTest
 
         $this->assertEquals($firstSessionOfferings, $newSessionsData[0]['offerings']);
         $this->assertEquals($secondSessionOfferings, $newSessionsData[1]['offerings']);
-
-        $newDescriptionIds = array_map(function (array $session) {
-            return $session['sessionDescription'];
-        }, $newSessionsData);
-        $this->assertEquals(count($newDescriptionIds), 2);
-        $descriptions = $this->getContainer()->get(SessionDescriptionData::class)->getAll();
-        $lastDescriptionId = $descriptions[1]['id'];
-
-        $this->assertEquals($lastDescriptionId + 1, $newDescriptionIds[0], 'incremented description id 1');
-        $this->assertEquals($lastDescriptionId + 2, $newDescriptionIds[1], 'incremented description id 2');
-
-        $newDescriptionData = $this->getFiltered(
-            'sessiondescriptions',
-            'sessionDescriptions',
-            ['filters[id]' => $newDescriptionIds]
-        );
-
-        $this->assertEquals($newDescriptionData[0]['description'], $descriptions[0]['description']);
-        $this->assertEquals($newDescriptionData[1]['description'], $descriptions[1]['description']);
     }
 
     public function testRolloverCourseWithStartDate()
@@ -725,7 +704,6 @@ class CourseTest extends ReadWriteEndpointTest
             'ilmSession.instructors',
             'ilmSession.instructorGroups.users',
             'ilmSession.learnerGroups.users',
-            'sessionDescription',
             'terms.vocabulary',
             'meshDescriptors.trees',
         ];
@@ -745,7 +723,6 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertArrayHasKey('sessionObjectives', $includes);
         $this->assertArrayHasKey('courseObjectives', $includes);
         $this->assertArrayHasKey('meshDescriptors', $includes);
-        $this->assertArrayHasKey('sessionDescriptions', $includes);
         $this->assertArrayHasKey('sessionLearningMaterials', $includes);
         $this->assertArrayHasKey('learningMaterials', $includes);
         $this->assertArrayHasKey('users', $includes);
@@ -765,8 +742,6 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertEquals(['1'], $includes['courseObjectives']);
         $this->assertIsArray($includes['meshDescriptors']);
         $this->assertEquals(['abc1', 'abc2'], $includes['meshDescriptors']);
-        $this->assertIsArray($includes['sessionDescriptions']);
-        $this->assertEquals(['1', '2'], $includes['sessionDescriptions']);
         $this->assertIsArray($includes['sessionLearningMaterials']);
         $this->assertEquals(['1'], $includes['sessionLearningMaterials']);
         $this->assertIsArray($includes['learningMaterials']);

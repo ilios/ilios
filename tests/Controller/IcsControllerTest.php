@@ -47,7 +47,6 @@ class IcsControllerTest extends WebTestCase
             'App\Tests\Fixture\LoadOfferingData',
             'App\Tests\Fixture\LoadCourseLearningMaterialData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadSessionDescriptionData',
         ])->getReferenceRepository();
     }
 

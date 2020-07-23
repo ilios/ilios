@@ -41,6 +41,7 @@ class LoadSessionData extends AbstractFixture implements
                 'supplemental' => 'setSupplemental',
                 'attendanceRequired' => 'setAttendanceRequired',
                 'instructionalNotes' => 'setInstructionalNotes',
+                'description' => 'setSessionDescription',
             ];
             foreach ($properties as $key => $method) {
                 if (array_key_exists($key, $arr)) {

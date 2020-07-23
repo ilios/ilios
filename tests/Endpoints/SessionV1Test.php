@@ -22,7 +22,7 @@ class SessionV1Test extends V1ReadEndpointTest
         return [
             'App\Tests\Fixture\LoadSessionData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadSessionDescriptionData',
+            'App\Tests\Fixture\LoadSessionLearningMaterialData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
             'App\Tests\Fixture\LoadOfferingData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
@@ -67,7 +67,6 @@ class SessionV1Test extends V1ReadEndpointTest
         $this->assertEquals($v3Session['course'], $v1Session['course']);
         $this->assertEquals($v3Session['terms'], $v1Session['terms']);
         $this->assertEquals($v3Session['meshDescriptors'], $v1Session['meshDescriptors']);
-        $this->assertEquals($v3Session['sessionDescription'], $v1Session['sessionDescription']);
         $this->assertEquals($v3Session['administrators'], $v1Session['administrators']);
         $this->assertEquals($v3Session['offerings'], $v1Session['offerings']);
         $this->assertEquals($v3Session['prerequisites'], $v1Session['prerequisites']);

@@ -10,7 +10,6 @@ use App\Tests\DataLoader\CourseData;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\OfferingData;
 use App\Tests\DataLoader\SessionData;
-use App\Tests\DataLoader\SessionDescriptionData;
 use App\Tests\DataLoader\SessionTypeData;
 use App\Tests\DataLoader\UserData;
 use App\Tests\AbstractEndpointTest;
@@ -32,7 +31,6 @@ class UsereventTest extends AbstractEndpointTest
             'App\Tests\Fixture\LoadIlmSessionData',
             'App\Tests\Fixture\LoadUserData',
             'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadSessionDescriptionData',
             'App\Tests\Fixture\LoadLearningMaterialData',
             'App\Tests\Fixture\LoadCourseLearningMaterialData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
@@ -113,7 +111,6 @@ class UsereventTest extends AbstractEndpointTest
     {
         $offerings = $this->getContainer()->get(OfferingData::class)->getAll();
         $sessionTypes = $this->getContainer()->get(SessionTypeData::class)->getAll();
-        $sessionDescriptions = $this->getContainer()->get(SessionDescriptionData::class)->getAll();
         $ilmSessions = $this->getContainer()->get(IlmSessionData::class)->getAll();
         $courses = $this->getContainer()->get(CourseData::class)->getAll();
         $sessions = $this->getContainer()->get(SessionData::class)->getAll();
@@ -179,7 +176,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             $events[0]['sessionDescription'],
-            $sessionDescriptions[1]['description'],
+            $sessions[1]['description'],
             'session description is correct for event 0'
         );
         $this->assertEquals(
@@ -261,7 +258,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             $events[1]['sessionDescription'],
-            $sessionDescriptions[1]['description'],
+            $sessions[1]['description'],
             'session description is correct for event 1'
         );
         $this->assertEquals(
@@ -346,7 +343,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             $events[2]['sessionDescription'],
-            $sessionDescriptions[1]['description'],
+            $sessions[1]['description'],
             'session description is correct for event 2'
         );
         $this->assertEquals(
@@ -824,7 +821,7 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(
             $events[9]['sessionDescription'],
-            $sessionDescriptions[0]['description'],
+            $sessions[0]['description'],
             'session description is correct for event 9'
         );
         $this->assertEquals(
