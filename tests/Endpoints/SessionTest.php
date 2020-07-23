@@ -211,15 +211,15 @@ class SessionTest extends ReadWriteEndpointTest
         $this->relatedTimeStampDeleteTest(1, 'sessionlearningmaterials', $data['id']);
     }
 
-    // @todo update or remove [ST 2020/07/23]
-//    public function testSendingNullForSessionDescription()
-//    {
-//        $dataLoader = $this->getDataLoader();
-//        $data = $dataLoader->create();
-//        $postData = $data;
-//        $postData['sessionDescription'] = null;
-//        $this->postTest($data, $postData);
-//    }
+    public function testSendingNullForSessionDescription()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $postData['description'] = null;
+        $data['description'] = null;
+        $this->postTest($data, $postData);
+    }
 
     public function testRemoveLinksFromOrphanedObjectives()
     {
