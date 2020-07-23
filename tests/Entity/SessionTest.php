@@ -77,7 +77,19 @@ class SessionTest extends EntityBase
      */
     public function testSetTitle()
     {
-        $this->basicSetTest('title', 'string');
+        $description = 'lorem ipsum';
+        $this->object->setDescription($description);
+        $this->assertEquals($description, $this->object->getDescription());
+        $this->assertEquals($description, $this->object->getSessionDescription()->getDescription());
+    }
+
+    /**
+     * @covers \App\Entity\Session::setDescription
+     * @covers \App\Entity\Session::getDescription
+     */
+    public function testSetDescription()
+    {
+        $this->basicSetTest('description', 'string');
     }
 
     /**
