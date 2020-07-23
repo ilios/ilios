@@ -135,7 +135,6 @@ class SessionDTO
 
     /**
      * @var int
-     * @IS\Expose
      * @IS\Related("sessionDescriptions")
      * @IS\Type("string")
      */

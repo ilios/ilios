@@ -303,7 +303,6 @@ class Session implements SessionInterface
      *
      * @ORM\OneToOne(targetEntity="SessionDescription", mappedBy="session", cascade={"persist"})
      *
-     * @IS\Expose
      * @IS\Type("entity")
      * @deprecated
      */
