@@ -431,6 +431,7 @@ class Session implements SessionInterface
         $this->prerequisites = new ArrayCollection();
         $this->updatedAt = new DateTime();
         $this->sessionDescription = new SessionDescription();
+        $this->sessionDescription->setSession($this);
     }
 
     /**
