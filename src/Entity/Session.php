@@ -191,6 +191,25 @@ class Session implements SessionInterface
     protected $instructionalNotes;
 
     /**
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000,
+     *      allowEmptyString = true
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+     * @IS\RemoveMarkup
+     *
+     */
+    protected $description;
+
+    /**
      * @var SessionTypeInterface
      *
      * @Assert\NotNull()
@@ -410,7 +429,6 @@ class Session implements SessionInterface
         $this->administrators = new ArrayCollection();
         $this->studentAdvisors = new ArrayCollection();
         $this->prerequisites = new ArrayCollection();
-
         $this->updatedAt = new DateTime();
     }
 
@@ -764,5 +782,21 @@ class Session implements SessionInterface
         return array_map(function (SessionObjectiveInterface $sessionObjective) {
             return $sessionObjective->getObjective();
         }, $courseObjectives);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 }
