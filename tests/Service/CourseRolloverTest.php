@@ -24,7 +24,6 @@ use App\Entity\Manager\CourseManager;
 use App\Entity\Manager\IlmSessionManager;
 use App\Entity\Manager\LearningMaterialManager;
 use App\Entity\Manager\OfferingManager;
-use App\Entity\Manager\SessionDescriptionManager;
 use App\Entity\Manager\SessionLearningMaterialManager;
 use App\Entity\Manager\SessionManager;
 use App\Entity\MeshDescriptor;
@@ -34,8 +33,6 @@ use App\Entity\ProgramYear;
 use App\Entity\ProgramYearObjective;
 use App\Entity\School;
 use App\Entity\Session;
-use App\Entity\SessionDescription;
-use App\Entity\SessionDescriptionInterface;
 use App\Entity\SessionInterface;
 use App\Entity\SessionLearningMaterial;
 use App\Entity\SessionLearningMaterialInterface;
@@ -91,11 +88,6 @@ class CourseRolloverTest extends TestCase
     /**
      * @var m\MockInterface
      */
-    protected $sessionDescriptionManager;
-
-    /**
-     * @var m\MockInterface
-     */
     protected $ilmSessionManager;
 
     /**
@@ -129,7 +121,6 @@ class CourseRolloverTest extends TestCase
         $this->learningMaterialManager = m::mock(LearningMaterialManager::class);
         $this->courseLearningMaterialManager = m::mock(CourseLearningMaterialManager::class);
         $this->sessionManager = m::mock(SessionManager::class);
-        $this->sessionDescriptionManager = m::mock(SessionDescriptionManager::class);
         $this->sessionLearningMaterialManager = m::mock(SessionLearningMaterialManager::class);
         $this->offeringManager = m::mock(OfferingManager::class);
         $this->ilmSessionManager = m::mock(IlmSessionManager::class);
@@ -141,7 +132,6 @@ class CourseRolloverTest extends TestCase
             $this->learningMaterialManager,
             $this->courseLearningMaterialManager,
             $this->sessionManager,
-            $this->sessionDescriptionManager,
             $this->sessionLearningMaterialManager,
             $this->offeringManager,
             $this->ilmSessionManager,
@@ -161,7 +151,6 @@ class CourseRolloverTest extends TestCase
         unset($this->learningMaterialManager);
         unset($this->courseLearningMaterialManager);
         unset($this->sessionManager);
-        unset($this->sessionDescriptionManager);
         unset($this->sessionLearningMaterialManager);
         unset($this->offeringManager);
         unset($this->ilmSessionManager);
@@ -258,6 +247,7 @@ class CourseRolloverTest extends TestCase
         foreach ($course->getSessions() as $session) {
             $newSession = m::mock(SessionInterface::class);
             $newSession->shouldReceive('setTitle')->with($session->getTitle())->once();
+            $newSession->shouldReceive('setDescription')->with($session->getDescription())->once();
             $newSession->shouldReceive('setCourse')->with($newCourse)->once();
             $newSession->shouldReceive('setAttireRequired')->with($session->isAttireRequired())->once();
             $newSession->shouldReceive('setEquipmentRequired')->with($session->isEquipmentRequired())->once();
@@ -317,17 +307,6 @@ class CourseRolloverTest extends TestCase
                     ->andReturn($newLearningMaterial);
                 $this->sessionLearningMaterialManager->shouldReceive('update')->once()
                     ->withArgs([$newLearningMaterial, false, false]);
-            }
-
-            if ($oldDescription = $session->getSessionDescription()) {
-                $newDescription = m::mock(SessionDescriptionInterface::class);
-                $newDescription->shouldReceive('setDescription')->with($oldDescription->getDescription())->once();
-                $newSession->shouldReceive('setSessionDescription')->with($newDescription)->once();
-                $this->sessionDescriptionManager
-                    ->shouldReceive('create')->once()
-                    ->andReturn($newDescription);
-                $this->sessionDescriptionManager->shouldReceive('update')->once()
-                    ->withArgs([$newDescription, false, false]);
             }
 
             if ($oldIlmSession = $session->getIlmSession()) {
@@ -813,17 +792,6 @@ class CourseRolloverTest extends TestCase
                 $this->sessionLearningMaterialManager->shouldIgnoreMissing();
             }
 
-            if ($oldDescription = $session->getSessionDescription()) {
-                $newDescription = m::mock(SessionDescriptionInterface::class);
-                $newDescription->shouldReceive('setDescription')->with($oldDescription->getDescription())->once();
-                $newSession->shouldReceive('setSessionDescription')->with($newDescription)->once();
-                $this->sessionDescriptionManager
-                    ->shouldReceive('create')->once()
-                    ->andReturn($newDescription);
-                $this->sessionDescriptionManager->shouldReceive('update')->once()
-                    ->withArgs([$newDescription, false, false]);
-            }
-
             if ($oldIlmSession = $session->getIlmSession()) {
                 $newIlmSession = m::mock(IlmSessionInterface::class);
                 $newIlmSession->shouldReceive('setHours')->with($oldIlmSession->getHours())->once();
@@ -1283,6 +1251,7 @@ class CourseRolloverTest extends TestCase
         $course->addCohort($cohort);
 
         $session1 = new Session();
+        $session1->setDescription('test description');
         $session1->setSessionType(new SessionType());
 
         $ancestorSessionObjective = new SessionObjective();
@@ -1321,10 +1290,6 @@ class CourseRolloverTest extends TestCase
         $sessionTerm1 = new Term();
         $sessionTerm1->setId(808);
         $session1->addTerm($sessionTerm1);
-
-        $description = new SessionDescription();
-        $description->setDescription('test description');
-        $session1->setSessionDescription($description);
 
         $user = new User();
 
