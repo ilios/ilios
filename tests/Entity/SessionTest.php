@@ -309,20 +309,6 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Session::setSessionDescription
-     * @covers \App\Entity\Session::getSessionDescription
-     */
-    public function testSetSessionDescription()
-    {
-        $this->assertTrue(method_exists($this->object, 'getSessionDescription'), "Method missing");
-        $this->assertTrue(method_exists($this->object, 'setSessionDescription'), "Method missing");
-        $obj = m::mock('App\Entity\SessionDescription');
-        $obj->shouldReceive('setSession')->with($this->object)->once();
-        $this->object->setSessionDescription($obj);
-        $this->assertSame($obj, $this->object->getSessionDescription());
-    }
-
-    /**
      * @covers \App\Entity\Session::addSequenceBlock
      */
     public function testAddSequenceBlock()

@@ -430,8 +430,6 @@ class Session implements SessionInterface
         $this->studentAdvisors = new ArrayCollection();
         $this->prerequisites = new ArrayCollection();
         $this->updatedAt = new DateTime();
-        $this->sessionDescription = new SessionDescription();
-        $this->sessionDescription->setSession($this);
     }
 
     /**
@@ -563,17 +561,6 @@ class Session implements SessionInterface
     public function getIlmSession()
     {
         return $this->ilmSession;
-    }
-
-    /**
-     * @param SessionDescriptionInterface $sessionDescription
-     */
-    public function setSessionDescription(SessionDescriptionInterface $sessionDescription = null)
-    {
-        $this->sessionDescription = $sessionDescription;
-        if ($sessionDescription) {
-            $sessionDescription->setSession($this);
-        }
     }
 
     /**
@@ -792,7 +779,16 @@ class Session implements SessionInterface
     public function setDescription($description): void
     {
         $this->description = $description;
-        $this->sessionDescription->setDescription($description);
+
+        // set the given description on the legacy session-description object.
+        // create it on the fly if it doesn't exist.
+        $sessionDescription = $this->getSessionDescription();
+        if (! $sessionDescription) {
+            $sessionDescription = new SessionDescription();
+            $sessionDescription->setSession($this);
+            $this->sessionDescription = $sessionDescription;
+        }
+        $sessionDescription->setDescription($description);
     }
 
     /**

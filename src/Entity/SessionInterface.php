@@ -122,12 +122,6 @@ interface SessionInterface extends
     public function getIlmSession();
 
     /**
-     * @param SessionDescriptionInterface $sessionDescripiton
-     * @deprecated
-     */
-    public function setSessionDescription(SessionDescriptionInterface $sessionDescripiton);
-
-    /**
      * @return SessionDescription
      * @deprecated
      */
