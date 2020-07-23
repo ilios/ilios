@@ -301,7 +301,7 @@ class Session implements SessionInterface
     /**
      * @var SessionDescription
      *
-     * @ORM\OneToOne(targetEntity="SessionDescription", mappedBy="session")
+     * @ORM\OneToOne(targetEntity="SessionDescription", mappedBy="session", cascade={"persist"})
      *
      * @IS\Expose
      * @IS\Type("entity")
@@ -430,6 +430,7 @@ class Session implements SessionInterface
         $this->studentAdvisors = new ArrayCollection();
         $this->prerequisites = new ArrayCollection();
         $this->updatedAt = new DateTime();
+        $this->sessionDescription = new SessionDescription();
     }
 
     /**
@@ -790,6 +791,7 @@ class Session implements SessionInterface
     public function setDescription($description): void
     {
         $this->description = $description;
+        $this->sessionDescription->setDescription($description);
     }
 
     /**
