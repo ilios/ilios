@@ -305,6 +305,7 @@ class Session implements SessionInterface
      *
      * @IS\Expose
      * @IS\Type("entity")
+     * @deprecated
      */
     protected $sessionDescription;
 

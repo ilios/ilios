@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/api/{version<v1|v3>}/sessiondescriptions")
+ * @deprecated
  */
 class SessionDescriptions extends ReadWriteController
 {

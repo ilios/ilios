@@ -123,11 +123,13 @@ interface SessionInterface extends
 
     /**
      * @param SessionDescriptionInterface $sessionDescripiton
+     * @deprecated
      */
     public function setSessionDescription(SessionDescriptionInterface $sessionDescripiton);
 
     /**
      * @return SessionDescription
+     * @deprecated
      */
     public function getSessionDescription();
 

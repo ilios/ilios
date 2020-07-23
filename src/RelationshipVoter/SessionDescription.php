@@ -8,6 +8,10 @@ use App\Classes\SessionUserInterface;
 use App\Entity\SessionDescriptionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
+/**
+ * @package App\RelationshipVoter
+ * @deprecated
+ */
 class SessionDescription extends AbstractVoter
 {
     protected function supports($attribute, $subject)

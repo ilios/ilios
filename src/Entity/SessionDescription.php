@@ -19,6 +19,7 @@ use App\Traits\StringableIdEntity;
  * @ORM\Entity(repositoryClass="App\Entity\Repository\SessionDescriptionRepository")
  *
  * @IS\Entity
+ * @deprecated
  */
 class SessionDescription implements SessionDescriptionInterface
 {
