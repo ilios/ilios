@@ -779,10 +779,10 @@ class Session implements SessionInterface
      */
     public function getObjectives(): array
     {
-        $courseObjectives = $this->getSessionObjectives()->toArray();
+        $sessionObjectives = $this->getSessionObjectives()->toArray();
         return array_map(function (SessionObjectiveInterface $sessionObjective) {
             return $sessionObjective->getObjective();
-        }, $courseObjectives);
+        }, $sessionObjectives);
     }
 
     /**
