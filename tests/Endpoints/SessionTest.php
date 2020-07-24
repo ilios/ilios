@@ -62,6 +62,7 @@ class SessionTest extends ReadWriteEndpointTest
             'published' => ['published', false],
             'instructionalNotes' => ['instructionalNotes', $this->getFaker()->text],
             'emptyInstructionalNotes' => ['instructionalNotes', ''],
+            'nullInstructionalNotes' => ['instructionalNotes', null],
             'sessionType' => ['sessionType', 2],
             'course' => ['course', 2],
             'ilmSession' => ['ilmSession', 1],
@@ -76,8 +77,7 @@ class SessionTest extends ReadWriteEndpointTest
             'prerequisites' => ['prerequisites', [2]],
             'description' => ['description', $this->getFaker()->text],
             'blankDescription' => ['description', ''],
-            // @todo This will work after #2992 is resolved, un-skip then. [ST 2020/07/24]
-            'nullDescription' => ['description', null, $skipped = true],
+            'nullDescription' => ['description', null],
         ];
     }
 

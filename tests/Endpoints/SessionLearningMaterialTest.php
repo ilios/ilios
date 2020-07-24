@@ -34,6 +34,8 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
     {
         return [
             'notes' => ['notes', $this->getFaker()->text],
+            'emptyNotees' => ['notes', ''],
+            'nullNotes' => ['notes', null],
             'required' => ['required', false],
             'publicNotes' => ['publicNotes', true],
             'session' => ['session', 3],

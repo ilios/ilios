@@ -194,7 +194,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
             $value = trim($value);
         }
 
-        if ($this->entityMetadata->isPropertyRemoveMarkup($property)) {
+        if (null !== $value and $this->entityMetadata->isPropertyRemoveMarkup($property)) {
             $value = $this->purifier->purify($value);
         }
 
