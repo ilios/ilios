@@ -32,6 +32,8 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
     {
         return [
             'notes' => ['notes', $this->getFaker()->text],
+            'emptyNotes' => ['notes', ''],
+            'nullNotes' => ['notes', null],
             'required' => ['required', false],
             'publicNotes' => ['publicNotes', false],
             'course' => ['course', 4],
