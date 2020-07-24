@@ -5,28 +5,28 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Classes\JsonApiData;
-use App\Normalizer\JsonApiDTONormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 
 class JsonApiDataShaper
 {
-    /**
-     * @var EntityManagerLookup
-     */
-    protected $entityManagerLookup;
-    /**
-     * @var JsonApiDTONormalizer
-     */
-    protected $normalizer;
+    use NormalizerAwareTrait;
 
-    public function __construct(EntityManagerLookup $entityManagerLookup, JsonApiDTONormalizer $normalizer)
-    {
+    protected EntityManagerLookup $entityManagerLookup;
+
+    public function __construct(
+        EntityManagerLookup $entityManagerLookup
+    ) {
         $this->entityManagerLookup = $entityManagerLookup;
-        $this->normalizer = $normalizer;
     }
 
     public function shapeData(array $data, array $sideLoadFields): array
     {
-        $jsonApiData = new JsonApiData($this->entityManagerLookup, $this->normalizer, $data, $sideLoadFields);
+        $jsonApiData = new JsonApiData(
+            $this->entityManagerLookup,
+            $this->normalizer,
+            $data,
+            $sideLoadFields
+        );
         return $jsonApiData->toArray();
     }
 

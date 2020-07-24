@@ -5,6 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Entity\LearningMaterialStatusInterface;
+use App\Tests\Fixture\LoadCourseData;
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadLearningMaterialData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,13 +44,12 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadLearningMaterialData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadCourseLearningMaterialData',
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadOfferingData',
+            LoadLearningMaterialData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadCourseLearningMaterialData::class,
+            LoadOfferingData::class,
+            LoadSessionData::class,
+            LoadCourseData::class,
         ];
     }
 
@@ -159,7 +164,15 @@ class LearningMaterialTest extends ReadWriteEndpointTest
 
                 $response = $this->kernelBrowser->getResponse();
 
-                $this->assertJsonResponse($response, Response::HTTP_OK, false);
+                $this->assertEquals(
+                    Response::HTTP_OK,
+                    $response->getStatusCode(),
+                    'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 1000)
+                );
+                $this->assertEquals(
+                    file_get_contents(LoadLearningMaterialData::TEST_FILE_PATH),
+                    $response->getContent()
+                );
             }
         }
     }
@@ -339,9 +352,12 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         );
 
         $response = $this->kernelBrowser->getResponse();
-
-
-        $this->assertJsonResponse($response, Response::HTTP_OK, false);
+        $this->assertEquals(
+            Response::HTTP_OK,
+            $response->getStatusCode(),
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 1000)
+        );
+        $this->assertEquals(file_get_contents($fakeTestFileDir . '/TESTFILE.txt'), $response->getContent());
     }
 
     public function testPostBadLearningMaterialCitation()
@@ -358,5 +374,45 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->createInvalidLink();
         $this->badPostTest($data);
+    }
+
+    /**
+     * Ensure when LMs are sideloaded they have a correct URL path
+     */
+    public function testSideLoadedFileUrl()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $data = $all[2];
+        $this->assertEquals('thirdlm', $data['title']);
+        $this->assertEquals('testfile.txt', $data['filename']);
+        $id = (string) $data['id'];
+        $includes = $this->getJsonApiIncludeContent(
+            'sessions',
+            '3',
+            'learningMaterials.learningMaterial'
+        );
+        $lms = array_filter($includes, function (object $obj) use ($id) {
+            return $obj->id === $id && $obj->type === 'learningMaterials';
+        });
+        $lm = array_shift($lms);
+        $this->assertEquals('thirdlm', $lm->attributes->title);
+        $this->assertObjectHasAttribute('absoluteFileUri', $lm->attributes);
+        $this->assertNotEmpty($lm->attributes->absoluteFileUri);
+        $this->kernelBrowser->request(
+            'GET',
+            $lm->attributes->absoluteFileUri
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(
+            Response::HTTP_OK,
+            $response->getStatusCode(),
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 1000)
+        );
+
+        $this->assertEquals(
+            file_get_contents(LoadLearningMaterialData::TEST_FILE_PATH),
+            $response->getContent()
+        );
     }
 }

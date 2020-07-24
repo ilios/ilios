@@ -13,7 +13,6 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\IliosFileSystem;
-use App\Service\LearningMaterialDecoratorFactory;
 use App\Service\TemporaryFileSystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,25 +39,13 @@ use RuntimeException;
 
 class LearningMaterials
 {
-    /**
-     * @var LearningMaterialManager
-     */
-    protected $manager;
+    protected LearningMaterialManager $manager;
+    protected string $endpoint;
 
-    /**
-     * @var string
-     */
-    protected $endpoint;
-    /**
-     * @var LearningMaterialDecoratorFactory
-     */
-    protected $decoratorFactory;
-
-    public function __construct(LearningMaterialManager $manager, LearningMaterialDecoratorFactory $decoratorFactory)
+    public function __construct(LearningMaterialManager $manager)
     {
         $this->manager = $manager;
         $this->endpoint = 'learningmaterials';
-        $this->decoratorFactory = $decoratorFactory;
     }
 
     /**
@@ -91,9 +78,7 @@ class LearningMaterials
             if (! $sessionUser->performsNonLearnerFunction()) {
                 $dto->clearMaterial();
             }
-            $values = [
-                $this->decoratorFactory->create($dto)
-            ];
+            $values = [$dto];
         }
 
         return $builder->buildResponseForGetOneRequest($this->endpoint, $values, Response::HTTP_OK, $request);
@@ -142,13 +127,13 @@ class LearningMaterials
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
-        $values = [];
-        foreach ($filteredResults as $object) {
+        $values = array_map(function (LearningMaterialDTO $dto) use ($sessionUser) {
             if (! $sessionUser->performsNonLearnerFunction()) {
-                $object->clearMaterial();
+                $dto->clearMaterial();
             }
-            $values[] = $this->decoratorFactory->create($object);
-        }
+
+            return $dto;
+        }, $filteredResults);
 
         return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
@@ -235,7 +220,7 @@ class LearningMaterials
         foreach ($entities as $entity) {
             $entity->generateToken();
             $this->manager->update($entity, false);
-            $values[] = $this->decoratorFactory->create($entity);
+            $values[] = $entity;
         }
         $this->manager->flush();
 
@@ -293,7 +278,7 @@ class LearningMaterials
 
         return $builder->buildResponseForPutRequest(
             $this->endpoint,
-            $this->decoratorFactory->create($entity),
+            $entity,
             $code,
             $request
         );
@@ -346,10 +331,11 @@ class LearningMaterials
         }
 
         $this->manager->update($entity, true, false);
+        $dto = $this->manager->findDTOBy(['id' => $entity->getId()]);
 
         return $builder->buildResponseForPatchRequest(
             $this->endpoint,
-            $this->decoratorFactory->create($entity),
+            $dto,
             Response::HTTP_OK,
             $request
         );

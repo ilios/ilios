@@ -356,6 +356,20 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function getJsonApiIncludes(string $endpoint, string $id, string $include): array
     {
+        $included = $this->getJsonApiIncludeContent($endpoint, $id, $include);
+        return array_reduce($included, function (array $carry, object $obj) {
+            if (!array_key_exists($obj->type, $carry)) {
+                $carry[$obj->type] = [];
+            }
+            $carry[$obj->type][] = $obj->id;
+            sort($carry[$obj->type]);
+
+            return $carry;
+        }, []);
+    }
+
+    protected function getJsonApiIncludeContent(string $endpoint, string $id, string $include): array
+    {
         $url = $this->getUrl(
             $this->kernelBrowser,
             "app_api_${endpoint}_getone",
@@ -378,15 +392,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $content = json_decode($response->getContent());
         $this->assertObjectHasAttribute('included', $content);
 
-        return array_reduce($content->included, function (array $carry, object $obj) {
-            if (!array_key_exists($obj->type, $carry)) {
-                $carry[$obj->type] = [];
-            }
-            $carry[$obj->type][] = $obj->id;
-            sort($carry[$obj->type]);
-
-            return $carry;
-        }, []);
+        return $content->included;
     }
 
     /**
