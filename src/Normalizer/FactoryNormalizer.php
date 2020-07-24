@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Normalizer;
 
+use App\Entity\DTO\CurriculumInventoryReportDTO;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterial;
 use App\Service\CurriculumInventoryReportDecoratorFactory;
@@ -40,6 +41,9 @@ class FactoryNormalizer implements ContextAwareNormalizerInterface, Normalizatio
             case LearningMaterialDTO::class:
                 $object = $this->learningMaterialDecoratorFactory->create($object);
                 break;
+            case CurriculumInventoryReportDTO::class:
+                $object = $this->curriculumInventoryReportDecoratorFactory->create($object);
+                break;
             default:
                 throw new Exception("${class} fell through switch statement, should it have been decorated?");
         }
@@ -65,6 +69,7 @@ class FactoryNormalizer implements ContextAwareNormalizerInterface, Normalizatio
         $decoratedTypes = [
             LearningMaterial::class,
             LearningMaterialDTO::class,
+            CurriculumInventoryReportDTO::class,
         ];
         $class = is_object($classNameOrObject) ? get_class($classNameOrObject) : $classNameOrObject;
         return in_array($class, $decoratedTypes);

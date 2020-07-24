@@ -156,35 +156,4 @@ class CurriculumInventoryReportDTO
         $this->sequenceBlocks = [];
         $this->administrators = [];
     }
-
-    public static function createFromEntity(CurriculumInventoryReportInterface $report): CurriculumInventoryReportDTO
-    {
-        $dto = new CurriculumInventoryReportDTO(
-            $report->getId(),
-            $report->getName(),
-            $report->getDescription(),
-            $report->getYear(),
-            $report->getStartDate(),
-            $report->getEndDate(),
-            $report->getToken(),
-        );
-
-        $dto->export = $report->getExport() ? (string) $report->getExport() : null;
-        $dto->sequence = $report->getSequence() ? (string) $report->getSequence() : null;
-        $dto->program = $report->getProgram() ? (string) $report->getProgram() : null;
-
-        $sequenceBlockIds = $report->getSequenceBlocks()
-            ->map(function (CurriculumInventorySequenceBlockInterface $block) {
-                return (string) $block;
-            });
-        $dto->sequenceBlocks = $sequenceBlockIds->toArray();
-
-        $academicLevelIds = $report->getAcademicLevels()
-            ->map(function (CurriculumInventoryAcademicLevelInterface $level) {
-                return (string) $level;
-            });
-        $dto->academicLevels = $academicLevelIds->toArray();
-
-        return $dto;
-    }
 }

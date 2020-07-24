@@ -11,11 +11,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class CurriculumInventoryReportDecoratorFactory
 {
-
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
+    protected RouterInterface $router;
 
     /**
      * @param RouterInterface $router
@@ -25,39 +21,14 @@ class CurriculumInventoryReportDecoratorFactory
         $this->router = $router;
     }
 
-    /**
-     * @param $report
-     * @return CurriculumInventoryReportDTO
-     * @throws \Exception
-     */
-    public function create(
-        $report
-    ) {
-        if ($report instanceof CurriculumInventoryReportInterface) {
-            $dto = CurriculumInventoryReportDTO::createFromEntity($report);
-            return $this->decorateDto($dto);
-        }
-
-        if ($report instanceof CurriculumInventoryReportDTO) {
-            return $this->decorateDto($report);
-        }
-
-        throw new \Exception(get_class($report) . " cannot be decorated");
-    }
-
-    /**
-     * @param CurriculumInventoryReportDTO $reportDTO
-     *
-     * @return CurriculumInventoryReportDTO
-     */
-    protected function decorateDto(CurriculumInventoryReportDTO $reportDTO)
+    public function create(CurriculumInventoryReportDTO $report): CurriculumInventoryReportDTO
     {
-        $reportDTO->absoluteFileUri = $this->router->generate(
+        $report->absoluteFileUri = $this->router->generate(
             'ilios_downloadcurriculuminventoryreport',
-            ['token' => $reportDTO->token],
+            ['token' => $report->token],
             UrlGenerator::ABSOLUTE_URL
         );
 
-        return $reportDTO;
+        return $report;
     }
 }
