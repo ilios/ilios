@@ -10,10 +10,11 @@ use App\Entity\Manager\CourseLearningMaterialManager;
 use App\Entity\Manager\CourseObjectiveManager;
 use App\Entity\Manager\LearningMaterialManager;
 use App\Entity\Manager\ProgramYearObjectiveManager;
-use App\Entity\Manager\SessionDescriptionManager;
 use App\Entity\Manager\SessionLearningMaterialManager;
+use App\Entity\Manager\SessionManager;
 use App\Entity\Manager\SessionObjectiveManager;
 use App\Entity\ProgramYearObjectiveInterface;
+use App\Entity\SessionInterface;
 use App\Entity\SessionObjectiveInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use HTMLPurifier;
@@ -41,8 +42,8 @@ class CleanupStringsCommandTest extends KernelTestCase
     protected $learningMaterialManager;
     protected $courseLearningMaterialManager;
     protected $sessionLearningMaterialManager;
-    protected $sessionDescriptionManager;
-    protected $commandTester;
+    protected $sessionManager;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -54,7 +55,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->learningMaterialManager = m::mock(LearningMaterialManager::class);
         $this->courseLearningMaterialManager = m::mock(CourseLearningMaterialManager::class);
         $this->sessionLearningMaterialManager = m::mock(SessionLearningMaterialManager::class);
-        $this->sessionDescriptionManager = m::mock(SessionDescriptionManager::class);
+        $this->sessionManager = m::mock(SessionManager::class);
         $this->em = m::mock(EntityManagerInterface::class);
 
         $command = new CleanupStringsCommand(
@@ -63,7 +64,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             $this->learningMaterialManager,
             $this->courseLearningMaterialManager,
             $this->sessionLearningMaterialManager,
-            $this->sessionDescriptionManager,
+            $this->sessionManager,
             $this->sessionObjectiveManager,
             $this->courseObjectiveManager,
             $this->programYearObjectiveManager
@@ -89,7 +90,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         unset($this->learningMaterialManager);
         unset($this->courseLearningMaterialManager);
         unset($this->sessionLearningMaterialManager);
-        unset($this->sessionDescriptionManager);
+        unset($this->sessionManager);
         unset($this->commandTester);
     }
 
@@ -252,18 +253,18 @@ class CleanupStringsCommandTest extends KernelTestCase
 
     public function testSessionDescription()
     {
-        $clean = m::mock('App\Entity\SessionDescriptionInterface')
+        $clean = m::mock(SessionInterface::class)
             ->shouldReceive('getDescription')->andReturn('clean title')
             ->mock();
-        $dirty = m::mock('App\Entity\SessionDescriptionInterface')
+        $dirty = m::mock(SessionInterface::class)
             ->shouldReceive('getDescription')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setDescription')->with('<h1>html title</h1>')
             ->mock();
-        $this->sessionDescriptionManager->shouldReceive('findBy')
+        $this->sessionManager->shouldReceive('findBy')
             ->with([], ['id' => 'ASC'], 500, 1)
             ->andReturn([$clean, $dirty]);
-        $this->sessionDescriptionManager->shouldReceive('update')->with($dirty, false);
-        $this->sessionDescriptionManager->shouldReceive('getTotalSessionDescriptionCount')->andReturn(2);
+        $this->sessionManager->shouldReceive('update')->with($dirty, false);
+        $this->sessionManager->shouldReceive('getTotalSessionCount')->andReturn(2);
 
         $this->purifier->shouldReceive('purify')->with('clean title')->andReturn('clean title');
         $this->purifier->shouldReceive('purify')

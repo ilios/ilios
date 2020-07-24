@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\LearningMaterialData;
-use App\Tests\DataLoader\SessionDescriptionData;
 use App\Tests\DataLoader\SessionLearningMaterialData;
 use App\Tests\ReadWriteEndpointTest;
 
@@ -29,7 +28,6 @@ class SessionTest extends ReadWriteEndpointTest
         return [
             'App\Tests\Fixture\LoadSessionData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadSessionDescriptionData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
             'App\Tests\Fixture\LoadOfferingData',
             'App\Tests\Fixture\LoadSessionLearningMaterialData',
@@ -76,6 +74,10 @@ class SessionTest extends ReadWriteEndpointTest
             'postrequisite' => ['postrequisite', 2],
             'emptyPostrequisite' => ['postrequisite', null],
             'prerequisites' => ['prerequisites', [2]],
+            'description' => ['description', $this->getFaker()->text],
+            'blankDescription' => ['description', ''],
+            // @todo This will work after #2992 is resolved, un-skip then. [ST 2020/07/24]
+            'nullDescription' => ['description', null, $skipped = true],
         ];
     }
 
@@ -211,30 +213,6 @@ class SessionTest extends ReadWriteEndpointTest
         $dataLoader = $this->getContainer()->get(SessionLearningMaterialData::class);
         $data = $dataLoader->getOne();
         $this->relatedTimeStampDeleteTest(1, 'sessionlearningmaterials', $data['id']);
-    }
-
-    public function testDeletingSessionDescriptionUpdatesSessionStamp()
-    {
-        $dataLoader = $this->getContainer()->get(SessionDescriptionData::class);
-        $data = $dataLoader->getOne();
-        $this->relatedTimeStampDeleteTest($data['session'], 'sessiondescriptions', $data['id']);
-    }
-
-    public function testUpdatingSessionDescriptionUpdatesSessionStamp()
-    {
-        $dataLoader = $this->getContainer()->get(SessionDescriptionData::class);
-        $data = $dataLoader->getOne();
-        $data['description'] = 'new description';
-        $this->relatedTimeStampUpdateTest($data['session'], 'sessiondescriptions', 'sessionDescription', $data);
-    }
-
-    public function testSendingNullForSessionDescription()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $postData['sessionDescription'] = null;
-        $this->postTest($data, $postData);
     }
 
     public function testRemoveLinksFromOrphanedObjectives()

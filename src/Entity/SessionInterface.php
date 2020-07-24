@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\DescribableEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
 use App\Traits\SessionObjectivesEntityInterface;
 use App\Traits\StudentAdvisorsEntityInterface;
@@ -37,7 +38,8 @@ interface SessionInterface extends
     AdministratorsEntityInterface,
     StudentAdvisorsEntityInterface,
     IndexableCoursesEntityInterface,
-    SessionObjectivesEntityInterface
+    SessionObjectivesEntityInterface,
+    DescribableEntityInterface
 {
     /**
      * @param bool $attireRequired
@@ -120,12 +122,8 @@ interface SessionInterface extends
     public function getIlmSession();
 
     /**
-     * @param SessionDescriptionInterface $sessionDescripiton
-     */
-    public function setSessionDescription(SessionDescriptionInterface $sessionDescripiton);
-
-    /**
      * @return SessionDescription
+     * @deprecated
      */
     public function getSessionDescription();
 

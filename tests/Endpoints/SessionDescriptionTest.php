@@ -4,16 +4,23 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\AbstractEndpointTest;
 use App\Tests\DataLoader\SessionData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadSessionObjectiveData;
+use DateTime;
 
 /**
  * SessionDescription API endpoint Test.
  * @group api_5
  */
-class SessionDescriptionTest extends ReadWriteEndpointTest
+class SessionDescriptionTest extends AbstractEndpointTest
 {
     protected $testName =  'sessionDescriptions';
+
+    protected $apiVersion = 'v1';
 
     /**
      * @inheritdoc
@@ -21,79 +28,67 @@ class SessionDescriptionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadSessionDescriptionData',
-            'App\Tests\Fixture\LoadSessionData'
+            LoadSessionData::class,
+            LoadSessionObjectiveData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadOfferingData::class,
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest()
-    {
-        return [
-            'description' => ['description', $this->getFaker()->text],
-            'session' => ['session', 3],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest()
-    {
-        return [
-            'id' => ['id', 1, 99],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest()
-    {
-        return [
-            'id' => [[0], ['id' => 1]],
-            'ids' => [[0, 1], ['id' => [1, 2]]],
-            'session' => [[1], ['session' => 2]],
-            'description' => [[1], ['description' => 'second description']],
-        ];
-    }
-
-    /**
-     * We need to create additional sessions to
-     * go with each new SessionDescription
-     */
-    protected function createMany(int $count): array
+    public function testGetOne()
     {
         $sessionDataLoader = $this->getContainer()->get(SessionData::class);
-        $sessions = $sessionDataLoader->createMany($count);
-        $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
-
-        $dataLoader = $this->getDataLoader();
-        $data = [];
-
-        foreach ($savedSessions as $i => $session) {
-            $arr = $dataLoader->create();
-            $arr['id'] += $i;
-            $arr['session'] = $session['id'];
-
-            $data[] = $arr;
-        }
-
-        return $data;
+        $sessionData = $sessionDataLoader->getOne();
+        $session = $this->getOne('sessions', 'sessions', $sessionData['id']);
+        $sessionV3 = $this->getOne('sessions', 'sessions', $sessionData['id'], 'v3');
+        $sessionDescription = $this->getOne(
+            'sessiondescriptions',
+            'sessionDescriptions',
+            $session['sessionDescription']
+        );
+        $this->assertNotEmpty($sessionDescription['description']);
+        $this->assertEquals($sessionV3['description'], $sessionDescription['description']);
     }
 
-    public function testPostMany()
+    public function testCreateDescription()
     {
-        $data = $this->createMany(51);
-        $this->postManyTest($data);
+        $sessionDataLoader = $this->getContainer()->get(SessionData::class);
+        $sessionData = $sessionDataLoader->create();
+        $description = 'Lorem Ipsum';
+        $sessionData['description'] = $description;
+        $sessionV3 = $this->postOne('sessions', 'session', 'sessions', $sessionData, 'v3');
+        $session = $this->getOne('sessions', 'sessions', $sessionV3['id']);
+        $sessionDescription = $this->getOne(
+            'sessiondescriptions',
+            'sessionDescriptions',
+            $session['sessionDescription']
+        );
+        $this->assertEquals($description, $sessionDescription['description']);
     }
 
-    public function testPostManyJsonApi()
+    public function testUpdateDescription()
     {
-        $data = $this->createMany(10);
-        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
-        $this->postManyJsonApiTest($jsonApiData, $data);
+        $sessionDataLoader = $this->getContainer()->get(SessionData::class);
+        $sessionData = $sessionDataLoader->getOne();
+        $oldDescription = $sessionData['description'];
+        $newDescription = (new DateTime())->format('Y-m-d H:i:s');
+        $sessionData['description'] = $newDescription;
+        $this->putOne(
+            'sessions',
+            'session',
+            $sessionData['id'],
+            $sessionData,
+            false,
+            2,
+            'v3'
+        );
+        $session = $this->getOne('sessions', 'sessions', $sessionData['id']);
+        $sessionDescription = $this->getOne(
+            'sessiondescriptions',
+            'sessionDescriptions',
+            $session['sessionDescription']
+        );
+        $this->assertNotEquals($oldDescription, $newDescription);
+        $this->assertEquals($newDescription, $sessionDescription['description']);
     }
 }

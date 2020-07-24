@@ -21,8 +21,6 @@ use App\Entity\Manager\SessionManager;
 use App\Entity\OfferingInterface;
 use App\Entity\ProgramYearObjectiveInterface;
 use App\Entity\SessionInterface;
-use App\Entity\Manager\SessionDescriptionManager;
-use App\Entity\SessionDescriptionInterface;
 use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\SessionObjectiveInterface;
 use DateInterval;
@@ -56,11 +54,6 @@ class CourseRollover
      * @var SessionManager
      */
     protected $sessionManager;
-
-    /**
-     * @var SessionDescriptionManager
-     */
-    protected $sessionDescriptionManager;
 
     /**
      * @var SessionLearningMaterialManager;
@@ -99,7 +92,6 @@ class CourseRollover
      * @param LearningMaterialManager $learningMaterialManager
      * @param CourseLearningMaterialManager $courseLearningMaterialManager
      * @param SessionManager $sessionManager
-     * @param SessionDescriptionManager $sessionDescriptionManager
      * @param SessionLearningMaterialManager $sessionLearningMaterialManager
      * @param OfferingManager $offeringManager
      * @param IlmSessionManager $ilmSessionManager
@@ -112,7 +104,6 @@ class CourseRollover
         LearningMaterialManager $learningMaterialManager,
         CourseLearningMaterialManager $courseLearningMaterialManager,
         SessionManager $sessionManager,
-        SessionDescriptionManager $sessionDescriptionManager,
         SessionLearningMaterialManager $sessionLearningMaterialManager,
         OfferingManager $offeringManager,
         IlmSessionManager $ilmSessionManager,
@@ -124,7 +115,6 @@ class CourseRollover
         $this->learningMaterialManager = $learningMaterialManager;
         $this->courseLearningMaterialManager = $courseLearningMaterialManager;
         $this->sessionManager = $sessionManager;
-        $this->sessionDescriptionManager = $sessionDescriptionManager;
         $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
         $this->offeringManager = $offeringManager;
         $this->ilmSessionManager = $ilmSessionManager;
@@ -303,19 +293,7 @@ class CourseRollover
             $newSession->setPublishedAsTbd(0);
             $newSession->setPublished(0);
             $newSession->setInstructionalNotes($origCourseSession->getInstructionalNotes());
-
-            //now check for a session description and, if there is one, set it...
-            $origSessionDescription = $origCourseSession->getSessionDescription();
-
-            if (!empty($origSessionDescription)) {
-                /* @var SessionDescriptionInterface $newSessionDescription */
-                $newSessionDescription = $this->sessionDescriptionManager->create();
-
-                $newSessionDescriptionText = $origSessionDescription->getDescription();
-                $newSessionDescription->setDescription($newSessionDescriptionText);
-                $newSession->setSessionDescription($newSessionDescription);
-                $this->sessionDescriptionManager->update($newSessionDescription, false, false);
-            }
+            $newSession->setDescription($origCourseSession->getDescription());
 
             //SESSION LEARNING MATERIALS
             if (empty($options['skip-session-learning-materials'])) {

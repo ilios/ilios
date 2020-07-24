@@ -9,6 +9,8 @@ use App\Entity\Session;
 use DateTime;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\SessionDTO;
 
@@ -58,6 +60,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
             $sessionDTOs[$arr['id']] = new SessionDTO(
                 $arr['id'],
                 $arr['title'],
+                $arr['description'],
                 $arr['attireRequired'],
                 $arr['equipmentRequired'],
                 $arr['supplemental'],
@@ -110,7 +113,7 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
             's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
-                'sd.id AS descId, school.id as schoolId, postrequisite.id as postrequisiteId'
+                'school.id as schoolId, postrequisite.id as postrequisiteId'
         )
             ->from(Session::class, 's')
             ->join('s.course', 'c')
@@ -118,7 +121,6 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
             ->join('s.sessionType', 'st')
             ->leftJoin('s.postrequisite', 'postrequisite')
             ->leftJoin('s.ilmSession', 'ilm')
-            ->leftJoin('s.sessionDescription', 'sd')
             ->where($qb->expr()->in('s.id', ':sessionIds'))
             ->setParameter('sessionIds', $sessionIds);
 
@@ -127,7 +129,6 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
             $sessionDTOs[$arr['sessionId']]->school = $arr['schoolId'];
             $sessionDTOs[$arr['sessionId']]->sessionType = $arr['sessionTypeId'];
             $sessionDTOs[$arr['sessionId']]->ilmSession = $arr['ilmId'] ? $arr['ilmId'] : null;
-            $sessionDTOs[$arr['sessionId']]->sessionDescription = $arr['descId'] ? $arr['descId'] : null;
             $sessionDTOs[$arr['sessionId']]->postrequisite = $arr['postrequisiteId'] ? $arr['postrequisiteId'] : null;
         }
 
@@ -376,5 +377,16 @@ class SessionRepository extends EntityRepository implements DTORepositoryInterfa
         }
 
         return $qb;
+    }
+
+    /**
+     * @return int
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function getTotalSessionCount(): int
+    {
+        return (int) $this->_em->createQuery('SELECT COUNT(s.id) FROM App\Entity\Session s')
+            ->getSingleScalarResult();
     }
 }

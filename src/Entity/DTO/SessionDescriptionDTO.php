@@ -10,6 +10,7 @@ use App\Annotation as IS;
  * Class SessionDescriptionDTO
  *
  * @IS\DTO("sessionDescriptions")
+ * @deprecated
  */
 class SessionDescriptionDTO
 {

@@ -86,6 +86,13 @@ class SessionDTO
     public $updatedAt;
 
     /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $description;
+
+    /**
      * @var int
      * @IS\Expose
      * @IS\Related("sessionTypes")
@@ -135,7 +142,6 @@ class SessionDTO
 
     /**
      * @var int
-     * @IS\Expose
      * @IS\Related("sessionDescriptions")
      * @IS\Type("string")
      */
@@ -198,6 +204,7 @@ class SessionDTO
     public function __construct(
         $id,
         $title,
+        $description,
         $attireRequired,
         $equipmentRequired,
         $supplemental,
@@ -209,6 +216,7 @@ class SessionDTO
     ) {
         $this->id = $id;
         $this->title = $title;
+        $this->description = $description;
         $this->attireRequired = $attireRequired;
         $this->equipmentRequired = $equipmentRequired;
         $this->supplemental = $supplemental;

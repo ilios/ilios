@@ -9,6 +9,7 @@ use App\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface SessionDescriptionInterface
+ * @deprecated
  */
 interface SessionDescriptionInterface extends
     DescribableEntityInterface,

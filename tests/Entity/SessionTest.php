@@ -81,6 +81,18 @@ class SessionTest extends EntityBase
     }
 
     /**
+     * @covers \App\Entity\Session::setDescription
+     * @covers \App\Entity\Session::getDescription
+     */
+    public function testSetDescription()
+    {
+        $description = 'lorem ipsum';
+        $this->object->setDescription($description);
+        $this->assertEquals($description, $this->object->getDescription());
+        $this->assertEquals($description, $this->object->getSessionDescription()->getDescription());
+    }
+
+    /**
      * @covers \App\Entity\Session::setAttireRequired
      * @covers \App\Entity\Session::isAttireRequired
      */
@@ -294,20 +306,6 @@ class SessionTest extends EntityBase
     public function testSetMeshDescriptors()
     {
         $this->entityCollectionSetTest('meshDescriptor', 'MeshDescriptor');
-    }
-
-    /**
-     * @covers \App\Entity\Session::setSessionDescription
-     * @covers \App\Entity\Session::getSessionDescription
-     */
-    public function testSetSessionDescription()
-    {
-        $this->assertTrue(method_exists($this->object, 'getSessionDescription'), "Method missing");
-        $this->assertTrue(method_exists($this->object, 'setSessionDescription'), "Method missing");
-        $obj = m::mock('App\Entity\SessionDescription');
-        $obj->shouldReceive('setSession')->with($this->object)->once();
-        $this->object->setSessionDescription($obj);
-        $this->assertSame($obj, $this->object->getSessionDescription());
     }
 
     /**

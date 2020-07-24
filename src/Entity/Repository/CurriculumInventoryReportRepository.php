@@ -557,7 +557,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     ) {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
-            's.id AS event_id, s.title, sd.description, am.id AS method_id,'
+            's.id AS event_id, s.title, s.description, am.id AS method_id,'
             . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, sf.hours'
         )
             ->from(Session::class, 's')
@@ -566,7 +566,6 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('c.sequenceBlocks', 'sb')
             ->join('sb.report', 'r')
             ->leftJoin('s.offerings', 'o')
-            ->leftJoin('s.sessionDescription', 'sd')
             ->leftJoin('s.sessionType', 'st')
             ->leftJoin('st.aamcMethods', 'am')
             ->leftJoin('st.assessmentOption', 'ao')
@@ -575,7 +574,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->andWhere($qb->expr()->eq('r.id', ':id'))
             ->groupBy('s.id')
             ->addGroupBy('s.title')
-            ->addGroupBy('sd.description')
+            ->addGroupBy('s.description')
             ->addGroupBy('am.id')
             ->addGroupBy('st.assessment')
             ->setParameter(':id', $report->getId());
@@ -599,7 +598,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     ) {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
-            's.id AS event_id, s.title, sd.description, am.id AS method_id,'
+            's.id AS event_id, s.title, s.description, am.id AS method_id,'
             . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, o.startDate, o.endDate'
         )
             ->from(Session::class, 's')
@@ -608,7 +607,6 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('sb.report', 'r')
             ->join('s.offerings', 'o')
             ->leftJoin('s.ilmSession', 'sf')
-            ->leftJoin('s.sessionDescription', 'sd')
             ->leftJoin('s.sessionType', 'st')
             ->leftJoin('st.aamcMethods', 'am')
             ->leftJoin('st.assessmentOption', 'ao')
@@ -636,7 +634,7 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
     ) {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
-            's.id AS event_id, s.title, sd.description, am.id AS method_id, sf.hours as ilm_hours,'
+            's.id AS event_id, s.title, s.description, am.id AS method_id, sf.hours as ilm_hours,'
             . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, o.startDate, o.endDate'
         )
             ->from(Session::class, 's')
@@ -645,7 +643,6 @@ class CurriculumInventoryReportRepository extends EntityRepository implements DT
             ->join('sb.report', 'r')
             ->join('s.offerings', 'o')
             ->join('s.ilmSession', 'sf')
-            ->leftJoin('s.sessionDescription', 'sd')
             ->leftJoin('s.sessionType', 'st')
             ->leftJoin('st.aamcMethods', 'am')
             ->leftJoin('st.assessmentOption', 'ao')

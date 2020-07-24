@@ -191,6 +191,25 @@ class Session implements SessionInterface
     protected $instructionalNotes;
 
     /**
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000,
+     *      allowEmptyString = true
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+     * @IS\RemoveMarkup
+     *
+     */
+    protected $description;
+
+    /**
      * @var SessionTypeInterface
      *
      * @Assert\NotNull()
@@ -282,10 +301,10 @@ class Session implements SessionInterface
     /**
      * @var SessionDescription
      *
-     * @ORM\OneToOne(targetEntity="SessionDescription", mappedBy="session")
+     * @ORM\OneToOne(targetEntity="SessionDescription", mappedBy="session", cascade={"persist"})
      *
-     * @IS\Expose
      * @IS\Type("entity")
+     * @deprecated
      */
     protected $sessionDescription;
 
@@ -410,7 +429,6 @@ class Session implements SessionInterface
         $this->administrators = new ArrayCollection();
         $this->studentAdvisors = new ArrayCollection();
         $this->prerequisites = new ArrayCollection();
-
         $this->updatedAt = new DateTime();
     }
 
@@ -543,17 +561,6 @@ class Session implements SessionInterface
     public function getIlmSession()
     {
         return $this->ilmSession;
-    }
-
-    /**
-     * @param SessionDescriptionInterface $sessionDescription
-     */
-    public function setSessionDescription(SessionDescriptionInterface $sessionDescription = null)
-    {
-        $this->sessionDescription = $sessionDescription;
-        if ($sessionDescription) {
-            $sessionDescription->setSession($this);
-        }
     }
 
     /**
@@ -760,9 +767,35 @@ class Session implements SessionInterface
      */
     public function getObjectives(): array
     {
-        $courseObjectives = $this->getSessionObjectives()->toArray();
+        $sessionObjectives = $this->getSessionObjectives()->toArray();
         return array_map(function (SessionObjectiveInterface $sessionObjective) {
             return $sessionObjective->getObjective();
-        }, $courseObjectives);
+        }, $sessionObjectives);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
+
+        // set the given description on the legacy session-description object.
+        // create it on the fly if it doesn't exist.
+        $sessionDescription = $this->getSessionDescription();
+        if (! $sessionDescription) {
+            $sessionDescription = new SessionDescription();
+            $sessionDescription->setSession($this);
+            $this->sessionDescription = $sessionDescription;
+        }
+        $sessionDescription->setDescription($description);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 }

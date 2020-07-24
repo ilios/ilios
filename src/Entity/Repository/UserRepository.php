@@ -349,7 +349,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
             'c.level as courseLevel, st.id as sessionTypeId, ' .
-            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+            's.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
 
         $qb->addSelect($what)->from('App\Entity\User', 'u');
         foreach ($joins as $key => $statement) {
@@ -359,7 +359,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->leftJoin('s.course', 'c');
         $qb->leftJoin('c.school', 'school');
         $qb->leftJoin('s.sessionType', 'st');
-        $qb->leftJoin('s.sessionDescription', 'sd');
 
         $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
         $qb->andWhere($qb->expr()->orX(
@@ -397,7 +396,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
             'c.level as courseLevel, st.id as sessionTypeId, ' .
-            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+            's.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
 
         $qb->addSelect($what)->from('App\Entity\User', 'u');
 
@@ -408,8 +407,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         $qb->leftJoin('s.course', 'c');
         $qb->leftJoin('c.school', 'school');
         $qb->leftJoin('s.sessionType', 'st');
-        $qb->leftJoin('s.sessionDescription', 'sd');
-
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('u.id', ':user_id'),
             $qb->expr()->between('ilm.dueDate', ':date_from', ':date_to')
@@ -477,7 +474,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
             'c.level as courseLevel, st.id as sessionTypeId, ' .
-            'c.externalId as courseExternalId, sd.description AS sessionDescription';
+            'c.externalId as courseExternalId, s.description AS sessionDescription';
         foreach ($joins as $join) {
             $qb = $this->_em->createQueryBuilder();
             $qb->addSelect($what)->from('App\Entity\User', 'u');
@@ -488,7 +485,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $qb->leftJoin('s.course', 'c');
             $qb->leftJoin('c.school', 'school');
             $qb->leftJoin('s.sessionType', 'st');
-            $qb->leftJoin('s.sessionDescription', 'sd');
             $qb->leftJoin('s.postrequisite', 'ps');
             $qb->where($qb->expr()->isNotNull('o.id'));
             $qb->andWhere($qb->expr()->in('ps.id', ':sessions'));
@@ -530,7 +526,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
             'c.level as courseLevel, st.id as sessionTypeId, ' .
-            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+            's.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
         foreach ($joins as $join) {
             $qb = $this->_em->createQueryBuilder();
             $qb->addSelect($what)->from('App\Entity\User', 'u');
@@ -541,7 +537,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $qb->leftJoin('s.course', 'c');
             $qb->leftJoin('c.school', 'school');
             $qb->leftJoin('s.sessionType', 'st');
-            $qb->leftJoin('s.sessionDescription', 'sd');
             $qb->leftJoin('s.postrequisite', 'ps');
             $qb->where($qb->expr()->isNotNull('ilm.id'));
             $qb->andWhere($qb->expr()->in('ps.id', ':sessions'));
@@ -612,7 +607,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
             'c.level as courseLevel, st.id as sessionTypeId, ' .
-            'c.externalId as courseExternalId, sd.description AS sessionDescription';
+            'c.externalId as courseExternalId, s.description AS sessionDescription';
         foreach ($joins as $join) {
             $qb = $this->_em->createQueryBuilder();
             $qb->addSelect($what)->from('App\Entity\User', 'u');
@@ -623,7 +618,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $qb->leftJoin('s.course', 'c');
             $qb->leftJoin('c.school', 'school');
             $qb->leftJoin('s.sessionType', 'st');
-            $qb->leftJoin('s.sessionDescription', 'sd');
             $qb->leftJoin('s.prerequisites', 'ps');
             $qb->where($qb->expr()->isNotNull('o.id'));
             $qb->andWhere($qb->expr()->in('ps.id', ':sessions'));
@@ -664,7 +658,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, s.instructionalNotes, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
-            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+            's.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
         foreach ($joins as $join) {
             $qb = $this->_em->createQueryBuilder();
             $qb->addSelect($what)->from('App\Entity\User', 'u');
@@ -675,7 +669,6 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
             $qb->leftJoin('s.course', 'c');
             $qb->leftJoin('c.school', 'school');
             $qb->leftJoin('s.sessionType', 'st');
-            $qb->leftJoin('s.sessionDescription', 'sd');
             $qb->leftJoin('s.prerequisites', 'ps');
             $qb->where($qb->expr()->isNotNull('ilm.id'));
             $qb->andWhere($qb->expr()->in('ps.id', ':sessions'));

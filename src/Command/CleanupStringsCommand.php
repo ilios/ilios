@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\Manager\CourseLearningMaterialManager;
 use App\Entity\Manager\CourseObjectiveManager;
+use App\Entity\Manager\LearningMaterialManager;
 use App\Entity\Manager\ProgramYearObjectiveManager;
+use App\Entity\Manager\SessionLearningMaterialManager;
+use App\Entity\Manager\SessionManager;
 use App\Entity\Manager\SessionObjectiveManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use HTMLPurifier;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\ProgressBar;
-use App\Entity\Manager\LearningMaterialManager;
-use App\Entity\Manager\CourseLearningMaterialManager;
-use App\Entity\Manager\SessionLearningMaterialManager;
-use App\Entity\Manager\SessionDescriptionManager;
 
 /**
  * Cleans up all the strings in the database
@@ -27,53 +27,23 @@ use App\Entity\Manager\SessionDescriptionManager;
  */
 class CleanupStringsCommand extends Command
 {
-    /**
-     * @var HTMLPurifier
-     */
-    protected $purifier;
+    protected HTMLPurifier $purifier;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
+    protected EntityManagerInterface $em;
 
-    /**
-     * @var SessionObjectiveManager
-     */
-    protected $sessionObjectiveManager;
+    protected SessionObjectiveManager $sessionObjectiveManager;
 
-    /**
-     * @var CourseObjectiveManager
-     */
-    protected $courseObjectiveManager;
+    protected CourseObjectiveManager $courseObjectiveManager;
 
-    /**
-     * @var ProgramYearObjectiveManager
-     */
-    protected $programYearObjectiveManager;
+    protected ProgramYearObjectiveManager $programYearObjectiveManager;
 
-    /**
-     * @var LearningMaterialManager
-     */
-    protected $learningMaterialManager;
+    protected LearningMaterialManager $learningMaterialManager;
 
+    protected CourseLearningMaterialManager $courseLearningMaterialManager;
 
-    /**
-     * @var CourseLearningMaterialManager
-     */
-    protected $courseLearningMaterialManager;
+    protected SessionLearningMaterialManager $sessionLearningMaterialManager;
 
-
-    /**
-     * @var SessionLearningMaterialManager
-     */
-    protected $sessionLearningMaterialManager;
-
-
-    /**
-     * @var SessionDescriptionManager
-     */
-    protected $sessionDescriptionManager;
+    protected SessionManager $sessionManager;
 
     /**
      * @var int where to limit each query for memory management
@@ -86,7 +56,7 @@ class CleanupStringsCommand extends Command
         LearningMaterialManager $learningMaterialManager,
         CourseLearningMaterialManager $courseLearningMaterialManager,
         SessionLearningMaterialManager $sessionLearningMaterialManager,
-        SessionDescriptionManager $sessionDescriptionManager,
+        SessionManager $sessionManager,
         SessionObjectiveManager $sessionObjectiveManager,
         CourseObjectiveManager $courseObjectiveManager,
         ProgramYearObjectiveManager $programYearObjectiveManager
@@ -96,7 +66,7 @@ class CleanupStringsCommand extends Command
         $this->learningMaterialManager = $learningMaterialManager;
         $this->courseLearningMaterialManager = $courseLearningMaterialManager;
         $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
-        $this->sessionDescriptionManager = $sessionDescriptionManager;
+        $this->sessionManager = $sessionManager;
         $this->sessionObjectiveManager = $sessionObjectiveManager;
         $this->courseObjectiveManager = $courseObjectiveManager;
         $this->programYearObjectiveManager = $programYearObjectiveManager;
@@ -329,20 +299,20 @@ class CleanupStringsCommand extends Command
         $cleaned = 0;
         $offset = 1;
         $limit = self::QUERY_LIMIT;
-        $total = $this->sessionDescriptionManager->getTotalSessionDescriptionCount();
+        $total = $this->sessionManager->getTotalSessionCount();
         $progress = new ProgressBar($output, $total);
         $progress->setRedrawFrequency(208);
         $output->writeln("<info>Starting cleanup of session descriptions...</info>");
         $progress->start();
         do {
-            $descriptions = $this->sessionDescriptionManager->findBy([], ['id' => 'ASC'], $limit, $offset);
-            foreach ($descriptions as $description) {
-                $original = $description->getDescription();
+            $sessions = $this->sessionManager->findBy([], ['id' => 'ASC'], $limit, $offset);
+            foreach ($sessions as $session) {
+                $original = $session->getDescription();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
                     $cleaned++;
-                    $description->setDescription($clean);
-                    $this->sessionDescriptionManager->update($description, false);
+                    $session->setDescription($clean);
+                    $this->sessionManager->update($session, false);
                 }
                 $progress->advance();
             }
@@ -350,7 +320,7 @@ class CleanupStringsCommand extends Command
             $offset += $limit;
             $this->em->flush();
             $this->em->clear();
-        } while (count($descriptions) == $limit);
+        } while (count($sessions) == $limit);
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Session Descriptions updated.</info>");

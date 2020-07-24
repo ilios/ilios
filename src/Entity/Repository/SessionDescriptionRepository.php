@@ -11,6 +11,7 @@ use App\Entity\DTO\SessionDescriptionDTO;
 
 /**
  * Class SessionDescriptionRepository
+ * @deprecated
  */
 class SessionDescriptionRepository extends EntityRepository implements DTORepositoryInterface
 {
@@ -69,7 +70,7 @@ class SessionDescriptionRepository extends EntityRepository implements DTOReposi
             $sessionDescriptionDTOs[$arr['xId']]->course = (int) $arr['courseId'];
             $sessionDescriptionDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
         }
-        
+
         return array_values($sessionDescriptionDTOs);
     }
 

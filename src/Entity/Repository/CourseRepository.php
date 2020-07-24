@@ -970,13 +970,12 @@ EOL;
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
-            's.id AS sessionId, s.title AS title, sd.description AS description, c.id as courseId, ' .
+            's.id AS sessionId, s.title AS title, s.description AS description, c.id as courseId, ' .
             'st.title AS sessionType'
         )
             ->from(Session::class, 's')
             ->join('s.course', 'c')
             ->leftJoin('s.sessionType', 'st')
-            ->leftJoin('s.sessionDescription', 'sd')
             ->where($qb->expr()->in('s.id', ':ids'))
             ->setParameter('ids', $sessionIds);
 
