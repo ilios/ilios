@@ -76,7 +76,8 @@ class SessionTest extends ReadWriteEndpointTest
             'prerequisites' => ['prerequisites', [2]],
             'description' => ['description', $this->getFaker()->text],
             'blankDescription' => ['description', ''],
-            // 'nullDescription' => ['description', null], // currently broken [ST 2020/07/24]
+            // @todo This will work after #2992 is resolved, un-skip then. [ST 2020/07/24]
+            'nullDescription' => ['description', null, $skipped = true],
         ];
     }
 
