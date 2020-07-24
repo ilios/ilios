@@ -74,6 +74,9 @@ class SessionTest extends ReadWriteEndpointTest
             'postrequisite' => ['postrequisite', 2],
             'emptyPostrequisite' => ['postrequisite', null],
             'prerequisites' => ['prerequisites', [2]],
+            'description' => ['description', $this->getFaker()->text],
+            'blankDescription' => ['description', ''],
+            // 'nullDescription' => ['description', null], // currently broken [ST 2020/07/24]
         ];
     }
 
@@ -209,16 +212,6 @@ class SessionTest extends ReadWriteEndpointTest
         $dataLoader = $this->getContainer()->get(SessionLearningMaterialData::class);
         $data = $dataLoader->getOne();
         $this->relatedTimeStampDeleteTest(1, 'sessionlearningmaterials', $data['id']);
-    }
-
-    public function testSendingNullForSessionDescription()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $postData['description'] = null;
-        $data['description'] = null;
-        $this->postTest($data, $postData);
     }
 
     public function testRemoveLinksFromOrphanedObjectives()
