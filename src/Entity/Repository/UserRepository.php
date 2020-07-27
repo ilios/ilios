@@ -1338,6 +1338,60 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         return $this->dedupeSubArrays($rhett);
     }
 
+    /*
+     * Returns an assoc. array of ids of sessions and course ids that a user
+     * is a student advisor in.
+     */
+    public function getStudentAdvisedSessionAndCourseIds(int $userId): array
+    {
+        $rhett['courseIds'] = [];
+        $rhett['sessionIds'] = [];
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('course.id as courseId, session.id as sessionId')->distinct();
+        $qb->from(User::class, 'u');
+        $qb->leftJoin('u.studentAdvisedSessions', 'session');
+        $qb->leftJoin('u.studentAdvisedCourses', 'course');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $rhett['courseIds'][] = $arr['courseId'];
+            $rhett['sessionIds'][] = $arr['sessionId'];
+        }
+
+        return $this->dedupeSubArrays($rhett);
+    }
+
+    /*
+     * Returns an assoc. array of ids of offering and ILM ids that a student is connected to
+     */
+    public function getLearnerIlmAndOfferingIds(int $userId): array
+    {
+        $rhett['offeringIds'] = [];
+        $rhett['ilmIds'] = [];
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('offering.id as o1Id, ilm.id as i1id, offering2.id as o2Id, ilm2.id as i2id')->distinct();
+        $qb->from(User::class, 'u');
+        $qb->leftJoin('u.offerings', 'offering');
+        $qb->leftJoin('u.learnerIlmSessions', 'ilm');
+        $qb->leftJoin('u.learnerGroups', 'learnerGroup');
+        $qb->leftJoin('learnerGroup.offerings', 'offering2');
+        $qb->leftJoin('learnerGroup.ilmSessions', 'ilm2');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $rhett['offeringIds'][] = $arr['o1Id'];
+            $rhett['ilmIds'][] = $arr['i1id'];
+            $rhett['offeringIds'][] = $arr['o2Id'];
+            $rhett['ilmIds'][] = $arr['i2id'];
+        }
+
+        return $this->dedupeSubArrays($rhett);
+    }
+
     /**
      * Returns a list of ids of schools which own learner groups instructed by the given user.
      * @param $userId

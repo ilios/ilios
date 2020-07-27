@@ -293,6 +293,20 @@ class UserManager extends BaseManager
         return $repository->getAdministeredSessionCourseAndSchoolIds($userId);
     }
 
+    public function getStudentAdvisedSessionAndCourseIds(int $userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getStudentAdvisedSessionAndCourseIds($userId);
+    }
+
+    public function getLearnerIlmAndOfferingIds(int $userId): array
+    {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->getLearnerIlmAndOfferingIds($userId);
+    }
+
     /**
      * @param $userId
      * @return array

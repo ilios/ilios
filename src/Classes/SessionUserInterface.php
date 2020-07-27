@@ -116,6 +116,10 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function isTeachingSession(int $sessionId): bool;
     public function isInstructingOffering(int $sessionId): bool;
     public function isInstructingIlm(int $sessionId): bool;
+    public function isStudentAdvisorInSession(int $sessionId): bool;
+    public function isStudentAdvisorInCourse(int $courseId): bool;
+    public function isLearnerInOffering(int $offeringId): bool;
+    public function isLearnerInIlm(int $ilmId): bool;
 
     public function rolesInSession(
         int $sessionId,
@@ -183,6 +187,7 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return array
      */
     public function getAdministeredSessionCourseIds(): array;
+
 
     /**
      * @return array

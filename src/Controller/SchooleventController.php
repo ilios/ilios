@@ -129,10 +129,20 @@ class SchooleventController extends AbstractController
         $allEvents = $schoolManager->addMaterialsToEvents($allEvents);
         $allEvents = $schoolManager->addSessionDataToEvents($allEvents);
 
+        $now = new DateTime();
         /* @var SchoolEvent $event */
         foreach ($allEvents as $event) {
             if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_DRAFT_CONTENTS, $event)) {
-                $event->clearDataForUnprivilegedUsers();
+                if (
+                    $sessionUser->isStudentAdvisorInCourse($event->course) ||
+                    $sessionUser->isStudentAdvisorInSession($event->session) ||
+                    ($event->offering && $sessionUser->isLearnerInOffering($event->offering)) ||
+                    ($event->ilmSession && $sessionUser->isLearnerInIlm($event->ilmSession))
+                ) {
+                    $event->clearDataForStudentAssociatedWithEvent($now);
+                } else {
+                    $event->clearDataForUnprivilegedUsers();
+                }
             }
         }
 
