@@ -30,24 +30,28 @@ class SchoolEvent extends CalendarEvent
     }
 
     /**
-     * This information is not available to un-privileged users
+     * Clear out all draft and schedule events as well as all materials
      */
     public function clearDataForUnprivilegedUsers()
     {
         $this->instructionalNotes = null;
         $this->clearDataForDraftOrScheduledEvent();
         $this->removeMaterialsInDraft();
-        $this->clearMaterials();
+        array_walk($this->learningMaterials, function (UserMaterial $lm) {
+            $lm->clearMaterial();
+        });
     }
 
     /**
-     * Blanks this event's learning materials.
+     * Clear out all draft and schedule events as well as LMs based on time
      */
-    protected function clearMaterials(): void
+    public function clearDataForStudentAssociatedWithEvent(DateTime $dateTime)
     {
-        /** @var UserMaterial $lm */
-        foreach ($this->learningMaterials as $lm) {
-            $lm->clearMaterial();
-        }
+        $this->instructionalNotes = null;
+        $this->clearDataForDraftOrScheduledEvent();
+        $this->removeMaterialsInDraft();
+        array_walk($this->learningMaterials, function (UserMaterial $lm) use ($dateTime) {
+            $lm->clearTimedMaterial($dateTime);
+        });
     }
 }

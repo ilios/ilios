@@ -259,6 +259,16 @@ class UserData extends AbstractDataLoader
         ];
     }
 
+    public function createEmpty()
+    {
+        return [
+            'lastName' => $this->faker->lastName,
+            'firstName' => $this->faker->firstName,
+            'email' => $this->faker->email,
+            'school' => "1",
+        ];
+    }
+
     public function createInvalid()
     {
         return [];

@@ -20,110 +20,29 @@ use DateTime;
  */
 class SessionUser implements SessionUserInterface
 {
-    /**
-     * @var int
-     */
-    protected $userId;
-
-    /**
-     * @var bool
-     */
-    protected $isRoot;
-
-    /**
-     * @var bool
-     */
-    protected $isEnabled;
-
-    /**
-     * @var DateTime
-     */
-    protected $tokenNotValidBefore;
-
-    /**
-     * @var int
-     */
-    protected $schoolId;
-
-    /**
-     * @var bool
-     */
-    protected $isLegacyAccount;
-
-    /**
-     * @var string
-     */
-    protected $password;
-
-    /**
-     * @var array
-     */
-    protected $directedCourseAndSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $administeredCourseAndSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $directedSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $administeredSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $administeredSessionCourseAndSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $instructedOfferingIlmSessionCourseAndSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $instructedLearnerGroupSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $instructorGroupSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $directedProgramAndSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $directedProgramYearProgramAndSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $administeredCurriculumInventoryReportAndSchoolIds;
-
-    /**
-     * @var array
-     */
-    protected $learnerGroupIds;
-
-    /**
-     * @var array
-     */
-    protected $instructorGroupIds;
-
-    /**
-     * @var array
-     */
-    protected $coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser;
+    protected int $userId;
+    protected bool $isRoot;
+    protected bool $isEnabled;
+    protected int $schoolId;
+    protected ?DateTime $tokenNotValidBefore = null;
+    protected ?string $password;
+    protected bool $isLegacyAccount = false;
+    protected array $directedCourseAndSchoolIds;
+    protected array $administeredCourseAndSchoolIds;
+    protected array $directedSchoolIds;
+    protected array $administeredSchoolIds;
+    protected array $administeredSessionCourseAndSchoolIds;
+    protected array $studentAdvisedSessionAndCourseIds;
+    protected array $instructedOfferingIlmSessionCourseAndSchoolIds;
+    protected array $instructedLearnerGroupSchoolIds;
+    protected array $instructorGroupSchoolIds;
+    protected array $directedProgramAndSchoolIds;
+    protected array $directedProgramYearProgramAndSchoolIds;
+    protected array $administeredCurriculumInventoryReportAndSchoolIds;
+    protected array $learnerGroupIds;
+    protected array $instructorGroupIds;
+    protected array $coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser;
+    protected array $learnerIlmAndOfferingIds;
 
     /**
      * @var UserManager
@@ -490,6 +409,26 @@ class SessionUser implements SessionUserInterface
         return in_array($ilmId, $this->getInstructedIlmIds());
     }
 
+    public function isStudentAdvisorInSession(int $sessionId): bool
+    {
+        return in_array($sessionId, $this->getStudentAdvisedSessionIds());
+    }
+
+    public function isStudentAdvisorInCourse(int $courseId): bool
+    {
+        return in_array($courseId, $this->getStudentAdvisedCourseIds());
+    }
+
+    public function isLearnerInOffering(int $offeringId): bool
+    {
+        return in_array($offeringId, $this->getLearnerOfferingsIds());
+    }
+
+    public function isLearnerInIlm(int $ilmId): bool
+    {
+        return in_array($ilmId, $this->getLearnerIlmIds());
+    }
+
     /**
      * @inheritdoc
      * @throws Exception
@@ -772,6 +711,11 @@ class SessionUser implements SessionUserInterface
         return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['courseIds'];
     }
 
+    protected function getStudentAdvisedCourseIds(): array
+    {
+        return $this->getStudentAdvisedSessionAndCourseIds()['courseIds'];
+    }
+
     /**
      * @inheritdoc
      * @throws Exception
@@ -797,6 +741,11 @@ class SessionUser implements SessionUserInterface
     public function getInstructedIlmIds(): array
     {
         return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['ilmIds'];
+    }
+
+    protected function getStudentAdvisedSessionIds(): array
+    {
+        return $this->getStudentAdvisedSessionAndCourseIds()['sessionIds'];
     }
 
     /**
@@ -890,6 +839,16 @@ class SessionUser implements SessionUserInterface
         return $this->getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser()['courseIds'];
     }
 
+    protected function getLearnerOfferingsIds(): array
+    {
+        return $this->getLearnerIlmAndOfferingIds()['offeringIds'];
+    }
+
+    protected function getLearnerIlmIds(): array
+    {
+        return $this->getLearnerIlmAndOfferingIds()['ilmIds'];
+    }
+
     /**
      * @inheritdoc
      * @throws Exception
@@ -977,6 +936,32 @@ class SessionUser implements SessionUserInterface
                 $this->userManager->getAdministeredSessionCourseAndSchoolIds($this->getId());
         }
         return $this->administeredSessionCourseAndSchoolIds;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    protected function getStudentAdvisedSessionAndCourseIds(): array
+    {
+        if (!isset($this->studentAdvisedSessionAndCourseIds)) {
+            $this->studentAdvisedSessionAndCourseIds =
+                $this->userManager->getStudentAdvisedSessionAndCourseIds($this->getId());
+        }
+        return $this->studentAdvisedSessionAndCourseIds;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    protected function getLearnerIlmAndOfferingIds(): array
+    {
+        if (!isset($this->learnerIlmAndOfferingIds)) {
+            $this->learnerIlmAndOfferingIds =
+                $this->userManager->getLearnerIlmAndOfferingIds($this->getId());
+        }
+        return $this->learnerIlmAndOfferingIds;
     }
 
     /**
