@@ -4,28 +4,20 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-use App\Normalizer\JsonApiDTONormalizer;
 use App\Service\EntityManagerLookup;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class JsonApiData
 {
-    protected $data = [];
-    protected $includes = [];
-    protected $sideLoadCandidates = [];
-
-    /**
-     * @var EntityManagerLookup
-     */
-    protected $entityManagerLookup;
-
-    /**
-     * @var JsonApiDTONormalizer
-     */
-    protected $normalizer;
+    protected array $data = [];
+    protected array $includes = [];
+    protected array $sideLoadCandidates = [];
+    protected EntityManagerLookup $entityManagerLookup;
+    protected NormalizerInterface $normalizer;
 
     public function __construct(
         EntityManagerLookup $entityManagerLookup,
-        JsonApiDTONormalizer $normalizer,
+        NormalizerInterface $normalizer,
         array $data,
         array $sideLoadFields
     ) {

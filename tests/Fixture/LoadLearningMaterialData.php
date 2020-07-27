@@ -26,6 +26,8 @@ class LoadLearningMaterialData extends AbstractFixture implements
      */
     private $container;
 
+    public const TEST_FILE_PATH = __DIR__ . '/FakeTestFiles/TESTFILE.txt';
+
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
@@ -38,11 +40,10 @@ class LoadLearningMaterialData extends AbstractFixture implements
             ->getAll();
 
         $fs = new Filesystem();
-        $fakeTestFileDir = __DIR__ . '/FakeTestFiles';
-        if (!$fs->exists($fakeTestFileDir)) {
-            $fs->mkdir($fakeTestFileDir);
+        if (!$fs->exists(dirname(self::TEST_FILE_PATH))) {
+            $fs->mkdir(dirname(self::TEST_FILE_PATH));
         }
-        $fs->copy(__FILE__, $fakeTestFileDir . '/TESTFILE.txt');
+        $fs->copy(__FILE__, self::TEST_FILE_PATH);
         $config = $this->container->get(Config::class);
         $storePath = $config->get('file_system_storage_path');
 

@@ -373,6 +373,10 @@ services:
     Symfony\Component\Serializer\SerializerInterface:
       factory:   ['App\Service\SerializerFactory', createSerializer]
 
+    App\Service\JsonApiDataShaper:
+      calls:
+        - [ setNormalizer, ['@Symfony\Component\Serializer\Normalizer\NormalizerInterface'] ]
+
     App\Monitor\Timezone:
       autoconfigure: false
       tags:

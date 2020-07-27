@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Encoder\JsonApiEncoder;
 use App\Normalizer\DTONormalizer;
+use App\Normalizer\FactoryNormalizer;
 use App\Normalizer\JsonApiDTONormalizer;
 use App\Denormalizer\EntityDenormalizer;
 use App\Normalizer\EntityNormalizer;
@@ -26,6 +27,7 @@ class SerializerFactory
      * Build our own serializer just the way we like it
      */
     public static function createSerializer(
+        FactoryNormalizer $factoryNormalizer,
         DTONormalizer $dtoNormalizer,
         JsonApiDTONormalizer $jsonApiDTONormalizer,
         JsonApiEncoder $jsonApiEncoder,
@@ -35,19 +37,24 @@ class SerializerFactory
         $jsonEncoder = new JsonEncoder();
         $array = new ArrayDenormalizer();
         $dateTime = new DateTimeNormalizer();
-        return new Serializer(
+        $serializer =  new Serializer(
             [
                 $array,
                 $dateTime,
+                $factoryNormalizer,
                 $jsonApiDTONormalizer,
                 $entityNormalizer,
                 $entityDenormalizer,
-                $dtoNormalizer
+                $dtoNormalizer,
             ],
             [
                 $jsonApiEncoder,
                 $jsonEncoder
             ]
         );
+
+        $factoryNormalizer->setNormalizer($serializer);
+
+        return $serializer;
     }
 }
