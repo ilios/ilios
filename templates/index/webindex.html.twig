@@ -21,7 +21,7 @@
     {% for m in metas %}
         <meta {% if m.httpequiv %} http-equiv="{{ m.httpequiv }}" {% endif %} {% if m.charset %} charset="{{ m.charset }}" {% endif %} {% if m.name %} name="{{ m.name }}" {% endif %} {% if m.content %} content="{{ m.content }}" {% endif %} />
     {% endfor %}
-    <meta name='iliosconfig-api-name-space' content='api/v2'>
+    <meta name='iliosconfig-api-name-space' content='api/v3'>
     <meta name='iliosconfig-api-host' content=''>
     <meta name='iliosconfig-error-capture-enabled' content="{{ errorCaptureEnabled ? 'true':'false' }}">
     <title>Ilios</title>
