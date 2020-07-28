@@ -70,7 +70,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      *
      * @Assert\Type(type="string")
      * @Assert\Length(
