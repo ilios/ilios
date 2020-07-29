@@ -15,6 +15,7 @@ use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\ReportRollover;
 use App\Service\CurriculumInventory\VerificationPreviewBuilder;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -157,13 +158,18 @@ class CurriculumInventoryReports extends ReadWriteController
     /**
      * Build and send the verification preview tables for CI
      * @Route("/{id}/verificationpreview", methods={"GET"})
+     * @param string $version
+     * @param int $id
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param VerificationPreviewBuilder $previewBuilder
+     * @return Response
+     * @throws Exception
      */
     public function verificationPreview(
         string $version,
         int $id,
         AuthorizationCheckerInterface $authorizationChecker,
-        VerificationPreviewBuilder $previewBuilder,
-        SerializerInterface $serializer
+        VerificationPreviewBuilder $previewBuilder
     ): Response {
         /* @var CurriculumInventoryReportInterface $report */
         $report = $this->manager->findOneBy(['id' => $id]);
@@ -179,10 +185,7 @@ class CurriculumInventoryReports extends ReadWriteController
         $tables = $previewBuilder->build($report);
 
         return new Response(
-            $serializer->serialize(
-                [ 'preview' => $tables],
-                'json'
-            ),
+            json_encode(['preview' => $tables]),
             Response::HTTP_OK,
             ['Content-type' => 'application/json']
         );
