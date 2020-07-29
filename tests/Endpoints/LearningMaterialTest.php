@@ -61,6 +61,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         return [
             'title' => ['title', $this->getFaker()->text(60)],
             'description' => ['description', $this->getFaker()->text],
+            'nullDescription' => ['description', null],
             'originalAuthor' => ['originalAuthor', $this->getFaker()->text(80)],
             'userRole' => ['userRole', 2],
             'status' => ['status', LearningMaterialStatusInterface::IN_DRAFT],
