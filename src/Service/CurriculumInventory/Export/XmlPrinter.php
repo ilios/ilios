@@ -424,8 +424,6 @@ class XmlPrinter
         return $dom;
     }
 
-
-
     /**
      * Creates the competency framework node and child-nodes, and adds them to a given parent node (<Expectations>).
      *
@@ -658,8 +656,6 @@ class XmlPrinter
             $endDateNode = $dom->createElement('EndDate', $block->getEndDate()->format('Y-m-d'));
             $datesNode->appendChild($endDateNode);
         }
-
-
 
         // academic level
         $levelNode = $dom->createElement(
