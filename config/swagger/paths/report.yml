@@ -1,6 +1,7 @@
 /reports:
   get:
-    summary: Fetch all Reports
+    deprecated: true
+    summary: Fetch all Reports (private deprecated API will be removed without major version bump or notice)
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -45,7 +46,8 @@
               items:
                 $ref: '#/definitions/Report'
   post:
-    summary: Create Reports
+    deprecated: true
+    summary: Create Reports (private deprecated API will be removed without major version bump or notice)
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -81,7 +83,8 @@
         description: Access Denied
 /reports/{id}:
   get:
-    summary: Fetch a single Report
+    deprecated: true
+    summary: Fetch a single Report (private deprecated API will be removed without major version bump or notice)
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -109,7 +112,8 @@
       '404':
         description: Not found
   put:
-    summary: Edit a Report
+    deprecated: true
+    summary: Edit a Report (private deprecated API will be removed without major version bump or notice)
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -147,7 +151,8 @@
       '404':
         description: Not Found
   delete:
-    summary: Delete a Report
+    deprecated: true
+    summary: Delete a Report (private deprecated API will be removed without major version bump or notice)
     parameters:
     - name: X-JWT-Authorization
       in: header
