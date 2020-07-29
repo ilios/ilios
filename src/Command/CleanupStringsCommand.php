@@ -156,7 +156,7 @@ class CleanupStringsCommand extends Command
         ];
 
         foreach ($objectiveManagers as $objectiveManager) {
-            $offset = 1;
+            $offset = 0;
             do {
                 $objectives = $objectiveManager->findBy([], ['id' => 'ASC'], $limit, $offset);
                 foreach ($objectives as $objective) {
@@ -173,7 +173,7 @@ class CleanupStringsCommand extends Command
                 $offset += $limit;
                 $this->em->flush();
                 $this->em->clear();
-            } while (count($objectives) == $limit);
+            } while (count($objectives) === $limit);
         }
 
         $progress->finish();
@@ -188,7 +188,7 @@ class CleanupStringsCommand extends Command
     protected function purifyLearnignMaterialDescription(OutputInterface $output)
     {
         $cleaned = 0;
-        $offset = 1;
+        $offset = 0;
         $limit = self::QUERY_LIMIT;
         $total = $this->learningMaterialManager->getTotalLearningMaterialCount();
         $progress = new ProgressBar($output, $total);
@@ -212,7 +212,7 @@ class CleanupStringsCommand extends Command
             $offset += $limit;
             $this->em->flush();
             $this->em->clear();
-        } while (count($materials) == $limit);
+        } while (count($materials) === $limit);
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Learning Material Descriptions updated.</info>");
@@ -225,7 +225,7 @@ class CleanupStringsCommand extends Command
     protected function purifyCourseLearningMaterialNote(OutputInterface $output)
     {
         $cleaned = 0;
-        $offset = 1;
+        $offset = 0;
         $limit = self::QUERY_LIMIT;
         $total = $this->courseLearningMaterialManager->getTotalCourseLearningMaterialCount();
         $progress = new ProgressBar($output, $total);
@@ -248,7 +248,7 @@ class CleanupStringsCommand extends Command
             $offset += $limit;
             $this->em->flush();
             $this->em->clear();
-        } while (count($materials) == $limit);
+        } while (count($materials) === $limit);
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Course Learning Material Notes updated.</info>");
@@ -261,7 +261,7 @@ class CleanupStringsCommand extends Command
     protected function purifySessionLearningMaterialNote(OutputInterface $output)
     {
         $cleaned = 0;
-        $offset = 1;
+        $offset = 0;
         $limit = self::QUERY_LIMIT;
         $total = $this->sessionLearningMaterialManager->getTotalSessionLearningMaterialCount();
         $progress = new ProgressBar($output, $total);
@@ -284,7 +284,7 @@ class CleanupStringsCommand extends Command
             $offset += $limit;
             $this->em->flush();
             $this->em->clear();
-        } while (count($materials) == $limit);
+        } while (count($materials) === $limit);
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Session Learning Material Notes updated.</info>");
@@ -297,7 +297,7 @@ class CleanupStringsCommand extends Command
     protected function purifySessionDescription(OutputInterface $output)
     {
         $cleaned = 0;
-        $offset = 1;
+        $offset = 0;
         $limit = self::QUERY_LIMIT;
         $total = $this->sessionManager->getTotalSessionCount();
         $progress = new ProgressBar($output, $total);
@@ -320,7 +320,7 @@ class CleanupStringsCommand extends Command
             $offset += $limit;
             $this->em->flush();
             $this->em->clear();
-        } while (count($sessions) == $limit);
+        } while (count($sessions) === $limit);
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Session Descriptions updated.</info>");

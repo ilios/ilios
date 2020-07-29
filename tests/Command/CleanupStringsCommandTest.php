@@ -103,7 +103,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setTitle')->with('<h1>html title</h1>')
             ->mock();
-        $this->sessionObjectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 1)
+        $this->sessionObjectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 0)
             ->andReturn([$cleanSessionObjective, $dirtySessionObjective]);
         $this->sessionObjectiveManager->shouldReceive('update')->with($dirtySessionObjective, false);
         $this->sessionObjectiveManager->shouldReceive('getTotalObjectiveCount')->andReturn(2);
@@ -115,7 +115,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setTitle')->with('<h1>html title</h1>')
             ->mock();
-        $this->courseObjectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 1)
+        $this->courseObjectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 0)
             ->andReturn([$cleanCourseObjective, $dirtyCourseObjective]);
         $this->courseObjectiveManager->shouldReceive('update')->with($dirtyCourseObjective, false);
         $this->courseObjectiveManager->shouldReceive('getTotalObjectiveCount')->andReturn(2);
@@ -127,7 +127,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setTitle')->with('<h1>html title</h1>')
             ->mock();
-        $this->programYearObjectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 1)
+        $this->programYearObjectiveManager->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 0)
             ->andReturn([$cleanPyObjective, $dirtyProgramYearObjective]);
         $this->programYearObjectiveManager->shouldReceive('update')->with($dirtyProgramYearObjective, false);
         $this->programYearObjectiveManager->shouldReceive('getTotalObjectiveCount')->andReturn(2);
@@ -165,7 +165,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('setDescription')->with('<h1>html title</h1>')
             ->mock();
         $this->learningMaterialManager->shouldReceive('findBy')
-            ->with([], ['id' => 'ASC'], 500, 1)
+            ->with([], ['id' => 'ASC'], 500, 0)
             ->andReturn([$clean, $dirty]);
         $this->learningMaterialManager->shouldReceive('update')->with($dirty, false);
         $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->andReturn(2);
@@ -199,7 +199,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('setNotes')->with('<h1>html course note</h1>')
             ->mock();
         $this->courseLearningMaterialManager->shouldReceive('findBy')
-            ->with([], ['id' => 'ASC'], 500, 1)
+            ->with([], ['id' => 'ASC'], 500, 0)
             ->andReturn([$cleanCourse, $dirtyCourse]);
         $this->courseLearningMaterialManager->shouldReceive('update')->with($dirtyCourse, false);
         $this->courseLearningMaterialManager->shouldReceive('getTotalCourseLearningMaterialCount')->andReturn(2);
@@ -218,7 +218,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('setNotes')->with('<h1>html session note</h1>')
             ->mock();
         $this->sessionLearningMaterialManager->shouldReceive('findBy')
-            ->with([], ['id' => 'ASC'], 500, 1)
+            ->with([], ['id' => 'ASC'], 500, 0)
             ->andReturn([$cleanSession, $dirtySession]);
         $this->sessionLearningMaterialManager->shouldReceive('update')
             ->with($dirtySession, false);
@@ -261,7 +261,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->shouldReceive('setDescription')->with('<h1>html title</h1>')
             ->mock();
         $this->sessionManager->shouldReceive('findBy')
-            ->with([], ['id' => 'ASC'], 500, 1)
+            ->with([], ['id' => 'ASC'], 500, 0)
             ->andReturn([$clean, $dirty]);
         $this->sessionManager->shouldReceive('update')->with($dirty, false);
         $this->sessionManager->shouldReceive('getTotalSessionCount')->andReturn(2);
