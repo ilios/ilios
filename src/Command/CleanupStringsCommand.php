@@ -156,7 +156,7 @@ class CleanupStringsCommand extends Command
         ];
 
         foreach ($objectiveManagers as $objectiveManager) {
-            $offset = 1;
+            $offset = 0;
             do {
                 $objectives = $objectiveManager->findBy([], ['id' => 'ASC'], $limit, $offset);
                 foreach ($objectives as $objective) {
@@ -188,7 +188,7 @@ class CleanupStringsCommand extends Command
     protected function purifyLearnignMaterialDescription(OutputInterface $output)
     {
         $cleaned = 0;
-        $offset = 1;
+        $offset = 0;
         $limit = self::QUERY_LIMIT;
         $total = $this->learningMaterialManager->getTotalLearningMaterialCount();
         $progress = new ProgressBar($output, $total);
@@ -225,7 +225,7 @@ class CleanupStringsCommand extends Command
     protected function purifyCourseLearningMaterialNote(OutputInterface $output)
     {
         $cleaned = 0;
-        $offset = 1;
+        $offset = 0;
         $limit = self::QUERY_LIMIT;
         $total = $this->courseLearningMaterialManager->getTotalCourseLearningMaterialCount();
         $progress = new ProgressBar($output, $total);
@@ -261,7 +261,7 @@ class CleanupStringsCommand extends Command
     protected function purifySessionLearningMaterialNote(OutputInterface $output)
     {
         $cleaned = 0;
-        $offset = 1;
+        $offset = 0;
         $limit = self::QUERY_LIMIT;
         $total = $this->sessionLearningMaterialManager->getTotalSessionLearningMaterialCount();
         $progress = new ProgressBar($output, $total);
@@ -297,7 +297,7 @@ class CleanupStringsCommand extends Command
     protected function purifySessionDescription(OutputInterface $output)
     {
         $cleaned = 0;
-        $offset = 1;
+        $offset = 0;
         $limit = self::QUERY_LIMIT;
         $total = $this->sessionManager->getTotalSessionCount();
         $progress = new ProgressBar($output, $total);
