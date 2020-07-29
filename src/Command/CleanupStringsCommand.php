@@ -173,7 +173,7 @@ class CleanupStringsCommand extends Command
                 $offset += $limit;
                 $this->em->flush();
                 $this->em->clear();
-            } while (count($objectives) == $limit);
+            } while (count($objectives) === $limit);
         }
 
         $progress->finish();
@@ -212,7 +212,7 @@ class CleanupStringsCommand extends Command
             $offset += $limit;
             $this->em->flush();
             $this->em->clear();
-        } while (count($materials) == $limit);
+        } while (count($materials) === $limit);
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Learning Material Descriptions updated.</info>");
@@ -248,7 +248,7 @@ class CleanupStringsCommand extends Command
             $offset += $limit;
             $this->em->flush();
             $this->em->clear();
-        } while (count($materials) == $limit);
+        } while (count($materials) === $limit);
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Course Learning Material Notes updated.</info>");
@@ -284,7 +284,7 @@ class CleanupStringsCommand extends Command
             $offset += $limit;
             $this->em->flush();
             $this->em->clear();
-        } while (count($materials) == $limit);
+        } while (count($materials) === $limit);
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Session Learning Material Notes updated.</info>");
@@ -320,7 +320,7 @@ class CleanupStringsCommand extends Command
             $offset += $limit;
             $this->em->flush();
             $this->em->clear();
-        } while (count($sessions) == $limit);
+        } while (count($sessions) === $limit);
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Session Descriptions updated.</info>");
