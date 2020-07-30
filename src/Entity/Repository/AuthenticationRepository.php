@@ -23,9 +23,12 @@ class AuthenticationRepository extends EntityRepository implements DTORepository
     public function findOneByUsername($username)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'a')->from('App\Entity\Authentication', 'a');
-        $qb->where($qb->expr()->like('a.username', "?1"));
-        $qb->setParameter(1, '%' . $username . '%');
+        $qb->select('a')->from(Authentication::class, 'a');
+        $qb->where($qb->expr()->eq(
+            $qb->expr()->lower('a.username'),
+            ":username"
+        ));
+        $qb->setParameter('username', trim(strtolower($username)));
         $result = null;
         try {
             $result = $qb->getQuery()->getSingleResult();
