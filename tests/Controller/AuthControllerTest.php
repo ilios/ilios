@@ -70,25 +70,6 @@ class AuthControllerTest extends WebTestCase
         $this->assertTrue(in_array('missingPassword', $data->errors));
     }
 
-    public function testAuthenticateLegacyUser()
-    {
-        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
-            'username' => 'legacyuser',
-            'password' => 'legacyuserpass'
-        ]));
-
-        $response = $this->kernelBrowser->getResponse();
-
-        $this->assertJsonResponse($response, Response::HTTP_OK);
-        $content = $response->getContent();
-        $data = json_decode($content);
-        $this->assertSame($data->status, 'success');
-        $this->assertTrue(property_exists($data, 'jwt'));
-        $token = (array) JWT::decode($data->jwt, $this->jwtKey, ['HS256']);
-        $this->assertTrue(array_key_exists('user_id', $token));
-        $this->assertSame(1, $token['user_id']);
-    }
-
     public function testAuthenticateUser()
     {
         $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
@@ -110,26 +91,6 @@ class AuthControllerTest extends WebTestCase
         $this->assertSame(2, $token['user_id']);
     }
 
-    public function testAuthenticateLegacyUserCaseInsensitve()
-    {
-        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
-            'username' => 'LEGACYUSER',
-            'password' => 'legacyuserpass'
-        ]));
-
-        $response = $this->kernelBrowser->getResponse();
-
-        $this->assertJsonResponse($response, Response::HTTP_OK);
-        $content = $response->getContent();
-        $data = json_decode($content);
-        $this->assertSame($data->status, 'success');
-        $this->assertTrue(property_exists($data, 'jwt'));
-
-        $token = (array) JWT::decode($data->jwt, $this->jwtKey, ['HS256']);
-        $this->assertTrue(array_key_exists('user_id', $token));
-        $this->assertSame(1, $token['user_id']);
-    }
-
     public function testAuthenticateUserCaseInsensitive()
     {
         $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
@@ -149,23 +110,6 @@ class AuthControllerTest extends WebTestCase
         $this->assertSame(2, $token['user_id']);
     }
 
-    public function testWrongLegacyPassword()
-    {
-        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
-            'username' => 'legacyuser',
-            'password' => 'wronglegacyuserpass'
-        ]));
-
-        $response = $this->kernelBrowser->getResponse();
-
-        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
-
-        $content = $response->getContent();
-        $data = json_decode($content);
-        $this->assertSame($data->status, 'error');
-        $this->assertTrue(in_array('badCredentials', $data->errors));
-    }
-
     public function testWrongPassword()
     {
         $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
@@ -181,50 +125,6 @@ class AuthControllerTest extends WebTestCase
         $data = json_decode($content);
         $this->assertSame($data->status, 'error');
         $this->assertTrue(in_array('badCredentials', $data->errors));
-    }
-
-    public function testAuthenticatingLegacyUserChangesHash()
-    {
-        $em = $this->kernelBrowser->getContainer()
-            ->get('doctrine')
-            ->getManager();
-
-        $legacyUser = $em->getRepository(User::class)->find(1);
-        $authentication = $legacyUser->getAuthentication();
-        $this->assertTrue($authentication->isLegacyAccount());
-        $this->assertNotEmpty($authentication->getPasswordSha256());
-        $this->assertEmpty($authentication->getPasswordHash());
-
-
-        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
-            'username' => 'legacyuser',
-            'password' => 'legacyuserpass'
-        ]));
-
-        $response = $this->kernelBrowser->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_OK);
-
-        $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
-            'username' => 'legacyuser',
-            'password' => 'legacyuserpass'
-        ]));
-
-        $response = $this->kernelBrowser->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_OK);
-        $content = $response->getContent();
-        $data = json_decode($content);
-        $this->assertSame($data->status, 'success');
-        $this->assertTrue(property_exists($data, 'jwt'));
-
-        $token = (array) JWT::decode($data->jwt, $this->jwtKey, ['HS256']);
-        $this->assertTrue(array_key_exists('user_id', $token));
-        $this->assertSame(1, $token['user_id']);
-
-        $legacyUser = $em->getRepository(User::class)->find(1);
-        $authentication = $legacyUser->getAuthentication();
-        $this->assertFalse($authentication->isLegacyAccount());
-        $this->assertEmpty($authentication->getPasswordSha256());
-        $this->assertNotEmpty($authentication->getPasswordHash());
     }
 
     public function testWhoAmI()

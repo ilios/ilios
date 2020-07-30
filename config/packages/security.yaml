@@ -55,5 +55,3 @@ security:
       algorithm: auto
       migrate_from:
         - bcrypt
-    ilios_legacy_encoder:
-      id: App\Form\Encoder

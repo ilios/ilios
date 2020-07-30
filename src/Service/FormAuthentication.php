@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use App\Entity\Manager\AuthenticationManager;
 use App\Traits\AuthenticationService;
@@ -154,22 +153,6 @@ class FormAuthentication implements AuthenticationInterface
         SessionUserInterface $sessionUser,
         $password
     ) {
-        if ($authEntity->isLegacyAccount()) {
-            //we have to have a valid token to update the user because the audit log requires it
-            $authenticatedToken = new PreAuthenticatedToken(
-                $authEntity->getUser(),
-                'fakekey',
-                'fakeProvider'
-            );
-            $authenticatedToken->setAuthenticated(true);
-            $this->tokenStorage->setToken($authenticatedToken);
-
-            $authEntity->setPasswordSha256(null);
-            $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
-            $encodedPassword = $this->encoder->encodePassword($sessionUser, $password);
-            $authEntity->setPasswordHash($encodedPassword);
-            $this->authManager->update($authEntity);
-        }
         if ($this->encoder->needsRehash($sessionUser)) {
             $newPassword = $this->encoder->encodePassword($sessionUser, $password);
             $authEntity->setPasswordHash($newPassword);

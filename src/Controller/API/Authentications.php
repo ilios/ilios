@@ -223,9 +223,6 @@ class Authentications
             /** @var UserInterface $user */
             $user = $this->userManager->findOneBy(['id' => $authObject->user]);
             if ($user) {
-                //set the password to null to reset the encoder
-                //so we don't use the legacy one
-                $entity->setPasswordSha256(null);
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
                 $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
             }
@@ -290,9 +287,6 @@ class Authentications
             /** @var UserInterface $user */
             $user = $this->userManager->findOneBy(['id' => $authObject->user]);
             if ($user) {
-                //set the password to null to reset the encoder
-                //so we don't use the legacy one
-                $entity->setPasswordSha256(null);
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
                 $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
             }

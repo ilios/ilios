@@ -118,8 +118,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
 
     protected function compareData(array $expected, array $result)
     {
-        unset($expected['passwordSha256']);
-        unset($expected['passwordBcrypt']);
+        unset($expected['passwordHash']);
         unset($expected['password']);
         $this->assertEquals(
             $expected,
@@ -178,8 +177,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        unset($data['passwordSha256']);
-        unset($data['passwordBcrypt']);
+        unset($data['passwordHash']);
         $data['username'] = 'somethingnew';
         $data['password'] = 'somethingnew';
 
@@ -190,8 +188,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        unset($data['passwordSha256']);
-        unset($data['passwordBcrypt']);
+        unset($data['passwordHash']);
         $data['username'] = 'somethingnew';
         $data['password'] = 'somethingnew';
         $jsonApiData = $dataLoader->createJsonApi($data);
@@ -295,8 +292,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
                 "Modify " . get_class($this) . '::putsToTest'
             );
         }
-        unset($data['passwordSha256']);
-        unset($data['passwordBcrypt']);
+        unset($data['passwordHash']);
         $data[$key] = $value;
 
         $postData = $data;
@@ -315,8 +311,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $faker = $this->getFaker();
         foreach ($all as $data) {
             $data['username'] = $faker->text(50);
-            unset($data['passwordSha256']);
-            unset($data['passwordBcrypt']);
+            unset($data['passwordHash']);
 
             $this->putTest($data, $data, $data['user']);
         }
@@ -334,8 +329,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $faker = $this->getFaker();
         foreach ($all as $data) {
             $data['username'] = $faker->text(50);
-            unset($data['passwordSha256']);
-            unset($data['passwordBcrypt']);
+            unset($data['passwordHash']);
             $jsonApiData = $dataLoader->createJsonApi($data);
             $this->patchJsonApiTest($data, $jsonApiData);
         }
@@ -507,8 +501,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
                     "Modify " . get_class($this) . '::readOnlyPropertiesToTest'
                 );
             }
-            unset($data['passwordSha256']);
-            unset($data['passwordBcrypt']);
+            unset($data['passwordHash']);
             $postData = $data;
             $postData[$key] = $value;
 

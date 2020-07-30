@@ -89,37 +89,6 @@ class ChangePasswordCommandTest extends KernelTestCase
 
         $authentication = m::mock(AuthenticationInterface::class);
         $user->shouldReceive('getAuthentication')->once()->andReturn($authentication);
-        $authentication->shouldReceive('isLegacyAccount')->once()->andReturn(false);
-
-        $sessionUser = m::mock(SessionUserInterface::class);
-        $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
-
-        $this->encoder->shouldReceive('encodePassword')->with($sessionUser, '123456789')->andReturn('abc');
-        $authentication->shouldReceive('setPasswordHash')->with('abc')->once();
-
-        $this->authenticationManager->shouldReceive('update')->with($authentication);
-
-        $this->commandTester->execute(['command' => self::COMMAND_NAME, 'userId' => '1']);
-
-
-        $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
-            '/Password Changed/',
-            $output
-        );
-    }
-
-
-    public function testChangePasswordOnLegacyAccount()
-    {
-        $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
-        $this->commandTester->setInputs(['123456789']);
-
-        $authentication = m::mock(AuthenticationInterface::class);
-        $user->shouldReceive('getAuthentication')->once()->andReturn($authentication);
-        $authentication->shouldReceive('isLegacyAccount')->once()->andReturn(true);
-        $authentication->shouldReceive('setPasswordSha256')->once()->with(null);
 
         $sessionUser = m::mock(SessionUserInterface::class);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
