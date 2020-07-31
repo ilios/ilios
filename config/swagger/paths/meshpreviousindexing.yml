@@ -44,31 +44,6 @@
               type: array
               items:
                 $ref: '#/definitions/Meshpreviousindexing'
-  post:
-    deprecated: true
-    summary: Create Meshpreviousindexings
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshPreviousIndexings:
-              type: array
-              items:
-                $ref: '#/definitions/Meshpreviousindexing'
-    tags:
-      - Meshpreviousindexings
-    responses:
-      '410':
-        description: Gone
 /meshpreviousindexings/{id}:
   get:
     summary: Fetch a single Meshpreviousindexing
@@ -98,51 +73,3 @@
                 $ref: '#/definitions/Meshpreviousindexing'
       '404':
         description: Not found
-  put:
-    deprecated: true
-    summary: Edit a Meshpreviousindexing
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshPreviousIndexing:
-              $ref: '#/definitions/Meshpreviousindexing'
-    tags:
-      - Meshpreviousindexings
-    responses:
-      '410':
-        description: Gone
-  delete:
-    deprecated: true
-    summary: Delete a Meshpreviousindexing
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    tags:
-      - Meshpreviousindexings
-    responses:
-      '410':
-        description: Gone

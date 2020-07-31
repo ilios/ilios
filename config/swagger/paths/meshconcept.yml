@@ -44,31 +44,6 @@
               type: array
               items:
                 $ref: '#/definitions/Meshconcept'
-  post:
-    deprecated: true
-    summary: Create Meshconcepts
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshConcepts:
-              type: array
-              items:
-                $ref: '#/definitions/Meshconcept'
-    tags:
-      - Meshconcepts
-    responses:
-      '410':
-        description: Gone
 /meshconcepts/{id}:
   get:
     summary: Fetch a single Meshconcept
@@ -98,51 +73,3 @@
                 $ref: '#/definitions/Meshconcept'
       '404':
         description: Not found
-  put:
-    deprecated: true
-    summary: Edit a Meshconcept
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshConcept:
-              $ref: '#/definitions/Meshconcept'
-    tags:
-      - Meshconcepts
-    responses:
-      '410':
-        description: Gone
-  delete:
-    deprecated: true
-    summary: Delete a Meshconcept
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    tags:
-      - Meshconcepts
-    responses:
-      '410':
-        description: Gone

@@ -44,31 +44,6 @@
               type: array
               items:
                 $ref: '#/definitions/Meshterm'
-  post:
-    deprecated: true
-    summary: Create Meshterms
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshTerms:
-              type: array
-              items:
-                $ref: '#/definitions/Meshterm'
-    tags:
-      - Meshterms
-    responses:
-      '410':
-        description: Gone
 /meshterms/{id}:
   get:
     summary: Fetch a single Meshterm
@@ -98,51 +73,3 @@
                 $ref: '#/definitions/Meshterm'
       '404':
         description: Not found
-  put:
-    deprecated: true
-    summary: Edit a Meshterm
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshTerm:
-              $ref: '#/definitions/Meshterm'
-    tags:
-      - Meshterms
-    responses:
-      '410':
-        description: Gone
-  delete:
-    deprecated: true
-    summary: Delete a Meshterm
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    tags:
-      - Meshterms
-    responses:
-      '410':
-        description: Gone
