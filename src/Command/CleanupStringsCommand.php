@@ -402,6 +402,11 @@ class CleanupStringsCommand extends Command
     protected function fixLink(string $link): ?string
     {
         $fixed = trim($link);
+        $fixed = str_ireplace(
+            ['http://https://', 'http://http://', 'http://ftps://', 'http://ftp://'],
+            ['https://', 'http://', 'ftps://', 'ftp://'],
+            $fixed
+        );
         if (preg_match(';^(http|ftp)s?://;i', $fixed)) {
             return $fixed;
         }

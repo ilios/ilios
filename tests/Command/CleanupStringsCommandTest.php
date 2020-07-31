@@ -325,23 +325,27 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
     }
 
-    public function correctLearningMaterialLinksWhitespaceOnlyProvider(): array
+    public function correctLearningMaterialLinksWhithoutFetchingProvider(): array
     {
         return [
             [' http://iliosproject.org', 'http://iliosproject.org'],
             ['https://iliosproject.org    ', 'https://iliosproject.org'],
             [' ftps://iliosproject.org ', 'ftps://iliosproject.org'],
             ['  ftp://iliosproject.org ', 'ftp://iliosproject.org'],
+            ['http://https://iliosproject.org', 'https://iliosproject.org'],
+            ['http://http://iliosproject.org', 'http://iliosproject.org'],
+            ['http://ftp://iliosproject.org', 'ftp://iliosproject.org'],
+            ['http://ftps://iliosproject.org', 'ftps://iliosproject.org'],
         ];
     }
 
     /**
      * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     * @dataProvider correctLearningMaterialLinksWhitespaceOnlyProvider
+     * @dataProvider correctLearningMaterialLinksWhithoutFetchingProvider
      * @param string $link
      * @param string $fixedLink
      */
-    public function testCorrectLearningMaterialLinksWhitespaceOnly($link, $fixedLink)
+    public function testCorrectLearningMaterialLinksWithoutFetching($link, $fixedLink)
     {
         $lm = m::mock(LearningMaterialInterface::class);
         $lm->shouldReceive('getLink')->andReturn($link);
