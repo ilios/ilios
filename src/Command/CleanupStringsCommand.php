@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\LearningMaterialInterface;
 use App\Entity\Manager\CourseLearningMaterialManager;
 use App\Entity\Manager\CourseObjectiveManager;
 use App\Entity\Manager\LearningMaterialManager;
@@ -16,9 +17,12 @@ use Exception;
 use HTMLPurifier;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Cleans up all the strings in the database
@@ -45,6 +49,8 @@ class CleanupStringsCommand extends Command
 
     protected SessionManager $sessionManager;
 
+    protected HttpClientInterface $httpClient;
+
     /**
      * @var int where to limit each query for memory management
      */
@@ -59,7 +65,8 @@ class CleanupStringsCommand extends Command
         SessionManager $sessionManager,
         SessionObjectiveManager $sessionObjectiveManager,
         CourseObjectiveManager $courseObjectiveManager,
-        ProgramYearObjectiveManager $programYearObjectiveManager
+        ProgramYearObjectiveManager $programYearObjectiveManager,
+        HttpClientInterface $httpClient
     ) {
         $this->purifier = $purifier;
         $this->em = $em;
@@ -70,6 +77,7 @@ class CleanupStringsCommand extends Command
         $this->sessionObjectiveManager = $sessionObjectiveManager;
         $this->courseObjectiveManager = $courseObjectiveManager;
         $this->programYearObjectiveManager = $programYearObjectiveManager;
+        $this->httpClient = $httpClient;
 
         parent::__construct();
     }
@@ -82,30 +90,36 @@ class CleanupStringsCommand extends Command
         $this
             ->setName('ilios:cleanup-strings')
             ->setAliases(['ilios:maintenance:cleanup-strings'])
-            ->setDescription('Purify HTML strings in the database to only contain allowed elements')
+            ->setDescription('Cleans up selected text fields in the database.')
             ->addOption(
                 'objective-title',
                 null,
                 InputOption::VALUE_NONE,
-                'Should we update the title for objectives?'
+                'Should we purify the markup of objective titles?'
             )
             ->addOption(
                 'learningmaterial-description',
                 null,
                 InputOption::VALUE_NONE,
-                'Should we update the description for learning materials?'
+                'Should we purify the markup of learning material descriptions?'
             )
             ->addOption(
                 'learningmaterial-note',
                 null,
                 InputOption::VALUE_NONE,
-                'Should we update the notes for learning materials?'
+                'Should we purify the markup of learning materials notes?'
             )
             ->addOption(
                 'session-description',
                 null,
                 InputOption::VALUE_NONE,
-                'Should we update the description for sessions?'
+                'Should we purify the markup of session descriptions?'
+            )
+            ->addOption(
+                'learningmaterial-links',
+                null,
+                InputOption::VALUE_NONE,
+                'Should we attempt to correct learning material links?'
             );
     }
 
@@ -127,6 +141,9 @@ class CleanupStringsCommand extends Command
         }
         if ($input->getOption('session-description')) {
             $this->purifySessionDescription($output);
+        }
+        if ($input->getOption('learningmaterial-links')) {
+            $this->correctLearningMaterialLinks($output);
         }
 
         return 0;
@@ -324,5 +341,85 @@ class CleanupStringsCommand extends Command
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Session Descriptions updated.</info>");
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    public function correctLearningMaterialLinks(OutputInterface $output): void
+    {
+        $cleaned = 0;
+        $offset = 0;
+        $failures = [];
+        $limit = self::QUERY_LIMIT;
+        $total = $this->learningMaterialManager->getTotalLearningMaterialCount();
+        $progress = new ProgressBar($output, $total);
+        $progress->setRedrawFrequency(208);
+        $output->writeln("<info>Starting cleanup of learning material links...</info>");
+        $progress->start();
+        do {
+            $materials = $this->learningMaterialManager->findBy([], ['id' => 'ASC'], $limit, $offset);
+            /* @var LearningMaterialInterface $material */
+            foreach ($materials as $material) {
+                $original = $material->getLink();
+                if (null === $original || '' === trim($original)) {
+                    continue;
+                }
+                try {
+                    $fixed = $this->fixLink($original);
+                    if ($original !== $fixed) {
+                        $cleaned++;
+                        $material->setLink($fixed);
+                        $this->learningMaterialManager->update($material, false);
+                    }
+                } catch (Exception $e) {
+                    $failures[] = [$material->getId(), $original, $e->getMessage()];
+                }
+                $progress->advance();
+            }
+
+            $offset += $limit;
+            $this->em->flush();
+            $this->em->clear();
+        } while (count($materials) === $limit);
+        $progress->finish();
+        $output->writeln('');
+        $output->writeln("<info>{$cleaned} learning material links updated, " . count($failures) . " failures.</info>");
+        $output->writeln('');
+        if (! empty($failures) && $output->isVerbose()) {
+            $table = new Table($output);
+            $table->setHeaders(['Learning Material ID', 'Link', 'Error Message']);
+            $table->setRows($failures);
+            $table->render();
+        }
+    }
+
+    /**
+     * @param string $link
+     * @return string|null
+     * @throws TransportExceptionInterface
+     */
+    protected function fixLink(string $link): ?string
+    {
+        $fixed = trim($link);
+        $fixed = str_ireplace(
+            ['http://https://', 'http://http://', 'http://ftps://', 'http://ftp://'],
+            ['https://', 'http://', 'ftps://', 'ftp://'],
+            $fixed
+        );
+        if (preg_match(';^(http|ftp)s?://;i', $fixed)) {
+            return $fixed;
+        }
+
+        // attempt to fetch a response over HTTPS first.
+        $url = 'https://' . $fixed;
+        try {
+            $this->httpClient->request('HEAD', $url);
+        } catch (Exception $e) {
+            // fallback - try getting a response over plain HTTP.
+            $url = 'http://' . $fixed;
+            $this->httpClient->request('HEAD', $url);
+        }
+        return $url;
     }
 }

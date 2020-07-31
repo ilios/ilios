@@ -52,9 +52,9 @@ class LearningMaterialManager extends BaseManager
     /**
      * @return int
      */
-    public function getTotalLearningMaterialCount()
+    public function getTotalLearningMaterialCount(): int
     {
-        return $this->em
+        return (int) $this->em
             ->createQuery('SELECT COUNT(l.id) FROM App\Entity\LearningMaterial l')->getSingleScalarResult();
     }
 
