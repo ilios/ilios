@@ -60,16 +60,6 @@ class CalendarEvent
 
     /**
      * @var string
-     *
-     * @deprecated use color instead
-     *
-     * @IS\Expose
-     * @IS\Type("string")
-     **/
-    public $eventClass;
-
-    /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      **/

@@ -27,11 +27,6 @@ CalendarEvent:
    description: The ID of the ILM Session this event belongs to
    type: integer
    readOnly: true
-  eventClass:
-   description: CSS class to apply to an event
-   type: string
-   readOnly: true
-   deprecated: true
   color:
    description: Color to apply to an event
    type: string
