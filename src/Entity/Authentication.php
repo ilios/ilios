@@ -54,20 +54,6 @@ class Authentication implements AuthenticationInterface
     private $username;
 
     /**
-     * @ORM\Column(name="password_sha256", type="string", length=64, nullable=true)
-     * @var string
-     *
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 64,
-     *     allowEmptyString = true
-     * )
-     *
-     */
-    private $passwordSha256;
-
-    /**
      * @ORM\Column(name="password_hash", type="string", nullable=true)
      * @var string
      *
@@ -111,27 +97,8 @@ class Authentication implements AuthenticationInterface
     /**
      * @inheritdoc
      */
-    public function setPasswordSha256($passwordSha256)
-    {
-        $this->passwordSha256 = $passwordSha256;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPasswordSha256()
-    {
-        return $this->passwordSha256;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function setPasswordHash($passwordHash)
     {
-        if ($passwordHash) {
-            $this->setPasswordSha256(null);
-        }
         $this->passwordHash = $passwordHash;
     }
 
@@ -148,9 +115,7 @@ class Authentication implements AuthenticationInterface
      */
     public function getPassword()
     {
-        $newPassword = $this->getPasswordHash();
-        $legacyPassword = $this->getPasswordSha256();
-        return $newPassword ? $newPassword : $legacyPassword;
+        return $this->getPasswordHash();
     }
 
 
@@ -168,14 +133,6 @@ class Authentication implements AuthenticationInterface
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isLegacyAccount()
-    {
-        return (bool) $this->getPasswordSha256();
     }
 
     /**

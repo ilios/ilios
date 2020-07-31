@@ -22,19 +22,9 @@ interface AuthenticationInterface extends LoggableEntityInterface
     public function getUsername();
 
     /**
-     * @param string $passwordSha256
+     * @param string $passwordHash
      */
-    public function setPasswordSha256($passwordSha256);
-
-    /**
-     * @return string
-     */
-    public function getPasswordSha256();
-
-    /**
-     * @param string $passwordBcrypt
-     */
-    public function setPasswordHash($passwordBcrypt);
+    public function setPasswordHash($passwordHash);
 
     /**
      * @return string
@@ -55,12 +45,6 @@ interface AuthenticationInterface extends LoggableEntityInterface
      * @return UserInterface
      */
     public function getUser();
-
-    /**
-     * Check if this is a legacy account
-     * @return bool
-     */
-    public function isLegacyAccount();
 
 
     /**

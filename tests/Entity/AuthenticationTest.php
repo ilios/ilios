@@ -36,14 +36,6 @@ class AuthenticationTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Authentication::setPasswordSha256
-     */
-    public function testSetPasswordSha256()
-    {
-        $this->basicSetTest('passwordSha256', 'string');
-    }
-
-    /**
      * @covers \App\Entity\Authentication::setUser
      * @covers \App\Entity\Authentication::getUser
      */

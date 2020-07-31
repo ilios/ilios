@@ -26,7 +26,6 @@ class SessionUser implements SessionUserInterface
     protected int $schoolId;
     protected ?DateTime $tokenNotValidBefore = null;
     protected ?string $password;
-    protected bool $isLegacyAccount = false;
     protected array $directedCourseAndSchoolIds;
     protected array $administeredCourseAndSchoolIds;
     protected array $directedSchoolIds;
@@ -66,7 +65,6 @@ class SessionUser implements SessionUserInterface
         if ($authentication) {
             $this->tokenNotValidBefore = $authentication->getInvalidateTokenIssuedBefore();
             $this->password = $authentication->getPassword();
-            $this->isLegacyAccount = $authentication->isLegacyAccount();
         }
     }
 
@@ -231,20 +229,6 @@ class SessionUser implements SessionUserInterface
     public function getId()
     {
         return $this->userId;
-    }
-
-    /**
-     * Use the old ilios legacy encoder for accounts
-     * that haven't changed their password
-     * @return string|null
-     */
-    public function getEncoderName()
-    {
-        if ($this->isLegacyAccount) {
-            return 'ilios_legacy_encoder';
-        }
-
-        return null; // use the default encoder
     }
 
     /**
