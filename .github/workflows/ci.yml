@@ -105,7 +105,7 @@ jobs:
       run: composer install --no-interaction --prefer-dist
     - name: Drop, Create, Migrate, and Validate DB
       env:
-        ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=5.7
+        ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=5.6
       run: |
         sudo /etc/init.d/mysql start
         bin/console doctrine:database:drop --if-exists --force
@@ -174,15 +174,55 @@ jobs:
     - name: Second Run
       run: bin/phpunit --group twice
 
-  build_and_run_container:
-    name: Build and Run Container
+  build_and_run_containers:
+    name: Build, Run, Test Containers
     needs: code_style_security
     runs-on: ubuntu-latest
+    env:
+      ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=5.6
+      ILIOS_SECRET: DifferentSecret
+      ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
     steps:
     - uses: actions/checkout@v1
-    - name: Build, Run, Test Container
+    - name: Drop, Create Database to use everywhere else
+      run: |
+        sudo /etc/init.d/mysql start
+        mysql -uroot -proot -e "DROP DATABASE IF EXISTS ilios"
+        mysql -uroot -proot -e "CREATE DATABASE ilios"
+    - name: Migrate Database
+      run: |
+        docker build --target migrate-database -t ilios-migrate-database .
+        docker run --name ilios-migrate-database -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH --network=host ilios-migrate-database
+    - name: Consume Messages
+      run: |
+        docker build --target consume-messages -t ilios-consume-messages .
+        docker run -d --name ilios-consume-messages -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-consume-messages
+        docker ps | grep -q ilios-consume-messages
+    - name: Apache PHP
       run: |
         docker build -t ilios-php-apache-test .
-        docker run -d --name ilios-php-apache-test -e "ILIOS_SECRET=DifferentSecret" ilios-php-apache-test
+        docker run -d --name ilios-php-apache-test -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-php-apache-test
         docker ps | grep -q ilios-php-apache-test
         docker exec ilios-php-apache-test php /var/www/ilios/bin/console monitor:health
+    - name: Nginx
+      run: |
+        docker build --target nginx -t ilios-nginx .
+        docker run -d --name ilios-nginx ilios-nginx
+        docker ps | grep -q ilios-nginx
+    - name: FPM
+      run: |
+        docker build --target fpm -t ilios-fpm .
+        docker run -d --name ilios-fpm -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-fpm
+        docker ps | grep -q ilios-fpm
+        docker exec ilios-fpm php /var/www/ilios/bin/console monitor:health
+    - name: FPM Dev
+      run: |
+        docker build --target fpm-dev -t ilios-fpm-dev .
+        docker run -d --name ilios-fpm-dev -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-fpm-dev
+        docker ps | grep -q ilios-fpm-dev
+        docker exec ilios-fpm-dev php /var/www/ilios/bin/console monitor:health
+    - name: Admin
+      run: |
+        docker build --target admin -t ilios-admin .
+        docker run -d --name ilios-admin ilios-admin
+        docker ps | grep -q ilios-admin

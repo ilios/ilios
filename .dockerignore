@@ -15,6 +15,7 @@ docker-composer.yml
 Dockerfile
 docs
 *.xml.dist
+bin/.phpunit
 
 /.env.local
 /.env.local.php
