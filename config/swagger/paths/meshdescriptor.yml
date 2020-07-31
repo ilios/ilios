@@ -49,31 +49,6 @@
               type: array
               items:
                 $ref: '#/definitions/Meshdescriptor'
-  post:
-    deprecated: true
-    summary: Create Meshdescriptors
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshDescriptors:
-              type: array
-              items:
-                $ref: '#/definitions/Meshdescriptor'
-    tags:
-      - Meshdescriptors
-    responses:
-      '410':
-        description: Gone
 /meshdescriptors/{id}:
   get:
     summary: Fetch a single Meshdescriptor
@@ -103,51 +78,3 @@
                 $ref: '#/definitions/Meshdescriptor'
       '404':
         description: Not found
-  put:
-    deprecated: true
-    summary: Edit a Meshdescriptor
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshDescriptor:
-              $ref: '#/definitions/Meshdescriptor'
-    tags:
-      - Meshdescriptors
-    responses:
-      '410':
-        description: Gone
-  delete:
-    deprecated: true
-    summary: Delete a Meshdescriptor
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    tags:
-      - Meshdescriptors
-    responses:
-      '410':
-        description: Gone

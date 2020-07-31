@@ -44,31 +44,6 @@
               type: array
               items:
                 $ref: '#/definitions/Cohort'
-  post:
-    deprecated: true
-    summary: Create Cohorts
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            cohorts:
-              type: array
-              items:
-                $ref: '#/definitions/Cohort'
-    tags:
-      - Cohorts
-    responses:
-      '410':
-        description: Gone
 /cohorts/{id}:
   get:
     summary: Fetch a single Cohort
@@ -136,23 +111,3 @@
         description: Access Denied
       '404':
         description: Not Found
-  delete:
-    deprecated: true
-    summary: Delete a Cohort
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    tags:
-      - Cohorts
-    responses:
-      '410':
-        description: Gone

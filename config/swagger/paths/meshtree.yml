@@ -44,31 +44,6 @@
               type: array
               items:
                 $ref: '#/definitions/Meshtree'
-  post:
-    deprecated: true
-    summary: Create Meshtrees
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshTrees:
-              type: array
-              items:
-                $ref: '#/definitions/Meshtree'
-    tags:
-      - Meshtrees
-    responses:
-      '410':
-        description: Gone
 /meshtrees/{id}:
   get:
     summary: Fetch a single Meshtree
@@ -98,51 +73,3 @@
                 $ref: '#/definitions/Meshtree'
       '404':
         description: Not found
-  put:
-    deprecated: true
-    summary: Edit a Meshtree
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshTree:
-              $ref: '#/definitions/Meshtree'
-    tags:
-      - Meshtrees
-    responses:
-      '410':
-        description: Gone
-  delete:
-    deprecated: true
-    summary: Delete a Meshtree
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    tags:
-      - Meshtrees
-    responses:
-      '410':
-        description: Gone

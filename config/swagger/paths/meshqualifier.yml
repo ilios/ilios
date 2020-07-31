@@ -44,31 +44,6 @@
               type: array
               items:
                 $ref: '#/definitions/Meshqualifier'
-  post:
-    deprecated: true
-    summary: Create Meshqualifiers
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshqualifiers:
-              type: array
-              items:
-                $ref: '#/definitions/Meshqualifier'
-    tags:
-      - Meshqualifiers
-    responses:
-      '410':
-        description: Gone
 /meshqualifiers/{id}:
   get:
     summary: Fetch a single Meshqualifier
@@ -98,51 +73,3 @@
                 $ref: '#/definitions/Meshqualifier'
       '404':
         description: Not found
-  put:
-    deprecated: true
-    summary: Edit a Meshqualifier
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            meshQualifier:
-              $ref: '#/definitions/Meshqualifier'
-    tags:
-      - Meshqualifiers
-    responses:
-      '410':
-        description: Gone
-  delete:
-    deprecated: true
-    summary: Delete a Meshqualifier
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    tags:
-      - Meshqualifiers
-    responses:
-      '410':
-        description: Gone
