@@ -6,6 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\CleanupStringsCommand;
 use App\Entity\CourseObjectiveInterface;
+use App\Entity\LearningMaterialInterface;
 use App\Entity\Manager\CourseLearningMaterialManager;
 use App\Entity\Manager\CourseObjectiveManager;
 use App\Entity\Manager\LearningMaterialManager;
@@ -17,11 +18,14 @@ use App\Entity\ProgramYearObjectiveInterface;
 use App\Entity\SessionInterface;
 use App\Entity\SessionObjectiveInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use HTMLPurifier;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Class CleanupStringsCommandTest
@@ -44,6 +48,7 @@ class CleanupStringsCommandTest extends KernelTestCase
     protected $sessionLearningMaterialManager;
     protected $sessionManager;
     protected CommandTester $commandTester;
+    protected HttpClientInterface $httpClient;
 
     public function setUp(): void
     {
@@ -57,6 +62,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->sessionLearningMaterialManager = m::mock(SessionLearningMaterialManager::class);
         $this->sessionManager = m::mock(SessionManager::class);
         $this->em = m::mock(EntityManagerInterface::class);
+        $this->httpClient = m::mock(HttpClientInterface::class);
 
         $command = new CleanupStringsCommand(
             $this->purifier,
@@ -67,7 +73,8 @@ class CleanupStringsCommandTest extends KernelTestCase
             $this->sessionManager,
             $this->sessionObjectiveManager,
             $this->courseObjectiveManager,
-            $this->programYearObjectiveManager
+            $this->programYearObjectiveManager,
+            $this->httpClient
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -92,6 +99,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         unset($this->sessionLearningMaterialManager);
         unset($this->sessionManager);
         unset($this->commandTester);
+        unset($this->httpClient);
     }
 
     public function testObjectiveTitle()
@@ -283,5 +291,239 @@ class CleanupStringsCommandTest extends KernelTestCase
             '/1 Session Descriptions updated/',
             $output
         );
+    }
+
+    public function correctLearningMaterialLinksProvider(): array
+    {
+        return [
+            ['iliosproject.org', 'https://iliosproject.org'],
+            ['http//iliosproject.org', 'https://http//iliosproject.org'],
+        ];
+    }
+
+    /**
+     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
+     * @dataProvider correctLearningMaterialLinksProvider
+     * @param string $link
+     * @param string $fixedLink
+     */
+    public function testCorrectLearningMaterialLinks($link, $fixedLink)
+    {
+        $lm = m::mock(LearningMaterialInterface::class);
+        $lm->shouldReceive('getLink')->andReturn($link);
+        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->once()->andReturn(1);
+        $this->learningMaterialManager->shouldReceive('findBy')->andReturn([ $lm ]);
+        $this->httpClient->shouldReceive('request')->once()->with('HEAD', $fixedLink);
+        $lm->shouldReceive('setLink')->once()->with($fixedLink);
+        $this->learningMaterialManager->shouldReceive('update')->once()->with($lm, false);
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+
+        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
+    }
+
+    public function correctLearningMaterialLinksWhitespaceOnlyProvider(): array
+    {
+        return [
+            [' http://iliosproject.org', 'http://iliosproject.org'],
+            ['https://iliosproject.org    ', 'https://iliosproject.org'],
+            [' ftps://iliosproject.org ', 'ftps://iliosproject.org'],
+            ['  ftp://iliosproject.org ', 'ftp://iliosproject.org'],
+        ];
+    }
+
+    /**
+     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
+     * @dataProvider correctLearningMaterialLinksWhitespaceOnlyProvider
+     * @param string $link
+     * @param string $fixedLink
+     */
+    public function testCorrectLearningMaterialLinksWhitespaceOnly($link, $fixedLink)
+    {
+        $lm = m::mock(LearningMaterialInterface::class);
+        $lm->shouldReceive('getLink')->andReturn($link);
+        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->once()->andReturn(1);
+        $this->learningMaterialManager->shouldReceive('findBy')->andReturn([ $lm ]);
+        $this->httpClient->shouldNotReceive('request');
+        $lm->shouldReceive('setLink')->once()->with($fixedLink);
+        $this->learningMaterialManager->shouldReceive('update')->once()->with($lm, false);
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+
+        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
+    }
+
+    public function correctLearningMaterialLinksNoChangesProvider(): array
+    {
+        return [
+            [null],
+            [''],
+            ['    '],
+            ['http://iliosproject.org/'],
+            ['https://iliosproject.org/'],
+            ['ftp://iliosproject.org/'],
+            ['ftps://iliosproject.org/'],
+            ['HttPs://iliosproject.org/'],
+        ];
+    }
+
+    /**
+     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
+     * @dataProvider correctLearningMaterialLinksNoChangesProvider
+     */
+    public function testCorrectLearningMaterialLinksNoChanges($link)
+    {
+        $lm = m::mock(LearningMaterialInterface::class);
+        $lm->shouldReceive('getLink')->andReturn($link);
+        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->once()->andReturn(1);
+        $this->learningMaterialManager->shouldReceive('findBy')->andReturn([ $lm ]);
+        $this->httpClient->shouldNotReceive('request');
+        $lm->shouldNotReceive('setLink');
+        $this->learningMaterialManager->shouldNotReceive('update');
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+
+        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString("0 learning material links updated, 0 failures.", $output);
+    }
+
+    /**
+     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
+     */
+    public function testCorrectLearningMaterialLinksInBulk()
+    {
+        $total = 1001;
+        $lms = [];
+        for ($i = 0; $i < $total; $i++) {
+            $url = "iliosproject{$i}.org";
+            $fixedUrl = 'https://' . $url;
+            $lm = m::mock(LearningMaterialInterface::class);
+            $lm->shouldReceive('getLink')->once()->andReturn($url);
+            $lm->shouldReceive('setLink')->once()->with($fixedUrl);
+            $lms[] = $lm;
+        }
+        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->once()->andReturn($total);
+        $this->learningMaterialManager
+            ->shouldReceive('findBy')
+            ->with([], ['id' => 'ASC'], 500, 0)
+            ->once()
+            ->andReturn(array_slice($lms, 0, 500));
+        $this->learningMaterialManager
+            ->shouldReceive('findBy')
+            ->with([], ['id' => 'ASC'], 500, 500)
+            ->once()
+            ->andReturn(array_slice($lms, 500, 500));
+        $this->learningMaterialManager
+            ->shouldReceive('findBy')
+            ->with([], ['id' => 'ASC'], 500, 1000)
+            ->once()
+            ->andReturn(array_slice($lms, 1000));
+
+        $this->httpClient->shouldReceive('request')->times($total);
+        $this->learningMaterialManager->shouldReceive('update')->times($total);
+        $this->em->shouldReceive('flush')->times(3);
+        $this->em->shouldReceive('clear')->times(3);
+
+        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString("{$total} learning material links updated, 0 failures.", $output);
+    }
+
+    /**
+     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
+     */
+    public function testCorrectLearningMaterialLinksFails()
+    {
+        $link = 'iliosproject.org';
+        $lm = m::mock(LearningMaterialInterface::class);
+        $lm->shouldReceive('getLink')->andReturn($link);
+        $lm->shouldReceive('getId')->andReturn(1);
+        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->once()->andReturn(1);
+        $this->learningMaterialManager->shouldReceive('findBy')->andReturn([ $lm ]);
+        $this->httpClient->shouldReceive('request')
+            ->once()
+            ->with('HEAD', 'https://' . $link)
+            ->andThrow(new Exception());
+        $this->httpClient->shouldReceive('request')->once()->with('HEAD', 'http://' . $link)->andThrow(new Exception());
+        $lm->shouldNotReceive('setLink');
+        $this->learningMaterialManager->shouldNotReceive('update');
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+
+        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString("0 learning material links updated, 1 failures.", $output);
+    }
+
+    /**
+     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
+     */
+    public function testCorrectLearningMaterialLinksFailsOnHttps()
+    {
+        $link = 'iliosproject.org';
+        $fixedUrl = 'http://iliosproject.org';
+        $lm = m::mock(LearningMaterialInterface::class);
+        $lm->shouldReceive('getLink')->andReturn($link);
+        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->once()->andReturn(1);
+        $this->learningMaterialManager->shouldReceive('findBy')->andReturn([ $lm ]);
+        $this->httpClient->shouldReceive('request')
+            ->once()
+            ->with('HEAD', 'https://' . $link)
+            ->andThrow(new Exception());
+        $this->httpClient->shouldReceive('request')->once()->with('HEAD', 'http://' . $link);
+        $lm->shouldReceive('setLink')->once()->with($fixedUrl);
+        $this->learningMaterialManager->shouldReceive('update')->once()->with($lm, false);
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+
+        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
+    }
+
+    /**
+     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
+     */
+    public function testCorrectLearningMaterialLinksVerboseFailureOutput()
+    {
+        $link = 'iliosproject.org';
+        $lm = m::mock(LearningMaterialInterface::class);
+        $lm->shouldReceive('getLink')->andReturn($link);
+        $lm->shouldReceive('getId')->andReturn(1);
+        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->once()->andReturn(1);
+        $this->learningMaterialManager->shouldReceive('findBy')->andReturn([ $lm ]);
+        $this->httpClient->shouldReceive('request')
+            ->once()
+            ->with('HEAD', 'https://' . $link)
+            ->andThrow(new Exception());
+        $this->httpClient->shouldReceive('request')
+            ->once()
+            ->with('HEAD', 'http://' . $link)
+            ->andThrow(new Exception('FAIL!'));
+        $lm->shouldNotReceive('setLink');
+        $this->learningMaterialManager->shouldNotReceive('update');
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+
+        $this->commandTester->execute(
+            [ 'command' => self::COMMAND_NAME,'--learningmaterial-links' => true ],
+            [ 'verbosity' => OutputInterface::VERBOSITY_VERBOSE],
+        );
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString("0 learning material links updated, 1 failures.", $output);
+        $this->assertRegExp('/\| Learning Material ID\s+\| Link\s+\| Error Message\s+\|/', $output);
+        $this->assertRegExp('/\| 1\s+\| iliosproject.org\s+\| FAIL!\s+\|/', $output);
     }
 }
