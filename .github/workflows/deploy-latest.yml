@@ -10,7 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: [php-apache, nginx, fpm, fpm-dev, admin, migrate-database, update-frontend, consume-messages]
+        image:
+          - php-apache
+          - nginx
+          - fpm
+          - fpm-dev
+          - admin
+          - migrate-database
+          - update-frontend
+          - consume-messages
+          - ilios-mysql
+          - ilios-mysql-demo
     steps:
     - uses: actions/checkout@v2
     - name: ${{ matrix.image }} to Github Registry
