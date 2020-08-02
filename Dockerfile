@@ -163,6 +163,14 @@ ENTRYPOINT ["/var/www/ilios/bin/console"]
 CMD ["messenger:consume", "async"]
 
 ###############################################################################
+# MySQL configured as needed for Ilios
+###############################################################################
+FROM mysql:5.6 as ilios-mysql
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+ENV MYSQL_RANDOM_ROOT_PASSWORD yes
+COPY docker/ilios-mysql.cnf /etc/mysql/conf.d/ilios.cnf
+
+###############################################################################
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################

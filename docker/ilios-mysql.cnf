@@ -1,0 +1,5 @@
+[mysqld]
+  max_allowed_packet     = 64M
+  innodb_log_buffer_size = 32M
+  innodb_log_file_size   = 768M
+  skip-name-resolve
