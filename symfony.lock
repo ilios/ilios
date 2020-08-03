@@ -132,6 +132,9 @@
             "config/packages/exercise_html_purifier.yaml"
         ]
     },
+    "exsyst/swagger": {
+        "version": "v0.4.1"
+    },
     "ezimuel/guzzlestreams": {
         "version": "3.0.1"
     },
@@ -221,6 +224,19 @@
     },
     "mtdowling/jmespath.php": {
         "version": "2.5.0"
+    },
+    "nelmio/api-doc-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        },
+        "files": [
+            "config/packages/nelmio_api_doc.yaml",
+            "config/routes/nelmio_api_doc.yaml"
+        ]
     },
     "nelmio/cors-bundle": {
         "version": "1.5",
@@ -750,5 +766,8 @@
     },
     "zendframework/zenddiagnostics": {
         "version": "v1.6.0"
+    },
+    "zircote/swagger-php": {
+        "version": "2.0.16"
     }
 }
