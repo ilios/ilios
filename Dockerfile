@@ -206,13 +206,15 @@ RUN \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && docker-php-ext-enable opcache \
+    # enable modules
+    && a2enmod rewrite mpm_prefork deflate headers \
     && rm -rf /var/lib/apt/lists/* \
     # remove the apt source files to save space
     && apt-get purge libldap2-dev zlib1g-dev libicu-dev -y \
     && apt-get autoremove -y
 
 COPY ./docker/php.ini $PHP_INI_DIR
-COPY ./docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
+COPY ./docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
 # add our own entrypoint scripts
 COPY docker/php-apache-entrypoint /usr/local/bin/
