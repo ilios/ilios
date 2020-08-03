@@ -33,7 +33,7 @@
         items:
           type: string
     tags:
-      - sessionobjective
+      - Sessionobjective
     responses:
       '200':
         description: An array of session objectives.
@@ -64,7 +64,7 @@
               items:
                 $ref: '#/definitions/SessionObjective'
     tags:
-      - sessionobjective
+      - Sessionobjective
     responses:
       '201':
         description: An array of newly created session objectives.
@@ -95,7 +95,7 @@
         description: id
         type: integer
     tags:
-      - sessionobjective
+      - Sessionobjective
     responses:
       '200':
         description: A single session objective.
@@ -131,7 +131,7 @@
             sessionObjective:
               $ref: '#/definitions/SessionObjective'
     tags:
-      - sessionobjective
+      - Sessionobjective
     responses:
       '200':
         description: The updated session objective.
@@ -161,7 +161,7 @@
         description: id
         type: integer
     tags:
-      - sessionobjective
+      - Sessionobjective
     responses:
       '204':
         description: Session objective successfully deleted.
