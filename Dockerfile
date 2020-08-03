@@ -17,7 +17,7 @@ COPY ./docker/monolog.yaml /src/config/packages/prod
 # Nginx Configured to Run Ilios from an FPM host
 ###############################################################################
 FROM nginx:1.19-alpine as nginx
-MAINTAINER Ilios Project Team <support@iliosproject.org>
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=src /src /var/www/ilios
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
 ENV FPM_CONTAINERS=fpm:9000
@@ -27,7 +27,7 @@ ENV FPM_CONTAINERS=fpm:9000
 # Production ready composer pacakges installed
 ###############################################################################
 FROM php:7.4-fpm as php-base
-MAINTAINER Ilios Project Team <support@iliosproject.org>
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src /var/www/ilios
 
@@ -81,14 +81,14 @@ COPY docker/php-fpm-entrypoint /usr/local/bin/docker-php-entrypoint
 # Really just a wrapper around php-base, but here in case we need to modify it
 ###############################################################################
 FROM php-base as fpm
-MAINTAINER Ilios Project Team <support@iliosproject.org>
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 
 ###############################################################################
 # FPM configured for development
 # Runs a dev environment and composer dependencies
 ###############################################################################
 FROM fpm as fpm-dev
-MAINTAINER Ilios Project Team <support@iliosproject.org>
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV APP_ENV dev
 ENV APP_DEBUG true
 # Remove opcache production only optimizations
@@ -105,7 +105,7 @@ RUN /usr/bin/composer install \
 # Admin container, allows SSH access so it can be deployed as a bastion server
 ###############################################################################
 FROM php-base as admin
-MAINTAINER Ilios Project Team <support@iliosproject.org>
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 
 # semi-colon seperates list of github users that can SSH in
 ENV GITHUB_ACCOUNT_SSH_USERS=''
@@ -167,7 +167,7 @@ CMD ["messenger:consume", "async"]
 # a single container
 ###############################################################################
 FROM php:7.4-apache as php-apache
-MAINTAINER Ilios Project Team <support@iliosproject.org>
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src /var/www/ilios
 
