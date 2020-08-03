@@ -33,7 +33,7 @@
         items:
           type: string
     tags:
-      - courseobjective
+      - Courseobjective
     responses:
       '200':
         description: An array of course objectives.
@@ -64,7 +64,7 @@
               items:
                 $ref: '#/definitions/CourseObjective'
     tags:
-      - courseobjective
+      - Courseobjective
     responses:
       '201':
         description: An array of newly created course objectives.
@@ -95,7 +95,7 @@
         description: id
         type: integer
     tags:
-      - courseobjective
+      - Courseobjective
     responses:
       '200':
         description: A single course objective.
@@ -131,7 +131,7 @@
             courseObjective:
               $ref: '#/definitions/CourseObjective'
     tags:
-      - courseobjective
+      - Courseobjective
     responses:
       '200':
         description: The updated course objective.
@@ -161,7 +161,7 @@
         description: id
         type: integer
     tags:
-      - courseobjective
+      - Courseobjective
     responses:
       '204':
         description: Course objective successfully deleted.
