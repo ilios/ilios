@@ -2,8 +2,89 @@ nelmio_api_doc:
     documentation:
         info:
             title: Ilios API Documentation
-            description: This document provides instructions for connecting to the Ilios API for making requests to an
-                Ilios backend from third-party applications.
+            description: >-
+                <p>This document provides instructions for connecting to the Ilios API for making requests to an
+                Ilios backend from third-party applications.</p>
+                <h2 id="api-endpoints">API Endpoints</h2>
+                <p>The functional endpoints provided by the Ilios API, and how they are called, are listed and
+                documented at /api/doc on the webserver that runs Ilios. For example, to examine the API
+                endpoints and their use on one would just need to visit <a href="/api/doc/">/api/doc/</a> in their browser.</p>
+                <h2 id="api-authentication-using-json-web-tokens">API Authentication - Using JSON Web Tokens</h2>
+                <p>To make calls to any of the endpoints provided by the Ilios API, a valid JSON Web Token (JWT) must
+                be sent along in the headers of the HTTP request.  JWTs can be created and invalidated as-needed by
+                any user when they visit their profile page <a href="/myprofile">/myprofile</a> in the Ilios application.
+                The permissions for the token reflect those of the account of the user creating the token -
+                any tasks available to the user within the Ilios frontend GUI application will be available to the
+                user&#39;s API request(s) when making API calls using the JWT token they generated.</p>
+                <h3 id="creating-a-json-web-token-jwt-">Creating a JSON Web Token (JWT)</h3>
+                <p>To create a new JWT, a user should log into their Ilios application and visit their profile page
+                at <a href="/myprofile">/myprofile</a>.
+                Once on their profile page, they can create a new token by clicking on the &#39;Create New&#39; button, selecting
+                an expiration date for the token, and copying the JWT text returned. For security reasons, it is
+                ill-advised to create a token with an expiration date far out into the future; tokens should only
+                remain valid for their intended duration and no longer.  All tokens no longer being used should be
+                invalidated ASAP.</p>
+                <h3 id="creating-jwt-tokens-from-the-command-line">Creating JWT tokens from the command line</h3>
+                <p>JSON Web Tokens can also be created by an Ilios administrator using the Ilios console application at
+                the command-line and running the following command in the context of the user that runs the webserver
+                (eg, &#39;apache&#39;).  The Ilios user_id = 18 for this example:</p>
+                <pre><code class="lang-bash"><span class="hljs-string">sudo </span>-u <span class="hljs-string">apache </span><span class="hljs-string">bin/</span><span class="hljs-string">console </span><span class="hljs-string">ilios:maintenance:</span><span class="hljs-built_in">create-user-token</span> <span class="hljs-string">18 </span><span class="hljs-built_in">--env=prod</span>
+                </code></pre>
+                <h3 id="authenticating-requests-using-x-jwt-authorization-in-your-http-request-headers">Authenticating requests using &#39;X-JWT-Authorization&#39; in your HTTP request headers</h3>
+                <p>The value of JWT that was copied when the token was generated should be added to the HTTP headers as
+                the value associated with &#39;X-JWT-Authorization&#39; header and it should be prefixed with the work
+                &#39;Token &#39; (the word &#39;Token&#39;, followed by a single space).  For example, if the token generated is:</p>
+                <pre><code>eyJ<span class="hljs-number">0</span>eXAiOiJKV<span class="hljs-number">1</span>QiLCJhbGciOiJIUzI<span class="hljs-number">1</span><span class="hljs-symbol">NiJ9</span>.eyJpc<span class="hljs-number">3</span>MiOiJpbGl<span class="hljs-attr">vcyIsImF1</span>ZCI<span class="hljs-number">6</span>ImlsaW<span class="hljs-number">9</span>zIiwiaWF<span class="hljs-number">0</span>IjoiMTQ<span class="hljs-number">3</span>OTE<span class="hljs-number">2</span><span class="hljs-symbol">NDIxNSIsImV4</span>cCI<span class="hljs-number">6</span>IjE<span class="hljs-number">0</span>ODA<span class="hljs-number">0</span>MDY<span class="hljs-number">0</span>MDAiLCJ<span class="hljs-number">1</span>c<span class="hljs-number">2</span>VyX<span class="hljs-number">2</span>lkIjox<span class="hljs-symbol">Nn0</span><span class="hljs-number">.45</span>R<span class="hljs-symbol">N1</span>Tw<span class="hljs-number">9</span>bd_dgeiGVTJC<span class="hljs-name">m8</span>sy_x<span class="hljs-number">4</span>UD_a<span class="hljs-number">9</span>xE<span class="hljs-number">4</span>hHYS<span class="hljs-number">6</span>H<span class="hljs-number">08</span>
+                </code></pre><p>then the header attribute sent should look like this:</p>
+                <pre><code><span class="hljs-selector-tag">X-JWT-Authorization</span>: <span class="hljs-selector-tag">Token</span> <span class="hljs-selector-tag">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</span><span class="hljs-selector-class">.eyJpc3MiOiJpbGlvcyIsImF1ZCI6ImlsaW9zIiwiaWF0IjoiMTQ3OTE2NDIxNSIsImV4cCI6IjE0ODA0MDY0MDAiLCJ1c2VyX2lkIjoxNn0</span><span class="hljs-selector-class">.45RN1Tw9bd_dgeiGVTJCm8sy_x4UD_a9xE4hHYS6H08</span>
+                </code></pre><p>(Note the space between the word &#39;Token&#39; and the token value itself!)</p>
+                <p>This is the header value that should be sent with every HTTP request that uses this token to authenticate.</p>
+                <h3 id="verifying-testing-jwt-authentication">Verifying/testing JWT Authentication</h3>
+                <p>There are two ways to easily test the validity of a JSON Web Token, through this Ilios API Sandbox
+                or by using a browser extension for either Google Chrome or Firefox.  Both methods are described below:</p>
+                <h4 id="verifying-jwt-in-the-ilios-api-sandbox-at-api-doc-">Verifying JWT in the Ilios API Sandbox (at /api/doc)</h4>
+                <p>Aside from being a great source of up-to-date documentation of the methods available via the
+                Ilios API, the Ilios API endpoint reference also provides a sandbox for testing specific calls using
+                your JWT.  To test your newly created JWT in the API sandbox, do the following:</p>
+                <ol>
+                <li>Visit the API documentation on your Ilios installation (<a href="/api/doc/">/api/doc/</a>)</li>
+                <li>Scroll down and find the Ilios API endpoint that you would like to test (ie, &#39;User&#39;)</li>
+                <li>Expand the desired endpoint&#39;s documentation by clicking on the request method (ie, &quot;GET&quot;)</li>
+                <li>Click the &#39;Try it out&#39; button</li>
+                <li>You will be presented with several table roles including one labeled &#39;X-JWT-Authorization&#39;.</li>
+                <li>In the &#39;Value&#39; field, enter &#39;Token [YOUR JWT VALUE]&#39; (Replacing [YOUR JWT VALUE] with the value
+                of the token you are testing) as shown:<pre><code><span class="hljs-selector-tag">Token</span> <span class="hljs-selector-tag">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</span><span class="hljs-selector-class">.eyJpc3MiOiJpbGlvcyIsImF1ZCI6ImlsaW9zIiwiaWF0IjoiMTQ3OTE2NDIxNSIsImV4cCI6IjE0ODA0MDY0MDAiLCJ1c2VyX2lkIjoxNn0</span><span class="hljs-selector-class">.45RN1Tw9bd_dgeiGVTJCm8sy_x4UD_a9xE4hHYS6H08</span>
+                </code></pre></li>
+                </ol>
+                <p>Now, when you click the &#39;Execute&#39; button at the bottom of that section, you should see the JSON-formatted
+                result of the API call! Congratulations! Your JWT token is working correctly!</p>
+                <h4 id="verifying-jwt-using-browser-extensions-for-chrome-or-firefox">Verifying JWT using browser extensions for Chrome or Firefox</h4>
+                <p>If you would like to test the functionality of your new JWT and verify that it is working
+                and/or that the proper results are being returned as-expected WITHOUT using the Ilios API Sandbox,
+                we recommend you test your JWT using the browser extension <a href="https://chrome.google.com/webstore/detail/modify-headers-for-google/innpjfdalfhpcoinfnehdnbkglpmogdi">Modify Headers for
+                Google Chrome</a>
+                or the <a href="https://addons.mozilla.org/en-US/firefox/addon/modify-headers/">Modify Headers extension for Firefox</a>.
+                These extensions will allow you to test a token and view the results of API calls directly within the browser.</p>
+                <p>Using the &#39;Modify Headers for Google Chrome&#39; extension in Google Chrome as an example,
+                visit the extension&#39;s configuration page and do the following:</p>
+                <ol>
+                <li>Click the &#39;Add New&#39; button - a new row should appear to allow for adding a new header.</li>
+                <li>In the new row that appears, select &#39;Add&#39; for the &#39;Action&#39; attribute and enter &#39;X-JWT-Authorization&#39;
+                for the &#39;Name&#39; attribute.</li>
+                <li>Under &#39;Value&#39;, enter the following exactly as displayed below and save/enable it when you&#39;re done:</li>
+                </ol>
+                <pre><code><span class="hljs-selector-tag">Token</span> <span class="hljs-selector-tag">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</span><span class="hljs-selector-class">.eyJpc3MiOiJpbGlvcyIsImF1ZCI6ImlsaW9zIiwiaWF0IjoiMTQ3OTE2NDIxNSIsImV4cCI6IjE0ODA0MDY0MDAiLCJ1c2VyX2lkIjoxNn0</span><span class="hljs-selector-class">.45RN1Tw9bd_dgeiGVTJCm8sy_x4UD_a9xE4hHYS6H08</span>
+                </code></pre><p>If all went as planned, this header value should now be sent with EVERY request you make from the browser
+                until you choose to disable it or you disable and/or uninstall the extension entirely.</p>
+                <p>To test that the header is being sent correctly, visit your Ilios API instance and check for users
+                visiting <a href="/api/v3/users">/api/v3/users</a>.</p>
+                <p>If adding the token to the headers was successful, you will see a JSON-formatted display of
+                all the user accounts in Ilios. Congratulations! Your JWT token is working correctly!</p>
+                <p>The steps for using the Firefox extension are VERY similar to the ones listed above for Google
+                Chrome and should be fairly simple to figure out.</p>
+                <p>NOTE: when you are finished testing your JWT, remember to disable the added header or disable
+                the extension entirely! If you leave it enabled, attempting to sign into the Ilios GUI from this
+                browser will return an error and prevent you from logging in!</p>
             version: v3.0
         securityDefinitions:
             Bearer:
