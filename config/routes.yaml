@@ -86,21 +86,21 @@ ilios_swagger_redirect_docs:
   path: /api/docs/
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
   defaults:
-    path: /api/doc/
+    path: /api/swagger-doc/
     permanent: true
 
 ilios_swagger_index:
-  path:     /api/doc/
+  path:     /api/swagger-doc/
   controller: App\Controller\SwaggerDocsController::indexAction
   methods:  [GET]
 
 ilios_swagger_file:
-  path:     /api/doc/swagger.yml
+  path:     /api/swagger-doc/swagger.yml
   controller: App\Controller\SwaggerDocsController::yamlAction
   methods:  [GET]
 
 ilios_swagger_ui:
-  path:     /api/doc/{fileName}
+  path:     /api/swagger-doc/{fileName}
   requirements:
     fileName: .*
   controller: App\Controller\SwaggerDocsController::uiAction

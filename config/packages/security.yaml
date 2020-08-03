@@ -7,7 +7,7 @@ security:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
     api_docs:
-      pattern:   ^/api/doc
+      pattern:   ^/api/(swagger-)?doc
       anonymous: ~
     anonymous_auth:
       pattern:    ^/(auth|application)/(login|config|logout)
