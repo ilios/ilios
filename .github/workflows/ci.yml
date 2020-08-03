@@ -226,3 +226,13 @@ jobs:
         docker build --target admin -t ilios-admin .
         docker run -d --name ilios-admin ilios-admin
         docker ps | grep -q ilios-admin
+    - name: MySQL
+      run: |
+        docker build --target ilios-mysql -t ilios-mysql .
+        docker run -d --name ilios-mysql ilios-mysql
+        docker ps | grep -q ilios-mysql
+    - name: MySQL Demo
+      run: |
+        docker build --target ilios-mysql-demo -t ilios-mysql-demo .
+        docker run -d --name ilios-mysql-demo ilios-mysql-demo
+        docker ps | grep -q ilios-mysql-demo

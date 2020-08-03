@@ -1,7 +1,9 @@
 version: '3.5'
 services:
     db:
-        image: ilios/mysql-demo
+        build:
+            context: .
+            target: ilios-mysql-demo
         ports:
             - "13306:3306"
 #    nginx:
