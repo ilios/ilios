@@ -5,6 +5,15 @@ nelmio_api_doc:
             description: This document provides instructions for connecting to the Ilios API for making requests to an
                 Ilios backend from third-party applications.
             version: v3.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'API JWT Token'
+                name: X-JWT-Authorization
+                in: header
+                default: 'Token XXX'
+        security:
+            - Bearer: []
     areas: # to filter documented areas
         path_patterns:
-            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+            - ^/api(?!/doc) # Accepts routes under /api except /api/doc
