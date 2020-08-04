@@ -192,6 +192,9 @@ FROM php:7.4-apache as php-apache
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src /var/www/ilios
+#Copy .htaccess files which are not included in src image
+COPY ./public/.htaccess /var/www/ilios/public
+COPY ./src/.htaccess /var/www/ilios/src
 
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
