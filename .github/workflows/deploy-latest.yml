@@ -5,7 +5,7 @@ on:
       - master
 
 jobs:
-  deploy-latest-containers:
+  deploy-github-containers:
     name: Github Registry as latest
     runs-on: ubuntu-latest
     strategy:
@@ -32,7 +32,7 @@ jobs:
         repository: ${{github.repository}}/${{ matrix.image }}
         tags: latest
         target: ${{ matrix.image }}
-  deploy-latest-containers:
+  deploy-docker-containers:
     name: Docker Registry as latest
     runs-on: ubuntu-latest
     strategy:
