@@ -1,0 +1,76 @@
+name: Deploy Tagged Containers
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  tags:
+    outputs:
+      major: ${{ steps.tag.outputs.major }}
+      minor: ${{ steps.tag.outputs.minor }}
+      patch: ${{ steps.tag.outputs.patch }}
+    steps:
+    - id: tag
+      run: |
+        MAJOR_VERSION=$(echo $GITHUB_REF | sed -rn 's#^/refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1#p')
+        echo "::set-output name=major::${MAJOR_VERSION}"
+        MINOR_VERSION=$(echo $GITHUB_REF | sed -rn 's#^/refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1.\2#p')
+        echo "::set-output name=minor::${MINOR_VERSION}"
+        PATCH_VERSION=$(echo $GITHUB_REF | sed -rn 's#^/refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1.\2.\3#p')
+        echo "::set-output name=patch::${PATCH_VERSION}"
+  deploy-github-containers:
+    needs: tags
+    name: Github Registry tag
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - php-apache
+          - nginx
+          - fpm
+          - fpm-dev
+          - admin
+          - migrate-database
+          - update-frontend
+          - consume-messages
+          - mysql
+          - mysql-demo
+    steps:
+    - uses: actions/checkout@v2
+    - name: ${{ matrix.image }} to Github Registry
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        repository: ${{github.repository}}/${{ matrix.image }}
+        tags: ${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}}
+        target: ${{ matrix.image }}
+  deploy-docker-containers:
+    needs: tags
+    name: Docker Registry tag
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - php-apache
+          - nginx
+          - fpm
+          - fpm-dev
+          - admin
+          - migrate-database
+          - update-frontend
+          - consume-messages
+          - mysql
+          - mysql-demo
+    steps:
+    - uses: actions/checkout@v2
+    - name: ${{ matrix.image }} to Docker Registry
+      uses: docker/build-push-action@v1
+      with:
+        username: zorgbort
+        password: ${{ secrets.ZORGBORT_DOCKER_TOKEN }}
+        repository: ilios/${{ matrix.image }}
+        tags: ${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}}
+        target: ${{ matrix.image }}
