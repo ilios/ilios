@@ -19,8 +19,8 @@ jobs:
           - migrate-database
           - update-frontend
           - consume-messages
-          - ilios-mysql
-          - ilios-mysql-demo
+          - mysql
+          - mysql-demo
     steps:
     - uses: actions/checkout@v2
     - name: ${{ matrix.image }} to Github Registry
@@ -46,8 +46,8 @@ jobs:
           - migrate-database
           - update-frontend
           - consume-messages
-          - ilios-mysql
-          - ilios-mysql-demo
+          - mysql
+          - mysql-demo
     steps:
     - uses: actions/checkout@v2
     - name: ${{ matrix.image }} to Docker Registry

@@ -3,7 +3,7 @@ services:
     db:
         build:
             context: .
-            target: ilios-mysql-demo
+            target: mysql-demo
         ports:
             - "13306:3306"
 #    nginx:
