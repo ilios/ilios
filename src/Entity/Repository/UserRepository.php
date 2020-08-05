@@ -693,7 +693,7 @@ class UserRepository extends EntityRepository implements DTORepositoryInterface
         foreach ($dedupedResults as $result) {
             $postrequisite = UserEvent::createFromCalendarEvent(
                 $id,
-                $this->createEventObjectForIlmSession(null, $result)
+                $this->createEventObjectForIlmSession($id, $result)
             );
             $sessionId = $result['postRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
