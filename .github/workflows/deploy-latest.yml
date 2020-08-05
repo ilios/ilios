@@ -5,7 +5,7 @@ on:
       - master
 
 jobs:
-  deploy-latest-containers:
+  deploy-github-containers:
     name: Github Registry as latest
     runs-on: ubuntu-latest
     strategy:
@@ -19,8 +19,8 @@ jobs:
           - migrate-database
           - update-frontend
           - consume-messages
-          - ilios-mysql
-          - ilios-mysql-demo
+          - mysql
+          - mysql-demo
     steps:
     - uses: actions/checkout@v2
     - name: ${{ matrix.image }} to Github Registry
@@ -30,5 +30,31 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
         repository: ${{github.repository}}/${{ matrix.image }}
+        tags: latest
+        target: ${{ matrix.image }}
+  deploy-docker-containers:
+    name: Docker Registry as latest
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - php-apache
+          - nginx
+          - fpm
+          - fpm-dev
+          - admin
+          - migrate-database
+          - update-frontend
+          - consume-messages
+          - mysql
+          - mysql-demo
+    steps:
+    - uses: actions/checkout@v2
+    - name: ${{ matrix.image }} to Docker Registry
+      uses: docker/build-push-action@v1
+      with:
+        username: zorgbort
+        password: ${{ secrets.ZORGBORT_DOCKER_TOKEN }}
+        repository: ilios/${{ matrix.image }}
         tags: latest
         target: ${{ matrix.image }}

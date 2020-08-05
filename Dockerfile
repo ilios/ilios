@@ -165,15 +165,15 @@ CMD ["messenger:consume", "async"]
 ###############################################################################
 # MySQL configured as needed for Ilios
 ###############################################################################
-FROM mysql:5.6 as ilios-mysql
+FROM mysql:5.6 as mysql
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV MYSQL_RANDOM_ROOT_PASSWORD yes
-COPY docker/ilios-mysql.cnf /etc/mysql/conf.d/ilios.cnf
+COPY docker/mysql.cnf /etc/mysql/conf.d/ilios.cnf
 
 ###############################################################################
 # Setup a mysql server running the demo database for use in development
 ###############################################################################
-FROM ilios-mysql as ilios-mysql-demo
+FROM mysql as mysql-demo
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV MYSQL_USER ilios
 ENV MYSQL_PASSWORD ilios
