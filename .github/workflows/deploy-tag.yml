@@ -15,15 +15,19 @@ jobs:
     steps:
     - id: tag
       run: |
-        MAJOR_VERSION=$(echo $GITHUB_REF | sed -rn 's#^/refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1#p')
+        echo ${GITHUB_REF}
+        MAJOR_VERSION=$(echo $GITHUB_REF | sed -rn 's#^refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1#p')
+        echo ${MAJOR_VERSION}
         echo "::set-output name=major::${MAJOR_VERSION}"
-        MINOR_VERSION=$(echo $GITHUB_REF | sed -rn 's#^/refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1.\2#p')
+        MINOR_VERSION=$(echo $GITHUB_REF | sed -rn 's#^refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1.\2#p')
+        echo ${MINOR_VERSION}
         echo "::set-output name=minor::${MINOR_VERSION}"
-        PATCH_VERSION=$(echo $GITHUB_REF | sed -rn 's#^/refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1.\2.\3#p')
+        PATCH_VERSION=$(echo $GITHUB_REF | sed -rn 's#^refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1.\2.\3#p')
+        echo ${PATCH_VERSION}
         echo "::set-output name=patch::${PATCH_VERSION}"
   deploy-github-containers:
     needs: tags
-    name: Github Registry tag
+    name: Github Registry (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -51,7 +55,7 @@ jobs:
         target: ${{ matrix.image }}
   deploy-docker-containers:
     needs: tags
-    name: Docker Registry tag
+    name: Docker Registry (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
     runs-on: ubuntu-latest
     strategy:
       matrix:
