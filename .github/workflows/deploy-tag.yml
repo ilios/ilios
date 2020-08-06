@@ -6,6 +6,8 @@ on:
 
 jobs:
   tags:
+    runs-on: ubuntu-latest
+    name: Extract Semvar Tags
     outputs:
       major: ${{ steps.tag.outputs.major }}
       minor: ${{ steps.tag.outputs.minor }}
