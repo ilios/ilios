@@ -236,3 +236,8 @@ jobs:
         docker build --target mysql-demo -t ilios-mysql-demo .
         docker run -d --name mysql-demo ilios-mysql-demo
         docker ps | grep -q ilios-mysql-demo
+    - name: Elasticsearch
+      run: |
+        docker build --target elasticsearch -t ilios-elasticsearch .
+        docker run -d --name elasticsearch ilios-elasticsearch
+        docker ps | grep -q ilios-elasticsearch

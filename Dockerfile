@@ -185,6 +185,13 @@ COPY docker/fetch-demo-database.sh /fetch-demo-database.sh
 RUN /bin/bash /fetch-demo-database.sh
 
 ###############################################################################
+# Setup elasticsearch with the plugins we needed
+###############################################################################
+FROM elasticsearch:7.8.1 as elasticsearch
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+RUN bin/elasticsearch-plugin install -b ingest-attachment
+
+###############################################################################
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################
