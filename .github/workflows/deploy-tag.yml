@@ -42,6 +42,7 @@ jobs:
           - consume-messages
           - mysql
           - mysql-demo
+          - elasticsearch
     steps:
     - uses: actions/checkout@v2
     - name: ${{ matrix.image }} to Github Registry
@@ -70,6 +71,7 @@ jobs:
           - consume-messages
           - mysql
           - mysql-demo
+          - elasticsearch
     steps:
     - uses: actions/checkout@v2
     - name: ${{ matrix.image }} to Docker Registry
