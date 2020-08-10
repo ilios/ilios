@@ -195,6 +195,9 @@
     "league/flysystem-cached-adapter": {
         "version": "1.0.9"
     },
+    "league/mime-type-detection": {
+        "version": "1.4.0"
+    },
     "liip/functional-test-bundle": {
         "version": "3.0.0-rc1"
     },
