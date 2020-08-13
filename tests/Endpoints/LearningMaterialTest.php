@@ -377,6 +377,19 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         $this->badPostTest($data);
     }
 
+    public function testPostLearningMaterialFileWithoutFile()
+    {
+        /** @var LearningMaterialData $dataLoader */
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->createFile();
+        $data['fileHash'] = 'iamnotreal';
+        $data['filename'] = 'We can only understand what we can perceive.gif';
+
+        $data['mimetype'] = 'text/x-php';
+        $data['filesize'] = '33M';
+        $this->badPostTest($data);
+    }
+
     /**
      * Ensure when LMs are sideloaded they have a correct URL path
      */
