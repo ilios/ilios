@@ -142,10 +142,14 @@ class CourseObjective implements CourseObjectiveInterface
      *
      * @ORM\ManyToMany(targetEntity="ProgramYearObjective", inversedBy="courseObjectives")
      * @ORM\JoinTable("course_objective_x_program_year_objective",
-     *   joinColumns={@ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id")},
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id", onDelete="CASCADE")
+     *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="program_year_objective_id", referencedColumnName="program_year_objective_id")
-     *   }
+     *     @ORM\JoinColumn(
+     *       name="program_year_objective_id", referencedColumnName="program_year_objective_id", onDelete="CASCADE"
+     *     )
+     *   },
      * )
      * @ORM\OrderBy({"id" = "ASC"})
      *
