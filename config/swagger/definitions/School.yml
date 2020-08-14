@@ -9,7 +9,7 @@ School:
    description: Title
    type: string
   templatePrefix:
-   description: School-specific email template prefix.
+   description: TemplatePrefix
    type: string
   iliosAdministratorEmail:
    description: Iliosadministratoremail
