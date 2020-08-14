@@ -164,11 +164,11 @@ class LearningMaterials
             if (property_exists($obj, 'fileHash')) {
                 $fileHash = $obj->fileHash;
                 $contents = $fs->getUploadedTemporaryFileContentsAndRemoveFile($fileHash);
-                $tmpFile = $temporaryFileSystem->createFile($contents);
+                $tmpFile = $contents ? $temporaryFileSystem->createFile($contents) : null;
                 if (!$tmpFile || !$tmpFile->isReadable()) {
                     throw new HttpException(
                         Response::HTTP_BAD_REQUEST,
-                        'This "fileHash" is not valid'
+                        'This "fileHash" is not valid or the file may have already been used in a previous upload'
                     );
                 }
                 unset($obj->fileHash);
