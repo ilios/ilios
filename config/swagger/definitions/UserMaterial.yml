@@ -68,11 +68,11 @@ UserMaterial:
    items:
     type: string
   startDate:
-   description: The date at which a timed-release material becomes available.
+   description: Timed-release start date-time.
    type: string
    format: date-time
   endDate:
-   description: The date until which a timed-release material is available.
+   description: Timed-release end date-time.
    type: string
    format: date-time
   isBlanked:
