@@ -8,6 +8,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 /**
  * Sends a test email
@@ -16,17 +18,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SendTestEmailCommand extends Command
 {
-    /**
-     * @var \Swift_Mailer
-     */
-    protected $mailer;
+    protected MailerInterface $mailer;
 
-    /**
-     * @param \Swift_Mailer $mailer
-     */
-    public function __construct(
-        \Swift_Mailer $mailer
-    ) {
+    public function __construct(MailerInterface $mailer)
+    {
         parent::__construct();
         $this->mailer = $mailer;
     }
@@ -59,11 +54,11 @@ class SendTestEmailCommand extends Command
         $to = $input->getArgument('to');
         $from = $input->getArgument('from');
 
-        $message = (new \Swift_Message('Ilios Test Email'))
-            ->setTo($to)
-            ->setFrom($from)
-            ->setContentType('text/plain')
-            ->setBody('This is a test email from your ilios system.');
+        $message = (new Email())
+            ->to($to)
+            ->from($from)
+            ->subject('Ilios Test Email')
+            ->text('This is a test email from your ilios system.');
         $this->mailer->send($message);
 
         return 0;

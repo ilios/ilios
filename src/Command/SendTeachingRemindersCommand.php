@@ -10,14 +10,15 @@ use App\Entity\OfferingInterface;
 use App\Entity\SchoolInterface;
 use App\Entity\UserInterface;
 use App\Service\Config;
-use Swift_Mailer;
-use Swift_Message;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Twig\Environment;
 
 /**
@@ -27,57 +28,29 @@ use Twig\Environment;
  */
 class SendTeachingRemindersCommand extends Command
 {
-    /**
-     * @var string
-     */
     public const DEFAULT_TEMPLATE_NAME = 'teachingreminder.text.twig';
 
-    /**
-     * @var string
-     */
     public const DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
 
-    /**
-     * @var OfferingManager
-     */
-    protected $offeringManager;
+    protected OfferingManager $offeringManager;
+
+    protected SchoolManager $schoolManager;
+
+    protected Environment $twig;
+
+    protected MailerInterface $mailer;
+
+    protected Config $config;
+
+    protected Filesystem $fs;
+
+    protected string $kernelProjectDir;
 
     /**
-     * @var SchoolManager
-     */
-    protected $schoolManager;
-
-    /**
-     * @var Environment
-     */
-    protected $twig;
-
-    /**
-     * @var Swift_Mailer
-     */
-    protected $mailer;
-
-    /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
-     * @var Filesystem
-     */
-    protected $fs;
-
-    /**
-     * @var string
-     */
-    protected $kernelProjectDir;
-
-    /**
-     * SendTeachingRemindersCommand constructor.
      * @param OfferingManager $offeringManager
      * @param SchoolManager $schoolManager
      * @param Environment $twig
-     * @param Swift_Mailer $mailer
+     * @param MailerInterface $mailer
      * @param Config $config
      * @param Filesystem $fs
      * @param string $kernelProjectDir
@@ -86,7 +59,7 @@ class SendTeachingRemindersCommand extends Command
         OfferingManager $offeringManager,
         SchoolManager $schoolManager,
         Environment $twig,
-        Swift_Mailer $mailer,
+        MailerInterface $mailer,
         Config $config,
         Filesystem $fs,
         string $kernelProjectDir
@@ -177,7 +150,7 @@ class SendTeachingRemindersCommand extends Command
         $schools = $input->getOption('schools');
         $from = $sender;
         if ($senderName) {
-            $from = [$sender => $senderName];
+            $from = new Address($sender, $senderName);
         }
         if ($schools) {
             $schoolIds = array_map('intval', str_getcsv($schools));
@@ -231,16 +204,14 @@ class SendTeachingRemindersCommand extends Command
                 if (empty($email)) {
                     $email = $instructor->getEmail();
                 }
-                $message = (new Swift_Message($subject))
-                    ->setFrom($from)
-                    ->setTo($email)
-                    ->setCharset('UTF-8')
-                    ->setContentType('text/plain')
-                    ->setBody($messageBody)
-                    ->setMaxLineLength(998);
+                $message = (new Email())
+                    ->from($from)
+                    ->to($email)
+                    ->subject($subject)
+                    ->text($messageBody);
                 if ($isDryRun) {
                     $output->writeln($message->getHeaders()->toString());
-                    $output->writeln($message->getBody());
+                    $output->writeln($message->getTextBody());
                 } else {
                     $this->mailer->send($message);
                 }

@@ -27,11 +27,14 @@ use App\Entity\SessionType;
 use App\Entity\User;
 use App\Entity\UserInterface;
 use App\Service\Config;
+use DateTime;
+use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Mailer\MailerInterface;
 use Twig\Environment;
 
 /**
@@ -46,40 +49,19 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:send-change-alerts';
 
-    /**
-     * @var m\MockInterface
-     */
-    protected $offeringManager;
+    protected m\MockInterface $offeringManager;
 
-    /**
-     * @var m\MockInterface
-     */
-    protected $alertManager;
+    protected m\MockInterface $alertManager;
 
-    /**
-     * @var m\MockInterface
-     */
-    protected $auditLogManager;
+    protected m\MockInterface $auditLogManager;
 
-    /**
-     * @var m\MockInterface
-     */
-    protected $twig;
+    protected m\MockInterface $twig;
 
-    /**
-     * @var m\MockInterface
-     */
-    protected $mailer;
+    protected m\MockInterface $mailer;
 
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
+    protected CommandTester $commandTester;
 
-    /**
-     * @var string
-     */
-    protected $timezone;
+    protected string $timezone;
 
     public function setUp(): void
     {
@@ -88,7 +70,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->alertManager = m::mock(AlertManager::class);
         $this->auditLogManager = m::mock(AuditLogManager::class);
         $this->twig = m::mock(Environment::class);
-        $this->mailer = m::mock(\Swift_Mailer::class);
+        $this->mailer = m::mock(MailerInterface::class);
         $fs = m::mock(Filesystem::class);
         $fs->shouldReceive('exists')->with('fish');
 
@@ -104,7 +86,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
             $this->auditLogManager,
             $this->offeringManager,
             $kernel->getContainer()->get('twig'),
-            $kernel->getContainer()->get('mailer'),
+            $this->mailer,
             $config,
             $fs,
             sys_get_temp_dir()
@@ -123,6 +105,8 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         unset($this->offeringManager);
         unset($this->alertManager);
         unset($this->auditLogManager);
+        unset($this->mailer);
+        unset($this->commandTester)
     }
 
     /**
@@ -168,7 +152,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->assertStringContainsString($expectedSubject, $output);
 
         // check mail body
-        $timezone = new \DateTimeZone($this->timezone);
+        $timezone = new DateTimeZone($this->timezone);
         $startDate = $offering->getStartDate()->setTimezone($timezone);
         $endDate = $offering->getEndDate()->setTimezone($timezone);
         $courseTitle = trim(strip_tags($offering->getSession()->getCourse()->getTitle()));
@@ -229,7 +213,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
             ->shouldReceive('findBy')
             ->with([ 'objectId' => $alert->getId(), 'objectClass' => 'alert' ], [ 'createdAt' => 'asc' ])
             ->andReturn($auditLogs);
-
+        $this->mailer->shouldReceive('send')->once();
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString("Sent 1 offering change alert notifications.", $output);
@@ -381,8 +365,8 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $offering = new Offering();
         $offering->setId(1);
         $offering->setSession($session);
-        $offering->setStartDate(new \DateTime('2015-10-01 15:15:00', new \DateTimeZone('UTC')));
-        $offering->setEndDate(new \DateTime('2015-10-01 18:30:00', new \DateTimeZone('UTC')));
+        $offering->setStartDate(new DateTime('2015-10-01 15:15:00', new DateTimeZone('UTC')));
+        $offering->setEndDate(new DateTime('2015-10-01 18:30:00', new DateTimeZone('UTC')));
         $offering->setRoom('Library - Room 119');
         $offering->addInstructorGroup($instructorGroup);
         $offering->addInstructor($instructor1);
@@ -418,13 +402,13 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $logA->setObjectClass('alert');
         $logA->setObjectId(1);
         $logA->setUser($userA);
-        $logA->setCreatedAt(new \DateTime('2015-09-20 11:12:22', new \DateTimeZone('UTC')));
+        $logA->setCreatedAt(new DateTime('2015-09-20 11:12:22', new DateTimeZone('UTC')));
 
         $logB = new AuditLog();
         $logB->setObjectClass('alert');
         $logB->setObjectId(1);
         $logB->setUser($userB);
-        $logB->setCreatedAt(new \DateTime('2015-09-20 15:20:15', new \DateTimeZone('UTC')));
+        $logB->setCreatedAt(new DateTime('2015-09-20 15:20:15', new DateTimeZone('UTC')));
 
         return [
             [ $alert , $offering, [ $logA, $logB ]]

@@ -13,7 +13,6 @@ use App\Entity\InstructorGroup;
 use App\Entity\LearnerGroup;
 use App\Entity\LearnerGroupInterface;
 use App\Entity\Manager\OfferingManager;
-use App\Entity\Objective;
 use App\Entity\Offering;
 use App\Entity\OfferingInterface;
 use App\Entity\School;
@@ -32,6 +31,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Mailer\MailerInterface;
 
 /**
  * Send Teaching Reminder command test.
@@ -45,48 +45,31 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:send-teaching-reminders';
 
-    /**
-     * @var OfferingManager
-     */
-    protected $fakeOfferingManager;
+    protected m\MockInterface $fakeOfferingManager;
 
-    /**
-     * @var SchoolManager
-     */
-    private $fakeSchoolManager;
+    protected m\MockInterface $fakeSchoolManager;
 
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
+    protected m\MockInterface $mailer;
 
-    /**
-     * @var string
-     */
-    protected $timezone;
+    protected CommandTester $commandTester;
 
-    /**
-     * @var m\MockInterface|Filesystem
-     */
-    protected $fs;
+    protected string $timezone;
 
-    /**
-     * @var string
-     */
-    protected $testDir;
+    protected m\MockInterface $fs;
+
+    protected string $testDir;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->fakeOfferingManager = m::mock(OfferingManager::class);
         $this->fakeSchoolManager = m::mock(SchoolManager::class);
+        $this->mailer = m::mock(MailerInterface::class);
         $this->testDir = sys_get_temp_dir();
-
         $this->fs = m::mock(Filesystem::class);
 
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-
 
         $this->timezone = 'UTC';
         $config = m::mock(Config::class);
@@ -96,7 +79,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $this->fakeOfferingManager,
             $this->fakeSchoolManager,
             $kernel->getContainer()->get('twig'),
-            $kernel->getContainer()->get('mailer'),
+            $this->mailer,
             $config,
             $this->fs,
             $this->testDir
@@ -115,6 +98,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         unset($this->fakeOfferingManager);
         unset($this->fakeSchoolManager);
         unset($this->fs);
+        unset($this->mailer);
     }
 
     /**
@@ -387,6 +371,8 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
         )->once()->andReturn(false);
 
+        $this->mailer->shouldReceive('send')->twice();
+
         $this->commandTester->execute([
             'sender' => $sender,
             'base_url' => $baseUrl,
@@ -394,7 +380,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertRegExp('/^Sent (\d+) teaching reminders\.$/', trim($output));
+        $this->assertRegExp('/^Sent 2 teaching reminders\.$/', trim($output));
     }
 
     public function testExecuteDryRunWithSchools()
