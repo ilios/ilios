@@ -43,6 +43,7 @@
     "symfony/framework-bundle": "@stable",
     "symfony/http-client": "@stable",
     "symfony/lock": "@stable",
+    "symfony/mailer": "5.1.*",
     "symfony/messenger": "@stable",
     "symfony/monolog-bundle": "^3.1.0",
     "symfony/orm-pack": "^1.0.6",
