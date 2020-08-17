@@ -1,3 +1,0 @@
-swiftmailer:
-    url: '%env(ILIOS_MAILER_URL)%'
-    spool: { type: 'memory' }
