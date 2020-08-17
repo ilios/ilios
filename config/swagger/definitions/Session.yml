@@ -20,6 +20,9 @@ Session:
   supplemental:
    description: Supplemental
    type: boolean
+  attendanceRequired:
+   description: Is attendance required?
+   type: boolean
   publishedAsTbd:
    description: Publishedastbd
    type: boolean
