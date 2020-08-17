@@ -7,8 +7,3 @@ Authentication:
   username:
    description: Username
    type: string
-  invalidateTokenIssuedBefore:
-   description: Invalidatetokenissuedbefore
-   type: string
-   format: date-time
-   readOnly: true

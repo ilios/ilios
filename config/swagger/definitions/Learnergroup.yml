@@ -17,6 +17,14 @@ Learnergroup:
   parent:
    description: Parent
    type: string
+  ancestor:
+   description: Ancestor
+   type: string
+  descendants:
+   description: Descendants
+   type: array
+   items:
+    type: string
   children:
    description: Children
    type: array
