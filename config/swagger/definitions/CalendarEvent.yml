@@ -35,6 +35,10 @@ CalendarEvent:
    description: Location where the event will take place
    type: string
    readOnly: true
+  url:
+   description: Link to the virtual location where the event will take place
+   type: string
+   readOnly: true
   lastModified:
    description: The last time the details for this event were updated
    type: string
@@ -70,9 +74,37 @@ CalendarEvent:
    description: Is attendance required at this session
    type: boolean
    readOnly: true
-  sessions:
+  session:
    description: ID of the session which this event belongs to
    type: integer
+   readOnly: true
+  course:
+   description: ID of the course which this event belongs to
+   type: integer
+   readOnly: true
+  courseExternalId:
+   description: An external identifier of the course which this event belongs to
+   type: string
+   readOnly: true
+  sessionTitle:
+   description: Title of the session that this event belongs to
+   type: string
+   readOnly: true
+  sessionDescription:
+   description: Description of the session that this event belongs to
+   type: string
+   readOnly: true
+  instructionalNotes:
+   description: Instructional notes of the session that this event belongs to
+   type: string
+   readOnly: true
+  sessionTypeId:
+   description: ID of the session-type of the session that this event belongs to
+   type: int
+   readOnly: true
+  sessionTypeTitle:
+   description: Title of the session-type of the session that this event belongs to
+   type: string
    readOnly: true
   school:
    description: School ID
@@ -84,4 +116,33 @@ CalendarEvent:
    readOnly: true
    items:
     $ref: '#/definitions/UserMaterial'
-
+  sessionObjectives:
+   description: Linked session objectives
+   type: array
+   readOnly: true
+   items:
+    $ref: '#/definitions/SessionObjective'
+  courseObjectives:
+   description: Linked course objectives
+   type: array
+   readOnly: true
+   items:
+    $ref: '#/definitions/CourseObjective'
+  competencies:
+   description: Linked competencies
+   type: array
+   readOnly: true
+   items:
+    $ref: '#/definitions/Competency'
+  sessionTerms:
+    description: Vocabulary terms linked to the session that this event belongs to
+    type: array
+    readOnly: true
+    items:
+     $ref: '#/definitions/Term'
+  courseTerms:
+   description: Vocabulary terms linked to the course that this event belongs to
+   type: array
+   readOnly: true
+   items:
+    $ref: '#/definitions/Term'
