@@ -106,7 +106,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         unset($this->alertManager);
         unset($this->auditLogManager);
         unset($this->mailer);
-        unset($this->commandTester)
+        unset($this->commandTester);
     }
 
     /**
