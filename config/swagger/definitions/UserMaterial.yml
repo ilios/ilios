@@ -62,4 +62,21 @@ UserMaterial:
   position:
    description: Sorting position of this material in the context of a course or session association.
    type: string
+  instructors:
+   description: The names of instructors in the sessions associated with this material.
+   type: array
+   items:
+    type: string
+  startDate:
+   description: Timed-release start date-time.
+   type: string
+   format: date-time
+  endDate:
+   description: Timed-release end date-time.
+   type: string
+   format: date-time
+  isBlanked:
+   description: A flag indicating whether contents of this material have been blanked out or not.
+   type: boolean
+
 

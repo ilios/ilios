@@ -26,6 +26,9 @@ User:
   preferredEmail:
    description: Preferred Email
    type: string
+  addedViaIlios:
+   description: A flag indicating whether this user directly entered into Ilios, or imported from an external source.
+   type: boolean
   enabled:
    description: Enabled
    type: boolean
@@ -153,3 +156,8 @@ User:
   root:
    description: Root
    type: boolean
+  administeredCurriculumInventoryReports:
+   description: The IDs of curriculum inventory reports administered by this user.
+   type: array
+   items:
+    type: string

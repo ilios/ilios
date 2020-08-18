@@ -28,6 +28,3 @@ Report:
   user:
    description: User
    type: string
-  absoluteFileUri:
-    description: The URL where the report can be downloaded
-    type: string
