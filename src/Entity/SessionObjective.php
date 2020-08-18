@@ -143,9 +143,11 @@ class SessionObjective implements SessionObjectiveInterface
      *
      * @ORM\ManyToMany(targetEntity="CourseObjective", inversedBy="sessionObjectives")
      * @ORM\JoinTable("session_objective_x_course_objective",
-     *   joinColumns={@ORM\JoinColumn(name="session_objective_id", referencedColumnName="session_objective_id")},
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="session_objective_id", referencedColumnName="session_objective_id", onDelete="CASCADE")
+     *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id")
+     *     @ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id", onDelete="CASCADE")
      *   }
      * )
      * @ORM\OrderBy({"id" = "ASC"})
