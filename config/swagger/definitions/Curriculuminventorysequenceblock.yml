@@ -62,3 +62,8 @@ Curriculuminventorysequenceblock:
    type: array
    items:
     type: string
+  excludedSessions:
+   description: ExcludedSessions
+   type: array
+   items:
+     type: string
