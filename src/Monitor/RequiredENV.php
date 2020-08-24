@@ -15,7 +15,7 @@ class RequiredENV implements CheckInterface
         'ILIOS_DATABASE_URL',
         'ILIOS_LOCALE',
         'ILIOS_SECRET',
-        'MAILER_DNS'
+        'MAILER_DSN'
     ];
     private const INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
     private const UPDATE_URL = 'https://github.com/ilios/ilios/blob/master/docs/update.md';
