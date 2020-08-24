@@ -9,7 +9,7 @@ on:
     - cron: '33 2 * * 1' # weekly, on Monday morning
 
 env:
-  ILIOS_MAILER_URL: null://localhost
+  MAILER_DSN: null://null
   ILIOS_LOCALE: en
   ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
