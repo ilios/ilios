@@ -53,7 +53,7 @@ ENV \
 COMPOSER_HOME=/tmp \
 APP_ENV=prod \
 APP_DEBUG=false \
-ILIOS_MAILER_URL=null \
+MAILER_DSN=null://null \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false
