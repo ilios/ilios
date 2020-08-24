@@ -42,7 +42,6 @@
     "symfony/dotenv": "@stable",
     "symfony/flex": "^1.1",
     "symfony/framework-bundle": "@stable",
-    "symfony/google-mailer": "5.1.*",
     "symfony/http-client": "@stable",
     "symfony/lock": "@stable",
     "symfony/mailchimp-mailer": "5.1.*",
