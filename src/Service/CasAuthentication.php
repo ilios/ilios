@@ -216,17 +216,19 @@ class CasAuthentication implements AuthenticationInterface
     }
 
     /**
-     * Always user /auth/login for the CAS service
-     * This ensures users get redirected back there when authentication is successfull
-     * it also ensures that the ticket is valid since it is based on the service.
+     * Always use https://SERVER/auth/login for the CAS service
+     * This ensures users get redirected back there securely when authentication is successful
+     * and it also ensures that the ticket is valid since it is based on the service URL.
      */
     protected function getServiceUrl(): string
     {
-        return $this->router->generate(
+        $url =  $this->router->generate(
             'ilios_authentication.login',
             [],
-            UrlGenerator::ABSOLUTE_URL
+            UrlGenerator::NETWORK_PATH
         );
+
+        return "https:${url}";
     }
 
     protected function getRootUrl(): string
