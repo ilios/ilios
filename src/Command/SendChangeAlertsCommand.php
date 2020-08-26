@@ -16,6 +16,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Twig\Environment;
 
 /**
@@ -25,57 +27,30 @@ use Twig\Environment;
  */
 class SendChangeAlertsCommand extends Command
 {
-    /**
-     * @var string
-     */
     private const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
 
-    /**
-     * @var AlertManager
-     */
-    protected $alertManager;
+    protected AlertManager $alertManager;
 
-    /**
-     * @var AuditLogManager
-     */
-    protected $auditLogManager;
+    protected AuditLogManager $auditLogManager;
 
-    /**
-     * @var OfferingManager
-     */
-    protected $offeringManager;
+    protected OfferingManager $offeringManager;
 
-    /**
-     * @var Environment
-     */
-    protected $twig;
+    protected Environment $twig;
 
-    /**
-     * @var \Swift_Mailer
-     */
-    protected $mailer;
+    protected MailerInterface $mailer;
 
-    /**
-     * @var Config
-     */
-    protected $config;
+    protected Config $config;
 
-    /**
-     * @var Filesystem
-     */
-    protected $fs;
+    protected Filesystem $fs;
 
-    /**
-     * @var string
-     */
-    protected $kernelProjectDir;
+    protected string $kernelProjectDir;
 
     /**
      * @param AlertManager $alertManager
      * @param AuditLogManager $auditLogManager
      * @param OfferingManager $offeringManager
      * @param Environment $twig
-     * @param \Swift_Mailer $mailer
+     * @param MailerInterface $mailer
      * @param Config $config
      * @param Filesystem $fs
      * @param string $kernelProjectDir
@@ -85,7 +60,7 @@ class SendChangeAlertsCommand extends Command
         AuditLogManager $auditLogManager,
         OfferingManager $offeringManager,
         Environment $twig,
-        \Swift_Mailer $mailer,
+        MailerInterface $mailer,
         Config $config,
         Filesystem $fs,
         string $kernelProjectDir
@@ -205,16 +180,15 @@ class SendChangeAlertsCommand extends Command
                 'timezone' => $timezone,
             ]);
 
-            $message = (new \Swift_Message($subject))
-                ->setTo($recipients)
-                ->setFrom($school->getIliosAdministratorEmail())
-                ->setContentType('text/plain')
-                ->setBody($messageBody)
-                ->setMaxLineLength(998);
+            $message = (new Email())
+                ->to(...$recipients)
+                ->from($school->getIliosAdministratorEmail())
+                ->subject($subject)
+                ->text($messageBody);
 
             if ($isDryRun) {
                 $output->writeln($message->getHeaders()->toString());
-                $output->writeln($message->getBody());
+                $output->writeln($message->getTextBody());
             } else {
                 $this->mailer->send($message);
             }

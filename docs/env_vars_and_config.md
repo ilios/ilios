@@ -30,7 +30,7 @@ ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/ilios/learning_materials
 #
 # If you initially relay SMTP through your localhost over port 25 (smtp default), and without authentication,
 # use the following simplified URL without a trailing slash or query string:
-ILIOS_MAILER_URL=smtp://localhost:25
+MAILER_DSN=smtp://localhost:25
 ```
 
 To see which environment variables are set for your respective user, you can run the `env` command like so:
@@ -52,7 +52,7 @@ HISTSIZE=1000
 MAIL=/var/spool/mail/ilios_user
 PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ilios_user/.local/bin:/home/ilios_user/bin
 HOME=/home/ilios_user
-ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
+MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.6
@@ -77,7 +77,7 @@ You can set these runtime variables in one of 3 ways:
 # they will be set and ready to be used upon login to the terminal and throughout the entirety of your user session
 
 export APP_ENV=prod
-export ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
+export MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25
 export ILIOS_AUTHENTICATION_TYPE=form
 export ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 export ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.6
@@ -95,7 +95,7 @@ Let's say that you are going to run the `/bin/setup` command to install a comple
 # set the environment variables
 ILIOS_APP_DIR=/var/www/ilios
 APP_ENV=prod
-ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
+MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.6
@@ -113,7 +113,7 @@ Note that doing it this way will only set the ENV variables for the duration of 
 While it is technically possible to set all of the ENV vars at the command line on the same line when you run the `bin/setup` command, we do not recommend this approach.  However, if you choose to do so, it would look something like this:
 
 ```bash
-APP_ENV=prod ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd ILIOS_AUTHENTICATION_TYPE=form ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.6 ILIOS_LOCALE=en ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt bin/setup
+APP_ENV=prod MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25 ILIOS_AUTHENTICATION_TYPE=form ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.6 ILIOS_LOCALE=en ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt bin/setup
 ```
 Furthermore, as was the case in Example #2, the ENV vars set in this way only persist for the duration of the execution of the command being run.
   
@@ -127,7 +127,7 @@ By populating one of these web service user-specific initialization scripts with
 
 ```
 APP_ENV=prod
-ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
+MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.6
@@ -142,7 +142,7 @@ In order to set runtime environment variables within the Apache httpd web servic
 ```
 SetEnv ILIOS_DATABASE_URL mysql://ilios_db_user:Pa$$w0rd@db-host1/ilios_db?serverVersion=5.6
 SetEnv ILIOS_DATABASE_PORT 3306
-SetEnv ILIOS_MAILER_URL smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
+SetEnv MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25
 SetEnv ILIOS_LOCALE en
 SetEnv ILIOS_SECRET ThisTokenIsNotSoSecretChangeIt
 ```
@@ -151,7 +151,7 @@ SetEnv ILIOS_SECRET ThisTokenIsNotSoSecretChangeIt
 If you are running more than one Ilios instance (eg, production and staging instances) on a single Apache httpd server using multiple VirtualHost configurations, certain variables will collide (eg, `ILIOS_DATABASE_URL`), so these will need to be set conditionally.  In order to do this, you will need to install/enable the `mod_setenvif` Apache module and set the 'SetEnvIf' directives in the appropriate section(s) of your httpd configuration files as shown.  Note that the values shared between the two instances are set using `SetEnv`, while the conditional values are set with `SetEnvIf` and require a specific condition to be true in order to be set.  
 
 ```
-SetEnv ILIOS_MAILER_URL smtp://smtp-relay.example.com:25?encryption=ssl&auth_mode=login&username=ilios_mail_user&password=Passw0rd
+SetEnv MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25
 SetEnv ILIOS_LOCALE en
 
 SetEnvIf Host "ilios-staging\.example\.com" ILIOS_DATABASE_URL=SetEnv ILIOS_DATABASE_URL mysql://ilios_staging_db_user:Stag1ngPassw0rd@db-host1/ilios_stage_db?serverVersion=5.6
@@ -179,7 +179,7 @@ If you are missing anything, the output will let you know by returning a message
 FAIL ENV variables:
 Missing:
 ILIOS_DATABASE_URL
-ILIOS_MAILER_URL
+MAILER_DSN
 ILIOS_LOCALE
 ILIOS_SECRET
  For help see:
@@ -244,7 +244,7 @@ We populate the `apache` web service user's init script at `/etc/sysconfig/httpd
 
 ```bash
 APP_ENV=prod
-ILIOS_MAILER_URL=smtp://smtp-relay.example.com:25
+MAILER_DSN=smtp://smtp-relay.example.com:25
 ILIOS_AUTHENTICATION_TYPE=form
 ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.6

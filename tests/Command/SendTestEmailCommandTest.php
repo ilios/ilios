@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 /**
  * Class SendTestEmailCommandTest
@@ -21,22 +23,16 @@ class SendTestEmailCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:send-test-email';
 
-    /**
-     * @var m\Mock
-     */
-    protected $mailer;
+    protected m\MockInterface $mailer;
 
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
         parent::setUp();
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $this->mailer = m::mock(\Swift_Mailer::class);
+        $this->mailer = m::mock(MailerInterface::class);
 
         $command = new SendTestEmailCommand(
             $this->mailer
@@ -62,11 +58,11 @@ class SendTestEmailCommandTest extends KernelTestCase
     public function testExecute()
     {
         $this->mailer->shouldReceive('send')
-            ->with(m::on(function (\Swift_Message $message) {
+            ->with(m::on(function (Email $message) {
                 $to = array_keys($message->getTo());
                 $from = array_keys($message->getFrom());
                 $subject = $message->getSubject();
-                $body = $message->getBody();
+                $body = $message->getTextBody();
 
                 if (!in_array('to@example.com', $to)) {
                     return false;
