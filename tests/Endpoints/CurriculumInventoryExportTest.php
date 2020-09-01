@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Entity\CurriculumInventoryReportInterface;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\AbstractEndpointTest;
 use DateTime;
@@ -25,6 +24,7 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
     {
         return [
             'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadApplicationConfigData',
             'App\Tests\Fixture\LoadCurriculumInventoryReportData',
             'App\Tests\Fixture\LoadCurriculumInventoryExportData',
             'App\Tests\Fixture\LoadCurriculumInventoryInstitutionData',

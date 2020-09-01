@@ -259,8 +259,7 @@ class XmlPrinterTest extends TestCase
      */
     public function testPrintReport(array $inventory): void
     {
-        $dom = $this->printer->print($inventory);
-        $xml = simplexml_import_dom($dom);
+        $xml = simplexml_load_string($this->printer->print($inventory));
 
         // <ReportId>
         $reportId = $xml->ReportID;

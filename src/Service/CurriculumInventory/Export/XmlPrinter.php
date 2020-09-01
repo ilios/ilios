@@ -9,9 +9,8 @@ use App\Entity\CurriculumInventoryAcademicLevelInterface;
 use App\Entity\CurriculumInventoryInstitutionInterface;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
-use DOMDocument;
-use DOMElement;
 use Exception;
+use XMLWriter;
 
 /**
  * XML printer for Curriculum Inventory reporting.
@@ -51,40 +50,28 @@ class XmlPrinter
      *             'events' ... maps sequence blocks to events
      *             'competency_objects' .. maps sequence blocks to competency objects
      *
-     * @return DOMDocument The generated XML document.
+     * @return string
      * @throws Exception
      */
     public function print(array $inventory)
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = true;
-        $rootNode = $dom->createElementNS('http://ns.medbiq.org/curriculuminventory/v1/', 'CurriculumInventory');
-        $rootNode->setAttributeNS(
-            'http://www.w3.org/2000/xmlns/',
-            'xmlns:xsi',
-            'http://www.w3.org/2001/XMLSchema-instance'
-        );
-        $rootNode->setAttributeNS(
-            'http://www.w3.org/2001/XMLSchema-instance',
+        $xw = new XMLWriter();
+        $xw->openMemory();
+        $xw->setIndent(true);
+        $xw->setIndentString('  ');
+        $xw->startDocument('1.0', 'UTF-8');
+        $xw->startElementNs(null, 'CurriculumInventory', 'http://ns.medbiq.org/curriculuminventory/v1/');
+        $xw->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+        $xw->writeAttribute(
             'xsi:schemaLocation',
             'http://ns.medbiq.org/curriculuminventory/v1/curriculuminventory.xsd'
         );
-        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:lom', 'http://ltsc.ieee.org/xsd/LOM');
-        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:a', 'http://ns.medbiq.org/address/v1/');
-        $rootNode->setAttributeNS(
-            'http://www.w3.org/2000/xmlns/',
-            'xmlns:cf',
-            'http://ns.medbiq.org/competencyframework/v1/'
-        );
-        $rootNode->setAttributeNS(
-            'http://www.w3.org/2000/xmlns/',
-            'xmlns:co',
-            'http://ns.medbiq.org/competencyobject/v1/'
-        );
-        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:hx', 'http://ns.medbiq.org/lom/extend/v1/');
-        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:m', 'http://ns.medbiq.org/member/v1/');
-        $dom->appendChild($rootNode);
+        $xw->writeAttribute('xmlns:lom', 'http://ltsc.ieee.org/xsd/LOM');
+        $xw->writeAttribute('xmlns:a', 'http://ns.medbiq.org/address/v1/');
+        $xw->writeAttribute('xmlns:cf', 'http://ns.medbiq.org/competencyframework/v1/');
+        $xw->writeAttribute('xmlns:co', 'http://ns.medbiq.org/competencyobject/v1/');
+        $xw->writeAttribute('xmlns:hx', 'http://ns.medbiq.org/lom/extend/v1/');
+        $xw->writeAttribute('xmlns:m', 'http://ns.medbiq.org/member/v1/');
 
         /** @var CurriculumInventoryReportInterface $report */
         $report = $inventory['report'];
@@ -96,156 +83,102 @@ class XmlPrinter
         //
         $reportId = $report->getYear() . 'x' . $report->getProgram()->getId() . 'x' .
             $report->getId() . 'x' . $inventory['created_at'];
-        $reportIdNode = $dom->createElement('ReportID', $reportId);
-        $reportIdNode->setAttribute('domain', "idd:{$institutionDomain}:cireport");
-        $rootNode->appendChild($reportIdNode);
+        $xw->startElement('ReportID');
+        $xw->writeAttribute('domain', "idd:{$institutionDomain}:cireport");
+        $xw->text($reportId);
+        $xw->endElement(); // </ReportID>
 
         //
         // Institution
         //
         /** @var CurriculumInventoryInstitutionInterface $institution */
         $institution = $inventory['institution'];
-        $institutionNode = $dom->createElement('Institution');
-        $rootNode->appendChild($institutionNode);
-        $institutionNameNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:InstitutionName');
-        $institutionNameNode->appendChild($dom->createTextNode($institution->getName()));
-        $institutionNode->appendChild($institutionNameNode);
-        $institutionIdNode = $dom->createElementNS(
-            'http://ns.medbiq.org/member/v1/',
-            'm:InstitutionID',
-            $institution->getAamcCode()
-        );
-        $institutionIdNode->setAttribute('domain', 'idd:aamc.org:institution');
-        $institutionNode->appendChild($institutionIdNode);
-        $addressNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:Address');
-        $institutionNode->appendChild($addressNode);
-        $streetAddressNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:StreetAddressLine');
-        $streetAddressNode->appendChild($dom->createTextNode($institution->getAddressStreet()));
-        $addressNode->appendChild($streetAddressNode);
-        $cityNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:City', $institution->getAddressCity());
-        $addressNode->appendChild($cityNode);
-        $stateNode = $dom->createElementNS(
-            'http://ns.medbiq.org/address/v1/',
-            'a:StateOrProvince',
-            $institution->getAddressStateOrProvince()
-        );
-        $addressNode->appendChild($stateNode);
-        $zipcodeNode = $dom->createElementNS(
-            'http://ns.medbiq.org/address/v1/',
-            'a:PostalCode',
-            $institution->getAddressZipcode()
-        );
-        $addressNode->appendChild($zipcodeNode);
-        $countryNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:Country');
-        $addressNode->appendChild($countryNode);
-        $countryCodeNode = $dom->createElementNS(
-            'http://ns.medbiq.org/address/v1/',
-            'a:CountryCode',
-            $institution->getAddressCountryCode()
-        );
-        $countryNode->appendChild($countryCodeNode);
+        $xw->startElement('Institution');
+        $xw->writeElement('m:InstitutionName', $institution->getName());
+        $xw->startElement('m:InstitutionID');
+        $xw->writeAttribute('domain', 'idd:aamc.org:institution');
+        $xw->text($institution->getAamcCode());
+        $xw->endElement(); // </m:InstitutionID>
+        $xw->startElement('m:Address');
+        $xw->writeElement('a:StreetAddressLine', $institution->getAddressStreet());
+        $xw->writeElement('a:City', $institution->getAddressCity());
+        $xw->writeElement('a:StateOrProvince', $institution->getAddressStateOrProvince());
+        $xw->writeElement('a:PostalCode', $institution->getAddressZipcode());
+        $xw->startElement('a:Country');
+        $xw->writeElement('a:CountryCode', $institution->getAddressCountryCode());
+        $xw->endElement(); // </a:Country>
+        $xw->endElement(); // </m:Address>
+        $xw->endElement(); // </Institution>
+
         //
         // Program
         //
         $program = $report->getProgram();
-
-        $programNode = $dom->createElement('Program');
-        $rootNode->appendChild($programNode);
-        $programNameNode = $dom->createElement('ProgramName');
-        $programNameNode->appendChild($dom->createTextNode($program->getTitle()));
-        $programNode->appendChild($programNameNode);
-        $programIdNode = $dom->createElement('ProgramID', (string) $program->getId());
-        $programIdNode->setAttribute('domain', "idd:{$institutionDomain}:program");
-        $programNode->appendChild($programIdNode);
+        $xw->startElement('Program');
+        $xw->writeElement('ProgramName', $program->getTitle());
+        $xw->startElement('ProgramID');
+        $xw->writeAttribute('domain', "idd:{$institutionDomain}:program");
+        $xw->text((string) $program->getId());
+        $xw->endElement(); // </ProgramID>,
+        $xw->endElement(); // </Program>
 
         //
         // various other report attributes
         //
-        $titleNode = $dom->createElement('Title');
-        $titleNode->appendChild($dom->createTextNode($report->getName()));
-        $rootNode->appendChild($titleNode);
-        $reportDateNode = $dom->createElement('ReportDate', date('Y-m-d'));
-        $rootNode->appendChild($reportDateNode);
-        $reportingStartDateNode = $dom->createElement('ReportingStartDate', $report->getStartDate()->format('Y-m-d'));
-        $rootNode->appendChild($reportingStartDateNode);
-        $reportingEndDateNode = $dom->createElement('ReportingEndDate', $report->getEndDate()->format('Y-m-d'));
-        $rootNode->appendChild($reportingEndDateNode);
-        $languageNode = $dom->createElement('Language', 'en-US');
-        $rootNode->appendChild($languageNode);
-        $descriptionNode = $dom->createElement('Description');
-        $descriptionNode->appendChild($dom->createTextNode($report->getDescription() ?: ''));
-        $rootNode->appendChild($descriptionNode);
-
+        $xw->writeElement('Title', $report->getName());
+        $xw->writeElement('ReportDate', date('Y-m-d'));
+        $xw->writeElement('ReportingStartDate', $report->getStartDate()->format('Y-m-d'));
+        $xw->writeElement('ReportingEndDate', $report->getEndDate()->format('Y-m-d'));
+        $xw->writeElement('Language', 'en-US');
+        $xw->writeElement('Description', $report->getDescription() ?: '');
         if ($inventory['supporting_link']) {
-            $supportingLinkNode = $dom->createElement('SupportingLink', $inventory['supporting_link']);
-            $rootNode->appendChild($supportingLinkNode);
+            $xw->writeElement('SupportingLink', $inventory['supporting_link']);
         }
+
         //
         // Events
         //
-        $eventsNode = $dom->createElement('Events');
-        $rootNode->appendChild($eventsNode);
+        $xw->startElement('Events');
         foreach ($inventory['events'] as $event) {
-            $eventNode = $dom->createElement('Event');
-            $eventsNode->appendChild($eventNode);
-            $eventNode->setAttribute('id', 'E' . $event['event_id']);
-            $eventTitleNode = $dom->createElement('Title');
-            $eventNode->appendChild($eventTitleNode);
-            $eventTitleNode->appendChild($dom->createTextNode($event['title']));
-            $duration = str_pad((string) $event['duration'], 2, '0', STR_PAD_LEFT);
-            $eventDurationNode = $dom->createElement('EventDuration', 'PT' . $duration . 'M');
-            $eventNode->appendChild($eventDurationNode);
+            $xw->startElement('Event');
+            $xw->writeAttribute('id', 'E' . $event['event_id']);
+            $xw->writeElement('Title', $event['title']);
+            $duration = str_pad((string)$event['duration'], 2, '0', STR_PAD_LEFT);
+            $xw->writeElement('EventDuration', 'PT' . $duration . 'M');
             if (is_string($event['description']) && '' !== trim($event['description'])) {
-                $descriptionNode = $dom->createElement('Description');
-                $eventNode->appendChild($descriptionNode);
-                $descriptionNode->appendChild($dom->createTextNode(trim(strip_tags($event['description']))));
+                $xw->writeElement('Description', (trim(strip_tags($event['description']))));
             }
             // keywords
             if (array_key_exists('keywords', $event)) {
                 foreach ($event['keywords'] as $keyword) {
-                    $keywordNode = $dom->createElement('Keyword');
-                    $eventNode->appendChild($keywordNode);
-                    $keywordNode->setAttributeNS(
-                        'http://ns.medbiq.org/lom/extend/v1/',
-                        'hx:source',
-                        $keyword['source']
-                    );
-                    $keywordNode->setAttributeNS(
-                        'http://ns.medbiq.org/lom/extend/v1/',
-                        'hx:id',
-                        (string) $keyword['id']
-                    );
-                    $descriptorNode = $dom->createElementNS('http://ns.medbiq.org/lom/extend/v1/', 'hx:string');
-                    $keywordNode->appendChild($descriptorNode);
-                    $descriptorNode->appendChild($dom->createTextNode($keyword['name']));
+                    $xw->startElement('Keyword');
+                    $xw->writeAttribute('hx:source', $keyword['source']);
+                    $xw->writeAttribute('hx:id', (string) $keyword['id']);
+                    $xw->writeElement('hx:string', $keyword['name']);
+                    $xw->endElement(); // </Keyword>
                 }
             }
-
             // competency object references
             if (array_key_exists('competency_object_references', $event)) {
                 foreach ($event['competency_object_references']['program_objectives'] as $id) {
                     $uri = $this->createCompetencyObjectUri($id, 'program_objective', $institutionDomain);
-                    $this->createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
+                    $this->writeCompetencyObjectReferenceNode($xw, $uri);
                 }
                 foreach ($event['competency_object_references']['course_objectives'] as $id) {
                     $uri = $this->createCompetencyObjectUri($id, 'course_objective', $institutionDomain);
-                    $this->createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
+                    $this->writeCompetencyObjectReferenceNode($xw, $uri);
                 }
                 foreach ($event['competency_object_references']['session_objectives'] as $id) {
                     $uri = $this->createCompetencyObjectUri($id, 'session_objective', $institutionDomain);
-                    $this->createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
+                    $this->writeCompetencyObjectReferenceNode($xw, $uri);
                 }
             }
-
             // resource types
             if (array_key_exists('resource_types', $event)) {
                 foreach ($event['resource_types'] as $resourceType) {
-                    $resourceTypeNode = $dom->createElement('ResourceType');
-                    $eventNode->appendChild($resourceTypeNode);
-                    $resourceTypeNode->appendChild($dom->createTextNode($resourceType['resource_type_id']));
+                    $xw->writeElement('ResourceType', $resourceType['resource_type_id']);
                 }
             }
-
             // instructional- or assessment-method
             //
             // NOTE: unmapped session types to AAMC methods will result in empty values in the
@@ -261,8 +194,7 @@ class XmlPrinter
             // are less of a moving target than what they are now.
             // [ST 2013/09/07]
             if ($event['is_assessment_method']) {
-                $assessmentMethodNode = $dom->createElement('AssessmentMethod');
-                $eventNode->appendChild($assessmentMethodNode);
+                $xw->startElement('AssessmentMethod');
                 //
                 // from the spec:
                 // AssessmentMethod has the following attribute
@@ -274,27 +206,29 @@ class XmlPrinter
                 //
                 switch ($event['assessment_option_name']) {
                     case 'formative':
-                        $assessmentMethodNode->setAttribute('purpose', 'Formative');
+                        $xw->writeAttribute('purpose', 'Formative');
                         break;
                     case 'summative':
                     default:
-                        $assessmentMethodNode->setAttribute('purpose', 'Summative');
+                        $xw->writeAttribute('purpose', 'Summative');
                 }
-                $assessmentMethodNode->appendChild($dom->createTextNode($event['method_id']));
+                $xw->text($event['method_id']);
+                $xw->endElement(); // </AssessmentMethod>
             } else {
-                $instructionalMethodNode = $dom->createElement('InstructionalMethod');
-                $eventNode->appendChild($instructionalMethodNode);
-                $instructionalMethodNode->setAttribute('primary', 'true');
-                $instructionalMethodNode->appendChild($dom->createTextNode($event['method_id']));
+                $xw->startElement('InstructionalMethod');
+                $xw->writeAttribute('primary', 'true');
+                $xw->text($event['method_id']);
+                $xw->endElement(); // </InstructionalMethod>
             }
+            $xw->endElement(); // </Event>
         }
+        $xw->endElement(); // </Events>
 
         //
         // Expectations
         //
         $expectations = $inventory['expectations'];
-        $expectationsNode = $dom->createElement('Expectations');
-        $rootNode->appendChild($expectationsNode);
+        $xw->startElement('Expectations');
         // program objectives
         foreach ($expectations['program_objectives'] as $programObjective) {
             $uri = $this->createCompetencyObjectUri(
@@ -302,13 +236,7 @@ class XmlPrinter
                 'program_objective',
                 $institutionDomain
             );
-            $this->createCompetencyObjectNode(
-                $dom,
-                $expectationsNode,
-                $programObjective['title'],
-                $uri,
-                'program-level-competency'
-            );
+            $this->writeCompetencyObjectNode($xw, $programObjective['title'], $uri, 'program-level-competency');
         }
         // course objectives
         foreach ($expectations['course_objectives'] as $courseObjective) {
@@ -317,13 +245,7 @@ class XmlPrinter
                 'course_objective',
                 $institutionDomain
             );
-            $this->createCompetencyObjectNode(
-                $dom,
-                $expectationsNode,
-                $courseObjective['title'],
-                $uri,
-                'sequence-block-level-competency'
-            );
+            $this->writeCompetencyObjectNode($xw, $courseObjective['title'], $uri, 'sequence-block-level-competency');
         }
         // session objectives
         foreach ($expectations['session_objectives'] as $sessionObjective) {
@@ -332,23 +254,11 @@ class XmlPrinter
                 'session_objective',
                 $institutionDomain
             );
-            $this->createCompetencyObjectNode(
-                $dom,
-                $expectationsNode,
-                $sessionObjective['title'],
-                $uri,
-                'event-level-competency'
-            );
+            $this->writeCompetencyObjectNode($xw, $sessionObjective['title'], $uri, 'event-level-competency');
         }
         // add competency framework
-        $this->createCompetencyFrameworkNode(
-            $dom,
-            $expectationsNode,
-            $report,
-            $reportId,
-            $institutionDomain,
-            $expectations
-        );
+        $this->writeCompetencyFrameworkNode($xw, $report, $reportId, $institutionDomain, $expectations);
+        $xw->endElement(); // </Expectations>
 
         //
         // Academic Levels
@@ -357,39 +267,30 @@ class XmlPrinter
             return $level->getSequenceBlocks()->count() > 0;
         });
 
-        $academicLevelsNode = $dom->createElement('AcademicLevels');
-        $rootNode->appendChild($academicLevelsNode);
-        $levelsInProgramNode = $dom->createElement('LevelsInProgram', (string) $levels->count());
-        $academicLevelsNode->appendChild($levelsInProgramNode);
+        $xw->startElement('AcademicLevels');
+        $xw->writeElement('LevelsInProgram', (string) $levels->count());
         $iterator = $levels->getIterator();
         /** @var CurriculumInventoryAcademicLevelInterface $level */
         foreach ($iterator as $level) {
-            $levelNode = $dom->createElement('Level');
-            $academicLevelsNode->appendChild($levelNode);
-            $levelNode->setAttribute('number', (string) $level->getLevel());
-            $labelNode = $dom->createElement('Label');
-            $levelNode->appendChild($labelNode);
-            $labelNode->appendChild($dom->createTextNode($level->getName()));
+            $xw->startElement('Level');
+            $xw->writeAttribute('number', (string) $level->getLevel());
+            $xw->writeElement('Label', $level->getName());
             $description = $level->getDescription();
             if (is_string($description) && '' !== trim($description)) {
-                $descriptionNode = $dom->createElement('Description');
-                $levelNode->appendChild($descriptionNode);
-                $descriptionNode->appendChild($dom->createTextNode($level->getDescription()));
+                $xw->writeElement('Description', $level->getDescription());
             }
+            $xw->endElement(); // </Level>
         }
+        $xw->endElement(); // </AcademicLevels>
 
         //
         // Sequence
         //
         $sequence = $report->getSequence();
-        $sequenceNode = $dom->createElement('Sequence');
-
-        $rootNode->appendChild($sequenceNode);
+        $xw->startElement('Sequence');
         $description = $sequence->getDescription();
         if (is_string($description) && '' !== trim($description)) {
-            $sequenceDescriptionNode = $dom->createElement('Description');
-            $sequenceNode->appendChild($sequenceDescriptionNode);
-            $sequenceDescriptionNode->appendChild($dom->createTextNode($sequence->getDescription()));
+            $xw->writeElement('Description', trim($sequence->getDescription()));
         }
 
         //
@@ -408,87 +309,82 @@ class XmlPrinter
             ]
         );
         foreach ($topLevelSequenceBlocks as $block) {
-            $this->createSequenceBlockNode(
-                $dom,
-                $sequenceNode,
+            $this->writeSequenceBlockNode(
+                $xw,
                 $block,
                 $inventory['sequence_block_references']['events'],
                 $inventory['sequence_block_references']['competency_objects'],
                 $institutionDomain
             );
         }
+        $xw->endElement(); // </Sequence>
 
         //
         // Integration - currently not supported
         //
-        return $dom;
+
+
+        $xw->endElement(); // </CurriculumInventory>
+        $xw->endDocument();
+
+        return $xw->outputMemory();
     }
 
     /**
-     * Creates the competency framework node and child-nodes, and adds them to a given parent node (<Expectations>).
-     *
-     * @param DOMDocument $dom
-     * @param DOMElement $parentNode
+     * @param XMLWriter $xw
      * @param CurriculumInventoryReportInterface $report
      * @param string $reportId
      * @param string $institutionDomain
      * @param array $expectations
      */
-    protected function createCompetencyFrameworkNode(
-        DOMDocument $dom,
-        DOMElement $parentNode,
+    protected function writeCompetencyFrameworkNode(
+        XmlWriter $xw,
         CurriculumInventoryReportInterface $report,
-        $reportId,
-        $institutionDomain,
+        string $reportId,
+        string $institutionDomain,
         array $expectations
-    ) {
+    ): void {
         // competency framework
-        $competencyFrameworkNode = $dom->createElement('CompetencyFramework');
-        $parentNode->appendChild($competencyFrameworkNode);
+        $xw->startElement('CompetencyFramework');
 
         // lom
-        $lomNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom');
-        $competencyFrameworkNode->appendChild($lomNode);
-        $lomGeneralNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'general');
-        $lomNode->appendChild($lomGeneralNode);
-        $lomIdentifierNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'identifier');
-        $lomGeneralNode->appendChild($lomIdentifierNode);
-        $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'catalog', 'URI');
-        $lomIdentifierNode->appendChild($lomCatalogNode);
+        $xw->startElement('lom:lom');
+        $xw->startElement('lom:general');
+        $xw->startElement('lom:identifier');
+        $xw->writeElement('lom:catalog', 'URI');
         $frameworkUri = "http://{$institutionDomain}/competency_framework/{$reportId}";
-        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'entry', $frameworkUri);
-        $lomIdentifierNode->appendChild($lomEntryNode);
-        $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'title');
-        $lomGeneralNode->appendChild($lomTitleNode);
-        $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
-        $lomTitleNode->appendChild($lomStringNode);
-        $title = 'Competency Framework for ' . $report->getName();
-        $lomStringNode->appendChild($dom->createTextNode($title));
+        $xw->writeElement('lom:entry', $frameworkUri);
+        $xw->endElement(); // <lom:identifier>
+        $xw->startElement('lom:title');
+        $xw->writeElement('lom:string', 'Competency Framework for ' . $report->getName());
+        $xw->endElement(); // <lom:title>
+        $xw->endElement(); // <lom:general>
+        $xw->endElement(); // <lom:lom>
 
         // includes
         $competencyIds = $expectations['framework']['includes']['pcrs_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
             $uri = $this->createPcrsUri($id);
-            $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+            $this->writeCompetencyFrameworkIncludesNode($xw, $uri);
         }
         $competencyIds = $expectations['framework']['includes']['program_objective_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
             $uri = $this->createCompetencyObjectUri($id, 'program_objective', $institutionDomain);
-            $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+            $this->writeCompetencyFrameworkIncludesNode($xw, $uri);
         }
         $competencyIds = $expectations['framework']['includes']['course_objective_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
             $uri = $this->createCompetencyObjectUri($id, 'course_objective', $institutionDomain);
-            $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+            $this->writeCompetencyFrameworkIncludesNode($xw, $uri);
         }
         $competencyIds = $expectations['framework']['includes']['session_objective_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
             $uri = $this->createCompetencyObjectUri($id, 'session_objective', $institutionDomain);
-            $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+            $this->writeCompetencyFrameworkIncludesNode($xw, $uri);
         }
         // relations
         $relations = $expectations['framework']['relations']['program_objectives_to_pcrs'];
@@ -501,13 +397,7 @@ class XmlPrinter
             );
             $relUri2 = $this->createPcrsUri($relation['rel2']);
             $relationshipUri = $this->createRelationshipUri('related');
-            $this->createCompetencyFrameworkRelationNode(
-                $dom,
-                $competencyFrameworkNode,
-                $relUri2,
-                $relUri1,
-                $relationshipUri
-            );
+            $this->writeCompetencyFrameworkRelationNode($xw, $relUri2, $relUri1, $relationshipUri);
         }
         $relations = $expectations['framework']['relations']['course_objectives_to_program_objectives'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
@@ -523,13 +413,7 @@ class XmlPrinter
                 $institutionDomain
             );
             $relationshipUri = $this->createRelationshipUri('narrower');
-            $this->createCompetencyFrameworkRelationNode(
-                $dom,
-                $competencyFrameworkNode,
-                $relUri1,
-                $relUri2,
-                $relationshipUri
-            );
+            $this->writeCompetencyFrameworkRelationNode($xw, $relUri1, $relUri2, $relationshipUri);
         }
         $relations = $expectations['framework']['relations']['session_objectives_to_course_objectives'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
@@ -545,128 +429,94 @@ class XmlPrinter
                 $institutionDomain
             );
             $relationshipUri = $this->createRelationshipUri('narrower');
-            $this->createCompetencyFrameworkRelationNode(
-                $dom,
-                $competencyFrameworkNode,
-                $relUri1,
-                $relUri2,
-                $relationshipUri
-            );
+            $this->writeCompetencyFrameworkRelationNode($xw, $relUri1, $relUri2, $relationshipUri);
         }
+        $xw->endElement(); // </CompetencyFramework>
     }
 
     /**
-     * Recursively creates and appends sequence block nodes to the XML document.
-     *
-     * @param DOMDocument $dom the document object
-     * @param DOMElement $sequenceNode the sequence DOM node to append to
+     * @param XmlWriter $xw
      * @param CurriculumInventorySequenceBlockInterface $block the current sequence block
      * @param array $eventReferences A reference map of sequence blocks to events.
      * @param array $competencyObjectReferences A reference map of sequence blocks to competency objects.
      * @param string $institutionDomain
-     * @param DOMElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block.
-     * @param int $order of this sequence block in relation to other nested sequence blocks. '0' if n/a.
      */
-    protected function createSequenceBlockNode(
-        DOMDocument $dom,
-        DOMElement $sequenceNode,
+    protected function writeSequenceBlockNode(
+        XmlWriter $xw,
         CurriculumInventorySequenceBlockInterface $block,
         array $eventReferences,
         array $competencyObjectReferences,
-        $institutionDomain,
-        DOMElement $parentSequenceBlockNode = null,
-        $order = 0
-    ) {
-        $sequenceBlockNode = $dom->createElement('SequenceBlock');
-        $sequenceNode->appendChild($sequenceBlockNode);
-        // append a reference to _this_ sequence block to the parent sequence block
-        if (isset($parentSequenceBlockNode)) {
-            $ref = "/CurriculumInventory/Sequence/SequenceBlock[@id='{$block->getId()}']";
-            $sequenceBlockReferenceNode = $dom->createElement('SequenceBlockReference', $ref);
-            $parentSequenceBlockNode->appendChild($sequenceBlockReferenceNode);
-            if ($order) {
-                $sequenceBlockReferenceNode->setAttribute('order', (string) $order);
-            }
-        }
-        $sequenceBlockNode->setAttribute('id', (string) $block->getId());
+        string $institutionDomain
+    ): void {
+        $xw->startElement('SequenceBlock');
+        $xw->writeAttribute('id', (string) $block->getId());
         switch ($block->getRequired()) {
             case CurriculumInventorySequenceBlockInterface::OPTIONAL:
-                $sequenceBlockNode->setAttribute('required', 'Optional');
+                $xw->writeAttribute('required', 'Optional');
                 break;
             case CurriculumInventorySequenceBlockInterface::REQUIRED:
-                $sequenceBlockNode->setAttribute('required', 'Required');
+                $xw->writeAttribute('required', 'Required');
                 break;
             case CurriculumInventorySequenceBlockInterface::REQUIRED_IN_TRACK:
-                $sequenceBlockNode->setAttribute('required', 'Required In Track');
+                $xw->writeAttribute('required', 'Required In Track');
                 break;
         }
         switch ($block->getChildSequenceOrder()) {
             case CurriculumInventorySequenceBlockInterface::ORDERED:
-                $sequenceBlockNode->setAttribute('order', 'Ordered');
+                $xw->writeAttribute('order', 'Ordered');
                 break;
             case CurriculumInventorySequenceBlockInterface::UNORDERED:
-                $sequenceBlockNode->setAttribute('order', 'Unordered');
+                $xw->writeAttribute('order', 'Unordered');
                 break;
             case CurriculumInventorySequenceBlockInterface::PARALLEL:
-                $sequenceBlockNode->setAttribute('order', 'Parallel');
+                $xw->writeAttribute('order', 'Parallel');
                 break;
         }
 
         $min = $block->getMinimum();
         if ($min) {
-            $sequenceBlockNode->setAttribute('minimum', (string) $min);
+            $xw->writeAttribute('minimum', (string) $min);
         }
 
         $max = $block->getMaximum();
         if ($max) {
-            $sequenceBlockNode->setAttribute('maximum', (string) $max);
+            $xw->writeAttribute('maximum', (string) $max);
         }
 
         if ($block->hasTrack()) {
-            $sequenceBlockNode->setAttribute('track', 'true');
+            $xw->writeAttribute('track', 'true');
         } else {
-            $sequenceBlockNode->setAttribute('track', 'false');
+            $xw->writeAttribute('track', 'false');
         }
 
-        $titleNode = $dom->createElement('Title');
-        $sequenceBlockNode->appendChild($titleNode);
-        $titleNode->appendChild($dom->createTextNode($block->getTitle()));
+        $xw->writeElement('Title', $block->getTitle());
 
         $description = $block->getDescription();
         if (is_string($description) && '' !== trim($description)) {
-            $descriptionNode = $dom->createElement('Description');
-            $sequenceBlockNode->appendChild($descriptionNode);
-            $descriptionNode->appendChild($dom->createTextNode($block->getDescription()));
+            $xw->writeElement('Description', trim($block->getDescription()));
         }
 
         // add duration and/or start+end date
-        $timingNode = $dom->createElement('Timing');
-        $sequenceBlockNode->appendChild($timingNode);
+        $xw->startElement('Timing');
         if ($block->getDuration()) {
-            $durationNode = $dom->createElement('Duration');
-            $timingNode->appendChild($durationNode);
-            $durationNode->appendChild($dom->createTextNode('P' . $block->getDuration() . 'D')); // duration in days.
+            $xw->writeElement('Duration', 'P' . $block->getDuration() . 'D'); // duration in days.
         }
-
         if ($block->getStartDate()) {
-            $datesNode = $dom->createElement('Dates');
-            $timingNode->appendChild($datesNode);
-            $startDateNode = $dom->createElement('StartDate', $block->getStartDate()->format('Y-m-d'));
-            $datesNode->appendChild($startDateNode);
-            $endDateNode = $dom->createElement('EndDate', $block->getEndDate()->format('Y-m-d'));
-            $datesNode->appendChild($endDateNode);
+            $xw->startElement('Dates');
+            $xw->writeElement('StartDate', $block->getStartDate()->format('Y-m-d'));
+            $xw->writeElement('EndDate', $block->getEndDate()->format('Y-m-d'));
+            $xw->endElement(); // </Dates>
         }
+        $xw->endElement(); // </Timing>
 
         // academic level
-        $levelNode = $dom->createElement(
+        $xw->writeElement(
             'Level',
             "/CurriculumInventory/AcademicLevels/Level[@number='{$block->getAcademicLevel()->getLevel()}']"
         );
-        $sequenceBlockNode->appendChild($levelNode);
 
         // clerkship type
         // map course clerkship type to "Clerkship Model"
-        // @todo Refactor this out into utility method. [ST 2015/09/14]
         $course = $block->getCourse();
         $clerkshipModel = false;
         if ($course) {
@@ -682,8 +532,7 @@ class XmlPrinter
             }
         }
         if ($clerkshipModel) {
-            $clerkshipModelNode = $dom->createElement('ClerkshipModel', $clerkshipModel);
-            $sequenceBlockNode->appendChild($clerkshipModelNode);
+            $xw->writeElement('ClerkshipModel', $clerkshipModel);
         }
 
         // link to competency objects
@@ -691,11 +540,11 @@ class XmlPrinter
             $refs  = $competencyObjectReferences[$block->getId()];
             foreach ($refs['program_objectives'] as $id) {
                 $uri = $this->createCompetencyObjectUri($id, 'program_objective', $institutionDomain);
-                $this->createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $uri);
+                $this->writeCompetencyObjectReferenceNode($xw, $uri);
             }
             foreach ($refs['course_objectives'] as $id) {
                 $uri = $this->createCompetencyObjectUri($id, 'course_objective', $institutionDomain);
-                $this->createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $uri);
+                $this->writeCompetencyObjectReferenceNode($xw, $uri);
             }
         }
         // pre-conditions and post-conditions are n/a
@@ -704,16 +553,14 @@ class XmlPrinter
         if (array_key_exists($block->getId(), $eventReferences)) {
             $refs = $eventReferences[$block->getId()];
             foreach ($refs as $reference) {
-                $sequenceBlockEventNode = $dom->createElement('SequenceBlockEvent');
-                $sequenceBlockNode->appendChild($sequenceBlockEventNode);
+                $xw->startElement('SequenceBlockEvent');
                 if ($reference['optional']) {
-                    $sequenceBlockEventNode->setAttribute('required', 'false');
+                    $xw->writeAttribute('required', 'false');
                 } else {
-                    $sequenceBlockEventNode->setAttribute('required', 'true');
+                    $xw->writeAttribute('required', 'true');
                 }
                 $refUri = "/CurriculumInventory/Events/Event[@id='E{$reference['event_id']}']";
-                $eventReferenceNode = $dom->createElement('EventReference', $refUri);
-                $sequenceBlockEventNode->appendChild($eventReferenceNode);
+                $xw->writeElement('EventReference', $refUri);
 
                 // start/end-date
                 // Not implemented at this point.
@@ -729,135 +576,116 @@ class XmlPrinter
                 // How accurate this will match the expected start/end date values here remains to be seen and will
                 // require further discussion.
                 // [ST 2013/08/08]
+                $xw->endElement(); // </SequenceBlockEvent>
             }
         }
 
-        // recursively generate XML for nested sequence blocks
         $children = $block->getChildrenAsSortedList();
         if (! empty($children)) {
             $order = 0;
-            $isOrdered = CurriculumInventorySequenceBlockInterface::ORDERED
-                === $block->getChildSequenceOrder();
+            $isOrdered = CurriculumInventorySequenceBlockInterface::ORDERED === $block->getChildSequenceOrder();
             foreach ($children as $child) {
                 // apply an incremental sort order for "ordered" sequence blocks
                 if ($isOrdered) {
                     $order++;
                 }
-                $this->createSequenceBlockNode(
-                    $dom,
-                    $sequenceNode,
+                $ref = "/CurriculumInventory/Sequence/SequenceBlock[@id='{$child->getId()}']";
+                $xw->startElement('SequenceBlockReference');
+                if ($order) {
+                    $xw->writeAttribute('order', (string) $order);
+                }
+                $xw->text($ref);
+                $xw->endElement(); // </SequenceBlockReference>
+            }
+        }
+        $xw->endElement(); // </SequenceBlock>
+
+        // recursively generate XML for nested sequence blocks
+        if (! empty($children)) {
+            foreach ($children as $child) {
+                $this->writeSequenceBlockNode(
+                    $xw,
                     $child,
                     $eventReferences,
                     $competencyObjectReferences,
                     $institutionDomain,
-                    $sequenceBlockNode,
-                    $order
                 );
             }
         }
     }
 
     /**
-     * Creates a "CompetencyObject" DOM node and populates it with given values,
-     * then appends it to the given parent node.
-     *
-     * @param DOMDocument $dom The document object.
-     * @param DOMElement $parentNode The parent node.
+     * @param XmlWriter $xw
      * @param string $title The competency object's title.
      * @param string $uri An URI that uniquely identifies the competency object.
      * @param string $category 'program-level-competency', 'sequence-block-level-competency or 'event-level-competency'.
      */
-    protected function createCompetencyObjectNode(DOMDocument $dom, DOMElement $parentNode, $title, $uri, $category)
+    protected function writeCompetencyObjectNode(XmlWriter $xw, string $title, string $uri, string $category): void
     {
-        $competencyObjectNode = $dom->createElement('CompetencyObject');
-        $parentNode->appendChild($competencyObjectNode);
-        $lomNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:lom');
-        $competencyObjectNode->appendChild($lomNode);
-        $lomGeneralNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:general');
-        $lomNode->appendChild($lomGeneralNode);
-        $lomIdentifierNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:identifier');
-        $lomGeneralNode->appendChild($lomIdentifierNode);
-        $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:catalog', 'URI');
-        $lomIdentifierNode->appendChild($lomCatalogNode);
-        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:entry', $uri);
-        $lomIdentifierNode->appendChild($lomEntryNode);
-        $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:title');
-        $lomGeneralNode->appendChild($lomTitleNode);
-        $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom:string');
-        $lomTitleNode->appendChild($lomStringNode);
-        $lomStringNode->appendChild($dom->createTextNode(trim(strip_tags($title))));
-        $categoryNode = $dom->createElementNS('http://ns.medbiq.org/competencyobject/v1/', 'co:Category');
-        $competencyObjectNode->appendChild($categoryNode);
-        $categoryNode->setAttribute('term', $category);
+        $xw->startElement('CompetencyObject');
+        $xw->startElement('lom:lom');
+        $xw->startElement('lom:general');
+        $xw->startElement('lom:identifier');
+        $xw->writeElement('lom:catalog', 'URI');
+        $xw->writeElement('lom:entry', $uri);
+        $xw->endElement(); // </lom:identifier>
+        $xw->startElement('lom:title');
+        $xw->writeElement('lom:string', trim(strip_tags($title)));
+        $xw->endElement(); // </lom:title>
+        $xw->endElement(); // </lom:general>
+        $xw->endElement(); // </lom:lom>
+        $xw->startElement('co:Category');
+        $xw->writeAttribute('term', $category);
+        $xw->endElement(); // </co:Category>
+        $xw->endElement(); // </CompetencyElement>
     }
 
     /**
-     *
-     * Creates a "CompetencyObjectReference" DOM node and populates it with given values,
-     * then appends it to the given parent node.
-     *
-     * @param DOMDocument $dom The document object.
-     * @param DOMElement $parentNode The parent node.
+     * @param XMLWriter $xw
      * @param string $uri An URI that uniquely identifies the competency object.
-     * @see Ilios_CurriculumInventory_Exporter::_createCompetencyObjectUri
      */
-    protected function createCompetencyObjectReferenceNode(DOMDocument $dom, DOMElement $parentNode, $uri)
+    protected function writeCompetencyObjectReferenceNode(XmlWriter $xw, string $uri): void
     {
         $ref =
             "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry='{$uri}']";
-        $competencyObjectReferenceNode = $dom->createElement('CompetencyObjectReference', $ref);
-        $parentNode->appendChild($competencyObjectReferenceNode);
+        $xw->writeElement('CompetencyObjectReference', $ref);
     }
 
     /**
-     * @param DOMDocument $dom
-     * @param DOMElement $parentNode
+     * @param XmlWriter $xw
      * @param string $uri
      */
-    protected function createCompetencyFrameworkIncludesNode(DOMDocument $dom, DOMElement $parentNode, $uri)
+    protected function writeCompetencyFrameworkIncludesNode(XmlWriter $xw, string $uri): void
     {
-        $includesNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Includes');
-        $parentNode->appendChild($includesNode);
-        $catalogNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Catalog', 'URI');
-        $includesNode->appendChild($catalogNode);
-        $entryNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Entry', $uri);
-        $includesNode->appendChild($entryNode);
+        $xw->startElement('cf:Includes');
+        $xw->writeElement('cf:Catalog', 'URI');
+        $xw->writeElement('cf:Entry', $uri);
+        $xw->endElement(); // </cf:Includes>
     }
 
     /**
-     * @param DOMDocument $dom
-     * @param DOMElement $parentNode
+     * @param XmlWriter $xw
      * @param string $relUri1
      * @param string $relUri2
      * @param string $relationshipUri
      */
-    protected function createCompetencyFrameworkRelationNode(
-        DOMDocument $dom,
-        DOMElement $parentNode,
-        $relUri1,
-        $relUri2,
-        $relationshipUri
-    ) {
-        $relationNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Relation');
-        $parentNode->appendChild($relationNode);
-        $referenceNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Reference1');
-        $relationNode->appendChild($referenceNode);
-        $catalogNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Catalog', 'URI');
-        $referenceNode->appendChild($catalogNode);
-        $entryNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Entry', $relUri1);
-        $referenceNode->appendChild($entryNode);
-        $relationshipNode = $dom->createElementNS(
-            'http://ns.medbiq.org/competencyframework/v1/',
-            'cf:Relationship',
-            $relationshipUri
-        );
-        $relationNode->appendChild($relationshipNode);
-        $referenceNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Reference2');
-        $relationNode->appendChild($referenceNode);
-        $catalogNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Catalog', 'URI');
-        $referenceNode->appendChild($catalogNode);
-        $entryNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Entry', $relUri2);
-        $referenceNode->appendChild($entryNode);
+    protected function writeCompetencyFrameworkRelationNode(
+        XmlWriter $xw,
+        string $relUri1,
+        string $relUri2,
+        string $relationshipUri
+    ): void {
+        $xw->startElement('cf:Relation');
+        $xw->startElement('cf:Reference1');
+        $xw->writeElement('cf:Catalog', 'URI');
+        $xw->writeElement('cf:Entry', $relUri1);
+        $xw->endElement(); // </cf:Reference1>
+        $xw->writeElement('cf:Relationship', $relationshipUri);
+        $xw->startElement('cf:Reference2');
+        $xw->writeElement('cf:Catalog', 'URI');
+        $xw->writeElement('cf:Entry', $relUri2);
+        $xw->endElement(); // </cf:Reference2>
+        $xw->endElement(); // </cf:Relation>
     }
 
     /**

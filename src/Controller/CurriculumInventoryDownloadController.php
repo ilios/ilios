@@ -85,20 +85,6 @@ class CurriculumInventoryDownloadController extends AbstractController
         }
 
         // otherwise, generate a document on the fly.
-        return $this->generateReportDocument($report, $exporter);
-    }
-
-    /**
-     * Generates a report document on the fly for a given report.
-     *
-     * @param CurriculumInventoryReportInterface $report
-     * @return string The report document.
-     */
-    protected function generateReportDocument(
-        CurriculumInventoryReportInterface $report,
-        Exporter $exporter
-    ) {
-        $xml = $exporter->getXmlReport($report);
-        return $xml->saveXML();
+        return $exporter->getXmlReport($report);
     }
 }
