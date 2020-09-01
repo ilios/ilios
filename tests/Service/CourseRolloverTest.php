@@ -47,6 +47,7 @@ use DateInterval;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\DataFixtures\Executor\PHPCRExecutor;
 use Exception;
 use Mockery as m;
 
@@ -591,12 +592,17 @@ class CourseRolloverTest extends TestCase
                 if ($expectedStartWeek > 52) {
                     $expectedStartWeek = $expectedStartWeek - 52;
                 }
+                $startWeek = (int) $newStart->format('W');
+                if ($startWeek > 52) {
+                    $startWeek = $startWeek - 52;
+                }
+
                 return (
                     $newStart->format('c') === $newStartDate->format('c') &&
                     //day of the week is the same
                     $oldStart->format('w') === $newStart->format('w') &&
                     //Week of the year is two weeks later
-                    $expectedStartWeek ===  (int) $newStart->format('W')
+                    $expectedStartWeek ===  $startWeek
                 );
             }))->once();
 
@@ -606,11 +612,16 @@ class CourseRolloverTest extends TestCase
             if ($expectedEndWeek > 52) {
                 $expectedEndWeek = $expectedEndWeek - 52;
             }
+            $endWeek = (int) $newEnd->format('W');
+            if ($endWeek > 52) {
+                $endWeek = $endWeek - 52;
+            }
+
             return (
                 //day of the week is the same
                 $oldEnd->format('w') === $newEnd->format('w') &&
                 //Week of the year is two weeks laters
-                $expectedEndWeek ===  (int) $newEnd->format('W')
+                $expectedEndWeek ===  $endWeek
             );
         }))->once();
 
@@ -627,11 +638,16 @@ class CourseRolloverTest extends TestCase
                     if ($expectedStartWeek > 52) {
                         $expectedStartWeek = $expectedStartWeek - 52;
                     }
+                    $startWeek = (int) $newStart->format('W');
+                    if ($startWeek > 52) {
+                        $startWeek = $startWeek - 52;
+                    }
+
                     return (
                         //day of the week is the same
                         $oldStart->format('w') === $newStart->format('w') &&
                         //Week of the year is the same
-                        $expectedStartWeek ===  (int) $newStart->format('W')
+                        $expectedStartWeek ===  $startWeek
                     );
                 }))->once();
                 $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
@@ -640,11 +656,16 @@ class CourseRolloverTest extends TestCase
                     if ($expectedEndWeek > 52) {
                         $expectedEndWeek = $expectedEndWeek - 52;
                     }
+                    $endWeek = (int) $newEnd->format('W');
+                    if ($endWeek > 52) {
+                        $endWeek = $endWeek - 52;
+                    }
+
                     return (
                         //day of the week is the same
                         $oldEnd->format('w') === $newEnd->format('w') &&
                         //Week of the year is the same
-                        $expectedEndWeek ===  (int) $newEnd->format('W')
+                        $expectedEndWeek ===  $endWeek
                     );
                 }))->once();
 
