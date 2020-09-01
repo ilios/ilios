@@ -273,8 +273,8 @@ class Aggregator
             'events' => $eventRefsForSeqBlocks,
             'competency_objects' => $compObjRefsForSeqBlocks,
         ];
-        $rhett['institution_domain'] = $this->config->get('institution_domain') || '';
-        $rhett['supporting_link'] = $this->config->get('supporting_link') || '';
+        $rhett['institution_domain'] = $this->config->get('institution_domain') ?? '';
+        $rhett['supporting_link'] = $this->config->get('supporting_link') ?? '';
         $rhett['created_at'] = time();
         return $rhett;
     }

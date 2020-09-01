@@ -60,7 +60,7 @@ class CurriculumInventoryExports
 
             // generate and set the report document
             $document = $exporter->getXmlReport($export->getReport());
-            $export->setDocument($document->saveXML());
+            $export->setDocument($document);
 
             $errors = $validator->validate($export);
             if (count($errors) > 0) {

@@ -7,6 +7,7 @@ namespace App\Service\CurriculumInventory;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\Export\XmlPrinter;
+use Exception;
 
 /**
  * Curriculum Inventory Exporter.
@@ -20,15 +21,8 @@ use App\Service\CurriculumInventory\Export\XmlPrinter;
  */
 class Exporter
 {
-    /**
-     * @var Aggregator
-     */
-    protected $aggregator;
-
-    /**
-     * @var XmlPrinter
-     */
-    protected $printer;
+    protected Aggregator $aggregator;
+    protected XmlPrinter $printer;
 
     /**
      * @param Aggregator $aggregator
@@ -42,8 +36,8 @@ class Exporter
     /**
      * Loads the curriculum inventory for a given report and exports it as XML document.
      * @param CurriculumInventoryReportInterface $report The report.
-     * @return \DomDocument The fully populated report.
-     * @throws \Exception
+     * @return string The fully populated report.
+     * @throws Exception
      * @see Aggregator::getData()
      * @see XmlPrinter::print()
      */

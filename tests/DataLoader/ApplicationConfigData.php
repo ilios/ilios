@@ -26,6 +26,11 @@ class ApplicationConfigData extends AbstractDataLoader
             'name' => '2' . $this->faker->text(50),
             'value' => 'third value',
         ];
+        $arr[] = [
+            'id' => 4,
+            'name' => 'institution_domain',
+            'value' => 'test.edu'
+        ];
 
         return $arr;
     }
@@ -33,8 +38,8 @@ class ApplicationConfigData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 4,
-            'name' => '4' . $this->faker->text(50),
+            'id' => 5,
+            'name' => '5' . $this->faker->text(50),
             'value' => $this->faker->text(100),
         ];
     }

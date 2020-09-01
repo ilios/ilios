@@ -12,6 +12,8 @@
     "ext-json": "*",
     "ext-pdo": "*",
     "ext-zlib": "*",
+    "ext-simplexml": "*",
+    "ext-xmlwriter": "*",
     "danielstjules/stringy": "^3.1",
     "doctrine/doctrine-fixtures-bundle": "^3.0",
     "doctrine/doctrine-migrations-bundle": "^2.0",
@@ -61,7 +63,6 @@
     "symfony/yaml": "@stable"
   },
   "require-dev": {
-    "ext-simplexml": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
     "fzaninotto/faker": "@stable",
     "liip/test-fixtures-bundle": "~1.9.1",
