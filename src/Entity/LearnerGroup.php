@@ -87,6 +87,32 @@ class LearnerGroup implements LearnerGroupInterface
     protected $location;
 
     /**
+     * @ORM\Column(name="url", type="string", length=2000, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      max = 2000,
+     * )
+     * @Assert\Url
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    protected ?string $url;
+
+
+    /**
+     * @ORM\Column(name="needs_accomodation", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    protected bool $needsAccomodation;
+
+    /**
      * @var CohortInterface
      * @Assert\NotNull()
      *
@@ -239,6 +265,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->instructorGroups = new ArrayCollection();
         $this->instructors      = new ArrayCollection();
         $this->descendants      = new ArrayCollection();
+        $this->needsAccomodation = false;
     }
 
     /**
@@ -472,5 +499,37 @@ class LearnerGroup implements LearnerGroupInterface
             return $cohort->getProgramYear();
         }
         return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setNeedsAccomodations(bool $needsAccomodations): void
+    {
+        $this->needsAccomodation = $needsAccomodations;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getNeedsAccomodations(): bool
+    {
+        return $this->needsAccomodation;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setUrl(?string $url): void
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUrl(): ?string
+    {
+        return $this->url;
     }
 }

@@ -131,4 +131,24 @@ interface LearnerGroupInterface extends
      * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getDescendants();
+
+    /**
+     * @param bool $needsAccomodations
+     */
+    public function setNeedsAccomodations(bool $needsAccomodations): void;
+
+    /**
+     * @return bool
+     */
+    public function getNeedsAccomodations(): bool;
+
+    /**
+     * @var string|null $url
+     */
+    public function setUrl(?string $url): void;
+
+    /**
+     * @return string|null
+     */
+    public function getUrl(): ?string;
 }
