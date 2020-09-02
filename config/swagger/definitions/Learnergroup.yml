@@ -14,8 +14,8 @@ Learnergroup:
   url:
    description: URL
    type: string
-  needsAccomodation:
-   description: Flag indicating whether this group needs to accomodate for disabilities in learning activities.
+  needsAccommodation:
+   description: Flag indicating whether this group needs to accommodate for disabilities in learning activities.
    type: boolean
   cohort:
    description: Cohort

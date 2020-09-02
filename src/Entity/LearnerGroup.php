@@ -102,7 +102,7 @@ class LearnerGroup implements LearnerGroupInterface
 
 
     /**
-     * @ORM\Column(name="needs_accomodation", type="boolean")
+     * @ORM\Column(name="needs_accommodation", type="boolean")
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
@@ -110,7 +110,7 @@ class LearnerGroup implements LearnerGroupInterface
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    protected bool $needsAccomodation;
+    protected bool $needsAccommodation;
 
     /**
      * @var CohortInterface
@@ -265,7 +265,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->instructorGroups = new ArrayCollection();
         $this->instructors      = new ArrayCollection();
         $this->descendants      = new ArrayCollection();
-        $this->needsAccomodation = false;
+        $this->needsAccommodation = false;
     }
 
     /**
@@ -504,17 +504,17 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @inheritDoc
      */
-    public function setNeedsAccomodations(bool $needsAccomodations): void
+    public function setNeedsAccommodations(bool $needsAccommodations): void
     {
-        $this->needsAccomodation = $needsAccomodations;
+        $this->needsAccommodation = $needsAccommodations;
     }
 
     /**
      * @inheritDoc
      */
-    public function getNeedsAccomodations(): bool
+    public function getNeedsAccommodations(): bool
     {
-        return $this->needsAccomodation;
+        return $this->needsAccommodation;
     }
 
     /**
