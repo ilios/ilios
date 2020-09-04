@@ -35,6 +35,11 @@ class LoadLearnerGroupData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
             if (!empty($arr['location'])) {
+                $entity->setUrl($arr['url']);
+            }
+            $entity->setNeedsAccommodation($arr['needsAccommodation']);
+
+            if (!empty($arr['location'])) {
                 $entity->setLocation($arr['location']);
             }
             if (!empty($arr['parent'])) {

@@ -98,12 +98,12 @@ class LearnerGroupTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\LearnerGroup::setNeedsAccommodations
-     * @covers \App\Entity\LearnerGroup::getNeedsAccommodations
+     * @covers \App\Entity\LearnerGroup::setNeedsAccommodation
+     * @covers \App\Entity\LearnerGroup::getNeedsAccommodation
      */
-    public function testSetNeedsAccommodations()
+    public function testSetNeedsAccommodation()
     {
-        $this->basicSetTest('needsAccommodations', 'bool');
+        $this->basicSetTest('needsAccommodation', 'bool');
     }
 
     /**
