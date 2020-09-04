@@ -133,14 +133,14 @@ interface LearnerGroupInterface extends
     public function getDescendants();
 
     /**
-     * @param bool $needsAccommodations
+     * @param bool $needsAccommodation
      */
-    public function setNeedsAccommodations(bool $needsAccommodations): void;
+    public function setNeedsAccommodation(bool $needsAccommodation): void;
 
     /**
      * @return bool
      */
-    public function getNeedsAccommodations(): bool;
+    public function getNeedsAccommodation(): bool;
 
     /**
      * @var string|null $url

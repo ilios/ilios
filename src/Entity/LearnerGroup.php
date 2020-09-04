@@ -504,15 +504,15 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @inheritDoc
      */
-    public function setNeedsAccommodations(bool $needsAccommodations): void
+    public function setNeedsAccommodation(bool $needsAccommodation): void
     {
-        $this->needsAccommodation = $needsAccommodations;
+        $this->needsAccommodation = $needsAccommodation;
     }
 
     /**
      * @inheritDoc
      */
-    public function getNeedsAccommodations(): bool
+    public function getNeedsAccommodation(): bool
     {
         return $this->needsAccommodation;
     }

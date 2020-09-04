@@ -46,7 +46,7 @@ class LearnerGroupRepository extends EntityRepository implements DTORepositoryIn
                 $arr['title'],
                 $arr['location'],
                 $arr['url'],
-                $arr['needsAccommodations']
+                $arr['needsAccommodation']
             );
         }
         $learnerGroupIds = array_keys($learnerGroupDTOs);

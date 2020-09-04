@@ -131,13 +131,13 @@ class LearnerGroupDTO
      */
     public $instructors;
 
-    public function __construct($id, $title, $location, $url, $needsAccommodations)
+    public function __construct($id, $title, $location, $url, $needsAccommodation)
     {
         $this->id = $id;
         $this->title = $title;
         $this->location = $location;
         $this->url = $url;
-        $this->needsAccommodation = $needsAccommodations;
+        $this->needsAccommodation = $needsAccommodation;
 
         $this->children = [];
         $this->ilmSessions = [];
