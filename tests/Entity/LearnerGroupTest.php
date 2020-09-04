@@ -89,6 +89,24 @@ class LearnerGroupTest extends EntityBase
     }
 
     /**
+     * @covers \App\Entity\LearnerGroup::setUrl
+     * @covers \App\Entity\LearnerGroup::getUrl
+     */
+    public function testSetUrl()
+    {
+        $this->basicSetTest('url', 'string');
+    }
+
+    /**
+     * @covers \App\Entity\LearnerGroup::setNeedsAccommodations
+     * @covers \App\Entity\LearnerGroup::getNeedsAccommodations
+     */
+    public function testSetNeedsAccommodations()
+    {
+        $this->basicSetTest('needsAccommodations', 'bool');
+    }
+
+    /**
      * @covers \App\Entity\LearnerGroup::setCohort
      * @covers \App\Entity\LearnerGroup::getCohort
      */
