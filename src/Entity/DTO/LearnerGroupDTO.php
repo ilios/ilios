@@ -45,7 +45,7 @@ class LearnerGroupDTO
 
     /**
      * @IS\Expose
-     * @IS\Type("bool")
+     * @IS\Type("boolean")
      */
     public bool $needsAccommodation;
 
