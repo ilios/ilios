@@ -131,7 +131,8 @@ class LearnerGroupDTO
      */
     public $instructors;
 
-    public function __construct($id, $title, $location, $url, $needsAccommodations) {
+    public function __construct($id, $title, $location, $url, $needsAccommodations)
+    {
         $this->id = $id;
         $this->title = $title;
         $this->location = $location;
