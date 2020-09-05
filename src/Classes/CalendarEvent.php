@@ -145,7 +145,7 @@ class CalendarEvent
     /**
      * @var int
      * @IS\Expose
-     * @IS\Type("boolean")
+     * @IS\Type("integer")
      */
     public $session;
 
