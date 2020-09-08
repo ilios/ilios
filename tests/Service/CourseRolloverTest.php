@@ -583,19 +583,15 @@ class CourseRolloverTest extends TestCase
 
         $newStartDate = clone $course->getStartDate();
         //start the new course 16 weeks (112 days) later
-        $newStartDate->add(new DateInterval('P112D'));
+        $offset = new DateInterval('P112D');
+        $newStartDate->add($offset);
 
         $newCourse
-            ->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($course, $newStartDate) {
+            ->shouldReceive('setStartDate')
+            ->with(m::on(function (DateTime $newStart) use ($offset, $course, $newStartDate) {
                 $oldStart = $course->getStartDate();
-                $expectedStartWeek = (int) $oldStart->format('W') + 16;
-                if ($expectedStartWeek > 52) {
-                    $expectedStartWeek = $expectedStartWeek - 52;
-                }
+                $expectedStartWeek = (int) (clone $oldStart)->add($offset)->format('W');
                 $startWeek = (int) $newStart->format('W');
-                if ($startWeek > 52) {
-                    $startWeek = $startWeek - 52;
-                }
 
                 return (
                     $newStart->format('c') === $newStartDate->format('c') &&
@@ -606,22 +602,16 @@ class CourseRolloverTest extends TestCase
                 );
             }))->once();
 
-        $newCourse->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($course) {
+        $newCourse->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($course, $offset) {
             $oldEnd = $course->getEndDate();
-            $expectedEndWeek = (int) $oldEnd->format('W') + 16;
-            if ($expectedEndWeek > 52) {
-                $expectedEndWeek = $expectedEndWeek - 52;
-            }
+            $expectedEndWeek = (int) (clone $oldEnd)->add($offset)->format('W');
             $endWeek = (int) $newEnd->format('W');
-            if ($endWeek > 52) {
-                $endWeek = $endWeek - 52;
-            }
 
             return (
                 //day of the week is the same
                 $oldEnd->format('w') === $newEnd->format('w') &&
                 //Week of the year is two weeks laters
-                $expectedEndWeek ===  $endWeek
+                $expectedEndWeek === $endWeek
             );
         }))->once();
 
@@ -632,42 +622,34 @@ class CourseRolloverTest extends TestCase
             foreach ($session->getOfferings() as $offering) {
                 $newOffering = m::mock(OfferingInterface::class);
                 $newOffering->shouldIgnoreMissing();
-                $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
-                    $oldStart = $offering->getStartDate();
-                    $expectedStartWeek = (int) $oldStart->format('W') + 16;
-                    if ($expectedStartWeek > 52) {
-                        $expectedStartWeek = $expectedStartWeek - 52;
-                    }
-                    $startWeek = (int) $newStart->format('W');
-                    if ($startWeek > 52) {
-                        $startWeek = $startWeek - 52;
-                    }
+                $newOffering
+                    ->shouldReceive('setStartDate')
+                    ->with(m::on(function (DateTime $newStart) use ($offset, $offering) {
+                        $oldStart = $offering->getStartDate();
+                        $expectedStartWeek = (int) (clone $oldStart)->add($offset)->format('W');
+                        $startWeek = (int) $newStart->format('W');
 
-                    return (
-                        //day of the week is the same
-                        $oldStart->format('w') === $newStart->format('w') &&
-                        //Week of the year is the same
-                        $expectedStartWeek ===  $startWeek
-                    );
-                }))->once();
-                $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
-                    $oldEnd = $offering->getEndDate();
-                    $expectedEndWeek = (int) $oldEnd->format('W') + 16;
-                    if ($expectedEndWeek > 52) {
-                        $expectedEndWeek = $expectedEndWeek - 52;
-                    }
-                    $endWeek = (int) $newEnd->format('W');
-                    if ($endWeek > 52) {
-                        $endWeek = $endWeek - 52;
-                    }
+                        return (
+                            //day of the week is the same
+                            $oldStart->format('w') === $newStart->format('w') &&
+                            //Week of the year is the same
+                            $expectedStartWeek ===  $startWeek
+                        );
+                    }))->once();
+                $newOffering
+                    ->shouldReceive('setEndDate')
+                    ->with(m::on(function (DateTime $newEnd) use ($offset, $offering) {
+                        $oldEnd = $offering->getEndDate();
+                        $expectedEndWeek = (int) (clone $oldEnd)->add($offset)->format('W');
+                        $endWeek = (int) $newEnd->format('W');
 
-                    return (
-                        //day of the week is the same
-                        $oldEnd->format('w') === $newEnd->format('w') &&
-                        //Week of the year is the same
-                        $expectedEndWeek ===  $endWeek
-                    );
-                }))->once();
+                        return (
+                            //day of the week is the same
+                            $oldEnd->format('w') === $newEnd->format('w') &&
+                            //Week of the year is the same
+                            $expectedEndWeek ===  $endWeek
+                        );
+                    }))->once();
 
                 $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
                 $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
