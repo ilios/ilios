@@ -1,0 +1,76 @@
+name: Deploy Tagged Containers
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  tags:
+    runs-on: ubuntu-latest
+    name: Extract PR Number
+    outputs:
+      prNumber: ${{ steps.tag.outputs.prNumber }}
+    steps:
+    - id: tag
+      run: |
+        echo ${GITHUB_REF}
+        PR_NUMBER=$(echo $GITHUB_REF | sed -rn 's#^refs/pull/([0-9]+)/merge$#\1#p')
+        echo ${PR_NUMBER}
+        echo "::set-output name=prNumber::${PR_NUMBER}"
+  deploy-github-containers:
+    needs: tags
+    name: Github Registry (${{needs.tags.outputs.prNumber}})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - php-apache
+          - nginx
+          - fpm
+          - fpm-dev
+          - admin
+          - migrate-database
+          - update-frontend
+          - consume-messages
+          - mysql
+          - mysql-demo
+          - elasticsearch
+    steps:
+    - uses: actions/checkout@v2
+    - name: ${{ matrix.image }} to Github Registry
+      uses: docker/build-push-action@v1
+      with:
+        username: zorgbort
+        password: ${{ secrets.ZORGBORT_TOKEN }}
+        registry: ghcr.io
+        repository: ilios/${{ matrix.image }}
+        tags: pr-${{needs.tags.outputs.prNumber}}
+        target: ${{ matrix.image }}
+  # deploy-docker-containers:
+  #   needs: tags
+  #   name: Docker Registry (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       image:
+  #         - php-apache
+  #         - nginx
+  #         - fpm
+  #         - fpm-dev
+  #         - admin
+  #         - migrate-database
+  #         - update-frontend
+  #         - consume-messages
+  #         - mysql
+  #         - mysql-demo
+  #         - elasticsearch
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: ${{ matrix.image }} to Docker Registry
+  #     uses: docker/build-push-action@v1
+  #     with:
+  #       username: zorgbort
+  #       password: ${{ secrets.ZORGBORT_DOCKER_TOKEN }}
+  #       repository: ilios/${{ matrix.image }}
+  #       tags: pr-${{needs.tags.outputs.prNumber}}
+  #       target: ${{ matrix.image }}
