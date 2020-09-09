@@ -40,7 +40,7 @@ class AcademicYears
             $json = $serializer->serialize([new AcademicYear($id)], 'json-api', [
                 'sideLoadFields' =>
                     $builder->extractJsonApiSideLoadFields(
-                        $request->query->has('include') ? $request->query->has('include') : null
+                        $request->query->has('include') ? $request->query->all()['include'] : null
                     ),
                 'singleItem' => true
             ]);
@@ -80,7 +80,7 @@ class AcademicYears
             $json = $serializer->serialize($years, 'json-api', [
                 'sideLoadFields' =>
                     $builder->extractJsonApiSideLoadFields(
-                        $request->query->has('include') ? $request->query->has('include') : null
+                        $request->query->has('include') ? $request->query->all()['include'] : null
                     ),
                 'singleItem' => false
             ]);
