@@ -27,10 +27,10 @@ jobs:
     - name: ${{ matrix.image }} to Github Registry
       uses: docker/build-push-action@v1
       with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: zorgbort
+        password: ${{ secrets.ZORGBORT_TOKEN }}
         registry: ghcr.io
-        repository: ${{github.repository}}/${{ matrix.image }}
+        repository: ilios/${{ matrix.image }}
         tags: latest
         target: ${{ matrix.image }}
   deploy-docker-containers:
