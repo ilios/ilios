@@ -29,7 +29,7 @@ jobs:
       with:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-        registry: docker.pkg.github.com
+        registry: ghcr.io
         repository: ${{github.repository}}/${{ matrix.image }}
         tags: latest
         target: ${{ matrix.image }}
