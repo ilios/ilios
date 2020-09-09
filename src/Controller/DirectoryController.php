@@ -68,7 +68,7 @@ class DirectoryController extends AbstractController
         $results = [];
 
         if ($request->query->has('searchTerms')) {
-            $searchTerms = explode(' ', $request->query->get('searchTerms'));
+            $searchTerms = explode(' ', $request->query->all()['searchTerms']);
 
             $searchResults = $this->directory->find($searchTerms);
 
@@ -76,8 +76,8 @@ class DirectoryController extends AbstractController
                 $results = $searchResults;
             }
         }
-        $offset = $request->query->has('offset') ? $request->query->get('offset') : 0;
-        $limit = $request->query->has('limit') ? $request->query->get('limit') : count($results);
+        $offset = $request->query->has('offset') ? $request->query->all()['offset'] : 0;
+        $limit = $request->query->has('limit') ? $request->query->all()['limit'] : count($results);
         $results = array_slice($results, $offset, $limit);
 
         $campusIds = array_map(function ($arr) {

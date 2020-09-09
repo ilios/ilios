@@ -38,7 +38,10 @@ class AcademicYears
         $contentTypes = $request->getAcceptableContentTypes();
         if (in_array('application/vnd.api+json', $contentTypes)) {
             $json = $serializer->serialize([new AcademicYear($id)], 'json-api', [
-                'sideLoadFields' => $builder->extractJsonApiSideLoadFields($request->query->get('include')),
+                'sideLoadFields' =>
+                    $builder->extractJsonApiSideLoadFields(
+                        $request->query->has('include') ? $request->query->has('include') : null
+                    ),
                 'singleItem' => true
             ]);
             return new Response(
@@ -75,7 +78,10 @@ class AcademicYears
         $contentTypes = $request->getAcceptableContentTypes();
         if (in_array('application/vnd.api+json', $contentTypes)) {
             $json = $serializer->serialize($years, 'json-api', [
-                'sideLoadFields' => $builder->extractJsonApiSideLoadFields($request->query->get('include')),
+                'sideLoadFields' =>
+                    $builder->extractJsonApiSideLoadFields(
+                        $request->query->has('include') ? $request->query->has('include') : null
+                    ),
                 'singleItem' => false
             ]);
             return new Response(

@@ -42,13 +42,17 @@ class ApiRequestParser
     public static function extractParameters(Request $request): array
     {
         $parameters = [
-            'offset' => $request->query->has('offset') ? (int) $request->query->get('offset') : null,
-            'limit' => $request->query->has('limit') ? (int) $request->query->get('limit') : null,
-            'orderBy' => $request->query->get('order_by'),
+            'offset' => $request->query->has('offset') ? (int) $request->query->all()['offset'] : null,
+            'limit' => $request->query->has('limit') ? (int) $request->query->all()['limit'] : null,
+            'orderBy' => $request->query->has('order_by') ? $request->query->all()['orderBy'] : null,
             'criteria' => []
         ];
 
-        $criteria = !is_null($request->query->get('filters')) ? $request->query->get('filters') : [];
+
+        $criteria = $request->query->has('filters') ? $request->query->all()['filters'] : [];
+        if (is_null($criteria)) {
+            $criteria = [];
+        }
         $criteria = array_map(function ($item) {
             //convert boolean/null strings to boolean/null values
             $item = $item === 'null' ? null : $item;

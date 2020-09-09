@@ -36,7 +36,12 @@ class ApiResponseBuilder
     ): Response {
         $contentTypes = $request->getAcceptableContentTypes();
         if (in_array('application/vnd.api+json', $contentTypes)) {
-            return $this->buildJsonApiResponse($values, $status, $request->query->get('include'), true);
+            return $this->buildJsonApiResponse(
+                $values,
+                $status,
+                $request->query->has('include') ? $request->query->all()['include'] : null,
+                true
+            );
         } else {
             return $this->buildJsonResponse(
                 [ $this->endpointResponseNamer->getPluralName($object) => $values],
@@ -53,7 +58,12 @@ class ApiResponseBuilder
     ): Response {
         $contentTypes = $request->getAcceptableContentTypes();
         if (in_array('application/vnd.api+json', $contentTypes)) {
-            return $this->buildJsonApiResponse($values, $status, $request->query->get('include'), false);
+            return $this->buildJsonApiResponse(
+                $values,
+                $status,
+                $request->query->has('include') ? $request->query->all()['include'] : null,
+                false
+            );
         } else {
             return $this->buildJsonResponse(
                 [ $this->endpointResponseNamer->getPluralName($object) => $values],
@@ -72,7 +82,12 @@ class ApiResponseBuilder
         if (in_array('application/vnd.api+json', $contentTypes)) {
             //POST data can be one or multiple and that changes the way the response is created
             $isSingleItem = count($values) === 1;
-            return $this->buildJsonApiResponse($values, $status, $request->query->get('include'), $isSingleItem);
+            return $this->buildJsonApiResponse(
+                $values,
+                $status,
+                $request->query->has('include') ? $request->query->all()['include'] : null,
+                $isSingleItem
+            );
         } else {
             return $this->buildJsonResponse(
                 [ $this->endpointResponseNamer->getPluralName($object) => $values],
