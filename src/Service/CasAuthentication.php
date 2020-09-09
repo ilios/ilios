@@ -109,7 +109,7 @@ class CasAuthentication implements AuthenticationInterface
 
             return $response;
         }
-        $ticket = $request->query->get('ticket');
+        $ticket = $request->query->has('ticket') ? $request->query->all()['ticket'] : null;
 
         if (!$ticket) {
             return new JsonResponse([

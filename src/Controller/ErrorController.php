@@ -19,7 +19,7 @@ class ErrorController extends AbstractController
     public function errorAction(Request $request, LoggerInterface $logger)
     {
         if ($request->request->has('data')) {
-            $data = $request->request->get('data');
+            $data = $request->request->all()['data'];
             $user = $this->get('security.token_storage')->getToken()->getUser();
             $error = json_decode($data);
             $error->userId = $user->getId();
