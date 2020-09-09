@@ -39,6 +39,9 @@ server {
 
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_param X-Forwarded-Proto $http_x_forwarded_proto;
+        fastcgi_param X-Forwarded-For $http_x_forwarded_for;
+        fastcgi_param X-Forwarded-Host $http_x_forwarded_host;
 
         # Prevents URIs that include the front controller. This will 404:
         # http://domain.tld/index.php/some-path
