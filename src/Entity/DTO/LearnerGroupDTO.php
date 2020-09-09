@@ -14,7 +14,7 @@ use App\Annotation as IS;
  */
 class LearnerGroupDTO
 {
-    
+
     /**
      * @var int
      * @IS\Id
@@ -36,6 +36,18 @@ class LearnerGroupDTO
      * @IS\Type("string")
      */
     public $location;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public ?string $url;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public bool $needsAccommodation;
 
     /**
      * @var int
@@ -119,15 +131,13 @@ class LearnerGroupDTO
      */
     public $instructors;
 
-    public function __construct(
-        $id,
-        $title,
-        $location
-    ) {
+    public function __construct($id, $title, $location, $url, $needsAccommodation)
+    {
         $this->id = $id;
         $this->title = $title;
         $this->location = $location;
-
+        $this->url = $url;
+        $this->needsAccommodation = $needsAccommodation;
 
         $this->children = [];
         $this->ilmSessions = [];

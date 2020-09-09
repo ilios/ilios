@@ -11,6 +11,12 @@ Learnergroup:
   location:
    description: Location
    type: string
+  url:
+   description: URL
+   type: string
+  needsAccommodation:
+   description: Flag indicating whether this group needs to accommodate for disabilities in learning activities.
+   type: boolean
   cohort:
    description: Cohort
    type: string

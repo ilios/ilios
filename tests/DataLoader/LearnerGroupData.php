@@ -24,6 +24,8 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => ['2', '5'],
             'instructors' => ['1'],
             'descendants' => [],
+            'url' => 'https://iliosproject.org',
+            'needsAccommodation' => false,
         ];
 
         $arr[] = [
@@ -37,6 +39,7 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => ['2'],
             'instructors' => [],
             'descendants' => [],
+            'needsAccommodation' => true,
         ];
 
         $arr[] = [
@@ -50,6 +53,7 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => ['2'],
             'instructors' => ['1'],
             'descendants' => ['4'],
+            'needsAccommodation' => false,
         ];
 
 
@@ -67,6 +71,8 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => [],
             'instructors' => [],
             'descendants' => [],
+            'url' => 'https://iliosproject.org',
+            'needsAccommodation' => false,
         ];
 
 
@@ -81,6 +87,7 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => ['5'],
             'instructors' => [],
             'descendants' => [],
+            'needsAccommodation' => false,
         ];
 
 
@@ -101,6 +108,7 @@ class LearnerGroupData extends AbstractDataLoader
             'users' => [],
             'instructors' => [],
             'descendants' => [],
+            'needsAccommodation' => false,
         ];
     }
 

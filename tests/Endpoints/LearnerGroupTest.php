@@ -38,6 +38,8 @@ class LearnerGroupTest extends ReadWriteEndpointTest
         return [
             'title' => ['title', $this->getFaker()->text(60)],
             'location' => ['location', $this->getFaker()->text(100)],
+            'url' => ['url', $this->getFaker()->url(100)],
+            'needsAccommodation' => ['needsAccommodation', true],
             'cohort' => ['cohort', 3],
             'parent' => ['parent', 2],
             'ancestor' => ['ancestor', '3'],
@@ -72,6 +74,9 @@ class LearnerGroupTest extends ReadWriteEndpointTest
             'ids' => [[1, 2], ['id' => [2, 3]]],
             'title' => [[2], ['title' => 'third learner group']],
             'location' => [[3], ['location' => 'fourth location']],
+            'url' => [[0, 3], ['url' => 'https://iliosproject.org']],
+            'needsAccommodation' => [[1], ['needsAccommodation' => true]],
+            'doesNotNeedAccommodation' => [[0, 2, 3, 4], ['needsAccommodation' => false]],
             'cohort' => [[1], ['cohort' => 2]],
             'parent' => [[3], ['parent' => 1]],
             'ancestor' => [[3], ['ancestor' => '3']],
