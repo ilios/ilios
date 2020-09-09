@@ -16,7 +16,7 @@ class PendingUserUpdateData extends AbstractDataLoader
             'id' => 1,
             'type' => 'first type',
             'property' => 'first property',
-            'value' => 'second value',
+            'value' => 'first value',
             'user' => '1',
         ];
 
