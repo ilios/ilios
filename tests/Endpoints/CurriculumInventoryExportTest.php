@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Entity\DTO\CurriculumInventoryExportDTO;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\AbstractEndpointTest;
 use DateTime;
@@ -51,6 +52,30 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
         $diff = $now->diff($stamp);
         $this->assertTrue($diff->days < 2, "The createdAt timestamp is within the last day");
         $this->assertFalse(array_key_exists('document', $responseData), 'Document is not part of payload.');
+    }
+
+    /**
+     * Test posting a single object
+     */
+    public function testPostOneJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $jsonApiData = $dataLoader->createJsonApi($data);
+        $responseData = $this->postOneJsonApi($jsonApiData);
+
+        $this->assertEquals((int) $responseData->relationships->report->data->id, $data['report']);
+        $this->assertNotEmpty($responseData->attributes->createdBy);
+        $this->assertNotEmpty($responseData->attributes->createdAt);
+
+        $now = new DateTime();
+        $stamp = new DateTime($responseData->attributes->createdAt);
+        $diff = $now->diff($stamp);
+        $this->assertTrue($diff->days < 2, "The createdAt timestamp is within the last day");
+        $this->assertFalse(
+            property_exists($responseData->attributes, 'document'),
+            'Document is not part of payload.'
+        );
     }
 
     public function testGetIs404()

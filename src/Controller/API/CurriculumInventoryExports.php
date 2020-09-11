@@ -73,9 +73,15 @@ class CurriculumInventoryExports
 
         $manager->flush();
 
+        $ids = array_map(function ($entity) {
+            return $entity->getId();
+        }, $entities);
+
+        $dtos = $manager->findDTOsBy(['id' => $ids]);
+
         return $builder->buildResponseForPostRequest(
             'curriculuminventoryexports',
-            $entities,
+            $dtos,
             Response::HTTP_CREATED,
             $request
         );
