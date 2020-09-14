@@ -212,12 +212,12 @@ class XmlPrinter
                     default:
                         $xw->writeAttribute('purpose', 'Summative');
                 }
-                $xw->text($event['method_id']);
+                $xw->text((string) $event['method_id']);
                 $xw->endElement(); // </AssessmentMethod>
             } else {
                 $xw->startElement('InstructionalMethod');
                 $xw->writeAttribute('primary', 'true');
-                $xw->text($event['method_id']);
+                $xw->text((string) $event['method_id']);
                 $xw->endElement(); // </InstructionalMethod>
             }
             $xw->endElement(); // </Event>
