@@ -7,6 +7,7 @@ COPY config /src/config/
 COPY custom /src/custom/
 COPY src /src/src/
 COPY templates /src/templates/
+COPY migrations /src/migrations/
 COPY bin/console /src/bin/
 COPY public/index.php public/theme-overrides /src/public/
 

@@ -22,6 +22,7 @@ FakeTestFiles
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
+/src/.preload.php
 /var/
 /vendor/
 ###< symfony/framework-bundle ###

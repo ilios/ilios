@@ -1,4 +1,5 @@
 doctrine_migrations:
-    dir_name: '%kernel.project_dir%/src/Migrations'
-    name: Ilios Migrations
-    namespace: App\Migrations
+    migrations_paths:
+        # namespace is arbitrary but should be different from App\Migrations
+        # as migrations classes should NOT be autoloaded
+        'Ilios\Migrations': '%kernel.project_dir%/migrations'
