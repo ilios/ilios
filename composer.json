@@ -34,7 +34,7 @@
     "nelmio/cors-bundle": "^2.0",
     "psr/log": "^1.0.0",
     "sensiolabs/security-checker": "^6.0",
-    "sentry/sdk": "^2.0",
+    "sentry/sdk": "^3.0",
     "swagger-api/swagger-ui": "^3.0",
     "symfony/amazon-mailer": "5.1.*",
     "symfony/apache-pack": "^1.0",
