@@ -163,10 +163,10 @@ class SessionObjective implements SessionObjectiveInterface
      * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="sessionObjectives")
      * @ORM\JoinTable(name="session_objective_x_mesh",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="session_objective_id", referencedColumnName="session_objective_id")
+     *     @ORM\JoinColumn(name="session_objective_id", referencedColumnName="session_objective_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
      *   }
      * )
      * @ORM\OrderBy({"id" = "ASC"})

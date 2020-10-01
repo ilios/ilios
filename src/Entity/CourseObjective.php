@@ -175,10 +175,10 @@ class CourseObjective implements CourseObjectiveInterface
      * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="courseObjectives")
      * @ORM\JoinTable(name="course_objective_x_mesh",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id")
+     *     @ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
      *   }
      * )
      * @ORM\OrderBy({"id" = "ASC"})

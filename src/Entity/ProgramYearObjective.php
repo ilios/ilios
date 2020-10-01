@@ -168,10 +168,12 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="programYearObjectives")
      * @ORM\JoinTable(name="program_year_objective_x_mesh",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="program_year_objective_id", referencedColumnName="program_year_objective_id")
+     *     @ORM\JoinColumn(
+     *      name="program_year_objective_id", referencedColumnName="program_year_objective_id", onDelete="CASCADE"
+     *     )
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
      *   }
      * )
      * @ORM\OrderBy({"id" = "ASC"})

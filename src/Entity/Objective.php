@@ -150,10 +150,10 @@ class Objective implements ObjectiveInterface
      * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="objectives")
      * @ORM\JoinTable(name="objective_x_mesh",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id")
+     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
      *   }
      * )
      * @ORM\OrderBy({"id" = "ASC"})
