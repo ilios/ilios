@@ -43,6 +43,12 @@ server {
         fastcgi_param X-Forwarded-For $http_x_forwarded_for;
         fastcgi_param X-Forwarded-Host $http_x_forwarded_host;
 
+        #increase buffer size for response headers since we send a large JWT and cookies
+        fastcgi_buffer_size 8k;
+
+        #increase buffer count for response body to accommodate our large JSON payloads
+        fastcgi_buffers 16 4k;
+
         # Prevents URIs that include the front controller. This will 404:
         # http://domain.tld/index.php/some-path
         # Remove the internal directive to allow URIs like this
