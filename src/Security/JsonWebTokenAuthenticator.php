@@ -7,6 +7,8 @@ namespace App\Security;
 use App\Classes\SessionUserInterface;
 use App\Service\JsonWebTokenManager;
 use App\Service\SessionUserProvider;
+use Exception;
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -17,18 +19,12 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use UnexpectedValueException;
 
 class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
 {
-    /**
-     * @var JsonWebTokenManager
-     */
-    protected $jwtManager;
-
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
+    protected JsonWebTokenManager $jwtManager;
+    protected RouterInterface $router;
 
     /**
      * Constructor
@@ -63,7 +59,14 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function supports(Request $request)
     {
-        return $request->headers->has('X-JWT-Authorization');
+        if (!$request->headers->has('X-JWT-Authorization')) {
+            return false;
+        }
+
+        $authorizationHeader = $request->headers->get('X-JWT-Authorization');
+        $result = preg_match('/^Token (.*)$/', $authorizationHeader, $matches);
+
+        return $result && count($matches);
     }
 
     /**
@@ -72,11 +75,8 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
     public function getCredentials(Request $request)
     {
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
-        if (preg_match('/^Token (.*)$/', $authorizationHeader, $matches)) {
-            return $matches[1];
-        }
-
-        return null;
+        preg_match('/^Token (.*)$/', $authorizationHeader, $matches);
+        return $matches[1];
     }
 
     /**
@@ -87,7 +87,7 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
     public function getUser($jwt, UserProviderInterface $userProvider)
     {
         if (!$userProvider instanceof SessionUserProvider) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     'The user provider must be an instance of SessionUserProvider (%s was given).',
                     get_class($userProvider)
@@ -97,9 +97,9 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
 
         try {
             $username = $this->jwtManager->getUserIdFromToken($jwt);
-        } catch (\UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
             throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token: ' . $e->getMessage());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token');
         }
 
