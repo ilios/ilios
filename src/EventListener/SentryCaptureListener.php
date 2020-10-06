@@ -52,13 +52,14 @@ class SentryCaptureListener
             }
             $token = $this->tokenStorage->getToken();
             if ($token) {
-                /** @var SessionUserInterface $sessionUser */
                 $sessionUser = $token->getUser();
-                sentryConfigureScope(function (Scope $scope) use ($sessionUser): void {
-                    $scope->setUser([
-                        'id' => $sessionUser->getId(),
-                    ]);
-                });
+                if ($sessionUser instanceof SessionUserInterface) {
+                    sentryConfigureScope(function (Scope $scope) use ($sessionUser): void {
+                        $scope->setUser([
+                            'id' => $sessionUser->getId(),
+                        ]);
+                    });
+                }
             }
 
             sentryCaptureException($exception);
