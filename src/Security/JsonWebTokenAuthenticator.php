@@ -64,9 +64,7 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
         }
 
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
-        $result = preg_match('/^Token (.*)$/', $authorizationHeader, $matches);
-
-        return $result && count($matches);
+        return preg_match('/^Token \S+$/', $authorizationHeader);
     }
 
     /**
@@ -75,7 +73,7 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
     public function getCredentials(Request $request)
     {
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
-        preg_match('/^Token (.*)$/', $authorizationHeader, $matches);
+        preg_match('/^Token (\S+)$/', $authorizationHeader, $matches);
         return $matches[1];
     }
 
