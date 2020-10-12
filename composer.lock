@@ -2655,16 +2655,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.99",
+            "version": "v1.2.100",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "0ffea34489b258a2709bfe93a9553e1efa5d1904"
+                "reference": "82e1d983e29d9fea6e8e5505110d0278a5285f36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/0ffea34489b258a2709bfe93a9553e1efa5d1904",
-                "reference": "0ffea34489b258a2709bfe93a9553e1efa5d1904",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/82e1d983e29d9fea6e8e5505110d0278a5285f36",
+                "reference": "82e1d983e29d9fea6e8e5505110d0278a5285f36",
                 "shasum": ""
             },
             "require": {
@@ -2700,7 +2700,7 @@
                 "crawlerdetect",
                 "php crawler detect"
             ],
-            "time": "2020-08-25T21:35:55+00:00"
+            "time": "2020-10-11T18:08:38+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
