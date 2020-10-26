@@ -64,7 +64,7 @@ class UpdateCommand extends Command
         $this->learningMaterialManager = $learningMaterialManager;
         $this->bus = $bus;
     }
-    
+
     /**
      * {@inheritdoc}
      */

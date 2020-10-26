@@ -31,7 +31,7 @@ class SwaggerYamlDocsControllerTest extends WebTestCase
             ),
             var_export($response->headers, true)
         );
-        
+
         $this->assertGreaterThan(1000, strlen($response->getContent()), 'API Endpoints loaded');
     }
 }

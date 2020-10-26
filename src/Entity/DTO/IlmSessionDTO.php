@@ -105,7 +105,7 @@ class IlmSessionDTO
         $this->id = $id;
         $this->hours = $hours;
         $this->dueDate = $dueDate;
-        
+
         $this->learnerGroups = [];
         $this->instructors = [];
         $this->instructorGroups = [];

@@ -36,7 +36,7 @@ class LoadProgramYearStewardData extends AbstractFixture implements
             $entity->setSchool($this->getReference('schools' . $arr['school']));
             $entity->setDepartment($this->getReference('departments' . $arr['department']));
             $entity->setProgramYear($this->getReference('programYears' . $arr['programYear']));
-            
+
             $manager->persist($entity);
             $this->addReference('programYearStewards' . $arr['id'], $entity);
         }

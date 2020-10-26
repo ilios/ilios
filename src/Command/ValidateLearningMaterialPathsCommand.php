@@ -19,27 +19,27 @@ use App\Service\IliosFileSystem;
  */
 class ValidateLearningMaterialPathsCommand extends Command
 {
-    
+
     /**
      * @var IliosFileSystem
      */
     protected $iliosFileSystem;
-    
+
     /**
      * @var LearningMaterialManager
      */
     protected $learningMaterialManager;
-    
+
     public function __construct(
         IliosFileSystem $iliosFileSystem,
         LearningMaterialManager $learningMaterialManager
     ) {
         $this->iliosFileSystem = $iliosFileSystem;
         $this->learningMaterialManager = $learningMaterialManager;
-        
+
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */

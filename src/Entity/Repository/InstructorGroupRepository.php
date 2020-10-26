@@ -225,7 +225,7 @@ class InstructorGroupRepository extends EntityRepository implements DTORepositor
         unset($criteria['instructors']);
         unset($criteria['learningMaterials']);
         unset($criteria['terms']);
-        
+
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {

@@ -37,7 +37,7 @@ class SyncUserCommand extends Command
      * @var PendingUserUpdateManager
      */
     protected $pendingUserUpdateManager;
-    
+
     /**
      * @var Directory
      */
@@ -53,10 +53,10 @@ class SyncUserCommand extends Command
         $this->authenticationManager = $authenticationManager;
         $this->pendingUserUpdateManager = $pendingUserUpdateManager;
         $this->directory = $directory;
-        
+
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -86,14 +86,14 @@ class SyncUserCommand extends Command
                 "No user with id #{$userId} was found."
             );
         }
-        
+
         $userRecord = $this->directory->findByCampusId($user->getCampusId());
-        
+
         if (!$userRecord) {
             $output->writeln('<error>Unable to find ' . $user->getCampusId() . ' in the directory.');
             return 1;
         }
-        
+
         $table = new Table($output);
         $table
             ->setHeaders([
@@ -127,7 +127,7 @@ class SyncUserCommand extends Command
             ])
         ;
         $table->render();
-        
+
         $helper = $this->getHelper('question');
         $output->writeln('');
         $question = new ConfirmationQuestion(
@@ -135,7 +135,7 @@ class SyncUserCommand extends Command
             'from the Directory User? </question>' . "\n",
             true
         );
-        
+
         if ($helper->ask($input, $output, $question)) {
             $user->setFirstName($userRecord['firstName']);
             $user->setLastName($userRecord['lastName']);
@@ -150,7 +150,7 @@ class SyncUserCommand extends Command
 
             $authentication->setUsername($userRecord['username']);
             $this->authenticationManager->update($authentication, false);
-            
+
             $this->userManager->update($user);
 
             foreach ($user->getPendingUserUpdates() as $update) {

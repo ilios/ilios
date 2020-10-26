@@ -25,22 +25,22 @@ class CreateUserTokenCommand extends Command
      * @var UserManager
      */
     protected $userManager;
-    
+
     /**
      * @var JsonWebTokenManager
      */
     protected $jwtManager;
-    
+
     public function __construct(
         UserManager $userManager,
         JsonWebTokenManager $jwtManager
     ) {
         $this->userManager = $userManager;
         $this->jwtManager = $jwtManager;
-        
+
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -78,7 +78,7 @@ class CreateUserTokenCommand extends Command
             );
         }
         $jwt = $this->jwtManager->createJwtFromUser($user, $input->getOption('ttl'));
-        
+
         $output->writeln('Success!');
         $output->writeln('Token ' . $jwt);
 

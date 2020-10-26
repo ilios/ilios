@@ -16,13 +16,13 @@ class TemporaryFileSystemTest extends TestCase
      * @var TemporaryFileSystem
      */
     private $tempFileSystem;
-    
+
     /**
      * Mock File System
      * @var SymfonyFileSystem
      */
     private $mockFileSystem;
-    
+
     /**
      * @var string
      */
@@ -44,10 +44,10 @@ class TemporaryFileSystemTest extends TestCase
 
         $this->uploadDirectory = $this->fakeTestFileDir .  '/var/tmp/uploads';
         $fs->mkdir($this->uploadDirectory);
-        
+
         $this->mockFileSystem = m::mock(SymfonyFileSystem::class);
         $this->mockFileSystem->shouldReceive('exists')->with($this->uploadDirectory)->andReturn(true);
-        
+
         $this->tempFileSystem = new TemporaryFileSystem($this->mockFileSystem, $this->fakeTestFileDir);
     }
 
@@ -56,7 +56,7 @@ class TemporaryFileSystemTest extends TestCase
         parent::tearDown();
         unset($this->mockFileSystem);
         unset($this->iliosFileSystem);
-        
+
         $fs = new SymfonyFileSystem();
         $fs->remove($this->fakeTestFileDir);
     }
@@ -94,7 +94,7 @@ class TemporaryFileSystemTest extends TestCase
             ->with($testFilePath)->andReturn(true);
         $this->mockFileSystem->shouldReceive('move');
         $newHash = $this->tempFileSystem->storeFile($file, false);
-        
+
         $newFile = $this->tempFileSystem->getFile($newHash);
         $this->assertSame($hash, $newHash);
         $this->assertSame(file_get_contents($newFile->getPathname()), $someJunk);

@@ -14,7 +14,7 @@ class JsonWebTokenManager
     public const PREPEND_KEY = 'ilios.jwt.key.';
     private const TOKEN_ISS = 'ilios';
     private const TOKEN_AUD = 'ilios';
-    
+
     /**
      * @var string
      */
@@ -46,19 +46,19 @@ class JsonWebTokenManager
         $this->jwtKey = self::PREPEND_KEY . $kernelSecret;
         JWT::$leeway = 5;
     }
-    
+
     public function getUserIdFromToken($jwt)
     {
         $arr = $this->decode($jwt);
         return $arr['user_id'];
     }
-    
+
     public function getIssuedAtFromToken($jwt)
     {
         $arr = $this->decode($jwt);
         return DateTime::createFromFormat('U', (string) $arr['iat']);
     }
-    
+
     public function getExpiresAtFromToken($jwt)
     {
         $arr = $this->decode($jwt);
@@ -82,7 +82,7 @@ class JsonWebTokenManager
         $arr = $this->decode($jwt);
         return $arr['can_create_or_update_user_in_any_school'];
     }
-    
+
     protected function decode($jwt)
     {
         $decoded = JWT::decode($jwt, $this->jwtKey, ['HS256']);
