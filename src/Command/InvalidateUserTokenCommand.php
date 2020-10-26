@@ -23,22 +23,22 @@ class InvalidateUserTokenCommand extends Command
      * @var UserManager
      */
     protected $userManager;
-    
+
     /**
      * @var AuthenticationManager
      */
     protected $authenticationManager;
-    
+
     public function __construct(
         UserManager $userManager,
         AuthenticationManager $authenticationManager
     ) {
         $this->userManager = $userManager;
         $this->authenticationManager = $authenticationManager;
-        
+
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -68,13 +68,13 @@ class InvalidateUserTokenCommand extends Command
                 "No user with id #{$userId} was found."
             );
         }
-        
+
         $authentication = $user->getAuthentication();
         if (!$authentication) {
             $authentication = $this->authenticationManager->create();
             $authentication->setUser($user);
         }
-        
+
         $authentication->setInvalidateTokenIssuedBefore($now);
         $this->authenticationManager->update($authentication);
 

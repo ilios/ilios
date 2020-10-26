@@ -26,17 +26,17 @@ class MigrateIlios2LearningMaterialsCommand extends Command
      * @var SymfonyFileSystem
      */
     protected $symfonyFileSystem;
-    
+
     /**
      * @var IliosFileSystem
      */
     protected $iliosFileSystem;
-    
+
     /**
      * @var LearningMaterialManager
      */
     protected $learningMaterialManager;
-    
+
     public function __construct(
         SymfonyFileSystem $symfonyFileSystem,
         IliosFileSystem $iliosFileSystem,
@@ -45,10 +45,10 @@ class MigrateIlios2LearningMaterialsCommand extends Command
         $this->symfonyFileSystem = $symfonyFileSystem;
         $this->iliosFileSystem = $iliosFileSystem;
         $this->learningMaterialManager = $learningMaterialManager;
-        
+
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -77,7 +77,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
                 "'{$pathToIlios2}' does not exist."
             );
         }
-        
+
         $totalLearningMaterialsCount = $this->learningMaterialManager->getTotalFileLearningMaterialCount();
 
         $helper = $this->getHelper('question');
@@ -87,7 +87,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
             ' learning materials. Shall we continue? </question>' . "\n",
             true
         );
-        
+
         if ($helper->ask($input, $output, $question)) {
             $progress = new ProgressBar($output, $totalLearningMaterialsCount);
             $progress->setRedrawFrequency(208);
@@ -120,7 +120,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
 
             $progress->finish();
             $output->writeln('');
-            
+
             $output->writeln("<info>Migrated {$migrated} learning materials successfully!</info>");
             if ($skipped) {
                 $msg = "<comment>Skipped {$skipped} learning materials because they could not be located " .

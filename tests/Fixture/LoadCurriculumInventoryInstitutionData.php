@@ -43,7 +43,7 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
             $entity->setAddressStateOrProvince($arr['addressStateOrProvince']);
             $entity->setAddressZipCode($arr['addressZipCode']);
             $entity->setAddressCountryCode($arr['addressCountryCode']);
-            
+
             $manager->persist($entity);
             $this->addReference('curriculumInventoryInstitutions' . $arr['name'], $entity);
         }

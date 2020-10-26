@@ -16,7 +16,7 @@ trait AuthenticationService
             'jwt' => $jwt,
         ], JsonResponse::HTTP_OK);
         $response->headers->set('X-JWT-TOKEN', $jwt);
-        
+
         return $response;
     }
 }

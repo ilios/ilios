@@ -17,13 +17,13 @@ class TemporaryFileSystem
      * @var string
      */
     protected $temporaryFileStorePath;
-    
+
     /**
      * A filesystem object to work with
      * @var FileSystem
      */
     protected $fileSystem;
-    
+
     public function __construct(SymfonyFileSystem $fs, $kernelProjectDir)
     {
         $tmpPath = realpath($kernelProjectDir . '/var/tmp');
@@ -68,7 +68,7 @@ class TemporaryFileSystem
 
         return $this->getFile($hash);
     }
-    
+
     /**
      * Remove a file from the file system by hash
      * @param string $hash
@@ -77,7 +77,7 @@ class TemporaryFileSystem
     {
         $this->fileSystem->remove($this->getPath($hash));
     }
-    
+
     /**
      * Get a File from a hash
      * @param string $hash
@@ -88,10 +88,10 @@ class TemporaryFileSystem
         if ($this->fileSystem->exists($this->getPath($hash))) {
             return new File($this->getPath($hash));
         }
-        
+
         return false;
     }
-    
+
     /**
      * Turn a relative path into an ilios file store path
      * @param  string $hash

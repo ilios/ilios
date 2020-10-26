@@ -23,14 +23,14 @@ class CrossingGuardCommand extends Command
      * @var CrossingGuard
      */
     protected $crossingGuard;
-    
+
     public function __construct(
         CrossingGuard $crossingGuard
     ) {
         $this->crossingGuard = $crossingGuard;
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */

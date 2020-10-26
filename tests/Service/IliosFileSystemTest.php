@@ -31,7 +31,7 @@ class IliosFileSystemTest extends TestCase
      * @var string
      */
     private $fakeTestFileDir;
-    
+
     public function setUp(): void
     {
         parent::setUp();

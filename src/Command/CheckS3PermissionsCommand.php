@@ -36,7 +36,7 @@ class CheckS3PermissionsCommand extends Command
         $this->config = $config;
         $this->iliosFileSystem = $iliosFileSystem;
     }
-    
+
     /**
      * {@inheritdoc}
      */

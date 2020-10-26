@@ -20,12 +20,12 @@ class LdapManager
      * @var Config
      */
     protected $config;
-    
+
     /**
      * @var LDAP
      */
     protected $ldap;
-    
+
     /**
      * LDAP connection times tells us when to reset
      * @var int
@@ -43,7 +43,7 @@ class LdapManager
         $this->ldap = null;
         $this->connectionLastUsed = null;
     }
-    
+
     /**
      * Destroy the connection
      */
@@ -53,7 +53,7 @@ class LdapManager
             $this->ldap->close();
         }
     }
-    
+
     /**
      * Get an instance of the LDAP object
      *
@@ -78,7 +78,7 @@ class LdapManager
         $ldapUrl = $this->config->get('ldap_directory_url');
         $ldapBindUser = $this->config->get('ldap_directory_user');
         $ldapBindPassword = $this->config->get('ldap_directory_password');
-        
+
         $this->ldap = new Ldap($ldapUrl);
         $this->ldap->setOption(Ldap::OPT_NETWORK_TIMEOUT, 10);
         $this->ldap->bind($ldapBindUser, $ldapBindPassword);
@@ -154,7 +154,7 @@ class LdapManager
                         'displayName' => $values[$displayNameKey],
                     ];
                 }, $results);
-                
+
                 usort($rhett, function (array $arr1, array $arr2) {
                     if ($arr1['lastName'] == $arr2['lastName']) {
                         if ($arr1['firstName'] == $arr2['firstName']) {
@@ -162,14 +162,14 @@ class LdapManager
                         }
                         return strcmp($arr1['firstName'], $arr2['firstName']);
                     }
-                    
+
                     return strcmp($arr1['lastName'], $arr2['lastName']);
                 });
             }
         } catch (Exception $e) {
             throw new Exception("Failed to search external user source: {$e->getMessage()}");
         }
-    
+
         return $rhett;
     }
 }

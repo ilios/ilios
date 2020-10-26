@@ -18,7 +18,7 @@ class ReportData extends AbstractDataLoader
             'subject' => $this->faker->title(25),
             'user' => '2'
         ];
-        
+
         $arr[] = [
             'id' => 2,
             'title' => 'second report',

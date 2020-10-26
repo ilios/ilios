@@ -32,7 +32,7 @@ class AuthenticationFactory
      * @var ShibbolethAuthentication
      */
     protected $shibbolethAuthentication;
-    
+
     public function __construct(
         Config $config,
         CasAuthentication $casAuthentication,

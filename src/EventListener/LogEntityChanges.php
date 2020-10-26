@@ -31,7 +31,7 @@ class LogEntityChanges
         $entityManager = $eventArgs->getEntityManager();
         $uow = $entityManager->getUnitOfWork();
         $actions = [];
-        
+
         $actions['create'] = $uow->getScheduledEntityInsertions();
         $actions['update'] = $uow->getScheduledEntityUpdates();
         $actions['delete'] = $uow->getScheduledEntityDeletions();

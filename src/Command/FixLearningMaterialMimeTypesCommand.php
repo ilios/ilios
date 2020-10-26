@@ -23,7 +23,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
      * @var IliosFileSystem
      */
     protected $iliosFileSystem;
-    
+
     /**
      * @var LearningMaterialManager
      */
@@ -45,7 +45,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
 
         parent::__construct();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -71,7 +71,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
             ' learning materials. Shall we continue? </question>' . "\n",
             true
         );
-        
+
         if ($helper->ask($input, $output, $question)) {
             $progress = new ProgressBar($output, $totalLearningMaterialsCount);
             $progress->setRedrawFrequency(208);
@@ -137,7 +137,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
 
             $progress->finish();
             $output->writeln('');
-            
+
             $output->writeln("<info>Updated mimetypes for {$fixed} learning materials successfully!</info>");
             if ($skipped) {
                 $msg = "<comment>{$skipped} learning materials did not need to be fixed.</comment>";

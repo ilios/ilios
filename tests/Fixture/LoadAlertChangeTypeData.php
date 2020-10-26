@@ -32,7 +32,7 @@ class LoadAlertChangeTypeData extends AbstractFixture implements
             $entity = new AlertChangeType();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            
+
             $manager->persist($entity);
             $this->addReference('alertChangeTypes' . $arr['id'], $entity);
         }

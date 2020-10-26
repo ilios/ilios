@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class AuthController extends AbstractController
 {
-    
+
     /**
      * Authenticate someone
      * Passes off the task of authentication to the service selected by the config
@@ -32,7 +32,7 @@ class AuthController extends AbstractController
     {
         return $authenticator->login($request);
     }
-    
+
     /**
      * Get the id fro the currently authenticated user
      *
@@ -52,7 +52,7 @@ class AuthController extends AbstractController
 
         return new JsonResponse(['userId' => null], JsonResponse::HTTP_OK);
     }
-    
+
     /**
      * Get a new token
      * Useful when the time limit is approaching but the user is still active

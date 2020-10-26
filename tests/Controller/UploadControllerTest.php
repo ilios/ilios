@@ -16,7 +16,7 @@ use App\Tests\Traits\JsonControllerTest;
 class UploadControllerTest extends WebTestCase
 {
     use JsonControllerTest;
-    
+
     protected $fakeTestFileDir;
     protected $fakeTestFile;
     protected $fs;
@@ -48,7 +48,7 @@ class UploadControllerTest extends WebTestCase
     public function testUploadFile()
     {
         $client = static::createClient();
-        
+
         $this->makeJsonRequest(
             $client,
             'POST',
@@ -57,10 +57,10 @@ class UploadControllerTest extends WebTestCase
             $this->getAuthenticatedUserToken($client),
             ['file' => $this->fakeTestFile]
         );
-        
+
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
-        
+
         $data = json_decode($response->getContent(), true);
         $this->assertSame($data['filename'], 'TESTFILE.txt');
         $this->assertSame($data['fileHash'], md5_file(__FILE__));
@@ -69,7 +69,7 @@ class UploadControllerTest extends WebTestCase
     public function testBadUpload()
     {
         $client = static::createClient();
-        
+
         $this->makeJsonRequest(
             $client,
             'POST',
@@ -78,10 +78,10 @@ class UploadControllerTest extends WebTestCase
             $this->getAuthenticatedUserToken($client),
             ['nofile' => $this->fakeTestFile]
         );
-        
+
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
-        
+
         $data = json_decode($response->getContent(), true);
         $this->assertSame(
             $data['errors'],
