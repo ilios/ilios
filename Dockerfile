@@ -41,8 +41,9 @@ RUN \
     && docker-php-ext-install zip \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install intl \
-    && pecl channel-update pecl.php.net \
-    && pecl install apcu \
+    && mkdir -p /usr/src/php/ext/apcu \
+    && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+    && docker-php-ext-install apcu \
     && docker-php-ext-enable apcu \
     && docker-php-ext-enable opcache \
     && rm -rf /var/lib/apt/lists/* \
@@ -213,9 +214,9 @@ RUN \
     && docker-php-ext-install zip \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install intl \
-    && pecl channel-update pecl.php.net \
-    && pecl install apcu \
-    && docker-php-ext-enable apcu \
+    && mkdir -p /usr/src/php/ext/apcu \
+    && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+    && docker-php-ext-install apcu \
     && docker-php-ext-enable opcache \
     # enable modules
     && a2enmod rewrite mpm_prefork deflate headers \
