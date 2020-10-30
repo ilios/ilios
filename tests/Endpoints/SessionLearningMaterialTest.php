@@ -72,6 +72,8 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
             'learningMaterial' => [[0], ['learningMaterial' => 1]],
             'meshDescriptors' => [[1, 2, 3, 4, 5, 6, 7], ['meshDescriptors' => ['abc2']]],
             'position' => [[1, 2, 3, 4, 5, 6, 7], ['position' => 0]],
+            'school' => [[0, 1, 2, 3, 4, 5, 6, 7], ['schools' => 1]],
+            'schools' => [[0, 1, 2, 3, 4, 5, 6, 7], ['schools' => [1]]],
         ];
     }
 
