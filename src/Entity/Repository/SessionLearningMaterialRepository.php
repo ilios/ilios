@@ -123,8 +123,18 @@ class SessionLearningMaterialRepository extends EntityRepository implements DTOR
             $qb->setParameter(':meshDescriptors', $ids);
         }
 
+        if (array_key_exists('schools', $criteria)) {
+            $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
+            $qb->join('x.session', 'session');
+            $qb->join('session.course', 'course');
+            $qb->join('course.school', 'school');
+            $qb->andWhere($qb->expr()->in('school.id', ':schools'));
+            $qb->setParameter(':schools', $ids);
+        }
+
         //cleanup all the possible relationship filters
         unset($criteria['meshDescriptors']);
+        unset($criteria['schools']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
