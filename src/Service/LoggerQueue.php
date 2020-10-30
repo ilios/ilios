@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Service\Logger;
+use Exception;
 
 /**
  * FIFO queue for tracking and logging operations on entities.
@@ -13,15 +13,8 @@ use App\Service\Logger;
  */
 class LoggerQueue
 {
-    /**
-     * @var array
-     */
-    protected $queue = [];
-
-    /**
-     * @var Logger
-     */
-    protected $logger;
+    protected array $queue = [];
+    protected Logger $logger;
 
     public function __construct(Logger $logger)
     {
@@ -29,17 +22,14 @@ class LoggerQueue
     }
 
     /**
-     * Adds a given action, entity and changeset to the queue.
-     *
-     * @param string $action
-     * @param object $entity
-     * @param string $changes
+     * Adds a given action, entity and change set to the queue.
      */
-    public function add($action, $entity, $changes)
+    public function add(string $action, object $entity, string $className, string $changes)
     {
         $this->queue[] = [
             'action' => $action,
             'entity' => $entity,
+            'className' => $className,
             //deleted entities lose their ID before they can be logged so we must record it here
             'id' => (string)$entity,
             'changes' => $changes
@@ -60,12 +50,11 @@ class LoggerQueue
                 $action = $item['action'];
                 //New entities don't have an ID until this point
                 $objectId = $action === 'delete' ? $item['id'] : (string)$item['entity'];
-                $objectClass = get_class($item['entity']);
                 $changes = $item['changes'];
-                $this->logger->log($action, $objectId, $objectClass, $changes, false);
+                $this->logger->log($action, $objectId, $item['className'], $changes, false);
             }
             $this->logger->flush(); // explicitly flush the logger.
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // eat this exception.
         }
     }
