@@ -24,10 +24,10 @@ class LoggerQueueTest extends TestCase
         $logger = m::mock(Logger::class)
             ->shouldReceive('log')
             ->times(1)
-            ->with($action, '12', get_class($school), $changes, false)
+            ->with($action, '12', 'IliosTestSchoolEntity', $changes, false)
             ->getMock();
         $queue = new LoggerQueue($logger);
-        $queue->add($action, $school, $changes);
+        $queue->add($action, $school, 'IliosTestSchoolEntity', $changes);
         $queue->flush();
     }
 

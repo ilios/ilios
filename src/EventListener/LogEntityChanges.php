@@ -8,6 +8,7 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
 use App\Entity\LoggableEntityInterface;
 use App\Service\LoggerQueue;
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
@@ -64,7 +65,7 @@ class LogEntityChanges
                         'changes' => []
                     ];
                 }
-                $ref = new \ReflectionClass($change);
+                $ref = new ReflectionClass($change);
                 $updates[$entityClass]['changes'][] = 'Ref:' . $ref->getShortName();
             }
         }
@@ -82,14 +83,15 @@ class LogEntityChanges
                         'changes' => []
                     ];
                 }
-                $ref = new \ReflectionClass($change);
+                $ref = new ReflectionClass($change);
                 $updates[$entityClass]['changes'][] = 'Ref:' . $ref->getShortName();
             }
         }
         $loggerQueue = $this->container->get(LoggerQueue::class);
         foreach ($updates as $arr) {
             $valuesChanged = implode(',', $arr['changes']);
-            $loggerQueue->add($arr['action'], $arr['entity'], $valuesChanged);
+            $entityName = $entityManager->getMetadataFactory()->getMetadataFor(get_class($arr['entity']))->getName();
+            $loggerQueue->add($arr['action'], $arr['entity'], $entityName, $valuesChanged);
         }
     }
 }
