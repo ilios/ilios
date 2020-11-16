@@ -241,3 +241,29 @@ jobs:
         docker build --target elasticsearch -t ilios-elasticsearch .
         docker run -d --name elasticsearch ilios-elasticsearch
         docker ps | grep -q ilios-elasticsearch
+
+  check_setup_command:
+    name: Setup Command
+    needs: code_style_security
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [7.4]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v1
+        with:
+          coverage: none
+          php-version: ${{ matrix.php-version }}
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Run Setup Command
+        run: bin/setup

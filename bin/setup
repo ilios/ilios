@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
-
-//Parse .env files and load them into the environment
-require dirname(__DIR__).'/config/bootstrap.php';
+require dirname(__DIR__).'/vendor/autoload.php';
+use Symfony\Component\Dotenv\Dotenv;
+(new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
 
 Commands::checkForAppENV();
 Commands::isComposerInstalled();
@@ -36,7 +36,6 @@ class Commands
             case 127:
                 self::writeError("Unable to find `composer` command. See https://getcomposer.org/ for help installing it.");
                 exit(1);
-                break;
         }
     }
 
@@ -66,7 +65,6 @@ class Commands
                     self::output($message);
                 }
                 exit(1);
-                break;
         }
     }
 
@@ -95,7 +93,6 @@ class Commands
                 self::writeError($errorMessage);
                 self::output("Run\n `${path}`\nto see what went wrong");
                 exit(1);
-                break;
         }
     }
 
