@@ -108,11 +108,6 @@ class Commands
             self::output("Run\n${path}\nto see why");
             exit(1);
         }
-        self::runSymfonyCommand(
-            'monitor:health  --group=default --group=production',
-            'Health Check Passed',
-            'Health Check Failed.'
-        );
     }
 
     private static function output($message)

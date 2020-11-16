@@ -89,6 +89,11 @@ bin/console doctrine:fixtures:load --env=prod
 
 This will create your database schema, with all tables and constraints, and will also load in all the default lookup table data, like competencies and topics --- which you can modify once you're done with setup --- but it won't have any course data or any other unique data about your specific school or curriculum until you log in and add some.
 
+## Check your setup
+There are a number of automated health checks which will ensure that your system is configured optimally and point to any issues. Run them as:
+```bash
+bin/console monitor:health  --group=default --group=production
+```
 
 * Finally, you should clear all cached items from the system, including the Symfony Cache (and its store on the filesystem) and the APC cache:
 ```bash
