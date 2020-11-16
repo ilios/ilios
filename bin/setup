@@ -1,12 +1,14 @@
 #!/usr/bin/env php
 <?php
+
+Commands::isComposerInstalled();
+Commands::install();
+
 require dirname(__DIR__).'/vendor/autoload.php';
 use Symfony\Component\Dotenv\Dotenv;
 (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
 
 Commands::checkForAppENV();
-Commands::isComposerInstalled();
-Commands::install();
 Commands::clearAndWarmUpCache();
 Commands::assetsInstall();
 Commands::checkRequirements();
