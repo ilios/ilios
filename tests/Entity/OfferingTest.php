@@ -32,7 +32,6 @@ class OfferingTest extends EntityBase
     public function testNotBlankValidation()
     {
         $notBlank = [
-            'room',
             'startDate',
             'endDate'
         ];
@@ -40,7 +39,6 @@ class OfferingTest extends EntityBase
 
         $this->validateNotBlanks($notBlank);
 
-        $this->object->setRoom('RCF 112');
         $this->object->setStartDate(new \DateTime());
         $this->object->setEndDate(new \DateTime());
         $this->validate(0);
@@ -104,7 +102,7 @@ class OfferingTest extends EntityBase
     public function testValidateUrl()
     {
         $this->object->setUrl('something');
-        $errors = $this->validate(5);
+        $errors = $this->validate(4);
         $this->assertTrue(
             array_key_exists('url', $errors),
             "url key not found in errors: " . var_export(array_keys($errors), true)
@@ -112,10 +110,10 @@ class OfferingTest extends EntityBase
         $this->assertSame('Url', $errors['url']);
 
         $this->object->setUrl('http://example.edu');
-        $this->validate(4);
+        $this->validate(3);
 
         $this->object->setUrl(null);
-        $this->validate(4);
+        $this->validate(3);
     }
 
     /**
