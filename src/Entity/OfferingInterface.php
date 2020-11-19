@@ -29,15 +29,9 @@ interface OfferingInterface extends
     InstructorsEntityInterface,
     LearnersEntityInterface
 {
-    /**
-     * @param string $room
-     */
-    public function setRoom($room);
+    public function setRoom(?string $room);
 
-    /**
-     * @return string
-     */
-    public function getRoom();
+    public function getRoom(): ?string;
 
     /**
      * @param string $site

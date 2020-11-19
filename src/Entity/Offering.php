@@ -60,13 +60,13 @@ class Offering implements OfferingInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="room", type="string", length=255)
+     * @ORM\Column(name="room", type="string", length=255, nullable=true)
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 255
+     *      max = 255,
+     *      allowEmptyString=true
      * )
      *
      * @IS\Expose
@@ -246,18 +246,12 @@ class Offering implements OfferingInterface
         $this->instructors = new ArrayCollection();
     }
 
-    /**
-     * @param string $room
-     */
-    public function setRoom($room)
+    public function setRoom(?string $room)
     {
         $this->room = $room;
     }
 
-    /**
-     * @return string
-     */
-    public function getRoom()
+    public function getRoom(): ?string
     {
         return $this->room;
     }

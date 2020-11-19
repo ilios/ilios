@@ -66,6 +66,7 @@ class OfferingTest extends ReadWriteEndpointTest
         return [
             'session' => ['session', 3],
             'removeURL' => ['url', null],
+            'remoteRoom' => ['room', null],
         ];
     }
 
