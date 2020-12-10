@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1927e277d5ab38a397e2b2ba7054c110",
+    "content-hash": "5598eb21d7d546957f96d91e2b715466",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -10345,22 +10345,23 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "6931a3e78814e7cd2c5e2c2fc2239933e9680fbb"
+                "reference": "07e1a9f219c46b00d1f7915551be2933adf220ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/6931a3e78814e7cd2c5e2c2fc2239933e9680fbb",
-                "reference": "6931a3e78814e7cd2c5e2c2fc2239933e9680fbb",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/07e1a9f219c46b00d1f7915551be2933adf220ad",
+                "reference": "07e1a9f219c46b00d1f7915551be2933adf220ad",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "^2.13 || ^3.0",
-                "php": "^7.1",
-                "symfony/framework-bundle": "^3.4 || ^4.1 || ^5.0"
+                "php": "^7.2 || ^8.0",
+                "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0",
+                "symfony/yaml": "^3.4 || ^4.4 || ^5.0"
             },
             "require-dev": {
                 "doctrine/data-fixtures": "^1.3",
@@ -10371,7 +10372,7 @@
                 "phpunit/phpunit": "^7.5 || ^8.0",
                 "symfony/monolog-bridge": ">=3",
                 "symfony/monolog-bundle": "^3.2",
-                "symfony/phpunit-bridge": "^3.4 || ^4.1 || ^5.0",
+                "symfony/phpunit-bridge": "^3.4 || ^4.4 || ^5.0",
                 "theofidry/alice-data-fixtures": "^1.0.1"
             },
             "suggest": {
@@ -10412,7 +10413,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2020-10-12T11:49:46+00:00"
+            "time": "2020-12-09T20:09:50+00:00"
         },
         {
             "name": "mockery/mockery",
