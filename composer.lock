@@ -10588,16 +10588,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.59",
+            "version": "0.12.62",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "cf4107257c8ca2ad967efdd6a00f12b21acbb779"
+                "reference": "632393159335bbbdd7ca07d19b3ad50d76aa7fd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/cf4107257c8ca2ad967efdd6a00f12b21acbb779",
-                "reference": "cf4107257c8ca2ad967efdd6a00f12b21acbb779",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/632393159335bbbdd7ca07d19b3ad50d76aa7fd8",
+                "reference": "632393159335bbbdd7ca07d19b3ad50d76aa7fd8",
                 "shasum": ""
             },
             "require": {
@@ -10640,7 +10640,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-07T14:46:03+00:00"
+            "time": "2020-12-13T13:59:38+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",
@@ -11335,6 +11335,7 @@
         "symfony/validator": 0,
         "symfony/web-link": 0,
         "symfony/yaml": 0,
+        "fzaninotto/faker": 0,
         "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0
     },
