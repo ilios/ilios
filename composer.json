@@ -36,8 +36,8 @@
     "sensiolabs/security-checker": "^6.0",
     "sentry/sdk": "^3.0",
     "swagger-api/swagger-ui": "^3.0",
-    "symfony/amazon-mailer": "5.1.*",
-    "symfony/apache-pack": "^1.0",
+    "symfony/amazon-mailer": "@stable",
+    "symfony/apache-pack": "@stable",
     "symfony/asset": "@stable",
     "symfony/console": "@stable",
     "symfony/doctrine-messenger": "@stable",
@@ -46,16 +46,16 @@
     "symfony/framework-bundle": "@stable",
     "symfony/http-client": "@stable",
     "symfony/lock": "@stable",
-    "symfony/mailchimp-mailer": "5.1.*",
-    "symfony/mailer": "5.1.*",
-    "symfony/mailgun-mailer": "5.1.*",
+    "symfony/mailchimp-mailer": "@stable",
+    "symfony/mailer": "@stable",
+    "symfony/mailgun-mailer": "@stable",
     "symfony/messenger": "@stable",
     "symfony/monolog-bundle": "^3.1.0",
     "symfony/orm-pack": "^1.0.6",
-    "symfony/postmark-mailer": "5.1.*",
+    "symfony/postmark-mailer": "@stable",
     "symfony/requirements-checker": "^1.1",
     "symfony/security-bundle": "@stable",
-    "symfony/sendgrid-mailer": "5.1.*",
+    "symfony/sendgrid-mailer": "@stable",
     "symfony/serializer-pack": "^1.0",
     "symfony/twig-bundle": "@stable",
     "symfony/validator": "@stable",
@@ -126,7 +126,7 @@
   "extra": {
     "symfony": {
       "allow-contrib": true,
-      "require": "5.1.*"
+      "require": "5.2.*"
     }
   }
 }
