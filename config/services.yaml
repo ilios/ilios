@@ -314,6 +314,10 @@ services:
     App\Service\DataimportFileLocator:
       public: true
 
+    App\Service\EntityManagerLookup:
+      arguments:
+        $container: '@service_container'
+
     App\Service\Filesystem:
       public: true
 
