@@ -9,7 +9,7 @@ use App\Classes\SchoolEvent;
 use App\Entity\Repository\SchoolRepository;
 use App\Service\UserMaterialFactory;
 use DateTime;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 
 /**

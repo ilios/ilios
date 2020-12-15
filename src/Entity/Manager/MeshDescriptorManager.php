@@ -7,7 +7,7 @@ namespace App\Entity\Manager;
 use App\Entity\DTO\MeshDescriptorDTO;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Entity\Repository\MeshDescriptorRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;

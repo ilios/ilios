@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use DateTime;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use App\Service\Timestamper;
 use App\Traits\TimestampableEntityInterface;

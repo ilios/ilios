@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Manager;
 
 use App\Entity\Repository\ApplicationConfigRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 
 /**

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Repository;
 
 use Doctrine\Common\Collections\Selectable;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 
 interface DTORepositoryInterface extends ObjectRepository, Selectable
 {
