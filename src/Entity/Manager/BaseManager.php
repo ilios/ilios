@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Manager;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use App\Entity\Repository\DTORepositoryInterface;

@@ -12,6 +12,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Cache\Cache;
+use Doctrine\Persistence\Proxy;
 use App\Annotation\ReadOnly;
 use App\Annotation\Type;
 use Symfony\Component\Finder\Finder;
@@ -124,7 +125,7 @@ class EntityMetadata
 
             if (strpos($className, 'Proxies') !== false) {
                 $reflection = new ReflectionClass($classNameOrObject);
-                if ($reflection->implementsInterface('Doctrine\Common\Persistence\Proxy')) {
+                if ($reflection->implementsInterface(Proxy::class)) {
                     $reflection = $reflection->getParentClass();
                     $className = $reflection->getName();
 

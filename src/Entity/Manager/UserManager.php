@@ -13,7 +13,7 @@ use App\Classes\UserMaterial;
 use App\Entity\Repository\UserRepository;
 use App\Entity\DTO\UserDTO;
 use App\Service\UserMaterialFactory;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 
 /**

@@ -7,6 +7,7 @@ parameters:
     ilios_api_version: v3.2
     ilios_api_valid_api_versions: 'v1|v3'
     sentry_dsn: https://c70286fb157048be9ebc6e918e8c2b79@sentry.io/1323198
+    env(TRUSTED_PROXIES):
 
 services:
     # default configuration for services in *this* file
@@ -24,13 +25,17 @@ services:
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
-        resource: '../src/Controller'
+        resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
     Ilios\MeSH\Parser:
