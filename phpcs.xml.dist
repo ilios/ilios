@@ -18,8 +18,11 @@
     <file>public/</file>
     <file>src/</file>
     <file>tests/</file>
-    <exclude-pattern>src/Migrations/*</exclude-pattern>
+    <exclude-pattern>migrations</exclude-pattern>
     <exclude-pattern>public/index.php</exclude-pattern>
     <exclude-pattern>bin/.phpunit</exclude-pattern>
+    <exclude-pattern>config/preload.php</exclude-pattern>
+    <exclude-pattern>config/bundles.php</exclude-pattern>
+    <exclude-pattern>src/Kernel.php</exclude-pattern>
 
 </ruleset>
