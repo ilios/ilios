@@ -141,11 +141,11 @@
     "ezyang/htmlpurifier": {
         "version": "v4.13.0"
     },
+    "fakerphp/faker": {
+        "version": "v1.12.1"
+    },
     "firebase/php-jwt": {
         "version": "v5.2.0"
-    },
-    "fzaninotto/faker": {
-        "version": "v1.9.2"
     },
     "guzzlehttp/guzzle": {
         "version": "7.2.0"
