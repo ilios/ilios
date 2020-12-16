@@ -144,9 +144,6 @@
     "firebase/php-jwt": {
         "version": "v5.2.0"
     },
-    "fzaninotto/faker": {
-        "version": "v1.9.2"
-    },
     "guzzlehttp/guzzle": {
         "version": "7.2.0"
     },
