@@ -8,8 +8,8 @@ use App\Service\Config;
 use App\Service\Filesystem;
 use App\Service\AuthenticationInterface;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
+use SplFileObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,30 +21,11 @@ class IndexController extends AbstractController
 {
     private const DEFAULT_TEMPLATE_NAME = 'index/webindex.html.twig';
 
-    /**
-     * @var Filesystem
-     */
-    protected $fs;
-
-    /**
-     * @var Environment
-     */
-    protected $twig;
-
-    /**
-     * @var string
-     */
-    protected $kernelCacheDir;
-
-    /**
-     * @var AuthenticationInterface
-     */
-    private $authentication;
-
-    /**
-     * @var Config
-     */
-    private $config;
+    protected Filesystem $fs;
+    protected Environment $twig;
+    protected string $kernelCacheDir;
+    private AuthenticationInterface $authentication;
+    private Config $config;
 
     /**
      * IndexController constructor.
@@ -89,7 +70,7 @@ class IndexController extends AbstractController
             $options = $this->extractOptions($path);
 
             $content = $this->twig->render(self::DEFAULT_TEMPLATE_NAME, $options);
-            $file = new \SplFileObject($path, 'r');
+            $file = new SplFileObject($path, 'r');
             $lastModified = new DateTime();
             $lastModified->setTimestamp($file->getMTime());
             $response = $this->responseFromString($response, $content, $request, $lastModified);
@@ -105,10 +86,9 @@ class IndexController extends AbstractController
 
     /**
      * Extract the path for a frontend file
-     * @param $fileName
      * @return bool|string
      */
-    protected function getFilePath($fileName)
+    protected function getFilePath(string $fileName)
     {
         $assetsPath = $this->kernelCacheDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
         $path = $assetsPath . $fileName;
@@ -122,10 +102,8 @@ class IndexController extends AbstractController
 
     /**
      * Extract the data from index.json file
-     * @param string $path
-     * @return array
      */
-    protected function extractOptions($path)
+    protected function extractOptions(string $path): array
     {
         $contents = $this->fs->readFile($path);
         $json = json_decode($contents);
@@ -215,7 +193,7 @@ class IndexController extends AbstractController
         Response $response,
         string $content,
         Request $request,
-        \DateTime $lastModified
+        DateTime $lastModified
     ): Response {
         $response->setEtag(sha1($content));
         $response->setLastModified($lastModified);
