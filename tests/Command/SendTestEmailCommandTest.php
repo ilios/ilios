@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
 /**
@@ -59,8 +60,12 @@ class SendTestEmailCommandTest extends KernelTestCase
     {
         $this->mailer->shouldReceive('send')
             ->with(m::on(function (Email $message) {
-                $to = array_keys($message->getTo());
-                $from = array_keys($message->getFrom());
+                $to = array_map(function (Address $address) {
+                    return $address->getAddress();
+                }, $message->getTo());
+                $from = array_map(function (Address $address) {
+                    return $address->getAddress();
+                }, $message->getFrom());
                 $subject = $message->getSubject();
                 $body = $message->getTextBody();
 
