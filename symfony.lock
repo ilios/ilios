@@ -144,6 +144,9 @@
     "firebase/php-jwt": {
         "version": "v5.2.0"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.1"
+    },
     "guzzlehttp/guzzle": {
         "version": "7.2.0"
     },
