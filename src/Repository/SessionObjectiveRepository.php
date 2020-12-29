@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\DTO\SessionObjectiveDTO;
 use App\Entity\SessionObjective;
+use App\Entity\DTO\SessionObjectiveDTO;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 
-/**
- * Class SessionObjectiveRepository
- */
 class SessionObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, SessionObjective::class);
+    }
+
     /**
      * @inheritdoc
      */

@@ -18,6 +18,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\MeshDescriptorDTO;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Ilios\MeSH\Model\AllowableQualifier;
 use Ilios\MeSH\Model\Concept;
@@ -25,11 +26,13 @@ use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\Term;
 use PDO;
 
-/**
- * Class MeshDescriptorRepository
- */
 class MeshDescriptorRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, MeshDescriptor::class);
+    }
+
     /**
      * Find by a string query.
      *

@@ -9,10 +9,16 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\LearningMaterialDTO;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\LearningMaterialInterface;
 
 class LearningMaterialRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, LearningMaterial::class);
+    }
+
     /**
      * @inheritdoc
      */

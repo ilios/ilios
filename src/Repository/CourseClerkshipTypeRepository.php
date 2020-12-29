@@ -7,13 +7,17 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use App\Entity\CourseClerkshipType;
 use App\Entity\DTO\CourseClerkshipTypeDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class CourseClerkshipTypeRepository
- */
 class CourseClerkshipTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, CourseClerkshipType::class);
+    }
+
     /**
      * @inheritdoc
      */

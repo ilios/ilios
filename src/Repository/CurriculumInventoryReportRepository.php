@@ -14,13 +14,16 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\CurriculumInventoryReportInterface;
 
-/**
- * Class CurriculumInventoryReportRepository
- */
 class CurriculumInventoryReportRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, CurriculumInventoryReport::class);
+    }
+
     /**
      * @inheritdoc
      */

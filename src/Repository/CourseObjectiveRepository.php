@@ -6,15 +6,18 @@ namespace App\Repository;
 
 use App\Entity\CourseObjective;
 use App\Entity\DTO\CourseObjectiveDTO;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 
-/**
- * Class CourseObjectiveRepository
- */
 class CourseObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, CourseObjective::class);
+    }
+
     /**
      * @inheritdoc
      */

@@ -13,9 +13,15 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\SessionDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
 class SessionRepository extends ServiceEntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Session::class);
+    }
+
     /**
      * Custom findBy so we can filter by related entities
      *

@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\AuditLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class AuditLogRepository
- */
 class AuditLogRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, AuditLog::class);
+    }
+
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         throw new \Exception('DTOs for AuditLogs are not implemented yet');

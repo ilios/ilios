@@ -10,12 +10,18 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\OfferingDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class OfferingRepository
  */
 class OfferingRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Offering::class);
+    }
+
     /**
      * @inheritdoc
      */

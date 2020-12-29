@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\AamcResourceType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AamcResourceTypeDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class AamcResourceTypeRepository
- */
 class AamcResourceTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, AamcResourceType::class);
+    }
+
     /**
      * @inheritdoc
      */

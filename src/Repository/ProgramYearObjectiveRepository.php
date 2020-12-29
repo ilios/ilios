@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\DTO\ProgramYearObjectiveDTO;
 use App\Entity\ProgramYearObjective;
+use App\Entity\DTO\ProgramYearObjectiveDTO;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 
-/**
- * Class ProgramYearObjectiveRepository
- */
 class ProgramYearObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, ProgramYearObjective::class);
+    }
+
     /**
      * @inheritdoc
      */

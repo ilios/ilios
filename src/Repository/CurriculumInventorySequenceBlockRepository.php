@@ -7,13 +7,17 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class CurriculumInventorySequenceBlockRepository
- */
 class CurriculumInventorySequenceBlockRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, CurriculumInventorySequenceBlock::class);
+    }
+
     /**
      * @inheritdoc
      */

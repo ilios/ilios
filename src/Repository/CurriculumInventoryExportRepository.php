@@ -6,15 +6,18 @@ namespace App\Repository;
 
 use App\Entity\CurriculumInventoryExport;
 use App\Entity\DTO\CurriculumInventoryExportDTO;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class CurriculumInventoryExportRepository
- */
 class CurriculumInventoryExportRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, CurriculumInventoryExport::class);
+    }
+
     /**
      * @inheritdoc
      */

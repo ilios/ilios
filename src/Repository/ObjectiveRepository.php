@@ -9,9 +9,15 @@ use App\Entity\Objective;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use Doctrine\Persistence\ManagerRegistry;
 
 class ObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Objective::class);
+    }
+
     /**
      * Custom findBy so we can filter by related entities
      *

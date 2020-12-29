@@ -15,9 +15,14 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\CourseDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
 class CourseRepository extends ServiceEntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Course::class);
+    }
     /**
      * Custom findBy so we can filter by related entities
      *

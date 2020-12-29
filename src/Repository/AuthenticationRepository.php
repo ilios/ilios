@@ -12,9 +12,15 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\AuthenticationInterface;
 use App\Entity\DTO\AuthenticationDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
 class AuthenticationRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Authentication::class);
+    }
+
     /**
      * Get an authentication entity by case insensitive user name.
      * @param  string $username

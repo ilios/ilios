@@ -15,15 +15,18 @@ use Doctrine\ORM\QueryBuilder;
 use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent;
 use App\Entity\DTO\SchoolDTO;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
 
-/**
- * Class SchoolRepository
- */
 class SchoolRepository extends ServiceEntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
 {
     use CalendarEventRepository;
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, School::class);
+    }
 
     /**
      * Custom findBy so we can filter by related entities

@@ -18,6 +18,7 @@ use App\Entity\UserInterface;
 use App\Entity\DTO\UserDTO;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class UserRepository
@@ -25,6 +26,11 @@ use App\Traits\CalendarEventRepository;
 class UserRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
     use CalendarEventRepository;
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, User::class);
+    }
 
     /**
      * @inheritdoc

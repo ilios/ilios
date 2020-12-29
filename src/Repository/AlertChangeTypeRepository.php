@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\AlertChangeType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AlertChangeTypeDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class AlertChangeTypeRepository
- */
 class AlertChangeTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, AlertChangeType::class);
+    }
+
     /**
      * @inheritdoc
      */

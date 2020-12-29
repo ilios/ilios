@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\ApplicationConfig;
 use App\Entity\DTO\ApplicationConfigDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class ApplicationConfigRepository
- */
 class ApplicationConfigRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, ApplicationConfig::class);
+    }
+
     /**
      * @inheritdoc
      */

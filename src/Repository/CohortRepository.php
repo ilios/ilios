@@ -7,13 +7,17 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use App\Entity\Cohort;
 use App\Entity\DTO\CohortDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class CohortRepository
- */
 class CohortRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Cohort::class);
+    }
+
     /**
      * @inheritdoc
      */

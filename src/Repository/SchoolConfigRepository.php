@@ -8,13 +8,17 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use App\Entity\SchoolConfig;
 use App\Entity\DTO\SchoolConfigDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class SchoolConfigRepository
- */
 class SchoolConfigRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, SchoolConfig::class);
+    }
+
     /**
      * @inheritdoc
      */

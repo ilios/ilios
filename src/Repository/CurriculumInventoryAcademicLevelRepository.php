@@ -7,13 +7,17 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\DTO\CurriculumInventoryAcademicLevelDTO;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class CurriculumInventoryAcademicLevelRepository
- */
 class CurriculumInventoryAcademicLevelRepository extends ServiceEntityRepository implements DTORepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, CurriculumInventoryAcademicLevel::class);
+    }
+
     /**
      * @inheritdoc
      */
