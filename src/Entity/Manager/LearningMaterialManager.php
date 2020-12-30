@@ -6,7 +6,7 @@ namespace App\Entity\Manager;
 
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
-use App\Entity\Repository\LearningMaterialRepository;
+use App\Repository\LearningMaterialRepository;
 
 /**
  * Class LearningMaterialManager

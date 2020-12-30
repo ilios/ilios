@@ -6,7 +6,7 @@ namespace App\Entity\Manager;
 
 use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent;
-use App\Entity\Repository\SchoolRepository;
+use App\Repository\SchoolRepository;
 use App\Service\UserMaterialFactory;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;

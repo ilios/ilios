@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Manager;
 
-use App\Entity\Repository\ProgramYearRepository;
+use App\Repository\ProgramYearRepository;
 
 /**
  * Class ProgramYearManager

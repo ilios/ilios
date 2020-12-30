@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Manager;
 
-use App\Entity\Repository\OfferingRepository;
+use App\Repository\OfferingRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use App\Entity\OfferingInterface;

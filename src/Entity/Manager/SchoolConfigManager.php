@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Manager;
 
-use App\Entity\Repository\SchoolConfigRepository;
+use App\Repository\SchoolConfigRepository;
 
 /**
  * Class SchoolConfigManager

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Manager;
 
 use App\Entity\AuthenticationInterface;
-use App\Entity\Repository\AuthenticationRepository;
+use App\Repository\AuthenticationRepository;
 
 /**
  * Class AuthenticationManager

@@ -7,7 +7,7 @@ namespace App\Entity\Manager;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
-use App\Entity\Repository\DTORepositoryInterface;
+use App\Repository\DTORepositoryInterface;
 
 /**
  * Class BaseManager

@@ -8,7 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Manager\OfferingManager;
 use App\Entity\Offering;
-use App\Entity\Repository\DTORepositoryInterface;
+use App\Repository\DTORepositoryInterface;
 use Mockery as m;
 use App\Tests\TestCase;
 

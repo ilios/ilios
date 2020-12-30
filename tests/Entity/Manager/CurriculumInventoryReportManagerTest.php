@@ -7,7 +7,7 @@ namespace App\Tests\Entity\Manager;
 use Doctrine\ORM\EntityManager;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\Manager\CurriculumInventoryReportManager;
-use App\Entity\Repository\CurriculumInventoryReportRepository;
+use App\Repository\CurriculumInventoryReportRepository;
 use Mockery as m;
 use App\Tests\TestCase;
 

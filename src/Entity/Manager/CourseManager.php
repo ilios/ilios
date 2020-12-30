@@ -7,7 +7,7 @@ namespace App\Entity\Manager;
 use App\Classes\IndexableCourse;
 use App\Entity\CourseInterface;
 use App\Entity\DTO\CourseDTO;
-use App\Entity\Repository\CourseRepository;
+use App\Repository\CourseRepository;
 use App\Entity\UserInterface;
 use Exception;
 

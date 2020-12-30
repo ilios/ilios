@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
 use App\Classes\UserMaterial;
-use App\Entity\Repository\UserRepository;
+use App\Repository\UserRepository;
 use App\Entity\DTO\UserDTO;
 use App\Service\UserMaterialFactory;
 use Doctrine\Persistence\ManagerRegistry;

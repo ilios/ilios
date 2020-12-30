@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Manager;
 
 use App\Entity\CurriculumInventoryReportInterface;
-use App\Entity\Repository\CurriculumInventoryReportRepository;
+use App\Repository\CurriculumInventoryReportRepository;
 
 /**
  * Class CurriculumInventoryReportManager
