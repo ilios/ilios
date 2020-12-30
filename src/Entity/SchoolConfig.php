@@ -11,6 +11,7 @@ use App\Traits\StringableIdEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\SchoolEntity;
+use App\Repository\SchoolConfigRepository;
 
 /**
  * Class SchoolConfig
@@ -20,7 +21,7 @@ use App\Traits\SchoolEntity;
  *     @ORM\UniqueConstraint(name="school_conf_uniq", columns={"school_id", "name"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\SchoolConfigRepository")
+ * @ORM\Entity(repositoryClass=SchoolConfigRepository::class)
  * @IS\Entity
  */
 class SchoolConfig implements SchoolConfigInterface

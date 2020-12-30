@@ -15,6 +15,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 use App\Entity\CurriculumInventoryReportInterface;
+use App\Repository\CurriculumInventoryAcademicLevelRepository;
 
 /**
  * Class CurriculumInventoryAcademicLevel
@@ -27,7 +28,7 @@ use App\Entity\CurriculumInventoryReportInterface;
  *     @ORM\Index(name="IDX_B4D3296D4BD2A4C0", columns={"report_id"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventoryAcademicLevelRepository")
+ * @ORM\Entity(repositoryClass=CurriculumInventoryAcademicLevelRepository::class)
  *
  * @IS\Entity
  */

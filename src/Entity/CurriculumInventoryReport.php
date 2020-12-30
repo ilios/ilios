@@ -15,6 +15,7 @@ use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\CurriculumInventoryReportRepository;
 
 /**
  * Class CurriculumInventoryReport
@@ -28,7 +29,7 @@ use App\Traits\StringableIdEntity;
  *     @ORM\UniqueConstraint(name="idx_ci_report_token_unique", columns={"token"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventoryReportRepository")
+ * @ORM\Entity(repositoryClass=CurriculumInventoryReportRepository::class)
  *
  * @IS\Entity
  */

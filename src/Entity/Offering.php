@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TimestampableEntity;
+use App\Repository\OfferingRepository;
 
 /**
  * Class Offering
@@ -27,7 +28,7 @@ use App\Traits\TimestampableEntity;
  *     @ORM\Index(name="offering_dates_session_k", columns={"offering_id", "session_id", "start_date", "end_date"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\OfferingRepository")
+ * @ORM\Entity(repositoryClass=OfferingRepository::class)
  *
  * @IS\Entity
  */

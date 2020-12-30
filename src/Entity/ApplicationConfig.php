@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotation as IS;
+use App\Repository\ApplicationConfigRepository;
 use App\Traits\StringableIdEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
@@ -19,7 +20,7 @@ use App\Traits\NameableEntity;
  *     @ORM\UniqueConstraint(name="app_conf_uniq", columns={"name"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\ApplicationConfigRepository")
+ * @ORM\Entity(repositoryClass=ApplicationConfigRepository::class)
  * @IS\Entity
  */
 class ApplicationConfig implements ApplicationConfigInterface

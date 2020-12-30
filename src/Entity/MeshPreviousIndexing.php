@@ -9,6 +9,7 @@ use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\MeshPreviousIndexingRepository;
 
 /**
  * Class MeshPreviousIndexing
@@ -17,7 +18,7 @@ use App\Traits\StringableIdEntity;
  *  uniqueConstraints={
  *      @ORM\UniqueConstraint(name="descriptor_previous", columns={"mesh_descriptor_uid"})
  *  })
- * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshPreviousIndexingRepository")
+ * @ORM\Entity(repositoryClass=MeshPreviousIndexingRepository::class)
  *
  * @IS\Entity
  */

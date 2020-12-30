@@ -15,11 +15,12 @@ use App\Traits\TitledEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\CoursesEntity;
+use App\Repository\CohortRepository;
 
 /**
  * Class Cohort
  *
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CohortRepository")
+ * @ORM\Entity(repositoryClass=CohortRepository::class)
  * @ORM\Table(
  *  name="cohort",
  *  indexes={

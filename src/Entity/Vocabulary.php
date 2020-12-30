@@ -15,6 +15,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\SchoolEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
+use App\Repository\VocabularyRepository;
 
 /**
  * Class Vocabulary
@@ -24,7 +25,7 @@ use App\Traits\TitledEntity;
  *     @ORM\UniqueConstraint(name="unique_vocabulary_title", columns={"school_id", "title"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\VocabularyRepository")
+ * @ORM\Entity(repositoryClass=VocabularyRepository::class)
  *
  * @IS\Entity
  */

@@ -13,12 +13,13 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use App\Traits\CoursesEntity;
+use App\Repository\CourseClerkshipTypeRepository;
 
 /**
  * Class CourseClerkshipType
  *
  * @ORM\Table(name="course_clerkship_type")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CourseClerkshipTypeRepository")
+ * @ORM\Entity(repositoryClass=CourseClerkshipTypeRepository::class)
  *
  * @IS\Entity
  */

@@ -10,12 +10,13 @@ use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
+use App\Repository\CurriculumInventorySequenceRepository;
 
 /**
  * Class CurriculumInventorySequence
  *
  * @ORM\Table(name="curriculum_inventory_sequence")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventorySequenceRepository")
+ * @ORM\Entity(repositoryClass=CurriculumInventorySequenceRepository::class)
  *
  * @IS\Entity
  */

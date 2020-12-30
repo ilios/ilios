@@ -22,6 +22,7 @@ use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Traits\OfferingsEntity;
 use App\Traits\IdentifiableEntity;
+use App\Repository\SessionRepository;
 
 /**
  * Class Session
@@ -34,7 +35,7 @@ use App\Traits\IdentifiableEntity;
  *   }
  * )
  *
- * @ORM\Entity(repositoryClass="App\Entity\Repository\SessionRepository")
+ * @ORM\Entity(repositoryClass=SessionRepository::class)
  *
  * @IS\Entity
  */

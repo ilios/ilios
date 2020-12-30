@@ -15,6 +15,7 @@ use App\Traits\NameableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
+use App\Repository\MeshTermRepository;
 
 /**
  * Class MeshTerm
@@ -25,7 +26,7 @@ use App\Traits\TimestampableEntity;
  *      @ORM\UniqueConstraint(name="mesh_term_uid_name", columns={"mesh_term_uid","name"})
  *  }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshTermRepository")
+ * @ORM\Entity(repositoryClass=MeshTermRepository::class)
  *
  * @IS\Entity
  */

@@ -13,12 +13,13 @@ use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SchoolEntity;
 use App\Traits\StewardedEntity;
+use App\Repository\DepartmentRepository;
 
 /**
  * Class Department
  *
  * @ORM\Table(name="department")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\DepartmentRepository")
+ * @ORM\Entity(repositoryClass=DepartmentRepository::class)
  *
  * @IS\Entity
  */

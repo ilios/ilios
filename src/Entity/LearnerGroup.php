@@ -17,12 +17,13 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\OfferingsEntity;
+use App\Repository\LearnerGroupRepository;
 
 /**
  * Class LearnerGroup
  *
  * @ORM\Table(name="`group`")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\LearnerGroupRepository")
+ * @ORM\Entity(repositoryClass=LearnerGroupRepository::class)
  *
  * @IS\Entity
  */

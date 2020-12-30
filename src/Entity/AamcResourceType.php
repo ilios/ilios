@@ -13,12 +13,13 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use App\Annotation as IS;
+use App\Repository\AamcResourceTypeRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class AamcResourceType
  *
- * @ORM\Entity(repositoryClass="App\Entity\Repository\AamcResourceTypeRepository")
+ * @ORM\Entity(repositoryClass=AamcResourceTypeRepository::class)
  * @ORM\Table(name="aamc_resource_type")
  *
  * @IS\Entity

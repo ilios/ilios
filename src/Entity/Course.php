@@ -25,6 +25,7 @@ use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\SchoolEntity;
+use App\Repository\CourseRepository;
 
 /**
  * Class Course
@@ -34,7 +35,7 @@ use App\Traits\SchoolEntity;
  *     @ORM\Index(name="external_id", columns={"external_id"}),
  *     @ORM\Index(name="clerkship_type_id", columns={"clerkship_type_id"})
  * })
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CourseRepository")
+ * @ORM\Entity(repositoryClass=CourseRepository::class)
  *
  * @IS\Entity
  */

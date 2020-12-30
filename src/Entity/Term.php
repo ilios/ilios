@@ -20,6 +20,7 @@ use App\Traits\ProgramYearsEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
+use App\Repository\TermRepository;
 
 /**
  * Class Term
@@ -29,7 +30,7 @@ use App\Traits\TitledEntity;
  *     @ORM\UniqueConstraint(name="unique_term_title", columns={"vocabulary_id", "title", "parent_term_id"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\TermRepository")
+ * @ORM\Entity(repositoryClass=TermRepository::class)
  *
  * @IS\Entity
  */

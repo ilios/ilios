@@ -14,12 +14,13 @@ use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\CurriculumInventorySequenceBlockRepository;
 
 /**
  * Class CurriculumInventorySequenceBlock
  *
  * @ORM\Table(name="curriculum_inventory_sequence_block")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventorySequenceBlockRepository")
+ * @ORM\Entity(repositoryClass=CurriculumInventorySequenceBlockRepository::class)
  *
  * @IS\Entity
  */

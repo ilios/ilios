@@ -18,12 +18,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
+use App\Repository\ObjectiveRepository;
 
 /**
  * Class Objective
  *
  * @ORM\Table(name="objective")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\ObjectiveRepository")
+ * @ORM\Entity(repositoryClass=ObjectiveRepository::class)
  *
  * @IS\Entity
  */

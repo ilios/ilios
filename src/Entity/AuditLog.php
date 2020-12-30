@@ -9,12 +9,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\AuditLogRepository;
 
 /**
  * Class AuditLog
  *
  * @ORM\Table(name="audit_log")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\AuditLogRepository")
+ * @ORM\Entity(repositoryClass=AuditLogRepository::class)
  *
  */
 class AuditLog implements AuditLogInterface
