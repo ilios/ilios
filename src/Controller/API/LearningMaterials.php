@@ -7,9 +7,9 @@ namespace App\Controller\API;
 use App\Classes\SessionUserInterface;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
-use App\Entity\Manager\V1CompatibleBaseManager;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\LearningMaterialRepository;
+use App\Repository\V1DTORepositoryInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\IliosFileSystem;
@@ -60,7 +60,7 @@ class LearningMaterials
         ApiResponseBuilder $builder,
         TokenStorageInterface $tokenStorage
     ): Response {
-        if ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
+        if ('v1' === $version && ($this->manager instanceof V1DTORepositoryInterface)) {
             $dto = $this->manager->findV1DTOBy(['id' => $id]);
         } else {
             $dto = $this->manager->findDTOBy(['id' => $id]);
@@ -104,7 +104,7 @@ class LearningMaterials
                 $parameters['limit'],
                 $parameters['offset']
             );
-        } elseif ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
+        } elseif ('v1' === $version && ($this->manager instanceof V1DTORepositoryInterface)) {
             $dtos = $this->manager->findV1DTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],

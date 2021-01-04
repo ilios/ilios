@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\V1CompatibleBaseManager;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\ManagerInterface;
+use App\Repository\V1DTORepositoryInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +44,7 @@ abstract class ReadOnlyController
         ApiResponseBuilder $builder,
         Request $request
     ): Response {
-        if ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
+        if ('v1' === $version && ($this->manager instanceof V1DTORepositoryInterface)) {
             $dto = $this->manager->findV1DTOBy(['id' => $id]);
         } else {
             $dto = $this->manager->findDTOBy(['id' => $id]);
@@ -71,7 +71,7 @@ abstract class ReadOnlyController
     ): Response {
         $parameters = ApiRequestParser::extractParameters($request);
 
-        if ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
+        if ('v1' === $version && ($this->manager instanceof V1DTORepositoryInterface)) {
             $dtos = $this->manager->findV1DTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
