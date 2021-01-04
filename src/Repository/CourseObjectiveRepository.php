@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\CourseObjective;
 use App\Entity\DTO\CourseObjectiveDTO;
-use App\Entity\Manager\ManagerInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;

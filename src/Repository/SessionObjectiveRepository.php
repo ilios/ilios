@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Manager\ManagerInterface;
 use App\Entity\SessionObjective;
 use App\Entity\DTO\SessionObjectiveDTO;
 use App\Traits\ManagerRepository;

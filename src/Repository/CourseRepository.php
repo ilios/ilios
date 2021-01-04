@@ -8,7 +8,6 @@ use App\Classes\IndexableCourse;
 use App\Classes\IndexableSession;
 use App\Entity\Course;
 use App\Entity\DTO\CourseV1DTO;
-use App\Entity\Manager\ManagerInterface;
 use App\Entity\Session;
 use App\Traits\ManagerRepository;
 use DateTime;

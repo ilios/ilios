@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\CourseObjective;
 use App\Entity\CurriculumInventoryReport;
-use App\Entity\Manager\ManagerInterface;
 use App\Entity\ProgramYearObjective;
 use App\Entity\Session;
 use App\Entity\SessionObjective;

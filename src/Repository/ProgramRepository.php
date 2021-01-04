@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\DTO\ProgramV1DTO;
-use App\Entity\Manager\ManagerInterface;
 use App\Entity\Program;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

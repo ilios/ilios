@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\DTO\SchoolV1DTO;
-use App\Entity\Manager\ManagerInterface;
 use App\Entity\School;
 use App\Entity\Session;
 use App\Traits\ManagerRepository;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\ManagerInterface;
 use App\Entity\Manager\V1CompatibleBaseManager;
 use App\RelationshipVoter\AbstractVoter;
 use App\Service\ApiRequestParser;

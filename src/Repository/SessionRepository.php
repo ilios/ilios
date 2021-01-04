@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\DTO\SessionV1DTO;
-use App\Entity\Manager\ManagerInterface;
 use App\Entity\Session;
 use App\Traits\ManagerRepository;
 use DateTime;

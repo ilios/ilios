@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\Manager\ManagerInterface;
+use App\Repository\ManagerInterface;
 use Exception;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;

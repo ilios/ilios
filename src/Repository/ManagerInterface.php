@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Manager;
+namespace App\Repository;
 
 /**
  * Interface ManagerInterface

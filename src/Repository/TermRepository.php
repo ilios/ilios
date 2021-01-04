@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\DTO\TermV1DTO;
-use App\Entity\Manager\ManagerInterface;
 use App\Entity\Term;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;

@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\Competency;
 use App\Entity\DTO\CompetencyV1DTO;
-use App\Entity\Manager\ManagerInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
