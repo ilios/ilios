@@ -7,14 +7,19 @@ namespace App\Repository;
 use App\Entity\DTO\ObjectiveV1DTO;
 use App\Entity\Objective;
 use App\Traits\ManagerRepository;
+use App\Traits\V1ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class ObjectiveRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    ManagerInterface,
+    V1DTORepositoryInterface
 {
     use ManagerRepository;
+    use V1ManagerRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -67,7 +72,7 @@ class ObjectiveRepository extends ServiceEntityRepository implements DTOReposito
      *
      * @return array
      */
-    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('o')->distinct()->from(Objective::class, 'o');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);

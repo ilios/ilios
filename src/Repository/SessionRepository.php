@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\DTO\SessionV1DTO;
 use App\Entity\Session;
 use App\Traits\ManagerRepository;
+use App\Traits\V1ManagerRepository;
 use DateTime;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -16,9 +17,13 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\SessionDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class SessionRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface, V1DTORepositoryInterface
+class SessionRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    ManagerInterface,
+    V1DTORepositoryInterface
 {
     use ManagerRepository;
+    use V1ManagerRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -84,7 +89,7 @@ class SessionRepository extends ServiceEntityRepository implements DTORepository
         return $this->attachAssociationsToDTOs($sessionDTOs);
     }
 
-    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         if (array_key_exists('updatedAt', $criteria)) {
             $criteria['updatedAt'] = new DateTime($criteria['updatedAt']);

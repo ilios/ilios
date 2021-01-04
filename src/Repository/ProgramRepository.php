@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\DTO\ProgramV1DTO;
 use App\Entity\Program;
 use App\Traits\ManagerRepository;
+use App\Traits\V1ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -19,6 +20,7 @@ class ProgramRepository extends ServiceEntityRepository implements
     ManagerInterface
 {
     use ManagerRepository;
+    use V1ManagerRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -69,7 +71,7 @@ class ProgramRepository extends ServiceEntityRepository implements
     /**
      * @inheritdoc
      */
-    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from(Program::class, 'p');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);

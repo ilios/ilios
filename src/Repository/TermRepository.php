@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\DTO\TermV1DTO;
 use App\Entity\Term;
 use App\Traits\ManagerRepository;
+use App\Traits\V1ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -14,9 +15,13 @@ use App\Entity\DTO\TermDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\TermInterface;
 
-class TermRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface, V1DTORepositoryInterface
+class TermRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    ManagerInterface,
+    V1DTORepositoryInterface
 {
     use ManagerRepository;
+    use V1ManagerRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -75,7 +80,7 @@ class TermRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * @see TermRepository::findDTOsBy()
      */
-    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('t')->distinct()->from(Term::class, 't');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);

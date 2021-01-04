@@ -13,6 +13,7 @@ use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Traits\ManagerRepository;
+use App\Traits\V1ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
@@ -29,9 +30,13 @@ use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
 use PDO;
 
-class MeshDescriptorRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class MeshDescriptorRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    ManagerInterface,
+    V1DTORepositoryInterface
 {
     use ManagerRepository;
+    use V1ManagerRepository;
 
     protected MeshDescriptorSetTransmogrifier $transmogrifier;
 
@@ -152,7 +157,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements DTORep
      *
      * @return array
      */
-    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from(MeshDescriptor::class, 'm');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);

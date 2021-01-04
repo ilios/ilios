@@ -8,6 +8,7 @@ use App\Entity\DTO\SchoolV1DTO;
 use App\Entity\School;
 use App\Entity\Session;
 use App\Traits\ManagerRepository;
+use App\Traits\V1ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Type as DoctrineType;
@@ -20,10 +21,14 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
 
-class SchoolRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface, V1DTORepositoryInterface
+class SchoolRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    ManagerInterface,
+    V1DTORepositoryInterface
 {
     use CalendarEventRepository;
     use ManagerRepository;
+    use V1ManagerRepository;
 
     protected UserMaterialFactory $userMaterialFactory;
 
@@ -78,7 +83,7 @@ class SchoolRepository extends ServiceEntityRepository implements DTORepositoryI
     /**
      * @inheritdoc
      */
-    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('App\Entity\School', 's');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
