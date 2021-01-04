@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Manager\CurriculumInventoryExportManager;
-use App\Entity\Manager\CurriculumInventoryReportManager;
+use App\Repository\CurriculumInventoryExportRepository;
+use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\Exporter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -22,20 +22,20 @@ class CurriculumInventoryDownloadController extends AbstractController
      * Downloads the curriculum inventory report document for a given report.
      *
      * @param $token
-     * @param CurriculumInventoryReportManager $reportManager
-     * @param CurriculumInventoryExportManager $exportManager
+     * @param CurriculumInventoryReportRepository $reportRepository
+     * @param CurriculumInventoryExportRepository $exportManager
      * @param Exporter $exporter
      *
      * @return Response
      */
     public function getAction(
         $token,
-        CurriculumInventoryReportManager $reportManager,
-        CurriculumInventoryExportManager $exportManager,
+        CurriculumInventoryReportRepository $reportRepository,
+        CurriculumInventoryExportRepository $exportManager,
         Exporter $exporter
     ) {
         /* @var CurriculumInventoryReportInterface $curriculumInventoryReport */
-        $curriculumInventoryReport = $reportManager->findOneBy(['token' => $token]);
+        $curriculumInventoryReport = $reportRepository->findOneBy(['token' => $token]);
 
         if (! $curriculumInventoryReport) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $token));
@@ -68,13 +68,13 @@ class CurriculumInventoryDownloadController extends AbstractController
      * Retrieves the report document for a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
-     * @param CurriculumInventoryExportManager $manager
+     * @param CurriculumInventoryExportRepository $manager
      * @param Exporter $exporter
      * @return string
      */
     protected function getExportedDocument(
         CurriculumInventoryReportInterface $report,
-        CurriculumInventoryExportManager $manager,
+        CurriculumInventoryExportRepository $manager,
         Exporter $exporter
     ) {
         // check if the report has been exported.

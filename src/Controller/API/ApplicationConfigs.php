@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\ApplicationConfigManager;
+use App\Repository\ApplicationConfigRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ApplicationConfigs extends ReadWriteController
 {
-    public function __construct(ApplicationConfigManager $manager)
+    public function __construct(ApplicationConfigRepository $repository)
     {
-        parent::__construct($manager, 'applicationconfigs');
+        parent::__construct($repository, 'applicationconfigs');
     }
 }

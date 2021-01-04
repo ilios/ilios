@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\LearningMaterialStatusInterface;
+use App\Repository\LearningMaterialStatusRepository;
 
 /**
  * Class LoadLearningMaterialStatusDataTest
@@ -16,7 +17,7 @@ class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\LearningMaterialStatusManager';
+        return LearningMaterialStatusRepository::class;
     }
 
     /**

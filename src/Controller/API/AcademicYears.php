@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\AcademicYear;
-use App\Entity\Manager\CourseManager;
+use App\Repository\CourseRepository;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,11 +25,11 @@ class AcademicYears
         string $version,
         string $id,
         Request $request,
-        CourseManager $courseManager,
+        CourseRepository $courseRepository,
         SerializerInterface $serializer,
         ApiResponseBuilder $builder
     ): Response {
-        $years = $courseManager->getYears();
+        $years = $courseRepository->getYears();
 
         if (!in_array($id, $years)) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -67,13 +67,13 @@ class AcademicYears
     public function getAll(
         string $version,
         Request $request,
-        CourseManager $courseManager,
+        CourseRepository $courseRepository,
         SerializerInterface $serializer,
         ApiResponseBuilder $builder
     ): Response {
         $years = array_map(function ($year) {
             return new AcademicYear($year);
-        }, $courseManager->getYears());
+        }, $courseRepository->getYears());
 
         $contentTypes = $request->getAcceptableContentTypes();
         if (in_array('application/vnd.api+json', $contentTypes)) {

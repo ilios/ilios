@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Classes\CalendarEvent;
 use App\Classes\SessionUserInterface;
-use App\Entity\Manager\SessionManager;
 use App\Entity\SessionInterface;
 use App\RelationshipVoter\AbstractCalendarEvent;
 use App\RelationshipVoter\AbstractVoter;
 use App\Classes\SchoolEvent;
-use App\Entity\Manager\SchoolManager;
 use App\Exception\InvalidInputWithSafeUserMessageException;
+use App\Repository\SchoolRepository;
+use App\Repository\SessionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,8 +32,8 @@ class SchooleventController extends AbstractController
      * @param string $version of the API requested
      * @param string $id of the school
      * @param Request $request
-     * @param SchoolManager $schoolManager
-     * @param SessionManager $sessionManager
+     * @param SchoolRepository $schoolRepository
+     * @param SessionRepository $sessionRepository
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param TokenStorageInterface $tokenStorage
      * @param SerializerInterface $serializer
@@ -46,13 +45,13 @@ class SchooleventController extends AbstractController
         $version,
         $id,
         Request $request,
-        SchoolManager $schoolManager,
-        SessionManager $sessionManager,
+        SchoolRepository $schoolRepository,
+        SessionRepository $sessionRepository,
         AuthorizationCheckerInterface $authorizationChecker,
         TokenStorageInterface $tokenStorage,
         SerializerInterface $serializer
     ) {
-        $school = $schoolManager->findOneBy(['id' => $id]);
+        $school = $schoolRepository->findOneBy(['id' => $id]);
 
         if (!$school) {
             throw new NotFoundHttpException(sprintf('The school \'%s\' was not found.', $id));
@@ -60,12 +59,12 @@ class SchooleventController extends AbstractController
 
         if ($sessionId = $request->get('session')) {
             /** @var SessionInterface $session */
-            $session = $sessionManager->findOneBy(['id' => $sessionId]);
+            $session = $sessionRepository->findOneBy(['id' => $sessionId]);
 
             if (!$session) {
                 throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));
             }
-            $events = $schoolManager->findSessionEventsForSchool($school->getId(), $session->getId());
+            $events = $schoolRepository->findSessionEventsForSchool($school->getId(), $session->getId());
         } else {
             $fromTimestamp = $request->get('from');
             $toTimestamp = $request->get('to');
@@ -78,7 +77,7 @@ class SchooleventController extends AbstractController
             if (!$to) {
                 throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
             }
-            $events = $schoolManager->findEventsForSchool($school->getId(), $from, $to);
+            $events = $schoolRepository->findEventsForSchool($school->getId(), $from, $to);
         }
 
 
@@ -93,7 +92,7 @@ class SchooleventController extends AbstractController
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
-        $events = $schoolManager->addPreAndPostRequisites($id, $events);
+        $events = $schoolRepository->addPreAndPostRequisites($id, $events);
 
         // run pre-/post-requisite user events through the permissions checker
         for ($i = 0, $n = count($events); $i < $n; $i++) {
@@ -125,9 +124,9 @@ class SchooleventController extends AbstractController
             $allEvents = array_merge($allEvents, $event->prerequisites);
             $allEvents = array_merge($allEvents, $event->postrequisites);
         }
-        $allEvents = $schoolManager->addInstructorsToEvents($allEvents);
-        $allEvents = $schoolManager->addMaterialsToEvents($allEvents);
-        $allEvents = $schoolManager->addSessionDataToEvents($allEvents);
+        $allEvents = $schoolRepository->addInstructorsToEvents($allEvents);
+        $allEvents = $schoolRepository->addMaterialsToEvents($allEvents);
+        $allEvents = $schoolRepository->addSessionDataToEvents($allEvents);
 
         $now = new DateTime();
         /* @var SchoolEvent $event */

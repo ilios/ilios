@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Classes\UserEvent;
-use App\Entity\Manager\IlmSessionManager;
-use App\Entity\Manager\OfferingManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\SessionInterface;
 use App\Entity\User;
+use App\Repository\IlmSessionRepository;
+use App\Repository\OfferingRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,41 +28,38 @@ class IcsController extends AbstractController
      */
     private $router;
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    private $userManager;
+    private $userRepository;
+    private OfferingRepository $offeringRepository;
     /**
-     * @var OfferingManager
+     * @var IlmSessionRepository
      */
-    private $offeringManager;
-    /**
-     * @var IlmSessionManager
-     */
-    private $ilmSessionManager;
+    private $ilmSessionRepository;
 
     /**
      * IcsController constructor.
      * @param RouterInterface $router
-     * @param UserManager $userManager
-     * @param OfferingManager $offeringManager
-     * @param IlmSessionManager $ilmSessionManager
+     * @param UserRepository $userRepository
+     * @param OfferingRepository $offeringRepository
+     * @param IlmSessionRepository $ilmSessionRepository
      */
     public function __construct(
         RouterInterface $router,
-        UserManager $userManager,
-        OfferingManager $offeringManager,
-        IlmSessionManager $ilmSessionManager
+        UserRepository $userRepository,
+        OfferingRepository $offeringRepository,
+        IlmSessionRepository $ilmSessionRepository
     ) {
         $this->router = $router;
-        $this->userManager = $userManager;
-        $this->offeringManager = $offeringManager;
-        $this->ilmSessionManager = $ilmSessionManager;
+        $this->userRepository = $userRepository;
+        $this->offeringRepository = $offeringRepository;
+        $this->ilmSessionRepository = $ilmSessionRepository;
     }
 
     public function indexAction(Request $request, $key)
     {
         /** @var User $user */
-        $user = $this->userManager->findOneBy(['icsFeedKey' => $key]);
+        $user = $this->userRepository->findOneBy(['icsFeedKey' => $key]);
 
         if (!$user) {
             throw new NotFoundHttpException();
@@ -74,10 +71,10 @@ class IcsController extends AbstractController
         $from = new \DateTime(self::LOOK_BACK);
         $to =  new \DateTime(self::LOOK_FORWARD);
 
-        $events = $this->userManager->findEventsForUser($user->getId(), $from, $to);
+        $events = $this->userRepository->findEventsForUser($user->getId(), $from, $to);
 
         //add pre and post requisites so we can filter any prerequisites back out.
-        $events = $this->userManager->addPreAndPostRequisites($user->getId(), $events);
+        $events = $this->userRepository->addPreAndPostRequisites($user->getId(), $events);
         $filteredEvents = array_filter($events, function (UserEvent $event) {
             return count($event->postrequisites) === 0;
         });
@@ -135,13 +132,13 @@ class IcsController extends AbstractController
         $slug = 'U' . $event->startDate->format('Ymd');
 
         if ($event->offering) {
-            $offering = $this->offeringManager->findOneBy(['id' => $event->offering]);
+            $offering = $this->offeringRepository->findOneBy(['id' => $event->offering]);
             /* @var SessionInterface $session */
             $session = $offering->getSession();
             $slug .= 'O' . $event->offering;
         }
         if ($event->ilmSession) {
-            $ilmSession = $this->ilmSessionManager->findOneBy(['id' => $event->ilmSession]);
+            $ilmSession = $this->ilmSessionRepository->findOneBy(['id' => $event->ilmSession]);
             $session = $ilmSession->getSession();
             $slug .= 'I' . $event->ilmSession;
         }

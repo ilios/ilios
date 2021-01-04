@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
-use App\Entity\Manager\UserManager;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,9 +31,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class Users extends ReadWriteController
 {
     /**
-     * @var UserManager
+     * @var UserRepository
      */
     protected $manager;
+
     /**
      * @var TokenStorageInterface
      */
@@ -44,11 +45,11 @@ class Users extends ReadWriteController
     protected $serializer;
 
     public function __construct(
-        UserManager $manager,
+        UserRepository $repository,
         TokenStorageInterface $tokenStorage,
         SerializerInterface $serializer
     ) {
-        parent::__construct($manager, 'users');
+        parent::__construct($repository, 'users');
         $this->tokenStorage = $tokenStorage;
         $this->serializer = $serializer;
     }

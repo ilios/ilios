@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Manager\OfferingManager;
-use App\Entity\Manager\SchoolManager;
 use App\Entity\OfferingInterface;
 use App\Entity\SchoolInterface;
 use App\Entity\UserInterface;
+use App\Repository\OfferingRepository;
+use App\Repository\SchoolRepository;
 use App\Service\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -32,9 +32,9 @@ class SendTeachingRemindersCommand extends Command
 
     public const DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
 
-    protected OfferingManager $offeringManager;
+    protected OfferingRepository $offeringRepository;
 
-    protected SchoolManager $schoolManager;
+    protected SchoolRepository $schoolRepository;
 
     protected Environment $twig;
 
@@ -47,8 +47,8 @@ class SendTeachingRemindersCommand extends Command
     protected string $kernelProjectDir;
 
     /**
-     * @param OfferingManager $offeringManager
-     * @param SchoolManager $schoolManager
+     * @param OfferingRepository $offeringRepository
+     * @param SchoolRepository $schoolRepository
      * @param Environment $twig
      * @param MailerInterface $mailer
      * @param Config $config
@@ -56,8 +56,8 @@ class SendTeachingRemindersCommand extends Command
      * @param string $kernelProjectDir
      */
     public function __construct(
-        OfferingManager $offeringManager,
-        SchoolManager $schoolManager,
+        OfferingRepository $offeringRepository,
+        SchoolRepository $schoolRepository,
         Environment $twig,
         MailerInterface $mailer,
         Config $config,
@@ -65,8 +65,8 @@ class SendTeachingRemindersCommand extends Command
         string $kernelProjectDir
     ) {
         parent::__construct();
-        $this->offeringManager = $offeringManager;
-        $this->schoolManager = $schoolManager;
+        $this->offeringRepository = $offeringRepository;
+        $this->schoolRepository = $schoolRepository;
         $this->twig = $twig;
         $this->mailer = $mailer;
         $this->config = $config;
@@ -155,11 +155,11 @@ class SendTeachingRemindersCommand extends Command
         if ($schools) {
             $schoolIds = array_map('intval', str_getcsv($schools));
         } else {
-            $schoolIds = $this->schoolManager->getIds();
+            $schoolIds = $this->schoolRepository->getIds();
         }
 
         // get all applicable offerings.
-        $offerings = $this->offeringManager->getOfferingsForTeachingReminders($daysInAdvance, $schoolIds);
+        $offerings = $this->offeringRepository->getOfferingsForTeachingReminders($daysInAdvance, $schoolIds);
 
         if (!count($offerings)) {
             $output->writeln('<info>No offerings with pending teaching reminders found.</info>');

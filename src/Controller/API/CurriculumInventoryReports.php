@@ -6,11 +6,11 @@ namespace App\Controller\API;
 
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventoryReportInterface;
-use App\Entity\Manager\CurriculumInventoryAcademicLevelManager;
-use App\Entity\Manager\CurriculumInventoryReportManager;
-use App\Entity\Manager\CurriculumInventorySequenceManager;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\CurriculumInventoryAcademicLevelRepository;
+use App\Repository\CurriculumInventoryReportRepository;
+use App\Repository\CurriculumInventorySequenceRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\ReportRollover;
@@ -23,7 +23,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -32,18 +31,18 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CurriculumInventoryReports extends ReadWriteController
 {
     /**
-     * @var CurriculumInventoryReportManager
+     * @var CurriculumInventoryReportRepository
      */
     protected $manager;
-    protected CurriculumInventoryAcademicLevelManager $levelManager;
-    protected CurriculumInventorySequenceManager $sequenceManager;
+    protected CurriculumInventoryAcademicLevelRepository $levelManager;
+    protected CurriculumInventorySequenceRepository $sequenceManager;
 
     public function __construct(
-        CurriculumInventoryReportManager $manager,
-        CurriculumInventoryAcademicLevelManager $levelManager,
-        CurriculumInventorySequenceManager $sequenceManager
+        CurriculumInventoryReportRepository $repository,
+        CurriculumInventoryAcademicLevelRepository $levelManager,
+        CurriculumInventorySequenceRepository $sequenceManager
     ) {
-        parent::__construct($manager, 'curriculuminventoryreports');
+        parent::__construct($repository, 'curriculuminventoryreports');
         $this->levelManager = $levelManager;
         $this->sequenceManager = $sequenceManager;
     }

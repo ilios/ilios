@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\UserRoleManager;
+use App\Repository\UserRoleRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UserRoles extends ReadWriteController
 {
-    public function __construct(UserRoleManager $manager)
+    public function __construct(UserRoleRepository $repository)
     {
-        parent::__construct($manager, 'userroles');
+        parent::__construct($repository, 'userroles');
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -11,8 +13,12 @@ use App\Entity\LearningMaterialStatus;
 use App\Entity\DTO\LearningMaterialStatusDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class LearningMaterialStatusRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class LearningMaterialStatusRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, LearningMaterialStatus::class);
@@ -41,7 +47,7 @@ class LearningMaterialStatusRepository extends ServiceEntityRepository implement
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
             ->distinct()->from('App\Entity\LearningMaterialStatus', 'x');

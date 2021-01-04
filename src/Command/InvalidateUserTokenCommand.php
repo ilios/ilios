@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Repository\AuthenticationRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use DateTime;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\UserManager;
 
 /**
  * Invalidate all user tokens issued before now
@@ -19,22 +19,15 @@ use App\Entity\Manager\UserManager;
  */
 class InvalidateUserTokenCommand extends Command
 {
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authenticationManager;
+    protected UserRepository $userRepository;
+    protected AuthenticationRepository $authenticationRepository;
 
     public function __construct(
-        UserManager $userManager,
-        AuthenticationManager $authenticationManager
+        UserRepository $userRepository,
+        AuthenticationRepository $authenticationRepository
     ) {
-        $this->userManager = $userManager;
-        $this->authenticationManager = $authenticationManager;
+        $this->userRepository = $userRepository;
+        $this->authenticationRepository = $authenticationRepository;
 
         parent::__construct();
     }
@@ -62,7 +55,7 @@ class InvalidateUserTokenCommand extends Command
     {
         $now = new DateTime();
         $userId = $input->getArgument('userId');
-        $user = $this->userManager->findOneBy(['id' => $userId]);
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(
                 "No user with id #{$userId} was found."
@@ -71,12 +64,12 @@ class InvalidateUserTokenCommand extends Command
 
         $authentication = $user->getAuthentication();
         if (!$authentication) {
-            $authentication = $this->authenticationManager->create();
+            $authentication = $this->authenticationRepository->create();
             $authentication->setUser($user);
         }
 
         $authentication->setInvalidateTokenIssuedBefore($now);
-        $this->authenticationManager->update($authentication);
+        $this->authenticationRepository->update($authentication);
 
         $output->writeln('Success!');
         $output->writeln(

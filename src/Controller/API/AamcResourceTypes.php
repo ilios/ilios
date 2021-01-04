@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\AamcResourceTypeManager;
+use App\Repository\AamcResourceTypeRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AamcResourceTypes extends ReadWriteController
 {
-    public function __construct(AamcResourceTypeManager $manager)
+    public function __construct(AamcResourceTypeRepository $repository)
     {
-        parent::__construct($manager, 'aamcresourcetypes');
+        parent::__construct($repository, 'aamcresourcetypes');
     }
 }

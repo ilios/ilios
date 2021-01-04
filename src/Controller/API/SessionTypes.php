@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\SessionTypeManager;
+use App\Repository\SessionTypeRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SessionTypes extends ReadWriteController
 {
-    public function __construct(SessionTypeManager $manager)
+    public function __construct(SessionTypeRepository $repository)
     {
-        parent::__construct($manager, 'sessiontypes');
+        parent::__construct($repository, 'sessiontypes');
     }
 }

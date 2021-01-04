@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Entity\Manager\ApplicationConfigManager;
+use App\Repository\ApplicationConfigRepository;
 use App\Service\Config;
 use Mockery as m;
 use App\Tests\TestCase;
@@ -19,8 +19,8 @@ class ConfigTest extends TestCase
 {
     public function testPullsFromENVFirst()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $value = '123Test';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
@@ -32,19 +32,19 @@ class ConfigTest extends TestCase
 
     public function testPullsFromDBIfNoEnv()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $value = '123Test';
         $key = 'random-key-99';
-        $manager->shouldReceive('getValue')->with($key)->once()->andReturn($value);
+        $repository->shouldReceive('getValue')->with($key)->once()->andReturn($value);
         $result = $config->get($key);
         $this->assertEquals($value, $result);
     }
 
     public function testConvertsStringFalseToBooleanFalse()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $value = 'false';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
@@ -56,8 +56,8 @@ class ConfigTest extends TestCase
 
     public function testConvertsStringTrueToBooleanTrue()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $value = 'true';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
@@ -69,20 +69,20 @@ class ConfigTest extends TestCase
 
     public function testConvertsStringNullToNullNull()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
         $_ENV[$envKey] = 'null';
-        $manager->shouldReceive('getValue')->with($key)->once();
+        $repository->shouldReceive('getValue')->with($key)->once();
         $config->get($key);
         unset($_ENV[$envKey]);
     }
 
     public function testConvertsUppercaseStringFalseToBooleanFalse()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $value = 'FALSE';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
@@ -94,8 +94,8 @@ class ConfigTest extends TestCase
 
     public function testConvertsUppercaseStringTrueToBooleanTrue()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $value = 'TRUE';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
@@ -107,20 +107,20 @@ class ConfigTest extends TestCase
 
     public function testConvertsUppercaseStringNullToNullNull()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
         $_ENV[$envKey] = 'NULL';
-        $manager->shouldReceive('getValue')->with($key)->once();
+        $repository->shouldReceive('getValue')->with($key)->once();
         $config->get($key);
         unset($_ENV[$envKey]);
     }
 
     public function testDoesNotOverwriteEnvWithServer()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $value = '123Test';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
@@ -134,8 +134,8 @@ class ConfigTest extends TestCase
 
     public function testLooksInServerIfEnvIsNull()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $value = '123Test';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
@@ -149,8 +149,8 @@ class ConfigTest extends TestCase
 
     public function testLooksInServerIfEnvIsNotSet()
     {
-        $manager = m::mock(ApplicationConfigManager::class);
-        $config = new Config($manager);
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
         $value = '123Test';
         $key = 'random-key-99';
         $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();

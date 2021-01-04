@@ -6,8 +6,8 @@ namespace App\Controller\API;
 
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
-use App\Entity\Manager\CurriculumInventorySequenceBlockManager;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\CurriculumInventorySequenceBlockRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,9 +26,9 @@ use RuntimeException;
  */
 class CurriculumInventorySequenceBlocks extends ReadWriteController
 {
-    public function __construct(CurriculumInventorySequenceBlockManager $manager)
+    public function __construct(CurriculumInventorySequenceBlockRepository $repository)
     {
-        parent::__construct($manager, 'curriculuminventorysequenceblocks');
+        parent::__construct($repository, 'curriculuminventorysequenceblocks');
     }
 
     /**

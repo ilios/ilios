@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\DTO\SchoolV1DTO;
+use App\Entity\Manager\ManagerInterface;
 use App\Entity\School;
 use App\Entity\Session;
+use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Type as DoctrineType;
@@ -19,13 +21,17 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
 
-class SchoolRepository extends ServiceEntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
+class SchoolRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface, V1DTORepositoryInterface
 {
     use CalendarEventRepository;
+    use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
+    protected UserMaterialFactory $userMaterialFactory;
+
+    public function __construct(ManagerRegistry $registry, UserMaterialFactory $userMaterialFactory)
     {
         parent::__construct($registry, School::class);
+        $this->userMaterialFactory = $userMaterialFactory;
     }
 
     /**
@@ -51,7 +57,7 @@ class SchoolRepository extends ServiceEntityRepository implements DTORepositoryI
     /**
      * @inheritdoc
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('App\Entity\School', 's');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
@@ -281,12 +287,11 @@ class SchoolRepository extends ServiceEntityRepository implements DTORepositoryI
      * Finds and adds learning materials to a given list of calendar events.
      *
      * @param CalendarEvent[] $events
-     * @param UserMaterialFactory $factory
      * @return CalendarEvent[]
      */
-    public function addMaterialsToEvents(array $events, UserMaterialFactory $factory)
+    public function addMaterialsToEvents(array $events)
     {
-        return $this->attachMaterialsToEvents($events, $factory, $this->_em);
+        return $this->attachMaterialsToEvents($events, $this->userMaterialFactory, $this->_em);
     }
 
     /**

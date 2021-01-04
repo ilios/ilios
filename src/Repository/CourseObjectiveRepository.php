@@ -6,13 +6,19 @@ namespace App\Repository;
 
 use App\Entity\CourseObjective;
 use App\Entity\DTO\CourseObjectiveDTO;
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 
-class CourseObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class CourseObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CourseObjective::class);
@@ -41,7 +47,7 @@ class CourseObjectiveRepository extends ServiceEntityRepository implements DTORe
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
             ->distinct()->from(CourseObjective::class, 'x');
@@ -171,5 +177,16 @@ class CourseObjectiveRepository extends ServiceEntityRepository implements DTORe
         }
 
         return $qb;
+    }
+
+    /**
+     * @return int
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function getTotalObjectiveCount(): int
+    {
+        return (int) $this->_em->createQuery('SELECT COUNT(o.id) FROM App\Entity\CourseObjective o')
+            ->getSingleScalarResult();
     }
 }

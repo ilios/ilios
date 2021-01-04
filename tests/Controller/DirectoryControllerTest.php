@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Classes\SessionUserInterface;
+use App\Repository\UserRepository;
 use App\Service\PermissionChecker;
 use App\Entity\DTO\UserDTO;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
 use App\Service\Directory;
 use App\Controller\DirectoryController;
@@ -34,7 +34,7 @@ class DirectoryControllerTest extends TestCase
     /**
      * @var m\MockInterface
      */
-    protected $userManagerMock;
+    protected $userRepositoryMock;
 
     /**
      * @var m\MockInterface
@@ -50,7 +50,7 @@ class DirectoryControllerTest extends TestCase
     {
         parent::setUp();
         $this->tokenStorageMock = m::mock(TokenStorageInterface::class);
-        $this->userManagerMock = m::mock(UserManager::class);
+        $this->userRepositoryMock = m::mock(UserRepository::class);
         $this->directoryMock = m::mock(Directory::class);
         $this->permissionChecker = m::mock(PermissionChecker::class);
 
@@ -63,7 +63,7 @@ class DirectoryControllerTest extends TestCase
 
         $this->directoryController = new DirectoryController(
             $this->tokenStorageMock,
-            $this->userManagerMock,
+            $this->userRepositoryMock,
             $this->directoryMock,
             $this->permissionChecker
         );
@@ -74,7 +74,7 @@ class DirectoryControllerTest extends TestCase
         parent::tearDown();
         unset($this->directoryController);
         unset($this->tokenStorageMock);
-        unset($this->userManagerMock);
+        unset($this->userRepositoryMock);
         unset($this->directoryMock);
         unset($this->permissionChecker);
     }
@@ -100,7 +100,7 @@ class DirectoryControllerTest extends TestCase
 
         $user = m::mock(UserDTO::class);
 
-        $this->userManagerMock
+        $this->userRepositoryMock
             ->shouldReceive('findAllMatchingDTOsByCampusIds')
             ->with(['abc'])->andReturn([$user]);
 
@@ -151,7 +151,7 @@ class DirectoryControllerTest extends TestCase
         $user->id = 1;
         $user->campusId = '1111@school.edu';
 
-        $this->userManagerMock
+        $this->userRepositoryMock
             ->shouldReceive('findAllMatchingDTOsByCampusIds')
             ->with(['abc', '1111@school.edu'])->andReturn([$user]);
 
@@ -202,7 +202,7 @@ class DirectoryControllerTest extends TestCase
             ->andReturn('abc')
             ->mock();
 
-        $this->userManagerMock
+        $this->userRepositoryMock
             ->shouldReceive('findOneBy')
             ->with(['id' => 1])->andReturn($userMock);
 

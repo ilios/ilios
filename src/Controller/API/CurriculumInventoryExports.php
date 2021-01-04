@@ -6,14 +6,13 @@ namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
 use App\Entity\CurriculumInventoryExportInterface;
-use App\Entity\Manager\CurriculumInventoryExportManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\CurriculumInventoryExportRepository;
+use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\Exporter;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -35,22 +34,22 @@ class CurriculumInventoryExports
     public function post(
         string $version,
         Request $request,
-        CurriculumInventoryExportManager $manager,
+        CurriculumInventoryExportRepository $repository,
         ApiRequestParser $requestParser,
         TokenStorageInterface $tokenStorage,
-        UserManager $userManager,
+        UserRepository $userRepository,
         AuthorizationCheckerInterface $authorizationChecker,
         ValidatorInterface $validator,
         Exporter $exporter,
         ApiResponseBuilder $builder
     ): Response {
-        $class = $manager->getClass() . '[]';
+        $class = $repository->getClass() . '[]';
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, 'curriculuminventoryexports');
 
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
         /** @var UserInterface $user */
-        $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
+        $user = $userRepository->findOneBy(['id' => $sessionUser->getId()]);
         /** @var CurriculumInventoryExportInterface $export */
         foreach ($entities as $export) {
             $export->setCreatedBy($user);
@@ -68,16 +67,16 @@ class CurriculumInventoryExports
 
                 throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
             }
-            $manager->update($export, false);
+            $repository->update($export, false);
         }
 
-        $manager->flush();
+        $repository->flush();
 
         $ids = array_map(function ($entity) {
             return $entity->getId();
         }, $entities);
 
-        $dtos = $manager->findDTOsBy(['id' => $ids]);
+        $dtos = $repository->findDTOsBy(['id' => $ids]);
 
         return $builder->buildResponseForPostRequest(
             'curriculuminventoryexports',

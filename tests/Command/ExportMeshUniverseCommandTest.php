@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\ExportMeshUniverseCommand;
-use App\Entity\Manager\MeshDescriptorManager;
+use App\Repository\MeshDescriptorRepository;
 use App\Service\CsvWriter;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -24,9 +24,9 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
     protected $commandTester;
 
     /**
-     * @var MeshDescriptorManager
+     * @var MeshDescriptorRepository
      */
-    protected $manager;
+    protected $repository;
 
     /**
      * @var CsvWriter
@@ -44,11 +44,11 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->manager = m::mock(MeshDescriptorManager::class);
+        $this->repository = m::mock(MeshDescriptorRepository::class);
         $this->writer = m::mock(CsvWriter::class);
         $this->path = '/path/to/approot';
 
-        $command = new ExportMeshUniverseCommand($this->manager, $this->writer, $this->path);
+        $command = new ExportMeshUniverseCommand($this->repository, $this->writer, $this->path);
 
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -63,7 +63,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->manager);
+        unset($this->repository);
         unset($this->writer);
         unset($this->path);
         unset($this->commandTester);
@@ -92,13 +92,13 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
             'casn_1_name',
             'registry_number',
         ];
-        $this->manager->shouldReceive('exportMeshConcepts')->once()->andReturn($meshConceptData);
+        $this->repository->shouldReceive('exportMeshConcepts')->once()->andReturn($meshConceptData);
         $this->writer->shouldReceive('writeToFile')
             ->with($meshConceptHeader, $meshConceptData, $this->path . '/config/dataimport/mesh_concept.csv');
 
         $meshConceptTermData = [['M0000001', 1]];
         $meshConceptTermHeader = ['mesh_concept_uid', 'mesh_term_id'];
-        $this->manager->shouldReceive('exportMeshConceptTerms')->once()->andReturn($meshConceptTermData);
+        $this->repository->shouldReceive('exportMeshConceptTerms')->once()->andReturn($meshConceptTermData);
         $this->writer->shouldReceive('writeToFile')
             ->with(
                 $meshConceptTermHeader,
@@ -108,7 +108,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
 
         $meshDescriptorData = [['D000001', 'Calcimycin', null, false]];
         $meshDescriptorHeader = ['mesh_descriptor_uid', 'name', 'annotation', 'deleted'];
-        $this->manager->shouldReceive('exportMeshDescriptors')->once()->andReturn($meshDescriptorData);
+        $this->repository->shouldReceive('exportMeshDescriptors')->once()->andReturn($meshDescriptorData);
         $this->writer->shouldReceive('writeToFile')
             ->with(
                 $meshDescriptorHeader,
@@ -118,7 +118,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
 
         $meshDescriptorConceptData = [['M0000001', 'D000001']];
         $meshDescriptorConceptHeader = ['mesh_concept_uid', 'mesh_descriptor_uid'];
-        $this->manager->shouldReceive('exportMeshDescriptorConcepts')->once()->andReturn($meshDescriptorConceptData);
+        $this->repository->shouldReceive('exportMeshDescriptorConcepts')->once()->andReturn($meshDescriptorConceptData);
         $this->writer->shouldReceive('writeToFile')
             ->with(
                 $meshDescriptorConceptHeader,
@@ -128,7 +128,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
 
         $meshDescriptorQualifierData = [['D000001', 'Q000008']];
         $meshDescriptorQualifierHeader = ['mesh_descriptor_uid', 'mesh_qualifier_uid'];
-        $this->manager
+        $this->repository
             ->shouldReceive('exportMeshDescriptorQualifiers')
             ->once()
             ->andReturn($meshDescriptorQualifierData);
@@ -141,7 +141,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
 
         $meshPreviousIndexingData = [['D000001', 'Carboxylic Acids (1973-1974)', 1]];
         $meshPreviousIndexingHeader = ['mesh_descriptor_uid', 'previous_indexing', 'mesh_previous_indexing_id'];
-        $this->manager->shouldReceive('exportMeshPreviousIndexings')->once()->andReturn($meshPreviousIndexingData);
+        $this->repository->shouldReceive('exportMeshPreviousIndexings')->once()->andReturn($meshPreviousIndexingData);
         $this->writer->shouldReceive('writeToFile')
             ->with(
                 $meshPreviousIndexingHeader,
@@ -151,7 +151,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
 
         $meshQualifierData = [['Q000000981', 'diagnostic imaging']];
         $meshQualifierHeader = ['mesh_qualifier_uid', 'name'];
-        $this->manager->shouldReceive('exportMeshQualifiers')->once()->andReturn($meshQualifierData);
+        $this->repository->shouldReceive('exportMeshQualifiers')->once()->andReturn($meshQualifierData);
         $this->writer->shouldReceive('writeToFile')
             ->with(
                 $meshQualifierHeader,
@@ -171,7 +171,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
             'permuted',
             'mesh_term_id',
         ];
-        $this->manager->shouldReceive('exportMeshTerms')->once()->andReturn($meshTermData);
+        $this->repository->shouldReceive('exportMeshTerms')->once()->andReturn($meshTermData);
         $this->writer->shouldReceive('writeToFile')
             ->with(
                 $meshTermHeader,
@@ -181,7 +181,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
 
         $meshTreeData = [['D03.633.100.221.173', 'D000001', 1]];
         $meshTreeHeader = ['tree_number', 'mesh_descriptor_uid', 'mesh_tree_id'];
-        $this->manager->shouldReceive('exportMeshTrees')->once()->andReturn($meshTreeData);
+        $this->repository->shouldReceive('exportMeshTrees')->once()->andReturn($meshTreeData);
         $this->writer->shouldReceive('writeToFile')
             ->with(
                 $meshTreeHeader,

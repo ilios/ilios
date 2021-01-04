@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Repository\AuthenticationRepository;
+use App\Repository\PendingUserUpdateRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Entity\Manager\UserManager;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\PendingUserUpdateManager;
 use App\Service\Directory;
 
 /**
@@ -22,20 +22,9 @@ use App\Service\Directory;
  */
 class SyncAllUsersCommand extends Command
 {
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authenticationManager;
-
-    /**
-     * @var PendingUserUpdateManager
-     */
-    protected $pendingUserUpdateManager;
+    protected UserRepository $userRepository;
+    protected AuthenticationRepository $authenticationRepository;
+    protected PendingUserUpdateRepository $pendingUserUpdateRepository;
 
     /**
      * @var Directory
@@ -48,15 +37,15 @@ class SyncAllUsersCommand extends Command
     protected $em;
 
     public function __construct(
-        UserManager $userManager,
-        AuthenticationManager $authenticationManager,
-        PendingUserUpdateManager $pendingUserUpdateManager,
+        UserRepository $userRepository,
+        AuthenticationRepository $authenticationRepository,
+        PendingUserUpdateRepository $pendingUserUpdateRepository,
         Directory $directory,
         EntityManagerInterface $em
     ) {
-        $this->userManager = $userManager;
-        $this->authenticationManager = $authenticationManager;
-        $this->pendingUserUpdateManager = $pendingUserUpdateManager;
+        $this->userRepository = $userRepository;
+        $this->authenticationRepository = $authenticationRepository;
+        $this->pendingUserUpdateRepository = $pendingUserUpdateRepository;
         $this->directory = $directory;
         $this->em = $em;
 
@@ -80,9 +69,9 @@ class SyncAllUsersCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('<info>Starting User Sync Process.</info>');
-        $this->userManager->resetExaminedFlagForAllUsers();
-        $this->pendingUserUpdateManager->removeAllPendingUserUpdates();
-        $campusIds = $this->userManager->getAllCampusIds(false, false);
+        $this->userRepository->resetExaminedFlagForAllUsers();
+        $this->pendingUserUpdateRepository->removeAllPendingUserUpdates();
+        $campusIds = $this->userRepository->getAllCampusIds(false, false);
         $output->writeln(
             '<info>Attempting to update the ' .
             count($campusIds) .
@@ -100,7 +89,7 @@ class SyncAllUsersCommand extends Command
         $chunks = array_chunk($allUserRecords, 500);
         foreach ($chunks as $userRecords) {
             foreach ($userRecords as $recordArray) {
-                $users = $this->userManager->findBy([
+                $users = $this->userRepository->findBy([
                     'campusId' => $recordArray['campusId'],
                     'enabled' => true,
                     'userSyncIgnore' => false,
@@ -124,7 +113,7 @@ class SyncAllUsersCommand extends Command
                     /* @var UserInterface $user */
                     foreach ($users as $user) {
                         $user->setExamined(true);
-                        $this->userManager->update($user, false);
+                        $this->userRepository->update($user, false);
                     }
                     continue;
                 }
@@ -139,7 +128,7 @@ class SyncAllUsersCommand extends Command
                 );
                 if (!$this->validateDirectoryRecord($recordArray, $output)) {
                     $user->setExamined(true);
-                    $this->userManager->update($user, false);
+                    $this->userRepository->update($user, false);
                     //don't do anything else with invalid directory data
                     continue;
                 }
@@ -157,12 +146,12 @@ class SyncAllUsersCommand extends Command
                             '  <comment>[I] Email address "' . $user->getEmail() .
                             '" differs from "' . $recordArray['email'] . '" logging for further action.</comment>'
                         );
-                        $pendingUpdate = $this->pendingUserUpdateManager->create();
+                        $pendingUpdate = $this->pendingUserUpdateRepository->create();
                         $pendingUpdate->setUser($user);
                         $pendingUpdate->setProperty('email');
                         $pendingUpdate->setValue($recordArray['email']);
                         $pendingUpdate->setType('emailMismatch');
-                        $this->pendingUserUpdateManager->update($pendingUpdate, false);
+                        $this->pendingUserUpdateRepository->update($pendingUpdate, false);
                     }
                 }
 
@@ -205,7 +194,7 @@ class SyncAllUsersCommand extends Command
                         '  <comment>[I] User had no authentication data, creating it now.</comment>'
                     );
                     /** @var AuthenticationInterface $duplicate */
-                    $duplicate = $this->authenticationManager->findOneBy(['username' => $recordArray['username']]);
+                    $duplicate = $this->authenticationRepository->findOneBy(['username' => $recordArray['username']]);
                     if ($duplicate) {
                         $duplicateAuthenticationExists = true;
                         $output->writeln(
@@ -216,7 +205,7 @@ class SyncAllUsersCommand extends Command
                             'no updates will be made to the authentication table at this time.</error>'
                         );
                     } else {
-                        $authentication = $this->authenticationManager->create();
+                        $authentication = $this->authenticationRepository->create();
                         $authentication->setUser($user);
                     }
                 }
@@ -231,21 +220,21 @@ class SyncAllUsersCommand extends Command
                         '" to "' . $recordArray['username'] . '".</comment>'
                     );
                     $authentication->setUsername($recordArray['username']);
-                    $this->authenticationManager->update($authentication, false);
+                    $this->authenticationRepository->update($authentication, false);
                 }
 
                 if ($update) {
                     $updated++;
                 }
                 $user->setExamined(true);
-                $this->userManager->update($user, false);
+                $this->userRepository->update($user, false);
             }
             $this->em->flush();
             $this->em->clear();
         }
         $output->writeln('<info>Searching for users who were not examined during the sync process.</info>');
 
-        $unsyncedUsers = $this->userManager->findBy(
+        $unsyncedUsers = $this->userRepository->findBy(
             ['examined' => false, 'enabled' => true, 'userSyncIgnore' => false],
             ['lastName' => ' ASC', 'firstName' => 'ASC']
         );
@@ -258,10 +247,10 @@ class SyncAllUsersCommand extends Command
                 $user->getEmail() . ' ' . $campusId . ' ' .
                 'not found in the directory.  Logged for further study.</comment>'
             );
-            $update = $this->pendingUserUpdateManager->create();
+            $update = $this->pendingUserUpdateRepository->create();
             $update->setUser($user);
             $update->setType('missingFromDirectory');
-            $this->pendingUserUpdateManager->update($update, false);
+            $this->pendingUserUpdateRepository->update($update, false);
         }
         $this->em->flush();
 

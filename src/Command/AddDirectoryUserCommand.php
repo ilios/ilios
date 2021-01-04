@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Repository\AuthenticationRepository;
+use App\Repository\SchoolRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\UserManager;
-use App\Entity\Manager\SchoolManager;
 use App\Service\Directory;
 
 /**
@@ -22,20 +22,9 @@ use App\Service\Directory;
  */
 class AddDirectoryUserCommand extends Command
 {
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authenticationManager;
-
-    /**
-     * @var SchoolManager
-     */
-    protected $schoolManager;
+    protected UserRepository $userRepository;
+    protected AuthenticationRepository $authenticationRepository;
+    protected SchoolRepository $schoolRepository;
 
     /**
      * @var Directory
@@ -43,14 +32,14 @@ class AddDirectoryUserCommand extends Command
     protected $directory;
 
     public function __construct(
-        UserManager $userManager,
-        AuthenticationManager $authenticationManager,
-        SchoolManager $schoolManager,
+        UserRepository $userRepository,
+        AuthenticationRepository $authenticationRepository,
+        SchoolRepository $schoolRepository,
         Directory $directory
     ) {
-        $this->userManager = $userManager;
-        $this->authenticationManager = $authenticationManager;
-        $this->schoolManager = $schoolManager;
+        $this->userRepository = $userRepository;
+        $this->authenticationRepository = $authenticationRepository;
+        $this->schoolRepository = $schoolRepository;
         $this->directory = $directory;
 
         parent::__construct();
@@ -83,14 +72,14 @@ class AddDirectoryUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $campusId = $input->getArgument('campusId');
-        $user = $this->userManager->findOneBy(['campusId' => $campusId]);
+        $user = $this->userRepository->findOneBy(['campusId' => $campusId]);
         if ($user) {
             throw new \Exception(
                 'User #' . $user->getId() . " with campus id {$campusId} already exists."
             );
         }
         $schoolId = $input->getArgument('schoolId');
-        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
+        $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new \Exception(
                 "School with id {$schoolId} could not be found."
@@ -128,7 +117,7 @@ class AddDirectoryUserCommand extends Command
         );
 
         if ($helper->ask($input, $output, $question)) {
-            $user = $this->userManager->create();
+            $user = $this->userRepository->create();
             $user->setFirstName($userRecord['firstName']);
             $user->setLastName($userRecord['lastName']);
             $user->setEmail($userRecord['email']);
@@ -137,12 +126,12 @@ class AddDirectoryUserCommand extends Command
             $user->setEnabled(true);
             $user->setSchool($school);
             $user->setUserSyncIgnore(false);
-            $this->userManager->update($user);
+            $this->userRepository->update($user);
 
-            $authentication = $this->authenticationManager->create();
+            $authentication = $this->authenticationRepository->create();
             $authentication->setUser($user);
             $authentication->setUsername($userRecord['username']);
-            $this->authenticationManager->update($authentication);
+            $this->authenticationRepository->update($authentication);
 
             $output->writeln(
                 '<info>Success! New user #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' created.</info>'

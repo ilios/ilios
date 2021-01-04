@@ -6,11 +6,11 @@ namespace App\Tests\Command;
 
 use App\Command\SyncUserCommand;
 use App\Entity\AuthenticationInterface;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\PendingUserUpdateManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\PendingUserUpdateInterface;
 use App\Entity\UserInterface;
+use App\Repository\AuthenticationRepository;
+use App\Repository\PendingUserUpdateRepository;
+use App\Repository\UserRepository;
 use App\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -27,9 +27,9 @@ class SyncUserCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:sync-user';
 
-    protected $userManager;
-    protected $authenticationManager;
-    protected $pendingUserUpdateManager;
+    protected $userRepository;
+    protected $authenticationRepository;
+    protected $pendingUserUpdateRepository;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
@@ -37,15 +37,15 @@ class SyncUserCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock(UserManager::class);
-        $this->authenticationManager = m::mock(AuthenticationManager::class);
-        $this->pendingUserUpdateManager = m::mock(PendingUserUpdateManager::class);
+        $this->userRepository = m::mock(UserRepository::class);
+        $this->authenticationRepository = m::mock(AuthenticationRepository::class);
+        $this->pendingUserUpdateRepository = m::mock(PendingUserUpdateRepository::class);
         $this->directory = m::mock(Directory::class);
 
         $command = new SyncUserCommand(
-            $this->userManager,
-            $this->authenticationManager,
-            $this->pendingUserUpdateManager,
+            $this->userRepository,
+            $this->authenticationRepository,
+            $this->pendingUserUpdateRepository,
             $this->directory
         );
         $kernel = self::bootKernel();
@@ -62,9 +62,9 @@ class SyncUserCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
-        unset($this->authenticationManager);
-        unset($this->pendingUserUpdateManager);
+        unset($this->userRepository);
+        unset($this->authenticationRepository);
+        unset($this->pendingUserUpdateRepository);
         unset($this->directory);
         unset($this->commandTester);
     }
@@ -90,10 +90,10 @@ class SyncUserCommandTest extends KernelTestCase
             ->shouldReceive('setDisplayName')->with('display')
             ->shouldReceive('setPhone')->with('phone')
             ->mock();
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
-        $this->userManager->shouldReceive('update')->with($user);
-        $this->authenticationManager->shouldReceive('update')->with($authentication, false);
-        $this->pendingUserUpdateManager->shouldReceive('delete')->with($pendingUpdate)->once();
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('update')->with($user);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication, false);
+        $this->pendingUserUpdateRepository->shouldReceive('delete')->with($pendingUpdate)->once();
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',
@@ -125,7 +125,7 @@ class SyncUserCommandTest extends KernelTestCase
 
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'No user with id #1');
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,

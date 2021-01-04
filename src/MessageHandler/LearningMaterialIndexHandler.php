@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\MessageHandler;
 
 use App\Entity\DTO\LearningMaterialDTO;
-use App\Entity\Manager\LearningMaterialManager;
 use App\Message\LearningMaterialIndexRequest;
+use App\Repository\LearningMaterialRepository;
 use App\Service\Index\LearningMaterials;
 use App\Service\NonCachingIliosFileSystem;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -18,10 +18,7 @@ class LearningMaterialIndexHandler implements MessageHandlerInterface
      */
     private $learningMaterialsIndex;
 
-    /**
-     * @var LearningMaterialManager
-     */
-    private $manager;
+    private LearningMaterialRepository $repository;
 
     /**
      * @var NonCachingIliosFileSystem
@@ -30,17 +27,17 @@ class LearningMaterialIndexHandler implements MessageHandlerInterface
 
     public function __construct(
         LearningMaterials $index,
-        LearningMaterialManager $manager,
+        LearningMaterialRepository $repository,
         NonCachingIliosFileSystem $fileSystem
     ) {
         $this->learningMaterialsIndex = $index;
-        $this->manager = $manager;
+        $this->repository = $repository;
         $this->fileSystem = $fileSystem;
     }
 
     public function __invoke(LearningMaterialIndexRequest $message)
     {
-        $dtos = $this->manager->findDTOsBy(['id' => $message->getId()]);
+        $dtos = $this->repository->findDTOsBy(['id' => $message->getId()]);
         $filteredDtos = array_filter($dtos, function (LearningMaterialDTO $dto) {
             return $this->fileSystem->checkLearningMaterialRelativePath($dto->relativePath);
         });

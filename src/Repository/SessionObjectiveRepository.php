@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Manager\ManagerInterface;
 use App\Entity\SessionObjective;
 use App\Entity\DTO\SessionObjectiveDTO;
+use App\Traits\ManagerRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 
-class SessionObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class SessionObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SessionObjective::class);
@@ -41,7 +47,7 @@ class SessionObjectiveRepository extends ServiceEntityRepository implements DTOR
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
             ->distinct()->from(SessionObjective::class, 'x');
@@ -196,5 +202,16 @@ class SessionObjectiveRepository extends ServiceEntityRepository implements DTOR
         }
 
         return $qb;
+    }
+
+    /**
+     * @return int
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function getTotalObjectiveCount(): int
+    {
+        return (int) $this->_em->createQuery('SELECT COUNT(o.id) FROM App\Entity\SessionObjective o')
+            ->getSingleScalarResult();
     }
 }

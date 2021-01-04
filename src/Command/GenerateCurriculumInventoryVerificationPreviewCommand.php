@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use App\Entity\CurriculumInventoryReportInterface;
-use App\Entity\Manager\CurriculumInventoryReportManager;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -27,23 +27,20 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
      */
     protected $builder;
 
-    /**
-     * @var CurriculumInventoryReportManager
-     */
-    protected $reportManager;
+    protected CurriculumInventoryReportRepository $reportRepository;
 
     /**
      * GenerateCurriculumInventoryVerificationPreviewCommand constructor.
      *
-     * @param CurriculumInventoryReportManager $reportManager
+     * @param CurriculumInventoryReportRepository $reportRepository
      * @param VerificationPreviewBuilder $builder
      */
     public function __construct(
-        CurriculumInventoryReportManager $reportManager,
+        CurriculumInventoryReportRepository $reportRepository,
         VerificationPreviewBuilder $builder
     ) {
         parent::__construct();
-        $this->reportManager = $reportManager;
+        $this->reportRepository = $reportRepository;
         $this->builder = $builder;
     }
 
@@ -55,7 +52,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
     {
         $reportId = $input->getArgument('reportId');
         /* @var CurriculumInventoryReportInterface $report */
-        $report = $this->reportManager->findOneBy(['id' => $reportId]);
+        $report = $this->reportRepository->findOneBy(['id' => $reportId]);
         if (! $report) {
             $output->writeln("<error>No report with id #${reportId} was found.</error>");
             return;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\AuditLogExportCommand;
-use App\Entity\Manager\AuditLogManager;
+use App\Repository\AuditLogRepository;
 use Mockery as m;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -31,7 +31,7 @@ class AuditLogExportCommandTest extends KernelTestCase
 
     protected $logger;
 
-    protected $auditLogManager;
+    protected $auditLogRepository;
 
     /**
      * {@inheritdoc}
@@ -40,10 +40,10 @@ class AuditLogExportCommandTest extends KernelTestCase
     {
         parent::setUp();
         $this->logger = m::mock(LoggerInterface::class);
-        $this->auditLogManager = m::mock(AuditLogManager::class);
+        $this->auditLogRepository = m::mock(AuditLogRepository::class);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $command = new AuditLogExportCommand($this->logger, $this->auditLogManager);
+        $command = new AuditLogExportCommand($this->logger, $this->auditLogRepository);
         $application->add($command);
 
         $command = $application->find('ilios:export-audit-log');
@@ -55,7 +55,7 @@ class AuditLogExportCommandTest extends KernelTestCase
      */
     public function testExecuteWithDefaultRange()
     {
-        $this->auditLogManager
+        $this->auditLogRepository
             ->shouldReceive('findInRange')
             ->withArgs(function (\DateTime $from, \DateTime $to) {
                 $format = 'Y-m-d H:i:s';
@@ -76,7 +76,7 @@ class AuditLogExportCommandTest extends KernelTestCase
      */
     public function testExecuteWithCustomRange()
     {
-        $this->auditLogManager
+        $this->auditLogRepository
             ->shouldReceive('findInRange')
             ->withArgs(function (\DateTime $from, \DateTime $to) {
                 $format = 'Y-m-d';
@@ -102,7 +102,7 @@ class AuditLogExportCommandTest extends KernelTestCase
     {
         $now = new \DateTime();
 
-        $this->auditLogManager
+        $this->auditLogRepository
             ->shouldReceive('findInRange')
             ->andReturn([
                 [
@@ -135,7 +135,7 @@ class AuditLogExportCommandTest extends KernelTestCase
         $from = (new \DateTime('midnight yesterday', new \DateTimeZone('UTC')))->format('c');
         $to = (new \DateTime('midnight today', new \DateTimeZone('UTC')))->format('c');
 
-        $this->auditLogManager
+        $this->auditLogRepository
             ->shouldReceive('findInRange')
             ->andReturn([
                 [
@@ -157,7 +157,7 @@ class AuditLogExportCommandTest extends KernelTestCase
                     'objectClass' => 'Baz',
                 ]
             ]);
-        $this->auditLogManager->shouldReceive('deleteInRange')->once();
+        $this->auditLogRepository->shouldReceive('deleteInRange')->once();
 
         $this->logger->shouldReceive('info')->with('Starting Audit Log Export.')->once();
         $this->logger->shouldReceive('info')->with(
@@ -180,13 +180,13 @@ class AuditLogExportCommandTest extends KernelTestCase
         $midnightYesterday = new \DateTime('midnight yesterday', new \DateTimeZone('UTC'));
         $midnightToday = new \DateTime('midnight today', new \DateTimeZone('UTC'));
 
-        $this->auditLogManager
+        $this->auditLogRepository
             ->shouldReceive('findInRange')
             ->andReturn([]);
 
         $this->logger->shouldReceive('info');
 
-        $this->auditLogManager
+        $this->auditLogRepository
         ->shouldReceive('deleteInRange')
         ->withArgs(function (\DateTime $from, \DateTime $to) use ($midnightYesterday, $midnightToday) {
             $format = 'Y-m-d H:i:s';

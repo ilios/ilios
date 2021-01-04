@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\AssessmentOptionManager;
+use App\Repository\AssessmentOptionRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AssessmentOptions extends ReadWriteController
 {
-    public function __construct(AssessmentOptionManager $manager)
+    public function __construct(AssessmentOptionRepository $repository)
     {
-        parent::__construct($manager, 'assessmentoptions');
+        parent::__construct($repository, 'assessmentoptions');
     }
 }

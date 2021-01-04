@@ -6,7 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\SetupAuthenticationCommand;
 use App\Entity\ApplicationConfigInterface;
-use App\Entity\Manager\ApplicationConfigManager;
+use App\Repository\ApplicationConfigRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -22,7 +22,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:setup-authentication';
 
-    protected $applicationConfigManager;
+    protected $applicationConfigRepository;
     protected $questionHelper;
 
     /**
@@ -36,10 +36,10 @@ class SetupAuthenticationCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
+        $this->applicationConfigRepository = m::mock(ApplicationConfigRepository::class);
 
         $command = new SetupAuthenticationCommand(
-            $this->applicationConfigManager
+            $this->applicationConfigRepository
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -55,7 +55,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->applicationConfigManager);
+        unset($this->applicationConfigRepository);
         unset($this->questionHelper);
     }
 
@@ -63,10 +63,10 @@ class SetupAuthenticationCommandTest extends KernelTestCase
     {
         $authTypeConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
             ->once()->with('form')->mock();
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'authentication_type'])->once()->andReturn($authTypeConfig);
-        $this->applicationConfigManager->shouldReceive('update')->with($authTypeConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('flush')->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($authTypeConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('flush')->once();
 
         $this->commandTester->setInputs(['form']);
         $this->commandTester->execute([
@@ -88,19 +88,19 @@ class SetupAuthenticationCommandTest extends KernelTestCase
             ->once()->with('3')->mock();
         $verifySslConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
             ->once()->with(true)->mock();
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'authentication_type'])->once()->andReturn($authTypeConfig);
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'cas_authentication_server'])->once()->andReturn($urlConfig);
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'cas_authentication_version'])->once()->andReturn($versionConfig);
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'cas_authentication_verify_ssl'])->once()->andReturn($verifySslConfig);
-        $this->applicationConfigManager->shouldReceive('update')->with($authTypeConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('update')->with($urlConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('update')->with($versionConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('update')->with($verifySslConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('flush')->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($authTypeConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($urlConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($versionConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($verifySslConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('flush')->once();
         $this->commandTester->setInputs(['cas', 'URL', '3']);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
@@ -128,19 +128,19 @@ class SetupAuthenticationCommandTest extends KernelTestCase
             ->once()->with('PORT88')->mock();
         $bindTemplateConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
             ->once()->with('uid=?')->mock();
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'authentication_type'])->once()->andReturn($authTypeConfig);
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'ldap_authentication_host'])->once()->andReturn($hostConfig);
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'ldap_authentication_port'])->once()->andReturn($portConfig);
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'ldap_authentication_bind_template'])->once()->andReturn($bindTemplateConfig);
-        $this->applicationConfigManager->shouldReceive('update')->with($authTypeConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('update')->with($hostConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('update')->with($portConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('update')->with($bindTemplateConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('flush')->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($authTypeConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($hostConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($portConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($bindTemplateConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('flush')->once();
         $this->commandTester->setInputs(['ldap', 'MOON13', 'PORT88', 'uid=?']);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
@@ -167,19 +167,19 @@ class SetupAuthenticationCommandTest extends KernelTestCase
             ->once()->with('/LOGOUT')->mock();
         $attributeConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
             ->once()->with('cn1')->mock();
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'authentication_type'])->once()->andReturn($authTypeConfig);
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'shibboleth_authentication_login_path'])->once()->andReturn($loginPathConfig);
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'shibboleth_authentication_logout_path'])->once()->andReturn($logoutPathConfig);
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'shibboleth_authentication_user_id_attribute'])->once()->andReturn($attributeConfig);
-        $this->applicationConfigManager->shouldReceive('update')->with($authTypeConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('update')->with($loginPathConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('update')->with($logoutPathConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('update')->with($attributeConfig, false)->once();
-        $this->applicationConfigManager->shouldReceive('flush')->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($authTypeConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($loginPathConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($logoutPathConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($attributeConfig, false)->once();
+        $this->applicationConfigRepository->shouldReceive('flush')->once();
         $this->commandTester->setInputs(['shibboleth', '/LOGIN', '/LOGOUT', 'cn1']);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME

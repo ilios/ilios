@@ -6,10 +6,10 @@ namespace App\Controller\API;
 
 use App\Entity\CohortInterface;
 use App\Entity\DTO\ProgramYearDTO;
-use App\Entity\Manager\CohortManager;
-use App\Entity\Manager\ProgramYearManager;
 use App\Entity\ProgramYearInterface;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\CohortRepository;
+use App\Repository\ProgramYearRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,26 +28,24 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ProgramYears extends ReadWriteController
 {
     /**
-     * @var ProgramYearManager
+     * @var ProgramYearRepository
      */
     protected $manager;
 
-    /**
-     * @var CohortManager
-     */
-    protected $cohortManager;
+    protected CohortRepository $cohortRepository;
+
     /**
      * @var SerializerInterface
      */
     protected $serializer;
 
     public function __construct(
-        ProgramYearManager $manager,
-        CohortManager $cohortManager,
+        ProgramYearRepository $repository,
+        CohortRepository $cohortRepository,
         SerializerInterface $serializer
     ) {
-        parent::__construct($manager, 'programyears');
-        $this->cohortManager = $cohortManager;
+        parent::__construct($repository, 'programyears');
+        $this->cohortRepository = $cohortRepository;
         $this->serializer = $serializer;
     }
 
@@ -252,12 +250,12 @@ class ProgramYears extends ReadWriteController
         $graduationYear = $programYear->getStartYear() + $program->getDuration();
 
         /* @var CohortInterface $cohort */
-        $cohort = $this->cohortManager->create();
+        $cohort = $this->cohortRepository->create();
         $cohort->setTitle("Class of ${graduationYear}");
         $cohort->setProgramYear($programYear);
         $programYear->setCohort($cohort);
 
-        $this->cohortManager->update($cohort, false, false);
+        $this->cohortRepository->update($cohort, false, false);
     }
 
     protected function archiveProgramYear(

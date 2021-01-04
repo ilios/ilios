@@ -81,7 +81,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     }
 
     /**
-     * Returns the key of the entity manager service that needs to be loaded for this test.
+     * Returns the key of the entity repository service that needs to be loaded for this test.
      *
      * @return string
      */

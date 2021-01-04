@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\LearningMaterialInterface;
-use App\Entity\Manager\CourseLearningMaterialManager;
-use App\Entity\Manager\CourseObjectiveManager;
-use App\Entity\Manager\LearningMaterialManager;
-use App\Entity\Manager\ProgramYearObjectiveManager;
-use App\Entity\Manager\SessionLearningMaterialManager;
-use App\Entity\Manager\SessionManager;
-use App\Entity\Manager\SessionObjectiveManager;
+use App\Repository\CourseLearningMaterialRepository;
+use App\Repository\CourseObjectiveRepository;
+use App\Repository\LearningMaterialRepository;
+use App\Repository\ProgramYearObjectiveRepository;
+use App\Repository\SessionLearningMaterialRepository;
+use App\Repository\SessionObjectiveRepository;
+use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use HTMLPurifier;
@@ -35,19 +35,19 @@ class CleanupStringsCommand extends Command
 
     protected EntityManagerInterface $em;
 
-    protected SessionObjectiveManager $sessionObjectiveManager;
+    protected SessionObjectiveRepository $sessionObjectiveRepository;
 
-    protected CourseObjectiveManager $courseObjectiveManager;
+    protected CourseObjectiveRepository $courseObjectiveRepository;
 
-    protected ProgramYearObjectiveManager $programYearObjectiveManager;
+    protected ProgramYearObjectiveRepository $programYearObjectiveRepository;
 
-    protected LearningMaterialManager $learningMaterialManager;
+    protected LearningMaterialRepository $learningMaterialRepository;
 
-    protected CourseLearningMaterialManager $courseLearningMaterialManager;
+    protected CourseLearningMaterialRepository $courseLearningMaterialRepository;
 
-    protected SessionLearningMaterialManager $sessionLearningMaterialManager;
+    protected SessionLearningMaterialRepository $sessionLearningMaterialRepository;
 
-    protected SessionManager $sessionManager;
+    protected SessionRepository $sessionRepository;
 
     protected HttpClientInterface $httpClient;
 
@@ -59,24 +59,24 @@ class CleanupStringsCommand extends Command
     public function __construct(
         HTMLPurifier $purifier,
         EntityManagerInterface $em,
-        LearningMaterialManager $learningMaterialManager,
-        CourseLearningMaterialManager $courseLearningMaterialManager,
-        SessionLearningMaterialManager $sessionLearningMaterialManager,
-        SessionManager $sessionManager,
-        SessionObjectiveManager $sessionObjectiveManager,
-        CourseObjectiveManager $courseObjectiveManager,
-        ProgramYearObjectiveManager $programYearObjectiveManager,
+        LearningMaterialRepository $learningMaterialRepository,
+        CourseLearningMaterialRepository $courseLearningMaterialRepository,
+        SessionLearningMaterialRepository $sessionLearningMaterialRepository,
+        SessionRepository $sessionRepository,
+        SessionObjectiveRepository $sessionObjectiveRepository,
+        CourseObjectiveRepository $courseObjectiveRepository,
+        ProgramYearObjectiveRepository $programYearObjectiveRepository,
         HttpClientInterface $httpClient
     ) {
         $this->purifier = $purifier;
         $this->em = $em;
-        $this->learningMaterialManager = $learningMaterialManager;
-        $this->courseLearningMaterialManager = $courseLearningMaterialManager;
-        $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
-        $this->sessionManager = $sessionManager;
-        $this->sessionObjectiveManager = $sessionObjectiveManager;
-        $this->courseObjectiveManager = $courseObjectiveManager;
-        $this->programYearObjectiveManager = $programYearObjectiveManager;
+        $this->learningMaterialRepository = $learningMaterialRepository;
+        $this->courseLearningMaterialRepository = $courseLearningMaterialRepository;
+        $this->sessionLearningMaterialRepository = $sessionLearningMaterialRepository;
+        $this->sessionRepository = $sessionRepository;
+        $this->sessionObjectiveRepository = $sessionObjectiveRepository;
+        $this->courseObjectiveRepository = $courseObjectiveRepository;
+        $this->programYearObjectiveRepository = $programYearObjectiveRepository;
         $this->httpClient = $httpClient;
 
         parent::__construct();
@@ -158,18 +158,18 @@ class CleanupStringsCommand extends Command
     {
         $cleanedTitles = 0;
         $limit = self::QUERY_LIMIT;
-        $totalObjectives = $this->sessionObjectiveManager->getTotalObjectiveCount();
-        $totalObjectives += $this->courseObjectiveManager->getTotalObjectiveCount();
-        $totalObjectives += $this->programYearObjectiveManager->getTotalObjectiveCount();
+        $totalObjectives = $this->sessionObjectiveRepository->getTotalObjectiveCount();
+        $totalObjectives += $this->courseObjectiveRepository->getTotalObjectiveCount();
+        $totalObjectives += $this->programYearObjectiveRepository->getTotalObjectiveCount();
 
         $progress = new ProgressBar($output, $totalObjectives);
         $progress->setRedrawFrequency(208);
         $output->writeln("<info>Starting cleanup of objective titles...</info>");
         $progress->start();
         $objectiveManagers = [
-            $this->sessionObjectiveManager,
-            $this->courseObjectiveManager,
-            $this->programYearObjectiveManager
+            $this->sessionObjectiveRepository,
+            $this->courseObjectiveRepository,
+            $this->programYearObjectiveRepository
         ];
 
         foreach ($objectiveManagers as $objectiveManager) {
@@ -207,13 +207,13 @@ class CleanupStringsCommand extends Command
         $cleaned = 0;
         $offset = 0;
         $limit = self::QUERY_LIMIT;
-        $total = $this->learningMaterialManager->getTotalLearningMaterialCount();
+        $total = $this->learningMaterialRepository->getTotalLearningMaterialCount();
         $progress = new ProgressBar($output, $total);
         $progress->setRedrawFrequency(208);
         $output->writeln("<info>Starting cleanup of learning material description...</info>");
         $progress->start();
         do {
-            $materials = $this->learningMaterialManager
+            $materials = $this->learningMaterialRepository
                 ->findBy([], ['id' => 'ASC'], $limit, $offset);
             foreach ($materials as $material) {
                 $original = $material->getDescription();
@@ -221,7 +221,7 @@ class CleanupStringsCommand extends Command
                 if ($original != $clean) {
                     $cleaned++;
                     $material->setDescription($clean);
-                    $this->learningMaterialManager->update($material, false);
+                    $this->learningMaterialRepository->update($material, false);
                 }
                 $progress->advance();
             }
@@ -244,20 +244,20 @@ class CleanupStringsCommand extends Command
         $cleaned = 0;
         $offset = 0;
         $limit = self::QUERY_LIMIT;
-        $total = $this->courseLearningMaterialManager->getTotalCourseLearningMaterialCount();
+        $total = $this->courseLearningMaterialRepository->getTotalCourseLearningMaterialCount();
         $progress = new ProgressBar($output, $total);
         $progress->setRedrawFrequency(208);
         $output->writeln("<info>Starting cleanup of course learning material notes...</info>");
         $progress->start();
         do {
-            $materials = $this->courseLearningMaterialManager->findBy([], ['id' => 'ASC'], $limit, $offset);
+            $materials = $this->courseLearningMaterialRepository->findBy([], ['id' => 'ASC'], $limit, $offset);
             foreach ($materials as $material) {
                 $original = $material->getNotes();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
                     $cleaned++;
                     $material->setNotes($clean);
-                    $this->courseLearningMaterialManager->update($material, false);
+                    $this->courseLearningMaterialRepository->update($material, false);
                 }
                 $progress->advance();
             }
@@ -280,20 +280,20 @@ class CleanupStringsCommand extends Command
         $cleaned = 0;
         $offset = 0;
         $limit = self::QUERY_LIMIT;
-        $total = $this->sessionLearningMaterialManager->getTotalSessionLearningMaterialCount();
+        $total = $this->sessionLearningMaterialRepository->getTotalSessionLearningMaterialCount();
         $progress = new ProgressBar($output, $total);
         $progress->setRedrawFrequency(208);
         $output->writeln("<info>Starting cleanup of session learning material notes...</info>");
         $progress->start();
         do {
-            $materials = $this->sessionLearningMaterialManager->findBy([], ['id' => 'ASC'], $limit, $offset);
+            $materials = $this->sessionLearningMaterialRepository->findBy([], ['id' => 'ASC'], $limit, $offset);
             foreach ($materials as $material) {
                 $original = $material->getNotes();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
                     $cleaned++;
                     $material->setNotes($clean);
-                    $this->sessionLearningMaterialManager->update($material, false);
+                    $this->sessionLearningMaterialRepository->update($material, false);
                 }
                 $progress->advance();
             }
@@ -316,20 +316,20 @@ class CleanupStringsCommand extends Command
         $cleaned = 0;
         $offset = 0;
         $limit = self::QUERY_LIMIT;
-        $total = $this->sessionManager->getTotalSessionCount();
+        $total = $this->sessionRepository->getTotalSessionCount();
         $progress = new ProgressBar($output, $total);
         $progress->setRedrawFrequency(208);
         $output->writeln("<info>Starting cleanup of session descriptions...</info>");
         $progress->start();
         do {
-            $sessions = $this->sessionManager->findBy([], ['id' => 'ASC'], $limit, $offset);
+            $sessions = $this->sessionRepository->findBy([], ['id' => 'ASC'], $limit, $offset);
             foreach ($sessions as $session) {
                 $original = $session->getDescription();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
                     $cleaned++;
                     $session->setDescription($clean);
-                    $this->sessionManager->update($session, false);
+                    $this->sessionRepository->update($session, false);
                 }
                 $progress->advance();
             }
@@ -352,13 +352,13 @@ class CleanupStringsCommand extends Command
         $offset = 0;
         $failures = [];
         $limit = self::QUERY_LIMIT;
-        $total = $this->learningMaterialManager->getTotalLearningMaterialCount();
+        $total = $this->learningMaterialRepository->getTotalLearningMaterialCount();
         $progress = new ProgressBar($output, $total);
         $progress->setRedrawFrequency(208);
         $output->writeln("<info>Starting cleanup of learning material links...</info>");
         $progress->start();
         do {
-            $materials = $this->learningMaterialManager->findBy([], ['id' => 'ASC'], $limit, $offset);
+            $materials = $this->learningMaterialRepository->findBy([], ['id' => 'ASC'], $limit, $offset);
             /* @var LearningMaterialInterface $material */
             foreach ($materials as $material) {
                 $original = $material->getLink();
@@ -370,7 +370,7 @@ class CleanupStringsCommand extends Command
                     if ($original !== $fixed) {
                         $cleaned++;
                         $material->setLink($fixed);
-                        $this->learningMaterialManager->update($material, false);
+                        $this->learningMaterialRepository->update($material, false);
                     }
                 } catch (Exception $e) {
                     $failures[] = [$material->getId(), $original, $e->getMessage()];

@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\AuditLog;
-use App\Entity\Manager\AuditLogManager;
-use App\Entity\Manager\BaseManager;
-use App\Entity\UserInterface;
-use Psr\Log\LoggerAwareInterface;
+use App\Repository\AuditLogRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Classes\SessionUserInterface;
@@ -23,10 +19,7 @@ class Logger
      */
     protected $userId;
 
-    /**
-     * @var AuditLogManager
-     */
-    protected $manager;
+    protected AuditLogRepository $repository;
 
     /**
      * @var LoggerInterface
@@ -42,12 +35,12 @@ class Logger
      * Set the userId from injected security context
      *
      * @param TokenStorageInterface $securityTokenStorage
-     * @param AuditLogManager $auditLogManager
+     * @param AuditLogRepository $auditLogRepository
      * @param LoggerInterface $logger
      */
     public function __construct(
         TokenStorageInterface $securityTokenStorage,
-        AuditLogManager $auditLogManager,
+        AuditLogRepository $auditLogRepository,
         LoggerInterface $logger
     ) {
         if (
@@ -60,7 +53,7 @@ class Logger
                 $this->userId = $sessionUser->getId();
             }
         }
-        $this->manager = $auditLogManager;
+        $this->repository = $auditLogRepository;
         $this->frameworkLogger = $logger;
     }
 
@@ -103,7 +96,7 @@ class Logger
     public function flush()
     {
         try {
-            $this->manager->writeLogs($this->entries);
+            $this->repository->writeLogs($this->entries);
             $this->entries = [];
         } catch (\Exception $e) {
             $this->frameworkLogger->alert('Unable to write logs: ' . $e->getMessage(), ['exception' => $e]);

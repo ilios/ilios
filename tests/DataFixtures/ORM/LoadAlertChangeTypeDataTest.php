@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\AlertChangeTypeInterface;
+use App\Repository\AlertChangeTypeRepository;
 
 /**
  * Class LoadAlertChangeTypeDataTest
@@ -16,7 +17,7 @@ class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\AlertChangeTypeManager';
+        return AlertChangeTypeRepository::class;
     }
 
     /**

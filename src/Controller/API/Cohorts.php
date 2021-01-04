@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\CohortManager;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\CohortRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,9 +22,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class Cohorts extends ReadOnlyController
 {
-    public function __construct(CohortManager $manager)
+    public function __construct(CohortRepository $repository)
     {
-        parent::__construct($manager, 'cohorts');
+        parent::__construct($repository, 'cohorts');
     }
 
     /**

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Classes\SessionUserInterface;
+use App\Repository\AuthenticationRepository;
+use App\Repository\SchoolRepository;
+use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
 use App\Command\AddUserCommand;
 use App\Entity\AuthenticationInterface;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\SchoolManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\SchoolInterface;
 use App\Tests\Helper\TestQuestionHelper;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -29,9 +29,9 @@ class AddUserCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:add-user';
 
-    protected $userManager;
-    protected $authenticationManager;
-    protected $schoolManager;
+    protected $userRepository;
+    protected $authenticationRepository;
+    protected $schoolRepository;
     protected $encoder;
     protected $commandTester;
     protected $questionHelper;
@@ -40,17 +40,17 @@ class AddUserCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock(UserManager::class);
-        $this->authenticationManager = m::mock(AuthenticationManager::class);
-        $this->schoolManager = m::mock(SchoolManager::class);
+        $this->userRepository = m::mock(UserRepository::class);
+        $this->authenticationRepository = m::mock(AuthenticationRepository::class);
+        $this->schoolRepository = m::mock(SchoolRepository::class);
         $this->encoder = m::mock(UserPasswordEncoderInterface::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
 
 
         $command = new AddUserCommand(
-            $this->userManager,
-            $this->authenticationManager,
-            $this->schoolManager,
+            $this->userRepository,
+            $this->authenticationRepository,
+            $this->schoolRepository,
             $this->encoder,
             $this->sessionUserProvider
         );
@@ -73,9 +73,9 @@ class AddUserCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
-        unset($this->authenticationManager);
-        unset($this->schoolManager);
+        unset($this->userRepository);
+        unset($this->authenticationRepository);
+        unset($this->schoolRepository);
         unset($this->commandTester);
         unset($this->questionHelper);
         unset($this->sessionUserProvider);
@@ -107,8 +107,8 @@ class AddUserCommandTest extends KernelTestCase
 
     public function testBadSchoolId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn(null);
-        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
+        $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn(null);
+        $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'School with id 1 could not be found.');
         $this->commandTester->execute(
             [
@@ -334,13 +334,13 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->encoder->shouldReceive('encodePassword')->with($sessionUser, 'abc123pass')->andReturn('hashBlurb');
 
-        $this->userManager->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(false);
-        $this->userManager->shouldReceive('findOneBy')->with(['email' => 'email@example.com'])->andReturn(false);
-        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
-        $this->userManager->shouldReceive('create')->andReturn($user);
-        $this->userManager->shouldReceive('update')->with($user);
-        $this->authenticationManager->shouldReceive('create')->andReturn($authentication);
-        $this->authenticationManager->shouldReceive('update')->with($authentication);
+        $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(false);
+        $this->userRepository->shouldReceive('findOneBy')->with(['email' => 'email@example.com'])->andReturn(false);
+        $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
+        $this->userRepository->shouldReceive('create')->andReturn($user);
+        $this->userRepository->shouldReceive('update')->with($user);
+        $this->authenticationRepository->shouldReceive('create')->andReturn($authentication);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
     }
 

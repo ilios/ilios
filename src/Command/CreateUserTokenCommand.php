@@ -6,12 +6,12 @@ namespace App\Command;
 
 use App\Classes\SessionUser;
 use App\Entity\UserInterface;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Entity\Manager\UserManager;
 use App\Service\JsonWebTokenManager;
 
 /**
@@ -22,9 +22,9 @@ use App\Service\JsonWebTokenManager;
 class CreateUserTokenCommand extends Command
 {
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    protected $userManager;
+    protected $userRepository;
 
     /**
      * @var JsonWebTokenManager
@@ -32,10 +32,10 @@ class CreateUserTokenCommand extends Command
     protected $jwtManager;
 
     public function __construct(
-        UserManager $userManager,
+        UserRepository $userRepository,
         JsonWebTokenManager $jwtManager
     ) {
-        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
         $this->jwtManager = $jwtManager;
 
         parent::__construct();
@@ -71,7 +71,7 @@ class CreateUserTokenCommand extends Command
     {
         $userId = $input->getArgument('userId');
         /** @var UserInterface $user */
-        $user = $this->userManager->findOneBy(['id' => $userId]);
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(
                 "No user with id #{$userId} was found."

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\SetSchoolConfigValueCommand;
-use App\Entity\Manager\SchoolManager;
 use App\Entity\SchoolConfig;
-use App\Entity\Manager\SchoolConfigManager;
 use App\Entity\SchoolInterface;
+use App\Repository\SchoolConfigRepository;
+use App\Repository\SchoolRepository;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -26,15 +26,15 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
     private const COMMAND_NAME = 'ilios:set-school-config-value';
 
     protected $commandTester;
-    protected $schoolManager;
-    protected $schoolConfigManager;
+    protected $schoolRepository;
+    protected $schoolConfigRepository;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->schoolManager = m::mock(SchoolManager::class);
-        $this->schoolConfigManager = m::mock(SchoolConfigManager::class);
-        $command = new SetSchoolConfigValueCommand($this->schoolManager, $this->schoolConfigManager);
+        $this->schoolRepository = m::mock(SchoolRepository::class);
+        $this->schoolConfigRepository = m::mock(SchoolConfigRepository::class);
+        $command = new SetSchoolConfigValueCommand($this->schoolRepository, $this->schoolConfigRepository);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -48,8 +48,8 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->schoolManager);
-        unset($this->schoolConfigManager);
+        unset($this->schoolRepository);
+        unset($this->schoolConfigRepository);
         unset($this->commandTester);
     }
 
@@ -57,14 +57,14 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
     {
         $mockSchool = m::mock(SchoolInterface::class);
         $mockSchool->shouldReceive('getId')->once()->andReturn(1);
-        $this->schoolManager->shouldReceive('findOneBy')->once()->with(['id' => '1'])->andReturn($mockSchool);
+        $this->schoolRepository->shouldReceive('findOneBy')->once()->with(['id' => '1'])->andReturn($mockSchool);
         $mockConfig = m::mock(SchoolConfig::class);
         $mockConfig->shouldReceive('setValue')->with('bar')->once();
-        $this->schoolConfigManager->shouldReceive('findOneBy')
+        $this->schoolConfigRepository->shouldReceive('findOneBy')
             ->with(['school' => '1', 'name' => 'foo'])
             ->once()
             ->andReturn($mockConfig);
-        $this->schoolConfigManager->shouldReceive('update')->with($mockConfig, true)->once();
+        $this->schoolConfigRepository->shouldReceive('update')->with($mockConfig, true)->once();
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
@@ -78,18 +78,18 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
     {
         $mockSchool = m::mock(SchoolInterface::class);
         $mockSchool->shouldReceive('getId')->once()->andReturn(1);
-        $this->schoolManager->shouldReceive('findOneBy')->once()->with(['id' => '1'])->andReturn($mockSchool);
+        $this->schoolRepository->shouldReceive('findOneBy')->once()->with(['id' => '1'])->andReturn($mockSchool);
         $mockConfig = m::mock(SchoolConfig::class);
         $mockConfig->shouldReceive('setValue')->with('bar')->once();
         $mockConfig->shouldReceive('setSchool')->with($mockSchool)->once();
         $mockConfig->shouldReceive('setName')->with('foo')->once();
-        $this->schoolConfigManager
+        $this->schoolConfigRepository
             ->shouldReceive('findOneBy')
             ->with(['school' => '1', 'name' => 'foo'])
             ->once()
             ->andReturn(null);
-        $this->schoolConfigManager->shouldReceive('create')->once()->andReturn($mockConfig);
-        $this->schoolConfigManager->shouldReceive('update')->with($mockConfig, true)->once();
+        $this->schoolConfigRepository->shouldReceive('create')->once()->andReturn($mockConfig);
+        $this->schoolConfigRepository->shouldReceive('update')->with($mockConfig, true)->once();
 
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,

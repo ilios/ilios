@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\CurriculumInventoryReportInterface;
-use App\Entity\Manager\CurriculumInventoryReportManager;
+use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\ReportRollover;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,22 +20,19 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class RolloverCurriculumInventoryReportCommand extends Command
 {
-    /**
-     * @var CurriculumInventoryReportManager
-     */
-    protected $reportManager;
+    protected CurriculumInventoryReportRepository $reportRepository;
     /**
      * @var ReportRollover
      */
     protected $service;
 
     /**
-     * @param CurriculumInventoryReportManager $reportManager
+     * @param CurriculumInventoryReportRepository $reportRepository
      * @param ReportRollover $service
      */
-    public function __construct(CurriculumInventoryReportManager $reportManager, ReportRollover $service)
+    public function __construct(CurriculumInventoryReportRepository $reportRepository, ReportRollover $service)
     {
-        $this->reportManager = $reportManager;
+        $this->reportRepository = $reportRepository;
         $this->service = $service;
         parent::__construct();
     }
@@ -87,7 +84,7 @@ class RolloverCurriculumInventoryReportCommand extends Command
         $year = $input->getOption('year');
 
         /* @var CurriculumInventoryReportInterface $report */
-        $report = $this->reportManager->findOneBy(['id' => $reportId]);
+        $report = $this->reportRepository->findOneBy(['id' => $reportId]);
         if (! $report) {
             throw new \Exception(
                 "No curriculum inventory report with id #{$reportId} was found."

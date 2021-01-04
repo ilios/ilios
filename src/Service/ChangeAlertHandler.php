@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\AlertChangeTypeInterface;
-use App\Entity\Manager\AlertChangeTypeManager;
-use App\Entity\Manager\AlertManager;
-use App\Entity\Manager\BaseManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\OfferingInterface;
 use App\Entity\UserInterface;
+use App\Repository\AlertChangeTypeRepository;
+use App\Repository\AlertRepository;
+use App\Repository\UserRepository;
 
 /**
  * Creates and updates change alerts for given data points, such as offerings.
@@ -21,27 +20,27 @@ use App\Entity\UserInterface;
 class ChangeAlertHandler
 {
     /**
-     * @var AlertManager
+     * @var AlertRepository
      */
-    protected $alertManager;
+    protected $alertRepository;
 
     /**
-     * @var AlertChangeTypeManager
+     * @var AlertChangeTypeRepository
      */
-    protected $alertChangeTypeManager;
+    protected $alertChangeTypeRepository;
 
     /**
-     * @param AlertManager $alertManager
-     * @param AlertChangeTypeManager $alertChangeTypeManager
-     * @param UserManager $userManager
+     * @param AlertRepository $alertRepository
+     * @param AlertChangeTypeRepository $alertChangeTypeRepository
+     * @param UserRepository $userRepository
      */
     public function __construct(
-        AlertManager $alertManager,
-        AlertChangeTypeManager $alertChangeTypeManager,
-        UserManager $userManager
+        AlertRepository $alertRepository,
+        AlertChangeTypeRepository $alertChangeTypeRepository,
+        UserRepository $userRepository
     ) {
-        $this->alertManager = $alertManager;
-        $this->alertChangeTypeManager = $alertChangeTypeManager;
+        $this->alertRepository = $alertRepository;
+        $this->alertChangeTypeRepository = $alertChangeTypeRepository;
     }
 
     /**
@@ -51,14 +50,14 @@ class ChangeAlertHandler
     public function createAlertForNewOffering(OfferingInterface $offering, UserInterface $instigator)
     {
         // create new alert for this offering
-        $alert = $this->alertManager->create();
-        $alert->addChangeType($this->alertChangeTypeManager->findOneBy([
+        $alert = $this->alertRepository->create();
+        $alert->addChangeType($this->alertChangeTypeRepository->findOneBy([
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING]));
         $alert->addInstigator($instigator);
         $alert->addRecipient($offering->getSession()->getCourse()->getSchool());
         $alert->setTableName('offering');
         $alert->setTableRowId($offering->getId());
-        $this->alertManager->update($alert, false);
+        $this->alertRepository->update($alert, false);
     }
 
     /**
@@ -123,7 +122,7 @@ class ChangeAlertHandler
         }
         array_unique($changeTypes);
 
-        $alert = $this->alertManager->findOneBy([
+        $alert = $this->alertRepository->findOneBy([
             'dispatched' => false,
             'tableName' => 'offering',
             'tableRowId' => $offering->getId()
@@ -134,7 +133,7 @@ class ChangeAlertHandler
             if (! $recipient) {
                 return; // SOL.
             }
-            $alert = $this->alertManager->create();
+            $alert = $this->alertRepository->create();
             $alert->addRecipient($recipient);
             $alert->setTableName('offering');
             $alert->setTableRowId($offering->getId());
@@ -142,12 +141,12 @@ class ChangeAlertHandler
         }
 
         foreach ($changeTypes as $type) {
-            $changeType = $this->alertChangeTypeManager->findOneBy(['id' => $type]);
+            $changeType = $this->alertChangeTypeRepository->findOneBy(['id' => $type]);
             if ($changeType && ! $alert->getChangeTypes()->contains($changeType)) {
                 $alert->addChangeType($changeType);
             }
         }
 
-        $this->alertManager->update($alert, false);
+        $this->alertRepository->update($alert, false);
     }
 }

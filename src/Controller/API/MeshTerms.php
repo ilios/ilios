@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\MeshTermManager;
+use App\Repository\MeshTermRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MeshTerms extends ReadOnlyController
 {
-    public function __construct(MeshTermManager $manager)
+    public function __construct(MeshTermRepository $repository)
     {
-        parent::__construct($manager, 'meshterms');
+        parent::__construct($repository, 'meshterms');
     }
 }

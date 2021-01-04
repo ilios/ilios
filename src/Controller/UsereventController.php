@@ -6,14 +6,14 @@ namespace App\Controller;
 
 use App\Classes\CalendarEvent;
 use App\Classes\SessionUserInterface;
-use App\Entity\Manager\SessionManager;
 use App\Entity\SessionInterface;
 use App\RelationshipVoter\AbstractCalendarEvent;
 use App\RelationshipVoter\AbstractVoter;
 use App\Classes\UserEvent;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
+use App\Repository\SessionRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,8 +35,8 @@ class UsereventController extends AbstractController
      * @param int $id of the user
      * @param Request $request
      * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param UserManager $manager
-     * @param SessionManager $sessionManager
+     * @param UserRepository $manager
+     * @param SessionRepository $sessionRepository
      * @param SerializerInterface $serializer
      * @param TokenStorageInterface $tokenStorage
      *
@@ -48,8 +48,8 @@ class UsereventController extends AbstractController
         $id,
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
-        UserManager $manager,
-        SessionManager $sessionManager,
+        UserRepository $manager,
+        SessionRepository $sessionRepository,
         SerializerInterface $serializer,
         TokenStorageInterface $tokenStorage
     ) {
@@ -66,7 +66,7 @@ class UsereventController extends AbstractController
 
         if ($sessionId = $request->get('session')) {
             /** @var SessionInterface $session */
-            $session = $sessionManager->findOneBy(['id' => $sessionId]);
+            $session = $sessionRepository->findOneBy(['id' => $sessionId]);
 
             if (!$session) {
                 throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));

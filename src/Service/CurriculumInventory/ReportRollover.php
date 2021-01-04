@@ -8,10 +8,10 @@ use App\Entity\CurriculumInventoryAcademicLevelInterface;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Entity\CurriculumInventorySequenceInterface;
-use App\Entity\Manager\CurriculumInventoryAcademicLevelManager;
-use App\Entity\Manager\CurriculumInventoryReportManager;
-use App\Entity\Manager\CurriculumInventorySequenceBlockManager;
-use App\Entity\Manager\CurriculumInventorySequenceManager;
+use App\Repository\CurriculumInventoryAcademicLevelRepository;
+use App\Repository\CurriculumInventoryReportRepository;
+use App\Repository\CurriculumInventorySequenceBlockRepository;
+use App\Repository\CurriculumInventorySequenceRepository;
 use DateTime;
 
 /**
@@ -41,42 +41,27 @@ class ReportRollover
      */
     private const END_DATE_MONTH = 6;
 
-    /**
-     * @var CurriculumInventoryReportManager $reportManager
-     */
-    protected $reportManager;
+    protected CurriculumInventoryReportRepository $reportRepository;
+    protected CurriculumInventoryAcademicLevelRepository $academicLevelRepository;
+    protected CurriculumInventorySequenceRepository $sequenceRepository;
+    protected CurriculumInventorySequenceBlockRepository $sequenceBlockRepository;
 
     /**
-     * @var CurriculumInventoryAcademicLevelManager $academicLevelManager
-     */
-    protected $academicLevelManager;
-
-    /**
-     * @var CurriculumInventorySequenceManager $sequenceManager
-     */
-    protected $sequenceManager;
-
-    /**
-     * @var CurriculumInventorySequenceBlockManager $sequenceBlockManager
-     */
-    protected $sequenceBlockManager;
-
-    /**
-     * @param CurriculumInventoryReportManager $reportManager
-     * @param CurriculumInventoryAcademicLevelManager $academicLevelManager
-     * @param CurriculumInventorySequenceManager $sequenceManager
-     * @param CurriculumInventorySequenceBlockManager $sequenceBlockManager
+     * @param CurriculumInventoryReportRepository $reportRepository
+     * @param CurriculumInventoryAcademicLevelRepository $academicLevelRepository
+     * @param CurriculumInventorySequenceRepository $sequenceManager
+     * @param CurriculumInventorySequenceBlockRepository $sequenceBlockManager
      */
     public function __construct(
-        CurriculumInventoryReportManager $reportManager,
-        CurriculumInventoryAcademicLevelManager $academicLevelManager,
-        CurriculumInventorySequenceManager $sequenceManager,
-        CurriculumInventorySequenceBlockManager $sequenceBlockManager
+        CurriculumInventoryReportRepository $reportRepository,
+        CurriculumInventoryAcademicLevelRepository $academicLevelRepository,
+        CurriculumInventorySequenceRepository $sequenceManager,
+        CurriculumInventorySequenceBlockRepository $sequenceBlockManager
     ) {
-        $this->reportManager = $reportManager;
-        $this->academicLevelManager = $academicLevelManager;
-        $this->sequenceManager = $sequenceManager;
-        $this->sequenceBlockManager = $sequenceBlockManager;
+        $this->reportRepository = $reportRepository;
+        $this->academicLevelRepository = $academicLevelRepository;
+        $this->sequenceRepository = $sequenceManager;
+        $this->sequenceBlockRepository = $sequenceBlockManager;
     }
 
     /**
@@ -94,7 +79,7 @@ class ReportRollover
         int $newYear = null
     ) {
         /* @var CurriculumInventoryReportInterface $newReport */
-        $newReport = $this->reportManager->create();
+        $newReport = $this->reportRepository->create();
 
         $newYear = $newYear ?: $report->getYear();
 
@@ -118,19 +103,19 @@ class ReportRollover
         }
         $newReport->setYear($newYear);
 
-        $this->reportManager->update($newReport, false, false);
+        $this->reportRepository->update($newReport, false, false);
 
         $newLevels = [];
         $levels = $report->getAcademicLevels();
         foreach ($levels as $level) {
             /* @var CurriculumInventoryAcademicLevelInterface $newLevel */
-            $newLevel = $this->academicLevelManager->create();
+            $newLevel = $this->academicLevelRepository->create();
             $newLevel->setLevel($level->getLevel());
             $newLevel->setName($level->getName());
             $newLevel->setDescription($level->getDescription());
             $newReport->addAcademicLevel($newLevel);
             $newLevel->setReport($newReport);
-            $this->academicLevelManager->update($newLevel, false, false);
+            $this->academicLevelRepository->update($newLevel, false, false);
             $newLevels[$newLevel->getLevel()] = $newLevel;
         }
 
@@ -147,16 +132,16 @@ class ReportRollover
 
         $sequence = $report->getSequence();
         /* @var  CurriculumInventorySequenceInterface $newSequence */
-        $newSequence = $this->sequenceManager->create();
+        $newSequence = $this->sequenceRepository->create();
         $newSequence->setDescription($sequence->getDescription());
         $newReport->setSequence($newSequence);
         $newSequence->setReport($newReport);
-        $this->sequenceManager->update($newSequence, true, false); // flush here.
+        $this->sequenceRepository->update($newSequence, true, false); // flush here.
 
 
         // generate token after the fact and persist report once more.
         $newReport->generateToken();
-        $this->reportManager->update($newReport, true, true);
+        $this->reportRepository->update($newReport, true, true);
 
         return $newReport;
     }
@@ -176,7 +161,7 @@ class ReportRollover
         CurriculumInventorySequenceBlockInterface $newParent = null
     ) {
         /* @var CurriculumInventorySequenceBlockInterface $newBlock */
-        $newBlock = $this->sequenceBlockManager->create();
+        $newBlock = $this->sequenceBlockRepository->create();
         $newBlock->setReport($newReport);
         $newBlock->setAcademicLevel($newLevels[$block->getAcademicLevel()->getLevel()]);
         $newBlock->setDescription($block->getDescription());
@@ -196,7 +181,7 @@ class ReportRollover
         }
 
         $newReport->addSequenceBlock($newBlock);
-        $this->sequenceBlockManager->update($newBlock, false, false);
+        $this->sequenceBlockRepository->update($newBlock, false, false);
 
         foreach ($block->getChildren() as $child) {
             $this->rolloverSequenceBlock($child, $newReport, $newLevels, $newBlock);

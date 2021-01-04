@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Manager\UserManager;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,13 +23,13 @@ class ListRootUsersCommand extends Command
     public const COMMAND_NAME = 'ilios:list-root-users';
 
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    protected $userManager;
+    protected $userRepository;
 
-    public function __construct(UserManager $userManager)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
         parent::__construct();
     }
 
@@ -49,7 +49,7 @@ class ListRootUsersCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $users = $this->userManager->findDTOsBy(['root' => true]);
+        $users = $this->userRepository->findDTOsBy(['root' => true]);
 
         if (empty($users)) {
             $output->writeln("No users with root-level privileges found.");

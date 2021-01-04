@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\AlertChangeTypeManager;
+use App\Repository\AlertChangeTypeRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AlertChangeTypes extends ReadWriteController
 {
-    public function __construct(AlertChangeTypeManager $manager)
+    public function __construct(AlertChangeTypeRepository $repository)
     {
-        parent::__construct($manager, 'alertchangetypes');
+        parent::__construct($repository, 'alertchangetypes');
     }
 }

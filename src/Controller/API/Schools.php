@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\SchoolManager;
+use App\Repository\SchoolRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +18,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class Schools extends ReadWriteController
 {
-    public function __construct(SchoolManager $manager)
+    public function __construct(SchoolRepository $repository)
     {
-        parent::__construct($manager, 'schools');
+        parent::__construct($repository, 'schools');
     }
 
     /**

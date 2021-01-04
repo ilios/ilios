@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\VocabularyInterface;
+use App\Repository\VocabularyRepository;
 
 /**
  * Class LoadVocabularyDataTest
@@ -16,7 +17,7 @@ class LoadVocabularyDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\VocabularyManager';
+        return VocabularyRepository::class;
     }
 
     /**

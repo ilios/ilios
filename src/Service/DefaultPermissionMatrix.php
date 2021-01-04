@@ -8,26 +8,20 @@ use App\Classes\Capabilities;
 use App\Classes\PermissionMatrix;
 use App\Classes\UserRoles;
 use App\Entity\DTO\SchoolDTO;
-use App\Entity\Manager\SchoolManager;
+use App\Repository\SchoolRepository;
 
 class DefaultPermissionMatrix extends PermissionMatrix
 {
-    /**
-     * @var SchoolManager
-     */
-    protected $schoolManager;
+    protected SchoolRepository $schoolRepository;
 
     /**
      * @var bool
      */
     protected $hasMatrixBeenBuilt;
 
-    /**
-     * @param SchoolManager $schoolManager
-     */
-    public function __construct(SchoolManager $schoolManager)
+    public function __construct(SchoolRepository $schoolRepository)
     {
-        $this->schoolManager = $schoolManager;
+        $this->schoolRepository = $schoolRepository;
         $this->hasMatrixBeenBuilt = false;
     }
 
@@ -58,7 +52,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
      */
     protected function buildMatrix()
     {
-        $schoolDtos = $this->schoolManager->findDTOsBy([]);
+        $schoolDtos = $this->schoolRepository->findDTOsBy([]);
 
         /** @var SchoolDTO $schoolDto */
         foreach ($schoolDtos as $schoolDto) {

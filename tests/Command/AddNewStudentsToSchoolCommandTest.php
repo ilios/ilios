@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\AddNewStudentsToSchoolCommand;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\SchoolManager;
-use App\Entity\Manager\UserManager;
-use App\Entity\Manager\UserRoleManager;
+use App\Repository\AuthenticationRepository;
+use App\Repository\SchoolRepository;
+use App\Repository\UserRepository;
+use App\Repository\UserRoleRepository;
 use App\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -25,10 +25,10 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:add-students';
 
-    protected $userManager;
-    protected $userRoleManager;
-    protected $schoolManager;
-    protected $authenticationManager;
+    protected $userRepository;
+    protected $userRolerepository;
+    protected $schoolRepository;
+    protected $authenticationRepository;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
@@ -36,17 +36,17 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock(UserManager::class);
-        $this->userRoleManager = m::mock(UserRoleManager::class);
-        $this->schoolManager = m::mock(SchoolManager::class);
-        $this->authenticationManager = m::mock(AuthenticationManager::class);
+        $this->userRepository = m::mock(UserRepository::class);
+        $this->userRolerepository = m::mock(UserRoleRepository::class);
+        $this->schoolRepository = m::mock(SchoolRepository::class);
+        $this->authenticationRepository = m::mock(AuthenticationRepository::class);
         $this->directory = m::mock(Directory::class);
 
         $command = new AddNewStudentsToSchoolCommand(
-            $this->userManager,
-            $this->schoolManager,
-            $this->authenticationManager,
-            $this->userRoleManager,
+            $this->userRepository,
+            $this->schoolRepository,
+            $this->authenticationRepository,
+            $this->userRolerepository,
             $this->directory
         );
         $kernel = self::bootKernel();
@@ -63,10 +63,10 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
-        unset($this->userRoleManager);
-        unset($this->schoolManager);
-        unset($this->authenticationManager);
+        unset($this->userRepository);
+        unset($this->userRolerepository);
+        unset($this->schoolRepository);
+        unset($this->authenticationRepository);
         unset($this->directory);
         unset($this->commandTester);
     }
@@ -117,28 +117,28 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         $this->directory->shouldReceive('findByLdapFilter')
             ->with('FILTER')
             ->andReturn([$fakeDirectoryUser1, $fakeDirectoryUser2]);
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->andReturn(['abc2']);
 
-        $this->userManager->shouldReceive('create')->andReturn($user);
-        $this->userManager
+        $this->userRepository->shouldReceive('create')->andReturn($user);
+        $this->userRepository
             ->shouldReceive('update')
             ->with($user)->once();
-        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
+        $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
         $role = m::mock('App\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)
             ->mock();
         $user->shouldReceive('addRole')->with($role);
-        $this->userRoleManager
+        $this->userRolerepository
             ->shouldReceive('findOneBy')
             ->with(['title' => 'Student'])
             ->andReturn($role);
-        $this->userRoleManager
+        $this->userRolerepository
             ->shouldReceive('update')
             ->with($role);
 
-        $this->authenticationManager->shouldReceive('create')->andReturn($authentication);
-        $this->authenticationManager->shouldReceive('update')->with($authentication, false);
+        $this->authenticationRepository->shouldReceive('create')->andReturn($authentication);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication, false);
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
@@ -173,7 +173,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 
     public function testBadSchoolId()
     {
-        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
+        $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'School with id 1 could not be found.');
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,

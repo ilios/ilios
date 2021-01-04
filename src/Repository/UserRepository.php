@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Manager\ManagerInterface;
 use App\Entity\Session;
+use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,7 +16,6 @@ use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
 use App\Classes\UserMaterial;
 use App\Entity\User;
-use App\Entity\UserInterface;
 use App\Entity\DTO\UserDTO;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
@@ -23,13 +24,17 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class UserRepository
  */
-class UserRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class UserRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
     use CalendarEventRepository;
+    use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
+    protected UserMaterialFactory $factory;
+
+    public function __construct(ManagerRegistry $registry, UserMaterialFactory $factory)
     {
         parent::__construct($registry, User::class);
+        $this->factory = $factory;
     }
 
     /**
@@ -53,8 +58,13 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param array $criteria
      * @return UserDTO[]
      */
-    public function findDTOsByQ($q, $orderBy, $limit, $offset, array $criteria = [])
-    {
+    public function findDTOsByQ(
+        $q,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null,
+        array $criteria = []
+    ) {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('u')->from('App\Entity\User', 'u');
         $qb->leftJoin('u.authentication', 'auth');
@@ -116,7 +126,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @return UserDTO[]
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('u')->distinct()->from('App\Entity\User', 'u');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
@@ -239,7 +249,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param  array $campusIds
      * @return ArrayCollection
      */
-    public function findUsersWhoAreNotFormerStudents(array $campusIds)
+    public function findUsersWhoAreNotFormerStudents(array $campusIds = [])
     {
         $qb = $this->_em->createQueryBuilder();
         $formerStudents = $qb->select('u.id')
@@ -276,7 +286,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @return array
      */
-    public function getIds($includeDisabled, $includeSyncIgnore)
+    public function getIds($includeDisabled = true, $includeSyncIgnore = true)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('u.id')->from('App\Entity\User', 'u');
@@ -300,7 +310,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @return array
      */
-    public function getAllCampusIds($includeDisabled, $includeSyncIgnore)
+    public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('u.campusId')->from('App\Entity\User', 'u');
@@ -442,7 +452,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param UserEvent[] $events A list of events.
      * @return UserEvent[] The events list with pre- and post-requisites added.
      */
-    public function addPreAndPostRequisites($id, array $events)
+    public function addPreAndPostRequisites($id, array $events): array
     {
         $events = $this->attachPreRequisitesToEvents($id, $events);
         return $this->attachPostRequisitesToEvents($id, $events);
@@ -1047,8 +1057,9 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @return UserMaterial[]
      */
-    public function findMaterialsForUser($id, UserMaterialFactory $factory, $criteria)
+    public function findMaterialsForUser($id, $criteria)
     {
+        $factory = $this->factory;
         $offIdQb = $this->_em->createQueryBuilder();
         $offIdQb->select('learnerOffering.id')->from('App\Entity\User', 'learnerU');
         $offIdQb->join('learnerU.offerings', 'learnerOffering');
@@ -1182,9 +1193,9 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param UserMaterialFactory $factory
      * @return CalendarEvent[]
      */
-    public function addMaterialsToEvents(array $events, UserMaterialFactory $factory)
+    public function addMaterialsToEvents(array $events)
     {
-        return $this->attachMaterialsToEvents($events, $factory, $this->_em);
+        return $this->attachMaterialsToEvents($events, $this->factory, $this->_em);
     }
 
     /**

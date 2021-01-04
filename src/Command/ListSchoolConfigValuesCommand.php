@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Manager\SchoolConfigManager;
-use App\Entity\Manager\SchoolManager;
 use App\Entity\SchoolConfigInterface;
 use App\Entity\SchoolInterface;
+use App\Repository\SchoolConfigRepository;
+use App\Repository\SchoolRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,25 +22,18 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ListSchoolConfigValuesCommand extends Command
 {
-    /**
-     * @var SchoolManager
-     */
-    protected $schoolManager;
-
-    /**
-     * @var SchoolConfigManager
-     */
-    protected $schoolConfigManager;
+    protected SchoolRepository $schoolRepository;
+    protected SchoolConfigRepository $schoolConfigRepository;
 
     /**
      * RolloverCourseCommand constructor.
-     * @param SchoolManager $schoolManager
-     * @param SchoolConfigManager $schoolConfigManager
+     * @param SchoolRepository $schoolRepository
+     * @param SchoolConfigRepository $schoolConfigRepository
      */
-    public function __construct(SchoolManager $schoolManager, SchoolConfigManager $schoolConfigManager)
+    public function __construct(SchoolRepository $schoolRepository, SchoolConfigRepository $schoolConfigRepository)
     {
-        $this->schoolManager = $schoolManager;
-        $this->schoolConfigManager = $schoolConfigManager;
+        $this->schoolRepository = $schoolRepository;
+        $this->schoolConfigRepository = $schoolConfigRepository;
         parent::__construct();
     }
 
@@ -69,13 +62,13 @@ class ListSchoolConfigValuesCommand extends Command
         $schoolId = $input->getArgument('school');
 
         /** @var SchoolInterface $school */
-        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
+        $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             $output->writeln("<error>There are no schools with id ${schoolId}.</error>");
             return 1;
         }
         /** @var SchoolConfigInterface[] $configs */
-        $configs = $this->schoolConfigManager->findBy(['school' => $schoolId], ['name' => 'asc']);
+        $configs = $this->schoolConfigRepository->findBy(['school' => $schoolId], ['name' => 'asc']);
         if (empty($configs)) {
             $output->writeln('<error>There are no configuration values in the database.</error>');
         } else {

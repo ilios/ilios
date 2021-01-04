@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\DTO\MeshDescriptorV1DTO;
+use App\Entity\Manager\ManagerInterface;
 use App\Entity\MeshConcept;
 use App\Entity\MeshDescriptor;
 use App\Entity\MeshPreviousIndexing;
 use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
+use App\Service\MeshDescriptorSetTransmogrifier;
+use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
@@ -23,14 +26,20 @@ use Exception;
 use Ilios\MeSH\Model\AllowableQualifier;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
+use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
 use PDO;
 
-class MeshDescriptorRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class MeshDescriptorRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    use ManagerRepository;
+
+    protected MeshDescriptorSetTransmogrifier $transmogrifier;
+
+    public function __construct(ManagerRegistry $registry, MeshDescriptorSetTransmogrifier $transmogrifier)
     {
         parent::__construct($registry, MeshDescriptor::class);
+        $this->transmogrifier = $transmogrifier;
     }
 
     /**
@@ -42,8 +51,12 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements DTORep
      * @param int|null $offset
      * @return MeshDescriptorDTO[]|array
      */
-    public function findDTOsByQ(string $q, ?array $orderBy, ?int $limit, ?int $offset): array
-    {
+    public function findDTOsByQ(
+        string $q,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): array {
         $terms = $this->getTermsFromQ($q);
         if (empty($terms)) {
             return [];
@@ -70,8 +83,12 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements DTORep
      * @param int|null $offset
      * @return MeshDescriptorDTO[]|array
      */
-    public function findV1DTOsByQ(string $q, ?array $orderBy, ?int $limit, ?int $offset): array
-    {
+    public function findV1DTOsByQ(
+        string $q,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): array {
         $terms = $this->getTermsFromQ($q);
         if (empty($terms)) {
             return [];
@@ -118,7 +135,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements DTORep
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from(MeshDescriptor::class, 'm');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
@@ -678,11 +695,55 @@ EOL;
     }
 
     /**
+     * Single entry point for importing a given MeSH record into its corresponding database table.
+     *
+     * @param array $data An associative array containing a MeSH record.
+     * @param string $type The type of MeSH data that's being imported.
+     * @param string|null $now The current time and date as an ANSI SQL compatible string representation.
+     * @throws Exception on unsupported type.
+     */
+    public function import(array $data, string $type, string $now = null)
+    {
+        switch ($type) {
+            case 'MeshDescriptor':
+                $this->importMeshDescriptor($data, $now);
+                break;
+            case 'MeshTree':
+                $this->importMeshTree($data);
+                break;
+            case 'MeshConcept':
+                $this->importMeshConcept($data, $now);
+                break;
+            case 'MeshTerm':
+                $this->importMeshTerm($data, $now);
+                break;
+            case 'MeshQualifier':
+                $this->importMeshQualifier($data, $now);
+                break;
+            case 'MeshPreviousIndexing':
+                $this->importMeshPreviousIndexing($data);
+                break;
+            case 'MeshConceptTerm':
+                $this->importMeshConceptTerm($data);
+                break;
+            case 'MeshDescriptorQualifier':
+                $this->importMeshDescriptorQualifier($data);
+                break;
+            case 'MeshDescriptorConcept':
+                $this->importMeshDescriptorConcept($data);
+                break;
+            default:
+                throw new Exception("Unsupported type ${type}.");
+        }
+    }
+
+    /**
      * @param array $data
      * @throws Exception
      */
-    public function upsertMeshUniverse(array $data)
+    public function upsertMeshUniverse(DescriptorSet $descriptorSet, array $existingDescriptorIds)
     {
+        $data = $this->transmogrifier->transmogrify($descriptorSet, $existingDescriptorIds);
         $now = new DateTime();
         $conn = $this->_em->getConnection();
 

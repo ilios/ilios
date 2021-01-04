@@ -6,8 +6,8 @@ namespace App\Service\CurriculumInventory;
 
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
-use App\Entity\Manager\AamcMethodManager;
-use App\Entity\Manager\AamcPcrsManager;
+use App\Repository\AamcMethodRepository;
+use App\Repository\AamcPcrsRepository;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use Exception;
 
@@ -82,12 +82,12 @@ class VerificationPreviewBuilder
     protected $aggregator;
 
     /**
-     * @var AamcMethodManager
+     * @var AamcMethodRepository
      */
-    protected $methodManager;
+    protected $methodRepository;
 
     /**
-     * @var AamcPcrsManager
+     * @var AamcPcrsRepository
      */
     protected $pcrsManager;
 
@@ -100,13 +100,16 @@ class VerificationPreviewBuilder
      * CurriculumInventoryVerificationReportBuilder constructor.
      *
      * @param Aggregator $aggregator
-     * @param AamcMethodManager $methodManager
-     * @param AamcPcrsManager $pcrsManager
+     * @param AamcMethodRepository $methodManager
+     * @param AamcPcrsRepository $pcrsManager
      */
-    public function __construct(Aggregator $aggregator, AamcMethodManager $methodManager, AamcPcrsManager $pcrsManager)
-    {
+    public function __construct(
+        Aggregator $aggregator,
+        AamcMethodRepository $methodManager,
+        AamcPcrsRepository $pcrsManager
+    ) {
         $this->aggregator = $aggregator;
-        $this->methodManager = $methodManager;
+        $this->methodRepository = $methodManager;
         $this->pcrsManager = $pcrsManager;
     }
 
@@ -631,7 +634,7 @@ class VerificationPreviewBuilder
             'assessment_methods' => [],
         ];
 
-        $dtos = $this->methodManager->findDTOsBy([]);
+        $dtos = $this->methodRepository->findDTOsBy([]);
         foreach ($dtos as $dto) {
             if (0 === strpos($dto->id, 'IM')) {
                 $this->methodMaps['instructional_methods'][$dto->id] = $dto;

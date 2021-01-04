@@ -6,10 +6,10 @@ namespace App\Command;
 
 use App\Entity\AlertInterface;
 use App\Entity\AuditLogInterface;
-use App\Entity\Manager\AuditLogManager;
-use App\Entity\Manager\AlertManager;
-use App\Entity\Manager\OfferingManager;
 use App\Entity\SchoolInterface;
+use App\Repository\AlertRepository;
+use App\Repository\AuditLogRepository;
+use App\Repository\OfferingRepository;
 use App\Service\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,11 +29,11 @@ class SendChangeAlertsCommand extends Command
 {
     private const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
 
-    protected AlertManager $alertManager;
+    protected AlertRepository $alertRepository;
 
-    protected AuditLogManager $auditLogManager;
+    protected AuditLogRepository $auditLogRepository;
 
-    protected OfferingManager $offeringManager;
+    protected OfferingRepository $offeringRepository;
 
     protected Environment $twig;
 
@@ -46,9 +46,9 @@ class SendChangeAlertsCommand extends Command
     protected string $kernelProjectDir;
 
     /**
-     * @param AlertManager $alertManager
-     * @param AuditLogManager $auditLogManager
-     * @param OfferingManager $offeringManager
+     * @param AlertRepository $alertRepository
+     * @param AuditLogRepository $auditLogRepository
+     * @param OfferingRepository $offeringRepository
      * @param Environment $twig
      * @param MailerInterface $mailer
      * @param Config $config
@@ -56,9 +56,9 @@ class SendChangeAlertsCommand extends Command
      * @param string $kernelProjectDir
      */
     public function __construct(
-        AlertManager $alertManager,
-        AuditLogManager $auditLogManager,
-        OfferingManager $offeringManager,
+        AlertRepository $alertRepository,
+        AuditLogRepository $auditLogRepository,
+        OfferingRepository $offeringRepository,
         Environment $twig,
         MailerInterface $mailer,
         Config $config,
@@ -66,9 +66,9 @@ class SendChangeAlertsCommand extends Command
         string $kernelProjectDir
     ) {
         parent::__construct();
-        $this->alertManager = $alertManager;
-        $this->auditLogManager = $auditLogManager;
-        $this->offeringManager = $offeringManager;
+        $this->alertRepository = $alertRepository;
+        $this->auditLogRepository = $auditLogRepository;
+        $this->offeringRepository = $offeringRepository;
         $this->twig = $twig;
         $this->mailer = $mailer;
         $this->config = $config;
@@ -100,7 +100,7 @@ class SendChangeAlertsCommand extends Command
     {
         $isDryRun = $input->getOption('dry-run');
 
-        $alerts = $this->alertManager->findBy(['dispatched' => false, 'tableName' => 'offering']);
+        $alerts = $this->alertRepository->findBy(['dispatched' => false, 'tableName' => 'offering']);
         if (! count($alerts)) {
             $output->writeln("<info>No undispatched offering alerts found.</info>");
             return 0;
@@ -114,7 +114,7 @@ class SendChangeAlertsCommand extends Command
         foreach ($alerts as $alert) {
             $output->writeln("<info>Processing offering change alert {$alert->getId()}.</info>");
 
-            $offering = $this->offeringManager->findOneBy(['id' => $alert->getTableRowId()]);
+            $offering = $this->offeringRepository->findOneBy(['id' => $alert->getTableRowId()]);
             if (! $offering) {
                 $output->writeln(
                     "<warning>No offering with id {$alert->getTableRowId()},"
@@ -154,7 +154,7 @@ class SendChangeAlertsCommand extends Command
             $recipients = array_map('trim', explode(',', $recipients));
 
             // get change alert history from audit logs
-            $history = $this->auditLogManager->findBy([
+            $history = $this->auditLogRepository->findBy([
                 'objectId' => $alert->getId(),
                 'objectClass' => 'alert',
             ], [ 'createdAt' => 'asc' ]);
@@ -201,7 +201,7 @@ class SendChangeAlertsCommand extends Command
             // @todo Reassess the validity of this step. [ST 2015/10/01]
             foreach ($alerts as $alert) {
                 $alert->setDispatched(true);
-                $this->alertManager->update($alert);
+                $this->alertRepository->update($alert);
             }
 
             $dispatched = count($alerts);

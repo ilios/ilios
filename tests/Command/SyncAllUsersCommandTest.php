@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\SyncAllUsersCommand;
+use App\Repository\AuthenticationRepository;
+use App\Repository\PendingUserUpdateRepository;
+use App\Repository\UserRepository;
 use App\Service\Directory;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\AuthenticationInterface;
@@ -27,17 +30,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
     /**
      * @var m\Mock
      */
-    protected $userManager;
+    protected $userRepository;
 
     /**
      * @var m\Mock
      */
-    protected $authenticationManager;
+    protected $authenticationRepository;
 
     /**
      * @var m\Mock
      */
-    protected $pendingUserUpdateManager;
+    protected $pendingUserUpdateRepository;
     protected $commandTester;
     protected $questionHelper;
 
@@ -54,16 +57,16 @@ class SyncAllUsersCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock('App\Entity\Manager\UserManager');
-        $this->authenticationManager = m::mock('App\Entity\Manager\AuthenticationManager');
-        $this->pendingUserUpdateManager = m::mock('App\Entity\Manager\PendingUserUpdateManager');
+        $this->userRepository = m::mock(UserRepository::class);
+        $this->authenticationRepository = m::mock(AuthenticationRepository::class);
+        $this->pendingUserUpdateRepository = m::mock(PendingUserUpdateRepository::class);
         $this->directory = m::mock(Directory::class);
         $this->em = m::mock(EntityManagerInterface::class);
 
         $command = new SyncAllUsersCommand(
-            $this->userManager,
-            $this->authenticationManager,
-            $this->pendingUserUpdateManager,
+            $this->userRepository,
+            $this->authenticationRepository,
+            $this->pendingUserUpdateRepository,
             $this->directory,
             $this->em
         );
@@ -74,8 +77,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($commandInApp);
         $this->questionHelper = $command->getHelper('question');
 
-        $this->pendingUserUpdateManager->shouldReceive('removeAllPendingUserUpdates')->once();
-        $this->userManager->shouldReceive('resetExaminedFlagForAllUsers')->once();
+        $this->pendingUserUpdateRepository->shouldReceive('removeAllPendingUserUpdates')->once();
+        $this->userRepository->shouldReceive('resetExaminedFlagForAllUsers')->once();
     }
 
     /**
@@ -84,9 +87,9 @@ class SyncAllUsersCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
-        unset($this->authenticationManager);
-        unset($this->pendingUserUpdateManager);
+        unset($this->userRepository);
+        unset($this->authenticationRepository);
+        unset($this->pendingUserUpdateRepository);
         unset($this->directory);
         unset($this->em);
         unset($this->commandTester);
@@ -94,7 +97,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteUserWithNoChanges()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -125,17 +128,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getAuthentication')->andReturn($authentication)
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
@@ -156,7 +159,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithFirstNameChange()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'new-first',
@@ -187,17 +190,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('setExamined')->with(true)
             ->shouldReceive('setFirstName')->with('new-first')
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -219,7 +222,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithLastNameChange()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -250,17 +253,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('setExamined')->with(true)
             ->shouldReceive('setLastName')->with('new-last')
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -282,7 +285,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithPhoneNumberChange()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -313,17 +316,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('setExamined')->with(true)
             ->shouldReceive('setPhone')->with('new-phone')
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -345,7 +348,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithEmailChange()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -375,25 +378,25 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getAuthentication')->andReturn($authentication)
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
         $update = m::mock('App\Entity\PendingUserUpdate')
             ->shouldReceive('setType')->with('emailMismatch')->once()
             ->shouldReceive('setProperty')->with('email')->once()
             ->shouldReceive('setValue')->with('new-email')->once()
             ->shouldReceive('setUser')->with($user)->once()
             ->mock();
-        $this->pendingUserUpdateManager->shouldReceive('create')->andReturn($update)->once();
-        $this->pendingUserUpdateManager->shouldReceive('update')->with($update, false)->once();
+        $this->pendingUserUpdateRepository->shouldReceive('create')->andReturn($update)->once();
+        $this->pendingUserUpdateRepository->shouldReceive('update')->with($update, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -415,7 +418,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithEmailCaseChange()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -446,17 +449,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('setExamined')->with(true)
             ->shouldReceive('setEmail')->with('EMAIL')
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -478,7 +481,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithDisplayNameChange()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -509,17 +512,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('setExamined')->with(true)
             ->shouldReceive('setDisplayName')->with('new display')
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -541,7 +544,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithUsernameChange()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -572,19 +575,19 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getAuthentication')->andReturn($authentication)
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
-        $this->authenticationManager->shouldReceive('update')->with($authentication, false)->once();
+        $this->authenticationRepository->shouldReceive('update')->with($authentication, false)->once();
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
@@ -606,7 +609,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithNoAuthenticationDataChange()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -638,22 +641,22 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('setUsername')->with('abc123')
             ->shouldReceive('getUsername')->andReturn('')
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
-        $this->authenticationManager->shouldReceive('findOneBy')
+        $this->authenticationRepository->shouldReceive('findOneBy')
             ->with(['username' => 'abc123'])->once()->andReturn(false);
-        $this->authenticationManager->shouldReceive('create')->andReturn($authentication)->once();
-        $this->authenticationManager->shouldReceive('update')->with($authentication, false)->once();
+        $this->authenticationRepository->shouldReceive('create')->andReturn($authentication)->once();
+        $this->authenticationRepository->shouldReceive('update')->with($authentication, false)->once();
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
@@ -678,7 +681,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithMultipleUserMatches()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -716,18 +719,18 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getAuthentication')->andReturn(null)
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user1, $user2])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user1, false)->once();
-        $this->userManager->shouldReceive('update')->with($user2, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user1, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user2, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -749,7 +752,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithEmptyFirstName()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => '',
@@ -772,17 +775,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -804,7 +807,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithEmptyLastName()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -827,17 +830,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -859,7 +862,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithEmptyEmail()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -882,17 +885,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -914,7 +917,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithEmptyUsernamelName()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -937,17 +940,17 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -969,7 +972,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithUserNotInTheDirectory()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -991,7 +994,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getDisplayName')->andReturn('display')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([$user])
@@ -1001,8 +1004,8 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('setType')->with('missingFromDirectory')->once()
             ->shouldReceive('setUser')->with($user)->once()
             ->mock();
-        $this->pendingUserUpdateManager->shouldReceive('create')->andReturn($update)->once();
-        $this->pendingUserUpdateManager->shouldReceive('update')->with($update, false)->once();
+        $this->pendingUserUpdateRepository->shouldReceive('create')->andReturn($update)->once();
+        $this->pendingUserUpdateRepository->shouldReceive('update')->with($update, false)->once();
 
         $this->em->shouldReceive('flush')->once();
         $this->commandTester->execute([
@@ -1023,7 +1026,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteEmailChangeDoesNotChangeOthers()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'new-first',
@@ -1053,25 +1056,25 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('getAuthentication')->andReturn($authentication)
             ->shouldReceive('setExamined')->with(true)
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user])
             ->once();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user, false)->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
         $update = m::mock('App\Entity\PendingUserUpdate')
             ->shouldReceive('setType')->with('emailMismatch')->once()
             ->shouldReceive('setProperty')->with('email')->once()
             ->shouldReceive('setValue')->with('new-email')->once()
             ->shouldReceive('setUser')->with($user)->once()
             ->mock();
-        $this->pendingUserUpdateManager->shouldReceive('create')->andReturn($update)->once();
-        $this->pendingUserUpdateManager->shouldReceive('update')->with($update, false)->once();
+        $this->pendingUserUpdateRepository->shouldReceive('create')->andReturn($update)->once();
+        $this->pendingUserUpdateRepository->shouldReceive('update')->with($update, false)->once();
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
@@ -1088,7 +1091,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
     public function testExecuteWithIgnoredAuthenticationWithSameUserName()
     {
-        $this->userManager->shouldReceive('getAllCampusIds')
+        $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -1129,18 +1132,18 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $duplicateAuthentication = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUser')->andReturn($user2)
             ->mock();
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
             ->andReturn([$user1])
             ->once();
-        $this->userManager->shouldReceive('update')->with($user1, false)->once();
-        $this->userManager
+        $this->userRepository->shouldReceive('update')->with($user1, false)->once();
+        $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())
             ->andReturn([])
             ->once();
-        $this->authenticationManager->shouldReceive('findOneBy')
+        $this->authenticationRepository->shouldReceive('findOneBy')
             ->with(['username' => 'abc123'])->once()->andReturn($duplicateAuthentication);
 
         $this->em->shouldReceive('flush')->twice();

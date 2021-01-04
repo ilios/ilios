@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Manager\ManagerInterface;
 use App\Entity\Offering;
+use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -15,8 +17,10 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class OfferingRepository
  */
-class OfferingRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class OfferingRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Offering::class);
@@ -45,7 +49,7 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         if (array_key_exists('startDate', $criteria)) {
             $criteria['startDate'] = new DateTime($criteria['startDate']);

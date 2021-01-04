@@ -17,15 +17,6 @@ use App\Entity\IlmSessionInterface;
 use App\Entity\InstructorGroup;
 use App\Entity\LearnerGroup;
 use App\Entity\LearningMaterial;
-use App\Entity\Manager\BaseManager;
-use App\Entity\Manager\CohortManager;
-use App\Entity\Manager\CourseLearningMaterialManager;
-use App\Entity\Manager\CourseManager;
-use App\Entity\Manager\IlmSessionManager;
-use App\Entity\Manager\LearningMaterialManager;
-use App\Entity\Manager\OfferingManager;
-use App\Entity\Manager\SessionLearningMaterialManager;
-use App\Entity\Manager\SessionManager;
 use App\Entity\MeshDescriptor;
 use App\Entity\Offering;
 use App\Entity\OfferingInterface;
@@ -41,6 +32,16 @@ use App\Entity\SessionObjectiveInterface;
 use App\Entity\SessionType;
 use App\Entity\Term;
 use App\Entity\User;
+use App\Repository\CohortRepository;
+use App\Repository\CourseLearningMaterialRepository;
+use App\Repository\CourseObjectiveRepository;
+use App\Repository\CourseRepository;
+use App\Repository\IlmSessionRepository;
+use App\Repository\LearningMaterialRepository;
+use App\Repository\OfferingRepository;
+use App\Repository\SessionLearningMaterialRepository;
+use App\Repository\SessionObjectiveRepository;
+use App\Repository\SessionRepository;
 use App\Service\CourseRollover;
 use App\Tests\TestCase;
 use DateInterval;
@@ -59,52 +60,52 @@ class CourseRolloverTest extends TestCase
     /**
      * @var m\MockInterface
      */
-    protected $courseManager;
+    protected $courseRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $learningMaterialManager;
+    protected $learningMaterialRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $courseLearningMaterialManager;
+    protected $courseLearningMaterialRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $sessionManager;
+    protected $sessionRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $sessionLearningMaterialManager;
+    protected $sessionLearningMaterialRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $offeringManager;
+    protected $offeringRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $ilmSessionManager;
+    protected $ilmSessionRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $cohortManager;
+    protected $cohortRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $courseObjectiveManager;
+    protected $courseObjectiveRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $sessionObjectiveManager;
+    protected $sessionObjectiveRepository;
 
     /**
      * @var CourseRollover
@@ -118,27 +119,27 @@ class CourseRolloverTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->courseManager = m::mock(CourseManager::class);
-        $this->learningMaterialManager = m::mock(LearningMaterialManager::class);
-        $this->courseLearningMaterialManager = m::mock(CourseLearningMaterialManager::class);
-        $this->sessionManager = m::mock(SessionManager::class);
-        $this->sessionLearningMaterialManager = m::mock(SessionLearningMaterialManager::class);
-        $this->offeringManager = m::mock(OfferingManager::class);
-        $this->ilmSessionManager = m::mock(IlmSessionManager::class);
-        $this->cohortManager = m::mock(CohortManager::class);
-        $this->sessionObjectiveManager = m::mock(BaseManager::class);
-        $this->courseObjectiveManager = m::mock(BaseManager::class);
+        $this->courseRepository = m::mock(CourseRepository::class);
+        $this->learningMaterialRepository = m::mock(LearningMaterialRepository::class);
+        $this->courseLearningMaterialRepository = m::mock(CourseLearningMaterialRepository::class);
+        $this->sessionRepository = m::mock(SessionRepository::class);
+        $this->sessionLearningMaterialRepository = m::mock(SessionLearningMaterialRepository::class);
+        $this->offeringRepository = m::mock(OfferingRepository::class);
+        $this->ilmSessionRepository = m::mock(IlmSessionRepository::class);
+        $this->cohortRepository = m::mock(CohortRepository::class);
+        $this->sessionObjectiveRepository = m::mock(SessionObjectiveRepository::class);
+        $this->courseObjectiveRepository = m::mock(CourseObjectiveRepository::class);
         $this->service = new CourseRollover(
-            $this->courseManager,
-            $this->learningMaterialManager,
-            $this->courseLearningMaterialManager,
-            $this->sessionManager,
-            $this->sessionLearningMaterialManager,
-            $this->offeringManager,
-            $this->ilmSessionManager,
-            $this->cohortManager,
-            $this->courseObjectiveManager,
-            $this->sessionObjectiveManager
+            $this->courseRepository,
+            $this->learningMaterialRepository,
+            $this->courseLearningMaterialRepository,
+            $this->sessionRepository,
+            $this->sessionLearningMaterialRepository,
+            $this->offeringRepository,
+            $this->ilmSessionRepository,
+            $this->cohortRepository,
+            $this->courseObjectiveRepository,
+            $this->sessionObjectiveRepository
         );
     }
 
@@ -148,16 +149,16 @@ class CourseRolloverTest extends TestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->courseManager);
-        unset($this->learningMaterialManager);
-        unset($this->courseLearningMaterialManager);
-        unset($this->sessionManager);
-        unset($this->sessionLearningMaterialManager);
-        unset($this->offeringManager);
-        unset($this->ilmSessionManager);
-        unset($this->cohortManager);
-        unset($this->courseObjectiveManager);
-        unset($this->sessionObjectiveManager);
+        unset($this->courseRepository);
+        unset($this->learningMaterialRepository);
+        unset($this->courseLearningMaterialRepository);
+        unset($this->sessionRepository);
+        unset($this->sessionLearningMaterialRepository);
+        unset($this->offeringRepository);
+        unset($this->ilmSessionRepository);
+        unset($this->cohortRepository);
+        unset($this->courseObjectiveRepository);
+        unset($this->sessionObjectiveRepository);
         unset($this->service);
     }
 
@@ -165,7 +166,7 @@ class CourseRolloverTest extends TestCase
     {
         $course = $this->createTestCourseWithAssociations();
         $newCourse = m::mock(CourseInterface::class);
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $newCourse->shouldReceive('setTitle')->with($course->getTitle())->once();
         $newCourse->shouldReceive('setYear')->with($newYear)->once();
@@ -218,10 +219,10 @@ class CourseRolloverTest extends TestCase
                 $newCourseObjective->shouldReceive('setAncestor')->with($courseObjective)->once();
             }
 
-            $this->courseObjectiveManager
+            $this->courseObjectiveRepository
                 ->shouldReceive('create')->once()
                 ->andReturn($newCourseObjective);
-            $this->courseObjectiveManager->shouldReceive('update')
+            $this->courseObjectiveRepository->shouldReceive('update')
                 ->once()->withArgs([$newCourseObjective, false, false]);
         }
 
@@ -237,10 +238,10 @@ class CourseRolloverTest extends TestCase
                 ->with($learningMaterial->getMeshDescriptors())->once();
             $newLearningMaterial->shouldReceive('setPosition')->with($learningMaterial->getPosition())->once();
 
-            $this->courseLearningMaterialManager
+            $this->courseLearningMaterialRepository
                 ->shouldReceive('create')->once()
                 ->andReturn($newLearningMaterial);
-            $this->courseLearningMaterialManager->shouldReceive('update')->once()
+            $this->courseLearningMaterialRepository->shouldReceive('update')->once()
                 ->withArgs([$newLearningMaterial, false, false]);
         }
 
@@ -259,10 +260,10 @@ class CourseRolloverTest extends TestCase
             $newSession->shouldReceive('setInstructionalNotes')->with($session->getInstructionalNotes())->once();
             $newSession->shouldReceive('setMeshDescriptors')->with($session->getMeshDescriptors())->once();
             $newSession->shouldReceive('setTerms')->with($session->getTerms())->once();
-            $this->sessionManager
+            $this->sessionRepository
                 ->shouldReceive('create')->once()
                 ->andReturn($newSession);
-            $this->sessionManager->shouldReceive('update')->withArgs([$newSession, false, false])->once();
+            $this->sessionRepository->shouldReceive('update')->withArgs([$newSession, false, false])->once();
 
             /** @var SessionObjectiveInterface $sessionObjective */
             foreach ($session->getSessionObjectives() as $sessionObjective) {
@@ -284,10 +285,11 @@ class CourseRolloverTest extends TestCase
                     $newSessionObjective->shouldReceive('setAncestor')->with($sessionObjective)->once();
                 }
 
-                $this->sessionObjectiveManager
+                $this->sessionObjectiveRepository
                     ->shouldReceive('create')->once()
                     ->andReturn($newSessionObjective);
-                $this->sessionObjectiveManager->shouldReceive('update')->withArgs([$newSessionObjective, false, false]);
+                $this->sessionObjectiveRepository->shouldReceive('update')
+                    ->withArgs([$newSessionObjective, false, false]);
             }
 
             foreach ($session->getLearningMaterials() as $learningMaterial) {
@@ -303,10 +305,10 @@ class CourseRolloverTest extends TestCase
 
                 $newLearningMaterial->shouldReceive('setMeshDescriptors')
                     ->with($learningMaterial->getMeshDescriptors())->once();
-                $this->sessionLearningMaterialManager
+                $this->sessionLearningMaterialRepository
                     ->shouldReceive('create')->once()
                     ->andReturn($newLearningMaterial);
-                $this->sessionLearningMaterialManager->shouldReceive('update')->once()
+                $this->sessionLearningMaterialRepository->shouldReceive('update')->once()
                     ->withArgs([$newLearningMaterial, false, false]);
             }
 
@@ -324,10 +326,10 @@ class CourseRolloverTest extends TestCase
                         );
                     }))->once();
                 $newSession->shouldReceive('setIlmSession')->with($newIlmSession)->once();
-                $this->ilmSessionManager
+                $this->ilmSessionRepository
                     ->shouldReceive('create')->once()
                     ->andReturn($newIlmSession);
-                $this->ilmSessionManager->shouldReceive('update')->once()
+                $this->ilmSessionRepository->shouldReceive('update')->once()
                     ->withArgs([$newIlmSession, false, false]);
             }
 
@@ -360,8 +362,8 @@ class CourseRolloverTest extends TestCase
                 $newOffering->shouldNotReceive('setLearnerGroups');
                 $newOffering->shouldNotReceive('setLearners');
 
-                $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
-                $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
+                $this->offeringRepository->shouldReceive('create')->once()->andReturn($newOffering);
+                $this->offeringRepository->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
             }
         }
 
@@ -377,7 +379,7 @@ class CourseRolloverTest extends TestCase
 
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
-        $newYear = $this->setupCourseManager($course, $newCourse, 15);
+        $newYear = $this->setupCourseRepository($course, $newCourse, 15);
         $newCourse->shouldReceive('setYear')->with($newYear)->once();
 
         $newCourse->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($course) {
@@ -426,12 +428,12 @@ class CourseRolloverTest extends TestCase
                     );
                 }))->once();
 
-                $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
-                $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
+                $this->offeringRepository->shouldReceive('create')->once()->andReturn($newOffering);
+                $this->offeringRepository->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
             }
 
-            $this->sessionManager->shouldReceive('create')->once()->andReturn($newSession);
-            $this->sessionManager->shouldReceive('update')->once()->withArgs([$newSession, false, false]);
+            $this->sessionRepository->shouldReceive('create')->once()->andReturn($newSession);
+            $this->sessionRepository->shouldReceive('update')->once()->withArgs([$newSession, false, false]);
         }
         $this->service->rolloverCourse($course->getId(), $newYear, []);
     }
@@ -442,7 +444,7 @@ class CourseRolloverTest extends TestCase
 
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $newCourse->shouldReceive('setYear')->with($newYear)->once();
 
@@ -545,12 +547,12 @@ class CourseRolloverTest extends TestCase
                     );
                 }))->once();
 
-                $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
-                $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
+                $this->offeringRepository->shouldReceive('create')->once()->andReturn($newOffering);
+                $this->offeringRepository->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
             }
 
-            $this->sessionManager->shouldReceive('create')->once()->andReturn($newSession);
-            $this->sessionManager->shouldReceive('update')->once()->withArgs([$newSession, false, false]);
+            $this->sessionRepository->shouldReceive('create')->once()->andReturn($newSession);
+            $this->sessionRepository->shouldReceive('update')->once()->withArgs([$newSession, false, false]);
         }
         $this->service->rolloverCourse($course->getId(), $newYear, ['new-start-date' => $newStartDate->format('c')]);
     }
@@ -566,17 +568,17 @@ class CourseRolloverTest extends TestCase
         $newYear = $course->getYear();
         $newTitle = $course->getTitle();
 
-        $this->courseManager->shouldReceive('findOneBy')
+        $this->courseRepository->shouldReceive('findOneBy')
             ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
-        $this->courseManager
+        $this->courseRepository
             ->shouldReceive('findBy')
             ->withArgs([['title' => $newTitle, 'year' => $newYear]])
             ->andReturn(false)->once();
-        $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
-        $this->courseManager
+        $this->courseRepository->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
+        $this->courseRepository
             ->shouldReceive('create')->once()
             ->andReturn($newCourse);
-        $this->courseManager->shouldReceive('flushAndClear')->once();
+        $this->courseRepository->shouldReceive('flushAndClear')->once();
 
         $newCourse->shouldReceive('setYear')->with($newYear)->once();
         $newCourse->shouldReceive('setTitle')->with($newTitle)->once();
@@ -651,12 +653,12 @@ class CourseRolloverTest extends TestCase
                         );
                     }))->once();
 
-                $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
-                $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
+                $this->offeringRepository->shouldReceive('create')->once()->andReturn($newOffering);
+                $this->offeringRepository->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
             }
 
-            $this->sessionManager->shouldReceive('create')->once()->andReturn($newSession);
-            $this->sessionManager->shouldReceive('update')->once()->withArgs([$newSession, false, false]);
+            $this->sessionRepository->shouldReceive('create')->once()->andReturn($newSession);
+            $this->sessionRepository->shouldReceive('update')->once()->withArgs([$newSession, false, false]);
         }
         $this->service->rolloverCourse($course->getId(), $newYear, ['new-start-date' => $newStartDate->format('c')]);
     }
@@ -681,7 +683,7 @@ class CourseRolloverTest extends TestCase
 
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $newSession = m::mock(SessionInterface::class);
         $newSession->shouldIgnoreMissing();
@@ -697,13 +699,13 @@ class CourseRolloverTest extends TestCase
                 $this->assertEquals($newCourseObjective, $collection->first());
                 return count($collection) === 1;
             }));
-        $this->sessionManager->shouldReceive('create')->once()->andReturn($newSession);
-        $this->courseObjectiveManager->shouldReceive('create')->once()->andReturn($newCourseObjective);
-        $this->sessionObjectiveManager->shouldReceive('create')->once()->andReturn($newSessionObjective);
+        $this->sessionRepository->shouldReceive('create')->once()->andReturn($newSession);
+        $this->courseObjectiveRepository->shouldReceive('create')->once()->andReturn($newCourseObjective);
+        $this->sessionObjectiveRepository->shouldReceive('create')->once()->andReturn($newSessionObjective);
 
-        $this->sessionManager->shouldIgnoreMissing();
-        $this->sessionObjectiveManager->shouldIgnoreMissing();
-        $this->courseObjectiveManager->shouldIgnoreMissing();
+        $this->sessionRepository->shouldIgnoreMissing();
+        $this->sessionObjectiveRepository->shouldIgnoreMissing();
+        $this->courseObjectiveRepository->shouldIgnoreMissing();
 
         $newCourse->shouldReceive('getCohorts')->once()->andReturn(new ArrayCollection());
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['']);
@@ -716,19 +718,19 @@ class CourseRolloverTest extends TestCase
         $newCourse = m::mock(CourseInterface::class);
         $newYear = $course->getYear();
         $newTitle = $course->getTitle() . ' again';
-        $this->courseManager->shouldReceive('findOneBy')
+        $this->courseRepository->shouldReceive('findOneBy')
             ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
-        $this->courseManager
+        $this->courseRepository
             ->shouldReceive('findBy')
             ->withArgs([['title' => $newTitle, 'year' => $newYear]])
             ->andReturn(false)->once();
-        $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
+        $this->courseRepository->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
 
-        $this->courseManager
+        $this->courseRepository
             ->shouldReceive('create')->once()
             ->andReturn($newCourse);
 
-        $this->courseManager->shouldReceive('flushAndClear')->once();
+        $this->courseRepository->shouldReceive('flushAndClear')->once();
         $newCourse->shouldReceive('setCohorts')->with($course->getCohorts());
         $newCourse->shouldReceive('getCohorts')->once()->andReturn($course->getCohorts());
         $newCourse->shouldIgnoreMissing();
@@ -746,26 +748,26 @@ class CourseRolloverTest extends TestCase
                 ->with($courseObjective->getProgramYearObjectives());
             $newCourseObjective->shouldReceive('setTerms')->with($courseObjective->getTerms())->once();
 
-            $this->courseObjectiveManager->shouldReceive('create')->once()->andReturn($newCourseObjective);
-            $this->courseObjectiveManager
+            $this->courseObjectiveRepository->shouldReceive('create')->once()->andReturn($newCourseObjective);
+            $this->courseObjectiveRepository
                 ->shouldReceive('update')->once()->withArgs([$newCourseObjective, false, false]);
         }
 
         foreach ($course->getLearningMaterials() as $learningMaterial) {
             $newLearningMaterial = m::mock(CourseLearningMaterialInterface::class);
             $newLearningMaterial->shouldIgnoreMissing();
-            $this->courseLearningMaterialManager->shouldReceive('create')->once()->andReturn($newLearningMaterial);
-            $this->courseLearningMaterialManager->shouldIgnoreMissing();
+            $this->courseLearningMaterialRepository->shouldReceive('create')->once()->andReturn($newLearningMaterial);
+            $this->courseLearningMaterialRepository->shouldIgnoreMissing();
         }
 
         /* @var SessionInterface $session */
         foreach ($course->getSessions() as $session) {
             $newSession = m::mock(SessionInterface::class);
             $newSession->shouldIgnoreMissing();
-            $this->sessionManager
+            $this->sessionRepository
                 ->shouldReceive('create')->once()
                 ->andReturn($newSession);
-            $this->sessionManager->shouldReceive('update')->withArgs([$newSession, false, false])->once();
+            $this->sessionRepository->shouldReceive('update')->withArgs([$newSession, false, false])->once();
 
             /** @var SessionObjectiveInterface $sessionObjective */
             foreach ($session->getSessionObjectives() as $sessionObjective) {
@@ -784,15 +786,17 @@ class CourseRolloverTest extends TestCase
                         return count($collection) === count($sessionObjective->getCourseObjectives());
                     }))->once();
 
-                $this->sessionObjectiveManager->shouldReceive('create')->once()->andReturn($newSessionObjective);
-                $this->sessionObjectiveManager->shouldReceive('update')->withArgs([$newSessionObjective, false, false]);
+                $this->sessionObjectiveRepository->shouldReceive('create')->once()->andReturn($newSessionObjective);
+                $this->sessionObjectiveRepository->shouldReceive('update')
+                    ->withArgs([$newSessionObjective, false, false]);
             }
 
             foreach ($session->getLearningMaterials() as $learningMaterial) {
                 $newLearningMaterial = m::mock(SessionLearningMaterialInterface::class);
                 $newLearningMaterial->shouldIgnoreMissing();
-                $this->sessionLearningMaterialManager->shouldReceive('create')->once()->andReturn($newLearningMaterial);
-                $this->sessionLearningMaterialManager->shouldIgnoreMissing();
+                $this->sessionLearningMaterialRepository->shouldReceive('create')->once()
+                    ->andReturn($newLearningMaterial);
+                $this->sessionLearningMaterialRepository->shouldIgnoreMissing();
             }
 
             if ($oldIlmSession = $session->getIlmSession()) {
@@ -809,10 +813,10 @@ class CourseRolloverTest extends TestCase
                         );
                     }))->once();
                 $newSession->shouldReceive('setIlmSession')->with($newIlmSession)->once();
-                $this->ilmSessionManager
+                $this->ilmSessionRepository
                     ->shouldReceive('create')->once()
                     ->andReturn($newIlmSession);
-                $this->ilmSessionManager->shouldReceive('update')->once()
+                $this->ilmSessionRepository->shouldReceive('update')->once()
                     ->withArgs([$newIlmSession, false, false]);
             }
 
@@ -844,8 +848,8 @@ class CourseRolloverTest extends TestCase
                 $newOffering->shouldReceive('setInstructorGroups')->once()->with($offering->getInstructorGroups());
                 $newOffering->shouldNotReceive('setLearnerGroups');
                 $newOffering->shouldNotReceive('setLearners');
-                $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
-                $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
+                $this->offeringRepository->shouldReceive('create')->once()->andReturn($newOffering);
+                $this->offeringRepository->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
             }
         }
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['new-course-title' => $newTitle]);
@@ -860,7 +864,7 @@ class CourseRolloverTest extends TestCase
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('setClerkshipType');
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $this->service->rolloverCourse($course->getId(), $newYear, ['']);
     }
@@ -883,8 +887,8 @@ class CourseRolloverTest extends TestCase
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('addLearningMaterial');
-        $this->courseLearningMaterialManager->shouldNotReceive('create');
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $this->courseLearningMaterialRepository->shouldNotReceive('create');
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-learning-materials' => true]);
     }
@@ -898,8 +902,8 @@ class CourseRolloverTest extends TestCase
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('addCourseObjective');
-        $this->courseObjectiveManager->shouldNotReceive('create');
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $this->courseObjectiveRepository->shouldNotReceive('create');
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-objectives' => true]);
     }
@@ -912,7 +916,7 @@ class CourseRolloverTest extends TestCase
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('setTerms');
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-terms' => true]);
     }
@@ -925,7 +929,7 @@ class CourseRolloverTest extends TestCase
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('setMeshDescriptors');
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-mesh' => true]);
     }
@@ -938,7 +942,7 @@ class CourseRolloverTest extends TestCase
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldReceive('setAncestor')->with($course)->once();
         $newCourse->shouldReceive('getCohorts')->once()->andReturn(new ArrayCollection());
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $this->service->rolloverCourse($course->getId(), $newYear, []);
     }
@@ -993,8 +997,8 @@ class CourseRolloverTest extends TestCase
     {
         $course = $this->createTestCourse();
         $newYear = $course->getYear() + 1;
-        $this->courseManager->shouldReceive('findOneBy')->withArgs([['id' => $course->getId()]])->andReturn($course);
-        $this->courseManager
+        $this->courseRepository->shouldReceive('findOneBy')->withArgs([['id' => $course->getId()]])->andReturn($course);
+        $this->courseRepository
             ->shouldReceive('findBy')
             ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
             ->andReturn(new Course());
@@ -1029,7 +1033,7 @@ class CourseRolloverTest extends TestCase
         $futureDate = new DateTime();
         $futureDate->add(DateInterval::createFromDateString('+2 year'));
         $year = (int) $futureDate->format('Y');
-        $this->courseManager->shouldReceive('findOneBy')->withArgs([['id' => $courseId]])->andReturn(false);
+        $this->courseRepository->shouldReceive('findOneBy')->withArgs([['id' => $courseId]])->andReturn(false);
 
         $this->expectException(Exception::class, "There are no courses with courseId {$courseId}.");
 
@@ -1044,9 +1048,9 @@ class CourseRolloverTest extends TestCase
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
         $newYear = $course->getYear() + 1;
-        $this->courseManager->shouldReceive('findOneBy')
+        $this->courseRepository->shouldReceive('findOneBy')
             ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
-        $this->courseManager
+        $this->courseRepository
             ->shouldReceive('findBy')
             ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
             ->andReturn(false)->once();
@@ -1094,7 +1098,7 @@ class CourseRolloverTest extends TestCase
 
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $newCourse->shouldReceive('setAncestor')->with($course)->once();
         $newCourse->shouldReceive('addCohort')->once()->with($newCohort);
@@ -1112,11 +1116,11 @@ class CourseRolloverTest extends TestCase
         $newCourseXObjective->shouldReceive('setMeshDescriptors')
             ->with($courseXObjective1->getMeshDescriptors())->once();
 
-        $this->cohortManager->shouldReceive('findOneBy')->with(['id' => 11])->andReturn($newCohort);
+        $this->cohortRepository->shouldReceive('findOneBy')->with(['id' => 11])->andReturn($newCohort);
 
 
-        $this->courseObjectiveManager->shouldReceive('create')->andReturn($newCourseXObjective);
-        $this->courseObjectiveManager
+        $this->courseObjectiveRepository->shouldReceive('create')->andReturn($newCourseXObjective);
+        $this->courseObjectiveRepository
             ->shouldReceive('update')->once()->withArgs([$newCourseXObjective, false, false]);
 
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, [], [11]);
@@ -1142,21 +1146,21 @@ class CourseRolloverTest extends TestCase
 
         $newCourse = m::mock(CourseInterface::class);
         $newCourse->shouldIgnoreMissing();
-        $newYear = $this->setupCourseManager($course, $newCourse);
+        $newYear = $this->setupCourseRepository($course, $newCourse);
 
         $firstNewSession = m::mock(SessionInterface::class);
         $firstNewSession->shouldIgnoreMissing();
-        $this->sessionManager
+        $this->sessionRepository
             ->shouldReceive('create')->once()
             ->andReturn($firstNewSession);
-        $this->sessionManager->shouldReceive('update')->withArgs([$firstNewSession, false, false])->once();
+        $this->sessionRepository->shouldReceive('update')->withArgs([$firstNewSession, false, false])->once();
 
         $secondNewSession = m::mock(SessionInterface::class);
         $secondNewSession->shouldIgnoreMissing();
-        $this->sessionManager
+        $this->sessionRepository
             ->shouldReceive('create')->once()
             ->andReturn($secondNewSession);
-        $this->sessionManager->shouldReceive('update')->withArgs([$secondNewSession, false, false])->twice();
+        $this->sessionRepository->shouldReceive('update')->withArgs([$secondNewSession, false, false])->twice();
         $secondNewSession->shouldReceive('setPostrequisite')->with($firstNewSession)->once();
 
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, [], []);
@@ -1374,7 +1378,7 @@ class CourseRolloverTest extends TestCase
     }
 
     /**
-     * Setup the course manager mock to do basic stuff we need in most tests
+     * Setup the course repository mock to do basic stuff we need in most tests
      *
      * @param CourseInterface $course
      * @param CourseInterface $newCourse
@@ -1382,22 +1386,22 @@ class CourseRolloverTest extends TestCase
      *
      * @return int
      */
-    protected function setupCourseManager(CourseInterface $course, CourseInterface $newCourse, $interval = 1)
+    protected function setupCourseRepository(CourseInterface $course, CourseInterface $newCourse, $interval = 1)
     {
         $newYear = $course->getYear() + $interval;
-        $this->courseManager->shouldReceive('findOneBy')
+        $this->courseRepository->shouldReceive('findOneBy')
             ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
-        $this->courseManager
+        $this->courseRepository
             ->shouldReceive('findBy')
             ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
             ->andReturn(false)->once();
-        $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
+        $this->courseRepository->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
 
-        $this->courseManager
+        $this->courseRepository
             ->shouldReceive('create')->once()
             ->andReturn($newCourse);
 
-        $this->courseManager->shouldReceive('flushAndClear')->once();
+        $this->courseRepository->shouldReceive('flushAndClear')->once();
 
         return $newYear;
     }

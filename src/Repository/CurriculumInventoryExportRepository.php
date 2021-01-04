@@ -6,13 +6,19 @@ namespace App\Repository;
 
 use App\Entity\CurriculumInventoryExport;
 use App\Entity\DTO\CurriculumInventoryExportDTO;
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-class CurriculumInventoryExportRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class CurriculumInventoryExportRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CurriculumInventoryExport::class);
@@ -41,7 +47,7 @@ class CurriculumInventoryExportRepository extends ServiceEntityRepository implem
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
             ->distinct()->from(CurriculumInventoryExport::class, 'x');

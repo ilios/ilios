@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\MeshTermInterface;
+use App\Repository\MeshTermRepository;
 
 /**
  * Class LoadMeshTermDataTest
@@ -16,7 +17,7 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\MeshTermManager';
+        return MeshTermRepository::class;
     }
 
     /**

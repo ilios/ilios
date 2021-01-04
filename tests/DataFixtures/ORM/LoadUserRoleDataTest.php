@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\UserRoleInterface;
+use App\Repository\UserRoleRepository;
 
 /**
  * Class LoadUserRoleDataTest
@@ -16,7 +17,7 @@ class LoadUserRoleDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\UserRoleManager';
+        return UserRoleRepository::class;
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\VocabularyManager;
+use App\Repository\VocabularyRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class Vocabularies extends ReadWriteController
 {
-    public function __construct(VocabularyManager $manager)
+    public function __construct(VocabularyRepository $repository)
     {
-        parent::__construct($manager, 'vocabularies');
+        parent::__construct($repository, 'vocabularies');
     }
 }

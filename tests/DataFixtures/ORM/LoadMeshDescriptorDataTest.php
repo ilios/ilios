@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\MeshDescriptorInterface;
+use App\Repository\MeshDescriptorRepository;
 
 /**
  * Class LoadMeshDescriptorDataTest
@@ -16,7 +17,7 @@ class LoadMeshDescriptorDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\MeshDescriptorManager';
+        return MeshDescriptorRepository::class;
     }
 
     /**

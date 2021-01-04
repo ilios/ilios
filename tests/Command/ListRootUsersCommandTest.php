@@ -6,6 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\ListRootUsersCommand;
 use App\Entity\DTO\UserDTO;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -24,7 +25,7 @@ class ListRootUsersCommandTest extends KernelTestCase
     /**
      * @var m\MockInterface
      */
-    protected $userManager;
+    protected $userRepository;
 
     /**
      * @var CommandTester
@@ -37,9 +38,9 @@ class ListRootUsersCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock('App\Entity\Manager\UserManager');
+        $this->userRepository = m::mock(UserRepository::class);
 
-        $command = new ListRootUsersCommand($this->userManager);
+        $command = new ListRootUsersCommand($this->userRepository);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -53,7 +54,7 @@ class ListRootUsersCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
+        unset($this->userRepository);
         unset($this->commandTester);
     }
 
@@ -100,7 +101,7 @@ class ListRootUsersCommandTest extends KernelTestCase
             true
         );
 
-        $this->userManager->shouldReceive('findDTOsBy')->with(['root' => true])->andReturn($users);
+        $this->userRepository->shouldReceive('findDTOsBy')->with(['root' => true])->andReturn($users);
 
         $this->commandTester->execute([
             'command' => ListRootUsersCommand::COMMAND_NAME,
@@ -122,7 +123,7 @@ class ListRootUsersCommandTest extends KernelTestCase
      */
     public function testListUsersNoResults()
     {
-        $this->userManager
+        $this->userRepository
             ->shouldReceive('findDTOsBy')
             ->with(['root' => true])
             ->andReturn([]);

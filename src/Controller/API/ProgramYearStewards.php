@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\ProgramYearStewardManager;
+use App\Repository\ProgramYearStewardRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProgramYearStewards extends ReadOnlyController
 {
-    public function __construct(ProgramYearStewardManager $manager)
+    public function __construct(ProgramYearStewardRepository $repository)
     {
-        parent::__construct($manager, 'programyearstewards');
+        parent::__construct($repository, 'programyearstewards');
     }
 }

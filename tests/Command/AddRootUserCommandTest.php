@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\AddRootUserCommand;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -23,7 +24,7 @@ class AddRootUserCommandTest extends KernelTestCase
     /**
      * @var m\MockInterface
      */
-    protected $userManager;
+    protected $userRepository;
 
     /**
      * @var CommandTester
@@ -36,9 +37,9 @@ class AddRootUserCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock('App\Entity\Manager\UserManager');
+        $this->userRepository = m::mock(UserRepository::class);
 
-        $command = new AddRootUserCommand($this->userManager);
+        $command = new AddRootUserCommand($this->userRepository);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -52,7 +53,7 @@ class AddRootUserCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
+        unset($this->userRepository);
         unset($this->commandTester);
     }
 
@@ -64,8 +65,8 @@ class AddRootUserCommandTest extends KernelTestCase
         $userId = 1;
         $user = m::mock('App\Entity\User');
 
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn($user);
-        $this->userManager->shouldReceive('update');
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn($user);
+        $this->userRepository->shouldReceive('update');
         $user->shouldReceive('setRoot');
 
         $this->commandTester->execute([
@@ -73,7 +74,7 @@ class AddRootUserCommandTest extends KernelTestCase
             'userId' => $userId
         ]);
 
-        $this->userManager->shouldHaveReceived('update', [ $user, true, true ]);
+        $this->userRepository->shouldHaveReceived('update', [ $user, true, true ]);
         $user->shouldHaveReceived('setRoot', [ true ]);
 
         $output = $this->commandTester->getDisplay();
@@ -98,7 +99,7 @@ class AddRootUserCommandTest extends KernelTestCase
     public function testUserNotFound()
     {
         $userId = 0;
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn(null);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn(null);
 
         $this->expectException(\Exception::class, "No user with id #{$userId} was found.");
         $this->commandTester->execute([

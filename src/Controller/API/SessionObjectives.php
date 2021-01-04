@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\SessionObjectiveManager;
+use App\Repository\SessionObjectiveRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -13,8 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SessionObjectives extends ReadWriteController
 {
-    public function __construct(SessionObjectiveManager $manager)
+    public function __construct(SessionObjectiveRepository $repository)
     {
-        parent::__construct($manager, 'sessionobjectives');
+        parent::__construct($repository, 'sessionobjectives');
     }
 }

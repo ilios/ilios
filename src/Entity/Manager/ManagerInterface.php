@@ -15,12 +15,12 @@ interface ManagerInterface
     public function getClass();
 
     /**
-     * Flush and clear the entity manager when doing bulk updates
+     * Flush and clear the entity repository when doing bulk updates
      */
     public function flushAndClear();
 
     /**
-     * Flush the entity manager when doing bulk updates
+     * Flush the entity repository when doing bulk updates
      */
     public function flush();
 

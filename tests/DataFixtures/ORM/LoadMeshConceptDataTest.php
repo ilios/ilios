@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\MeshConceptInterface;
+use App\Repository\MeshConceptRepository;
 
 /**
  * Class LoadMeshConceptDataTest
@@ -16,7 +17,7 @@ class LoadMeshConceptDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\MeshConceptManager';
+        return MeshConceptRepository::class;
     }
 
     /**

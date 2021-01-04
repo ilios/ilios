@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AamcResourceType;
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AamcResourceTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AamcResourceTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class AamcResourceTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AamcResourceType::class);
@@ -41,7 +45,7 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements DTOR
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\AamcResourceType', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);

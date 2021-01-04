@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\SessionManager;
+use App\Repository\SessionRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Sessions extends ReadWriteController
 {
-    public function __construct(SessionManager $manager)
+    public function __construct(SessionRepository $repository)
     {
-        parent::__construct($manager, 'sessions');
+        parent::__construct($repository, 'sessions');
     }
 
     /**

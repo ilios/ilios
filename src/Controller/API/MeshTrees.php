@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\MeshTreeManager;
+use App\Repository\MeshTreeRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MeshTrees extends ReadOnlyController
 {
-    public function __construct(MeshTreeManager $manager)
+    public function __construct(MeshTreeRepository $repository)
     {
-        parent::__construct($manager, 'meshtrees');
+        parent::__construct($repository, 'meshtrees');
     }
 }

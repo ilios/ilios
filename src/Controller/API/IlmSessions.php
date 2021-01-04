@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\IlmSessionManager;
+use App\Repository\IlmSessionRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class IlmSessions extends ReadWriteController
 {
-    public function __construct(IlmSessionManager $manager)
+    public function __construct(IlmSessionRepository $repository)
     {
-        parent::__construct($manager, 'ilmsessions');
+        parent::__construct($repository, 'ilmsessions');
     }
 }

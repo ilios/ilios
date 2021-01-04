@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\AamcPcrsInterface;
+use App\Repository\AamcPcrsRepository;
 
 /**
  * Class LoadAamcPcrsDataTest
@@ -16,7 +17,7 @@ class LoadAamcPcrsDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\AamcPcrsManager';
+        return AamcPcrsRepository::class;
     }
 
     /**

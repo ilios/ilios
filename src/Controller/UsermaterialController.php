@@ -7,10 +7,9 @@ namespace App\Controller;
 use App\Classes\SessionUserInterface;
 use App\RelationshipVoter\AbstractVoter;
 use App\Classes\UserMaterial;
-use App\Entity\LearningMaterialInterface;
 use App\Entity\LearningMaterialStatusInterface;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +31,7 @@ class UsermaterialController extends AbstractController
      * @param int $id of the user
      * @param Request $request
      * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param UserManager $manager
+     * @param UserRepository $userRepository
      * @param SerializerInterface $serializer
      * @param TokenStorageInterface $tokenStorage
      *
@@ -43,12 +42,12 @@ class UsermaterialController extends AbstractController
         $id,
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
-        UserManager $manager,
+        UserRepository $userRepository,
         SerializerInterface $serializer,
         TokenStorageInterface $tokenStorage
     ) {
         /** @var UserInterface $user */
-        $user = $manager->findOneBy(['id' => $id]);
+        $user = $userRepository->findOneBy(['id' => $id]);
 
         if (!$user) {
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
@@ -68,7 +67,7 @@ class UsermaterialController extends AbstractController
             $criteria['after'] = DateTime::createFromFormat('U', $afterTimestamp);
         }
 
-        $materials = $manager->findMaterialsForUser($user->getId(), $criteria);
+        $materials = $userRepository->findMaterialsForUser($user->getId(), $criteria);
 
         $materials = array_filter($materials, function ($entity) use ($authorizationChecker) {
             return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
-use App\Entity\Manager\OfferingManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\OfferingInterface;
 use App\Entity\UserInterface;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\OfferingRepository;
+use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\ChangeAlertHandler;
@@ -34,23 +34,23 @@ class Offerings extends ReadWriteController
      */
     protected $alertHandler;
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    protected $userManager;
+    protected $userRepository;
     /**
      * @var TokenStorageInterface
      */
     protected $tokenStorage;
 
     public function __construct(
-        OfferingManager $manager,
+        OfferingRepository $repository,
         ChangeAlertHandler $alertHandler,
-        UserManager $userManager,
+        UserRepository $userRepository,
         TokenStorageInterface $tokenStorage
     ) {
-        parent::__construct($manager, 'offerings');
+        parent::__construct($repository, 'offerings');
         $this->alertHandler = $alertHandler;
-        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
         $this->tokenStorage = $tokenStorage;
     }
 
@@ -230,7 +230,7 @@ class Offerings extends ReadWriteController
         $sessionUser = $this->tokenStorage->getToken()->getUser();
 
         /** @var UserInterface $instigator */
-        $instigator = $this->userManager->findOneBy(['id' => $sessionUser->getId()]);
+        $instigator = $this->userRepository->findOneBy(['id' => $sessionUser->getId()]);
 
         $this->alertHandler->createAlertForNewOffering($offering, $instigator);
     }
@@ -243,7 +243,7 @@ class Offerings extends ReadWriteController
         $sessionUser = $this->tokenStorage->getToken()->getUser();
 
         /** @var UserInterface $instigator */
-        $instigator = $this->userManager->findOneBy(['id' => $sessionUser->getId()]);
+        $instigator = $this->userRepository->findOneBy(['id' => $sessionUser->getId()]);
         $this->alertHandler->createOrUpdateAlertForUpdatedOffering($offering, $instigator, $originalProperties);
     }
 }

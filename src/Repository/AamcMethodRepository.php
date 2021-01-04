@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AamcMethod;
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AamcMethodDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AamcMethodRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class AamcMethodRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AamcMethod::class);
@@ -21,7 +25,7 @@ class AamcMethodRepository extends ServiceEntityRepository implements DTOReposit
     /**
      * @inheritdoc
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('DISTINCT x')->from('App\Entity\AamcMethod', 'x');
@@ -41,7 +45,7 @@ class AamcMethodRepository extends ServiceEntityRepository implements DTOReposit
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\AamcMethod', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);

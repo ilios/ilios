@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\User;
+use App\Repository\AuthenticationRepository;
+use App\Repository\PendingUserUpdateRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use App\Entity\Manager\UserManager;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\PendingUserUpdateManager;
 use App\Service\Directory;
 
 /**
@@ -23,20 +23,9 @@ use App\Service\Directory;
  */
 class SyncUserCommand extends Command
 {
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authenticationManager;
-
-    /**
-     * @var PendingUserUpdateManager
-     */
-    protected $pendingUserUpdateManager;
+    protected UserRepository $userRepository;
+    protected AuthenticationRepository $authenticationRepository;
+    protected PendingUserUpdateRepository $pendingUserUpdateRepository;
 
     /**
      * @var Directory
@@ -44,14 +33,14 @@ class SyncUserCommand extends Command
     protected $directory;
 
     public function __construct(
-        UserManager $userManager,
-        AuthenticationManager $authenticationManager,
-        PendingUserUpdateManager $pendingUserUpdateManager,
+        UserRepository $userRepository,
+        AuthenticationRepository $authenticationRepository,
+        PendingUserUpdateRepository $pendingUserUpdateRepository,
         Directory $directory
     ) {
-        $this->userManager = $userManager;
-        $this->authenticationManager = $authenticationManager;
-        $this->pendingUserUpdateManager = $pendingUserUpdateManager;
+        $this->userRepository = $userRepository;
+        $this->authenticationRepository = $authenticationRepository;
+        $this->pendingUserUpdateRepository = $pendingUserUpdateRepository;
         $this->directory = $directory;
 
         parent::__construct();
@@ -80,7 +69,7 @@ class SyncUserCommand extends Command
     {
         $userId = $input->getArgument('userId');
         /** @var User $user */
-        $user = $this->userManager->findOneBy(['id' => $userId]);
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(
                 "No user with id #{$userId} was found."
@@ -144,17 +133,17 @@ class SyncUserCommand extends Command
             $user->setPhone($userRecord['telephoneNumber']);
             $authentication = $user->getAuthentication();
             if (!$authentication) {
-                $authentication = $this->authenticationManager->create();
+                $authentication = $this->authenticationRepository->create();
                 $authentication->setUser($user);
             }
 
             $authentication->setUsername($userRecord['username']);
-            $this->authenticationManager->update($authentication, false);
+            $this->authenticationRepository->update($authentication, false);
 
-            $this->userManager->update($user);
+            $this->userRepository->update($user);
 
             foreach ($user->getPendingUserUpdates() as $update) {
-                $this->pendingUserUpdateManager->delete($update);
+                $this->pendingUserUpdateRepository->delete($update);
             }
 
             $output->writeln('<info>User updated successfully!</info>');

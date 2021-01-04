@@ -6,6 +6,7 @@ namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\AamcResourceTypeInterface;
 use App\Entity\TermInterface;
+use App\Repository\TermRepository;
 
 /**
  * Class LoadTermAamcResourceTypeTest
@@ -17,7 +18,7 @@ class LoadTermAamcResourceTypeTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\TermManager';
+        return TermRepository::class;
     }
 
     /**

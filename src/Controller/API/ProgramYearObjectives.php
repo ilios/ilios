@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\ProgramYearObjectiveManager;
+use App\Repository\ProgramYearObjectiveRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -13,8 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProgramYearObjectives extends ReadWriteController
 {
-    public function __construct(ProgramYearObjectiveManager $manager)
+    public function __construct(ProgramYearObjectiveRepository $repository)
     {
-        parent::__construct($manager, 'programyearobjectives');
+        parent::__construct($repository, 'programyearobjectives');
     }
 }

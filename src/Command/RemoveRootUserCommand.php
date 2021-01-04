@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,13 +24,13 @@ class RemoveRootUserCommand extends Command
     public const COMMAND_NAME = 'ilios:remove-root-user';
 
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    protected $userManager;
+    protected $userRepository;
 
-    public function __construct(UserManager $userManager)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
         parent::__construct();
     }
 
@@ -57,12 +57,12 @@ class RemoveRootUserCommand extends Command
     {
         $userId = $input->getArgument('userId');
         /* @var UserInterface $user */
-        $user = $this->userManager->findOneBy(['id' => $userId]);
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception("No user with id #{$userId} was found.");
         }
         $user->setRoot(false);
-        $this->userManager->update($user, true, true);
+        $this->userRepository->update($user, true, true);
         $output->writeln("Root-level privileges have been revoked from user with id #{$userId}.");
 
         return 0;

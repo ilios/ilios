@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AuditLog;
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AuditLogRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class AuditLogRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AuditLog::class);
     }
 
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         throw new \Exception('DTOs for AuditLogs are not implemented yet');
     }
@@ -123,5 +127,17 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
         foreach ($logs as $log) {
             $conn->insert('audit_log', $log);
         }
+    }
+
+    /**
+     * Returns a list of field names of the corresponding entity.
+     *
+     * @return array
+     *
+     * @todo Refactor this out into a trait or stick it somewhere else. [ST 2015/09/02]
+     */
+    public function getFieldNames()
+    {
+        return $this->_em->getClassMetadata($this->getClassName())->getFieldNames();
     }
 }

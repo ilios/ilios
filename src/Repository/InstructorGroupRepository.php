@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -11,8 +13,10 @@ use App\Entity\InstructorGroup;
 use App\Entity\DTO\InstructorGroupDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class InstructorGroupRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class InstructorGroupRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, InstructorGroup::class);
@@ -42,7 +46,7 @@ class InstructorGroupRepository extends ServiceEntityRepository implements DTORe
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
             ->distinct()->from('App\Entity\InstructorGroup', 'x');

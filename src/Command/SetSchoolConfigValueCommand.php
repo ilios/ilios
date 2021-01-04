@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Manager\SchoolManager;
 use App\Entity\SchoolConfig;
-use App\Entity\Manager\SchoolConfigManager;
 use App\Entity\SchoolInterface;
+use App\Repository\SchoolConfigRepository;
+use App\Repository\SchoolRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,25 +21,18 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class SetSchoolConfigValueCommand extends Command
 {
-    /**
-     * @var SchoolManager
-     */
-    protected $schoolManager;
-
-    /**
-     * @var SchoolConfigManager
-     */
-    protected $schoolConfigManager;
+    protected SchoolRepository $schoolRepository;
+    protected SchoolConfigRepository $schoolConfigRepository;
 
     /**
      * SetSchoolConfigValueCommand constructor.
-     * @param SchoolManager $schoolManager
-     * @param SchoolConfigManager $schoolConfigManager
+     * @param SchoolRepository $schoolRepository
+     * @param SchoolConfigRepository $schoolConfigRepository
      */
-    public function __construct(SchoolManager $schoolManager, SchoolConfigManager $schoolConfigManager)
+    public function __construct(SchoolRepository $schoolRepository, SchoolConfigRepository $schoolConfigRepository)
     {
-        $this->schoolManager = $schoolManager;
-        $this->schoolConfigManager = $schoolConfigManager;
+        $this->schoolRepository = $schoolRepository;
+        $this->schoolConfigRepository = $schoolConfigRepository;
         parent::__construct();
     }
 
@@ -80,22 +73,22 @@ class SetSchoolConfigValueCommand extends Command
         $value = $input->getArgument('value');
 
         /** @var SchoolInterface $school */
-        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
+        $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             $output->writeln("<error>There are no schools with id ${schoolId}.</error>");
             return 1;
         }
 
         /** @var SchoolConfig $config */
-        $config = $this->schoolConfigManager->findOneBy(['school' => $school->getId(), 'name' => $name]);
+        $config = $this->schoolConfigRepository->findOneBy(['school' => $school->getId(), 'name' => $name]);
         if (!$config) {
-            $config = $this->schoolConfigManager->create();
+            $config = $this->schoolConfigRepository->create();
             $config->setName($name);
             $config->setSchool($school);
         }
         $config->setValue($value);
 
-        $this->schoolConfigManager->update($config, true);
+        $this->schoolConfigRepository->update($config, true);
 
         $output->writeln('<info>Done.</info>');
 

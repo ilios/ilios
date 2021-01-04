@@ -6,8 +6,8 @@ namespace App\Service\CurriculumInventory\Export;
 
 use App\Entity\CurriculumInventoryInstitutionInterface;
 use App\Entity\CurriculumInventoryReportInterface;
-use App\Entity\Manager\CurriculumInventoryInstitutionManager;
-use App\Entity\Manager\CurriculumInventoryReportManager;
+use App\Repository\CurriculumInventoryInstitutionRepository;
+use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\Config;
 use Exception;
 
@@ -18,23 +18,23 @@ use Exception;
  */
 class Aggregator
 {
-    protected CurriculumInventoryReportManager $reportManager;
+    protected CurriculumInventoryReportRepository $reportRepository;
 
-    protected CurriculumInventoryInstitutionManager $institutionManager;
+    protected CurriculumInventoryInstitutionRepository $institutionManager;
 
     protected Config $config;
 
     /**
-     * @param CurriculumInventoryReportManager $reportManager
-     * @param CurriculumInventoryInstitutionManager $institutionManager
+     * @param CurriculumInventoryReportRepository $reportRepository
+     * @param CurriculumInventoryInstitutionRepository $institutionManager
      * @param Config $config
      */
     public function __construct(
-        CurriculumInventoryReportManager $reportManager,
-        CurriculumInventoryInstitutionManager $institutionManager,
+        CurriculumInventoryReportRepository $reportRepository,
+        CurriculumInventoryInstitutionRepository $institutionManager,
         Config $config
     ) {
-        $this->reportManager = $reportManager;
+        $this->reportRepository = $reportRepository;
         $this->institutionManager = $institutionManager;
         $this->config = $config;
     }
@@ -156,23 +156,23 @@ class Aggregator
             );
         }
 
-        $events = $this->reportManager->getEvents($invReport);
+        $events = $this->reportRepository->getEvents($invReport);
         $eventIds = array_keys($events);
-        $keywords = $this->reportManager->getEventKeywords($invReport, $eventIds);
-        $resourceTypes = $this->reportManager->getEventResourceTypes($invReport, $eventIds);
+        $keywords = $this->reportRepository->getEventKeywords($invReport, $eventIds);
+        $resourceTypes = $this->reportRepository->getEventResourceTypes($invReport, $eventIds);
 
-        $eventRefsForSeqBlocks = $this->reportManager->getEventReferencesForSequenceBlocks($invReport, $eventIds);
+        $eventRefsForSeqBlocks = $this->reportRepository->getEventReferencesForSequenceBlocks($invReport, $eventIds);
 
-        $programObjectives = $this->reportManager->getProgramObjectives($invReport);
+        $programObjectives = $this->reportRepository->getProgramObjectives($invReport);
         $consolidatedProgramObjectivesMap = self::getConsolidatedObjectivesMap($programObjectives);
-        $sessionObjectives = $this->reportManager->getSessionObjectives($invReport, $eventIds);
-        $courseObjectives = $this->reportManager->getCourseObjectives($invReport);
+        $sessionObjectives = $this->reportRepository->getSessionObjectives($invReport, $eventIds);
+        $courseObjectives = $this->reportRepository->getCourseObjectives($invReport);
 
-        $compObjRefsForSeqBlocks = $this->reportManager->getCompetencyObjectReferencesForSequenceBlocks(
+        $compObjRefsForSeqBlocks = $this->reportRepository->getCompetencyObjectReferencesForSequenceBlocks(
             $invReport,
             $consolidatedProgramObjectivesMap
         );
-        $compRefsForEvents = $this->reportManager->getCompetencyObjectReferencesForEvents(
+        $compRefsForEvents = $this->reportRepository->getCompetencyObjectReferencesForEvents(
             $invReport,
             $consolidatedProgramObjectivesMap,
             $eventIds
@@ -193,7 +193,7 @@ class Aggregator
 
 
         // Build out the competency framework information and added to $expectations.
-        $pcrs = $this->reportManager->getPcrs($invReport);
+        $pcrs = $this->reportRepository->getPcrs($invReport);
 
         $pcrsIds = array_keys($pcrs);
         $programObjectiveIds = array_keys($programObjectives);
@@ -211,7 +211,7 @@ class Aggregator
             'session_objectives_to_course_objectives' => [],
         ];
 
-        $rel = $this->reportManager->getProgramObjectivesToPcrsRelations(
+        $rel = $this->reportRepository->getProgramObjectivesToPcrsRelations(
             $programObjectiveIds,
             $pcrsIds,
             $consolidatedProgramObjectivesMap
@@ -219,7 +219,7 @@ class Aggregator
         $relations['program_objectives_to_pcrs'] = $rel['relations'];
         $includes['pcrs_ids'] = $rel['pcrs_ids'];
         $includes['program_objective_ids'] = $rel['program_objective_ids'];
-        $rel = $this->reportManager->getCourseObjectivesToProgramObjectivesRelations(
+        $rel = $this->reportRepository->getCourseObjectivesToProgramObjectivesRelations(
             $courseObjectiveIds,
             $programObjectiveIds,
             $consolidatedProgramObjectivesMap
@@ -234,7 +234,7 @@ class Aggregator
             )
         );
         $includes['course_objective_ids'] = $rel['course_objective_ids'];
-        $rel = $this->reportManager->getSessionObjectivesToCourseObjectivesRelations(
+        $rel = $this->reportRepository->getSessionObjectivesToCourseObjectivesRelations(
             $sessionObjectiveIds,
             $courseObjectiveIds
         );

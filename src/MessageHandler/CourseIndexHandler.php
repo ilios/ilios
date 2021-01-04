@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\MessageHandler;
 
-use App\Entity\Manager\CourseManager;
 use App\Message\CourseIndexRequest;
+use App\Repository\CourseRepository;
 use App\Service\Index\Curriculum;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -17,19 +17,19 @@ class CourseIndexHandler implements MessageHandlerInterface
     private $curriculumIndex;
 
     /**
-     * @var CourseManager
+     * @var CourseRepository
      */
-    private $courseManager;
+    private $courseRepository;
 
-    public function __construct(Curriculum $curriculumIndex, CourseManager $courseManager)
+    public function __construct(Curriculum $curriculumIndex, CourseRepository $courseRepository)
     {
         $this->curriculumIndex = $curriculumIndex;
-        $this->courseManager = $courseManager;
+        $this->courseRepository = $courseRepository;
     }
 
     public function __invoke(CourseIndexRequest $message)
     {
-        $indexes = $this->courseManager->getCourseIndexesFor($message->getCourseIds());
+        $indexes = $this->courseRepository->getCourseIndexesFor($message->getCourseIds());
         $this->curriculumIndex->index($indexes);
     }
 }

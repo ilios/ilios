@@ -11,8 +11,8 @@ use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\DTO\AamcMethodDTO;
 use App\Entity\DTO\AamcPcrsDTO;
-use App\Entity\Manager\AamcMethodManager;
-use App\Entity\Manager\AamcPcrsManager;
+use App\Repository\AamcMethodRepository;
+use App\Repository\AamcPcrsRepository;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use App\Tests\TestCase;
@@ -33,12 +33,12 @@ class VerificationPreviewBuilderTest extends TestCase
     protected $builder;
 
     /**
-     * @var AamcMethodManager|m\MockInterface
+     * @var AamcMethodRepository|m\MockInterface
      */
-    protected $methodManager;
+    protected $methodRepository;
 
     /**
-     * @var AamcPcrsManager|m\MockInterface
+     * @var AamcPcrsRepository|m\MockInterface
      */
     protected $pcrsManager;
 
@@ -54,15 +54,15 @@ class VerificationPreviewBuilderTest extends TestCase
     {
         parent::setUp();
         $this->aggregator = m::mock(Aggregator::class);
-        $this->methodManager = m::mock(AamcMethodManager::class);
-        $this->pcrsManager = m::mock(AamcPcrsManager::class);
+        $this->methodRepository = m::mock(AamcMethodRepository::class);
+        $this->pcrsManager = m::mock(AamcPcrsRepository::class);
         $this->builder = new VerificationPreviewBuilder(
             $this->aggregator,
-            $this->methodManager,
+            $this->methodRepository,
             $this->pcrsManager
         );
 
-        $this->methodManager->shouldReceive('findDTOsBy')->andReturn(
+        $this->methodRepository->shouldReceive('findDTOsBy')->andReturn(
             [
                 new AamcMethodDTO("AM001", "Clinical Documentation Review", true),
                 new AamcMethodDTO("AM002", "Clinical Performance Rating/Checklist", true),
@@ -372,7 +372,7 @@ class VerificationPreviewBuilderTest extends TestCase
     protected function tearDown(): void
     {
         unset($this->aggregator);
-        unset($this->methodManager);
+        unset($this->methodRepository);
         unset($this->pcrsManager);
         unset($this->builder);
         parent::tearDown();

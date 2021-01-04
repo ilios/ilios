@@ -25,8 +25,6 @@ services:
     arguments:
       $kernelSecret: '%kernel.secret%'
 
-  App\Entity\Manager\ApplicationConfigManager:
-    public: true
+  App\Repository\ApplicationConfigRepository:
     arguments:
-      $class: 'App\Entity\ApplicationConfig'
       $cacheEnabled: false

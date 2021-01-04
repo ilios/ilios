@@ -6,7 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\ListConfigValuesCommand;
 use App\Entity\ApplicationConfig;
-use App\Entity\Manager\ApplicationConfigManager;
+use App\Repository\ApplicationConfigRepository;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -25,14 +25,14 @@ class ListConfigValuesCommandTest extends KernelTestCase
     private const COMMAND_NAME = 'ilios:list-config-values';
 
     protected $commandTester;
-    protected $applicationConfigManager;
+    protected $applicationConfigRepository;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
+        $this->applicationConfigRepository = m::mock(ApplicationConfigRepository::class);
         $command = new ListConfigValuesCommand(
-            $this->applicationConfigManager,
+            $this->applicationConfigRepository,
             'TESTING123',
             'SECRET',
             'mysql'
@@ -50,7 +50,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->applicationConfigManager);
+        unset($this->applicationConfigRepository);
         unset($this->commandTester);
     }
 
@@ -59,7 +59,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
         $mockConfig = m::mock(ApplicationConfig::class);
         $mockConfig->shouldReceive('getName')->once()->andReturn('the-name');
         $mockConfig->shouldReceive('getValue')->once()->andReturn('the-value');
-        $this->applicationConfigManager->shouldReceive('findBy')
+        $this->applicationConfigRepository->shouldReceive('findBy')
             ->with([], ['name' => 'asc'])
             ->once()
             ->andReturn([$mockConfig]);
@@ -89,7 +89,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
     public function testExecuteWithConnectionException()
     {
         $connectionException = m::mock(ConnectionException::class);
-        $this->applicationConfigManager->shouldReceive('findBy')
+        $this->applicationConfigRepository->shouldReceive('findBy')
             ->with([], ['name' => 'asc'])
             ->once()
             ->andThrow($connectionException);

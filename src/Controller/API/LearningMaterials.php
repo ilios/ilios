@@ -7,9 +7,9 @@ namespace App\Controller\API;
 use App\Classes\SessionUserInterface;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
-use App\Entity\Manager\LearningMaterialManager;
 use App\Entity\Manager\V1CompatibleBaseManager;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\LearningMaterialRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\IliosFileSystem;
@@ -39,12 +39,12 @@ use RuntimeException;
 
 class LearningMaterials
 {
-    protected LearningMaterialManager $manager;
+    protected LearningMaterialRepository $manager;
     protected string $endpoint;
 
-    public function __construct(LearningMaterialManager $manager)
+    public function __construct(LearningMaterialRepository $repository)
     {
-        $this->manager = $manager;
+        $this->manager = $repository;
         $this->endpoint = 'learningmaterials';
     }
 
@@ -98,7 +98,7 @@ class LearningMaterials
         $parameters = ApiRequestParser::extractParameters($request);
         $q = $request->get('q');
         if (null !== $q) {
-            $dtos = $this->manager->findLearningMaterialDTOsByQ(
+            $dtos = $this->manager->findDTOsByQ(
                 $q,
                 $parameters['orderBy'],
                 $parameters['limit'],

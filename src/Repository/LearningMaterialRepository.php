@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\LearningMaterial;
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,8 +14,10 @@ use App\Entity\DTO\LearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\LearningMaterialInterface;
 
-class LearningMaterialRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class LearningMaterialRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, LearningMaterial::class);
@@ -42,7 +46,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
             ->distinct()->from(LearningMaterial::class, 'x');
@@ -357,5 +361,26 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         }
 
         return $qb;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalFileLearningMaterialCount()
+    {
+        $dql = 'SELECT COUNT(l.id) FROM App\Entity\LearningMaterial l WHERE l.relativePath IS NOT NULL';
+        return $this->_em->createQuery($dql)->getSingleScalarResult();
+    }
+
+    /**
+     * Get all the IDs for learning materials that are files
+     * int[]
+     */
+    public function getFileLearningMaterialIds(): array
+    {
+        $dql = 'SELECT l.id FROM App\Entity\LearningMaterial l WHERE l.relativePath IS NOT NULL';
+        $results = $this->_em->createQuery($dql)->getScalarResult();
+        $ids = array_column($results, 'id');
+        return array_map('intval', $ids);
     }
 }

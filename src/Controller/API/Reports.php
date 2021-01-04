@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\ReportManager;
+use App\Repository\ReportRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class Reports extends ReadWriteController
 {
-    public function __construct(ReportManager $manager)
+    public function __construct(ReportRepository $repository)
     {
-        parent::__construct($manager, 'reports');
+        parent::__construct($repository, 'reports');
     }
 }

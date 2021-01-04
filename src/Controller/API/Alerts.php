@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\AlertManager;
+use App\Repository\AlertRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class Alerts extends ReadWriteController
 {
-    public function __construct(AlertManager $manager)
+    public function __construct(AlertRepository $repository)
     {
-        parent::__construct($manager, 'alerts');
+        parent::__construct($repository, 'alerts');
     }
 }

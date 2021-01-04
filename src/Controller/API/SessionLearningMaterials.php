@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\SessionLearningMaterialManager;
+use App\Repository\SessionLearningMaterialRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SessionLearningMaterials extends ReadWriteController
 {
-    public function __construct(SessionLearningMaterialManager $manager)
+    public function __construct(SessionLearningMaterialRepository $repository)
     {
-        parent::__construct($manager, 'sessionlearningmaterials');
+        parent::__construct($repository, 'sessionlearningmaterials');
     }
 }

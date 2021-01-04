@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\CurriculumInventoryInstitutionInterface;
+use App\Repository\CurriculumInventoryInstitutionRepository;
 
 /**
  * Class LoadCurriculumInventoryInstitutionDataTest
@@ -16,7 +17,7 @@ class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\CurriculumInventoryInstitutionManager';
+        return CurriculumInventoryInstitutionRepository::class;
     }
 
     /**

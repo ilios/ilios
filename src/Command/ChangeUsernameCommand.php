@@ -6,35 +6,28 @@ namespace App\Command;
 
 use App\Entity\UserInterface;
 use App\Entity\AuthenticationInterface;
+use App\Repository\AuthenticationRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\UserManager;
 
 /**
- * Change a users's username
+ * Change a user's username
  */
 class ChangeUsernameCommand extends Command
 {
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authenticationManager;
+    protected UserRepository $userRepository;
+    protected AuthenticationRepository $authenticationRepository;
 
     public function __construct(
-        UserManager $userManager,
-        AuthenticationManager $authenticationManager
+        UserRepository $userRepository,
+        AuthenticationRepository $authenticationRepository
     ) {
-        $this->userManager = $userManager;
-        $this->authenticationManager = $authenticationManager;
+        $this->userRepository = $userRepository;
+        $this->authenticationRepository = $authenticationRepository;
         parent::__construct();
     }
 
@@ -61,7 +54,7 @@ class ChangeUsernameCommand extends Command
     {
         $userId = $input->getArgument('userId');
         /** @var UserInterface $user */
-        $user = $this->userManager->findOneBy(['id' => $userId]);
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(
                 "No user with id #{$userId} was found."
@@ -69,7 +62,7 @@ class ChangeUsernameCommand extends Command
         }
         $allUsernames = array_map(function (string $username) {
             return strtolower($username);
-        }, $this->authenticationManager->getUsernames());
+        }, $this->authenticationRepository->getUsernames());
 
         $question = new Question("New Username: ");
         $question->setValidator(function ($answer) use ($allUsernames) {
@@ -86,12 +79,12 @@ class ChangeUsernameCommand extends Command
         $authentication = $user->getAuthentication();
         if (!$authentication) {
             /** @var AuthenticationInterface $authentication */
-            $authentication = $this->authenticationManager->create();
+            $authentication = $this->authenticationRepository->create();
             $user->setAuthentication($authentication);
         }
 
         $authentication->setUsername($username);
-        $this->authenticationManager->update($authentication);
+        $this->authenticationRepository->update($authentication);
 
         $output->writeln('<info>Username Changed.</info>');
 

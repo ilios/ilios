@@ -9,20 +9,21 @@ use App\Entity\CourseInterface;
 use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\CourseObjectiveInterface;
 use App\Entity\IlmSessionInterface;
-use App\Entity\Manager\BaseManager;
-use App\Entity\Manager\CohortManager;
-use App\Entity\Manager\CourseLearningMaterialManager;
-use App\Entity\Manager\CourseManager;
-use App\Entity\Manager\IlmSessionManager;
-use App\Entity\Manager\LearningMaterialManager;
-use App\Entity\Manager\OfferingManager;
-use App\Entity\Manager\SessionLearningMaterialManager;
-use App\Entity\Manager\SessionManager;
 use App\Entity\OfferingInterface;
 use App\Entity\ProgramYearObjectiveInterface;
 use App\Entity\SessionInterface;
 use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\SessionObjectiveInterface;
+use App\Repository\CohortRepository;
+use App\Repository\CourseLearningMaterialRepository;
+use App\Repository\CourseObjectiveRepository;
+use App\Repository\CourseRepository;
+use App\Repository\IlmSessionRepository;
+use App\Repository\LearningMaterialRepository;
+use App\Repository\OfferingRepository;
+use App\Repository\SessionLearningMaterialRepository;
+use App\Repository\SessionObjectiveRepository;
+use App\Repository\SessionRepository;
 use DateInterval;
 use DateTime;
 use Exception;
@@ -34,93 +35,61 @@ use Exception;
  */
 class CourseRollover
 {
+    protected CourseRepository $courseRepository;
+    protected LearningMaterialRepository $learningMaterialRepository;
+    protected CourseLearningMaterialRepository $courseLearningMaterialRepository;
+    protected SessionRepository $sessionRepository;
+    protected SessionLearningMaterialRepository $sessionLearningMaterialRepository;
+    protected CourseObjectiveRepository $courseObjectiveRepository;
+    protected SessionObjectiveRepository $sessionObjectiveRepository;
+    protected OfferingRepository $offeringRepository;
 
     /**
-     * @var CourseManager
+     * @var IlmSessionRepository
      */
-    protected $courseManager;
+    protected $ilmSessionRepository;
 
     /**
-     * @var LearningMaterialManager
+     * @var CohortRepository
      */
-    protected $learningMaterialManager;
-
-    /**
-     * @var CourseLearningMaterialManager
-     */
-    protected $courseLearningMaterialManager;
-
-    /**
-     * @var SessionManager
-     */
-    protected $sessionManager;
-
-    /**
-     * @var SessionLearningMaterialManager;
-     */
-    protected $sessionLearningMaterialManager;
-
-    /**
-     * @var BaseManager $courseObjectiveManager
-     */
-    protected $courseObjectiveManager;
-
-    /**
-     * @var BaseManager $sessionObjectiveManager
-     */
-    protected $sessionObjectiveManager;
-
-    /**
-     * @var OfferingManager
-     */
-    protected $offeringManager;
-
-    /**
-     * @var IlmSessionManager
-     */
-    protected $ilmSessionManager;
-
-    /**
-     * @var CohortManager
-     */
-    private $cohortManager;
+    private $cohortRepository;
 
     /**
      * CourseRollover constructor.
      *
-     * @param CourseManager $courseManager
-     * @param LearningMaterialManager $learningMaterialManager
-     * @param CourseLearningMaterialManager $courseLearningMaterialManager
-     * @param SessionManager $sessionManager
-     * @param SessionLearningMaterialManager $sessionLearningMaterialManager
-     * @param OfferingManager $offeringManager
-     * @param IlmSessionManager $ilmSessionManager
-     * @param CohortManager $cohortManager
-     * @param BaseManager $courseObjectiveManager
-     * @param BaseManager $sessionObjectiveManager
+     * @param CourseRepository $courseRepository
+     * @param LearningMaterialRepository $learningMaterialRepository
+     * @param CourseLearningMaterialRepository $courseLearningMaterialRepository
+     * @param SessionRepository $sessionRepository
+     * @param SessionLearningMaterialRepository $sessionLearningMaterialRepository
+     * @param OfferingRepository $offeringRepository
+     * @param IlmSessionRepository $ilmSessionRepository
+     * @param CohortRepository $cohortRepository
+     * @param CourseObjectiveRepository $courseObjectiveRepository
+     * @param SessionObjectiveRepository $sessionObjectiveRepository
      */
     public function __construct(
-        CourseManager $courseManager,
-        LearningMaterialManager $learningMaterialManager,
-        CourseLearningMaterialManager $courseLearningMaterialManager,
-        SessionManager $sessionManager,
-        SessionLearningMaterialManager $sessionLearningMaterialManager,
-        OfferingManager $offeringManager,
-        IlmSessionManager $ilmSessionManager,
-        CohortManager $cohortManager,
-        BaseManager $courseObjectiveManager,
-        BaseManager $sessionObjectiveManager
+        CourseRepository $courseRepository,
+        LearningMaterialRepository $learningMaterialRepository,
+        CourseLearningMaterialRepository $courseLearningMaterialRepository,
+        SessionRepository $sessionRepository,
+        SessionLearningMaterialRepository $sessionLearningMaterialRepository,
+        OfferingRepository $offeringRepository,
+        IlmSessionRepository $ilmSessionRepository,
+        CohortRepository $cohortRepository,
+        CourseObjectiveRepository $courseObjectiveRepository,
+        SessionObjectiveRepository $sessionObjectiveRepository
     ) {
-        $this->courseManager = $courseManager;
-        $this->learningMaterialManager = $learningMaterialManager;
-        $this->courseLearningMaterialManager = $courseLearningMaterialManager;
-        $this->sessionManager = $sessionManager;
-        $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
-        $this->offeringManager = $offeringManager;
-        $this->ilmSessionManager = $ilmSessionManager;
-        $this->cohortManager = $cohortManager;
-        $this->courseObjectiveManager = $courseObjectiveManager;
-        $this->sessionObjectiveManager = $sessionObjectiveManager;
+        $this->courseRepository = $courseRepository;
+        $this->learningMaterialRepository = $learningMaterialRepository;
+        $this->courseLearningMaterialRepository = $courseLearningMaterialRepository;
+        $this->sessionRepository = $sessionRepository;
+        $this->sessionLearningMaterialRepository = $sessionLearningMaterialRepository;
+        $this->offeringRepository = $offeringRepository;
+        $this->ilmSessionRepository = $ilmSessionRepository;
+        $this->cohortRepository = $cohortRepository;
+        $this->courseObjectiveRepository = $courseObjectiveRepository;
+        $this->sessionObjectiveRepository = $sessionObjectiveRepository;
     }
 
     /**
@@ -173,7 +142,7 @@ class CourseRollover
         //create the Course
         //if there are not any duplicates, create a new course with the relevant info
         /* @var CourseInterface $newCourse */
-        $newCourse = $this->courseManager->create();
+        $newCourse = $this->courseRepository->create();
         $newCourse->setTitle($newTitle);
         $newCourse->setLevel($origCourse->getLevel());
         $newCourse->setYear($newAcademicYear);
@@ -190,7 +159,7 @@ class CourseRollover
 
         foreach ($newCohortIds as $id) {
             /** @var CohortInterface $cohort */
-            $cohort = $this->cohortManager->findOneBy(['id' => $id]);
+            $cohort = $this->cohortRepository->findOneBy(['id' => $id]);
             if (!$cohort) {
                 throw new Exception("There are no cohorts with id ${id}.");
             }
@@ -211,7 +180,7 @@ class CourseRollover
         }
 
         //persist the newCourse entity
-        $this->courseManager->update($newCourse, false, false);
+        $this->courseRepository->update($newCourse, false, false);
 
         //now run each of the subcomponents, starting with the course-specific ones
         //COURSE LEARNING MATERIALS
@@ -231,7 +200,7 @@ class CourseRollover
         }
 
         //commit EVERYTHING to the database
-        $this->courseManager->flushAndClear();
+        $this->courseRepository->flushAndClear();
 
         //return the course
         return $newCourse;
@@ -248,7 +217,7 @@ class CourseRollover
 
         foreach ($origCourseLearningMaterials as $origCourseLearningMaterial) {
             /* @var CourseLearningMaterialInterface $newCourseLearningMaterial */
-            $newCourseLearningMaterial = $this->courseLearningMaterialManager->create();
+            $newCourseLearningMaterial = $this->courseLearningMaterialRepository->create();
             $newCourseLearningMaterial->setNotes($origCourseLearningMaterial->getNotes());
             $newCourseLearningMaterial->setRequired($origCourseLearningMaterial->isRequired());
             $newCourseLearningMaterial->setPublicNotes($origCourseLearningMaterial->hasPublicNotes());
@@ -257,7 +226,7 @@ class CourseRollover
             $newCourseLearningMaterial->setMeshDescriptors($origCourseLearningMaterial->getMeshDescriptors());
             $newCourseLearningMaterial->setPosition($origCourseLearningMaterial->getPosition());
 
-            $this->courseLearningMaterialManager->update($newCourseLearningMaterial, false, false);
+            $this->courseLearningMaterialRepository->update($newCourseLearningMaterial, false, false);
         }
     }
 
@@ -283,7 +252,7 @@ class CourseRollover
 
         foreach ($origCourseSessions as $origCourseSession) {
             /* @var SessionInterface $newSession */
-            $newSession = $this->sessionManager->create();
+            $newSession = $this->sessionRepository->create();
             $newSession->setCourse($newCourse);
             $newSession->setTitle($origCourseSession->getTitle());
             $newSession->setAttireRequired($origCourseSession->isAttireRequired());
@@ -323,7 +292,7 @@ class CourseRollover
             //ILMSessions
             $this->rolloverIlmSession($newSession, $origCourseSession, $daysOffset);
 
-            $this->sessionManager->update($newSession, false, false);
+            $this->sessionRepository->update($newSession, false, false);
             $sessionMap[$origCourseSession->getId()] = $newSession;
         }
 
@@ -334,7 +303,7 @@ class CourseRollover
             if ($originalPostrequisite && array_key_exists($originalPostrequisite->getId(), $sessionMap)) {
                 $newSession = $sessionMap[$origCourseSession->getId()];
                 $newSession->setPostrequisite($sessionMap[$originalPostrequisite->getId()]);
-                $this->sessionManager->update($newSession, false, false);
+                $this->sessionRepository->update($newSession, false, false);
             }
         }
     }
@@ -353,7 +322,7 @@ class CourseRollover
 
         foreach ($origSessionLearningMaterials as $origSessionLearningMaterial) {
             /* @var SessionLearningMaterialInterface $newSessionLearningMaterial */
-            $newSessionLearningMaterial = $this->sessionLearningMaterialManager->create();
+            $newSessionLearningMaterial = $this->sessionLearningMaterialRepository->create();
             $newSessionLearningMaterial->setNotes($origSessionLearningMaterial->getNotes());
             $newSessionLearningMaterial->setRequired($origSessionLearningMaterial->isRequired());
             $newSessionLearningMaterial->setSession($newSession);
@@ -362,7 +331,7 @@ class CourseRollover
             $newSessionLearningMaterial->setMeshDescriptors($origSessionLearningMaterial->getMeshDescriptors());
             $newSessionLearningMaterial->setPosition($origSessionLearningMaterial->getPosition());
 
-            $this->sessionLearningMaterialManager->update($newSessionLearningMaterial, false, false);
+            $this->sessionLearningMaterialRepository->update($newSessionLearningMaterial, false, false);
         }
     }
 
@@ -394,7 +363,7 @@ class CourseRollover
             );
 
             /* @var OfferingInterface $newOffering */
-            $newOffering = $this->offeringManager->create();
+            $newOffering = $this->offeringRepository->create();
             $newOffering->setRoom($origSessionOffering->getRoom());
             $newOffering->setSite($origSessionOffering->getSite());
             $newOffering->setStartDate($newOfferingStartDate);
@@ -410,7 +379,7 @@ class CourseRollover
             if (empty($options['skip-instructor-groups'])) {
                 $newOffering->setInstructorGroups($origSessionOffering->getInstructorGroups());
             }
-            $this->offeringManager->update($newOffering, false, false);
+            $this->offeringRepository->update($newOffering, false, false);
         }
     }
 
@@ -462,7 +431,7 @@ class CourseRollover
      */
     private function checkForDuplicateRollover($title, $newAcademicYear)
     {
-        $duplicateCourses = $this->courseManager->findBy(['title' => $title, 'year' => $newAcademicYear]);
+        $duplicateCourses = $this->courseRepository->findBy(['title' => $title, 'year' => $newAcademicYear]);
         if (!empty($duplicateCourses)) {
             throw new Exception(
                 "Another course with the same title and academic year already exists."
@@ -479,7 +448,7 @@ class CourseRollover
     private function getOriginalCourse($origCourseId)
     {
         /* @var CourseInterface $origCourse */
-        $origCourse = $this->courseManager->findOneBy(['id' => $origCourseId]);
+        $origCourse = $this->courseRepository->findOneBy(['id' => $origCourseId]);
         if (empty($origCourse)) {
             throw new Exception(
                 'There are no courses with courseId ' . $origCourseId . '.'
@@ -501,7 +470,7 @@ class CourseRollover
         $cohorts = $newCourse->getCohorts();
         foreach ($origCourse->getCourseObjectives() as $courseObjective) {
             /* @var CourseObjectiveInterface $newCourseObjective */
-            $newCourseObjective = $this->courseObjectiveManager->create();
+            $newCourseObjective = $this->courseObjectiveRepository->create();
             $newCourseObjective->setCourse($newCourse);
             $newCourseObjective->setTerms($courseObjective->getTerms());
             $newCourseObjective->setPosition($courseObjective->getPosition());
@@ -512,7 +481,7 @@ class CourseRollover
                 $this->reLinkCourseObjectiveToProgramYearObjectives($courseObjective, $newCourseObjective, $cohort);
             }
 
-            $this->courseObjectiveManager->update($newCourseObjective, false, false);
+            $this->courseObjectiveRepository->update($newCourseObjective, false, false);
 
             $newCourseObjectives[$courseObjective->getId()] = $newCourseObjective;
         }
@@ -561,7 +530,7 @@ class CourseRollover
             ->map(
                 function (SessionObjectiveInterface $sessionObjective) use ($newSession, $newCourseObjectives) {
                     /** @var SessionObjectiveInterface $newSessionObjective */
-                    $newSessionObjective = $this->sessionObjectiveManager->create();
+                    $newSessionObjective = $this->sessionObjectiveRepository->create();
                     $newSessionObjective->setSession($newSession);
                     $newSessionObjective->setTerms($sessionObjective->getTerms());
                     $newSessionObjective->setPosition($sessionObjective->getPosition());
@@ -584,7 +553,7 @@ class CourseRollover
                         });
 
                     $newSessionObjective->setCourseObjectives($courseObjectives);
-                    $this->sessionObjectiveManager->update($newSessionObjective, false, false);
+                    $this->sessionObjectiveRepository->update($newSessionObjective, false, false);
                 }
             );
     }
@@ -602,7 +571,7 @@ class CourseRollover
     ) {
         if ($origIlmSession = $origSession->getIlmSession()) {
             /* @var IlmSessionInterface $newIlmSession */
-            $newIlmSession = $this->ilmSessionManager->create();
+            $newIlmSession = $this->ilmSessionRepository->create();
             $newIlmSession->setHours($origIlmSession->getHours());
             $newSession->setIlmSession($newIlmSession);
             $newDueDate = $this->getAdjustedDate(
@@ -611,7 +580,7 @@ class CourseRollover
             );
             $newIlmSession->setDueDate($newDueDate);
 
-            $this->ilmSessionManager->update($newIlmSession, false, false);
+            $this->ilmSessionRepository->update($newIlmSession, false, false);
         }
     }
 

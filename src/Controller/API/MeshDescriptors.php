@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\MeshDescriptorManager;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\MeshDescriptorRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,13 +19,13 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class MeshDescriptors extends ReadOnlyController
 {
     /**
-     * @var MeshDescriptorManager
+     * @var MeshDescriptorRepository
      */
     protected $manager;
 
-    public function __construct(MeshDescriptorManager $manager)
+    public function __construct(MeshDescriptorRepository $repository)
     {
-        parent::__construct($manager, 'meshdescriptors');
+        parent::__construct($repository, 'meshdescriptors');
     }
 
     /**
@@ -43,14 +43,14 @@ class MeshDescriptors extends ReadOnlyController
 
         if (null !== $q && '' !== $q) {
             if ('v1' === $version) {
-                $dtos = $this->manager->findMeshDescriptorV1DTOsByQ(
+                $dtos = $this->manager->findV1DTOsByQ(
                     $q,
                     $parameters['orderBy'],
                     $parameters['limit'],
                     $parameters['offset']
                 );
             } else {
-                $dtos = $this->manager->findMeshDescriptorDTOsByQ(
+                $dtos = $this->manager->findDTOsByQ(
                     $q,
                     $parameters['orderBy'],
                     $parameters['limit'],

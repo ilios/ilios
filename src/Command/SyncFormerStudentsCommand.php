@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\UserRoleInterface;
+use App\Repository\UserRepository;
+use App\Repository\UserRoleRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use App\Entity\Manager\UserRoleManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
 use App\Service\Directory;
 
@@ -23,15 +23,8 @@ use App\Service\Directory;
  */
 class SyncFormerStudentsCommand extends Command
 {
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var UserRoleManager
-     */
-    protected $userRoleManager;
+    protected UserRepository $userRepository;
+    protected UserRoleRepository $userRoleRepository;
 
     /**
      * @var Directory
@@ -39,12 +32,12 @@ class SyncFormerStudentsCommand extends Command
     protected $directory;
 
     public function __construct(
-        UserManager $userManager,
-        UserRoleManager $userRoleManager,
+        UserRepository $userRepository,
+        UserRoleRepository $userRoleRepository,
         Directory $directory
     ) {
-        $this->userManager = $userManager;
-        $this->userRoleManager = $userRoleManager;
+        $this->userRepository = $userRepository;
+        $this->userRoleRepository = $userRoleRepository;
         $this->directory = $directory;
 
         parent::__construct();
@@ -86,7 +79,7 @@ class SyncFormerStudentsCommand extends Command
             return $arr['campusId'];
         }, $formerStudents);
 
-        $notFormerStudents = $this->userManager->findUsersWhoAreNotFormerStudents($formerStudentsCampusIds);
+        $notFormerStudents = $this->userRepository->findUsersWhoAreNotFormerStudents($formerStudentsCampusIds);
         $usersToUpdate = $notFormerStudents->filter(function (UserInterface $user) {
             return !$user->isUserSyncIgnore();
         });
@@ -120,14 +113,14 @@ class SyncFormerStudentsCommand extends Command
 
         if ($helper->ask($input, $output, $question)) {
             /* @var UserRoleInterface $formerStudentRole */
-            $formerStudentRole = $this->userRoleManager->findOneBy(['title' => 'Former Student']);
+            $formerStudentRole = $this->userRoleRepository->findOneBy(['title' => 'Former Student']);
             /* @var UserInterface $user */
             foreach ($usersToUpdate as $user) {
                 $formerStudentRole->addUser($user);
                 $user->addRole($formerStudentRole);
-                $this->userManager->update($user, false);
+                $this->userRepository->update($user, false);
             }
-            $this->userRoleManager->update($formerStudentRole);
+            $this->userRoleRepository->update($formerStudentRole);
 
             $output->writeln('<info>Former students updated successfully!</info>');
 

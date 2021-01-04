@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\DTO\ProgramYearV1DTO;
+use App\Entity\Manager\ManagerInterface;
 use App\Entity\ProgramYear;
+use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\ProgramYearDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ProgramYearRepository extends ServiceEntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
+class ProgramYearRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface, V1DTORepositoryInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ProgramYear::class);
@@ -49,7 +53,7 @@ class ProgramYearRepository extends ServiceEntityRepository implements DTOReposi
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from(ProgramYear::class, 'p');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);

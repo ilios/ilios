@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -11,11 +13,16 @@ use App\Entity\ApplicationConfig;
 use App\Entity\DTO\ApplicationConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ApplicationConfigRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class ApplicationConfigRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    use ManagerRepository;
+
+    protected bool $cacheEnabled;
+
+    public function __construct(ManagerRegistry $registry, bool $cacheEnabled)
     {
         parent::__construct($registry, ApplicationConfig::class);
+        $this->cacheEnabled = $cacheEnabled;
     }
 
     /**
@@ -41,7 +48,7 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements DTO
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\ApplicationConfig', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
@@ -57,15 +64,35 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements DTO
         return $applicationConfigDTOs;
     }
 
-    /**
-     * Get every configuration value
-     */
-    public function getAllValues(): array
+    protected function getValues(): array
     {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('x.value, x.name')->from(ApplicationConfig::class, 'x');
+        static $cache;
+        if (! $this->cacheEnabled || ! isset($cache)) {
+            $cache = [];
 
-        return $qb->getQuery()->getArrayResult();
+            $qb = $this->_em->createQueryBuilder();
+            $qb->select('x.value, x.name')->from(ApplicationConfig::class, 'x');
+
+            $configs = $qb->getQuery()->getArrayResult();
+
+            foreach ($configs as ['name' => $name, 'value' => $value]) {
+                $cache[$name] = $value;
+            }
+        }
+        return $cache;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getValue(string $name)
+    {
+        $values = $this->getValues();
+        if (array_key_exists($name, $values)) {
+            return $values[$name];
+        }
+
+        return null;
     }
 
     /**

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Authentication;
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -14,8 +16,10 @@ use App\Entity\AuthenticationInterface;
 use App\Entity\DTO\AuthenticationDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AuthenticationRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class AuthenticationRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Authentication::class);
@@ -28,6 +32,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
      */
     public function findOneByUsername($username)
     {
+        $username = strtolower($username);
         $qb = $this->_em->createQueryBuilder();
         $qb->select('a')->from(Authentication::class, 'a');
         $qb->where($qb->expr()->eq(
@@ -71,7 +76,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('a')->distinct()->from('App\Entity\Authentication', 'a');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);

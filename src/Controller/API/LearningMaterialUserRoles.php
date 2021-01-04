@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\LearningMaterialUserRoleManager;
+use App\Repository\LearningMaterialUserRoleRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class LearningMaterialUserRoles extends ReadWriteController
 {
-    public function __construct(LearningMaterialUserRoleManager $manager)
+    public function __construct(LearningMaterialUserRoleRepository $repository)
     {
-        parent::__construct($manager, 'learningmaterialuserroles');
+        parent::__construct($repository, 'learningmaterialuserroles');
     }
 }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Entity\Authentication;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\UserManager;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\AuthenticationRepository;
+use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\SessionUserProvider;
@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -47,14 +46,11 @@ class Authentications
      */
     protected $sessionUserProvider;
 
+    protected AuthenticationRepository $repository;
     /**
-     * @var AuthenticationManager
+     * @var UserRepository
      */
-    protected $manager;
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
+    protected $userRepository;
     /**
      * @var SerializerInterface
      */
@@ -63,14 +59,14 @@ class Authentications
     public function __construct(
         UserPasswordEncoderInterface $passwordEncoder,
         SessionUserProvider $sessionUserProvider,
-        AuthenticationManager $manager,
-        UserManager $userManager,
+        AuthenticationRepository $repository,
+        UserRepository $userRepository,
         SerializerInterface $serializer
     ) {
         $this->sessionUserProvider = $sessionUserProvider;
         $this->passwordEncoder = $passwordEncoder;
-        $this->manager = $manager;
-        $this->userManager = $userManager;
+        $this->repository = $repository;
+        $this->userRepository = $userRepository;
         $this->serializer = $serializer;
     }
 
@@ -79,7 +75,7 @@ class Authentications
      */
     public function getOne(string $version, int $id, ApiResponseBuilder $builder, Request $request): Response
     {
-        $dto = $this->manager->findDTOBy(['user' => $id]);
+        $dto = $this->repository->findDTOBy(['user' => $id]);
 
         if (! $dto) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -101,7 +97,7 @@ class Authentications
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $class = $this->manager->getClass() . '[]';
+        $class = $this->repository->getClass() . '[]';
         $arr = $requestParser->extractPostDataFromRequest($request, 'authentications');
 
         $needingHashedPassword = array_filter($arr, function ($obj) {
@@ -113,7 +109,7 @@ class Authentications
         //prefetch all the users we need for hashing
         $users = [];
         /** @var UserInterface $user */
-        foreach ($this->userManager->findBy(['id' => $userIdsForHashing]) as $user) {
+        foreach ($this->userRepository->findBy(['id' => $userIdsForHashing]) as $user) {
             $users[$user->getId()] = $user;
         }
 
@@ -157,9 +153,9 @@ class Authentications
         $entities = array_values($entitiesByUserId);
 
         foreach ($entities as $entity) {
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
         }
-        $this->manager->flush();
+        $this->repository->flush();
 
         $dtos = $this->fetchDtosForEntities($entities);
 
@@ -177,7 +173,7 @@ class Authentications
         ApiResponseBuilder $builder
     ): Response {
         $parameters = ApiRequestParser::extractParameters($request);
-        $dtos = $this->manager->findDTOsBy(
+        $dtos = $this->repository->findDTOsBy(
             $parameters['criteria'],
             $parameters['orderBy'],
             $parameters['limit'],
@@ -208,20 +204,20 @@ class Authentications
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $entity = $this->manager->findOneBy(['user' => $id]);
+        $entity = $this->repository->findOneBy(['user' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;
             $permission = AbstractVoter::EDIT;
         } else {
-            $entity = $this->manager->create();
+            $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
             $permission = AbstractVoter::CREATE;
         }
         $authObject = $requestParser->extractPutDataFromRequest($request, 'authentications');
         if (!empty($authObject->password) && !empty($authObject->user)) {
             /** @var UserInterface $user */
-            $user = $this->userManager->findOneBy(['id' => $authObject->user]);
+            $user = $this->userRepository->findOneBy(['id' => $authObject->user]);
             if ($user) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
                 $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
@@ -250,7 +246,7 @@ class Authentications
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest('authentications', $entity, $code, $request);
     }
@@ -276,7 +272,7 @@ class Authentications
         }
 
         /** @var Authentication $entity */
-        $entity = $this->manager->findOneBy(['user' => $id]);
+        $entity = $this->repository->findOneBy(['user' => $id]);
 
         if (!$entity) {
             throw new NotFoundHttpException(sprintf("authentications/%s was not found.", $id));
@@ -285,7 +281,7 @@ class Authentications
         $authObject = $requestParser->extractPutDataFromRequest($request, 'authentications');
         if (!empty($authObject->password) && !empty($authObject->user)) {
             /** @var UserInterface $user */
-            $user = $this->userManager->findOneBy(['id' => $authObject->user]);
+            $user = $this->userRepository->findOneBy(['id' => $authObject->user]);
             if ($user) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
                 $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
@@ -314,7 +310,7 @@ class Authentications
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         $dtos = $this->fetchDtosForEntities([$entity]);
         return $builder->buildResponseForPatchRequest('authentications', $dtos[0], Response::HTTP_OK, $request);
@@ -329,7 +325,7 @@ class Authentications
         int $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
-        $entity = $this->manager->findOneBy(['user' => $id]);
+        $entity = $this->repository->findOneBy(['user' => $id]);
 
         if (! $entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -340,7 +336,7 @@ class Authentications
         }
 
         try {
-            $this->manager->delete($entity);
+            $this->repository->delete($entity);
 
             return new Response('', Response::HTTP_NO_CONTENT);
         } catch (Exception $exception) {
@@ -354,6 +350,6 @@ class Authentications
             return $entity->getUser()->getId();
         }, $entities);
 
-        return $this->manager->findDTOsBy(['user' => $ids]);
+        return $this->repository->findDTOsBy(['user' => $ids]);
     }
 }

@@ -6,9 +6,9 @@ namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
 use App\Entity\CourseInterface;
-use App\Entity\Manager\CourseManager;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\CourseRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CourseRollover;
@@ -28,10 +28,10 @@ class Courses extends ReadWriteController
      */
     protected $tokenStorage;
 
-    public function __construct(CourseManager $manager, TokenStorageInterface $tokenStorage)
+    public function __construct(CourseRepository $repository, TokenStorageInterface $tokenStorage)
     {
-        parent::__construct($manager, 'courses');
-        $this->manager = $manager;
+        parent::__construct($repository, 'courses');
+        $this->manager = $repository;
         $this->tokenStorage = $tokenStorage;
     }
 
@@ -65,7 +65,7 @@ class Courses extends ReadWriteController
             /** @var SessionUserInterface $currentUser */
             $currentUser = $this->tokenStorage->getToken()->getUser();
             if ('v1' === $version) {
-                $dtos = $this->manager->findCoursesByUserIdV1(
+                $dtos = $this->manager->findByUserIdV1(
                     $currentUser->getId(),
                     $parameters['criteria'],
                     $parameters['orderBy'],
@@ -73,7 +73,7 @@ class Courses extends ReadWriteController
                     $parameters['offset']
                 );
             } else {
-                $dtos = $this->manager->findCoursesByUserId(
+                $dtos = $this->manager->findByUserId(
                     $currentUser->getId(),
                     $parameters['criteria'],
                     $parameters['orderBy'],

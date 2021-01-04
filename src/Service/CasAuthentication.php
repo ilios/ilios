@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Repository\AuthenticationRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Manager\AuthenticationManager;
 use App\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -28,10 +28,7 @@ class CasAuthentication implements AuthenticationInterface
     protected const JWT_COOKIE = 'ilios-cas-jwt';
     protected const NO_ACCOUNT_EXISTS_COOKIE = 'ilios-cas-no-account-exists';
 
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authManager;
+    protected AuthenticationRepository $authenticationRepository;
 
     /**
      * @var JsonWebTokenManager
@@ -60,7 +57,7 @@ class CasAuthentication implements AuthenticationInterface
 
     /**
      * Constructor
-     * @param AuthenticationManager $authManager
+     * @param AuthenticationRepository $authenticationRepository
      * @param JsonWebTokenManager $jwtManager
      * @param LoggerInterface $logger
      * @param RouterInterface $router
@@ -68,14 +65,14 @@ class CasAuthentication implements AuthenticationInterface
      * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
-        AuthenticationManager $authManager,
+        AuthenticationRepository $authenticationRepository,
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger,
         RouterInterface $router,
         CasManager $casManager,
         SessionUserProvider $sessionUserProvider
     ) {
-        $this->authManager = $authManager;
+        $this->authenticationRepository = $authenticationRepository;
         $this->jwtManager = $jwtManager;
         $this->logger = $logger;
         $this->router = $router;
@@ -126,7 +123,7 @@ class CasAuthentication implements AuthenticationInterface
             throw new Exception($msg);
         }
         /* @var \App\Entity\AuthenticationInterface $authEntity */
-        $authEntity = $this->authManager->findOneBy(['username' => $username]);
+        $authEntity = $this->authenticationRepository->findOneBy(['username' => $username]);
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             if ($sessionUser->isEnabled()) {

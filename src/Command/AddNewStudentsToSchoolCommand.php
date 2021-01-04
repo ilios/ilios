@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Manager\UserRoleManager;
+use App\Repository\AuthenticationRepository;
+use App\Repository\SchoolRepository;
+use App\Repository\UserRepository;
+use App\Repository\UserRoleRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use App\Entity\Manager\UserManager;
-use App\Entity\Manager\SchoolManager;
-use App\Entity\Manager\AuthenticationManager;
 use App\Service\Directory;
 
 /**
@@ -23,25 +23,10 @@ use App\Service\Directory;
  */
 class AddNewStudentsToSchoolCommand extends Command
 {
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var SchoolManager
-     */
-    protected $schoolManager;
-
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authenticationManager;
-
-    /**
-     * @var UserRoleManager
-     */
-    protected $userRoleManager;
+    protected UserRepository $userRepository;
+    protected SchoolRepository $schoolRepository;
+    protected AuthenticationRepository $authenticationRepository;
+    protected UserRoleRepository $userRoleRepository;
 
     /**
      * @var Directory
@@ -49,16 +34,16 @@ class AddNewStudentsToSchoolCommand extends Command
     protected $directory;
 
     public function __construct(
-        UserManager $userManager,
-        SchoolManager $schoolManager,
-        AuthenticationManager $authenticationManager,
-        UserRoleManager $userRoleManager,
+        UserRepository $userRepository,
+        SchoolRepository $schoolRepository,
+        AuthenticationRepository $authenticationRepository,
+        UserRoleRepository $userRoleRepository,
         Directory $directory
     ) {
-        $this->userManager = $userManager;
-        $this->schoolManager = $schoolManager;
-        $this->authenticationManager = $authenticationManager;
-        $this->userRoleManager = $userRoleManager;
+        $this->userRepository = $userRepository;
+        $this->schoolRepository = $schoolRepository;
+        $this->authenticationRepository = $authenticationRepository;
+        $this->userRoleRepository = $userRoleRepository;
         $this->directory = $directory;
 
         parent::__construct();
@@ -92,7 +77,7 @@ class AddNewStudentsToSchoolCommand extends Command
     {
         $filter = $input->getArgument('filter');
         $schoolId = $input->getArgument('schoolId');
-        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
+        $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new \Exception(
                 "School with id {$schoolId} could not be found."
@@ -108,7 +93,7 @@ class AddNewStudentsToSchoolCommand extends Command
         }
         $output->writeln('<info>Found ' . count($students) . ' students in the directory.</info>');
 
-        $campusIds = $this->userManager->getAllCampusIds();
+        $campusIds = $this->userRepository->getAllCampusIds();
 
         $newStudents = array_filter($students, function (array $arr) use ($campusIds) {
             return !in_array($arr['campusId'], $campusIds);
@@ -145,7 +130,7 @@ class AddNewStudentsToSchoolCommand extends Command
         );
 
         if ($helper->ask($input, $output, $question)) {
-            $studentRole = $this->userRoleManager->findOneBy(['title' => 'Student']);
+            $studentRole = $this->userRoleRepository->findOneBy(['title' => 'Student']);
             foreach ($newStudents as $userRecord) {
                 if (empty($userRecord['email'])) {
                     $output->writeln(
@@ -171,7 +156,7 @@ class AddNewStudentsToSchoolCommand extends Command
                     );
                     continue;
                 }
-                $user = $this->userManager->create();
+                $user = $this->userRepository->create();
                 $user->setFirstName($userRecord['firstName']);
                 $user->setLastName($userRecord['lastName']);
                 $user->setEmail($userRecord['email']);
@@ -181,15 +166,15 @@ class AddNewStudentsToSchoolCommand extends Command
                 $user->setSchool($school);
                 $user->setUserSyncIgnore(false);
                 $user->addRole($studentRole);
-                $this->userManager->update($user);
+                $this->userRepository->update($user);
 
-                $authentication = $this->authenticationManager->create();
+                $authentication = $this->authenticationRepository->create();
                 $authentication->setUser($user);
                 $authentication->setUsername($userRecord['username']);
-                $this->authenticationManager->update($authentication, false);
+                $this->authenticationRepository->update($authentication, false);
 
                 $studentRole->addUser($user);
-                $this->userRoleManager->update($studentRole);
+                $this->userRoleRepository->update($studentRole);
 
                 $output->writeln(
                     '<info>Success! New student #' .

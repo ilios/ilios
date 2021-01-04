@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\ApplicationConfig;
-use App\Entity\Manager\ApplicationConfigManager;
+use App\Repository\ApplicationConfigRepository;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -20,28 +20,25 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ListConfigValuesCommand extends Command
 {
-    /**
-     * @var ApplicationConfigManager
-     */
-    protected $applicationConfigManager;
+    protected ApplicationConfigRepository $applicationConfigRepository;
     protected $kernelSecret;
     protected $databaseUrl;
     protected $environment;
 
     /**
      * RolloverCourseCommand constructor.
-     * @param ApplicationConfigManager $applicationConfigManager
+     * @param ApplicationConfigRepository $applicationConfigRepository
      * @param $environment
      * @param $kernelSecret
      * @param $databaseUrl
      */
     public function __construct(
-        ApplicationConfigManager $applicationConfigManager,
+        ApplicationConfigRepository $applicationConfigRepository,
         $environment,
         $kernelSecret,
         $databaseUrl
     ) {
-        $this->applicationConfigManager = $applicationConfigManager;
+        $this->applicationConfigRepository = $applicationConfigRepository;
         $this->environment = $environment;
         $this->kernelSecret = $kernelSecret;
         $this->databaseUrl = $databaseUrl;
@@ -67,7 +64,7 @@ class ListConfigValuesCommand extends Command
     {
         try {
             /** @var ApplicationConfig[] $configs */
-            $configs = $this->applicationConfigManager->findBy([], ['name' => 'asc']);
+            $configs = $this->applicationConfigRepository->findBy([], ['name' => 'asc']);
         } catch (ConnectionException $e) {
             $output->writeln('<error>Unable to connect to database.</error>');
             $output->writeln($e->getMessage());

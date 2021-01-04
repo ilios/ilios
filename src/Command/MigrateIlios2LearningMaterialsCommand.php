@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Repository\LearningMaterialRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\Console\Helper\ProgressBar;
-use App\Entity\Manager\LearningMaterialManager;
 use App\Service\IliosFileSystem;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -32,19 +32,16 @@ class MigrateIlios2LearningMaterialsCommand extends Command
      */
     protected $iliosFileSystem;
 
-    /**
-     * @var LearningMaterialManager
-     */
-    protected $learningMaterialManager;
+    protected LearningMaterialRepository $learningMaterialRepository;
 
     public function __construct(
         SymfonyFileSystem $symfonyFileSystem,
         IliosFileSystem $iliosFileSystem,
-        LearningMaterialManager $learningMaterialManager
+        LearningMaterialRepository $learningMaterialRepository
     ) {
         $this->symfonyFileSystem = $symfonyFileSystem;
         $this->iliosFileSystem = $iliosFileSystem;
-        $this->learningMaterialManager = $learningMaterialManager;
+        $this->learningMaterialRepository = $learningMaterialRepository;
 
         parent::__construct();
     }
@@ -78,7 +75,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
             );
         }
 
-        $totalLearningMaterialsCount = $this->learningMaterialManager->getTotalFileLearningMaterialCount();
+        $totalLearningMaterialsCount = $this->learningMaterialRepository->getTotalFileLearningMaterialCount();
 
         $helper = $this->getHelper('question');
         $output->writeln('');
@@ -100,7 +97,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
             $limit = 50;
 
             while ($migrated + $skipped < $totalLearningMaterialsCount) {
-                $learningMaterials = $this->learningMaterialManager->findFileLearningMaterials($limit, $offset);
+                $learningMaterials = $this->learningMaterialRepository->findFileLearningMaterials($limit, $offset);
                 foreach ($learningMaterials as $lm) {
                     $fullPath = $pathToIlios2 . $lm->getRelativePath();
                     if (!$this->symfonyFileSystem->exists($fullPath)) {
@@ -109,12 +106,12 @@ class MigrateIlios2LearningMaterialsCommand extends Command
                         $file = new File($fullPath);
                         $newPath = $this->iliosFileSystem->storeLearningMaterialFile($file);
                         $lm->setRelativePath($newPath);
-                        $this->learningMaterialManager->update($lm, false);
+                        $this->learningMaterialRepository->update($lm, false);
                         $migrated++;
                     }
                     $progress->advance();
                 }
-                $this->learningMaterialManager->flushAndClear();
+                $this->learningMaterialRepository->flushAndClear();
                 $offset += $limit;
             }
 

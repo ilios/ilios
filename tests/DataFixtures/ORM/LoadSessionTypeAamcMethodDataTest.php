@@ -6,6 +6,7 @@ namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\AamcMethodInterface;
 use App\Entity\SessionTypeInterface;
+use App\Repository\SessionTypeRepository;
 
 /**
  * Class LoadSessionTypeAamcMethodDataTest
@@ -17,7 +18,7 @@ class LoadSessionTypeAamcMethodDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\SessionTypeManager';
+        return SessionTypeRepository::class;
     }
 
     /**

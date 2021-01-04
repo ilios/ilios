@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\LearningMaterialUserRoleInterface;
+use App\Repository\LearningMaterialUserRoleRepository;
 
 /**
  * Class LoadLearningMaterialUserRoleDataTest
@@ -16,7 +17,7 @@ class LoadLearningMaterialUserRoleDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\LearningMaterialUserRoleManager';
+        return LearningMaterialUserRoleRepository::class;
     }
 
     /**

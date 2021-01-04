@@ -8,7 +8,9 @@ use App\Classes\IndexableCourse;
 use App\Classes\IndexableSession;
 use App\Entity\Course;
 use App\Entity\DTO\CourseV1DTO;
+use App\Entity\Manager\ManagerInterface;
 use App\Entity\Session;
+use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
@@ -17,8 +19,10 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\CourseDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class CourseRepository extends ServiceEntityRepository implements DTORepositoryInterface, V1DTORepositoryInterface
+class CourseRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface, V1DTORepositoryInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Course::class);
@@ -53,7 +57,7 @@ class CourseRepository extends ServiceEntityRepository implements DTORepositoryI
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         if (array_key_exists('startDate', $criteria)) {
             $criteria['startDate'] = new DateTime($criteria['startDate']);

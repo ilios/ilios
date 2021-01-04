@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\MeshPreviousIndexingManager;
+use App\Repository\MeshPreviousIndexingRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MeshPreviousIndexings extends ReadOnlyController
 {
-    public function __construct(MeshPreviousIndexingManager $manager)
+    public function __construct(MeshPreviousIndexingRepository $repository)
     {
-        parent::__construct($manager, 'meshpreviousindexings');
+        parent::__construct($repository, 'meshpreviousindexings');
     }
 }

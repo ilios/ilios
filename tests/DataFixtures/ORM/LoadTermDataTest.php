@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\TermInterface;
+use App\Repository\TermRepository;
 
 /**
  * Class LoadTermDataTest
@@ -16,7 +17,7 @@ class LoadTermDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\TermManager';
+        return TermRepository::class;
     }
 
     /**

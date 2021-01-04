@@ -38,6 +38,15 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    App\Repository\:
+        resource: '../src/Repository'
+        public: true
+
+    App\Repository\ApplicationConfigRepository:
+      public: true
+      arguments:
+        $cacheEnabled: true
+
     Ilios\MeSH\Parser:
 
     Alchemy\Zippy\Zippy:
@@ -45,9 +54,6 @@ services:
 
     Doctrine\Inflector\Inflector:
       factory: ['App\Service\InflectorFactory', 'create']
-
-    App\Entity\Manager\:
-      resource: '../src/Entity/Manager'
 
     App\Command\ListConfigValuesCommand:
       arguments:
@@ -58,223 +64,6 @@ services:
 
     App\Controller\SwaggerDocsController:
       public: true
-    App\Entity\Manager\AamcMethodManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\AamcMethod'
-    App\Entity\Manager\AamcPcrsManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\AamcPcrs'
-    App\Entity\Manager\AamcResourceTypeManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\AamcResourceType'
-    App\Entity\Manager\AlertManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Alert'
-    App\Entity\Manager\AlertChangeTypeManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\AlertChangeType'
-    App\Entity\Manager\ApplicationConfigManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\ApplicationConfig'
-        $cacheEnabled: true
-    App\Entity\Manager\AssessmentOptionManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\AssessmentOption'
-    App\Entity\Manager\AuditLogManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\AuditLog'
-    App\Entity\Manager\AuthenticationManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Authentication'
-    App\Entity\Manager\CohortManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Cohort'
-    App\Entity\Manager\CompetencyManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Competency'
-    App\Entity\Manager\CourseManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Course'
-    App\Entity\Manager\CourseClerkshipTypeManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\CourseClerkshipType'
-    App\Entity\Manager\CourseLearningMaterialManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\CourseLearningMaterial'
-    App\Entity\Manager\CourseObjectiveManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\CourseObjective'
-    App\Entity\Manager\CurriculumInventoryAcademicLevelManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\CurriculumInventoryAcademicLevel'
-    App\Entity\Manager\CurriculumInventoryExportManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\CurriculumInventoryExport'
-    App\Entity\Manager\CurriculumInventoryInstitutionManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\CurriculumInventoryInstitution'
-    App\Entity\Manager\CurriculumInventoryReportManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\CurriculumInventoryReport'
-    App\Entity\Manager\CurriculumInventorySequenceBlockManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\CurriculumInventorySequenceBlock'
-    App\Entity\Manager\CurriculumInventorySequenceManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\CurriculumInventorySequence'
-    App\Entity\Manager\DepartmentManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Department'
-    App\Entity\Manager\IlmSessionManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\IlmSession'
-    App\Entity\Manager\IngestionExceptionManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\IngestionException'
-    App\Entity\Manager\InstructorGroupManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\InstructorGroup'
-    App\Entity\Manager\LearnerGroupManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\LearnerGroup'
-    App\Entity\Manager\LearningMaterialManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\LearningMaterial'
-    App\Entity\Manager\LearningMaterialStatusManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\LearningMaterialStatus'
-    App\Entity\Manager\LearningMaterialUserRoleManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\LearningMaterialUserRole'
-    App\Entity\Manager\MeshConceptManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\MeshConcept'
-    App\Entity\Manager\MeshDescriptorManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\MeshDescriptor'
-    App\Entity\Manager\MeshPreviousIndexingManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\MeshPreviousIndexing'
-    App\Entity\Manager\MeshQualifierManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\MeshQualifier'
-    App\Entity\Manager\MeshTermManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\MeshTerm'
-    App\Entity\Manager\MeshTreeManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\MeshTree'
-    App\Entity\Manager\ObjectiveManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Objective'
-    App\Entity\Manager\OfferingManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Offering'
-    App\Entity\Manager\PendingUserUpdateManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\PendingUserUpdate'
-    App\Entity\Manager\ProgramManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Program'
-    App\Entity\Manager\ProgramYearManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\ProgramYear'
-    App\Entity\Manager\ProgramYearObjectiveManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\ProgramYearObjective'
-    App\Entity\Manager\ProgramYearStewardManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\ProgramYearSteward'
-    App\Entity\Manager\ReportManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Report'
-    App\Entity\Manager\SchoolConfigManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\SchoolConfig'
-    App\Entity\Manager\SchoolManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\School'
-    App\Entity\Manager\SessionManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Session'
-    App\Entity\Manager\SessionDescriptionManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\SessionDescription'
-    App\Entity\Manager\SessionLearningMaterialManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\SessionLearningMaterial'
-    App\Entity\Manager\SessionObjectiveManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\SessionObjective'
-    App\Entity\Manager\SessionTypeManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\SessionType'
-    App\Entity\Manager\TermManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Term'
-    App\Entity\Manager\UserManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\User'
-    App\Entity\Manager\UserRoleManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\UserRole'
-    App\Entity\Manager\VocabularyManager:
-      public: true
-      arguments:
-        $class: 'App\Entity\Vocabulary'
 
     App\EventListener\LogEntityChanges:
       tags:
@@ -310,11 +99,6 @@ services:
 
     App\Service\Config:
       public: true
-
-    App\Service\CourseRollover:
-      arguments:
-        $courseObjectiveManager: '@App\Entity\Manager\CourseObjectiveManager'
-        $sessionObjectiveManager: '@App\Entity\Manager\SessionObjectiveManager'
 
     App\Service\DataimportFileLocator:
       public: true

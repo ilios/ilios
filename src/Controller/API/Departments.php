@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\DepartmentManager;
+use App\Repository\DepartmentRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class Departments extends ReadOnlyController
 {
-    public function __construct(DepartmentManager $manager)
+    public function __construct(DepartmentRepository $repository)
     {
-        parent::__construct($manager, 'departments');
+        parent::__construct($repository, 'departments');
     }
 }

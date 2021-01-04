@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Repository\AuthenticationRepository;
+use App\Repository\SchoolRepository;
+use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use Symfony\Component\Console\Command\Command;
@@ -16,9 +19,6 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\UserManager;
-use App\Entity\Manager\SchoolManager;
 
 /**
  * Add a user by looking them up in the directory
@@ -27,20 +27,9 @@ use App\Entity\Manager\SchoolManager;
  */
 class AddUserCommand extends Command
 {
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authenticationManager;
-
-    /**
-     * @var SchoolManager
-     */
-    protected $schoolManager;
+    protected UserRepository $userRepository;
+    protected AuthenticationRepository $authenticationRepository;
+    protected SchoolRepository $schoolRepository;
 
     /**
      * @var UserPasswordEncoderInterface
@@ -53,15 +42,15 @@ class AddUserCommand extends Command
     protected $sessionUserProvider;
 
     public function __construct(
-        UserManager $userManager,
-        AuthenticationManager $authenticationManager,
-        SchoolManager $schoolManager,
+        UserRepository $userRepository,
+        AuthenticationRepository $authenticationRepository,
+        SchoolRepository $schoolRepository,
         UserPasswordEncoderInterface $encoder,
         SessionUserProvider $sessionUserProvider
     ) {
-        $this->userManager = $userManager;
-        $this->authenticationManager = $authenticationManager;
-        $this->schoolManager = $schoolManager;
+        $this->userRepository = $userRepository;
+        $this->authenticationRepository = $authenticationRepository;
+        $this->schoolRepository = $schoolRepository;
         $this->encoder = $encoder;
         $this->sessionUserProvider = $sessionUserProvider;
         parent::__construct();
@@ -113,7 +102,7 @@ class AddUserCommand extends Command
         $schoolId = $input->getOption('schoolId');
         if (!$schoolId) {
             $schoolTitles = [];
-            foreach ($this->schoolManager->findBy([], ['title' => 'ASC']) as $school) {
+            foreach ($this->schoolRepository->findBy([], ['title' => 'ASC']) as $school) {
                 $schoolTitles[$school->getTitle()] = $school->getId();
             }
             $helper = $this->getHelper('question');
@@ -126,7 +115,7 @@ class AddUserCommand extends Command
             $schoolTitle = $helper->ask($input, $output, $question);
             $schoolId = $schoolTitles[$schoolTitle];
         }
-        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
+        $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new \Exception(
                 "School with id {$schoolId} could not be found."
@@ -149,13 +138,13 @@ class AddUserCommand extends Command
 
         $userRecord = $this->fillUserRecord($userRecord, $input, $output);
 
-        $user = $this->userManager->findOneBy(['campusId' => $userRecord['campusId']]);
+        $user = $this->userRepository->findOneBy(['campusId' => $userRecord['campusId']]);
         if ($user) {
             throw new \Exception(
                 'User #' . $user->getId() . " with campus id {$userRecord['campusId']} already exists."
             );
         }
-        $user = $this->userManager->findOneBy(['email' => $userRecord['email']]);
+        $user = $this->userRepository->findOneBy(['email' => $userRecord['email']]);
         if ($user) {
             throw new \Exception(
                 'User #' . $user->getId() . " with email address {$userRecord['email']} already exists."
@@ -187,7 +176,7 @@ class AddUserCommand extends Command
         );
 
         if ($helper->ask($input, $output, $question)) {
-            $user = $this->userManager->create();
+            $user = $this->userRepository->create();
             $user->setFirstName($userRecord['firstName']);
             $user->setLastName($userRecord['lastName']);
             $user->setEmail($userRecord['email']);
@@ -197,10 +186,10 @@ class AddUserCommand extends Command
             $user->setSchool($school);
             $user->setUserSyncIgnore(false);
             $user->setRoot($userRecord['isRoot']);
-            $this->userManager->update($user);
+            $this->userRepository->update($user);
 
             /** @var AuthenticationInterface $authentication */
-            $authentication = $this->authenticationManager->create();
+            $authentication = $this->authenticationRepository->create();
             $authentication->setUsername($userRecord['username']);
 
             $user->setAuthentication($authentication);
@@ -209,7 +198,7 @@ class AddUserCommand extends Command
             $encodedPassword = $this->encoder->encodePassword($sessionUser, $userRecord['password']);
             $authentication->setPasswordHash($encodedPassword);
 
-            $this->authenticationManager->update($authentication);
+            $this->authenticationRepository->update($authentication);
 
             $output->writeln(
                 '<info>Success! New user #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' created.</info>'

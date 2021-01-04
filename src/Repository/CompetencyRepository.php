@@ -6,14 +6,18 @@ namespace App\Repository;
 
 use App\Entity\Competency;
 use App\Entity\DTO\CompetencyV1DTO;
+use App\Entity\Manager\ManagerInterface;
+use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\CompetencyDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class CompetencyRepository extends ServiceEntityRepository implements DTORepositoryInterface
+class CompetencyRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
 {
+    use ManagerRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Competency::class);
@@ -42,7 +46,7 @@ class CompetencyRepository extends ServiceEntityRepository implements DTOReposit
      *
      * @return array
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Competency::class, 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);

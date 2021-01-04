@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\SyncFormerStudentsCommand;
-use App\Entity\Manager\UserManager;
-use App\Entity\Manager\UserRoleManager;
+use App\Repository\UserRepository;
+use App\Repository\UserRoleRepository;
 use App\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -25,8 +25,8 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:sync-former-students';
 
-    protected $userManager;
-    protected $userRoleManager;
+    protected $userRepository;
+    protected $userRoleRepository;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
@@ -34,11 +34,11 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock(UserManager::class);
-        $this->userRoleManager = m::mock(UserRoleManager::class);
+        $this->userRepository = m::mock(UserRepository::class);
+        $this->userRoleRepository = m::mock(UserRoleRepository::class);
         $this->directory = m::mock(Directory::class);
 
-        $command = new SyncFormerStudentsCommand($this->userManager, $this->userRoleManager, $this->directory);
+        $command = new SyncFormerStudentsCommand($this->userRepository, $this->userRoleRepository, $this->directory);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -53,8 +53,8 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
-        unset($this->userRoleManager);
+        unset($this->userRepository);
+        unset($this->userRoleRepository);
         unset($this->directory);
         unset($this->commandTester);
     }
@@ -86,20 +86,20 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
         $this->directory->shouldReceive('findByLdapFilter')
             ->with('FILTER')
             ->andReturn([$fakeDirectoryUser1, $fakeDirectoryUser2]);
-        $this->userManager->shouldReceive('findUsersWhoAreNotFormerStudents')
+        $this->userRepository->shouldReceive('findUsersWhoAreNotFormerStudents')
             ->with(['abc', 'abc2'])
             ->andReturn(new ArrayCollection([$user]));
-        $this->userManager->shouldReceive('update')
+        $this->userRepository->shouldReceive('update')
             ->with($user, false);
         $role = m::mock('App\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)
             ->mock();
         $user->shouldReceive('addRole')->with($role);
-        $this->userRoleManager
+        $this->userRoleRepository
             ->shouldReceive('findOneBy')
             ->with(['title' => 'Former Student'])
             ->andReturn($role);
-        $this->userRoleManager
+        $this->userRoleRepository
             ->shouldReceive('update')
             ->with($role);
 
