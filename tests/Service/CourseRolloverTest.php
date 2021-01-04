@@ -1176,8 +1176,23 @@ class CourseRolloverTest extends TestCase
         $course->setLevel(1);
         $now = new DateTime();
         $course->setYear((int) $now->format('Y'));
-        $course->setStartDate(new DateTime('yesterday'));
-        $course->setEndDate(new DateTime('tomorrow'));
+        // ACHTUNG!
+        // If we're on a calendar week 52 or 53, then pick a large-enough offset
+        // to force the start date into the new year.
+        // This will ensure that we don't run into "week of the year" mismatches when
+        // comparing start/end-dates between the original course and its rolled-over counterpart.
+        // [ST 2021/01/04, week fifty three of 2020]
+        if ($now->format('W') === '53') {
+            $course->setStartDate(new DateTime('+8 days'));
+            $course->setEndDate(new DateTime('+11 days'));
+        } elseif ($now->format('W') === '52') {
+            $course->setStartDate(new DateTime('+16 days'));
+            $course->setEndDate(new DateTime('+19 days'));
+        } else {
+            $course->setStartDate(new DateTime('tomorrow'));
+            $course->setEndDate(new DateTime('+3 days'));
+        }
+
         $course->setExternalId('I45');
         $course->setLocked(true);
         $course->setArchived(true);
