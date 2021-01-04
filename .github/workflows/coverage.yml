@@ -17,16 +17,16 @@ jobs:
     name: Test and Calculate Coverage
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use PHP 7.4
-      uses: shivammathur/setup-php@v1
+      uses: shivammathur/setup-php@v2
       with:
         php-version: 7.4
         coverage: pcov
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: calculate
-      uses: paambaati/codeclimate-action@v2.4.0
+      uses: paambaati/codeclimate-action@v2.7.5
       with:
         coverageCommand: bin/phpunit --coverage-clover build/coverage.xml
         coverageLocations:

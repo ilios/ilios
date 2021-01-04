@@ -21,9 +21,9 @@ jobs:
     name: Code Style and Security
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use PHP ${{ env.latest_php }}
-      uses: shivammathur/setup-php@v1
+      uses: shivammathur/setup-php@v2
       with:
         coverage: none
         php-version: ${{ env.latest_php }}
@@ -63,9 +63,9 @@ jobs:
         php-version: [7.4]
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use PHP ${{ matrix.php-version }}
-      uses: shivammathur/setup-php@v1
+      uses: shivammathur/setup-php@v2
       with:
         coverage: none
         php-version: ${{ matrix.php-version }}
@@ -87,9 +87,9 @@ jobs:
     needs: code_style_security
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use PHP ${{ env.latest_php }}
-      uses: shivammathur/setup-php@v1
+      uses: shivammathur/setup-php@v2
       with:
         coverage: none
         php-version: ${{ env.latest_php }}
@@ -124,9 +124,9 @@ jobs:
         group: [api_1, api_2, api_3, api_4, api_5, cli, mesh_data_import, model]
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use PHP ${{ matrix.php-version }}
-      uses: shivammathur/setup-php@v1
+      uses: shivammathur/setup-php@v2
       with:
         coverage: none
         php-version: ${{ matrix.php-version }}
@@ -153,9 +153,9 @@ jobs:
         php-version: [7.4]
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use PHP ${{ matrix.php-version }}
-      uses: shivammathur/setup-php@v1
+      uses: shivammathur/setup-php@v2
       with:
         coverage: none
         php-version: ${{ matrix.php-version }}
@@ -183,7 +183,7 @@ jobs:
       ILIOS_SECRET: DifferentSecret
       ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Drop, Create Database to use everywhere else
       run: |
         sudo /etc/init.d/mysql start
@@ -251,9 +251,9 @@ jobs:
         php-version: [7.4]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Use PHP ${{ matrix.php-version }}
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           coverage: none
           php-version: ${{ matrix.php-version }}
