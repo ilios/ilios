@@ -41,7 +41,7 @@ class Cohorts extends ReadOnlyController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if (!$entity) {
             throw new GoneHttpException('Explicitly creating cohorts is not supported.');
@@ -58,7 +58,7 @@ class Cohorts extends ReadOnlyController
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }

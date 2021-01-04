@@ -68,18 +68,18 @@ class CurriculumInventoryDownloadController extends AbstractController
      * Retrieves the report document for a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
-     * @param CurriculumInventoryExportRepository $manager
+     * @param CurriculumInventoryExportRepository $repository
      * @param Exporter $exporter
      * @return string
      */
     protected function getExportedDocument(
         CurriculumInventoryReportInterface $report,
-        CurriculumInventoryExportRepository $manager,
+        CurriculumInventoryExportRepository $repository,
         Exporter $exporter
     ) {
         // check if the report has been exported.
         // if so, pull the document from the database.
-        $export = $manager->findOneBy(['report' => $report->getId()]);
+        $export = $repository->findOneBy(['report' => $report->getId()]);
         if ($export) {
             return $export->getDocument();
         }

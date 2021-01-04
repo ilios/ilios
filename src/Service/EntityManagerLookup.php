@@ -41,7 +41,7 @@ class EntityManagerLookup
 
         if (!$manager instanceof ManagerInterface) {
             $class = $manager->getClass();
-            throw new Exception("{$class} is not an Ilios Manager.");
+            throw new Exception("{$class} is not an Ilios Repository.");
         }
 
         return $manager;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\ManagerInterface;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -21,7 +22,7 @@ class MeshDescriptors extends ReadOnlyController
     /**
      * @var MeshDescriptorRepository
      */
-    protected $manager;
+    protected ManagerInterface $repository;
 
     public function __construct(MeshDescriptorRepository $repository)
     {
@@ -43,14 +44,14 @@ class MeshDescriptors extends ReadOnlyController
 
         if (null !== $q && '' !== $q) {
             if ('v1' === $version) {
-                $dtos = $this->manager->findV1DTOsByQ(
+                $dtos = $this->repository->findV1DTOsByQ(
                     $q,
                     $parameters['orderBy'],
                     $parameters['limit'],
                     $parameters['offset']
                 );
             } else {
-                $dtos = $this->manager->findDTOsByQ(
+                $dtos = $this->repository->findDTOsByQ(
                     $q,
                     $parameters['orderBy'],
                     $parameters['limit'],

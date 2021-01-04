@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\ManagerInterface;
 use App\Repository\ObjectiveRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -19,6 +20,11 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class Objectives extends ReadOnlyController
 {
+    /**
+     * @var ObjectiveRepository
+     */
+    protected ManagerInterface $repository;
+
     public function __construct(ObjectiveRepository $repository)
     {
         parent::__construct($repository, 'objectives');
@@ -35,7 +41,7 @@ class Objectives extends ReadOnlyController
         ApiResponseBuilder $builder,
         Request $request
     ): Response {
-        $dto = $this->manager->findV1DTOBy(['id' => $id]);
+        $dto = $this->repository->findV1DTOBy(['id' => $id]);
 
         if (! $dto) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
@@ -58,7 +64,7 @@ class Objectives extends ReadOnlyController
     ): Response {
         $parameters = ApiRequestParser::extractParameters($request);
 
-        $dtos = $this->manager->findV1DTOsBy(
+        $dtos = $this->repository->findV1DTOsBy(
             $parameters['criteria'],
             $parameters['orderBy'],
             $parameters['limit'],

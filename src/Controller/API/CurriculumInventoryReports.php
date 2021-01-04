@@ -11,6 +11,7 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Repository\CurriculumInventorySequenceRepository;
+use App\Repository\ManagerInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\ReportRollover;
@@ -33,7 +34,7 @@ class CurriculumInventoryReports extends ReadWriteController
     /**
      * @var CurriculumInventoryReportRepository
      */
-    protected $manager;
+    protected ManagerInterface $repository;
     protected CurriculumInventoryAcademicLevelRepository $levelManager;
     protected CurriculumInventorySequenceRepository $sequenceManager;
 
@@ -92,17 +93,17 @@ class CurriculumInventoryReports extends ReadWriteController
             $sequence->setReport($entity);
             $this->sequenceManager->update($sequence, false);
 
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
         }
-        $this->manager->flush();
+        $this->repository->flush();
 
         foreach ($entities as $entity) {
             // generate token after the fact, since it needs to include the report id.
             $entity->generateToken();
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
         }
 
-        $this->manager->flush();
+        $this->repository->flush();
 
         $dtos = $this->fetchDtosForEntities($entities);
 
@@ -122,7 +123,7 @@ class CurriculumInventoryReports extends ReadWriteController
         ApiResponseBuilder $builder
     ): Response {
         /** @var CurriculumInventoryReportInterface $report */
-        $report = $this->manager->findOneBy(['id' => $id]);
+        $report = $this->repository->findOneBy(['id' => $id]);
 
         if (! $report) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -171,7 +172,7 @@ class CurriculumInventoryReports extends ReadWriteController
         VerificationPreviewBuilder $previewBuilder
     ): Response {
         /* @var CurriculumInventoryReportInterface $report */
-        $report = $this->manager->findOneBy(['id' => $id]);
+        $report = $this->repository->findOneBy(['id' => $id]);
 
         if (! $report) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));

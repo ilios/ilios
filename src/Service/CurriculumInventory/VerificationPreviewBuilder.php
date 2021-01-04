@@ -89,7 +89,7 @@ class VerificationPreviewBuilder
     /**
      * @var AamcPcrsRepository
      */
-    protected $pcrsManager;
+    protected $pcrsRepository;
 
     /**
      * @var null|array
@@ -101,16 +101,16 @@ class VerificationPreviewBuilder
      *
      * @param Aggregator $aggregator
      * @param AamcMethodRepository $methodManager
-     * @param AamcPcrsRepository $pcrsManager
+     * @param AamcPcrsRepository $pcrsRepository
      */
     public function __construct(
         Aggregator $aggregator,
         AamcMethodRepository $methodManager,
-        AamcPcrsRepository $pcrsManager
+        AamcPcrsRepository $pcrsRepository
     ) {
         $this->aggregator = $aggregator;
         $this->methodRepository = $methodManager;
-        $this->pcrsManager = $pcrsManager;
+        $this->pcrsRepository = $pcrsRepository;
     }
 
     /**
@@ -157,7 +157,7 @@ class VerificationPreviewBuilder
      */
     public function getProgramExpectationsMappedToPcrs(array $data): array
     {
-        $dtos = $this->pcrsManager->findDTOsBy([]);
+        $dtos = $this->pcrsRepository->findDTOsBy([]);
         $pcrsMap = [];
         foreach ($dtos as $dto) {
             $pcrsMap[$dto->id] = $dto;

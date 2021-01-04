@@ -47,10 +47,8 @@ class Authentications
     protected $sessionUserProvider;
 
     protected AuthenticationRepository $repository;
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
+    protected UserRepository $userRepository;
+
     /**
      * @var SerializerInterface
      */

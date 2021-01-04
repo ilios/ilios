@@ -20,22 +20,22 @@ class Aggregator
 {
     protected CurriculumInventoryReportRepository $reportRepository;
 
-    protected CurriculumInventoryInstitutionRepository $institutionManager;
+    protected CurriculumInventoryInstitutionRepository $institutionRepository;
 
     protected Config $config;
 
     /**
      * @param CurriculumInventoryReportRepository $reportRepository
-     * @param CurriculumInventoryInstitutionRepository $institutionManager
+     * @param CurriculumInventoryInstitutionRepository $institutionRepository
      * @param Config $config
      */
     public function __construct(
         CurriculumInventoryReportRepository $reportRepository,
-        CurriculumInventoryInstitutionRepository $institutionManager,
+        CurriculumInventoryInstitutionRepository $institutionRepository,
         Config $config
     ) {
         $this->reportRepository = $reportRepository;
-        $this->institutionManager = $institutionManager;
+        $this->institutionRepository = $institutionRepository;
         $this->config = $config;
     }
 
@@ -149,7 +149,7 @@ class Aggregator
         }
 
         /** @var CurriculumInventoryInstitutionInterface $institution */
-        $institution = $this->institutionManager->findOneBy(['school' => $school->getId()]);
+        $institution = $this->institutionRepository->findOneBy(['school' => $school->getId()]);
         if (! $institution) {
             throw new Exception(
                 'No curriculum inventory institution found for school with id = ' . $school->getId() . '.'

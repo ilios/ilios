@@ -67,7 +67,7 @@ class Offerings extends ReadWriteController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $class = $this->manager->getClass() . '[]';
+        $class = $this->repository->getClass() . '[]';
 
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
 
@@ -84,10 +84,10 @@ class Offerings extends ReadWriteController
         }
 
         foreach ($entities as $entity) {
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
         }
 
-        $this->manager->flush();
+        $this->repository->flush();
 
         foreach ($entities as $entity) {
             $session = $entity->getSession();
@@ -96,7 +96,7 @@ class Offerings extends ReadWriteController
             }
         }
 
-        $this->manager->flush();
+        $this->repository->flush();
 
         $dtos = $this->fetchDtosForEntities($entities);
 
@@ -120,13 +120,13 @@ class Offerings extends ReadWriteController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;
             $permission = AbstractVoter::EDIT;
         } else {
-            $entity = $this->manager->create();
+            $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
             $permission = AbstractVoter::CREATE;
         }
@@ -146,7 +146,7 @@ class Offerings extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         $session = $entity->getSession();
         if ($session && $session->isPublished()) {
@@ -158,7 +158,7 @@ class Offerings extends ReadWriteController
                     $alertProperties
                 );
             }
-            $this->manager->flush();
+            $this->repository->flush();
         }
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
@@ -189,7 +189,7 @@ class Offerings extends ReadWriteController
         }
 
         /** @var OfferingInterface $entity */
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if (!$entity) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
@@ -209,7 +209,7 @@ class Offerings extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         $session = $entity->getSession();
         if ($session && $session->isPublished()) {
@@ -217,7 +217,7 @@ class Offerings extends ReadWriteController
                 $entity,
                 $alertProperties
             );
-            $this->manager->flush();
+            $this->repository->flush();
         }
 
         $dtos = $this->fetchDtosForEntities([$entity]);

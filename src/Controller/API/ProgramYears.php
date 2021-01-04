@@ -9,6 +9,7 @@ use App\Entity\DTO\ProgramYearDTO;
 use App\Entity\ProgramYearInterface;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CohortRepository;
+use App\Repository\ManagerInterface;
 use App\Repository\ProgramYearRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -30,7 +31,7 @@ class ProgramYears extends ReadWriteController
     /**
      * @var ProgramYearRepository
      */
-    protected $manager;
+    protected ManagerInterface $repository;
 
     protected CohortRepository $cohortRepository;
 
@@ -96,7 +97,7 @@ class ProgramYears extends ReadWriteController
             return $obj;
         }, $data);
 
-        $class = $this->manager->getClass() . '[]';
+        $class = $this->repository->getClass() . '[]';
         $entities = $this->serializer->deserialize(json_encode($cleanData), $class, 'json');
 
         foreach ($entities as $entity) {
@@ -110,10 +111,10 @@ class ProgramYears extends ReadWriteController
                 throw new AccessDeniedException('Unauthorized access!');
             }
 
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
             $this->createCohort($entity);
         }
-        $this->manager->flush();
+        $this->repository->flush();
 
         $dtos = $this->fetchDtosForEntities($entities);
 
@@ -135,7 +136,7 @@ class ProgramYears extends ReadWriteController
         ApiResponseBuilder $builder
     ): Response {
         /** @var ProgramYearInterface $entity */
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;
@@ -151,7 +152,7 @@ class ProgramYears extends ReadWriteController
                 return $this->lockProgramYear($entity, $builder, $authorizationChecker, $request);
             }
         } else {
-            $entity = $this->manager->create();
+            $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
             $permission = AbstractVoter::CREATE;
         }
@@ -168,12 +169,12 @@ class ProgramYears extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, false, false);
+        $this->repository->update($entity, false, false);
         if (empty($entity->getCohort())) {
             $this->createCohort($entity);
         }
 
-        $this->manager->flush();
+        $this->repository->flush();
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
@@ -212,13 +213,13 @@ class ProgramYears extends ReadWriteController
         int $id
     ): Response {
         /** @var ProgramYearDTO $dto */
-        $dto = $this->manager->findDTOBy(['id' => $id]);
+        $dto = $this->repository->findDTOBy(['id' => $id]);
 
         if (! $dto) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
 
-        $data = $this->manager->getProgramYearObjectiveToCourseObjectivesMapping($dto->id);
+        $data = $this->repository->getProgramYearObjectiveToCourseObjectivesMapping($dto->id);
 
         array_walk($data, function (&$row) {
             foreach (['program_year_objective', 'mapped_course_objective'] as $key) {
@@ -268,7 +269,7 @@ class ProgramYears extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setArchived(true);
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
@@ -283,7 +284,7 @@ class ProgramYears extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(true);
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
@@ -298,7 +299,7 @@ class ProgramYears extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(false);
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }

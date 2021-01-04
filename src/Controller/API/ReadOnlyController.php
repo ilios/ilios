@@ -17,19 +17,16 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 abstract class ReadOnlyController
 {
-    /**
-     * @var ManagerInterface
-     */
-    protected $manager;
+    protected ManagerInterface $repository;
 
     /**
      * @var string
      */
     protected $endpoint;
 
-    public function __construct(ManagerInterface $manager, string $endpoint)
+    public function __construct(ManagerInterface $repository, string $endpoint)
     {
-        $this->manager = $manager;
+        $this->repository = $repository;
         $this->endpoint = $endpoint;
     }
 
@@ -44,10 +41,10 @@ abstract class ReadOnlyController
         ApiResponseBuilder $builder,
         Request $request
     ): Response {
-        if ('v1' === $version && ($this->manager instanceof V1DTORepositoryInterface)) {
-            $dto = $this->manager->findV1DTOBy(['id' => $id]);
+        if ('v1' === $version && ($this->repository instanceof V1DTORepositoryInterface)) {
+            $dto = $this->repository->findV1DTOBy(['id' => $id]);
         } else {
-            $dto = $this->manager->findDTOBy(['id' => $id]);
+            $dto = $this->repository->findDTOBy(['id' => $id]);
         }
 
         if (! $dto) {
@@ -71,15 +68,15 @@ abstract class ReadOnlyController
     ): Response {
         $parameters = ApiRequestParser::extractParameters($request);
 
-        if ('v1' === $version && ($this->manager instanceof V1DTORepositoryInterface)) {
-            $dtos = $this->manager->findV1DTOsBy(
+        if ('v1' === $version && ($this->repository instanceof V1DTORepositoryInterface)) {
+            $dtos = $this->repository->findV1DTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],
                 $parameters['offset']
             );
         } else {
-            $dtos = $this->manager->findDTOsBy(
+            $dtos = $this->repository->findDTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],
