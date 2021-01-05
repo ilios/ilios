@@ -94,7 +94,7 @@ class LdapAuthentication implements AuthenticationInterface
         }
 
         if ($username && $password) {
-            $authEntity = $this->authRepository->findAuthenticationByUsername($username);
+            $authEntity = $this->authRepository->findOneByUsername($username);
             if ($authEntity) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
                 if ($sessionUser->isEnabled()) {

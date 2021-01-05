@@ -92,7 +92,7 @@ class LdapAuthenticationTest extends TestCase
         $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
-        $this->authRepository->shouldReceive('findAuthenticationByUsername')
+        $this->authRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn(null);
         $result = $this->obj->login($request);
 
@@ -127,7 +127,7 @@ class LdapAuthenticationTest extends TestCase
         $sessionUser = m::mock(SessionUserInterface::class)->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $this->authRepository->shouldReceive('findAuthenticationByUsername')
+        $this->authRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
 
@@ -154,7 +154,7 @@ class LdapAuthenticationTest extends TestCase
         $sessionUser = m::mock(SessionUserInterface::class)->shouldReceive('isEnabled')->andReturn(false)->mock();
         $authenticationEntity = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $this->authRepository->shouldReceive('findAuthenticationByUsername')
+        $this->authRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
 
@@ -195,7 +195,7 @@ class LdapAuthenticationTest extends TestCase
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock(AuthenticationInterface::class)
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $this->authRepository->shouldReceive('findAuthenticationByUsername')
+        $this->authRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');

@@ -102,7 +102,7 @@ class FormAuthentication implements AuthenticationInterface
         }
 
         if ($username && $password) {
-            $authEntity = $this->authenticationRepository->findAuthenticationByUsername($username);
+            $authEntity = $this->authenticationRepository->findOneByUsername($username);
             if ($authEntity) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
                 if ($sessionUser->isEnabled()) {

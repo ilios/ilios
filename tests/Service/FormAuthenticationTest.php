@@ -100,7 +100,7 @@ class FormAuthenticationTest extends TestCase
         ];
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
-        $this->authenticationRepository->shouldReceive('findAuthenticationByUsername')
+        $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn(null);
         $result = $this->obj->login($request);
 
@@ -126,7 +126,7 @@ class FormAuthenticationTest extends TestCase
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $this->authenticationRepository->shouldReceive('findAuthenticationByUsername')
+        $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(false);
@@ -154,7 +154,7 @@ class FormAuthenticationTest extends TestCase
             ->shouldReceive('isEnabled')->andReturn(false)->mock();
         $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $this->authenticationRepository->shouldReceive('findAuthenticationByUsername')
+        $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $result = $this->obj->login($request);
@@ -182,7 +182,7 @@ class FormAuthenticationTest extends TestCase
         $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->encoder->shouldReceive('needsRehash')->with($sessionUser)->andReturn(false);
-        $this->authenticationRepository->shouldReceive('findAuthenticationByUsername')
+        $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(true);
