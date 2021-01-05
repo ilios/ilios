@@ -206,8 +206,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 512,
-     *      groups={"citation"},
-     *      allowEmptyString = true
+     *      groups={"citation"}
      * )
      *
      * @IS\Expose
