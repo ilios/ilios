@@ -82,11 +82,10 @@ class MeshConcept implements MeshConceptInterface
      * @ORM\Column(name="scope_note", type="text", nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=65000)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -99,11 +98,10 @@ class MeshConcept implements MeshConceptInterface
      * @ORM\Column(name="casn_1_name", type="string", length=512, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 512,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=512)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -116,11 +114,10 @@ class MeshConcept implements MeshConceptInterface
      * @ORM\Column(name="registry_number", type="string", length=30, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 30,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=30)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

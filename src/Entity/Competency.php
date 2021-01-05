@@ -57,11 +57,10 @@ class Competency implements CompetencyInterface
      * @var string
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 200,
-     *     allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=200)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

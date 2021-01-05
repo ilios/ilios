@@ -73,12 +73,10 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="description", type="text", nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000,
-     *      allowEmptyString = true
-     * )
-     *
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=65000)
+     * })
      * @IS\Expose
      * @IS\Type("string")
      * @IS\RemoveMarkup
@@ -105,11 +103,10 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="asset_creator", type="string", length=80, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 80,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=80)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -122,11 +119,10 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="token", type="string", length=64, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 64,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=64)
+     * })
      */
     protected $token;
 
@@ -210,8 +206,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 512,
-     *      groups={"citation"},
-     *      allowEmptyString = true
+     *      groups={"citation"}
      * )
      *
      * @IS\Expose
@@ -254,11 +249,10 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="copyright_rationale", type="text", nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=65000)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

@@ -42,11 +42,10 @@ class Authentication implements AuthenticationInterface
      * @var string
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 100,
-     *     allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=100)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -58,11 +57,10 @@ class Authentication implements AuthenticationInterface
      * @var string
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 255,
-     *     allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=255)
+     * })
      *
      */
     private $passwordHash;

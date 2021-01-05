@@ -96,11 +96,10 @@ class User implements UserInterface
      * @ORM\Column(name="middle_name", type="string", length=20, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 20,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=20)
+     * })
      * @IS\Expose
      * @IS\Type("string")
      */
@@ -112,11 +111,10 @@ class User implements UserInterface
      * @ORM\Column(name="display_name", type="string", length=200, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 200,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=200)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -129,11 +127,10 @@ class User implements UserInterface
      * @ORM\Column(name="phone", type="string", length=30, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 30,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=30)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -163,12 +160,10 @@ class User implements UserInterface
      * @ORM\Column(name="preferred_email", type="string", length=100, nullable=true)
      *
      * @Assert\Email
-     *
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 100,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=100)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -207,11 +202,10 @@ class User implements UserInterface
      * @ORM\Column(name="uc_uid", type="string", length=16, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 16,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=16)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -224,11 +218,10 @@ class User implements UserInterface
      * @ORM\Column(name="other_id", type="string", length=16, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 16,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=16)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

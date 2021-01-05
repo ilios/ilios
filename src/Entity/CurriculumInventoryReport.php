@@ -62,14 +62,13 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     * @ORM\Column(type="string", length=200, nullable=true)
     *
     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 200,
-     *      allowEmptyString = true
-     * )
-     *
-     * @IS\Expose
-     * @IS\Type("string")
+    * @Assert\AtLeastOneOf({
+    *     @Assert\Blank,
+    *     @Assert\Length(min=1,max=200)
+    * })
+    *
+    * @IS\Expose
+    * @IS\Type("string")
     */
     protected $name;
 
@@ -79,14 +78,13 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     * @ORM\Column(name="description", type="text", nullable=true)
     *
     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000,
-     *      allowEmptyString = true
-     * )
-     *
-     * @IS\Expose
-     * @IS\Type("string")
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=65000)
+     * })
+    *
+    * @IS\Expose
+    * @IS\Type("string")
     */
     protected $description;
 
@@ -188,11 +186,10 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @ORM\Column(name="token", type="string", length=64, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 64,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=64)
+     * })
      */
     protected $token;
 
