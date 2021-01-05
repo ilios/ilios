@@ -78,11 +78,10 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * @ORM\Column(name="description", type="text", nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *     min = 1,
-     *     max = 65000,
-     *     allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=65000)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

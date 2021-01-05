@@ -147,11 +147,10 @@ class Course implements CourseInterface
      * @ORM\Column(type="string", length=255, name="external_id", nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *     min = 1,
-     *     max = 255,
-     *     allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=255)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

@@ -45,11 +45,10 @@ class Report implements ReportInterface
      * @var string
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 240,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=240)
+     * })
      *
      *
      * @IS\Expose
@@ -106,11 +105,10 @@ class Report implements ReportInterface
      * @ORM\Column(name="prepositional_object", type="string", length=32, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 32,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=32)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -123,11 +121,10 @@ class Report implements ReportInterface
      * @ORM\Column(name="prepositional_object_table_row_id", type="string", length=14, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 14,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=14)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

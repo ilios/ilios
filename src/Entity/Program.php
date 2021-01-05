@@ -72,11 +72,10 @@ class Program implements ProgramInterface
      * @ORM\Column(name="short_title", type="string", length=10, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 10,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=10)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

@@ -75,11 +75,10 @@ class LearnerGroup implements LearnerGroupInterface
      * @ORM\Column(name="location", type="string", length=100, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 100,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=100)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

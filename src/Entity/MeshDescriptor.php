@@ -54,11 +54,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\GeneratedValue(strategy="NONE")
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 12,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=12)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -72,11 +71,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 192,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=192)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -89,11 +87,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\Column(name="annotation", type="text", nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=65000)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

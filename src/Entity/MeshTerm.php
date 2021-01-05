@@ -93,11 +93,10 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(name="lexical_tag", type="string", length=12, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 12,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=12)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

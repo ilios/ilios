@@ -87,11 +87,10 @@ class School implements SchoolInterface
      * @ORM\Column(name="template_prefix", type="string", length=8, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 8,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=8)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")

@@ -63,11 +63,10 @@ class Offering implements OfferingInterface
      * @ORM\Column(name="room", type="string", length=255, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 255,
-     *      allowEmptyString=true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=255)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -80,11 +79,10 @@ class Offering implements OfferingInterface
      * @ORM\Column(name="site", type="string", length=255, nullable=true)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 255,
-     *      allowEmptyString = true
-     * )
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=255)
+     * })
      *
      * @IS\Expose
      * @IS\Type("string")
