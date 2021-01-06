@@ -7,9 +7,10 @@ namespace App\Tests\Service\CurriculumInventory\Export;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
 use App\Repository\CurriculumInventoryInstitutionRepository;
-use App\Repository\CurriculumInventoryReportRepository;
+use App\Repository\CurriculumInventorymanager;
 use App\Service\Config;
 use App\Service\CurriculumInventory\Export\Aggregator;
+use App\Service\CurriculumInventory\Manager;
 use App\Tests\TestCase;
 use Mockery as m;
 
@@ -22,7 +23,7 @@ class AggregatorTest extends TestCase
     /**
      * @var m\MockInterface
      */
-    protected $reportRepository;
+    protected $manager;
 
     /**
      * @var m\MockInterface
@@ -45,10 +46,10 @@ class AggregatorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->reportRepository = m::mock(CurriculumInventoryReportRepository::class);
+        $this->manager = m::mock(Manager::class);
         $this->institutionRepository = m::mock(CurriculumInventoryInstitutionRepository::class);
         $this->config = m::mock(Config::class);
-        $this->aggregator = new Aggregator($this->reportRepository, $this->institutionRepository, $this->config);
+        $this->aggregator = new Aggregator($this->manager, $this->institutionRepository, $this->config);
     }
 
     /**
@@ -57,7 +58,7 @@ class AggregatorTest extends TestCase
     protected function tearDown(): void
     {
         unset($this->aggregator);
-        unset($this->reportRepository);
+        unset($this->manager);
         unset($this->institutionRepository);
         unset($this->config);
         parent::tearDown();
