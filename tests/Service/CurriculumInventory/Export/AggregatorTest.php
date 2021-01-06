@@ -7,7 +7,6 @@ namespace App\Tests\Service\CurriculumInventory\Export;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
 use App\Repository\CurriculumInventoryInstitutionRepository;
-use App\Repository\CurriculumInventorymanager;
 use App\Service\Config;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\Manager;
