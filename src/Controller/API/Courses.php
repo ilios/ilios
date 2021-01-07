@@ -9,7 +9,6 @@ use App\Entity\CourseInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CourseRepository;
-use App\Repository\ManagerInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CourseRollover;
@@ -24,11 +23,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Courses extends ReadWriteController
 {
-    /**
-     * @var CourseRepository
-     */
-    protected ManagerInterface $repository;
-
     /**
      * @var TokenStorageInterface
      */

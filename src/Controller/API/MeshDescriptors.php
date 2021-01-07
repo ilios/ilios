@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\RelationshipVoter\AbstractVoter;
-use App\Repository\ManagerInterface;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -19,11 +18,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class MeshDescriptors extends ReadOnlyController
 {
-    /**
-     * @var MeshDescriptorRepository
-     */
-    protected ManagerInterface $repository;
-
     public function __construct(MeshDescriptorRepository $repository)
     {
         parent::__construct($repository, 'meshdescriptors');

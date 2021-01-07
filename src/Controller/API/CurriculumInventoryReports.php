@@ -11,7 +11,6 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Repository\CurriculumInventorySequenceRepository;
-use App\Repository\ManagerInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\ReportRollover;
@@ -31,10 +30,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class CurriculumInventoryReports extends ReadWriteController
 {
-    /**
-     * @var CurriculumInventoryReportRepository
-     */
-    protected ManagerInterface $repository;
     protected CurriculumInventoryAcademicLevelRepository $levelManager;
     protected CurriculumInventorySequenceRepository $sequenceManager;
 

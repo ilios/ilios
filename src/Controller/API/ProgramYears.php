@@ -9,7 +9,6 @@ use App\Entity\DTO\ProgramYearDTO;
 use App\Entity\ProgramYearInterface;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CohortRepository;
-use App\Repository\ManagerInterface;
 use App\Repository\ProgramYearRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -28,11 +27,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProgramYears extends ReadWriteController
 {
-    /**
-     * @var ProgramYearRepository
-     */
-    protected ManagerInterface $repository;
-
     protected CohortRepository $cohortRepository;
 
     /**

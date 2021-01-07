@@ -6,7 +6,6 @@ namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
 use App\RelationshipVoter\AbstractVoter;
-use App\Repository\ManagerInterface;
 use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -31,11 +30,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Users extends ReadWriteController
 {
-    /**
-     * @var UserRepository
-     */
-    protected ManagerInterface $repository;
-
     /**
      * @var TokenStorageInterface
      */

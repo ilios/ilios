@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\RelationshipVoter\AbstractVoter;
-use App\Repository\ManagerInterface;
 use App\Repository\ObjectiveRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -20,11 +19,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class Objectives extends ReadOnlyController
 {
-    /**
-     * @var ObjectiveRepository
-     */
-    protected ManagerInterface $repository;
-
     public function __construct(ObjectiveRepository $repository)
     {
         parent::__construct($repository, 'objectives');
