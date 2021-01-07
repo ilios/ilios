@@ -349,7 +349,7 @@ EOL;
         $data[] = $now;
         $data[] = $now;
         $connection = $this->_em->getConnection();
-        $connection->executeUpdate($sql, $data);
+        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -364,7 +364,7 @@ INSERT INTO mesh_concept_x_term (
 ) VALUES (?, ?)
 EOL;
         $connection = $this->_em->getConnection();
-        $connection->executeUpdate($sql, $data);
+        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -382,7 +382,7 @@ EOL;
         $data[] = $now;
         $data[] = $now;
         $connection = $this->_em->getConnection();
-        $connection->executeUpdate($sql, $data);
+        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -398,7 +398,7 @@ INSERT INTO mesh_descriptor_x_concept (
 ) VALUES (?, ?)
 EOL;
             $connection = $this->_em->getConnection();
-            $connection->executeUpdate($sql, $data);
+            $connection->executeStatement($sql, $data);
         }
     }
 
@@ -414,7 +414,7 @@ INSERT INTO mesh_descriptor_x_qualifier (
 ) VALUES (?, ?)
 EOL;
         $connection = $this->_em->getConnection();
-        $connection->executeUpdate($sql, $data);
+        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -429,7 +429,7 @@ INSERT INTO mesh_previous_indexing (
 ) VALUES (?, ?, ?)
 EOL;
         $connection = $this->_em->getConnection();
-        $connection->executeUpdate($sql, $data);
+        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -448,7 +448,7 @@ EOL;
         $data[] = $now;
         $data[] = $now;
         $connection = $this->_em->getConnection();
-        $connection->executeUpdate($sql, $data);
+        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -467,7 +467,7 @@ EOL;
         $data[] = $now;
         $data[] = $now;
         $connection = $this->_em->getConnection();
-        $connection->executeUpdate($sql, $data);
+        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -482,7 +482,7 @@ INSERT INTO mesh_tree (
 ) VALUES (?, ?, ?)
 EOL;
         $connection = $this->_em->getConnection();
-        $connection->executeUpdate($sql, $data);
+        $connection->executeStatement($sql, $data);
     }
 
     /**
