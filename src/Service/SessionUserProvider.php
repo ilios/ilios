@@ -6,8 +6,8 @@ namespace App\Service;
 
 use App\Classes\SessionUser;
 use App\Classes\SessionUserInterface;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface as IliosUser;
+use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -16,18 +16,18 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 class SessionUserProvider implements UserProviderInterface
 {
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    protected $userManager;
+    protected $userRepository;
 
     /**
      * SessionUserProvider constructor.
-     * @param UserManager $userManager
+     * @param UserRepository $userRepository
      */
     public function __construct(
-        UserManager $userManager
+        UserRepository $userRepository
     ) {
-        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -36,7 +36,7 @@ class SessionUserProvider implements UserProviderInterface
      */
     public function createSessionUserFromUser(IliosUser $user): SessionUserInterface
     {
-        return new SessionUser($user, $this->userManager);
+        return new SessionUser($user, $this->userRepository);
     }
 
     /**
@@ -46,17 +46,17 @@ class SessionUserProvider implements UserProviderInterface
     public function createSessionUserFromUserId(int $userId): SessionUserInterface
     {
         /** @var IliosUser $user */
-        $user = $this->userManager->findOneBy(['id' => $userId]);
-        return new SessionUser($user, $this->userManager);
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
+        return new SessionUser($user, $this->userRepository);
     }
 
     public function loadUserByUsername($userId)
     {
         /** @var IliosUser $user */
-        $user = $this->userManager->findOneBy(['id' => $userId]);
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
 
         if ($user) {
-            return new SessionUser($user, $this->userManager);
+            return new SessionUser($user, $this->userRepository);
         }
 
         throw new UsernameNotFoundException(

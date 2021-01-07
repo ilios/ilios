@@ -6,10 +6,10 @@ namespace App\Controller\API;
 
 use App\Entity\CohortInterface;
 use App\Entity\DTO\ProgramYearDTO;
-use App\Entity\Manager\CohortManager;
-use App\Entity\Manager\ProgramYearManager;
 use App\Entity\ProgramYearInterface;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\CohortRepository;
+use App\Repository\ProgramYearRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,27 +27,20 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProgramYears extends ReadWriteController
 {
-    /**
-     * @var ProgramYearManager
-     */
-    protected $manager;
+    protected CohortRepository $cohortRepository;
 
-    /**
-     * @var CohortManager
-     */
-    protected $cohortManager;
     /**
      * @var SerializerInterface
      */
     protected $serializer;
 
     public function __construct(
-        ProgramYearManager $manager,
-        CohortManager $cohortManager,
+        ProgramYearRepository $repository,
+        CohortRepository $cohortRepository,
         SerializerInterface $serializer
     ) {
-        parent::__construct($manager, 'programyears');
-        $this->cohortManager = $cohortManager;
+        parent::__construct($repository, 'programyears');
+        $this->cohortRepository = $cohortRepository;
         $this->serializer = $serializer;
     }
 
@@ -98,7 +91,7 @@ class ProgramYears extends ReadWriteController
             return $obj;
         }, $data);
 
-        $class = $this->manager->getClass() . '[]';
+        $class = $this->repository->getClass() . '[]';
         $entities = $this->serializer->deserialize(json_encode($cleanData), $class, 'json');
 
         foreach ($entities as $entity) {
@@ -112,10 +105,10 @@ class ProgramYears extends ReadWriteController
                 throw new AccessDeniedException('Unauthorized access!');
             }
 
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
             $this->createCohort($entity);
         }
-        $this->manager->flush();
+        $this->repository->flush();
 
         $dtos = $this->fetchDtosForEntities($entities);
 
@@ -137,7 +130,7 @@ class ProgramYears extends ReadWriteController
         ApiResponseBuilder $builder
     ): Response {
         /** @var ProgramYearInterface $entity */
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;
@@ -153,7 +146,7 @@ class ProgramYears extends ReadWriteController
                 return $this->lockProgramYear($entity, $builder, $authorizationChecker, $request);
             }
         } else {
-            $entity = $this->manager->create();
+            $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
             $permission = AbstractVoter::CREATE;
         }
@@ -170,12 +163,12 @@ class ProgramYears extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, false, false);
+        $this->repository->update($entity, false, false);
         if (empty($entity->getCohort())) {
             $this->createCohort($entity);
         }
 
-        $this->manager->flush();
+        $this->repository->flush();
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
@@ -214,13 +207,13 @@ class ProgramYears extends ReadWriteController
         int $id
     ): Response {
         /** @var ProgramYearDTO $dto */
-        $dto = $this->manager->findDTOBy(['id' => $id]);
+        $dto = $this->repository->findDTOBy(['id' => $id]);
 
         if (! $dto) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
 
-        $data = $this->manager->getProgramYearObjectiveToCourseObjectivesMapping($dto->id);
+        $data = $this->repository->getProgramYearObjectiveToCourseObjectivesMapping($dto->id);
 
         array_walk($data, function (&$row) {
             foreach (['program_year_objective', 'mapped_course_objective'] as $key) {
@@ -252,12 +245,12 @@ class ProgramYears extends ReadWriteController
         $graduationYear = $programYear->getStartYear() + $program->getDuration();
 
         /* @var CohortInterface $cohort */
-        $cohort = $this->cohortManager->create();
+        $cohort = $this->cohortRepository->create();
         $cohort->setTitle("Class of ${graduationYear}");
         $cohort->setProgramYear($programYear);
         $programYear->setCohort($cohort);
 
-        $this->cohortManager->update($cohort, false, false);
+        $this->cohortRepository->update($cohort, false, false);
     }
 
     protected function archiveProgramYear(
@@ -270,7 +263,7 @@ class ProgramYears extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setArchived(true);
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
@@ -285,7 +278,7 @@ class ProgramYears extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(true);
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
@@ -300,7 +293,7 @@ class ProgramYears extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(false);
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }

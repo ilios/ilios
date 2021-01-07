@@ -18,12 +18,13 @@ use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StewardedEntity;
+use App\Repository\ProgramYearRepository;
 
 /**
  * Class ProgramYear
  *
  * @ORM\Table(name="program_year")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\ProgramYearRepository")
+ * @ORM\Entity(repositoryClass=ProgramYearRepository::class)
  *
  * @IS\Entity
  */

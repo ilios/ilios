@@ -11,12 +11,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\MeshTreeRepository;
 
 /**
  * Class MeshTree
  *
  * @ORM\Table(name="mesh_tree")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshTreeRepository")
+ * @ORM\Entity(repositoryClass=MeshTreeRepository::class)
  *
  * @IS\Entity
  */

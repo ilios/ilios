@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\SessionTypesEntity;
 use App\Annotation as IS;
+use App\Repository\AamcMethodRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ActivatableEntity;
 use App\Traits\DescribableEntity;
@@ -18,7 +19,7 @@ use App\Traits\StringableIdEntity;
  * Class AamcMethod
  *
  * @ORM\Table(name="aamc_method")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\AamcMethodRepository")
+ * @ORM\Entity(repositoryClass=AamcMethodRepository::class)
  *
  * @IS\Entity
  */

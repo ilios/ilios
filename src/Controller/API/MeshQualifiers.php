@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\MeshQualifierManager;
+use App\Repository\MeshQualifierRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MeshQualifiers extends ReadOnlyController
 {
-    public function __construct(MeshQualifierManager $manager)
+    public function __construct(MeshQualifierRepository $repository)
     {
-        parent::__construct($manager, 'meshqualifiers');
+        parent::__construct($repository, 'meshqualifiers');
     }
 }

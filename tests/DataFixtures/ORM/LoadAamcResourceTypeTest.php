@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\AamcResourceTypeInterface;
+use App\Repository\AamcResourceTypeRepository;
 
 /**
  * Class LoadAamcResourceTypeDataTest
@@ -16,7 +17,7 @@ class LoadAamcResourceTypeTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\AamcResourceTypeManager';
+        return AamcResourceTypeRepository::class;
     }
 
     /**

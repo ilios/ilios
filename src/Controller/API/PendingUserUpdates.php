@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\PendingUserUpdateManager;
+use App\Repository\PendingUserUpdateRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PendingUserUpdates extends ReadWriteController
 {
-    public function __construct(PendingUserUpdateManager $manager)
+    public function __construct(PendingUserUpdateRepository $repository)
     {
-        parent::__construct($manager, 'pendinguserupdates');
+        parent::__construct($repository, 'pendinguserupdates');
     }
 }

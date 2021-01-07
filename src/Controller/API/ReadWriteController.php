@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\ManagerInterface;
-use App\Entity\Manager\V1CompatibleBaseManager;
 use App\RelationshipVoter\AbstractVoter;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -36,7 +34,7 @@ abstract class ReadWriteController extends ReadOnlyController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $class = $this->manager->getClass() . '[]';
+        $class = $this->repository->getClass() . '[]';
 
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
 
@@ -53,9 +51,9 @@ abstract class ReadWriteController extends ReadOnlyController
         }
 
         foreach ($entities as $entity) {
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
         }
-        $this->manager->flush();
+        $this->repository->flush();
 
         $dtos = $this->fetchDtosForEntities($entities);
 
@@ -80,12 +78,12 @@ abstract class ReadWriteController extends ReadOnlyController
         if (in_array("application/vnd.api+json", $type)) {
             throw new BadRequestHttpException("PUT is not allowed for JSON:API requests, use PATCH instead");
         }
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
         if ($entity) {
             $code = Response::HTTP_OK;
             $permission = AbstractVoter::EDIT;
         } else {
-            $entity = $this->manager->create();
+            $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
             $permission = AbstractVoter::CREATE;
         }
@@ -102,7 +100,7 @@ abstract class ReadWriteController extends ReadOnlyController
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
@@ -126,7 +124,7 @@ abstract class ReadWriteController extends ReadOnlyController
             throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
         }
 
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if (!$entity) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
@@ -144,7 +142,7 @@ abstract class ReadWriteController extends ReadOnlyController
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         $dtos = $this->fetchDtosForEntities([$entity]);
         return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
@@ -160,7 +158,7 @@ abstract class ReadWriteController extends ReadOnlyController
         string $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if (! $entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -171,7 +169,7 @@ abstract class ReadWriteController extends ReadOnlyController
         }
 
         try {
-            $this->manager->delete($entity);
+            $this->repository->delete($entity);
 
             return new Response('', Response::HTTP_NO_CONTENT);
         } catch (Exception $exception) {
@@ -182,12 +180,12 @@ abstract class ReadWriteController extends ReadOnlyController
     protected function fetchDtosForEntities(array $entities): array
     {
         //read and deliver DTOs instead of Entities
-        $idField = $this->manager->getIdField();
+        $idField = $this->repository->getIdField();
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $ids = array_map(function ($entity) use ($idField, $propertyAccessor) {
             return $propertyAccessor->getValue($entity, $idField);
         }, $entities);
 
-        return $this->manager->findDTOsBy(['id' => $ids]);
+        return $this->repository->findDTOsBy(['id' => $ids]);
     }
 }

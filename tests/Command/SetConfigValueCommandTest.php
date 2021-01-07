@@ -6,12 +6,11 @@ namespace App\Tests\Command;
 
 use App\Command\SetConfigValueCommand;
 use App\Entity\ApplicationConfig;
-use App\Entity\Manager\ApplicationConfigManager;
+use App\Repository\ApplicationConfigRepository;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class SetConfigValueCommandTest
@@ -25,13 +24,13 @@ class SetConfigValueCommandTest extends KernelTestCase
     private const COMMAND_NAME = 'ilios:set-config-value';
 
     protected $commandTester;
-    protected $applicationConfigManager;
+    protected $applicationConfigRepository;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->applicationConfigManager = m::mock(ApplicationConfigManager::class);
-        $command = new SetConfigValueCommand($this->applicationConfigManager);
+        $this->applicationConfigRepository = m::mock(ApplicationConfigRepository::class);
+        $command = new SetConfigValueCommand($this->applicationConfigRepository);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -45,7 +44,7 @@ class SetConfigValueCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->applicationConfigManager);
+        unset($this->applicationConfigRepository);
         unset($this->commandTester);
     }
 
@@ -53,11 +52,11 @@ class SetConfigValueCommandTest extends KernelTestCase
     {
         $mockConfig = m::mock(ApplicationConfig::class);
         $mockConfig->shouldReceive('setValue')->with('bar')->once();
-        $this->applicationConfigManager->shouldReceive('findOneBy')
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'foo'])
             ->once()
             ->andReturn($mockConfig);
-        $this->applicationConfigManager->shouldReceive('update')->with($mockConfig, true)->once();
+        $this->applicationConfigRepository->shouldReceive('update')->with($mockConfig, true)->once();
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
@@ -71,9 +70,10 @@ class SetConfigValueCommandTest extends KernelTestCase
         $mockConfig = m::mock(ApplicationConfig::class);
         $mockConfig->shouldReceive('setValue')->with('bar')->once();
         $mockConfig->shouldReceive('setName')->with('foo')->once();
-        $this->applicationConfigManager->shouldReceive('findOneBy')->with(['name' => 'foo'])->once()->andReturn(null);
-        $this->applicationConfigManager->shouldReceive('create')->once()->andReturn($mockConfig);
-        $this->applicationConfigManager->shouldReceive('update')->with($mockConfig, true)->once();
+        $this->applicationConfigRepository->shouldReceive('findOneBy')->with(['name' => 'foo'])
+            ->once()->andReturn(null);
+        $this->applicationConfigRepository->shouldReceive('create')->once()->andReturn($mockConfig);
+        $this->applicationConfigRepository->shouldReceive('update')->with($mockConfig, true)->once();
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,

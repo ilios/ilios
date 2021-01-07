@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\AamcMethodManager;
+use App\Repository\AamcMethodRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AamcMethods extends ReadWriteController
 {
-    public function __construct(AamcMethodManager $manager)
+    public function __construct(AamcMethodRepository $repository)
     {
-        parent::__construct($manager, 'aamcmethods');
+        parent::__construct($repository, 'aamcmethods');
     }
 }

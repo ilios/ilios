@@ -6,6 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\RolloverCurriculumInventoryReportCommand;
 use App\Entity\CurriculumInventoryReport;
+use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\ReportRollover;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -31,7 +32,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
     /**
      * @var m\MockInterface
      */
-    protected $reportManager;
+    protected $reportRepository;
 
     /**
      * @var CommandTester
@@ -45,8 +46,8 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
     {
         parent::setUp();
         $this->service = m::mock(ReportRollover::class);
-        $this->reportManager = m::mock('App\Entity\Manager\CurriculumInventoryReportManager');
-        $command = new RolloverCurriculumInventoryReportCommand($this->reportManager, $this->service);
+        $this->reportRepository = m::mock(CurriculumInventoryReportRepository::class);
+        $command = new RolloverCurriculumInventoryReportCommand($this->reportRepository, $this->service);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -61,7 +62,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->service);
-        unset($this->reportManager);
+        unset($this->reportRepository);
         unset($this->commandTester);
     }
 
@@ -86,7 +87,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
             return $report;
         });
 
-        $this->reportManager->shouldReceive('findOneBy')->with(['id' => $reportId])->andReturn($report);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => $reportId])->andReturn($report);
 
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
@@ -119,7 +120,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
             return $report;
         });
 
-        $this->reportManager->shouldReceive('findOneBy')->with(['id' => $reportId])->andReturn($report);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => $reportId])->andReturn($report);
 
         $commandOptions = [
             'command' => self::COMMAND_NAME,
@@ -149,7 +150,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
             return $report;
         });
 
-        $this->reportManager
+        $this->reportRepository
             ->shouldReceive('findOneBy')->with(['id' => $reportId])->andReturnUsing(function () use ($reportId) {
                 $report = new CurriculumInventoryReport();
                 $report->setId($reportId);

@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\SessionLearningMaterialRepository;
 
 /**
  * Class SessionLearningMaterial
@@ -23,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   @ORM\Index(name="learning_material_id_k", columns={"learning_material_id"}),
  *   @ORM\Index(name="IDX_9BE2AF8D613FECDF", columns={"session_id"})
  * })
- * @ORM\Entity(repositoryClass="App\Entity\Repository\SessionLearningMaterialRepository")
+ * @ORM\Entity(repositoryClass=SessionLearningMaterialRepository::class)
  *
  * @IS\Entity
  */

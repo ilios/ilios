@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\LearningMaterialInterface;
+use App\Repository\LearningMaterialRepository;
 use App\Service\TemporaryFileSystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Helper\ProgressBar;
-use App\Entity\Manager\LearningMaterialManager;
 use App\Service\IliosFileSystem;
 
 /**
@@ -24,10 +24,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
      */
     protected $iliosFileSystem;
 
-    /**
-     * @var LearningMaterialManager
-     */
-    protected $learningMaterialManager;
+    protected LearningMaterialRepository $learningMaterialRepository;
 
     /**
      * @var TemporaryFileSystem
@@ -37,11 +34,11 @@ class FixLearningMaterialMimeTypesCommand extends Command
     public function __construct(
         IliosFileSystem $iliosFileSystem,
         TemporaryFileSystem $temporaryFileSystem,
-        LearningMaterialManager $learningMaterialManager
+        LearningMaterialRepository $learningMaterialRepository
     ) {
         $this->iliosFileSystem = $iliosFileSystem;
         $this->temporaryFileSystem = $temporaryFileSystem;
-        $this->learningMaterialManager = $learningMaterialManager;
+        $this->learningMaterialRepository = $learningMaterialRepository;
 
         parent::__construct();
     }
@@ -62,7 +59,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $totalLearningMaterialsCount = $this->learningMaterialManager->getTotalLearningMaterialCount();
+        $totalLearningMaterialsCount = $this->learningMaterialRepository->getTotalLearningMaterialCount();
 
         $helper = $this->getHelper('question');
         $output->writeln('');
@@ -86,7 +83,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
 
             while ($fixed + $skipped < $totalLearningMaterialsCount) {
                 /** @var LearningMaterialInterface[] $learningMaterials */
-                $learningMaterials = $this->learningMaterialManager->findBy([], ['id' => 'desc'], $limit, $offset);
+                $learningMaterials = $this->learningMaterialRepository->findBy([], ['id' => 'desc'], $limit, $offset);
                 foreach ($learningMaterials as $lm) {
                     $mimetype = $lm->getMimetype();
                     if ($path = $lm->getRelativePath()) {
@@ -104,7 +101,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
                                     $newMimeType = $this->getMimetypeForFileName($fileName);
                                 }
                                 $lm->setMimetype($newMimeType);
-                                $this->learningMaterialManager->update($lm, false);
+                                $this->learningMaterialRepository->update($lm, false);
                                 $fixed++;
                             }
                         } else {
@@ -113,7 +110,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
                     } elseif (null !== $lm->getCitation()) {
                         if ($mimetype != 'citation') {
                             $lm->setMimetype('citation');
-                            $this->learningMaterialManager->update($lm, false);
+                            $this->learningMaterialRepository->update($lm, false);
                             $fixed++;
                         } else {
                             $skipped++;
@@ -121,7 +118,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
                     } elseif (null !== $lm->getLink()) {
                         if ($mimetype != 'link') {
                             $lm->setMimetype('link');
-                            $this->learningMaterialManager->update($lm, false);
+                            $this->learningMaterialRepository->update($lm, false);
                             $fixed++;
                         } else {
                             $skipped++;
@@ -131,7 +128,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
                     }
                     $progress->advance();
                 }
-                $this->learningMaterialManager->flushAndClear();
+                $this->learningMaterialRepository->flushAndClear();
                 $offset += $limit;
             }
 

@@ -6,7 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\FixLearningMaterialMimeTypesCommand;
 use App\Entity\LearningMaterialInterface;
-use App\Entity\Manager\LearningMaterialManager;
+use App\Repository\LearningMaterialRepository;
 use App\Service\TemporaryFileSystem;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -28,7 +28,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 
     protected $iliosFileSystem;
     protected $temporaryFileSystem;
-    protected $learningMaterialManager;
+    protected $learningMaterialRepository;
     protected $commandTester;
 
     public function setUp(): void
@@ -36,12 +36,12 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         parent::setUp();
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
         $this->temporaryFileSystem = m::mock(TemporaryFileSystem::class);
-        $this->learningMaterialManager = m::mock(LearningMaterialManager::class);
+        $this->learningMaterialRepository = m::mock(LearningMaterialRepository::class);
 
         $command = new FixLearningMaterialMimeTypesCommand(
             $this->iliosFileSystem,
             $this->temporaryFileSystem,
-            $this->learningMaterialManager
+            $this->learningMaterialRepository
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -57,23 +57,23 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->iliosFileSystem);
-        unset($this->learningMaterialManager);
+        unset($this->learningMaterialRepository);
         unset($this->commandTester);
     }
 
     public function testFixCitationType()
     {
-        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')
+        $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
         $mockLm = m::mock(LearningMaterialInterface::class);
         $mockLm->shouldReceive('getRelativePath')->once()->andReturn(null);
         $mockLm->shouldReceive('getCitation')->once()->andReturn('MST3k The Return S1 E6');
         $mockLm->shouldReceive('getMimetype')->once()->andReturn('link');
         $mockLm->shouldReceive('setMimetype')->with('citation')->once();
-        $this->learningMaterialManager->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
+        $this->learningMaterialRepository->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
             ->once()->andReturn([$mockLm]);
-        $this->learningMaterialManager->shouldReceive('update')->with($mockLm, false);
-        $this->learningMaterialManager->shouldReceive('flushAndClear')->once();
+        $this->learningMaterialRepository->shouldReceive('update')->with($mockLm, false);
+        $this->learningMaterialRepository->shouldReceive('flushAndClear')->once();
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
@@ -93,17 +93,17 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 
     public function testFixBlankCitationType()
     {
-        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')
+        $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
         $mockLm = m::mock(LearningMaterialInterface::class);
         $mockLm->shouldReceive('getRelativePath')->once()->andReturn(null);
         $mockLm->shouldReceive('getCitation')->once()->andReturn('');
         $mockLm->shouldReceive('getMimetype')->once()->andReturn('link');
         $mockLm->shouldReceive('setMimetype')->with('citation')->once();
-        $this->learningMaterialManager->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
+        $this->learningMaterialRepository->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
             ->once()->andReturn([$mockLm]);
-        $this->learningMaterialManager->shouldReceive('update')->with($mockLm, false);
-        $this->learningMaterialManager->shouldReceive('flushAndClear')->once();
+        $this->learningMaterialRepository->shouldReceive('update')->with($mockLm, false);
+        $this->learningMaterialRepository->shouldReceive('flushAndClear')->once();
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
@@ -123,7 +123,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 
     public function testFixLinkType()
     {
-        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')
+        $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
         $mockLm = m::mock(LearningMaterialInterface::class);
         $mockLm->shouldReceive('getRelativePath')->once()->andReturn(null);
@@ -131,10 +131,10 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         $mockLm->shouldReceive('getLink')->once()->andReturn('https://example.com');
         $mockLm->shouldReceive('getMimetype')->once()->andReturn('citation');
         $mockLm->shouldReceive('setMimetype')->with('link')->once();
-        $this->learningMaterialManager->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
+        $this->learningMaterialRepository->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
             ->once()->andReturn([$mockLm]);
-        $this->learningMaterialManager->shouldReceive('update')->with($mockLm, false);
-        $this->learningMaterialManager->shouldReceive('flushAndClear')->once();
+        $this->learningMaterialRepository->shouldReceive('update')->with($mockLm, false);
+        $this->learningMaterialRepository->shouldReceive('flushAndClear')->once();
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
@@ -154,7 +154,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 
     public function testFixBlankLinkType()
     {
-        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')
+        $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
         $mockLm = m::mock(LearningMaterialInterface::class);
         $mockLm->shouldReceive('getRelativePath')->once()->andReturn(null);
@@ -162,10 +162,10 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         $mockLm->shouldReceive('getLink')->once()->andReturn('');
         $mockLm->shouldReceive('getMimetype')->once()->andReturn('citation');
         $mockLm->shouldReceive('setMimetype')->with('link')->once();
-        $this->learningMaterialManager->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
+        $this->learningMaterialRepository->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
             ->once()->andReturn([$mockLm]);
-        $this->learningMaterialManager->shouldReceive('update')->with($mockLm, false);
-        $this->learningMaterialManager->shouldReceive('flushAndClear')->once();
+        $this->learningMaterialRepository->shouldReceive('update')->with($mockLm, false);
+        $this->learningMaterialRepository->shouldReceive('flushAndClear')->once();
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
@@ -185,7 +185,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 
     public function testFixFileType()
     {
-        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')
+        $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
         $mockLm = m::mock(LearningMaterialInterface::class);
         $mockLm->shouldReceive('getRelativePath')->once()->andReturn('/tmp/somewhere');
@@ -197,10 +197,10 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
             ->once()->with('/tmp/somewhere')->andReturn('some contents');
         $this->temporaryFileSystem->shouldReceive('createFile')->once()->with('some contents')->andReturn($mockFile);
 
-        $this->learningMaterialManager->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
+        $this->learningMaterialRepository->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
             ->once()->andReturn([$mockLm]);
-        $this->learningMaterialManager->shouldReceive('update')->with($mockLm, false);
-        $this->learningMaterialManager->shouldReceive('flushAndClear')->once();
+        $this->learningMaterialRepository->shouldReceive('update')->with($mockLm, false);
+        $this->learningMaterialRepository->shouldReceive('flushAndClear')->once();
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
@@ -220,7 +220,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 
     public function testFixFileWithUndetectableTypeType()
     {
-        $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')
+        $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
         $mockLm = m::mock(LearningMaterialInterface::class);
         $mockLm->shouldReceive('getRelativePath')->once()->andReturn('/tmp/somewhere');
@@ -235,10 +235,10 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
             ->once()->with('/tmp/somewhere')->andReturn('some contents');
         $this->temporaryFileSystem->shouldReceive('createFile')->once()->with('some contents')->andReturn($mockFile);
 
-        $this->learningMaterialManager->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
+        $this->learningMaterialRepository->shouldReceive('findBy')->with([], ['id' => 'desc'], 50, 0)
             ->once()->andReturn([$mockLm]);
-        $this->learningMaterialManager->shouldReceive('update')->with($mockLm, false);
-        $this->learningMaterialManager->shouldReceive('flushAndClear')->once();
+        $this->learningMaterialRepository->shouldReceive('update')->with($mockLm, false);
+        $this->learningMaterialRepository->shouldReceive('flushAndClear')->once();
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([

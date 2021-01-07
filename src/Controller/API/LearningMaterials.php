@@ -7,9 +7,9 @@ namespace App\Controller\API;
 use App\Classes\SessionUserInterface;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
-use App\Entity\Manager\LearningMaterialManager;
-use App\Entity\Manager\V1CompatibleBaseManager;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\LearningMaterialRepository;
+use App\Repository\V1DTORepositoryInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\IliosFileSystem;
@@ -39,12 +39,12 @@ use RuntimeException;
 
 class LearningMaterials
 {
-    protected LearningMaterialManager $manager;
+    protected LearningMaterialRepository $repository;
     protected string $endpoint;
 
-    public function __construct(LearningMaterialManager $manager)
+    public function __construct(LearningMaterialRepository $repository)
     {
-        $this->manager = $manager;
+        $this->repository = $repository;
         $this->endpoint = 'learningmaterials';
     }
 
@@ -60,10 +60,10 @@ class LearningMaterials
         ApiResponseBuilder $builder,
         TokenStorageInterface $tokenStorage
     ): Response {
-        if ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
-            $dto = $this->manager->findV1DTOBy(['id' => $id]);
+        if ('v1' === $version && ($this->repository instanceof V1DTORepositoryInterface)) {
+            $dto = $this->repository->findV1DTOBy(['id' => $id]);
         } else {
-            $dto = $this->manager->findDTOBy(['id' => $id]);
+            $dto = $this->repository->findDTOBy(['id' => $id]);
         }
 
         if (! $dto) {
@@ -98,21 +98,21 @@ class LearningMaterials
         $parameters = ApiRequestParser::extractParameters($request);
         $q = $request->get('q');
         if (null !== $q) {
-            $dtos = $this->manager->findLearningMaterialDTOsByQ(
+            $dtos = $this->repository->findDTOsByQ(
                 $q,
                 $parameters['orderBy'],
                 $parameters['limit'],
                 $parameters['offset']
             );
-        } elseif ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
-            $dtos = $this->manager->findV1DTOsBy(
+        } elseif ('v1' === $version && ($this->repository instanceof V1DTORepositoryInterface)) {
+            $dtos = $this->repository->findV1DTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],
                 $parameters['offset']
             );
         } else {
-            $dtos = $this->manager->findDTOsBy(
+            $dtos = $this->repository->findDTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],
@@ -189,7 +189,7 @@ class LearningMaterials
         }, $data);
 
 
-        $class = $this->manager->getClass();
+        $class = $this->repository->getClass();
         $entities = [];
         foreach ($dataWithFilesAttributes as $obj) {
             $relativePath = property_exists($obj, 'relativePath') ? $obj->relativePath : null;
@@ -200,7 +200,7 @@ class LearningMaterials
             if ($relativePath) {
                 $entity->setRelativePath($relativePath);
             }
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
 
             $errors = $validator->validate($entity, null, $entity->getValidationGroups());
             if (count($errors) > 0) {
@@ -214,15 +214,15 @@ class LearningMaterials
 
             $entities[] = $entity;
         }
-        $this->manager->flush();
+        $this->repository->flush();
 
         $values = [];
         foreach ($entities as $entity) {
             $entity->generateToken();
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
             $values[] = $entity;
         }
-        $this->manager->flush();
+        $this->repository->flush();
 
         return $builder->buildResponseForPostRequest($this->endpoint, $values, Response::HTTP_CREATED, $request);
     }
@@ -244,13 +244,13 @@ class LearningMaterials
         SerializerInterface $serializer
     ): Response {
         /** @var LearningMaterialInterface $entity */
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;
             $permission = AbstractVoter::EDIT;
         } else {
-            $entity = $this->manager->create();
+            $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
             $permission = AbstractVoter::CREATE;
         }
@@ -274,7 +274,7 @@ class LearningMaterials
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest(
             $this->endpoint,
@@ -305,7 +305,7 @@ class LearningMaterials
             throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
         }
         /** @var LearningMaterialInterface $entity */
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if (!$entity) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
@@ -330,8 +330,8 @@ class LearningMaterials
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $this->manager->update($entity, true, false);
-        $dto = $this->manager->findDTOBy(['id' => $entity->getId()]);
+        $this->repository->update($entity, true, false);
+        $dto = $this->repository->findDTOBy(['id' => $entity->getId()]);
 
         return $builder->buildResponseForPatchRequest(
             $this->endpoint,
@@ -350,7 +350,7 @@ class LearningMaterials
         string $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if (! $entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -361,7 +361,7 @@ class LearningMaterials
         }
 
         try {
-            $this->manager->delete($entity);
+            $this->repository->delete($entity);
 
             return new Response('', Response::HTTP_NO_CONTENT);
         } catch (Exception $exception) {

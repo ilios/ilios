@@ -7,9 +7,9 @@ namespace App\Tests\Command;
 use App\Classes\SessionUserInterface;
 use App\Command\ChangePasswordCommand;
 use App\Entity\AuthenticationInterface;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
+use App\Repository\AuthenticationRepository;
+use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
 use App\Tests\Helper\TestQuestionHelper;
 use Exception;
@@ -34,10 +34,10 @@ class ChangePasswordCommandTest extends KernelTestCase
     /** @var CommandTester */
     protected $commandTester;
 
-    /** @var UserManager */
-    protected $userManager;
-    /** @var AuthenticationManager */
-    protected $authenticationManager;
+    /** @var UserRepository */
+    protected $userRepository;
+    /** @var AuthenticationRepository */
+    protected $authenticationRepository;
     /** @var UserPasswordEncoderInterface */
     protected $encoder;
     /** @var SessionUserProvider */
@@ -46,14 +46,14 @@ class ChangePasswordCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock(UserManager::class);
-        $this->authenticationManager = m::mock(AuthenticationManager::class);
+        $this->userRepository = m::mock(UserRepository::class);
+        $this->authenticationRepository = m::mock(AuthenticationRepository::class);
         $this->encoder = m::mock(UserPasswordEncoderInterface::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
 
         $command = new ChangePasswordCommand(
-            $this->userManager,
-            $this->authenticationManager,
+            $this->userRepository,
+            $this->authenticationRepository,
             $this->encoder,
             $this->sessionUserProvider
         );
@@ -74,8 +74,8 @@ class ChangePasswordCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
-        unset($this->authenticationManager);
+        unset($this->userRepository);
+        unset($this->authenticationRepository);
         unset($this->encoder);
         unset($this->sessionUserProvider);
         unset($this->commandTester);
@@ -84,7 +84,7 @@ class ChangePasswordCommandTest extends KernelTestCase
     public function testChangePassword()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['123456789']);
 
         $authentication = m::mock(AuthenticationInterface::class);
@@ -96,7 +96,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         $this->encoder->shouldReceive('encodePassword')->with($sessionUser, '123456789')->andReturn('abc');
         $authentication->shouldReceive('setPasswordHash')->with('abc')->once();
 
-        $this->authenticationManager->shouldReceive('update')->with($authentication);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute(['command' => self::COMMAND_NAME, 'userId' => '1']);
 
@@ -111,12 +111,12 @@ class ChangePasswordCommandTest extends KernelTestCase
     public function testUserWithoutAuthentication()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['123456789']);
 
         $authentication = m::mock(AuthenticationInterface::class);
         $user->shouldReceive('getAuthentication')->once()->andReturn(null);
-        $this->authenticationManager->shouldReceive('create')->once()->andReturn($authentication);
+        $this->authenticationRepository->shouldReceive('create')->once()->andReturn($authentication);
         $user->shouldReceive('setAuthentication')->once()->with($authentication);
 
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -125,7 +125,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         $this->encoder->shouldReceive('encodePassword')->with($sessionUser, '123456789')->andReturn('abc');
         $authentication->shouldReceive('setPasswordHash')->with('abc')->once();
 
-        $this->authenticationManager->shouldReceive('update')->with($authentication);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
@@ -142,7 +142,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,

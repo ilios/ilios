@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\SessionDescriptionManager;
+use App\Repository\SessionDescriptionRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -13,8 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SessionDescriptions extends ReadOnlyController
 {
-    public function __construct(SessionDescriptionManager $manager)
+    public function __construct(SessionDescriptionRepository $repository)
     {
-        parent::__construct($manager, 'sessiondescriptions');
+        parent::__construct($repository, 'sessiondescriptions');
     }
 }

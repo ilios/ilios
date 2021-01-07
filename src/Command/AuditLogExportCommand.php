@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Manager\AuditLogManager;
+use App\Repository\AuditLogRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -28,19 +28,16 @@ class AuditLogExportCommand extends Command
      */
     protected $logger;
 
-    /**
-     * @var AuditLogManager
-     */
-    protected $auditLogManager;
+    protected AuditLogRepository $auditLogRepository;
 
     /**
      * @param LoggerInterface $logger
-     * @param AuditLogManager $auditLogManager
+     * @param AuditLogRepository $auditLogRepository
      */
-    public function __construct(LoggerInterface $logger, AuditLogManager $auditLogManager)
+    public function __construct(LoggerInterface $logger, AuditLogRepository $auditLogRepository)
     {
         $this->logger = $logger;
-        $this->auditLogManager = $auditLogManager;
+        $this->auditLogRepository = $auditLogRepository;
         parent::__construct();
     }
 
@@ -103,7 +100,7 @@ class AuditLogExportCommand extends Command
                 $arr['objectClass'],
                 $arr['valuesChanged']
             ];
-        }, $this->auditLogManager->findInRange($from, $to));
+        }, $this->auditLogRepository->findInRange($from, $to));
 
         $this->logger->info(
             sprintf(
@@ -127,7 +124,7 @@ class AuditLogExportCommand extends Command
                     $to->format('c')
                 )
             );
-            $this->auditLogManager->deleteInRange($from, $to);
+            $this->auditLogRepository->deleteInRange($from, $to);
         }
 
         $this->logger->info('Finished Audit Log Export.');

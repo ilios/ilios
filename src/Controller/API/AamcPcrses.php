@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\AamcPcrsManager;
+use App\Repository\AamcPcrsRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AamcPcrses extends ReadWriteController
 {
-    public function __construct(AamcPcrsManager $manager)
+    public function __construct(AamcPcrsRepository $repository)
     {
-        parent::__construct($manager, 'aamcpcrses');
+        parent::__construct($repository, 'aamcpcrses');
     }
 }

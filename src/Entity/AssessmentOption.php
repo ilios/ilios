@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Traits\SessionTypesEntity;
 use App\Annotation as IS;
+use App\Repository\AssessmentOptionRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
@@ -18,7 +19,7 @@ use App\Traits\StringableIdEntity;
  * Class AssessmentOption
  *
  * @ORM\Table(name="assessment_option",uniqueConstraints={@ORM\UniqueConstraint(name="name", columns={"name"})})
- * @ORM\Entity(repositoryClass="App\Entity\Repository\AssessmentOptionRepository")
+ * @ORM\Entity(repositoryClass=AssessmentOptionRepository::class)
  *
  * @IS\Entity
  */

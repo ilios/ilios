@@ -6,9 +6,9 @@ namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
 use App\Entity\CourseInterface;
-use App\Entity\Manager\CourseManager;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\CourseRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CourseRollover;
@@ -28,10 +28,9 @@ class Courses extends ReadWriteController
      */
     protected $tokenStorage;
 
-    public function __construct(CourseManager $manager, TokenStorageInterface $tokenStorage)
+    public function __construct(CourseRepository $repository, TokenStorageInterface $tokenStorage)
     {
-        parent::__construct($manager, 'courses');
-        $this->manager = $manager;
+        parent::__construct($repository, 'courses');
         $this->tokenStorage = $tokenStorage;
     }
 
@@ -65,7 +64,7 @@ class Courses extends ReadWriteController
             /** @var SessionUserInterface $currentUser */
             $currentUser = $this->tokenStorage->getToken()->getUser();
             if ('v1' === $version) {
-                $dtos = $this->manager->findCoursesByUserIdV1(
+                $dtos = $this->repository->findByUserIdV1(
                     $currentUser->getId(),
                     $parameters['criteria'],
                     $parameters['orderBy'],
@@ -73,7 +72,7 @@ class Courses extends ReadWriteController
                     $parameters['offset']
                 );
             } else {
-                $dtos = $this->manager->findCoursesByUserId(
+                $dtos = $this->repository->findByUserId(
                     $currentUser->getId(),
                     $parameters['criteria'],
                     $parameters['orderBy'],
@@ -110,7 +109,7 @@ class Courses extends ReadWriteController
         ApiResponseBuilder $builder
     ): Response {
         /** @var CourseInterface $entity */
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
             $data = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
@@ -180,7 +179,7 @@ class Courses extends ReadWriteController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $course = $this->manager->findOneBy(['id' => $id]);
+        $course = $this->repository->findOneBy(['id' => $id]);
 
         if (! $course) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -215,7 +214,7 @@ class Courses extends ReadWriteController
         $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, $options, $newCohortIds);
 
         //pulling the DTO ensures we get all the new relationships
-        $newCourseDTO = $this->manager->findDTOBy(['id' => $newCourse->getId()]);
+        $newCourseDTO = $this->repository->findDTOBy(['id' => $newCourse->getId()]);
 
         return $builder->buildResponseForPostRequest(
             $this->endpoint,
@@ -235,7 +234,7 @@ class Courses extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setArchived(true);
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
@@ -250,7 +249,7 @@ class Courses extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(true);
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
@@ -265,7 +264,7 @@ class Courses extends ReadWriteController
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(false);
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }

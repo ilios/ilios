@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\CurriculumInventoryInstitutionManager;
+use App\Repository\CurriculumInventoryInstitutionRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CurriculumInventoryInstitutions extends ReadWriteController
 {
-    public function __construct(CurriculumInventoryInstitutionManager $manager)
+    public function __construct(CurriculumInventoryInstitutionRepository $repository)
     {
-        parent::__construct($manager, 'curriculuminventoryinstitutions');
+        parent::__construct($repository, 'curriculuminventoryinstitutions');
     }
 }

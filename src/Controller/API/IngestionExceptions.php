@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\IngestionExceptionManager;
+use App\Repository\IngestionExceptionRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class IngestionExceptions extends ReadOnlyController
 {
-    public function __construct(IngestionExceptionManager $manager)
+    public function __construct(IngestionExceptionRepository $repository)
     {
-        parent::__construct($manager, 'ingestionexceptions');
+        parent::__construct($repository, 'ingestionexceptions');
     }
 }

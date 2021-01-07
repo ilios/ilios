@@ -21,6 +21,7 @@ use App\Traits\TitledEntity;
 use App\Traits\CoursesEntity;
 use App\Traits\ProgramsEntity;
 use App\Traits\StewardedEntity;
+use App\Repository\SchoolRepository;
 
 /**
  * Class School
@@ -30,7 +31,7 @@ use App\Traits\StewardedEntity;
  *     @ORM\UniqueConstraint(name="template_prefix", columns={"template_prefix"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\SchoolRepository")
+ * @ORM\Entity(repositoryClass=SchoolRepository::class)
  *
  * @IS\Entity
  */

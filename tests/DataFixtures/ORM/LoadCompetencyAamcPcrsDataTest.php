@@ -6,6 +6,7 @@ namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\AamcPcrsInterface;
 use App\Entity\CompetencyInterface;
+use App\Repository\CompetencyRepository;
 
 /**
  * Class LoadCompetencyAmcPcrsDataTest
@@ -17,7 +18,7 @@ class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\CompetencyManager';
+        return CompetencyRepository::class;
     }
 
     /**

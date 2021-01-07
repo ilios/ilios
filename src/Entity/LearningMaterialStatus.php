@@ -13,12 +13,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\LearningMaterialStatusRepository;
 
 /**
  * Class LearningMaterialStatus
  *
  * @ORM\Table(name="learning_material_status")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\LearningMaterialStatusRepository")
+ * @ORM\Entity(repositoryClass=LearningMaterialStatusRepository::class)
  *
  * @IS\Entity
  */

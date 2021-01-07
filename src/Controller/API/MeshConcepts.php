@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\MeshConceptManager;
+use App\Repository\MeshConceptRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MeshConcepts extends ReadOnlyController
 {
-    public function __construct(MeshConceptManager $manager)
+    public function __construct(MeshConceptRepository $repository)
     {
-        parent::__construct($manager, 'meshconcepts');
+        parent::__construct($repository, 'meshconcepts');
     }
 }

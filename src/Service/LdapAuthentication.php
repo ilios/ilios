@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Repository\AuthenticationRepository;
 use App\Service\Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Manager\AuthenticationManager;
 use App\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,10 +15,7 @@ class LdapAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authManager;
+    protected AuthenticationRepository $authRepository;
 
     /**
      * @var JsonWebTokenManager
@@ -45,18 +42,18 @@ class LdapAuthentication implements AuthenticationInterface
     protected $sessionUserProvider;
 
     /**
-     * @param AuthenticationManager $authManager
+     * @param AuthenticationRepository $authenticationRepository
      * @param JsonWebTokenManager $jwtManager
      * @param Config $config
      * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
-        AuthenticationManager $authManager,
+        AuthenticationRepository $authenticationRepository,
         JsonWebTokenManager $jwtManager,
         Config $config,
         SessionUserProvider $sessionUserProvider
     ) {
-        $this->authManager = $authManager;
+        $this->authRepository = $authenticationRepository;
         $this->jwtManager = $jwtManager;
         $this->ldapHost = $config->get('ldap_authentication_host');
         $this->ldapPort = $config->get('ldap_authentication_port');
@@ -97,7 +94,7 @@ class LdapAuthentication implements AuthenticationInterface
         }
 
         if ($username && $password) {
-            $authEntity = $this->authManager->findAuthenticationByUsername($username);
+            $authEntity = $this->authRepository->findOneByUsername($username);
             if ($authEntity) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
                 if ($sessionUser->isEnabled()) {

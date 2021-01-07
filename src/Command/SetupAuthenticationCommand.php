@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\ApplicationConfig;
-use App\Entity\Manager\ApplicationConfigManager;
+use App\Repository\ApplicationConfigRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,18 +20,11 @@ use Symfony\Component\Console\Question\Question;
  */
 class SetupAuthenticationCommand extends Command
 {
-    /**
-     * @var ApplicationConfigManager
-     */
-    protected $applicationConfigManager;
+    protected ApplicationConfigRepository $applicationConfigRepository;
 
-    /**
-     * RolloverCourseCommand constructor.
-     * @param ApplicationConfigManager $applicationConfigManager
-     */
-    public function __construct(ApplicationConfigManager $applicationConfigManager)
+    public function __construct(ApplicationConfigRepository $applicationConfigRepository)
     {
-        $this->applicationConfigManager = $applicationConfigManager;
+        $this->applicationConfigRepository = $applicationConfigRepository;
         parent::__construct();
     }
 
@@ -77,16 +70,16 @@ class SetupAuthenticationCommand extends Command
 
         foreach ($parameters as $name => $value) {
             /** @var ApplicationConfig $config */
-            $config = $this->applicationConfigManager->findOneBy(['name' => $name]);
+            $config = $this->applicationConfigRepository->findOneBy(['name' => $name]);
             if (!$config) {
-                $config = $this->applicationConfigManager->create();
+                $config = $this->applicationConfigRepository->create();
                 $config->setName($name);
             }
             $config->setValue($value);
-            $this->applicationConfigManager->update($config, false);
+            $this->applicationConfigRepository->update($config, false);
         };
 
-        $this->applicationConfigManager->flush();
+        $this->applicationConfigRepository->flush();
 
         $output->writeln('<info>Authentication Setup Successfully!</info>');
 

@@ -6,9 +6,9 @@ namespace App\Tests\Service;
 
 use App\Classes\Capabilities;
 use App\Classes\UserRoles;
+use App\Repository\SchoolRepository;
 use App\Service\DefaultPermissionMatrix;
 use App\Entity\DTO\SchoolDTO;
-use App\Entity\Manager\SchoolManager;
 use App\Tests\TestCase;
 use Mockery as m;
 
@@ -42,9 +42,9 @@ class DefaultPermissionMatrixTest extends TestCase
             'admin@sot.edu',
             'alerts@sot.edu'
         );
-        $schoolManager = m::mock(SchoolManager::class);
-        $schoolManager->shouldReceive('findDTOsBy')->andReturn([$this->schoolDTO]);
-        $this->permissionMatrix = new DefaultPermissionMatrix($schoolManager);
+        $schoolRepository = m::mock(SchoolRepository::class);
+        $schoolRepository->shouldReceive('findDTOsBy')->andReturn([$this->schoolDTO]);
+        $this->permissionMatrix = new DefaultPermissionMatrix($schoolRepository);
     }
 
     /**

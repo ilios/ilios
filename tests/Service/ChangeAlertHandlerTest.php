@@ -8,13 +8,13 @@ use App\Entity\Alert;
 use App\Entity\AlertChangeType;
 use App\Entity\AlertChangeTypeInterface;
 use App\Entity\Course;
-use App\Entity\Manager\AlertChangeTypeManager;
-use App\Entity\Manager\AlertManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\Offering;
 use App\Entity\School;
 use App\Entity\Session;
 use App\Entity\User;
+use App\Repository\AlertChangeTypeRepository;
+use App\Repository\AlertRepository;
+use App\Repository\UserRepository;
 use App\Service\ChangeAlertHandler;
 use Mockery as m;
 use App\Tests\TestCase;
@@ -29,17 +29,17 @@ class ChangeAlertHandlerTest extends TestCase
     /**
      * @var m\MockInterface
      */
-    protected $mockUserManager;
+    protected $mockUserRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $mockAlertManager;
+    protected $mockAlertRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $mockAlertChangeTypeManager;
+    protected $mockAlertChangeTypeRepository;
     /**
      * @var ChangeAlertHandler
      */
@@ -51,13 +51,13 @@ class ChangeAlertHandlerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->mockAlertManager = m::mock(AlertManager::class);
-        $this->mockAlertChangeTypeManager = m::mock(AlertChangeTypeManager::class);
-        $this->mockUserManager = m::mock(UserManager::class);
+        $this->mockAlertRepository = m::mock(AlertRepository::class);
+        $this->mockAlertChangeTypeRepository = m::mock(AlertChangeTypeRepository::class);
+        $this->mockUserRepository = m::mock(UserRepository::class);
         $this->changeAlertHandler = new ChangeAlertHandler(
-            $this->mockAlertManager,
-            $this->mockAlertChangeTypeManager,
-            $this->mockUserManager
+            $this->mockAlertRepository,
+            $this->mockAlertChangeTypeRepository,
+            $this->mockUserRepository
         );
     }
 
@@ -68,9 +68,9 @@ class ChangeAlertHandlerTest extends TestCase
     {
         parent::tearDown();
         unset($this->changeAlertHandler);
-        unset($this->mockAlertManager);
-        unset($this->mockAlertChangeTypeManager);
-        unset($this->mockUserManager);
+        unset($this->mockAlertRepository);
+        unset($this->mockAlertChangeTypeRepository);
+        unset($this->mockUserRepository);
     }
 
     /**
@@ -95,15 +95,15 @@ class ChangeAlertHandlerTest extends TestCase
         $alert = new Alert();
         $alert->setId(10);
 
-        $this->mockAlertChangeTypeManager
+        $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->andReturn($alertChangeType);
 
-        $this->mockAlertManager
+        $this->mockAlertRepository
             ->shouldReceive('create')
             ->andReturn($alert);
 
-        $this->mockAlertManager
+        $this->mockAlertRepository
             ->shouldReceive('update')
             ->withArgs([$alert, false]);
 
@@ -153,16 +153,16 @@ class ChangeAlertHandlerTest extends TestCase
 
         $alert = new Alert();
 
-        $this->mockAlertManager
+        $this->mockAlertRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['dispatched' => false, 'tableName' => 'offering', 'tableRowId' => $offering->getId()]])
             ->andReturn(null);
 
-        $this->mockAlertManager
+        $this->mockAlertRepository
             ->shouldReceive('create')
             ->andReturn($alert);
 
-        $this->mockAlertManager
+        $this->mockAlertRepository
             ->shouldReceive('update')
             ->withArgs([$alert, false]);
 
@@ -175,13 +175,13 @@ class ChangeAlertHandlerTest extends TestCase
         $locationChangeType = new AlertChangeType();
         $locationChangeType->setId(AlertChangeTypeInterface::CHANGE_TYPE_LOCATION);
 
-        $this->mockAlertChangeTypeManager
+        $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_LOCATION]])
             ->times(3)
             ->andReturn($locationChangeType);
 
-        $this->mockAlertChangeTypeManager
+        $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_TIME]])
             ->once()
@@ -239,16 +239,16 @@ class ChangeAlertHandlerTest extends TestCase
 
         $alert = new Alert();
 
-        $this->mockAlertManager
+        $this->mockAlertRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['dispatched' => false, 'tableName' => 'offering', 'tableRowId' => $offering->getId()]])
             ->andReturn(null);
 
-        $this->mockAlertManager
+        $this->mockAlertRepository
             ->shouldReceive('create')
             ->andReturn($alert);
 
-        $this->mockAlertManager
+        $this->mockAlertRepository
             ->shouldReceive('update')
             ->withArgs([$alert, false]);
 
@@ -264,25 +264,25 @@ class ChangeAlertHandlerTest extends TestCase
         $locationChangeType = new AlertChangeType();
         $locationChangeType->setId(AlertChangeTypeInterface::CHANGE_TYPE_LOCATION);
 
-        $this->mockAlertChangeTypeManager
+        $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_LOCATION]])
             ->times(3)
             ->andReturn($locationChangeType);
 
-        $this->mockAlertChangeTypeManager
+        $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_TIME]])
             ->times(2)
             ->andReturn($timeChangeType);
 
-        $this->mockAlertChangeTypeManager
+        $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP ]])
             ->times(2)
             ->andReturn($learnerGroupChangeType);
 
-        $this->mockAlertChangeTypeManager
+        $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR ]])
             ->times(2)

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\MessageHandler;
 
-use App\Entity\Manager\UserManager;
 use App\Message\UserIndexRequest;
+use App\Repository\UserRepository;
 use App\Service\Index\Users;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -17,19 +17,19 @@ class UserIndexHandler implements MessageHandlerInterface
     private $usersIndex;
 
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    private $userManager;
+    private $userRepository;
 
-    public function __construct(Users $index, UserManager $userManager)
+    public function __construct(Users $index, UserRepository $userRepository)
     {
         $this->usersIndex = $index;
-        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
     }
 
     public function __invoke(UserIndexRequest $message)
     {
-        $dtos = $this->userManager->findDTOsBy(['id' => $message->getUserIds()]);
+        $dtos = $this->userRepository->findDTOsBy(['id' => $message->getUserIds()]);
         $this->usersIndex->index($dtos);
     }
 }

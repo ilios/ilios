@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Repository\ApplicationConfigRepository;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ServerException;
-use App\Entity\Manager\ApplicationConfigManager;
 
 use function Stringy\create as s;
 
@@ -21,21 +21,18 @@ class Config
         'learningMaterialsDisabled',
     ];
 
-    /**
-     * @var ApplicationConfigManager
-     */
-    protected $applicationConfigManager;
+    protected ApplicationConfigRepository $applicationConfigRepository;
 
     /**
      * Config constructor.
-     * @param ApplicationConfigManager $applicationConfigManager
+     * @param ApplicationConfigRepository $applicationConfigRepository
      *
      * @throws \Exception
      */
     public function __construct(
-        ApplicationConfigManager $applicationConfigManager
+        ApplicationConfigRepository $applicationConfigRepository
     ) {
-        $this->applicationConfigManager = $applicationConfigManager;
+        $this->applicationConfigRepository = $applicationConfigRepository;
     }
 
     /**
@@ -96,7 +93,7 @@ class Config
     protected function getValueFromDb($name)
     {
         try {
-            return $this->applicationConfigManager->getValue($name);
+            return $this->applicationConfigRepository->getValue($name);
         } catch (ServerException $e) {
             return null;
         } catch (ConnectionException $e) {

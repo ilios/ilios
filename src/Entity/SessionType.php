@@ -15,6 +15,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\SchoolEntity;
+use App\Repository\SessionTypeRepository;
 
 /**
  * SessionType
@@ -25,7 +26,7 @@ use App\Traits\SchoolEntity;
  *     @ORM\Index(name="assessment_option_fkey", columns={"assessment_option_id"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\SessionTypeRepository")
+ * @ORM\Entity(repositoryClass=SessionTypeRepository::class)
  *
  * @IS\Entity
  */

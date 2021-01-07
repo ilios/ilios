@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\AssessmentOptionInterface;
+use App\Repository\AssessmentOptionRepository;
 
 /**
  * Class LoadAssessmentOptionDataTest
@@ -16,7 +17,7 @@ class LoadAssessmentOptionDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\AssessmentOptionManager';
+        return AssessmentOptionRepository::class;
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\Manager\ManagerInterface;
+use App\Repository\ManagerInterface;
 use Exception;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -30,10 +30,10 @@ class EntityManagerLookup
     public function getManagerForEndpoint(string $endPoint): ManagerInterface
     {
         $entityName = $this->getEntityName($endPoint);
-        $name = "App\\Entity\\Manager\\${entityName}Manager";
+        $name = sprintf('App\Repository\%sRepository', $entityName);
         if (!$this->container->has($name)) {
             throw new Exception(
-                sprintf('The manager for \'%s\' does not exist. Is the serivice public?', $name)
+                sprintf('The repository for \'%s\' does not exist. Is the service public?', $name)
             );
         }
 
@@ -41,7 +41,7 @@ class EntityManagerLookup
 
         if (!$manager instanceof ManagerInterface) {
             $class = $manager->getClass();
-            throw new Exception("{$class} is not an Ilios Manager.");
+            throw new Exception("{$class} is not an Ilios Repository.");
         }
 
         return $manager;
@@ -51,18 +51,17 @@ class EntityManagerLookup
     {
         $reflect = new ReflectionClass($entityClass);
         $entityName = $reflect->getShortName();
-        $name = "App\\Entity\\Manager\\${entityName}Manager";
+        $name = sprintf('App\Repository\%sRepository', $entityName);
         if (!$this->container->has($name)) {
             throw new Exception(
-                sprintf('The manager for \'%s\' does not exist. Is the serivice public?', $name)
+                sprintf('The repository for \'%s\' does not exist. Is the service public?', $name)
             );
         }
 
         $manager = $this->container->get($name);
 
         if (!$manager instanceof ManagerInterface) {
-            $class = $manager->getClass();
-            throw new Exception("{$class} is not an Ilios Manager.");
+            throw new Exception("{$name} is not an Ilios Manager.");
         }
 
         return $manager;

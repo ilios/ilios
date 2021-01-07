@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\CompetenciesEntity;
 use App\Annotation as IS;
+use App\Repository\AamcPcrsRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\DescribableEntity;
 use App\Entity\CompetencyInterface;
@@ -18,7 +19,7 @@ use App\Traits\StringableIdEntity;
 /**
  * Class AamcPcrs
  *
- * @ORM\Entity(repositoryClass="App\Entity\Repository\AamcPcrsRepository")
+ * @ORM\Entity(repositoryClass=AamcPcrsRepository::class)
  * @ORM\Table(name="aamc_pcrs")
  *
  * @IS\Entity

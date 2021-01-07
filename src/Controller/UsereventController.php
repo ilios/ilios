@@ -6,14 +6,14 @@ namespace App\Controller;
 
 use App\Classes\CalendarEvent;
 use App\Classes\SessionUserInterface;
-use App\Entity\Manager\SessionManager;
 use App\Entity\SessionInterface;
 use App\RelationshipVoter\AbstractCalendarEvent;
 use App\RelationshipVoter\AbstractVoter;
 use App\Classes\UserEvent;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
+use App\Repository\SessionRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,8 +35,8 @@ class UsereventController extends AbstractController
      * @param int $id of the user
      * @param Request $request
      * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param UserManager $manager
-     * @param SessionManager $sessionManager
+     * @param UserRepository $repository
+     * @param SessionRepository $sessionRepository
      * @param SerializerInterface $serializer
      * @param TokenStorageInterface $tokenStorage
      *
@@ -48,13 +48,13 @@ class UsereventController extends AbstractController
         $id,
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
-        UserManager $manager,
-        SessionManager $sessionManager,
+        UserRepository $repository,
+        SessionRepository $sessionRepository,
         SerializerInterface $serializer,
         TokenStorageInterface $tokenStorage
     ) {
         /** @var UserInterface $user */
-        $user = $manager->findOneBy(['id' => $id]);
+        $user = $repository->findOneBy(['id' => $id]);
 
         if (!$user) {
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
@@ -66,12 +66,12 @@ class UsereventController extends AbstractController
 
         if ($sessionId = $request->get('session')) {
             /** @var SessionInterface $session */
-            $session = $sessionManager->findOneBy(['id' => $sessionId]);
+            $session = $sessionRepository->findOneBy(['id' => $sessionId]);
 
             if (!$session) {
                 throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));
             }
-            $events = $manager->findSessionEventsForUser($user->getId(), $session->getId());
+            $events = $repository->findSessionEventsForUser($user->getId(), $session->getId());
         } else {
             $fromTimestamp = $request->get('from');
             $toTimestamp = $request->get('to');
@@ -84,7 +84,7 @@ class UsereventController extends AbstractController
             if (!$to) {
                 throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
             }
-            $events = $manager->findEventsForUser($user->getId(), $from, $to);
+            $events = $repository->findEventsForUser($user->getId(), $from, $to);
         }
 
         $events = array_values(array_filter(
@@ -96,7 +96,7 @@ class UsereventController extends AbstractController
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
-        $events = $manager->addPreAndPostRequisites($user->getId(), $events);
+        $events = $repository->addPreAndPostRequisites($user->getId(), $events);
 
         // run pre-/post-requisite user events through the permissions checker
         for ($i = 0, $n = count($events); $i < $n; $i++) {
@@ -128,9 +128,9 @@ class UsereventController extends AbstractController
             $allEvents = array_merge($allEvents, $event->prerequisites);
             $allEvents = array_merge($allEvents, $event->postrequisites);
         }
-        $allEvents = $manager->addInstructorsToEvents($allEvents);
-        $allEvents = $manager->addMaterialsToEvents($allEvents);
-        $allEvents = $manager->addSessionDataToEvents($allEvents);
+        $allEvents = $repository->addInstructorsToEvents($allEvents);
+        $allEvents = $repository->addMaterialsToEvents($allEvents);
+        $allEvents = $repository->addSessionDataToEvents($allEvents);
 
         $now = new \DateTime();
         /* @var UserEvent $event */

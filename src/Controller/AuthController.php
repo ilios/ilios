@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Classes\SessionUserInterface;
+use App\Repository\AuthenticationRepository;
+use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Service\JsonWebTokenManager;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,8 +103,8 @@ class AuthController extends AbstractController
      */
     public function invalidateTokensAction(
         TokenStorageInterface $tokenStorage,
-        UserManager $userManager,
-        AuthenticationManager $authenticationManager,
+        UserRepository $userRepository,
+        AuthenticationRepository $authenticationRepository,
         JsonWebTokenManager $jwtManager
     ) {
         $now = new \DateTime();
@@ -114,15 +114,15 @@ class AuthController extends AbstractController
             $sessionUser = $token->getUser();
             if ($sessionUser instanceof SessionUserInterface) {
                 /** @var UserInterface $user */
-                $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
-                $authentication = $authenticationManager->findOneBy(['user' => $user->getId()]);
+                $user = $userRepository->findOneBy(['id' => $sessionUser->getId()]);
+                $authentication = $authenticationRepository->findOneBy(['user' => $user->getId()]);
                 if (!$authentication) {
-                    $authentication = $authenticationManager->create();
+                    $authentication = $authenticationRepository->create();
                     $authentication->setUser($user);
                 }
 
                 $authentication->setInvalidateTokenIssuedBefore($now);
-                $authenticationManager->update($authentication);
+                $authenticationRepository->update($authentication);
 
                 sleep(1);
                 $jwt = $jwtManager->createJwtFromSessionUser($sessionUser);

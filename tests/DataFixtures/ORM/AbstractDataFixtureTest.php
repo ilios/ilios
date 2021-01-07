@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\DataFixtures\ORM;
 
-use App\Entity\Manager\ManagerInterface;
+use App\Repository\ManagerInterface;
 use App\Service\DataimportFileLocator;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -18,10 +18,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
 {
     use FixturesTrait;
 
-    /**
-     * @var ManagerInterface
-     */
-    protected $em;
+    protected ManagerInterface $em;
 
     /**
      * {@inheritdoc}
@@ -81,7 +78,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     }
 
     /**
-     * Returns the key of the entity manager service that needs to be loaded for this test.
+     * Returns the key of the entity repository service that needs to be loaded for this test.
      *
      * @return string
      */

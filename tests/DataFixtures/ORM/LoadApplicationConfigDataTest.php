@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\ApplicationConfigInterface;
+use App\Repository\ApplicationConfigRepository;
 
 /**
  * Class LoadApplicationConfigDataTest
@@ -17,7 +18,7 @@ class LoadApplicationConfigDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\ApplicationConfigManager';
+        return ApplicationConfigRepository::class;
     }
 
     /**

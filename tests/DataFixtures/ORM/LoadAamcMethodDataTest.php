@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\AamcMethodInterface;
+use App\Repository\AamcMethodRepository;
 
 /**
  * Class LoadAamcMethodDataTest
@@ -16,7 +17,7 @@ class LoadAamcMethodDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\AamcMethodManager';
+        return AamcMethodRepository::class;
     }
 
     /**

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\UserInterface;
+use App\Repository\AuthenticationRepository;
+use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use Exception;
@@ -15,23 +17,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\UserManager;
 
 /**
  * Change a users's password
  */
 class ChangePasswordCommand extends Command
 {
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authenticationManager;
+    protected UserRepository $userRepository;
+    protected AuthenticationRepository $authenticationRepository;
 
     /**
      * @var UserPasswordEncoderInterface
@@ -44,13 +37,13 @@ class ChangePasswordCommand extends Command
     protected $sessionUserProvider;
 
     public function __construct(
-        UserManager $userManager,
-        AuthenticationManager $authenticationManager,
+        UserRepository $userRepository,
+        AuthenticationRepository $authenticationRepository,
         UserPasswordEncoderInterface $encoder,
         SessionUserProvider $sessionUserProvider
     ) {
-        $this->userManager = $userManager;
-        $this->authenticationManager = $authenticationManager;
+        $this->userRepository = $userRepository;
+        $this->authenticationRepository = $authenticationRepository;
         $this->encoder = $encoder;
         $this->sessionUserProvider = $sessionUserProvider;
         parent::__construct();
@@ -79,7 +72,7 @@ class ChangePasswordCommand extends Command
     {
         $userId = $input->getArgument('userId');
         /** @var UserInterface $user */
-        $user = $this->userManager->findOneBy(['id' => $userId]);
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new Exception(
                 "No user with id #{$userId} was found."
@@ -102,7 +95,7 @@ class ChangePasswordCommand extends Command
         $authentication = $user->getAuthentication();
         if (!$authentication) {
             /** @var AuthenticationInterface $authentication */
-            $authentication = $this->authenticationManager->create();
+            $authentication = $this->authenticationRepository->create();
             $user->setAuthentication($authentication);
         }
 
@@ -111,7 +104,7 @@ class ChangePasswordCommand extends Command
         $encodedPassword = $this->encoder->encodePassword($sessionUser, $password);
         $authentication->setPasswordHash($encodedPassword);
 
-        $this->authenticationManager->update($authentication);
+        $this->authenticationRepository->update($authentication);
 
         $output->writeln('<info>Password Changed.</info>');
 

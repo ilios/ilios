@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Repository\LearningMaterialRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
-use App\Entity\Manager\LearningMaterialManager;
 use App\Service\IliosFileSystem;
 
 /**
@@ -25,17 +25,14 @@ class ValidateLearningMaterialPathsCommand extends Command
      */
     protected $iliosFileSystem;
 
-    /**
-     * @var LearningMaterialManager
-     */
-    protected $learningMaterialManager;
+    protected LearningMaterialRepository $learningMaterialRepository;
 
     public function __construct(
         IliosFileSystem $iliosFileSystem,
-        LearningMaterialManager $learningMaterialManager
+        LearningMaterialRepository $learningMaterialRepository
     ) {
         $this->iliosFileSystem = $iliosFileSystem;
-        $this->learningMaterialManager = $learningMaterialManager;
+        $this->learningMaterialRepository = $learningMaterialRepository;
 
         parent::__construct();
     }
@@ -56,7 +53,7 @@ class ValidateLearningMaterialPathsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $totalLearningMaterialsCount = $this->learningMaterialManager->getTotalFileLearningMaterialCount();
+        $totalLearningMaterialsCount = $this->learningMaterialRepository->getTotalFileLearningMaterialCount();
 
         $progress = new ProgressBar($output, $totalLearningMaterialsCount);
         $progress->setRedrawFrequency(208);
@@ -69,7 +66,7 @@ class ValidateLearningMaterialPathsCommand extends Command
         $limit = 500;
 
         while ($valid + count($broken) < $totalLearningMaterialsCount) {
-            $learningMaterials = $this->learningMaterialManager->findFileLearningMaterials($limit, $offset);
+            $learningMaterials = $this->learningMaterialRepository->findFileLearningMaterials($limit, $offset);
             foreach ($learningMaterials as $lm) {
                 if ($this->iliosFileSystem->checkLearningMaterialFilePath($lm)) {
                     $valid++;

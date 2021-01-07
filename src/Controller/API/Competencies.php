@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\CompetencyManager;
+use App\Repository\CompetencyRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Competencies extends ReadWriteController
 {
-    public function __construct(CompetencyManager $manager)
+    public function __construct(CompetencyRepository $repository)
     {
-        parent::__construct($manager, 'competencies');
+        parent::__construct($repository, 'competencies');
     }
 
     /**

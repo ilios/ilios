@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
-use App\Entity\Manager\UserManager;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,10 +31,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class Users extends ReadWriteController
 {
     /**
-     * @var UserManager
-     */
-    protected $manager;
-    /**
      * @var TokenStorageInterface
      */
     protected $tokenStorage;
@@ -44,11 +40,11 @@ class Users extends ReadWriteController
     protected $serializer;
 
     public function __construct(
-        UserManager $manager,
+        UserRepository $repository,
         TokenStorageInterface $tokenStorage,
         SerializerInterface $serializer
     ) {
-        parent::__construct($manager, 'users');
+        parent::__construct($repository, 'users');
         $this->tokenStorage = $tokenStorage;
         $this->serializer = $serializer;
     }
@@ -67,7 +63,7 @@ class Users extends ReadWriteController
         $parameters = ApiRequestParser::extractParameters($request);
 
         if (null !== $q && '' !== $q) {
-            $dtos = $this->manager->findUserDTOsByQ(
+            $dtos = $this->repository->findDTOsByQ(
                 $q,
                 $parameters['orderBy'],
                 $parameters['limit'],
@@ -114,7 +110,7 @@ class Users extends ReadWriteController
             return $obj;
         }, $data);
 
-        $class = $this->manager->getClass() . '[]';
+        $class = $this->repository->getClass() . '[]';
         $json = json_encode($dataWithoutEmptyIcsFeed);
         $entities = $this->serializer->deserialize($json, $class, 'json');
 
@@ -131,9 +127,9 @@ class Users extends ReadWriteController
         }
 
         foreach ($entities as $entity) {
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
         }
-        $this->manager->flush();
+        $this->repository->flush();
 
         $dtos = $this->fetchDtosForEntities($entities);
 
@@ -155,7 +151,7 @@ class Users extends ReadWriteController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
         if ($entity) {
             $obj = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
             /** @var SessionUserInterface $sessionUser */

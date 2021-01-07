@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\SchoolConfigManager;
+use App\Repository\SchoolConfigRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SchoolConfigs extends ReadWriteController
 {
-    public function __construct(SchoolConfigManager $manager)
+    public function __construct(SchoolConfigRepository $repository)
     {
-        parent::__construct($manager, 'schoolconfigs');
+        parent::__construct($repository, 'schoolconfigs');
     }
 }

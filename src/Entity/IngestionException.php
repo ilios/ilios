@@ -9,11 +9,12 @@ use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\IngestionExceptionRepository;
 
 /**
  * Class IngestionException
  *
- * @ORM\Entity(repositoryClass="App\Entity\Repository\IngestionExceptionRepository")
+ * @ORM\Entity(repositoryClass=IngestionExceptionRepository::class)
  * @ORM\Table(name="ingestion_exception")
  *
  * @IS\Entity

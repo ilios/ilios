@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\MeshPreviousIndexingInterface;
+use App\Repository\MeshPreviousIndexingRepository;
 
 /**
  * Class LoadMeshPreviousIndexingDataTest
@@ -16,7 +17,7 @@ class LoadMeshPreviousIndexingDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\MeshPreviousIndexingManager';
+        return MeshPreviousIndexingRepository::class;
     }
 
     /**

@@ -9,11 +9,11 @@ use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventorySequence;
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
-use App\Entity\Manager\CurriculumInventoryAcademicLevelManager;
-use App\Entity\Manager\CurriculumInventoryReportManager;
-use App\Entity\Manager\CurriculumInventorySequenceBlockManager;
-use App\Entity\Manager\CurriculumInventorySequenceManager;
 use App\Entity\User;
+use App\Repository\CurriculumInventoryAcademicLevelRepository;
+use App\Repository\CurriculumInventoryReportRepository;
+use App\Repository\CurriculumInventorySequenceBlockRepository;
+use App\Repository\CurriculumInventorySequenceRepository;
 use App\Service\CurriculumInventory\ReportRollover;
 use App\Tests\TestCase;
 use DateTime;
@@ -29,22 +29,22 @@ class ReportRolloverTest extends TestCase
     /**
      * @var m\MockInterface
      */
-    protected $reportManager;
+    protected $reportRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $academicLevelManager;
+    protected $academicLevelRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $sequenceManager;
+    protected $sequenceRepository;
 
     /**
      * @var m\MockInterface
      */
-    protected $sequenceBlockManager;
+    protected $sequenceBlockRepository;
 
     /**
      * @var ReportRollover
@@ -57,33 +57,33 @@ class ReportRolloverTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->reportManager = m::mock(CurriculumInventoryReportManager::class);
-        $this->academicLevelManager = m::mock(CurriculumInventoryAcademicLevelManager::class);
-        $this->sequenceManager = m::mock(CurriculumInventorySequenceManager::class);
-        $this->sequenceBlockManager = m::mock(CurriculumInventorySequenceBlockManager::class);
+        $this->reportRepository = m::mock(CurriculumInventoryReportRepository::class);
+        $this->academicLevelRepository = m::mock(CurriculumInventoryAcademicLevelRepository::class);
+        $this->sequenceRepository = m::mock(CurriculumInventorySequenceRepository::class);
+        $this->sequenceBlockRepository = m::mock(CurriculumInventorySequenceBlockRepository::class);
         $this->service = new ReportRollover(
-            $this->reportManager,
-            $this->academicLevelManager,
-            $this->sequenceManager,
-            $this->sequenceBlockManager
+            $this->reportRepository,
+            $this->academicLevelRepository,
+            $this->sequenceRepository,
+            $this->sequenceBlockRepository
         );
 
-        $this->reportManager->shouldReceive('create')->andReturnUsing(function () {
+        $this->reportRepository->shouldReceive('create')->andReturnUsing(function () {
             return new CurriculumInventoryReport();
         });
-        $this->reportManager->shouldReceive('update');
-        $this->sequenceManager->shouldReceive('create')->andReturnUsing(function () {
+        $this->reportRepository->shouldReceive('update');
+        $this->sequenceRepository->shouldReceive('create')->andReturnUsing(function () {
             return new CurriculumInventorySequence();
         });
-        $this->sequenceManager->shouldReceive('update');
-        $this->academicLevelManager->shouldReceive('create')->andReturnUsing(function () {
+        $this->sequenceRepository->shouldReceive('update');
+        $this->academicLevelRepository->shouldReceive('create')->andReturnUsing(function () {
             return new CurriculumInventoryAcademicLevel();
         });
-        $this->academicLevelManager->shouldReceive('update');
-        $this->sequenceBlockManager->shouldReceive('create')->andReturnUsing(function () {
+        $this->academicLevelRepository->shouldReceive('update');
+        $this->sequenceBlockRepository->shouldReceive('create')->andReturnUsing(function () {
             return new CurriculumInventorySequenceBlock();
         });
-        $this->sequenceBlockManager->shouldReceive('update');
+        $this->sequenceBlockRepository->shouldReceive('update');
     }
 
     /**
@@ -93,10 +93,10 @@ class ReportRolloverTest extends TestCase
     {
         parent::tearDown();
         unset($this->service);
-        unset($this->sequenceBlockManager);
-        unset($this->sequenceManager);
-        unset($this->academicLevelManager);
-        unset($this->reportManager);
+        unset($this->sequenceBlockRepository);
+        unset($this->sequenceRepository);
+        unset($this->academicLevelRepository);
+        unset($this->reportRepository);
     }
 
     public function reportProvider()

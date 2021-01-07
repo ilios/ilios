@@ -10,12 +10,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\ReportRepository;
 
 /**
  * Class Report
  *
  * @ORM\Table(name="report")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\ReportRepository")
+ * @ORM\Entity(repositoryClass=ReportRepository::class)
  *
  * @IS\Entity
  */

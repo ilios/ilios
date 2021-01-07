@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\ImportMeshUniverseCommand;
-use App\Entity\Manager\MeshDescriptorManager;
+use App\Repository\MeshDescriptorRepository;
 use App\Service\Index\Mesh;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
@@ -34,7 +34,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @var m\MockInterface
      */
-    protected $descriptorManager;
+    protected $descriptorRepository;
 
     /**
      * @var Mesh|m\MockInterface
@@ -58,10 +58,10 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     {
         parent::setUp();
         $this->meshParser = m::mock(Parser::class);
-        $this->descriptorManager = m::mock(MeshDescriptorManager::class);
+        $this->descriptorRepository = m::mock(MeshDescriptorRepository::class);
         $this->meshIndex = m::mock(Mesh::class);
 
-        $command = new ImportMeshUniverseCommand($this->meshParser, $this->descriptorManager, $this->meshIndex);
+        $command = new ImportMeshUniverseCommand($this->meshParser, $this->descriptorRepository, $this->meshIndex);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -76,7 +76,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->meshParser);
-        unset($this->descriptorManager);
+        unset($this->descriptorRepository);
         unset($this->meshIndex);
         unset($this->commandTester);
     }
@@ -207,10 +207,10 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
                 '--year' => $year,
             ]
         );
-        $this->descriptorManager->shouldNotHaveReceived('clearExistingData');
-        $this->descriptorManager->shouldNotHaveReceived('findDTOsBy');
-        $this->descriptorManager->shouldNotHaveReceived('upsertMeshUniverse');
-        $this->descriptorManager->shouldNotHaveReceived('flagDescriptorsAsDeleted');
+        $this->descriptorRepository->shouldNotHaveReceived('clearExistingData');
+        $this->descriptorRepository->shouldNotHaveReceived('findDTOsBy');
+        $this->descriptorRepository->shouldNotHaveReceived('upsertMeshUniverse');
+        $this->descriptorRepository->shouldNotHaveReceived('flagDescriptorsAsDeleted');
     }
 
     /**
@@ -218,10 +218,10 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
      */
     public function testIndexesResults()
     {
-        $this->descriptorManager->shouldReceive('clearExistingData')->once();
-        $this->descriptorManager->shouldReceive('findDTOsBy')->once()->andReturn([]);
-        $this->descriptorManager->shouldReceive('upsertMeshUniverse')->once();
-        $this->descriptorManager->shouldReceive('flagDescriptorsAsDeleted')->once();
+        $this->descriptorRepository->shouldReceive('clearExistingData')->once();
+        $this->descriptorRepository->shouldReceive('findDTOsBy')->once()->andReturn([]);
+        $this->descriptorRepository->shouldReceive('upsertMeshUniverse')->once();
+        $this->descriptorRepository->shouldReceive('flagDescriptorsAsDeleted')->once();
         $this->meshIndex->shouldReceive('isEnabled')->andReturn(true);
 
         $descriptor = m::mock(Descriptor::class);
@@ -253,10 +253,10 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
 
     protected function mockHappyPath()
     {
-        $this->descriptorManager->shouldReceive('clearExistingData')->once();
-        $this->descriptorManager->shouldReceive('findDTOsBy')->once()->andReturn([]);
-        $this->descriptorManager->shouldReceive('upsertMeshUniverse')->once();
-        $this->descriptorManager->shouldReceive('flagDescriptorsAsDeleted')->once();
+        $this->descriptorRepository->shouldReceive('clearExistingData')->once();
+        $this->descriptorRepository->shouldReceive('findDTOsBy')->once()->andReturn([]);
+        $this->descriptorRepository->shouldReceive('upsertMeshUniverse')->once();
+        $this->descriptorRepository->shouldReceive('flagDescriptorsAsDeleted')->once();
         $this->meshIndex->shouldReceive('isEnabled')->andReturn(false);
     }
 }

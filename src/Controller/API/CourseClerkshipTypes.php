@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\CourseClerkshipTypeManager;
+use App\Repository\CourseClerkshipTypeRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CourseClerkshipTypes extends ReadWriteController
 {
-    public function __construct(CourseClerkshipTypeManager $manager)
+    public function __construct(CourseClerkshipTypeRepository $repository)
     {
-        parent::__construct($manager, 'courseclerkshiptypes');
+        parent::__construct($repository, 'courseclerkshiptypes');
     }
 }

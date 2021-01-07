@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use App\Service\PermissionChecker;
-use App\Entity\Manager\UserManager;
 use App\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,9 +26,9 @@ class DirectoryController extends AbstractController
     protected $tokenStorage;
 
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    protected $userManager;
+    protected $userRepository;
 
     /**
      * @var Directory
@@ -43,18 +43,18 @@ class DirectoryController extends AbstractController
     /**
      * DirectoryController constructor.
      * @param TokenStorageInterface $tokenStorage
-     * @param UserManager $userManager
+     * @param UserRepository $userRepository
      * @param Directory $directory
      * @param PermissionChecker $permissionChecker
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
-        UserManager $userManager,
+        UserRepository $userRepository,
         Directory $directory,
         PermissionChecker $permissionChecker
     ) {
         $this->tokenStorage = $tokenStorage;
-        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
         $this->directory = $directory;
         $this->permissionChecker = $permissionChecker;
     }
@@ -83,7 +83,7 @@ class DirectoryController extends AbstractController
         $campusIds = array_map(function ($arr) {
             return $arr['campusId'];
         }, $results);
-        $dtos = $this->userManager->findAllMatchingDTOsByCampusIds($campusIds);
+        $dtos = $this->userRepository->findAllMatchingDTOsByCampusIds($campusIds);
 
         $usersIdsByCampusId = [];
         foreach ($dtos as $dto) {
@@ -106,7 +106,7 @@ class DirectoryController extends AbstractController
             throw new AccessDeniedException();
         }
 
-        $user = $this->userManager->findOneBy(['id' => $id]);
+        $user = $this->userRepository->findOneBy(['id' => $id]);
         if (! $user) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }

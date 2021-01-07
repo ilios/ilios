@@ -16,12 +16,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use DateTime;
+use App\Repository\IlmSessionRepository;
 
 /**
  * Class IlmSession
  *
  * @ORM\Table(name="ilm_session_facet")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\IlmSessionRepository")
+ * @ORM\Entity(repositoryClass=IlmSessionRepository::class)
  *
  * @IS\Entity
  */

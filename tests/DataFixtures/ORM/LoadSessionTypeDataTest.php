@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\SessionTypeInterface;
+use App\Repository\SessionTypeRepository;
 
 /**
  * Class LoadSessionTypeDataTest
@@ -16,7 +17,7 @@ class LoadSessionTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\SessionTypeManager';
+        return SessionTypeRepository::class;
     }
 
     /**

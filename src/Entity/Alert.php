@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotation as IS;
+use App\Repository\AlertRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,7 +17,7 @@ use App\Traits\StringableIdEntity;
  * Class Alert
  *
  * @ORM\Table(name="alert")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\AlertRepository")
+ * @ORM\Entity(repositoryClass=AlertRepository::class)
  *
  * @IS\Entity
  */

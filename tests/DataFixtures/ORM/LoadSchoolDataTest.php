@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\SchoolInterface;
+use App\Repository\SchoolRepository;
 
 /**
  * Class LoadSchoolDataTest
@@ -16,7 +17,7 @@ class LoadSchoolDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\SchoolManager';
+        return SchoolRepository::class;
     }
 
     /**

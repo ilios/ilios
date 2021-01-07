@@ -13,12 +13,13 @@ use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\CourseLearningMaterialRepository;
 
 /**
  * Class CourseLearningMaterial
  *
  * @ORM\Table(name="course_learning_material")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CourseLearningMaterialRepository")
+ * @ORM\Entity(repositoryClass=CourseLearningMaterialRepository::class)
  *
  * @IS\Entity
  */

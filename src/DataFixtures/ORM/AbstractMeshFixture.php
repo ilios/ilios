@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\DataFixtures\ORM;
 
+use App\Repository\MeshDescriptorRepository;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Manager\MeshDescriptorManager;
 use App\Service\DataimportFileLocator;
 
 /**
@@ -29,9 +29,9 @@ abstract class AbstractMeshFixture extends DataFixture implements ORMFixtureInte
     protected $type;
 
     /**
-     * @var MeshDescriptorManager
+     * @var MeshDescriptorRepository
      */
-    private $meshDescriptorManager;
+    private $meshDescriptorRepository;
 
     /**
      * @var DataimportFileLocator
@@ -39,18 +39,18 @@ abstract class AbstractMeshFixture extends DataFixture implements ORMFixtureInte
     private $dataimportFileLocator;
 
     /**
-     * @param MeshDescriptorManager $meshDescriptorManager
+     * @param MeshDescriptorRepository $meshDescriptorRepository
      * @param DataimportFileLocator $dataimportFileLocator
      * @param string $filename The name of the data file to import.
      * @param string $type The type of MeSH data to import.
      */
     public function __construct(
-        MeshDescriptorManager $meshDescriptorManager,
+        MeshDescriptorRepository $meshDescriptorRepository,
         DataimportFileLocator $dataimportFileLocator,
         $filename,
         $type
     ) {
-        $this->meshDescriptorManager = $meshDescriptorManager;
+        $this->meshDescriptorRepository = $meshDescriptorRepository;
         $this->dataimportFileLocator = $dataimportFileLocator;
         $this->filename = $filename;
         $this->type = $type;
@@ -73,7 +73,7 @@ abstract class AbstractMeshFixture extends DataFixture implements ORMFixtureInte
                 if (1 === $i) {
                     continue;
                 }
-                $this->meshDescriptorManager->import($data, $this->type, $now);
+                $this->meshDescriptorRepository->import($data, $this->type, $now);
             }
 
             // clean-up

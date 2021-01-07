@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\DepartmentInterface;
+use App\Repository\DepartmentRepository;
 
 /**
  * Class LoadDepartmentDataTest
@@ -16,7 +17,7 @@ class LoadDepartmentDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\DepartmentManager';
+        return DepartmentRepository::class;
     }
 
     /**

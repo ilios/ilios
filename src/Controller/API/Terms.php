@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\TermManager;
+use App\Repository\TermRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Terms extends ReadWriteController
 {
-    public function __construct(TermManager $manager)
+    public function __construct(TermRepository $repository)
     {
-        parent::__construct($manager, 'terms');
+        parent::__construct($repository, 'terms');
     }
 
     /**

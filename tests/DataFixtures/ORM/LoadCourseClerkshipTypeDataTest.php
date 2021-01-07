@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\CourseClerkshipTypeInterface;
+use App\Repository\CourseClerkshipTypeRepository;
 
 /**
  * Class LoadCourseClerkshipTypeDataTest
@@ -16,7 +17,7 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\CourseClerkshipTypeManager';
+        return CourseClerkshipTypeRepository::class;
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\CreateUserTokenCommand;
+use App\Repository\UserRepository;
 use App\Service\JsonWebTokenManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -22,7 +23,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:create-user-token';
 
-    protected $userManager;
+    protected $userRepository;
     protected $commandTester;
 
     /**
@@ -33,10 +34,10 @@ class CreateUserTokenCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock('App\Entity\Manager\UserManager');
+        $this->userRepository = m::mock(UserRepository::class);
         $this->jwtManager = m::mock(JsonWebTokenManager::class);
 
-        $command = new CreateUserTokenCommand($this->userManager, $this->jwtManager);
+        $command = new CreateUserTokenCommand($this->userRepository, $this->jwtManager);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -50,7 +51,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
+        unset($this->userRepository);
         unset($this->commandTester);
         unset($this->jwtManager);
     }
@@ -58,7 +59,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
     public function testNewDefaultToken()
     {
         $user = m::mock('App\Entity\UserInterface');
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, 'PT8H')->andReturn('123JWT');
 
         $this->commandTester->execute([
@@ -77,7 +78,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
     public function testNewTTLToken()
     {
         $user = m::mock('App\Entity\UserInterface');
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, '108Franks')->andReturn('123JWT');
 
         $this->commandTester->execute([
@@ -96,7 +97,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
 
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'No user with id #1');
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,

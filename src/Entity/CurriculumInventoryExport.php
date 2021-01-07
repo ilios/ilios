@@ -11,6 +11,7 @@ use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\UserInterface;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\CurriculumInventoryExportRepository;
 
 /**
  * Class CurriculumInventoryExport
@@ -20,7 +21,7 @@ use App\Traits\StringableIdEntity;
  *     @ORM\Index(name="fkey_curriculum_inventory_export_user_id", columns={"created_by"})
  *   }
  * )
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventoryExportRepository")
+ * @ORM\Entity(repositoryClass=CurriculumInventoryExportRepository::class)
  * @IS\Entity
  */
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface

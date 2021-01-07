@@ -6,9 +6,9 @@ namespace App\Service\CurriculumInventory\Export;
 
 use App\Entity\CurriculumInventoryInstitutionInterface;
 use App\Entity\CurriculumInventoryReportInterface;
-use App\Entity\Manager\CurriculumInventoryInstitutionManager;
-use App\Entity\Manager\CurriculumInventoryReportManager;
+use App\Repository\CurriculumInventoryInstitutionRepository;
 use App\Service\Config;
+use App\Service\CurriculumInventory\Manager;
 use Exception;
 
 /**
@@ -18,24 +18,22 @@ use Exception;
  */
 class Aggregator
 {
-    protected CurriculumInventoryReportManager $reportManager;
-
-    protected CurriculumInventoryInstitutionManager $institutionManager;
-
+    protected Manager $manager;
+    protected CurriculumInventoryInstitutionRepository $institutionRepository;
     protected Config $config;
 
     /**
-     * @param CurriculumInventoryReportManager $reportManager
-     * @param CurriculumInventoryInstitutionManager $institutionManager
+     * @param Manager $manager
+     * @param CurriculumInventoryInstitutionRepository $institutionRepository
      * @param Config $config
      */
     public function __construct(
-        CurriculumInventoryReportManager $reportManager,
-        CurriculumInventoryInstitutionManager $institutionManager,
+        Manager $manager,
+        CurriculumInventoryInstitutionRepository $institutionRepository,
         Config $config
     ) {
-        $this->reportManager = $reportManager;
-        $this->institutionManager = $institutionManager;
+        $this->manager = $manager;
+        $this->institutionRepository = $institutionRepository;
         $this->config = $config;
     }
 
@@ -149,30 +147,30 @@ class Aggregator
         }
 
         /** @var CurriculumInventoryInstitutionInterface $institution */
-        $institution = $this->institutionManager->findOneBy(['school' => $school->getId()]);
+        $institution = $this->institutionRepository->findOneBy(['school' => $school->getId()]);
         if (! $institution) {
             throw new Exception(
                 'No curriculum inventory institution found for school with id = ' . $school->getId() . '.'
             );
         }
 
-        $events = $this->reportManager->getEvents($invReport);
+        $events = $this->manager->getEvents($invReport);
         $eventIds = array_keys($events);
-        $keywords = $this->reportManager->getEventKeywords($invReport, $eventIds);
-        $resourceTypes = $this->reportManager->getEventResourceTypes($invReport, $eventIds);
+        $keywords = $this->manager->getEventKeywords($invReport, $eventIds);
+        $resourceTypes = $this->manager->getEventResourceTypes($invReport, $eventIds);
 
-        $eventRefsForSeqBlocks = $this->reportManager->getEventReferencesForSequenceBlocks($invReport, $eventIds);
+        $eventRefsForSeqBlocks = $this->manager->getEventReferencesForSequenceBlocks($invReport, $eventIds);
 
-        $programObjectives = $this->reportManager->getProgramObjectives($invReport);
+        $programObjectives = $this->manager->getProgramObjectives($invReport);
         $consolidatedProgramObjectivesMap = self::getConsolidatedObjectivesMap($programObjectives);
-        $sessionObjectives = $this->reportManager->getSessionObjectives($invReport, $eventIds);
-        $courseObjectives = $this->reportManager->getCourseObjectives($invReport);
+        $sessionObjectives = $this->manager->getSessionObjectives($invReport, $eventIds);
+        $courseObjectives = $this->manager->getCourseObjectives($invReport);
 
-        $compObjRefsForSeqBlocks = $this->reportManager->getCompetencyObjectReferencesForSequenceBlocks(
+        $compObjRefsForSeqBlocks = $this->manager->getCompetencyObjectReferencesForSequenceBlocks(
             $invReport,
             $consolidatedProgramObjectivesMap
         );
-        $compRefsForEvents = $this->reportManager->getCompetencyObjectReferencesForEvents(
+        $compRefsForEvents = $this->manager->getCompetencyObjectReferencesForEvents(
             $invReport,
             $consolidatedProgramObjectivesMap,
             $eventIds
@@ -193,7 +191,7 @@ class Aggregator
 
 
         // Build out the competency framework information and added to $expectations.
-        $pcrs = $this->reportManager->getPcrs($invReport);
+        $pcrs = $this->manager->getPcrs($invReport);
 
         $pcrsIds = array_keys($pcrs);
         $programObjectiveIds = array_keys($programObjectives);
@@ -211,7 +209,7 @@ class Aggregator
             'session_objectives_to_course_objectives' => [],
         ];
 
-        $rel = $this->reportManager->getProgramObjectivesToPcrsRelations(
+        $rel = $this->manager->getProgramObjectivesToPcrsRelations(
             $programObjectiveIds,
             $pcrsIds,
             $consolidatedProgramObjectivesMap
@@ -219,7 +217,7 @@ class Aggregator
         $relations['program_objectives_to_pcrs'] = $rel['relations'];
         $includes['pcrs_ids'] = $rel['pcrs_ids'];
         $includes['program_objective_ids'] = $rel['program_objective_ids'];
-        $rel = $this->reportManager->getCourseObjectivesToProgramObjectivesRelations(
+        $rel = $this->manager->getCourseObjectivesToProgramObjectivesRelations(
             $courseObjectiveIds,
             $programObjectiveIds,
             $consolidatedProgramObjectivesMap
@@ -234,7 +232,7 @@ class Aggregator
             )
         );
         $includes['course_objective_ids'] = $rel['course_objective_ids'];
-        $rel = $this->reportManager->getSessionObjectivesToCourseObjectivesRelations(
+        $rel = $this->manager->getSessionObjectivesToCourseObjectivesRelations(
             $sessionObjectiveIds,
             $courseObjectiveIds
         );

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Manager\MeshDescriptorManager;
+use App\Repository\MeshDescriptorRepository;
 use App\Service\CsvWriter;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -23,9 +23,9 @@ class ExportMeshUniverseCommand extends Command
     use LockableTrait;
 
     /**
-     * MeshDescriptorManager $manager
+     * MeshDescriptorRepository $repository
      */
-    protected $manager;
+    protected $repository;
 
     /**
      * @var CsvWriter
@@ -38,14 +38,14 @@ class ExportMeshUniverseCommand extends Command
     protected $kernelProjectDir;
 
     /**
-     * @param MeshDescriptorManager $manager
+     * @param MeshDescriptorRepository $repository
      * @param CsvWriter $writer
      * @param string $kernelProjectDir
      */
-    public function __construct(MeshDescriptorManager $manager, CsvWriter $writer, string $kernelProjectDir)
+    public function __construct(MeshDescriptorRepository $repository, CsvWriter $writer, string $kernelProjectDir)
     {
         parent::__construct();
-        $this->manager = $manager;
+        $this->repository = $repository;
         $this->writer = $writer;
         $this->kernelProjectDir = $kernelProjectDir;
     }
@@ -79,31 +79,31 @@ class ExportMeshUniverseCommand extends Command
             'casn_1_name',
             'registry_number',
         ];
-        $data = $this->manager->exportMeshConcepts();
+        $data = $this->repository->exportMeshConcepts();
         $this->writeToFile($header, $data, 'mesh_concept.csv');
 
         $header = ['mesh_concept_uid', 'mesh_term_id'];
-        $data = $this->manager->exportMeshConceptTerms();
+        $data = $this->repository->exportMeshConceptTerms();
         $this->writeToFile($header, $data, 'mesh_concept_x_term.csv');
 
         $header = ['mesh_descriptor_uid', 'name', 'annotation', 'deleted'];
-        $data = $this->manager->exportMeshDescriptors();
+        $data = $this->repository->exportMeshDescriptors();
         $this->writeToFile($header, $data, 'mesh_descriptor.csv');
 
         $header = ['mesh_concept_uid', 'mesh_descriptor_uid'];
-        $data = $this->manager->exportMeshDescriptorConcepts();
+        $data = $this->repository->exportMeshDescriptorConcepts();
         $this->writeToFile($header, $data, 'mesh_descriptor_x_concept.csv');
 
         $header = ['mesh_descriptor_uid', 'mesh_qualifier_uid'];
-        $data = $this->manager->exportMeshDescriptorQualifiers();
+        $data = $this->repository->exportMeshDescriptorQualifiers();
         $this->writeToFile($header, $data, 'mesh_descriptor_x_qualifier.csv');
 
         $header = ['mesh_descriptor_uid', 'previous_indexing', 'mesh_previous_indexing_id'];
-        $data = $this->manager->exportMeshPreviousIndexings();
+        $data = $this->repository->exportMeshPreviousIndexings();
         $this->writeToFile($header, $data, 'mesh_previous_indexing.csv');
 
         $header = ['mesh_qualifier_uid', 'name'];
-        $data = $this->manager->exportMeshQualifiers();
+        $data = $this->repository->exportMeshQualifiers();
         $this->writeToFile($header, $data, 'mesh_qualifier.csv');
 
         $header = [
@@ -115,11 +115,11 @@ class ExportMeshUniverseCommand extends Command
             'permuted',
             'mesh_term_id',
         ];
-        $data = $this->manager->exportMeshTerms();
+        $data = $this->repository->exportMeshTerms();
         $this->writeToFile($header, $data, 'mesh_term.csv');
 
         $header = ['tree_number', 'mesh_descriptor_uid', 'mesh_tree_id'];
-        $data = $this->manager->exportMeshTrees();
+        $data = $this->repository->exportMeshTrees();
         $this->writeToFile($header, $data, 'mesh_tree.csv');
 
         $this->release();

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-use App\Entity\Manager\UserManager;
 use App\Entity\SchoolInterface;
+use App\Repository\UserRepository;
 use Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\UserInterface as IliosUserInterface;
@@ -44,17 +44,17 @@ class SessionUser implements SessionUserInterface
     protected array $learnerIlmAndOfferingIds;
 
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    protected $userManager;
+    protected $userRepository;
 
     /**
      * @param IliosUserInterface $user
-     * @param UserManager $userManager
+     * @param UserRepository $userRepository
      */
-    public function __construct(IliosUserInterface $user, UserManager $userManager)
+    public function __construct(IliosUserInterface $user, UserRepository $userRepository)
     {
-        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
 
         $this->userId = $user->getId();
         $this->isRoot = $user->isRoot();
@@ -633,7 +633,7 @@ class SessionUser implements SessionUserInterface
     public function getDirectedSchoolIds(): array
     {
         if (!isset($this->directedSchoolIds)) {
-            $this->directedSchoolIds = $this->userManager->getDirectedSchoolIds($this->getId());
+            $this->directedSchoolIds = $this->userRepository->getDirectedSchoolIds($this->getId());
         }
         return $this->directedSchoolIds;
     }
@@ -645,7 +645,7 @@ class SessionUser implements SessionUserInterface
     public function getAdministeredSchoolIds(): array
     {
         if (!isset($this->administeredSchoolIds)) {
-            $this->administeredSchoolIds = $this->userManager->getAdministeredSchoolIds($this->getId());
+            $this->administeredSchoolIds = $this->userRepository->getAdministeredSchoolIds($this->getId());
         }
         return $this->administeredSchoolIds;
     }
@@ -851,7 +851,7 @@ class SessionUser implements SessionUserInterface
     {
         if (!isset($this->directedProgramYearProgramAndSchoolIds)) {
             $this->directedProgramYearProgramAndSchoolIds =
-                $this->userManager->getDirectedProgramYearProgramAndSchoolIds($this->getId());
+                $this->userRepository->getDirectedProgramYearProgramAndSchoolIds($this->getId());
         }
 
         return $this->directedProgramYearProgramAndSchoolIds;
@@ -865,7 +865,7 @@ class SessionUser implements SessionUserInterface
     {
         if (!isset($this->administeredCurriculumInventoryReportSchoolIds)) {
             $this->administeredCurriculumInventoryReportAndSchoolIds =
-                $this->userManager->getAdministeredCurriculumInventoryReportAndSchoolIds($this->getId());
+                $this->userRepository->getAdministeredCurriculumInventoryReportAndSchoolIds($this->getId());
         }
         return $this->administeredCurriculumInventoryReportAndSchoolIds;
     }
@@ -878,7 +878,7 @@ class SessionUser implements SessionUserInterface
     {
         if (!isset($this->instructedOfferingIlmSessionCourseAndSchoolIds)) {
             $this->instructedOfferingIlmSessionCourseAndSchoolIds =
-                $this->userManager->getInstructedOfferingIlmSessionCourseAndSchoolIds($this->getId());
+                $this->userRepository->getInstructedOfferingIlmSessionCourseAndSchoolIds($this->getId());
         }
         return $this->instructedOfferingIlmSessionCourseAndSchoolIds;
     }
@@ -890,7 +890,7 @@ class SessionUser implements SessionUserInterface
     protected function getDirectedProgramAndSchoolIds(): array
     {
         if (!isset($this->directedProgramAndSchoolIds)) {
-            $this->directedProgramAndSchoolIds = $this->userManager->getDirectedProgramAndSchoolIds($this->getId());
+            $this->directedProgramAndSchoolIds = $this->userRepository->getDirectedProgramAndSchoolIds($this->getId());
         }
         return $this->directedProgramAndSchoolIds;
     }
@@ -903,7 +903,7 @@ class SessionUser implements SessionUserInterface
     {
         if (!isset($this->coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser)) {
             $this->coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser
-                = $this->userManager
+                = $this->userRepository
                 ->getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($this->getId());
         }
         return $this->coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser;
@@ -917,7 +917,7 @@ class SessionUser implements SessionUserInterface
     {
         if (!isset($this->administeredSessionCourseAndSchoolIds)) {
             $this->administeredSessionCourseAndSchoolIds =
-                $this->userManager->getAdministeredSessionCourseAndSchoolIds($this->getId());
+                $this->userRepository->getAdministeredSessionCourseAndSchoolIds($this->getId());
         }
         return $this->administeredSessionCourseAndSchoolIds;
     }
@@ -930,7 +930,7 @@ class SessionUser implements SessionUserInterface
     {
         if (!isset($this->studentAdvisedSessionAndCourseIds)) {
             $this->studentAdvisedSessionAndCourseIds =
-                $this->userManager->getStudentAdvisedSessionAndCourseIds($this->getId());
+                $this->userRepository->getStudentAdvisedSessionAndCourseIds($this->getId());
         }
         return $this->studentAdvisedSessionAndCourseIds;
     }
@@ -943,7 +943,7 @@ class SessionUser implements SessionUserInterface
     {
         if (!isset($this->learnerIlmAndOfferingIds)) {
             $this->learnerIlmAndOfferingIds =
-                $this->userManager->getLearnerIlmAndOfferingIds($this->getId());
+                $this->userRepository->getLearnerIlmAndOfferingIds($this->getId());
         }
         return $this->learnerIlmAndOfferingIds;
     }
@@ -955,7 +955,7 @@ class SessionUser implements SessionUserInterface
     protected function getAdministeredCourseAndSchoolIds(): array
     {
         if (!isset($this->administeredCourseAndSchoolIds)) {
-            $this->administeredCourseAndSchoolIds = $this->userManager->getAdministeredCourseAndSchoolIds(
+            $this->administeredCourseAndSchoolIds = $this->userRepository->getAdministeredCourseAndSchoolIds(
                 $this->getId()
             );
         }
@@ -969,7 +969,7 @@ class SessionUser implements SessionUserInterface
     protected function getDirectedCourseAndSchoolIds(): array
     {
         if (!isset($this->directedCourseAndSchoolIds)) {
-            $this->directedCourseAndSchoolIds = $this->userManager->getDirectedCourseAndSchoolIds($this->getId());
+            $this->directedCourseAndSchoolIds = $this->userRepository->getDirectedCourseAndSchoolIds($this->getId());
         }
         return $this->directedCourseAndSchoolIds;
     }
@@ -977,13 +977,13 @@ class SessionUser implements SessionUserInterface
     /**
      * @return array
      * @throws Exception
-     * @see UserManager::getInstructedLearnerGroupSchoolIds()
+     * @see UserRepository::getInstructedLearnerGroupSchoolIds()
      */
     protected function getInstructedLearnerGroupSchoolIds(): array
     {
         if (!isset($this->instructedLearnerGroupSchoolIds)) {
             $this->instructedLearnerGroupSchoolIds =
-                $this->userManager->getInstructedLearnerGroupSchoolIds($this->getId());
+                $this->userRepository->getInstructedLearnerGroupSchoolIds($this->getId());
         }
         return $this->instructedLearnerGroupSchoolIds;
     }
@@ -991,13 +991,13 @@ class SessionUser implements SessionUserInterface
     /**
      * @return array
      * @throws Exception
-     * @see UserManager::getInstructorGroupSchoolIds()
+     * @see UserRepository::getInstructorGroupSchoolIds()
      */
     protected function getInstructorGroupSchoolIds(): array
     {
         if (!isset($this->instructorGroupSchoolIds)) {
             $this->instructorGroupSchoolIds =
-                $this->userManager->getInstructorGroupSchoolIds($this->getId());
+                $this->userRepository->getInstructorGroupSchoolIds($this->getId());
         }
         return $this->instructorGroupSchoolIds;
     }
@@ -1005,13 +1005,13 @@ class SessionUser implements SessionUserInterface
     /**
      * @return array
      * @throws Exception
-     * @see UserManager::getLearnerGroupIds()
+     * @see UserRepository::getLearnerGroupIds()
      */
     protected function getLearnerGroupIds(): array
     {
         if (!isset($this->learnerGroupIds)) {
             $this->learnerGroupIds =
-                $this->userManager->getLearnerGroupIds($this->getId());
+                $this->userRepository->getLearnerGroupIds($this->getId());
         }
         return $this->learnerGroupIds;
     }
@@ -1019,13 +1019,13 @@ class SessionUser implements SessionUserInterface
     /**
      * @return array
      * @throws Exception
-     * @see UserManager::getInstructorGroupIds()
+     * @see UserRepository::getInstructorGroupIds()
      */
     protected function getInstructorGroupIds(): array
     {
         if (!isset($this->instructorGroupIds)) {
             $this->instructorGroupIds =
-                $this->userManager->getInstructorGroupIds($this->getId());
+                $this->userRepository->getInstructorGroupIds($this->getId());
         }
         return $this->instructorGroupIds;
     }

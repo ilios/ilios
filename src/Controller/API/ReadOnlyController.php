@@ -4,37 +4,29 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\ManagerInterface;
-use App\Entity\Manager\V1CompatibleBaseManager;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\ManagerInterface;
+use App\Repository\V1DTORepositoryInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Exception;
-use RuntimeException;
 
 abstract class ReadOnlyController
 {
-    /**
-     * @var ManagerInterface
-     */
-    protected $manager;
+    protected ManagerInterface $repository;
 
     /**
      * @var string
      */
     protected $endpoint;
 
-    public function __construct(ManagerInterface $manager, string $endpoint)
+    public function __construct(ManagerInterface $repository, string $endpoint)
     {
-        $this->manager = $manager;
+        $this->repository = $repository;
         $this->endpoint = $endpoint;
     }
 
@@ -49,10 +41,10 @@ abstract class ReadOnlyController
         ApiResponseBuilder $builder,
         Request $request
     ): Response {
-        if ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
-            $dto = $this->manager->findV1DTOBy(['id' => $id]);
+        if ('v1' === $version && ($this->repository instanceof V1DTORepositoryInterface)) {
+            $dto = $this->repository->findV1DTOBy(['id' => $id]);
         } else {
-            $dto = $this->manager->findDTOBy(['id' => $id]);
+            $dto = $this->repository->findDTOBy(['id' => $id]);
         }
 
         if (! $dto) {
@@ -76,15 +68,15 @@ abstract class ReadOnlyController
     ): Response {
         $parameters = ApiRequestParser::extractParameters($request);
 
-        if ('v1' === $version && ($this->manager instanceof V1CompatibleBaseManager)) {
-            $dtos = $this->manager->findV1DTOsBy(
+        if ('v1' === $version && ($this->repository instanceof V1DTORepositoryInterface)) {
+            $dtos = $this->repository->findV1DTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],
                 $parameters['offset']
             );
         } else {
-            $dtos = $this->manager->findDTOsBy(
+            $dtos = $this->repository->findDTOsBy(
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],

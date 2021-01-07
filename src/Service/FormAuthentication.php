@@ -5,24 +5,21 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Classes\SessionUserInterface;
-use App\Entity\Manager\UserManager;
+use App\Repository\AuthenticationRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
-use App\Entity\Manager\AuthenticationManager;
 use App\Traits\AuthenticationService;
 
 class FormAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authManager;
+    protected AuthenticationRepository $authenticationRepository;
 
     /**
      * @var UserPasswordEncoderInterface
@@ -39,9 +36,9 @@ class FormAuthentication implements AuthenticationInterface
     protected $jwtManager;
 
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    protected $userManager;
+    protected $userRepository;
 
     /**
      * @var SessionUserProvider
@@ -50,26 +47,26 @@ class FormAuthentication implements AuthenticationInterface
 
     /**
      * Constructor
-     * @param AuthenticationManager $authManager
-     * @param UserManager                    $userManager
+     * @param AuthenticationRepository $authenticationRepository
+     * @param UserRepository                 $userRepository
      * @param UserPasswordEncoderInterface   $encoder
      * @param TokenStorageInterface          $tokenStorage
      * @param JsonWebTokenManager            $jwtManager
      * @param SessionUserProvider            $sessionUserProvider
      */
     public function __construct(
-        AuthenticationManager $authManager,
-        UserManager $userManager,
+        AuthenticationRepository $authenticationRepository,
+        UserRepository $userRepository,
         UserPasswordEncoderInterface $encoder,
         TokenStorageInterface $tokenStorage,
         JsonWebTokenManager $jwtManager,
         SessionUserProvider $sessionUserProvider
     ) {
-        $this->authManager = $authManager;
+        $this->authenticationRepository = $authenticationRepository;
         $this->encoder = $encoder;
         $this->tokenStorage = $tokenStorage;
         $this->jwtManager = $jwtManager;
-        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
         $this->sessionUserProvider = $sessionUserProvider;
     }
 
@@ -105,7 +102,7 @@ class FormAuthentication implements AuthenticationInterface
         }
 
         if ($username && $password) {
-            $authEntity = $this->authManager->findAuthenticationByUsername($username);
+            $authEntity = $this->authenticationRepository->findOneByUsername($username);
             if ($authEntity) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
                 if ($sessionUser->isEnabled()) {
@@ -156,7 +153,7 @@ class FormAuthentication implements AuthenticationInterface
         if ($this->encoder->needsRehash($sessionUser)) {
             $newPassword = $this->encoder->encodePassword($sessionUser, $password);
             $authEntity->setPasswordHash($newPassword);
-            $this->authManager->update($authEntity);
+            $this->authenticationRepository->update($authEntity);
         }
     }
 

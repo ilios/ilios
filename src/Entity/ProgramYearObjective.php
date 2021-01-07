@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\ProgramYearObjectiveRepository;
 
 /**
  * Class ProgramYearObjective
@@ -28,7 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   uniqueConstraints={
  *     @ORM\UniqueConstraint(name="program_year_objective_uniq", columns={"program_year_id", "objective_id"})
  *  })
- * @ORM\Entity(repositoryClass="App\Entity\Repository\ProgramYearObjectiveRepository")
+ * @ORM\Entity(repositoryClass=ProgramYearObjectiveRepository::class)
  * @IS\Entity
  */
 class ProgramYearObjective implements ProgramYearObjectiveInterface

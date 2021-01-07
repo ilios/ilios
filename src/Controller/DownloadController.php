@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Manager\LearningMaterialManager;
+use App\Repository\LearningMaterialRepository;
 use App\Service\Config;
 use App\Service\IliosFileSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +21,7 @@ class DownloadController extends AbstractController
 
     public function learningMaterialAction(
         $token,
-        LearningMaterialManager $learningMaterialManager,
+        LearningMaterialRepository $learningMaterialRepository,
         IliosFileSystem $iliosFileSystem,
         Request $request,
         Config $config
@@ -32,7 +32,7 @@ class DownloadController extends AbstractController
                 200,
             );
         }
-        $learningMaterial = $learningMaterialManager->findOneBy(['token' => $token]);
+        $learningMaterial = $learningMaterialRepository->findOneBy(['token' => $token]);
 
         if (!$learningMaterial) {
             throw new NotFoundHttpException();

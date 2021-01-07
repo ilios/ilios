@@ -6,9 +6,9 @@ namespace App\Tests\Command;
 
 use App\Command\ChangeUsernameCommand;
 use App\Entity\AuthenticationInterface;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
+use App\Repository\AuthenticationRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -29,19 +29,19 @@ class ChangeUsernameCommandTest extends KernelTestCase
     protected $commandTester;
 
     /** @var m\Mock */
-    protected $userManager;
+    protected $userRepository;
     /** @var m\Mock */
-    protected $authenticationManager;
+    protected $authenticationRepository;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock(UserManager::class);
-        $this->authenticationManager = m::mock(AuthenticationManager::class);
+        $this->userRepository = m::mock(UserRepository::class);
+        $this->authenticationRepository = m::mock(AuthenticationRepository::class);
 
         $command = new ChangeUsernameCommand(
-            $this->userManager,
-            $this->authenticationManager
+            $this->userRepository,
+            $this->authenticationRepository
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -56,23 +56,23 @@ class ChangeUsernameCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
-        unset($this->authenticationManager);
+        unset($this->userRepository);
+        unset($this->authenticationRepository);
         unset($this->commandTester);
     }
 
     public function testChangeUsername()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['newname']);
 
         $authentication = m::mock(AuthenticationInterface::class);
         $user->shouldReceive('getAuthentication')->once()->andReturn($authentication);
-        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn([]);
+        $this->authenticationRepository->shouldReceive('getUsernames')->once()->andReturn([]);
 
         $authentication->shouldReceive('setUsername')->with('newname')->once();
-        $this->authenticationManager->shouldReceive('update')->with($authentication);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
@@ -90,17 +90,17 @@ class ChangeUsernameCommandTest extends KernelTestCase
     public function testUserWithoutAuthentication()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['newname']);
 
         $authentication = m::mock(AuthenticationInterface::class);
         $user->shouldReceive('getAuthentication')->once()->andReturn(null);
-        $this->authenticationManager->shouldReceive('create')->once()->andReturn($authentication);
+        $this->authenticationRepository->shouldReceive('create')->once()->andReturn($authentication);
         $user->shouldReceive('setAuthentication')->once()->with($authentication);
-        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn([]);
+        $this->authenticationRepository->shouldReceive('getUsernames')->once()->andReturn([]);
 
         $authentication->shouldReceive('setUsername')->with('newname')->once();
-        $this->authenticationManager->shouldReceive('update')->with($authentication);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
@@ -118,10 +118,10 @@ class ChangeUsernameCommandTest extends KernelTestCase
     public function testDuplicationUsername()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['newname']);
 
-        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn(['newname']);
+        $this->authenticationRepository->shouldReceive('getUsernames')->once()->andReturn(['newname']);
 
         $this->expectException(\RuntimeException::class);
         $this->commandTester->execute([
@@ -133,10 +133,10 @@ class ChangeUsernameCommandTest extends KernelTestCase
     public function testDuplicateUsernameCase()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['newName']);
 
-        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn(['newname']);
+        $this->authenticationRepository->shouldReceive('getUsernames')->once()->andReturn(['newname']);
 
         $this->expectException(\RuntimeException::class);
         $this->commandTester->execute([
@@ -148,10 +148,10 @@ class ChangeUsernameCommandTest extends KernelTestCase
     public function testDuplicateUsernameCaseInDB()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['newname']);
 
-        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn(['newName']);
+        $this->authenticationRepository->shouldReceive('getUsernames')->once()->andReturn(['newName']);
 
         $this->expectException(\RuntimeException::class);
         $this->commandTester->execute([
@@ -163,17 +163,17 @@ class ChangeUsernameCommandTest extends KernelTestCase
     public function testCaseIsPreserved()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['NewName']);
 
         $authentication = m::mock(AuthenticationInterface::class);
         $user->shouldReceive('getAuthentication')->once()->andReturn(null);
-        $this->authenticationManager->shouldReceive('create')->once()->andReturn($authentication);
+        $this->authenticationRepository->shouldReceive('create')->once()->andReturn($authentication);
         $user->shouldReceive('setAuthentication')->once()->with($authentication);
-        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn([]);
+        $this->authenticationRepository->shouldReceive('getUsernames')->once()->andReturn([]);
 
         $authentication->shouldReceive('setUsername')->with('NewName')->once();
-        $this->authenticationManager->shouldReceive('update')->with($authentication);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
@@ -191,17 +191,17 @@ class ChangeUsernameCommandTest extends KernelTestCase
     public function testWhitespaceIsTrimmed()
     {
         $user = m::mock(UserInterface::class);
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->commandTester->setInputs(['  username  ']);
 
         $authentication = m::mock(AuthenticationInterface::class);
         $user->shouldReceive('getAuthentication')->once()->andReturn(null);
-        $this->authenticationManager->shouldReceive('create')->once()->andReturn($authentication);
+        $this->authenticationRepository->shouldReceive('create')->once()->andReturn($authentication);
         $user->shouldReceive('setAuthentication')->once()->with($authentication);
-        $this->authenticationManager->shouldReceive('getUsernames')->once()->andReturn([]);
+        $this->authenticationRepository->shouldReceive('getUsernames')->once()->andReturn([]);
 
         $authentication->shouldReceive('setUsername')->with('username')->once();
-        $this->authenticationManager->shouldReceive('update')->with($authentication);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
@@ -218,7 +218,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,

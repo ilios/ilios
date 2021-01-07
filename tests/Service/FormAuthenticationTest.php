@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Classes\SessionUserInterface;
+use App\Repository\AuthenticationRepository;
+use App\Repository\UserRepository;
 use App\Service\JsonWebTokenManager;
 use App\Service\SessionUserProvider;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\UserInterface;
 use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,8 +19,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class FormAuthenticationTest extends TestCase
 {
-    protected $authManager;
-    protected $userManager;
+    protected $authenticationRepository;
+    protected $userRepository;
     protected $encoder;
     protected $tokenStorage;
     protected $jwtManager;
@@ -37,15 +37,15 @@ class FormAuthenticationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->authManager = m::mock(AuthenticationManager::class);
+        $this->authenticationRepository = m::mock(AuthenticationRepository::class);
         $this->encoder = m::mock(UserPasswordEncoderInterface::class);
         $this->tokenStorage = m::mock(TokenStorageInterface::class);
         $this->jwtManager = m::mock(JsonWebTokenManager::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
-        $this->userManager = m::mock(UserManager::class);
+        $this->userRepository = m::mock(UserRepository::class);
         $this->obj = new FormAuthentication(
-            $this->authManager,
-            $this->userManager,
+            $this->authenticationRepository,
+            $this->userRepository,
             $this->encoder,
             $this->tokenStorage,
             $this->jwtManager,
@@ -58,8 +58,8 @@ class FormAuthenticationTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->authManager);
-        unset($this->userManager);
+        unset($this->authenticationRepository);
+        unset($this->userRepository);
         unset($this->encoder);
         unset($this->tokenStorage);
         unset($this->jwtManager);
@@ -100,7 +100,7 @@ class FormAuthenticationTest extends TestCase
         ];
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
-        $this->authManager->shouldReceive('findAuthenticationByUsername')
+        $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn(null);
         $result = $this->obj->login($request);
 
@@ -126,7 +126,7 @@ class FormAuthenticationTest extends TestCase
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $this->authManager->shouldReceive('findAuthenticationByUsername')
+        $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(false);
@@ -154,7 +154,7 @@ class FormAuthenticationTest extends TestCase
             ->shouldReceive('isEnabled')->andReturn(false)->mock();
         $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $this->authManager->shouldReceive('findAuthenticationByUsername')
+        $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $result = $this->obj->login($request);
@@ -182,7 +182,7 @@ class FormAuthenticationTest extends TestCase
         $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $this->encoder->shouldReceive('needsRehash')->with($sessionUser)->andReturn(false);
-        $this->authManager->shouldReceive('findAuthenticationByUsername')
+        $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(true);

@@ -16,12 +16,13 @@ use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
+use App\Repository\ProgramRepository;
 
 /**
  * Class Program
  *
  * @ORM\Table(name="program")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\ProgramRepository")
+ * @ORM\Entity(repositoryClass=ProgramRepository::class)
  *
  * @IS\Entity
  */

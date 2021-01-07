@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Service\Config;
+use App\Repository\AuthenticationRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Manager\AuthenticationManager;
 use App\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,10 +19,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authManager;
+    protected AuthenticationRepository $authenticationRepository;
 
     /**
      * @var JsonWebTokenManager
@@ -57,20 +53,20 @@ class ShibbolethAuthentication implements AuthenticationInterface
 
     /**
      * Constructor
-     * @param AuthenticationManager $authManager
+     * @param AuthenticationRepository $authenticationRepository
      * @param JsonWebTokenManager $jwtManager
      * @param LoggerInterface $logger
      * @param Config $config
      * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
-        AuthenticationManager $authManager,
+        AuthenticationRepository $authenticationRepository,
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger,
         Config $config,
         SessionUserProvider $sessionUserProvider
     ) {
-        $this->authManager = $authManager;
+        $this->authenticationRepository = $authenticationRepository;
         $this->jwtManager = $jwtManager;
         $this->logger = $logger;
         $this->logoutPath = $config->get('shibboleth_authentication_logout_path');
@@ -127,7 +123,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
             ], JsonResponse::HTTP_OK);
         }
         /* @var \App\Entity\AuthenticationInterface $authEntity */
-        $authEntity = $this->authManager->findOneBy(['username' => $userId]);
+        $authEntity = $this->authenticationRepository->findOneBy(['username' => $userId]);
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             if ($sessionUser->isEnabled()) {

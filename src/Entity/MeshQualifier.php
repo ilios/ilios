@@ -14,12 +14,13 @@ use App\Traits\NameableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
+use App\Repository\MeshQualifierRepository;
 
 /**
  * Class MeshQualifier
  *
  * @ORM\Table(name="mesh_qualifier")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshQualifierRepository")
+ * @ORM\Entity(repositoryClass=MeshQualifierRepository::class)
  *
  * @IS\Entity
  */

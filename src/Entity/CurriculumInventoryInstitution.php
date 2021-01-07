@@ -11,12 +11,13 @@ use App\Traits\NameableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SchoolEntity;
+use App\Repository\CurriculumInventoryInstitutionRepository;
 
 /**
  * Class CurriculumInventoryInstitution
  *
  * @ORM\Table(name="curriculum_inventory_institution")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CurriculumInventoryInstitutionRepository")
+ * @ORM\Entity(repositoryClass=CurriculumInventoryInstitutionRepository::class)
  *
  * @IS\Entity
  */

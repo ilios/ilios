@@ -14,12 +14,13 @@ use App\Traits\NameableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
+use App\Repository\MeshConceptRepository;
 
 /**
  * Class MeshConcept
  *
  * @ORM\Table(name="mesh_concept")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshConceptRepository")
+ * @ORM\Entity(repositoryClass=MeshConceptRepository::class)
  *
  * @IS\Entity
  */

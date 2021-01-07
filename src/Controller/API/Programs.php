@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\ProgramManager;
+use App\Repository\ProgramRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +18,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class Programs extends ReadWriteController
 {
-    public function __construct(ProgramManager $manager)
+    public function __construct(ProgramRepository $repository)
     {
-        parent::__construct($manager, 'programs');
+        parent::__construct($repository, 'programs');
     }
 
     /**

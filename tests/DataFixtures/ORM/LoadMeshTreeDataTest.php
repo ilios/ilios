@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataFixtures\ORM;
 
 use App\Entity\MeshTreeInterface;
+use App\Repository\MeshTreeRepository;
 
 /**
  * Class LoadMeshTreeDataTest
@@ -16,7 +17,7 @@ class LoadMeshTreeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'App\Entity\Manager\MeshTreeManager';
+        return MeshTreeRepository::class;
     }
 
     /**

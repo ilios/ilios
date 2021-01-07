@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Repository\AuthenticationRepository;
+use App\Repository\SchoolRepository;
+use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
-use App\Entity\Manager\AuthenticationManager;
-use App\Entity\Manager\SchoolManager;
-use App\Entity\Manager\UserManager;
 use App\Entity\SchoolInterface;
 use App\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
@@ -46,20 +46,9 @@ class InstallFirstUserCommand extends Command
      */
     private const LAST_NAME = 'User';
 
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var SchoolManager
-     */
-    protected $schoolManager;
-
-    /**
-     * @var AuthenticationManager
-     */
-    protected $authenticationManager;
+    protected UserRepository $userRepository;
+    protected SchoolRepository $schoolRepository;
+    protected AuthenticationRepository $authenticationRepository;
 
     /**
      * @var UserPasswordEncoderInterface
@@ -73,22 +62,22 @@ class InstallFirstUserCommand extends Command
 
     /**
      * Constructor.
-     * @param UserManager $userManager
-     * @param SchoolManager $schoolManager
-     * @param AuthenticationManager $authenticationManager
+     * @param UserRepository $userRepository
+     * @param SchoolRepository $schoolRepository
+     * @param AuthenticationRepository $authenticationRepository
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
-        UserManager $userManager,
-        SchoolManager $schoolManager,
-        AuthenticationManager $authenticationManager,
+        UserRepository $userRepository,
+        SchoolRepository $schoolRepository,
+        AuthenticationRepository $authenticationRepository,
         UserPasswordEncoderInterface $passwordEncoder,
         SessionUserProvider $sessionUserProvider
     ) {
-        $this->userManager = $userManager;
-        $this->schoolManager = $schoolManager;
-        $this->authenticationManager = $authenticationManager;
+        $this->userRepository = $userRepository;
+        $this->schoolRepository = $schoolRepository;
+        $this->authenticationRepository = $authenticationRepository;
         $this->passwordEncoder = $passwordEncoder;
         $this->sessionUserProvider = $sessionUserProvider;
         parent::__construct();
@@ -124,14 +113,14 @@ class InstallFirstUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // prevent this command to run on a non-empty user store.
-        $existingUser = $this->userManager->findOneBy([]);
+        $existingUser = $this->userRepository->findOneBy([]);
         if (! empty($existingUser)) {
             throw new \Exception(
                 'Sorry, at least one user record already exists. Cannot create a "first" user account.'
             );
         }
 
-        $schools = $this->schoolManager->findBy([], ['title' => 'ASC']);
+        $schools = $this->schoolRepository->findBy([], ['title' => 'ASC']);
 
         // check if any school data is present before invoking the form helper
         // to prevent the form from breaking on missing school data further downstream.
@@ -156,7 +145,7 @@ class InstallFirstUserCommand extends Command
             $schoolTitle = $helper->ask($input, $output, $question);
             $schoolId = $schoolTitles[$schoolTitle];
         }
-        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
+        $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new \Exception(
                 "School with id {$schoolId} could not be found."
@@ -178,7 +167,7 @@ class InstallFirstUserCommand extends Command
         }
 
         /** @var UserInterface $user */
-        $user = $this->userManager->create();
+        $user = $this->userRepository->create();
         $user->setFirstName(self::FIRST_NAME);
         $user->setMiddleName(date('Y-m-d_h.i.s'));
         $user->setLastName(self::LAST_NAME);
@@ -189,10 +178,10 @@ class InstallFirstUserCommand extends Command
         $user->setRoot(true);
 
         $user->setSchool($school);
-        $this->userManager->update($user);
+        $this->userRepository->update($user);
 
         /** @var AuthenticationInterface $authentication */
-        $authentication = $this->authenticationManager->create();
+        $authentication = $this->authenticationRepository->create();
 
         $authentication->setUser($user);
         $user->setAuthentication($authentication);
@@ -202,7 +191,7 @@ class InstallFirstUserCommand extends Command
 
         $authentication->setUsername(self::USERNAME);
         $authentication->setPasswordHash($encodedPassword);
-        $this->authenticationManager->update($authentication);
+        $this->authenticationRepository->update($authentication);
 
         $output->writeln('Success!');
         $output->writeln('A user account has been created.');

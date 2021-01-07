@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures\ORM;
 
-use App\Entity\Manager\MeshDescriptorManager;
+use App\Repository\MeshDescriptorRepository;
 use App\Service\DataimportFileLocator;
 
 /**
@@ -13,9 +13,9 @@ use App\Service\DataimportFileLocator;
 class LoadMeshConceptData extends AbstractMeshFixture
 {
     public function __construct(
-        MeshDescriptorManager $meshDescriptorManager,
+        MeshDescriptorRepository $meshDescriptorRepository,
         DataimportFileLocator $dataimportFileLocator
     ) {
-        parent::__construct($meshDescriptorManager, $dataimportFileLocator, 'mesh_concept.csv', 'MeshConcept');
+        parent::__construct($meshDescriptorRepository, $dataimportFileLocator, 'mesh_concept.csv', 'MeshConcept');
     }
 }

@@ -11,12 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
+use App\Repository\SessionDescriptionRepository;
 
 /**
  * Class SessionDescription
  *
  * @ORM\Table(name="session_description")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\SessionDescriptionRepository")
+ * @ORM\Entity(repositoryClass=SessionDescriptionRepository::class)
  *
  * @IS\Entity
  * @deprecated

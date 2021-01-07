@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\LearnerGroupManager;
+use App\Repository\LearnerGroupRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class LearnerGroups extends ReadWriteController
 {
-    public function __construct(LearnerGroupManager $manager)
+    public function __construct(LearnerGroupRepository $repository)
     {
-        parent::__construct($manager, 'learnergroups');
+        parent::__construct($repository, 'learnergroups');
     }
 }

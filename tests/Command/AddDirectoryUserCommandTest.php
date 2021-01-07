@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\AddDirectoryUserCommand;
+use App\Repository\AuthenticationRepository;
+use App\Repository\SchoolRepository;
+use App\Repository\UserRepository;
 use App\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -21,9 +24,9 @@ class AddDirectoryUserCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:add-directory-user';
 
-    protected $userManager;
-    protected $authenticationManager;
-    protected $schoolManager;
+    protected $userRepository;
+    protected $authenticationRepository;
+    protected $schoolRepository;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
@@ -31,15 +34,15 @@ class AddDirectoryUserCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->userManager = m::mock('App\Entity\Manager\UserManager');
-        $this->authenticationManager = m::mock('App\Entity\Manager\AuthenticationManager');
-        $this->schoolManager = m::mock('App\Entity\Manager\SchoolManager');
+        $this->userRepository = m::mock(UserRepository::class);
+        $this->authenticationRepository = m::mock(AuthenticationRepository::class);
+        $this->schoolRepository = m::mock(SchoolRepository::class);
         $this->directory = m::mock(Directory::class);
 
         $command = new AddDirectoryUserCommand(
-            $this->userManager,
-            $this->authenticationManager,
-            $this->schoolManager,
+            $this->userRepository,
+            $this->authenticationRepository,
+            $this->schoolRepository,
             $this->directory
         );
         $kernel = self::bootKernel();
@@ -56,9 +59,9 @@ class AddDirectoryUserCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->userManager);
-        unset($this->authenticationManager);
-        unset($this->schoolManager);
+        unset($this->userRepository);
+        unset($this->authenticationRepository);
+        unset($this->schoolRepository);
         unset($this->directory);
         unset($this->commandTester);
         unset($this->questionHelper);
@@ -86,12 +89,12 @@ class AddDirectoryUserCommandTest extends KernelTestCase
             ->mock();
         $authentication->shouldReceive('setUser')->with($user);
 
-        $this->userManager->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(false);
-        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
-        $this->userManager->shouldReceive('create')->andReturn($user);
-        $this->userManager->shouldReceive('update')->with($user);
-        $this->authenticationManager->shouldReceive('create')->andReturn($authentication);
-        $this->authenticationManager->shouldReceive('update')->with($authentication);
+        $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(false);
+        $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
+        $this->userRepository->shouldReceive('create')->andReturn($user);
+        $this->userRepository->shouldReceive('update')->with($user);
+        $this->authenticationRepository->shouldReceive('create')->andReturn($authentication);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication);
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',
@@ -127,7 +130,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         $user = m::mock('App\Entity\UserInterface')
             ->shouldReceive('getId')->andReturn(1)
             ->mock();
-        $this->userManager->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn($user);
         $this->expectException(\Exception::class, 'User #1 with campus id 1 already exists.');
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
@@ -138,8 +141,8 @@ class AddDirectoryUserCommandTest extends KernelTestCase
 
     public function testBadSchoolId()
     {
-        $this->userManager->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn(null);
-        $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
+        $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn(null);
+        $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(\Exception::class, 'School with id 1 could not be found.');
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,

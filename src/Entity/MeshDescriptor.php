@@ -22,12 +22,13 @@ use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Traits\CoursesEntity;
 use App\Traits\SessionsEntity;
+use App\Repository\MeshDescriptorRepository;
 
 /**
  * Class MeshDescriptor
  *
  * @ORM\Table(name="mesh_descriptor")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\MeshDescriptorRepository")
+ * @ORM\Entity(repositoryClass=MeshDescriptorRepository::class)
  *
  * @IS\Entity
  */

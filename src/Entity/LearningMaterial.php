@@ -13,6 +13,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Annotation as IS;
+use App\Repository\LearningMaterialRepository;
 
 /**
  * Class LearningMaterial
@@ -20,7 +21,7 @@ use App\Annotation as IS;
  * then sent as plain php objects in order to insert the absolute path to the file
  *
  *
- * @ORM\Entity(repositoryClass="App\Entity\Repository\LearningMaterialRepository")
+ * @ORM\Entity(repositoryClass=LearningMaterialRepository::class)
  * @ORM\Table(
  *  name="learning_material",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="idx_learning_material_token_unique", columns={"token"})}

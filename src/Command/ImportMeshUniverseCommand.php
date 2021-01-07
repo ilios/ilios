@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Manager\MeshDescriptorManager;
+use App\Repository\MeshDescriptorRepository;
 use App\Service\Index\Mesh;
 use Ilios\MeSH\Parser;
 use Symfony\Component\Console\Command\Command;
@@ -31,10 +31,7 @@ class ImportMeshUniverseCommand extends Command
         2021 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2021.xml',
     ];
 
-    /**
-     * @var MeshDescriptorManager
-     */
-    protected $manager;
+    protected MeshDescriptorRepository $repository;
 
     /**
      * @var Parser
@@ -48,17 +45,17 @@ class ImportMeshUniverseCommand extends Command
 
     /**
      * @param Parser $parser
-     * @param MeshDescriptorManager $manager
+     * @param MeshDescriptorRepository $repository
      * @param Mesh $meshIndex
      */
     public function __construct(
         Parser $parser,
-        MeshDescriptorManager $manager,
+        MeshDescriptorRepository $repository,
         Mesh $meshIndex
     ) {
         parent::__construct();
         $this->parser = $parser;
-        $this->manager = $manager;
+        $this->repository = $repository;
         $this->meshIndex = $meshIndex;
     }
 
@@ -109,15 +106,15 @@ class ImportMeshUniverseCommand extends Command
         $descriptorSet = $this->parser->parse($uri);
         $descriptorIds = $descriptorSet->getDescriptorUis();
         $output->writeln("2/${steps}: Clearing database of existing MeSH data.");
-        $this->manager->clearExistingData();
-        $existingDescriptors = $this->manager->findDTOsBy([]);
+        $this->repository->clearExistingData();
+        $existingDescriptors = $this->repository->findDTOsBy([]);
         $existingDescriptorIds = array_column($existingDescriptors, 'id');
         $updateDescriptorIds = array_intersect($existingDescriptorIds, $descriptorIds);
         $deletedDescriptorIds = array_diff($existingDescriptorIds, $descriptorIds);
         $output->writeln("3/${steps}: Importing MeSH data into database.");
-        $this->manager->upsertMeshUniverse($descriptorSet, $updateDescriptorIds);
+        $this->repository->upsertMeshUniverse($descriptorSet, $updateDescriptorIds);
         $output->writeln("4/${steps}: Flagging orphaned MeSH descriptors as deleted.");
-        $this->manager->flagDescriptorsAsDeleted($deletedDescriptorIds);
+        $this->repository->flagDescriptorsAsDeleted($deletedDescriptorIds);
 
         if ($this->meshIndex->isEnabled()) {
             $output->writeln("5/${steps}: Adding MeSH data to the search index.");

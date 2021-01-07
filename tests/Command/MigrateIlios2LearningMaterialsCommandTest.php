@@ -6,6 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\MigrateIlios2LearningMaterialsCommand;
 use App\Entity\LearningMaterialInterface;
+use App\Repository\LearningMaterialRepository;
 use App\Service\IliosFileSystem;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -26,7 +27,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 
     protected $symfonyFileSystem;
     protected $iliosFileSystem;
-    protected $learningMaterialManager;
+    protected $learningMaterialRepository;
 
     /**
      * @var CommandTester
@@ -38,12 +39,12 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         parent::setUp();
         $this->symfonyFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
-        $this->learningMaterialManager = m::mock('App\Entity\Manager\LearningMaterialManager');
+        $this->learningMaterialRepository = m::mock(LearningMaterialRepository::class);
 
         $command = new MigrateIlios2LearningMaterialsCommand(
             $this->symfonyFileSystem,
             $this->iliosFileSystem,
-            $this->learningMaterialManager
+            $this->learningMaterialRepository
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -61,7 +62,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         unset($this->symfonyFileSystem);
         unset($this->iliosFileSystem);
         unset($this->directory);
-        unset($this->learningMaterialManager);
+        unset($this->learningMaterialRepository);
     }
 
     public function testExecute()
@@ -73,7 +74,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
             ->shouldReceive('getRelativePath')->andReturn(basename(__FILE__))->once()
             ->shouldReceive('setRelativePath')->with('newrelativepath')->once()
             ->mock();
-        $this->learningMaterialManager
+        $this->learningMaterialRepository
             ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once()
             ->shouldReceive('findFileLearningMaterials')->andReturn([$lm])->once()
             ->shouldReceive('update')->with($lm, false)->once()
@@ -117,7 +118,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         $lm = m::mock('App\Entity\LearningMaterial')
             ->shouldReceive('getRelativePath')->andReturn('/pathtofile')->once()
             ->mock();
-        $this->learningMaterialManager
+        $this->learningMaterialRepository
             ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once()
             ->shouldReceive('findFileLearningMaterials')->andReturn([$lm])->once()
             ->shouldReceive('flushAndClear')->once()

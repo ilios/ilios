@@ -17,12 +17,13 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
+use App\Repository\CompetencyRepository;
 
 /**
  * Class Competency
  *
  * @ORM\Table(name="competency", indexes={@ORM\Index(name="parent_competency_id_k", columns={"parent_competency_id"})})
- * @ORM\Entity(repositoryClass="App\Entity\Repository\CompetencyRepository")
+ * @ORM\Entity(repositoryClass=CompetencyRepository::class)
  *
  * @IS\Entity
  */

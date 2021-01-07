@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Command\Index;
 
-use App\Entity\Manager\CourseManager;
-use App\Entity\Manager\LearningMaterialManager;
-use App\Entity\Manager\MeshDescriptorManager;
-use App\Entity\Manager\UserManager;
 use App\Message\CourseIndexRequest;
 use App\Message\LearningMaterialIndexRequest;
 use App\Message\MeshDescriptorIndexRequest;
 use App\Message\UserIndexRequest;
+use App\Repository\CourseRepository;
+use App\Repository\LearningMaterialRepository;
+use App\Repository\MeshDescriptorRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,24 +25,18 @@ class UpdateCommand extends Command
     public const COMMAND_NAME = 'ilios:index:update';
 
     /**
-     * @var UserManager
+     * @var UserRepository
      */
-    protected $userManager;
+    protected $userRepository;
 
     /**
-     * @var CourseManager
+     * @var CourseRepository
      */
-    protected $courseManager;
+    protected $courseRepository;
 
-    /**
-     * @var MeshDescriptorManager
-     */
-    protected $descriptorManager;
+    protected MeshDescriptorRepository $descriptorRepository;
 
-    /**
-     * @var LearningMaterialManager
-     */
-    protected $learningMaterialManager;
+    protected LearningMaterialRepository $learningMaterialRepository;
 
     /**
      * @var MessageBusInterface
@@ -50,18 +44,18 @@ class UpdateCommand extends Command
     protected $bus;
 
     public function __construct(
-        UserManager $userManager,
-        CourseManager $courseManager,
-        MeshDescriptorManager $descriptorManager,
-        LearningMaterialManager $learningMaterialManager,
+        UserRepository $userRepository,
+        CourseRepository $courseRepository,
+        MeshDescriptorRepository $descriptorRepository,
+        LearningMaterialRepository $learningMaterialRepository,
         MessageBusInterface $bus
     ) {
         parent::__construct();
 
-        $this->userManager = $userManager;
-        $this->courseManager = $courseManager;
-        $this->descriptorManager = $descriptorManager;
-        $this->learningMaterialManager = $learningMaterialManager;
+        $this->userRepository = $userRepository;
+        $this->courseRepository = $courseRepository;
+        $this->descriptorRepository = $descriptorRepository;
+        $this->learningMaterialRepository = $learningMaterialRepository;
         $this->bus = $bus;
     }
 
@@ -91,7 +85,7 @@ class UpdateCommand extends Command
 
     protected function queueUsers(OutputInterface $output)
     {
-        $allIds = $this->userManager->getIds();
+        $allIds = $this->userRepository->getIds();
         $count = count($allIds);
         $chunks = array_chunk($allIds, UserIndexRequest::MAX_USERS);
         foreach ($chunks as $ids) {
@@ -102,7 +96,7 @@ class UpdateCommand extends Command
 
     protected function queueCourses(OutputInterface $output)
     {
-        $allIds = $this->courseManager->getIds();
+        $allIds = $this->courseRepository->getIds();
         $count = count($allIds);
         $chunks = array_chunk($allIds, CourseIndexRequest::MAX_COURSES);
         foreach ($chunks as $ids) {
@@ -113,7 +107,7 @@ class UpdateCommand extends Command
 
     protected function queueLearningMaterials(OutputInterface $output)
     {
-        $allIds = $this->learningMaterialManager->getFileLearningMaterialIds();
+        $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
         $count = count($allIds);
         foreach ($allIds as $id) {
             $this->bus->dispatch(new LearningMaterialIndexRequest($id));
@@ -123,7 +117,7 @@ class UpdateCommand extends Command
 
     protected function queueMesh(OutputInterface $output)
     {
-        $allIds = $this->descriptorManager->getIds();
+        $allIds = $this->descriptorRepository->getIds();
         $count = count($allIds);
         $chunks = array_chunk($allIds, MeshDescriptorIndexRequest::MAX_DESCRIPTORS);
         foreach ($chunks as $ids) {

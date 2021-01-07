@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\ApplicationConfig;
-use App\Entity\Manager\ApplicationConfigManager;
+use App\Repository\ApplicationConfigRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,18 +19,15 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class SetConfigValueCommand extends Command
 {
-    /**
-     * @var ApplicationConfigManager
-     */
-    protected $applicationConfigManager;
+    protected ApplicationConfigRepository $applicationConfigRepository;
 
     /**
      * SetConfigValueCommand constructor.
-     * @param ApplicationConfigManager $applicationConfigManager
+     * @param ApplicationConfigRepository $applicationConfigRepository
      */
-    public function __construct(ApplicationConfigManager $applicationConfigManager)
+    public function __construct(ApplicationConfigRepository $applicationConfigRepository)
     {
-        $this->applicationConfigManager = $applicationConfigManager;
+        $this->applicationConfigRepository = $applicationConfigRepository;
         parent::__construct();
     }
 
@@ -65,14 +62,14 @@ class SetConfigValueCommand extends Command
         $value = $input->getArgument('value');
 
         /** @var ApplicationConfig $config */
-        $config = $this->applicationConfigManager->findOneBy(['name' => $name]);
+        $config = $this->applicationConfigRepository->findOneBy(['name' => $name]);
         if (!$config) {
-            $config = $this->applicationConfigManager->create();
+            $config = $this->applicationConfigRepository->create();
             $config->setName($name);
         }
         $config->setValue($value);
 
-        $this->applicationConfigManager->update($config, true);
+        $this->applicationConfigRepository->update($config, true);
 
         $output->writeln('<info>Done.</info>');
 

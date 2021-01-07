@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Entity\Manager\CourseObjectiveManager;
+use App\Repository\CourseObjectiveRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -13,8 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CourseObjectives extends ReadWriteController
 {
-    public function __construct(CourseObjectiveManager $manager)
+    public function __construct(CourseObjectiveRepository $repository)
     {
-        parent::__construct($manager, 'courseobjectives');
+        parent::__construct($repository, 'courseobjectives');
     }
 }

@@ -10,12 +10,13 @@ use App\Classes\SessionUser;
 use App\Classes\SessionUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\UserInterface;
+use App\Repository\AuthenticationRepository;
 
 /**
  * Class Authentication
  *
  * @ORM\Table(name="authentication")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\AuthenticationRepository")
+ * @ORM\Entity(repositoryClass=AuthenticationRepository::class)
  *
  * @IS\Entity
  */

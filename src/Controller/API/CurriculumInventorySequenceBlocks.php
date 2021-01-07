@@ -6,8 +6,8 @@ namespace App\Controller\API;
 
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
-use App\Entity\Manager\CurriculumInventorySequenceBlockManager;
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\CurriculumInventorySequenceBlockRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,9 +26,9 @@ use RuntimeException;
  */
 class CurriculumInventorySequenceBlocks extends ReadWriteController
 {
-    public function __construct(CurriculumInventorySequenceBlockManager $manager)
+    public function __construct(CurriculumInventorySequenceBlockRepository $repository)
     {
-        parent::__construct($manager, 'curriculuminventorysequenceblocks');
+        parent::__construct($repository, 'curriculuminventorysequenceblocks');
     }
 
     /**
@@ -43,7 +43,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $class = $this->manager->getClass() . '[]';
+        $class = $this->repository->getClass() . '[]';
 
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
 
@@ -62,9 +62,9 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
                 0,
                 $entity
             );
-            $this->manager->update($entity, false);
+            $this->repository->update($entity, false);
         }
-        $this->manager->flush();
+        $this->repository->flush();
 
         $dtos = $this->fetchDtosForEntities($entities);
 
@@ -86,13 +86,13 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         ApiResponseBuilder $builder
     ): Response {
         /** @var CurriculumInventorySequenceBlockInterface $entity */
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;
             $permission = AbstractVoter::EDIT;
         } else {
-            $entity = $this->manager->create();
+            $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
             $permission = AbstractVoter::CREATE;
         }
@@ -121,7 +121,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
             $entity
         );
 
-        $this->manager->update($entity, true, false);
+        $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
@@ -137,7 +137,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
         /** @var CurriculumInventorySequenceBlockInterface $entity */
-        $entity = $this->manager->findOneBy(['id' => $id]);
+        $entity = $this->repository->findOneBy(['id' => $id]);
 
         if (! $entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -149,8 +149,8 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
 
         try {
             $this->reorderSiblingsOnDeletion($entity);
-            $this->manager->delete($entity);
-            $this->manager->flush();
+            $this->repository->delete($entity);
+            $this->repository->flush();
 
             return new Response('', Response::HTTP_NO_CONTENT);
         } catch (Exception $exception) {
@@ -178,7 +178,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         for ($i = 0, $n = count($siblingsWithHigherSortOrder); $i < $n; $i++) {
             $orderInSequence = $siblingsWithHigherSortOrder[$i]->getOrderInSequence();
             $siblingsWithHigherSortOrder[$i]->setOrderInSequence($orderInSequence - 1);
-            $this->manager->update($block, false, false);
+            $this->repository->update($block, false, false);
         }
     }
 
@@ -206,7 +206,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
                 usort($children, [CurriculumInventorySequenceBlock::class, 'compareSequenceBlocksWithDefaultStrategy']);
                 for ($i = 0, $n = count($children); $i < $n; $i++) {
                     $children[$i]->setOrderInSequence($i + 1);
-                    $this->manager->update($children[$i], false);
+                    $this->repository->update($children[$i], false);
                 }
                 break;
             case CurriculumInventorySequenceBlockInterface::UNORDERED:
@@ -214,7 +214,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
                 if ($oldValue === CurriculumInventorySequenceBlockInterface::ORDERED) {
                     for ($i = 0, $n = count($children); $i < $n; $i++) {
                         $children[$i]->setOrderInSequence(0);
-                        $this->manager->update($children[$i], false);
+                        $this->repository->update($children[$i], false);
                     }
                 }
                 break;
@@ -266,7 +266,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
             $j = $i + 1;
             if ($current->getId() !== $block && $current->getOrderInSequence() !== $j) {
                 $current->setOrderInSequence($j);
-                $this->manager->update($current, false, false);
+                $this->repository->update($current, false, false);
             }
         }
     }

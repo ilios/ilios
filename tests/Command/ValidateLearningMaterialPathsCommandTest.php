@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\ValidateLearningMaterialPathsCommand;
+use App\Repository\LearningMaterialRepository;
 use App\Service\IliosFileSystem;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -23,18 +24,18 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
     private const COMMAND_NAME = 'ilios:validate-learning-materials';
 
     protected $iliosFileSystem;
-    protected $learningMaterialManager;
+    protected $learningMaterialRepository;
     protected $commandTester;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
-        $this->learningMaterialManager = m::mock('App\Entity\Manager\LearningMaterialManager');
+        $this->learningMaterialRepository = m::mock(LearningMaterialRepository::class);
 
         $command = new ValidateLearningMaterialPathsCommand(
             $this->iliosFileSystem,
-            $this->learningMaterialManager
+            $this->learningMaterialRepository
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -50,7 +51,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->iliosFileSystem);
-        unset($this->learningMaterialManager);
+        unset($this->learningMaterialRepository);
     }
 
     public function testExecute()
@@ -60,7 +61,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
             ->shouldReceive('getId')->andReturn('42')
             ->shouldReceive('getRelativePath')->andReturn('path/path')
             ->mock();
-        $this->learningMaterialManager
+        $this->learningMaterialRepository
             ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once()
             ->shouldReceive('findFileLearningMaterials')->andReturn([$goodLm, $badLm])->once()
         ;
