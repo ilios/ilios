@@ -1131,57 +1131,6 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
                 ]
             ],
-            [
-                Capabilities::CAN_CREATE_DEPARTMENTS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                ],
-                [
-                    UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
-                    UserRoles::SESSION_ADMINISTRATOR,
-                    UserRoles::SESSION_INSTRUCTOR,
-                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
-            ],
-            [
-                Capabilities::CAN_UPDATE_DEPARTMENTS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                ],
-                [
-                    UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
-                    UserRoles::SESSION_ADMINISTRATOR,
-                    UserRoles::SESSION_INSTRUCTOR,
-                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
-            ],
-            [
-                Capabilities::CAN_DELETE_DEPARTMENTS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                ],
-                [
-                    UserRoles::PROGRAM_DIRECTOR,
-                    UserRoles::PROGRAM_YEAR_DIRECTOR,
-                    UserRoles::COURSE_ADMINISTRATOR,
-                    UserRoles::COURSE_DIRECTOR,
-                    UserRoles::COURSE_INSTRUCTOR,
-                    UserRoles::SESSION_ADMINISTRATOR,
-                    UserRoles::SESSION_INSTRUCTOR,
-                    UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
-            ],
         ];
     }
 

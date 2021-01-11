@@ -520,30 +520,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
                     UserRoles::SCHOOL_ADMINISTRATOR,
                 ]
             );
-            $this->setPermission(
-                $schoolId,
-                Capabilities::CAN_CREATE_DEPARTMENTS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
-                Capabilities::CAN_UPDATE_DEPARTMENTS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
-                Capabilities::CAN_DELETE_DEPARTMENTS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                ]
-            );
         }
         $this->hasMatrixBeenBuilt = true;
     }

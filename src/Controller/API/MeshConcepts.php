@@ -8,7 +8,7 @@ use App\Repository\MeshConceptRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/meshconcepts")
+ * @Route("/api/{version<v3>}/meshconcepts")
  */
 class MeshConcepts extends ReadOnlyController
 {

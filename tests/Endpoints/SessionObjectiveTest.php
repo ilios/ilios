@@ -16,8 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SessionObjectiveTest extends ReadWriteEndpointTest
 {
-    use LegacyObjectiveTestTrait;
-
     protected $testName =  'sessionObjectives';
 
     /**
@@ -134,23 +132,6 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             $data['terms'][] = $savedTerms[$i]['id'];
             $this->putTest($data, $data, $data['id']);
         }
-    }
-
-    public function testRemoveLinksFromOrphanedObjectives()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $sessionObjectiveId = $data['id'];
-
-        $objective = $this->getObjectiveForXObjective($sessionObjectiveId, 'sessionObjectives');
-        $this->assertNotEmpty($objective['parents']);
-        $this->assertNotEmpty($objective['sessions']);
-
-        $this->deleteTest($sessionObjectiveId);
-
-        $objective = $this->getOne('objectives', 'objectives', $objective['id'], 'v1');
-        $this->assertEmpty($objective['parents']);
-        $this->assertEmpty($objective['sessions']);
     }
 
     /**

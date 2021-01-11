@@ -8,7 +8,7 @@ use App\Repository\VocabularyRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/vocabularies")
+ * @Route("/api/{version<v3>}/vocabularies")
  */
 class Vocabularies extends ReadWriteController
 {

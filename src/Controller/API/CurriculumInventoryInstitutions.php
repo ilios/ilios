@@ -8,7 +8,7 @@ use App\Repository\CurriculumInventoryInstitutionRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/curriculuminventoryinstitutions")
+ * @Route("/api/{version<v3>}/curriculuminventoryinstitutions")
  */
 class CurriculumInventoryInstitutions extends ReadWriteController
 {

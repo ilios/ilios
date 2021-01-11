@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Traits\ActivatableEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
-use App\Traits\ObjectiveRelationshipInterface;
 use App\Traits\TitledEntityInterface;
 use Doctrine\Common\Collections\Collection;
 
@@ -14,7 +13,6 @@ use Doctrine\Common\Collections\Collection;
  * Interface ProgramYearObjectiveInterface
  */
 interface ProgramYearObjectiveInterface extends
-    ObjectiveRelationshipInterface,
     TitledEntityInterface,
     MeshDescriptorsEntityInterface,
     ActivatableEntityInterface

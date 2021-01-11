@@ -6,8 +6,8 @@ namespace App\Tests\Entity;
 
 use App\Entity\CourseInterface;
 use App\Entity\CourseLearningMaterialInterface;
+use App\Entity\CourseObjectiveInterface;
 use App\Entity\MeshDescriptor;
-use App\Entity\ObjectiveInterface;
 use App\Entity\SessionInterface;
 use App\Entity\SessionLearningMaterialInterface;
 use DateTime;
@@ -49,7 +49,6 @@ class MeshDescriptorTest extends EntityBase
     {
         $this->assertEmpty($this->object->getCourses());
         $this->assertEmpty($this->object->getCourseLearningMaterials());
-        $this->assertEmpty($this->object->getObjectives());
         $this->assertEmpty($this->object->getSessions());
         $this->assertEmpty($this->object->getSessionLearningMaterials());
         $this->assertEmpty($this->object->getTrees());
@@ -100,31 +99,6 @@ class MeshDescriptorTest extends EntityBase
     public function testGetCourses()
     {
         $this->entityCollectionSetTest('course', 'Course', false, false, 'addMeshDescriptor');
-    }
-
-    /**
-     * @covers \App\Entity\MeshDescriptor::addObjective
-     */
-    public function testAddObjective()
-    {
-        $this->entityCollectionAddTest('objective', 'Objective', false, false, 'addMeshDescriptor');
-    }
-
-    /**
-     * @covers \App\Entity\MeshDescriptor::removeObjective
-     */
-    public function testRemoveObjective()
-    {
-        $this->entityCollectionRemoveTest('objective', 'Objective', false, false, false, 'removeMeshDescriptor');
-    }
-
-    /**
-     * @covers \App\Entity\MeshDescriptor::setObjectives
-     * @covers \App\Entity\MeshDescriptor::getObjectives
-     */
-    public function testGetObjectives()
-    {
-        $this->entityCollectionSetTest('objective', 'Objective', false, false, 'addMeshDescriptor');
     }
 
     /**
@@ -328,17 +302,17 @@ class MeshDescriptorTest extends EntityBase
     public function testGetIndexableCoursesFromObjectives()
     {
         $course1 = m::mock(CourseInterface::class);
-        $objective1 = m::mock(ObjectiveInterface::class)
+        $objective1 = m::mock(CourseObjectiveInterface::class);
+        $objective1
             ->shouldReceive('getIndexableCourses')->once()
-            ->andReturn([$course1])
-            ->shouldReceive('addMeshDescriptor')->once()->getMock();
+            ->andReturn([$course1]);
         $course2 = m::mock(CourseInterface::class);
-        $objective2 = m::mock(ObjectiveInterface::class)
+        $objective2 = m::mock(CourseObjectiveInterface::class);
+        $objective2
             ->shouldReceive('getIndexableCourses')->once()
-            ->andReturn([$course2])
-            ->shouldReceive('addMeshDescriptor')->once()->getMock();
-        $this->object->addObjective($objective1);
-        $this->object->addObjective($objective2);
+            ->andReturn([$course2]);
+        $this->object->addCourseObjective($objective1);
+        $this->object->addCourseObjective($objective2);
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals([$course1, $course2], $rhett);

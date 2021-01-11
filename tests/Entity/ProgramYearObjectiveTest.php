@@ -75,7 +75,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $title = 'foo';
         $this->object->setTitle($title);
         $this->assertEquals($title, $this->object->getTitle());
-        $this->assertEquals($title, $this->object->getObjective()->getTitle());
     }
 
     /**
@@ -96,7 +95,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $position = 5;
         $this->object->setPosition(5);
         $this->assertEquals($position, $this->object->getPosition());
-        $this->assertEquals($position, $this->object->getObjective()->getPosition());
     }
     /**
      * @covers \App\Entity\ProgramYearObjective::addTerm
@@ -130,10 +128,8 @@ class ProgramYearObjectiveTest extends EntityBase
     {
         $meshDescriptor = new MeshDescriptor();
         $this->assertEmpty($this->object->getMeshDescriptors());
-        $this->assertEmpty($this->object->getObjective()->getMeshDescriptors());
         $this->object->addMeshDescriptor($meshDescriptor);
         $this->assertEquals($meshDescriptor, $this->object->getMeshDescriptors()->first());
-        $this->assertEquals($meshDescriptor, $this->object->getObjective()->getMeshDescriptors()->first());
     }
 
     /**
@@ -143,13 +139,10 @@ class ProgramYearObjectiveTest extends EntityBase
     {
         $meshDescriptor = new MeshDescriptor();
         $this->assertEmpty($this->object->getMeshDescriptors());
-        $this->assertEmpty($this->object->getObjective()->getMeshDescriptors());
         $this->object->addMeshDescriptor($meshDescriptor);
         $this->assertEquals($meshDescriptor, $this->object->getMeshDescriptors()->first());
-        $this->assertEquals($meshDescriptor, $this->object->getObjective()->getMeshDescriptors()->first());
         $this->object->removeMeshDescriptor($meshDescriptor);
         $this->assertEmpty($this->object->getMeshDescriptors());
-        $this->assertEmpty($this->object->getObjective()->getMeshDescriptors());
     }
 
     /**
@@ -177,13 +170,7 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertEmpty($this->object->getCourseObjectives());
         $this->object->addCourseObjective($courseObjective);
         $this->assertCount(1, $this->object->getCourseObjectives());
-        $this->assertCount(1, $this->object->getObjective()->getChildren());
-
         $this->assertEquals($courseObjective, $this->object->getCourseObjectives()->first());
-        $this->assertEquals(
-            $courseObjective->getObjective(),
-            $this->object->getObjective()->getChildren()->first()
-        );
     }
 
     /**
@@ -197,7 +184,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertEquals($courseObjective, $this->object->getCourseObjectives()->first());
         $this->object->removeCourseObjective($courseObjective);
         $this->assertEmpty($this->object->getCourseObjectives());
-        $this->assertEmpty($this->object->getObjective()->getChildren());
     }
 
     /**
@@ -225,10 +211,8 @@ class ProgramYearObjectiveTest extends EntityBase
     {
         $competency = new Competency();
         $this->assertNull($this->object->getCompetency());
-        $this->assertNull($this->object->getObjective()->getCompetency());
         $this->object->setCompetency($competency);
         $this->assertEquals($competency, $this->object->getCompetency());
-        $this->assertEquals($competency, $this->object->getObjective()->getCompetency());
     }
 
     /**
@@ -240,7 +224,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $ancestor = new ProgramYearObjective();
         $this->object->setAncestor($ancestor);
         $this->assertEquals($ancestor, $this->object->getAncestor());
-        $this->assertEquals($ancestor->getObjective(), $this->object->getObjective()->getAncestor());
     }
 
     /**
@@ -268,10 +251,8 @@ class ProgramYearObjectiveTest extends EntityBase
     {
         $descendant = new ProgramYearObjective();
         $this->assertEmpty($this->object->getDescendants());
-        $this->assertEmpty($this->object->getObjective()->getDescendants());
         $this->object->addDescendant($descendant);
         $this->assertEquals($descendant, $this->object->getDescendants()->first());
-        $this->assertEquals($descendant->getObjective(), $this->object->getObjective()->getDescendants()->first());
     }
 
     /**
@@ -281,13 +262,10 @@ class ProgramYearObjectiveTest extends EntityBase
     {
         $descendant = new ProgramYearObjective();
         $this->assertEmpty($this->object->getDescendants());
-        $this->assertEmpty($this->object->getObjective()->getDescendants());
         $this->object->addDescendant($descendant);
         $this->assertEquals($descendant, $this->object->getDescendants()->first());
-        $this->assertEquals($descendant->getObjective(), $this->object->getObjective()->getDescendants()->first());
         $this->object->removeDescendant($descendant);
         $this->assertEmpty($this->object->getDescendants());
-        $this->assertEmpty($this->object->getObjective()->getDescendants());
     }
 
     /**
@@ -314,9 +292,7 @@ class ProgramYearObjectiveTest extends EntityBase
     public function testSetActive()
     {
         $this->assertTrue($this->object->isActive());
-        $this->assertTrue($this->object->getObjective()->isActive());
         $this->object->setActive(false);
         $this->assertFalse($this->object->isActive());
-        $this->assertFalse($this->object->getObjective()->isActive());
     }
 }

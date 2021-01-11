@@ -8,7 +8,7 @@ use App\Repository\InstructorGroupRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/instructorgroups")
+ * @Route("/api/{version<v3>}/instructorgroups")
  */
 class InstructorGroups extends ReadWriteController
 {

@@ -35,7 +35,7 @@ class Courses extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/courses/{id}", methods={"GET"})
+     * @Route("/api/{version<v3>}/courses/{id}", methods={"GET"})
      */
     public function getOne(
         string $version,
@@ -49,7 +49,7 @@ class Courses extends ReadWriteController
 
     /**
      * Handle the special 'my' parameter for courses
-     * @Route("/api/{version<v1|v3>}/courses", methods={"GET"})
+     * @Route("/api/{version<v3>}/courses", methods={"GET"})
      */
     public function getAll(
         string $version,
@@ -63,23 +63,13 @@ class Courses extends ReadWriteController
         if (null !== $my) {
             /** @var SessionUserInterface $currentUser */
             $currentUser = $this->tokenStorage->getToken()->getUser();
-            if ('v1' === $version) {
-                $dtos = $this->repository->findByUserIdV1(
-                    $currentUser->getId(),
-                    $parameters['criteria'],
-                    $parameters['orderBy'],
-                    $parameters['limit'],
-                    $parameters['offset']
-                );
-            } else {
-                $dtos = $this->repository->findByUserId(
-                    $currentUser->getId(),
-                    $parameters['criteria'],
-                    $parameters['orderBy'],
-                    $parameters['limit'],
-                    $parameters['offset']
-                );
-            }
+            $dtos = $this->repository->findByUserId(
+                $currentUser->getId(),
+                $parameters['criteria'],
+                $parameters['orderBy'],
+                $parameters['limit'],
+                $parameters['offset']
+            );
 
             $filteredResults = array_filter($dtos, function ($object) use ($authorizationChecker) {
                 return $authorizationChecker->isGranted(AbstractVoter::VIEW, $object);

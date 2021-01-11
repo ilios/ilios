@@ -17,8 +17,6 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class CourseTest extends ReadWriteEndpointTest
 {
-    use LegacyObjectiveTestTrait;
-
     protected $testName =  'courses';
 
     /**
@@ -648,26 +646,6 @@ class CourseTest extends ReadWriteEndpointTest
             [$all[0], $all[2], $all[4]],
             4
         );
-    }
-
-    public function testRemoveLinksFromOrphanedObjectives()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $courseId = $data['id'];
-        $courseObjectiveId = (int) $data['courseObjectives'][0];
-
-        $objective = $this->getObjectiveForXObjective($courseObjectiveId, 'courseObjectives');
-        $this->assertNotEmpty($objective['parents']);
-        $this->assertNotEmpty($objective['children']);
-        $this->assertNotEmpty($objective['courses']);
-
-        $this->deleteTest($courseId);
-
-        $objective = $this->getOne('objectives', 'objectives', $objective['id'], 'v1');
-        $this->assertEmpty($objective['parents']);
-        $this->assertEmpty($objective['children']);
-        $this->assertEmpty($objective['courses']);
     }
 
     public function testIncludeBothProgramYearProgramAndObjectivesWithCohort()

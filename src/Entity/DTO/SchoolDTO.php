@@ -74,14 +74,7 @@ class SchoolDTO
      */
     public $programs;
 
-    /**
-     * @var int[]
-     * @IS\Related
-     * @IS\Type("array<string>")
-     */
-    public $departments;
-
-    /**
+     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related
@@ -131,13 +124,6 @@ class SchoolDTO
 
     /**
      * @var int[]
-     * @IS\Related("programYearStewards")
-     * @IS\Type("array<string>")
-     */
-    public $stewards;
-
-    /**
-     * @var int[]
      * @IS\Expose
      * @IS\Related("schoolConfigs")
      * @IS\Type("array<string>")
@@ -161,11 +147,9 @@ class SchoolDTO
         $this->competencies = [];
         $this->courses = [];
         $this->programs = [];
-        $this->departments = [];
         $this->vocabularies = [];
         $this->instructorGroups = [];
         $this->sessionTypes = [];
-        $this->stewards = [];
         $this->directors = [];
         $this->administrators = [];
         $this->configurations = [];

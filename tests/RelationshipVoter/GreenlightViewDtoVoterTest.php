@@ -4,19 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
-use App\Entity\DTO\CompetencyV1DTO;
 use App\Entity\DTO\CourseObjectiveDTO;
-use App\Entity\DTO\CourseV1DTO;
 use App\Entity\DTO\LearningMaterialDTO;
-use App\Entity\DTO\MeshDescriptorV1DTO;
-use App\Entity\DTO\ObjectiveV1DTO;
-use App\Entity\DTO\ProgramV1DTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
-use App\Entity\DTO\ProgramYearV1DTO;
-use App\Entity\DTO\SchoolV1DTO;
 use App\Entity\DTO\SessionObjectiveDTO;
-use App\Entity\DTO\SessionV1DTO;
-use App\Entity\DTO\TermV1DTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\GreenlightViewDTOVoter as Voter;
 use App\Service\PermissionChecker;
@@ -33,7 +24,6 @@ use App\Entity\DTO\CurriculumInventoryInstitutionDTO;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
 use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
 use App\Entity\DTO\CurriculumInventorySequenceDTO;
-use App\Entity\DTO\DepartmentDTO;
 use App\Entity\DTO\IlmSessionDTO;
 use App\Entity\DTO\InstructorGroupDTO;
 use App\Entity\DTO\LearningMaterialStatusDTO;
@@ -46,10 +36,8 @@ use App\Entity\DTO\MeshTermDTO;
 use App\Entity\DTO\MeshTreeDTO;
 use App\Entity\DTO\ProgramDTO;
 use App\Entity\DTO\ProgramYearDTO;
-use App\Entity\DTO\ProgramYearStewardDTO;
 use App\Entity\DTO\SchoolConfigDTO;
 use App\Entity\DTO\SchoolDTO;
-use App\Entity\DTO\SessionDescriptionDTO;
 use App\Entity\DTO\SessionDTO;
 use App\Entity\DTO\SessionTypeDTO;
 use App\Entity\DTO\TermDTO;
@@ -84,9 +72,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [AssessmentOptionDTO::class],
             [CohortDTO::class],
             [CompetencyDTO::class],
-            [CompetencyV1DTO::class],
             [CourseDTO::class],
-            [CourseV1DTO::class],
             [CourseClerkshipTypeDTO::class],
             [CourseObjectiveDTO::class],
             [CurriculumInventoryAcademicLevelDTO::class],
@@ -94,7 +80,6 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [CurriculumInventoryReportDTO::class],
             [CurriculumInventorySequenceDTO::class],
             [CurriculumInventorySequenceBlockDTO::class],
-            [DepartmentDTO::class],
             [IlmSessionDTO::class],
             [InstructorGroupDTO::class],
             [LearningMaterialDTO::class],
@@ -102,28 +87,19 @@ class GreenlightViewDtoVoterTest extends AbstractBase
             [LearningMaterialUserRoleDTO::class],
             [MeshConceptDTO::class],
             [MeshDescriptorDTO::class],
-            [MeshDescriptorV1DTO::class],
             [MeshPreviousIndexingDTO::class],
             [MeshQualifierDTO::class],
             [MeshTermDTO::class],
             [MeshTreeDTO::class],
-            [ObjectiveV1DTO::class],
             [ProgramDTO::class],
-            [ProgramV1DTO::class],
             [ProgramYearDTO::class],
-            [ProgramYearV1DTO::class],
             [ProgramYearObjectiveDTO::class],
-            [ProgramYearStewardDTO::class],
             [SchoolDTO::class],
             [SchoolConfigDTO::class],
-            [SchoolV1DTO::class],
             [SessionDTO::class],
-            [SessionV1DTO::class],
-            [SessionDescriptionDTO::class],
             [SessionObjectiveDTO::class],
             [SessionTypeDTO::class],
             [TermDTO::class],
-            [TermV1DTO::class],
             [UserRoleDTO::class],
             [VocabularyDTO::class],
         ];

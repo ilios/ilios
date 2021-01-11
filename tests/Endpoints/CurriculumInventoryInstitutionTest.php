@@ -76,11 +76,6 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
     {
         $schoolDataLoader = $this->getContainer()->get(SchoolData::class);
         $schools = $schoolDataLoader->createMany($count);
-        $schools = array_map(function (array $school) {
-            unset($school['stewards']);
-            unset($school['departments']);
-            return $school;
-        }, $schools);
         $savedSchools = $this->postMany('schools', 'schools', $schools);
 
         $dataLoader = $this->getDataLoader();

@@ -298,16 +298,6 @@ class Session implements SessionInterface
     protected $meshDescriptors;
 
     /**
-     * @var SessionDescription
-     *
-     * @ORM\OneToOne(targetEntity="SessionDescription", mappedBy="session", cascade={"persist"})
-     *
-     * @IS\Type("entity")
-     * @deprecated
-     */
-    protected $sessionDescription;
-
-    /**
      * @var ArrayCollection|SessionLearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="session")
@@ -563,14 +553,6 @@ class Session implements SessionInterface
     }
 
     /**
-     * @return SessionDescription
-     */
-    public function getSessionDescription()
-    {
-        return $this->sessionDescription;
-    }
-
-    /**
      * @param Collection $learningMaterials
      */
     public function setLearningMaterials(Collection $learningMaterials = null)
@@ -764,30 +746,9 @@ class Session implements SessionInterface
     /**
      * @inheritdoc
      */
-    public function getObjectives(): array
-    {
-        $sessionObjectives = $this->getSessionObjectives()->toArray();
-        return array_map(function (SessionObjectiveInterface $sessionObjective) {
-            return $sessionObjective->getObjective();
-        }, $sessionObjectives);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function setDescription($description): void
     {
         $this->description = $description;
-
-        // set the given description on the legacy session-description object.
-        // create it on the fly if it doesn't exist.
-        $sessionDescription = $this->getSessionDescription();
-        if (! $sessionDescription) {
-            $sessionDescription = new SessionDescription();
-            $sessionDescription->setSession($this);
-            $this->sessionDescription = $sessionDescription;
-        }
-        $sessionDescription->setDescription($description);
     }
 
     /**

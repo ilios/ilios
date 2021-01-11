@@ -48,12 +48,6 @@ interface Capabilities
     /** @var string */
     public const CAN_CREATE_SESSION_TYPES = 'canCreateSessionTypes';
     /** @var string */
-    public const CAN_UPDATE_DEPARTMENTS = 'canUpdateDepartments';
-    /** @var string */
-    public const CAN_DELETE_DEPARTMENTS = 'canDeleteDepartments';
-    /** @var string */
-    public const CAN_CREATE_DEPARTMENTS = 'canCreateDepartments';
-    /** @var string */
     public const CAN_UPDATE_ALL_PROGRAMS = 'canUpdateAllPrograms';
     /** @var string */
     public const CAN_DELETE_ALL_PROGRAMS = 'canDeleteAllPrograms';

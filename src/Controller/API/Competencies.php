@@ -21,7 +21,7 @@ class Competencies extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/competencies/{id}", methods={"GET"})
+     * @Route("/api/{version<v3>}/competencies/{id}", methods={"GET"})
      */
     public function getOne(
         string $version,
@@ -34,7 +34,7 @@ class Competencies extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/competencies", methods={"GET"})
+     * @Route("/api/{version<v3>}/competencies", methods={"GET"})
      */
     public function getAll(
         string $version,

@@ -7,10 +7,8 @@ namespace App\Repository;
 use App\Classes\IndexableCourse;
 use App\Classes\IndexableSession;
 use App\Entity\Course;
-use App\Entity\DTO\CourseV1DTO;
 use App\Entity\Session;
 use App\Traits\ManagerRepository;
-use App\Traits\V1ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
@@ -21,11 +19,9 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class CourseRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface,
-    V1DTORepositoryInterface
+    ManagerInterface
 {
     use ManagerRepository;
-    use V1ManagerRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -105,46 +101,6 @@ class CourseRepository extends ServiceEntityRepository implements
         }
 
         return $return;
-    }
-
-    /**
-     * Find and hydrate as DTOs
-     *
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
-     * @return array
-     */
-    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
-    {
-        if (array_key_exists('startDate', $criteria)) {
-            $criteria['startDate'] = new DateTime($criteria['startDate']);
-        }
-        if (array_key_exists('endDate', $criteria)) {
-            $criteria['endDate'] = new DateTime($criteria['endDate']);
-        }
-        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Course::class, 'c');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        $courseDTOs = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $courseDTOs[$arr['id']] = new CourseV1DTO(
-                $arr['id'],
-                $arr['title'],
-                $arr['level'],
-                $arr['year'],
-                $arr['startDate'],
-                $arr['endDate'],
-                $arr['externalId'],
-                $arr['locked'],
-                $arr['archived'],
-                $arr['publishedAsTbd'],
-                $arr['published']
-            );
-        }
-        return $this->attachAssociationsToV1DTOs($courseDTOs);
     }
 
     /**
@@ -271,38 +227,6 @@ EOL;
         }
 
         return $this->attachAssociationsToDTOs($courseDTOs);
-    }
-
-    /**
-     * @see CourseRepository::findByUserId()
-     */
-    public function findByUserIdV1(
-        $userId,
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        $rows = $this->findMyCourses($userId, $criteria, $orderBy, $limit, $offset);
-
-        $courseDTOs = [];
-        foreach ($rows as $arr) {
-            $courseDTOs[$arr['course_id']] = new CourseV1DTO(
-                (int) $arr['course_id'],
-                $arr['title'],
-                (int) $arr['course_level'],
-                (int) $arr['year'],
-                new DateTime($arr['start_date']),
-                new DateTime($arr['end_date']),
-                $arr['external_id'],
-                (bool) $arr['locked'],
-                (bool) $arr['archived'],
-                (bool) $arr['published_as_tbd'],
-                (bool) $arr['published']
-            );
-        }
-
-        return $this->attachAssociationsToV1DTOs($courseDTOs);
     }
 
     /**
@@ -531,69 +455,6 @@ EOL;
 
         return array_values($courseDTOs);
     }
-
-    /**
-     * @param array $courseDTOs
-     * @return array
-     */
-    protected function attachAssociationsToV1DTOs(array $courseDTOs): array
-    {
-        $courseIds = array_keys($courseDTOs);
-
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('s.id as schoolId, cl.id as clerkshipTypeId, a.id as ancestorId, c.id as courseId')
-            ->from(Course::class, 'c')
-            ->join('c.school', 's')
-            ->leftJoin('c.clerkshipType', 'cl')
-            ->leftJoin('c.ancestor', 'a')
-            ->where($qb->expr()->in('c.id', ':courseIds'))
-            ->setParameter('courseIds', $courseIds);
-
-        foreach ($qb->getQuery()->getResult() as $arr) {
-            $courseDTOs[$arr['courseId']]->school = (int)$arr['schoolId'];
-            $courseDTOs[$arr['courseId']]->clerkshipType =
-                $arr['clerkshipTypeId'] ? (int)$arr['clerkshipTypeId'] : null;
-            $courseDTOs[$arr['courseId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
-        }
-
-        $related = [
-            'directors',
-            'administrators',
-            'cohorts',
-            'terms',
-            'meshDescriptors',
-            'learningMaterials',
-            'sessions',
-            'descendants',
-        ];
-
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, c.id as courseId')->from(Course::class, 'c')
-                ->join("c.{$rel}", 'r')
-                ->where($qb->expr()->in('c.id', ':courseIds'))
-                ->orderBy('relId')
-                ->setParameter('courseIds', $courseIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $courseDTOs[$arr['courseId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        $qb = $this->_em->createQueryBuilder()
-            ->select('o.id AS objectiveId, c.id AS courseId')->from(Course::class, 'c')
-            ->join("c.courseObjectives", 'cxo')
-            ->join('cxo.objective', 'o')
-            ->where($qb->expr()->in('c.id', ':courseIds'))
-            ->orderBy('objectiveId')
-            ->setParameter('courseIds', $courseIds);
-        foreach ($qb->getQuery()->getResult() as $arr) {
-            $courseDTOs[$arr['courseId']]->objectives[] = $arr['objectiveId'];
-        }
-
-        return array_values($courseDTOs);
-    }
-
 
     /**
      * Custom findBy so we can filter by related entities
@@ -865,7 +726,7 @@ EOL;
         $objectives = $this->joinObjectiveResults(
             Course::class,
             'courseObjectives',
-            'r.title',
+            'o.title',
             $courseIds
         );
         foreach ($objectives as $courseId => $arr) {
@@ -961,8 +822,7 @@ EOL;
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select("f.id AS fromId, ${select}")->from($from, 'f')
-            ->join("f.{$rel}", 'fxo')
-            ->join('fxo.objective', 'r')
+            ->join("f.{$rel}", 'o')
             ->where($qb->expr()->in('f.id', ':ids'))
             ->setParameter('ids', $ids);
 
@@ -1028,7 +888,7 @@ EOL;
         $objectives = $this->joinObjectiveResults(
             Session::class,
             'sessionObjectives',
-            'r.title',
+            'o.title',
             $sessionIds
         );
         foreach ($objectives as $sessionId => $arr) {

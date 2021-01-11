@@ -20,7 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
 use App\Traits\CoursesEntity;
 use App\Traits\ProgramsEntity;
-use App\Traits\StewardedEntity;
 use App\Repository\SchoolRepository;
 
 /**
@@ -41,7 +40,6 @@ class School implements SchoolInterface
     use TitledEntity;
     use CoursesEntity;
     use ProgramsEntity;
-    use StewardedEntity;
     use StringableIdEntity;
     use AlertableEntity;
     use SessionTypesEntity;
@@ -171,16 +169,6 @@ class School implements SchoolInterface
     protected $programs;
 
     /**
-     * @var ArrayCollection|DepartmentInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="Department", mappedBy="school")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
-     * @IS\Type("entityCollection")
-     */
-    protected $departments;
-
-    /**
      * @var ArrayCollection|VocabularyInterface[]
      *
      * @ORM\OneToMany(targetEntity="Vocabulary", mappedBy="school")
@@ -222,16 +210,6 @@ class School implements SchoolInterface
      * @IS\Type("entityCollection")
      */
     protected $sessionTypes;
-
-    /**
-     * @var ArrayCollection|ProgramYearStewardInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="school")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
-     * @IS\Type("entityCollection")
-     */
-    protected $stewards;
 
     /**
      * @var ArrayCollection|UserInterface[]
@@ -290,10 +268,8 @@ class School implements SchoolInterface
         $this->alerts = new ArrayCollection();
         $this->competencies = new ArrayCollection();
         $this->courses = new ArrayCollection();
-        $this->departments = new ArrayCollection();
         $this->vocabularies = new ArrayCollection();
         $this->programs = new ArrayCollection();
-        $this->stewards = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->sessionTypes = new ArrayCollection();
         $this->directors = new ArrayCollection();
@@ -385,44 +361,6 @@ class School implements SchoolInterface
             $this->alerts->removeElement($alert);
             $alert->removeRecipient($this);
         }
-    }
-
-    /**
-     * @param Collection $departments
-     */
-    public function setDepartments(Collection $departments)
-    {
-        $this->departments = new ArrayCollection();
-
-        foreach ($departments as $department) {
-            $this->addDepartment($department);
-        }
-    }
-
-    /**
-     * @param DepartmentInterface $department
-     */
-    public function addDepartment(DepartmentInterface $department)
-    {
-        if (!$this->departments->contains($department)) {
-            $this->departments->add($department);
-        }
-    }
-
-    /**
-     * @param DepartmentInterface $department
-     */
-    public function removeDepartment(DepartmentInterface $department)
-    {
-        $this->departments->removeElement($department);
-    }
-
-    /**
-     * @return ArrayCollection|DepartmentInterface[]
-     */
-    public function getDepartments()
-    {
-        return $this->departments;
     }
 
     /**

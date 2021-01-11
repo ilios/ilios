@@ -24,7 +24,7 @@ class Programs extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/programs/{id}", methods={"GET"})
+     * @Route("/api/{version<v3>}/programs/{id}", methods={"GET"})
      * @inheritdoc
      */
     public function getOne(
@@ -38,7 +38,7 @@ class Programs extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/programs", methods={"GET"})
+     * @Route("/api/{version<v3>}/programs", methods={"GET"})
      * @inheritdoc
      */
     public function getAll(

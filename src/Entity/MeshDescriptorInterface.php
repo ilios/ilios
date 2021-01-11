@@ -13,7 +13,6 @@ use Doctrine\Common\Collections\Collection;
 use App\Traits\ConceptsEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\NameableEntityInterface;
-use App\Traits\ObjectivesEntityInterface;
 use App\Traits\TimestampableEntityInterface;
 use App\Traits\CoursesEntityInterface;
 use App\Traits\SessionsEntityInterface;
@@ -27,7 +26,6 @@ interface MeshDescriptorInterface extends
     TimestampableEntityInterface,
     CoursesEntityInterface,
     SessionsEntityInterface,
-    ObjectivesEntityInterface,
     ConceptsEntityInterface,
     IndexableCoursesEntityInterface,
     CreatedAtEntityInterface,

@@ -8,7 +8,7 @@ use App\Repository\IlmSessionRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/ilmsessions")
+ * @Route("/api/{version<v3>}/ilmsessions")
  */
 class IlmSessions extends ReadWriteController
 {

@@ -8,7 +8,7 @@ use App\Repository\MeshPreviousIndexingRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/meshpreviousindexings")
+ * @Route("/api/{version<v3>}/meshpreviousindexings")
  */
 class MeshPreviousIndexings extends ReadOnlyController
 {

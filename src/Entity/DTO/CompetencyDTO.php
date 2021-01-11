@@ -40,13 +40,6 @@ class CompetencyDTO
 
     /**
      * @var int[]
-     * @IS\Related("objectives")
-     * @IS\Type("array<string>")
-     */
-    public $objectives;
-
-    /**
-     * @var int[]
      * @IS\Expose
      * @IS\Related("programYearObjectives")
      * @IS\Type("array<string>")
@@ -102,7 +95,6 @@ class CompetencyDTO
         $this->title = $title;
         $this->active = $active;
 
-        $this->objectives = [];
         $this->programYearObjectives = [];
         $this->children = [];
         $this->aamcPcrses = [];

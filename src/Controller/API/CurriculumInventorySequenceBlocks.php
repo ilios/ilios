@@ -22,7 +22,7 @@ use Exception;
 use RuntimeException;
 
 /**
- * @Route("/api/{version<v1|v3>}/curriculuminventorysequenceblocks")
+ * @Route("/api/{version<v3>}/curriculuminventorysequenceblocks")
  */
 class CurriculumInventorySequenceBlocks extends ReadWriteController
 {

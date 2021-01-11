@@ -23,12 +23,9 @@ use App\Repository\CourseObjectiveRepository;
  *
  * @ORM\Table(name="course_x_objective",
  *   indexes={
- *     @ORM\Index(name="IDX_3B37B1AD73484933", columns={"objective_id"}),
  *     @ORM\Index(name="IDX_3B37B1AD591CC992", columns={"course_id"})
- *   },
- *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="course_objective_uniq", columns={"course_id", "objective_id"})
- *  })
+ *   }
+ * )
  * @ORM\Entity(repositoryClass=CourseObjectiveRepository::class)
  * @IS\Entity
  */
@@ -84,21 +81,6 @@ class CourseObjective implements CourseObjectiveInterface
      * @IS\Type("integer")
      */
     protected $position;
-
-    /**
-     * @var ObjectiveInterface
-     *
-     * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Objective", inversedBy="courseObjectives", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", nullable=false)
-     * })
-     *
-     * @IS\Type("entity")
-     * @IS\ReadOnly()
-     */
-    protected $objective;
 
     /**
      * @var Collection
@@ -238,7 +220,6 @@ class CourseObjective implements CourseObjectiveInterface
         $this->sessionObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
-        $this->objective = new Objective();
     }
 
     /**
@@ -284,7 +265,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         if (!$this->programYearObjectives->contains($programYearObjective)) {
             $this->programYearObjectives->add($programYearObjective);
-            $this->getObjective()->addParent($programYearObjective->getObjective());
         }
     }
 
@@ -294,7 +274,6 @@ class CourseObjective implements CourseObjectiveInterface
     public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective)
     {
         $this->programYearObjectives->removeElement($programYearObjective);
-        $this->getObjective()->removeParent($programYearObjective->getObjective());
     }
 
     /**
@@ -325,7 +304,6 @@ class CourseObjective implements CourseObjectiveInterface
         if (!$this->sessionObjectives->contains($sessionObjective)) {
             $this->sessionObjectives->add($sessionObjective);
             $sessionObjective->addCourseObjective($this);
-            $this->getObjective()->addChild($sessionObjective->getObjective());
         }
     }
 
@@ -337,7 +315,6 @@ class CourseObjective implements CourseObjectiveInterface
         if ($this->sessionObjectives->contains($sessionObjective)) {
             $this->sessionObjectives->removeElement($sessionObjective);
             $sessionObjective->removeCourseObjective($this);
-            $this->getObjective()->removeChild($sessionObjective->getObjective());
         }
     }
 
@@ -355,7 +332,6 @@ class CourseObjective implements CourseObjectiveInterface
     public function setAncestor(CourseObjectiveInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
-        $this->getObjective()->setAncestor($ancestor->getObjective());
     }
 
     /**
@@ -395,8 +371,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         if (!$this->descendants->contains($descendant)) {
             $this->descendants->add($descendant);
-            $objective = $descendant->getObjective();
-            $this->getObjective()->addDescendant($objective);
         }
     }
 
@@ -406,8 +380,6 @@ class CourseObjective implements CourseObjectiveInterface
     public function removeDescendant(CourseObjectiveInterface $descendant)
     {
         $this->descendants->removeElement($descendant);
-        $objective = $descendant->getObjective();
-        $this->getObjective()->removeDescendant($objective);
     }
 
     /**
@@ -421,27 +393,9 @@ class CourseObjective implements CourseObjectiveInterface
     /**
      * @inheritdoc
      */
-    public function setObjective(ObjectiveInterface $objective): void
-    {
-        $this->objective = $objective;
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function getObjective(): ObjectiveInterface
-    {
-        return $this->objective;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function setTitle($title)
     {
         $this->title = $title;
-        $this->getObjective()->setTitle($title);
     }
 
     /**
@@ -450,7 +404,6 @@ class CourseObjective implements CourseObjectiveInterface
     public function setPosition($position)
     {
         $this->position = $position;
-        $this->getObjective()->setPosition($position);
     }
 
     /**
@@ -459,7 +412,6 @@ class CourseObjective implements CourseObjectiveInterface
     public function setActive($active)
     {
         $this->active = $active;
-        $this->getObjective()->setActive($active);
     }
 
     /**
@@ -471,7 +423,6 @@ class CourseObjective implements CourseObjectiveInterface
 
         foreach ($meshDescriptors as $meshDescriptor) {
             $this->addMeshDescriptor($meshDescriptor);
-            $this->getObjective()->addMeshDescriptor($meshDescriptor);
         }
     }
 
@@ -482,7 +433,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
             $this->meshDescriptors->add($meshDescriptor);
-            $this->getObjective()->addMeshDescriptor($meshDescriptor);
         }
     }
 
@@ -492,6 +442,5 @@ class CourseObjective implements CourseObjectiveInterface
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
-        $this->getObjective()->removeMeshDescriptor($meshDescriptor);
     }
 }

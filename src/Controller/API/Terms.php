@@ -21,7 +21,7 @@ class Terms extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/terms/{id}", methods={"GET"})
+     * @Route("/api/{version<v3>}/terms/{id}", methods={"GET"})
      */
     public function getOne(
         string $version,
@@ -34,7 +34,7 @@ class Terms extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v1|v3>}/terms", methods={"GET"})
+     * @Route("/api/{version<v3>}/terms", methods={"GET"})
      */
     public function getAll(
         string $version,

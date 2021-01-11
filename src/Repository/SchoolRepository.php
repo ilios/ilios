@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\DTO\SchoolV1DTO;
 use App\Entity\School;
 use App\Entity\Session;
 use App\Traits\ManagerRepository;
-use App\Traits\V1ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Type as DoctrineType;
@@ -23,12 +21,10 @@ use App\Traits\CalendarEventRepository;
 
 class SchoolRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface,
-    V1DTORepositoryInterface
+    ManagerInterface
 {
     use CalendarEventRepository;
     use ManagerRepository;
-    use V1ManagerRepository;
 
     protected UserMaterialFactory $userMaterialFactory;
 
@@ -78,29 +74,6 @@ class SchoolRepository extends ServiceEntityRepository implements
         }
         return $this->attachAssociationsToDTOs($schoolDTOs);
     }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
-    {
-        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('App\Entity\School', 's');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        $schoolDTOs = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $schoolDTOs[$arr['id']] = new SchoolV1DTO(
-                $arr['id'],
-                $arr['title'],
-                $arr['templatePrefix'],
-                $arr['iliosAdministratorEmail'],
-                $arr['changeAlertRecipients']
-            );
-        }
-        return $this->attachAssociationsToDTOs($schoolDTOs);
-    }
-
 
     /**
      * Find all of the events for a school by session
@@ -638,11 +611,9 @@ class SchoolRepository extends ServiceEntityRepository implements
             'competencies',
             'courses',
             'programs',
-            'departments',
             'vocabularies',
             'instructorGroups',
             'sessionTypes',
-            'stewards',
             'directors',
             'administrators',
             'configurations'

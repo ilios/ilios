@@ -8,7 +8,7 @@ use App\Repository\AlertRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/alerts")
+ * @Route("/api/{version<v3>}/alerts")
  */
 class Alerts extends ReadWriteController
 {

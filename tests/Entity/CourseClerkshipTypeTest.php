@@ -55,7 +55,7 @@ class CourseClerkshipTypeTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Objective::addCourse
+     * @covers \App\Entity\CourseClerkshipType::addCourse
      */
     public function testAddCourse()
     {
@@ -63,7 +63,7 @@ class CourseClerkshipTypeTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Objective::removeCourse
+     * @covers \App\Entity\CourseClerkshipType::removeCourse
      */
     public function testRemoveCourse()
     {
@@ -71,7 +71,7 @@ class CourseClerkshipTypeTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Objective::getCourses
+     * @covers \App\Entity\CourseClerkshipType::getCourses
      */
     public function testGetCourses()
     {

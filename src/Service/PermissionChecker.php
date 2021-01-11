@@ -395,66 +395,6 @@ class PermissionChecker
         return false;
     }
 
-    public function canUpdateDepartment(SessionUserInterface $sessionUser, int $schoolId): bool
-    {
-        if ($sessionUser->isRoot()) {
-            return true;
-        }
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_UPDATE_DEPARTMENTS);
-        $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if (
-            $this->matrix->hasPermission(
-                $schoolId,
-                Capabilities::CAN_UPDATE_DEPARTMENTS,
-                $rolesInSchool
-            )
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function canDeleteDepartment(SessionUserInterface $sessionUser, int $schoolId): bool
-    {
-        if ($sessionUser->isRoot()) {
-            return true;
-        }
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_DELETE_DEPARTMENTS);
-        $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if (
-            $this->matrix->hasPermission(
-                $schoolId,
-                Capabilities::CAN_DELETE_DEPARTMENTS,
-                $rolesInSchool
-            )
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function canCreateDepartment(SessionUserInterface $sessionUser, int $schoolId): bool
-    {
-        if ($sessionUser->isRoot()) {
-            return true;
-        }
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_CREATE_DEPARTMENTS);
-        $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if (
-            $this->matrix->hasPermission(
-                $schoolId,
-                Capabilities::CAN_CREATE_DEPARTMENTS,
-                $rolesInSchool
-            )
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function canUpdateProgram(SessionUserInterface $sessionUser, int $programId, int $schoolId): bool
     {
         if ($sessionUser->isRoot()) {

@@ -39,8 +39,6 @@ class ProgramTest extends ReadWriteEndpointTest
             'title' => ['title', $this->getFaker()->text],
             'shortTitle' => ['shortTitle', $this->getFaker()->text(10)],
             'duration' => ['duration', $this->getFaker()->randomDigit],
-            'publishedAsTbd' => ['publishedAsTbd', true],
-            'published' => ['published', false],
             'school' => ['school', 3],
             'programYears' => ['programYears', [1], $skipped = true],
             'curriculumInventoryReports' => ['curriculumInventoryReports', [1], $skipped = true],
@@ -69,16 +67,11 @@ class ProgramTest extends ReadWriteEndpointTest
             'title' => [[1], ['title' => 'second program']],
             'shortTitle' => [[0], ['shortTitle' => 'fp']],
             'duration' => [[1, 2], ['duration' => 4]],
-            'publishedAsTbd' => [[1], ['publishedAsTbd' => true]],
-            'notPublishedAsTbd' => [[0, 2], ['publishedAsTbd' => false]],
-            'published' => [[0], ['published' => true]],
-            'notPublished' => [[1, 2], ['published' => false]],
             'school' => [[2], ['school' => 2]],
             'schools' => [[0, 1], ['schools' => 1]],
             'programYears' => [[0], ['programYears' => [1]], $skipped = true],
             'curriculumInventoryReports' => [[0], ['curriculumInventoryReports' => [1]], $skipped = true],
             'directors' => [[0], ['directors' => [1]], $skipped = true],
-            'durationAndScheduled' => [[1], ['publishedAsTbd' => true, 'duration' => 4]],
             'durationAndSchool' => [[1], ['school' => 1, 'duration' => 4]],
             'courses' => [[1], ['courses' => [4]]],
             'sessions' => [[0], ['sessions' => [3]]],
@@ -100,8 +93,6 @@ class ProgramTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
-        unset($program['published']);
-        unset($program['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -121,8 +112,6 @@ class ProgramTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
-        unset($program['published']);
-        unset($program['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -142,8 +131,6 @@ class ProgramTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
-        unset($program['published']);
-        unset($program['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -163,8 +150,6 @@ class ProgramTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
-        unset($program['published']);
-        unset($program['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -177,47 +162,5 @@ class ProgramTest extends ReadWriteEndpointTest
                 ['version' => $this->apiVersion, 'id' => $program['id']]
             )
         );
-    }
-
-    protected function compareData(array $expected, array $result)
-    {
-        unset($expected['published']);
-        unset($expected['publishedAsTbd']);
-        parent::compareData($expected, $result);
-    }
-
-    protected function putTest(array $data, array $postData, $id, $new = false)
-    {
-        unset($postData['published']);
-        unset($postData['publishedAsTbd']);
-        return parent::putTest($data, $postData, $id, $new);
-    }
-
-    protected function postTest(array $data, array $postData)
-    {
-        unset($postData['published']);
-        unset($postData['publishedAsTbd']);
-        return parent::postTest($data, $postData);
-    }
-
-
-    protected function postManyTest(array $data)
-    {
-        $data = array_map(
-            function ($item) {
-                unset($item['published']);
-                unset($item['publishedAsTbd']);
-                return $item;
-            },
-            $data
-        );
-        return parent::postManyTest($data);
-    }
-
-    protected function patchJsonApiTest(array $data, object $postData)
-    {
-        unset($data['published']);
-        unset($data['publishedAsTbd']);
-        return parent::patchJsonApiTest($data, $postData);
     }
 }

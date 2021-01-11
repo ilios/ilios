@@ -11,7 +11,6 @@ use App\Traits\SessionObjectivesEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\ConceptsEntity;
-use App\Traits\ObjectivesEntity;
 use App\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -40,7 +39,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     use TimestampableEntity;
     use CoursesEntity;
     use SessionsEntity;
-    use ObjectivesEntity;
     use ConceptsEntity;
     use CreatedAtEntity;
     use SessionObjectivesEntity;
@@ -137,17 +135,6 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @IS\Type("entityCollection")
      */
     protected $courses;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Objective", mappedBy="meshDescriptors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
-     * @IS\Type("entityCollection")
-     * @IS\ReadOnly()
-     */
-    protected $objectives;
 
     /**
      * @var Collection
@@ -264,7 +251,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function __construct()
     {
         $this->courses = new ArrayCollection();
-        $this->objectives = new ArrayCollection();
         $this->sessions = new ArrayCollection();
         $this->sessionLearningMaterials = new ArrayCollection();
         $this->courseLearningMaterials = new ArrayCollection();
@@ -293,28 +279,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getAnnotation()
     {
         return $this->annotation;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addObjective(ObjectiveInterface $objective)
-    {
-        if (!$this->objectives->contains($objective)) {
-            $this->objectives->add($objective);
-            $objective->addMeshDescriptor($this);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeObjective(ObjectiveInterface $objective)
-    {
-        if ($this->objectives->contains($objective)) {
-            $this->objectives->removeElement($objective);
-            $objective->removeMeshDescriptor($this);
-        }
     }
 
     /**
@@ -601,8 +565,8 @@ class MeshDescriptor implements MeshDescriptorInterface
                 return $session->getCourse();
             });
 
-        $objectiveCourses = $this->objectives
-            ->map(function (ObjectiveInterface $objective) {
+        $objectiveCourses = $this->courseObjectives
+            ->map(function (CourseObjectiveInterface $objective) {
                 return $objective->getIndexableCourses();
             });
         $flatObjectiveCourses = count($objectiveCourses) ? array_merge(...$objectiveCourses) : [];

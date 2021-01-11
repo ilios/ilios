@@ -24,12 +24,9 @@ use App\Repository\SessionObjectiveRepository;
  *
  * @ORM\Table(name="session_x_objective",
  *   indexes={
- *     @ORM\Index(name="IDX_FA74B40B73484933", columns={"objective_id"}),
  *     @ORM\Index(name="IDX_FA74B40B613FECDF", columns={"session_id"})
- *   },
- *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="session_objective_uniq", columns={"session_id", "objective_id"})
- *  })
+ *   }
+ * )
  * @ORM\Entity(repositoryClass=SessionObjectiveRepository::class)
  * @IS\Entity
  */
@@ -86,21 +83,6 @@ class SessionObjective implements SessionObjectiveInterface
      * @IS\Type("integer")
      */
     protected $position;
-
-    /**
-     * @var ObjectiveInterface
-     *
-     * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Objective", inversedBy="sessionObjectives", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", nullable=false)
-     * })
-     *
-     * @IS\Type("entity")
-     * @IS\ReadOnly()
-     */
-    protected $objective;
 
     /**
      * @var Collection
@@ -225,7 +207,6 @@ class SessionObjective implements SessionObjectiveInterface
         $this->courseObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
-        $this->objective = new Objective();
     }
 
     /**
@@ -271,7 +252,6 @@ class SessionObjective implements SessionObjectiveInterface
     {
         if (!$this->courseObjectives->contains($courseObjective)) {
             $this->courseObjectives->add($courseObjective);
-            $this->getObjective()->addParent($courseObjective->getObjective());
         }
     }
 
@@ -281,7 +261,6 @@ class SessionObjective implements SessionObjectiveInterface
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective)
     {
         $this->courseObjectives->removeElement($courseObjective);
-        $this->getObjective()->removeParent($courseObjective->getObjective());
     }
 
     /**
@@ -298,7 +277,6 @@ class SessionObjective implements SessionObjectiveInterface
     public function setAncestor(SessionObjectiveInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
-        $this->getObjective()->setAncestor($ancestor->getObjective());
     }
 
     /**
@@ -338,8 +316,6 @@ class SessionObjective implements SessionObjectiveInterface
     {
         if (!$this->descendants->contains($descendant)) {
             $this->descendants->add($descendant);
-            $objective = $descendant->getObjective();
-            $this->getObjective()->addDescendant($objective);
         }
     }
 
@@ -349,8 +325,6 @@ class SessionObjective implements SessionObjectiveInterface
     public function removeDescendant(SessionObjectiveInterface $descendant)
     {
         $this->descendants->removeElement($descendant);
-        $objective = $descendant->getObjective();
-        $this->getObjective()->removeDescendant($objective);
     }
 
     /**
@@ -364,26 +338,9 @@ class SessionObjective implements SessionObjectiveInterface
     /**
      * @inheritdoc
      */
-    public function setObjective(ObjectiveInterface $objective): void
-    {
-        $this->objective = $objective;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getObjective(): ObjectiveInterface
-    {
-        return $this->objective;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function setTitle($title)
     {
         $this->title = $title;
-        $this->getObjective()->setTitle($title);
     }
 
     /**
@@ -392,7 +349,6 @@ class SessionObjective implements SessionObjectiveInterface
     public function setPosition($position)
     {
         $this->position = $position;
-        $this->getObjective()->setPosition($position);
     }
 
     /**
@@ -401,7 +357,6 @@ class SessionObjective implements SessionObjectiveInterface
     public function setActive($active)
     {
         $this->active = $active;
-        $this->getObjective()->setActive($active);
     }
 
     /**
@@ -413,7 +368,6 @@ class SessionObjective implements SessionObjectiveInterface
 
         foreach ($meshDescriptors as $meshDescriptor) {
             $this->addMeshDescriptor($meshDescriptor);
-            $this->getObjective()->addMeshDescriptor($meshDescriptor);
         }
     }
 
@@ -424,7 +378,6 @@ class SessionObjective implements SessionObjectiveInterface
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
             $this->meshDescriptors->add($meshDescriptor);
-            $this->getObjective()->addMeshDescriptor($meshDescriptor);
         }
     }
 
@@ -434,6 +387,5 @@ class SessionObjective implements SessionObjectiveInterface
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
-        $this->getObjective()->removeMeshDescriptor($meshDescriptor);
     }
 }

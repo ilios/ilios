@@ -65,7 +65,7 @@ class SessionObjectiveRepository extends ServiceEntityRepository implements DTOR
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
-                'x.id AS xId, objective.id AS objectiveId, session.id AS sessionId, ' .
+                'x.id AS xId, session.id AS sessionId, ' .
                 'course.id AS courseId, course.locked AS courseIsLocked, course.archived AS courseIsArchived, ' .
                 'school.id AS schoolId'
             )
@@ -73,7 +73,6 @@ class SessionObjectiveRepository extends ServiceEntityRepository implements DTOR
             ->join('x.session', 'session')
             ->join('session.course', 'course')
             ->join('course.school', 'school')
-            ->join('x.objective', 'objective')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $sessionObjectiveIds);
 
@@ -83,7 +82,6 @@ class SessionObjectiveRepository extends ServiceEntityRepository implements DTOR
             $sessionObjectiveDTOs[$arr['xId']]->courseIsArchived = (bool) $arr['courseIsArchived'];
             $sessionObjectiveDTOs[$arr['xId']]->course = (int) $arr['courseId'];
             $sessionObjectiveDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
-            $sessionObjectiveDTOs[$arr['xId']]->objective = (int) $arr['objectiveId'];
         }
 
         $qb = $this->_em->createQueryBuilder()

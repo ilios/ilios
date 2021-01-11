@@ -65,14 +65,13 @@ class CourseObjectiveRepository extends ServiceEntityRepository implements DTORe
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
-                'x.id AS xId, objective.id AS objectiveId, ' .
+                'x.id AS xId, ' .
                 'course.id AS courseId, course.locked AS courseIsLocked, course.archived AS courseIsArchived, ' .
                 'school.id AS schoolId'
             )
             ->from(CourseObjective::class, 'x')
             ->join('x.course', 'course')
             ->join('course.school', 'school')
-            ->join('x.objective', 'objective')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $courseObjectiveIds);
 
@@ -81,7 +80,6 @@ class CourseObjectiveRepository extends ServiceEntityRepository implements DTORe
             $courseObjectiveDTOs[$arr['xId']]->courseIsArchived = (bool) $arr['courseIsArchived'];
             $courseObjectiveDTOs[$arr['xId']]->course = (int) $arr['courseId'];
             $courseObjectiveDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
-            $courseObjectiveDTOs[$arr['xId']]->objective = (int) $arr['objectiveId'];
         }
 
         $qb = $this->_em->createQueryBuilder()

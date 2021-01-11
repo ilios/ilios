@@ -176,7 +176,7 @@ class SchooleventsTest extends AbstractEndpointTest
         );
         $this->assertEquals(0, count($events[0]['sessionObjectives']));
         $this->assertEquals(1, count($events[0]['courseObjectives']));
-        $this->assertEquals(6, $events[0]['courseObjectives'][0]['id']);
+        $this->assertEquals(1, $events[0]['courseObjectives'][0]['id']);
         $this->assertEquals('course objective 1', $events[0]['courseObjectives'][0]['title']);
         $this->assertEquals(0, $events[0]['courseObjectives'][0]['position']);
         $this->assertEquals(1, count($events[0]['courseObjectives'][0]['competencies']));
@@ -515,13 +515,13 @@ class SchooleventsTest extends AbstractEndpointTest
             'instructional notes is correct for event 10'
         );
         $this->assertEquals(1, count($events[9]['sessionObjectives']));
-        $this->assertEquals(3, $events[9]['sessionObjectives'][0]['id']);
+        $this->assertEquals(1, $events[9]['sessionObjectives'][0]['id']);
         $this->assertEquals('session objective 1', $events[9]['sessionObjectives'][0]['title']);
         $this->assertEquals(0, $events[9]['sessionObjectives'][0]['position']);
         $this->assertEquals(1, count($events[9]['sessionObjectives'][0]['competencies']));
         $this->assertEquals(1, $events[9]['sessionObjectives'][0]['competencies'][0]);
         $this->assertEquals(1, count($events[9]['courseObjectives']));
-        $this->assertEquals(6, $events[9]['courseObjectives'][0]['id']);
+        $this->assertEquals(1, $events[9]['courseObjectives'][0]['id']);
         $this->assertEquals('course objective 1', $events[9]['courseObjectives'][0]['title']);
         $this->assertEquals(0, $events[9]['courseObjectives'][0]['position']);
         $this->assertEquals(1, count($events[9]['courseObjectives'][0]['competencies']));

@@ -16,8 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ProgramYearObjectiveTest extends ReadWriteEndpointTest
 {
-    use LegacyObjectiveTestTrait;
-
     protected $testName =  'programYearObjectives';
 
     /**
@@ -86,10 +84,6 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
     {
         $programYearDataLoader = $this->getContainer()->get(ProgramYearData::class);
         $programYears = $programYearDataLoader->createMany($count);
-        $programYears = array_map(function ($programYear) {
-            unset($programYear['stewards']);
-            return $programYear;
-        }, $programYears);
         $savedProgramYears = $this->postMany('programyears', 'programYears', $programYears);
 
         $dataLoader = $this->getDataLoader();
@@ -140,25 +134,6 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
             $data['terms'][] = $savedTerms[$i]['id'];
             $this->putTest($data, $data, $data['id']);
         }
-    }
-
-    public function testRemoveLinksFromOrphanedObjectives()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $programYearObjectiveId = $data['id'];
-
-        $objective = $this->getObjectiveForXObjective($programYearObjectiveId, 'programYearObjectives');
-        $this->assertNotEmpty($objective['children']);
-        $this->assertNotEmpty($objective['programYears']);
-        $this->assertNotEmpty($objective['competency']);
-
-        $this->deleteTest($programYearObjectiveId);
-
-        $objective = $this->getOne('objectives', 'objectives', $objective['id'], 'v1');
-        $this->assertEmpty($objective['children']);
-        $this->assertEmpty($objective['programYears']);
-        $this->assertArrayNotHasKey('competency', $objective);
     }
 
     /**

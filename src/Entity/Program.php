@@ -33,7 +33,6 @@ class Program implements ProgramInterface
     use StringableIdEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
-    use PublishableEntity;
     use DirectorsEntity;
 
     /**
@@ -97,34 +96,6 @@ class Program implements ProgramInterface
     protected $duration;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="published_as_tbd", type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @IS\Type("boolean")
-     *
-     * @deprecated
-     */
-    protected $publishedAsTbd;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @IS\Type("boolean")
-     *
-     * @deprecated
-     */
-    protected $published;
-
-    /**
      * @var SchoolInterface
      *
      * @Assert\NotNull()
@@ -185,8 +156,6 @@ class Program implements ProgramInterface
      */
     public function __construct()
     {
-        $this->publishedAsTbd = false;
-        $this->published = false;
         $this->programYears = new ArrayCollection();
         $this->curriculumInventoryReports = new ArrayCollection();
         $this->directors = new ArrayCollection();
