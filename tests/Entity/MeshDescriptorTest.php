@@ -363,4 +363,79 @@ class MeshDescriptorTest extends EntityBase
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals($rhett, [$course1, $course2]);
     }
+
+    /**
+     * @covers \App\Entity\MeshDescriptor::addProgramYearObjective
+     */
+    public function testAddProgramYearObjective()
+    {
+        $this->entityCollectionAddTest('programYearObjective', 'ProgramYearObjective');
+    }
+
+    /**
+     * @covers \App\Entity\MeshDescriptor::removeProgramYearObjective
+     */
+    public function testRemoveProgramYearObjective()
+    {
+        $this->entityCollectionRemoveTest('programYearObjective', 'ProgramYearObjective');
+    }
+
+    /**
+     * @covers \App\Entity\MeshDescriptor::setProgramYearObjectives
+     * @covers \App\Entity\MeshDescriptor::getProgramYearObjectives
+     */
+    public function testGetProgramYearObjectives()
+    {
+        $this->entityCollectionSetTest('programYearObjective', 'ProgramYearObjective');
+    }
+
+    /**
+     * @covers \App\Entity\MeshDescriptor::addCourseObjective
+     */
+    public function testAddCourseObjective()
+    {
+        $this->entityCollectionAddTest('courseObjective', 'CourseObjective');
+    }
+
+    /**
+     * @covers \App\Entity\MeshDescriptor::removeCourseObjective
+     */
+    public function testRemoveCourseObjective()
+    {
+        $this->entityCollectionRemoveTest('courseObjective', 'CourseObjective');
+    }
+
+    /**
+     * @covers \App\Entity\MeshDescriptor::setCourseObjectives
+     * @covers \App\Entity\MeshDescriptor::getCourseObjectives
+     */
+    public function testGetCourseObjectives()
+    {
+        $this->entityCollectionSetTest('courseObjective', 'CourseObjective');
+    }
+
+    /**
+     * @covers \App\Entity\MeshDescriptor::addSessionObjective
+     */
+    public function testAddSessionObjective()
+    {
+        $this->entityCollectionAddTest('sessionObjective', 'SessionObjective');
+    }
+
+    /**
+     * @covers \App\Entity\MeshDescriptor::removeSessionObjective
+     */
+    public function testRemoveSessionObjective()
+    {
+        $this->entityCollectionRemoveTest('sessionObjective', 'SessionObjective');
+    }
+
+    /**
+     * @covers \App\Entity\MeshDescriptor::setSessionObjectives
+     * @covers \App\Entity\MeshDescriptor::getSessionObjectives
+     */
+    public function testGetSessionObjectives()
+    {
+        $this->entityCollectionSetTest('sessionObjective', 'SessionObjective');
+    }
 }
