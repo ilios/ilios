@@ -266,7 +266,7 @@ trait CalendarEventRepository
         $qb->select('s.id AS session_id, so.id, so.title, so.position, cm.id AS competency_id')
             ->distinct()
             ->from('App\Entity\Session', 's')
-            ->leftJoin('s.sessionObjectives', 'so')
+            ->join('s.sessionObjectives', 'so')
             ->leftJoin('so.courseObjectives', 'co')
             ->leftJoin('co.programYearObjectives', 'po')
             ->leftJoin('po.competency', 'cm')
