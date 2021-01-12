@@ -25,6 +25,9 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * @Route("/api/{version<v3>}/programyears")
+ */
 class ProgramYears extends ReadWriteController
 {
     protected CohortRepository $cohortRepository;
@@ -44,34 +47,9 @@ class ProgramYears extends ReadWriteController
         $this->serializer = $serializer;
     }
 
-    /**
-     * @Route("/api/{version<v3>}/programyears/{id}", methods={"GET"})
-     */
-    public function getOne(
-        string $version,
-        string $id,
-        AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $builder,
-        Request $request
-    ): Response {
-        return parent::getOne($version, $id, $authorizationChecker, $builder, $request);
-    }
-
-    /**
-     * @Route("/api/{version<v3>}/programyears", methods={"GET"})
-     */
-    public function getAll(
-        string $version,
-        Request $request,
-        AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $builder
-    ): Response {
-        return parent::getAll($version, $request, $authorizationChecker, $builder);
-    }
-
-    /**
+   /**
      * Create cohort to match the new program year
-     * @Route("/api/{version<v3>}/programyears", methods={"POST"})
+     * @Route("", methods={"POST"})
      */
     public function post(
         string $version,
@@ -118,7 +96,7 @@ class ProgramYears extends ReadWriteController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
-     * @Route("/api/{version<v3>}/programyears/{id}", methods={"PUT"})
+     * @Route("/{id}", methods={"PUT"})
      */
     public function put(
         string $version,
@@ -174,33 +152,7 @@ class ProgramYears extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v3>}/programyears/{id}", methods={"PATCH"})
-     */
-    public function patch(
-        string $version,
-        string $id,
-        Request $request,
-        ApiRequestParser $requestParser,
-        ValidatorInterface $validator,
-        AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $builder
-    ): Response {
-        return parent::patch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
-    }
-
-    /**
-     * @Route("/api/{version<v3>}/programyears/{id}", methods={"DELETE"})
-     */
-    public function delete(
-        string $version,
-        string $id,
-        AuthorizationCheckerInterface $authorizationChecker
-    ): Response {
-        return parent::delete($version, $id, $authorizationChecker);
-    }
-
-    /**
-     * @Route("/api/{version<v3>}/programyears/{id}/downloadobjectivesmapping", methods={"GET"})
+     * @Route("/{id}/downloadobjectivesmapping", methods={"GET"})
      */
     public function downloadCourseObjectivesReport(
         string $version,

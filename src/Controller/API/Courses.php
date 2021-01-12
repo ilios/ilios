@@ -21,6 +21,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * @Route("/api/{version<v3>}/courses")
+ */
 class Courses extends ReadWriteController
 {
     /**
@@ -35,21 +38,8 @@ class Courses extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v3>}/courses/{id}", methods={"GET"})
-     */
-    public function getOne(
-        string $version,
-        string $id,
-        AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $builder,
-        Request $request
-    ): Response {
-        return parent::getOne($version, $id, $authorizationChecker, $builder, $request);
-    }
-
-    /**
      * Handle the special 'my' parameter for courses
-     * @Route("/api/{version<v3>}/courses", methods={"GET"})
+     * @Route("", methods={"GET"})
      */
     public function getAll(
         string $version,
@@ -87,7 +77,7 @@ class Courses extends ReadWriteController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
-     * @Route("/api/{version<v3>}/courses/{id}", methods={"PUT"})
+     * @Route("/{id}", methods={"PUT"})
      */
     public function put(
         string $version,
@@ -118,48 +108,8 @@ class Courses extends ReadWriteController
     }
 
     /**
-     * @Route("/api/{version<v3>}/courses", methods={"POST"})
-     */
-    public function post(
-        string $version,
-        Request $request,
-        ApiRequestParser $requestParser,
-        ValidatorInterface $validator,
-        AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $builder
-    ): Response {
-        return parent::post($version, $request, $requestParser, $validator, $authorizationChecker, $builder);
-    }
-
-    /**
-     * @Route("/api/{version<v3>}/courses/{id}", methods={"PATCH"})
-     */
-    public function patch(
-        string $version,
-        string $id,
-        Request $request,
-        ApiRequestParser $requestParser,
-        ValidatorInterface $validator,
-        AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $builder
-    ): Response {
-        return parent::patch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
-    }
-
-    /**
-     * @Route("/api/{version<v3>}/courses/{id}", methods={"DELETE"})
-     */
-    public function delete(
-        string $version,
-        string $id,
-        AuthorizationCheckerInterface $authorizationChecker
-    ): Response {
-        return parent::delete($version, $id, $authorizationChecker);
-    }
-
-    /**
      * Rollover a course by ID
-     * @Route("/api/{version<v3>}/courses/{id}/rollover", methods={"POST"})
+     * @Route("/{id}/rollover", methods={"POST"})
      */
     public function rolloverAction(
         string $version,
