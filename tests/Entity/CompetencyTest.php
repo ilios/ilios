@@ -34,7 +34,6 @@ class CompetencyTest extends EntityBase
         $this->assertEmpty($this->object->getAamcPcrses());
         $this->assertEmpty($this->object->getProgramYears());
         $this->assertEmpty($this->object->getChildren());
-        $this->assertEmpty($this->object->getObjectives());
     }
 
     /**
@@ -130,30 +129,6 @@ class CompetencyTest extends EntityBase
     public function testGetProgramYears()
     {
         $this->entityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addCompetency');
-    }
-
-    /**
-     * @covers \App\Entity\Competency::addObjective
-     */
-    public function testAddObjective()
-    {
-        $this->entityCollectionAddTest('objective', 'Objective');
-    }
-
-    /**
-     * @covers \App\Entity\Competency::removeObjective
-     */
-    public function testRemoveObjective()
-    {
-        $this->entityCollectionRemoveTest('objective', 'Objective');
-    }
-
-    /**
-     * @covers \App\Entity\Competency::getObjectives
-     */
-    public function testGetObjectives()
-    {
-        $this->entityCollectionSetTest('objective', 'Objective');
     }
 
     /**

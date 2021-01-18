@@ -24,7 +24,6 @@ interface ProgramInterface extends
     ProgramYearsEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,
-    PublishableEntityInterface,
     DirectorsEntityInterface
 {
     /**

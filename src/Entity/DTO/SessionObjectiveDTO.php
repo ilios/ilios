@@ -47,14 +47,6 @@ class SessionObjectiveDTO
 
     /**
      * @var int
-     *
-     * @IS\Related("objectives")
-     * @IS\Type("integer")
-     */
-    public $objective;
-
-    /**
-     * @var int
      * @IS\Expose
      * @IS\Type("integer")
      *

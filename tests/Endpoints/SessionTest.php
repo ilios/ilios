@@ -16,7 +16,6 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class SessionTest extends ReadWriteEndpointTest
 {
-    use LegacyObjectiveTestTrait;
 
     protected $testName =  'sessions';
 
@@ -213,23 +212,5 @@ class SessionTest extends ReadWriteEndpointTest
         $dataLoader = $this->getContainer()->get(SessionLearningMaterialData::class);
         $data = $dataLoader->getOne();
         $this->relatedTimeStampDeleteTest(1, 'sessionlearningmaterials', $data['id']);
-    }
-
-    public function testRemoveLinksFromOrphanedObjectives()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $sessionId = $data['id'];
-        $sessionObjectiveId = (int) $data['sessionObjectives'][0];
-
-        $objective = $this->getObjectiveForXObjective($sessionObjectiveId, 'sessionObjectives');
-        $this->assertNotEmpty($objective['parents']);
-        $this->assertNotEmpty($objective['sessions']);
-
-        $this->deleteTest($sessionId);
-
-        $objective = $this->getOne('objectives', 'objectives', $objective['id'], 'v1');
-        $this->assertEmpty($objective['parents']);
-        $this->assertEmpty($objective['sessions']);
     }
 }

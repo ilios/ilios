@@ -8,7 +8,7 @@ use App\Repository\ApplicationConfigRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/applicationconfigs")
+ * @Route("/api/{version<v3>}/applicationconfigs")
  */
 class ApplicationConfigs extends ReadWriteController
 {

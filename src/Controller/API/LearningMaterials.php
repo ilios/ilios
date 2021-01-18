@@ -9,7 +9,6 @@ use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\LearningMaterialRepository;
-use App\Repository\V1DTORepositoryInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\IliosFileSystem;
@@ -34,7 +33,7 @@ use RuntimeException;
  * otherwise the method bodies are copied from
  * the top level API Read and ReadWrite controllers
  *
- * @Route("/api/{version<v1|v3>}/learningmaterials")
+ * @Route("/api/{version<v3>}/learningmaterials")
  */
 
 class LearningMaterials
@@ -60,11 +59,7 @@ class LearningMaterials
         ApiResponseBuilder $builder,
         TokenStorageInterface $tokenStorage
     ): Response {
-        if ('v1' === $version && ($this->repository instanceof V1DTORepositoryInterface)) {
-            $dto = $this->repository->findV1DTOBy(['id' => $id]);
-        } else {
-            $dto = $this->repository->findDTOBy(['id' => $id]);
-        }
+        $dto = $this->repository->findDTOBy(['id' => $id]);
 
         if (! $dto) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
@@ -100,13 +95,6 @@ class LearningMaterials
         if (null !== $q) {
             $dtos = $this->repository->findDTOsByQ(
                 $q,
-                $parameters['orderBy'],
-                $parameters['limit'],
-                $parameters['offset']
-            );
-        } elseif ('v1' === $version && ($this->repository instanceof V1DTORepositoryInterface)) {
-            $dtos = $this->repository->findV1DTOsBy(
-                $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],
                 $parameters['offset']

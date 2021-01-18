@@ -32,7 +32,7 @@ use RuntimeException;
  * Authentication uses 'user' as the primary key and
  * needs to encode passwords
  * so we have to handle that specially.
- * @Route("/api/{version<v1|v3>}/authentications")
+ * @Route("/api/{version<v3>}/authentications")
  */
 class Authentications
 {

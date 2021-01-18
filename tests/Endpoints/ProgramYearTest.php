@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\ReadWriteEndpointTest;
 
@@ -14,8 +13,6 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class ProgramYearTest extends ReadWriteEndpointTest
 {
-    use LegacyObjectiveTestTrait;
-
     protected $testName = 'programYears';
 
     /**
@@ -30,7 +27,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'App\Tests\Fixture\LoadUserData',
             'App\Tests\Fixture\LoadCompetencyData',
             'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadProgramYearStewardData',
             'App\Tests\Fixture\LoadSessionData',
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadProgramYearObjectiveData',
@@ -48,14 +44,11 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'startYear' => ['startYear', $this->getFaker()->randomDigitNotNull],
             'locked' => ['locked', true],
             'archived' => ['archived', true],
-            'publishedAsTbd' => ['publishedAsTbd', true],
-            'published' => ['published', false],
             'program' => ['program', 2],
             'cohort' => ['cohort', 2, $skipped = true],
             'directors' => ['directors', [2]],
             'competencies' => ['competencies', [2]],
             'terms' => ['terms', [2]],
-            'stewards' => ['stewards', [2], $skipped = true],
         ];
     }
 
@@ -81,16 +74,11 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'notLocked' => [[0, 1, 2, 4], ['locked' => false]],
             'archived' => [[2], ['archived' => true]],
             'notArchived' => [[0, 1, 3, 4], ['archived' => false]],
-            'publishedAsTbd' => [[1], ['publishedAsTbd' => true]],
-            'notPublishedAsTbd' => [[0, 2, 3, 4], ['publishedAsTbd' => false]],
-            'published' => [[0, 1, 3, 4], ['published' => true]],
-            'notPublished' => [[2], ['published' => false]],
             'program' => [[3], ['program' => 3]],
             'cohort' => [[1], ['cohort' => 2], $skipped = true],
             'directors' => [[0], ['directors' => [1]], $skipped = true],
             'competencies' => [[0], ['competencies' => [1]], $skipped = true],
             'terms' => [[1], ['terms' => [1]]],
-            'stewards' => [[0], ['stewards' => [1]], $skipped = true],
             'courses' => [[2], ['courses' => [4]]],
             'sessions' => [[0], ['sessions' => [3]]],
             'schools' => [[0, 1, 2, 4], ['schools' => [1]]],
@@ -101,10 +89,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
 
     protected function postTest(array $data, array $postData)
     {
-        unset($postData['stewards']);
-        unset($postData['published']);
-        unset($postData['publishedAsTbd']);
-
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $postKey = $this->getCamelCasedSingularName();
@@ -154,38 +138,9 @@ class ProgramYearTest extends ReadWriteEndpointTest
         return $fetchedResponseData;
     }
 
-    protected function putTest(array $data, array $postData, $id, $new = false)
-    {
-        unset($postData['stewards']);
-        unset($postData['published']);
-        unset($postData['publishedAsTbd']);
-        return parent::putTest($data, $postData, $id, $new);
-    }
-
-    protected function patchJsonApiTest(array $data, object $postData)
-    {
-        unset($data['stewards']);
-        unset($data['published']);
-        unset($data['publishedAsTbd']);
-        return parent::patchJsonApiTest($data, $postData);
-    }
-
-    protected function compareData(array $expected, array $result)
-    {
-        unset($expected['stewards']);
-        unset($expected['published']);
-        unset($expected['publishedAsTbd']);
-        parent::compareData($expected, $result);
-    }
 
     protected function postManyTest(array $data)
     {
-        $data = array_map(function ($item) {
-            unset($item['stewards']);
-            unset($item['published']);
-            unset($item['publishedAsTbd']);
-            return $item;
-        }, $data);
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $responseData = $this->postMany($endpoint, $responseKey, $data);
@@ -271,9 +226,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
-        unset($data['stewards']);
-        unset($data['published']);
-        unset($data['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -294,9 +246,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $dataLoader->create();
-        unset($postData['stewards']);
-        unset($postData['published']);
-        unset($postData['publishedAsTbd']);
         $postData['cohort'] = null;
         $this->postTest($data, $postData);
     }
@@ -305,9 +254,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        unset($data['stewards']);
-        unset($data['published']);
-        unset($data['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -327,9 +273,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        unset($data['stewards']);
-        unset($data['published']);
-        unset($data['publishedAsTbd']);
         $userId = 3;
 
         $this->canNot(
@@ -348,9 +291,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        unset($data['stewards']);
-        unset($data['published']);
-        unset($data['publishedAsTbd']);
         //lock programYear
         $data['locked'] = true;
         $response = $this->putOne('programyears', 'programYear', $data['id'], $data);
@@ -361,29 +301,6 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $data['locked'] = false;
         $response = $this->putOne('programyears', 'programYear', $data['id'], $data);
         $this->assertFalse($response['locked']);
-    }
-
-    public function testRemoveLinksFromOrphanedObjectives()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        unset($data['stewards']);
-        unset($data['published']);
-        unset($data['publishedAsTbd']);
-        $programYearId = $data['id'];
-        $programYearObjectiveId = (int) $data['programYearObjectives'][0];
-
-        $objective = $this->getObjectiveForXObjective($programYearObjectiveId, 'programYearObjectives');
-        $this->assertNotEmpty($objective['children']);
-        $this->assertNotEmpty($objective['programYears']);
-        $this->assertNotEmpty($objective['competency']);
-
-        $this->deleteTest($programYearId);
-
-        $objective = $this->getOne('objectives', 'objectives', $objective['id'], 'v1');
-        $this->assertEmpty($objective['children']);
-        $this->assertEmpty($objective['programYears']);
-        $this->assertArrayNotHasKey('competency', $objective);
     }
 
     /**

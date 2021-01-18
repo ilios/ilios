@@ -48,20 +48,6 @@ class ProgramYearDTO
     public $archived;
 
     /**
-     * @var bool
-     * @IS\Type("boolean")
-     * @deprecated
-     */
-    public $publishedAsTbd;
-
-    /**
-     * @var bool
-     * @IS\Type("boolean")
-     * @deprecated
-     */
-    public $published;
-
-    /**
      * @var int
      * @IS\Expose
      * @IS\Related("programs")
@@ -110,13 +96,6 @@ class ProgramYearDTO
     public $programYearObjectives;
 
     /**
-     * @var int[]
-     * @IS\Related("programYearStewards")
-     * @IS\Type("array<string>")
-     */
-    public $stewards;
-
-    /**
      * For Voter use, not public
      * @var int
      */
@@ -126,21 +105,16 @@ class ProgramYearDTO
         $id,
         $startYear,
         $locked,
-        $archived,
-        $publishedAsTbd,
-        $published
+        $archived
     ) {
         $this->id = $id;
         $this->startYear = $startYear;
         $this->locked = $locked;
         $this->archived = $archived;
-        $this->publishedAsTbd = $publishedAsTbd;
-        $this->published = $published;
 
         $this->directors = [];
         $this->competencies = [];
         $this->terms = [];
         $this->programYearObjectives = [];
-        $this->stewards = [];
     }
 }

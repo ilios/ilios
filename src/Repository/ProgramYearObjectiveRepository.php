@@ -65,13 +65,12 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements 
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
-                'x.id AS xId, objective.id AS objectiveId, ' .
+                'x.id AS xId, ' .
                 'programYear.id AS programYearId, programYear.locked AS programYearIsLocked, ' .
                 'programYear.archived AS programYearIsArchived'
             )
             ->from(ProgramYearObjective::class, 'x')
             ->join('x.programYear', 'programYear')
-            ->join('x.objective', 'objective')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $programYearObjectiveIds);
 
@@ -79,7 +78,6 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements 
             $programYearObjectiveDTOs[$arr['xId']]->programYearIsLocked = (bool) $arr['programYearIsLocked'];
             $programYearObjectiveDTOs[$arr['xId']]->programYearIsArchived = (bool) $arr['programYearIsArchived'];
             $programYearObjectiveDTOs[$arr['xId']]->programYear = (int) $arr['programYearId'];
-            $programYearObjectiveDTOs[$arr['xId']]->objective = (int) $arr['objectiveId'];
         }
 
         $qb = $this->_em->createQueryBuilder()

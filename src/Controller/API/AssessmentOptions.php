@@ -8,7 +8,7 @@ use App\Repository\AssessmentOptionRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/assessmentoptions")
+ * @Route("/api/{version<v3>}/assessmentoptions")
  */
 class AssessmentOptions extends ReadWriteController
 {

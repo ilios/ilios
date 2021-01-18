@@ -5,17 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ProgramYearObjectivesEntityInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use App\Traits\ArchivableEntityInterface;
 use App\Traits\CategorizableEntityInterface;
 use App\Traits\CompetenciesEntityInterface;
 use App\Traits\DirectorsEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\LockableEntityInterface;
-use App\Traits\ObjectivesEntityInterface;
-use App\Traits\PublishableEntityInterface;
-use App\Traits\StewardedEntityInterface;
 
 /**
  * Interface ProgramYearInterface
@@ -25,9 +20,7 @@ interface ProgramYearInterface extends
     LockableEntityInterface,
     ArchivableEntityInterface,
     LoggableEntityInterface,
-    StewardedEntityInterface,
     ProgramYearObjectivesEntityInterface,
-    PublishableEntityInterface,
     CategorizableEntityInterface,
     DirectorsEntityInterface,
     CompetenciesEntityInterface
@@ -67,9 +60,4 @@ interface ProgramYearInterface extends
      * @return CohortInterface
      */
     public function getCohort();
-
-    /**
-     * @return array
-     */
-    public function getObjectives(): array;
 }

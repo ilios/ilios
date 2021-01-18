@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\DTO\ProgramV1DTO;
 use App\Entity\Program;
 use App\Traits\ManagerRepository;
-use App\Traits\V1ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -16,11 +14,9 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class ProgramRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    V1DTORepositoryInterface,
     ManagerInterface
 {
     use ManagerRepository;
-    use V1ManagerRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -60,35 +56,11 @@ class ProgramRepository extends ServiceEntityRepository implements
                 $arr['id'],
                 $arr['title'],
                 $arr['shortTitle'],
-                $arr['duration'],
-                $arr['publishedAsTbd'],
-                $arr['published']
+                $arr['duration']
             );
         }
         return $this->attachAssociationsToDTOs($programDTOs);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
-    {
-        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from(Program::class, 'p');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-        $programDTOs = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $programDTOs[$arr['id']] = new ProgramV1DTO(
-                $arr['id'],
-                $arr['title'],
-                $arr['shortTitle'],
-                $arr['duration'],
-                $arr['publishedAsTbd'],
-                $arr['published']
-            );
-        }
-        return $this->attachAssociationsToDTOs($programDTOs);
-    }
-
 
     /**
      * @param QueryBuilder $qb

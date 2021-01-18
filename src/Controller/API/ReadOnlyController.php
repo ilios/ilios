@@ -6,7 +6,6 @@ namespace App\Controller\API;
 
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\ManagerInterface;
-use App\Repository\V1DTORepositoryInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,11 +40,7 @@ abstract class ReadOnlyController
         ApiResponseBuilder $builder,
         Request $request
     ): Response {
-        if ('v1' === $version && ($this->repository instanceof V1DTORepositoryInterface)) {
-            $dto = $this->repository->findV1DTOBy(['id' => $id]);
-        } else {
-            $dto = $this->repository->findDTOBy(['id' => $id]);
-        }
+        $dto = $this->repository->findDTOBy(['id' => $id]);
 
         if (! $dto) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
@@ -68,21 +63,12 @@ abstract class ReadOnlyController
     ): Response {
         $parameters = ApiRequestParser::extractParameters($request);
 
-        if ('v1' === $version && ($this->repository instanceof V1DTORepositoryInterface)) {
-            $dtos = $this->repository->findV1DTOsBy(
-                $parameters['criteria'],
-                $parameters['orderBy'],
-                $parameters['limit'],
-                $parameters['offset']
-            );
-        } else {
-            $dtos = $this->repository->findDTOsBy(
-                $parameters['criteria'],
-                $parameters['orderBy'],
-                $parameters['limit'],
-                $parameters['offset']
-            );
-        }
+        $dtos = $this->repository->findDTOsBy(
+            $parameters['criteria'],
+            $parameters['orderBy'],
+            $parameters['limit'],
+            $parameters['offset']
+        );
 
         $filteredResults = array_filter($dtos, function ($object) use ($authorizationChecker) {
             return $authorizationChecker->isGranted(AbstractVoter::VIEW, $object);

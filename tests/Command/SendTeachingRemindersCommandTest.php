@@ -172,20 +172,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $this->assertStringContainsString("- {$learner->getFirstName()} {$learner->getLastName()}", $output);
         }
 
-        /** @var SessionObjectiveInterface $sessionObjective */
-        foreach ($offering->getSession()->getSessionObjectives() as $sessionObjective) {
-            $objective = $sessionObjective->getObjective();
-            $title = trim(strip_tags($objective->getTitle()));
-            $this->assertStringContainsString("- {$title}", $output);
-        }
-
-        /** @var CourseObjectiveInterface $courseObjective */
-        foreach ($offering->getSession()->getCourse()->getCourseObjectives() as $courseObjective) {
-            $objective = $courseObjective->getObjective();
-            $title = trim(strip_tags($objective->getTitle()));
-            $this->assertStringContainsString("- {$title}", $output);
-        }
-
         $this->assertStringContainsString(
             "{$baseUrl}/courses/{$offering->getSession()->getCourse()->getId()}",
             $output

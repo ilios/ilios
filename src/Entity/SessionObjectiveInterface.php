@@ -7,7 +7,6 @@ namespace App\Entity;
 use App\Traits\ActivatableEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
-use App\Traits\ObjectiveRelationshipInterface;
 use App\Traits\TitledEntityInterface;
 use Doctrine\Common\Collections\Collection;
 
@@ -16,7 +15,6 @@ use Doctrine\Common\Collections\Collection;
  */
 interface SessionObjectiveInterface extends
     IndexableCoursesEntityInterface,
-    ObjectiveRelationshipInterface,
     SessionStampableInterface,
     TitledEntityInterface,
     MeshDescriptorsEntityInterface,

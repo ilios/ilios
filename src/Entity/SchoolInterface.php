@@ -18,7 +18,6 @@ use App\Traits\TitledEntityInterface;
 use App\Traits\StringableEntityInterface;
 use App\Traits\CoursesEntityInterface;
 use App\Traits\ProgramsEntityInterface;
-use App\Traits\StewardedEntityInterface;
 
 /**
  * Interface SchoolInterface
@@ -31,7 +30,6 @@ interface SchoolInterface extends
     IndexableCoursesEntityInterface,
     ProgramsEntityInterface,
     LoggableEntityInterface,
-    StewardedEntityInterface,
     AlertableEntityInterface,
     SessionTypesEntityInterface,
     InstructorGroupsEntityInterface,
@@ -68,25 +66,6 @@ interface SchoolInterface extends
      * @return string
      */
     public function getChangeAlertRecipients();
-    /**
-     * @param Collection $departments
-     */
-    public function setDepartments(Collection $departments);
-
-    /**
-     * @param DepartmentInterface $department
-     */
-    public function addDepartment(DepartmentInterface $department);
-
-    /**
-     * @param DepartmentInterface $department
-     */
-    public function removeDepartment(DepartmentInterface $department);
-
-    /**
-     * @return ArrayCollection|DepartmentInterface[]
-     */
-    public function getDepartments();
 
     /**
      * @param Collection $vocabularies

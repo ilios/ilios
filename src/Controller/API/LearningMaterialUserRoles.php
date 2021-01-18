@@ -8,7 +8,7 @@ use App\Repository\LearningMaterialUserRoleRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/learningmaterialuserroles")
+ * @Route("/api/{version<v3>}/learningmaterialuserroles")
  */
 class LearningMaterialUserRoles extends ReadWriteController
 {

@@ -61,13 +61,6 @@ class MeshDescriptorDTO
 
     /**
      * @var int[]
-     * @IS\Related("objectives")
-     * @IS\Type("array<string>")
-     */
-    public $objectives;
-
-    /**
-     * @var int[]
      * @IS\Expose
      * @IS\Related("sessionObjectives")
      * @IS\Type("array<string>")
@@ -179,7 +172,6 @@ class MeshDescriptorDTO
         $this->deleted = $deleted;
 
         $this->courses = [];
-        $this->objectives = [];
         $this->sessions = [];
         $this->concepts = [];
         $this->qualifiers = [];

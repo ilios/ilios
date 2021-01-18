@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\CategorizableEntity;
 use App\Traits\CompetenciesEntity;
 use App\Traits\DirectorsEntity;
-use App\Traits\PublishableEntity;
 use App\Traits\StringableIdEntity;
 use App\Annotation as IS;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,7 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
 use App\Traits\IdentifiableEntity;
-use App\Traits\StewardedEntity;
 use App\Repository\ProgramYearRepository;
 
 /**
@@ -33,9 +31,7 @@ class ProgramYear implements ProgramYearInterface
     use IdentifiableEntity;
     use LockableEntity;
     use ArchivableEntity;
-    use StewardedEntity;
     use ProgramYearObjectivesEntity;
-    use PublishableEntity;
     use CategorizableEntity;
     use StringableIdEntity;
     use DirectorsEntity;
@@ -94,36 +90,6 @@ class ProgramYear implements ProgramYearInterface
      * @ORM\Column(name="archived", type="boolean")
      */
     protected $archived;
-
-    /**
-     * @var bool
-     *
-     * @IS\Expose
-     * @IS\Type("boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @ORM\Column(name="published_as_tbd", type="boolean")
-     *
-     * @deprecated
-     */
-    protected $publishedAsTbd;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @IS\Expose
-     * @IS\Type("boolean")
-     *
-     * @deprecated
-     */
-    protected $published;
 
     /**
      * @var ProgramInterface
@@ -218,29 +184,16 @@ class ProgramYear implements ProgramYearInterface
     protected $programYearObjectives;
 
     /**
-     * @var ArrayCollection|ProgramYearStewardInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="programYear")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
-     * @IS\Type("entityCollection")
-     */
-    protected $stewards;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->archived = false;
         $this->locked = false;
-        $this->publishedAsTbd = false;
-        $this->published = false;
         $this->directors = new ArrayCollection();
         $this->competencies = new ArrayCollection();
         $this->terms = new ArrayCollection();
         $this->programYearObjectives = new ArrayCollection();
-        $this->stewards = new ArrayCollection();
     }
 
     /**
@@ -300,16 +253,5 @@ class ProgramYear implements ProgramYearInterface
             return $program->getSchool();
         }
         return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getObjectives(): array
-    {
-        $programYearObjectives = $this->getProgramYearObjectives()->toArray();
-        return array_map(function (ProgramYearObjectiveInterface $programYearObjective) {
-            return $programYearObjective->getObjective();
-        }, $programYearObjectives);
     }
 }

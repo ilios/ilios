@@ -23,12 +23,9 @@ use App\Repository\ProgramYearObjectiveRepository;
  *
  * @ORM\Table(name="program_year_x_objective",
  *   indexes={
- *     @ORM\Index(name="IDX_7A16FDD673484933", columns={"objective_id"}),
  *     @ORM\Index(name="IDX_7A16FDD6CB2B0673", columns={"program_year_id"})
- *   },
- *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="program_year_objective_uniq", columns={"program_year_id", "objective_id"})
- *  })
+ *   }
+ * )
  * @ORM\Entity(repositoryClass=ProgramYearObjectiveRepository::class)
  * @IS\Entity
  */
@@ -84,21 +81,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      * @IS\Type("integer")
      */
     protected $position;
-
-    /**
-     * @var ObjectiveInterface
-     *
-     * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Objective", inversedBy="programYearObjectives", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", nullable=false)
-     * })
-     *
-     * @IS\Type("entity")
-     * @IS\ReadOnly()
-     */
-    protected $objective;
 
     /**
      * @var Collection
@@ -232,7 +214,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         $this->courseObjectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
-        $this->objective = new Objective();
     }
 
     /**
@@ -257,7 +238,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function setCompetency(CompetencyInterface $competency = null)
     {
         $this->competency = $competency;
-        $this->getObjective()->setCompetency($competency);
     }
 
     /**
@@ -288,7 +268,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         if (!$this->courseObjectives->contains($courseObjective)) {
             $this->courseObjectives->add($courseObjective);
             $courseObjective->addProgramYearObjective($this);
-            $this->getObjective()->addChild($courseObjective->getObjective());
         }
     }
 
@@ -300,7 +279,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         if ($this->courseObjectives->contains($courseObjective)) {
             $this->courseObjectives->removeElement($courseObjective);
             $courseObjective->removeProgramYearObjective($this);
-            $this->getObjective()->removeChild($courseObjective->getObjective());
         }
     }
 
@@ -318,7 +296,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function setAncestor(ProgramYearObjectiveInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
-        $this->getObjective()->setAncestor($ancestor->getObjective());
     }
 
     /**
@@ -358,8 +335,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         if (!$this->descendants->contains($descendant)) {
             $this->descendants->add($descendant);
-            $objective = $descendant->getObjective();
-            $this->getObjective()->addDescendant($objective);
         }
     }
 
@@ -369,8 +344,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function removeDescendant(ProgramYearObjectiveInterface $descendant)
     {
         $this->descendants->removeElement($descendant);
-        $objective = $descendant->getObjective();
-        $this->getObjective()->removeDescendant($objective);
     }
 
     /**
@@ -384,26 +357,9 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     /**
      * @inheritdoc
      */
-    public function setObjective(ObjectiveInterface $objective): void
-    {
-        $this->objective = $objective;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getObjective(): ObjectiveInterface
-    {
-        return $this->objective;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function setTitle($title)
     {
         $this->title = $title;
-        $this->getObjective()->setTitle($title);
     }
 
     /**
@@ -412,7 +368,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function setPosition($position)
     {
         $this->position = $position;
-        $this->getObjective()->setPosition($position);
     }
 
     /**
@@ -421,7 +376,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function setActive($active)
     {
         $this->active = $active;
-        $this->getObjective()->setActive($active);
     }
 
     /**
@@ -433,7 +387,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
 
         foreach ($meshDescriptors as $meshDescriptor) {
             $this->addMeshDescriptor($meshDescriptor);
-            $this->getObjective()->addMeshDescriptor($meshDescriptor);
         }
     }
 
@@ -444,7 +397,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
             $this->meshDescriptors->add($meshDescriptor);
-            $this->getObjective()->addMeshDescriptor($meshDescriptor);
         }
     }
 
@@ -454,6 +406,5 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
-        $this->getObjective()->removeMeshDescriptor($meshDescriptor);
     }
 }

@@ -29,7 +29,6 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
             'App\Tests\Fixture\LoadCohortData',
             'App\Tests\Fixture\LoadProgramYearObjectiveData',
             'App\Tests\Fixture\LoadProgramYearData',
-            'App\Tests\Fixture\LoadProgramYearStewardData',
             'App\Tests\Fixture\LoadCourseData',
             'App\Tests\Fixture\LoadLearnerGroupData',
             'App\Tests\Fixture\LoadUserData'
@@ -157,9 +156,6 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         $allProgramYears = $programYearDataLoader->getAll();
         $programYearsById = [];
         foreach ($allProgramYears as $arr) {
-            unset($arr['stewards']);
-            unset($arr['published']);
-            unset($arr['publishedAsTbd']);
             $programYearsById[$arr['id']] = $arr;
         }
 

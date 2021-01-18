@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\DTO\MeshDescriptorV1DTO;
 use App\Entity\MeshConcept;
 use App\Entity\MeshDescriptor;
 use App\Entity\MeshPreviousIndexing;
@@ -13,7 +12,6 @@ use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Traits\ManagerRepository;
-use App\Traits\V1ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
@@ -32,11 +30,9 @@ use PDO;
 
 class MeshDescriptorRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface,
-    V1DTORepositoryInterface
+    ManagerInterface
 {
     use ManagerRepository;
-    use V1ManagerRepository;
 
     protected MeshDescriptorSetTransmogrifier $transmogrifier;
 
@@ -71,36 +67,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
 
         // Unfortunately, we can't let Doctrine limit the fetch here because of all the joins
         // it returns many less than the desired number.
-        if ($limit) {
-            $dtos = array_slice($dtos, 0, $limit);
-        }
-
-        return $dtos;
-    }
-
-    /**
-     * Find by a string query.
-     *
-     * @param string $q
-     * @param array|null $orderBy
-     * @param int|null $limit
-     * @param int|null $offset
-     * @return MeshDescriptorDTO[]|array
-     */
-    public function findV1DTOsByQ(
-        string $q,
-        ?array $orderBy,
-        ?int $limit,
-        ?int $offset
-    ): array {
-        $terms = $this->getTermsFromQ($q);
-        if (empty($terms)) {
-            return [];
-        }
-
-        $query = $this->getQueryForFindByQ($terms, $orderBy, $offset);
-        $dtos = $this->createV1DTOs($query);
-
         if ($limit) {
             $dtos = array_slice($dtos, 0, $limit);
         }
@@ -148,24 +114,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * Find and hydrate as DTOs for API v1.
-     *
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
-     * @return array
-     */
-    public function findV1DTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
-    {
-        $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from(MeshDescriptor::class, 'm');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $this->createV1DTOs($qb->getQuery());
-    }
-
-    /**
      * Hydrate as DTOs
      * @param AbstractQuery $query
      * @return MeshDescriptorDTO[]
@@ -197,7 +145,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
 
         $related = [
             'courses',
-            'objectives',
             'sessions',
             'concepts',
             'qualifiers',
@@ -224,64 +171,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
 
         return array_values($descriptorDTOs);
     }
-
-    /**
-     * Hydrate as DTOs for API v1.
-     * @param AbstractQuery $query
-     * @return MeshDescriptorDTO[]
-     */
-    protected function createV1DTOs(AbstractQuery $query): array
-    {
-        $descriptorDTOs = [];
-        foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $descriptorDTOs[$arr['id']] = new MeshDescriptorV1DTO(
-                $arr['id'],
-                $arr['name'],
-                $arr['annotation'],
-                $arr['createdAt'],
-                $arr['updatedAt'],
-                $arr['deleted']
-            );
-        }
-        $descriptorIds = array_keys($descriptorDTOs);
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('p.id AS prevId, m.id AS descriptorId')
-            ->from('App\Entity\MeshPreviousIndexing', 'p')
-            ->join('p.descriptor', 'm')
-            ->where($qb->expr()->in('m.id', ':descriptorIds'))
-            ->setParameter('descriptorIds', $descriptorIds);
-
-        foreach ($qb->getQuery()->getResult() as $arr) {
-            $descriptorDTOs[$arr['descriptorId']]->previousIndexing = (int) $arr['prevId'];
-        }
-
-        $related = [
-            'courses',
-            'objectives',
-            'sessions',
-            'concepts',
-            'qualifiers',
-            'trees',
-            'sessionLearningMaterials',
-            'courseLearningMaterials',
-        ];
-
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, m.id AS descriptorId')->from(MeshDescriptor::class, 'm')
-                ->join("m.{$rel}", 'r')
-                ->where($qb->expr()->in('m.id', ':descriptorIds'))
-                ->orderBy('relId')
-                ->setParameter('descriptorIds', $descriptorIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $descriptorDTOs[$arr['descriptorId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        return array_values($descriptorDTOs);
-    }
-
 
     protected function getTermsFromQ(string $q)
     {
@@ -682,7 +571,6 @@ WHERE mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_learnin
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_learning_material_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_x_mesh)
-AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM objective_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM session_objective_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM course_objective_x_mesh)
 AND mesh_descriptor_uid NOT IN (SELECT mesh_descriptor_uid FROM program_year_objective_x_mesh)

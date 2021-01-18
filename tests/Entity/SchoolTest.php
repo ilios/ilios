@@ -46,10 +46,8 @@ class SchoolTest extends EntityBase
     public function testConstructor()
     {
         $this->assertEmpty($this->object->getAlerts());
-        $this->assertEmpty($this->object->getStewards());
         $this->assertEmpty($this->object->getCourses());
         $this->assertEmpty($this->object->getPrograms());
-        $this->assertEmpty($this->object->getDepartments());
         $this->assertEmpty($this->object->getInstructorGroups());
         $this->assertEmpty($this->object->getCompetencies());
         $this->assertEmpty($this->object->getSessionTypes());
@@ -207,55 +205,6 @@ class SchoolTest extends EntityBase
     public function testGetPrograms()
     {
         $this->entityCollectionSetTest('program', 'Program');
-    }
-
-    /**
-     * @covers \App\Entity\School::addDepartment
-     */
-    public function testAddDepartment()
-    {
-        $this->entityCollectionAddTest('department', 'Department');
-    }
-
-    /**
-     * @covers \App\Entity\School::removeDepartment
-     */
-    public function testRemoveDepartment()
-    {
-        $this->entityCollectionRemoveTest('department', 'Department');
-    }
-
-    /**
-     * @covers \App\Entity\School::getDepartments
-     * @covers \App\Entity\School::setDepartments
-     */
-    public function testGetDepartments()
-    {
-        $this->entityCollectionSetTest('department', 'Department');
-    }
-
-    /**
-     * @covers \App\Entity\School::addSteward
-     */
-    public function testAddSteward()
-    {
-        $this->entityCollectionAddTest('steward', 'ProgramYearSteward');
-    }
-
-    /**
-     * @covers \App\Entity\School::removeSteward
-     */
-    public function testRemoveSteward()
-    {
-        $this->entityCollectionRemoveTest('steward', 'ProgramYearSteward');
-    }
-
-    /**
-     * @covers \App\Entity\School::getStewards
-     */
-    public function testGetSteward()
-    {
-        $this->entityCollectionSetTest('steward', 'ProgramYearSteward');
     }
 
     /**

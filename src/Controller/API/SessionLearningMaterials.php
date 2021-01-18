@@ -8,7 +8,7 @@ use App\Repository\SessionLearningMaterialRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/{version<v1|v3>}/sessionlearningmaterials")
+ * @Route("/api/{version<v3>}/sessionlearningmaterials")
  */
 class SessionLearningMaterials extends ReadWriteController
 {

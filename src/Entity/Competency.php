@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\ActivatableEntity;
-use App\Traits\ObjectivesEntity;
 use App\Traits\StringableIdEntity;
 use App\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -35,7 +34,6 @@ class Competency implements CompetencyInterface
     use SchoolEntity;
     use StringableIdEntity;
     use ActivatableEntity;
-    use ObjectivesEntity;
     use ProgramYearObjectivesEntity;
 
     /**
@@ -82,16 +80,6 @@ class Competency implements CompetencyInterface
      * @IS\Type("entity")
      */
     protected $school;
-
-    /**
-     * @var Collection
-     * @ORM\OneToMany(targetEntity="Objective", mappedBy="competency")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
-     * @IS\Type("entityCollection")
-     * @IS\ReadOnly()
-     */
-    protected $objectives;
 
     /**
      * @var CompetencyInterface
@@ -178,7 +166,6 @@ class Competency implements CompetencyInterface
         $this->aamcPcrses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->children = new ArrayCollection();
-        $this->objectives = new ArrayCollection();
         $this->programYearObjectives = new ArrayCollection();
         $this->active = true;
     }

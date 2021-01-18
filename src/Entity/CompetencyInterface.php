@@ -8,7 +8,6 @@ use App\Traits\ProgramYearObjectivesEntityInterface;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\ActivatableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\ObjectivesEntityInterface;
 use App\Traits\SchoolEntityInterface;
 use App\Traits\TitledEntityInterface;
 use App\Traits\ProgramYearsEntityInterface;
@@ -23,7 +22,6 @@ interface CompetencyInterface extends
     SchoolEntityInterface,
     LoggableEntityInterface,
     ActivatableEntityInterface,
-    ObjectivesEntityInterface,
     ProgramYearObjectivesEntityInterface
 {
     /**

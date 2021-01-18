@@ -182,9 +182,4 @@ interface CourseInterface extends
      * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
      */
     public function getSequenceBlocks();
-
-    /**
-     * @return array
-     */
-    public function getObjectives(): array;
 }

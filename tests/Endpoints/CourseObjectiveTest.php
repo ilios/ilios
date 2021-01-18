@@ -16,8 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CourseObjectiveTest extends ReadWriteEndpointTest
 {
-    use LegacyObjectiveTestTrait;
-
     protected $testName =  'courseObjectives';
 
     /**
@@ -156,25 +154,6 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
             $jsonApiData = $dataLoader->createJsonApi($data);
             $this->patchJsonApiTest($data, $jsonApiData);
         }
-    }
-
-    public function testRemoveLinksFromOrphanedObjectives()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $courseObjectiveId = $data['id'];
-
-        $objective = $this->getObjectiveForXObjective($courseObjectiveId, 'courseObjectives');
-        $this->assertNotEmpty($objective['children']);
-        $this->assertNotEmpty($objective['parents']);
-        $this->assertNotEmpty($objective['courses']);
-
-        $this->deleteTest($courseObjectiveId);
-
-        $objective = $this->getOne('objectives', 'objectives', $objective['id'], 'v1');
-        $this->assertEmpty($objective['children']);
-        $this->assertEmpty($objective['parents']);
-        $this->assertEmpty($objective['courses']);
     }
 
     /**

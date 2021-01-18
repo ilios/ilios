@@ -122,12 +122,6 @@ interface SessionInterface extends
     public function getIlmSession();
 
     /**
-     * @return SessionDescription
-     * @deprecated
-     */
-    public function getSessionDescription();
-
-    /**
      * @param Collection $learningMaterials
      */
     public function setLearningMaterials(Collection $learningMaterials = null);
@@ -201,9 +195,4 @@ interface SessionInterface extends
      * @return ArrayCollection|SessionInterface[]
      */
     public function getPrerequisites();
-
-    /**
-     * @return array
-     */
-    public function getObjectives(): array;
 }

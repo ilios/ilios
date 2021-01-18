@@ -810,15 +810,4 @@ class Course implements CourseInterface
     {
         return [$this];
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getObjectives(): array
-    {
-        $courseObjectives = $this->getCourseObjectives()->toArray();
-        return array_map(function (CourseObjectiveInterface $courseObjective) {
-            return $courseObjective->getObjective();
-        }, $courseObjectives);
-    }
 }
