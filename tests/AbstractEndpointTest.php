@@ -1092,7 +1092,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         $timeStampFields = $this->getTimeStampFields();
         $responseData = array_map(function ($arr) use ($timeStampFields) {
-            foreach ($this->getTimeStampFields() as $field) {
+            foreach ($timeStampFields as $field) {
                 unset($arr[$field]);
             }
             return $arr;
