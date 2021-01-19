@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ActivatableEntityInterface;
+use App\Traits\IdentifiableEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\TitledEntityInterface;
@@ -14,6 +15,7 @@ use Doctrine\Common\Collections\Collection;
  * Interface CourseObjectiveInterface
  */
 interface CourseObjectiveInterface extends
+    IdentifiableEntityInterface,
     IndexableCoursesEntityInterface,
     TitledEntityInterface,
     MeshDescriptorsEntityInterface,
