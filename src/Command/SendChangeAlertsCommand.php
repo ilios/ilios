@@ -158,10 +158,6 @@ class SendChangeAlertsCommand extends Command
                 'objectId' => $alert->getId(),
                 'objectClass' => 'alert',
             ], [ 'createdAt' => 'asc' ]);
-            $history = array_filter($history, function (AuditLogInterface $auditLog) {
-                $user =  $auditLog->getUser();
-                return isset($user);
-            });
 
             $subject = $offering->getSession()->getCourse()->getExternalId() . ' - '
                 . $offering->getStartDate()->format('m/d/Y');
