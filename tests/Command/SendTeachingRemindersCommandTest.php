@@ -419,10 +419,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
      */
     public function testExecuteWithMissingInput()
     {
-        $this->expectException(RuntimeException::class, 'Not enough arguments');
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([]);
 
-        $this->expectException(RuntimeException::class, 'Not enough arguments');
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'sender' => 'foo@bar.com',
             'base_url' => null,

@@ -144,7 +144,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
     public function testBadIlios2Path()
     {
         $this->symfonyFileSystem->shouldReceive('exists')->with('badpath')->andReturn(false);
-        $this->expectException(\Exception::class, "'badpath' does not exist");
+        $this->expectException(\Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'pathToIlios2'         => 'badpath'

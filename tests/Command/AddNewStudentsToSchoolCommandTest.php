@@ -174,7 +174,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
     public function testBadSchoolId()
     {
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->expectException(\Exception::class, 'School with id 1 could not be found.');
+        $this->expectException(\Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'filter'         => 'FILTER',
