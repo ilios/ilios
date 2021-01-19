@@ -43,31 +43,9 @@ class CourseRollover
     protected CourseObjectiveRepository $courseObjectiveRepository;
     protected SessionObjectiveRepository $sessionObjectiveRepository;
     protected OfferingRepository $offeringRepository;
+    protected IlmSessionRepository $ilmSessionRepository;
+    private CohortRepository $cohortRepository;
 
-    /**
-     * @var IlmSessionRepository
-     */
-    protected $ilmSessionRepository;
-
-    /**
-     * @var CohortRepository
-     */
-    private $cohortRepository;
-
-    /**
-     * CourseRollover constructor.
-     *
-     * @param CourseRepository $courseRepository
-     * @param LearningMaterialRepository $learningMaterialRepository
-     * @param CourseLearningMaterialRepository $courseLearningMaterialRepository
-     * @param SessionRepository $sessionRepository
-     * @param SessionLearningMaterialRepository $sessionLearningMaterialRepository
-     * @param OfferingRepository $offeringRepository
-     * @param IlmSessionRepository $ilmSessionRepository
-     * @param CohortRepository $cohortRepository
-     * @param CourseObjectiveRepository $courseObjectiveRepository
-     * @param SessionObjectiveRepository $sessionObjectiveRepository
-     */
     public function __construct(
         CourseRepository $courseRepository,
         LearningMaterialRepository $learningMaterialRepository,
@@ -93,15 +71,14 @@ class CourseRollover
     }
 
     /**
-     * @param int $courseId
-     * @param int $newAcademicYear
-     * @param array $options
-     * @param array $newCohortIds
-     * @return CourseInterface the new, rolled-over course.
-     * @throws Exception
+     * Rollover a course
      */
-    public function rolloverCourse(int $courseId, int $newAcademicYear, array $options, array $newCohortIds = [])
-    {
+    public function rolloverCourse(
+        int $courseId,
+        int $newAcademicYear,
+        array $options,
+        array $newCohortIds = []
+    ): CourseInterface {
         //now, get/set the required values from the provided arguments
         $origCourseId = $courseId;
         $newStartDate = (!empty($options['new-start-date'])) ? new DateTime($options['new-start-date']) : null;
@@ -540,8 +517,7 @@ class CourseRollover
                     $courseObjectives = $sessionObjective->getCourseObjectives()
                         ->map(
                             function (CourseObjectiveInterface $oldCourseObjective) use (
-                                $newCourseObjectives,
-                                $sessionObjective
+                                $newCourseObjectives
                             ) {
                                 if (array_key_exists($oldCourseObjective->getId(), $newCourseObjectives)) {
                                     return $newCourseObjectives[$oldCourseObjective->getId()];
