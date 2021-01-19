@@ -510,10 +510,10 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $diff = $now->diff($stamp);
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
-            $this->objectHasAttribute('id', $content->data);
-            $this->objectHasAttribute('type', $content->data);
-            $this->objectHasAttribute('attributes', $content->data);
-            $this->objectHasAttribute('relationships', $content->data);
+            $this->assertObjectHasAttribute('id', $item);
+            $this->assertObjectHasAttribute('type', $item);
+            $this->assertObjectHasAttribute('attributes', $item);
+            $this->assertObjectHasAttribute('relationships', $item);
 
             $this->compareJsonApiData($data[$i], $item);
         }
@@ -557,10 +557,10 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $diff = $now->diff($stamp);
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
-            $this->objectHasAttribute('id', $content->data);
-            $this->objectHasAttribute('type', $content->data);
-            $this->objectHasAttribute('attributes', $content->data);
-            $this->objectHasAttribute('relationships', $content->data);
+            $this->assertObjectHasAttribute('id', $item);
+            $this->assertObjectHasAttribute('type', $item);
+            $this->assertObjectHasAttribute('attributes', $item);
+            $this->assertObjectHasAttribute('relationships', $item);
 
             $this->compareJsonApiData($data[$i], $item);
         }
