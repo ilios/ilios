@@ -126,7 +126,7 @@ class SyncUserCommandTest extends KernelTestCase
     public function testBadUserId()
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->expectException(\Exception::class, 'No user with id #1');
+        $this->expectException(\Exception::class);
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
             'userId' => '1'

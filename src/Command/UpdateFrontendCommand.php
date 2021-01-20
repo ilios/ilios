@@ -149,15 +149,15 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $stagingBuild = $input->getOption('staging-build');
         $versionOverride = $input->getOption('at-version');
         $environment = $stagingBuild ? self::STAGING : self::PRODUCTION;
+        $message = '';
+        if ($stagingBuild) {
+            $message .= ' from staging build';
+        }
+        if ($versionOverride) {
+            $message .= ' at version ' . $versionOverride;
+        }
 
         try {
-            $message = '';
-            if ($stagingBuild) {
-                $message .= ' from staging build';
-            }
-            if ($versionOverride) {
-                $message .= ' at version ' . $versionOverride;
-            }
             $this->downloadAndExtractArchive($environment, $versionOverride);
             $this->copyStaticFilesIntoPublicDirectory();
             $output->writeln("<info>Frontend updated successfully${message}!</info>");

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ActivatableEntityInterface;
+use App\Traits\CategorizableEntityInterface;
+use App\Traits\IdentifiableEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\TitledEntityInterface;
@@ -14,11 +16,13 @@ use Doctrine\Common\Collections\Collection;
  * Interface SessionObjectiveInterface
  */
 interface SessionObjectiveInterface extends
+    IdentifiableEntityInterface,
     IndexableCoursesEntityInterface,
     SessionStampableInterface,
     TitledEntityInterface,
     MeshDescriptorsEntityInterface,
-    ActivatableEntityInterface
+    ActivatableEntityInterface,
+    CategorizableEntityInterface
 {
     /**
      * @param SessionInterface $session

@@ -14,7 +14,6 @@ use App\Entity\Session;
 use App\Entity\User;
 use App\Repository\AlertChangeTypeRepository;
 use App\Repository\AlertRepository;
-use App\Repository\UserRepository;
 use App\Service\ChangeAlertHandler;
 use Mockery as m;
 use App\Tests\TestCase;
@@ -26,11 +25,6 @@ use App\Tests\TestCase;
  */
 class ChangeAlertHandlerTest extends TestCase
 {
-    /**
-     * @var m\MockInterface
-     */
-    protected $mockUserRepository;
-
     /**
      * @var m\MockInterface
      */
@@ -53,11 +47,9 @@ class ChangeAlertHandlerTest extends TestCase
         parent::setUp();
         $this->mockAlertRepository = m::mock(AlertRepository::class);
         $this->mockAlertChangeTypeRepository = m::mock(AlertChangeTypeRepository::class);
-        $this->mockUserRepository = m::mock(UserRepository::class);
         $this->changeAlertHandler = new ChangeAlertHandler(
             $this->mockAlertRepository,
-            $this->mockAlertChangeTypeRepository,
-            $this->mockUserRepository
+            $this->mockAlertChangeTypeRepository
         );
     }
 
@@ -70,7 +62,6 @@ class ChangeAlertHandlerTest extends TestCase
         unset($this->changeAlertHandler);
         unset($this->mockAlertRepository);
         unset($this->mockAlertChangeTypeRepository);
-        unset($this->mockUserRepository);
     }
 
     /**

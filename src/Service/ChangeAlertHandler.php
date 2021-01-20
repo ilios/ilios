@@ -9,7 +9,6 @@ use App\Entity\OfferingInterface;
 use App\Entity\UserInterface;
 use App\Repository\AlertChangeTypeRepository;
 use App\Repository\AlertRepository;
-use App\Repository\UserRepository;
 
 /**
  * Creates and updates change alerts for given data points, such as offerings.
@@ -19,25 +18,12 @@ use App\Repository\UserRepository;
  */
 class ChangeAlertHandler
 {
-    /**
-     * @var AlertRepository
-     */
-    protected $alertRepository;
+    protected AlertRepository $alertRepository;
+    protected AlertChangeTypeRepository $alertChangeTypeRepository;
 
-    /**
-     * @var AlertChangeTypeRepository
-     */
-    protected $alertChangeTypeRepository;
-
-    /**
-     * @param AlertRepository $alertRepository
-     * @param AlertChangeTypeRepository $alertChangeTypeRepository
-     * @param UserRepository $userRepository
-     */
     public function __construct(
         AlertRepository $alertRepository,
-        AlertChangeTypeRepository $alertChangeTypeRepository,
-        UserRepository $userRepository
+        AlertChangeTypeRepository $alertChangeTypeRepository
     ) {
         $this->alertRepository = $alertRepository;
         $this->alertChangeTypeRepository = $alertChangeTypeRepository;

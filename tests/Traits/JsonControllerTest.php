@@ -81,8 +81,8 @@ trait JsonControllerTest
                 'Invalid JSON: [' . $response->getContent() . ']'
             );
             $this->assertIsObject($decode);
-            $this->objectHasAttribute('data', $decode);
-            $this->objectHasAttribute('included', $decode);
+            $this->assertObjectHasAttribute('data', $decode);
+            $this->assertObjectHasAttribute('included', $decode);
         }
     }
 

@@ -131,7 +131,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
             ->shouldReceive('getId')->andReturn(1)
             ->mock();
         $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn($user);
-        $this->expectException(\Exception::class, 'User #1 with campus id 1 already exists.');
+        $this->expectException(\Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',
@@ -143,7 +143,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn(null);
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->expectException(\Exception::class, 'School with id 1 could not be found.');
+        $this->expectException(\Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',

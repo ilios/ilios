@@ -136,11 +136,12 @@ class IcsController extends AbstractController
             /* @var SessionInterface $session */
             $session = $offering->getSession();
             $slug .= 'O' . $event->offering;
-        }
-        if ($event->ilmSession) {
+        } elseif ($event->ilmSession) {
             $ilmSession = $this->ilmSessionRepository->findOneBy(['id' => $event->ilmSession]);
             $session = $ilmSession->getSession();
             $slug .= 'I' . $event->ilmSession;
+        } else {
+            throw new \Exception("Event was neither an offering nor an ILM. This isn't a valid state");
         }
         $link = $this->router->generate(
             'ilios_index',

@@ -5,4 +5,4 @@ parameters:
         - ../bin/.phpunit/phpunit-8-0/vendor/autoload.php
     paths:
         - ./
-    level: 0
+    level: 1

@@ -230,11 +230,11 @@ EOL;
     }
 
     /**
-     * @param $userId
+     * @param int $userId
      * @param array $criteria
      * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
+     * @param int $limit
+     * @param int $offset
      * @return array
      * @throws DBALException
      */

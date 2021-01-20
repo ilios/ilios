@@ -7,6 +7,7 @@ namespace App\Tests\Command;
 use App\Command\RolloverCourseCommand;
 use App\Entity\Course;
 use App\Service\CourseRollover;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -61,10 +62,7 @@ class RolloverCourseCommandTest extends KernelTestCase
 
     public function testCommandFailsWithoutArguments()
     {
-        $this->expectException(
-            \RuntimeException::class,
-            'Not enough arguments (missing: "courseId, newAcademicYear").'
-        );
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
         ]);

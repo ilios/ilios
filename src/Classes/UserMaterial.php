@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Classes;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class UserMaterial
@@ -15,9 +16,8 @@ class UserMaterial
 {
     /**
      * A list of 'do not scrub' properties.
-     * @var array
      */
-    protected static $doNotScrubProps = [
+    protected static array $doNotScrubProps = [
         'id',
         'courseLearningMaterial',
         'sessionLearningMaterial',
@@ -34,177 +34,150 @@ class UserMaterial
     ];
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $courseLearningMaterial;
+    public ?int $courseLearningMaterial = null;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $sessionLearningMaterial;
+    public ?int $sessionLearningMaterial = null;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $session;
+    public ?int $session = null;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $course;
+    public ?int $course = null;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $publicNotes;
+    public ?string $publicNotes = null;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $required;
+    public ?bool $required = null;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $description;
+    public ?string $description = null;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $originalAuthor;
+    public ?string $originalAuthor = null;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $absoluteFileUri;
+    public ?string $absoluteFileUri = null;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $citation;
+    public ?string $citation = null;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $link;
+    public ?string $link = null;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $filename;
+    public ?string $filename = null;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $filesize;
+    public ?int $filesize = null;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $position;
+    public ?int $position = null;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $mimetype;
+    public ?string $mimetype = null;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $sessionTitle;
+    public ?string $sessionTitle = null;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $courseTitle;
+    public ?string $courseTitle = null;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $firstOfferingDate;
+    public ?DateTime $firstOfferingDate = null;
 
     /**
-     * @var array
      * @IS\Expose
      * @IS\Type("array<string>")
      */
-    public $instructors = [];
+    public array $instructors = [];
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $startDate;
+    public ?DateTime $startDate = null;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $endDate;
+    public ?DateTime $endDate = null;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $isBlanked;
+    public bool $isBlanked = false;
 
-    /**
-     * @var int
-     */
-    public $status;
+    public ?int $status = null;
 
     /**
      * Blanks out properties of timed learning materials that are outside their given
