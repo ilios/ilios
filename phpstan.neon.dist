@@ -3,7 +3,7 @@ parameters:
         container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
     paths:
         - src
-    level: 1
+    level: 2
     reportUnmatchedIgnoredErrors: true
     ignoreErrors:
         -

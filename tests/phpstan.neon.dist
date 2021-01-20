@@ -3,4 +3,4 @@ parameters:
         container_xml_path: ../var/cache/test/App_KernelTestDebugContainer.xml
     paths:
         - ./
-    level: 1
+    level: 2
