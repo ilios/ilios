@@ -135,7 +135,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     protected $program;
 
     /**
-     * @var CurriculumInventoryAcademicLevelInterface
+     * @var ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
      */
     #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventoryAcademicLevel')]
     #[ORM\OrderBy(['id' => 'ASC'])]

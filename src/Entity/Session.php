@@ -298,7 +298,7 @@ class Session implements SessionInterface
     protected $postrequisite;
 
     /**
-     * @var SessionInterface[]
+     * @var ArrayCollection|SessionInterface[]
      */
     #[ORM\OneToMany(mappedBy: 'postrequisite', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]

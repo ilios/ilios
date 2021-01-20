@@ -322,7 +322,7 @@ class Course implements CourseInterface
     protected $ancestor;
 
     /**
-     * @var CourseInterface
+     * @var ArrayCollection|CourseInterface[]
      */
     #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'Course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
