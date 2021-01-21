@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class LearningMaterialDTO
@@ -16,185 +17,147 @@ class LearningMaterialDTO
 {
 
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $description;
+    public ?string $description;
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $uploadDate;
+    public DateTime $uploadDate;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $originalAuthor;
+    public ?string $originalAuthor;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Related("learningMaterialUserRoles")
      * @IS\Type("entity")
      */
-    public $userRole;
+    public int $userRole;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Related("learningMaterialStatuses")
      * @IS\Type("entity")
      */
-    public $status;
+    public int $status;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Related("users")
      * @IS\Type("entity")
      */
-    public $owningUser;
+    public int $owningUser;
 
     /**
-     * @var string[]
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessionLearningMaterials;
+    public array $sessionLearningMaterials;
 
     /**
-     * @var string[]
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $courseLearningMaterials;
+    public array $courseLearningMaterials;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $citation;
+    public ?string $citation;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $copyrightPermission;
+    public bool $copyrightPermission;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $copyrightRationale;
+    public ?string $copyrightRationale;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $filename;
+    public ?string $filename;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $mimetype;
+    public ?string $mimetype;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $filesize;
-
+    public ?int $filesize;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $link;
+    public ?string $link;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $absoluteFileUri;
-
+    public ?string $absoluteFileUri;
 
     /**
      * Not exposed, it is used to build the URI later
-     * @var string
-     *
      * @IS\Type("string")
      */
-    public $token;
+    public ?string $token;
 
     /**
      * Not exposed, used by indexing
-     * @var string
      */
-    public $relativePath;
+    public ?string $relativePath;
 
     public function __construct(
-        $id,
-        $title,
-        $description,
-        $uploadDate,
-        $originalAuthor,
-        $citation,
-        $copyrightPermission,
-        $copyrightRationale,
-        $filename,
-        $mimetype,
-        $filesize,
-        $link,
-        $token,
-        $relativePath
+        int $id,
+        string $title,
+        ?string $description,
+        DateTime $uploadDate,
+        ?string $originalAuthor,
+        ?string $citation,
+        bool $copyrightPermission,
+        ?string $copyrightRationale,
+        ?string $filename,
+        ?string $mimetype,
+        ?int $filesize,
+        ?string $link,
+        ?string $token,
+        ?string $relativePath
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -210,6 +173,8 @@ class LearningMaterialDTO
         $this->link = $link;
         $this->token = $token;
         $this->relativePath = $relativePath;
+
+        $this->absoluteFileUri = null;
 
         $this->sessionLearningMaterials = [];
         $this->courseLearningMaterials = [];

@@ -14,36 +14,32 @@ use App\Annotation as IS;
 class SchoolConfigDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $name;
+    public string $name;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $value;
+    public string $value;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("schools")
      * @IS\Type("string")
      */
-    public $school;
+    public int $school;
 
-    public function __construct($id, $name, $value)
+    public function __construct(int $id, string $name, string $value)
     {
         $this->id = $id;
         $this->name = $name;

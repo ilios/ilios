@@ -14,25 +14,23 @@ use App\Annotation as IS;
 class AuthenticationDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Related("users")
      * @IS\Type("string")
     */
-    public $user;
+    public int $user;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      *
     */
-    public $username;
+    public string $username;
 
     public function __construct(
-        $user,
-        $username
+        int $user,
+        string $username
     ) {
         $this->user = $user;
         $this->username = $username;

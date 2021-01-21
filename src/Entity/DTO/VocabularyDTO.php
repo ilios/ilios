@@ -14,53 +14,40 @@ use App\Annotation as IS;
 class VocabularyDTO
 {
     /**
-     * @var string
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Related("schools")
      * @IS\Type("string")
      */
-    public $school;
+    public int $school;
 
     /**
      * @var int[]
-     *
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $terms;
+    public array $terms;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $active;
+    public bool $active;
 
-    /**
-     * @param $id
-     * @param $title
-     * @param $active
-     */
-    public function __construct($id, $title, $active)
+    public function __construct(int $id, string $title, bool $active)
     {
         $this->id = $id;
         $this->title = $title;

@@ -15,20 +15,18 @@ use App\Annotation as IS;
 class AamcPcrsDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public string $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      *
      */
-    public $description;
+    public string $description;
 
     /**
      * @var int[]
@@ -36,11 +34,11 @@ class AamcPcrsDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $competencies;
+    public array $competencies;
 
     public function __construct(
-        $id,
-        $description
+        string $id,
+        string $description
     ) {
         $this->id = $id;
         $this->description = $description;

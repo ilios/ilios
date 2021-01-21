@@ -15,90 +15,67 @@ use App\Annotation as IS;
 class SessionTypeDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
     */
-    public $title;
+    public string $title;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
     */
-    public $calendarColor;
+    public string $calendarColor;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
     */
-    public $active;
+    public bool $active;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
     */
-    public $assessment;
+    public bool $assessment;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("assessmentOptions")
      * @IS\Type("entity")
      */
-    public $assessmentOption;
+    public int $assessmentOption;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("schools")
      * @IS\Type("entity")
      */
-    public $school;
+    public int $school;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $aamcMethods;
+    public array $aamcMethods;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessions;
+    public array $sessions;
 
-    /**
-     * SessionTypeDTO constructor.
-     * @param $id
-     * @param $title
-     * @param $calendarColor
-     * @param $assessment
-     * @param $active
-     */
-    public function __construct($id, $title, $calendarColor, $assessment, $active)
+    public function __construct(int $id, string $title, string $calendarColor, bool $assessment, bool $active)
     {
         $this->id = $id;
         $this->title = $title;

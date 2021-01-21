@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class CurriculumInventorySequenceBlockDTO
@@ -14,199 +15,149 @@ use App\Annotation as IS;
 class CurriculumInventorySequenceBlockDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $description;
+    public ?string $description;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $required;
+    public int $required;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $childSequenceOrder;
+    public int $childSequenceOrder;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $orderInSequence;
+    public int $orderInSequence;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $minimum;
+    public int $minimum;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $maximum;
+    public int $maximum;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $track;
+    public bool $track;
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $startDate;
+    public DateTime $startDate;
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $endDate;
+    public DateTime $endDate;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $duration;
+    public int $duration;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("curriculumInventoryAcademicLevels")
      * @IS\Type("string")
      */
-    public $academicLevel;
+    public int $academicLevel;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("courses")
      * @IS\Type("string")
      */
-    public $course;
+    public ?int $course;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("curriculumInventorySequenceBlocks")
      * @IS\Type("string")
      */
-    public $parent;
+    public ?int $parent;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related("curriculumInventorySequenceBlocks")
      * @IS\Type("array<string>")
      */
-    public $children;
+    public array $children;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("curriculumInventoryReports")
      * @IS\Type("string")
      */
-    public $report;
+    public int $report;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessions;
+    public array $sessions;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
-    public $excludedSessions;
+    public array $excludedSessions;
 
     /**
      * Needed for voting not exposed in the API
      *
-     * @var int
-     *
      */
-    public $school;
+    public int $school;
 
-    /**
-     * CurriculumInventorySequenceBlockDTO constructor.
-     * @param $id
-     * @param $title
-     * @param $description
-     * @param $required
-     * @param $childSequenceOrder
-     * @param $orderInSequence
-     * @param $minimum
-     * @param $maximum
-     * @param $track
-     * @param $startDate
-     * @param $endDate
-     * @param $duration
-     */
     public function __construct(
-        $id,
-        $title,
-        $description,
-        $required,
-        $childSequenceOrder,
-        $orderInSequence,
-        $minimum,
-        $maximum,
-        $track,
-        $startDate,
-        $endDate,
-        $duration
+        int $id,
+        string $title,
+        ?string $description,
+        int $required,
+        int $childSequenceOrder,
+        int $orderInSequence,
+        int $minimum,
+        int $maximum,
+        bool $track,
+        DateTime $startDate,
+        DateTime $endDate,
+        int $duration
     ) {
         $this->id = $id;
         $this->title = $title;

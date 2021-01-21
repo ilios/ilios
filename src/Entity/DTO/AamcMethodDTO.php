@@ -15,41 +15,37 @@ use App\Annotation as IS;
 class AamcMethodDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public string $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      *
      */
-    public $description;
+    public string $description;
 
     /**
-     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessionTypes;
+    public array $sessionTypes;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $active;
+    public bool $active;
 
 
     public function __construct(
-        $id,
-        $description,
-        $active
+        string $id,
+        string $description,
+        bool $active
     ) {
         $this->id = $id;
         $this->description = $description;

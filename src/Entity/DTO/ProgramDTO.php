@@ -15,62 +15,55 @@ use App\Annotation as IS;
 class ProgramDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      *
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      *
      */
-    public $shortTitle;
+    public string $shortTitle;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $duration;
+    public int $duration;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("schools")
      * @IS\Type("string")
      *
      */
-    public $school;
+    public int $school;
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
-     *
      */
-    public $programYears;
+    public array $programYears;
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
-     *
      */
-    public $curriculumInventoryReports;
+    public array $curriculumInventoryReports;
 
     /**
      * @var int[]
@@ -78,14 +71,14 @@ class ProgramDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $directors;
+    public array $directors;
 
 
     public function __construct(
-        $id,
-        $title,
-        $shortTitle,
-        $duration
+        int $id,
+        string $title,
+        string $shortTitle,
+        int $duration
     ) {
         $this->id = $id;
         $this->title = $title;

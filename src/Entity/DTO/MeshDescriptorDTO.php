@@ -16,40 +16,37 @@ use DateTime;
 class MeshDescriptorDTO
 {
     /**
-     * @var string
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public string $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $name;
+    public string $name;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $annotation;
+    public string $annotation;
 
     /**
      * @var DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $createdAt;
+    public DateTime $createdAt;
 
     /**
      * @var DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $updatedAt;
+    public DateTime $updatedAt;
 
     /**
      * @var int[]
@@ -57,7 +54,7 @@ class MeshDescriptorDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $courses;
+    public array $courses;
 
     /**
      * @var int[]
@@ -65,7 +62,7 @@ class MeshDescriptorDTO
      * @IS\Related("sessionObjectives")
      * @IS\Type("array<string>")
      */
-    public $sessionObjectives;
+    public array $sessionObjectives;
 
     /**
      * @var int[]
@@ -73,7 +70,7 @@ class MeshDescriptorDTO
      * @IS\Related("courseObjectives")
      * @IS\Type("array<string>")
      */
-    public $courseObjectives;
+    public array $courseObjectives;
 
     /**
      * @var int[]
@@ -81,7 +78,7 @@ class MeshDescriptorDTO
      * @IS\Related("programYearObjectives")
      * @IS\Type("array<string>")
      */
-    public $programYearObjectives;
+    public array $programYearObjectives;
 
 
     /**
@@ -90,7 +87,7 @@ class MeshDescriptorDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessions;
+    public array $sessions;
 
     /**
      * @var string[]
@@ -98,7 +95,7 @@ class MeshDescriptorDTO
      * @IS\Related("meshConcepts")
      * @IS\Type("array<string>")
      */
-    public $concepts;
+    public array $concepts;
 
     /**
      * @var string[]
@@ -106,7 +103,7 @@ class MeshDescriptorDTO
      * @IS\Related("meshQualifiers")
      * @IS\Type("array<string>")
      */
-    public $qualifiers;
+    public array $qualifiers;
 
     /**
      * @var int[]
@@ -114,7 +111,7 @@ class MeshDescriptorDTO
      * @IS\Related("meshTrees")
      * @IS\Type("array<string>")
      */
-    public $trees;
+    public array $trees;
 
     /**
      * @var int[]
@@ -122,7 +119,7 @@ class MeshDescriptorDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessionLearningMaterials;
+    public array $sessionLearningMaterials;
 
     /**
      * @var int[]
@@ -130,39 +127,28 @@ class MeshDescriptorDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $courseLearningMaterials;
+    public array $courseLearningMaterials;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("meshPreviousIndexings")
      * @IS\Type("string")
      */
-    public $previousIndexing;
+    public ?int $previousIndexing;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $deleted;
+    public bool $deleted;
 
-    /**
-     * MeshDescriptorDTO constructor.
-     * @param string $id
-     * @param string $name
-     * @param string $annotation
-     * @param DateTime $createdAt
-     * @param DateTime $updatedAt
-     * @param bool $deleted
-     */
     public function __construct(
-        $id,
-        $name,
-        $annotation,
-        $createdAt,
-        $updatedAt,
-        $deleted
+        string $id,
+        string $name,
+        string $annotation,
+        DateTime $createdAt,
+        DateTime $updatedAt,
+        bool $deleted
     ) {
         $this->id = $id;
         $this->name = $name;

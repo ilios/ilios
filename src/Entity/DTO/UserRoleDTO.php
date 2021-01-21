@@ -14,26 +14,19 @@ use App\Annotation as IS;
 class UserRoleDTO
 {
     /**
-     * @var string
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
-    /**
-     * UserRoleDTO constructor.
-     * @param $id
-     * @param $title
-     */
-    public function __construct($id, $title)
+    public function __construct(int $id, string $title)
     {
         $this->id = $id;
         $this->title = $title;

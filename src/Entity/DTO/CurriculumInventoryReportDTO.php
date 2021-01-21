@@ -8,6 +8,7 @@ use App\Annotation as IS;
 use App\Entity\CurriculumInventoryAcademicLevelInterface;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
+use DateTime;
 
 /**
  * Class CurriculumInventoryReport
@@ -17,119 +18,94 @@ use App\Entity\CurriculumInventorySequenceBlockInterface;
 class CurriculumInventoryReportDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $name;
+    public string $name;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $description;
+    public string $description;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $year;
+    public int $year;
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $startDate;
+    public DateTime $startDate;
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $endDate;
+    public DateTime $endDate;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("curriculumInventoryExports")
      * @IS\Type("integer")
      */
-    public $export;
+    public ?int $export;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("curriculumInventorySequences")
      * @IS\Type("integer")
      */
-    public $sequence;
+    public ?int $sequence;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related("curriculumInventorySequenceBlocks")
      * @IS\Type("array<string>")
      */
-    public $sequenceBlocks;
+    public array $sequenceBlocks;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("programs")
      * @IS\Type("integer")
      */
-    public $program;
+    public int $program;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related("curriculumInventoryAcademicLevels")
      * @IS\Type("array<string>")
      */
-    public $academicLevels;
+    public array $academicLevels;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $absoluteFileUri;
+    public string $absoluteFileUri;
 
     /**
      * Needed for voting not exposed in the API
-     *
-     * @var int
      */
-    public $school;
+    public int $school;
 
     /**
      * Needed for creating the absolute URL, not exposed in the API
-     *
-     * @var int
      */
-    public $token;
+    public string $token;
 
     /**
      * @var int[]
@@ -137,13 +113,17 @@ class CurriculumInventoryReportDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $administrators;
+    public array $administrators;
 
-    /**
-     * Constructor
-     */
-    public function __construct($id, $name, $description, $year, $startDate, $endDate, $token)
-    {
+    public function __construct(
+        int $id,
+        string $name,
+        string $description,
+        int $year,
+        DateTime $startDate,
+        DateTime $endDate,
+        string $token
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;

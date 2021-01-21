@@ -15,28 +15,25 @@ use App\Annotation as IS;
 class CohortDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      *
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("programYears")
      * @IS\Type("string")
      */
-    public $programYear;
+    public int $programYear;
 
     /**
      * @var int[]
@@ -44,7 +41,7 @@ class CohortDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $courses;
+    public array $courses;
 
     /**
      * @var int[]
@@ -52,7 +49,7 @@ class CohortDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $learnerGroups;
+    public array $learnerGroups;
 
     /**
      * @var int[]
@@ -60,24 +57,22 @@ class CohortDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $users;
+    public array $users;
 
 
     /**
      * For Voter use, not public
-     * @var int
      */
-    public $program;
+    public int $program;
 
     /**
      * For Voter use, not public
-     * @var int
      */
-    public $school;
+    public int $school;
 
     public function __construct(
-        $id,
-        $title
+        int $id,
+        string $title
     ) {
         $this->id = $id;
         $this->title = $title;

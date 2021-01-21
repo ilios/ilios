@@ -14,126 +14,101 @@ use App\Annotation as IS;
 class CourseObjectiveDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
      * @var string
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
-     *
      */
-    public $active;
+    public bool $active;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("integer")
-     *
      */
-    public $position;
+    public int $position;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $terms;
+    public array $terms;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("courses")
      * @IS\Type("integer")
      */
-    public $course;
+    public int $course;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var int
      */
-    public $school;
+    public int $school;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var bool
      */
-    public $courseIsLocked;
+    public bool $courseIsLocked;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var bool
      */
-    public $courseIsArchived;
+    public bool $courseIsArchived;
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related("programYearObjectives")
      * @IS\Type("array<string>")
-     *
      */
-    public $programYearObjectives;
+    public array $programYearObjectives;
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related("sessionObjectives")
      * @IS\Type("array<string>")
-     *
      */
-    public $sessionObjectives;
+    public array $sessionObjectives;
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
-     *
      */
-    public $meshDescriptors;
+    public array $meshDescriptors;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("courseObjectives")
      * @IS\Type("string")
-     *
      */
-    public $ancestor;
+    public ?int $ancestor;
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related("courseObjectives")
      * @IS\Type("array<string>")
-     *
      */
-    public $descendants;
+    public array $descendants;
 
-    /**
-     * Constructor
-     * @param int $id
-     * @param string $title
-     * @param int $position
-     * @param bool $active
-     */
-    public function __construct($id, $title, $position, $active)
+    public function __construct(int $id, string $title, int $position, bool $active)
     {
         $this->id = $id;
         $this->title = $title;

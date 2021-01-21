@@ -14,90 +14,70 @@ use App\Annotation as IS;
 class CurriculumInventoryInstitutionDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $name;
+    public string $name;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $aamcCode;
+    public string $aamcCode;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $addressStreet;
+    public string $addressStreet;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $addressCity;
+    public string $addressCity;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $addressStateOrProvince;
+    public string $addressStateOrProvince;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $addressZipCode;
+    public string $addressZipCode;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $addressCountryCode;
+    public string $addressCountryCode;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("schools")
      * @IS\Type("string")
      */
-    public $school;
+    public int $school;
 
-    /**
-     * Constructor
-     */
     public function __construct(
-        $id,
-        $name,
-        $aamcCode,
-        $addressStreet,
-        $addressCity,
-        $addressStateOrProvince,
-        $addressZipCode,
-        $addressCountryCode
+        int $id,
+        string $name,
+        string $aamcCode,
+        string $addressStreet,
+        string $addressCity,
+        string $addressStateOrProvince,
+        string $addressZipCode,
+        string $addressCountryCode
     ) {
         $this->id = $id;
         $this->name = $name;

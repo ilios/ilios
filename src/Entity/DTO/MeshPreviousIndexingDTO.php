@@ -15,30 +15,25 @@ use App\Annotation as IS;
 class MeshPreviousIndexingDTO
 {
     /**
-     * @var string
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $previousIndexing;
+    public string $previousIndexing;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $descriptor;
+    public string $descriptor;
 
-    public function __construct($id, $previousIndexing)
+    public function __construct(int $id, string $previousIndexing)
     {
         $this->id = $id;
         $this->previousIndexing = $previousIndexing;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class MeshQualifierDTO
@@ -14,50 +15,39 @@ use App\Annotation as IS;
 class MeshQualifierDTO
 {
     /**
-     * @var string
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public string $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $name;
+    public string $name;
 
     /**
-     * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $createdAt;
+    public DateTime $createdAt;
 
     /**
-     * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $updatedAt;
+    public DateTime $updatedAt;
 
     /**
-     * @var int[]
+     * @var string[]
      * @IS\Expose
      * @IS\Related("meshDescriptors")
      * @IS\Type("array<string>")
      */
-    public $descriptors;
+    public array $descriptors;
 
-    /**
-     * MeshQualifierDTO constructor.
-     * @param $id
-     * @param $name
-     * @param $createdAt
-     * @param $updatedAt
-     */
-    public function __construct($id, $name, $createdAt, $updatedAt)
+    public function __construct(string $id, string $name, DateTime $createdAt, DateTime $updatedAt)
     {
         $this->id = $id;
         $this->name = $name;

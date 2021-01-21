@@ -14,94 +14,76 @@ use App\Annotation as IS;
 class SessionObjectiveDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
-     *
      */
-    public $active;
+    public bool $active;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("sessions")
      * @IS\Type("integer")
      */
-    public $session;
+    public int $session;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("integer")
-     *
      */
-    public $position;
+    public int $position;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $terms;
+    public array $terms;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var int
-     *
      * @IS\Type("integer")
      */
-    public $course;
+    public int $course;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var int
-     *
      * @IS\Type("integer")
      */
-    public $school;
+    public int $school;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var bool
-     *
      * @IS\Type("boolean")
      */
-    public $courseIsLocked;
+    public bool $courseIsLocked;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var bool
-     *
      * @IS\Type("boolean")
      */
-    public $courseIsArchived;
+    public bool $courseIsArchived;
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related("courseObjectives")
      * @IS\Type("array<string>")
-     *
      */
-    public $courseObjectives;
+    public array $courseObjectives;
 
 
     /**
@@ -109,36 +91,26 @@ class SessionObjectiveDTO
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
-     *
      */
-    public $meshDescriptors;
+    public array $meshDescriptors;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("sessionObjectives")
      * @IS\Type("string")
      *
      */
-    public $ancestor;
+    public ?int $ancestor;
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related("sessionObjectives")
      * @IS\Type("array<string>")
-     *
      */
-    public $descendants;
+    public array $descendants;
 
-    /**
-     * Constructor
-     * @param int $id
-     * @param string $title
-     * @param int $position
-     * @param bool $active
-     */
-    public function __construct($id, $title, $position, $active)
+    public function __construct(int $id, string $title, int $position, bool $active)
     {
         $this->id = $id;
         $this->title = $title;

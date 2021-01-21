@@ -15,29 +15,27 @@ use App\Annotation as IS;
 class CourseClerkshipTypeDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var int
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $courses;
+    public array $courses;
 
-    public function __construct($id, $title)
+    public function __construct(int $id, string $title)
     {
         $this->id = $id;
         $this->title = $title;

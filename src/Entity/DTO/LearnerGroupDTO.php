@@ -16,26 +16,23 @@ class LearnerGroupDTO
 {
 
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $location;
+    public ?string $location;
 
     /**
      * @IS\Expose
@@ -50,88 +47,83 @@ class LearnerGroupDTO
     public bool $needsAccommodation;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("cohorts")
      * @IS\Type("string")
      */
-    public $cohort;
+    public int $cohort;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("learnerGroups")
      * @IS\Type("string")
      */
-    public $parent;
+    public ?int $parent;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("learnerGroups")
      * @IS\Type("string")
-     *
      */
-    public $ancestor;
+    public ?int $ancestor;
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related("learnerGroups")
      * @IS\Type("array<string>")
-     *
      */
-    public $descendants;
+    public array $descendants;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("learnerGroups")
      * @IS\Type("array<string>")
      */
-    public $children;
+    public array $children;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $ilmSessions;
+    public array $ilmSessions;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $offerings;
+    public array $offerings;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $instructorGroups;
+    public array $instructorGroups;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $users;
+    public array $users;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $instructors;
+    public array $instructors;
 
-    public function __construct($id, $title, $location, $url, $needsAccommodation)
+    public function __construct(int $id, string $title, ?string $location, ?string $url, bool $needsAccommodation)
     {
         $this->id = $id;
         $this->title = $title;

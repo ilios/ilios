@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class ReportDTO
@@ -14,81 +15,63 @@ use App\Annotation as IS;
 class ReportDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $createdAt;
+    public DateTime $createdAt;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("schools")
      * @IS\Type("string")
      */
-    public $school;
+    public ?int $school;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $subject;
+    public string $subject;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $prepositionalObject;
+    public ?string $prepositionalObject;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $prepositionalObjectTableRowId;
+    public ?string $prepositionalObjectTableRowId;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("users")
      * @IS\Type("string")
      */
-    public $user;
+    public int $user;
 
-    /**
-     * Constructor
-     */
     public function __construct(
-        $id,
-        $title,
-        $createdAt,
-        $subject,
-        $prepositionalObject,
-        $prepositionalObjectTableRowId
+        int $id,
+        string $title,
+        DateTime $createdAt,
+        string $subject,
+        ?string $prepositionalObject,
+        ?string $prepositionalObjectTableRowId
     ) {
         $this->id = $id;
         $this->title = $title;
