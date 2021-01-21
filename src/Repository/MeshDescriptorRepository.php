@@ -417,7 +417,6 @@ EOL;
     }
 
     /**
-     * @param array $data
      * @throws Exception
      */
     public function upsertMeshUniverse(DescriptorSet $descriptorSet, array $existingDescriptorIds)

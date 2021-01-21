@@ -69,7 +69,7 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return mixed|null
      */
     public function getValue($name)

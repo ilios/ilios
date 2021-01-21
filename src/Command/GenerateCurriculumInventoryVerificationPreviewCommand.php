@@ -344,7 +344,8 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
     }
 
     /**
-     * @param $title
+     * @param OutputInterface $output
+     * @param string $title
      */
     protected function printTableHeadline(OutputInterface $output, $title): void
     {

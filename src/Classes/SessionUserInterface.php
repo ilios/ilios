@@ -71,9 +71,6 @@ interface SessionUserInterface extends UserInterface, EquatableInterface
 
     /**
      * Check if a user is a director of a course
-     *
-     * @param $courseId
-     *
      * @return bool
      */
     public function isDirectingCourse(int $courseId);

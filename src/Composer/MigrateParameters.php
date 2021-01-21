@@ -65,7 +65,8 @@ class MigrateParameters
 
     /**
      * Write parameters to the file
-     * @param $parameters
+     * @param string $parametersPath
+     * @param mixed $parameters
      * @throws \Exception
      */
     protected static function writeParameters($parametersPath, $parameters)

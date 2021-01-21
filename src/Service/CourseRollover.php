@@ -280,8 +280,10 @@ class CourseRollover
     }
 
     /**
-     * @param $daysOffset
-     * @param $options
+     * @param SessionInterface $newSession
+     * @param SessionInterface $origCourseSession
+     * @param int $daysOffset
+     * @param array $options
      * @throws Exception
      */
     protected function rolloverOfferings(
@@ -484,7 +486,9 @@ class CourseRollover
     }
 
     /**
-     * @param $daysOffset
+     * @param SessionInterface $newSession
+     * @param SessionInterface $origSession
+     * @param int $daysOffset
      * @throws Exception
      */
     protected function rolloverIlmSession(

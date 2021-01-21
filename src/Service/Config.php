@@ -35,7 +35,7 @@ class Config
      * Look in ENV variables first, if this is set there then
      * go ahead and ignore the DB
      *
-     * @param $name
+     * @param string $name
      *
      * @return string | null
      */
@@ -52,7 +52,7 @@ class Config
     /**
      * See if there is an environmental variable for this var
      *
-     * @param $name
+     * @param string $name
      * @return string | null
      */
     protected function getValueFromEnv($name)
@@ -83,7 +83,7 @@ class Config
      * If there is a problem connecting to the DB or with the tables we
      * just return null
      *
-     * @param $name
+     * @param string $name
      * @return string | null
      */
     protected function getValueFromDb($name)
@@ -101,8 +101,8 @@ class Config
      * Some parameters are expected to be booleans because they always have been.
      * Since the database stores all of these as long_text we need to cast them back
      *
-     * @param $name
-     * @param $result
+     * @param string $name
+     * @param string|boolean $result
      *
      * @return mixed
      */

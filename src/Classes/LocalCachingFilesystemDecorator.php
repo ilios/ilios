@@ -65,7 +65,6 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
 
     /**
      * Wrapped delete for removing possibly missing files from the local cache
-     * @param $path
      */
     protected function deleteFromCache(string $path): void
     {
@@ -79,7 +78,6 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
 
     /**
      * Wrapped deleteFromDir for removing possibly missing files from the local cache
-     * @param $dirname
      */
     protected function deleteDirFromCache(string $dirname): void
     {

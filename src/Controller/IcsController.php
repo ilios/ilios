@@ -150,7 +150,7 @@ class IcsController extends AbstractController
     }
 
     /**
-     * @param $string
+     * @param string $string
      * @return string
      */
     protected function purify($string)
