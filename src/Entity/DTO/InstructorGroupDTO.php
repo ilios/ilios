@@ -40,7 +40,7 @@ class InstructorGroupDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $learnerGroups;
+    public array $learnerGroups = [];
 
     /**
      * @var int[]
@@ -48,7 +48,7 @@ class InstructorGroupDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $ilmSessions;
+    public array $ilmSessions = [];
 
     /**
      * @var int[]
@@ -56,7 +56,7 @@ class InstructorGroupDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $users;
+    public array $users = [];
 
     /**
      * @var int[]
@@ -64,16 +64,11 @@ class InstructorGroupDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $offerings;
+    public array $offerings = [];
 
     public function __construct(int $id, string $title)
     {
         $this->id = $id;
         $this->title = $title;
-
-        $this->learnerGroups = [];
-        $this->ilmSessions = [];
-        $this->users = [];
-        $this->offerings = [];
     }
 }

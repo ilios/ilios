@@ -58,14 +58,14 @@ class LearnerGroupDTO
      * @IS\Related("learnerGroups")
      * @IS\Type("string")
      */
-    public ?int $parent;
+    public ?int $parent = null;
 
     /**
      * @IS\Expose
      * @IS\Related("learnerGroups")
      * @IS\Type("string")
      */
-    public ?int $ancestor;
+    public ?int $ancestor = null;
 
     /**
      * @var int[]
@@ -73,7 +73,7 @@ class LearnerGroupDTO
      * @IS\Related("learnerGroups")
      * @IS\Type("array<string>")
      */
-    public array $descendants;
+    public array $descendants = [];
 
     /**
      * @var int[]
@@ -81,7 +81,7 @@ class LearnerGroupDTO
      * @IS\Related("learnerGroups")
      * @IS\Type("array<string>")
      */
-    public array $children;
+    public array $children = [];
 
     /**
      * @var int[]
@@ -89,7 +89,7 @@ class LearnerGroupDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $ilmSessions;
+    public array $ilmSessions = [];
 
     /**
      * @var int[]
@@ -97,7 +97,7 @@ class LearnerGroupDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $offerings;
+    public array $offerings = [];
 
     /**
      * @var int[]
@@ -105,7 +105,7 @@ class LearnerGroupDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $instructorGroups;
+    public array $instructorGroups = [];
 
     /**
      * @var int[]
@@ -113,7 +113,7 @@ class LearnerGroupDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $users;
+    public array $users = [];
 
     /**
      * @var int[]
@@ -121,7 +121,7 @@ class LearnerGroupDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $instructors;
+    public array $instructors = [];
 
     public function __construct(int $id, string $title, ?string $location, ?string $url, bool $needsAccommodation)
     {
@@ -130,13 +130,5 @@ class LearnerGroupDTO
         $this->location = $location;
         $this->url = $url;
         $this->needsAccommodation = $needsAccommodation;
-
-        $this->children = [];
-        $this->ilmSessions = [];
-        $this->offerings = [];
-        $this->instructorGroups = [];
-        $this->users = [];
-        $this->instructors = [];
-        $this->descendants = [];
     }
 }

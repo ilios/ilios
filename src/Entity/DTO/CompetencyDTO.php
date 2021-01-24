@@ -40,14 +40,14 @@ class CompetencyDTO
      * @IS\Related("programYearObjectives")
      * @IS\Type("array<string>")
      */
-    public array $programYearObjectives;
+    public array $programYearObjectives = [];
 
     /**
      * @IS\Expose
      * @IS\Related("competencies")
      * @IS\Type("string")
      */
-    public ?int $parent;
+    public ?int $parent = null;
 
     /**
      * @var int[]
@@ -55,7 +55,7 @@ class CompetencyDTO
      * @IS\Related("competencies")
      * @IS\Type("array<string>")
      */
-    public array $children;
+    public array $children = [];
 
     /**
      * @var int[]
@@ -63,7 +63,7 @@ class CompetencyDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $aamcPcrses;
+    public array $aamcPcrses = [];
 
     /**
      * @var int[]
@@ -71,7 +71,7 @@ class CompetencyDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $programYears;
+    public array $programYears = [];
 
     /**
      * @IS\Expose
@@ -88,10 +88,5 @@ class CompetencyDTO
         $this->id = $id;
         $this->title = $title;
         $this->active = $active;
-
-        $this->programYearObjectives = [];
-        $this->children = [];
-        $this->aamcPcrses = [];
-        $this->programYears = [];
     }
 }

@@ -41,7 +41,7 @@ class AamcResourceTypeDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $terms;
+    public array $terms = [];
 
     public function __construct(
         string $id,
@@ -51,7 +51,5 @@ class AamcResourceTypeDTO
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
-
-        $this->terms = [];
     }
 }

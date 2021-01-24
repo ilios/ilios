@@ -41,7 +41,7 @@ class CohortDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $courses;
+    public array $courses = [];
 
     /**
      * @var int[]
@@ -49,7 +49,7 @@ class CohortDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $learnerGroups;
+    public array $learnerGroups = [];
 
     /**
      * @var int[]
@@ -57,8 +57,7 @@ class CohortDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $users;
-
+    public array $users = [];
 
     /**
      * For Voter use, not public

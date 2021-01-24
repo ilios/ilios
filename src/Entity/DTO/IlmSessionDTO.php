@@ -47,7 +47,7 @@ class IlmSessionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $learnerGroups;
+    public array $learnerGroups = [];
 
     /**
      * @var int[]
@@ -55,7 +55,7 @@ class IlmSessionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $instructorGroups;
+    public array $instructorGroups = [];
 
     /**
      * @var int[]
@@ -63,7 +63,7 @@ class IlmSessionDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $instructors;
+    public array $instructors = [];
 
     /**
      * @var int[]
@@ -71,7 +71,7 @@ class IlmSessionDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $learners;
+    public array $learners = [];
 
     /**
      * Needed for voting not exposed in the API
@@ -88,10 +88,5 @@ class IlmSessionDTO
         $this->id = $id;
         $this->hours = $hours;
         $this->dueDate = $dueDate;
-
-        $this->learnerGroups = [];
-        $this->instructors = [];
-        $this->instructorGroups = [];
-        $this->learners = [];
     }
 }

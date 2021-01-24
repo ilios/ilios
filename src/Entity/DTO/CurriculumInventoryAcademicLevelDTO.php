@@ -31,7 +31,7 @@ class CurriculumInventoryAcademicLevelDTO
      * @IS\Expose
      * @IS\Type("string")
     */
-    public string $description;
+    public ?string $description;
 
     /**
      * @IS\Expose
@@ -52,20 +52,18 @@ class CurriculumInventoryAcademicLevelDTO
     * @IS\Related("curriculumInventorySequenceBlocks")
     * @IS\Type("array<string>")
     */
-    public array $sequenceBlocks;
+    public array $sequenceBlocks = [];
 
     /**
      * Needed for voting not exposed in the API
      */
     public int $school;
 
-    public function __construct(int $id, string $name, string $description, int $level)
+    public function __construct(int $id, string $name, ?string $description, int $level)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->level = $level;
-
-        $this->sequenceBlocks = [];
     }
 }

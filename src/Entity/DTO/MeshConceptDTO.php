@@ -57,7 +57,7 @@ class MeshConceptDTO
      * @IS\Related("meshTerms")
      * @IS\Type("array<string>")
      */
-    public array $terms;
+    public array $terms = [];
 
     /**
      * @IS\Expose
@@ -77,7 +77,7 @@ class MeshConceptDTO
      * @IS\Related("meshDescriptors")
      * @IS\Type("array<string>")
      */
-    public array $descriptors;
+    public array $descriptors = [];
 
     public function __construct(
         string $id,
@@ -97,8 +97,5 @@ class MeshConceptDTO
         $this->registryNumber = $registryNumber;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
-
-        $this->terms = [];
-        $this->descriptors = [];
     }
 }

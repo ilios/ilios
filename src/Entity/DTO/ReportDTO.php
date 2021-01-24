@@ -25,7 +25,7 @@ class ReportDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $title;
+    public ?string $title;
 
     /**
      * @IS\Expose
@@ -38,7 +38,7 @@ class ReportDTO
      * @IS\Related("schools")
      * @IS\Type("string")
      */
-    public ?int $school;
+    public ?int $school = null;
 
     /**
      * @IS\Expose
@@ -67,7 +67,7 @@ class ReportDTO
 
     public function __construct(
         int $id,
-        string $title,
+        ?string $title,
         DateTime $createdAt,
         string $subject,
         ?string $prepositionalObject,

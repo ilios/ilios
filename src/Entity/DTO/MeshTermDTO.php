@@ -76,7 +76,7 @@ class MeshTermDTO
      * @IS\Related("meshConcepts")
      * @IS\Type("array<string>")
      */
-    public array $concepts;
+    public array $concepts = [];
 
     public function __construct(
         int $id,
@@ -99,6 +99,5 @@ class MeshTermDTO
         $this->name = $name;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
-        $this->concepts = [];
     }
 }

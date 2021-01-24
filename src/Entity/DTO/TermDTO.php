@@ -30,16 +30,15 @@ class TermDTO
     /**
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
-    public string $description;
+    public ?string $description;
 
     /**
      * @IS\Expose
      * @IS\Related("terms")
      * @IS\Type("string")
      */
-    public ?int $parent;
+    public ?int $parent = null;
 
     /**
      * @var int[]
@@ -47,7 +46,7 @@ class TermDTO
      * @IS\Related("terms")
      * @IS\Type("array<string>")
      */
-    public array $children;
+    public array $children = [];
 
     /**
      * @var int[]
@@ -55,7 +54,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $courses;
+    public array $courses = [];
 
     /**
      * @var int[]
@@ -63,7 +62,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $programYears;
+    public array $programYears = [];
 
     /**
      * @var int[]
@@ -71,7 +70,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessions;
+    public array $sessions = [];
 
     /**
      * @IS\Expose
@@ -86,7 +85,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $aamcResourceTypes;
+    public array $aamcResourceTypes = [];
 
     /**
      * @IS\Expose
@@ -105,7 +104,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessionObjectives;
+    public array $sessionObjectives = [];
 
     /**
      * @var int[]
@@ -113,7 +112,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $courseObjectives;
+    public array $courseObjectives = [];
 
     /**
      * @var int[]
@@ -121,7 +120,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $programYearObjectives;
+    public array $programYearObjectives = [];
 
     public function __construct(
         int $id,
@@ -133,14 +132,5 @@ class TermDTO
         $this->title = $title;
         $this->description = $description;
         $this->active = $active;
-
-        $this->children = [];
-        $this->courses = [];
-        $this->programYears = [];
-        $this->sessions = [];
-        $this->aamcResourceTypes = [];
-        $this->sessionObjectives = [];
-        $this->courseObjectives = [];
-        $this->programYearObjectives = [];
     }
 }

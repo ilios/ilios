@@ -39,7 +39,7 @@ class VocabularyDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $terms;
+    public array $terms = [];
 
     /**
      * @IS\Expose
@@ -52,7 +52,5 @@ class VocabularyDTO
         $this->id = $id;
         $this->title = $title;
         $this->active = $active;
-
-        $this->terms = [];
     }
 }

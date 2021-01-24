@@ -34,7 +34,7 @@ class AamcPcrsDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $competencies;
+    public array $competencies = [];
 
     public function __construct(
         string $id,
@@ -42,7 +42,5 @@ class AamcPcrsDTO
     ) {
         $this->id = $id;
         $this->description = $description;
-
-        $this->competencies = [];
     }
 }

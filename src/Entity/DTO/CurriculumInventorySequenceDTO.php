@@ -31,7 +31,7 @@ class CurriculumInventorySequenceDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $description;
+    public ?string $description;
 
     /**
      * Needed for voting not exposed in the API
@@ -40,7 +40,7 @@ class CurriculumInventorySequenceDTO
 
     public function __construct(
         int $id,
-        string $description
+        ?string $description
     ) {
         $this->id = $id;
         $this->description = $description;

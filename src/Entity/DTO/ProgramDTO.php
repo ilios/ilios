@@ -24,16 +24,14 @@ class ProgramDTO
     /**
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
     public string $title;
 
     /**
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
-    public string $shortTitle;
+    public ?string $shortTitle;
 
     /**
      * @IS\Expose
@@ -55,7 +53,7 @@ class ProgramDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $programYears;
+    public array $programYears = [];
 
     /**
      * @var int[]
@@ -63,7 +61,7 @@ class ProgramDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $curriculumInventoryReports;
+    public array $curriculumInventoryReports = [];
 
     /**
      * @var int[]
@@ -71,21 +69,18 @@ class ProgramDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $directors;
+    public array $directors = [];
 
 
     public function __construct(
         int $id,
         string $title,
-        string $shortTitle,
+        ?string $shortTitle,
         int $duration
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->shortTitle = $shortTitle;
         $this->duration = $duration;
-        $this->programYears = [];
-        $this->curriculumInventoryReports = [];
-        $this->directors = [];
     }
 }

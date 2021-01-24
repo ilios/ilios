@@ -50,7 +50,7 @@ class SessionTypeDTO
      * @IS\Related("assessmentOptions")
      * @IS\Type("entity")
      */
-    public int $assessmentOption;
+    public ?int $assessmentOption = null;
 
     /**
      * @IS\Expose
@@ -65,7 +65,7 @@ class SessionTypeDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $aamcMethods;
+    public array $aamcMethods = [];
 
     /**
      * @var int[]
@@ -73,7 +73,7 @@ class SessionTypeDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessions;
+    public array $sessions = [];
 
     public function __construct(int $id, string $title, string $calendarColor, bool $assessment, bool $active)
     {
@@ -82,8 +82,5 @@ class SessionTypeDTO
         $this->calendarColor = $calendarColor;
         $this->assessment = $assessment;
         $this->active = $active;
-
-        $this->aamcMethods = [];
-        $this->sessions = [];
     }
 }

@@ -25,7 +25,7 @@ class SessionLearningMaterialDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $notes;
+    public ?string $notes;
 
     /**
      * @IS\Expose
@@ -58,7 +58,7 @@ class SessionLearningMaterialDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $meshDescriptors;
+    public array $meshDescriptors = [];
 
     /**
      * @IS\Expose
@@ -110,7 +110,7 @@ class SessionLearningMaterialDTO
 
     public function __construct(
         int $id,
-        string $notes,
+        ?string $notes,
         bool $required,
         bool $publicNotes,
         int $position,
@@ -124,7 +124,5 @@ class SessionLearningMaterialDTO
         $this->position = $position;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
-
-        $this->meshDescriptors = [];
     }
 }

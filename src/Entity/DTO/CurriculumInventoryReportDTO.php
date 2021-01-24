@@ -28,13 +28,13 @@ class CurriculumInventoryReportDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $name;
+    public ?string $name;
 
     /**
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $description;
+    public ?string $description;
 
     /**
      * @IS\Expose
@@ -59,14 +59,14 @@ class CurriculumInventoryReportDTO
      * @IS\Related("curriculumInventoryExports")
      * @IS\Type("integer")
      */
-    public ?int $export;
+    public ?int $export = null;
 
     /**
      * @IS\Expose
      * @IS\Related("curriculumInventorySequences")
      * @IS\Type("integer")
      */
-    public ?int $sequence;
+    public ?int $sequence = null;
 
     /**
      * @var int[]
@@ -74,7 +74,7 @@ class CurriculumInventoryReportDTO
      * @IS\Related("curriculumInventorySequenceBlocks")
      * @IS\Type("array<string>")
      */
-    public array $sequenceBlocks;
+    public array $sequenceBlocks = [];
 
     /**
      * @IS\Expose
@@ -89,7 +89,7 @@ class CurriculumInventoryReportDTO
      * @IS\Related("curriculumInventoryAcademicLevels")
      * @IS\Type("array<string>")
      */
-    public array $academicLevels;
+    public array $academicLevels = [];
 
     /**
      * @IS\Expose
@@ -105,7 +105,7 @@ class CurriculumInventoryReportDTO
     /**
      * Needed for creating the absolute URL, not exposed in the API
      */
-    public string $token;
+    public ?string $token;
 
     /**
      * @var int[]
@@ -113,7 +113,7 @@ class CurriculumInventoryReportDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $administrators;
+    public array $administrators = [];
 
     public function __construct(
         int $id,
@@ -122,7 +122,7 @@ class CurriculumInventoryReportDTO
         int $year,
         DateTime $startDate,
         DateTime $endDate,
-        string $token
+        ?string $token
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -131,9 +131,5 @@ class CurriculumInventoryReportDTO
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->token = $token;
-
-        $this->academicLevels = [];
-        $this->sequenceBlocks = [];
-        $this->administrators = [];
     }
 }

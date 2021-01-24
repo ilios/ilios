@@ -54,7 +54,7 @@ class MeshDescriptorDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $courses;
+    public array $courses = [];
 
     /**
      * @var int[]
@@ -62,7 +62,7 @@ class MeshDescriptorDTO
      * @IS\Related("sessionObjectives")
      * @IS\Type("array<string>")
      */
-    public array $sessionObjectives;
+    public array $sessionObjectives = [];
 
     /**
      * @var int[]
@@ -70,7 +70,7 @@ class MeshDescriptorDTO
      * @IS\Related("courseObjectives")
      * @IS\Type("array<string>")
      */
-    public array $courseObjectives;
+    public array $courseObjectives = [];
 
     /**
      * @var int[]
@@ -78,7 +78,7 @@ class MeshDescriptorDTO
      * @IS\Related("programYearObjectives")
      * @IS\Type("array<string>")
      */
-    public array $programYearObjectives;
+    public array $programYearObjectives = [];
 
 
     /**
@@ -87,7 +87,7 @@ class MeshDescriptorDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessions;
+    public array $sessions = [];
 
     /**
      * @var string[]
@@ -95,7 +95,7 @@ class MeshDescriptorDTO
      * @IS\Related("meshConcepts")
      * @IS\Type("array<string>")
      */
-    public array $concepts;
+    public array $concepts = [];
 
     /**
      * @var string[]
@@ -103,7 +103,7 @@ class MeshDescriptorDTO
      * @IS\Related("meshQualifiers")
      * @IS\Type("array<string>")
      */
-    public array $qualifiers;
+    public array $qualifiers = [];
 
     /**
      * @var int[]
@@ -111,7 +111,7 @@ class MeshDescriptorDTO
      * @IS\Related("meshTrees")
      * @IS\Type("array<string>")
      */
-    public array $trees;
+    public array $trees = [];
 
     /**
      * @var int[]
@@ -119,7 +119,7 @@ class MeshDescriptorDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessionLearningMaterials;
+    public array $sessionLearningMaterials = [];
 
     /**
      * @var int[]
@@ -127,14 +127,14 @@ class MeshDescriptorDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $courseLearningMaterials;
+    public array $courseLearningMaterials = [];
 
     /**
      * @IS\Expose
      * @IS\Related("meshPreviousIndexings")
      * @IS\Type("string")
      */
-    public ?int $previousIndexing;
+    public ?int $previousIndexing = null;
 
     /**
      * @IS\Expose
@@ -156,16 +156,5 @@ class MeshDescriptorDTO
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->deleted = $deleted;
-
-        $this->courses = [];
-        $this->sessions = [];
-        $this->concepts = [];
-        $this->qualifiers = [];
-        $this->trees = [];
-        $this->sessionLearningMaterials = [];
-        $this->courseLearningMaterials = [];
-        $this->sessionObjectives = [];
-        $this->courseObjectives = [];
-        $this->programYearObjectives = [];
     }
 }

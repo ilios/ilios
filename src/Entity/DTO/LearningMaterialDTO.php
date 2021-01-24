@@ -74,7 +74,7 @@ class LearningMaterialDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessionLearningMaterials;
+    public array $sessionLearningMaterials = [];
 
     /**
      * @var int[]
@@ -82,7 +82,7 @@ class LearningMaterialDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $courseLearningMaterials;
+    public array $courseLearningMaterials = [];
 
     /**
      * @IS\Expose
@@ -118,7 +118,7 @@ class LearningMaterialDTO
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public ?int $filesize;
+    public ?int $filesize = null;
 
     /**
      * @IS\Expose
@@ -130,7 +130,7 @@ class LearningMaterialDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public ?string $absoluteFileUri;
+    public ?string $absoluteFileUri = null;
 
     /**
      * Not exposed, it is used to build the URI later
@@ -173,11 +173,6 @@ class LearningMaterialDTO
         $this->link = $link;
         $this->token = $token;
         $this->relativePath = $relativePath;
-
-        $this->absoluteFileUri = null;
-
-        $this->sessionLearningMaterials = [];
-        $this->courseLearningMaterials = [];
     }
 
     /**

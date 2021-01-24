@@ -34,7 +34,7 @@ class AlertChangeTypeDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $alerts;
+    public array $alerts = [];
 
     public function __construct(
         int $id,
@@ -42,7 +42,5 @@ class AlertChangeTypeDTO
     ) {
         $this->id = $id;
         $this->title = $title;
-
-        $this->alerts = [];
     }
 }

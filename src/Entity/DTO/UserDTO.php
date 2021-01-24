@@ -111,7 +111,7 @@ class UserDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $reports;
+    public array $reports = [];
 
     /**
      * @IS\Expose
@@ -125,7 +125,7 @@ class UserDTO
      * @IS\Related("authentications")
      * @IS\Type("string")
      */
-    public ?int $authentication;
+    public ?int $authentication = null;
 
     /**
      * @var int[]
@@ -133,7 +133,7 @@ class UserDTO
      * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
-    public array $directedCourses;
+    public array $directedCourses = [];
 
     /**
      * @var int[]
@@ -141,7 +141,7 @@ class UserDTO
      * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
-    public array $administeredCourses;
+    public array $administeredCourses = [];
 
     /**
      * @var int[]
@@ -149,7 +149,7 @@ class UserDTO
      * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
-    public array $studentAdvisedCourses;
+    public array $studentAdvisedCourses = [];
 
     /**
      * @var int[]
@@ -157,7 +157,7 @@ class UserDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $learnerGroups;
+    public array $learnerGroups = [];
 
     /**
      * @var int[]
@@ -165,7 +165,7 @@ class UserDTO
      * @IS\Related("learnerGroups")
      * @IS\Type("array<string>")
      */
-    public array $instructedLearnerGroups;
+    public array $instructedLearnerGroups = [];
 
     /**
      * @var int[]
@@ -173,7 +173,7 @@ class UserDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $instructorGroups;
+    public array $instructorGroups = [];
 
     /**
      * @var int[]
@@ -181,7 +181,7 @@ class UserDTO
      * @IS\Related("ilmSessions")
      * @IS\Type("array<string>")
      */
-    public array $instructorIlmSessions;
+    public array $instructorIlmSessions = [];
 
     /**
      * @var int[]
@@ -189,7 +189,7 @@ class UserDTO
      * @IS\Related("ilmSession")
      * @IS\Type("array<string>")
      */
-    public array $learnerIlmSessions;
+    public array $learnerIlmSessions = [];
 
     /**
      * @var int[]
@@ -197,7 +197,7 @@ class UserDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $offerings;
+    public array $offerings = [];
 
     /**
      * @var int[]
@@ -205,7 +205,7 @@ class UserDTO
      * @IS\Related("offerings")
      * @IS\Type("array<string>")
      */
-    public array $instructedOfferings;
+    public array $instructedOfferings = [];
 
     /**
      * @var int[]
@@ -213,7 +213,7 @@ class UserDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $programYears;
+    public array $programYears = [];
 
     /**
      * @var int[]
@@ -221,7 +221,7 @@ class UserDTO
      * @IS\Related("userRoles")
      * @IS\Type("array<string>")
      */
-    public array $roles;
+    public array $roles = [];
 
     /**
      * @var int[]
@@ -229,14 +229,14 @@ class UserDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $cohorts;
+    public array $cohorts = [];
 
     /**
      * @IS\Expose
      * @IS\Related("cohorts")
      * @IS\Type("string")
      */
-    public ?int $primaryCohort;
+    public ?int $primaryCohort = null;
 
     /**
      * @var int[]
@@ -244,7 +244,7 @@ class UserDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $pendingUserUpdates;
+    public array $pendingUserUpdates = [];
 
     /**
      * @IS\Expose
@@ -258,7 +258,7 @@ class UserDTO
      * @IS\Related("schools")
      * @IS\Type("array<string>")
      */
-    public array $directedSchools;
+    public array $directedSchools = [];
 
     /**
      * @var int[]
@@ -266,7 +266,7 @@ class UserDTO
      * @IS\Related("schools")
      * @IS\Type("array<string>")
      */
-    public array $administeredSchools;
+    public array $administeredSchools = [];
 
     /**
      * @var int[]
@@ -274,7 +274,7 @@ class UserDTO
      * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
-    public array $administeredSessions;
+    public array $administeredSessions = [];
 
     /**
      * @var int[]
@@ -282,7 +282,7 @@ class UserDTO
      * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
-    public array $studentAdvisedSessions;
+    public array $studentAdvisedSessions = [];
 
     /**
      * @var int[]
@@ -290,7 +290,7 @@ class UserDTO
      * @IS\Related("programs")
      * @IS\Type("array<string>")
      */
-    public array $directedPrograms;
+    public array $directedPrograms = [];
 
     /**
      * @var int[]
@@ -298,17 +298,17 @@ class UserDTO
      * @IS\Related("curriculumInventoryReports")
      * @IS\Type("array<string>")
      */
-    public array $administeredCurriculumInventoryReports;
+    public array $administeredCurriculumInventoryReports = [];
 
     /**
      * @var int[]
      */
-    public array $auditLogs;
+    public array $auditLogs = [];
 
     /**
      * For index use, not public
      */
-    public string $username;
+    public ?string $username = null;
 
     public function __construct(
         int $id,
@@ -344,28 +344,5 @@ class UserDTO
         $this->userSyncIgnore = $userSyncIgnore;
         $this->icsFeedKey = $icsFeedKey;
         $this->root = $root;
-
-        $this->directedCourses = [];
-        $this->administeredCourses = [];
-        $this->studentAdvisedCourses = [];
-        $this->studentAdvisedSessions = [];
-        $this->learnerGroups = [];
-        $this->instructedLearnerGroups = [];
-        $this->instructorGroups = [];
-        $this->offerings = [];
-        $this->instructedOfferings = [];
-        $this->instructorIlmSessions = [];
-        $this->programYears = [];
-        $this->roles = [];
-        $this->reports = [];
-        $this->cohorts = [];
-        $this->pendingUserUpdates = [];
-        $this->auditLogs = [];
-        $this->learnerIlmSessions = [];
-        $this->directedSchools = [];
-        $this->administeredSchools = [];
-        $this->administeredSessions = [];
-        $this->directedPrograms = [];
-        $this->administeredCurriculumInventoryReports = [];
     }
 }

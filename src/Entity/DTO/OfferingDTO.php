@@ -81,7 +81,7 @@ class OfferingDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $learnerGroups;
+    public array $learnerGroups = [];
 
     /**
      * @var int[]
@@ -89,7 +89,7 @@ class OfferingDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $instructorGroups;
+    public array $instructorGroups = [];
 
     /**
      * @var int[]
@@ -97,7 +97,7 @@ class OfferingDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $learners;
+    public array $learners = [];
 
     /**
      * @var int[]
@@ -105,7 +105,7 @@ class OfferingDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $instructors;
+    public array $instructors = [];
 
     public function __construct(
         int $id,
@@ -123,10 +123,5 @@ class OfferingDTO
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->updatedAt = $updatedAt;
-
-        $this->learnerGroups = [];
-        $this->instructorGroups = [];
-        $this->learners = [];
-        $this->instructors = [];
     }
 }

@@ -33,7 +33,7 @@ class AssessmentOptionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessionTypes;
+    public array $sessionTypes = [];
 
     public function __construct(
         int $id,
@@ -41,7 +41,5 @@ class AssessmentOptionDTO
     ) {
         $this->id = $id;
         $this->name = $name;
-
-        $this->sessionTypes = [];
     }
 }

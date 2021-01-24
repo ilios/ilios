@@ -33,13 +33,11 @@ class CourseClerkshipTypeDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $courses;
+    public array $courses = [];
 
     public function __construct(int $id, string $title)
     {
         $this->id = $id;
         $this->title = $title;
-
-        $this->courses = [];
     }
 }

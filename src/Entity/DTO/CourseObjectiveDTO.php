@@ -45,7 +45,7 @@ class CourseObjectiveDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $terms;
+    public array $terms = [];
 
     /**
      * @IS\Expose
@@ -75,7 +75,7 @@ class CourseObjectiveDTO
      * @IS\Related("programYearObjectives")
      * @IS\Type("array<string>")
      */
-    public array $programYearObjectives;
+    public array $programYearObjectives = [];
 
     /**
      * @var int[]
@@ -83,7 +83,7 @@ class CourseObjectiveDTO
      * @IS\Related("sessionObjectives")
      * @IS\Type("array<string>")
      */
-    public array $sessionObjectives;
+    public array $sessionObjectives = [];
 
     /**
      * @var int[]
@@ -91,14 +91,14 @@ class CourseObjectiveDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $meshDescriptors;
+    public array $meshDescriptors = [];
 
     /**
      * @IS\Expose
      * @IS\Related("courseObjectives")
      * @IS\Type("string")
      */
-    public ?int $ancestor;
+    public ?int $ancestor = null;
 
     /**
      * @var int[]
@@ -106,7 +106,7 @@ class CourseObjectiveDTO
      * @IS\Related("courseObjectives")
      * @IS\Type("array<string>")
      */
-    public array $descendants;
+    public array $descendants = [];
 
     public function __construct(int $id, string $title, int $position, bool $active)
     {
@@ -114,11 +114,5 @@ class CourseObjectiveDTO
         $this->title = $title;
         $this->position = $position;
         $this->active = $active;
-
-        $this->terms = [];
-        $this->meshDescriptors = [];
-        $this->programYearObjectives = [];
-        $this->sessionObjectives = [];
-        $this->descendants = [];
     }
 }

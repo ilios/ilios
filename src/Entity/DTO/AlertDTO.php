@@ -51,7 +51,7 @@ class AlertDTO
      * @IS\Related("alertChangeTypes")
      * @IS\Type("array<string>")
      */
-    public array $changeTypes;
+    public array $changeTypes = [];
 
     /**
      * @var int[]
@@ -59,7 +59,7 @@ class AlertDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $instigators;
+    public array $instigators = [];
 
     /**
      * @var int[]
@@ -67,7 +67,7 @@ class AlertDTO
      * @IS\Related("schools")
      * @IS\Type("array<string>")
      */
-    public array $recipients;
+    public array $recipients = [];
 
     public function __construct(
         int $id,
@@ -81,9 +81,5 @@ class AlertDTO
         $this->tableName = $tableName;
         $this->additionalText = $additionalText;
         $this->dispatched = $dispatched;
-
-        $this->changeTypes = [];
-        $this->instigators = [];
-        $this->recipients = [];
     }
 }

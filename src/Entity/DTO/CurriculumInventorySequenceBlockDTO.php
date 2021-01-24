@@ -73,13 +73,13 @@ class CurriculumInventorySequenceBlockDTO
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public DateTime $startDate;
+    public ?DateTime $startDate;
 
     /**
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public DateTime $endDate;
+    public ?DateTime $endDate;
 
     /**
      * @IS\Expose
@@ -99,14 +99,14 @@ class CurriculumInventorySequenceBlockDTO
      * @IS\Related("courses")
      * @IS\Type("string")
      */
-    public ?int $course;
+    public ?int $course = null;
 
     /**
      * @IS\Expose
      * @IS\Related("curriculumInventorySequenceBlocks")
      * @IS\Type("string")
      */
-    public ?int $parent;
+    public ?int $parent = null;
 
     /**
      * @var int[]
@@ -114,7 +114,7 @@ class CurriculumInventorySequenceBlockDTO
      * @IS\Related("curriculumInventorySequenceBlocks")
      * @IS\Type("array<string>")
      */
-    public array $children;
+    public array $children = [];
 
     /**
      * @IS\Expose
@@ -129,7 +129,7 @@ class CurriculumInventorySequenceBlockDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessions;
+    public array $sessions = [];
 
     /**
      * @var int[]
@@ -137,7 +137,7 @@ class CurriculumInventorySequenceBlockDTO
      * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
-    public array $excludedSessions;
+    public array $excludedSessions = [];
 
     /**
      * Needed for voting not exposed in the API
@@ -155,8 +155,8 @@ class CurriculumInventorySequenceBlockDTO
         int $minimum,
         int $maximum,
         bool $track,
-        DateTime $startDate,
-        DateTime $endDate,
+        ?DateTime $startDate,
+        ?DateTime $endDate,
         int $duration
     ) {
         $this->id = $id;
@@ -171,9 +171,5 @@ class CurriculumInventorySequenceBlockDTO
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->duration = $duration;
-
-        $this->children = [];
-        $this->sessions = [];
-        $this->excludedSessions = [];
     }
 }

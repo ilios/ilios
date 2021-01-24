@@ -43,7 +43,7 @@ class SchoolDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $changeAlertRecipients;
+    public ?string $changeAlertRecipients;
 
     /**
      * @var int[]
@@ -51,7 +51,7 @@ class SchoolDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $competencies;
+    public array $competencies = [];
 
     /**
      * @var int[]
@@ -59,7 +59,7 @@ class SchoolDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $courses;
+    public array $courses = [];
 
     /**
      * @var int[]
@@ -67,7 +67,7 @@ class SchoolDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $programs;
+    public array $programs = [];
 
      /**
      * @var int[]
@@ -75,7 +75,7 @@ class SchoolDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $vocabularies;
+    public array $vocabularies = [];
 
     /**
      * @var int[]
@@ -83,14 +83,14 @@ class SchoolDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $instructorGroups;
+    public array $instructorGroups = [];
 
     /**
      * @IS\Expose
      * @IS\Related("curriculumInventoryInstitutions")
      * @IS\Type("string")
      */
-    public ?int $curriculumInventoryInstitution;
+    public ?int $curriculumInventoryInstitution = null;
 
     /**
      * @var int[]
@@ -98,7 +98,7 @@ class SchoolDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessionTypes;
+    public array $sessionTypes = [];
 
     /**
      * @var int[]
@@ -106,7 +106,7 @@ class SchoolDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $directors;
+    public array $directors = [];
 
     /**
      * @var int[]
@@ -114,7 +114,7 @@ class SchoolDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $administrators;
+    public array $administrators = [];
 
     /**
      * @var int[]
@@ -122,7 +122,7 @@ class SchoolDTO
      * @IS\Related("schoolConfigs")
      * @IS\Type("array<string>")
      */
-    public array $configurations;
+    public array $configurations = [];
 
 
     public function __construct(
@@ -130,22 +130,12 @@ class SchoolDTO
         string $title,
         ?string $templatePrefix,
         string $iliosAdministratorEmail,
-        string $changeAlertRecipients
+        ?string $changeAlertRecipients
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->templatePrefix = $templatePrefix;
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
         $this->changeAlertRecipients = $changeAlertRecipients;
-
-        $this->competencies = [];
-        $this->courses = [];
-        $this->programs = [];
-        $this->vocabularies = [];
-        $this->instructorGroups = [];
-        $this->sessionTypes = [];
-        $this->directors = [];
-        $this->administrators = [];
-        $this->configurations = [];
     }
 }

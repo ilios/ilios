@@ -88,7 +88,7 @@ class CourseDTO
      * @IS\Type("string")
      * @IS\Related("courseClerkshipTypes")
      */
-    public ?int $clerkshipType;
+    public ?int $clerkshipType = null;
 
     /**
      * @IS\Expose
@@ -103,7 +103,7 @@ class CourseDTO
      * @IS\Type("array<string>")
      * @IS\Related("users")
      */
-    public array $directors;
+    public array $directors = [];
 
     /**
      * @var int[]
@@ -111,7 +111,7 @@ class CourseDTO
      * @IS\Type("array<string>")
      * @IS\Related("users")
      */
-    public array $administrators;
+    public array $administrators = [];
 
     /**
      * @var int[]
@@ -119,7 +119,7 @@ class CourseDTO
      * @IS\Type("array<string>")
      * @IS\Related("users")
      */
-    public array $studentAdvisors;
+    public array $studentAdvisors = [];
 
     /**
      * @var int[]
@@ -127,7 +127,7 @@ class CourseDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $cohorts;
+    public array $cohorts = [];
 
     /**
      * @var int[]
@@ -135,7 +135,7 @@ class CourseDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $terms;
+    public array $terms = [];
 
     /**
      * @var int[]
@@ -143,7 +143,7 @@ class CourseDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $courseObjectives;
+    public array $courseObjectives = [];
 
     /**
      * @var int[]
@@ -151,7 +151,7 @@ class CourseDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $meshDescriptors;
+    public array $meshDescriptors = [];
 
     /**
      * @var int[]
@@ -159,7 +159,7 @@ class CourseDTO
      * @IS\Related("courseLearningMaterials")
      * @IS\Type("array<string>")
      */
-    public array $learningMaterials;
+    public array $learningMaterials = [];
 
     /**
      * @var int[]
@@ -167,14 +167,14 @@ class CourseDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessions;
+    public array $sessions = [];
 
     /**
      * @IS\Expose
      * @IS\Type("string")
      * @IS\Related("courses")
      */
-    public ?int $ancestor;
+    public ?int $ancestor = null;
 
     /**
      * @var int[]
@@ -182,7 +182,7 @@ class CourseDTO
      * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
-    public array $descendants;
+    public array $descendants = [];
 
     public function __construct(
         int $id,
@@ -208,16 +208,5 @@ class CourseDTO
         $this->archived = $archived;
         $this->publishedAsTbd = $publishedAsTbd;
         $this->published = $published;
-
-        $this->directors = [];
-        $this->administrators = [];
-        $this->studentAdvisors = [];
-        $this->cohorts = [];
-        $this->terms = [];
-        $this->courseObjectives = [];
-        $this->meshDescriptors = [];
-        $this->learningMaterials = [];
-        $this->sessions = [];
-        $this->descendants = [];
     }
 }

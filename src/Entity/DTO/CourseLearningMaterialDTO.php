@@ -58,7 +58,7 @@ class CourseLearningMaterialDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $meshDescriptors;
+    public array $meshDescriptors = [];
 
     /**
      * @IS\Expose
@@ -114,7 +114,5 @@ class CourseLearningMaterialDTO
         $this->position = $position;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
-
-        $this->meshDescriptors = [];
     }
 }

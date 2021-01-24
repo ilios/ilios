@@ -62,7 +62,7 @@ class ProgramYearDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $directors;
+    public array $directors = [];
 
     /**
      * @var int[]
@@ -70,7 +70,7 @@ class ProgramYearDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $competencies;
+    public array $competencies = [];
 
     /**
      * @var int[]
@@ -78,7 +78,7 @@ class ProgramYearDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $terms;
+    public array $terms = [];
 
     /**
      * @var int[]
@@ -86,7 +86,7 @@ class ProgramYearDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $programYearObjectives;
+    public array $programYearObjectives = [];
 
     /**
      * For Voter use, not public
@@ -103,10 +103,5 @@ class ProgramYearDTO
         $this->startYear = $startYear;
         $this->locked = $locked;
         $this->archived = $archived;
-
-        $this->directors = [];
-        $this->competencies = [];
-        $this->terms = [];
-        $this->programYearObjectives = [];
     }
 }

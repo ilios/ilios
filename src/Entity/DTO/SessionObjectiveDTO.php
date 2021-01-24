@@ -51,7 +51,7 @@ class SessionObjectiveDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $terms;
+    public array $terms = [];
 
     /**
      * Needed for Voting, not exposed in the API
@@ -83,7 +83,7 @@ class SessionObjectiveDTO
      * @IS\Related("courseObjectives")
      * @IS\Type("array<string>")
      */
-    public array $courseObjectives;
+    public array $courseObjectives = [];
 
 
     /**
@@ -92,7 +92,7 @@ class SessionObjectiveDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $meshDescriptors;
+    public array $meshDescriptors = [];
 
     /**
      * @IS\Expose
@@ -100,7 +100,7 @@ class SessionObjectiveDTO
      * @IS\Type("string")
      *
      */
-    public ?int $ancestor;
+    public ?int $ancestor = null;
 
     /**
      * @var int[]
@@ -108,7 +108,7 @@ class SessionObjectiveDTO
      * @IS\Related("sessionObjectives")
      * @IS\Type("array<string>")
      */
-    public array $descendants;
+    public array $descendants = [];
 
     public function __construct(int $id, string $title, int $position, bool $active)
     {
@@ -116,10 +116,5 @@ class SessionObjectiveDTO
         $this->title = $title;
         $this->position = $position;
         $this->active = $active;
-
-        $this->terms = [];
-        $this->meshDescriptors = [];
-        $this->courseObjectives = [];
-        $this->descendants = [];
     }
 }

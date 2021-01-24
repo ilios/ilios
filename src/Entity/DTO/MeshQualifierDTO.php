@@ -45,7 +45,7 @@ class MeshQualifierDTO
      * @IS\Related("meshDescriptors")
      * @IS\Type("array<string>")
      */
-    public array $descriptors;
+    public array $descriptors = [];
 
     public function __construct(string $id, string $name, DateTime $createdAt, DateTime $updatedAt)
     {
@@ -53,7 +53,5 @@ class MeshQualifierDTO
         $this->name = $name;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
-
-        $this->descriptors = [];
     }
 }

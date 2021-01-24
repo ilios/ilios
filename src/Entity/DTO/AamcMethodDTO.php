@@ -33,7 +33,7 @@ class AamcMethodDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessionTypes;
+    public array $sessionTypes = [];
 
     /**
      * @IS\Expose
@@ -50,7 +50,5 @@ class AamcMethodDTO
         $this->id = $id;
         $this->description = $description;
         $this->active = $active;
-
-        $this->sessionTypes = [];
     }
 }

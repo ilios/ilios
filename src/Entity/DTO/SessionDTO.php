@@ -68,7 +68,7 @@ class SessionDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $instructionalNotes;
+    public ?string $instructionalNotes;
 
     /**
      * @IS\Expose
@@ -101,7 +101,7 @@ class SessionDTO
      * @IS\Related("ilmSessions")
      * @IS\Type("string")
      */
-    public ?int $ilmSession;
+    public ?int $ilmSession = null;
 
     /**
      * @var int[]
@@ -109,7 +109,7 @@ class SessionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $terms;
+    public array $terms = [];
 
     /**
      * @var int[]
@@ -117,7 +117,7 @@ class SessionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $sessionObjectives;
+    public array $sessionObjectives = [];
 
     /**
      * @var int[]
@@ -125,7 +125,7 @@ class SessionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $meshDescriptors;
+    public array $meshDescriptors = [];
 
     /**
      * @IS\Related("sessionDescriptions")
@@ -139,7 +139,7 @@ class SessionDTO
      * @IS\Related("sessionLearningMaterials")
      * @IS\Type("array<string>")
      */
-    public array $learningMaterials;
+    public array $learningMaterials = [];
 
     /**
      * @var int[]
@@ -147,7 +147,7 @@ class SessionDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $administrators;
+    public array $administrators = [];
 
     /**
      * @var int[]
@@ -155,7 +155,7 @@ class SessionDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public array $studentAdvisors;
+    public array $studentAdvisors = [];
 
     /**
      * @var int[]
@@ -163,14 +163,14 @@ class SessionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public array $offerings;
+    public array $offerings = [];
 
     /**
      * @IS\Expose
      * @IS\Related("sessions")
      * @IS\Type("string")
      */
-    public ?int $postrequisite;
+    public ?int $postrequisite = null;
 
     /**
      * @var int[]
@@ -178,7 +178,7 @@ class SessionDTO
      * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
-    public array $prerequisites;
+    public array $prerequisites = [];
 
     /**
      * For Voter use, not public
@@ -195,7 +195,7 @@ class SessionDTO
         ?bool $attendanceRequired,
         bool $publishedAsTbd,
         bool $published,
-        string $instructionalNotes,
+        ?string $instructionalNotes,
         DateTime $updatedAt
     ) {
         $this->id = $id;
@@ -209,14 +209,5 @@ class SessionDTO
         $this->published = $published;
         $this->instructionalNotes = $instructionalNotes;
         $this->updatedAt = $updatedAt;
-
-        $this->terms = [];
-        $this->sessionObjectives = [];
-        $this->meshDescriptors = [];
-        $this->learningMaterials = [];
-        $this->offerings = [];
-        $this->administrators = [];
-        $this->studentAdvisors = [];
-        $this->prerequisites = [];
     }
 }
