@@ -37,7 +37,7 @@ class ProgramYearObjectiveDTO
      * @IS\Related("competencies")
      * @IS\Type("integer")
      */
-    public int $competency;
+    public ?int $competency = null;
 
     /**
      * @IS\Expose
