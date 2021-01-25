@@ -82,6 +82,7 @@ class DirectoryControllerTest extends TestCase
     public function testSearchOne()
     {
         $fakeDirectoryUser = [
+            'user' => 1,
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
@@ -99,6 +100,9 @@ class DirectoryControllerTest extends TestCase
 
 
         $user = m::mock(UserDTO::class);
+        $user->id = 1;
+        $user->campusId = 'abc';
+
 
         $this->userRepositoryMock
             ->shouldReceive('findAllMatchingDTOsByCampusIds')
@@ -111,7 +115,6 @@ class DirectoryControllerTest extends TestCase
         $response = $this->directoryController->searchAction($request);
         $content = $response->getContent();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
-        $fakeDirectoryUser['user'] = null;
 
         $this->assertEquals(
             ['results' => [$fakeDirectoryUser]],
