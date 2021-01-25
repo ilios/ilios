@@ -16,7 +16,7 @@ class VocabularyDTO
     /**
      * @IS\Id
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $id;
 

@@ -20,7 +20,7 @@ class IngestionExceptionDTO
      * @IS\Type("integer")
      */
     public int $id;
-    
+
     /**
      * @IS\Expose
      * @IS\Type("string")
