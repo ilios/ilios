@@ -94,7 +94,7 @@ class LearningMaterialDTO
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public bool $copyrightPermission;
+    public ?bool $copyrightPermission;
 
     /**
      * @IS\Expose
@@ -150,7 +150,7 @@ class LearningMaterialDTO
         DateTime $uploadDate,
         ?string $originalAuthor,
         ?string $citation,
-        bool $copyrightPermission,
+        ?bool $copyrightPermission,
         ?string $copyrightRationale,
         ?string $filename,
         ?string $mimetype,
