@@ -9,7 +9,6 @@ liip_monitor:
             "7.4": ">="
         readable_directory: ["%kernel.cache_dir%"]
         writable_directory: ["%kernel.cache_dir%"]
-        security_advisory:
       production:
         doctrine_dbal: [default]
         doctrine_migrations:
