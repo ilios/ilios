@@ -6,6 +6,7 @@ namespace App\Tests\Entity\DTO;
 
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Tests\TestCase;
+use DateTime;
 
 /**
  * Class LearningMaterialDTOTest
@@ -26,13 +27,13 @@ class LearningMaterialDTOTest extends TestCase
     {
         parent::setUp();
         $this->dto = new LearningMaterialDTO(
+            1,
+            'title',
+            null,
+            new DateTime(),
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
+            true,
             null,
             null,
             null,
@@ -75,7 +76,7 @@ class LearningMaterialDTOTest extends TestCase
         $this->dto->status = 1;
         $this->dto->title = 'My Material';
         $this->dto->token = 'aaabbbcccdddeee';
-        $this->dto->uploadDate = '12/12/2012';
+        $this->dto->uploadDate = new DateTime('12/12/2012');
         $this->dto->userRole = 1;
         $this->dto->relativePath = 'path/to/material';
 

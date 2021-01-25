@@ -44,7 +44,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
             'title' => ['title', $this->getFaker()->text],
             'position' => ['position', $this->getFaker()->randomDigit],
             'notActive' => ['active', false],
-            'course' => ['course', 1],
+            'course' => ['course', 5],
             'terms' => ['terms', [1, 4]],
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
             'programYearObjectives' => ['programYearObjectives', [2]],
