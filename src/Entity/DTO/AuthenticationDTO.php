@@ -24,13 +24,12 @@ class AuthenticationDTO
     /**
      * @IS\Expose
      * @IS\Type("string")
-     *
     */
-    public string $username;
+    public ?string $username;
 
     public function __construct(
         int $user,
-        string $username
+        ?string $username
     ) {
         $this->user = $user;
         $this->username = $username;

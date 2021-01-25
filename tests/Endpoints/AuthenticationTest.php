@@ -202,7 +202,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $data = $dataLoader->create();
         $data['user'] = '4';
         $user4 = parent::getOne('users', 'users', 4);
-        $this->assertSame($user4['school'], '2', 'User #4 should be in school 2 or this test is garbage');
+        $this->assertSame($user4['school'], 2, 'User #4 should be in school 2 or this test is garbage');
 
         $this->postTest($data, $data);
     }
