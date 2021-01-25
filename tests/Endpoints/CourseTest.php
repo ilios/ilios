@@ -55,6 +55,7 @@ class CourseTest extends ReadWriteEndpointTest
             'startDate' => ['startDate', '2017-02-14T00:00:00+00:00'],
             'endDate' => ['endDate', '2017-02-14T00:00:00+00:00'],
             'externalId' => ['externalId', $this->getFaker()->text(5)],
+            'externalIdNull' => ['externalId', null],
             'locked' => ['locked', true],
             'archived' => ['archived', true],
             'publishedAsTbd' => ['publishedAsTbd', true],

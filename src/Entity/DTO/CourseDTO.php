@@ -57,7 +57,7 @@ class CourseDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $externalId;
+    public ?string $externalId;
 
     /**
      * @IS\Expose
@@ -191,7 +191,7 @@ class CourseDTO
         int $year,
         DateTime $startDate,
         DateTime $endDate,
-        string $externalId,
+        ?string $externalId,
         bool $locked,
         bool $archived,
         bool $publishedAsTbd,
