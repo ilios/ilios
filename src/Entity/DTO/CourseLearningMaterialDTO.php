@@ -25,7 +25,7 @@ class CourseLearningMaterialDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $notes;
+    public ?string $notes;
 
     /**
      * @IS\Expose
@@ -100,7 +100,7 @@ class CourseLearningMaterialDTO
 
     public function __construct(
         int $id,
-        string $notes,
+        ?string $notes,
         bool $required,
         bool $publicNotes,
         int $position,
