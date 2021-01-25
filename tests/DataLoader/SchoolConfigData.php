@@ -15,19 +15,19 @@ class SchoolConfigData extends AbstractDataLoader
             'id' => 1,
             'name' => '1' . $this->faker->text(50),
             'value' => $this->faker->text(100),
-            'school' => '1',
+            'school' => 1,
         ];
         $arr[] = [
             'id' => 2,
             'name' => 'second config',
             'value' => $this->faker->text(100),
-            'school' => '1',
+            'school' => 1,
         ];
         $arr[] = [
             'id' => 3,
             'name' => '3' . $this->faker->text(50),
             'value' => 'third value',
-            'school' => '2',
+            'school' => 2,
         ];
         return $arr;
     }
@@ -38,7 +38,7 @@ class SchoolConfigData extends AbstractDataLoader
             'id' => 4,
             'name' => '4' . $this->faker->text(50),
             'value' => $this->faker->text(100),
-            'school' => '1',
+            'school' => 1,
         ];
     }
 

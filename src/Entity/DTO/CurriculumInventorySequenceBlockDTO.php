@@ -90,21 +90,21 @@ class CurriculumInventorySequenceBlockDTO
     /**
      * @IS\Expose
      * @IS\Related("curriculumInventoryAcademicLevels")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $academicLevel;
 
     /**
      * @IS\Expose
      * @IS\Related("courses")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $course = null;
 
     /**
      * @IS\Expose
      * @IS\Related("curriculumInventorySequenceBlocks")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $parent = null;
 
@@ -119,7 +119,7 @@ class CurriculumInventorySequenceBlockDTO
     /**
      * @IS\Expose
      * @IS\Related("curriculumInventoryReports")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $report;
 

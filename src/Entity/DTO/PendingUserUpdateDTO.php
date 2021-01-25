@@ -41,7 +41,7 @@ class PendingUserUpdateDTO
     /**
      * @IS\Expose
      * @IS\Related("users")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $user;
 

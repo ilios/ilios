@@ -49,21 +49,21 @@ class LearnerGroupDTO
     /**
      * @IS\Expose
      * @IS\Related("cohorts")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $cohort;
 
     /**
      * @IS\Expose
      * @IS\Related("learnerGroups")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $parent = null;
 
     /**
      * @IS\Expose
      * @IS\Related("learnerGroups")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $ancestor = null;
 

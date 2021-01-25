@@ -30,7 +30,7 @@ class InstructorGroupDTO
     /**
      * @IS\Expose
      * @IS\Related("schools")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $school;
 

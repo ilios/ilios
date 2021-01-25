@@ -25,7 +25,7 @@ class IlmSessionDTO
     /**
      * @IS\Expose
      * @IS\Related("sessions")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $session;
 

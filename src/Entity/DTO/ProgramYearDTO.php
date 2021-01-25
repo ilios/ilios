@@ -45,14 +45,14 @@ class ProgramYearDTO
     /**
      * @IS\Expose
      * @IS\Related("programs")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $program;
 
     /**
      * @IS\Expose
      * @IS\Related("cohorts")
-     * @IS\Type("string")
+     * @IS\Type("integer")
     */
     public int $cohort;
 

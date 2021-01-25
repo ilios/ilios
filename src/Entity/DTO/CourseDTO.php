@@ -85,14 +85,14 @@ class CourseDTO
 
     /**
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("integer")
      * @IS\Related("courseClerkshipTypes")
      */
     public ?int $clerkshipType = null;
 
     /**
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("integer")
      * @IS\Related("schools")
      */
     public int $school;
@@ -171,7 +171,7 @@ class CourseDTO
 
     /**
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("integer")
      * @IS\Related("courses")
      */
     public ?int $ancestor = null;

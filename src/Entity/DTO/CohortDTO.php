@@ -31,7 +31,7 @@ class CohortDTO
     /**
      * @IS\Expose
      * @IS\Related("programYears")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $programYear;
 

@@ -88,7 +88,7 @@ class SchoolDTO
     /**
      * @IS\Expose
      * @IS\Related("curriculumInventoryInstitutions")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $curriculumInventoryInstitution = null;
 

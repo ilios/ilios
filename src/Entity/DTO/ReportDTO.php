@@ -36,7 +36,7 @@ class ReportDTO
     /**
      * @IS\Expose
      * @IS\Related("schools")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $school = null;
 
@@ -61,7 +61,7 @@ class ReportDTO
     /**
      * @IS\Expose
      * @IS\Related("users")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $user;
 

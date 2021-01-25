@@ -35,7 +35,7 @@ class ProgramYearObjectiveDTO
     /**
      * @IS\Expose
      * @IS\Related("competencies")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $competency;
 
@@ -91,7 +91,7 @@ class ProgramYearObjectiveDTO
     /**
      * @IS\Expose
      * @IS\Related("programYearObjectives")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $ancestor = null;
 

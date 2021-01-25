@@ -96,7 +96,7 @@ class CourseObjectiveDTO
     /**
      * @IS\Expose
      * @IS\Related("courseObjectives")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $ancestor = null;
 

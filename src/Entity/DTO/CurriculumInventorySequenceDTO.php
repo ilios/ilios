@@ -23,7 +23,7 @@ class CurriculumInventorySequenceDTO
     /**
      * @IS\Expose
      * @IS\Related("curriculumInventoryReport")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $report;
 

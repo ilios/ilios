@@ -15,16 +15,16 @@ class CurriculumInventoryExportData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'report' => '2',
+            'report' => 2,
             'document' => $this->faker->text('200'),
-            'createdBy' => '1',
+            'createdBy' => 1,
         ];
 
         $arr[] = [
             'id' => 2,
-            'report' => '3',
+            'report' => 3,
             'document' => $this->faker->text('200'),
-            'createdBy' => '1',
+            'createdBy' => 1,
         ];
         return $arr;
     }
@@ -33,7 +33,7 @@ class CurriculumInventoryExportData extends AbstractDataLoader
     {
         return [
             'id' => 3,
-            'report' => '1',
+            'report' => 1,
         ];
     }
 

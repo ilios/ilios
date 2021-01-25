@@ -15,7 +15,7 @@ class CohortData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'title' => "Class of 2017",
-            'programYear' => '1',
+            'programYear' => 1,
             'courses' => ['1', '2'],
             'learnerGroups' => ['1', '3', '4', '5'],
             'users' => ['1', '2']
@@ -24,7 +24,7 @@ class CohortData extends AbstractDataLoader
         $arr[] = [
             'id' => 2,
             'title' => "Class of 2018",
-            'programYear' => '2',
+            'programYear' => 2,
             'courses' => ["3"],
             'learnerGroups' => ['2'],
             'users' => []
@@ -33,7 +33,7 @@ class CohortData extends AbstractDataLoader
         $arr[] = [
             'id' => 3,
             'title' => "Class of 2019",
-            'programYear' => '3',
+            'programYear' => 3,
             'courses' => ["4", "5"],
             'learnerGroups' => [],
             'users' => []
@@ -42,7 +42,7 @@ class CohortData extends AbstractDataLoader
         $arr[] = [
             'id' => 4,
             'title' => "Class of 2020",
-            'programYear' => '4',
+            'programYear' => 4,
             'courses' => [],
             'learnerGroups' => [],
             'users' => []
@@ -51,7 +51,7 @@ class CohortData extends AbstractDataLoader
         $arr[] = [
             'id' => 5,
             'title' => "Class of 2021",
-            'programYear' => '5',
+            'programYear' => 5,
             'courses' => [],
             'learnerGroups' => [],
             'users' => []

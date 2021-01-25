@@ -116,14 +116,14 @@ class UserDTO
     /**
      * @IS\Expose
      * @IS\Related("schools")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $school;
 
     /**
      * @IS\Expose
      * @IS\Related("authentications")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $authentication = null;
 
@@ -234,7 +234,7 @@ class UserDTO
     /**
      * @IS\Expose
      * @IS\Related("cohorts")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $primaryCohort = null;
 

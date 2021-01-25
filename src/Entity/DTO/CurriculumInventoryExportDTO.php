@@ -24,7 +24,7 @@ class CurriculumInventoryExportDTO
     /**
      * @IS\Expose
      * @IS\Related("curriculumInventoryReports")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $report;
 

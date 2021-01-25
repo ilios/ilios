@@ -85,21 +85,21 @@ class SessionDTO
     /**
      * @IS\Expose
      * @IS\Related("sessionTypes")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $sessionType;
 
     /**
      * @IS\Expose
      * @IS\Related("courses")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $course;
 
     /**
      * @IS\Expose
      * @IS\Related("ilmSessions")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $ilmSession = null;
 
@@ -129,7 +129,7 @@ class SessionDTO
 
     /**
      * @IS\Related("sessionDescriptions")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public $sessionDescription;
 
@@ -168,7 +168,7 @@ class SessionDTO
     /**
      * @IS\Expose
      * @IS\Related("sessions")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $postrequisite = null;
 

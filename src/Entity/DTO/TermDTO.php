@@ -36,7 +36,7 @@ class TermDTO
     /**
      * @IS\Expose
      * @IS\Related("terms")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $parent = null;
 
@@ -75,7 +75,7 @@ class TermDTO
     /**
      * @IS\Expose
      * @IS\Related("vocabularies")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $vocabulary;
 

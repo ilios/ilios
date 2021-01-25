@@ -30,7 +30,7 @@ class CompetencyDTO
     /**
      * @IS\Expose
      * @IS\Related("schools")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public int $school;
 
@@ -45,7 +45,7 @@ class CompetencyDTO
     /**
      * @IS\Expose
      * @IS\Related("competencies")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $parent = null;
 

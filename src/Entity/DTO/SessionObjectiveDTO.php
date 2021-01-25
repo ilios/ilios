@@ -97,7 +97,7 @@ class SessionObjectiveDTO
     /**
      * @IS\Expose
      * @IS\Related("sessionObjectives")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      *
      */
     public ?int $ancestor = null;

@@ -132,7 +132,7 @@ class MeshDescriptorDTO
     /**
      * @IS\Expose
      * @IS\Related("meshPreviousIndexings")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public ?int $previousIndexing = null;
 
