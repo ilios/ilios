@@ -125,7 +125,7 @@ class TermDTO
     public function __construct(
         int $id,
         string $title,
-        string $description,
+        ?string $description,
         bool $active
     ) {
         $this->id = $id;
