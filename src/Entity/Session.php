@@ -378,7 +378,7 @@ class Session implements SessionInterface
      *
      * @ORM\ManyToOne(targetEntity="Session", inversedBy="prerequisites")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="postrequisite_id", referencedColumnName="session_id")
+     *   @ORM\JoinColumn(name="postrequisite_id", referencedColumnName="session_id", onDelete="SET NULL")
      * })
      *
      * @IS\Expose
