@@ -17,8 +17,8 @@ env:
   latest_php: 7.4
 
 jobs:
-  code_style_security:
-    name: Code Style and Security
+  code_style:
+    name: Code Style
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -41,8 +41,6 @@ jobs:
       run: vendor/bin/phpcs
     - name: lint twig
       run: bin/console lint:twig templates custom
-    - name: security check
-      run: bin/console security:check
     - name: phpstan src
       run: |
         bin/console cache:warmup --env=dev
@@ -55,7 +53,7 @@ jobs:
 
   fast_tests:
     name: Fast Tests
-    needs: code_style_security
+    needs: code_style
     runs-on: ubuntu-latest
 
     strategy:
@@ -84,7 +82,7 @@ jobs:
 
   test_migrations_against_mysql:
     name: Test Migrations Against MySQL
-    needs: code_style_security
+    needs: code_style
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -115,7 +113,7 @@ jobs:
 
   api_tests:
     name: PHPUnit Test Group
-    needs: code_style_security
+    needs: code_style
     runs-on: ubuntu-latest
 
     strategy:
@@ -145,7 +143,7 @@ jobs:
 
   run_twice:
     name: PHPUnit Run Twice
-    needs: code_style_security
+    needs: code_style
     runs-on: ubuntu-latest
 
     strategy:
@@ -176,7 +174,7 @@ jobs:
 
   build_and_run_containers:
     name: Build, Run, Test Containers
-    needs: code_style_security
+    needs: code_style
     runs-on: ubuntu-latest
     env:
       ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=5.6
@@ -244,7 +242,7 @@ jobs:
 
   check_setup_command:
     name: Setup Command
-    needs: code_style_security
+    needs: code_style
     runs-on: ubuntu-latest
     strategy:
       matrix:
