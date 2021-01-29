@@ -15,13 +15,13 @@ class AuthenticationData extends AbstractDataLoader
         $arr[] = [
             'user' => '1',
             'username' => 'legacyuser',
-            'passwordHash' => '$2a$10$CY96FLwV3dAA3hOLBHc/TeFZoaqH5/qlwNoFioj7dtKkKlVBTquve',
+            'passwordHash' => 'legacyuserpass',
         ];
 
         $arr[] = [
             'user' => '2',
             'username' => 'newuser',
-            'passwordHash' => '$2a$10$CY96FLwV3dAA3hOLBHc/TeFZoaqH5/qlwNoFioj7dtKkKlVBTquve'
+            'passwordHash' => 'newuserpass'
         ];
         return $arr;
     }
