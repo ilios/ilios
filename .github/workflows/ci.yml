@@ -51,8 +51,8 @@ jobs:
         bin/phpunit install
         vendor/bin/phpstan analyse -c tests/phpstan.neon.dist tests --no-progress
 
-  fast_tests:
-    name: Fast Tests
+  tests:
+    name: PHPUnit Tests
     needs: code_style
     runs-on: ubuntu-latest
 
@@ -78,7 +78,7 @@ jobs:
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
-      run: bin/phpunit --exclude-group api_1,api_2,api_3,api_4,api_5,mesh_data_import,cli,model
+      run: bin/phpunit
 
   test_migrations_against_mysql:
     name: Test Migrations Against MySQL
@@ -110,36 +110,6 @@ jobs:
         bin/console doctrine:database:create
         bin/console doctrine:migrations:migrate  --no-interaction
         bin/console doctrine:schema:validate
-
-  api_tests:
-    name: PHPUnit Test Group
-    needs: code_style
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        php-version: [7.4]
-        group: [api_1, api_2, api_3, api_4, api_5, cli, mesh_data_import, model]
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use PHP ${{ matrix.php-version }}
-      uses: shivammathur/setup-php@v2
-      with:
-        coverage: none
-        php-version: ${{ matrix.php-version }}
-    - name: Get Composer Cache Directory
-      id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@v1
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
-    - name: install dependencies
-      run: composer install --no-interaction --prefer-dist
-    - name: Test ${{ matrix.group }}
-      run: bin/phpunit --group ${{ matrix.group }}
 
   run_twice:
     name: PHPUnit Run Twice
