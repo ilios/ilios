@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class CourseDTO
@@ -15,98 +16,86 @@ use App\Annotation as IS;
 class CourseDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public ?string $title;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    public int $level;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    public int $year;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("dateTime")
+     */
+    public DateTime $startDate;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("dateTime")
+     */
+    public DateTime $endDate;
 
     /**
      * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public ?string $externalId;
 
     /**
-     * @var int
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public bool $locked;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public bool $archived;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public bool $publishedAsTbd;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public bool $published;
+
+    /**
      * @IS\Expose
      * @IS\Type("integer")
-     */
-    public $level;
-
-    /**
-     * @var int
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
-    public $year;
-
-    /**
-     * @IS\Expose
-     * @var \DateTime
-     * @IS\Type("dateTime")
-     */
-    public $startDate;
-
-    /**
-     * @var \DateTime
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
-    public $endDate;
-
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     */
-    public $externalId;
-
-    /**
-     * @var bool
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $locked;
-
-    /**
-     * @var bool
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $archived;
-
-    /**
-     * @var bool
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $publishedAsTbd;
-
-    /**
-     * @var bool
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $published;
-
-    /**
-     * @var int
-     * @IS\Expose
-     * @IS\Type("string")
      * @IS\Related("courseClerkshipTypes")
      */
-    public $clerkshipType;
+    public ?int $clerkshipType = null;
 
     /**
-     * @var int
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("integer")
      * @IS\Related("schools")
      */
-    public $school;
+    public int $school;
 
     /**
      * @var int[]
@@ -114,7 +103,7 @@ class CourseDTO
      * @IS\Type("array<string>")
      * @IS\Related("users")
      */
-    public $directors;
+    public array $directors = [];
 
     /**
      * @var int[]
@@ -122,7 +111,7 @@ class CourseDTO
      * @IS\Type("array<string>")
      * @IS\Related("users")
      */
-    public $administrators;
+    public array $administrators = [];
 
     /**
      * @var int[]
@@ -130,7 +119,7 @@ class CourseDTO
      * @IS\Type("array<string>")
      * @IS\Related("users")
      */
-    public $studentAdvisors;
+    public array $studentAdvisors = [];
 
     /**
      * @var int[]
@@ -138,7 +127,7 @@ class CourseDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $cohorts;
+    public array $cohorts = [];
 
     /**
      * @var int[]
@@ -146,7 +135,7 @@ class CourseDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $terms;
+    public array $terms = [];
 
     /**
      * @var int[]
@@ -154,7 +143,7 @@ class CourseDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $courseObjectives;
+    public array $courseObjectives = [];
 
     /**
      * @var int[]
@@ -162,7 +151,7 @@ class CourseDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $meshDescriptors;
+    public array $meshDescriptors = [];
 
     /**
      * @var int[]
@@ -170,7 +159,7 @@ class CourseDTO
      * @IS\Related("courseLearningMaterials")
      * @IS\Type("array<string>")
      */
-    public $learningMaterials;
+    public array $learningMaterials = [];
 
     /**
      * @var int[]
@@ -178,15 +167,14 @@ class CourseDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessions;
+    public array $sessions = [];
 
     /**
-     * @var int
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("integer")
      * @IS\Related("courses")
      */
-    public $ancestor;
+    public ?int $ancestor = null;
 
     /**
      * @var int[]
@@ -194,20 +182,20 @@ class CourseDTO
      * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
-    public $descendants;
+    public array $descendants = [];
 
     public function __construct(
-        $id,
-        $title,
-        $level,
-        $year,
-        $startDate,
-        $endDate,
-        $externalId,
-        $locked,
-        $archived,
-        $publishedAsTbd,
-        $published
+        int $id,
+        ?string $title,
+        int $level,
+        int $year,
+        DateTime $startDate,
+        DateTime $endDate,
+        ?string $externalId,
+        bool $locked,
+        bool $archived,
+        bool $publishedAsTbd,
+        bool $published
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -220,16 +208,5 @@ class CourseDTO
         $this->archived = $archived;
         $this->publishedAsTbd = $publishedAsTbd;
         $this->published = $published;
-
-        $this->directors = [];
-        $this->administrators = [];
-        $this->studentAdvisors = [];
-        $this->cohorts = [];
-        $this->terms = [];
-        $this->courseObjectives = [];
-        $this->meshDescriptors = [];
-        $this->learningMaterials = [];
-        $this->sessions = [];
-        $this->descendants = [];
     }
 }

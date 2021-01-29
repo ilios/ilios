@@ -15,77 +15,60 @@ use App\Annotation as IS;
 class InstructorGroupDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("schools")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $school;
+    public int $school;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $learnerGroups;
+    public array $learnerGroups = [];
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $ilmSessions;
+    public array $ilmSessions = [];
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $users;
+    public array $users = [];
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $offerings;
+    public array $offerings = [];
 
-    /**
-     * Constructor
-     */
-    public function __construct($id, $title)
+    public function __construct(int $id, string $title)
     {
         $this->id = $id;
         $this->title = $title;
-
-        $this->learnerGroups = [];
-        $this->ilmSessions = [];
-        $this->users = [];
-        $this->offerings = [];
     }
 }

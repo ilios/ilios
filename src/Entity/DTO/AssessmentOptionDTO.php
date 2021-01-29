@@ -15,19 +15,17 @@ use App\Annotation as IS;
 class AssessmentOptionDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $name;
+    public string $name;
 
     /**
      * @var int[]
@@ -35,15 +33,13 @@ class AssessmentOptionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessionTypes;
+    public array $sessionTypes = [];
 
     public function __construct(
-        $id,
-        $name
+        int $id,
+        string $name
     ) {
         $this->id = $id;
         $this->name = $name;
-
-        $this->sessionTypes = [];
     }
 }

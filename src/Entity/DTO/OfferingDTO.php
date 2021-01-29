@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class OfferingDTO
@@ -15,118 +16,106 @@ use App\Annotation as IS;
 class OfferingDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $room;
+    public ?string $room;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $site;
+    public ?string $site;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $url;
+    public ?string $url;
 
     /**
-     * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $startDate;
+    public DateTime $startDate;
 
     /**
-     * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $endDate;
+    public DateTime $endDate;
 
     /**
-     * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $updatedAt;
+    public DateTime $updatedAt;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("sessions")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $session;
+    public int $session;
 
     /**
      * For Voter use, not public
-     * @var int
      */
-    public $course;
+    public int $course;
 
     /**
      * For Voter use, not public
-     * @var int
      */
-    public $school;
+    public int $school;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $learnerGroups;
+    public array $learnerGroups = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $instructorGroups;
+    public array $instructorGroups = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $learners;
+    public array $learners = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $instructors;
+    public array $instructors = [];
 
-    /**
-     * OfferingDTO constructor.
-     * @param $id
-     * @param $room
-     * @param $site
-     * @param $startDate
-     * @param $endDate
-     * @param $updatedAt
-     */
-    public function __construct($id, $room, $site, $url, $startDate, $endDate, $updatedAt)
-    {
+    public function __construct(
+        int $id,
+        ?string $room,
+        ?string $site,
+        ?string $url,
+        DateTime $startDate,
+        DateTime $endDate,
+        DateTime $updatedAt
+    ) {
         $this->id = $id;
         $this->room = $room;
         $this->site = $site;
@@ -134,10 +123,5 @@ class OfferingDTO
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->updatedAt = $updatedAt;
-
-        $this->learnerGroups = [];
-        $this->instructorGroups = [];
-        $this->learners = [];
-        $this->instructors = [];
     }
 }

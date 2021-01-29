@@ -15,30 +15,26 @@ use App\Annotation as IS;
 class IngestionExceptionDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
+
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $uid;
+    public string $uid;
 
     /**
-     * @var int
      * @IS\Expose
-     *
      * @IS\Related("users")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $user;
+    public int $user;
 
-    public function __construct($id, $uid)
+    public function __construct(int $id, string $uid)
     {
         $this->id = $id;
         $this->uid = $uid;

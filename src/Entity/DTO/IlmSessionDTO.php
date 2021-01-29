@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class IlmSessionDTO
@@ -15,100 +16,77 @@ use App\Annotation as IS;
 class IlmSessionDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("sessions")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $session;
+    public int $session;
 
     /**
-     * @var float
-     *
      * @IS\Expose
      * @IS\Type("float")
      */
-    public $hours;
+    public float $hours;
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $dueDate;
+    public DateTime $dueDate;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $learnerGroups;
+    public array $learnerGroups = [];
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $instructorGroups;
+    public array $instructorGroups = [];
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $instructors;
+    public array $instructors = [];
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $learners;
+    public array $learners = [];
 
     /**
      * Needed for voting not exposed in the API
-     *
-     * @var int
      */
-    public $course;
+    public int $course;
 
     /**
      * Needed for voting not exposed in the API
-     *
-     * @var int
      */
-    public $school;
+    public int $school;
 
-    /**
-     * Constructor
-     */
-    public function __construct($id, $hours, $dueDate)
+    public function __construct(int $id, float $hours, DateTime $dueDate)
     {
         $this->id = $id;
         $this->hours = $hours;
         $this->dueDate = $dueDate;
-
-        $this->learnerGroups = [];
-        $this->instructors = [];
-        $this->instructorGroups = [];
-        $this->learners = [];
     }
 }

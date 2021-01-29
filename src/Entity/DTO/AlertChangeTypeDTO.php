@@ -15,20 +15,18 @@ use App\Annotation as IS;
 class AlertChangeTypeDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      *
      */
-    public $title;
+    public string $title;
 
     /**
      * @var int[]
@@ -36,15 +34,13 @@ class AlertChangeTypeDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $alerts;
+    public array $alerts = [];
 
     public function __construct(
-        $id,
-        $title
+        int $id,
+        string $title
     ) {
         $this->id = $id;
         $this->title = $title;
-
-        $this->alerts = [];
     }
 }

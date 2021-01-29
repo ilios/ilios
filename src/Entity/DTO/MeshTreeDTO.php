@@ -14,35 +14,26 @@ use App\Annotation as IS;
 class MeshTreeDTO
 {
     /**
-     * @var string
      * @IS\Id
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $treeNumber;
+    public string $treeNumber;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Related("meshDescriptors")
      * @IS\Type("string")
      */
-    public $descriptor;
+    public string $descriptor;
 
-    /**
-     * @param $id
-     * @param $treeNumber
-     */
-    public function __construct($id, $treeNumber)
+    public function __construct(int $id, string $treeNumber)
     {
         $this->id = $id;
         $this->treeNumber = $treeNumber;

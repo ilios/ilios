@@ -14,54 +14,38 @@ use App\Annotation as IS;
 class PendingUserUpdateDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $type;
+    public string $type;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $property;
+    public ?string $property;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $value;
+    public ?string $value;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("users")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $user;
+    public int $user;
 
-    /**
-     * PendingUserUpdateDTO constructor.
-     * @param $id
-     * @param $type
-     * @param $property
-     * @param $value
-     */
-    public function __construct($id, $type, $property, $value)
+    public function __construct(int $id, string $type, ?string $property, ?string $value)
     {
         $this->id = $id;
         $this->type = $type;

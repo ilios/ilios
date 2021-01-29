@@ -67,8 +67,8 @@ class UsersTest extends TestCase
     {
         $obj = new Users($this->config, null);
         $users = [
-            m::mock(UserDTO::class),
-            m::mock(UserDTO::class)
+            $this->createUserDto(1),
+            $this->createUserDto(2),
         ];
         $this->assertTrue($obj->index($users));
     }
@@ -77,27 +77,8 @@ class UsersTest extends TestCase
     public function testIndexUsers()
     {
         $obj = new Users($this->config, $this->client);
-        $user1 = m::mock(UserDTO::class);
-        $user1->id = 13;
-        $user1->firstName = 'first';
-        $user1->middleName = 'middle';
-        $user1->lastName = 'last';
-        $user1->displayName = 'display name';
-        $user1->email = 'jackson@awesome.com';
-        $user1->enabled = false;
-        $user1->campusId = '99';
-        $user1->username = 'thebestone';
-
-        $user2 = m::mock(UserDTO::class);
-        $user2->id = 11;
-        $user2->firstName = 'first2';
-        $user2->middleName = 'middle2';
-        $user2->lastName = 'last2';
-        $user2->displayName = null;
-        $user2->email = 'jasper@awesome.com';
-        $user1->enabled = true;
-        $user2->campusId = 'OG';
-        $user2->username = null;
+        $user1 = $this->createUserDto(13);
+        $user2 = $this->createUserDto(11);
 
         $this->client->shouldReceive('bulk')->once()->with([
             'body' => [
@@ -117,8 +98,8 @@ class UsersTest extends TestCase
                     'campusId' => $user1->campusId,
                     'username' => $user1->username,
                     'enabled' => $user1->enabled,
-                    'fullName' => 'first middle last',
-                    'fullNameLastFirst' => 'last, first middle',
+                    'fullName' => '13 first 13 middle 13 last',
+                    'fullNameLastFirst' => '13 last, 13 first 13 middle',
                 ],
                 [
                     'index' => [
@@ -136,8 +117,8 @@ class UsersTest extends TestCase
                     'campusId' => $user2->campusId,
                     'username' => $user2->username,
                     'enabled' => $user2->enabled,
-                    'fullName' => 'first2 middle2 last2',
-                    'fullNameLastFirst' => 'last2, first2 middle2',
+                    'fullName' => '11 first 11 middle 11 last',
+                    'fullNameLastFirst' => '11 last, 11 first 11 middle',
                 ],
             ]
         ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
@@ -152,5 +133,27 @@ class UsersTest extends TestCase
             'Search is not configured, isEnabled() should be called before calling this method'
         );
         $obj->search('', 1, false);
+    }
+
+    protected function createUserDto(int $id): UserDTO
+    {
+        return new UserDTO(
+            $id,
+            "${id} first",
+            "${id} last",
+            "${id} middle",
+            null,
+            null,
+            "${id}@${id}}.com",
+            null,
+            true,
+            true,
+            null,
+            null,
+            true,
+            false,
+            "${id}-ics",
+            false
+        );
     }
 }

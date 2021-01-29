@@ -49,7 +49,7 @@ class AlertData extends AbstractDataLoader
             'id' => 4,
             'tableRowId' => $this->faker->randomDigit,
             'tableName' => 'course',
-            'dispatched' => '1',
+            'dispatched' => true,
             'changeTypes' => ['1'],
             'instigators' => ['1'],
             'recipients' => ['1']

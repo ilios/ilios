@@ -13,13 +13,13 @@ class AuthenticationData extends AbstractDataLoader
         $arr = [];
 
         $arr[] = [
-            'user' => '1',
+            'user' => 1,
             'username' => 'legacyuser',
             'passwordHash' => 'legacyuserpass',
         ];
 
         $arr[] = [
-            'user' => '2',
+            'user' => 2,
             'username' => 'newuser',
             'passwordHash' => 'newuserpass'
         ];
@@ -29,7 +29,7 @@ class AuthenticationData extends AbstractDataLoader
     public function create()
     {
         return [
-            'user' => '3',
+            'user' => 3,
             'username' => 'createduser',
             'password' => 'newpass'
         ];

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class SessionLearningMaterialDTO
@@ -14,130 +15,108 @@ use App\Annotation as IS;
 class SessionLearningMaterialDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $notes;
+    public ?string $notes;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $required;
+    public bool $required;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $publicNotes;
+    public bool $publicNotes;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $session;
+    public int $session;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("learningMaterials")
      * @IS\Type("integer")
      */
-    public $learningMaterial;
+    public int $learningMaterial;
 
     /**
-     * @var array
-     *
+     * @var string[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $meshDescriptors;
+    public array $meshDescriptors = [];
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $position;
+    public int $position;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var int
-     *
      * @IS\Type("integer")
      */
-    public $course;
+    public int $course;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var int
-     *
      * @IS\Type("integer")
      */
-    public $school;
+    public int $school;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var int
-     *
      * @IS\Type("integer")
      */
-    public $status;
+    public int $status;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var bool
-     *
      * @IS\Type("boolean")
      */
-    public $courseIsLocked;
+    public bool $courseIsLocked;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @var bool
-     *
      * @IS\Type("boolean")
      */
-    public $courseIsArchived;
+    public bool $courseIsArchived;
 
     /**
-     * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $startDate;
+    public ?DateTime $startDate;
 
     /**
-     * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $endDate;
+    public ?DateTime $endDate;
 
-    /**
-     * Constructor
-     */
-    public function __construct($id, $notes, $required, $publicNotes, $position, $startDate, $endDate)
-    {
+    public function __construct(
+        int $id,
+        ?string $notes,
+        bool $required,
+        bool $publicNotes,
+        int $position,
+        ?DateTime $startDate,
+        ?DateTime $endDate
+    ) {
         $this->id = $id;
         $this->notes = $notes;
         $this->required = $required;
@@ -145,7 +124,5 @@ class SessionLearningMaterialDTO
         $this->position = $position;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
-
-        $this->meshDescriptors = [];
     }
 }

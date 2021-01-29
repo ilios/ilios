@@ -18,10 +18,10 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'id' => 1,
             'title' => 'Top Level Sequence Block 1',
             'description' => 'first description',
-            'report' => '1',
+            'report' => 1,
             'childSequenceOrder' => CurriculumInventorySequenceBlockInterface::ORDERED,
             'orderInSequence' => 0,
-            'academicLevel' => '1',
+            'academicLevel' => 1,
             'minimum' => 1,
             'maximum' => 1,
             'duration' => 2,
@@ -37,10 +37,10 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             $arr[] = [
                 'id' => $i + 1,
                 'title' => 'Nested Sequence Block ' . $i,
-                'report' => '1',
+                'report' => 1,
                 'childSequenceOrder' => CurriculumInventorySequenceBlockInterface::OPTIONAL,
                 'orderInSequence' => $i,
-                'academicLevel' => '2',
+                'academicLevel' => 2,
                 'minimum' => 1,
                 'maximum' => 1,
                 'duration' => 1,
@@ -50,7 +50,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
                 'children' => [],
                 'sessions' => [],
                 'excludedSessions' => [],
-                'parent' => '1',
+                'parent' => 1,
                 'track' => false,
             ];
         }
@@ -65,7 +65,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
         return [
             'id' => 6,
             'title' => $this->faker->text(10),
-            'report' => '1',
+            'report' => 1,
             'childSequenceOrder' => 1,
             'orderInSequence' => 1,
             'academicLevel' => 2,
@@ -78,7 +78,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'children' => [],
             'sessions' => [],
             'excludedSessions' => [],
-            'parent' => '1',
+            'parent' => 1,
             'track' => true,
         ];
     }

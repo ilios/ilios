@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class MeshConceptDTO
@@ -14,107 +15,79 @@ use App\Annotation as IS;
 class MeshConceptDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public string $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $name;
+    public string $name;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $preferred;
+    public bool $preferred;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $scopeNote;
+    public ?string $scopeNote;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $casn1Name;
+    public ?string $casn1Name;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $registryNumber;
+    public ?string $registryNumber;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related("meshTerms")
      * @IS\Type("array<string>")
      */
-    public $terms;
+    public array $terms = [];
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $createdAt;
+    public DateTime $createdAt;
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $updatedAt;
+    public DateTime $updatedAt;
 
     /**
-     * @var array
-     *
+     * @var int[]
      * @IS\Expose
      * @IS\Related("meshDescriptors")
      * @IS\Type("array<string>")
      */
-    public $descriptors;
+    public array $descriptors = [];
 
-    /**
-     * MeshConceptDTO constructor.
-     * @param $id
-     * @param $name
-     * @param $preferred
-     * @param $scopeNote
-     * @param $casn1Name
-     * @param $registryNumber
-     * @param $createdAt
-     * @param $updatedAt
-     */
     public function __construct(
-        $id,
-        $name,
-        $preferred,
-        $scopeNote,
-        $casn1Name,
-        $registryNumber,
-        $createdAt,
-        $updatedAt
+        string $id,
+        string $name,
+        bool $preferred,
+        ?string $scopeNote,
+        ?string $casn1Name,
+        ?string $registryNumber,
+        DateTime $createdAt,
+        DateTime $updatedAt
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -124,8 +97,5 @@ class MeshConceptDTO
         $this->registryNumber = $registryNumber;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
-
-        $this->terms = [];
-        $this->descriptors = [];
     }
 }

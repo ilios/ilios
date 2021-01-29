@@ -15,28 +15,25 @@ use App\Annotation as IS;
 class AamcResourceTypeDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public string $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      *
      */
-    public $title;
+    public string $title;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      *
      */
-    public $description;
+    public string $description;
 
     /**
      * @var int[]
@@ -44,17 +41,15 @@ class AamcResourceTypeDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $terms;
+    public array $terms = [];
 
     public function __construct(
-        $id,
-        $title,
-        $description
+        string $id,
+        string $title,
+        string $description
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
-
-        $this->terms = [];
     }
 }

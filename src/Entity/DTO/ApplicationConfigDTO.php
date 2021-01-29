@@ -15,28 +15,25 @@ use App\Annotation as IS;
 class ApplicationConfigDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $name;
+    public string $name;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $value;
+    public string $value;
 
-    public function __construct($id, $name, $value)
+    public function __construct(int $id, string $name, string $value)
     {
         $this->id = $id;
         $this->name = $name;

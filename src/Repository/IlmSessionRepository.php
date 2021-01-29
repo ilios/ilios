@@ -55,7 +55,7 @@ class IlmSessionRepository extends ServiceEntityRepository implements DTOReposit
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $ilmSessionDTOs[$arr['id']] = new IlmSessionDTO(
                 $arr['id'],
-                $arr['hours'],
+                (float) $arr['hours'],
                 $arr['dueDate']
             );
         }

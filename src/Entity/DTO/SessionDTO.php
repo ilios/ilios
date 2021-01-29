@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class SessionDTO
@@ -15,106 +16,92 @@ use App\Annotation as IS;
 class SessionDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public ?string $title;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $attireRequired;
+    public ?bool $attireRequired;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $equipmentRequired;
+    public ?bool $equipmentRequired;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $supplemental;
+    public ?bool $supplemental;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $attendanceRequired;
+    public ?bool $attendanceRequired;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $publishedAsTbd;
+    public bool $publishedAsTbd;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $published;
+    public bool $published;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $instructionalNotes;
+    public ?string $instructionalNotes;
 
     /**
-     * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $updatedAt;
+    public DateTime $updatedAt;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $description;
+    public ?string $description;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("sessionTypes")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $sessionType;
+    public int $sessionType;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("courses")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $course;
+    public int $course;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("ilmSessions")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $ilmSession;
+    public ?int $ilmSession = null;
 
     /**
      * @var int[]
@@ -122,7 +109,7 @@ class SessionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $terms;
+    public array $terms = [];
 
     /**
      * @var int[]
@@ -130,7 +117,7 @@ class SessionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessionObjectives;
+    public array $sessionObjectives = [];
 
     /**
      * @var int[]
@@ -138,12 +125,11 @@ class SessionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $meshDescriptors;
+    public array $meshDescriptors = [];
 
     /**
-     * @var int
      * @IS\Related("sessionDescriptions")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
     public $sessionDescription;
 
@@ -153,7 +139,7 @@ class SessionDTO
      * @IS\Related("sessionLearningMaterials")
      * @IS\Type("array<string>")
      */
-    public $learningMaterials;
+    public array $learningMaterials = [];
 
     /**
      * @var int[]
@@ -161,7 +147,7 @@ class SessionDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $administrators;
+    public array $administrators = [];
 
     /**
      * @var int[]
@@ -169,7 +155,7 @@ class SessionDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $studentAdvisors;
+    public array $studentAdvisors = [];
 
     /**
      * @var int[]
@@ -177,15 +163,14 @@ class SessionDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $offerings;
+    public array $offerings = [];
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("sessions")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $postrequisite;
+    public ?int $postrequisite = null;
 
     /**
      * @var int[]
@@ -193,26 +178,25 @@ class SessionDTO
      * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
-    public $prerequisites;
+    public array $prerequisites = [];
 
     /**
      * For Voter use, not public
-     * @var int
      */
-    public $school;
+    public int $school;
 
     public function __construct(
-        $id,
-        $title,
-        $description,
-        $attireRequired,
-        $equipmentRequired,
-        $supplemental,
-        $attendanceRequired,
-        $publishedAsTbd,
-        $published,
-        $instructionalNotes,
-        $updatedAt
+        int $id,
+        ?string $title,
+        ?string $description,
+        ?bool $attireRequired,
+        ?bool $equipmentRequired,
+        ?bool $supplemental,
+        ?bool $attendanceRequired,
+        bool $publishedAsTbd,
+        bool $published,
+        ?string $instructionalNotes,
+        DateTime $updatedAt
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -225,14 +209,5 @@ class SessionDTO
         $this->published = $published;
         $this->instructionalNotes = $instructionalNotes;
         $this->updatedAt = $updatedAt;
-
-        $this->terms = [];
-        $this->sessionObjectives = [];
-        $this->meshDescriptors = [];
-        $this->learningMaterials = [];
-        $this->offerings = [];
-        $this->administrators = [];
-        $this->studentAdvisors = [];
-        $this->prerequisites = [];
     }
 }

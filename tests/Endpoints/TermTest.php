@@ -46,6 +46,7 @@ class TermTest extends ReadWriteEndpointTest
     {
         return [
             'description' => ['description', $this->getFaker()->text(200)],
+            'descriptionNull' => ['description', null],
             'title' => ['title', $this->getFaker()->text(100)],
             'courses' => ['courses', [1]],
             'parent' => ['parent', 2],

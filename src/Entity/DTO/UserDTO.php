@@ -15,339 +15,318 @@ use App\Entity\UserInterface;
 class UserDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $lastName;
+    public string $lastName;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $firstName;
+    public string $firstName;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $middleName;
+    public ?string $middleName;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $displayName;
+    public ?string $displayName;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $phone;
+    public ?string $phone;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $email;
+    public string $email;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $preferredEmail;
+    public ?string $preferredEmail;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $addedViaIlios;
+    public bool $addedViaIlios;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $enabled;
+    public bool $enabled;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $campusId;
+    public ?string $campusId;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $otherId;
+    public ?string $otherId;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $examined;
+    public bool $examined;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $userSyncIgnore;
+    public bool $userSyncIgnore;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $icsFeedKey;
+    public string $icsFeedKey;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $reports;
+    public array $reports = [];
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("schools")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $school;
+    public int $school;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("authentications")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $authentication;
+    public ?int $authentication = null;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
-    public $directedCourses;
+    public array $directedCourses = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
-    public $administeredCourses;
+    public array $administeredCourses = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("courses")
      * @IS\Type("array<string>")
      */
-    public $studentAdvisedCourses;
+    public array $studentAdvisedCourses = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $learnerGroups;
+    public array $learnerGroups = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("learnerGroups")
      * @IS\Type("array<string>")
      */
-    public $instructedLearnerGroups;
+    public array $instructedLearnerGroups = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $instructorGroups;
+    public array $instructorGroups = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("ilmSessions")
      * @IS\Type("array<string>")
      */
-    public $instructorIlmSessions;
+    public array $instructorIlmSessions = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("ilmSession")
      * @IS\Type("array<string>")
      */
-    public $learnerIlmSessions;
+    public array $learnerIlmSessions = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $offerings;
+    public array $offerings = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("offerings")
      * @IS\Type("array<string>")
      */
-    public $instructedOfferings;
+    public array $instructedOfferings = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $programYears;
+    public array $programYears = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("userRoles")
      * @IS\Type("array<string>")
      */
-    public $roles;
+    public array $roles = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $cohorts;
+    public array $cohorts = [];
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("cohorts")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $primaryCohort;
+    public ?int $primaryCohort = null;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $pendingUserUpdates;
+    public array $pendingUserUpdates = [];
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
-
      */
-    public $root;
+    public bool $root;
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("schools")
      * @IS\Type("array<string>")
      */
-    public $directedSchools;
+    public array $directedSchools = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("schools")
      * @IS\Type("array<string>")
      */
-    public $administeredSchools;
+    public array $administeredSchools = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
-    public $administeredSessions;
+    public array $administeredSessions = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("sessions")
      * @IS\Type("array<string>")
      */
-    public $studentAdvisedSessions;
+    public array $studentAdvisedSessions = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("programs")
      * @IS\Type("array<string>")
      */
-    public $directedPrograms;
+    public array $directedPrograms = [];
 
     /**
-     * @var array
+     * @var int[]
      * @IS\Expose
      * @IS\Related("curriculumInventoryReports")
      * @IS\Type("array<string>")
      */
-    public $administeredCurriculumInventoryReports;
+    public array $administeredCurriculumInventoryReports = [];
 
     /**
-     * @var array
+     * @var int[]
      */
-    public $auditLogs;
+    public array $auditLogs = [];
 
     /**
      * For index use, not public
-     * @var string
      */
-    public $username;
+    public ?string $username = null;
 
     public function __construct(
-        $id,
-        $firstName,
-        $lastName,
-        $middleName,
-        $displayName,
-        $phone,
-        $email,
-        $preferredEmail,
-        $addedViaIlios,
-        $enabled,
-        $campusId,
-        $otherId,
-        $examined,
-        $userSyncIgnore,
-        $icsFeedKey,
-        $root
+        int $id,
+        string $firstName,
+        string $lastName,
+        ?string $middleName,
+        ?string $displayName,
+        ?string $phone,
+        string $email,
+        ?string $preferredEmail,
+        bool $addedViaIlios,
+        bool $enabled,
+        ?string $campusId,
+        ?string $otherId,
+        bool $examined,
+        bool $userSyncIgnore,
+        string $icsFeedKey,
+        bool $root
     ) {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -365,28 +344,5 @@ class UserDTO
         $this->userSyncIgnore = $userSyncIgnore;
         $this->icsFeedKey = $icsFeedKey;
         $this->root = $root;
-
-        $this->directedCourses = [];
-        $this->administeredCourses = [];
-        $this->studentAdvisedCourses = [];
-        $this->studentAdvisedSessions = [];
-        $this->learnerGroups = [];
-        $this->instructedLearnerGroups = [];
-        $this->instructorGroups = [];
-        $this->offerings = [];
-        $this->instructedOfferings = [];
-        $this->instructorIlmSessions = [];
-        $this->programYears = [];
-        $this->roles = [];
-        $this->reports = [];
-        $this->cohorts = [];
-        $this->pendingUserUpdates = [];
-        $this->auditLogs = [];
-        $this->learnerIlmSessions = [];
-        $this->directedSchools = [];
-        $this->administeredSchools = [];
-        $this->administeredSessions = [];
-        $this->directedPrograms = [];
-        $this->administeredCurriculumInventoryReports = [];
     }
 }

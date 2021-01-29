@@ -111,7 +111,7 @@ class CourseData extends AbstractDataLoader
             'meshDescriptors' => [],
             'learningMaterials' => ["3"],
             'sessions' => ["4"],
-            'ancestor' => '3',
+            'ancestor' => 3,
             'descendants' => []
         ];
 

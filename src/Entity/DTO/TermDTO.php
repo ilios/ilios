@@ -15,36 +15,30 @@ use App\Annotation as IS;
 class TermDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
     /**
-     *
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
-    public $description;
+    public ?string $description;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("terms")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $parent;
+    public ?int $parent = null;
 
     /**
      * @var int[]
@@ -52,7 +46,7 @@ class TermDTO
      * @IS\Related("terms")
      * @IS\Type("array<string>")
      */
-    public $children;
+    public array $children = [];
 
     /**
      * @var int[]
@@ -60,7 +54,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $courses;
+    public array $courses = [];
 
     /**
      * @var int[]
@@ -68,7 +62,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $programYears;
+    public array $programYears = [];
 
     /**
      * @var int[]
@@ -76,15 +70,14 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessions;
+    public array $sessions = [];
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("vocabularies")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $vocabulary;
+    public int $vocabulary;
 
     /**
      * @var int[]
@@ -92,20 +85,18 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $aamcResourceTypes;
+    public array $aamcResourceTypes = [];
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $active;
+    public bool $active;
 
     /**
      * For Voter use, not public
-     * @var int
      */
-    public $school;
+    public int $school;
 
     /**
      * @var int[]
@@ -113,7 +104,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $sessionObjectives;
+    public array $sessionObjectives = [];
 
     /**
      * @var int[]
@@ -121,7 +112,7 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $courseObjectives;
+    public array $courseObjectives = [];
 
     /**
      * @var int[]
@@ -129,26 +120,17 @@ class TermDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $programYearObjectives;
+    public array $programYearObjectives = [];
 
     public function __construct(
-        $id,
-        $title,
-        $description,
-        $active
+        int $id,
+        string $title,
+        ?string $description,
+        bool $active
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
         $this->active = $active;
-
-        $this->children = [];
-        $this->courses = [];
-        $this->programYears = [];
-        $this->sessions = [];
-        $this->aamcResourceTypes = [];
-        $this->sessionObjectives = [];
-        $this->courseObjectives = [];
-        $this->programYearObjectives = [];
     }
 }

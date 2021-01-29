@@ -15,40 +15,35 @@ use App\Annotation as IS;
 class AlertDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $tableRowId;
+    public int $tableRowId;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $tableName;
+    public string $tableName;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $additionalText;
+    public ?string $additionalText;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $dispatched;
+    public bool $dispatched;
 
     /**
      * @var int[]
@@ -56,7 +51,7 @@ class AlertDTO
      * @IS\Related("alertChangeTypes")
      * @IS\Type("array<string>")
      */
-    public $changeTypes;
+    public array $changeTypes = [];
 
     /**
      * @var int[]
@@ -64,7 +59,7 @@ class AlertDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $instigators;
+    public array $instigators = [];
 
     /**
      * @var int[]
@@ -72,23 +67,19 @@ class AlertDTO
      * @IS\Related("schools")
      * @IS\Type("array<string>")
      */
-    public $recipients;
+    public array $recipients = [];
 
     public function __construct(
-        $id,
-        $tableRowId,
-        $tableName,
-        $additionalText,
-        $dispatched
+        int $id,
+        int $tableRowId,
+        string $tableName,
+        ?string $additionalText,
+        bool $dispatched
     ) {
         $this->id = $id;
         $this->tableRowId = $tableRowId;
         $this->tableName = $tableName;
         $this->additionalText = $additionalText;
         $this->dispatched = $dispatched;
-
-        $this->changeTypes = [];
-        $this->instigators = [];
-        $this->recipients = [];
     }
 }

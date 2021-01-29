@@ -15,28 +15,24 @@ use App\Annotation as IS;
 class CompetencyDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
-    public $title;
+    public ?string $title;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("schools")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $school;
+    public int $school;
 
     /**
      * @var int[]
@@ -44,15 +40,14 @@ class CompetencyDTO
      * @IS\Related("programYearObjectives")
      * @IS\Type("array<string>")
      */
-    public $programYearObjectives;
+    public array $programYearObjectives = [];
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("competencies")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $parent;
+    public ?int $parent = null;
 
     /**
      * @var int[]
@@ -60,7 +55,7 @@ class CompetencyDTO
      * @IS\Related("competencies")
      * @IS\Type("array<string>")
      */
-    public $children;
+    public array $children = [];
 
     /**
      * @var int[]
@@ -68,7 +63,7 @@ class CompetencyDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $aamcPcrses;
+    public array $aamcPcrses = [];
 
     /**
      * @var int[]
@@ -76,28 +71,22 @@ class CompetencyDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $programYears;
+    public array $programYears = [];
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      *
      */
-    public $active;
+    public bool $active;
 
     public function __construct(
-        $id,
-        $title,
-        $active
+        int $id,
+        ?string $title,
+        bool $active
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->active = $active;
-
-        $this->programYearObjectives = [];
-        $this->children = [];
-        $this->aamcPcrses = [];
-        $this->programYears = [];
     }
 }

@@ -14,45 +14,33 @@ use App\Annotation as IS;
 class CurriculumInventorySequenceDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("curriculumInventoryReport")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $report;
+    public int $report;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $description;
+    public ?string $description;
 
     /**
      * Needed for voting not exposed in the API
-     *
-     * @var int
      */
-    public $school;
+    public int $school;
 
-    /**
-     * CurriculumInventorySequenceBlockDTO constructor.
-     * @param $id
-     * @param $description
-     */
     public function __construct(
-        $id,
-        $description
+        int $id,
+        ?string $description
     ) {
         $this->id = $id;
         $this->description = $description;

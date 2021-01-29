@@ -15,62 +15,53 @@ use App\Annotation as IS;
 class ProgramDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     *
-     */
-    public $title;
-
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     *
-     */
-    public $shortTitle;
-
-    /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $duration;
+    public string $title;
 
     /**
-     * @var int
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public ?string $shortTitle;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public int $duration;
+
+    /**
      * @IS\Expose
      * @IS\Related("schools")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      *
      */
-    public $school;
+    public int $school;
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
-     *
      */
-    public $programYears;
+    public array $programYears = [];
 
     /**
      * @var int[]
      * @IS\Expose
      * @IS\Related
      * @IS\Type("array<string>")
-     *
      */
-    public $curriculumInventoryReports;
+    public array $curriculumInventoryReports = [];
 
     /**
      * @var int[]
@@ -78,21 +69,18 @@ class ProgramDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $directors;
+    public array $directors = [];
 
 
     public function __construct(
-        $id,
-        $title,
-        $shortTitle,
-        $duration
+        int $id,
+        string $title,
+        ?string $shortTitle,
+        int $duration
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->shortTitle = $shortTitle;
         $this->duration = $duration;
-        $this->programYears = [];
-        $this->curriculumInventoryReports = [];
-        $this->directors = [];
     }
 }

@@ -14,73 +14,56 @@ use App\Annotation as IS;
 class CurriculumInventoryAcademicLevelDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      *
     */
-    public $name;
+    public string $name;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
     */
-    public $description;
+    public ?string $description;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $level;
+    public int $level;
 
     /**
-     * @var int
-     *
      * @IS\Expose
      * @IS\Related("curriculumInventoryReports")
      * @IS\Type("integer")
      */
-    public $report;
+    public int $report;
 
     /**
-    * @var array
-    *
+    * @var int[]
     * @IS\Expose
     * @IS\Related("curriculumInventorySequenceBlocks")
     * @IS\Type("array<string>")
     */
-    public $sequenceBlocks;
+    public array $sequenceBlocks = [];
 
     /**
      * Needed for voting not exposed in the API
-     *
-     * @var int
      */
-    public $school;
+    public int $school;
 
-    /**
-     * Constructor
-     */
-    public function __construct($id, $name, $description, $level)
+    public function __construct(int $id, string $name, ?string $description, int $level)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->level = $level;
-
-        $this->sequenceBlocks = [];
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Annotation as IS;
+use DateTime;
 
 /**
  * Class MeshTermDTO
@@ -14,108 +15,79 @@ use App\Annotation as IS;
 class MeshTermDTO
 {
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $meshTermUid;
+    public string $meshTermUid;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $name;
+    public string $name;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $lexicalTag;
+    public ?string $lexicalTag;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $conceptPreferred;
+    public ?bool $conceptPreferred;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $recordPreferred;
+    public ?bool $recordPreferred;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $permuted;
+    public ?bool $permuted;
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $createdAt;
+    public DateTime $createdAt;
 
     /**
-     * @var \DateTime
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    public $updatedAt;
+    public DateTime $updatedAt;
 
     /**
-     * @var int[]
+     * @var string[]
      *
      * @IS\Expose
      * @IS\Related("meshConcepts")
      * @IS\Type("array<string>")
      */
-    public $concepts;
+    public array $concepts = [];
 
-    /**
-     * MeshTermDTO constructor.
-     * @param $id
-     * @param $meshTermUid
-     * @param $name
-     * @param $lexicalTag
-     * @param $conceptPreferred
-     * @param $recordPreferred
-     * @param $permuted
-     * @param $createdAt
-     * @param $updatedAt
-     */
     public function __construct(
-        $id,
-        $meshTermUid,
-        $name,
-        $lexicalTag,
-        $conceptPreferred,
-        $recordPreferred,
-        $permuted,
-        $createdAt,
-        $updatedAt
+        int $id,
+        string $meshTermUid,
+        string $name,
+        ?string $lexicalTag,
+        ?bool $conceptPreferred,
+        ?bool $recordPreferred,
+        ?bool $permuted,
+        DateTime $createdAt,
+        DateTime $updatedAt
     ) {
         $this->id = $id;
         $this->meshTermUid = $meshTermUid;
@@ -127,6 +99,5 @@ class MeshTermDTO
         $this->name = $name;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
-        $this->concepts = [];
     }
 }

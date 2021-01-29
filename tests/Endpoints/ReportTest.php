@@ -37,6 +37,7 @@ class ReportTest extends ReadWriteEndpointTest
             'subject' => ['subject', $this->getFaker()->text(5)],
             'prepositionalObject' => ['prepositionalObject', $this->getFaker()->text(32)],
             'prepositionalObjectTableRowId' => ['prepositionalObjectTableRowId', '9'],
+            'prepositionalObjectTableRowIdString' => ['prepositionalObjectTableRowId', 'DC123'],
         ];
     }
 
@@ -64,6 +65,7 @@ class ReportTest extends ReadWriteEndpointTest
             'subject' => [[2], ['subject' => 'subject3']],
             'prepositionalObject' => [[2], ['prepositionalObject' => 'object3']],
             'prepositionalObjectTableRowId' => [[1], ['prepositionalObjectTableRowId' => 14]],
+            'prepositionalObjectTableRowIdString' => [[1], ['prepositionalObjectTableRowId' => '14']],
             'user' => [[0, 1, 2], ['user' => 2]],
         ];
     }

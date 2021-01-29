@@ -17,7 +17,7 @@ class PendingUserUpdateData extends AbstractDataLoader
             'type' => 'first type',
             'property' => 'first property',
             'value' => 'first value',
-            'user' => '1',
+            'user' => 1,
         ];
 
 
@@ -26,7 +26,7 @@ class PendingUserUpdateData extends AbstractDataLoader
             'type' => 'second type',
             'property' => 'second property',
             'value' => 'second value',
-            'user' => '4',
+            'user' => 4,
         ];
 
         return $arr;
@@ -39,7 +39,7 @@ class PendingUserUpdateData extends AbstractDataLoader
             'type' => 'third type',
             'property' => 'third property',
             'value' => 'third value',
-            'user' => '1',
+            'user' => 1,
         ];
     }
 

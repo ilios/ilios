@@ -17,51 +17,44 @@ class ProgramYearDTO
 {
 
     /**
-     * @var int
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
     */
-    public $id;
+    public int $id;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $startYear;
+    public int $startYear;
 
     /**
-     * @var bool
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $locked;
+    public bool $locked;
 
     /**
-     * @var bool
-     *
      * @IS\Expose
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public $archived;
+    public bool $archived;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("programs")
-     * @IS\Type("string")
+     * @IS\Type("integer")
      */
-    public $program;
+    public int $program;
 
     /**
-     * @var int
      * @IS\Expose
      * @IS\Related("cohorts")
-     * @IS\Type("string")
+     * @IS\Type("integer")
     */
-    public $cohort;
+    public int $cohort;
 
     /**
      * @var int[]
@@ -69,15 +62,7 @@ class ProgramYearDTO
      * @IS\Related("users")
      * @IS\Type("array<string>")
      */
-    public $directors;
-
-    /**
-     * @var CompetencyInterface[] $competencies
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
-     */
-    public $competencies;
+    public array $directors = [];
 
     /**
      * @var int[]
@@ -85,7 +70,7 @@ class ProgramYearDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $terms;
+    public array $competencies = [];
 
     /**
      * @var int[]
@@ -93,28 +78,30 @@ class ProgramYearDTO
      * @IS\Related
      * @IS\Type("array<string>")
      */
-    public $programYearObjectives;
+    public array $terms = [];
+
+    /**
+     * @var int[]
+     * @IS\Expose
+     * @IS\Related
+     * @IS\Type("array<string>")
+     */
+    public array $programYearObjectives = [];
 
     /**
      * For Voter use, not public
-     * @var int
      */
-    public $school;
+    public int $school;
 
     public function __construct(
-        $id,
-        $startYear,
-        $locked,
-        $archived
+        int $id,
+        int $startYear,
+        bool $locked,
+        bool $archived
     ) {
         $this->id = $id;
         $this->startYear = $startYear;
         $this->locked = $locked;
         $this->archived = $archived;
-
-        $this->directors = [];
-        $this->competencies = [];
-        $this->terms = [];
-        $this->programYearObjectives = [];
     }
 }
