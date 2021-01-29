@@ -1,0 +1,4 @@
+security:
+  encoders:
+    App\Classes\SessionUserInterface:
+      algorithm: plaintext
