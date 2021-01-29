@@ -25,7 +25,7 @@ class CompetencyDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $title;
+    public ?string $title;
 
     /**
      * @IS\Expose
@@ -82,7 +82,7 @@ class CompetencyDTO
 
     public function __construct(
         int $id,
-        string $title,
+        ?string $title,
         bool $active
     ) {
         $this->id = $id;

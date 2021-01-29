@@ -32,7 +32,7 @@ class MeshDescriptorDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $annotation;
+    public ?string $annotation;
 
     /**
      * @var DateTime
@@ -145,7 +145,7 @@ class MeshDescriptorDTO
     public function __construct(
         string $id,
         string $name,
-        string $annotation,
+        ?string $annotation,
         DateTime $createdAt,
         DateTime $updatedAt,
         bool $deleted

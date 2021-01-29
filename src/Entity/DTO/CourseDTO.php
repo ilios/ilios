@@ -26,7 +26,7 @@ class CourseDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $title;
+    public ?string $title;
 
     /**
      * @IS\Expose
@@ -186,7 +186,7 @@ class CourseDTO
 
     public function __construct(
         int $id,
-        string $title,
+        ?string $title,
         int $level,
         int $year,
         DateTime $startDate,

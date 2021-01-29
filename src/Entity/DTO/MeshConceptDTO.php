@@ -37,19 +37,19 @@ class MeshConceptDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $scopeNote;
+    public ?string $scopeNote;
 
     /**
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $casn1Name;
+    public ?string $casn1Name;
 
     /**
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $registryNumber;
+    public ?string $registryNumber;
 
     /**
      * @var int[]
@@ -83,9 +83,9 @@ class MeshConceptDTO
         string $id,
         string $name,
         bool $preferred,
-        string $scopeNote,
-        string $casn1Name,
-        string $registryNumber,
+        ?string $scopeNote,
+        ?string $casn1Name,
+        ?string $registryNumber,
         DateTime $createdAt,
         DateTime $updatedAt
     ) {

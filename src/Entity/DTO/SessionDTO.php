@@ -26,7 +26,7 @@ class SessionDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $title;
+    public ?string $title;
 
     /**
      * @IS\Expose
@@ -187,7 +187,7 @@ class SessionDTO
 
     public function __construct(
         int $id,
-        string $title,
+        ?string $title,
         ?string $description,
         ?bool $attireRequired,
         ?bool $equipmentRequired,

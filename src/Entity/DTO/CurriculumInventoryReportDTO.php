@@ -117,8 +117,8 @@ class CurriculumInventoryReportDTO
 
     public function __construct(
         int $id,
-        string $name,
-        string $description,
+        ?string $name,
+        ?string $description,
         int $year,
         DateTime $startDate,
         DateTime $endDate,

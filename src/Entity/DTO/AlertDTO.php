@@ -31,13 +31,13 @@ class AlertDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public int $tableName;
+    public string $tableName;
 
     /**
      * @IS\Expose
      * @IS\Type("string")
      */
-    public int $additionalText;
+    public ?string $additionalText;
 
     /**
      * @IS\Expose
@@ -72,8 +72,8 @@ class AlertDTO
     public function __construct(
         int $id,
         int $tableRowId,
-        int $tableName,
-        int $additionalText,
+        string $tableName,
+        ?string $additionalText,
         bool $dispatched
     ) {
         $this->id = $id;

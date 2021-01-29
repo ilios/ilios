@@ -30,13 +30,13 @@ class PendingUserUpdateDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $property;
+    public ?string $property;
 
     /**
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $value;
+    public ?string $value;
 
     /**
      * @IS\Expose
@@ -45,7 +45,7 @@ class PendingUserUpdateDTO
      */
     public int $user;
 
-    public function __construct(int $id, string $type, string $property, string $value)
+    public function __construct(int $id, string $type, ?string $property, ?string $value)
     {
         $this->id = $id;
         $this->type = $type;

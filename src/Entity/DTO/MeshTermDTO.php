@@ -37,25 +37,25 @@ class MeshTermDTO
      * @IS\Expose
      * @IS\Type("string")
      */
-    public string $lexicalTag;
+    public ?string $lexicalTag;
 
     /**
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public bool $conceptPreferred;
+    public ?bool $conceptPreferred;
 
     /**
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public bool $recordPreferred;
+    public ?bool $recordPreferred;
 
     /**
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    public bool $permuted;
+    public ?bool $permuted;
 
     /**
      * @IS\Expose
@@ -82,10 +82,10 @@ class MeshTermDTO
         int $id,
         string $meshTermUid,
         string $name,
-        string $lexicalTag,
-        bool $conceptPreferred,
-        bool $recordPreferred,
-        bool $permuted,
+        ?string $lexicalTag,
+        ?bool $conceptPreferred,
+        ?bool $recordPreferred,
+        ?bool $permuted,
         DateTime $createdAt,
         DateTime $updatedAt
     ) {
