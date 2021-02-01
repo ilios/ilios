@@ -116,10 +116,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function warmUp($cacheDir)
+    public function warmUp($cacheDir): array
     {
         try {
             $version = false;
