@@ -127,16 +127,4 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
             $conn->insert('audit_log', $log);
         }
     }
-
-    /**
-     * Returns a list of field names of the corresponding entity.
-     *
-     * @return array
-     *
-     * @todo Refactor this out into a trait or stick it somewhere else. [ST 2015/09/02]
-     */
-    public function getFieldNames()
-    {
-        return $this->_em->getClassMetadata($this->getClassName())->getFieldNames();
-    }
 }
