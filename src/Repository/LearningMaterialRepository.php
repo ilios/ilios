@@ -365,6 +365,14 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
     /**
      * @return int
      */
+    public function getTotalLearningMaterialCount(): int
+    {
+        return $this->count([]);
+    }
+
+    /**
+     * @return int
+     */
     public function getTotalFileLearningMaterialCount()
     {
         $dql = 'SELECT COUNT(l.id) FROM App\Entity\LearningMaterial l WHERE l.relativePath IS NOT NULL';
