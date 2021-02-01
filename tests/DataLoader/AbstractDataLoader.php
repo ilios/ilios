@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
-use App\Service\EntityManagerLookup;
+use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
 use DateTime;
 use Exception;
@@ -26,11 +26,11 @@ abstract class AbstractDataLoader implements DataLoaderInterface
     protected $entityMetadata;
 
     /**
-     * @var EntityManagerLookup
+     * @var EntityRepositoryLookup
      */
     protected $entityManagerLookup;
 
-    public function __construct(EntityMetadata $entityMetadata, EntityManagerLookup $entityManagerLookup)
+    public function __construct(EntityMetadata $entityMetadata, EntityRepositoryLookup $entityManagerLookup)
     {
         $this->faker = FakerFactory::create();
         $this->faker->seed(1234);

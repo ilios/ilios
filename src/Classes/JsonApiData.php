@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-use App\Service\EntityManagerLookup;
+use App\Service\EntityRepositoryLookup;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class JsonApiData
@@ -12,11 +12,11 @@ class JsonApiData
     protected array $data = [];
     protected array $includes = [];
     protected array $sideLoadCandidates = [];
-    protected EntityManagerLookup $entityManagerLookup;
+    protected EntityRepositoryLookup $entityManagerLookup;
     protected NormalizerInterface $normalizer;
 
     public function __construct(
-        EntityManagerLookup $entityManagerLookup,
+        EntityRepositoryLookup $entityManagerLookup,
         NormalizerInterface $normalizer,
         array $data,
         array $sideLoadFields

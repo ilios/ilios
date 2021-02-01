@@ -9,7 +9,7 @@ use Exception;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class EntityManagerLookup
+class EntityRepositoryLookup
 {
     /**
      * @var ContainerInterface

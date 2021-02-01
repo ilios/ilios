@@ -11,10 +11,10 @@ class JsonApiDataShaper
 {
     use NormalizerAwareTrait;
 
-    protected EntityManagerLookup $entityManagerLookup;
+    protected EntityRepositoryLookup $entityManagerLookup;
 
     public function __construct(
-        EntityManagerLookup $entityManagerLookup
+        EntityRepositoryLookup $entityManagerLookup
     ) {
         $this->entityManagerLookup = $entityManagerLookup;
     }

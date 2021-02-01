@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Denormalizer;
 
 use App\Exception\InvalidInputWithSafeUserMessageException;
-use App\Service\EntityManagerLookup;
+use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -37,7 +37,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
     protected $purifier;
 
     /**
-     * @var EntityManagerLookup
+     * @var EntityRepositoryLookup
      */
     protected $entityManagerLookup;
 
@@ -51,7 +51,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
         ManagerRegistry $managerRegistry,
         HTMLPurifier $purifier,
         LoggerInterface $logger,
-        EntityManagerLookup $entityManagerLookup
+        EntityRepositoryLookup $entityManagerLookup
     ) {
         $this->entityMetadata = $entityMetadata;
         $this->managerRegistry = $managerRegistry;
