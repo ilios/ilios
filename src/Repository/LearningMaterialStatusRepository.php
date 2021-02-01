@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class LearningMaterialStatusRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 

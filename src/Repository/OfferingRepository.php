@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class OfferingRepository
  */
-class OfferingRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class OfferingRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

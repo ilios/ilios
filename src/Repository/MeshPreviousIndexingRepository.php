@@ -12,7 +12,7 @@ use App\Entity\MeshPreviousIndexing;
 use App\Entity\DTO\MeshPreviousIndexingDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class MeshPreviousIndexingRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class MeshPreviousIndexingRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

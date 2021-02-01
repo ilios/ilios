@@ -13,7 +13,7 @@ use App\Entity\DTO\LearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\LearningMaterialInterface;
 
-class LearningMaterialRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class LearningMaterialRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

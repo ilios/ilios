@@ -12,7 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AssessmentOptionDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AssessmentOptionRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class AssessmentOptionRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

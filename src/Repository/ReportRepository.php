@@ -12,7 +12,7 @@ use App\Entity\Report;
 use App\Entity\DTO\ReportDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ReportRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class ReportRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

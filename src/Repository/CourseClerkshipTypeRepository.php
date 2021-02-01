@@ -12,7 +12,7 @@ use App\Entity\CourseClerkshipType;
 use App\Entity\DTO\CourseClerkshipTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class CourseClerkshipTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class CourseClerkshipTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

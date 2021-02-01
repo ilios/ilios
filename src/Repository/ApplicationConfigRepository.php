@@ -12,7 +12,7 @@ use App\Entity\ApplicationConfig;
 use App\Entity\DTO\ApplicationConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ApplicationConfigRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class ApplicationConfigRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

@@ -12,7 +12,7 @@ use App\Entity\MeshTerm;
 use App\Entity\DTO\MeshTermDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class MeshTermRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class MeshTermRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

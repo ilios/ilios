@@ -13,7 +13,7 @@ use App\Entity\SchoolConfig;
 use App\Entity\DTO\SchoolConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class SchoolConfigRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class SchoolConfigRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

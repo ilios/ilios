@@ -12,7 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AamcResourceTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AamcResourceTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class AamcResourceTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

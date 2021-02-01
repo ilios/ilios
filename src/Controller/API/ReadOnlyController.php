@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\RelationshipVoter\AbstractVoter;
-use App\Repository\ManagerInterface;
+use App\Repository\RepositoryInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,14 +16,14 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 abstract class ReadOnlyController
 {
-    protected ManagerInterface $repository;
+    protected RepositoryInterface $repository;
 
     /**
      * @var string
      */
     protected $endpoint;
 
-    public function __construct(ManagerInterface $repository, string $endpoint)
+    public function __construct(RepositoryInterface $repository, string $endpoint)
     {
         $this->repository = $repository;
         $this->endpoint = $endpoint;

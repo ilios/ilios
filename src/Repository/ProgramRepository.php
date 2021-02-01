@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class ProgramRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 

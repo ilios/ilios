@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\DataFixtures\ORM;
 
-use App\Repository\ManagerInterface;
+use App\Repository\RepositoryInterface;
 use App\Service\DataimportFileLocator;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -18,7 +18,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
 {
     use FixturesTrait;
 
-    protected ManagerInterface $em;
+    protected RepositoryInterface $em;
 
     /**
      * {@inheritdoc}

@@ -30,7 +30,7 @@ use PDO;
 
 class MeshDescriptorRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 

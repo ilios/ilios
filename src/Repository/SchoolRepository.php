@@ -21,7 +21,7 @@ use App\Traits\CalendarEventRepository;
 
 class SchoolRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use CalendarEventRepository;
     use ManagerRepository;
