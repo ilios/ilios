@@ -128,12 +128,6 @@ class SessionDTO
     public array $meshDescriptors = [];
 
     /**
-     * @IS\Related("sessionDescriptions")
-     * @IS\Type("integer")
-     */
-    public $sessionDescription;
-
-    /**
      * @var int[]
      * @IS\Expose
      * @IS\Related("sessionLearningMaterials")
