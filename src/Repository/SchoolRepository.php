@@ -246,7 +246,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 
         $results = $qb->getQuery()->getArrayResult();
-        return $this->createEventObjectsForIlmSessions($id, $results);
+        return $this->createEventObjectsForIlmSessions($results);
     }
 
     /**
@@ -413,7 +413,7 @@ class SchoolRepository extends ServiceEntityRepository implements
 
         // create pre-requisites events and attach them to their proper events
         foreach ($dedupedResults as $result) {
-            $prerequisite = SchoolEvent::createFromCalendarEvent($this->createEventObjectForIlmSession($id, $result));
+            $prerequisite = SchoolEvent::createFromCalendarEvent($this->createEventObjectForIlmSession($result));
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
@@ -533,7 +533,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         // create post-requisites events and attach them to their proper events
         foreach ($dedupedResults as $result) {
             $postrequisite = SchoolEvent::createFromCalendarEvent(
-                $this->createEventObjectForIlmSession(null, $result)
+                $this->createEventObjectForIlmSession($result)
             );
             $sessionId = $result['postRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {

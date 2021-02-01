@@ -7,6 +7,7 @@ namespace App\Traits;
 use App\Entity\Course;
 use App\Entity\Session;
 use App\Entity\User;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use App\Classes\CalendarEvent;
@@ -69,29 +70,21 @@ trait CalendarEventRepository
 
     /**
      * Convert IlmSessions into CalendarEvent() objects
-     * @param int $userId
-     * @param array $results
      * @return CalendarEvent[]
      */
-    protected function createEventObjectsForIlmSessions($userId, array $results)
+    protected function createEventObjectsForIlmSessions(array $results): array
     {
-        return array_map(function ($arr) use ($userId) {
-            return $this->createEventObjectForIlmSession($userId, $arr);
+        return array_map(function ($arr) {
+            return $this->createEventObjectForIlmSession($arr);
         }, $results);
     }
 
-    /**
-     * @param $userId
-     * @param array $arr
-     * @return CalendarEvent
-     */
-    protected function createEventObjectForIlmSession($userId, array $arr)
+    protected function createEventObjectForIlmSession(array $arr): CalendarEvent
     {
         $event = new CalendarEvent();
-        $event->user = $userId;
         $event->name = $arr['title'];
         $event->startDate = $arr['dueDate'];
-        $endDate = new \DateTime();
+        $endDate = new DateTime();
         $endDate->setTimestamp($event->startDate->getTimestamp());
         $event->endDate = $endDate->modify('+15 minutes');
         $event->ilmSession = $arr['id'];

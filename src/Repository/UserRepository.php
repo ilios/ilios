@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Session;
 use App\Traits\ManagerRepository;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -154,11 +155,11 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Find all of the events for a user id between two dates
      * @param int $id
-     * @param \DateTime $from
-     * @param \DateTime $to
+     * @param DateTime $from
+     * @param DateTime $to
      * @return UserEvent[]
      */
-    public function findEventsForUser($id, \DateTime $from, \DateTime $to)
+    public function findEventsForUser($id, DateTime $from, DateTime $to)
     {
         //These joins are DQL representations to go from a user to an offerings
         $joins = $this->getUserToOfferingJoins();
@@ -345,15 +346,15 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * offering based user events
      *
      * @param int $id
-     * @param \DateTime $from
-     * @param \DateTime $to
+     * @param DateTime $from
+     * @param DateTime $to
      * @param array $joins
      * @return CalendarEvent[]
      */
     protected function getOfferingEventsFor(
         $id,
-        \DateTime $from,
-        \DateTime $to,
+        DateTime $from,
+        DateTime $to,
         array $joins
     ) {
 
@@ -396,13 +397,9 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Use the query builder and the $joins to get a set of
      * ILMSession based user events
      *
-     * @param int $id
-     * @param \DateTime $from
-     * @param \DateTime $to
-     * @param array $joins
-     * @return CalendarEvent[]
+     * @return UserEvent[]
      */
-    protected function getIlmSessionEventsFor($id, \DateTime $from, \DateTime $to, array $joins)
+    protected function getIlmSessionEventsFor(int $id, DateTime $from, DateTime $to, array $joins): array
     {
         $qb = $this->_em->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, ilm.id, ilm.dueDate, ' .
@@ -431,7 +428,13 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 
         $results = $qb->getQuery()->getArrayResult();
-        return $this->createEventObjectsForIlmSessions($id, $results);
+
+        return array_map(function (CalendarEvent $event) use ($id) {
+            return UserEvent::createFromCalendarEvent(
+                $id,
+                $event
+            );
+        }, $this->createEventObjectsForIlmSessions($results));
     }
 
     /**
@@ -576,7 +579,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         foreach ($dedupedResults as $result) {
             $prerequisite = UserEvent::createFromCalendarEvent(
                 $id,
-                $this->createEventObjectForIlmSession($id, $result)
+                $this->createEventObjectForIlmSession($result)
             );
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
@@ -709,7 +712,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         foreach ($dedupedResults as $result) {
             $postrequisite = UserEvent::createFromCalendarEvent(
                 $id,
-                $this->createEventObjectForIlmSession($id, $result)
+                $this->createEventObjectForIlmSession($result)
             );
             $sessionId = $result['postRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
