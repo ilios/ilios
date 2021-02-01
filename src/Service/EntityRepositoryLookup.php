@@ -27,7 +27,7 @@ class EntityRepositoryLookup
         $this->endpointResponseNamer = $endpointResponseNamer;
     }
 
-    public function getManagerForEndpoint(string $endPoint): ManagerInterface
+    public function getRepositoryForEndpoint(string $endPoint): ManagerInterface
     {
         $entityName = $this->getEntityName($endPoint);
         $name = sprintf('App\Repository\%sRepository', $entityName);

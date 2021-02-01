@@ -157,7 +157,7 @@ class JsonApiData
             $alreadyIncluded = $this->getIncludedIdsByType();
             $newIds = array_key_exists($type, $alreadyIncluded) ? array_diff($ids, $alreadyIncluded[$type]) : $ids;
             if (count($newIds)) {
-                $manager = $this->entityManagerLookup->getManagerForEndpoint($type);
+                $manager = $this->entityManagerLookup->getRepositoryForEndpoint($type);
                 $dtos = $manager->findDTOsBy(['id' => $newIds]);
                 foreach ($dtos as $dto) {
                     $data = $this->normalizer->normalize($dto, 'json-api');

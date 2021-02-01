@@ -38,7 +38,7 @@ class JsonApiDataShaper
     {
         $rhett = [];
         if (property_exists($data, 'id')) {
-            $manager = $this->entityManagerLookup->getManagerForEndpoint($data->type);
+            $manager = $this->entityManagerLookup->getRepositoryForEndpoint($data->type);
             $rhett[$manager->getIdField()] = $data->id;
         }
         foreach ($data->attributes as $key => $value) {
