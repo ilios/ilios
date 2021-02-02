@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "91f4b8fea3dd83b7173e2b8c1b4c8248",
+    "content-hash": "699475dfba54b9dd2af692ffd8b3d91c",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1763,60 +1763,6 @@
                 "source": "https://github.com/doctrine/sql-formatter/tree/1.1.x"
             },
             "time": "2020-07-30T16:57:33+00:00"
-        },
-        {
-            "name": "dreamscapes/ldap-core",
-            "version": "3.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Dreamscapes/Ldap-Core.git",
-                "reference": "95f2f0d13d4ef0ec8fb5c457db1da5c4d9ed928f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Dreamscapes/Ldap-Core/zipball/95f2f0d13d4ef0ec8fb5c457db1da5c4d9ed928f",
-                "reference": "95f2f0d13d4ef0ec8fb5c457db1da5c4d9ed928f",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ldap": "*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpdocumentor/phpdocumentor": "~2",
-                "squizlabs/php_codesniffer": "~2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Dreamscapes\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Robert Rossmann",
-                    "email": "rr.rossmann@me.com"
-                }
-            ],
-            "description": "Object encapsulation of PHP's native ldap functions",
-            "keywords": [
-                "OOP",
-                "directory",
-                "ldap",
-                "library",
-                "mock",
-                "openldap",
-                "testing"
-            ],
-            "support": {
-                "issues": "https://github.com/Dreamscapes/Ldap-Core/issues",
-                "source": "https://github.com/Dreamscapes/Ldap-Core/tree/master"
-            },
-            "time": "2018-07-12T19:09:12+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -6940,6 +6886,81 @@
             "time": "2021-01-27T14:45:46+00:00"
         },
         {
+            "name": "symfony/ldap",
+            "version": "v5.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/ldap.git",
+                "reference": "82ac5f283e72b4d487ea74f786548847713424b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/82ac5f283e72b4d487ea74f786548847713424b1",
+                "reference": "82ac5f283e72b4d487ea74f786548847713424b1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ldap": "*",
+                "php": ">=7.2.5",
+                "symfony/options-resolver": "^4.4|^5.0",
+                "symfony/polyfill-php80": "^1.15"
+            },
+            "conflict": {
+                "symfony/options-resolver": "<4.4",
+                "symfony/security-core": "<5"
+            },
+            "require-dev": {
+                "symfony/security-core": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Ldap\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Charles Sarrazin",
+                    "email": "charles@sarraz.in"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides a LDAP client for PHP on top of PHP's ldap extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "active directory",
+                "ldap"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/ldap/tree/v5.2.2"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-01-27T11:19:04+00:00"
+        },
+        {
             "name": "symfony/lock",
             "version": "v5.2.2",
             "source": {
@@ -11718,9 +11739,9 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-pdo": "*",
-        "ext-zlib": "*",
         "ext-simplexml": "*",
-        "ext-xmlwriter": "*"
+        "ext-xmlwriter": "*",
+        "ext-zlib": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
