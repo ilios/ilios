@@ -23,6 +23,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 use RuntimeException;
@@ -189,13 +190,7 @@ class LearningMaterials
                 $entity->setRelativePath($relativePath);
             }
             $this->repository->update($entity, false);
-
-            $errors = $validator->validate($entity, null, $entity->getValidationGroups());
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
-
-                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-            }
+            $this->validateLmEntity($entity, $validator);
             if (! $authorizationChecker->isGranted(AbstractVoter::CREATE, $entity)) {
                 throw new AccessDeniedException('Unauthorized access!');
             }
@@ -251,13 +246,7 @@ class LearningMaterials
 
         $json = json_encode($data);
         $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
-
-        $errors = $validator->validate($entity, null, $entity->getValidationGroups());
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-        }
+        $this->validateLmEntity($entity, $validator);
         if (! $authorizationChecker->isGranted($permission, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
@@ -308,12 +297,7 @@ class LearningMaterials
         $json = json_encode($data);
         $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
 
-        $errors = $validator->validate($entity);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-        }
+        $this->validateLmEntity($entity, $validator);
         if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
@@ -354,6 +338,21 @@ class LearningMaterials
             return new Response('', Response::HTTP_NO_CONTENT);
         } catch (Exception $exception) {
             throw new RuntimeException("Failed to delete entity: " . $exception->getMessage());
+        }
+    }
+
+    protected function validateLmEntity(LearningMaterialInterface $lm, ValidatorInterface $validator)
+    {
+        $errors = [];
+        /** @var ConstraintViolationInterface $violation */
+        foreach ($validator->validate($lm, null, $lm->getValidationGroups()) as $violation) {
+            $property = $violation->getPropertyPath();
+            $message = $violation->getMessage();
+            $errors[] = "Error in *${property}*: ${message}";
+        }
+        if (count($errors)) {
+            $errorsString = implode("\n", $errors);
+            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
         }
     }
 }

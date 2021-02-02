@@ -29,18 +29,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class Offerings extends ReadWriteController
 {
-    /**
-     * @var ChangeAlertHandler
-     */
-    protected $alertHandler;
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
+    protected ChangeAlertHandler $alertHandler;
+    protected UserRepository $userRepository;
+    protected TokenStorageInterface $tokenStorage;
 
     public function __construct(
         OfferingRepository $repository,
@@ -71,17 +62,7 @@ class Offerings extends ReadWriteController
 
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
 
-        foreach ($entities as $entity) {
-            $errors = $validator->validate($entity);
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
-
-                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-            }
-            if (! $authorizationChecker->isGranted(AbstractVoter::CREATE, $entity)) {
-                throw new AccessDeniedException('Unauthorized access!');
-            }
-        }
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE, $validator, $authorizationChecker);
 
         foreach ($entities as $entity) {
             $this->repository->update($entity, false);
@@ -136,15 +117,7 @@ class Offerings extends ReadWriteController
         /** @var OfferingInterface $entity */
         $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
-        $errors = $validator->validate($entity);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-        }
-        if (! $authorizationChecker->isGranted($permission, $entity)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
+        $this->validateAndAuthorizeEntity($entity, $permission, $validator, $authorizationChecker);
 
         $this->repository->update($entity, true, false);
 
@@ -199,15 +172,7 @@ class Offerings extends ReadWriteController
 
         $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
-        $errors = $validator->validate($entity);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-        }
-        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
+        $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);
 
         $this->repository->update($entity, true, false);
 

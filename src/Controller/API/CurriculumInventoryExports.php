@@ -13,9 +13,9 @@ use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\Exporter;
+use App\Traits\ApiEntityValidation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -27,6 +27,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class CurriculumInventoryExports
 {
+    use ApiEntityValidation;
+
     /**
      * Create the XML document for a curriculum inventory report
      * @Route("", methods={"POST"})
@@ -60,13 +62,8 @@ class CurriculumInventoryExports
             // generate and set the report document
             $document = $exporter->getXmlReport($export->getReport());
             $export->setDocument($document);
+            $this->validateEntity($export, $validator);
 
-            $errors = $validator->validate($export);
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
-
-                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-            }
             $repository->update($export, false);
         }
 

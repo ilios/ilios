@@ -8,6 +8,7 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CohortRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use App\Traits\ApiEntityValidation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\GoneHttpException;
@@ -22,6 +23,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class Cohorts extends ReadOnlyController
 {
+    use ApiEntityValidation;
+
     public function __construct(CohortRepository $repository)
     {
         parent::__construct($repository, 'cohorts');
@@ -48,15 +51,7 @@ class Cohorts extends ReadOnlyController
         }
         $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
-        $errors = $validator->validate($entity);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-        }
-        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
+        $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);
 
         $this->repository->update($entity, true, false);
 

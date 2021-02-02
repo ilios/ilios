@@ -13,6 +13,7 @@ use App\Service\ApiResponseBuilder;
 use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
+use App\Traits\ApiEntityValidation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -36,23 +37,13 @@ use RuntimeException;
  */
 class Authentications
 {
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    protected $passwordEncoder;
+    use ApiEntityValidation;
 
-    /**
-     * @var SessionUserProvider
-     */
-    protected $sessionUserProvider;
-
+    protected UserPasswordEncoderInterface $passwordEncoder;
+    protected SessionUserProvider $sessionUserProvider;
     protected AuthenticationRepository $repository;
     protected UserRepository $userRepository;
-
-    /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
+    protected SerializerInterface $serializer;
 
     public function __construct(
         UserPasswordEncoderInterface $passwordEncoder,
@@ -127,17 +118,7 @@ class Authentications
         $json = json_encode($arr);
         $entities = $this->serializer->deserialize($json, $class, 'json');
 
-        foreach ($entities as $entity) {
-            $errors = $validator->validate($entity);
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
-
-                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-            }
-            if (! $authorizationChecker->isGranted(AbstractVoter::CREATE, $entity)) {
-                throw new AccessDeniedException('Unauthorized access!');
-            }
-        }
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE, $validator, $authorizationChecker);
 
         $entitiesByUserId = [];
         /** @var AuthenticationInterface $authentication */
@@ -234,16 +215,7 @@ class Authentications
             $entity->setPasswordHash($encodedPassword);
         }
 
-        $errors = $validator->validate($entity);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-        }
-        if (! $authorizationChecker->isGranted($permission, $entity)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
-
+        $this->validateAndAuthorizeEntity($entity, $permission, $validator, $authorizationChecker);
         $this->repository->update($entity, true, false);
 
         return $builder->buildResponseForPutRequest('authentications', $entity, $code, $request);
@@ -298,15 +270,7 @@ class Authentications
             $entity->setPasswordHash($encodedPassword);
         }
 
-        $errors = $validator->validate($entity);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-        }
-        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
+        $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);
 
         $this->repository->update($entity, true, false);
 

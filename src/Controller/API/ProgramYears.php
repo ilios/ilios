@@ -73,15 +73,7 @@ class ProgramYears extends ReadWriteController
         $entities = $this->serializer->deserialize(json_encode($cleanData), $class, 'json');
 
         foreach ($entities as $entity) {
-            $errors = $validator->validate($entity);
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
-
-                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-            }
-            if (! $authorizationChecker->isGranted(AbstractVoter::CREATE, $entity)) {
-                throw new AccessDeniedException('Unauthorized access!');
-            }
+            $this->validateAndAuthorizeEntity($entity, AbstractVoter::CREATE, $validator, $authorizationChecker);
 
             $this->repository->update($entity, false);
             $this->createCohort($entity);
@@ -131,15 +123,7 @@ class ProgramYears extends ReadWriteController
 
         $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
-        $errors = $validator->validate($entity);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-        }
-        if (! $authorizationChecker->isGranted($permission, $entity)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
+        $this->validateAndAuthorizeEntity($entity, $permission, $validator, $authorizationChecker);
 
         $this->repository->update($entity, false, false);
         if (empty($entity->getCohort())) {
