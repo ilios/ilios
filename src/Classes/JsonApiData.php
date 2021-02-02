@@ -12,16 +12,16 @@ class JsonApiData
     protected array $data = [];
     protected array $includes = [];
     protected array $sideLoadCandidates = [];
-    protected EntityRepositoryLookup $entityManagerLookup;
+    protected EntityRepositoryLookup $entityRepositoryLookup;
     protected NormalizerInterface $normalizer;
 
     public function __construct(
-        EntityRepositoryLookup $entityManagerLookup,
+        EntityRepositoryLookup $entityRepositoryLookup,
         NormalizerInterface $normalizer,
         array $data,
         array $sideLoadFields
     ) {
-        $this->entityManagerLookup = $entityManagerLookup;
+        $this->entityRepositoryLookup = $entityRepositoryLookup;
         $this->normalizer = $normalizer;
         foreach ($data as $item) {
             $shapedItem = $this->shapeItem($item);
@@ -157,7 +157,7 @@ class JsonApiData
             $alreadyIncluded = $this->getIncludedIdsByType();
             $newIds = array_key_exists($type, $alreadyIncluded) ? array_diff($ids, $alreadyIncluded[$type]) : $ids;
             if (count($newIds)) {
-                $manager = $this->entityManagerLookup->getRepositoryForEndpoint($type);
+                $manager = $this->entityRepositoryLookup->getRepositoryForEndpoint($type);
                 $dtos = $manager->findDTOsBy(['id' => $newIds]);
                 foreach ($dtos as $dto) {
                     $data = $this->normalizer->normalize($dto, 'json-api');

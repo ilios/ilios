@@ -39,7 +39,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
     /**
      * @var EntityRepositoryLookup
      */
-    protected $entityManagerLookup;
+    protected $entityRepositoryLookup;
 
     /**
      * @var LoggerInterface
@@ -51,12 +51,12 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
         ManagerRegistry $managerRegistry,
         HTMLPurifier $purifier,
         LoggerInterface $logger,
-        EntityRepositoryLookup $entityManagerLookup
+        EntityRepositoryLookup $entityRepositoryLookup
     ) {
         $this->entityMetadata = $entityMetadata;
         $this->managerRegistry = $managerRegistry;
         $this->purifier = $purifier;
-        $this->entityManagerLookup = $entityManagerLookup;
+        $this->entityRepositoryLookup = $entityRepositoryLookup;
         $this->logger = $logger;
     }
 
@@ -137,7 +137,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
             $association = $associationMappings[$property->name];
             $targetEntity = $association['targetEntity'];
 
-            $iliosManager = $this->entityManagerLookup->getManagerForEntity($targetEntity);
+            $iliosManager = $this->entityRepositoryLookup->getManagerForEntity($targetEntity);
 
             if ($type === 'entity') {
                 if (null !== $value) {
