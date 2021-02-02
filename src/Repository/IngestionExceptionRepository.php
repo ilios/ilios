@@ -12,7 +12,9 @@ use App\Entity\IngestionException;
 use App\Entity\DTO\IngestionExceptionDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class IngestionExceptionRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class IngestionExceptionRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface
 {
     use ManagerRepository;
 
