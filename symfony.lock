@@ -105,9 +105,6 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
-    "dreamscapes/ldap-core": {
-        "version": "3.1.1"
-    },
     "egulias/email-validator": {
         "version": "2.1.24"
     },
@@ -493,6 +490,9 @@
     },
     "symfony/inflector": {
         "version": "v5.1.0"
+    },
+    "symfony/ldap": {
+        "version": "v5.2.2"
     },
     "symfony/lock": {
         "version": "5.2",
