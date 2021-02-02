@@ -12,7 +12,7 @@ use App\Entity\Vocabulary;
 use App\Entity\DTO\VocabularyDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class VocabularyRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class VocabularyRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

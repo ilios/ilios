@@ -12,7 +12,7 @@ use App\Entity\LearnerGroup;
 use App\Entity\DTO\LearnerGroupDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class LearnerGroupRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class LearnerGroupRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

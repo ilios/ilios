@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class CurriculumInventorySequenceRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 

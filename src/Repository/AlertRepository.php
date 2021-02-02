@@ -12,7 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AlertDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AlertRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class AlertRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

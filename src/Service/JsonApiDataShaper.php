@@ -11,18 +11,18 @@ class JsonApiDataShaper
 {
     use NormalizerAwareTrait;
 
-    protected EntityManagerLookup $entityManagerLookup;
+    protected EntityRepositoryLookup $entityRepositoryLookup;
 
     public function __construct(
-        EntityManagerLookup $entityManagerLookup
+        EntityRepositoryLookup $entityRepositoryLookup
     ) {
-        $this->entityManagerLookup = $entityManagerLookup;
+        $this->entityRepositoryLookup = $entityRepositoryLookup;
     }
 
     public function shapeData(array $data, array $sideLoadFields): array
     {
         $jsonApiData = new JsonApiData(
-            $this->entityManagerLookup,
+            $this->entityRepositoryLookup,
             $this->normalizer,
             $data,
             $sideLoadFields
@@ -38,7 +38,7 @@ class JsonApiDataShaper
     {
         $rhett = [];
         if (property_exists($data, 'id')) {
-            $manager = $this->entityManagerLookup->getManagerForEndpoint($data->type);
+            $manager = $this->entityRepositoryLookup->getRepositoryForEndpoint($data->type);
             $rhett[$manager->getIdField()] = $data->id;
         }
         foreach ($data->attributes as $key => $value) {

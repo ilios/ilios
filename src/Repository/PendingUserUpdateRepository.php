@@ -12,7 +12,7 @@ use App\Entity\PendingUserUpdate;
 use App\Entity\DTO\PendingUserUpdateDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class PendingUserUpdateRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class PendingUserUpdateRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

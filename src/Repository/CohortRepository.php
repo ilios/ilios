@@ -12,7 +12,7 @@ use App\Entity\Cohort;
 use App\Entity\DTO\CohortDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class CohortRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class CohortRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

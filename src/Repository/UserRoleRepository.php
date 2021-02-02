@@ -12,7 +12,7 @@ use App\Entity\UserRole;
 use App\Entity\DTO\UserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class UserRoleRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class UserRoleRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

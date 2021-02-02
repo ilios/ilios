@@ -12,7 +12,7 @@ use App\Entity\MeshQualifier;
 use App\Entity\DTO\MeshQualifierDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class MeshQualifierRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class MeshQualifierRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

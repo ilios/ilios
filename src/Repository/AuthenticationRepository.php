@@ -15,7 +15,7 @@ use App\Entity\AuthenticationInterface;
 use App\Entity\DTO\AuthenticationDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AuthenticationRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class AuthenticationRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

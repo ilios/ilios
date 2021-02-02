@@ -14,7 +14,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class CurriculumInventoryExportRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 

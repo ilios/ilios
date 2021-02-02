@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class CompetencyRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 

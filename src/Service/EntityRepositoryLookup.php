@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Repository\ManagerInterface;
+use App\Repository\RepositoryInterface;
 use Exception;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class EntityManagerLookup
+class EntityRepositoryLookup
 {
     /**
      * @var ContainerInterface
@@ -27,7 +27,7 @@ class EntityManagerLookup
         $this->endpointResponseNamer = $endpointResponseNamer;
     }
 
-    public function getManagerForEndpoint(string $endPoint): ManagerInterface
+    public function getRepositoryForEndpoint(string $endPoint): RepositoryInterface
     {
         $entityName = $this->getEntityName($endPoint);
         $name = sprintf('App\Repository\%sRepository', $entityName);
@@ -39,7 +39,7 @@ class EntityManagerLookup
 
         $manager = $this->container->get($name);
 
-        if (!$manager instanceof ManagerInterface) {
+        if (!$manager instanceof RepositoryInterface) {
             $class = $manager->getClass();
             throw new Exception("{$class} is not an Ilios Repository.");
         }
@@ -47,7 +47,7 @@ class EntityManagerLookup
         return $manager;
     }
 
-    public function getManagerForEntity(string $entityClass): ManagerInterface
+    public function getManagerForEntity(string $entityClass): RepositoryInterface
     {
         $reflect = new ReflectionClass($entityClass);
         $entityName = $reflect->getShortName();
@@ -60,7 +60,7 @@ class EntityManagerLookup
 
         $manager = $this->container->get($name);
 
-        if (!$manager instanceof ManagerInterface) {
+        if (!$manager instanceof RepositoryInterface) {
             throw new Exception("{$name} is not an Ilios Manager.");
         }
 

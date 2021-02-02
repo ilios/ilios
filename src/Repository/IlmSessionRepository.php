@@ -12,7 +12,7 @@ use App\Entity\IlmSession;
 use App\Entity\DTO\IlmSessionDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class IlmSessionRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class IlmSessionRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

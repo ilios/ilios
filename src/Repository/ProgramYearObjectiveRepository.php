@@ -14,7 +14,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 
-class ProgramYearObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface
 {
     use ManagerRepository;
 

@@ -99,7 +99,7 @@ services:
     App\Service\DataimportFileLocator:
       public: true
 
-    App\Service\EntityManagerLookup:
+    App\Service\EntityRepositoryLookup:
       arguments:
         $container: '@service_container'
 

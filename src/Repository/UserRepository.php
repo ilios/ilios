@@ -24,7 +24,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Class UserRepository
  */
-class UserRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class UserRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use CalendarEventRepository;
     use ManagerRepository;

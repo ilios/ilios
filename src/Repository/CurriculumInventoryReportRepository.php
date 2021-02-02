@@ -20,7 +20,7 @@ use App\Entity\CurriculumInventoryReportInterface;
 
 class CurriculumInventoryReportRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 

@@ -17,7 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class SessionRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 

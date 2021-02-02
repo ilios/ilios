@@ -19,7 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class CourseRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 

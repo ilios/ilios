@@ -12,7 +12,7 @@ use App\Entity\AamcPcrs;
 use App\Entity\DTO\AamcPcrsDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AamcPcrsRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class AamcPcrsRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 /**
- * Interface ManagerInterface
+ * Interface RepositoryInterface
  */
-interface ManagerInterface
+interface RepositoryInterface
 {
     /**
      * @return string

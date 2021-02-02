@@ -15,7 +15,7 @@ use App\Entity\TermInterface;
 
 class TermRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    ManagerInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 

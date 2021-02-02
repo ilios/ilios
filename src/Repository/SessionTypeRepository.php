@@ -12,7 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\SessionTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class SessionTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, ManagerInterface
+class SessionTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 
