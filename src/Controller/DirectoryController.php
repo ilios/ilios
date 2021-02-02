@@ -76,8 +76,8 @@ class DirectoryController extends AbstractController
                 $results = $searchResults;
             }
         }
-        $offset = $request->query->has('offset') ? $request->query->all()['offset'] : 0;
-        $limit = $request->query->has('limit') ? $request->query->all()['limit'] : count($results);
+        $offset = $request->query->has('offset') ? (int) $request->query->all()['offset'] : 0;
+        $limit = $request->query->has('limit') ? (int) $request->query->all()['limit'] : count($results);
         $results = array_slice($results, $offset, $limit);
 
         $campusIds = array_map(function ($arr) {
