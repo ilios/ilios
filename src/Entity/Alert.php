@@ -144,10 +144,10 @@ class Alert implements AlertInterface
      * @ORM\ManyToMany(targetEntity="School", inversedBy="alerts")
      * @ORM\JoinTable(name="alert_recipient",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="alert_id", referencedColumnName="alert_id")
+     *     @ORM\JoinColumn(name="alert_id", referencedColumnName="alert_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
+     *     @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", onDelete="CASCADE")
      *   }
      * )
      * @ORM\OrderBy({"id" = "ASC"})
