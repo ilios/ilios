@@ -58,20 +58,8 @@ class CurriculumInventoryReports extends ReadWriteController
         ApiResponseBuilder $builder
     ): Response {
         $class = CurriculumInventoryReport::class . '[]';
-
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
-
-        foreach ($entities as $entity) {
-            $errors = $validator->validate($entity);
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
-
-                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-            }
-            if (! $authorizationChecker->isGranted(AbstractVoter::CREATE, $entity)) {
-                throw new AccessDeniedException('Unauthorized access!');
-            }
-        }
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE, $validator, $authorizationChecker);
 
         foreach ($entities as $entity) {
             // create academic years and sequence while at it.

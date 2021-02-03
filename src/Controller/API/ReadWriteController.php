@@ -7,10 +7,10 @@ namespace App\Controller\API;
 use App\RelationshipVoter\AbstractVoter;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use App\Traits\ApiEntityValidation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,6 +22,8 @@ use RuntimeException;
 
 abstract class ReadWriteController extends ReadOnlyController
 {
+    use ApiEntityValidation;
+
     /**
      * Handles POST which creates new data in the API
      * @Route("", methods={"POST"})
@@ -35,20 +37,8 @@ abstract class ReadWriteController extends ReadOnlyController
         ApiResponseBuilder $builder
     ): Response {
         $class = $this->repository->getClass() . '[]';
-
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
-
-        foreach ($entities as $entity) {
-            $errors = $validator->validate($entity);
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
-
-                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-            }
-            if (! $authorizationChecker->isGranted(AbstractVoter::CREATE, $entity)) {
-                throw new AccessDeniedException('Unauthorized access!');
-            }
-        }
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE, $validator, $authorizationChecker);
 
         foreach ($entities as $entity) {
             $this->repository->update($entity, false);
@@ -90,15 +80,7 @@ abstract class ReadWriteController extends ReadOnlyController
 
         $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
-        $errors = $validator->validate($entity);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-        }
-        if (! $authorizationChecker->isGranted($permission, $entity)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
+        $this->validateAndAuthorizeEntity($entity, $permission, $validator, $authorizationChecker);
 
         $this->repository->update($entity, true, false);
 
@@ -131,17 +113,7 @@ abstract class ReadWriteController extends ReadOnlyController
         }
 
         $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
-
-        $errors = $validator->validate($entity);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-        }
-        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
-
+        $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);
         $this->repository->update($entity, true, false);
 
         $dtos = $this->fetchDtosForEntities([$entity]);

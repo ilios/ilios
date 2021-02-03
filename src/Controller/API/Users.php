@@ -114,17 +114,7 @@ class Users extends ReadWriteController
         $json = json_encode($dataWithoutEmptyIcsFeed);
         $entities = $this->serializer->deserialize($json, $class, 'json');
 
-        foreach ($entities as $entity) {
-            $errors = $validator->validate($entity);
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
-
-                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-            }
-            if (! $authorizationChecker->isGranted(AbstractVoter::CREATE, $entity)) {
-                throw new AccessDeniedException('Unauthorized access!');
-            }
-        }
+        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE, $validator, $authorizationChecker);
 
         foreach ($entities as $entity) {
             $this->repository->update($entity, false);
