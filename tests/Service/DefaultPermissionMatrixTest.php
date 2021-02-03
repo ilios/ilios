@@ -40,7 +40,11 @@ class DefaultPermissionMatrixTest extends TestCase
             'School of Test',
             'sot',
             'admin@sot.edu',
-            'alerts@sot.edu'
+            'alerts@sot.edu',
+            1,
+            7,
+            30,
+            6
         );
         $schoolRepository = m::mock(SchoolRepository::class);
         $schoolRepository->shouldReceive('findDTOsBy')->andReturn([$this->schoolDTO]);

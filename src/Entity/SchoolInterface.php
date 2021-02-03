@@ -106,4 +106,44 @@ interface SchoolInterface extends
      * @return ArrayCollection|SchoolConfigInterface[]
      */
     public function getConfigurations();
+
+    /**
+     * @return int
+     */
+    public function getAcademicYearStartDay(): int;
+
+    /**
+     * @param int $academicYearStartDay
+     */
+    public function setAcademicYearStartDay(int $academicYearStartDay): void;
+
+    /**
+     * @return int
+     */
+    public function getAcademicYearStartMonth(): int;
+
+    /**
+     * @param int $academicYearStartMonth
+     */
+    public function setAcademicYearStartMonth(int $academicYearStartMonth): void;
+
+    /**
+     * @return int
+     */
+    public function getAcademicYearEndDay(): int;
+
+    /**
+     * @param int $academicYearEndDay
+     */
+    public function setAcademicYearEndDay(int $academicYearEndDay): void;
+
+    /**
+     * @return int
+     */
+    public function getAcademicYearEndMonth(): int;
+
+    /**
+     * @param int $academicYearEndMonth
+     */
+    public function setAcademicYearEndMonth(int $academicYearEndMonth): void;
 }

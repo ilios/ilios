@@ -31,12 +31,20 @@ class SchoolTest extends EntityBase
     {
         $notBlank = [
             'title',
-            'iliosAdministratorEmail'
+            'iliosAdministratorEmail',
+            'academicYearStartDay',
+            'academicYearStartMonth',
+            'academicYearEndDay',
+            'academicYearEndMonth',
         ];
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
         $this->object->setIliosAdministratorEmail('dartajax@winner.net');
+        $this->object->setAcademicYearStartDay(10);
+        $this->object->setAcademicYearStartMonth(10);
+        $this->object->setAcademicYearEndDay(10);
+        $this->object->setAcademicYearEndMonth(10);
         $this->validate(0);
     }
 
@@ -72,6 +80,51 @@ class SchoolTest extends EntityBase
     {
         $this->basicSetTest('title', 'string');
     }
+
+    /**
+     * @covers \App\Entity\School::setAcademicYearStartDay
+     * @covers \App\Entity\School::getAcademicYearStartDay
+     */
+    public function testSetAcademicYearStartDay()
+    {
+        $value = 10;
+        $this->object->setAcademicYearStartDay($value);
+        $this->assertEquals($value, $this->object->getAcademicYearStartDay());
+    }
+
+    /**
+     * @covers \App\Entity\School::setAcademicYearStartMonth
+     * @covers \App\Entity\School::getAcademicYearStartMonth
+     */
+    public function testSetAcademicYearStartMonth()
+    {
+        $value = 10;
+        $this->object->setAcademicYearStartMonth($value);
+        $this->assertEquals($value, $this->object->getAcademicYearStartMonth());
+    }
+
+    /**
+     * @covers \App\Entity\School::setAcademicYearEndDay
+     * @covers \App\Entity\School::getAcademicYearEndDay
+     */
+    public function testSetAcademicYearEndDay()
+    {
+        $value = 10;
+        $this->object->setAcademicYearEndDay($value);
+        $this->assertEquals($value, $this->object->getAcademicYearEndDay());
+    }
+
+    /**
+     * @covers \App\Entity\School::setAcademicYearEndMonth
+     * @covers \App\Entity\School::getAcademicYearEndMonth
+     */
+    public function testSetAcademicYearEndMonth()
+    {
+        $value = 10;
+        $this->object->setAcademicYearEndMonth($value);
+        $this->assertEquals($value, $this->object->getAcademicYearEndMonth());
+    }
+
 
     /**
      * @covers \App\Entity\School::setIliosAdministratorEmail

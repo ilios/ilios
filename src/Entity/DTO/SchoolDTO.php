@@ -46,6 +46,30 @@ class SchoolDTO
     public ?string $changeAlertRecipients;
 
     /**
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    public int $academicYearStartDay;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    public int $academicYearStartMonth;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    public int $academicYearEndDay;
+
+    /**
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    public int $academicYearEndMonth;
+
+    /**
      * @var int[]
      * @IS\Expose
      * @IS\Related
@@ -124,18 +148,25 @@ class SchoolDTO
      */
     public array $configurations = [];
 
-
     public function __construct(
         int $id,
         string $title,
         ?string $templatePrefix,
         string $iliosAdministratorEmail,
-        ?string $changeAlertRecipients
+        ?string $changeAlertRecipients,
+        int $academicYearStartDay,
+        int $academicYearStartMonth,
+        int $academicYearEndDay,
+        int $academicYearEndMonth
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->templatePrefix = $templatePrefix;
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
         $this->changeAlertRecipients = $changeAlertRecipients;
+        $this->academicYearStartDay = $academicYearStartDay;
+        $this->academicYearStartMonth = $academicYearStartMonth;
+        $this->academicYearEndDay = $academicYearEndDay;
+        $this->academicYearEndMonth = $academicYearEndMonth;
     }
 }

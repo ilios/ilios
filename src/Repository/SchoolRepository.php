@@ -69,7 +69,11 @@ class SchoolRepository extends ServiceEntityRepository implements
                 $arr['title'],
                 $arr['templatePrefix'],
                 $arr['iliosAdministratorEmail'],
-                $arr['changeAlertRecipients']
+                $arr['changeAlertRecipients'],
+                $arr['academicYearStartDay'],
+                $arr['academicYearStartMonth'],
+                $arr['academicYearEndDay'],
+                $arr['academicYearEndMonth']
             );
         }
         return $this->attachAssociationsToDTOs($schoolDTOs);

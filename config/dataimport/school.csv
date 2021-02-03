@@ -1,6 +1,6 @@
-`school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`
-1,SOM,Medicine,ilios_admin@bogus.ucsf.edu,
-2,SOD,Dentistry,ilios_admin@bogus.ucsf.edu,
-3,SOP,Pharmacy,ilios_admin@bogus.ucsf.edu,
-4,SON,Nursing,ilios_admin@bogus.ucsf.edu,
-5,OTHER,Other,ilios_admin@bogus.ucsf.edu,
+`school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`,`academic_year_start_day`,`academic_year_start_month`,`academic_year_end_day`,`academic_year_end_month`
+1,SOM,Medicine,ilios_admin@bogus.ucsf.edu,1,7,30,6,
+2,SOD,Dentistry,ilios_admin@bogus.ucsf.edu,1,7,30,6,
+3,SOP,Pharmacy,ilios_admin@bogus.ucsf.edu,1,7,30,6,
+4,SON,Nursing,ilios_admin@bogus.ucsf.edu,1,7,30,6,
+5,OTHER,Other,ilios_admin@bogus.ucsf.edu,1,7,30,6,

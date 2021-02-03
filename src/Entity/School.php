@@ -125,6 +125,74 @@ class School implements SchoolInterface
     protected $changeAlertRecipients;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="smallint", name="academic_year_start_day", nullable=false)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 31
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    protected int $academicYearStartDay;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="smallint", name="academic_year_start_month", nullable=false)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 12
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    protected int $academicYearStartMonth;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="smallint", name="academic_year_end_day", nullable=false)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 31
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    protected int $academicYearEndDay;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="smallint", name="academic_year_end_month", nullable=false)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 12
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    protected int $academicYearEndMonth;
+
+    /**
      * @var ArrayCollection|AlertInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Alert", mappedBy="recipients")
@@ -489,5 +557,69 @@ class School implements SchoolInterface
     public function getIndexableCourses(): array
     {
         return $this->courses->toArray();
+    }
+
+    /**
+     * @return int
+     */
+    public function getAcademicYearStartDay(): int
+    {
+        return $this->academicYearStartDay;
+    }
+
+    /**
+     * @param int $academicYearStartDay
+     */
+    public function setAcademicYearStartDay(int $academicYearStartDay): void
+    {
+        $this->academicYearStartDay = $academicYearStartDay;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAcademicYearStartMonth(): int
+    {
+        return $this->academicYearStartMonth;
+    }
+
+    /**
+     * @param int $academicYearStartMonth
+     */
+    public function setAcademicYearStartMonth(int $academicYearStartMonth): void
+    {
+        $this->academicYearStartMonth = $academicYearStartMonth;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAcademicYearEndDay(): int
+    {
+        return $this->academicYearEndDay;
+    }
+
+    /**
+     * @param int $academicYearEndDay
+     */
+    public function setAcademicYearEndDay(int $academicYearEndDay): void
+    {
+        $this->academicYearEndDay = $academicYearEndDay;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAcademicYearEndMonth(): int
+    {
+        return $this->academicYearEndMonth;
+    }
+
+    /**
+     * @param int $academicYearEndMonth
+     */
+    public function setAcademicYearEndMonth(int $academicYearEndMonth): void
+    {
+        $this->academicYearEndMonth = $academicYearEndMonth;
     }
 }

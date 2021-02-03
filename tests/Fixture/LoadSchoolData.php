@@ -37,6 +37,10 @@ class LoadSchoolData extends AbstractFixture implements
             }
             $entity->setIliosAdministratorEmail($arr['iliosAdministratorEmail']);
             $entity->setChangeAlertRecipients($arr['changeAlertRecipients']);
+            $entity->setAcademicYearStartDay($arr['academicYearStartDay']);
+            $entity->setAcademicYearStartMonth($arr['academicYearStartMonth']);
+            $entity->setAcademicYearEndDay($arr['academicYearEndDay']);
+            $entity->setAcademicYearEndMonth($arr['academicYearEndMonth']);
             $manager->persist($entity);
             $this->addReference('schools' . $arr['id'], $entity);
         }
