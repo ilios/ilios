@@ -19,14 +19,6 @@ class LdapManager
     public function __construct(Config $config)
     {
         $this->config = $config;
-
-        $ldapUrl = $this->config->get('ldap_directory_url');
-        $ldapBindUser = $this->config->get('ldap_directory_user');
-        $ldapBindPassword = $this->config->get('ldap_directory_password');
-        $this->ldap = Ldap::create('ext_ldap', [
-            'connection_string' => $ldapUrl,
-        ]);
-        $this->ldap->bind($ldapBindUser, $ldapBindPassword);
     }
 
     /**
@@ -41,7 +33,8 @@ class LdapManager
 
         $rhett = [];
         try {
-            $query = $this->ldap->query($ldapSearchBase, $filter);
+            $ldap = $this->getConnection();
+            $query = $ldap->query($ldapSearchBase, $filter);
             $results = $query->execute();
             $attributes = [
                 'mail' => 'email',
@@ -76,5 +69,19 @@ class LdapManager
         }
 
         return $rhett;
+    }
+
+    protected function getConnection(): Ldap
+    {
+        if (! $this->ldap) {
+            $ldapUrl = $this->config->get('ldap_directory_url');
+            $ldapBindUser = $this->config->get('ldap_directory_user');
+            $ldapBindPassword = $this->config->get('ldap_directory_password');
+            $this->ldap = Ldap::create('ext_ldap', [
+                'connection_string' => $ldapUrl,
+            ]);
+            $this->ldap->bind($ldapBindUser, $ldapBindPassword);
+        }
+        return $this->ldap;
     }
 }
