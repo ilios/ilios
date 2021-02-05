@@ -32,14 +32,15 @@ class AcademicYears
         ApiResponseBuilder $builder,
         AcademicYearFactory $academicYearFactory
     ): Response {
+        $year = (int) $id;
         $years = $courseRepository->getYears();
 
-        if (!in_array($id, $years)) {
+        if (!in_array($year, $years, true)) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         $contentTypes = $request->getAcceptableContentTypes();
-        $academicYear = $academicYearFactory->create((int) $id);
+        $academicYear = $academicYearFactory->create($year);
         if (in_array('application/vnd.api+json', $contentTypes)) {
             $json = $serializer->serialize([ $academicYear ], 'json-api', [
                 'sideLoadFields' =>
