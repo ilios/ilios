@@ -25,22 +25,21 @@ class AcademicYears
      */
     public function getOne(
         string $version,
-        string $id,
+        int $id,
         Request $request,
         CourseRepository $courseRepository,
         SerializerInterface $serializer,
         ApiResponseBuilder $builder,
         AcademicYearFactory $academicYearFactory
     ): Response {
-        $year = (int) $id;
         $years = $courseRepository->getYears();
 
-        if (!in_array($year, $years, true)) {
+        if (!in_array($id, $years)) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         $contentTypes = $request->getAcceptableContentTypes();
-        $academicYear = $academicYearFactory->create($year);
+        $academicYear = $academicYearFactory->create($id);
         if (in_array('application/vnd.api+json', $contentTypes)) {
             $json = $serializer->serialize([ $academicYear ], 'json-api', [
                 'sideLoadFields' =>
