@@ -6,7 +6,9 @@ namespace App\Controller\API;
 
 use App\Classes\AcademicYear;
 use App\Repository\CourseRepository;
+use App\Service\AcademicYearFactory;
 use App\Service\ApiResponseBuilder;
+use App\Service\Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -27,7 +29,8 @@ class AcademicYears
         Request $request,
         CourseRepository $courseRepository,
         SerializerInterface $serializer,
-        ApiResponseBuilder $builder
+        ApiResponseBuilder $builder,
+        AcademicYearFactory $academicYearFactory
     ): Response {
         $years = $courseRepository->getYears();
 
@@ -36,8 +39,9 @@ class AcademicYears
         }
 
         $contentTypes = $request->getAcceptableContentTypes();
+        $academicYear = $academicYearFactory->create((int) $id);
         if (in_array('application/vnd.api+json', $contentTypes)) {
-            $json = $serializer->serialize([new AcademicYear($id)], 'json-api', [
+            $json = $serializer->serialize([ $academicYear ], 'json-api', [
                 'sideLoadFields' =>
                     $builder->extractJsonApiSideLoadFields(
                         $request->query->has('include') ? $request->query->all()['include'] : null
@@ -52,7 +56,7 @@ class AcademicYears
         } else {
             return new Response(
                 $serializer->serialize(
-                    [ 'academicYears' => [new AcademicYear($id)]],
+                    [ 'academicYears' => [$academicYear]],
                     'json'
                 ),
                 Response::HTTP_OK,
@@ -69,10 +73,11 @@ class AcademicYears
         Request $request,
         CourseRepository $courseRepository,
         SerializerInterface $serializer,
-        ApiResponseBuilder $builder
+        ApiResponseBuilder $builder,
+        AcademicYearFactory $academicYearFactory
     ): Response {
-        $years = array_map(function ($year) {
-            return new AcademicYear($year);
+        $years = array_map(function ($year) use ($academicYearFactory) {
+            return $academicYearFactory->create($year);
         }, $courseRepository->getYears());
 
         $contentTypes = $request->getAcceptableContentTypes();
