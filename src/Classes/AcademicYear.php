@@ -15,7 +15,7 @@ use App\Annotation as IS;
 class AcademicYear
 {
     /**
-     * @var string
+     * @var int
      *
      * @IS\Id
      * @IS\Expose
