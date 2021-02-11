@@ -15,29 +15,21 @@ use App\Annotation as IS;
 class AcademicYear
 {
     /**
-     * @var string
-     *
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
-    public $title;
+    public string $title;
 
-    /**
-     * Set the year and set both the id and title to it
-     * @param string $year
-     */
-    public function __construct($year)
+    public function __construct(int $year, string $title)
     {
         $this->id = $year;
-        $this->title = $year;
+        $this->title = $title;
     }
 }

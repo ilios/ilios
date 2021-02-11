@@ -9,16 +9,10 @@ use App\Tests\TestCase;
 
 class AcademicYearTest extends TestCase
 {
-
-    public function testConstructorSetsId()
+    public function testConstructor()
     {
-        $obj = new AcademicYear(15);
-        $this->assertSame($obj->id, 15);
-    }
-
-    public function testConstructorSetsTitle()
-    {
-        $obj = new AcademicYear(15);
-        $this->assertSame($obj->title, 15);
+        $obj = new AcademicYear(2021, '2021 - 2022');
+        $this->assertSame($obj->id, 2021);
+        $this->assertSame($obj->title, '2021 - 2022');
     }
 }
