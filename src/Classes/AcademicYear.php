@@ -15,8 +15,6 @@ use App\Annotation as IS;
 class AcademicYear
 {
     /**
-     * @var int
-     *
      * @IS\Id
      * @IS\Expose
      * @IS\Type("string")
@@ -24,8 +22,6 @@ class AcademicYear
     public int $id;
 
     /**
-     * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
