@@ -62,6 +62,7 @@ class ConfigControllerTest extends WebTestCase
                 'apiVersion' => $container->getParameter('ilios_api_version'),
                 'trackingEnabled' => false,
                 'searchEnabled' => false,
+                'academicYearCrossesCalendarYearBoundaries' => false,
             ],
             $data
         );
@@ -94,6 +95,7 @@ class ConfigControllerTest extends WebTestCase
                 'trackingEnabled' => true,
                 'trackingCode' => '123-code!',
                 'searchEnabled' => false,
+                'academicYearCrossesCalendarYearBoundaries' => false,
             ],
             $data
         );
