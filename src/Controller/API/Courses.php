@@ -47,7 +47,7 @@ class Courses extends ReadWriteController
         if (null !== $my) {
             /** @var SessionUserInterface $currentUser */
             $currentUser = $this->tokenStorage->getToken()->getUser();
-            $dtos = $this->repository->findByUserId(
+            $dtos = $this->courseRepository->findByUserId(
                 $currentUser->getId(),
                 $parameters['criteria'],
                 $parameters['orderBy'],
