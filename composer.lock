@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.173.4",
+            "version": "3.173.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "1400b2d08ded25bd9c6876edb0490b8cb9aeaa60"
+                "reference": "e6d08cdc8206af55dd7bbb967a0350b41263018c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1400b2d08ded25bd9c6876edb0490b8cb9aeaa60",
-                "reference": "1400b2d08ded25bd9c6876edb0490b8cb9aeaa60",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e6d08cdc8206af55dd7bbb967a0350b41263018c",
+                "reference": "e6d08cdc8206af55dd7bbb967a0350b41263018c",
                 "shasum": ""
             },
             "require": {
@@ -92,9 +92,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.8"
             },
-            "time": "2021-02-05T19:19:35+00:00"
+            "time": "2021-02-12T19:15:02+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -10996,16 +10996,16 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "0.12.18",
+            "version": "0.12.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "cc9d9ac264b8ac04961a03dc5b481b58ceaac248"
+                "reference": "d986994c32c11c67a6d565a959075d44f28a7122"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/cc9d9ac264b8ac04961a03dc5b481b58ceaac248",
-                "reference": "cc9d9ac264b8ac04961a03dc5b481b58ceaac248",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/d986994c32c11c67a6d565a959075d44f28a7122",
+                "reference": "d986994c32c11c67a6d565a959075d44f28a7122",
                 "shasum": ""
             },
             "require": {
@@ -11060,9 +11060,9 @@
             "description": "Symfony Framework extensions and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-symfony/issues",
-                "source": "https://github.com/phpstan/phpstan-symfony/tree/0.12.18"
+                "source": "https://github.com/phpstan/phpstan-symfony/tree/0.12.19"
             },
-            "time": "2021-02-13T07:38:10+00:00"
+            "time": "2021-02-15T10:32:01+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
