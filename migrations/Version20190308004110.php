@@ -3,30 +3,17 @@
 namespace Ilios\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
-final class Version20190308004110 extends AbstractMigration
+final class Version20190308004110 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE user ADD preferred_email VARCHAR(100) DEFAULT NULL');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE user DROP preferred_email');
     }
 }

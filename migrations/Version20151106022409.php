@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -11,26 +11,16 @@ use Doctrine\DBAL\Schema\Schema;
  *
  * @link https://github.com/ilios/ilios/issues/1083
  */
-class Version20151106022409 extends AbstractMigration
+final class Version20151106022409 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('UPDATE program SET title = short_title WHERE title IS NULL');
         $this->addSql('ALTER TABLE program CHANGE title title VARCHAR(200) NOT NULL, CHANGE short_title short_title VARCHAR(10) DEFAULT NULL');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE program CHANGE title title VARCHAR(200) DEFAULT NULL COLLATE utf8_unicode_ci, CHANGE short_title short_title VARCHAR(10) NOT NULL COLLATE utf8_unicode_ci');
     }
 }

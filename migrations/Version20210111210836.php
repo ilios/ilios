@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Ilios\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 
 /**
  * Removes obsolete columns and tables from the schema.
  */
-final class Version20210111210836 extends AbstractMigration
+final class Version20210111210836 extends MysqlMigration
 {
     public function getDescription() : string
     {
@@ -19,8 +19,6 @@ final class Version20210111210836 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE program_year_steward DROP FOREIGN KEY FK_38AC2B7BAE80F5DF');
         $this->addSql('ALTER TABLE course_x_objective DROP FOREIGN KEY FK_3B37B1AD73484933');
         $this->addSql('ALTER TABLE objective DROP FOREIGN KEY FK_B996F101C671CEA1');
@@ -50,8 +48,6 @@ final class Version20210111210836 extends AbstractMigration
 
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('CREATE TABLE department (department_id INT AUTO_INCREMENT NOT NULL, school_id INT NOT NULL, title VARCHAR(90) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, INDEX IDX_CD1DE18AC32A47EE (school_id), PRIMARY KEY(department_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
         $this->addSql('CREATE TABLE objective (objective_id INT AUTO_INCREMENT NOT NULL, competency_id INT DEFAULT NULL, ancestor_id INT DEFAULT NULL, title LONGTEXT CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, position INT NOT NULL, active TINYINT(1) NOT NULL, INDEX IDX_B996F101C671CEA1 (ancestor_id), INDEX IDX_B996F101FB9F58C (competency_id), PRIMARY KEY(objective_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
         $this->addSql('CREATE TABLE objective_x_mesh (objective_id INT NOT NULL, mesh_descriptor_uid VARCHAR(12) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, INDEX IDX_936D667473484933 (objective_id), INDEX IDX_936D6674CDB3C93B (mesh_descriptor_uid), PRIMARY KEY(objective_id, mesh_descriptor_uid)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');

@@ -3,22 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Cascade deletes for cohorts and program years
  */
-class Version20151118233516 extends AbstractMigration
+final class Version20151118233516 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE cohort DROP FOREIGN KEY FK_D3B8C16BCB2B0673');
         $this->addSql('ALTER TABLE cohort ADD CONSTRAINT FK_D3B8C16BCB2B0673 FOREIGN KEY (program_year_id) REFERENCES program_year (program_year_id) ON DELETE CASCADE');
     }
@@ -28,9 +25,6 @@ class Version20151118233516 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE cohort DROP FOREIGN KEY FK_D3B8C16BCB2B0673');
         $this->addSql('ALTER TABLE cohort ADD CONSTRAINT FK_D3B8C16BCB2B0673 FOREIGN KEY (program_year_id) REFERENCES program_year (program_year_id)');
     }

@@ -3,22 +3,20 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Change several columns to be not nullable.
  * @link https://github.com/ilios/ilios/issues/1270
  */
-class Version20160122173943 extends AbstractMigration
+final class Version20160122173943 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649C32A47EE');
         $this->addSql('ALTER TABLE user CHANGE school_id school_id INT NOT NULL');
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649C32A47EE FOREIGN KEY (school_id) REFERENCES school (school_id)');
@@ -83,8 +81,6 @@ class Version20160122173943 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE curriculum_inventory_sequence_block CHANGE academic_level_id academic_level_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE curriculum_inventory_sequence_block_session CHANGE sequence_block_id sequence_block_id INT DEFAULT NULL, CHANGE session_id session_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE department CHANGE school_id school_id INT DEFAULT NULL');

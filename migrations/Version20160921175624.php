@@ -3,22 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Expand externalId on course to 255 characters
  */
-class Version20160921175624 extends AbstractMigration
+final class Version20160921175624 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE course CHANGE external_id external_id VARCHAR(255) DEFAULT NULL');
     }
 
@@ -27,9 +24,6 @@ class Version20160921175624 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE course CHANGE external_id external_id VARCHAR(18) DEFAULT NULL COLLATE utf8_unicode_ci');
     }
 }

@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Add attendanceRequired to Session
  */
-class Version20170313212150 extends AbstractMigration
+final class Version20170313212150 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE session ADD attendance_required TINYINT(1) NOT NULL');
     }
 
@@ -26,8 +24,6 @@ class Version20170313212150 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE session DROP attendance_required');
     }
 }

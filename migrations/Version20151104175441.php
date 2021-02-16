@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -14,18 +14,10 @@ use Doctrine\DBAL\Schema\Schema;
  * The deletion of records is irreversible, data loss will occur.
  * [ST 2015/11/04]
  */
-class Version20151104175441 extends AbstractMigration
+final class Version20151104175441 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() != 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
-
         // Remove soft-deleted departments.
         $this->addSql('DELETE from department WHERE deleted = true');
 
@@ -128,16 +120,8 @@ class Version20151104175441 extends AbstractMigration
         $this->addSql('ALTER TABLE session DROP deleted');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() != 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
-
         $this->addSql('ALTER TABLE school ADD deleted TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE offering ADD deleted TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE report ADD deleted TINYINT(1) NOT NULL');

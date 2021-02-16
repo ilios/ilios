@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -11,15 +11,13 @@ use Doctrine\DBAL\Schema\Schema;
  *
  * @link https://github.com/ilios/ilios/issues/922
  */
-class Version20150819181346 extends AbstractMigration
+final class Version20150819181346 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE competency DROP FOREIGN KEY FK_80D53430DDDDCC69');
         $this->addSql('DROP INDEX IDX_80D53430DDDDCC69 ON competency');
         $this->addSql('ALTER TABLE competency CHANGE owning_school_id school_id INT DEFAULT NULL');
@@ -57,8 +55,6 @@ class Version20150819181346 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE competency DROP FOREIGN KEY FK_80D53430C32A47EE');
         $this->addSql('DROP INDEX IDX_80D53430C32A47EE ON competency');
         $this->addSql('ALTER TABLE competency CHANGE school_id owning_school_id INT DEFAULT NULL');

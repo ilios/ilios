@@ -3,22 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Add active to Terms, Competencies, and Vocabularies
  */
-class Version20160715212648 extends AbstractMigration
+final class Version20160715212648 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE term ADD active TINYINT(1) NOT NULL');
         $this->addSql('UPDATE term set active=true');
 
@@ -34,9 +31,6 @@ class Version20160715212648 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE term DROP active');
         $this->addSql('ALTER TABLE competency DROP active');
         $this->addSql('ALTER TABLE vocabulary DROP active');

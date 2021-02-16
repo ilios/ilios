@@ -3,22 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Populate the database with initial schema
  */
-class Version20150805000000 extends AbstractMigration
+final class Version20150805000000 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('CREATE TABLE aamc_method (method_id VARCHAR(10) NOT NULL, description LONGTEXT NOT NULL, PRIMARY KEY(method_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE aamc_pcrs (pcrs_id VARCHAR(21) NOT NULL, description LONGTEXT NOT NULL, PRIMARY KEY(pcrs_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE alert (alert_id INT AUTO_INCREMENT NOT NULL, table_row_id INT NOT NULL, table_name VARCHAR(30) NOT NULL, additional_text LONGTEXT DEFAULT NULL, dispatched TINYINT(1) NOT NULL, PRIMARY KEY(alert_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');

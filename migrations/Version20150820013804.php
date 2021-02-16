@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -11,15 +11,13 @@ use Doctrine\DBAL\Schema\Schema;
  *
  * @link https://github.com/ilios/ilios/issues/966
  */
-class Version20150820013804 extends AbstractMigration
+final class Version20150820013804 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('DROP TABLE api_key');
     }
 
@@ -28,11 +26,6 @@ class Version20150820013804 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() != 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
-
         $this->addSql(
             'CREATE TABLE api_key (user_id INT NOT NULL, api_key VARCHAR(64) NOT NULL COLLATE utf8_unicode_ci, UNIQUE INDEX UNIQ_C912ED9DA76ED395 (user_id), UNIQUE INDEX api_key_api_key (api_key), PRIMARY KEY(user_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB'
         );

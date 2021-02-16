@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Remove incorrect double index created by doctrine
  */
-class Version20151125055054 extends AbstractMigration
+final class Version20151125055054 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('DROP INDEX UNIQ_32B6E2F4CDB3C93B ON mesh_previous_indexing');
     }
 
@@ -26,8 +24,6 @@ class Version20151125055054 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('CREATE UNIQUE INDEX UNIQ_32B6E2F4CDB3C93B ON mesh_previous_indexing (mesh_descriptor_uid)');
     }
 }

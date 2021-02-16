@@ -3,22 +3,20 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Optimize the column order of each table
  * This also serves to ensure that databases upgraded along different paths are in sync
  */
-class Version20150901000000 extends AbstractMigration
+final class Version20150901000000 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE alert MODIFY dispatched tinyint(1) NOT NULL AFTER table_row_id');
         $this->addSql('ALTER TABLE authentication MODIFY person_id int(11) NOT NULL FIRST');
         $this->addSql('ALTER TABLE cohort MODIFY program_year_id int(11) DEFAULT NULL AFTER title');

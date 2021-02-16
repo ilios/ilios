@@ -3,21 +3,16 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Adds a token column to the curriculum inventory reports table and fills it with generated data.
  */
-class Version20160615223611 extends AbstractMigration
+final class Version20160615223611 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE curriculum_inventory_report ADD token VARCHAR(64) DEFAULT NULL');
         $this->addSql('CREATE UNIQUE INDEX idx_ci_report_token_unique ON curriculum_inventory_report (token)');
 
@@ -49,13 +44,8 @@ class Version20160615223611 extends AbstractMigration
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('DROP INDEX idx_ci_report_token_unique ON curriculum_inventory_report');
         $this->addSql('ALTER TABLE curriculum_inventory_report DROP token');
     }

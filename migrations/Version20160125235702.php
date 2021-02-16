@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Creates vocabulary, term and join-tables for terms.
  */
-class Version20160125235702 extends AbstractMigration
+final class Version20160125235702 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('CREATE TABLE course_x_term (course_id INT NOT NULL, term_id INT NOT NULL, INDEX IDX_C6838FC9591CC992 (course_id), INDEX IDX_C6838FC9E2C35FC (term_id), PRIMARY KEY(course_id, term_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE program_year_x_term (program_year_id INT NOT NULL, term_id INT NOT NULL, INDEX IDX_BCB52AB5CB2B0673 (program_year_id), INDEX IDX_BCB52AB5E2C35FC (term_id), PRIMARY KEY(program_year_id, term_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE term (term_id INT AUTO_INCREMENT NOT NULL, parent_term_id INT DEFAULT NULL, vocabulary_id INT NOT NULL, description LONGTEXT DEFAULT NULL, title VARCHAR(200) DEFAULT NULL, INDEX IDX_A50FE78D7C6441BA (parent_term_id), INDEX IDX_A50FE78DAD0E05F6 (vocabulary_id), UNIQUE INDEX unique_term_title (vocabulary_id, title, parent_term_id), PRIMARY KEY(term_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
@@ -39,8 +37,6 @@ class Version20160125235702 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE course_x_term DROP FOREIGN KEY FK_C6838FC9E2C35FC');
         $this->addSql('ALTER TABLE program_year_x_term DROP FOREIGN KEY FK_BCB52AB5E2C35FC');
         $this->addSql('ALTER TABLE term DROP FOREIGN KEY FK_A50FE78D7C6441BA');

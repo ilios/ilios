@@ -3,22 +3,17 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 use SebastianBergmann\RecursionContext\Exception;
 
 /**
  * Correct timezone offsets and fix times to 5pm for ILM due dates.
  */
-class Version20160105002207 extends AbstractMigration
+final class Version20160105002207 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $ilms = $this->getIlms();
         $timezone = $this->getTimezone();
         foreach ($ilms as $ilm) {
@@ -30,13 +25,8 @@ class Version20160105002207 extends AbstractMigration
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $ilms = $this->getIlms();
         $timezone = $this->getTimezone();
         foreach ($ilms as $ilm) {
