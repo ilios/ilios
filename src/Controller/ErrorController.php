@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\UserInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,7 @@ class ErrorController extends AbstractController
     {
         if ($request->request->has('data')) {
             $data = $request->request->all()['data'];
+            /** @var UserInterface $user */
             $user = $this->get('security.token_storage')->getToken()->getUser();
             $error = json_decode($data);
             $error->userId = $user->getId();
