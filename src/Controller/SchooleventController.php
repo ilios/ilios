@@ -74,8 +74,6 @@ class SchooleventController extends AbstractController
             $events = $schoolRepository->findEventsForSchool($school->getId(), $from, $to);
         }
 
-
-
         $events = array_values(array_filter(
             $events,
             fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
@@ -106,7 +104,6 @@ class SchooleventController extends AbstractController
 
         // flatten out nested events, so that we can attach additional data points, and blank out data, in one go.
         $allEvents = [];
-        /** @var SchoolEvent $event */
         foreach ($events as $event) {
             $allEvents[] = $event;
             $allEvents = array_merge($allEvents, $event->prerequisites);
@@ -117,7 +114,6 @@ class SchooleventController extends AbstractController
         $allEvents = $schoolRepository->addSessionDataToEvents($allEvents);
 
         $now = new DateTime();
-        /* @var SchoolEvent $event */
         foreach ($allEvents as $event) {
             if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_DRAFT_CONTENTS, $event)) {
                 if (

@@ -1146,8 +1146,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Finds and adds learning materials to a given list of calendar events.
      *
-     * @param CalendarEvent[] $events
-     * @return CalendarEvent[]
+     * @param UserEvent[] $events
+     * @return UserEvent[]
      */
     public function addMaterialsToEvents(array $events)
     {
@@ -1157,8 +1157,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Finds and adds course- and session-objectives and their competencies to a given list of calendar events.
      *
-     * @param CalendarEvent[] $events
-     * @return CalendarEvent[]
+     * @param UserEvent[] $events
+     * @return UserEvent[]
      */
     public function addSessionDataToEvents(array $events)
     {
