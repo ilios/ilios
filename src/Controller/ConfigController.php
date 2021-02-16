@@ -41,6 +41,9 @@ class ConfigController extends AbstractController
         }
         $configuration['searchEnabled'] = $curriculumSearch->isEnabled();
 
+        $configuration['academicYearCrossesCalendarYearBoundaries']
+            = $config->get('academic_year_crosses_calendar_year_boundaries');
+
         return new JsonResponse(['config' => $configuration]);
     }
 }
