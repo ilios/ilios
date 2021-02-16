@@ -3,22 +3,17 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Migrate topics data to terms and vocabularies.
  * Then, remove topics from the schema.
  */
-class Version20160303215618 extends AbstractMigration
+final class Version20160303215618 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql("INSERT INTO vocabulary (title, school_id) (SELECT DISTINCT 'Topics', school_id FROM discipline ORDER BY school_id)");
         $this->addSql("INSERT INTO term (term_id, title, description, vocabulary_id) (SELECT d.discipline_id, d.title, '', v.vocabulary_id FROM discipline d JOIN vocabulary v ON v.school_id = d.school_id ORDER BY d.discipline_id)");
         $this->addSql("INSERT INTO program_year_x_term (program_year_id, term_id) (SELECT program_year_id, discipline_id FROM program_year_x_discipline)");
@@ -34,13 +29,8 @@ class Version20160303215618 extends AbstractMigration
         $this->addSql('DROP TABLE discipline');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE course_x_discipline (course_id INT NOT NULL, discipline_id INT NOT NULL, INDEX IDX_A52BE633591CC992 (course_id), INDEX IDX_A52BE633A5522701 (discipline_id), PRIMARY KEY(course_id, discipline_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE discipline (discipline_id INT AUTO_INCREMENT NOT NULL, school_id INT NOT NULL, title VARCHAR(200) DEFAULT NULL COLLATE utf8_unicode_ci, INDEX IDX_75BEEE3FC32A47EE (school_id), PRIMARY KEY(discipline_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');

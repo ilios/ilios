@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Ilios\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 
-final class Version20201001230658 extends AbstractMigration
+final class Version20201001230658 extends MysqlMigration
 {
     public function getDescription(): string
     {
@@ -16,8 +16,6 @@ final class Version20201001230658 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE session_objective_x_mesh DROP FOREIGN KEY FK_B33DC189BDD5F4B2');
         $this->addSql('ALTER TABLE session_objective_x_mesh DROP FOREIGN KEY FK_B33DC189CDB3C93B');
         $this->addSql('ALTER TABLE session_objective_x_mesh ADD CONSTRAINT FK_B33DC189BDD5F4B2 FOREIGN KEY (session_objective_id) REFERENCES session_x_objective (session_objective_id) ON DELETE CASCADE');
@@ -38,8 +36,6 @@ final class Version20201001230658 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE course_objective_x_mesh DROP FOREIGN KEY FK_16291D94F28231CE');
         $this->addSql('ALTER TABLE course_objective_x_mesh DROP FOREIGN KEY FK_16291D94CDB3C93B');
         $this->addSql('ALTER TABLE course_objective_x_mesh ADD CONSTRAINT FK_16291D94F28231CE FOREIGN KEY (course_objective_id) REFERENCES course_x_objective (course_objective_id)');

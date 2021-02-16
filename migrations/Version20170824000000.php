@@ -3,21 +3,20 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Copy configuration from parameters.yml into the DB and update file with new keys
  */
-class Version20170824000000 extends AbstractMigration
+final class Version20170824000000 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $sql = 'SELECT name from application_config';
         $rows = $this->connection->executeQuery($sql)->fetchAll();
 

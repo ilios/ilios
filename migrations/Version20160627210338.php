@@ -3,21 +3,16 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Replace AAMC resource type identifiers with the officially provided codes.
  */
-class Version20160627210338 extends AbstractMigration
+final class Version20160627210338 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         // "virtual reality" has been dropped from the list, remove it.
         $this->addSql('DELETE FROM aamc_resource_type WHERE resource_type_id = 24');
         // fix capitalization and spacing
@@ -67,11 +62,7 @@ class Version20160627210338 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_F4C4B9D698EC6B7B ON term_x_aamc_resource_type (resource_type_id)');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
     }
 }

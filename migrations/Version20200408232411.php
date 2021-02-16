@@ -5,30 +5,22 @@ declare(strict_types=1);
 namespace Ilios\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 
 /**
  * Adds position column and join table to terms to objectives join tables.
  * Class Version20200408232411
  * @package Ilios\Migrations
  */
-final class Version20200408232411 extends AbstractMigration
+final class Version20200408232411 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function getDescription() : string
     {
         return 'Adds position column and join table to terms to objectives join tables.';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         // session objectives
         // create new join tables
         $this->addSql('CREATE TABLE session_objective (session_objective_id INT AUTO_INCREMENT NOT NULL, session_id INT DEFAULT NULL, objective_id INT NOT NULL, position INT NOT NULL, INDEX IDX_FA74B40B73484933 (objective_id), INDEX IDX_FA74B40B613FECDF (session_id), UNIQUE INDEX session_objective_uniq (session_id, objective_id), PRIMARY KEY(session_objective_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -67,9 +59,6 @@ final class Version20200408232411 extends AbstractMigration
         $this->addSql('ALTER TABLE program_year_objective RENAME TO program_year_x_objective');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
         $this->throwIrreversibleMigrationException();

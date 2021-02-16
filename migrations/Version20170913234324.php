@@ -3,32 +3,22 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Adds start/end-date columns to course/session learning materials tables.
  */
-class Version20170913234324 extends AbstractMigration
+final class Version20170913234324 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE course_learning_material ADD start_date DATETIME DEFAULT NULL, ADD end_date DATETIME DEFAULT NULL');
         $this->addSql('ALTER TABLE session_learning_material ADD start_date DATETIME DEFAULT NULL, ADD end_date DATETIME DEFAULT NULL');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE course_learning_material DROP start_date, DROP end_date');
         $this->addSql('ALTER TABLE session_learning_material DROP start_date, DROP end_date');
     }

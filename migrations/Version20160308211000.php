@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Remove invalid topic based reports
  */
-class Version20160308211000 extends AbstractMigration
+final class Version20160308211000 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql("DELETE FROM report WHERE subject='topic'");
         $this->addSql("DELETE FROM report WHERE prepositional_object='topic'");
     }
@@ -27,6 +25,5 @@ class Version20160308211000 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
     }
 }

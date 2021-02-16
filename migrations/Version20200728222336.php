@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Ilios\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 
-final class Version20200728222336 extends AbstractMigration
+final class Version20200728222336 extends MysqlMigration
 {
     public function getDescription() : string
     {
@@ -16,18 +16,12 @@ final class Version20200728222336 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE learning_material CHANGE description description LONGTEXT DEFAULT NULL');
         $this->addSql('UPDATE learning_material SET description=NULL WHERE description=""');
     }
 
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('UPDATE learning_material SET description="" WHERE description=NULL');
         $this->addSql('ALTER TABLE learning_material CHANGE description description LONGTEXT CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`');
     }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Ilios\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 
-final class Version20200719042101 extends AbstractMigration
+final class Version20200719042101 extends MysqlMigration
 {
     public function getDescription() : string
     {
@@ -16,8 +16,6 @@ final class Version20200719042101 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('CREATE TABLE course_student_advisor (course_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_D5D0445E591CC992 (course_id), INDEX IDX_D5D0445EA76ED395 (user_id), PRIMARY KEY(course_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE session_student_advisor (session_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_CBB93279613FECDF (session_id), INDEX IDX_CBB93279A76ED395 (user_id), PRIMARY KEY(session_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE course_student_advisor ADD CONSTRAINT FK_D5D0445E591CC992 FOREIGN KEY (course_id) REFERENCES course (course_id) ON DELETE CASCADE');
@@ -28,8 +26,6 @@ final class Version20200719042101 extends AbstractMigration
 
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('DROP TABLE course_student_advisor');
         $this->addSql('DROP TABLE session_student_advisor');
     }

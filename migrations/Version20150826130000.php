@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Migrate MeSH terms into a usable form
  */
-class Version20150826130000 extends AbstractMigration
+final class Version20150826130000 extends MysqlMigration
 {
     /**
      * @param Schema $schema
@@ -55,10 +55,6 @@ class Version20150826130000 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() != 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
         $sql = 'SELECT x.mesh_concept_uid, t.mesh_term_uid ' .
             'FROM mesh_concept_x_term x JOIN mesh_term t ON ' .
             't.mesh_term_id = x.mesh_term_id';

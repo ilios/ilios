@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Ilios\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 
 /**
  * Adds a description column to the session table and copies
  * all existing text from the corresponding session_description::description
  * column over, if applicable.
  */
-final class Version20200723160803 extends AbstractMigration
+final class Version20200723160803 extends MysqlMigration
 {
     public function getDescription() : string
     {
@@ -21,7 +21,6 @@ final class Version20200723160803 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('ALTER TABLE session ADD description LONGTEXT DEFAULT NULL');
 
         // copy description from session_description::description to session::description
@@ -30,7 +29,6 @@ final class Version20200723160803 extends AbstractMigration
 
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('ALTER TABLE session DROP description');
     }
 }

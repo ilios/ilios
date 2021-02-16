@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Make IlmSession the owning side of the session facet relationship
  */
-class Version20150826215733 extends AbstractMigration
+final class Version20150826215733 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE ilm_session_facet ADD session_id INT DEFAULT NULL');
         $this->addSql(
             'ALTER TABLE ilm_session_facet ADD CONSTRAINT FK_8C070D9613FECDF FOREIGN KEY (session_id) ' .
@@ -47,8 +45,6 @@ class Version20150826215733 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE ilm_session_facet DROP FOREIGN KEY FK_8C070D9613FECDF');
         $this->addSql('DROP INDEX UNIQ_8C070D9613FECDF ON ilm_session_facet');
         $this->addSql('ALTER TABLE session ADD ilm_session_facet_id INT DEFAULT NULL');

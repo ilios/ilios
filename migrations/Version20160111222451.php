@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -12,15 +12,13 @@ use Doctrine\DBAL\Schema\Schema;
  *
  * NOTICE!  This migration cannot be reversed!  It would do bad things if we let you.
  */
-class Version20160111222451 extends AbstractMigration
+final class Version20160111222451 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE course ADD published TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE program_year ADD published TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE program ADD published TINYINT(1) NOT NULL');

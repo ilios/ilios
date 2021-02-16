@@ -3,21 +3,16 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Increase the column size on various MeSH tables.
  */
-class Version20170906230101 extends AbstractMigration
+final class Version20170906230101 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         // mesh descriptor uid
         $this->addSql('ALTER TABLE course_learning_material_x_mesh DROP FOREIGN KEY FK_476BB36FCDB3C93B');
         $this->addSql('ALTER TABLE course_x_mesh DROP FOREIGN KEY FK_82E35212CDB3C93B');
@@ -76,13 +71,8 @@ class Version20170906230101 extends AbstractMigration
         $this->addSql('ALTER TABLE mesh_tree CHANGE tree_number tree_number VARCHAR(50) NOT NULL');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         // mesh tree tree-number
         $this->addSql('ALTER TABLE mesh_tree CHANGE tree_number tree_number VARCHAR(31) NOT NULL COLLATE utf8_unicode_ci');
 

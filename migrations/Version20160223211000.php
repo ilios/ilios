@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Fix mimetype on link and citation learning materials
  */
-class Version20160223211000 extends AbstractMigration
+final class Version20160223211000 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql("UPDATE learning_material set mime_type = 'link' WHERE web_link IS NOT NULL");
         $this->addSql("UPDATE learning_material set mime_type = 'citation' WHERE citation IS NOT NULL");
     }
@@ -27,8 +25,6 @@ class Version20160223211000 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql("UPDATE learning_material set mime_type = NULL WHERE web_link IS NOT NULL");
         $this->addSql("UPDATE learning_material set mime_type = NULL WHERE citation IS NOT NULL");
     }

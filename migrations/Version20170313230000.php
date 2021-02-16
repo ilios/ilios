@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -15,15 +15,13 @@ use Doctrine\DBAL\Schema\Schema;
  *
  * Which mirrors what the setup looked like before these were configurable options
  */
-class Version20170313230000 extends AbstractMigration
+final class Version20170313230000 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $sql = 'SELECT school_id FROM school WHERE school_id NOT IN (SELECT school_id from school_config)';
         $rows = $this->connection->executeQuery($sql)->fetchAll();
         if (count($rows)) {
@@ -51,6 +49,5 @@ class Version20170313230000 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
     }
 }

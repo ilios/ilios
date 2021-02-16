@@ -2,22 +2,17 @@
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Assigns users into new roles based on their current explicit write permissions and legacy roles.
  * ACHTUNG! This migration cannot be rolled back!
  */
-class Version20180313211111 extends AbstractMigration
+final class Version20180313211111 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         // migrate developers
         $sql=<<<EOL
 INSERT IGNORE INTO school_administrator (school_id, user_id) (
@@ -66,13 +61,8 @@ EOL;
         $this->addSql($sql);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->throwIrreversibleMigrationException();
     }
 }

@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Replace session_type_css_class with calendar_color in session_type table
  */
-class Version20170428054237 extends AbstractMigration
+final class Version20170428054237 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE session_type ADD calendar_color VARCHAR(7) NOT NULL');
         $this->addSql("UPDATE session_type SET calendar_color='#32edfc' WHERE session_type_css_class='clerkship'");
         $this->addSql("UPDATE session_type SET calendar_color='#ceccfe' WHERE session_type_css_class='exam'");
@@ -98,8 +96,6 @@ class Version20170428054237 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE session_type ADD session_type_css_class VARCHAR(64) DEFAULT NULL');
         $this->addSql("UPDATE session_types SET session_type_css_color='clerkship' WHERE calendar_color='#32edfc'");
         $this->addSql("UPDATE session_types SET session_type_css_color='exam' WHERE calendar_color='#ceccfe'");

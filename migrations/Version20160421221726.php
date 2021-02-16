@@ -3,21 +3,16 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Changes foreign key constraints to allow for cascading deletes.
  */
-class Version20160421221726 extends AbstractMigration
+final class Version20160421221726 extends MysqlMigration
 {
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE course_director DROP FOREIGN KEY FK_B724BEA6591CC992');
         $this->addSql('ALTER TABLE course_director DROP FOREIGN KEY FK_B724BEA6A76ED395');
         $this->addSql('ALTER TABLE course_director ADD CONSTRAINT FK_B724BEA6591CC992 FOREIGN KEY (course_id) REFERENCES course (course_id) ON DELETE CASCADE');
@@ -32,12 +27,8 @@ class Version20160421221726 extends AbstractMigration
         $this->addSql('ALTER TABLE course_learning_material_x_mesh ADD CONSTRAINT FK_476BB36FCDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid) ON DELETE CASCADE');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('ALTER TABLE course_learning_material_x_mesh DROP FOREIGN KEY FK_476BB36F46C5AD2E');
         $this->addSql('ALTER TABLE course_learning_material_x_mesh DROP FOREIGN KEY FK_476BB36FCDB3C93B');
         $this->addSql('ALTER TABLE course_learning_material_x_mesh ADD CONSTRAINT FK_476BB36F46C5AD2E FOREIGN KEY (course_learning_material_id) REFERENCES course_learning_material (course_learning_material_id)');

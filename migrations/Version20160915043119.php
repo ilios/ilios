@@ -3,22 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Add ancestors to courses and objectives
  */
-class Version20160915043119 extends AbstractMigration
+final class Version20160915043119 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE course ADD ancestor_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE course ADD CONSTRAINT FK_169E6FB9C671CEA1 FOREIGN KEY (ancestor_id) REFERENCES course (course_id)');
         $this->addSql('CREATE INDEX IDX_169E6FB9C671CEA1 ON course (ancestor_id)');
@@ -32,9 +29,6 @@ class Version20160915043119 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE course DROP FOREIGN KEY FK_169E6FB9C671CEA1');
         $this->addSql('DROP INDEX IDX_169E6FB9C671CEA1 ON course');
         $this->addSql('ALTER TABLE course DROP ancestor_id');

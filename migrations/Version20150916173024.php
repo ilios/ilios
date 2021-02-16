@@ -3,24 +3,19 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Add icsf_feed_key to user table to use in calendar feed
  */
-class Version20150916173024 extends AbstractMigration
+final class Version20150916173024 extends MysqlMigration
 {
     /**
      * @param Schema $schema
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() != 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
-
         $this->addSql('ALTER TABLE `user` ADD ics_feed_key VARCHAR(64) NOT NULL');
 
         $sql = 'SELECT user_id FROM `user`';
@@ -51,11 +46,6 @@ class Version20150916173024 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() != 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
-
         $this->addSql('ALTER TABLE `user` DROP INDEX UNIQ_8D93D649AAB338A6');
         $this->addSql('ALTER TABLE `user` DROP ics_feed_key');
     }

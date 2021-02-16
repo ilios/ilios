@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Migrate MeSH terms into a usable form
  */
-class Version20150826120000 extends AbstractMigration
+final class Version20150826120000 extends MysqlMigration
 {
 
     /**
@@ -17,10 +17,6 @@ class Version20150826120000 extends AbstractMigration
      */
     public function up(Schema $schema) : void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() != 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
         $this->addSql('ALTER TABLE mesh_concept_x_semantic_type DROP FOREIGN KEY FK_CD3D7893E34D9FF5');
         $this->addSql('ALTER TABLE mesh_concept_x_semantic_type DROP FOREIGN KEY FK_CD3D789316AE7127');
 
@@ -62,11 +58,6 @@ class Version20150826120000 extends AbstractMigration
      */
     public function down(Schema $schema) : void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() != 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
-
         $this->addSql('ALTER TABLE mesh_concept_x_semantic_type DROP FOREIGN KEY FK_CD3D7893E34D9FF5');
         $this->addSql('ALTER TABLE mesh_concept_x_semantic_type DROP FOREIGN KEY FK_CD3D789316AE7127');
         $this->addSql('DROP INDEX IDX_CD3D7893E34D9FF5 ON mesh_concept_x_semantic_type');

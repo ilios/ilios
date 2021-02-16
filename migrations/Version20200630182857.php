@@ -5,25 +5,20 @@ declare(strict_types=1);
 namespace Ilios\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 
 /**
  * Adds relationships to x-objectives, based on how objectives are wired up.
  */
-final class Version20200630182857 extends AbstractMigration
+final class Version20200630182857 extends MysqlMigration
 {
     public function getDescription() : string
     {
         return 'Adds relationships to x-objectives, based on how objectives are wired up.';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('CREATE TABLE course_objective_x_program_year_objective (course_objective_id INT NOT NULL, program_year_objective_id INT NOT NULL, INDEX IDX_CB20F416F28231CE (course_objective_id), INDEX IDX_CB20F416BA83A669 (program_year_objective_id), PRIMARY KEY(course_objective_id, program_year_objective_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE course_objective_x_mesh (course_objective_id INT NOT NULL, mesh_descriptor_uid VARCHAR(12) NOT NULL, INDEX IDX_16291D94F28231CE (course_objective_id), INDEX IDX_16291D94CDB3C93B (mesh_descriptor_uid), PRIMARY KEY(course_objective_id, mesh_descriptor_uid)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE program_year_objective_x_mesh (program_year_objective_id INT NOT NULL, mesh_descriptor_uid VARCHAR(12) NOT NULL, INDEX IDX_5FD56ABEBA83A669 (program_year_objective_id), INDEX IDX_5FD56ABECDB3C93B (mesh_descriptor_uid), PRIMARY KEY(program_year_objective_id, mesh_descriptor_uid)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB');
@@ -79,13 +74,8 @@ final class Version20200630182857 extends AbstractMigration
         $this->addSql('UPDATE objective o JOIN program_year_x_objective pyxo ON o.objective_id = pyxo.objective_id SET o.position = pyxo.position');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function down(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('DROP TABLE course_objective_x_program_year_objective');
         $this->addSql('DROP TABLE course_objective_x_mesh');
         $this->addSql('DROP TABLE program_year_objective_x_mesh');

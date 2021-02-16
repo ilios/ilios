@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Ilios\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+use App\Classes\MysqlMigration;
 
 /**
  * Back-fills the application config with a "academic year crosses calendar year boundaries" flag.
  */
-final class Version20210204234902 extends AbstractMigration
+final class Version20210204234902 extends MysqlMigration
 {
     public function getDescription() : string
     {
