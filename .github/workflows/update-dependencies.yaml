@@ -11,11 +11,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use PHP 7.4
+    - name: Use PHP 8.0
       uses: shivammathur/setup-php@v2
       with:
         coverage: none
-        php-version: 7.4
+        php-version: 8.0
     - name: install composer-lock-diff
       run: composer global require davidrjonas/composer-lock-diff
     - name: update dependencies
