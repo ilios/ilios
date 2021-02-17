@@ -50,7 +50,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [7.4]
+        php-version: [7.4,8.0]
 
     steps:
     - uses: actions/checkout@v2
@@ -94,7 +94,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [7.4]
+        php-version: [7.4,8.0]
 
     steps:
     - uses: actions/checkout@v2
@@ -184,7 +184,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [7.4]
+        php-version: [7.4,8.0]
 
     steps:
       - uses: actions/checkout@v2
