@@ -4,3 +4,6 @@ doctrine_migrations:
         # as migrations classes should NOT be autoloaded
         'Ilios\Migrations': '%kernel.project_dir%/migrations'
     custom_template: "%kernel.project_dir%/migrations/skeleton.tpl"
+    storage:
+        table_storage:
+            table_name: 'migration_versions'
