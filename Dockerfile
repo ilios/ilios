@@ -168,7 +168,7 @@ CMD ["messenger:consume", "async"]
 ###############################################################################
 # MySQL configured as needed for Ilios
 ###############################################################################
-FROM mysql:5.6 as mysql
+FROM mysql:5.7 as mysql
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV MYSQL_RANDOM_ROOT_PASSWORD yes
 COPY docker/mysql.cnf /etc/mysql/conf.d/ilios.cnf

@@ -25,7 +25,7 @@ services:
         volumes:
             - iliosData:/var/www/ilios
         environment:
-            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.6
+            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
             - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
             - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     admin:
@@ -35,7 +35,7 @@ services:
         volumes:
             - iliosData:/var/www/ilios
         environment:
-            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.6
+            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
             - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
             - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     update-frontend:
@@ -47,7 +47,7 @@ services:
         volumes:
             - iliosData:/var/www/ilios
         environment:
-            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.6
+            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
             - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
             - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     migrate-database:
@@ -60,7 +60,7 @@ services:
         volumes:
             - iliosData:/var/www/ilios
         environment:
-            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.6
+            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
             - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
             - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     consume-messages:
@@ -73,7 +73,7 @@ services:
         volumes:
             - iliosData:/var/www/ilios
         environment:
-            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.6
+            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
             - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
             - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     elasticsearch:
