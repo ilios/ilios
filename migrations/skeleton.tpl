@@ -7,7 +7,7 @@ namespace <namespace>;
 use Doctrine\DBAL\Schema\Schema;
 use App\Classes\MysqlMigration;
 
-final class Version<version> extends MysqlMigration
+final class <className> extends MysqlMigration
 {
     public function getDescription() : string
     {
