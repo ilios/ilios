@@ -27,6 +27,7 @@ jobs:
       with:
         coverage: none
         php-version: ${{ env.latest_php }}
+        extensions: apcu
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: lint PHP
@@ -59,6 +60,7 @@ jobs:
       with:
         coverage: none
         php-version: ${{ matrix.php-version }}
+        extensions: apcu
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
@@ -75,6 +77,7 @@ jobs:
       with:
         coverage: none
         php-version: ${{ env.latest_php }}
+        extensions: apcu
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: Drop, Create, Migrate, and Validate DB
@@ -103,6 +106,7 @@ jobs:
       with:
         coverage: none
         php-version: ${{ matrix.php-version }}
+        extensions: apcu
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: First Run
@@ -193,5 +197,6 @@ jobs:
         with:
           coverage: none
           php-version: ${{ matrix.php-version }}
+          extensions: apcu
       - name: Run Setup Command
         run: bin/setup
