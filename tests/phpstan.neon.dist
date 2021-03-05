@@ -2,7 +2,7 @@ parameters:
     symfony:
         container_xml_path: ../var/cache/test/App_KernelTestDebugContainer.xml
     bootstrapFiles:
-        - ../bin/.phpunit/phpunit-8-0/vendor/autoload.php
+        - ../bin/.phpunit/phpunit-9-0/vendor/autoload.php
     paths:
         - ./
     level: 1
