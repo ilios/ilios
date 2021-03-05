@@ -16,6 +16,7 @@ jobs:
       with:
         coverage: none
         php-version: 8.0
+        extensions: apcu
     - name: install composer-lock-diff
       run: composer global require davidrjonas/composer-lock-diff
     - name: update dependencies
