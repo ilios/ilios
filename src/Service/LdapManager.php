@@ -10,7 +10,7 @@ use Symfony\Component\Ldap\Ldap;
 class LdapManager
 {
     protected Config $config;
-    protected Ldap $ldap;
+    protected ?Ldap $ldap = null;
 
     /**
      * Constructor
