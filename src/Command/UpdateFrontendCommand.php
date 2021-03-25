@@ -7,7 +7,10 @@ namespace App\Command;
 use App\Service\Archive;
 use App\Service\Config;
 use App\Service\Fetch;
+use DateTime;
+use SimpleXMLElement;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +18,8 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use App\Service\Filesystem;
 use Exception;
 use SplFileObject;
-use is_dir;
+
+use function is_dir;
 
 /**
  * Pull down asset archive from AWS and extract it so
@@ -29,12 +33,14 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     /**
      * @var string
      */
-    public const FRONTEND_DIRECTORY = '/ilios/frontend/';
+    public const ACTIVE_FRONTEND_VERSION_DIRECTORY = '/ilios/frontend/';
     public const ARCHIVE_FILE_NAME = 'frontend.tar.gz';
     public const UNPACKED_DIRECTORY = '/deploy-dist/';
 
     public const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
+    public const STAGING_ASSET_LIST = 'http://frontend-archive-staging.s3.us-west-2.amazonaws.com/';
     public const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
+    public const PRODUCTION_ASSET_LIST = 'http://frontend-archive-production.s3.us-west-2.amazonaws.com/';
 
     private const STAGING = 'stage';
     private const PRODUCTION = 'prod';
@@ -42,6 +48,8 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     protected string $productionTemporaryFileStore;
     protected string $stagingTemporaryFileStore;
     protected string $publicDirectory;
+    protected string $frontendAssetDirectory;
+    protected ?OutputInterface $output;
 
     public function __construct(
         protected Fetch $fetch,
@@ -59,7 +67,8 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->fs->mkdir($this->productionTemporaryFileStore);
         $this->stagingTemporaryFileStore = $temporaryFileStorePath . '/stage';
         $this->fs->mkdir($this->stagingTemporaryFileStore);
-        $this->publicDirectory = $kernelProjectDir . '/public/';
+        $this->frontendAssetDirectory = "${kernelProjectDir}/public/frontend-assets/";
+        $this->output = null;
 
         parent::__construct();
     }
@@ -95,6 +104,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $stagingBuild = $input->getOption('staging-build');
         $versionOverride = $input->getOption('at-version');
         $environment = $stagingBuild ? self::STAGING : self::PRODUCTION;
+        $this->output = $output;
         $message = '';
         if ($stagingBuild) {
             $message .= ' from staging build';
@@ -104,8 +114,25 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         }
 
         try {
-            $this->downloadAndExtractArchive($environment, $versionOverride);
-            $this->copyStaticFilesIntoPublicDirectory();
+            $currentVersion = $this->downloadAndExtractAllArchives($environment);
+            $distributions = $this->listDistributions($environment);
+            foreach ($distributions as $path) {
+                $this->copyAssetsIntoPublicDirectory($path);
+            }
+            $versionToActivate = $versionOverride ?? $currentVersion;
+            if ($versionToActivate) {
+                $currentDistributionPathArr = array_filter(
+                    $distributions,
+                    fn(string $p) => str_ends_with($p, $versionToActivate)
+                );
+                if (empty($currentDistributionPathArr)) {
+                    throw new Exception();
+                }
+                $currentDistributionPath = array_values($currentDistributionPathArr)[0];
+                //re-copy current version for non fingerprinted assets to be placed last
+                $this->copyAssetsIntoPublicDirectory($currentDistributionPath);
+                $this->activateVersion($currentDistributionPath);
+            }
             $output->writeln("<info>Frontend updated successfully${message}!</info>");
 
             return 0;
@@ -119,15 +146,29 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     public function warmUp($cacheDir): array
     {
         try {
-            $version = false;
+            $currentVersion = $this->downloadAndExtractAllArchives(self::PRODUCTION);
+            $distributions = $this->listDistributions(self::PRODUCTION);
+            foreach ($distributions as $path) {
+                $this->copyAssetsIntoPublicDirectory($path);
+            }
+            $version = $currentVersion;
             $releaseVersion = $this->config->get('frontend_release_version');
             $keepFrontendUpdated = $this->config->get('keep_frontend_updated');
             if (!$keepFrontendUpdated) {
                 $version = $releaseVersion;
             }
-            $this->downloadAndExtractArchive(self::PRODUCTION, $version);
-            $this->copyStaticFilesIntoPublicDirectory();
-        } catch (Exception) {
+
+            if ($version) {
+                $currentDistributionPathArr = array_filter(
+                    $distributions,
+                    fn(string $p) => str_ends_with($p, $version)
+                );
+                $currentDistributionPath = array_values($currentDistributionPathArr)[0];
+                //re-copy current version for non fingerprinted assets to be placed last
+                $this->copyAssetsIntoPublicDirectory($currentDistributionPath);
+                $this->activateVersion($currentDistributionPath);
+            }
+        } catch (Exception $e) {
             print "\n\n**Warning: Unable to load frontend. Please run ilios:maintenance:update-frontend again.**\n\n\n";
         }
 
@@ -142,55 +183,145 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         return true;
     }
 
-    /**
-     * @param string $environment
-     * @param string|bool $versionOverride
-     *
-     * @throws Exception
-     */
-    protected function downloadAndExtractArchive($environment = 'prod', $versionOverride = false)
+    protected function activateVersion(string $distributionPath): void
     {
-        $fileName = $this->apiVersion . '/' . self::ARCHIVE_FILE_NAME;
-        if ($versionOverride) {
-            $fileName .= ':' . $versionOverride;
-        }
-        $url = self::PRODUCTION_CDN_ASSET_DOMAIN;
-        if ($environment === self::STAGING) {
-            $url = self::STAGING_CDN_ASSET_DOMAIN;
-        }
-        $archiveDir = $environment === 'prod' ? $this->productionTemporaryFileStore : $this->stagingTemporaryFileStore;
-        $versionPath = $versionOverride ? $versionOverride : 'active';
-        $parts = [
-            $archiveDir,
-            $this->apiVersion,
-            $versionPath,
-            self::ARCHIVE_FILE_NAME
-        ];
-        $archivePath = join(DIRECTORY_SEPARATOR, $parts);
-
-        $file = is_readable($archivePath) ? new SplFileObject($archivePath, "r") : null;
-        $string = $this->fetch->get($url . $fileName, $file);
-
-        $this->fs->dumpFile($archivePath, $string);
-
-        $this->archive::extract($archivePath, $archiveDir);
-        $frontendPath = $this->kernelCacheDir . self::FRONTEND_DIRECTORY;
+        $frontendPath = $this->cacheDir . self::ACTIVE_FRONTEND_VERSION_DIRECTORY;
         $this->fs->remove($frontendPath);
-        $this->fs->rename($archiveDir . self::UNPACKED_DIRECTORY, $frontendPath);
+        $this->fs->mkdir($frontendPath);
+        $this->fs->copy("${distributionPath}/index.json", "${frontendPath}/index.json");
     }
 
-    protected function copyStaticFilesIntoPublicDirectory(): void
+    protected function downloadAndExtractAllArchives(string $environment): ?string
     {
-        $frontendPath = $this->kernelCacheDir . self::FRONTEND_DIRECTORY;
-        $filesToIgnore = ['..', '.', 'index.json', 'index.html', '_redirects'];
-        $files = array_diff($this->fs->scandir($frontendPath), $filesToIgnore);
-        foreach ($files as $file) {
-            $path = $frontendPath . $file;
-            if (is_dir($path)) {
-                $this->fs->mirror($path, $this->publicDirectory . $file);
-            } else {
-                $this->fs->copy($path, $this->publicDirectory . $file);
+        $url = self::PRODUCTION_ASSET_LIST;
+        if ($environment === self::STAGING) {
+            $url = self::STAGING_ASSET_LIST;
+        }
+        $this->optionalOutput('Downloading List of Frontend Distributions...');
+        $distributions = $this->extractS3Index($url);
+        if (empty($distributions)) {
+            $this->optionalOutput('There are no current frontend distributions for your API version', 'comment');
+            return null;
+        }
+        $this->optionalOutput('Done!');
+        $progressBar = $this->output ? new ProgressBar($this->output, count($distributions)) : null;
+        if ($progressBar) {
+            $progressBar->setFormat('%message% %current%/%max% [%bar%] %percent:3s%%');
+            $progressBar->setMessage('Downloading Frontend Archives');
+            $progressBar->start();
+        }
+        foreach ($distributions as $distribution) {
+            $this->downloadAndExtractArchive(
+                $distribution['key'],
+                $distribution['url'],
+                $distribution['lastModified'],
+                $environment === 'prod' ? $this->productionTemporaryFileStore : $this->stagingTemporaryFileStore
+            );
+            if ($progressBar) {
+                $progressBar->advance();
             }
+        }
+        if ($progressBar) {
+            $progressBar->finish();
+        }
+        $this->optionalOutput('');
+        $this->optionalOutput('Done!');
+
+        $currentVersion = array_filter($distributions, fn(array $arr) => $arr['isCurrentVersion']);
+        if (count($currentVersion)) {
+            $key = array_values($currentVersion)[0]['key'];
+            return explode(':', $key)[1];
+        }
+        return null;
+    }
+
+    protected function extractS3Index(string $url): array
+    {
+        $xmlString = $this->fetch->get($url . '?prefix=' . $this->apiVersion);
+        $xml = new SimpleXMLElement($xmlString);
+        $currentVersionEtag = false;
+        foreach ($xml->Contents as $element) {
+            if (str_ends_with((string) $element->Key, 'frontend.tar.gz')) {
+                $currentVersionEtag = (string) $element->ETag;
+            }
+        }
+        $allDistributions = [];
+        if ($xml->Contents) {
+            foreach ($xml->Contents as $element) {
+                $etag = (string) $element->ETag;
+                $allDistributions[] = [
+                    'key' => (string) $element->Key,
+                    'url' => $url . (string) $element->Key,
+                    'lastModified' => new DateTime((string) $element->LastModified),
+                    'eTag' => trim($etag, '"'),
+                    'isCurrentVersion' => $etag === $currentVersionEtag,
+                ];
+            }
+        }
+        return array_filter($allDistributions, function (array $arr) {
+            return !str_ends_with($arr['key'], 'frontend.tar.gz');
+        });
+    }
+
+    protected function downloadAndExtractArchive(
+        string $key,
+        string $url,
+        DateTime $lastModified,
+        string $archiveDir
+    ): void {
+        $parts = [
+            $archiveDir,
+            $key
+        ];
+        $archivePath = join(DIRECTORY_SEPARATOR, $parts);
+        $version = explode(':', $key)[1];
+
+        $file = is_readable($archivePath) ? new SplFileObject($archivePath, "r") : null;
+        $downloadedLastModified = $file ? new DateTime('@' . $file->getMTime()) : false;
+        if (!$downloadedLastModified || $downloadedLastModified < $lastModified) {
+            $string = $this->fetch->get($url, $file);
+            $this->fs->dumpFile($archivePath, $string);
+        }
+        $destination = dirname($archivePath) . DIRECTORY_SEPARATOR . $version;
+        if (!$this->fs->exists($destination)) {
+            $tmp = $destination . '-tmp';
+            $this->archive::extract($archivePath, $tmp);
+            $this->fs->rename($tmp . self::UNPACKED_DIRECTORY, $destination);
+            $this->fs->remove($tmp);
+        }
+    }
+
+    protected function listDistributions(string $environment): array
+    {
+        $envDir = $environment === 'prod' ? $this->productionTemporaryFileStore : $this->stagingTemporaryFileStore;
+        $archiveDir = $envDir . DIRECTORY_SEPARATOR . $this->apiVersion;
+        $files = array_diff($this->fs->scandir($archiveDir), ['.', '..']);
+        $paths = array_map(fn(string $fileName) => $archiveDir . DIRECTORY_SEPARATOR . $fileName, $files);
+        $arr = array_filter(
+            $paths,
+            fn(string $path) => is_dir($path)
+        );
+        return array_values($arr);
+    }
+
+    protected function copyAssetsIntoPublicDirectory(string $distributionPath): void
+    {
+        $filesToIgnore = ['..', '.', 'index.json', 'index.html', '_redirects'];
+        $files = array_diff($this->fs->scandir($distributionPath), $filesToIgnore);
+        foreach ($files as $file) {
+            $path = $distributionPath . DIRECTORY_SEPARATOR . $file;
+            if (is_dir($path)) {
+                $this->fs->mirror($path, $this->frontendAssetDirectory . $file);
+            } else {
+                $this->fs->copy($path, $this->frontendAssetDirectory . $file);
+            }
+        }
+    }
+
+    protected function optionalOutput(string $message, string $type = 'info'): void
+    {
+        if ($this->output) {
+            $this->output->writeln("<${type}>${message}</${type}>");
         }
     }
 }

@@ -45,7 +45,7 @@ class IndexControllerTest extends WebTestCase
         $this->kernelBrowser = static::createClient();
         $container = $this->kernelBrowser->getContainer();
         $cacheDir = $container->getParameter('kernel.cache_dir');
-        $this->assetsPath =  $cacheDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $this->assetsPath =  $cacheDir . UpdateFrontendCommand::ACTIVE_FRONTEND_VERSION_DIRECTORY;
         $this->fileSystem = new Filesystem();
         $this->testFiles = [];
     }

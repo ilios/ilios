@@ -1,9 +1,6 @@
 /build/
 FakeTestFiles
-/public/
-!/public/index.php
-!/public/.htaccess
-!/public/theme-overrides
+/public/frontend-assets
 
 # Created by docker build, shouldn't leak into app
 VERSION
