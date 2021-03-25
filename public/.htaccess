@@ -48,6 +48,13 @@ DirectoryIndex index.php
     RewriteCond %{ENV:REDIRECT_STATUS} =""
     RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
 
+    # Serve static assets out of the frontend-assets directory
+    # if they exists. This allows us to keep the /public directory
+    # relativly clean and easier to manage.
+    RewriteRule ^(frontend-assets)($|/) - [L]
+    RewriteCond %{DOCUMENT_ROOT}/frontend-assets%{REQUEST_URI} -f
+    RewriteRule ^ frontend-assets%{REQUEST_URI} [L]
+
     # If the requested filename exists, simply serve it.
     # We only want to let Apache serve files and not directories.
     # Rewrite all other queries to the front controller.

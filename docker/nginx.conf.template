@@ -5,30 +5,28 @@ server {
     server_tokens off;
 
     location / {
-        gzip_static on;
         # try to serve file directly, fallback to index.php
-        try_files $uri /index.php$is_args$args;
+        try_files $uri /frontend-assets/$uri /index.php$is_args$args;
     }
 
     # cache fingerprinted ilios assets forever
+    # serve them front /frontend-assets
     # ex: sunburst-white-background192-68bd609abe5ea5043e544352c4ca9942.png
-    location ~* "[a-z\-0-9]+-[a-z0-9]{30,}\.(css|js|png|svg)$" {
+    # ex: assets/chunk.56bf0f0960e34acefd19.js
+    location ~* "[a-z\-0-9]+-[a-z0-9]{15,}\.(css|js|png|svg)$" {
         gzip_static on;
         expires max;
+        try_files /frontend-assets/$uri $uri;
     }
+
     # special handling for the webmanifest file which needs to send a content type
-    # along with caching forever
+    # otherwise this is identical to above local block.
     # ex: manifest-bd12a81128e7457c600174adf270dd25.webmanifest
     location ~* "manifest-[a-z\-0-9]+\.webmanifest$" {
         gzip_static on;
         expires max;
         default_type application/manifest+json;
-    }
-    # cache fingerprinted webpack chunk assets forever
-    # ex: assets/chunk.56bf0f0960e34acefd19.js
-    location ~* "assets/chunk\.[a-z0-9\.]{15,}\.js$" {
-        gzip_static on;
-        expires max;
+        try_files /frontend-assets/$uri $uri;
     }
 
     #Symfony Docs on nginx: https://symfony.com/doc/current/setup/web_server_configuration.html#nginx
