@@ -136,7 +136,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
         $this->archive->shouldReceive('extract')->once()->with($archivePath, $archiveDir);
 
-        $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::ACTIVE_FRONTEND_VERSION_DIRECTORY;
         $this->fs->shouldReceive('remove')->once()->with($frontendPath);
         $this->fs->shouldReceive('rename')->once()
             ->with($archiveDir . UpdateFrontendCommand::UNPACKED_DIRECTORY, $frontendPath);
@@ -179,7 +179,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
         $this->archive->shouldReceive('extract')->once()->with($archivePath, $archiveDir);
 
-        $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::ACTIVE_FRONTEND_VERSION_DIRECTORY;
         $this->fs->shouldReceive('remove')->once()->with($frontendPath);
         $this->fs->shouldReceive('rename')->once()
             ->with($archiveDir . UpdateFrontendCommand::UNPACKED_DIRECTORY, $frontendPath);
@@ -219,7 +219,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         $this->fs->shouldReceive('dumpFile')->once()->with($archivePath, 'ARCHIVE_FILE');
         $this->archive->shouldReceive('extract')->once()->with($archivePath, $archiveDir);
 
-        $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $frontendPath = $this->fakeCacheFileDir . UpdateFrontendCommand::ACTIVE_FRONTEND_VERSION_DIRECTORY;
         $this->fs->shouldReceive('remove')->once()->with($frontendPath);
         $this->fs->shouldReceive('rename')->once()
             ->with($archiveDir . UpdateFrontendCommand::UNPACKED_DIRECTORY, $frontendPath);

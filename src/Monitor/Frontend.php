@@ -20,7 +20,7 @@ class Frontend implements CheckInterface
      */
     public function check()
     {
-        $assetsPath = $this->kernelCacheDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $assetsPath = $this->kernelCacheDir . UpdateFrontendCommand::ACTIVE_FRONTEND_VERSION_DIRECTORY;
         $path = $assetsPath . 'index.json';
 
         if (!file_exists($path)) {

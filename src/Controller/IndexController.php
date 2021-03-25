@@ -79,7 +79,7 @@ class IndexController extends AbstractController
      */
     protected function getFilePath(string $fileName)
     {
-        $assetsPath = $this->kernelCacheDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $assetsPath = $this->kernelCacheDir . UpdateFrontendCommand::ACTIVE_FRONTEND_VERSION_DIRECTORY;
         $path = $assetsPath . $fileName;
         if ($this->fs->exists($path) && is_readable($path) && !is_dir($path)) {
             return $path;
