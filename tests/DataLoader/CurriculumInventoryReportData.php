@@ -12,7 +12,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
     {
         $arr = [];
 
-        $dt = $this->faker->dateTime;
+        $dt = $this->faker->dateTime();
         $dt->setTime(0, 0, 0);
         $arr[] = [
             'id' => 1,
@@ -61,7 +61,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
 
     public function create()
     {
-        $dt = $this->faker->dateTime;
+        $dt = $this->faker->dateTime();
         $dt->setTime(0, 0, 0);
         return [
             'id' => 4,

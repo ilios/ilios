@@ -22,7 +22,7 @@ class SessionData extends AbstractDataLoader
             'instructionalNotes' => $this->faker->text(100),
             'sessionType' => 1,
             'course' => 1,
-            'description' => $this->faker->text,
+            'description' => $this->faker->text(),
             'terms' => ['2', '5'],
             'sessionObjectives' => ['1'],
             'meshDescriptors' => ['abc1'],

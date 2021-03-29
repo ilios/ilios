@@ -14,7 +14,7 @@ class MeshTermData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'meshTermUid' => 'tuid' . $this->faker->text(5),
-            'name' => 'term' . $this->faker->text,
+            'name' => 'term' . $this->faker->text(),
             'lexicalTag' => 'first tag',
             'conceptPreferred' => true,
             'recordPreferred' => false,

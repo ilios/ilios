@@ -19,7 +19,7 @@ class SessionTypeData extends AbstractDataLoader
             'school' => 1,
             'aamcMethods' => ['AM001'],
             'sessions' => ['1', '5', '6', '7', '8'],
-            'calendarColor' => $this->faker->hexColor,
+            'calendarColor' => $this->faker->hexColor(),
             'assessment' => false,
             'active' => false,
         ];
@@ -48,7 +48,7 @@ class SessionTypeData extends AbstractDataLoader
             'school' => 1,
             'aamcMethods' => ['AM001'],
             'sessions' => ['1'],
-            'calendarColor' => $this->faker->hexColor,
+            'calendarColor' => $this->faker->hexColor(),
             'assessment' => false,
             'active' => false,
         ];

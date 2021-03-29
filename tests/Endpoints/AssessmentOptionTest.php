@@ -65,7 +65,7 @@ class AssessmentOptionTest extends ReadWriteEndpointTest
         $all = $dataLoader->getAll();
         $faker = $this->getFaker();
         foreach ($all as $data) {
-            $data['name'] = $faker->word;
+            $data['name'] = $faker->word();
 
             $this->putTest($data, $data, $data['id']);
         }
@@ -77,7 +77,7 @@ class AssessmentOptionTest extends ReadWriteEndpointTest
         $all = $dataLoader->getAll();
         $faker = $this->getFaker();
         foreach ($all as $data) {
-            $data['name'] = $faker->word;
+            $data['name'] = $faker->word();
             $jsonApiData = $dataLoader->createJsonApi($data);
             $this->patchJsonApiTest($data, $jsonApiData);
         }

@@ -367,15 +367,15 @@ class EntityBase extends TestCase
             case 'float':
                 return $faker->randomFloat();
             case 'string':
-                return $faker->text;
+                return $faker->text();
             case 'hexcolor':
-                return $faker->hexColor;
+                return $faker->hexColor();
             case 'email':
-                return $faker->email;
+                return $faker->email();
             case 'phone':
-                return $faker->phoneNumber;
+                return $faker->phoneNumber();
             case 'datetime':
-                return $faker->dateTime;
+                return $faker->dateTime();
             case 'bool':
             case 'boolean':
                 return $faker->boolean;

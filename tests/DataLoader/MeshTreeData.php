@@ -29,7 +29,7 @@ class MeshTreeData extends AbstractDataLoader
     {
         return [
             'id' => 3,
-            'treeNumber' => $this->faker->word,
+            'treeNumber' => $this->faker->word(),
             'descriptor' => 'abc2'
         ];
     }
