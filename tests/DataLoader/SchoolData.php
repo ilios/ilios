@@ -16,8 +16,8 @@ class SchoolData extends AbstractDataLoader
             'id' => 1,
             'title' => '1' . $this->faker->text(59),
             'templatePrefix' => $this->faker->text(8),
-            'iliosAdministratorEmail' => $this->faker->email,
-            'changeAlertRecipients' => $this->faker->email,
+            'iliosAdministratorEmail' => $this->faker->email(),
+            'changeAlertRecipients' => $this->faker->email(),
             'competencies' => ['1', '2', '3'],
             'courses' => ["1", "2"],
             'programs' => ['1', '2'],
@@ -32,10 +32,10 @@ class SchoolData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 2,
-            'title' => '2' . $this->faker->word,
+            'title' => '2' . $this->faker->word(),
             'templatePrefix' => $this->faker->text(8),
             'iliosAdministratorEmail' => 'info@example.com',
-            'changeAlertRecipients' => $this->faker->email,
+            'changeAlertRecipients' => $this->faker->email(),
             'competencies' => [],
             'courses' => ["3", "4", "5"],
             'programs' => ["3"],
@@ -51,7 +51,7 @@ class SchoolData extends AbstractDataLoader
         $arr[] = [
             'id' => 3,
             'title' => 'third school',
-            'iliosAdministratorEmail' => $this->faker->email,
+            'iliosAdministratorEmail' => $this->faker->email(),
             'changeAlertRecipients' => 'info@example.com',
             'competencies' => [],
             'courses' => [],
@@ -72,10 +72,10 @@ class SchoolData extends AbstractDataLoader
     {
         return [
             'id' => 4,
-            'title' => '4' . $this->faker->word,
+            'title' => '4' . $this->faker->word(),
             'templatePrefix' => $this->faker->text(8),
-            'iliosAdministratorEmail' => $this->faker->email,
-            'changeAlertRecipients' => $this->faker->email,
+            'iliosAdministratorEmail' => $this->faker->email(),
+            'changeAlertRecipients' => $this->faker->email(),
             'competencies' => [],
             'courses' => [],
             'programs' => [],
@@ -104,7 +104,7 @@ class SchoolData extends AbstractDataLoader
         for ($i = 0; $i < $count; $i++) {
             $arr = $this->create();
             $arr['id'] = $arr['id'] + $i;
-            $arr['title'] = $arr['id'] . $this->faker->word;
+            $arr['title'] = $arr['id'] . $this->faker->word();
             unset($arr['templatePrefix']);
             $data[] = $arr;
         }

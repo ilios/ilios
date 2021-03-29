@@ -54,7 +54,7 @@ class CompetencyData extends AbstractDataLoader
     {
         return [
             'id' => 4,
-            'title' => $this->faker->text,
+            'title' => $this->faker->text(),
             'active' => true,
             'school' => "1",
             'parent' => "1",

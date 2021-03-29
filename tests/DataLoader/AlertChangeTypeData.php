@@ -76,7 +76,7 @@ class AlertChangeTypeData extends AbstractDataLoader
     public function createInvalid()
     {
         return [
-            'id' => $this->faker->text,
+            'id' => $this->faker->text(),
             'alerts' => [424524]
         ];
     }

@@ -11,7 +11,7 @@ class IlmSessionData extends AbstractDataLoader
     protected function getData()
     {
         $arr = [];
-        $dt = $this->faker->dateTime;
+        $dt = $this->faker->dateTime();
         $dt->setTime(0, 0, 0);
         $dt->setDate(2016, 1, 1);
         $arr[] = [
@@ -65,7 +65,7 @@ class IlmSessionData extends AbstractDataLoader
 
     public function create()
     {
-        $dt = $this->faker->dateTime;
+        $dt = $this->faker->dateTime();
         $dt->setTime(0, 0, 0);
         return [
             'id' => 5,

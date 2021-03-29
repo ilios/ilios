@@ -14,7 +14,7 @@ class MeshPreviousIndexingData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'descriptor' => 'abc1',
-            'previousIndexing' => $this->faker->text,
+            'previousIndexing' => $this->faker->text(),
         ];
         $arr[] = [
             'id' => 2,
@@ -30,7 +30,7 @@ class MeshPreviousIndexingData extends AbstractDataLoader
         return [
             'id' => 3,
             'descriptor' => 'abc3',
-            'previousIndexing' => $this->faker->text,
+            'previousIndexing' => $this->faker->text(),
         ];
     }
 

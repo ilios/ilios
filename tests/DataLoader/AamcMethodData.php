@@ -14,7 +14,7 @@ class AamcMethodData extends AbstractDataLoader
 
         $arr[] = [
             'id' => "AM001",
-            'description' => $this->faker->text,
+            'description' => $this->faker->text(),
             'sessionTypes' => ['1', '2'],
             'active' => true,
         ];
@@ -33,7 +33,7 @@ class AamcMethodData extends AbstractDataLoader
     {
         return [
             'id' => 'FK',
-            'description' => $this->faker->text,
+            'description' => $this->faker->text(),
             'sessionTypes' => ['1'],
             'active' => true
         ];
