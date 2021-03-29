@@ -155,7 +155,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Frontend updated successfully!/',
             $output
         );
@@ -195,7 +195,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Frontend updated successfully from staging build!/',
             $output
         );
@@ -235,7 +235,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Frontend updated successfully at version foo.bar!/',
             $output
         );
@@ -252,7 +252,7 @@ class UpdateFrontendCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/No matching frontend found!/',
             $output
         );

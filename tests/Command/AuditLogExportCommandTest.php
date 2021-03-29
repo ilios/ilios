@@ -121,7 +121,7 @@ class AuditLogExportCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
         $cleanNow = preg_quote($now->format('c'));
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/1\s+\|\s+10\s+\|\s+update\s+\|\s+{$cleanNow}\s+\|\s+20\s+\|\s+FooBar\s+\|\s+phone/",
             $output
         );

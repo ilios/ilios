@@ -75,7 +75,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/80% free space. Not cleaning up any files./',
             $output
         );
@@ -105,11 +105,11 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/10% free space. Will cleanup old files.../',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/2 file\(s\) cleaned up/',
             $output
         );

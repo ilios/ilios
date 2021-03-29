@@ -100,7 +100,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertStringContainsString("2/4: Clearing database of existing MeSH data.", $output);
         $this->assertStringContainsString("3/4: Importing MeSH data into database.", $output);
         $this->assertStringContainsString("4/4: Flagging orphaned MeSH descriptors as deleted.", $output);
-        $this->assertRegExp("/Finished MeSH universe import in \d+ seconds./", $output);
+        $this->assertMatchesRegularExpression("/Finished MeSH universe import in \d+ seconds./", $output);
     }
 
     /**
@@ -248,7 +248,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertStringContainsString("3/5: Importing MeSH data into database.", $output);
         $this->assertStringContainsString("4/5: Flagging orphaned MeSH descriptors as deleted.", $output);
         $this->assertStringContainsString("5/5: Adding MeSH data to the search index.", $output);
-        $this->assertRegExp("/Finished MeSH universe import in \d+ seconds./", $output);
+        $this->assertMatchesRegularExpression("/Finished MeSH universe import in \d+ seconds./", $output);
     }
 
     protected function mockHappyPath()

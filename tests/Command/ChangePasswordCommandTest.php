@@ -102,7 +102,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Password Changed/',
             $output
         );
@@ -134,7 +134,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Password Changed/',
             $output
         );

@@ -54,7 +54,7 @@ class DropCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Please run the operation with --force to execute/',
             $output
         );
@@ -70,7 +70,7 @@ class DropCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Ok./',
             $output
         );

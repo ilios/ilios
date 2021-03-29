@@ -144,7 +144,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         foreach ($schools as $school) {
             $recipients = explode(',', $school->getChangeAlertRecipients());
             foreach ($recipients as $recipient) {
-                $this->assertRegExp("/To:(.*){$recipient}/", $output);
+                $this->assertMatchesRegularExpression("/To:(.*){$recipient}/", $output);
             }
         }
         $expectedSubject = 'Subject: ' . $offering->getSession()->getCourse()->getExternalId() . ' - '

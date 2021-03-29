@@ -148,24 +148,24 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Found 2 students in the directory./',
             $output
         );
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/There are 1 new students to be added to school 1./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Do you wish to add these students to school 1?/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/abc\s+\| first\s+\| last\s+\| email /',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Success! New student #42 first last created./',
             $output
         );

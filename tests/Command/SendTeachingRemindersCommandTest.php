@@ -366,7 +366,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertRegExp('/^Sent 2 teaching reminders\.$/', trim($output));
+        $this->assertMatchesRegularExpression('/^Sent 2 teaching reminders\.$/', trim($output));
     }
 
     public function testExecuteDryRunWithSchools()

@@ -110,24 +110,24 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Found 2 former students in the directory./',
             $output
         );
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/There are 1 students in Ilios who will be marked as a Former Student./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Do you wish to mark these users as Former Students?/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/abc\s+\| first\s+\| last\s+\| email /',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Former students updated successfully!/',
             $output
         );

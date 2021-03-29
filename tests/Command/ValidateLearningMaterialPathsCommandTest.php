@@ -77,19 +77,19 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Validated 1 learning materials file path/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Unable to find the files for 1 learning material./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/path/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/42/',
             $output
         );

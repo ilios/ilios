@@ -69,7 +69,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Token 123JWT/',
             $output
         );
@@ -89,7 +89,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Token 123JWT/',
             $output
         );

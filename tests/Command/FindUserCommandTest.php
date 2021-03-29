@@ -65,7 +65,7 @@ class FindUserCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/abc\s+\| first\s+\| last\s+\| email\s+\| phone/',
             $output
         );

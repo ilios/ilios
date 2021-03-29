@@ -236,6 +236,6 @@ class AuthControllerTest extends WebTestCase
         );
         $response2 = $this->kernelBrowser->getResponse();
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response2->getStatusCode());
-        $this->assertRegExp('/Invalid JSON Web Token: Not issued after/', $response2->getContent());
+        $this->assertMatchesRegularExpression('/Invalid JSON Web Token: Not issued after/', $response2->getContent());
     }
 }

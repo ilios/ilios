@@ -109,31 +109,31 @@ class IcsControllerTest extends WebTestCase
         $this->assertEquals(2, count($matches), 'Found description in response');
         $firstDescription = preg_replace('/\s+/', '', $matches[1]);
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '#Youwillneedspecialattire#',
             $firstDescription,
             'Special attire required shows up'
         );
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '#Youwillneedspecialequipment#',
             $firstDescription,
             'Special equiptment required shows up'
         );
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '#AttendanceisRequired#',
             $firstDescription,
             'Attendance required shows up'
         );
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '#SessionhasPre-work#',
             $firstDescription,
             'Has Pre-work shows up'
         );
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '#SessionhasLearningMaterials#',
             $firstDescription,
             'Has Learning Materials shows up'
@@ -216,7 +216,7 @@ class IcsControllerTest extends WebTestCase
             'Has Pre-work is hidden'
         );
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '#SessionhasLearningMaterials#',
             $firstDescription,
             'Has Learning Materials shows up b/c the owning course has learning materials.'
@@ -256,7 +256,7 @@ class IcsControllerTest extends WebTestCase
         $today = new DateTime();
         $format = $today->format('Ymd');
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "#http://localhost/events/U${format}O2#",
             $firstDescription,
             'Event Links are absolute paths'
