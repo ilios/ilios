@@ -157,7 +157,7 @@ class CleanupStringsCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/3 Objective Titles updated/',
             $output
         );
@@ -191,7 +191,7 @@ class CleanupStringsCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/1 Learning Material Descriptions updated/',
             $output
         );
@@ -246,14 +246,14 @@ class CleanupStringsCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/1 Course Learning Material Notes updated/',
             $output
         );
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/1 Session Learning Material Notes updated/',
             $output
         );
@@ -287,7 +287,7 @@ class CleanupStringsCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/1 Session Descriptions updated/',
             $output
         );
@@ -527,7 +527,7 @@ class CleanupStringsCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString("0 learning material links updated, 1 failures.", $output);
-        $this->assertRegExp('/\| Learning Material ID\s+\| Link\s+\| Error Message\s+\|/', $output);
-        $this->assertRegExp('/\| 1\s+\| iliosproject.org\s+\| FAIL!\s+\|/', $output);
+        $this->assertMatchesRegularExpression('/\| Learning Material ID\s+\| Link\s+\| Error Message\s+\|/', $output);
+        $this->assertMatchesRegularExpression('/\| 1\s+\| iliosproject.org\s+\| FAIL!\s+\|/', $output);
     }
 }

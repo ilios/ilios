@@ -114,11 +114,11 @@ class AddDirectoryUserCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/abc\s+\| first\s+\| last\s+\| email\s+\| abc123\s+\| phone/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Success! New user #1 Test Person created./',
             $output
         );

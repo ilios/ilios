@@ -147,11 +147,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Comparing User #42 first last \(email\) to directory user by campus ID abc./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
@@ -210,11 +210,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updating first name from "first" to "new-first"./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
@@ -273,11 +273,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updating last name from "last" to "new-last"./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
@@ -336,11 +336,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updating phone number from "phone" to "new-phone"./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
@@ -406,11 +406,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Email address "email" differs from "new-email" logging for further action./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
@@ -469,11 +469,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updating email from "email" to "EMAIL" since the only difference was the case./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
@@ -532,11 +532,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updating display name from "display" to "new display"./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
@@ -596,11 +596,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updating username from "abc123" to "new-abc123"./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
@@ -665,15 +665,15 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updating username from "" to "abc123"./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/User had no authentication data, creating it now./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
@@ -740,11 +740,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Multiple accounts exist for the same campus ID \(abc\)\.  None of them will be updated./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
@@ -795,11 +795,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/firstName is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
@@ -850,11 +850,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/lastName is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
@@ -905,11 +905,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/email is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
@@ -960,11 +960,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/username is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
@@ -1014,11 +1014,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/User #42 missing person email abc not found in the directory.  Logged for further study/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 0 users found in the directory; 0 users updated./',
             $output
         );
@@ -1083,7 +1083,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
@@ -1154,11 +1154,11 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\[E\] There is already an account for username abc123 belonging to user #11 with Campus ID abc/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );

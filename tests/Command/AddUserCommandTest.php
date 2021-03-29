@@ -347,11 +347,11 @@ class AddUserCommandTest extends KernelTestCase
     protected function checkOuput()
     {
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/abc\s+\| first\s+\| last\s+\| email@example.com\s+\| abc123\s+\| phone\s+\| yes/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Success! New user #1 Test Person created./',
             $output
         );

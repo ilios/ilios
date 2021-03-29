@@ -70,7 +70,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/All the tokens for somebody great issued before Today at [0-9:APM\s]+ UTC have been invalidated./',
             $output
         );
@@ -104,7 +104,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/All the tokens for somebody great issued before Today at [0-9:APM\s]+ UTC have been invalidated./',
             $output
         );

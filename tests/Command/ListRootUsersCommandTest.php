@@ -108,11 +108,11 @@ class ListRootUsersCommandTest extends KernelTestCase
         ]);
         $output = $this->commandTester->getDisplay();
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\| 1\s+| Hans\s+\| Dampf\s+\| hans@test.com\s+\| 111-111-1111\s+\| Yes\s+\|/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\| 2\s+\| Ilse\s+\| Bilse\s+\|| ilse@test.com\s+\| 222-222-2222\s+\ No\s+\|/',
             $output
         );

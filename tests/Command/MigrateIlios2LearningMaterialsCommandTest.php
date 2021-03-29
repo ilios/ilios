@@ -99,11 +99,11 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Ready to copy 1 learning materials. Shall we continue?/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Migrated 1 learning materials successfully!/',
             $output
         );
@@ -131,11 +131,11 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Migrated 0 learning materials successfully!/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Skipped 1 learning materials because they could not be located or were already migrated./',
             $output
         );

@@ -81,7 +81,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Username Changed/',
             $output
         );
@@ -109,7 +109,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Username Changed/',
             $output
         );
@@ -182,7 +182,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Username Changed/',
             $output
         );
@@ -210,7 +210,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Username Changed/',
             $output
         );

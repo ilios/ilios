@@ -70,7 +70,7 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
             'school'         => '1'
         ]);
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\sthe-name\s|\sthe-value\s/',
             $output
         );

@@ -113,11 +113,11 @@ class SyncUserCommandTest extends KernelTestCase
 
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Ilios User\s+\| abc\s+\| old-first\s+\| old-last\s+\| old-display\s+\| old-email\s+\| old-phone/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Directory User\s+\| abc\s+\| first\s+\| last\s+\| display\s+\| email\s+\| phone/',
             $output
         );

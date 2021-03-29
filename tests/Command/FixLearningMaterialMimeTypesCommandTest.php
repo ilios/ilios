@@ -81,11 +81,11 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Ready to fix 1 learning materials. Shall we continue?/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updated mimetypes for 1 learning materials successfully!/',
             $output
         );
@@ -111,11 +111,11 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Ready to fix 1 learning materials. Shall we continue?/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updated mimetypes for 1 learning materials successfully!/',
             $output
         );
@@ -142,11 +142,11 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Ready to fix 1 learning materials. Shall we continue?/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updated mimetypes for 1 learning materials successfully!/',
             $output
         );
@@ -173,11 +173,11 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Ready to fix 1 learning materials. Shall we continue?/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updated mimetypes for 1 learning materials successfully!/',
             $output
         );
@@ -208,11 +208,11 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Ready to fix 1 learning materials. Shall we continue?/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updated mimetypes for 1 learning materials successfully!/',
             $output
         );
@@ -246,11 +246,11 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Ready to fix 1 learning materials. Shall we continue?/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Updated mimetypes for 1 learning materials successfully!/',
             $output
         );

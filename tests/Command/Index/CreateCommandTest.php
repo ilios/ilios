@@ -56,7 +56,7 @@ class CreateCommandTest extends KernelTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Done./',
             $output
         );

@@ -68,19 +68,19 @@ class ListConfigValuesCommandTest extends KernelTestCase
             'command'      => self::COMMAND_NAME
         ]);
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\sthe-name\s|\sthe-value\s/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\sEnvironment\s|\sTESTING123\s/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\sKernel Secret\s|\sSECRET\s/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\sDatabase URL\s|\smysql\s/',
             $output
         );
@@ -98,19 +98,19 @@ class ListConfigValuesCommandTest extends KernelTestCase
             'command'      => self::COMMAND_NAME
         ]);
         $output = $this->commandTester->getDisplay();
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/^Unable to connect to database./',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\sEnvironment\s|\sTESTING123\s/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\sKernel Secret\s|\sSECRET\s/',
             $output
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/\sDatabase URL\s|\smysql\s/',
             $output
         );
