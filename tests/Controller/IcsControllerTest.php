@@ -192,25 +192,25 @@ class IcsControllerTest extends WebTestCase
         $this->assertEquals(2, count($matches), 'Found description in response');
         $firstDescription = preg_replace('/\s+/', '', $matches[1]);
 
-        $this->assertNotRegExp(
+        $this->assertDoesNotMatchRegularExpression(
             '#Youwillneedspecialattire#',
             $firstDescription,
             'Special attire required is hidden'
         );
 
-        $this->assertNotRegExp(
+        $this->assertDoesNotMatchRegularExpression(
             '#Youwillneedspecialequipment#',
             $firstDescription,
             'Special equiptment required is hidden'
         );
 
-        $this->assertNotRegExp(
+        $this->assertDoesNotMatchRegularExpression(
             '#AttendanceisRequired#',
             $firstDescription,
             'Attendance required is hidden'
         );
 
-        $this->assertNotRegExp(
+        $this->assertDoesNotMatchRegularExpression(
             '#SessionhasPre-work#',
             $firstDescription,
             'Has Pre-work is hidden'
