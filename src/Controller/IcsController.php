@@ -10,12 +10,19 @@ use App\Entity\User;
 use App\Repository\IlmSessionRepository;
 use App\Repository\OfferingRepository;
 use App\Repository\UserRepository;
+use DateTime;
+use Eluceo\iCal\Domain\Entity\Calendar;
+use Eluceo\iCal\Domain\Entity\Event;
+use Eluceo\iCal\Domain\ValueObject\DateTime as CalendarDateTime;
+use Eluceo\iCal\Domain\ValueObject\Location;
+use Eluceo\iCal\Domain\ValueObject\TimeSpan;
+use Eluceo\iCal\Presentation\Factory\CalendarFactory;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
-use Eluceo\iCal\Component as ICS;
 use Symfony\Component\Routing\RouterInterface;
 
 class IcsController extends AbstractController
@@ -23,19 +30,10 @@ class IcsController extends AbstractController
     private const LOOK_BACK = '-4 months';
     private const LOOK_FORWARD = '+2 months';
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
+    private RouterInterface $router;
+    private UserRepository $userRepository;
     private OfferingRepository $offeringRepository;
-    /**
-     * @var IlmSessionRepository
-     */
-    private $ilmSessionRepository;
+    private IlmSessionRepository $ilmSessionRepository;
 
     /**
      * IcsController constructor.
@@ -65,11 +63,10 @@ class IcsController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        $calendar = new ICS\Calendar('Ilios Calendar for ' . $user->getFirstAndLastName());
-        $calendar->setPublishedTTL('P1H');
-
-        $from = new \DateTime(self::LOOK_BACK);
-        $to =  new \DateTime(self::LOOK_FORWARD);
+        $vCalendar = new Calendar();
+        $vCalendar->setProductIdentifier('Ilios Calendar for ' . $user->getFirstAndLastName());
+        $from = new DateTime(self::LOOK_BACK);
+        $to =  new DateTime(self::LOOK_FORWARD);
 
         $events = $this->userRepository->findEventsForUser($user->getId(), $from, $to);
 
@@ -94,27 +91,36 @@ class IcsController extends AbstractController
 
         /* @var UserEvent $event */
         foreach ($publishedEvents as $event) {
-            $vEvent = new ICS\Event();
-            $vEvent->setDtStart($event->startDate);
-            $vEvent->setDtEnd($event->endDate);
+            $vEvent = new Event();
+            $vEvent->setOccurrence(
+                new TimeSpan(
+                    new CalendarDateTime($event->startDate, false),
+                    new CalendarDateTime($event->endDate, false)
+                )
+            );
             $vEvent->setSummary($event->name);
-            $vEvent->setLocation($event->location);
+            $vEvent->setLocation(new Location($event->location));
             $vEvent->setDescription($this->getDescriptionForEvent($event));
-            $calendar->addComponent($vEvent);
+            $vCalendar->addEvent($vEvent);
         }
 
         foreach ($scheduledEvents as $event) {
-            $vEvent = new ICS\Event();
-            $vEvent
-                ->setDtStart($event->startDate)
-                ->setDtEnd($event->endDate)
-                ->setSummary('Scheduled')
-            ;
-            $calendar->addComponent($vEvent);
+            $vEvent = new Event();
+            $vEvent->setOccurrence(
+                new TimeSpan(
+                    new CalendarDateTime($event->startDate, false),
+                    new CalendarDateTime($event->endDate, false)
+                )
+            );
+            $vEvent->setSummary('Scheduled');
+            $vCalendar->addEvent($vEvent);
         }
 
+
+        $componentFactory = new CalendarFactory();
+        $calendarComponent = $componentFactory->createCalendar($vCalendar);
         $response = new Response();
-        $response->setContent($calendar->render());
+        $response->setContent((string) $calendarComponent);
         $response->setCharset('utf-8');
         $response->headers->set('Content-Type', 'text/calendar');
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $key . '.ics"');
@@ -141,7 +147,7 @@ class IcsController extends AbstractController
             $session = $ilmSession->getSession();
             $slug .= 'I' . $event->ilmSession;
         } else {
-            throw new \Exception("Event was neither an offering nor an ILM. This isn't a valid state");
+            throw new Exception("Event was neither an offering nor an ILM. This isn't a valid state");
         }
         $link = $this->router->generate(
             'ilios_index',
