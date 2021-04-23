@@ -120,6 +120,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     {
         unset($expected['passwordHash']);
         unset($expected['password']);
+        unset($expected['invalidateTokenIssuedBefore']);
         $this->assertEquals(
             $expected,
             $result
@@ -226,6 +227,37 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $data = $dataLoader->createJsonApi($arr);
 
         $this->postJsonApiTest($data, $arr);
+    }
+
+    public function test3396PutAuthenticationWithInvalidation()
+    {
+        $dataLoader = $this->getDataLoader();
+        $allData = $dataLoader->getAll();
+        $this->assertArrayHasKey(2, $allData);
+        $data = $allData[2];
+        $this->assertArrayHasKey('invalidateTokenIssuedBefore', $data);
+
+        unset($data['passwordHash']);
+        unset($data['invalidateTokenIssuedBefore']);
+        $data['username'] = 'changed';
+
+        $this->putTest($data, $data, $data['user']);
+    }
+
+    public function test3396PatchAuthenticationWithInvalidation()
+    {
+        $dataLoader = $this->getDataLoader();
+        $allData = $dataLoader->getAll();
+        $this->assertArrayHasKey(2, $allData);
+        $data = $allData[2];
+        $this->assertArrayHasKey('invalidateTokenIssuedBefore', $data);
+
+        unset($data['passwordHash']);
+        unset($data['invalidateTokenIssuedBefore']);
+        $data['username'] = 'changed';
+
+        $jsonApiData = $dataLoader->createJsonApi($data);
+        $this->patchJsonApiTest($data, $jsonApiData);
     }
 
     /**

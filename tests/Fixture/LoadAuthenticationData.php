@@ -34,6 +34,9 @@ class LoadAuthenticationData extends AbstractFixture implements
             $entity = new Authentication();
             $entity->setUsername($arr['username']);
             $entity->setPasswordHash($arr['passwordHash']);
+            if (array_key_exists('invalidateTokenIssuedBefore', $arr)) {
+                $entity->setInvalidateTokenIssuedBefore($arr['invalidateTokenIssuedBefore']);
+            }
             $entity->setUser($this->getReference('users' . $arr['user']));
 
             $manager->persist($entity);

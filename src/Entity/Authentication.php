@@ -11,6 +11,7 @@ use App\Classes\SessionUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
+use DateTimeInterface;
 
 /**
  * Class Authentication
@@ -69,7 +70,7 @@ class Authentication implements AuthenticationInterface
     /**
      * @ORM\Column(name="invalidate_token_issued_before", type="datetime", nullable=true)
      *
-     * @Assert\DateTime()
+     * @Assert\Type(DateTimeInterface::class)
      *
      * @IS\Expose
      * @IS\ReadOnly
