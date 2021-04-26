@@ -36,7 +36,7 @@ jobs:
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ZORGBORT_TOKEN }}
           title: ${{ steps.vars.outputs.pr_title }}
           body: ${{ steps.vars.outputs.pr_body }}
           commit-message: ${{ steps.vars.outputs.commit_message }}
