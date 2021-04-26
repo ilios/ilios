@@ -105,7 +105,7 @@ class IcsControllerTest extends WebTestCase
             $content
         );
         $matches = [];
-        preg_match('/DESCRIPTION:(.+?)DTSTAMP/s', $content, $matches);
+        preg_match('/DESCRIPTION:(.+?)DTSTART/s', $content, $matches);
         $this->assertEquals(2, count($matches), 'Found description in response');
         $firstDescription = preg_replace('/\s+/', '', $matches[1]);
 
@@ -188,7 +188,7 @@ class IcsControllerTest extends WebTestCase
             $content
         );
         $matches = [];
-        preg_match('/DESCRIPTION:(.+?)DTSTAMP/s', $content, $matches);
+        preg_match('/DESCRIPTION:(.+?)DTSTART/s', $content, $matches);
         $this->assertEquals(2, count($matches), 'Found description in response');
         $firstDescription = preg_replace('/\s+/', '', $matches[1]);
 
@@ -249,7 +249,7 @@ class IcsControllerTest extends WebTestCase
             $content
         );
         $matches = [];
-        preg_match('/DESCRIPTION:(.+?)DTSTAMP/s', $content, $matches);
+        preg_match('/DESCRIPTION:(.+?)DTSTART/s', $content, $matches);
         $this->assertEquals(2, count($matches), 'Found description in response');
         $firstDescription = preg_replace('/\s+/', '', $matches[1]);
 
