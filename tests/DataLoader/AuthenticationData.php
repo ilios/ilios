@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\AuthenticationDTO;
+use DateTime;
 
 class AuthenticationData extends AbstractDataLoader
 {
@@ -23,13 +24,20 @@ class AuthenticationData extends AbstractDataLoader
             'username' => 'newuser',
             'passwordHash' => 'newuserpass'
         ];
+
+        $arr[] = [
+            'user' => 3,
+            'username' => 'secureuser',
+            'passwordHash' => 'pass',
+            'invalidateTokenIssuedBefore' => new DateTime(),
+        ];
         return $arr;
     }
 
     public function create()
     {
         return [
-            'user' => 3,
+            'user' => 4,
             'username' => 'createduser',
             'password' => 'newpass'
         ];
