@@ -2058,21 +2058,22 @@
         },
         {
             "name": "eluceo/ical",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markuspoerschke/iCal.git",
-                "reference": "1d202b900f9c82ed664835ed13db5f39f62ce98e"
+                "reference": "12ace1ca2a88911f5c74dbde7e75eb8e1676da6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/1d202b900f9c82ed664835ed13db5f39f62ce98e",
-                "reference": "1d202b900f9c82ed664835ed13db5f39f62ce98e",
+                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/12ace1ca2a88911f5c74dbde7e75eb8e1676da6c",
+                "reference": "12ace1ca2a88911f5c74dbde7e75eb8e1676da6c",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=7.4 || ~8.0.0"
+                "php": ">=7.4 || ~8.0.0",
+                "symfony/deprecation-contracts": "^2.1"
             },
             "conflict": {
                 "php": "7.4.6"
@@ -2115,7 +2116,7 @@
                 "issues": "https://github.com/markuspoerschke/iCal/issues",
                 "source": "https://github.com/markuspoerschke/iCal"
             },
-            "time": "2021-03-29T21:15:42+00:00"
+            "time": "2021-04-22T06:27:37+00:00"
         },
         {
             "name": "exercise/htmlpurifier-bundle",
