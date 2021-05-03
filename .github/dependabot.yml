@@ -9,13 +9,6 @@ updates:
   open-pull-requests-limit: 10
   ignore:
   - dependency-name: symfony/*
-    versions:
-    - ">= 0"
-  - dependency-name: phpstan/phpstan
-    versions:
-    - 0.12.78
-    - 0.12.81
-    - 0.12.83
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
