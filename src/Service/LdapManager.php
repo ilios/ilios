@@ -55,14 +55,15 @@ class LdapManager
                 $rhett[] = $values;
             }
             usort($rhett, function (array $arr1, array $arr2) {
-                if ($arr1['lastName'] == $arr2['lastName']) {
-                    if ($arr1['firstName'] == $arr2['firstName']) {
-                        return 0;
-                    }
-                    return strcmp($arr1['firstName'], $arr2['firstName']);
+                $firstName1 = $arr1['firstName'] ?? '';
+                $lastName1 = $arr1['lastName'] ?? '';
+                $firstName2 = $arr2['firstName'] ?? '';
+                $lastName2 = $arr2['lastName'] ?? '';
+                if ($lastName1 === $lastName2) {
+                    return strcmp($firstName1, $firstName2);
                 }
 
-                return strcmp($arr1['lastName'], $arr2['lastName']);
+                return strcmp($lastName1, $lastName2);
             });
         } catch (Exception $e) {
             throw new Exception("Failed to search external user source: {$e->getMessage()}");
