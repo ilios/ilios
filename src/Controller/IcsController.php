@@ -99,7 +99,9 @@ class IcsController extends AbstractController
                 )
             );
             $vEvent->setSummary($event->name);
-            $vEvent->setLocation(new Location($event->location));
+            if ($event->location) {
+                $vEvent->setLocation(new Location($event->location));
+            }
             $vEvent->setDescription($this->getDescriptionForEvent($event));
             $vCalendar->addEvent($vEvent);
         }
