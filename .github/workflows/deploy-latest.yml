@@ -23,7 +23,7 @@ jobs:
           - mysql-demo
           - elasticsearch
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.3.4
     - name: ${{ matrix.image }} to Github Registry
       uses: docker/build-push-action@v1
       with:
@@ -51,7 +51,7 @@ jobs:
           - mysql-demo
           - elasticsearch
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.3.4
     - name: ${{ matrix.image }} to Docker Registry
       uses: docker/build-push-action@v1
       with:
