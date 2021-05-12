@@ -18,7 +18,7 @@
     "doctrine/doctrine-fixtures-bundle": "^3.0",
     "doctrine/inflector": "^2.0",
     "elasticsearch/elasticsearch": "^7.0",
-    "eluceo/ical": "^2.0.0",
+    "eluceo/ical": "^0.16.1",
     "exercise/htmlpurifier-bundle": "^3.0",
     "firebase/php-jwt": "@stable",
     "ilios/mesh-parser": "^2.0",
