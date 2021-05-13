@@ -103,7 +103,6 @@
   },
   "scripts": {
     "auto-scripts": {
-      "requirements-checker": "script"
     },
     "ilios-scripts": [
       "App\\Composer\\MigrateParameters::migrate",
