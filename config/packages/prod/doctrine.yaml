@@ -1,7 +1,7 @@
 doctrine:
     dbal:
         url: '%env(resolve:ILIOS_DATABASE_URL)%'
-        driver:   'pdo_mysql'
+        driver: pdo_mysql
     orm:
         auto_generate_proxy_classes: false
         metadata_cache_driver:
