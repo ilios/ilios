@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Tests\DataLoader\SchoolData;
+use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
+use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -21,8 +23,8 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
-            'App\Tests\Fixture\LoadSchoolData',
+            LoadCurriculumInventoryInstitutionData::class,
+            LoadSchoolData::class,
         ];
     }
 

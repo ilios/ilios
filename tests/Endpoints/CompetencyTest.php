@@ -4,6 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadAamcPcrsData;
+use App\Tests\Fixture\LoadSchoolData;
+use App\Tests\Fixture\LoadSessionTypeData;
+use App\Tests\Fixture\LoadTermData;
+use App\Tests\Fixture\LoadCompetencyData;
+use App\Tests\Fixture\LoadCourseData;
+use App\Tests\Fixture\LoadCourseObjectiveData;
+use App\Tests\Fixture\LoadProgramYearData;
+use App\Tests\Fixture\LoadProgramYearObjectiveData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -20,17 +31,17 @@ class CompetencyTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadSchoolData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadCompetencyData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadSessionTypeData',
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadAamcPcrsData',
-            'App\Tests\Fixture\LoadProgramYearData',
-            'App\Tests\Fixture\LoadSessionObjectiveData',
-            'App\Tests\Fixture\LoadCourseObjectiveData',
-            'App\Tests\Fixture\LoadProgramYearObjectiveData',
+            LoadSchoolData::class,
+            LoadTermData::class,
+            LoadCompetencyData::class,
+            LoadSessionData::class,
+            LoadSessionTypeData::class,
+            LoadCourseData::class,
+            LoadAamcPcrsData::class,
+            LoadProgramYearData::class,
+            LoadSessionObjectiveData::class,
+            LoadCourseObjectiveData::class,
+            LoadProgramYearObjectiveData::class,
         ];
     }
 

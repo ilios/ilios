@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadUserData;
+use App\Tests\Fixture\LoadUserRoleData;
 use App\Tests\ReadEndpointTest;
 
 /**
@@ -20,8 +22,8 @@ class UserRoleTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadUserRoleData',
-            'App\Tests\Fixture\LoadUserData'
+            LoadUserRoleData::class,
+            LoadUserData::class
         ];
     }
 

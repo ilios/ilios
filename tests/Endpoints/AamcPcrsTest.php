@@ -6,6 +6,8 @@ namespace App\Tests\Endpoints;
 
 use App\Classes\Inflector;
 use App\Service\InflectorFactory;
+use App\Tests\Fixture\LoadAamcPcrsData;
+use App\Tests\Fixture\LoadCompetencyData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -22,8 +24,8 @@ class AamcPcrsTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadAamcPcrsData',
-            'App\Tests\Fixture\LoadCompetencyData'
+            LoadAamcPcrsData::class,
+            LoadCompetencyData::class
         ];
     }
 

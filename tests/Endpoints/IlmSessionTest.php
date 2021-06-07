@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Tests\DataLoader\SessionData;
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadSessionData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -21,8 +23,8 @@ class IlmSessionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadSessionData'
+            LoadIlmSessionData::class,
+            LoadSessionData::class
         ];
     }
 

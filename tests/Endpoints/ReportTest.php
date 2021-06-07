@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadReportData;
+use App\Tests\Fixture\LoadUserData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -21,8 +23,8 @@ class ReportTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadReportData',
-            'App\Tests\Fixture\LoadUserData'
+            LoadReportData::class,
+            LoadUserData::class
         ];
     }
 

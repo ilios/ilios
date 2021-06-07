@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCohortData;
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadLearnerGroupData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadTermData;
+use App\Tests\Fixture\LoadUserData;
+use App\Tests\Fixture\LoadVocabularyData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -20,13 +27,13 @@ class LearnerGroupTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadLearnerGroupData',
-            'App\Tests\Fixture\LoadCohortData',
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadVocabularyData',
-            'App\Tests\Fixture\LoadTermData',
+            LoadLearnerGroupData::class,
+            LoadCohortData::class,
+            LoadIlmSessionData::class,
+            LoadOfferingData::class,
+            LoadUserData::class,
+            LoadVocabularyData::class,
+            LoadTermData::class,
         ];
     }
 

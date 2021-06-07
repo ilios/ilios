@@ -4,6 +4,20 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCourseData;
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadCourseObjectiveData;
+use App\Tests\Fixture\LoadMeshConceptData;
+use App\Tests\Fixture\LoadMeshDescriptorData;
+use App\Tests\Fixture\LoadMeshPreviousIndexingData;
+use App\Tests\Fixture\LoadMeshQualifierData;
+use App\Tests\Fixture\LoadMeshTermData;
+use App\Tests\Fixture\LoadMeshTreeData;
+use App\Tests\Fixture\LoadProgramYearObjectiveData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadSessionObjectiveData;
+
 /**
  * MeshDescriptor API endpoint Test.
  * @group api_3
@@ -19,19 +33,19 @@ class MeshDescriptorTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadMeshDescriptorData',
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadMeshConceptData',
-            'App\Tests\Fixture\LoadMeshTreeData',
-            'App\Tests\Fixture\LoadMeshPreviousIndexingData',
-            'App\Tests\Fixture\LoadMeshQualifierData',
-            'App\Tests\Fixture\LoadMeshTermData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadCourseLearningMaterialData',
-            'App\Tests\Fixture\LoadCourseObjectiveData',
-            'App\Tests\Fixture\LoadSessionObjectiveData',
-            'App\Tests\Fixture\LoadProgramYearObjectiveData',
+            LoadMeshDescriptorData::class,
+            LoadCourseData::class,
+            LoadSessionData::class,
+            LoadMeshConceptData::class,
+            LoadMeshTreeData::class,
+            LoadMeshPreviousIndexingData::class,
+            LoadMeshQualifierData::class,
+            LoadMeshTermData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadCourseLearningMaterialData::class,
+            LoadCourseObjectiveData::class,
+            LoadSessionObjectiveData::class,
+            LoadProgramYearObjectiveData::class,
         ];
     }
 

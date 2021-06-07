@@ -4,6 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCohortData;
+use App\Tests\Fixture\LoadCompetencyData;
+use App\Tests\Fixture\LoadCourseData;
+use App\Tests\Fixture\LoadCourseObjectiveData;
+use App\Tests\Fixture\LoadProgramData;
+use App\Tests\Fixture\LoadProgramYearData;
+use App\Tests\Fixture\LoadProgramYearObjectiveData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionObjectiveData;
+use App\Tests\Fixture\LoadTermData;
+use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\ReadWriteEndpointTest;
 
@@ -21,17 +32,17 @@ class ProgramYearTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadProgramYearData',
-            'App\Tests\Fixture\LoadProgramData',
-            'App\Tests\Fixture\LoadCohortData',
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadCompetencyData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadProgramYearObjectiveData',
-            'App\Tests\Fixture\LoadCourseObjectiveData',
-            'App\Tests\Fixture\LoadSessionObjectiveData',
+            LoadProgramYearData::class,
+            LoadProgramData::class,
+            LoadCohortData::class,
+            LoadUserData::class,
+            LoadCompetencyData::class,
+            LoadTermData::class,
+            LoadSessionData::class,
+            LoadCourseData::class,
+            LoadProgramYearObjectiveData::class,
+            LoadCourseObjectiveData::class,
+            LoadSessionObjectiveData::class,
         ];
     }
 

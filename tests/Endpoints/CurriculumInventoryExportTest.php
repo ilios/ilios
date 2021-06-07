@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Entity\DTO\CurriculumInventoryExportDTO;
+use App\Tests\Fixture\LoadApplicationConfigData;
+use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
+use App\Tests\Fixture\LoadCurriculumInventoryExportData;
+use App\Tests\Fixture\LoadCurriculumInventoryReportData;
+use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
+use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\AbstractEndpointTest;
 use DateTime;
@@ -24,12 +29,12 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadApplicationConfigData',
-            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'App\Tests\Fixture\LoadCurriculumInventoryExportData',
-            'App\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
-            'App\Tests\Fixture\LoadCurriculumInventorySequenceData',
+            LoadUserData::class,
+            LoadApplicationConfigData::class,
+            LoadCurriculumInventoryReportData::class,
+            LoadCurriculumInventoryExportData::class,
+            LoadCurriculumInventoryInstitutionData::class,
+            LoadCurriculumInventorySequenceData::class,
         ];
     }
 

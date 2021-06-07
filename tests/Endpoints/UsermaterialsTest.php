@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\AbstractEndpointTest;
 
@@ -19,11 +24,11 @@ class UsermaterialsTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadCourseLearningMaterialData'
+            LoadOfferingData::class,
+            LoadIlmSessionData::class,
+            LoadUserData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadCourseLearningMaterialData::class
         ];
     }
 

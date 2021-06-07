@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadAlertData;
+use App\Tests\Fixture\LoadCompetencyData;
+use App\Tests\Fixture\LoadCourseData;
+use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
+use App\Tests\Fixture\LoadInstructorGroupData;
+use App\Tests\Fixture\LoadReportData;
+use App\Tests\Fixture\LoadSchoolConfigData;
+use App\Tests\Fixture\LoadSchoolData;
+use App\Tests\Fixture\LoadSessionTypeData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -20,15 +29,15 @@ class SchoolTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadSchoolData',
-            'App\Tests\Fixture\LoadSchoolConfigData',
-            'App\Tests\Fixture\LoadAlertData',
-            'App\Tests\Fixture\LoadCompetencyData',
-            'App\Tests\Fixture\LoadSessionTypeData',
-            'App\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadReportData',
-            'App\Tests\Fixture\LoadInstructorGroupData',
+            LoadSchoolData::class,
+            LoadSchoolConfigData::class,
+            LoadAlertData::class,
+            LoadCompetencyData::class,
+            LoadSessionTypeData::class,
+            LoadCurriculumInventoryInstitutionData::class,
+            LoadCourseData::class,
+            LoadReportData::class,
+            LoadInstructorGroupData::class,
         ];
     }
 

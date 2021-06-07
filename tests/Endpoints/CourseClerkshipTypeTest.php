@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCourseClerkshipTypeData;
+use App\Tests\Fixture\LoadCourseData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -20,8 +22,8 @@ class CourseClerkshipTypeTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadCourseClerkshipTypeData',
-            'App\Tests\Fixture\LoadCourseData'
+            LoadCourseClerkshipTypeData::class,
+            LoadCourseData::class
         ];
     }
 

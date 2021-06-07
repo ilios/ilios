@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadMeshConceptData;
+use App\Tests\Fixture\LoadMeshTermData;
+
 /**
  * MeshTerm API endpoint Test.
  * @group api_3
@@ -19,8 +22,8 @@ class MeshTermTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadMeshTermData',
-            'App\Tests\Fixture\LoadMeshConceptData',
+            LoadMeshTermData::class,
+            LoadMeshConceptData::class,
         ];
     }
 

@@ -4,6 +4,21 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCohortData;
+use App\Tests\Fixture\LoadCourseClerkshipTypeData;
+use App\Tests\Fixture\LoadCourseData;
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadCourseObjectiveData;
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadProgramYearData;
+use App\Tests\Fixture\LoadProgramYearObjectiveData;
+use App\Tests\Fixture\LoadSchoolData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadSessionObjectiveData;
+use App\Tests\Fixture\LoadTermData;
+use App\Tests\Fixture\LoadUserData;
 use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\IlmSessionData;
@@ -25,21 +40,21 @@ class CourseTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadCourseClerkshipTypeData',
-            'App\Tests\Fixture\LoadSchoolData',
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadCohortData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadCourseLearningMaterialData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadProgramYearData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadProgramYearObjectiveData',
-            'App\Tests\Fixture\LoadCourseObjectiveData',
-            'App\Tests\Fixture\LoadSessionObjectiveData',
+            LoadCourseData::class,
+            LoadCourseClerkshipTypeData::class,
+            LoadSchoolData::class,
+            LoadUserData::class,
+            LoadCohortData::class,
+            LoadTermData::class,
+            LoadCourseLearningMaterialData::class,
+            LoadSessionData::class,
+            LoadOfferingData::class,
+            LoadProgramYearData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadIlmSessionData::class,
+            LoadProgramYearObjectiveData::class,
+            LoadCourseObjectiveData::class,
+            LoadSessionObjectiveData::class,
         ];
     }
 

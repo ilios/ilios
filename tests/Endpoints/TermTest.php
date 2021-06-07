@@ -4,6 +4,22 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadAamcResourceTypeData;
+use App\Tests\Fixture\LoadCourseData;
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadCourseObjectiveData;
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadLearningMaterialData;
+use App\Tests\Fixture\LoadMeshDescriptorData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadProgramYearData;
+use App\Tests\Fixture\LoadProgramYearObjectiveData;
+use App\Tests\Fixture\LoadSchoolData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadSessionObjectiveData;
+use App\Tests\Fixture\LoadTermData;
+use App\Tests\Fixture\LoadVocabularyData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -20,22 +36,22 @@ class TermTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadAamcResourceTypeData',
-            'App\Tests\Fixture\LoadVocabularyData',
-            'App\Tests\Fixture\LoadSchoolData',
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadProgramYearData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadLearningMaterialData',
-            'App\Tests\Fixture\LoadCourseLearningMaterialData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadMeshDescriptorData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadSessionObjectiveData',
-            'App\Tests\Fixture\LoadCourseObjectiveData',
-            'App\Tests\Fixture\LoadProgramYearObjectiveData',
+            LoadAamcResourceTypeData::class,
+            LoadVocabularyData::class,
+            LoadSchoolData::class,
+            LoadCourseData::class,
+            LoadProgramYearData::class,
+            LoadSessionData::class,
+            LoadOfferingData::class,
+            LoadIlmSessionData::class,
+            LoadLearningMaterialData::class,
+            LoadCourseLearningMaterialData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadMeshDescriptorData::class,
+            LoadTermData::class,
+            LoadSessionObjectiveData::class,
+            LoadCourseObjectiveData::class,
+            LoadProgramYearObjectiveData::class,
         ];
     }
 

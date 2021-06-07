@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCourseData;
+use App\Tests\Fixture\LoadCurriculumInventoryReportData;
+use App\Tests\Fixture\LoadProgramData;
+use App\Tests\Fixture\LoadProgramYearData;
+use App\Tests\Fixture\LoadSchoolData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadTermData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -20,13 +27,13 @@ class ProgramTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadProgramData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadSchoolData',
-            'App\Tests\Fixture\LoadProgramYearData',
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadCurriculumInventoryReportData'
+            LoadProgramData::class,
+            LoadTermData::class,
+            LoadSchoolData::class,
+            LoadProgramYearData::class,
+            LoadCourseData::class,
+            LoadSessionData::class,
+            LoadCurriculumInventoryReportData::class
         ];
     }
 

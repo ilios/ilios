@@ -7,6 +7,15 @@ namespace App\Tests\Endpoints;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\DataLoader\SessionLearningMaterialData;
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadCourseObjectiveData;
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadLearningMaterialStatusData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadSessionObjectiveData;
+use App\Tests\Fixture\LoadTermData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -25,16 +34,16 @@ class SessionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadCourseLearningMaterialData',
-            'App\Tests\Fixture\LoadLearningMaterialStatusData',
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadSessionObjectiveData',
-            'App\Tests\Fixture\LoadCourseObjectiveData',
+            LoadSessionData::class,
+            LoadTermData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadOfferingData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadCourseLearningMaterialData::class,
+            LoadLearningMaterialStatusData::class,
+            LoadIlmSessionData::class,
+            LoadSessionObjectiveData::class,
+            LoadCourseObjectiveData::class,
         ];
     }
 
