@@ -6,15 +6,18 @@ namespace App\Tests;
 
 use App\Service\InflectorFactory;
 use App\Service\Timestamper;
+use App\Tests\Fixture\LoadAuthenticationData;
 use DateTime;
-use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\Inflector\Inflector;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use App\Tests\DataLoader\DataLoaderInterface;
 use App\Tests\Traits\JsonControllerTest;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
@@ -25,36 +28,15 @@ use Faker\Generator as FakerGenerator;
 abstract class AbstractEndpointTest extends WebTestCase
 {
     use JsonControllerTest;
-    use FixturesTrait;
     use GetUrlTrait;
 
-    protected $apiVersion = 'v3';
-
-    /**
-     * @var string|null the name of this endpoint (plural)
-     */
-    protected $testName = null;
-
-    /**
-     * @var KernelBrowser
-     */
-    protected $kernelBrowser;
-
-    /**
-     * @var ProxyReferenceRepository
-     */
-    protected $fixtures;
-
-    /**
-     * @var FakerGenerator
-     */
-    protected $faker;
-
-    /**
-     * @var Inflector
-     */
-    private $inflector;
-
+    protected string $apiVersion = 'v3';
+    protected string $testName;
+    protected KernelBrowser $kernelBrowser;
+    protected AbstractDatabaseTool $databaseTool;
+    private FakerGenerator $faker;
+    private Inflector $inflector;
+    protected ReferenceRepository $fixtures;
 
     public function setUp(): void
     {
@@ -63,11 +45,14 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->kernelBrowser->followRedirects();
 
         $authFixtures = [
-            'App\Tests\Fixture\LoadAuthenticationData',
+            LoadAuthenticationData::class,
         ];
         $testFixtures = $this->getFixtures();
         $fixtures = array_merge($authFixtures, $testFixtures);
-        $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
+        $this->databaseTool = $this->getContainer()->get(DatabaseToolCollection::class)->get();
+        $executor = $this->databaseTool->loadFixtures($fixtures);
+        $this->fixtures = $executor->getReferenceRepository();
+
         ClockMock::register(Timestamper::class);
         $this->inflector = InflectorFactory::create();
     }
@@ -86,6 +71,11 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function getFixtures()
     {
         return [];
+    }
+
+    protected function getContainer(): ContainerInterface
+    {
+        return $this->kernelBrowser->getContainer();
     }
 
     /**
@@ -127,7 +117,7 @@ abstract class AbstractEndpointTest extends WebTestCase
      */
     protected function getFaker()
     {
-        if (!$this->faker) {
+        if (!isset($this->faker)) {
             $this->faker = FakerFactory::create();
             $this->faker->seed(17105);
         }
