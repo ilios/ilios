@@ -12,7 +12,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class AamcResourceTypeTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'aamcResourceTypes';
+    protected string $testName =  'aamcResourceTypes';
 
     /**
      * @inheritdoc

@@ -14,7 +14,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class AamcPcrsTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'aamcPcrses';
+    protected string $testName =  'aamcPcrses';
 
     /**
      * @inheritdoc

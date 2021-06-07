@@ -16,7 +16,7 @@ use DateTime;
  */
 class CurriculumInventoryExportTest extends AbstractEndpointTest
 {
-    protected $testName =  'curriculumInventoryExports';
+    protected string $testName =  'curriculumInventoryExports';
 
     /**
      * @inheritdoc

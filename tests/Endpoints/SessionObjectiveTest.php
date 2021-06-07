@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SessionObjectiveTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'sessionObjectives';
+    protected string $testName =  'sessionObjectives';
 
     /**
      * @inheritdoc

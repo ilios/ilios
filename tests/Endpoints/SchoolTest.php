@@ -12,7 +12,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class SchoolTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'schools';
+    protected string $testName =  'schools';
 
     /**
      * @inheritdoc

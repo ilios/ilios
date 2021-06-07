@@ -13,7 +13,7 @@ use App\Tests\ReadEndpointTest;
  */
 class IngestionExceptionTest extends ReadEndpointTest
 {
-    protected $testName =  'ingestionExceptions';
+    protected string $testName =  'ingestionExceptions';
 
     /**
      * @inheritdoc

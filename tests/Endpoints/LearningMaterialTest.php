@@ -36,7 +36,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         'courseLearningMaterials',
         'copyrightPermission'
     ];
-    protected $testName =  'learningMaterials';
+    protected string $testName =  'learningMaterials';
 
     /**
      * @inheritdoc

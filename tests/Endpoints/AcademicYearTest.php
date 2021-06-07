@@ -14,7 +14,7 @@ use App\Tests\ReadEndpointTest;
  */
 class AcademicYearTest extends ReadEndpointTest
 {
-    protected $testName = 'academicYears';
+    protected string $testName = 'academicYears';
 
     /**
      * @inheritdoc

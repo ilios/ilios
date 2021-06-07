@@ -14,7 +14,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class SessionTypeTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'sessionTypes';
+    protected string $testName =  'sessionTypes';
 
     /**
      * @inheritdoc

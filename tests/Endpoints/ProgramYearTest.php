@@ -13,7 +13,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class ProgramYearTest extends ReadWriteEndpointTest
 {
-    protected $testName = 'programYears';
+    protected string $testName = 'programYears';
 
     /**
      * @inheritdoc

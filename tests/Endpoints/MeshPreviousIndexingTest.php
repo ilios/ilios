@@ -10,7 +10,7 @@ namespace App\Tests\Endpoints;
  */
 class MeshPreviousIndexingTest extends AbstractMeshTest
 {
-    protected $testName =  'meshPreviousIndexings';
+    protected string $testName =  'meshPreviousIndexings';
 
     /**
      * @inheritdoc

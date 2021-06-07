@@ -12,7 +12,7 @@ use App\Tests\ReadEndpointTest;
  */
 class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
 {
-    protected $testName =  'curriculumInventoryAcademicLevels';
+    protected string $testName =  'curriculumInventoryAcademicLevels';
 
     /**
      * @inheritdoc

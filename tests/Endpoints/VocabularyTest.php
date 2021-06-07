@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class VocabularyTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'vocabularies';
+    protected string $testName =  'vocabularies';
 
     /**
      * @inheritdoc

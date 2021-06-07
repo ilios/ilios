@@ -18,7 +18,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
 {
     use PutEndpointTestable;
 
-    protected $testName =  'cohorts';
+    protected string $testName =  'cohorts';
 
     /**
      * @inheritdoc

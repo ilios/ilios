@@ -17,7 +17,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class OfferingTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'offerings';
+    protected string $testName =  'offerings';
     protected $skipDates = false;
 
     /**

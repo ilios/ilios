@@ -12,7 +12,7 @@ use App\Tests\ReadEndpointTest;
  */
 class LearningMaterialUserRoleTest extends ReadEndpointTest
 {
-    protected $testName =  'learningMaterialUserRoles';
+    protected string $testName =  'learningMaterialUserRoles';
 
     /**
      * @inheritdoc

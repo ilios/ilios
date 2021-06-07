@@ -10,7 +10,7 @@ namespace App\Tests\Endpoints;
  */
 class MeshTreeTest extends AbstractMeshTest
 {
-    protected $testName =  'meshTrees';
+    protected string $testName =  'meshTrees';
 
     /**
      * @inheritdoc

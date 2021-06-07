@@ -11,7 +11,7 @@ namespace App\Tests\Endpoints;
  */
 class MeshTermTest extends AbstractMeshTest
 {
-    protected $testName =  'meshTerms';
+    protected string $testName =  'meshTerms';
 
     /**
      * @inheritdoc

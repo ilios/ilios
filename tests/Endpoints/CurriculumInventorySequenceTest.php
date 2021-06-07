@@ -13,7 +13,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'curriculumInventorySequences';
+    protected string $testName =  'curriculumInventorySequences';
 
     /**
      * @inheritdoc

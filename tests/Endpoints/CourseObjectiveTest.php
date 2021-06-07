@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CourseObjectiveTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'courseObjectives';
+    protected string $testName =  'courseObjectives';
 
     /**
      * @inheritdoc

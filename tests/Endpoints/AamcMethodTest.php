@@ -12,7 +12,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class AamcMethodTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'aamcMethods';
+    protected string $testName =  'aamcMethods';
 
     /**
      * @inheritdoc

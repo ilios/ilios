@@ -14,7 +14,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class AuthenticationTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'authentications';
+    protected string $testName =  'authentications';
 
     /**
      * @inheritdoc

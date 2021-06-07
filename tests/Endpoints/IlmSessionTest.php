@@ -13,7 +13,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class IlmSessionTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'ilmSessions';
+    protected string $testName =  'ilmSessions';
 
     /**
      * @inheritdoc
