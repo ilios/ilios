@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Tests\DataLoader\IlmSessionData;
+use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\GetUrlTrait;
 use DateTime;
-use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,40 +26,32 @@ use App\Tests\Traits\JsonControllerTest;
 class IcsControllerTest extends WebTestCase
 {
     use JsonControllerTest;
-    use FixturesTrait;
     use GetUrlTrait;
 
-    protected $apiVersion = 'v3';
-
-    /**
-     * @var ProxyReferenceRepository
-     */
-    protected $fixtures;
-
-    /**
-     * @var KernelBrowser
-     */
-    protected $kernelBrowser;
+    protected string $apiVersion = 'v3';
+    protected KernelBrowser $kernelBrowser;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();
-        $this->fixtures = $this->loadFixtures([
-            'App\Tests\Fixture\LoadAuthenticationData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadSessionObjectiveData',
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadCourseLearningMaterialData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-        ])->getReferenceRepository();
+        $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
+        $databaseTool->loadFixtures([
+            LoadAuthenticationData::class,
+            LoadSessionData::class,
+            LoadSessionObjectiveData::class,
+            LoadOfferingData::class,
+            LoadCourseLearningMaterialData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadAuthenticationData::class,
+            LoadAuthenticationData::class,
+        ]);
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
         unset($this->kernelBrowser);
-        unset($this->fixtures);
     }
 
     public function testSessionAttributesShowUp()

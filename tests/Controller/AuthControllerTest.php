@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use App\Entity\User;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\GetUrlTrait;
 use Firebase\JWT\JWT;
 use DateTime;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,20 +18,11 @@ use App\Service\JsonWebTokenManager;
 class AuthControllerTest extends WebTestCase
 {
     use JsonControllerTest;
-    use FixturesTrait;
     use GetUrlTrait;
 
-    protected $apiVersion = 'v3';
-
-    /**
-     * @var string
-     */
-    protected $jwtKey;
-
-    /**
-     * @var KernelBrowser
-     */
-    protected $kernelBrowser;
+    protected string $apiVersion = 'v3';
+    protected string $jwtKey;
+    protected KernelBrowser $kernelBrowser;
 
     /**
      * @inheritdoc
@@ -41,11 +31,12 @@ class AuthControllerTest extends WebTestCase
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();
-        $this->loadFixtures([
+        $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
+        $databaseTool->loadFixtures([
             LoadAuthenticationData::class
         ]);
-
-        $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $this->getContainer()->getParameter('kernel.secret');
+        $secret = $this->kernelBrowser->getContainer()->getParameter('kernel.secret');
+        $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $secret;
     }
 
     public function tearDown(): void

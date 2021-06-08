@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Tests\Fixture\LoadAuthenticationData;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,18 +15,15 @@ use Faker\Factory as FakerFactory;
 class ErrorControllerTest extends WebTestCase
 {
     use JsonControllerTest;
-    use FixturesTrait;
 
-    /**
-     * @var KernelBrowser
-     */
-    protected $kernelBrowser;
+    protected KernelBrowser $kernelBrowser;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();
-        $this->loadFixtures([
+        $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
+        $databaseTool->loadFixtures([
             LoadAuthenticationData::class,
         ]);
     }
@@ -35,7 +32,6 @@ class ErrorControllerTest extends WebTestCase
     {
         parent::tearDown();
         unset($this->kernelBrowser);
-        unset($this->fixtures);
     }
 
     public function testIndex()
