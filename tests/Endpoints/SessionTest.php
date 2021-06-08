@@ -48,7 +48,7 @@ class SessionTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
+            'title' => ['title', $this->getFaker()->text()],
             'attireRequired' => ['attireRequired', true],
             'equipmentRequired' => ['equipmentRequired', true],
             'supplemental' => ['supplemental', true],
@@ -59,7 +59,7 @@ class SessionTest extends ReadWriteEndpointTest
             'nullAttendanceRequired' => ['attendanceRequired', null],
             'publishedAsTbd' => ['publishedAsTbd', true],
             'published' => ['published', false],
-            'instructionalNotes' => ['instructionalNotes', $this->getFaker()->text],
+            'instructionalNotes' => ['instructionalNotes', $this->getFaker()->text()],
             'emptyInstructionalNotes' => ['instructionalNotes', ''],
             'nullInstructionalNotes' => ['instructionalNotes', null],
             'sessionType' => ['sessionType', 2],
@@ -74,7 +74,7 @@ class SessionTest extends ReadWriteEndpointTest
             'postrequisite' => ['postrequisite', 2],
             'emptyPostrequisite' => ['postrequisite', null],
             'prerequisites' => ['prerequisites', [2]],
-            'description' => ['description', $this->getFaker()->text],
+            'description' => ['description', $this->getFaker()->text()],
             'blankDescription' => ['description', ''],
             'nullDescription' => ['description', null],
         ];

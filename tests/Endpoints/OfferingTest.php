@@ -49,9 +49,9 @@ class OfferingTest extends ReadWriteEndpointTest
     public function changeTypePutsToTest()
     {
         return [
-            'room' => ['room', $this->getFaker()->text, AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
-            'site' => ['site', $this->getFaker()->text, AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
-            'url' => ['url', $this->getFaker()->url, AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
+            'room' => ['room', $this->getFaker()->text(), AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
+            'site' => ['site', $this->getFaker()->text(), AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
+            'url' => ['url', $this->getFaker()->url(), AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
             'startDate' => ['startDate', '1980-12-31T21:12:32+00:00', AlertChangeTypeInterface::CHANGE_TYPE_TIME],
             'endDate' => ['endDate', '1981-05-06T21:12:32+00:00', AlertChangeTypeInterface::CHANGE_TYPE_TIME],
             'learnerGroups' => ['learnerGroups', [1], AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP],

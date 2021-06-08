@@ -56,7 +56,7 @@ class SessionTypeTest extends ReadWriteEndpointTest
             'school' => ['school', '2'],
             'aamcMethods' => ['aamcMethods', ['AM002']],
             'sessions' => ['sessions', ['1', '2' , '5', '6', '7', '8']],
-            'calendarColor' => ['calendarColor', $this->getFaker()->hexColor],
+            'calendarColor' => ['calendarColor', $this->getFaker()->hexColor()],
             'assessment' => ['assessment', true],
             'active' => ['active', true],
         ];

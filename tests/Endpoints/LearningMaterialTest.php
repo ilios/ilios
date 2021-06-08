@@ -60,7 +60,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     {
         return [
             'title' => ['title', $this->getFaker()->text(60)],
-            'description' => ['description', $this->getFaker()->text],
+            'description' => ['description', $this->getFaker()->text()],
             'nullDescription' => ['description', null],
             'originalAuthor' => ['originalAuthor', $this->getFaker()->text(80)],
             'userRole' => ['userRole', 2],
@@ -68,10 +68,10 @@ class LearningMaterialTest extends ReadWriteEndpointTest
             'owningUser' => ['owningUser', 2],
             'sessionLearningMaterials' => ['sessionLearningMaterials', [2], $skipped = true],
             'courseLearningMaterials' => ['courseLearningMaterials', [1], $skipped = true],
-            'citation' => ['citation', $this->getFaker()->text],
+            'citation' => ['citation', $this->getFaker()->text()],
             'copyrightPermission' => ['copyrightPermission', false],
-            'copyrightRationale' => ['copyrightRationale', $this->getFaker()->text],
-            'link' => ['link', $this->getFaker()->text, $skipped = true],
+            'copyrightRationale' => ['copyrightRationale', $this->getFaker()->text()],
+            'link' => ['link', $this->getFaker()->text(), $skipped = true],
         ];
     }
 
@@ -83,9 +83,9 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         return [
             'id' => ['id', 1, 99],
             'uploadDate' => ['uploadDate', 1, 99],
-            'fileName' => ['uploadDate', 1, $this->getFaker()->text],
-            'mimeType' => ['uploadDate', 1, $this->getFaker()->text],
-            'filesize' => ['uploadDate', 1, $this->getFaker()->randomDigitNotNull],
+            'fileName' => ['uploadDate', 1, $this->getFaker()->text()],
+            'mimeType' => ['uploadDate', 1, $this->getFaker()->text()],
+            'filesize' => ['uploadDate', 1, $this->getFaker()->randomDigitNotNull()],
         ];
     }
 

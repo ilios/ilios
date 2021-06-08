@@ -30,7 +30,7 @@ class ApplicationConfigTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
-            'value' => ['value', $this->getFaker()->text],
+            'value' => ['value', $this->getFaker()->text()],
             'name' => ['name', $this->getFaker()->text(100)],
         ];
     }

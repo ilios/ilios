@@ -38,15 +38,15 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
-            'name' => ['name', $this->getFaker()->text],
-            'description' => ['description', $this->getFaker()->text],
-            'year' => ['year', $this->getFaker()->randomDigit],
-            'startDate' => ['startDate', $this->getFaker()->iso8601, $skipped = true],
-            'endDate' => ['endDate', $this->getFaker()->iso8601, $skipped = true],
+            'name' => ['name', $this->getFaker()->text()],
+            'description' => ['description', $this->getFaker()->text()],
+            'year' => ['year', $this->getFaker()->randomDigit()],
+            'startDate' => ['startDate', $this->getFaker()->iso8601(), $skipped = true],
+            'endDate' => ['endDate', $this->getFaker()->iso8601(), $skipped = true],
             'export' => ['export', 2, $skipped = true],
             'sequence' => ['sequence', 1, $skipped = true],
             'sequenceBlocks' => ['sequenceBlocks', [1], $skipped = true],
-            'program' => ['program', $this->getFaker()->text, $skipped = true],
+            'program' => ['program', $this->getFaker()->text(), $skipped = true],
             'academicLevels' => ['academicLevels', [1], $skipped = true],
             'administrators' => ['administrators', [1]],
             'removeAdministrators' => ['administrators', []],

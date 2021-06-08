@@ -41,8 +41,8 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
-            'position' => ['position', $this->getFaker()->randomDigit],
+            'title' => ['title', $this->getFaker()->text()],
+            'position' => ['position', $this->getFaker()->randomDigit()],
             'notActive' => ['active', false],
             'session' => ['session', 2],
             'terms' => ['terms', [1, 4]],
