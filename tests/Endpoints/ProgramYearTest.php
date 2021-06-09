@@ -41,7 +41,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
-            'startYear' => ['startYear', $this->getFaker()->randomDigitNotNull],
+            'startYear' => ['startYear', $this->getFaker()->randomDigitNotNull()],
             'locked' => ['locked', true],
             'archived' => ['archived', true],
             'program' => ['program', 2],

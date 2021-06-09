@@ -22,7 +22,7 @@ class AuditLogData extends AbstractDataLoader
             'objectClass' => 'YesterdaysEvent',
             'action' => $this->faker->text(10),
             'valuesChanged' => $this->faker->text(10),
-            'objectId' => $this->faker->randomDigitNotNull,
+            'objectId' => $this->faker->randomDigitNotNull(),
         ];
 
         $arr[] = [
@@ -30,7 +30,7 @@ class AuditLogData extends AbstractDataLoader
             'objectClass' => 'LastYearsEvent',
             'action' => $this->faker->text(10),
             'valuesChanged' => $this->faker->text(10),
-            'objectId' => $this->faker->randomDigitNotNull,
+            'objectId' => $this->faker->randomDigitNotNull(),
         ];
 
         $arr[] = [
@@ -38,7 +38,7 @@ class AuditLogData extends AbstractDataLoader
             'objectClass' => 'TodaysEvent',
             'action' => $this->faker->text(10),
             'valuesChanged' => $this->faker->text(10),
-            'objectId' => $this->faker->randomDigitNotNull,
+            'objectId' => $this->faker->randomDigitNotNull(),
         ];
 
         return $arr;

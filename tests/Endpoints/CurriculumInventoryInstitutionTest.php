@@ -38,7 +38,7 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
             'addressCity' => ['addressCity', $this->getFaker()->text(100)],
             'addressStateOrProvince' => ['addressStateOrProvince', $this->getFaker()->text(50)],
             'addressZipCode' => ['addressZipCode', $this->getFaker()->text(10)],
-            'addressCountryCode' => ['addressCountryCode', $this->getFaker()->word],
+            'addressCountryCode' => ['addressCountryCode', $this->getFaker()->word()],
             'school' => ['school', 3],
         ];
     }

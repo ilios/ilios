@@ -33,7 +33,7 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
-            'notes' => ['notes', $this->getFaker()->text],
+            'notes' => ['notes', $this->getFaker()->text()],
             'emptyNotees' => ['notes', ''],
             'nullNotes' => ['notes', null],
             'required' => ['required', false],
@@ -41,7 +41,7 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
             'session' => ['session', 3],
             'learningMaterial' => ['learningMaterial', 3],
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
-            'position' => ['position', $this->getFaker()->randomDigit],
+            'position' => ['position', $this->getFaker()->randomDigit()],
         ];
     }
 

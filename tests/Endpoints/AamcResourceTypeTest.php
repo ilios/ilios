@@ -31,8 +31,8 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
-            'description' => ['description', $this->getFaker()->text],
+            'title' => ['title', $this->getFaker()->text()],
+            'description' => ['description', $this->getFaker()->text()],
             'terms' => ['terms', [3]],
             'id' => ['id', 'FK1', $skipped = true],
         ];

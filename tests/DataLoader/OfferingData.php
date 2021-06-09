@@ -16,7 +16,7 @@ class OfferingData extends AbstractDataLoader
             'id' => 1,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
-            'url' => $this->faker->url,
+            'url' => $this->faker->url(),
             'startDate' => "2016-09-08T15:00:00+00:00",
             'endDate' => "2016-09-08T17:00:00+00:00",
             'session' => 1,

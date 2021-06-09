@@ -36,9 +36,9 @@ class ProgramTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
+            'title' => ['title', $this->getFaker()->text()],
             'shortTitle' => ['shortTitle', $this->getFaker()->text(10)],
-            'duration' => ['duration', $this->getFaker()->randomDigit],
+            'duration' => ['duration', $this->getFaker()->randomDigit()],
             'school' => ['school', 3],
             'programYears' => ['programYears', [1], $skipped = true],
             'curriculumInventoryReports' => ['curriculumInventoryReports', [1], $skipped = true],

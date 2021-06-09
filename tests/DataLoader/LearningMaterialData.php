@@ -243,7 +243,7 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
-            'link' => $this->faker->url,
+            'link' => $this->faker->url(),
             'mimetype' => 'link',
         ];
     }

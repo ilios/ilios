@@ -33,7 +33,7 @@ class AamcPcrsTest extends ReadWriteEndpointTest
     public function putsToTest()
     {
         return [
-            'description' => ['description', $this->getFaker()->text],
+            'description' => ['description', $this->getFaker()->text()],
             'competencies' => ['competencies', [3]],
             'id' => ['id', 'new-id', $skipped = true],
         ];
