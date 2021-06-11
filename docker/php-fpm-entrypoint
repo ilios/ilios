@@ -4,7 +4,7 @@ set -e
 /var/www/ilios/bin/console cache:warmup
 /bin/chown -R www-data:www-data /var/www/ilios
 
-# From https://github.com/docker-library/php/blob/b6fd2f70018163227f0f18f3ba1fa4d70e6d929e/7.4/alpine3.12/fpm/docker-php-entrypoint
+# From https://github.com/docker-library/php/blob/cf8840d0d56ef92e899dac67ebdf8112e9d2f492/8.0/alpine3.13/fpm/docker-php-entrypoint
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then
 	set -- php-fpm "$@"
