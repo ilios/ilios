@@ -4,7 +4,7 @@
   "type": "project",
   "description": "The \"Ilios Standard Edition\" distribution",
   "require": {
-    "php": ">= 7.4",
+    "php": ">= 8.0",
     "ext-apcu": "*",
     "ext-ctype": "*",
     "ext-dom": "*",
@@ -75,7 +75,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.4.0"
+      "php": "8.0.0"
     },
     "preferred-install": {
       "*": "dist"

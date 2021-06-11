@@ -28,7 +28,7 @@ ENV FPM_CONTAINERS=fpm:9000
 # Dependencies we need in all PHP containers
 # Production ready composer pacakges installed
 ###############################################################################
-FROM php:7.4-fpm as php-base
+FROM php:8.0-fpm as php-base
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src /var/www/ilios
@@ -190,7 +190,7 @@ RUN /bin/bash /fetch-demo-database.sh
 ###############################################################################
 # Setup elasticsearch with the plugins we needed
 ###############################################################################
-FROM elasticsearch:7.8.1 as elasticsearch
+FROM elasticsearch:7.13.1 as elasticsearch
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 RUN bin/elasticsearch-plugin install -b ingest-attachment
 
@@ -198,7 +198,7 @@ RUN bin/elasticsearch-plugin install -b ingest-attachment
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################
-FROM php:7.4-apache as php-apache
+FROM php:8.0-apache as php-apache
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src /var/www/ilios

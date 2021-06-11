@@ -14,7 +14,7 @@ env:
   ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
-  latest_php: 7.4
+  latest_php: 8.0
 
 jobs:
   code_style:
@@ -51,7 +51,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [7.4,8.0]
+        php-version: [8.0]
 
     steps:
     - uses: actions/checkout@v2
@@ -97,7 +97,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [7.4,8.0]
+        php-version: [8.0]
 
     steps:
     - uses: actions/checkout@v2
@@ -188,7 +188,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [7.4,8.0]
+        php-version: [8.0]
 
     steps:
       - uses: actions/checkout@v2
