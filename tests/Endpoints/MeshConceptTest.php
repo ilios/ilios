@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadMeshConceptData;
+use App\Tests\Fixture\LoadMeshTermData;
+
 /**
  * MeshConcept API endpoint Test.
  * @group api_5
@@ -11,7 +14,7 @@ namespace App\Tests\Endpoints;
  */
 class MeshConceptTest extends AbstractMeshTest
 {
-    protected $testName =  'meshConcepts';
+    protected string $testName =  'meshConcepts';
 
     /**
      * @inheritdoc
@@ -19,8 +22,8 @@ class MeshConceptTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadMeshConceptData',
-            'App\Tests\Fixture\LoadMeshTermData',
+            LoadMeshConceptData::class,
+            LoadMeshTermData::class,
         ];
     }
 

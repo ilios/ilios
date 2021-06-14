@@ -13,7 +13,7 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\GetUrlTrait;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,20 +26,11 @@ use App\Tests\Traits\JsonControllerTest;
 class DownloadControllerTest extends WebTestCase
 {
     use JsonControllerTest;
-    use FixturesTrait;
     use GetUrlTrait;
 
-    /**
-     * @var ProxyReferenceRepository
-     */
-    protected $fixtures;
-
-    /**
-     * @var KernelBrowser
-     */
-    protected $kernelBrowser;
-
-    protected $apiVersion = 'v3';
+    protected ProxyReferenceRepository $fixtures;
+    protected KernelBrowser $kernelBrowser;
+    protected string $apiVersion = 'v3';
 
     /**
      * @inheritdoc
@@ -48,13 +39,15 @@ class DownloadControllerTest extends WebTestCase
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();
-        $this->fixtures = $this->loadFixtures([
+        $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
+        $executor = $databaseTool->loadFixtures([
             LoadAuthenticationData::class,
             LoadOfferingData::class,
             LoadCourseLearningMaterialData::class,
             LoadSessionLearningMaterialData::class,
             LoadApplicationConfigData::class,
-        ])->getReferenceRepository();
+        ]);
+        $this->fixtures = $executor->getReferenceRepository();
     }
 
     /**

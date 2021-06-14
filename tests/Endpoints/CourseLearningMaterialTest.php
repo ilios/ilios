@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadMeshDescriptorData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -12,7 +14,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class CourseLearningMaterialTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'courseLearningMaterials';
+    protected string $testName =  'courseLearningMaterials';
 
     /**
      * @inheritdoc
@@ -20,8 +22,8 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadCourseLearningMaterialData',
-            'App\Tests\Fixture\LoadMeshDescriptorData',
+            LoadCourseLearningMaterialData::class,
+            LoadMeshDescriptorData::class,
         ];
     }
 

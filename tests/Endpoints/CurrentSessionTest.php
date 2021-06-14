@@ -7,8 +7,7 @@ namespace App\Tests\Endpoints;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\GetUrlTrait;
-use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,30 +20,20 @@ use App\Tests\Traits\JsonControllerTest;
 class CurrentSessionTest extends WebTestCase
 {
     use JsonControllerTest;
-    use FixturesTrait;
     use GetUrlTrait;
 
-    /**
-     * @var ProxyReferenceRepository
-     */
-    protected $fixtures;
-
-    /**
-     * @var KernelBrowser
-     */
-    protected $kernelBrowser;
-
-    protected $apiVersion = 'v3';
+    protected KernelBrowser $kernelBrowser;
+    protected string $apiVersion = 'v3';
 
     public function setUp(): void
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();
-        $fixtures = [
+        $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
+        $databaseTool->loadFixtures([
             LoadAuthenticationData::class,
             LoadUserData::class,
-        ];
-        $this->fixtures = $this->loadFixtures($fixtures)->getReferenceRepository();
+        ]);
     }
 
     public function tearDown(): void

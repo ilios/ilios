@@ -6,6 +6,7 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\DeleteEndpointTestable;
 use App\Tests\DeleteEndpointTestInterface;
+use App\Tests\Fixture\LoadPendingUserUpdateData;
 use App\Tests\PutEndpointTestable;
 use App\Tests\PutEndpointTestInterface;
 use App\Tests\ReadEndpointTest;
@@ -19,7 +20,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     use PutEndpointTestable;
     use DeleteEndpointTestable;
 
-    protected $testName =  'pendingUserUpdates';
+    protected string $testName =  'pendingUserUpdates';
 
     /**
      * @inheritdoc
@@ -27,7 +28,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadPendingUserUpdateData',
+            LoadPendingUserUpdateData::class,
         ];
     }
 

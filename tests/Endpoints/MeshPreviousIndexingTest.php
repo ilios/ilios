@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadMeshConceptData;
+use App\Tests\Fixture\LoadMeshPreviousIndexingData;
+use App\Tests\Fixture\LoadMeshQualifierData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+
 /**
  * MeshPreviousIndexing API endpoint Test.
  * @group api_4
  */
 class MeshPreviousIndexingTest extends AbstractMeshTest
 {
-    protected $testName =  'meshPreviousIndexings';
+    protected string $testName =  'meshPreviousIndexings';
 
     /**
      * @inheritdoc
@@ -18,11 +24,11 @@ class MeshPreviousIndexingTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadMeshPreviousIndexingData',
-            'App\Tests\Fixture\LoadCourseLearningMaterialData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadMeshConceptData',
-            'App\Tests\Fixture\LoadMeshQualifierData',
+            LoadMeshPreviousIndexingData::class,
+            LoadCourseLearningMaterialData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadMeshConceptData::class,
+            LoadMeshQualifierData::class,
         ];
     }
 

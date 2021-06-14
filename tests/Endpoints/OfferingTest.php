@@ -8,6 +8,11 @@ use App\Entity\Alert;
 use App\Entity\AlertChangeTypeInterface;
 use App\Tests\DataLoader\InstructorGroupData;
 use App\Tests\DataLoader\LearnerGroupData;
+use App\Tests\Fixture\LoadAlertChangeTypeData;
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadInstructorGroupData;
+use App\Tests\Fixture\LoadLearnerGroupData;
+use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -17,7 +22,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class OfferingTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'offerings';
+    protected string $testName =  'offerings';
     protected $skipDates = false;
 
     /**
@@ -35,11 +40,11 @@ class OfferingTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadLearnerGroupData',
-            'App\Tests\Fixture\LoadInstructorGroupData',
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadAlertChangeTypeData'
+            LoadOfferingData::class,
+            LoadLearnerGroupData::class,
+            LoadInstructorGroupData::class,
+            LoadIlmSessionData::class,
+            LoadAlertChangeTypeData::class
         ];
     }
 

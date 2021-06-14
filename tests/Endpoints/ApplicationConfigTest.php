@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -12,7 +13,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class ApplicationConfigTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'applicationConfigs';
+    protected string $testName =  'applicationConfigs';
 
     /**
      * @inheritdoc
@@ -20,7 +21,7 @@ class ApplicationConfigTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadApplicationConfigData',
+            LoadApplicationConfigData::class,
         ];
     }
 

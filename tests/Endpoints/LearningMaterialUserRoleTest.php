@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadLearningMaterialData;
+use App\Tests\Fixture\LoadLearningMaterialUserRoleData;
 use App\Tests\ReadEndpointTest;
 
 /**
@@ -12,7 +14,7 @@ use App\Tests\ReadEndpointTest;
  */
 class LearningMaterialUserRoleTest extends ReadEndpointTest
 {
-    protected $testName =  'learningMaterialUserRoles';
+    protected string $testName =  'learningMaterialUserRoles';
 
     /**
      * @inheritdoc
@@ -20,8 +22,8 @@ class LearningMaterialUserRoleTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadLearningMaterialUserRoleData',
-            'App\Tests\Fixture\LoadLearningMaterialData'
+            LoadLearningMaterialUserRoleData::class,
+            LoadLearningMaterialData::class
         ];
     }
 

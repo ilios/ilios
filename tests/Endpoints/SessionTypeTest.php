@@ -4,6 +4,24 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadAamcMethodData;
+use App\Tests\Fixture\LoadAssessmentOptionData;
+use App\Tests\Fixture\LoadCohortData;
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadCourseObjectiveData;
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadLearningMaterialData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadProgramData;
+use App\Tests\Fixture\LoadProgramYearData;
+use App\Tests\Fixture\LoadProgramYearObjectiveData;
+use App\Tests\Fixture\LoadSchoolData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadSessionObjectiveData;
+use App\Tests\Fixture\LoadSessionTypeData;
+use App\Tests\Fixture\LoadTermData;
+use App\Tests\Fixture\LoadVocabularyData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\ReadWriteEndpointTest;
@@ -14,7 +32,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class SessionTypeTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'sessionTypes';
+    protected string $testName =  'sessionTypes';
 
     /**
      * @inheritdoc
@@ -22,25 +40,25 @@ class SessionTypeTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadLearningMaterialData',
-            'App\Tests\Fixture\LoadSessionTypeData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadCourseLearningMaterialData',
-            'App\Tests\Fixture\LoadAssessmentOptionData',
-            'App\Tests\Fixture\LoadSchoolData',
-            'App\Tests\Fixture\LoadAamcMethodData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadCohortData',
-            'App\Tests\Fixture\LoadProgramYearData',
-            'App\Tests\Fixture\LoadProgramData',
-            'App\Tests\Fixture\LoadVocabularyData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadSessionObjectiveData',
-            'App\Tests\Fixture\LoadCourseObjectiveData',
-            'App\Tests\Fixture\LoadProgramYearObjectiveData',
+            LoadLearningMaterialData::class,
+            LoadSessionTypeData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadCourseLearningMaterialData::class,
+            LoadAssessmentOptionData::class,
+            LoadSchoolData::class,
+            LoadAamcMethodData::class,
+            LoadSessionData::class,
+            LoadOfferingData::class,
+            LoadIlmSessionData::class,
+            LoadCohortData::class,
+            LoadProgramYearData::class,
+            LoadProgramData::class,
+            LoadVocabularyData::class,
+            LoadTermData::class,
+            LoadSessionData::class,
+            LoadSessionObjectiveData::class,
+            LoadCourseObjectiveData::class,
+            LoadProgramYearObjectiveData::class,
         ];
     }
 

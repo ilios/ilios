@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadMeshTreeData;
+
 /**
  * MeshTree API endpoint Test.
  * @group api_4
  */
 class MeshTreeTest extends AbstractMeshTest
 {
-    protected $testName =  'meshTrees';
+    protected string $testName =  'meshTrees';
 
     /**
      * @inheritdoc
@@ -18,7 +20,7 @@ class MeshTreeTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadMeshTreeData',
+            LoadMeshTreeData::class,
         ];
     }
 

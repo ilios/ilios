@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData;
+use App\Tests\Fixture\LoadCurriculumInventoryExportData;
+use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
+use App\Tests\Fixture\LoadCurriculumInventoryReportData;
+use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
+use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
+use App\Tests\Fixture\LoadProgramData;
 use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\ReadWriteEndpointTest;
@@ -14,7 +21,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class CurriculumInventoryReportTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'curriculumInventoryReports';
+    protected string $testName =  'curriculumInventoryReports';
 
     /**
      * @inheritdoc
@@ -22,13 +29,13 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadProgramData',
-            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'App\Tests\Fixture\LoadCurriculumInventoryExportData',
-            'App\Tests\Fixture\LoadCurriculumInventorySequenceData',
-            'App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'App\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
+            LoadProgramData::class,
+            LoadCurriculumInventoryReportData::class,
+            LoadCurriculumInventoryExportData::class,
+            LoadCurriculumInventorySequenceData::class,
+            LoadCurriculumInventorySequenceBlockData::class,
+            LoadCurriculumInventoryAcademicLevelData::class,
+            LoadCurriculumInventoryInstitutionData::class,
         ];
     }
 

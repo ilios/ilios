@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadAssessmentOptionData;
+use App\Tests\Fixture\LoadSessionTypeData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -12,7 +14,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class AssessmentOptionTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'assessmentOptions';
+    protected string $testName =  'assessmentOptions';
 
     /**
      * @inheritdoc
@@ -20,8 +22,8 @@ class AssessmentOptionTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadAssessmentOptionData',
-            'App\Tests\Fixture\LoadSessionTypeData'
+            LoadAssessmentOptionData::class,
+            LoadSessionTypeData::class
         ];
     }
 

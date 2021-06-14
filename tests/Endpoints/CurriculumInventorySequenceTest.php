@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Tests\DataLoader\CurriculumInventoryReportData;
+use App\Tests\Fixture\LoadCurriculumInventoryReportData;
+use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -13,7 +15,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'curriculumInventorySequences';
+    protected string $testName =  'curriculumInventorySequences';
 
     /**
      * @inheritdoc
@@ -21,8 +23,8 @@ class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadCurriculumInventorySequenceData',
-            'App\Tests\Fixture\LoadCurriculumInventoryReportData'
+            LoadCurriculumInventorySequenceData::class,
+            LoadCurriculumInventoryReportData::class
         ];
     }
 

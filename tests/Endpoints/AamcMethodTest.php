@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadAamcMethodData;
+use App\Tests\Fixture\LoadSessionTypeData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -12,7 +14,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class AamcMethodTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'aamcMethods';
+    protected string $testName =  'aamcMethods';
 
     /**
      * @inheritdoc
@@ -20,8 +22,8 @@ class AamcMethodTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadAamcMethodData',
-            'App\Tests\Fixture\LoadSessionTypeData',
+            LoadAamcMethodData::class,
+            LoadSessionTypeData::class,
         ];
     }
 

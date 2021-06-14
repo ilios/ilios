@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadMeshQualifierData;
+
 /**
  * MeshQualifier API endpoint Test.
  * @group api_1
@@ -11,7 +13,7 @@ namespace App\Tests\Endpoints;
  */
 class MeshQualifierTest extends AbstractMeshTest
 {
-    protected $testName =  'meshQualifiers';
+    protected string $testName =  'meshQualifiers';
 
     /**
      * @inheritdoc
@@ -19,7 +21,7 @@ class MeshQualifierTest extends AbstractMeshTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadMeshQualifierData',
+            LoadMeshQualifierData::class,
         ];
     }
 

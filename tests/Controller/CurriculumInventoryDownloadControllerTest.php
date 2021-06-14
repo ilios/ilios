@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData;
+use App\Tests\Fixture\LoadCurriculumInventoryExportData;
+use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
+use App\Tests\Fixture\LoadCurriculumInventoryReportData;
+use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
+use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
+use App\Tests\Fixture\LoadSessionData;
 use App\Tests\GetUrlTrait;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +25,10 @@ use App\Tests\Traits\JsonControllerTest;
 class CurriculumInventoryDownloadControllerTest extends WebTestCase
 {
     use JsonControllerTest;
-    use FixturesTrait;
     use GetUrlTrait;
 
-    /**
-     * @var KernelBrowser
-     */
-    protected $kernelBrowser;
-
-    protected $apiVersion = 'v3';
+    protected KernelBrowser $kernelBrowser;
+    protected string $apiVersion = 'v3';
 
     /**
      * @inheritdoc
@@ -34,15 +37,16 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();
-        $this->loadFixtures([
-            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'App\Tests\Fixture\LoadCurriculumInventoryExportData',
-            'App\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
-            'App\Tests\Fixture\LoadCurriculumInventorySequenceData',
-            'App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadAuthenticationData',
+        $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
+        $databaseTool->loadFixtures([
+            LoadCurriculumInventoryReportData::class,
+            LoadCurriculumInventoryExportData::class,
+            LoadCurriculumInventoryInstitutionData::class,
+            LoadCurriculumInventorySequenceData::class,
+            LoadCurriculumInventorySequenceBlockData::class,
+            LoadCurriculumInventoryAcademicLevelData::class,
+            LoadSessionData::class,
+            LoadAuthenticationData::class,
         ]);
     }
 

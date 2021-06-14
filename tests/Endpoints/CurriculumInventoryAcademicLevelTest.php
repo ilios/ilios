@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData;
+use App\Tests\Fixture\LoadCurriculumInventoryExportData;
+use App\Tests\Fixture\LoadCurriculumInventoryReportData;
+use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
+use App\Tests\Fixture\LoadProgramData;
 use App\Tests\ReadEndpointTest;
 
 /**
@@ -12,7 +17,7 @@ use App\Tests\ReadEndpointTest;
  */
 class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
 {
-    protected $testName =  'curriculumInventoryAcademicLevels';
+    protected string $testName =  'curriculumInventoryAcademicLevels';
 
     /**
      * @inheritdoc
@@ -20,11 +25,11 @@ class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'App\Tests\Fixture\LoadCurriculumInventoryExportData',
-            'App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'App\Tests\Fixture\LoadProgramData',
+            LoadCurriculumInventoryAcademicLevelData::class,
+            LoadCurriculumInventoryReportData::class,
+            LoadCurriculumInventoryExportData::class,
+            LoadCurriculumInventorySequenceBlockData::class,
+            LoadProgramData::class,
         ];
     }
 

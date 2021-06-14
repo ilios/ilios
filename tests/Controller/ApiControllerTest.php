@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use App\Tests\Fixture\LoadAuthenticationData;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,21 +14,17 @@ use App\Tests\Traits\JsonControllerTest;
 class ApiControllerTest extends WebTestCase
 {
     use JsonControllerTest;
-    use FixturesTrait;
 
-    protected $apiVersion = 'v3';
-
-    /**
-     * @var KernelBrowser
-     */
-    protected $kernelBrowser;
+    protected string $apiVersion = 'v3';
+    protected KernelBrowser $kernelBrowser;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();
-        $this->loadFixtures([
-            'App\Tests\Fixture\LoadAuthenticationData'
+        $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
+        $databaseTool->loadFixtures([
+            LoadAuthenticationData::class
         ]);
     }
 
@@ -35,7 +32,6 @@ class ApiControllerTest extends WebTestCase
     {
         parent::tearDown();
         unset($this->kernelBrowser);
-        unset($this->fixtures);
     }
 
     public function testNoEndpoint()

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCourseData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\CourseData;
 use App\Tests\ReadEndpointTest;
@@ -14,7 +15,7 @@ use App\Tests\ReadEndpointTest;
  */
 class AcademicYearTest extends ReadEndpointTest
 {
-    protected $testName = 'academicYears';
+    protected string $testName = 'academicYears';
 
     /**
      * @inheritdoc
@@ -22,7 +23,7 @@ class AcademicYearTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadCourseData',
+            LoadCourseData::class,
         ];
     }
 

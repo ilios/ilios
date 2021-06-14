@@ -4,6 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadAlertData;
+use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\Fixture\LoadCourseData;
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadInstructorGroupData;
+use App\Tests\Fixture\LoadLearnerGroupData;
+use App\Tests\Fixture\LoadLearningMaterialData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadPendingUserUpdateData;
+use App\Tests\Fixture\LoadReportData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\UserData;
 use App\Tests\ReadWriteEndpointTest;
@@ -14,7 +26,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class AuthenticationTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'authentications';
+    protected string $testName =  'authentications';
 
     /**
      * @inheritdoc
@@ -22,18 +34,18 @@ class AuthenticationTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadAuthenticationData',
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadAlertData',
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadLearningMaterialData',
-            'App\Tests\Fixture\LoadInstructorGroupData',
-            'App\Tests\Fixture\LoadLearnerGroupData',
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadPendingUserUpdateData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
-            'App\Tests\Fixture\LoadReportData',
+            LoadAuthenticationData::class,
+            LoadUserData::class,
+            LoadAlertData::class,
+            LoadCourseData::class,
+            LoadLearningMaterialData::class,
+            LoadInstructorGroupData::class,
+            LoadLearnerGroupData::class,
+            LoadIlmSessionData::class,
+            LoadOfferingData::class,
+            LoadPendingUserUpdateData::class,
+            LoadSessionLearningMaterialData::class,
+            LoadReportData::class,
         ];
     }
 

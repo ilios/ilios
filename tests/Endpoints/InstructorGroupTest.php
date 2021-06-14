@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadInstructorGroupData;
+use App\Tests\Fixture\LoadLearnerGroupData;
+use App\Tests\Fixture\LoadLearningMaterialData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadSchoolData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadTermData;
+use App\Tests\Fixture\LoadUserData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -12,7 +21,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class InstructorGroupTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'instructorGroups';
+    protected string $testName =  'instructorGroups';
 
     /**
      * @inheritdoc
@@ -20,15 +29,15 @@ class InstructorGroupTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadInstructorGroupData',
-            'App\Tests\Fixture\LoadSchoolData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadLearnerGroupData',
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadLearningMaterialData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            LoadInstructorGroupData::class,
+            LoadSchoolData::class,
+            LoadTermData::class,
+            LoadLearnerGroupData::class,
+            LoadIlmSessionData::class,
+            LoadUserData::class,
+            LoadOfferingData::class,
+            LoadLearningMaterialData::class,
+            LoadSessionLearningMaterialData::class,
         ];
     }
 

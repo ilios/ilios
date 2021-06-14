@@ -6,7 +6,8 @@ namespace App\Tests\DataFixtures\ORM;
 
 use App\Repository\RepositoryInterface;
 use App\Service\DataimportFileLocator;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -16,35 +17,22 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 abstract class AbstractDataFixtureTest extends WebTestCase
 {
-    use FixturesTrait;
-
     protected RepositoryInterface $em;
+    protected KernelBrowser $kernelBrowser;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp(): void
     {
         parent::setUp();
-        $this->loadEntityManager($this->getEntityManagerServiceKey());
+        $this->kernelBrowser = self::createClient();
+
+        /** @var RepositoryInterface $em */
+        $em = $this->kernelBrowser->getContainer()->get($this->getEntityManagerServiceKey());
+        $this->em = $em;
     }
 
-    /**
-     * @param string $serviceKey
-     */
-    protected function loadEntityManager($serviceKey)
-    {
-        $this->em = $this->getContainer()->get($serviceKey);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFixtures()
     {
-        return [
-            'App\DataFixtures\ORM\LoadSchoolData',
-        ];
+        return [];
     }
 
     /**
@@ -56,11 +44,13 @@ abstract class AbstractDataFixtureTest extends WebTestCase
      *
      * @see AbstractDataFixtureTest::loadTest()
      */
-    protected function runTestLoad($fileName, $lineLimit = -1)
+    protected function runTestLoad(string $fileName, int $lineLimit = -1)
     {
-        $this->loadFixtures($this->getFixtures());
+        $container = $this->kernelBrowser->getContainer();
+        $databaseTool = $container->get(DatabaseToolCollection::class)->get();
+        $databaseTool->loadFixtures($this->getFixtures());
 
-        $dataFile = fopen($this->getContainer()->get(DataimportFileLocator::class)->getDataFilePath($fileName), 'r');
+        $dataFile = fopen($container->get(DataimportFileLocator::class)->getDataFilePath($fileName), 'r');
 
         $i = 0;
         while (($data = fgetcsv($dataFile)) !== false && ($lineLimit < 0 || $lineLimit >= $i)) {

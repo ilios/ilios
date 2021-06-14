@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadAamcResourceTypeData;
+use App\Tests\Fixture\LoadTermData;
 use App\Tests\ReadWriteEndpointTest;
 
 /**
@@ -12,7 +14,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class AamcResourceTypeTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'aamcResourceTypes';
+    protected string $testName =  'aamcResourceTypes';
 
     /**
      * @inheritdoc
@@ -20,8 +22,8 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadAamcResourceTypeData',
-            'App\Tests\Fixture\LoadTermData'
+            LoadAamcResourceTypeData::class,
+            LoadTermData::class
         ];
     }
 

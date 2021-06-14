@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadLearningMaterialData;
+use App\Tests\Fixture\LoadLearningMaterialStatusData;
 use App\Tests\ReadEndpointTest;
 
 /**
@@ -12,7 +14,7 @@ use App\Tests\ReadEndpointTest;
  */
 class LearningMaterialStatusTest extends ReadEndpointTest
 {
-    protected $testName =  'learningMaterialStatuses';
+    protected string $testName =  'learningMaterialStatuses';
 
     /**
      * @inheritdoc
@@ -20,8 +22,8 @@ class LearningMaterialStatusTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadLearningMaterialStatusData',
-            'App\Tests\Fixture\LoadLearningMaterialData'
+            LoadLearningMaterialStatusData::class,
+            LoadLearningMaterialData::class
         ];
     }
 

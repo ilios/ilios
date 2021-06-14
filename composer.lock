@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3cda4dfb935464d5cc6cb92afcd6113c",
+    "content-hash": "70c272337f2a9c6f61ff90c8bb2929f5",
     "packages": [
         {
             "name": "async-aws/core",
@@ -11000,37 +11000,41 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "1.11.2",
+            "version": "2.0.0-alpha4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "2fe3393b12eaea0a5f4cc70cb189010f5ac8dd84"
+                "reference": "2cc14355d1747c51b1e6c076a0397cd9f7ddd25a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/2fe3393b12eaea0a5f4cc70cb189010f5ac8dd84",
-                "reference": "2fe3393b12eaea0a5f4cc70cb189010f5ac8dd84",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/2cc14355d1747c51b1e6c076a0397cd9f7ddd25a",
+                "reference": "2cc14355d1747c51b1e6c076a0397cd9f7ddd25a",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "^2.13 || ^3.0",
                 "php": "^7.2 || ^8.0",
-                "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0",
-                "symfony/yaml": "^3.4 || ^4.4 || ^5.0"
+                "symfony/event-dispatcher": "^4.4 || ^5.0",
+                "symfony/event-dispatcher-contracts": "^1 || ^2",
+                "symfony/framework-bundle": "^4.4 || ^5.0",
+                "symfony/yaml": "^4.4 || ^5.0"
             },
             "require-dev": {
                 "doctrine/data-fixtures": "^1.3",
-                "doctrine/doctrine-bundle": "^1.8 || ^2.0",
+                "doctrine/doctrine-bundle": "^2.1",
                 "doctrine/doctrine-fixtures-bundle": "^3.0.2",
-                "doctrine/orm": "^2.6",
+                "doctrine/orm": "^2.7",
                 "doctrine/phpcr-bundle": "^2.0",
                 "doctrine/phpcr-odm": "^1.3",
                 "jackalope/jackalope-doctrine-dbal": "^1.5",
-                "monolog/monolog": "^1.11 || ^2.0",
+                "monolog/monolog": "^1.25.1 || ^2.0",
                 "phpunit/phpunit": "^7.5 || ^8.0",
-                "symfony/monolog-bridge": ">=3",
+                "symfony/doctrine-bridge": "^4.4 || ^5.0",
+                "symfony/monolog-bridge": "^4.4 || ^5.0",
                 "symfony/monolog-bundle": "^3.2",
-                "symfony/phpunit-bridge": "^3.4 || ^4.4 || ^5.0",
+                "symfony/phpunit-bridge": "^4.4 || ^5.0",
+                "symfony/property-access": "^4.4 || ^5.0 , <5.3",
                 "theofidry/alice-data-fixtures": "^1.0.1"
             },
             "suggest": {
@@ -11043,7 +11047,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -11073,9 +11077,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/1.11.2"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.0.0-alpha4"
             },
-            "time": "2021-01-26T21:51:16+00:00"
+            "time": "2021-06-07T12:45:04+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -13783,6 +13787,7 @@
         "symfony/validator": 0,
         "symfony/web-link": 0,
         "symfony/yaml": 0,
+        "liip/test-fixtures-bundle": 15,
         "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0
     },

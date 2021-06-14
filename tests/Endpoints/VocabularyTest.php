@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Entity\CourseInterface;
+use App\Tests\Fixture\LoadSchoolData;
+use App\Tests\Fixture\LoadVocabularyData;
 use App\Tests\ReadWriteEndpointTest;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class VocabularyTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'vocabularies';
+    protected string $testName =  'vocabularies';
 
     /**
      * @inheritdoc
@@ -22,8 +24,8 @@ class VocabularyTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadSchoolData',
-            'App\Tests\Fixture\LoadVocabularyData',
+            LoadSchoolData::class,
+            LoadVocabularyData::class,
         ];
     }
 

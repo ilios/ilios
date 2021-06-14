@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadIngestionExceptionData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\ReadEndpointTest;
 
@@ -13,7 +14,7 @@ use App\Tests\ReadEndpointTest;
  */
 class IngestionExceptionTest extends ReadEndpointTest
 {
-    protected $testName =  'ingestionExceptions';
+    protected string $testName =  'ingestionExceptions';
 
     /**
      * @inheritdoc
@@ -21,7 +22,7 @@ class IngestionExceptionTest extends ReadEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadIngestionExceptionData',
+            LoadIngestionExceptionData::class,
         ];
     }
 

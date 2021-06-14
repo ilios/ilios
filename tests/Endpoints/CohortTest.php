@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\Fixture\LoadCohortData;
+use App\Tests\Fixture\LoadCourseData;
+use App\Tests\Fixture\LoadLearnerGroupData;
+use App\Tests\Fixture\LoadProgramYearData;
+use App\Tests\Fixture\LoadProgramYearObjectiveData;
+use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\ProgramYearData;
 use App\Tests\PutEndpointTestable;
@@ -18,7 +24,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
 {
     use PutEndpointTestable;
 
-    protected $testName =  'cohorts';
+    protected string $testName =  'cohorts';
 
     /**
      * @inheritdoc
@@ -26,12 +32,12 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadCohortData',
-            'App\Tests\Fixture\LoadProgramYearObjectiveData',
-            'App\Tests\Fixture\LoadProgramYearData',
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadLearnerGroupData',
-            'App\Tests\Fixture\LoadUserData'
+            LoadCohortData::class,
+            LoadProgramYearObjectiveData::class,
+            LoadProgramYearData::class,
+            LoadCourseData::class,
+            LoadLearnerGroupData::class,
+            LoadUserData::class
         ];
     }
 

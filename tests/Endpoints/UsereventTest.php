@@ -5,6 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Entity\OfferingInterface;
+use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadIlmSessionData;
+use App\Tests\Fixture\LoadLearningMaterialData;
+use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadSessionData;
+use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\CourseData;
 use App\Tests\DataLoader\IlmSessionData;
@@ -27,13 +34,13 @@ class UsereventTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadOfferingData',
-            'App\Tests\Fixture\LoadIlmSessionData',
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadLearningMaterialData',
-            'App\Tests\Fixture\LoadCourseLearningMaterialData',
-            'App\Tests\Fixture\LoadSessionLearningMaterialData',
+            LoadOfferingData::class,
+            LoadIlmSessionData::class,
+            LoadUserData::class,
+            LoadSessionData::class,
+            LoadLearningMaterialData::class,
+            LoadCourseLearningMaterialData::class,
+            LoadSessionLearningMaterialData::class,
         ];
     }
 

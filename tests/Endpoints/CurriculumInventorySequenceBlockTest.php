@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Entity\CurriculumInventorySequenceBlockInterface;
+use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
+use App\Tests\Fixture\LoadSessionData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\ReadWriteEndpointTest;
 
@@ -14,7 +16,7 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
 {
-    protected $testName =  'curriculumInventorySequenceBlocks';
+    protected string $testName =  'curriculumInventorySequenceBlocks';
 
     /**
      * @inheritdoc
@@ -22,8 +24,8 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     protected function getFixtures()
     {
         return [
-            'App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'App\Tests\Fixture\LoadSessionData',
+            LoadCurriculumInventorySequenceBlockData::class,
+            LoadSessionData::class,
         ];
     }
 
