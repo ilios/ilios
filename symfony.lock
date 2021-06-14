@@ -334,7 +334,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "9.3",
-            "ref": "8b7e50ac5f82e6d41bad88344f7e868c02ae1af5"
+            "ref": "68450b8fef6804047d9424c55d758c28b4340791"
         },
         "files": [
             ".env.test",
@@ -680,12 +680,12 @@
         "version": "v5.3.0"
     },
     "symfony/phpunit-bridge": {
-        "version": "5.1",
+        "version": "5.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "5.1",
-            "ref": "bf16921ef8309a81d9f046e9b6369c46bcbd031f"
+            "version": "5.3",
+            "ref": "0a3b084605bd384975df457a20e9f41ca09fd4ed"
         },
         "files": [
             ".env.test",
