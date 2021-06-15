@@ -90,7 +90,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
 
     protected function createMany(int $count): array
     {
-        $programYearDataLoader = $this->getContainer()->get(ProgramYearData::class);
+        $programYearDataLoader = self::getContainer()->get(ProgramYearData::class);
         $programYears = $programYearDataLoader->createMany($count);
         $savedProgramYears = $this->postMany('programyears', 'programYears', $programYears);
 
@@ -133,7 +133,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
         $all = $dataLoader->getAll();
 
         $n = count($all);
-        $termsDataLoader = $this->getContainer()->get(TermData::class);
+        $termsDataLoader = self::getContainer()->get(TermData::class);
         $terms = $termsDataLoader->createMany($n);
         $savedTerms = $this->postMany('terms', 'terms', $terms);
 
@@ -153,7 +153,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
      */
     public function testInputSanitation($input, $output)
     {
-        $postData = $this->getContainer()->get(ProgramYearObjectiveData::class)
+        $postData = self::getContainer()->get(ProgramYearObjectiveData::class)
             ->create();
         $postData['title'] = $input;
         unset($postData['id']);
@@ -199,7 +199,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
      */
     public function testInputSanitationFailure()
     {
-        $postData = $this->getContainer()->get(ProgramYearObjectiveData::class)
+        $postData = self::getContainer()->get(ProgramYearObjectiveData::class)
             ->create();
         // this markup will get stripped out, leaving a blank string as input.
         // which in turn will cause the form validation to fail.

@@ -51,7 +51,7 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testAttachedUserMaterialsAreBlankedByTimedRelease()
     {
-        $school = $this->getContainer()->get(SchoolData::class)->getOne();
+        $school = self::getContainer()->get(SchoolData::class)->getOne();
         $userId = 5;
         $events = $this->getEvents($school['id'], 0, 100000000000, $userId);
         $lms = $events[3]['learningMaterials'];
@@ -70,7 +70,7 @@ class SchooleventsTest extends AbstractEndpointTest
     public function testAttachedUserMaterialsAreBlankedForUsersWhenTheyLackPermissionToAccessThem()
     {
         /** @var DataLoaderInterface $dataLoader */
-        $userLoader = $this->getContainer()->get(UserData::class);
+        $userLoader = self::getContainer()->get(UserData::class);
         $newUser = $this->postOne('users', 'user', 'users', $userLoader->createEmpty());
 
         $events = $this->getEvents($newUser['school'], 0, 100000000000, $newUser['id']);
@@ -84,7 +84,7 @@ class SchooleventsTest extends AbstractEndpointTest
     public function testAttachedUserMaterialsAreAvailableToCourseStudentAdvisors()
     {
         /** @var DataLoaderInterface $dataLoader */
-        $userLoader = $this->getContainer()->get(UserData::class);
+        $userLoader = self::getContainer()->get(UserData::class);
         $postData = $userLoader->createEmpty();
         $postData['studentAdvisedCourses'] = ['1'];
         $newUser = $this->postOne('users', 'user', 'users', $postData);
@@ -106,7 +106,7 @@ class SchooleventsTest extends AbstractEndpointTest
     public function testAttachedUserMaterialsAreAvailableToSessionStudentAdvisors()
     {
         /** @var DataLoaderInterface $dataLoader */
-        $userLoader = $this->getContainer()->get(UserData::class);
+        $userLoader = self::getContainer()->get(UserData::class);
         $postData = $userLoader->createEmpty();
         $postData['studentAdvisedSessions'] = ['1'];
         $newUser = $this->postOne('users', 'user', 'users', $postData);
@@ -127,11 +127,11 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testGetEvents()
     {
-        $school = $this->getContainer()->get(SchoolData::class)->getOne();
-        $offerings = $this->getContainer()->get(OfferingData::class)->getAll();
-        $ilmSessions = $this->getContainer()->get(IlmSessionData::class)->getAll();
-        $courses = $this->getContainer()->get(CourseData::class)->getAll();
-        $sessions = $this->getContainer()->get(SessionData::class)->getAll();
+        $school = self::getContainer()->get(SchoolData::class)->getOne();
+        $offerings = self::getContainer()->get(OfferingData::class)->getAll();
+        $ilmSessions = self::getContainer()->get(IlmSessionData::class)->getAll();
+        $courses = self::getContainer()->get(CourseData::class)->getAll();
+        $sessions = self::getContainer()->get(SessionData::class)->getAll();
 
         $events = $this->getEvents($school['id'], 0, 100000000000);
 
@@ -562,8 +562,8 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testMultidayEvent()
     {
-        $school = $this->getContainer()->get(SchoolData::class)->getOne();
-        $offerings = $this->getContainer()->get(OfferingData::class)->getAll();
+        $school = self::getContainer()->get(SchoolData::class)->getOne();
+        $offerings = self::getContainer()->get(OfferingData::class)->getAll();
         $from = new DateTime('2015-01-30 00:00:00');
         $to = new DateTime('2015-01-30 23:59:59');
 
@@ -577,7 +577,7 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testPrivilegedUsersGetsEventsForUnpublishedSessions()
     {
-        $school = $this->getContainer()->get(SchoolData::class)->getOne();
+        $school = self::getContainer()->get(SchoolData::class)->getOne();
         $events = $this->getEvents($school['id'], 0, 100000000000);
 
         $event = $events[3];
@@ -597,7 +597,7 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testGetEventsBySession()
     {
-        $school = $this->getContainer()->get(SchoolData::class)->getOne();
+        $school = self::getContainer()->get(SchoolData::class)->getOne();
         $userId = 2;
         $sessionId = 1;
 
@@ -620,9 +620,9 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testAttachedInstructorsUseDisplayName()
     {
-        $school = $this->getContainer()->get(SchoolData::class)->getOne();
+        $school = self::getContainer()->get(SchoolData::class)->getOne();
         $events = $this->getEvents($school['id'], 0, 100000000000);
-        $users = $this->getContainer()->get(UserData::class)->getAll();
+        $users = self::getContainer()->get(UserData::class)->getAll();
 
         $this->assertEquals($events[0]['offering'], 3);
 

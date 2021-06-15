@@ -76,7 +76,7 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
 
     protected function createMany(int $count): array
     {
-        $schoolDataLoader = $this->getContainer()->get(SchoolData::class);
+        $schoolDataLoader = self::getContainer()->get(SchoolData::class);
         $schools = $schoolDataLoader->createMany($count);
         $savedSchools = $this->postMany('schools', 'schools', $schools);
 

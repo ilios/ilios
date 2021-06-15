@@ -134,7 +134,7 @@ class SessionTypeTest extends ReadWriteEndpointTest
      */
     protected function createMany(int $count): array
     {
-        $sessionDataLoader = $this->getContainer()->get(SessionData::class);
+        $sessionDataLoader = self::getContainer()->get(SessionData::class);
         $sessions = $sessionDataLoader->createMany($count);
         $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
 

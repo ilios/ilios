@@ -116,11 +116,11 @@ class UsereventTest extends AbstractEndpointTest
 
     public function testGetEvents()
     {
-        $offerings = $this->getContainer()->get(OfferingData::class)->getAll();
-        $sessionTypes = $this->getContainer()->get(SessionTypeData::class)->getAll();
-        $ilmSessions = $this->getContainer()->get(IlmSessionData::class)->getAll();
-        $courses = $this->getContainer()->get(CourseData::class)->getAll();
-        $sessions = $this->getContainer()->get(SessionData::class)->getAll();
+        $offerings = self::getContainer()->get(OfferingData::class)->getAll();
+        $sessionTypes = self::getContainer()->get(SessionTypeData::class)->getAll();
+        $ilmSessions = self::getContainer()->get(IlmSessionData::class)->getAll();
+        $courses = self::getContainer()->get(CourseData::class)->getAll();
+        $sessions = self::getContainer()->get(SessionData::class)->getAll();
 
         $userId = 2;
 
@@ -935,7 +935,7 @@ class UsereventTest extends AbstractEndpointTest
 
     public function testMultidayEvent()
     {
-        $offerings = $this->getContainer()->get(OfferingData::class)->getAll();
+        $offerings = self::getContainer()->get(OfferingData::class)->getAll();
         $userId = 2;
         $from = new DateTime('2015-01-30 00:00:00');
         $to = new DateTime('2015-01-30 23:59:59');
@@ -1032,7 +1032,7 @@ class UsereventTest extends AbstractEndpointTest
             100000000000,
             $this->getTokenForUser($this->kernelBrowser, $userId)
         );
-        $users = $this->getContainer()->get(UserData::class)->getAll();
+        $users = self::getContainer()->get(UserData::class)->getAll();
 
         $this->assertSame($events[0]['offering'], 3);
 

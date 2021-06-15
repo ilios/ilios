@@ -91,7 +91,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
 
     protected function createMany(int $count): array
     {
-        $sessionDataLoader = $this->getContainer()->get(SessionData::class);
+        $sessionDataLoader = self::getContainer()->get(SessionData::class);
         $sessions = $sessionDataLoader->createMany($count);
         $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
 
@@ -131,7 +131,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
         $all = $dataLoader->getAll();
 
         $n = count($all);
-        $termsDataLoader = $this->getContainer()->get(TermData::class);
+        $termsDataLoader = self::getContainer()->get(TermData::class);
         $terms = $termsDataLoader->createMany($n);
         $savedTerms = $this->postMany('terms', 'terms', $terms);
 
@@ -151,7 +151,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
      */
     public function testInputSanitation($input, $output)
     {
-        $postData = $this->getContainer()->get(SessionObjectiveData::class)
+        $postData = self::getContainer()->get(SessionObjectiveData::class)
             ->create();
         $postData['title'] = $input;
         unset($postData['id']);
@@ -197,7 +197,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
      */
     public function testInputSanitationFailure()
     {
-        $postData = $this->getContainer()->get(SessionObjectiveData::class)
+        $postData = self::getContainer()->get(SessionObjectiveData::class)
             ->create();
         // this markup will get stripped out, leaving a blank string as input.
         // which in turn will cause the form validation to fail.
