@@ -730,9 +730,6 @@
             "ref": "84842f6791eaef80618dda244d4e3bbcbbcdf543"
         }
     },
-    "symfony/process": {
-        "version": "v4.4.2"
-    },
     "symfony/profiler-pack": {
         "version": "v1.0.5"
     },
@@ -772,6 +769,9 @@
             "config/packages/routing.yaml",
             "config/routes.yaml"
         ]
+    },
+    "symfony/runtime": {
+        "version": "v5.3.0"
     },
     "symfony/security-bundle": {
         "version": "5.1",

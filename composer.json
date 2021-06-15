@@ -51,6 +51,7 @@
     "symfony/orm-pack": "^2.1.0",
     "symfony/postmark-mailer": "@stable",
     "symfony/requirements-checker": "^1.1",
+    "symfony/runtime": "@stable",
     "symfony/security-bundle": "@stable",
     "symfony/sendgrid-mailer": "@stable",
     "symfony/serializer-pack": "^1.0",
