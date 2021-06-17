@@ -42,16 +42,8 @@ class SessionUser implements SessionUserInterface
     protected array $instructorGroupIds;
     protected array $coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser;
     protected array $learnerIlmAndOfferingIds;
+    protected UserRepository $userRepository;
 
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-
-    /**
-     * @param IliosUserInterface $user
-     * @param UserRepository $userRepository
-     */
     public function __construct(IliosUserInterface $user, UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
@@ -98,7 +90,7 @@ class SessionUser implements SessionUserInterface
             return false;
         }
 
-        if ($this->userId === $user->getUsername()) {
+        if ($this->userId === $user->getUserIdentifier()) {
             return true;
         }
 
@@ -179,6 +171,14 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      */
     public function getUsername()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUserIdentifier()
     {
         return $this->userId;
     }
