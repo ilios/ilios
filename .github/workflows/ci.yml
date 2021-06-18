@@ -63,7 +63,7 @@ jobs:
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
-      run: bin/phpunit
+      run: vendor/bin/phpunit
 
   test_migrations_against_mysql:
     name: Test Migrations Against MySQL
@@ -109,9 +109,9 @@ jobs:
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: First Run
-      run: bin/phpunit --group twice
+      run: vendor/bin/phpunit --group twice
     - name: Second Run
-      run: bin/phpunit --group twice
+      run: vendor/bin/phpunit --group twice
 
   build_and_run_containers:
     name: Build, Run, Test Containers
