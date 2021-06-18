@@ -41,7 +41,6 @@ jobs:
     - name: phpstan tests
       run: |
         bin/console cache:warmup --env=test
-        bin/phpunit install
         vendor/bin/phpstan analyse -c tests/phpstan.neon.dist tests --no-progress
 
   tests:
