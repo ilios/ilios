@@ -8,10 +8,7 @@ use App\Entity\AamcPcrsInterface;
 use App\Entity\CompetencyInterface;
 use App\Repository\CompetencyRepository;
 
-/**
- * Class LoadCompetencyAmcPcrsDataTest
- */
-class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
+class LoadCompetencyAamcPcrsDataTest extends AbstractDataFixtureTest
 {
     /**
      * {@inheritdoc}
