@@ -150,7 +150,22 @@ class RolloverCourseCommand extends Command
         $newAcademicYear = (int) $input->getArgument('newAcademicYear');
 
         //roll it over to build the newCourse object
-        $newCourse = $this->service->rolloverCourse($courseId, $newAcademicYear, $input->getOptions());
+        $newCourse = $this->service->rolloverCourse($courseId, $newAcademicYear, [
+            'new-start-date' => $input->getOption('new-start-date'),
+            'skip-course-learning-materials' =>  $input->getOption('skip-course-learning-materials'),
+            'skip-course-objectives' =>  $input->getOption('skip-course-objectives'),
+            'skip-course-terms' =>  $input->getOption('skip-course-terms'),
+            'skip-course-mesh' =>  $input->getOption('skip-course-mesh'),
+            'skip-sessions' =>  $input->getOption('skip-sessions'),
+            'skip-session-learning-materials' =>  $input->getOption('skip-session-learning-materials'),
+            'skip-session-objectives' =>  $input->getOption('skip-session-objectives'),
+            'skip-session-terms' =>  $input->getOption('skip-session-terms'),
+            'skip-session-mesh' =>  $input->getOption('skip-session-mesh'),
+            'skip-offerings' =>  $input->getOption('skip-offerings'),
+            'skip-instructors' =>  $input->getOption('skip-instructors'),
+            'skip-instructor-groups' =>  $input->getOption('skip-instructor-groups'),
+            'new-course-title' =>  $input->getOption('new-course-title'),
+        ]);
 
         //output message with the new courseId on success
         $output->writeln("This course has been rolled over. The new course id is {$newCourse->getId()}.");
