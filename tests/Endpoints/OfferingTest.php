@@ -270,7 +270,7 @@ class OfferingTest extends ReadWriteEndpointTest
 
     public function testUpdatingLearnerGroupUpdatesOfferingStamp()
     {
-        $dataLoader = $this->getContainer()->get(LearnerGroupData::class);
+        $dataLoader = self::getContainer()->get(LearnerGroupData::class);
         $data = $dataLoader->getOne();
         $data['title'] = $this->getFaker()->text(50);
         $this->relatedTimeStampUpdateTest($data['offerings'][0], 'learnergroups', 'learnerGroup', $data);
@@ -278,7 +278,7 @@ class OfferingTest extends ReadWriteEndpointTest
 
     public function testUpdatingInstructorGroupUpdatesOfferingStamp()
     {
-        $dataLoader = $this->getContainer()->get(InstructorGroupData::class);
+        $dataLoader = self::getContainer()->get(InstructorGroupData::class);
         $data = $dataLoader->getOne();
         $data['title'] = $this->getFaker()->text(20);
         $this->relatedTimeStampUpdateTest($data['offerings'][0], 'instructorgroups', 'instructorGroup', $data);

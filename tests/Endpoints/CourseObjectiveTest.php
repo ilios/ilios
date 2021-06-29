@@ -89,7 +89,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
 
     protected function createMany(int $n): array
     {
-        $courseDataLoader = $this->getContainer()->get(CourseData::class);
+        $courseDataLoader = self::getContainer()->get(CourseData::class);
         $courses = $courseDataLoader->createMany($n);
         $savedCourses = $this->postMany('courses', 'courses', $courses);
 
@@ -132,7 +132,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         $all = $dataLoader->getAll();
 
         $n = count($all);
-        $termsDataLoader = $this->getContainer()->get(TermData::class);
+        $termsDataLoader = self::getContainer()->get(TermData::class);
         $terms = $termsDataLoader->createMany($n);
         $savedTerms = $this->postMany('terms', 'terms', $terms);
 
@@ -152,7 +152,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         $all = $dataLoader->getAll();
 
         $n = count($all);
-        $termsDataLoader = $this->getContainer()->get(TermData::class);
+        $termsDataLoader = self::getContainer()->get(TermData::class);
         $terms = $termsDataLoader->createMany($n);
         $savedTerms = $this->postMany('terms', 'terms', $terms);
 
@@ -173,7 +173,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
      */
     public function testInputSanitation($input, $output)
     {
-        $postData = $this->getContainer()->get(CourseObjectiveData::class)
+        $postData = self::getContainer()->get(CourseObjectiveData::class)
             ->create();
         $postData['title'] = $input;
         unset($postData['id']);
@@ -219,7 +219,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
      */
     public function testInputSanitationFailure()
     {
-        $postData = $this->getContainer()->get(CourseObjectiveData::class)
+        $postData = self::getContainer()->get(CourseObjectiveData::class)
             ->create();
         // this markup will get stripped out, leaving a blank string as input.
         // which in turn will cause the form validation to fail.

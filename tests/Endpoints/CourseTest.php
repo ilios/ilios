@@ -269,14 +269,14 @@ class CourseTest extends ReadWriteEndpointTest
 
         $newSessions = $newCourse['sessions'];
         $this->assertEquals(count($newSessions), 2);
-        $sessions = $this->getContainer()->get(SessionData::class)->getAll();
+        $sessions = self::getContainer()->get(SessionData::class)->getAll();
         $lastSessionId = array_pop($sessions)['id'];
 
         $this->assertEquals($lastSessionId + 1, $newSessions[0], 'incremented session id 1');
         $this->assertEquals($lastSessionId + 2, $newSessions[1], 'incremented session id 2');
 
         $newSessionsData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions]);
-        $offerings = $this->getContainer()->get(OfferingData::class)->getAll();
+        $offerings = self::getContainer()->get(OfferingData::class)->getAll();
         $lastOfferingId = array_pop($offerings)['id'];
 
         $firstSessionOfferings = array_map('strval', [$lastOfferingId + 1, $lastOfferingId + 2]);
@@ -326,7 +326,7 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertSame(2030, $newCourse['year']);
         $newSessions = $newCourse['sessions'];
         $this->assertEquals(count($newSessions), 2);
-        $sessions = $this->getContainer()->get(SessionData::class)->getAll();
+        $sessions = self::getContainer()->get(SessionData::class)->getAll();
         $lastSessionId = array_pop($sessions)['id'];
 
         $this->assertEquals($lastSessionId + 1, $newSessions[0], 'incremented session id 1');
@@ -419,7 +419,7 @@ class CourseTest extends ReadWriteEndpointTest
         }, $newSessionsWithILMs);
         $newIlmIds = array_values($newIlmIds);
 
-        $ilms = $this->getContainer()->get(IlmSessionData::class)->getAll();
+        $ilms = self::getContainer()->get(IlmSessionData::class)->getAll();
         $lastIlmId = $ilms[key(array_slice($ilms, -1, 1, true))]['id'];
 
         $this->assertEquals($lastIlmId + 1, $newIlmIds[0], 'incremented ilm id 1');

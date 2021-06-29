@@ -155,7 +155,7 @@ class SessionTest extends ReadWriteEndpointTest
 
     public function testUpdatingIlmUpdatesSessionStamp()
     {
-        $dataLoader = $this->getContainer()->get(IlmSessionData::class);
+        $dataLoader = self::getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
         $data['hours'] += 5;
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
@@ -163,7 +163,7 @@ class SessionTest extends ReadWriteEndpointTest
 
     public function testUpdatingIlmInstructorUpdatesSessionStamp()
     {
-        $dataLoader = $this->getContainer()->get(IlmSessionData::class);
+        $dataLoader = self::getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
         $data['instructors'] = ["1", "2"];
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
@@ -171,7 +171,7 @@ class SessionTest extends ReadWriteEndpointTest
 
     public function testUpdatingIlmInstructorGroupsUpdatesSessionStamp()
     {
-        $dataLoader = $this->getContainer()->get(IlmSessionData::class);
+        $dataLoader = self::getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
         $data['instructorGroups'] = ["1", "2"];
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
@@ -179,7 +179,7 @@ class SessionTest extends ReadWriteEndpointTest
 
     public function testUpdatingIlmLearnerGroupsUpdatesSessionStamp()
     {
-        $dataLoader = $this->getContainer()->get(IlmSessionData::class);
+        $dataLoader = self::getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
         $data['learnerGroups'] = ["1", "2"];
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
@@ -187,7 +187,7 @@ class SessionTest extends ReadWriteEndpointTest
 
     public function testUpdatingIlmLearnersUpdatesSessionStamp()
     {
-        $dataLoader = $this->getContainer()->get(IlmSessionData::class);
+        $dataLoader = self::getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
         $data['learners'] = ["1", "2"];
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
@@ -195,7 +195,7 @@ class SessionTest extends ReadWriteEndpointTest
 
     public function testUpdatingLearningMaterialUpdatesSessionStamp()
     {
-        $dataLoader = $this->getContainer()->get(LearningMaterialData::class);
+        $dataLoader = self::getContainer()->get(LearningMaterialData::class);
         $data = $dataLoader->getOne();
         $data['status'] = '1';
         $this->relatedTimeStampUpdateTest(1, 'learningmaterials', 'learningMaterial', $data);
@@ -203,14 +203,14 @@ class SessionTest extends ReadWriteEndpointTest
 
     public function testNewSessionLearningMaterialUpdatesSessionStamp()
     {
-        $dataLoader = $this->getContainer()->get(SessionLearningMaterialData::class);
+        $dataLoader = self::getContainer()->get(SessionLearningMaterialData::class);
         $data = $dataLoader->create();
         $this->relatedTimeStampPostTest(1, 'sessionlearningmaterials', 'sessionLearningMaterials', $data);
     }
 
     public function testUpdatingSessionLearningMaterialUpdatesSessionStamp()
     {
-        $dataLoader = $this->getContainer()->get(SessionLearningMaterialData::class);
+        $dataLoader = self::getContainer()->get(SessionLearningMaterialData::class);
         $data = $dataLoader->getOne();
         $data['required'] = !$data['required'];
         $this->relatedTimeStampUpdateTest(1, 'sessionlearningmaterials', 'sessionLearningMaterial', $data);
@@ -218,7 +218,7 @@ class SessionTest extends ReadWriteEndpointTest
 
     public function testDeletingSessionLearningMaterialUpdatesSessionStamp()
     {
-        $dataLoader = $this->getContainer()->get(SessionLearningMaterialData::class);
+        $dataLoader = self::getContainer()->get(SessionLearningMaterialData::class);
         $data = $dataLoader->getOne();
         $this->relatedTimeStampDeleteTest(1, 'sessionlearningmaterials', $data['id']);
     }

@@ -99,15 +99,6 @@ class RolloverCourseCommandTest extends KernelTestCase
             'skip-instructors' => false,
             'skip-instructor-groups' => false,
             'new-course-title' => null,
-            'help' => false,
-            'quiet' => false,
-            'verbose' => false,
-            'version' => false,
-            'ansi' => false,
-            'no-ansi' => false,
-            'no-interaction' => false,
-            'env' => 'test',
-            'no-debug' => false,
         ];
 
         $this->service
@@ -133,16 +124,6 @@ class RolloverCourseCommandTest extends KernelTestCase
             'skip-instructors' => true,
             'skip-instructor-groups' => true,
             'new-course-title' => 'lorem ipsum',
-            // these don't matter in this context, leave em as is.
-            'help' => false,
-            'quiet' => false,
-            'verbose' => false,
-            'version' => false,
-            'ansi' => false,
-            'no-ansi' => false,
-            'no-interaction' => false,
-            'env' => 'test',
-            'no-debug' => false,
         ];
 
         $courseId  = '1';

@@ -83,7 +83,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
 
     protected function createMany($count)
     {
-        $userDataLoader = $this->getContainer()->get(UserData::class);
+        $userDataLoader = self::getContainer()->get(UserData::class);
         $users = $userDataLoader->createMany($count);
         $savedUsers = $this->postMany('users', 'users', $users);
 

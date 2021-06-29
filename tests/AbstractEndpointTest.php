@@ -49,7 +49,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         ];
         $testFixtures = $this->getFixtures();
         $fixtures = array_merge($authFixtures, $testFixtures);
-        $this->databaseTool = $this->getContainer()->get(DatabaseToolCollection::class)->get();
+        $this->databaseTool = self::getContainer()->get(DatabaseToolCollection::class)->get();
         $executor = $this->databaseTool->loadFixtures($fixtures);
         $this->fixtures = $executor->getReferenceRepository();
 
@@ -71,11 +71,6 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function getFixtures()
     {
         return [];
-    }
-
-    protected function getContainer(): ContainerInterface
-    {
-        return $this->kernelBrowser->getContainer();
     }
 
     /**
@@ -184,7 +179,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $service = "App\\Tests\\DataLoader\\{$name}Data";
 
         /** @var DataLoaderInterface $dataLoader */
-        $dataLoader = $this->getContainer()->get($service);
+        $dataLoader = self::getContainer()->get($service);
         return $dataLoader;
     }
 

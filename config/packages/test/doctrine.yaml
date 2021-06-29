@@ -4,6 +4,7 @@ doctrine:
         connections:
             default:
                 driver: pdo_sqlite
-                path: "%kernel.cache_dir%/test.db"
+                # "TEST_TOKEN" is typically set by ParaTest
+                path: "%kernel.cache_dir%/test_%env(default::TEST_TOKEN)%.db"
                 logging: false
                 profiling: false

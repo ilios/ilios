@@ -8,17 +8,14 @@ use App\Classes\SessionUser;
 use App\Classes\SessionUserInterface;
 use App\Entity\UserInterface as IliosUser;
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 class SessionUserProvider implements UserProviderInterface
 {
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
+    protected UserRepository $userRepository;
 
     /**
      * SessionUserProvider constructor.
@@ -50,21 +47,26 @@ class SessionUserProvider implements UserProviderInterface
         return new SessionUser($user, $this->userRepository);
     }
 
-    public function loadUserByUsername($userId)
+    public function loadUserByUsername($userId): SessionUserInterface
+    {
+        return $this->loadUserByIdentifier($userId);
+    }
+
+    public function loadUserByIdentifier($identifier): SessionUserInterface
     {
         /** @var IliosUser $user */
-        $user = $this->userRepository->findOneBy(['id' => $userId]);
+        $user = $this->userRepository->findOneBy(['id' => $identifier]);
 
         if ($user) {
             return new SessionUser($user, $this->userRepository);
         }
 
-        throw new UsernameNotFoundException(
-            sprintf('Username "%s" does not exist.', $userId)
+        throw new UserNotFoundException(
+            sprintf('Username "%s" does not exist.', $identifier)
         );
     }
 
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): SessionUserInterface
     {
         if (!$user instanceof SessionUser) {
             throw new UnsupportedUserException(
@@ -75,7 +77,7 @@ class SessionUserProvider implements UserProviderInterface
         return $this->loadUserByUsername($user->getUsername());
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return SessionUser::class === $class;
     }
