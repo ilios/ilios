@@ -24,47 +24,15 @@ use is_null;
 
 class EntityMetadata
 {
-    private const CACH_KEY_PREFIX = 'ilios-entity-metadata-';
-
-    /**
-     * @var Reader
-     */
-    private $annotationReader;
-
-    /**
-     * @var array
-     */
-    private $exposedPropertiesForClass;
-
-    /**
-     * @var array
-     */
-    private $typeForClasses;
-
-    /**
-     * @var array
-     */
-    private $typeForProperties;
-
-    /**
-     * @var array
-     */
-    private $idForClasses;
-
-    /**
-     * @var array
-     */
-    private $relatedForClass;
-
-    /**
-     * @var array
-     */
-    private $iliosEntities;
-
-    /**
-     * @var array
-     */
-    private $iliosDtos;
+    private const CACHE_KEY_PREFIX = 'ilios-entity-metadata-';
+    private Reader $annotationReader;
+    private array $exposedPropertiesForClass;
+    private array $typeForClasses;
+    private array $typeForProperties;
+    private array $idForClasses;
+    private array $relatedForClass;
+    private array $iliosEntities;
+    private array $iliosDtos;
 
     /**
      * EntityMetadata constructor
@@ -87,10 +55,10 @@ class EntityMetadata
         $this->annotationReader = new CachedReader(
             new AnnotationReader(),
             $cache,
-            $debug = $kernel->getEnvironment() !== 'prod'
+            $kernel->getEnvironment() !== 'prod'
         );
 
-        $entityKey = self::CACH_KEY_PREFIX . 'entities';
+        $entityKey = self::CACHE_KEY_PREFIX . 'entities';
         if (!$cache->contains($entityKey) || !$entities = $cache->fetch($entityKey)) {
             $entities = $this->findIliosEntities($kernel);
             $cache->save($entityKey, $entities);
@@ -98,7 +66,7 @@ class EntityMetadata
 
         $this->iliosEntities = $entities;
 
-        $dtoKey = self::CACH_KEY_PREFIX . 'dtos';
+        $dtoKey = self::CACHE_KEY_PREFIX . 'dtos';
         if (!$cache->contains($dtoKey) || !$dtos = $cache->fetch($dtoKey)) {
             $dtos = $this->findIliosDtos($kernel);
             $cache->save($dtoKey, $dtos);
@@ -109,12 +77,8 @@ class EntityMetadata
 
     /**
      * Check if an object or className has the Entity annotation
-     *
-     * @param $classNameOrObject
-     *
-     * @return bool
      */
-    public function isAnIliosEntity($classNameOrObject)
+    public function isAnIliosEntity(mixed $classNameOrObject): bool
     {
         if ($this->isAStringOrClass($classNameOrObject)) {
             $className = $this->getClassName($classNameOrObject);
@@ -123,7 +87,7 @@ class EntityMetadata
                 return true;
             }
 
-            if (strpos($className, 'Proxies') !== false) {
+            if (str_contains($className, 'Proxies')) {
                 $reflection = new ReflectionClass($classNameOrObject);
                 if ($reflection->implementsInterface(Proxy::class)) {
                     $reflection = $reflection->getParentClass();
@@ -139,12 +103,8 @@ class EntityMetadata
 
     /**
      * Check if an object or class name has the DTO annotation
-     *
-     * @param $classNameOrObject
-     *
-     * @return bool
      */
-    public function isAnIliosDto($classNameOrObject)
+    public function isAnIliosDto(mixed $classNameOrObject): bool
     {
         if ($this->isAStringOrClass($classNameOrObject)) {
             $className = $this->getClassName($classNameOrObject);
@@ -157,21 +117,16 @@ class EntityMetadata
 
     /**
      * Checks to see if what we have been passed is a string or a class
-     * @param $classNameOrObject
-     * @return bool
      */
-    protected function isAStringOrClass($classNameOrObject)
+    protected function isAStringOrClass(mixed $classNameOrObject): bool
     {
         return is_string($classNameOrObject) || is_object($classNameOrObject);
     }
 
     /**
      * Gets the name of a class
-     *
-     * @param $classNameOrObject
-     * @return string
      */
-    protected function getClassName($classNameOrObject)
+    protected function getClassName(string|object $classNameOrObject): string
     {
         return is_object($classNameOrObject) ? get_class($classNameOrObject) : $classNameOrObject;
     }
@@ -179,24 +134,24 @@ class EntityMetadata
     /**
      * Get all of the properties of a call which are
      * marked with the Exposed annotation
-     *
-     * @param ReflectionClass $reflection
-     *
-     * @return mixed
      */
-    public function extractExposedProperties(ReflectionClass $reflection)
+    public function extractExposedProperties(ReflectionClass $reflection): array
     {
         $className = $reflection->getName();
         if (!array_key_exists($className, $this->exposedPropertiesForClass)) {
             $properties = $reflection->getProperties();
-
             $exposed =  array_filter($properties, function (ReflectionProperty $property) {
-                $annotation = $this->annotationReader->getPropertyAnnotation(
-                    $property,
-                    Expose::class
-                );
+                $attributes = $property->getAttributes(\App\Attribute\Expose::class);
+                if (count($attributes)) {
+                    return true;
+                } else {
+                    $annotation = $this->annotationReader->getPropertyAnnotation(
+                        $property,
+                        Expose::class
+                    );
 
-                return !is_null($annotation);
+                    return !is_null($annotation);
+                }
             });
 
             $exposedProperties = [];
@@ -220,6 +175,10 @@ class EntityMetadata
             $properties = $reflection->getProperties();
 
             $ids = array_filter($properties, function (ReflectionProperty $property) {
+                $attributes = $property->getAttributes(\App\Attribute\Id::class);
+                if (count($attributes)) {
+                    return true;
+                }
                 $annotation = $this->annotationReader->getPropertyAnnotation(
                     $property,
                     Id::class
@@ -238,7 +197,7 @@ class EntityMetadata
     }
 
     /**
-     * Get the ID property for a class
+     * Get the related property for a class
      */
     public function extractRelated(ReflectionClass $reflection): array
     {
@@ -249,18 +208,28 @@ class EntityMetadata
             $relatedProperties = [];
 
             foreach ($properties as $property) {
-                $related = $this->annotationReader->getPropertyAnnotation(
-                    $property,
-                    Related::class
-                );
-                $exposed = $this->annotationReader->getPropertyAnnotation(
-                    $property,
-                    Expose::class
-                );
+                $related = $property->getAttributes(\App\Attribute\Related::class);
+                $exposed = $property->getAttributes(\App\Attribute\Expose::class);
+                if (count($related)) {
+                    if (count($exposed)) {
+                        $arguments = $related[0]->getArguments();
+                        $value = count($arguments) ? $arguments[0] : $property->getName();
+                        $relatedProperties[$property->getName()] = $value;
+                    }
+                } else {
+                    $related = $this->annotationReader->getPropertyAnnotation(
+                        $property,
+                        Related::class
+                    );
+                    $exposed = $this->annotationReader->getPropertyAnnotation(
+                        $property,
+                        Expose::class
+                    );
 
-                if ($related && $exposed) {
-                    $relatedProperties[$property->getName()] =
-                        $related->value ? $related->value : $property->getName();
+                    if ($related && $exposed) {
+                        $relatedProperties[$property->getName()] =
+                            $related->value ? $related->value : $property->getName();
+                    }
                 }
             }
 
@@ -277,13 +246,24 @@ class EntityMetadata
     {
         $className = $reflection->getName();
         if (!array_key_exists($className, $this->typeForClasses)) {
-            $annotation = $this->annotationReader->getClassAnnotation(
-                $reflection,
-                DTO::class
-            );
+            $attributes = $reflection->getAttributes(\App\Attribute\DTO::class);
+            if (count($attributes)) {
+                $arguments = $attributes[0]->getArguments();
+                if (!count($arguments)) {
+                    throw new \Exception(
+                        "Missing Type argument on {$className} DTO Attribute"
+                    );
+                }
+                $type = $arguments[0];
+            } else {
+                $annotation = $this->annotationReader->getClassAnnotation(
+                    $reflection,
+                    DTO::class
+                );
+                $type = $annotation->value;
+            }
 
-
-            $this->typeForClasses[$className] = $annotation->value;
+            $this->typeForClasses[$className] = $type;
         }
 
         return $this->typeForClasses[$className];
@@ -292,12 +272,8 @@ class EntityMetadata
     /**
      * Get all of the properties of a class which are
      * not annotated as ReadOnly
-     *
-     * @param ReflectionClass $reflection
-     *
-     * @return array
      */
-    public function extractWritableProperties(ReflectionClass $reflection)
+    public function extractWritableProperties(ReflectionClass $reflection): array
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
@@ -308,12 +284,8 @@ class EntityMetadata
 
     /**
      * Get all of the annotated ReadOnly properties of a class
-     *
-     * @param ReflectionClass $reflection
-     *
-     * @return array
      */
-    public function extractReadOnlyProperties(ReflectionClass $reflection)
+    public function extractReadOnlyProperties(ReflectionClass $reflection): array
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
@@ -330,20 +302,33 @@ class EntityMetadata
         $className = $property->class;
         $propertyName = $property->getName();
         $key = $className . $propertyName;
-        if (!array_key_exists($key, $this->typeForProperties)) {
-            /** @var Type $typeAnnotation */
-            $typeAnnotation = $this->annotationReader->getPropertyAnnotation(
-                $property,
-                Type::class
-            );
 
-            if (is_null($typeAnnotation)) {
+        if (!array_key_exists($key, $this->typeForProperties)) {
+            $attributes = $property->getAttributes(\App\Attribute\Type::class);
+            if (count($attributes)) {
+                $arguments = $attributes[0]->getArguments();
+                if (!count($arguments)) {
+                    throw new \Exception(
+                        "Missing Type argument on {$className}::{$propertyName}"
+                    );
+                }
+                $type = $arguments[0];
+            } else {
+                /** @var Type $typeAnnotation */
+                $typeAnnotation = $this->annotationReader->getPropertyAnnotation(
+                    $property,
+                    Type::class
+                );
+                $type = $typeAnnotation?->value;
+            }
+
+            if (!isset($type)) {
                 throw new \Exception(
                     "Missing Type annotation on {$className}::{$propertyName}"
                 );
             }
 
-            $this->typeForProperties[$key] = $typeAnnotation->value;
+            $this->typeForProperties[$key] = $type;
         }
 
         return $this->typeForProperties[$key];
@@ -351,13 +336,14 @@ class EntityMetadata
 
     /**
      * Check if a property has the ReadOnly annotation
-     *
-     * @param ReflectionProperty $property
-     *
-     * @return bool
      */
-    public function isPropertyReadOnly(ReflectionProperty $property)
+    public function isPropertyReadOnly(ReflectionProperty $property): bool
     {
+        $attributes = $property->getAttributes(\App\Attribute\ReadOnly::class);
+        if (count($attributes)) {
+            return true;
+        }
+
         /** @var ReadOnly $annotation */
         $annotation = $this->annotationReader->getPropertyAnnotation(
             $property,
@@ -369,13 +355,13 @@ class EntityMetadata
 
     /**
      * Check if a property has the RemoveMarkup annotation
-     *
-     * @param ReflectionProperty $property
-     *
-     * @return bool
      */
-    public function isPropertyRemoveMarkup(ReflectionProperty $property)
+    public function isPropertyRemoveMarkup(ReflectionProperty $property): bool
     {
+        $attributes = $property->getAttributes(\App\Attribute\RemoveMarkup::class);
+        if (count($attributes)) {
+            return true;
+        }
         /** @var ReadOnly $annotation */
         $annotation = $this->annotationReader->getPropertyAnnotation(
             $property,
@@ -426,7 +412,7 @@ class EntityMetadata
      */
     protected function findIliosDtos(KernelInterface $kernel)
     {
-        $dtoPath = $path = $kernel->getProjectDir() . '/src/Entity/DTO';
+        $dtoPath = $kernel->getProjectDir() . '/src/Entity/DTO';
         $finder = new Finder();
         $files = $finder->in($dtoPath)->files()->depth("== 0")->sortByName();
 
@@ -434,12 +420,18 @@ class EntityMetadata
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
             $class = 'App\\Entity\\DTO' . '\\' . $file->getBasename('.php');
-            $annotation = $this->annotationReader->getClassAnnotation(
-                new ReflectionClass($class),
-                'App\Annotation\DTO'
-            );
-            if (null !== $annotation) {
+            $refl = new ReflectionClass($class);
+            $attributes = $refl->getAttributes(\App\Attribute\DTO::class);
+            if (count($attributes)) {
                 $list[] = $class;
+            } else {
+                $annotation = $this->annotationReader->getClassAnnotation(
+                    $refl,
+                    DTO::class
+                );
+                if (null !== $annotation) {
+                    $list[] = $class;
+                }
             }
         }
 
