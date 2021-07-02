@@ -45,14 +45,20 @@ jobs:
           - elasticsearch
     steps:
     - uses: actions/checkout@v2
-    - name: ${{ matrix.image }} to Github Registry
-      uses: docker/build-push-action@v1
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
       with:
+        registry: ghcr.io
         username: zorgbort
         password: ${{ secrets.ZORGBORT_TOKEN }}
-        registry: ghcr.io
-        repository: ilios/${{ matrix.image }}
-        tags: ${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}}
+    - name: ${{ matrix.image }} to Docker Registry
+      uses: docker/build-push-action@v2
+      with:
+        username: zorgbort
+        password: ${{ secrets.ZORGBORT_DOCKER_TOKEN }}
+        tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
   deploy-docker-containers:
     needs: tags
@@ -74,11 +80,15 @@ jobs:
           - elasticsearch
     steps:
     - uses: actions/checkout@v2
-    - name: ${{ matrix.image }} to Docker Registry
-      uses: docker/build-push-action@v1
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
       with:
         username: zorgbort
         password: ${{ secrets.ZORGBORT_DOCKER_TOKEN }}
-        repository: ilios/${{ matrix.image }}
-        tags: ${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}}
+    - name: ${{ matrix.image }} to Docker Registry
+      uses: docker/build-push-action@v2
+      with:
+        tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
