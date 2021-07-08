@@ -4,45 +4,37 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
 /**
  * Class CurriculumInventoryExport
- * @IS\DTO("curriculumInventoryExports")
  */
+#[IA\DTO('curriculumInventoryExports')]
 class CurriculumInventoryExportDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("curriculumInventoryReports")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventoryReports')]
+    #[IA\Type('integer')]
     public int $report;
 
     /**
-     * @IS\Type("string")
      * Not exposed.
      */
+    #[IA\Type('string')]
     public string $document;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public int $createdBy;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $createdAt;
 
     public function __construct(int $id, string $document, DateTime $createdAt)

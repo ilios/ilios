@@ -4,71 +4,60 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class ProgramDTO
  * Data transfer object for a Program
- * @IS\DTO("programs")
  */
+#[IA\DTO('programs')]
 class ProgramDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $title;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $shortTitle;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public int $duration;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("schools")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('schools')]
+    #[IA\Type('integer')]
     public int $school;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $programYears = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $curriculumInventoryReports = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('array<string>')]
     public array $directors = [];
-
 
     public function __construct(
         int $id,

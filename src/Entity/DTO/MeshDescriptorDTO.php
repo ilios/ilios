@@ -4,141 +4,124 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
 /**
  * Class MeshDescriptorDTO
  * Data transfer object for a MeSH descriptor.
- * @IS\DTO("meshDescriptors")
  */
+#[IA\DTO('meshDescriptors')]
 class MeshDescriptorDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $name;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $annotation;
 
-    /**
-     * @var DateTime
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $createdAt;
 
-    /**
-     * @var DateTime
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $updatedAt;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $courses = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("sessionObjectives")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('sessionObjectives')]
+    #[IA\Type('array<string>')]
     public array $sessionObjectives = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("courseObjectives")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('courseObjectives')]
+    #[IA\Type('array<string>')]
     public array $courseObjectives = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("programYearObjectives")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('programYearObjectives')]
+    #[IA\Type('array<string>')]
     public array $programYearObjectives = [];
-
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $sessions = [];
 
     /**
      * @var string[]
-     * @IS\Expose
-     * @IS\Related("meshConcepts")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('meshConcepts')]
+    #[IA\Type('array<string>')]
     public array $concepts = [];
 
     /**
      * @var string[]
-     * @IS\Expose
-     * @IS\Related("meshQualifiers")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('meshQualifiers')]
+    #[IA\Type('array<string>')]
     public array $qualifiers = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("meshTrees")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('meshTrees')]
+    #[IA\Type('array<string>')]
     public array $trees = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $sessionLearningMaterials = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $courseLearningMaterials = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Related("meshPreviousIndexings")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('meshPreviousIndexings')]
+    #[IA\Type('integer')]
     public ?int $previousIndexing = null;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $deleted;
 
     public function __construct(

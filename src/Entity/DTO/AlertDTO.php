@@ -4,68 +4,58 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class AlertDTO
  * Data transfer object for an alert
- * @IS\DTO("alerts")
  */
+#[IA\DTO('alerts')]
 class AlertDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $tableRowId;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $tableName;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $additionalText;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $dispatched;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("alertChangeTypes")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('alertChangeTypes')]
+    #[IA\Type('array<string>')]
     public array $changeTypes = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('array<string>')]
     public array $instigators = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("schools")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('schools')]
+    #[IA\Type('array<string>')]
     public array $recipients = [];
 
     public function __construct(

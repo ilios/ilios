@@ -4,46 +4,38 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class VocabularyDTO
- * @IS\DTO("vocabularies")
  */
+#[IA\DTO('vocabularies')]
 class VocabularyDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $title;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("schools")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('schools')]
+    #[IA\Type('integer')]
     public int $school;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $terms = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $active;
 
     public function __construct(int $id, string $title, bool $active)

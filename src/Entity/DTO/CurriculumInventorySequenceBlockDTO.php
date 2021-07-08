@@ -4,138 +4,106 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
 /**
  * Class CurriculumInventorySequenceBlockDTO
- * @IS\DTO("curriculumInventorySequenceBlocks")
  */
+#[IA\DTO('curriculumInventorySequenceBlocks')]
 class CurriculumInventorySequenceBlockDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $title;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $description;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $required;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $childSequenceOrder;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $orderInSequence;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $minimum;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $maximum;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $track;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public ?DateTime $startDate;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public ?DateTime $endDate;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $duration;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("curriculumInventoryAcademicLevels")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventoryAcademicLevels')]
+    #[IA\Type('integer')]
     public int $academicLevel;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("courses")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('courses')]
+    #[IA\Type('integer')]
     public ?int $course = null;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("curriculumInventorySequenceBlocks")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventorySequenceBlocks')]
+    #[IA\Type('integer')]
     public ?int $parent = null;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("curriculumInventorySequenceBlocks")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventorySequenceBlocks')]
+    #[IA\Type('array<string>')]
     public array $children = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Related("curriculumInventoryReports")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventoryReports')]
+    #[IA\Type('integer')]
     public int $report;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $sessions = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("sessions")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('sessions')]
+    #[IA\Type('array<string>')]
     public array $excludedSessions = [];
 
     /**

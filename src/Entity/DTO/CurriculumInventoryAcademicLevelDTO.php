@@ -4,52 +4,42 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class CurriculumInventoryAcademicLevelDTO
- * @IS\DTO("curriculumInventoryAcademicLevels")
  */
+#[IA\DTO('curriculumInventoryAcademicLevels')]
 class CurriculumInventoryAcademicLevelDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $name;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $description;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $level;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("curriculumInventoryReports")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventoryReports')]
+    #[IA\Type('integer')]
     public int $report;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("curriculumInventorySequenceBlocks")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventorySequenceBlocks')]
+    #[IA\Type('array<string>')]
     public array $sequenceBlocks = [];
 
     /**

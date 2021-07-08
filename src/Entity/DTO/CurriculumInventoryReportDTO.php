@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Entity\CurriculumInventoryAcademicLevelInterface;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
@@ -12,88 +12,68 @@ use DateTime;
 
 /**
  * Class CurriculumInventoryReport
- * @IS\DTO("curriculumInventoryReports")
  */
+#[IA\DTO('curriculumInventoryReports')]
 class CurriculumInventoryReportDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $name;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $description;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public int $year;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $startDate;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $endDate;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("curriculumInventoryExports")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventoryExports')]
+    #[IA\Type('integer')]
     public ?int $export = null;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("curriculumInventorySequences")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventorySequences')]
+    #[IA\Type('integer')]
     public ?int $sequence = null;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("curriculumInventorySequenceBlocks")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventorySequenceBlocks')]
+    #[IA\Type('array<string>')]
     public array $sequenceBlocks = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Related("programs")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('programs')]
+    #[IA\Type('integer')]
     public int $program;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("curriculumInventoryAcademicLevels")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventoryAcademicLevels')]
+    #[IA\Type('array<string>')]
     public array $academicLevels = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $absoluteFileUri;
 
     /**
@@ -108,10 +88,10 @@ class CurriculumInventoryReportDTO
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('array<string>')]
     public array $administrators = [];
 
     public function __construct(

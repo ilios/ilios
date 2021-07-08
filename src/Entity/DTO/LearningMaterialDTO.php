@@ -4,137 +4,104 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
 /**
  * Class LearningMaterialDTO
  * Data transfer object for a learning materials
- * @IS\DTO("learningMaterials")
  */
+#[IA\DTO('learningMaterials')]
 class LearningMaterialDTO
 {
-
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $title;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $description;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $uploadDate;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $originalAuthor;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("learningMaterialUserRoles")
-     * @IS\Type("entity")
-     */
+    #[IA\Expose]
+    #[IA\Related('learningMaterialUserRoles')]
+    #[IA\Type('entity')]
     public int $userRole;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("learningMaterialStatuses")
-     * @IS\Type("entity")
-     */
+    #[IA\Expose]
+    #[IA\Related('learningMaterialStatuses')]
+    #[IA\Type('entity')]
     public int $status;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("entity")
-     */
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('entity')]
     public int $owningUser;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $sessionLearningMaterials = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $courseLearningMaterials = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $citation;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public ?bool $copyrightPermission;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $copyrightRationale;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $filename;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $mimetype;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public ?int $filesize = null;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $link;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $absoluteFileUri = null;
 
     /**
      * Not exposed, it is used to build the URI later
-     * @IS\Type("string")
      */
+    #[IA\Type('string')]
     public ?string $token;
 
     /**
@@ -173,7 +140,6 @@ class LearningMaterialDTO
         $this->token = $token;
         $this->relativePath = $relativePath;
     }
-
     /**
      * Blanks out most of the material's attributes.
      */

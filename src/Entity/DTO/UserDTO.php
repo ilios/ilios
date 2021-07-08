@@ -4,300 +4,261 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
-use App\Entity\UserInterface;
+use App\Attribute as IA;
 
 /**
  * Class UserDTO
  * Data transfer object for a user
- * @IS\DTO("users")
  */
+#[IA\DTO('users')]
 class UserDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $lastName;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $firstName;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $middleName;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $displayName;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $phone;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $email;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $preferredEmail;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $addedViaIlios;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $enabled;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $campusId;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $otherId;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $examined;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $userSyncIgnore;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $icsFeedKey;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $reports = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Related("schools")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('schools')]
+    #[IA\Type('integer')]
     public int $school;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("authentications")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('authentications')]
+    #[IA\Type('integer')]
     public ?int $authentication = null;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("courses")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('courses')]
+    #[IA\Type('array<string>')]
     public array $directedCourses = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("courses")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('courses')]
+    #[IA\Type('array<string>')]
     public array $administeredCourses = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("courses")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('courses')]
+    #[IA\Type('array<string>')]
     public array $studentAdvisedCourses = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $learnerGroups = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("learnerGroups")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('learnerGroups')]
+    #[IA\Type('array<string>')]
     public array $instructedLearnerGroups = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $instructorGroups = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("ilmSessions")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('ilmSessions')]
+    #[IA\Type('array<string>')]
     public array $instructorIlmSessions = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("ilmSession")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('ilmSession')]
+    #[IA\Type('array<string>')]
     public array $learnerIlmSessions = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $offerings = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("offerings")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('offerings')]
+    #[IA\Type('array<string>')]
     public array $instructedOfferings = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $programYears = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("userRoles")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('userRoles')]
+    #[IA\Type('array<string>')]
     public array $roles = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $cohorts = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Related("cohorts")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('cohorts')]
+    #[IA\Type('integer')]
     public ?int $primaryCohort = null;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $pendingUserUpdates = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $root;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("schools")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('schools')]
+    #[IA\Type('array<string>')]
     public array $directedSchools = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("schools")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('schools')]
+    #[IA\Type('array<string>')]
     public array $administeredSchools = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("sessions")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('sessions')]
+    #[IA\Type('array<string>')]
     public array $administeredSessions = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("sessions")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('sessions')]
+    #[IA\Type('array<string>')]
     public array $studentAdvisedSessions = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("programs")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('programs')]
+    #[IA\Type('array<string>')]
     public array $directedPrograms = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("curriculumInventoryReports")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventoryReports')]
+    #[IA\Type('array<string>')]
     public array $administeredCurriculumInventoryReports = [];
 
     /**

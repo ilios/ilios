@@ -4,32 +4,26 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class MeshTreeDTO
- * @IS\DTO("meshTrees")
  */
+#[IA\DTO('meshTrees')]
 class MeshTreeDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $treeNumber;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("meshDescriptors")
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Related('meshDescriptors')]
+    #[IA\Type('string')]
     public string $descriptor;
 
     public function __construct(int $id, string $treeNumber)

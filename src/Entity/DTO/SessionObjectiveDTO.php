@@ -4,108 +4,95 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class SessionObjectiveDTO
- * @IS\DTO("sessionObjectives")
  */
+#[IA\DTO('sessionObjectives')]
 class SessionObjectiveDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $title;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $active;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("sessions")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('sessions')]
+    #[IA\Type('integer')]
     public int $session;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $position;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $terms = [];
 
     /**
      * Needed for Voting, not exposed in the API
-     * @IS\Type("integer")
      */
+    #[IA\Type('integer')]
     public int $course;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @IS\Type("integer")
      */
+    #[IA\Type('integer')]
     public int $school;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @IS\Type("boolean")
      */
+    #[IA\Type('boolean')]
     public bool $courseIsLocked;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @IS\Type("boolean")
      */
+    #[IA\Type('boolean')]
     public bool $courseIsArchived;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("courseObjectives")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('courseObjectives')]
+    #[IA\Type('array<string>')]
     public array $courseObjectives = [];
-
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $meshDescriptors = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Related("sessionObjectives")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('sessionObjectives')]
+    #[IA\Type('integer')]
     public ?int $ancestor = null;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("sessionObjectives")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('sessionObjectives')]
+    #[IA\Type('array<string>')]
     public array $descendants = [];
 
     public function __construct(int $id, string $title, int $position, bool $active)

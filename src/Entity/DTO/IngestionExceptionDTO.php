@@ -4,33 +4,27 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class IngestionExceptionDTO
  * Data transfer object for an ingestionException
- * @IS\DTO("ingestionExceptions")
  */
+#[IA\DTO('ingestionExceptions')]
 class IngestionExceptionDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $uid;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('integer')]
     public int $user;
 
     public function __construct(int $id, string $uid)

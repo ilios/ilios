@@ -4,173 +4,143 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
 /**
  * Class SessionDTO
  * Data transfer object for a session.
- * @IS\DTO("sessions")
  */
+#[IA\DTO('sessions')]
 class SessionDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $title;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public ?bool $attireRequired;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public ?bool $equipmentRequired;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public ?bool $supplemental;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public ?bool $attendanceRequired;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $publishedAsTbd;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $published;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $instructionalNotes;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $updatedAt;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $description;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("sessionTypes")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('sessionTypes')]
+    #[IA\Type('integer')]
     public int $sessionType;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("courses")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('courses')]
+    #[IA\Type('integer')]
     public int $course;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("ilmSessions")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('ilmSessions')]
+    #[IA\Type('integer')]
     public ?int $ilmSession = null;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $terms = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $sessionObjectives = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $meshDescriptors = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("sessionLearningMaterials")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('sessionLearningMaterials')]
+    #[IA\Type('array<string>')]
     public array $learningMaterials = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('array<string>')]
     public array $administrators = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('array<string>')]
     public array $studentAdvisors = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $offerings = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Related("sessions")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('sessions')]
+    #[IA\Type('integer')]
     public ?int $postrequisite = null;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("sessions")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('sessions')]
+    #[IA\Type('array<string>')]
     public array $prerequisites = [];
 
     /**

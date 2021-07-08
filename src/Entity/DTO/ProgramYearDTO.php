@@ -4,87 +4,74 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Entity\CompetencyInterface;
 
 /**
  * Class ProgramYearDTO
  * Data transfer object for a programYear
- * @IS\DTO("programYears")
  */
+#[IA\DTO('programYears')]
 class ProgramYearDTO
 {
-
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public int $startYear;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $locked;
 
-    /**
-     * @IS\Expose
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $archived;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("programs")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('programs')]
+    #[IA\Type('integer')]
     public int $program;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("cohorts")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('cohorts')]
+    #[IA\Type('integer')]
     public int $cohort;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('array<string>')]
     public array $directors = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $competencies = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $terms = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $programYearObjectives = [];
 
     /**
