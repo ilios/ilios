@@ -28,7 +28,6 @@ class ProgramYearDTO
     public bool $locked;
 
     #[IA\Expose]
-    #[IA\Expose]
     #[IA\Type('boolean')]
     public bool $archived;
 
