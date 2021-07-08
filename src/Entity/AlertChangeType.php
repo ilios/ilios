@@ -30,7 +30,6 @@ class AlertChangeType implements AlertChangeTypeInterface
     use AlertableEntity;
 
     /**
-     * @deprecated Replace with trait in 3.x
      * @var int
      * @Assert\Type(type="integer")
      * @IS\Expose

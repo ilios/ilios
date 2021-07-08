@@ -32,9 +32,9 @@ use App\Repository\CourseRepository;
  * @IS\Entity
  */
 #[ORM\Table(name: 'course')]
-#[ORM\Index(name: 'title_course_k', columns: ['course_id', 'title'])]
-#[ORM\Index(name: 'external_id', columns: ['external_id'])]
-#[ORM\Index(name: 'clerkship_type_id', columns: ['clerkship_type_id'])]
+#[ORM\Index(columns: ['course_id', 'title'], name: 'title_course_k')]
+#[ORM\Index(columns: ['external_id'], name: 'external_id')]
+#[ORM\Index(columns: ['clerkship_type_id'], name: 'clerkship_type_id')]
 #[ORM\Entity(repositoryClass: CourseRepository::class)]
 class Course implements CourseInterface
 {
@@ -110,7 +110,7 @@ class Course implements CourseInterface
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    #[ORM\Column(type: 'date', name: 'start_date')]
+    #[ORM\Column(name: 'start_date', type: 'date')]
     protected $startDate;
 
     /**
@@ -119,7 +119,7 @@ class Course implements CourseInterface
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    #[ORM\Column(type: 'date', name: 'end_date')]
+    #[ORM\Column(name: 'end_date', type: 'date')]
     protected $endDate;
 
     /**
@@ -132,7 +132,7 @@ class Course implements CourseInterface
      * @IS\Expose
      * @IS\Type("string")
      */
-    #[ORM\Column(type: 'string', length: 255, name: 'external_id', nullable: true)]
+    #[ORM\Column(name: 'external_id', type: 'string', length: 255, nullable: true)]
     protected $externalId;
 
     /**
@@ -162,7 +162,7 @@ class Course implements CourseInterface
      * @IS\Expose
      * @IS\Type("boolean")
      */
-    #[ORM\Column(type: 'boolean', name: 'published_as_tbd')]
+    #[ORM\Column(name: 'published_as_tbd', type: 'boolean')]
     protected $publishedAsTbd;
 
     /**
@@ -177,7 +177,6 @@ class Course implements CourseInterface
 
     /**
      * @var CourseClerkshipTypeInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -188,7 +187,6 @@ class Course implements CourseInterface
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -263,7 +261,7 @@ class Course implements CourseInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'CourseObjective', mappedBy: 'course')]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'CourseObjective')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $courseObjectives;
 
@@ -280,7 +278,11 @@ class Course implements CourseInterface
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courses')]
     #[ORM\JoinTable(name: 'course_x_mesh')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'mesh_descriptor_uid',
+        referencedColumnName: 'mesh_descriptor_uid',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
 
@@ -289,7 +291,7 @@ class Course implements CourseInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'CourseLearningMaterial', mappedBy: 'course')]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'CourseLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
 
@@ -298,7 +300,7 @@ class Course implements CourseInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'course')]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessions;
 
@@ -306,13 +308,12 @@ class Course implements CourseInterface
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'course')]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
 
     /**
      * @var CourseInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -325,7 +326,7 @@ class Course implements CourseInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Course', mappedBy: 'ancestor')]
+    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'Course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descendants;
 

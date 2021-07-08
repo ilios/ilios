@@ -26,15 +26,12 @@ use App\Repository\SessionRepository;
 
 /**
  * Class Session
- *   indexes={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'session')]
-#[ORM\Index(name: 'session_type_id_k', columns: ['session_type_id'])]
-#[ORM\Index(name: 'course_id_k', columns: ['course_id'])]
-#[ORM\Index(name: 'session_course_type_title_k', columns: ['session_id', 'course_id', 'session_type_id', 'title'])]
+#[ORM\Index(columns: ['session_type_id'], name: 'session_type_id_k')]
+#[ORM\Index(columns: ['course_id'], name: 'course_id_k')]
+#[ORM\Index(columns: ['session_id', 'course_id', 'session_type_id', 'title'], name: 'session_course_type_title_k')]
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session implements SessionInterface
 {
@@ -173,7 +170,6 @@ class Session implements SessionInterface
     /**
      * @var SessionTypeInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -184,7 +180,6 @@ class Session implements SessionInterface
     /**
      * @var CourseInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -197,7 +192,7 @@ class Session implements SessionInterface
      * @IS\Expose
      * @IS\Type("entity")
      */
-    #[ORM\OneToOne(targetEntity: 'IlmSession', mappedBy: 'session')]
+    #[ORM\OneToOne(mappedBy: 'session', targetEntity: 'IlmSession')]
     protected $ilmSession;
 
     /**
@@ -217,7 +212,7 @@ class Session implements SessionInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'SessionObjective', mappedBy: 'session')]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'SessionObjective')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $sessionObjectives;
 
@@ -229,7 +224,11 @@ class Session implements SessionInterface
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessions')]
     #[ORM\JoinTable(name: 'session_x_mesh')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'mesh_descriptor_uid',
+        referencedColumnName: 'mesh_descriptor_uid',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
 
@@ -238,7 +237,7 @@ class Session implements SessionInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'SessionLearningMaterial', mappedBy: 'session')]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'SessionLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
 
@@ -247,7 +246,7 @@ class Session implements SessionInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Offering', mappedBy: 'session')]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'Offering')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $offerings;
 
@@ -291,7 +290,6 @@ class Session implements SessionInterface
 
     /**
      * @var SessionInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -304,7 +302,7 @@ class Session implements SessionInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'postrequisite')]
+    #[ORM\OneToMany(mappedBy: 'postrequisite', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $prerequisites;
 

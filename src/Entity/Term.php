@@ -24,9 +24,6 @@ use App\Repository\TermRepository;
 
 /**
  * Class Term
- *   uniqueConstraints={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'term')]
@@ -82,7 +79,6 @@ class Term implements TermInterface
 
     /**
      * @var TermInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -95,7 +91,7 @@ class Term implements TermInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Term', mappedBy: 'parent')]
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Term')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $children;
 
@@ -161,7 +157,6 @@ class Term implements TermInterface
     /**
      * @var VocabularyInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */

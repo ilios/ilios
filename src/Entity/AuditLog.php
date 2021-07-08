@@ -30,7 +30,6 @@ class AuditLog implements AuditLogInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
-
     /**
      * @var string
      * @Assert\NotBlank()
@@ -43,14 +42,12 @@ class AuditLog implements AuditLogInterface
     #[ORM\Column(type: 'string', length: 16)]
     protected $action;
 
-
     /**
      * @var DateTime
      * @Assert\NotBlank()
      */
     #[ORM\Column(type: 'datetime')]
     protected $createdAt;
-
 
     /**
      * @var int
@@ -59,7 +56,6 @@ class AuditLog implements AuditLogInterface
      */
     #[ORM\Column(type: 'string', length: 255)]
     protected $objectId;
-
 
     /**
      * @var string
@@ -73,7 +69,6 @@ class AuditLog implements AuditLogInterface
     #[ORM\Column(type: 'string', length: 255)]
     protected $objectClass;
 
-
     /**
      * @var string
      * @Assert\NotBlank()
@@ -86,15 +81,12 @@ class AuditLog implements AuditLogInterface
     #[ORM\Column(type: 'text', length: 1000)]
     protected $valuesChanged;
 
-
     /**
      * @var UserInterface
-     * })
      */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'auditLogs')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     protected $user;
-
 
     public function __construct()
     {

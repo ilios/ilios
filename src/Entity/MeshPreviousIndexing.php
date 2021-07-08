@@ -13,8 +13,6 @@ use App\Repository\MeshPreviousIndexingRepository;
 
 /**
  * Class MeshPreviousIndexing
- *  uniqueConstraints={
- *  })
  * @IS\Entity
  */
 #[ORM\Table(name: 'mesh_previous_indexing')]
@@ -39,11 +37,10 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 
     /**
      * @var MeshDescriptorInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
-    #[ORM\OneToOne(targetEntity: 'MeshDescriptor', inversedBy: 'previousIndexing')]
+    #[ORM\OneToOne(inversedBy: 'previousIndexing', targetEntity: 'MeshDescriptor')]
     #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', unique: true)]
     protected $descriptor;
 

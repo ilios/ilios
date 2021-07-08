@@ -18,13 +18,12 @@ use App\Repository\SessionLearningMaterialRepository;
 
 /**
  * Class SessionLearningMaterial
- * })
  * @IS\Entity
  */
 #[ORM\Table(name: 'session_learning_material')]
-#[ORM\Index(name: 'session_lm_k', columns: ['session_id', 'learning_material_id'])]
-#[ORM\Index(name: 'learning_material_id_k', columns: ['learning_material_id'])]
-#[ORM\Index(name: 'IDX_9BE2AF8D613FECDF', columns: ['session_id'])]
+#[ORM\Index(columns: ['session_id', 'learning_material_id'], name: 'session_lm_k')]
+#[ORM\Index(columns: ['learning_material_id'], name: 'learning_material_id_k')]
+#[ORM\Index(columns: ['session_id'], name: 'IDX_9BE2AF8D613FECDF')]
 #[ORM\Entity(repositoryClass: SessionLearningMaterialRepository::class)]
 class SessionLearningMaterial implements SessionLearningMaterialInterface
 {
@@ -84,7 +83,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     /**
      * @var SessionInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -95,7 +93,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     /**
      * @var LearningMaterialInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -105,15 +102,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
 
     /**
      * @var MeshDescriptorInterface
-     *   joinColumns={
-     *       name="session_learning_material_id",
-     *       referencedColumnName="session_learning_material_id",
-     *       onDelete="CASCADE"
-     *     )
-     *   },
-     *   inverseJoinColumns={
-     *   }
-     * )
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
@@ -124,7 +112,11 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
         referencedColumnName: 'session_learning_material_id',
         onDelete: 'CASCADE'
     )]
-    #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'mesh_descriptor_uid',
+        referencedColumnName: 'mesh_descriptor_uid',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
 

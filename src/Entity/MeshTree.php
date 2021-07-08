@@ -52,7 +52,6 @@ class MeshTree implements MeshTreeInterface
 
     /**
      * @var MeshDescriptorInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */

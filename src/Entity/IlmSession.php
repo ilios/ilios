@@ -48,13 +48,6 @@ class IlmSession implements IlmSessionInterface
 
     /**
      * @var Session
-     *      name="session_id",
-     *      referencedColumnName="session_id",
-     *      nullable=false,
-     *      unique=true,
-     *      onDelete="CASCADE"
-     *   )
-     * })
      * @Assert\NotBlank()
      * @IS\Expose
      * @IS\Type("entity")
@@ -63,8 +56,8 @@ class IlmSession implements IlmSessionInterface
     #[ORM\JoinColumn(
         name: 'session_id',
         referencedColumnName: 'session_id',
-        nullable: false,
         unique: true,
+        nullable: false,
         onDelete: 'CASCADE'
     )]
     protected $session;
@@ -112,7 +105,11 @@ class IlmSession implements IlmSessionInterface
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'ilmSessions')]
     #[ORM\JoinTable(name: 'ilm_session_facet_x_instructor_group')]
     #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'instructor_group_id',
+        referencedColumnName: 'instructor_group_id',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorGroups;
 

@@ -77,7 +77,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @IS\Expose
      * @IS\Type("string")
      */
-    #[ORM\Column(type: 'string', length: 100, name: 'address_street')]
+    #[ORM\Column(name: 'address_street', type: 'string', length: 100)]
     protected $addressStreet;
 
     /**
@@ -91,7 +91,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @IS\Expose
      * @IS\Type("string")
      */
-    #[ORM\Column(type: 'string', length: 100, name: 'address_city')]
+    #[ORM\Column(name: 'address_city', type: 'string', length: 100)]
     protected $addressCity;
 
     /**
@@ -105,7 +105,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @IS\Expose
      * @IS\Type("string")
      */
-    #[ORM\Column(type: 'string', length: 50, name: 'address_state_or_province')]
+    #[ORM\Column(name: 'address_state_or_province', type: 'string', length: 50)]
     protected $addressStateOrProvince;
 
     /**
@@ -119,7 +119,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @IS\Expose
      * @IS\Type("string")
      */
-    #[ORM\Column(type: 'string', length: 10, name: 'address_zipcode')]
+    #[ORM\Column(name: 'address_zipcode', type: 'string', length: 10)]
     protected $addressZipCode;
 
     /**
@@ -133,7 +133,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @IS\Expose
      * @IS\Type("string")
      */
-    #[ORM\Column(type: 'string', length: 2, name: 'address_country_code')]
+    #[ORM\Column(name: 'address_country_code', type: 'string', length: 2)]
     protected $addressCountryCode;
 
     /**
@@ -142,7 +142,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @IS\Expose
      * @IS\Type("entity")
      */
-    #[ORM\OneToOne(targetEntity: 'School', inversedBy: 'curriculumInventoryInstitution')]
+    #[ORM\OneToOne(inversedBy: 'curriculumInventoryInstitution', targetEntity: 'School')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', unique: true, nullable: false)]
     protected $school;
 

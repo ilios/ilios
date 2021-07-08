@@ -20,13 +20,10 @@ use App\Repository\CourseObjectiveRepository;
 
 /**
  * Class CourseObjective
- *   indexes={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'course_x_objective')]
-#[ORM\Index(name: 'IDX_3B37B1AD591CC992', columns: ['course_id'])]
+#[ORM\Index(columns: ['course_id'], name: 'IDX_3B37B1AD591CC992')]
 #[ORM\Entity(repositoryClass: CourseObjectiveRepository::class)]
 class CourseObjective implements CourseObjectiveInterface
 {
@@ -53,7 +50,6 @@ class CourseObjective implements CourseObjectiveInterface
     /**
      * @var CourseInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -100,13 +96,6 @@ class CourseObjective implements CourseObjectiveInterface
 
     /**
      * @var Collection
-     *   joinColumns={
-     *   },
-     *   inverseJoinColumns={
-     *       name="program_year_objective_id", referencedColumnName="program_year_objective_id", onDelete="CASCADE"
-     *     )
-     *   },
-     * )
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
@@ -138,13 +127,16 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courseObjectives')]
     #[ORM\JoinTable(name: 'course_objective_x_mesh')]
     #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'mesh_descriptor_uid',
+        referencedColumnName: 'mesh_descriptor_uid',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
 
     /**
      * @var CourseObjectiveInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -157,7 +149,7 @@ class CourseObjective implements CourseObjectiveInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'CourseObjective', mappedBy: 'ancestor')]
+    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'CourseObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descendants;
 

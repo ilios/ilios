@@ -22,7 +22,7 @@ use App\Repository\CurriculumInventoryReportRepository;
  * @IS\Entity
  */
 #[ORM\Table(name: 'curriculum_inventory_report')]
-#[ORM\Index(name: 'IDX_6E31899E3EB8070A', columns: ['program_id'])]
+#[ORM\Index(columns: ['program_id'], name: 'IDX_6E31899E3EB8070A')]
 #[ORM\UniqueConstraint(name: 'idx_ci_report_token_unique', columns: ['token'])]
 #[ORM\Entity(repositoryClass: CurriculumInventoryReportRepository::class)]
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
@@ -88,7 +88,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    #[ORM\Column(type: 'date', name: 'start_date')]
+    #[ORM\Column(name: 'start_date', type: 'date')]
     protected $startDate;
 
     /**
@@ -97,7 +97,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @IS\Expose
      * @IS\Type("dateTime")
      */
-    #[ORM\Column(type: 'date', name: 'end_date')]
+    #[ORM\Column(name: 'end_date', type: 'date')]
     protected $endDate;
 
     /**
@@ -105,7 +105,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @IS\Expose
      * @IS\Type("entity")
      */
-    #[ORM\OneToOne(targetEntity: 'CurriculumInventoryExport', mappedBy: 'report')]
+    #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventoryExport')]
     protected $export;
 
     /**
@@ -113,7 +113,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @IS\Expose
      * @IS\Type("entity")
      */
-    #[ORM\OneToOne(targetEntity: 'CurriculumInventorySequence', mappedBy: 'report')]
+    #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventorySequence')]
     protected $sequence;
 
     /**
@@ -121,13 +121,12 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'report')]
+    #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
 
     /**
      * @var ProgramInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -140,7 +139,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'CurriculumInventoryAcademicLevel', mappedBy: 'report')]
+    #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventoryAcademicLevel')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $academicLevels;
 

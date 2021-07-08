@@ -19,16 +19,11 @@ use App\Repository\CurriculumInventoryAcademicLevelRepository;
 
 /**
  * Class CurriculumInventoryAcademicLevel
- *   uniqueConstraints={
- *   },
- *   indexes={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'curriculum_inventory_academic_level')]
 #[ORM\UniqueConstraint(name: 'report_id_level', columns: ['report_id', 'level'])]
-#[ORM\Index(name: 'IDX_B4D3296D4BD2A4C0', columns: ['report_id'])]
+#[ORM\Index(columns: ['report_id'], name: 'IDX_B4D3296D4BD2A4C0')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryAcademicLevelRepository::class)]
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
@@ -89,7 +84,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
 
     /**
      * @var CurriculumInventoryReportInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -102,7 +96,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'academicLevel')]
+    #[ORM\OneToMany(mappedBy: 'academicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
 

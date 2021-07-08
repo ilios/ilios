@@ -39,17 +39,10 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     /**
      * @var CurriculumInventoryReportInterface
      * @Assert\NotNull()
-     *     name="report_id",
-     *     referencedColumnName="report_id",
-     *     unique=true,
-     *     nullable=false,
-     *     onDelete="cascade"
-     *   )
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
-    #[ORM\OneToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'sequence')]
+    #[ORM\OneToOne(inversedBy: 'sequence', targetEntity: 'CurriculumInventoryReport')]
     #[ORM\JoinColumn(
         name: 'report_id',
         referencedColumnName: 'report_id',

@@ -20,13 +20,10 @@ use App\Repository\ProgramYearObjectiveRepository;
 
 /**
  * Class ProgramYearObjective
- *   indexes={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'program_year_x_objective')]
-#[ORM\Index(name: 'IDX_7A16FDD6CB2B0673', columns: ['program_year_id'])]
+#[ORM\Index(columns: ['program_year_id'], name: 'IDX_7A16FDD6CB2B0673')]
 #[ORM\Entity(repositoryClass: ProgramYearObjectiveRepository::class)]
 class ProgramYearObjective implements ProgramYearObjectiveInterface
 {
@@ -53,7 +50,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     /**
      * @var ProgramYearInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -73,19 +69,16 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
 
     /**
      * @var Collection
-     *   joinColumns={
-     *       name="program_year_objective_id", referencedColumnName="program_year_objective_id", onDelete="CASCADE"
-     *     )
-     *   },
-     *   inverseJoinColumns={
-     *   }
-     * )
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'programYearObjectives')]
     #[ORM\JoinTable(name: 'program_year_objective_x_term')]
-    #[ORM\JoinColumn(name: 'program_year_objective_id', referencedColumnName: 'program_year_objective_id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(
+        name: 'program_year_objective_id',
+        referencedColumnName: 'program_year_objective_id',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
@@ -107,7 +100,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
 
     /**
      * @var CompetencyInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -126,26 +118,26 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
 
     /**
      * @var Collection
-     *   joinColumns={
-     *      name="program_year_objective_id", referencedColumnName="program_year_objective_id", onDelete="CASCADE"
-     *     )
-     *   },
-     *   inverseJoinColumns={
-     *   }
-     * )
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'programYearObjectives')]
     #[ORM\JoinTable(name: 'program_year_objective_x_mesh')]
-    #[ORM\JoinColumn(name: 'program_year_objective_id', referencedColumnName: 'program_year_objective_id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(
+        name: 'program_year_objective_id',
+        referencedColumnName: 'program_year_objective_id',
+        onDelete: 'CASCADE'
+    )]
+    #[ORM\InverseJoinColumn(
+        name: 'mesh_descriptor_uid',
+        referencedColumnName: 'mesh_descriptor_uid',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
 
     /**
      * @var ProgramYearObjectiveInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */

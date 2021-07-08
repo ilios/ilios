@@ -109,10 +109,6 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @var LearningMaterialUserRoleInterface
      * @Assert\NotNull()
-     *     name="learning_material_user_role_id",
-     *     referencedColumnName="learning_material_user_role_id",
-     *     nullable=false)
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -127,10 +123,6 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @var LearningMaterialStatusInterface
      * @Assert\NotNull()
-     *     name="learning_material_status_id",
-     *     referencedColumnName="learning_material_status_id",
-     *     nullable=false)
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -145,7 +137,6 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @var UserInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -158,7 +149,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'SessionLearningMaterial', mappedBy: 'learningMaterial')]
+    #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'SessionLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionLearningMaterials;
 
@@ -167,7 +158,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'CourseLearningMaterial', mappedBy: 'learningMaterial')]
+    #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'CourseLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courseLearningMaterials;
 
@@ -258,7 +249,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @IS\Type("integer")
      */
     #[ORM\Column(name: 'filesize', type: 'integer', nullable: true, options: [
-        "unsigned" => true,
+        'unsigned' => true,
     ])]
     protected $filesize;
 

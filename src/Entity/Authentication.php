@@ -23,13 +23,12 @@ class Authentication implements AuthenticationInterface
 {
     /**
      * @var UserInterface
-     * })
      * @Assert\NotBlank()
      * @IS\Type("entity")
      * @IS\Expose
      */
     #[ORM\Id]
-    #[ORM\OneToOne(targetEntity: 'User', inversedBy: 'authentication')]
+    #[ORM\OneToOne(inversedBy: 'authentication', targetEntity: 'User')]
     #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     protected $user;
 
@@ -43,8 +42,9 @@ class Authentication implements AuthenticationInterface
      * @IS\Expose
      * @IS\Type("string")
      */
-    #[ORM\Column(name: 'username', type: 'string', unique: true, length: 100, nullable: true)]
+    #[ORM\Column(name: 'username', type: 'string', length: 100, unique: true, nullable: true)]
     private $username;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -55,6 +55,7 @@ class Authentication implements AuthenticationInterface
      */
     #[ORM\Column(name: 'password_hash', type: 'string', nullable: true)]
     private $passwordHash;
+
     /**
      * @Assert\Type(DateTimeInterface::class)
      * @IS\Expose

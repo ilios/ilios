@@ -63,9 +63,9 @@ class IngestionException implements IngestionExceptionInterface
     #[ORM\JoinColumn(
         name: 'user_id',
         referencedColumnName: 'user_id',
-        onDelete: 'CASCADE',
         unique: true,
-        nullable: false
+        nullable: false,
+        onDelete: 'CASCADE'
     )]
     protected $user;
 

@@ -79,7 +79,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     /**
      * @var UserInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */

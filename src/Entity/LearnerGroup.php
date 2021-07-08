@@ -86,6 +86,7 @@ class LearnerGroup implements LearnerGroupInterface
      */
     #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]
     protected ?string $url;
+
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
@@ -94,20 +95,19 @@ class LearnerGroup implements LearnerGroupInterface
      */
     #[ORM\Column(name: 'needs_accommodation', type: 'boolean')]
     protected bool $needsAccommodation;
+
     /**
      * @var CohortInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Cohort', inversedBy: 'learnerGroups')]
-    #[ORM\JoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id', onDelete: 'CASCADE', nullable: false)]
+    #[ORM\JoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id', nullable: false, onDelete: 'CASCADE')]
     protected $cohort;
 
     /**
      * @var LearnerGroupInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -117,7 +117,6 @@ class LearnerGroup implements LearnerGroupInterface
 
     /**
      * @var LearnerGroupInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -130,7 +129,7 @@ class LearnerGroup implements LearnerGroupInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'LearnerGroup', mappedBy: 'ancestor')]
+    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descendants;
 
@@ -139,7 +138,7 @@ class LearnerGroup implements LearnerGroupInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'LearnerGroup', mappedBy: 'parent')]
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $children;
 
@@ -169,7 +168,11 @@ class LearnerGroup implements LearnerGroupInterface
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'learnerGroups')]
     #[ORM\JoinTable(name: 'group_x_instructor_group')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'instructor_group_id',
+        referencedColumnName: 'instructor_group_id',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorGroups;
 

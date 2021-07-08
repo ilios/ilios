@@ -80,7 +80,6 @@ class ProgramYear implements ProgramYearInterface
     /**
      * @var ProgramInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */

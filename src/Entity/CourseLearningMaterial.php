@@ -78,7 +78,6 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     /**
      * @var CourseInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -89,7 +88,6 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     /**
      * @var LearningMaterialInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -113,8 +111,16 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courseLearningMaterials')]
     #[ORM\JoinTable(name: 'course_learning_material_x_mesh')]
-    #[ORM\JoinColumn(name: 'course_learning_material_id', referencedColumnName: 'course_learning_material_id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(
+        name: 'course_learning_material_id',
+        referencedColumnName: 'course_learning_material_id',
+        onDelete: 'CASCADE'
+    )]
+    #[ORM\InverseJoinColumn(
+        name: 'mesh_descriptor_uid',
+        referencedColumnName: 'mesh_descriptor_uid',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
 

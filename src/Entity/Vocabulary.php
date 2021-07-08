@@ -19,9 +19,6 @@ use App\Repository\VocabularyRepository;
 
 /**
  * Class Vocabulary
- *   uniqueConstraints={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'vocabulary')]
@@ -65,7 +62,6 @@ class Vocabulary implements VocabularyInterface
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -78,7 +74,7 @@ class Vocabulary implements VocabularyInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Term', mappedBy: 'vocabulary')]
+    #[ORM\OneToMany(mappedBy: 'vocabulary', targetEntity: 'Term')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
 

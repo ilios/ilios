@@ -19,14 +19,11 @@ use App\Repository\SessionTypeRepository;
 
 /**
  * SessionType
- *   indexes={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'session_type')]
-#[ORM\Index(name: 'school_id', columns: ['school_id'])]
-#[ORM\Index(name: 'assessment_option_fkey', columns: ['assessment_option_id'])]
+#[ORM\Index(columns: ['school_id'], name: 'school_id')]
+#[ORM\Index(columns: ['assessment_option_id'], name: 'assessment_option_fkey')]
 #[ORM\Entity(repositoryClass: SessionTypeRepository::class)]
 class SessionType implements SessionTypeInterface
 {
@@ -99,7 +96,6 @@ class SessionType implements SessionTypeInterface
 
     /**
      * @var AssessmentOptionInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -110,7 +106,6 @@ class SessionType implements SessionTypeInterface
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -135,7 +130,7 @@ class SessionType implements SessionTypeInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'sessionType')]
+    #[ORM\OneToMany(mappedBy: 'sessionType', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessions;
 

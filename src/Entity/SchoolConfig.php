@@ -15,9 +15,6 @@ use App\Repository\SchoolConfigRepository;
 
 /**
  * Class SchoolConfig
- *   uniqueConstraints={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'school_config')]
@@ -71,7 +68,6 @@ class SchoolConfig implements SchoolConfigInterface
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */

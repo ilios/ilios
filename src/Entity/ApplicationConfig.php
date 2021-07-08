@@ -14,9 +14,6 @@ use App\Traits\NameableEntity;
 
 /**
  * Class ApplicationConfig
- *   uniqueConstraints={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'application_config')]

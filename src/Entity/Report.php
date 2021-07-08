@@ -61,7 +61,6 @@ class Report implements ReportInterface
 
     /**
      * @var SchoolInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -112,7 +111,6 @@ class Report implements ReportInterface
     /**
      * @var UserInterface $user
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */

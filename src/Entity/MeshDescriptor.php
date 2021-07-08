@@ -152,7 +152,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'MeshTree', mappedBy: 'descriptor')]
+    #[ORM\OneToMany(mappedBy: 'descriptor', targetEntity: 'MeshTree')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $trees;
 

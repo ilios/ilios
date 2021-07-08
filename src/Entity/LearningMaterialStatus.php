@@ -29,7 +29,6 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
     use LearningMaterialsEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      * @Assert\Type(type="integer")
      * @IS\Expose
@@ -58,7 +57,7 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
     /**
      * @var ArrayCollection|LearningMaterialInterface[]
      */
-    #[ORM\OneToMany(targetEntity: 'LearningMaterial', mappedBy: 'status')]
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: 'LearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
 

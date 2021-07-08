@@ -24,9 +24,6 @@ use App\Repository\SchoolRepository;
 
 /**
  * Class School
- *   uniqueConstraints={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'school')]
@@ -122,7 +119,7 @@ class School implements SchoolInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Competency', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $competencies;
 
@@ -140,7 +137,7 @@ class School implements SchoolInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Program', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programs;
 
@@ -149,7 +146,7 @@ class School implements SchoolInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Vocabulary', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Vocabulary')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $vocabularies;
 
@@ -158,7 +155,7 @@ class School implements SchoolInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'InstructorGroup', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'InstructorGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorGroups;
 
@@ -167,7 +164,7 @@ class School implements SchoolInterface
      * @IS\Expose
      * @IS\Type("entity")
      */
-    #[ORM\OneToOne(targetEntity: 'CurriculumInventoryInstitution', mappedBy: 'school')]
+    #[ORM\OneToOne(mappedBy: 'school', targetEntity: 'CurriculumInventoryInstitution')]
     protected $curriculumInventoryInstitution;
 
     /**
@@ -175,7 +172,7 @@ class School implements SchoolInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'SessionType', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'SessionType')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionTypes;
 

@@ -65,7 +65,6 @@ class InstructorGroup implements InstructorGroupInterface
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */

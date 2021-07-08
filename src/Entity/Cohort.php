@@ -23,7 +23,7 @@ use App\Repository\CohortRepository;
  */
 #[ORM\Entity(repositoryClass: CohortRepository::class)]
 #[ORM\Table(name: 'cohort')]
-#[ORM\Index(name: 'whole_k', columns: ['program_year_id', 'cohort_id', 'title'])]
+#[ORM\Index(columns: ['program_year_id', 'cohort_id', 'title'], name: 'whole_k')]
 class Cohort implements CohortInterface
 {
     use IdentifiableEntity;
@@ -65,7 +65,12 @@ class Cohort implements CohortInterface
      * @IS\Type("entity")
      */
     #[ORM\OneToOne(targetEntity: 'ProgramYear', inversedBy: 'cohort')]
-    #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', unique: true, onDelete: 'cascade')]
+    #[ORM\JoinColumn(
+        name: 'program_year_id',
+        referencedColumnName: 'program_year_id',
+        unique: true,
+        onDelete: 'cascade'
+    )]
     protected $programYear;
 
     /**
@@ -82,7 +87,7 @@ class Cohort implements CohortInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'LearnerGroup', mappedBy: 'cohort')]
+    #[ORM\OneToMany(mappedBy: 'cohort', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerGroups;
 

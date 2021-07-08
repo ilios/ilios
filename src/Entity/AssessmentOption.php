@@ -30,7 +30,6 @@ class AssessmentOption implements AssessmentOptionInterface
     use SessionTypesEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      * @Assert\Type(type="integer")
      * @IS\Expose
@@ -38,7 +37,7 @@ class AssessmentOption implements AssessmentOptionInterface
      * @IS\ReadOnly
      */
     #[ORM\Id]
-    #[ORM\Column(type: 'integer', length: 10, name: 'assessment_option_id')]
+    #[ORM\Column(name: 'assessment_option_id', type: 'integer', length: 10)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
 
@@ -61,7 +60,7 @@ class AssessmentOption implements AssessmentOptionInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'SessionType', mappedBy: 'assessmentOption')]
+    #[ORM\OneToMany(mappedBy: 'assessmentOption', targetEntity: 'SessionType')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionTypes;
 

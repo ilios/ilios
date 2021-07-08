@@ -246,7 +246,7 @@ class User implements UserInterface
      * Don't put learningMaterials in the user API it takes forever to load them all
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'LearningMaterial', mappedBy: 'owningUser')]
+    #[ORM\OneToMany(mappedBy: 'owningUser', targetEntity: 'LearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
 
@@ -255,13 +255,12 @@ class User implements UserInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Report', mappedBy: 'user')]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Report')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $reports;
 
     /**
      * @var SchoolInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -421,7 +420,6 @@ class User implements UserInterface
 
     /**
      * @var CohortInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -434,7 +432,7 @@ class User implements UserInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'PendingUserUpdate', mappedBy: 'user')]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'PendingUserUpdate')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $pendingUserUpdates;
 

@@ -23,7 +23,7 @@ use App\Repository\CompetencyRepository;
  * @IS\Entity
  */
 #[ORM\Table(name: 'competency')]
-#[ORM\Index(name: 'parent_competency_id_k', columns: ['parent_competency_id'])]
+#[ORM\Index(columns: ['parent_competency_id'], name: 'parent_competency_id_k')]
 #[ORM\Entity(repositoryClass: CompetencyRepository::class)]
 class Competency implements CompetencyInterface
 {
@@ -62,7 +62,6 @@ class Competency implements CompetencyInterface
 
     /**
      * @var SchoolInterface
-     * })
      * @Assert\NotNull()
      * @IS\Expose
      * @IS\Type("entity")
@@ -73,7 +72,6 @@ class Competency implements CompetencyInterface
 
     /**
      * @var CompetencyInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -86,7 +84,7 @@ class Competency implements CompetencyInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'Competency', mappedBy: 'parent')]
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $children;
 
@@ -126,7 +124,7 @@ class Competency implements CompetencyInterface
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'competency')]
+    #[ORM\OneToMany(mappedBy: 'competency', targetEntity: 'ProgramYearObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programYearObjectives;
 

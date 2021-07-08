@@ -21,13 +21,10 @@ use App\Repository\SessionObjectiveRepository;
 
 /**
  * Class SessionObjective
- *   indexes={
- *   }
- * )
  * @IS\Entity
  */
 #[ORM\Table(name: 'session_x_objective')]
-#[ORM\Index(name: 'IDX_FA74B40B613FECDF', columns: ['session_id'])]
+#[ORM\Index(columns: ['session_id'], name: 'IDX_FA74B40B613FECDF')]
 #[ORM\Entity(repositoryClass: SessionObjectiveRepository::class)]
 class SessionObjective implements SessionObjectiveInterface
 {
@@ -55,7 +52,6 @@ class SessionObjective implements SessionObjectiveInterface
     /**
      * @var SessionInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -108,7 +104,11 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\ManyToMany(targetEntity: 'CourseObjective', inversedBy: 'sessionObjectives')]
     #[ORM\JoinTable('session_objective_x_course_objective')]
     #[ORM\JoinColumn(name: 'session_objective_id', referencedColumnName: 'session_objective_id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'course_objective_id',
+        referencedColumnName: 'course_objective_id',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courseObjectives;
 
@@ -120,13 +120,16 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessionObjectives')]
     #[ORM\JoinTable(name: 'session_objective_x_mesh')]
     #[ORM\JoinColumn(name: 'session_objective_id', referencedColumnName: 'session_objective_id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'mesh_descriptor_uid',
+        referencedColumnName: 'mesh_descriptor_uid',
+        onDelete: 'CASCADE'
+    )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
 
     /**
      * @var SessionObjectiveInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */

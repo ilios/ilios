@@ -162,12 +162,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * @var CurriculumInventoryAcademicLevelInterface
-     *     name="academic_level_id",
-     *     referencedColumnName="academic_level_id",
-     *     nullable=false,
-     *     onDelete="cascade"
-     *   )
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -182,7 +176,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * @var CourseInterface
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -192,11 +185,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * @var CurriculumInventorySequenceBlockInterface
-     *     name="parent_sequence_block_id",
-     *     referencedColumnName="sequence_block_id",
-     *     onDelete="cascade"
-     *   )
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
@@ -213,14 +201,13 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
-    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'parent')]
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $children;
 
     /**
      * @var CurriculumInventoryReportInterface
      * @Assert\NotNull()
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
