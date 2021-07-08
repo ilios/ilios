@@ -37,6 +37,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     use ActivatableEntity;
     use CategorizableEntity;
     use SortableEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -48,6 +49,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var ProgramYearInterface
      * @Assert\NotNull()
@@ -58,6 +60,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[ORM\ManyToOne(targetEntity: 'ProgramYear', inversedBy: 'programYearObjectives')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
     protected $programYear;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -67,6 +70,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      */
     #[ORM\Column(name: 'position', type: 'integer')]
     protected $position;
+
     /**
      * @var Collection
      *   joinColumns={
@@ -85,6 +89,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -99,6 +104,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      */
     #[ORM\Column(type: 'text')]
     protected $title;
+
     /**
      * @var CompetencyInterface
      * })
@@ -108,6 +114,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[ORM\ManyToOne(targetEntity: 'Competency', inversedBy: 'programYearObjectives')]
     #[ORM\JoinColumn(name: 'competency_id', referencedColumnName: 'competency_id')]
     protected $competency;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -116,6 +123,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'programYearObjectives')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courseObjectives;
+
     /**
      * @var Collection
      *   joinColumns={
@@ -134,6 +142,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
+
     /**
      * @var ProgramYearObjectiveInterface
      * })
@@ -143,6 +152,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[ORM\ManyToOne(targetEntity: 'ProgramYearObjective', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'program_year_objective_id')]
     protected $ancestor;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -151,6 +161,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'ancestor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descendants;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -160,9 +171,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $active;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->position = 0;
@@ -172,6 +181,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
     }
+
     /**
      * @inheritdoc
      */
@@ -179,6 +189,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         $this->programYear = $programYear;
     }
+
     /**
      * @inheritdoc
      */
@@ -186,6 +197,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         return $this->programYear;
     }
+
     /**
      * @inheritdoc
      */
@@ -193,6 +205,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         $this->competency = $competency;
     }
+
     /**
      * @inheritdoc
      */
@@ -200,6 +213,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         return $this->competency;
     }
+
     /**
      * @inheritdoc
      */
@@ -211,6 +225,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
             $this->addCourseObjective($courseObjective);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -221,6 +236,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
             $courseObjective->addProgramYearObjective($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -231,6 +247,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
             $courseObjective->removeProgramYearObjective($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -238,6 +255,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         return $this->courseObjectives;
     }
+
     /**
      * @inheritdoc
      */
@@ -245,6 +263,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         $this->ancestor = $ancestor;
     }
+
     /**
      * @inheritdoc
      */
@@ -252,6 +271,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         return $this->ancestor;
     }
+
     /**
      * @inheritdoc
      */
@@ -261,6 +281,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
 
         return $ancestor ? $ancestor : $this;
     }
+
     /**
      * @inheritdoc
      */
@@ -272,6 +293,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
             $this->addDescendant($descendant);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -281,6 +303,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
             $this->descendants->add($descendant);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -288,6 +311,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         $this->descendants->removeElement($descendant);
     }
+
     /**
      * @inheritdoc
      */
@@ -295,6 +319,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         return $this->descendants;
     }
+
     /**
      * @inheritdoc
      */
@@ -302,6 +327,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         $this->title = $title;
     }
+
     /**
      * @inheritdoc
      */
@@ -309,6 +335,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         $this->position = $position;
     }
+
     /**
      * @inheritdoc
      */
@@ -316,6 +343,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     {
         $this->active = $active;
     }
+
     /**
      * @inheritdoc
      */
@@ -327,6 +355,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
             $this->addMeshDescriptor($meshDescriptor);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -336,6 +365,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
             $this->meshDescriptors->add($meshDescriptor);
         }
     }
+
     /**
      * @inheritdoc
      */

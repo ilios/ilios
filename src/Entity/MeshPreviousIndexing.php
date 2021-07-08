@@ -24,6 +24,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -35,6 +36,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var MeshDescriptorInterface
      * })
@@ -44,6 +46,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     #[ORM\OneToOne(targetEntity: 'MeshDescriptor', inversedBy: 'previousIndexing')]
     #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', unique: true)]
     protected $descriptor;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -57,6 +60,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
      */
     #[ORM\Column(name: 'previous_indexing', type: 'text')]
     protected $previousIndexing;
+
     /**
      * @param MeshDescriptorInterface $descriptor
      */
@@ -64,6 +68,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     {
         $this->descriptor = $descriptor;
     }
+
     /**
      * @return MeshDescriptorInterface
      */
@@ -71,6 +76,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     {
         return $this->descriptor;
     }
+
     /**
      * @param string $previousIndexing
      */
@@ -78,6 +84,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     {
         $this->previousIndexing = $previousIndexing;
     }
+
     /**
      * @return string
      */

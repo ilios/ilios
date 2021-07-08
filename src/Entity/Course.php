@@ -53,6 +53,7 @@ class Course implements CourseInterface
     use AdministratorsEntity;
     use StudentAdvisorsEntity;
     use CourseObjectivesEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -64,6 +65,7 @@ class Course implements CourseInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -77,6 +79,7 @@ class Course implements CourseInterface
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     protected $title;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -90,6 +93,7 @@ class Course implements CourseInterface
      */
     #[ORM\Column(type: 'smallint', name: 'course_level')]
     protected $level;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -99,6 +103,7 @@ class Course implements CourseInterface
      */
     #[ORM\Column(name: 'year', type: 'smallint')]
     protected $year;
+
     /**
      * @var DateTime
      * @Assert\NotBlank()
@@ -107,6 +112,7 @@ class Course implements CourseInterface
      */
     #[ORM\Column(type: 'date', name: 'start_date')]
     protected $startDate;
+
     /**
      * @var DateTime
      * @Assert\NotBlank()
@@ -115,6 +121,7 @@ class Course implements CourseInterface
      */
     #[ORM\Column(type: 'date', name: 'end_date')]
     protected $endDate;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -127,6 +134,7 @@ class Course implements CourseInterface
      */
     #[ORM\Column(type: 'string', length: 255, name: 'external_id', nullable: true)]
     protected $externalId;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -136,6 +144,7 @@ class Course implements CourseInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $locked;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -145,6 +154,7 @@ class Course implements CourseInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $archived;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -154,6 +164,7 @@ class Course implements CourseInterface
      */
     #[ORM\Column(type: 'boolean', name: 'published_as_tbd')]
     protected $publishedAsTbd;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -163,6 +174,7 @@ class Course implements CourseInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $published;
+
     /**
      * @var CourseClerkshipTypeInterface
      * })
@@ -172,6 +184,7 @@ class Course implements CourseInterface
     #[ORM\ManyToOne(targetEntity: 'CourseClerkshipType', inversedBy: 'courses')]
     #[ORM\JoinColumn(name: 'clerkship_type_id', referencedColumnName: 'course_clerkship_type_id')]
     protected $clerkshipType;
+
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
@@ -182,6 +195,7 @@ class Course implements CourseInterface
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'courses')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     protected $school;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -193,6 +207,7 @@ class Course implements CourseInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $directors;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -204,6 +219,7 @@ class Course implements CourseInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administrators;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -215,6 +231,7 @@ class Course implements CourseInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $studentAdvisors;
+
     /**
      * @var ArrayCollection|CohortInterface[]
      * @IS\Expose
@@ -226,6 +243,7 @@ class Course implements CourseInterface
     #[ORM\InverseJoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $cohorts;
+
 
     /**
      * @var ArrayCollection|TermInterface[]
@@ -239,6 +257,7 @@ class Course implements CourseInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
 
+
     /**
      * @var ArrayCollection|CourseObjectiveInterface[]
      * @IS\Expose
@@ -247,6 +266,7 @@ class Course implements CourseInterface
     #[ORM\OneToMany(targetEntity: 'CourseObjective', mappedBy: 'course')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $courseObjectives;
+
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
      *    joinColumns={
@@ -263,6 +283,7 @@ class Course implements CourseInterface
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
+
     /**
      * @var ArrayCollection|CourseLearningMaterialInterface[]
      * @IS\Expose
@@ -271,6 +292,7 @@ class Course implements CourseInterface
     #[ORM\OneToMany(targetEntity: 'CourseLearningMaterial', mappedBy: 'course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
+
     /**
      * @var ArrayCollection|SessionInterface[]
      * @IS\Expose
@@ -279,6 +301,7 @@ class Course implements CourseInterface
     #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessions;
+
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      * @IS\Type("entityCollection")
@@ -286,6 +309,7 @@ class Course implements CourseInterface
     #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
+
     /**
      * @var CourseInterface
      * })
@@ -295,6 +319,7 @@ class Course implements CourseInterface
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'course_id')]
     protected $ancestor;
+
     /**
      * @var CourseInterface
      * @IS\Expose
@@ -303,9 +328,7 @@ class Course implements CourseInterface
     #[ORM\OneToMany(targetEntity: 'Course', mappedBy: 'ancestor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descendants;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->directors = new ArrayCollection();
@@ -324,6 +347,7 @@ class Course implements CourseInterface
         $this->archived = false;
         $this->locked = false;
     }
+
     /**
      * @inheritdoc
      */
@@ -331,6 +355,7 @@ class Course implements CourseInterface
     {
         $this->level = $level;
     }
+
     /**
      * @inheritdoc
      */
@@ -338,6 +363,7 @@ class Course implements CourseInterface
     {
         return $this->level;
     }
+
     /**
      * @inheritdoc
      */
@@ -345,6 +371,7 @@ class Course implements CourseInterface
     {
         $this->year = $year;
     }
+
     /**
      * @inheritdoc
      */
@@ -352,6 +379,7 @@ class Course implements CourseInterface
     {
         return $this->year;
     }
+
     /**
      * @inheritdoc
      */
@@ -359,6 +387,7 @@ class Course implements CourseInterface
     {
         $this->startDate = $startDate;
     }
+
     /**
      * @inheritdoc
      */
@@ -366,6 +395,7 @@ class Course implements CourseInterface
     {
         return $this->startDate;
     }
+
     /**
      * @inheritdoc
      */
@@ -373,6 +403,7 @@ class Course implements CourseInterface
     {
         $this->endDate = $endDate;
     }
+
     /**
      * @inheritdoc
      */
@@ -380,6 +411,7 @@ class Course implements CourseInterface
     {
         return $this->endDate;
     }
+
     /**
      * @inheritdoc
      */
@@ -387,6 +419,7 @@ class Course implements CourseInterface
     {
         $this->externalId = $externalId;
     }
+
     /**
      * @inheritdoc
      */
@@ -394,6 +427,7 @@ class Course implements CourseInterface
     {
         return $this->externalId;
     }
+
     /**
      * @inheritdoc
      */
@@ -401,6 +435,7 @@ class Course implements CourseInterface
     {
         $this->clerkshipType = $clerkshipType;
     }
+
     /**
      * @inheritdoc
      */
@@ -408,6 +443,7 @@ class Course implements CourseInterface
     {
         return $this->clerkshipType;
     }
+
     /**
      * @inheritdoc
      */
@@ -422,6 +458,7 @@ class Course implements CourseInterface
             $this->addLearningMaterial($learningMaterial);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -431,6 +468,7 @@ class Course implements CourseInterface
             $this->learningMaterials->add($learningMaterial);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -440,6 +478,7 @@ class Course implements CourseInterface
             $this->learningMaterials->removeElement($learningMaterial);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -447,6 +486,7 @@ class Course implements CourseInterface
     {
         return $this->learningMaterials;
     }
+
     /**
      * @inheritdoc
      */
@@ -454,6 +494,7 @@ class Course implements CourseInterface
     {
         $this->ancestor = $ancestor;
     }
+
     /**
      * @inheritdoc
      */
@@ -461,6 +502,7 @@ class Course implements CourseInterface
     {
         return $this->ancestor;
     }
+
     /**
      * @inheritdoc
      */
@@ -470,6 +512,7 @@ class Course implements CourseInterface
 
         return $ancestor ? $ancestor : $this;
     }
+
     /**
      * @inheritdoc
      */
@@ -481,6 +524,7 @@ class Course implements CourseInterface
             $this->addDescendant($descendant);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -488,6 +532,7 @@ class Course implements CourseInterface
     {
         $this->descendants->add($descendant);
     }
+
     /**
      * @inheritdoc
      */
@@ -495,6 +540,7 @@ class Course implements CourseInterface
     {
         $this->descendants->removeElement($descendant);
     }
+
     /**
      * @inheritdoc
      */
@@ -502,6 +548,7 @@ class Course implements CourseInterface
     {
         return $this->descendants;
     }
+
     /**
      * @inheritdoc
      */
@@ -512,6 +559,7 @@ class Course implements CourseInterface
             $director->addDirectedCourse($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -522,6 +570,7 @@ class Course implements CourseInterface
             $director->removeDirectedCourse($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -532,6 +581,7 @@ class Course implements CourseInterface
             $cohort->addCourse($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -542,6 +592,7 @@ class Course implements CourseInterface
             $cohort->removeCourse($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -552,6 +603,7 @@ class Course implements CourseInterface
             $term->addCourse($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -562,6 +614,7 @@ class Course implements CourseInterface
             $term->removeCourse($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -572,6 +625,7 @@ class Course implements CourseInterface
             $administrator->addAdministeredCourse($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -596,6 +650,7 @@ class Course implements CourseInterface
             $studentAdvisor->removeStudentAdvisedCourse($this);
         }
     }
+
     /**
      * When and objective is removed from a course it needs to remove any relationships
      * to children that belong to sessions in that course
@@ -614,6 +669,7 @@ class Course implements CourseInterface
             }
         }
     }
+
     /**
      * @param Collection $sequenceBlocks
      */
@@ -625,6 +681,7 @@ class Course implements CourseInterface
             $this->addSequenceBlock($sequenceBlock);
         }
     }
+
     /**
      * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
      */
@@ -634,6 +691,7 @@ class Course implements CourseInterface
             $this->sequenceBlocks->add($sequenceBlock);
         }
     }
+
     /**
      * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
      */
@@ -641,6 +699,7 @@ class Course implements CourseInterface
     {
         $this->sequenceBlocks->removeElement($sequenceBlock);
     }
+
     /**
      * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
      */
@@ -648,6 +707,7 @@ class Course implements CourseInterface
     {
         return $this->sequenceBlocks;
     }
+
     /**
      * @inheritDoc
      */

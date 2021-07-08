@@ -40,6 +40,7 @@ class Offering implements OfferingInterface
     use LearnersEntity;
     use InstructorsEntity;
     use InstructorGroupsEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -51,6 +52,7 @@ class Offering implements OfferingInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -63,6 +65,7 @@ class Offering implements OfferingInterface
      */
     #[ORM\Column(name: 'room', type: 'string', length: 255, nullable: true)]
     protected $room;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -75,6 +78,7 @@ class Offering implements OfferingInterface
      */
     #[ORM\Column(name: 'site', type: 'string', length: 255, nullable: true)]
     protected $site;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -87,6 +91,7 @@ class Offering implements OfferingInterface
      */
     #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]
     protected $url;
+
     /**
      * @var DateTime
      * @Assert\NotBlank()
@@ -95,6 +100,7 @@ class Offering implements OfferingInterface
      */
     #[ORM\Column(name: 'start_date', type: 'datetime')]
     protected $startDate;
+
     /**
      * @var DateTime
      * @Assert\NotBlank()
@@ -103,6 +109,7 @@ class Offering implements OfferingInterface
      */
     #[ORM\Column(name: 'end_date', type: 'datetime')]
     protected $endDate;
+
     /**
      * @var DateTime
      * @Assert\NotBlank()
@@ -112,6 +119,7 @@ class Offering implements OfferingInterface
      */
     #[ORM\Column(name: 'last_updated_on', type: 'datetime')]
     protected $updatedAt;
+
     /**
      * @var Session
      * @Assert\NotNull()
@@ -122,6 +130,7 @@ class Offering implements OfferingInterface
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'offerings')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     protected $session;
+
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
      * @IS\Expose
@@ -133,6 +142,7 @@ class Offering implements OfferingInterface
     #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'group_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerGroups;
+
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
      * @IS\Expose
@@ -144,6 +154,7 @@ class Offering implements OfferingInterface
     #[ORM\InverseJoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorGroups;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -155,6 +166,7 @@ class Offering implements OfferingInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learners;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -166,9 +178,7 @@ class Offering implements OfferingInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructors;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->updatedAt = new DateTime();
@@ -185,6 +195,7 @@ class Offering implements OfferingInterface
     {
         return $this->room;
     }
+
     /**
      * @param string $site
      */
@@ -192,6 +203,7 @@ class Offering implements OfferingInterface
     {
         $this->site = $site;
     }
+
     /**
      * @return string
      */
@@ -207,6 +219,7 @@ class Offering implements OfferingInterface
     {
         return $this->url;
     }
+
     /**
      * @param DateTime $startDate
      */
@@ -214,6 +227,7 @@ class Offering implements OfferingInterface
     {
         $this->startDate = $startDate;
     }
+
     /**
      * @return DateTime
      */
@@ -221,6 +235,7 @@ class Offering implements OfferingInterface
     {
         return $this->startDate;
     }
+
     /**
      * @param DateTime $endDate
      */
@@ -228,6 +243,7 @@ class Offering implements OfferingInterface
     {
         $this->endDate = $endDate;
     }
+
     /**
      * @return DateTime
      */
@@ -235,6 +251,7 @@ class Offering implements OfferingInterface
     {
         return $this->endDate;
     }
+
     /**
      * @param SessionInterface $session
      */
@@ -242,6 +259,7 @@ class Offering implements OfferingInterface
     {
         $this->session = $session;
     }
+
     /**
      * @inheritdoc
      */
@@ -249,6 +267,7 @@ class Offering implements OfferingInterface
     {
         return $this->session;
     }
+
     /**
      * @inheritdoc
      */
@@ -261,6 +280,7 @@ class Offering implements OfferingInterface
 
         return new ArrayCollection($instructors);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -300,6 +320,7 @@ class Offering implements OfferingInterface
             'url' => $url,
         ];
     }
+
     /**
      * @inheritdoc
      */

@@ -30,6 +30,7 @@ class LearningMaterial implements LearningMaterialInterface
     use StringableIdEntity;
     use TitledEntity;
     use DescribableEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -41,6 +42,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -54,6 +56,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(type: 'string', length: 120)]
     protected $title;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -67,6 +70,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
+
     /**
      * @var \DateTime
      * @Assert\NotBlank()
@@ -76,6 +80,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'upload_date', type: 'datetime')]
     protected $uploadDate;
+
     /**
      * renamed Asset Creator
      * @var string
@@ -89,6 +94,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'asset_creator', type: 'string', length: 80, nullable: true)]
     protected $originalAuthor;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -99,6 +105,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     protected $token;
+
     /**
      * @var LearningMaterialUserRoleInterface
      * @Assert\NotNull()
@@ -116,6 +123,7 @@ class LearningMaterial implements LearningMaterialInterface
         nullable: false
     )]
     protected $userRole;
+
     /**
      * @var LearningMaterialStatusInterface
      * @Assert\NotNull()
@@ -133,6 +141,7 @@ class LearningMaterial implements LearningMaterialInterface
         nullable: false
     )]
     protected $status;
+
     /**
      * @var UserInterface
      * @Assert\NotNull()
@@ -143,6 +152,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'owning_user_id', referencedColumnName: 'user_id', nullable: false)]
     protected $owningUser;
+
     /**
      * @var ArrayCollection|SessionLearningMaterialInterface[]
      * @IS\Expose
@@ -151,6 +161,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[ORM\OneToMany(targetEntity: 'SessionLearningMaterial', mappedBy: 'learningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionLearningMaterials;
+
     /**
      * @var ArrayCollection|CourseLearningMaterialInterface[]
      * @IS\Expose
@@ -159,6 +170,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[ORM\OneToMany(targetEntity: 'CourseLearningMaterial', mappedBy: 'learningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courseLearningMaterials;
+
     /**
      * renamed from citation
      * @var string
@@ -173,6 +185,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'citation', type: 'string', length: 512, nullable: true)]
     protected $citation;
+
     /**
      * @var string
      * renamed from relative_file_system_location
@@ -186,6 +199,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'relative_file_system_location', type: 'string', length: 128, nullable: true)]
     protected $relativePath;
+
     /**
      * renamed copyrightownership
      * @var bool
@@ -195,6 +209,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'copyright_ownership', type: 'boolean', nullable: true)]
     protected $copyrightPermission;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -207,6 +222,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'copyright_rationale', type: 'text', nullable: true)]
     protected $copyrightRationale;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -220,6 +236,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'filename', type: 'string', length: 255, nullable: true)]
     protected $filename;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -233,6 +250,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'mime_type', type: 'string', length: 96, nullable: true)]
     protected $mimetype;
+
     /**
      * @var string
      * @Assert\Type(type="integer")
@@ -243,6 +261,7 @@ class LearningMaterial implements LearningMaterialInterface
         "unsigned" => true,
     ])]
     protected $filesize;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -256,15 +275,14 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'web_link', type: 'string', length: 256, nullable: true)]
     protected $link;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->uploadDate = new \DateTime();
         $this->sessionLearningMaterials = new ArrayCollection();
         $this->courseLearningMaterials = new ArrayCollection();
     }
+
     /**
      * @param string $originalAuthor
      */
@@ -272,6 +290,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->originalAuthor = $originalAuthor;
     }
+
     /**
      * @return string
      */
@@ -279,6 +298,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->originalAuthor;
     }
+
     /**
      * @return string
      */
@@ -286,6 +306,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->token;
     }
+
     /**
      * @inheritdoc
      */
@@ -300,6 +321,7 @@ class LearningMaterial implements LearningMaterialInterface
         // hash the string to give consistent length and URL safe characters
         $this->token = hash('sha256', $key);
     }
+
     /**
      * @param LearningMaterialStatusInterface $status
      */
@@ -307,6 +329,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->status = $status;
     }
+
     /**
      * @return LearningMaterialStatusInterface
      */
@@ -314,6 +337,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->status;
     }
+
     /**
      * @param UserInterface $user
      */
@@ -321,6 +345,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->owningUser = $user;
     }
+
     /**
      * @inheritdoc
      */
@@ -328,6 +353,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->owningUser;
     }
+
     /**
      * @param LearningMaterialUserRoleInterface $userRole
      */
@@ -335,6 +361,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->userRole = $userRole;
     }
+
     /**
      * @return LearningMaterialUserRoleInterface
      */
@@ -342,6 +369,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->userRole;
     }
+
     /**
      * @return \DateTime
      */
@@ -349,6 +377,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->uploadDate;
     }
+
     /**
      * @param string $citation
      */
@@ -359,6 +388,7 @@ class LearningMaterial implements LearningMaterialInterface
         }
         $this->citation = $citation;
     }
+
     /**
      * @return string
      */
@@ -366,6 +396,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->citation;
     }
+
     /**
      * @param string $path
      */
@@ -373,6 +404,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->relativePath = $path;
     }
+
     /**
      * @return string
      */
@@ -380,6 +412,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->relativePath;
     }
+
     /**
      * @param bool $copyrightPermission
      */
@@ -387,6 +420,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->copyrightPermission = $copyrightPermission;
     }
+
     /**
      * @return bool
      */
@@ -394,6 +428,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->copyrightPermission;
     }
+
     /**
      * @param string $copyrightRationale
      */
@@ -401,6 +436,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->copyrightRationale = $copyrightRationale;
     }
+
     /**
      * @return string
      */
@@ -408,6 +444,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->copyrightRationale;
     }
+
     /**
      * @param string $filename
      */
@@ -415,6 +452,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->filename = $filename;
     }
+
     /**
      * @return string
      */
@@ -422,6 +460,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->filename;
     }
+
     /**
      * @param string $filesize
      */
@@ -429,6 +468,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->filesize = $filesize;
     }
+
     /**
      * @return string
      */
@@ -436,6 +476,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->filesize;
     }
+
     /**
      * @param string $mimetype
      */
@@ -443,6 +484,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->mimetype = $mimetype;
     }
+
     /**
      * @return string
      */
@@ -450,6 +492,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->mimetype;
     }
+
     /**
      * @param string $link
      */
@@ -460,6 +503,7 @@ class LearningMaterial implements LearningMaterialInterface
         }
         $this->link = $link;
     }
+
     /**
      * @return string
      */
@@ -467,6 +511,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->link;
     }
+
     /**
      * @param Collection $courseLearningMaterials
      */
@@ -481,6 +526,7 @@ class LearningMaterial implements LearningMaterialInterface
             $this->addCourseLearningMaterial($courseLearningMaterial);
         }
     }
+
     /**
      * @param CourseLearningMaterialInterface $courseLearningMaterial
      */
@@ -490,6 +536,7 @@ class LearningMaterial implements LearningMaterialInterface
             $this->courseLearningMaterials->add($courseLearningMaterial);
         }
     }
+
     /**
      * @param CourseLearningMaterialInterface $courseLearningMaterial
      */
@@ -497,6 +544,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->courseLearningMaterials->removeElement($courseLearningMaterial);
     }
+
     /**
      * @return ArrayCollection|CourseLearningMaterialInterface[]
      */
@@ -504,6 +552,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->courseLearningMaterials;
     }
+
     /**
      * @param Collection $sessionLearningMaterials
      */
@@ -518,6 +567,7 @@ class LearningMaterial implements LearningMaterialInterface
             $this->addSessionLearningMaterial($sessionLearningMaterial);
         }
     }
+
     /**
      * @param SessionLearningMaterialInterface $sessionLearningMaterial
      */
@@ -527,6 +577,7 @@ class LearningMaterial implements LearningMaterialInterface
             $this->sessionLearningMaterials->add($sessionLearningMaterial);
         }
     }
+
     /**
      * @param SessionLearningMaterialInterface $sessionLearningMaterial
      */
@@ -534,6 +585,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $this->sessionLearningMaterials->removeElement($sessionLearningMaterial);
     }
+
     /**
      * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
@@ -541,6 +593,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->sessionLearningMaterials;
     }
+
     /**
      * @inheritdoc
      */
@@ -551,6 +604,7 @@ class LearningMaterial implements LearningMaterialInterface
         }
         return null;
     }
+
     /**
      * @return SessionInterface[]|ArrayCollection
      */
@@ -564,6 +618,7 @@ class LearningMaterial implements LearningMaterialInterface
 
         return $sessions;
     }
+
     /**
      * @inheritDoc
      */
@@ -577,6 +632,7 @@ class LearningMaterial implements LearningMaterialInterface
 
         return ['Default', 'file'];
     }
+
     /**
      * @inheritDoc
      */

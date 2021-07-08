@@ -32,6 +32,7 @@ class Authentication implements AuthenticationInterface
     #[ORM\OneToOne(targetEntity: 'User', inversedBy: 'authentication')]
     #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     protected $user;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -62,6 +63,7 @@ class Authentication implements AuthenticationInterface
      */
     #[ORM\Column(name: 'invalidate_token_issued_before', type: 'datetime', nullable: true)]
     protected $invalidateTokenIssuedBefore;
+
     /**
      * @inheritdoc
      */
@@ -69,6 +71,7 @@ class Authentication implements AuthenticationInterface
     {
         $this->username = $username;
     }
+
     /**
      * @inheritdoc
      */
@@ -76,6 +79,7 @@ class Authentication implements AuthenticationInterface
     {
         return $this->username;
     }
+
     /**
      * @inheritdoc
      */
@@ -83,6 +87,7 @@ class Authentication implements AuthenticationInterface
     {
         $this->passwordHash = $passwordHash;
     }
+
     /**
      * @inheritdoc
      */
@@ -90,6 +95,7 @@ class Authentication implements AuthenticationInterface
     {
         return $this->passwordHash;
     }
+
     /**
      * @inheritDoc
      */
@@ -97,6 +103,7 @@ class Authentication implements AuthenticationInterface
     {
         return $this->getPasswordHash();
     }
+
     /**
      * @inheritdoc
      */
@@ -104,6 +111,7 @@ class Authentication implements AuthenticationInterface
     {
         $this->user = $user;
     }
+
     /**
      * @inheritdoc
      */
@@ -111,6 +119,7 @@ class Authentication implements AuthenticationInterface
     {
         return $this->user;
     }
+
     /**
      * @inheritdoc
      */
@@ -118,6 +127,7 @@ class Authentication implements AuthenticationInterface
     {
         $this->invalidateTokenIssuedBefore = $invalidateTokenIssuedBefore;
     }
+
     /**
      * @inheritdoc
      */
@@ -125,6 +135,7 @@ class Authentication implements AuthenticationInterface
     {
         return $this->invalidateTokenIssuedBefore;
     }
+
     /**
      * @inheritdoc
      */

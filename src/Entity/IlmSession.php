@@ -45,6 +45,7 @@ class IlmSession implements IlmSessionInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var Session
      *      name="session_id",
@@ -67,6 +68,7 @@ class IlmSession implements IlmSessionInterface
         onDelete: 'CASCADE'
     )]
     protected $session;
+
     /**
      * @var float
      * @Assert\NotBlank()
@@ -80,6 +82,7 @@ class IlmSession implements IlmSessionInterface
      */
     #[ORM\Column(name: 'hours', type: 'decimal', precision: 6, scale: 2)]
     protected $hours;
+
     /**
      * @var DateTime
      * @Assert\NotBlank()
@@ -88,6 +91,7 @@ class IlmSession implements IlmSessionInterface
      */
     #[ORM\Column(name: 'due_date', type: 'datetime')]
     protected $dueDate;
+
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
      * @IS\Expose
@@ -99,6 +103,7 @@ class IlmSession implements IlmSessionInterface
     #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerGroups;
+
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
      * @IS\Expose
@@ -110,6 +115,7 @@ class IlmSession implements IlmSessionInterface
     #[ORM\InverseJoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorGroups;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -121,6 +127,7 @@ class IlmSession implements IlmSessionInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructors;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -132,9 +139,7 @@ class IlmSession implements IlmSessionInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learners;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->learnerGroups = new ArrayCollection();
@@ -142,6 +147,7 @@ class IlmSession implements IlmSessionInterface
         $this->instructorGroups = new ArrayCollection();
         $this->learners = new ArrayCollection();
     }
+
     /**
      * @param float $hours
      */
@@ -149,6 +155,7 @@ class IlmSession implements IlmSessionInterface
     {
         $this->hours = $hours;
     }
+
     /**
      * @return float
      */
@@ -156,6 +163,7 @@ class IlmSession implements IlmSessionInterface
     {
         return $this->hours;
     }
+
     /**
      * @param DateTime $dueDate
      */
@@ -163,6 +171,7 @@ class IlmSession implements IlmSessionInterface
     {
         $this->dueDate = $dueDate;
     }
+
     /**
      * @return DateTime
      */
@@ -170,6 +179,7 @@ class IlmSession implements IlmSessionInterface
     {
         return $this->dueDate;
     }
+
     /**
      * @inheritdoc
      */
@@ -182,6 +192,7 @@ class IlmSession implements IlmSessionInterface
 
         return new ArrayCollection($instructors);
     }
+
     /**
      * @param SessionInterface $session
      */
@@ -189,6 +200,7 @@ class IlmSession implements IlmSessionInterface
     {
         $this->session = $session;
     }
+
     /**
      * @inheritdoc
      */
@@ -196,6 +208,7 @@ class IlmSession implements IlmSessionInterface
     {
         return $this->session;
     }
+
     /**
      * @inheritdoc
      */

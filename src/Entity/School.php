@@ -45,6 +45,7 @@ class School implements SchoolInterface
     use CompetenciesEntity;
     use DirectorsEntity;
     use AdministratorsEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -56,6 +57,7 @@ class School implements SchoolInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -69,6 +71,7 @@ class School implements SchoolInterface
      */
     #[ORM\Column(type: 'string', length: 60, unique: true)]
     protected $title;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -81,6 +84,7 @@ class School implements SchoolInterface
      */
     #[ORM\Column(name: 'template_prefix', type: 'string', length: 8, nullable: true)]
     protected $templatePrefix;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -94,6 +98,7 @@ class School implements SchoolInterface
      */
     #[ORM\Column(name: 'ilios_administrator_email', type: 'string', length: 100)]
     protected $iliosAdministratorEmail;
+
     /**
      * @todo: Normalize later. Collection of email addresses. (Add email entity, etc)
      * @var string
@@ -102,6 +107,7 @@ class School implements SchoolInterface
      */
     #[ORM\Column(name: 'change_alert_recipients', type: 'text', nullable: true)]
     protected $changeAlertRecipients;
+
     /**
      * @var ArrayCollection|AlertInterface[]
      * Don't put alerts in the school API it takes forever to load them all
@@ -110,6 +116,7 @@ class School implements SchoolInterface
     #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'recipients')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $alerts;
+
     /**
      * @var ArrayCollection|CompetencyInterface[]
      * @IS\Expose
@@ -118,6 +125,7 @@ class School implements SchoolInterface
     #[ORM\OneToMany(targetEntity: 'Competency', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $competencies;
+
     /**
      * @var ArrayCollection|CourseInterface[]
      * @IS\Expose
@@ -126,6 +134,7 @@ class School implements SchoolInterface
     #[ORM\OneToMany(targetEntity: 'Course', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courses;
+
     /**
      * @var ArrayCollection|ProgramInterface[]
      * @IS\Expose
@@ -134,6 +143,7 @@ class School implements SchoolInterface
     #[ORM\OneToMany(targetEntity: 'Program', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programs;
+
     /**
      * @var ArrayCollection|VocabularyInterface[]
      * @IS\Expose
@@ -142,6 +152,7 @@ class School implements SchoolInterface
     #[ORM\OneToMany(targetEntity: 'Vocabulary', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $vocabularies;
+
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
      * @IS\Expose
@@ -150,6 +161,7 @@ class School implements SchoolInterface
     #[ORM\OneToMany(targetEntity: 'InstructorGroup', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorGroups;
+
     /**
      * @var CurriculumInventoryInstitutionInterface
      * @IS\Expose
@@ -157,6 +169,7 @@ class School implements SchoolInterface
      */
     #[ORM\OneToOne(targetEntity: 'CurriculumInventoryInstitution', mappedBy: 'school')]
     protected $curriculumInventoryInstitution;
+
     /**
      * @var ArrayCollection|SessionTypeInterface[]
      * @IS\Expose
@@ -165,6 +178,7 @@ class School implements SchoolInterface
     #[ORM\OneToMany(targetEntity: 'SessionType', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionTypes;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -176,6 +190,7 @@ class School implements SchoolInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $directors;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -187,6 +202,7 @@ class School implements SchoolInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administrators;
+
     /**
      * @var ArrayCollection|SchoolConfigInterface[]
      * @IS\Expose
@@ -195,9 +211,7 @@ class School implements SchoolInterface
     #[ORM\OneToMany(targetEntity: 'SchoolConfig', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $configurations;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->alerts = new ArrayCollection();
@@ -211,6 +225,7 @@ class School implements SchoolInterface
         $this->administrators = new ArrayCollection();
         $this->configurations = new ArrayCollection();
     }
+
     /**
      * @param string $templatePrefix
      */
@@ -218,6 +233,7 @@ class School implements SchoolInterface
     {
         $this->templatePrefix = $templatePrefix;
     }
+
     /**
      * @return string
      */
@@ -225,6 +241,7 @@ class School implements SchoolInterface
     {
         return $this->templatePrefix;
     }
+
     /**
      * @param string $iliosAdministratorEmail
      */
@@ -232,6 +249,7 @@ class School implements SchoolInterface
     {
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
     }
+
     /**
      * @return string
      */
@@ -239,6 +257,7 @@ class School implements SchoolInterface
     {
         return $this->iliosAdministratorEmail;
     }
+
     /**
      * @param string $changeAlertRecipients
      */
@@ -246,6 +265,7 @@ class School implements SchoolInterface
     {
         $this->changeAlertRecipients = $changeAlertRecipients;
     }
+
     /**
      * @return string
      */
@@ -253,6 +273,7 @@ class School implements SchoolInterface
     {
         return $this->changeAlertRecipients;
     }
+
     /**
      * @param string $curriculumInventoryInstitution
      */
@@ -260,6 +281,7 @@ class School implements SchoolInterface
     {
         $this->curriculumInventoryInstitution = $curriculumInventoryInstitution;
     }
+
     /**
      * @return string
      */
@@ -267,6 +289,7 @@ class School implements SchoolInterface
     {
         return $this->curriculumInventoryInstitution;
     }
+
     /**
      * @inheritdoc
      */
@@ -277,6 +300,7 @@ class School implements SchoolInterface
             $alert->addRecipient($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -287,6 +311,7 @@ class School implements SchoolInterface
             $alert->removeRecipient($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -298,6 +323,7 @@ class School implements SchoolInterface
             $this->addVocabulary($vocabulary);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -307,6 +333,7 @@ class School implements SchoolInterface
             $this->vocabularies->add($vocabulary);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -314,6 +341,7 @@ class School implements SchoolInterface
     {
         $this->vocabularies->removeElement($vocabulary);
     }
+
     /**
      * @inheritdoc
      */
@@ -321,6 +349,7 @@ class School implements SchoolInterface
     {
         return $this->vocabularies;
     }
+
     /**
      * @inheritdoc
      */
@@ -331,6 +360,7 @@ class School implements SchoolInterface
             $director->addDirectedSchool($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -341,6 +371,7 @@ class School implements SchoolInterface
             $director->removeDirectedSchool($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -351,6 +382,7 @@ class School implements SchoolInterface
             $administrator->addAdministeredSchool($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -361,6 +393,7 @@ class School implements SchoolInterface
             $administrator->removeAdministeredSchool($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -370,6 +403,7 @@ class School implements SchoolInterface
             $this->configurations->add($config);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -377,6 +411,7 @@ class School implements SchoolInterface
     {
         $this->configurations->removeElement($config);
     }
+
     /**
      * @inheritdoc
      */
@@ -388,6 +423,7 @@ class School implements SchoolInterface
             $this->addConfiguration($config);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -395,6 +431,7 @@ class School implements SchoolInterface
     {
         return $this->configurations;
     }
+
     /**
      * @inheritDoc
      */

@@ -28,6 +28,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     use MeshDescriptorsEntity;
     use SortableEntity;
     use LearningMaterialRelationshipEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -39,6 +40,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -52,6 +54,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      */
     #[ORM\Column(name: 'notes', type: 'text', nullable: true)]
     protected $notes;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -61,6 +64,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      */
     #[ORM\Column(name: 'required', type: 'boolean')]
     protected $required;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -70,6 +74,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      */
     #[ORM\Column(name: 'notes_are_public', type: 'boolean')]
     protected $publicNotes;
+
     /**
      * @var CourseInterface
      * @Assert\NotNull()
@@ -80,6 +85,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
     protected $course;
+
     /**
      * @var LearningMaterialInterface
      * @Assert\NotNull()
@@ -90,6 +96,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[ORM\ManyToOne(targetEntity: 'LearningMaterial', inversedBy: 'courseLearningMaterials')]
     #[ORM\JoinColumn(name: 'learning_material_id', referencedColumnName: 'learning_material_id')]
     protected $learningMaterial;
+
     /**
      * @var ArrayCollection|MeshDescriptor[]
      *   joinColumns={
@@ -110,6 +117,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -119,6 +127,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      */
     #[ORM\Column(name: 'position', type: 'integer')]
     protected $position;
+
     /**
      * @var \DateTime
      * @IS\Expose
@@ -126,6 +135,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      */
     #[ORM\Column(name: 'start_date', type: 'datetime', nullable: true)]
     protected $startDate;
+
     /**
      * @var \DateTime
      * @IS\Expose
@@ -133,9 +143,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      */
     #[ORM\Column(name: 'end_date', type: 'datetime', nullable: true)]
     protected $endDate;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->meshDescriptors = new ArrayCollection();
@@ -143,6 +151,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
         $this->required = false;
         $this->position = 0;
     }
+
     /**
      * @param CourseInterface $course
      */
@@ -150,6 +159,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     {
         $this->course = $course;
     }
+
     /**
      * @inheritdoc
      */
@@ -157,6 +167,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     {
         return $this->course;
     }
+
     /**
      * @inheritDoc
      */

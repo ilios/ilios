@@ -32,6 +32,7 @@ class Cohort implements CohortInterface
     use CoursesEntity;
     use LearnerGroupsEntity;
     use UsersEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -43,6 +44,7 @@ class Cohort implements CohortInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @IS\Expose
@@ -56,6 +58,7 @@ class Cohort implements CohortInterface
      */
     #[ORM\Column(type: 'string', length: 60)]
     protected $title;
+
     /**
      * @var ProgramYearInterface
      * @IS\Expose
@@ -64,6 +67,7 @@ class Cohort implements CohortInterface
     #[ORM\OneToOne(targetEntity: 'ProgramYear', inversedBy: 'cohort')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', unique: true, onDelete: 'cascade')]
     protected $programYear;
+
     /**
      * @var ArrayCollection|CourseInterface[]
      * @IS\Expose
@@ -72,6 +76,7 @@ class Cohort implements CohortInterface
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'cohorts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courses;
+
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
      * @IS\Expose
@@ -80,6 +85,7 @@ class Cohort implements CohortInterface
     #[ORM\OneToMany(targetEntity: 'LearnerGroup', mappedBy: 'cohort')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerGroups;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -88,15 +94,14 @@ class Cohort implements CohortInterface
     #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'cohorts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $users;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->courses = new ArrayCollection();
         $this->learnerGroups = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
+
     /**
      * @param ProgramYearInterface $programYear
      */
@@ -104,6 +109,7 @@ class Cohort implements CohortInterface
     {
         $this->programYear = $programYear;
     }
+
     /**
      * @return ProgramYearInterface
      */
@@ -111,6 +117,7 @@ class Cohort implements CohortInterface
     {
         return $this->programYear;
     }
+
     /**
      * @inheritdoc
      */
@@ -121,6 +128,7 @@ class Cohort implements CohortInterface
             $course->addCohort($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -131,6 +139,7 @@ class Cohort implements CohortInterface
             $course->removeCohort($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -141,6 +150,7 @@ class Cohort implements CohortInterface
             $user->addCohort($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -149,6 +159,7 @@ class Cohort implements CohortInterface
         $this->users->removeElement($user);
         $user->removeCohort($this);
     }
+
     /**
      * @inheritdoc
      */
@@ -159,6 +170,7 @@ class Cohort implements CohortInterface
         }
         return null;
     }
+
     /**
      * @inheritdoc
      */

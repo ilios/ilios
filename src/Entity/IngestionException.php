@@ -21,6 +21,7 @@ class IngestionException implements IngestionExceptionInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -32,6 +33,7 @@ class IngestionException implements IngestionExceptionInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -45,6 +47,7 @@ class IngestionException implements IngestionExceptionInterface
      */
     #[ORM\Column(name: 'ingested_wide_uid', type: 'string', length: 32)]
     protected $uid;
+
     /**
      * @var UserInterface
      *      name="user_id",
@@ -65,6 +68,7 @@ class IngestionException implements IngestionExceptionInterface
         nullable: false
     )]
     protected $user;
+
     /**
      * @param UserInterface $user
      */
@@ -72,6 +76,7 @@ class IngestionException implements IngestionExceptionInterface
     {
         $this->user = $user;
     }
+
     /**
      * @return UserInterface
      */
@@ -79,6 +84,7 @@ class IngestionException implements IngestionExceptionInterface
     {
         return $this->user;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -86,6 +92,7 @@ class IngestionException implements IngestionExceptionInterface
     {
         $this->uid = $uid;
     }
+
     /**
      * {@inheritdoc}
      */

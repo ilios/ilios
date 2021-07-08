@@ -23,6 +23,7 @@ class Alert implements AlertInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -34,6 +35,7 @@ class Alert implements AlertInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -43,6 +45,7 @@ class Alert implements AlertInterface
      */
     #[ORM\Column(name: 'table_row_id', type: 'integer')]
     protected $tableRowId;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -56,6 +59,7 @@ class Alert implements AlertInterface
      */
     #[ORM\Column(name: 'table_name', type: 'string', length: 30)]
     protected $tableName;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -68,6 +72,7 @@ class Alert implements AlertInterface
      */
     #[ORM\Column(name: 'additional_text', type: 'text', nullable: true)]
     protected $additionalText;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -77,6 +82,7 @@ class Alert implements AlertInterface
      */
     #[ORM\Column(name: 'dispatched', type: 'boolean')]
     protected $dispatched;
+
     /**
      * @var ArrayCollection|AlertChangeTypeInterface[]
      * @IS\Expose
@@ -88,6 +94,7 @@ class Alert implements AlertInterface
     #[ORM\InverseJoinColumn(name: 'alert_change_type_id', referencedColumnName: 'alert_change_type_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $changeTypes;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -99,6 +106,7 @@ class Alert implements AlertInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instigators;
+
     /**
      * @var ArrayCollection|SchoolInterface[]
      * @IS\Expose
@@ -110,9 +118,7 @@ class Alert implements AlertInterface
     #[ORM\InverseJoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $recipients;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->changeTypes = new ArrayCollection();
@@ -120,6 +126,7 @@ class Alert implements AlertInterface
         $this->recipients = new ArrayCollection();
         $this->dispatched = false;
     }
+
     /**
      * @inheritdoc
      */
@@ -127,6 +134,7 @@ class Alert implements AlertInterface
     {
         $this->tableRowId = $tableRowId;
     }
+
     /**
      * @inheritdoc
      */
@@ -134,6 +142,7 @@ class Alert implements AlertInterface
     {
         return $this->tableRowId;
     }
+
     /**
      * @inheritdoc
      */
@@ -141,6 +150,7 @@ class Alert implements AlertInterface
     {
         $this->tableName = $tableName;
     }
+
     /**
      * @inheritdoc
      */
@@ -148,6 +158,7 @@ class Alert implements AlertInterface
     {
         return $this->tableName;
     }
+
     /**
      * @inheritdoc
      */
@@ -155,6 +166,7 @@ class Alert implements AlertInterface
     {
         $this->additionalText = $additionalText;
     }
+
     /**
      * @inheritdoc
      */
@@ -162,6 +174,7 @@ class Alert implements AlertInterface
     {
         return $this->additionalText;
     }
+
     /**
      * @inheritdoc
      */
@@ -169,6 +182,7 @@ class Alert implements AlertInterface
     {
         $this->dispatched = $dispatched;
     }
+
     /**
      * @inheritdoc
      */
@@ -176,6 +190,7 @@ class Alert implements AlertInterface
     {
         return $this->dispatched;
     }
+
     /**
      * @inheritdoc
      */
@@ -187,6 +202,7 @@ class Alert implements AlertInterface
             $this->addChangeType($changeType);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -196,6 +212,7 @@ class Alert implements AlertInterface
             $this->changeTypes->add($changeType);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -203,6 +220,7 @@ class Alert implements AlertInterface
     {
         $this->changeTypes->removeElement($changeType);
     }
+
     /**
      * @inheritdoc
      */
@@ -210,6 +228,7 @@ class Alert implements AlertInterface
     {
         return $this->changeTypes;
     }
+
     /**
      * @inheritdoc
      */
@@ -221,6 +240,7 @@ class Alert implements AlertInterface
             $this->addInstigator($instigator);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -230,6 +250,7 @@ class Alert implements AlertInterface
             $this->instigators->add($instigator);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -237,6 +258,7 @@ class Alert implements AlertInterface
     {
         $this->instigators->removeElement($instigator);
     }
+
     /**
      * @inheritdoc
      */
@@ -244,6 +266,7 @@ class Alert implements AlertInterface
     {
         return $this->instigators;
     }
+
     /**
      * @inheritdoc
      */
@@ -255,6 +278,7 @@ class Alert implements AlertInterface
             $this->addRecipient($recipient);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -264,6 +288,7 @@ class Alert implements AlertInterface
             $this->recipients->add($recipient);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -271,6 +296,7 @@ class Alert implements AlertInterface
     {
         $this->recipients->removeElement($recipient);
     }
+
     /**
      * @inheritdoc
      */

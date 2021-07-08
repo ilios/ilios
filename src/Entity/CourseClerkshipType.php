@@ -27,6 +27,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     use StringableIdEntity;
     use TitledEntity;
     use CoursesEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -38,6 +39,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -51,6 +53,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      */
     #[ORM\Column(type: 'string', length: 20)]
     protected $title;
+
     /**
      * @var ArrayCollection|CourseInterface[]
      * @IS\Expose
@@ -59,10 +62,12 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     #[ORM\OneToMany(targetEntity: 'Course', mappedBy: 'clerkshipType')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courses;
+
     public function __construct()
     {
         $this->courses = new ArrayCollection();
     }
+
     /**
      * @inheritdoc
      */
@@ -73,6 +78,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
             $course->setClerkshipType($this);
         }
     }
+
     /**
      * @inheritdoc
      */

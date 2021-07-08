@@ -29,6 +29,7 @@ class MeshQualifier implements MeshQualifierInterface
     use NameableEntity;
     use StringableIdEntity;
     use CreatedAtEntity;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -39,6 +40,7 @@ class MeshQualifier implements MeshQualifierInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -52,6 +54,7 @@ class MeshQualifier implements MeshQualifierInterface
      */
     #[ORM\Column(type: 'string', length: 60)]
     protected $name;
+
     /**
      * @IS\Expose
      * @IS\ReadOnly
@@ -59,6 +62,7 @@ class MeshQualifier implements MeshQualifierInterface
      */
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     protected $createdAt;
+
     /**
      * @IS\Expose
      * @IS\ReadOnly
@@ -66,6 +70,7 @@ class MeshQualifier implements MeshQualifierInterface
      */
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     protected $updatedAt;
+
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
      * @IS\Expose
@@ -77,15 +82,14 @@ class MeshQualifier implements MeshQualifierInterface
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descriptors;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->descriptors = new ArrayCollection();
     }
+
     /**
      * @param Collection $descriptors
      */
@@ -97,6 +101,7 @@ class MeshQualifier implements MeshQualifierInterface
             $this->addDescriptor($descriptor);
         }
     }
+
     /**
      * @param MeshDescriptorInterface $descriptor
      */
@@ -106,6 +111,7 @@ class MeshQualifier implements MeshQualifierInterface
             $this->descriptors->add($descriptor);
         }
     }
+
     /**
      * @param MeshDescriptorInterface $descriptor
      */
@@ -113,6 +119,7 @@ class MeshQualifier implements MeshQualifierInterface
     {
         $this->descriptors->removeElement($descriptor);
     }
+
     /**
      * @return ArrayCollection|MeshDescriptorInterface[]
      */

@@ -36,6 +36,7 @@ class SessionType implements SessionTypeInterface
     use SchoolEntity;
     use StringableIdEntity;
     use ActivatableEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -47,6 +48,7 @@ class SessionType implements SessionTypeInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -60,6 +62,7 @@ class SessionType implements SessionTypeInterface
      */
     #[ORM\Column(type: 'string', length: 100)]
     protected $title;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -73,6 +76,7 @@ class SessionType implements SessionTypeInterface
      */
     #[ORM\Column(name: 'calendar_color', type: 'string', length: 7, nullable: false)]
     protected $calendarColor;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -82,6 +86,7 @@ class SessionType implements SessionTypeInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $active;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -91,6 +96,7 @@ class SessionType implements SessionTypeInterface
      */
     #[ORM\Column(name: 'assessment', type: 'boolean')]
     protected $assessment;
+
     /**
      * @var AssessmentOptionInterface
      * })
@@ -100,6 +106,7 @@ class SessionType implements SessionTypeInterface
     #[ORM\ManyToOne(targetEntity: 'AssessmentOption', inversedBy: 'sessionTypes')]
     #[ORM\JoinColumn(name: 'assessment_option_id', referencedColumnName: 'assessment_option_id')]
     protected $assessmentOption;
+
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
@@ -110,6 +117,7 @@ class SessionType implements SessionTypeInterface
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'sessionTypes')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     protected $school;
+
     /**
      * @var ArrayCollection|AamcMethodInterface[]
      * @IS\Expose
@@ -121,6 +129,7 @@ class SessionType implements SessionTypeInterface
     #[ORM\InverseJoinColumn(name: 'method_id', referencedColumnName: 'method_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $aamcMethods;
+
     /**
      * @var ArrayCollection|SessionInterface[]
      * @IS\Expose
@@ -129,9 +138,7 @@ class SessionType implements SessionTypeInterface
     #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'sessionType')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessions;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->aamcMethods = new ArrayCollection();
@@ -139,6 +146,7 @@ class SessionType implements SessionTypeInterface
         $this->assessment = false;
         $this->active = true;
     }
+
     /**
      * @inheritdoc
      */
@@ -146,6 +154,7 @@ class SessionType implements SessionTypeInterface
     {
         $this->calendarColor = $color;
     }
+
     /**
      * @return string
      */
@@ -153,6 +162,7 @@ class SessionType implements SessionTypeInterface
     {
         return $this->calendarColor;
     }
+
     /**
      * Set assessment
      *
@@ -162,6 +172,7 @@ class SessionType implements SessionTypeInterface
     {
         $this->assessment = $assessment;
     }
+
     /**
      * Get assessment
      *
@@ -171,6 +182,7 @@ class SessionType implements SessionTypeInterface
     {
         return $this->assessment;
     }
+
     /**
      * @param AssessmentOptionInterface $assessmentOption
      */
@@ -178,6 +190,7 @@ class SessionType implements SessionTypeInterface
     {
         $this->assessmentOption = $assessmentOption;
     }
+
     /**
      * @return AssessmentOptionInterface
      */
@@ -185,6 +198,7 @@ class SessionType implements SessionTypeInterface
     {
         return $this->assessmentOption;
     }
+
     /**
      * @param Collection $aamcMethods
      */
@@ -196,6 +210,7 @@ class SessionType implements SessionTypeInterface
             $this->addAamcMethod($aamcMethod);
         }
     }
+
     /**
      * @param AamcMethodInterface $aamcMethod
      */
@@ -205,6 +220,7 @@ class SessionType implements SessionTypeInterface
             $this->aamcMethods->add($aamcMethod);
         }
     }
+
     /**
      * @param AamcMethodInterface $aamcMethod
      */
@@ -212,6 +228,7 @@ class SessionType implements SessionTypeInterface
     {
         $this->aamcMethods->removeElement($aamcMethod);
     }
+
     /**
      * @return ArrayCollection|AamcMethodInterface[]
      */
@@ -219,6 +236,7 @@ class SessionType implements SessionTypeInterface
     {
         return $this->aamcMethods;
     }
+
     /**
      * @inheritdoc
      */
@@ -229,6 +247,7 @@ class SessionType implements SessionTypeInterface
             $session->setSessionType($this);
         }
     }
+
     /**
      * @inheritdoc
      */

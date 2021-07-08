@@ -27,6 +27,7 @@ class ApplicationConfig implements ApplicationConfigInterface
     use IdentifiableEntity;
     use NameableEntity;
     use StringableIdEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -38,6 +39,7 @@ class ApplicationConfig implements ApplicationConfigInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -51,6 +53,7 @@ class ApplicationConfig implements ApplicationConfigInterface
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     protected $name;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -64,6 +67,7 @@ class ApplicationConfig implements ApplicationConfigInterface
      */
     #[ORM\Column(name: 'value', type: 'text', nullable: false)]
     protected $value;
+
     /**
      * @inheritdoc
      */
@@ -71,6 +75,7 @@ class ApplicationConfig implements ApplicationConfigInterface
     {
         return $this->value;
     }
+
     /**
      * @inheritdoc
      */

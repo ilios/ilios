@@ -27,6 +27,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -38,6 +39,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var CurriculumInventoryReportInterface
      * })
@@ -47,6 +49,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     #[ORM\OneToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'export')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', unique: true, nullable: false)]
     protected $report;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -59,6 +62,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      */
     #[ORM\Column(name: 'document', type: 'text')]
     protected $document;
+
     /**
      * @var UserInterface
      * })
@@ -68,6 +72,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     #[ORM\ManyToOne(targetEntity: 'User')]
     #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'user_id')]
     protected $createdBy;
+
     /**
      * @var \DateTime
      * @Assert\NotBlank()
@@ -77,13 +82,12 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      */
     #[ORM\Column(name: 'created_on', type: 'datetime')]
     protected $createdAt;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
     }
+
     /**
      * @param CurriculumInventoryReportInterface $report
      */
@@ -91,6 +95,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     {
         $this->report = $report;
     }
+
     /**
      * @return CurriculumInventoryReportInterface
      */
@@ -98,6 +103,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     {
         return $this->report;
     }
+
     /**
      * @param string $document
      */
@@ -105,6 +111,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     {
         $this->document = $document;
     }
+
     /**
      * @return string
      */
@@ -112,6 +119,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     {
         return $this->document;
     }
+
     /**
      * @param UserInterface $createdBy
      */
@@ -119,6 +127,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     {
         $this->createdBy = $createdBy;
     }
+
     /**
      * @return UserInterface
      */
@@ -126,6 +135,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     {
         return $this->createdBy;
     }
+
     /**
      * @return \DateTime
      */

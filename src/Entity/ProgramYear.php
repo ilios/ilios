@@ -34,6 +34,7 @@ class ProgramYear implements ProgramYearInterface
     use StringableIdEntity;
     use DirectorsEntity;
     use CompetenciesEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -45,6 +46,7 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var int
      * @IS\Expose
@@ -54,6 +56,7 @@ class ProgramYear implements ProgramYearInterface
      */
     #[ORM\Column(name: 'start_year', type: 'smallint')]
     protected $startYear;
+
     /**
      * @var bool
      * @IS\Expose
@@ -63,6 +66,7 @@ class ProgramYear implements ProgramYearInterface
      */
     #[ORM\Column(name: 'locked', type: 'boolean')]
     protected $locked;
+
     /**
      * @var bool
      * @IS\Expose
@@ -72,6 +76,7 @@ class ProgramYear implements ProgramYearInterface
      */
     #[ORM\Column(name: 'archived', type: 'boolean')]
     protected $archived;
+
     /**
      * @var ProgramInterface
      * @Assert\NotNull()
@@ -82,6 +87,7 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'programYears')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
     protected $program;
+
     /**
      * @var CohortInterface
      * @IS\Expose
@@ -89,6 +95,7 @@ class ProgramYear implements ProgramYearInterface
      */
     #[ORM\OneToOne(targetEntity: 'Cohort', mappedBy: 'programYear')]
     protected $cohort;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -100,6 +107,7 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $directors;
+
     /**
      * @var ArrayCollection|CompetencyInterface[]
      * @IS\Expose
@@ -111,6 +119,7 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\InverseJoinColumn(name: 'competency_id', referencedColumnName: 'competency_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $competencies;
+
     /**
      * @var ArrayCollection|TermInterface[]
      * @IS\Expose
@@ -122,6 +131,7 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
+
     /**
      * @var ArrayCollection|ProgramYearObjective[]
      * @IS\Expose
@@ -130,9 +140,7 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'programYear')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $programYearObjectives;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->archived = false;
@@ -142,6 +150,7 @@ class ProgramYear implements ProgramYearInterface
         $this->terms = new ArrayCollection();
         $this->programYearObjectives = new ArrayCollection();
     }
+
     /**
      * @param int $startYear
      */
@@ -149,6 +158,7 @@ class ProgramYear implements ProgramYearInterface
     {
         $this->startYear = $startYear;
     }
+
     /**
      * @return int
      */
@@ -156,6 +166,7 @@ class ProgramYear implements ProgramYearInterface
     {
         return $this->startYear;
     }
+
     /**
      * @param ProgramInterface $program
      */
@@ -163,6 +174,7 @@ class ProgramYear implements ProgramYearInterface
     {
         $this->program = $program;
     }
+
     /**
      * @return ProgramInterface
      */
@@ -170,6 +182,7 @@ class ProgramYear implements ProgramYearInterface
     {
         return $this->program;
     }
+
     /**
      * @inheritdoc
      */
@@ -177,6 +190,7 @@ class ProgramYear implements ProgramYearInterface
     {
         $this->cohort = $cohort;
     }
+
     /**
      * @inheritdoc
      */
@@ -184,6 +198,7 @@ class ProgramYear implements ProgramYearInterface
     {
         return $this->cohort;
     }
+
     /**
      * @inheritdoc
      */

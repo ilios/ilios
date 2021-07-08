@@ -33,6 +33,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     use StringableIdEntity;
     use SequenceBlocksEntity;
     use AdministratorsEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -44,6 +45,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -56,6 +58,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     protected $name;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -68,6 +71,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -77,6 +81,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     #[ORM\Column(name: 'year', type: 'smallint')]
     protected $year;
+
     /**
      * @var \DateTime
      * @Assert\NotBlank()
@@ -85,6 +90,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     #[ORM\Column(type: 'date', name: 'start_date')]
     protected $startDate;
+
     /**
      * @var \DateTime
      * @Assert\NotBlank()
@@ -93,6 +99,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     #[ORM\Column(type: 'date', name: 'end_date')]
     protected $endDate;
+
     /**
      * @var CurriculumInventoryExportInterface
      * @IS\Expose
@@ -100,6 +107,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     #[ORM\OneToOne(targetEntity: 'CurriculumInventoryExport', mappedBy: 'report')]
     protected $export;
+
     /**
      * @var CurriculumInventorySequenceInterface
      * @IS\Expose
@@ -107,6 +115,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     #[ORM\OneToOne(targetEntity: 'CurriculumInventorySequence', mappedBy: 'report')]
     protected $sequence;
+
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      * @IS\Expose
@@ -115,6 +124,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'report')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
+
     /**
      * @var ProgramInterface
      * })
@@ -124,6 +134,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'curriculumInventoryReports')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
     protected $program;
+
     /**
      * @var CurriculumInventoryAcademicLevelInterface
      * @IS\Expose
@@ -132,6 +143,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\OneToMany(targetEntity: 'CurriculumInventoryAcademicLevel', mappedBy: 'report')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $academicLevels;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -142,6 +154,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     protected $token;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -153,15 +166,14 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administrators;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->academicLevels = new ArrayCollection();
         $this->sequenceBlocks = new ArrayCollection();
         $this->administrators = new ArrayCollection();
     }
+
     /**
      * @param int $year
      */
@@ -169,6 +181,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->year = $year;
     }
+
     /**
      * @return int
      */
@@ -176,6 +189,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->year;
     }
+
     /**
      * @param \DateTime $startDate
      */
@@ -183,6 +197,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->startDate = $startDate;
     }
+
     /**
      * @return \DateTime
      */
@@ -190,6 +205,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->startDate;
     }
+
     /**
      * @param \DateTime $endDate
      */
@@ -197,6 +213,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->endDate = $endDate;
     }
+
     /**
      * @return \DateTime
      */
@@ -204,6 +221,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->endDate;
     }
+
     /**
      * @param CurriculumInventoryExportInterface|null $export
      */
@@ -211,6 +229,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->export = $export;
     }
+
     /**
      * @return CurriculumInventoryExportInterface
      */
@@ -218,6 +237,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->export;
     }
+
     /**
      * @param CurriculumInventorySequenceInterface|null $sequence
      */
@@ -225,6 +245,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->sequence = $sequence;
     }
+
     /**
      * @return CurriculumInventorySequenceInterface
      */
@@ -232,6 +253,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->sequence;
     }
+
     /**
      * @param ProgramInterface $program
      */
@@ -239,6 +261,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->program = $program;
     }
+
     /**
      * @return ProgramInterface
      */
@@ -246,6 +269,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->program;
     }
+
     /**
      * @param Collection $academicLevels
      */
@@ -259,6 +283,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
             $this->addAcademicLevel($academicLevel);
         }
     }
+
     /**
      * @param CurriculumInventoryAcademicLevelInterface $academicLevel
      */
@@ -268,6 +293,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
             $this->academicLevels->add($academicLevel);
         }
     }
+
     /**
      * @param CurriculumInventoryAcademicLevelInterface $academicLevel
      */
@@ -275,6 +301,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->academicLevels->removeElement($academicLevel);
     }
+
     /**
      * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
      */
@@ -282,6 +309,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->academicLevels;
     }
+
     /**
      * @inheritdoc
      */
@@ -292,6 +320,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
         return null;
     }
+
     /**
      * @return string
      */
@@ -299,6 +328,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->token;
     }
+
     /**
      * @inheritdoc
      */
@@ -313,6 +343,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         // hash the string to give consistent length and URL safe characters
         $this->token = hash('sha256', $key);
     }
+
     /**
      * @inheritdoc
      */
@@ -323,6 +354,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
             $administrator->addAdministeredCurriculumInventoryReport($this);
         }
     }
+
     /**
      * @inheritdoc
      */

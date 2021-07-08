@@ -27,6 +27,7 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
     use TitledEntity;
     use StringableIdEntity;
     use LearningMaterialsEntity;
+
     /**
      * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
@@ -39,6 +40,7 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -52,15 +54,14 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
      */
     #[ORM\Column(type: 'string', length: 60)]
     protected $title;
+
     /**
      * @var ArrayCollection|LearningMaterialInterface[]
      */
     #[ORM\OneToMany(targetEntity: 'LearningMaterial', mappedBy: 'status')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->learningMaterials = new ArrayCollection();

@@ -32,6 +32,7 @@ class Program implements ProgramInterface
     use ProgramYearsEntity;
     use SchoolEntity;
     use DirectorsEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -43,6 +44,7 @@ class Program implements ProgramInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -56,6 +58,7 @@ class Program implements ProgramInterface
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     protected $title;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -68,6 +71,7 @@ class Program implements ProgramInterface
      */
     #[ORM\Column(name: 'short_title', type: 'string', length: 10, nullable: true)]
     protected $shortTitle;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -77,6 +81,7 @@ class Program implements ProgramInterface
      */
     #[ORM\Column(name: 'duration', type: 'smallint')]
     protected $duration;
+
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
@@ -87,6 +92,7 @@ class Program implements ProgramInterface
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'programs')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     protected $school;
+
     /**
      * @var ArrayCollection|ProgramYearInterface[]
      * @IS\Expose
@@ -95,6 +101,7 @@ class Program implements ProgramInterface
     #[ORM\OneToMany(targetEntity: 'ProgramYear', mappedBy: 'program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programYears;
+
     /**
      * @var ArrayCollection|CurriculumInventoryReportInterface[]
      * @IS\Expose
@@ -103,6 +110,7 @@ class Program implements ProgramInterface
     #[ORM\OneToMany(targetEntity: 'CurriculumInventoryReport', mappedBy: 'program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $curriculumInventoryReports;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -114,15 +122,14 @@ class Program implements ProgramInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $directors;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->programYears = new ArrayCollection();
         $this->curriculumInventoryReports = new ArrayCollection();
         $this->directors = new ArrayCollection();
     }
+
     /**
      * @param string $shortTitle
      */
@@ -130,6 +137,7 @@ class Program implements ProgramInterface
     {
         $this->shortTitle = $shortTitle;
     }
+
     /**
      * @return string
      */
@@ -137,6 +145,7 @@ class Program implements ProgramInterface
     {
         return $this->shortTitle;
     }
+
     /**
      * @param int $duration
      */
@@ -144,6 +153,7 @@ class Program implements ProgramInterface
     {
         $this->duration = $duration;
     }
+
     /**
      * @return int
      */
@@ -151,6 +161,7 @@ class Program implements ProgramInterface
     {
         return $this->duration;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -162,6 +173,7 @@ class Program implements ProgramInterface
             $this->addCurriculumInventoryReport($report);
         }
     }
+
     /**
      * {@inheritdoc}
      */
@@ -171,6 +183,7 @@ class Program implements ProgramInterface
             $this->curriculumInventoryReports->add($report);
         }
     }
+
     /**
      * {@inheritdoc}
      */
@@ -180,6 +193,7 @@ class Program implements ProgramInterface
             $this->curriculumInventoryReports->removeElement($report);
         }
     }
+
     /**
      * {@inheritdoc}
      */
@@ -187,6 +201,7 @@ class Program implements ProgramInterface
     {
         return $this->curriculumInventoryReports;
     }
+
     /**
      * @inheritdoc
      */
@@ -197,6 +212,7 @@ class Program implements ProgramInterface
             $director->addDirectedProgram($this);
         }
     }
+
     /**
      * @inheritdoc
      */

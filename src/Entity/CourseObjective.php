@@ -37,6 +37,7 @@ class CourseObjective implements CourseObjectiveInterface
     use ActivatableEntity;
     use CategorizableEntity;
     use SortableEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -48,6 +49,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var CourseInterface
      * @Assert\NotNull()
@@ -58,6 +60,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'courseObjectives')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
     protected $course;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -67,6 +70,7 @@ class CourseObjective implements CourseObjectiveInterface
      */
     #[ORM\Column(name: 'position', type: 'integer')]
     protected $position;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -78,6 +82,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -92,6 +97,7 @@ class CourseObjective implements CourseObjectiveInterface
      */
     #[ORM\Column(type: 'text')]
     protected $title;
+
     /**
      * @var Collection
      *   joinColumns={
@@ -114,6 +120,7 @@ class CourseObjective implements CourseObjectiveInterface
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programYearObjectives;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -122,6 +129,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'courseObjectives')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionObjectives;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -133,6 +141,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
+
     /**
      * @var CourseObjectiveInterface
      * })
@@ -142,6 +151,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\ManyToOne(targetEntity: 'CourseObjective', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'course_objective_id')]
     protected $ancestor;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -150,6 +160,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\OneToMany(targetEntity: 'CourseObjective', mappedBy: 'ancestor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descendants;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -159,9 +170,7 @@ class CourseObjective implements CourseObjectiveInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $active;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->position = 0;
@@ -172,6 +181,7 @@ class CourseObjective implements CourseObjectiveInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
     }
+
     /**
      * @inheritdoc
      */
@@ -179,6 +189,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->course = $course;
     }
+
     /**
      * @inheritdoc
      */
@@ -186,6 +197,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return $this->course;
     }
+
     /**
      * @inheritDoc
      */
@@ -193,6 +205,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return [$this->getCourse()];
     }
+
     /**
      * @inheritdoc
      */
@@ -204,6 +217,7 @@ class CourseObjective implements CourseObjectiveInterface
             $this->addProgramYearObjective($programYearObjective);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -213,6 +227,7 @@ class CourseObjective implements CourseObjectiveInterface
             $this->programYearObjectives->add($programYearObjective);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -220,6 +235,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->programYearObjectives->removeElement($programYearObjective);
     }
+
     /**
      * @inheritdoc
      */
@@ -227,6 +243,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return $this->programYearObjectives;
     }
+
     /**
      * @inheritdoc
      */
@@ -238,6 +255,7 @@ class CourseObjective implements CourseObjectiveInterface
             $this->addSessionObjective($sessionObjective);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -248,6 +266,7 @@ class CourseObjective implements CourseObjectiveInterface
             $sessionObjective->addCourseObjective($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -258,6 +277,7 @@ class CourseObjective implements CourseObjectiveInterface
             $sessionObjective->removeCourseObjective($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -265,6 +285,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return $this->sessionObjectives;
     }
+
     /**
      * @inheritdoc
      */
@@ -272,6 +293,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->ancestor = $ancestor;
     }
+
     /**
      * @inheritdoc
      */
@@ -279,6 +301,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return $this->ancestor;
     }
+
     /**
      * @inheritdoc
      */
@@ -288,6 +311,7 @@ class CourseObjective implements CourseObjectiveInterface
 
         return $ancestor ? $ancestor : $this;
     }
+
     /**
      * @inheritdoc
      */
@@ -299,6 +323,7 @@ class CourseObjective implements CourseObjectiveInterface
             $this->addDescendant($descendant);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -308,6 +333,7 @@ class CourseObjective implements CourseObjectiveInterface
             $this->descendants->add($descendant);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -315,6 +341,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->descendants->removeElement($descendant);
     }
+
     /**
      * @inheritdoc
      */
@@ -322,6 +349,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return $this->descendants;
     }
+
     /**
      * @inheritdoc
      */
@@ -329,6 +357,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->title = $title;
     }
+
     /**
      * @inheritdoc
      */
@@ -336,6 +365,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->position = $position;
     }
+
     /**
      * @inheritdoc
      */
@@ -343,6 +373,7 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->active = $active;
     }
+
     /**
      * @inheritdoc
      */
@@ -354,6 +385,7 @@ class CourseObjective implements CourseObjectiveInterface
             $this->addMeshDescriptor($meshDescriptor);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -363,6 +395,7 @@ class CourseObjective implements CourseObjectiveInterface
             $this->meshDescriptors->add($meshDescriptor);
         }
     }
+
     /**
      * @inheritdoc
      */

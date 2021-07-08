@@ -34,6 +34,7 @@ class Competency implements CompetencyInterface
     use StringableIdEntity;
     use ActivatableEntity;
     use ProgramYearObjectivesEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -45,6 +46,7 @@ class Competency implements CompetencyInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -57,6 +59,7 @@ class Competency implements CompetencyInterface
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     protected $title;
+
     /**
      * @var SchoolInterface
      * })
@@ -67,6 +70,7 @@ class Competency implements CompetencyInterface
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'competencies')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     protected $school;
+
     /**
      * @var CompetencyInterface
      * })
@@ -76,6 +80,7 @@ class Competency implements CompetencyInterface
     #[ORM\ManyToOne(targetEntity: 'Competency', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_competency_id', referencedColumnName: 'competency_id')]
     protected $parent;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -84,6 +89,7 @@ class Competency implements CompetencyInterface
     #[ORM\OneToMany(targetEntity: 'Competency', mappedBy: 'parent')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $children;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -95,6 +101,7 @@ class Competency implements CompetencyInterface
     #[ORM\InverseJoinColumn(name: 'pcrs_id', referencedColumnName: 'pcrs_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $aamcPcrses;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -103,6 +110,7 @@ class Competency implements CompetencyInterface
     #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'competencies')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programYears;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -112,6 +120,7 @@ class Competency implements CompetencyInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $active;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -120,9 +129,7 @@ class Competency implements CompetencyInterface
     #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programYearObjectives;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->aamcPcrses = new ArrayCollection();
@@ -131,6 +138,7 @@ class Competency implements CompetencyInterface
         $this->programYearObjectives = new ArrayCollection();
         $this->active = true;
     }
+
     /**
      * @param CompetencyInterface $parent
      */
@@ -138,6 +146,7 @@ class Competency implements CompetencyInterface
     {
         $this->parent = $parent;
     }
+
     /**
      * @return CompetencyInterface
      */
@@ -145,6 +154,7 @@ class Competency implements CompetencyInterface
     {
         return $this->parent;
     }
+
     /**
      * @param Collection $children
      */
@@ -156,6 +166,7 @@ class Competency implements CompetencyInterface
             $this->addChild($child);
         }
     }
+
     /**
      * @param CompetencyInterface $child
      */
@@ -165,6 +176,7 @@ class Competency implements CompetencyInterface
             $this->children->add($child);
         }
     }
+
     /**
      * @param CompetencyInterface $child
      */
@@ -173,6 +185,7 @@ class Competency implements CompetencyInterface
         $this->children->removeElement($child);
         $child->setParent(null);
     }
+
     /**
      * @return ArrayCollection|CompetencyInterface[]
      */
@@ -180,6 +193,7 @@ class Competency implements CompetencyInterface
     {
         return $this->children;
     }
+
     /**
      * @return bool
      */
@@ -187,6 +201,7 @@ class Competency implements CompetencyInterface
     {
         return (!$this->children->isEmpty()) ? true : false;
     }
+
     /**
      * @param Collection $aamcPcrses
      */
@@ -198,6 +213,7 @@ class Competency implements CompetencyInterface
             $this->addAamcPcrs($aamcPcrs);
         }
     }
+
     /**
      * @param AamcPcrsInterface $aamcPcrs
      */
@@ -208,6 +224,7 @@ class Competency implements CompetencyInterface
             $aamcPcrs->addCompetency($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -218,6 +235,7 @@ class Competency implements CompetencyInterface
             $aamcPcrs->removeCompetency($this);
         }
     }
+
     /**
      * @return ArrayCollection|AamcPcrsInterface[]
      */
@@ -225,6 +243,7 @@ class Competency implements CompetencyInterface
     {
         return $this->aamcPcrses;
     }
+
     /**
      * @inheritdoc
      */
@@ -235,6 +254,7 @@ class Competency implements CompetencyInterface
             $programYear->addCompetency($this);
         }
     }
+
     /**
      * @inheritdoc
      */

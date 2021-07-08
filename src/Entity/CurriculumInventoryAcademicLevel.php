@@ -37,6 +37,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     use DescribableEntity;
     use StringableIdEntity;
     use SequenceBlocksEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -48,6 +49,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[ORM\Column(name: 'academic_level_id', type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -61,6 +63,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      */
     #[ORM\Column(type: 'string', length: 50)]
     protected $name;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -73,6 +76,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -82,6 +86,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      */
     #[ORM\Column(name: 'level', type: 'integer')]
     protected $level;
+
     /**
      * @var CurriculumInventoryReportInterface
      * })
@@ -91,6 +96,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'academicLevels')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'cascade')]
     protected $report;
+
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      * @IS\Expose
@@ -99,13 +105,12 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'academicLevel')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->sequenceBlocks = new ArrayCollection();
     }
+
     /**
      * @param int $level
      */
@@ -113,6 +118,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     {
         $this->level = $level;
     }
+
     /**
      * @return int
      */
@@ -120,6 +126,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     {
         return $this->level;
     }
+
     /**
      * @param CurriculumInventoryReportInterface $report
      */
@@ -127,6 +134,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     {
         $this->report = $report;
     }
+
     /**
      * @return CurriculumInventoryReportInterface
      */

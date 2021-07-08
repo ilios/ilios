@@ -21,6 +21,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -32,6 +33,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -45,6 +47,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
      */
     #[ORM\Column(type: 'string', length: 32)]
     protected $type;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -58,6 +61,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
      */
     #[ORM\Column(type: 'string', length: 32, nullable: true)]
     protected $property;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -71,6 +75,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
      */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected $value;
+
     /**
      * @var UserInterface
      * @Assert\NotNull()
@@ -81,6 +86,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'pendingUserUpdates')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     protected $user;
+
     /**
      * @param string $type
      */
@@ -88,6 +94,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         $this->type = $type;
     }
+
     /**
      * @return string
      */
@@ -95,6 +102,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         return $this->type;
     }
+
     /**
      * Set property
      *
@@ -104,6 +112,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         $this->property = $property;
     }
+
     /**
      * Get property
      *
@@ -113,6 +122,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         return $this->property;
     }
+
     /**
      * Set value
      *
@@ -122,6 +132,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         $this->value = $value;
     }
+
     /**
      * Get value
      *
@@ -131,6 +142,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         return $this->value;
     }
+
     /**
      * @param UserInterface $user
      */
@@ -138,6 +150,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         $this->user = $user;
     }
+
     /**
      * @return UserInterface
      */

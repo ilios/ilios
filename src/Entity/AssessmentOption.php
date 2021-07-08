@@ -28,6 +28,7 @@ class AssessmentOption implements AssessmentOptionInterface
     use NameableEntity;
     use StringableIdEntity;
     use SessionTypesEntity;
+
     /**
      * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
@@ -40,6 +41,7 @@ class AssessmentOption implements AssessmentOptionInterface
     #[ORM\Column(type: 'integer', length: 10, name: 'assessment_option_id')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -53,6 +55,7 @@ class AssessmentOption implements AssessmentOptionInterface
      */
     #[ORM\Column(type: 'string', length: 20)]
     protected $name;
+
     /**
      * @var ArrayCollection|SessionTypeInterface[]
      * @IS\Expose
@@ -61,9 +64,7 @@ class AssessmentOption implements AssessmentOptionInterface
     #[ORM\OneToMany(targetEntity: 'SessionType', mappedBy: 'assessmentOption')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionTypes;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->sessionTypes = new ArrayCollection();

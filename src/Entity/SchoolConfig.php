@@ -29,6 +29,7 @@ class SchoolConfig implements SchoolConfigInterface
     use NameableEntity;
     use IdentifiableEntity;
     use StringableIdEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -40,6 +41,7 @@ class SchoolConfig implements SchoolConfigInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -52,6 +54,7 @@ class SchoolConfig implements SchoolConfigInterface
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     protected $name;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -64,6 +67,7 @@ class SchoolConfig implements SchoolConfigInterface
      */
     #[ORM\Column(name: 'value', type: 'text', nullable: false)]
     protected $value;
+
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
@@ -74,6 +78,7 @@ class SchoolConfig implements SchoolConfigInterface
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'configurations')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     protected $school;
+
     /**
      * @inheritdoc
      */
@@ -81,6 +86,7 @@ class SchoolConfig implements SchoolConfigInterface
     {
         return $this->value;
     }
+
     /**
      * @inheritdoc
      */

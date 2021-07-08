@@ -23,6 +23,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     use IdentifiableEntity;
     use DescribableEntity;
     use StringableIdEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -34,6 +35,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var CurriculumInventoryReportInterface
      * @Assert\NotNull()
@@ -56,6 +58,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
         onDelete: 'cascade'
     )]
     protected $report;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -68,6 +71,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
+
     /**
      * @param CurriculumInventoryReportInterface $report
      */
@@ -75,6 +79,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     {
         $this->report = $report;
     }
+
     /**
      * @return CurriculumInventoryReportInterface
      */

@@ -45,6 +45,7 @@ class Term implements TermInterface
     use SessionObjectivesEntity;
     use CourseObjectivesEntity;
     use ProgramYearObjectivesEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -56,6 +57,7 @@ class Term implements TermInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var ArrayCollection|CourseInterface[]
      * @IS\Expose
@@ -64,6 +66,7 @@ class Term implements TermInterface
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courses;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -76,6 +79,7 @@ class Term implements TermInterface
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
+
     /**
      * @var TermInterface
      * })
@@ -85,6 +89,7 @@ class Term implements TermInterface
     #[ORM\ManyToOne(targetEntity: 'Term', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_term_id', referencedColumnName: 'term_id')]
     protected $parent;
+
     /**
      * @var ArrayCollection|TermInterface[]
      * @IS\Expose
@@ -93,6 +98,7 @@ class Term implements TermInterface
     #[ORM\OneToMany(targetEntity: 'Term', mappedBy: 'parent')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $children;
+
     /**
      * @var ArrayCollection|ProgramYearInterface[]
      * @IS\Expose
@@ -101,6 +107,7 @@ class Term implements TermInterface
     #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programYears;
+
     /**
      * @var ArrayCollection|SessionInterface[]
      * @IS\Expose
@@ -109,6 +116,7 @@ class Term implements TermInterface
     #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessions;
+
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
      * @IS\Expose
@@ -117,6 +125,7 @@ class Term implements TermInterface
     #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $sessionObjectives;
+
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
      * @IS\Expose
@@ -125,6 +134,7 @@ class Term implements TermInterface
     #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $courseObjectives;
+
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
      * @IS\Expose
@@ -133,6 +143,7 @@ class Term implements TermInterface
     #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $programYearObjectives;
+
     /**
      * @var string
      * @Assert\NotBlank
@@ -146,6 +157,7 @@ class Term implements TermInterface
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     protected $title;
+
     /**
      * @var VocabularyInterface
      * @Assert\NotNull()
@@ -156,6 +168,7 @@ class Term implements TermInterface
     #[ORM\ManyToOne(targetEntity: 'Vocabulary', inversedBy: 'terms')]
     #[ORM\JoinColumn(name: 'vocabulary_id', referencedColumnName: 'vocabulary_id', nullable: false)]
     protected $vocabulary;
+
     /**
      * @var ArrayCollection|AamcResourceTypeInterface[]
      * @IS\Expose
@@ -167,6 +180,7 @@ class Term implements TermInterface
     #[ORM\InverseJoinColumn(name: 'resource_type_id', referencedColumnName: 'resource_type_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $aamcResourceTypes;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -176,9 +190,7 @@ class Term implements TermInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $active;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->aamcResourceTypes = new ArrayCollection();
@@ -191,6 +203,7 @@ class Term implements TermInterface
         $this->programYearObjectives = new ArrayCollection();
         $this->active = true;
     }
+
     /**
      * @inheritdoc
      */
@@ -201,6 +214,7 @@ class Term implements TermInterface
             $course->addTerm($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -211,6 +225,7 @@ class Term implements TermInterface
             $course->removeTerm($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -221,6 +236,7 @@ class Term implements TermInterface
             $programYear->addTerm($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -231,6 +247,7 @@ class Term implements TermInterface
             $programYear->removeTerm($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -241,6 +258,7 @@ class Term implements TermInterface
             $session->addTerm($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -251,6 +269,7 @@ class Term implements TermInterface
             $session->removeTerm($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -258,6 +277,7 @@ class Term implements TermInterface
     {
         return $this->vocabulary;
     }
+
     /**
      * @inheritdoc
      */
@@ -265,6 +285,7 @@ class Term implements TermInterface
     {
         $this->vocabulary = $vocabulary;
     }
+
     /**
      * @inheritdoc
      */
@@ -272,6 +293,7 @@ class Term implements TermInterface
     {
         return $this->parent;
     }
+
     /**
      * @inheritdoc
      */
@@ -279,6 +301,7 @@ class Term implements TermInterface
     {
         $this->parent = $parent;
     }
+
     /**
      * @inheritdoc
      */
@@ -286,6 +309,7 @@ class Term implements TermInterface
     {
         return $this->children;
     }
+
     /**
      * @inheritdoc
      */
@@ -297,6 +321,7 @@ class Term implements TermInterface
             $this->addChild($child);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -306,6 +331,7 @@ class Term implements TermInterface
             $this->children->add($child);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -313,6 +339,7 @@ class Term implements TermInterface
     {
         $this->children->removeElement($child);
     }
+
     /**
      * @inheritdoc
      */
@@ -320,6 +347,7 @@ class Term implements TermInterface
     {
         return (!$this->children->isEmpty()) ? true : false;
     }
+
     /**
      * @inheritdoc
      */
@@ -331,6 +359,7 @@ class Term implements TermInterface
             $this->addAamcResourceType($aamcResourceType);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -340,6 +369,7 @@ class Term implements TermInterface
             $this->aamcResourceTypes->add($aamcResourceType);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -347,6 +377,7 @@ class Term implements TermInterface
     {
         $this->aamcResourceTypes->removeElement($aamcResourceType);
     }
+
     /**
      * @inheritdoc
      */
@@ -354,6 +385,7 @@ class Term implements TermInterface
     {
         return $this->aamcResourceTypes;
     }
+
     /**
      * @inheritDoc
      */

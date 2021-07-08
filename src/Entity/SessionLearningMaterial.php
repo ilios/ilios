@@ -34,6 +34,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     use MeshDescriptorsEntity;
     use SortableEntity;
     use LearningMaterialRelationshipEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -45,6 +46,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -58,6 +60,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      */
     #[ORM\Column(name: 'notes', type: 'text', nullable: true)]
     protected $notes;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -67,6 +70,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      */
     #[ORM\Column(name: 'required', type: 'boolean')]
     protected $required;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -76,6 +80,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      */
     #[ORM\Column(name: 'notes_are_public', type: 'boolean')]
     protected $publicNotes;
+
     /**
      * @var SessionInterface
      * @Assert\NotNull()
@@ -86,6 +91,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     protected $session;
+
     /**
      * @var LearningMaterialInterface
      * @Assert\NotNull()
@@ -96,6 +102,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[ORM\ManyToOne(targetEntity: 'LearningMaterial', inversedBy: 'sessionLearningMaterials')]
     #[ORM\JoinColumn(name: 'learning_material_id', referencedColumnName: 'learning_material_id', nullable: false)]
     protected $learningMaterial;
+
     /**
      * @var MeshDescriptorInterface
      *   joinColumns={
@@ -120,6 +127,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -129,6 +137,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      */
     #[ORM\Column(name: 'position', type: 'integer')]
     protected $position;
+
     /**
      * @var \DateTime
      * @IS\Expose
@@ -136,6 +145,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      */
     #[ORM\Column(name: 'start_date', type: 'datetime', nullable: true)]
     protected $startDate;
+
     /**
      * @var \DateTime
      * @IS\Expose
@@ -143,15 +153,14 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      */
     #[ORM\Column(name: 'end_date', type: 'datetime', nullable: true)]
     protected $endDate;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->meshDescriptors = new ArrayCollection();
         $this->publicNotes = false;
         $this->position = 0;
     }
+
     /**
      * @param SessionInterface $session
      */
@@ -159,6 +168,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     {
         $this->session = $session;
     }
+
     /**
      * @return SessionInterface
      */
@@ -166,6 +176,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     {
         return $this->session;
     }
+
     /**
      * @inheritDoc
      */

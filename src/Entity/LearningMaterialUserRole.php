@@ -27,6 +27,7 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     use TitledEntity;
     use StringableIdEntity;
     use LearningMaterialsEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -38,6 +39,7 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -51,15 +53,14 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
      */
     #[ORM\Column(type: 'string', length: 60)]
     protected $title;
+
     /**
      * @var ArrayCollection|LearningMaterialInterface[]
      */
     #[ORM\OneToMany(targetEntity: 'LearningMaterial', mappedBy: 'userRole')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->learningMaterials = new ArrayCollection();

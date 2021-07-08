@@ -35,6 +35,7 @@ class InstructorGroup implements InstructorGroupInterface
     use LearnerGroupsEntity;
     use UsersEntity;
     use IlmSessionsEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -46,6 +47,7 @@ class InstructorGroup implements InstructorGroupInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -59,6 +61,7 @@ class InstructorGroup implements InstructorGroupInterface
      */
     #[ORM\Column(type: 'string', length: 60)]
     protected $title;
+
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
@@ -69,6 +72,7 @@ class InstructorGroup implements InstructorGroupInterface
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'instructorGroups')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     protected $school;
+
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
      * @IS\Expose
@@ -77,6 +81,7 @@ class InstructorGroup implements InstructorGroupInterface
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerGroups;
+
     /**
      * @var ArrayCollection|IlmSession[]
      * @IS\Expose
@@ -85,6 +90,7 @@ class InstructorGroup implements InstructorGroupInterface
     #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $ilmSessions;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -96,6 +102,7 @@ class InstructorGroup implements InstructorGroupInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $users;
+
     /**
      * @var ArrayCollection|OfferingInterface[]
      * @IS\Expose
@@ -104,9 +111,7 @@ class InstructorGroup implements InstructorGroupInterface
     #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $offerings;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->learnerGroups = new ArrayCollection();
@@ -114,6 +119,7 @@ class InstructorGroup implements InstructorGroupInterface
         $this->users = new ArrayCollection();
         $this->offerings = new ArrayCollection();
     }
+
     /**
      * @param LearnerGroupInterface $learnerGroup
      */
@@ -124,6 +130,7 @@ class InstructorGroup implements InstructorGroupInterface
             $learnerGroup->addInstructorGroup($this);
         }
     }
+
     /**
      * @param LearnerGroupInterface $learnerGroup
      */
@@ -134,6 +141,7 @@ class InstructorGroup implements InstructorGroupInterface
             $learnerGroup->removeInstructorGroup($this);
         }
     }
+
     /**
      * @param IlmSessionInterface $ilmSession
      */
@@ -144,6 +152,7 @@ class InstructorGroup implements InstructorGroupInterface
             $ilmSession->addInstructorGroup($this);
         }
     }
+
     /**
      * @param IlmSessionInterface $ilmSession
      */

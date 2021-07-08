@@ -23,6 +23,7 @@ class MeshTree implements MeshTreeInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -34,6 +35,7 @@ class MeshTree implements MeshTreeInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -47,6 +49,7 @@ class MeshTree implements MeshTreeInterface
      */
     #[ORM\Column(name: 'tree_number', type: 'string', length: 80)]
     protected $treeNumber;
+
     /**
      * @var MeshDescriptorInterface
      * })
@@ -56,6 +59,7 @@ class MeshTree implements MeshTreeInterface
     #[ORM\ManyToOne(targetEntity: 'MeshDescriptor', inversedBy: 'trees')]
     #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid')]
     protected $descriptor;
+
     /**
      * Set treeNumber
      *
@@ -67,6 +71,7 @@ class MeshTree implements MeshTreeInterface
     {
         $this->treeNumber = $treeNumber;
     }
+
     /**
      * Get treeNumber
      *
@@ -76,6 +81,7 @@ class MeshTree implements MeshTreeInterface
     {
         return $this->treeNumber;
     }
+
     /**
      * Set meshDescriptor
      *
@@ -89,6 +95,7 @@ class MeshTree implements MeshTreeInterface
 
         return $this;
     }
+
     /**
      * Get descriptor
      *

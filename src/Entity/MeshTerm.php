@@ -32,6 +32,7 @@ class MeshTerm implements MeshTermInterface
     use TimestampableEntity;
     use ConceptsEntity;
     use CreatedAtEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -43,6 +44,7 @@ class MeshTerm implements MeshTermInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -56,6 +58,7 @@ class MeshTerm implements MeshTermInterface
      */
     #[ORM\Column(name: 'mesh_term_uid', type: 'string', length: 12)]
     protected $meshTermUid;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -69,6 +72,7 @@ class MeshTerm implements MeshTermInterface
      */
     #[ORM\Column(type: 'string', length: 255)]
     protected $name;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -81,6 +85,7 @@ class MeshTerm implements MeshTermInterface
      */
     #[ORM\Column(name: 'lexical_tag', type: 'string', length: 12, nullable: true)]
     protected $lexicalTag;
+
     /**
      * @var bool
      * @Assert\Type(type="bool")
@@ -89,6 +94,7 @@ class MeshTerm implements MeshTermInterface
      */
     #[ORM\Column(name: 'concept_preferred', type: 'boolean', nullable: true)]
     protected $conceptPreferred;
+
     /**
      * @var bool
      * @Assert\Type(type="bool")
@@ -97,6 +103,7 @@ class MeshTerm implements MeshTermInterface
      */
     #[ORM\Column(name: 'record_preferred', type: 'boolean', nullable: true)]
     protected $recordPreferred;
+
     /**
      * @var bool
      * @Assert\Type(type="bool")
@@ -105,6 +112,7 @@ class MeshTerm implements MeshTermInterface
      */
     #[ORM\Column(name: 'permuted', type: 'boolean', nullable: true)]
     protected $permuted;
+
     /**
      * @IS\Expose
      * @IS\ReadOnly
@@ -112,6 +120,7 @@ class MeshTerm implements MeshTermInterface
      */
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     protected $createdAt;
+
     /**
      * @IS\Expose
      * @IS\ReadOnly
@@ -119,6 +128,7 @@ class MeshTerm implements MeshTermInterface
      */
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     protected $updatedAt;
+
     /**
      * @var ArrayCollection|MeshConceptInterface[]
      * @IS\Expose
@@ -130,15 +140,14 @@ class MeshTerm implements MeshTermInterface
     #[ORM\InverseJoinColumn(name: 'mesh_concept_uid', referencedColumnName: 'mesh_concept_uid')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $concepts;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->concepts = new ArrayCollection();
     }
+
     /**
      * @param string $meshTermUid
      */
@@ -146,6 +155,7 @@ class MeshTerm implements MeshTermInterface
     {
         $this->meshTermUid = $meshTermUid;
     }
+
     /**
      * @return string
      */
@@ -153,6 +163,7 @@ class MeshTerm implements MeshTermInterface
     {
         return $this->meshTermUid;
     }
+
     /**
      * @param string $lexicalTag
      */
@@ -160,6 +171,7 @@ class MeshTerm implements MeshTermInterface
     {
         $this->lexicalTag = $lexicalTag;
     }
+
     /**
      * @return string
      */
@@ -167,6 +179,7 @@ class MeshTerm implements MeshTermInterface
     {
         return $this->lexicalTag;
     }
+
     /**
      * @param bool $conceptPreferred
      */
@@ -174,6 +187,7 @@ class MeshTerm implements MeshTermInterface
     {
         $this->conceptPreferred = $conceptPreferred;
     }
+
     /**
      * @return bool
      */
@@ -181,6 +195,7 @@ class MeshTerm implements MeshTermInterface
     {
         return $this->conceptPreferred;
     }
+
     /**
      * @param bool $recordPreferred
      */
@@ -188,6 +203,7 @@ class MeshTerm implements MeshTermInterface
     {
         $this->recordPreferred = $recordPreferred;
     }
+
     /**
      * @return bool
      */
@@ -195,6 +211,7 @@ class MeshTerm implements MeshTermInterface
     {
         return $this->recordPreferred;
     }
+
     /**
      * @param bool $permuted
      */
@@ -202,6 +219,7 @@ class MeshTerm implements MeshTermInterface
     {
         $this->permuted = $permuted;
     }
+
     /**
      * @return bool
      */

@@ -28,6 +28,7 @@ class AamcMethod implements AamcMethodInterface
     use StringableIdEntity;
     use SessionTypesEntity;
     use ActivatableEntity;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -43,6 +44,7 @@ class AamcMethod implements AamcMethodInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -56,6 +58,7 @@ class AamcMethod implements AamcMethodInterface
      */
     #[ORM\Column(name: 'description', type: 'text')]
     protected $description;
+
     /**
      * @var ArrayCollection|SessionTypeInterface[]
      * @IS\Expose
@@ -64,6 +67,7 @@ class AamcMethod implements AamcMethodInterface
     #[ORM\ManyToMany(targetEntity: 'SessionType', mappedBy: 'aamcMethods')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionTypes;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -73,14 +77,13 @@ class AamcMethod implements AamcMethodInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $active;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->sessionTypes = new ArrayCollection();
         $this->active = true;
     }
+
     /**
      * @inheritdoc
      */
@@ -91,6 +94,7 @@ class AamcMethod implements AamcMethodInterface
             $sessionType->addAamcMethod($this);
         }
     }
+
     /**
      * @param SessionTypeInterface $sessionType
      */

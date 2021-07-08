@@ -26,6 +26,7 @@ class UserRole implements UserRoleInterface
     use StringableIdEntity;
     use IdentifiableEntity;
     use UsersEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -37,6 +38,7 @@ class UserRole implements UserRoleInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -49,6 +51,7 @@ class UserRole implements UserRoleInterface
      */
     #[ORM\Column(type: 'string', length: 60)]
     protected $title;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * Don't put users in the UserRole API it takes too long to load
@@ -57,13 +60,12 @@ class UserRole implements UserRoleInterface
     #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'roles')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $users;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
     }
+
     /**
      * @param UserInterface $user
      */
@@ -74,6 +76,7 @@ class UserRole implements UserRoleInterface
             $user->addRole($this);
         }
     }
+
     /**
      * @param UserInterface $user
      */

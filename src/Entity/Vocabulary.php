@@ -35,6 +35,7 @@ class Vocabulary implements VocabularyInterface
     use TitledEntity;
     use CategorizableEntity;
     use ActivatableEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -46,6 +47,7 @@ class Vocabulary implements VocabularyInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank
@@ -59,6 +61,7 @@ class Vocabulary implements VocabularyInterface
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     protected $title;
+
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
@@ -69,6 +72,7 @@ class Vocabulary implements VocabularyInterface
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'vocabularies')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     protected $school;
+
     /**
      * @var ArrayCollection|TermInterface[]
      * @IS\Expose
@@ -77,6 +81,7 @@ class Vocabulary implements VocabularyInterface
     #[ORM\OneToMany(targetEntity: 'Term', mappedBy: 'vocabulary')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -86,6 +91,7 @@ class Vocabulary implements VocabularyInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $active;
+
     /**
      * Constructor.
      */
@@ -94,6 +100,7 @@ class Vocabulary implements VocabularyInterface
         $this->terms = new ArrayCollection();
         $this->active = true;
     }
+
     /**
      * @inheritDoc
      */

@@ -23,6 +23,7 @@ class Report implements ReportInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use TitledEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -34,6 +35,7 @@ class Report implements ReportInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -46,6 +48,7 @@ class Report implements ReportInterface
      */
     #[ORM\Column(type: 'string', length: 240, nullable: true)]
     protected $title;
+
     /**
      * @var \DateTime
      * @Assert\NotBlank()
@@ -55,6 +58,7 @@ class Report implements ReportInterface
      */
     #[ORM\Column(name: 'creation_date', type: 'datetime')]
     protected $createdAt;
+
     /**
      * @var SchoolInterface
      * })
@@ -64,6 +68,7 @@ class Report implements ReportInterface
     #[ORM\ManyToOne(targetEntity: 'School')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     protected $school;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -77,6 +82,7 @@ class Report implements ReportInterface
      */
     #[ORM\Column(name: 'subject', type: 'string', length: 32)]
     protected $subject;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -89,6 +95,7 @@ class Report implements ReportInterface
      */
     #[ORM\Column(name: 'prepositional_object', type: 'string', length: 32, nullable: true)]
     protected $prepositionalObject;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -101,6 +108,7 @@ class Report implements ReportInterface
      */
     #[ORM\Column(name: 'prepositional_object_table_row_id', type: 'string', length: 14, nullable: true)]
     protected $prepositionalObjectTableRowId;
+
     /**
      * @var UserInterface $user
      * @Assert\NotNull()
@@ -111,6 +119,7 @@ class Report implements ReportInterface
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'reports')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'cascade', nullable: false)]
     protected $user;
+
     /**
      * Default createdAt to now
      */
@@ -118,6 +127,7 @@ class Report implements ReportInterface
     {
         $this->createdAt = new \DateTime();
     }
+
     /**
      * @return \DateTime
      */
@@ -125,6 +135,7 @@ class Report implements ReportInterface
     {
         return $this->createdAt;
     }
+
     /**
      * @param string $subject
      */
@@ -132,6 +143,7 @@ class Report implements ReportInterface
     {
         $this->subject = $subject;
     }
+
     /**
      * @return string
      */
@@ -139,6 +151,7 @@ class Report implements ReportInterface
     {
         return $this->subject;
     }
+
     /**
      * @param string $prepositionalObject
      */
@@ -146,6 +159,7 @@ class Report implements ReportInterface
     {
         $this->prepositionalObject = $prepositionalObject;
     }
+
     /**
      * @return string
      */
@@ -153,6 +167,7 @@ class Report implements ReportInterface
     {
         return $this->prepositionalObject;
     }
+
     /**
      * @param string $prepositionalObjectTableRowId
      */
@@ -160,6 +175,7 @@ class Report implements ReportInterface
     {
         $this->prepositionalObjectTableRowId = $prepositionalObjectTableRowId;
     }
+
     /**
      * @return string
      */
@@ -167,6 +183,7 @@ class Report implements ReportInterface
     {
         return $this->prepositionalObjectTableRowId;
     }
+
     /**
      * @param UserInterface $user
      */
@@ -174,6 +191,7 @@ class Report implements ReportInterface
     {
         $this->user = $user;
     }
+
     /**
      * @return UserInterface
      */
@@ -181,6 +199,7 @@ class Report implements ReportInterface
     {
         return $this->user;
     }
+
     /**
      * @inheritdoc
      */
@@ -188,6 +207,7 @@ class Report implements ReportInterface
     {
         return $this->school;
     }
+
     /**
      * @inheritdoc
      */

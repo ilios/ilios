@@ -39,6 +39,7 @@ class SessionObjective implements SessionObjectiveInterface
     use ActivatableEntity;
     use CategorizableEntity;
     use SortableEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -50,6 +51,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var SessionInterface
      * @Assert\NotNull()
@@ -60,6 +62,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'sessionObjectives')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     protected $session;
+
     /**
      * @var int
      * @Assert\NotBlank()
@@ -69,6 +72,7 @@ class SessionObjective implements SessionObjectiveInterface
      */
     #[ORM\Column(name: 'position', type: 'integer')]
     protected $position;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -80,6 +84,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -94,6 +99,7 @@ class SessionObjective implements SessionObjectiveInterface
      */
     #[ORM\Column(type: 'text')]
     protected $title;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -105,6 +111,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\InverseJoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courseObjectives;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -116,6 +123,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
+
     /**
      * @var SessionObjectiveInterface
      * })
@@ -125,6 +133,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\ManyToOne(targetEntity: 'SessionObjective', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'session_objective_id')]
     protected $ancestor;
+
     /**
      * @var Collection
      * @IS\Expose
@@ -133,6 +142,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\OneToMany(targetEntity: 'SessionObjective', mappedBy: 'ancestor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descendants;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -142,9 +152,7 @@ class SessionObjective implements SessionObjectiveInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $active;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->position = 0;
@@ -154,6 +162,7 @@ class SessionObjective implements SessionObjectiveInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
     }
+
     /**
      * @inheritdoc
      */
@@ -161,6 +170,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         $this->session = $session;
     }
+
     /**
      * @inheritdoc
      */
@@ -168,6 +178,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         return $this->session;
     }
+
     /**
      * @inheritDoc
      */
@@ -175,6 +186,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         return [$this->session->getCourse()];
     }
+
     /**
      * @inheritdoc
      */
@@ -186,6 +198,7 @@ class SessionObjective implements SessionObjectiveInterface
             $this->addCourseObjective($courseObjective);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -195,6 +208,7 @@ class SessionObjective implements SessionObjectiveInterface
             $this->courseObjectives->add($courseObjective);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -202,6 +216,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         $this->courseObjectives->removeElement($courseObjective);
     }
+
     /**
      * @inheritdoc
      */
@@ -209,6 +224,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         return $this->courseObjectives;
     }
+
     /**
      * @inheritdoc
      */
@@ -216,6 +232,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         $this->ancestor = $ancestor;
     }
+
     /**
      * @inheritdoc
      */
@@ -223,6 +240,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         return $this->ancestor;
     }
+
     /**
      * @inheritdoc
      */
@@ -232,6 +250,7 @@ class SessionObjective implements SessionObjectiveInterface
 
         return $ancestor ? $ancestor : $this;
     }
+
     /**
      * @inheritdoc
      */
@@ -243,6 +262,7 @@ class SessionObjective implements SessionObjectiveInterface
             $this->addDescendant($descendant);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -252,6 +272,7 @@ class SessionObjective implements SessionObjectiveInterface
             $this->descendants->add($descendant);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -259,6 +280,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         $this->descendants->removeElement($descendant);
     }
+
     /**
      * @inheritdoc
      */
@@ -266,6 +288,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         return $this->descendants;
     }
+
     /**
      * @inheritdoc
      */
@@ -273,6 +296,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         $this->title = $title;
     }
+
     /**
      * @inheritdoc
      */
@@ -280,6 +304,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         $this->position = $position;
     }
+
     /**
      * @inheritdoc
      */
@@ -287,6 +312,7 @@ class SessionObjective implements SessionObjectiveInterface
     {
         $this->active = $active;
     }
+
     /**
      * @inheritdoc
      */
@@ -298,6 +324,7 @@ class SessionObjective implements SessionObjectiveInterface
             $this->addMeshDescriptor($meshDescriptor);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -307,6 +334,7 @@ class SessionObjective implements SessionObjectiveInterface
             $this->meshDescriptors->add($meshDescriptor);
         }
     }
+
     /**
      * @inheritdoc
      */

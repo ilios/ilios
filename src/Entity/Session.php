@@ -50,6 +50,7 @@ class Session implements SessionInterface
     use AdministratorsEntity;
     use StudentAdvisorsEntity;
     use SessionObjectivesEntity;
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -61,6 +62,7 @@ class Session implements SessionInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -73,6 +75,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     protected $title;
+
     /**
      * @var bool
      * @Assert\Type(type="bool")
@@ -81,6 +84,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(name: 'attire_required', type: 'boolean', nullable: true)]
     protected $attireRequired;
+
     /**
      * @var bool
      * @Assert\Type(type="bool")
@@ -89,6 +93,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(name: 'equipment_required', type: 'boolean', nullable: true)]
     protected $equipmentRequired;
+
     /**
      * @var bool
      * @Assert\Type(type="bool")
@@ -97,6 +102,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(name: 'supplemental', type: 'boolean', nullable: true)]
     protected $supplemental;
+
     /**
      * @var bool
      * @Assert\Type(type="bool")
@@ -105,6 +111,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(name: 'attendance_required', type: 'boolean', nullable: true)]
     protected $attendanceRequired;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -114,6 +121,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(name: 'published_as_tbd', type: 'boolean')]
     protected $publishedAsTbd;
+
     /**
      * @var bool
      * @Assert\NotNull()
@@ -123,6 +131,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(type: 'boolean')]
     protected $published;
+
     /**
      * @var DateTime
      * @Assert\NotBlank()
@@ -132,6 +141,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(name: 'last_updated_on', type: 'datetime')]
     protected $updatedAt;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -145,6 +155,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(name: 'instructionalNotes', type: 'text', nullable: true)]
     protected $instructionalNotes;
+
     /**
      * @var string
      * @Assert\Type(type="string")
@@ -158,6 +169,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
+
     /**
      * @var SessionTypeInterface
      * @Assert\NotNull()
@@ -168,6 +180,7 @@ class Session implements SessionInterface
     #[ORM\ManyToOne(targetEntity: 'SessionType', inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'session_type_id', referencedColumnName: 'session_type_id', nullable: false)]
     protected $sessionType;
+
     /**
      * @var CourseInterface
      * @Assert\NotNull()
@@ -178,6 +191,7 @@ class Session implements SessionInterface
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', nullable: false, onDelete: 'CASCADE')]
     protected $course;
+
     /**
      * @var IlmSessionInterface
      * @IS\Expose
@@ -185,6 +199,7 @@ class Session implements SessionInterface
      */
     #[ORM\OneToOne(targetEntity: 'IlmSession', mappedBy: 'session')]
     protected $ilmSession;
+
     /**
      * @var ArrayCollection|TermInterface[]
      * @IS\Expose
@@ -196,6 +211,7 @@ class Session implements SessionInterface
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
+
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
      * @IS\Expose
@@ -204,6 +220,7 @@ class Session implements SessionInterface
     #[ORM\OneToMany(targetEntity: 'SessionObjective', mappedBy: 'session')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $sessionObjectives;
+
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
      * @IS\Expose
@@ -215,6 +232,7 @@ class Session implements SessionInterface
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
+
     /**
      * @var ArrayCollection|SessionLearningMaterialInterface[]
      * @IS\Expose
@@ -223,6 +241,7 @@ class Session implements SessionInterface
     #[ORM\OneToMany(targetEntity: 'SessionLearningMaterial', mappedBy: 'session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
+
     /**
      * @var ArrayCollection|OfferingInterface[]
      * @IS\Expose
@@ -231,18 +250,21 @@ class Session implements SessionInterface
     #[ORM\OneToMany(targetEntity: 'Offering', mappedBy: 'session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $offerings;
+
     /**
      * @var ArrayCollection|SessionInterface[]
      */
     #[ORM\ManyToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'sessions')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
+
     /**
      * @var ArrayCollection|SessionInterface[]
      */
     #[ORM\ManyToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'excludedSessions')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $excludedSequenceBlocks;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -254,6 +276,7 @@ class Session implements SessionInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administrators;
+
     /**
      * @var ArrayCollection|UserInterface[]
      * @IS\Expose
@@ -265,6 +288,7 @@ class Session implements SessionInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $studentAdvisors;
+
     /**
      * @var SessionInterface
      * })
@@ -274,6 +298,7 @@ class Session implements SessionInterface
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'prerequisites')]
     #[ORM\JoinColumn(name: 'postrequisite_id', referencedColumnName: 'session_id', onDelete: 'SET NULL')]
     protected $postrequisite;
+
     /**
      * @var SessionInterface[]
      * @IS\Expose
@@ -282,9 +307,7 @@ class Session implements SessionInterface
     #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'postrequisite')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $prerequisites;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->attireRequired = null;
@@ -305,6 +328,7 @@ class Session implements SessionInterface
         $this->prerequisites = new ArrayCollection();
         $this->updatedAt = new DateTime();
     }
+
     /**
      * @param bool $attireRequired
      */
@@ -312,6 +336,7 @@ class Session implements SessionInterface
     {
         $this->attireRequired = $attireRequired;
     }
+
     /**
      * @return bool
      */
@@ -319,6 +344,7 @@ class Session implements SessionInterface
     {
         return $this->attireRequired;
     }
+
     /**
      * @param bool $equipmentRequired
      */
@@ -326,6 +352,7 @@ class Session implements SessionInterface
     {
         $this->equipmentRequired = $equipmentRequired;
     }
+
     /**
      * @return bool
      */
@@ -333,6 +360,7 @@ class Session implements SessionInterface
     {
         return $this->equipmentRequired;
     }
+
     /**
      * @param bool $supplemental
      */
@@ -340,6 +368,7 @@ class Session implements SessionInterface
     {
         $this->supplemental = $supplemental;
     }
+
     /**
      * @return bool
      */
@@ -347,6 +376,7 @@ class Session implements SessionInterface
     {
         return $this->supplemental;
     }
+
     /**
      * @param bool $attendanceRequired
      */
@@ -354,6 +384,7 @@ class Session implements SessionInterface
     {
         $this->attendanceRequired = $attendanceRequired;
     }
+
     /**
      * @return bool
      */
@@ -361,6 +392,7 @@ class Session implements SessionInterface
     {
         return $this->attendanceRequired;
     }
+
     /**
      * @inheritdoc
      */
@@ -368,6 +400,7 @@ class Session implements SessionInterface
     {
         return $this->instructionalNotes;
     }
+
     /**
      * @inheritdoc
      */
@@ -375,6 +408,7 @@ class Session implements SessionInterface
     {
         $this->instructionalNotes = $instructionalNotes;
     }
+
     /**
      * @param SessionTypeInterface $sessionType
      */
@@ -382,6 +416,7 @@ class Session implements SessionInterface
     {
         $this->sessionType = $sessionType;
     }
+
     /**
      * @return SessionTypeInterface
      */
@@ -389,6 +424,7 @@ class Session implements SessionInterface
     {
         return $this->sessionType;
     }
+
     /**
      * @param CourseInterface $course
      */
@@ -396,6 +432,7 @@ class Session implements SessionInterface
     {
         $this->course = $course;
     }
+
     /**
      * @inheritdoc
      */
@@ -403,6 +440,7 @@ class Session implements SessionInterface
     {
         return $this->course;
     }
+
     /**
      * @param IlmSessionInterface $ilmSession
      */
@@ -413,6 +451,7 @@ class Session implements SessionInterface
             $ilmSession->setSession($this);
         }
     }
+
     /**
      * @return IlmSessionInterface
      */
@@ -420,6 +459,7 @@ class Session implements SessionInterface
     {
         return $this->ilmSession;
     }
+
     /**
      * @param Collection $learningMaterials
      */
@@ -434,6 +474,7 @@ class Session implements SessionInterface
             $this->addLearningMaterial($learningMaterial);
         }
     }
+
     /**
      * @param SessionLearningMaterialInterface $learningMaterial
      */
@@ -443,6 +484,7 @@ class Session implements SessionInterface
             $this->learningMaterials->add($learningMaterial);
         }
     }
+
     /**
      * @param SessionLearningMaterialInterface $learningMaterial
      */
@@ -450,6 +492,7 @@ class Session implements SessionInterface
     {
         $this->learningMaterials->removeElement($learningMaterial);
     }
+
     /**
      * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
@@ -457,6 +500,7 @@ class Session implements SessionInterface
     {
         return $this->learningMaterials;
     }
+
     /**
      * @inheritdoc
      */
@@ -467,6 +511,7 @@ class Session implements SessionInterface
         }
         return null;
     }
+
     /**
      * @inheritdoc
      */
@@ -477,6 +522,7 @@ class Session implements SessionInterface
             $administrator->addAdministeredSession($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -501,6 +547,7 @@ class Session implements SessionInterface
             $studentAdvisor->removeStudentAdvisedSession($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -512,6 +559,7 @@ class Session implements SessionInterface
             $this->addExcludedSequenceBlock($sequenceBlock);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -521,6 +569,7 @@ class Session implements SessionInterface
             $this->excludedSequenceBlocks->add($sequenceBlock);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -528,6 +577,7 @@ class Session implements SessionInterface
     {
         $this->excludedSequenceBlocks->removeElement($sequenceBlock);
     }
+
     /**
      * @inheritdoc
      */
@@ -535,6 +585,7 @@ class Session implements SessionInterface
     {
         return $this->excludedSequenceBlocks;
     }
+
     /**
      * @inheritdoc
      */
@@ -542,6 +593,7 @@ class Session implements SessionInterface
     {
         $this->postrequisite = $postrequisite;
     }
+
     /**
      * @inheritdoc
      */
@@ -549,6 +601,7 @@ class Session implements SessionInterface
     {
         return $this->postrequisite;
     }
+
     /**
      * @inheritdoc
      */
@@ -560,6 +613,7 @@ class Session implements SessionInterface
             $this->addPrerequisite($prerequisite);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -570,6 +624,7 @@ class Session implements SessionInterface
             $prerequisite->setPostrequisite($this);
         }
     }
+
     /**
      * @inheritdoc
      */
@@ -577,6 +632,7 @@ class Session implements SessionInterface
     {
         $this->prerequisites->removeElement($prerequisite);
     }
+
     /**
      * @inheritdoc
      */
@@ -584,6 +640,7 @@ class Session implements SessionInterface
     {
         return $this->prerequisites;
     }
+
     /**
      * @inheritDoc
      */
@@ -591,6 +648,7 @@ class Session implements SessionInterface
     {
         return [$this->course];
     }
+
     /**
      * @inheritdoc
      */
@@ -598,6 +656,7 @@ class Session implements SessionInterface
     {
         $this->description = $description;
     }
+
     /**
      * @inheritdoc
      */

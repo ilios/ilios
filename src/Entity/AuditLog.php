@@ -20,7 +20,7 @@ class AuditLog implements AuditLogInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
-    
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -29,6 +29,7 @@ class AuditLog implements AuditLogInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
 
     /**
      * @var string
@@ -42,12 +43,14 @@ class AuditLog implements AuditLogInterface
     #[ORM\Column(type: 'string', length: 16)]
     protected $action;
 
+
     /**
      * @var DateTime
      * @Assert\NotBlank()
      */
     #[ORM\Column(type: 'datetime')]
     protected $createdAt;
+
 
     /**
      * @var int
@@ -56,6 +59,7 @@ class AuditLog implements AuditLogInterface
      */
     #[ORM\Column(type: 'string', length: 255)]
     protected $objectId;
+
 
     /**
      * @var string
@@ -69,6 +73,7 @@ class AuditLog implements AuditLogInterface
     #[ORM\Column(type: 'string', length: 255)]
     protected $objectClass;
 
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -81,6 +86,7 @@ class AuditLog implements AuditLogInterface
     #[ORM\Column(type: 'text', length: 1000)]
     protected $valuesChanged;
 
+
     /**
      * @var UserInterface
      * })
@@ -89,13 +95,12 @@ class AuditLog implements AuditLogInterface
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     protected $user;
 
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
     }
+
     /**
      * Set action
      *
@@ -106,6 +111,7 @@ class AuditLog implements AuditLogInterface
     {
         $this->action = $action;
     }
+
     /**
      * Get action
      *
@@ -115,6 +121,7 @@ class AuditLog implements AuditLogInterface
     {
         return $this->action;
     }
+
     /**
      * Get createdAt
      *
@@ -124,6 +131,7 @@ class AuditLog implements AuditLogInterface
     {
         return $this->createdAt;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -131,6 +139,7 @@ class AuditLog implements AuditLogInterface
     {
         $this->createdAt = $createdAt;
     }
+
     /**
      * Set objectId
      *
@@ -141,6 +150,7 @@ class AuditLog implements AuditLogInterface
     {
         $this->objectId = $objectId;
     }
+
     /**
      * Get objectId
      *
@@ -150,6 +160,7 @@ class AuditLog implements AuditLogInterface
     {
         return $this->objectId;
     }
+
     /**
      * Set objectClass
      *
@@ -160,6 +171,7 @@ class AuditLog implements AuditLogInterface
     {
         $this->objectClass = $objectClass;
     }
+
     /**
      * Get objectClass
      *
@@ -169,6 +181,7 @@ class AuditLog implements AuditLogInterface
     {
         return $this->objectClass;
     }
+
     /**
      * Set valuesChanged
      *
@@ -179,6 +192,7 @@ class AuditLog implements AuditLogInterface
     {
         $this->valuesChanged = $valuesChanged;
     }
+
     /**
      * Get valuesChanged
      *
@@ -188,6 +202,7 @@ class AuditLog implements AuditLogInterface
     {
         return $this->valuesChanged;
     }
+
     /**
      * @param UserInterface $user
      */
@@ -195,6 +210,7 @@ class AuditLog implements AuditLogInterface
     {
         $this->user = $user;
     }
+
     /**
      * @return UserInterface
      */

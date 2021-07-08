@@ -29,6 +29,7 @@ class AamcResourceType implements AamcResourceTypeInterface
     use TitledEntity;
     use StringableIdEntity;
     use CategorizableEntity;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -44,6 +45,7 @@ class AamcResourceType implements AamcResourceTypeInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -57,6 +59,7 @@ class AamcResourceType implements AamcResourceTypeInterface
      */
     #[ORM\Column(type: 'string', length: 200)]
     protected $title;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -70,6 +73,7 @@ class AamcResourceType implements AamcResourceTypeInterface
      */
     #[ORM\Column(name: 'description', type: 'text')]
     protected $description;
+
     /**
      * @var ArrayCollection|TermInterface[]
      * @IS\Expose
@@ -78,10 +82,12 @@ class AamcResourceType implements AamcResourceTypeInterface
     #[ORM\ManyToMany(targetEntity: 'Term', mappedBy: 'aamcResourceTypes')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
+
     public function __construct()
     {
         $this->terms = new ArrayCollection();
     }
+
     /**
      * @inheritdoc
      */
@@ -92,6 +98,7 @@ class AamcResourceType implements AamcResourceTypeInterface
             $term->addAamcResourceType($this);
         }
     }
+
     /**
      * @inheritdoc
      */

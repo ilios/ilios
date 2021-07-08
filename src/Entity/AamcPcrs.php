@@ -28,6 +28,7 @@ class AamcPcrs implements AamcPcrsInterface
     use DescribableEntity;
     use StringableIdEntity;
     use CompetenciesEntity;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -43,6 +44,7 @@ class AamcPcrs implements AamcPcrsInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -56,6 +58,7 @@ class AamcPcrs implements AamcPcrsInterface
      */
     #[ORM\Column(name: 'description', type: 'text')]
     protected $description;
+
     /**
      * @var ArrayCollection|CompetencyInterface[]
      * @IS\Expose
@@ -64,13 +67,12 @@ class AamcPcrs implements AamcPcrsInterface
     #[ORM\ManyToMany(targetEntity: 'Competency', mappedBy: 'aamcPcrses')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $competencies;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->competencies = new ArrayCollection();
     }
+
     /**
      * @inheritdoc
      */
@@ -81,6 +83,7 @@ class AamcPcrs implements AamcPcrsInterface
             $competency->addAamcPcrs($this);
         }
     }
+
     /**
      * @inheritdoc
      */

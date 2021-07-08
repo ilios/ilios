@@ -28,6 +28,7 @@ class AlertChangeType implements AlertChangeTypeInterface
     use StringableIdEntity;
     use IdentifiableEntity;
     use AlertableEntity;
+
     /**
      * @deprecated Replace with trait in 3.x
      * @var int
@@ -40,6 +41,7 @@ class AlertChangeType implements AlertChangeTypeInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
      * @Assert\NotBlank()
@@ -53,6 +55,7 @@ class AlertChangeType implements AlertChangeTypeInterface
      */
     #[ORM\Column(type: 'string', length: 60)]
     protected $title;
+
     /**
      * @var ArrayCollection|AlertInterface[]
      * @IS\Expose
@@ -61,13 +64,12 @@ class AlertChangeType implements AlertChangeTypeInterface
     #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'changeTypes')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected $alerts;
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->alerts = new ArrayCollection();
     }
+
     /**
      * @inheritdoc
      */
@@ -78,6 +80,7 @@ class AlertChangeType implements AlertChangeTypeInterface
             $alert->addChangeType($this);
         }
     }
+
     /**
      * @inheritdoc
      */
